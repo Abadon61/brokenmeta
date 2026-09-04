@@ -1,8 +1,8 @@
 
 (function () {
-  var container = document.getElementById('rows');
-  if (!container) return;
-  var rows = Array.prototype.slice.call(container.querySelectorAll('.comp-row'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.comp-row'));
+  if (!rows.length) return;
+  var groups = Array.prototype.slice.call(document.querySelectorAll('[data-tier-group]'));
   var bar = document.getElementById('typeFilterBar');
   var searchInput = document.getElementById('compSearch');
   var emptyState = document.getElementById('emptyState');
@@ -17,6 +17,11 @@
       var show = typeOk && searchOk;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
+    });
+    groups.forEach(function (group) {
+      var groupVisible = group.querySelectorAll('.comp-row').length
+        && Array.prototype.some.call(group.querySelectorAll('.comp-row'), function (r) { return r.style.display !== 'none'; });
+      group.style.display = groupVisible ? '' : 'none';
     });
     if (emptyState) {
       emptyState.hidden = visible !== 0;
