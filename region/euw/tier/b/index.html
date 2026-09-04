@@ -45,8 +45,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../../../../" style="text-decoration:none"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="lang-toggle">
-    <a class="lang-btn" href="https://brokenmeta.gg/region/euw/tier/b/" data-active="True">FR</a>
-    <a class="lang-btn" href="https://brokenmeta.gg/en/region/euw/tier/b/" data-active="False">EN</a>
+    <a class="lang-btn" href="https://brokenmeta.gg/region/euw/tier/b/" data-active="true">FR</a>
+    <a class="lang-btn" href="https://brokenmeta.gg/en/region/euw/tier/b/" data-active="false">EN</a>
   </div>
 </div>
 <div class="navbar">
@@ -75,13 +75,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="region-row">
     <span class="region-label">Région</span>
     <div class="tier-filters">
-      <a class="chip" href="/tier/b/" data-active="False">Toutes</a><a class="chip" href="/region/euw/tier/b/" data-active="True">EUW</a><a class="chip" href="/region/na/tier/b/" data-active="False">NA</a><a class="chip" href="/region/br/tier/b/" data-active="False">BR</a><a class="chip" href="/region/kr/tier/b/" data-active="False">KR</a>
+      <a class="chip" data-region href="/tier/b/" data-active="false">Toutes</a><a class="chip" data-region href="/region/euw/tier/b/" data-active="true">EUW</a><a class="chip" data-region href="/region/na/tier/b/" data-active="false">NA</a><a class="chip" data-region href="/region/br/tier/b/" data-active="false">BR</a><a class="chip" data-region href="/region/kr/tier/b/" data-active="false">KR</a>
     </div>
   </div>
   <div class="region-row">
     <span class="region-label">Rang</span>
     <div class="tier-filters">
-      <a class="chip" href="/tier/b/" data-active="True">Tous rangs</a><a class="chip" href="/rank/iron-silver/tier/b/" data-active="False">Fer-Argent</a><a class="chip" href="/rank/gold-emerald/tier/b/" data-active="False">Or-Émeraude</a><a class="chip" href="/rank/diamond/tier/b/" data-active="False">Diamant</a><a class="chip" href="/rank/master-plus/tier/b/" data-active="False">Maître+</a>
+      <a class="chip" data-rank href="/tier/b/" data-active="true">Tous rangs</a><a class="chip" data-rank href="/rank/iron-silver/tier/b/" data-active="false">Fer-Argent</a><a class="chip" data-rank href="/rank/gold-emerald/tier/b/" data-active="false">Or-Émeraude</a><a class="chip" data-rank href="/rank/diamond/tier/b/" data-active="false">Diamant</a><a class="chip" data-rank href="/rank/master-plus/tier/b/" data-active="false">Maître+</a>
     </div>
   </div>
 </div>
@@ -92,8 +92,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="filter-block">
     <span class="region-label">Type</span>
     <div class="tier-filters">
-      <button class="chip" data-active="true" data-filter-type="ALL">Tout type</button>
-      <button class="chip" data-filter-type="Reroll">Reroll</button><button class="chip" data-filter-type="Fast">Fast</button><button class="chip" data-filter-type="Slow">Slow</button>
+      <button class="chip" data-playstyle data-active="true" data-filter-type="ALL">Tout type</button>
+      <button class="chip" data-playstyle data-active="false" data-filter-type="Reroll">Reroll</button><button class="chip" data-playstyle data-active="false" data-filter-type="Fast">Fast</button><button class="chip" data-playstyle data-active="false" data-filter-type="Slow">Slow</button>
     </div>
   </div>
 </div>
@@ -222,6 +222,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0407043b041603ff042a03e903f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/solar-aphelios/">
@@ -344,6 +345,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010411041f04390420040a042703fa040303ef0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/brawler-teemo/">
@@ -466,6 +468,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d04230436043103eb04000421040f042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/caustic-veigar/">
@@ -588,6 +591,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010436043d04230431040e04210400043304010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-tristana/">
@@ -688,6 +692,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d043604310433040e04210412000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/adaptor-gromp/">
@@ -810,6 +815,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03ea04020416040e0437040f041b042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/rapidfire-xayah/">
@@ -932,6 +938,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043904200435041f0411040a0422040303ef0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-sett/">
@@ -1054,6 +1061,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042a03ed03ff03e90415040b03f0040103fb0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/elderwood-ahri/">
@@ -1176,6 +1184,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f041003eb0403040003e903ff042a04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/fae-leblanc/">
@@ -1298,6 +1307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104390420041f041003eb04330403041204130000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Slow" href="../../../../compo/greenfather-master-yi/">
@@ -1420,6 +1430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0416040e0437040f042a041b03e904050000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/blossom-sivir/">
@@ -1542,6 +1553,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0407043b0437042c042a03e903f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Slow" href="../../../../compo/primal-tristana/">
@@ -1664,6 +1676,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010420042b043304370421042c0412041b03ed0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/emerald-ahri/">
@@ -1786,6 +1799,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104070429040f03e904280418042a043003ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-ahri/">
@@ -1908,6 +1922,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a03e9042a04280418041503f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/luxuniquetrait-caitlyn/">
@@ -2030,6 +2045,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f503f403fd03f60418042c0428041303f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Fast" href="../../../../compo/caustic-kog-maw/">
@@ -2130,6 +2146,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a040e04160437040f042a041b000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-morgana/">
@@ -2252,6 +2269,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010429040e03fa04030418042803f3043003ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/aluneuniquetrait-ahri/">
@@ -2374,6 +2392,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407042903fa040f03e9042a0428041803ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/fae-varus/">
@@ -2485,6 +2504,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043504200439041f04330403041203ed00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/blossom-nidalee/">
@@ -2607,6 +2627,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a040704160437040f041b042a03e903f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/slayer-brambleback/">
@@ -2718,6 +2739,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f503ea0419043803fd03fa03f3042800000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-zyra/">
@@ -2840,6 +2862,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01040003f1043c042e041403ed040b041503ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-nidalee/">
@@ -2962,6 +2985,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104260437040e0416041b03ed0428041804150000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/sprykin-sivir/">
@@ -3084,6 +3108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d04360431043304210437042c041204010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/rapidfire-mama-beak/">
@@ -3195,6 +3220,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104350439041f040a03eb042203ef03ed00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-nidalee/">
@@ -3317,6 +3343,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a040e0437040f0416041b042a042804180000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Slow" href="../../../../compo/rival-diana/">
@@ -3439,6 +3466,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103fa04240403040c042203ef03f3042804300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/caustic-teemo/">
@@ -3561,6 +3589,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d043604230431040e04210400043304280000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/aluneuniquetrait-aphelios/">
@@ -3683,6 +3712,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010439041f03eb03fa040303ef041203ec04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/florafatalis-leblanc/">
@@ -3805,6 +3835,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f0439041003eb04000403042e03ff04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-fiddlesticks/">
@@ -3927,6 +3958,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104230436043d043104000421042a042e04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/blossom-ahri/">
@@ -4049,6 +4081,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a043b0416043703e9042a03f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/brawler-veigar/">
@@ -4171,6 +4204,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104360423043d03eb043104210400040f042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/defender-tristana/">
@@ -4282,6 +4316,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f042b04330421040004370412042c00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/zyrauniquetrait-ahri/">
@@ -4404,6 +4439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a04070437043c03e9042a042c03f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/inferno-sivir/">
@@ -4526,6 +4562,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042b0437043303ed042c0412040b03f004130000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/spellweaver-morgana/">
@@ -4648,6 +4685,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01040703fd040003f6040f0418042803e9042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/inferno-varus/">
@@ -4759,6 +4797,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043503ea0411042b040a042703ed040b00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-yunara/">
@@ -4881,6 +4920,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0407043b04160437042a03e9041504010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/invoker-brambleback/">
@@ -5003,6 +5043,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010429040303fa040e03f304180428043003ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/maokai-uniquetrait-caitlyn/">
@@ -5125,6 +5166,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003f4042604370433042c03ed041503f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/adaptor-master-yi/">
@@ -5236,6 +5278,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a04020416040e0437040f041b042a00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-amumu/">
@@ -5358,6 +5401,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103ed042803ff0415040b03fb0430040103fc0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/emerald-leblanc/">
@@ -5480,6 +5524,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f0439041003eb040304000412043004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/dravenuniquetrait-ahri/">
@@ -5602,6 +5647,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a0437040f03e9042a0428042c03fb0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/spellweaver-leblanc/">
@@ -5724,6 +5770,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104360407041f041003eb040003f603e903ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/fae-xayah/">
@@ -5824,6 +5871,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104390420041f04330403041203ef000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Fast" href="../../../../compo/summoner-zyra/">
@@ -5935,6 +5983,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03f10400043c0414042e03ed040b00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/vanguard-aphelios/">
@@ -6057,6 +6106,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003fd03fa0403042203ef042803f304300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-nidalee/">
@@ -6179,6 +6229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042303f7040e040f041b0414042c042803f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/brawler-master-yi/">
@@ -6301,6 +6352,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a042303eb040f04160437040e042a041b0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-sivir/">
@@ -6412,6 +6464,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a040004370433042c042e042a03ed00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-cassiopeia/">
@@ -6534,6 +6587,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003fd03f403f60400041803ed042804150000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/vanguard-elise/">
@@ -6656,6 +6710,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003fd03f4040303fa0428041803ef04300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/greenfather-mama-beak/">
@@ -6778,6 +6833,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010422040303fa042803f303ef043c040504300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Fast" href="../../../../compo/summoner-soraka/">
@@ -6889,6 +6945,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03f10400042e043c041403ed040b00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/aluneuniquetrait-zyra/">
@@ -7011,6 +7068,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03fa04220403043c042803ef03e903ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-aphelios/">
@@ -7133,6 +7191,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01040e03fa04220437040303ef042803f3041b0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/brawler-ahri/">
@@ -7255,6 +7314,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407042903eb040f03e9042a0428041804010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/elderwood-leblanc/">
@@ -7366,6 +7426,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f0439041003eb0403040003ff040100000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/rival-rengar/">
@@ -7488,6 +7549,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a042403fa040304370416040f041b042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/spellweaver-cassiopeia/">
@@ -7610,6 +7672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104070436041003f60400042103e9041203ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/fae-teemo/">
@@ -7732,6 +7795,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010420043d04390436043104330421041204010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-sivir/">
@@ -7854,6 +7918,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f7040e040f042c041b0428042a043003f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/luxuniquetrait-brambleback/">
@@ -7976,6 +8041,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103fa0403042203f30428041803ef041304300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/elderwood-tristana/">
@@ -8098,6 +8164,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f0439042003eb04100433040303ff04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-kha-zix/">
@@ -8209,6 +8276,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a040c0400042103fa03f1042e041200000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-aphelios/">
@@ -8331,6 +8399,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104390420041f03fa0400040c03ef042e03ed0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/sprykin-tristana/">
@@ -8453,6 +8522,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d043604310433042104000412042c04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/greenfather-cassiopeia/">
@@ -8575,6 +8645,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f503fd042b03f403f604000421041804050000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/slayer-diana/">
@@ -8675,6 +8746,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f503ea0438041903fa03f30428000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-aphelios/">
@@ -8797,6 +8869,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103fa0422040303ef042803f303ed041504300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Slow" href="../../../../compo/rival-ezreal/">
@@ -8919,6 +8992,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f041003eb040c0403042403fa03ff03ef0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/solar-akali/">
@@ -9041,6 +9115,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103ea0411043503f504200427040a042b03ef0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-ahri/">
@@ -9163,6 +9238,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0407040003f103e9042e042a041403ed0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/spellweaver-veigar/">
@@ -9285,6 +9361,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104360407043d0410040003f6042103e903ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-morgana/">
@@ -9407,6 +9484,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010423040703fa04140418042803e9042a03ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/juggernaut-nidalee/">
@@ -9529,6 +9607,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a042004260427043703ed041b042c04150000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/inferno-ezreal/">
@@ -9651,6 +9730,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010435042b03eb03ed03ff040b0413041504050000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/summoner-morgana/">
@@ -9773,6 +9853,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03f104000418043c0414042e03ed04280000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/riftbeast-sivir/">
@@ -9895,6 +9976,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f7042904260419040f0437042c042803f30000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/aluneuniquetrait-cassiopeia/">
@@ -10017,6 +10099,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103fd03f6040003fa042104030418042803ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/rival-kha-zix/">
@@ -10117,6 +10200,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010410040c03fa0424040303ff03ef000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/greenfather-caitlyn/">
@@ -10239,6 +10323,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003f4042603fd0437042c0405041503f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/emerald-tristana/">
@@ -10350,6 +10435,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010420043d03f4043304370421042c043000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/summoner-aphelios/">
@@ -10472,6 +10558,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a042203fa03f1040303ef043c042803f30000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-tristana/">
@@ -10594,6 +10681,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003f4043304370421042c03ed041204150000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/zyrauniquetrait-sivir/">
@@ -10716,6 +10804,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a04070437043c042c042a03e903f004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/solar-kayle/">
@@ -10816,6 +10905,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104110439041f04200427040a0403000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-soraka/">
@@ -10927,6 +11017,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01040003f1042e041403ed043c040b041500000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/slayer-warwick/">
@@ -11049,6 +11140,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103ea03f504230438041903fa040f03f304280000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/brawler-sivir/">
@@ -11171,6 +11263,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d042303eb040f04370433042c042a04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/slayer-murkwolf/">
@@ -11282,6 +11375,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103f503ea04230419043803fa040f03f300000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/greenfather-diana/">
@@ -11404,6 +11498,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103fa042803ed0405043003ec03fb041504010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/rival-master-yi/">
@@ -11515,6 +11610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a041604240437040f040e041b042a00000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/emerald-xayah/">
@@ -11637,6 +11733,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010439041f03eb0410040303fa03ff03ef04300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/emerald-nidalee/">
@@ -11759,6 +11856,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043703fa041b0428041803ed042a043004010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/solar-sejuani/">
@@ -11870,6 +11968,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104110439041f04200435040a0427040300000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/vanguard-mama-beak/">
@@ -11992,6 +12091,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003fd042203fa0403042803ef03f304300000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Reroll" href="../../../../compo/sprykin-veigar/">
@@ -12114,6 +12214,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010436043d04230431042104000433042a04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/blackthorn-azir/">
@@ -12214,6 +12315,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104230436043803f104000414042e000000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-brambleback/">
@@ -12336,6 +12438,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010429040e03fa040303f304280418043003ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/elderwood-xayah/">
@@ -12458,6 +12561,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010439041f042003eb0410040303ff041204010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/slayer-aphelios/">
@@ -12580,6 +12684,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0103ea03f50419043803fa040303ef03f304280000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/elderwood-alistar/">
@@ -12702,6 +12807,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f0439040703eb0410040303ff040103fb0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/summoner-mama-beak/">
@@ -12824,6 +12930,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0426042203f1040f03fa043c042803ef0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/summoner-ahri/">
@@ -12946,6 +13053,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a03f1040003e9043c041403ed042e042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-malphite/">
@@ -13068,6 +13176,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01040003f10414042e03ed040b03ec041304050000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/defender-leblanc/">
@@ -13179,6 +13288,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f04110410042b0400042103f6041200000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/blossom-azir/">
@@ -13301,6 +13411,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a04070420043b03f104160437042a03e90000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="Slow" href="../../../../compo/rival-tristana/">
@@ -13423,6 +13534,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043d04200433042404210437042c041204010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-aphelios/">
@@ -13545,6 +13657,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042303fa042203ef0414042803f3043c03ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-ahri/">
@@ -13667,6 +13780,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a040f041403e9042a0418042803ec0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/maokai-uniquetrait-karma/">
@@ -13789,6 +13903,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a0420043b041603e9042a042804150000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/defender-aphelios/">
@@ -13911,6 +14026,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f04110435042b0400042103fa03ef04120000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/fae-ezreal/">
@@ -14033,6 +14149,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104200439041f03eb0433040303ff0412042e0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/rival-kayle/">
@@ -14155,6 +14272,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104350439040a0427042b040c0424040303fa0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/dravenuniquetrait-aphelios/">
@@ -14277,6 +14395,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010439041f03eb03fa040303ef041203fb04010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-tristana/">
@@ -14399,6 +14518,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="0104360423043d0431043304210414041204010000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/zyrauniquetrait-karma/">
@@ -14521,6 +14641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407043a04370416043c03e9042a042c03f00000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/caustic-gromp/">
@@ -14643,6 +14764,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010429043a04020426040e040f0437041604280000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/rival-yunara/">
@@ -14765,6 +14887,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a04070420043b040c041604240433042a0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/riftbeast-scuttlecrab/">
@@ -14887,6 +15010,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042903f7042604190402040f042803f303fc0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/vanguard-cassiopeia/">
@@ -14998,6 +15122,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01042003fd03f603fa040304000428041800000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/florafatalis-xayah/">
@@ -15120,6 +15245,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010439041f0420041003eb04000403042e03ff0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/summoner-azir/">
@@ -15242,6 +15368,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a042303f104000422043c041403ed042e0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/riftbeast-aphelios/">
@@ -15364,6 +15491,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010426042203fa040f03ef042803f3041803ed0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/zyrauniquetrait-morgana/">
@@ -15486,6 +15614,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="010407042903fa04220418043c0428042a03e90000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/battlemage-yunara/">
@@ -15608,6 +15737,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01043a0407043b041003f104160414042a03e90000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 <a class="comp-row" data-tier="B" data-playstyle-cat="" href="../../../../compo/defender-sivir/">
@@ -15730,6 +15860,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button class="copy-icon-btn copy-comp-btn" data-code="01041f042b0437043304210400042c041203ed0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
 </div>
@@ -15740,5 +15871,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span><a href="../../../../sitemap.xml" style="color:inherit">sitemap</a></span>
 </footer>
 <script src="../../../../assets/js/type-filter.js" defer></script>
+<script src="../../../../assets/js/copy-comp.js" defer></script>
 </body>
 </html>
