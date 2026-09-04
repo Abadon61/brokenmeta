@@ -7,10 +7,15 @@
 <p class="page-intro">{{ intro }}</p>
 
 {{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
+{{ m.search_bar(lang) }}
 {{ m.type_filter_bar(type_cats, lang) }}
 
 <div id="rows">
   {% for c in comps %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
 </div>
+<div class="empty-state" id="emptyState" hidden></div>
 {% endblock %}
-{% block extra_body %}{% if type_cats %}<script src="{{ root }}assets/js/type-filter.js" defer></script>{% endif %}{% endblock %}
+{% block extra_body %}
+<script>window.BM_I18N_EMPTY_FILTER = {{ t(lang, 'empty_no_comp_filter')|tojson }}; window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
+<script src="{{ root }}assets/js/list-filters.js" defer></script>
+{% endblock %}

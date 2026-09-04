@@ -32,7 +32,7 @@
    etc.) -- no inline style needed here, only fiche-context elements that
    have no such rule pass tier_var explicitly. #}
 {% macro comp_summary_row(c, root, lang) %}
-<a class="comp-row" data-tier="{{ c.tier }}" data-playstyle-cat="{{ c.playstyle_cat or '' }}" href="{{ root }}compo/{{ c.slug }}/">
+<a class="comp-row" data-tier="{{ c.tier }}" data-playstyle-cat="{{ c.playstyle_cat or '' }}" data-search="{{ c.search_blob }}" href="{{ root }}compo/{{ c.slug }}/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class="tier-badge">{{ c.tier }}</div>
   <div class="row-body">
@@ -74,8 +74,19 @@
 </div>
 {% endmacro %}
 
+{# Client-side show/hide over rows already on the page, same as Type below
+   (see assets/js/list-filters.js) -- each row's data-search (comp name,
+   carry, every champion on the board) is baked in at build time so the
+   script only needs a plain substring match, no DOM text scraping. #}
+{% macro search_bar(lang) %}
+<div class="search-row">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+  <input type="search" id="compSearch" class="search-input" placeholder="{{ t(lang, 'search_placeholder') }}" autocomplete="off">
+</div>
+{% endmacro %}
+
 {# Type (Reroll/Fast/Slow) doesn't need separate pages -- it's a client-side
-   show/hide over rows already on the page (see assets/js/type-filter.js). #}
+   show/hide over rows already on the page (see assets/js/list-filters.js). #}
 {% macro type_filter_bar(cats, lang) %}
 {% if cats %}
 <div class="controls" id="typeFilterBar" style="border-bottom:none;margin-bottom:6px;padding-bottom:0">

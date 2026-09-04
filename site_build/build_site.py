@@ -20,6 +20,7 @@ from pathlib import Path
 
 import requests
 from jinja2 import Environment, FileSystemLoader
+from markupsafe import Markup
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parent
@@ -43,22 +44,54 @@ TIER_VAR = {"S": "var(--red)", "A": "var(--gold)", "B": "var(--teal)", "C": "var
 
 # Progressive enhancement only -- every comp is already in the static HTML
 # (crawlable, works with JS off); Région/Rang are real separate pages, but
-# Type (Reroll/Fast/Slow) doesn't need its own data slice, just show/hide
-# among rows already rendered on the current tier page.
-TYPE_FILTER_JS = """
+# Type (Reroll/Fast/Slow) and search don't need their own data slice, just
+# combined show/hide among rows already rendered on the current tier page.
+# Ported from the Artifact's matchesSearch()/render() filter chain, with
+# each row's search haystack precomputed server-side into data-search
+# (see build_row_vm's "search_blob") instead of scraping DOM text. The two
+# empty-state messages ("no comp matches this filter" vs "...this search")
+# come from window.BM_I18N_EMPTY_* set by list_page.html's own <script>, so
+# this one shared file needs no per-language copy.
+LIST_FILTERS_JS = """
 (function () {
+  var container = document.getElementById('rows');
+  if (!container) return;
+  var rows = Array.prototype.slice.call(container.querySelectorAll('.comp-row'));
   var bar = document.getElementById('typeFilterBar');
-  if (!bar) return;
-  var rows = document.querySelectorAll('#rows .comp-row');
-  bar.addEventListener('click', function (e) {
-    var btn = e.target.closest('[data-filter-type]');
-    if (!btn) return;
-    [].forEach.call(bar.querySelectorAll('[data-filter-type]'), function (b) { b.dataset.active = String(b === btn); });
-    var cat = btn.dataset.filterType;
+  var searchInput = document.getElementById('compSearch');
+  var emptyState = document.getElementById('emptyState');
+  var activeType = 'ALL';
+
+  function applyFilters() {
+    var q = (searchInput ? searchInput.value.trim().toLowerCase() : '');
+    var visible = 0;
     rows.forEach(function (row) {
-      row.style.display = (cat === 'ALL' || row.dataset.playstyleCat === cat) ? '' : 'none';
+      var typeOk = activeType === 'ALL' || row.dataset.playstyleCat === activeType;
+      var searchOk = !q || (row.dataset.search || '').indexOf(q) !== -1;
+      var show = typeOk && searchOk;
+      row.style.display = show ? '' : 'none';
+      if (show) visible++;
     });
-  });
+    if (emptyState) {
+      emptyState.hidden = visible !== 0;
+      if (visible === 0) {
+        emptyState.textContent = q
+          ? (window.BM_I18N_EMPTY_SEARCH || '').replace('__Q__', searchInput.value.trim())
+          : (window.BM_I18N_EMPTY_FILTER || '');
+      }
+    }
+  }
+
+  if (bar) {
+    bar.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-filter-type]');
+      if (!btn) return;
+      [].forEach.call(bar.querySelectorAll('[data-filter-type]'), function (b) { b.dataset.active = String(b === btn); });
+      activeType = btn.dataset.filterType;
+      applyFilters();
+    });
+  }
+  if (searchInput) searchInput.addEventListener('input', applyFilters);
 })();
 """
 STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>'
@@ -345,6 +378,9 @@ I18N: dict[str, dict] = {
         "see_full_tier": lambda n, tier: f"Voir les {n} compos Tier {tier} →",
         "tier_word": "Tier",
         "type_all": "Tout type",
+        "search_placeholder": "Rechercher une comp, un carry, un champion…",
+        "empty_no_comp_filter": "Aucune comp ne correspond à ce filtre.",
+        "empty_no_comp_search": lambda q: f"Aucune comp ne correspond à « {q} ».",
         "view_full_sheet": "Voir la fiche complète →",
         "copy_comp_title": "Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets).",
         "copy_comp_aria": "Copier la compo", "copied_title": "Copié ! (champions seulement, pas les objets)", "copy_failed_title": "Échec de la copie",
@@ -425,6 +461,9 @@ I18N: dict[str, dict] = {
         "see_full_tier": lambda n, tier: f"See all {n} Tier {tier} comps →",
         "tier_word": "Tier",
         "type_all": "All types",
+        "search_placeholder": "Search a comp, a carry, a champion…",
+        "empty_no_comp_filter": "No comp matches this filter.",
+        "empty_no_comp_search": lambda q: f'No comp matches "{q}".',
         "view_full_sheet": "View full sheet →",
         "copy_comp_title": "Copy the comp to the game's Team Planner — experimental, champions only (no items).",
         "copy_comp_aria": "Copy comp", "copied_title": "Copied! (champions only, no items)", "copy_failed_title": "Copy failed",
@@ -691,6 +730,12 @@ def main() -> None:
             "level_badge_n": (re.search(r"\d+", c["level_badge"]).group() if c.get("level_badge") else None),
             "trend": trend_for(c["key"]),
             "planner_code": team_planner_code(c.get("core_units")),
+            # Matches the Artifact's matchesSearch(): comp name, carry, and
+            # every champion on the board -- so searching "renekton" finds
+            # every comp featuring him even when he isn't the named carry.
+            "search_blob": " ".join(filter(None, [
+                c["label"], carry, c.get("playstyle_tag"), *[u["champion"] for u in core_display],
+            ])).lower(),
         }
 
     def build_comp_vm(c: dict) -> dict:
@@ -953,6 +998,14 @@ def main() -> None:
     env.globals["star_svg"] = STAR_SVG
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
+    # Not a builtin on a plain jinja2.Environment (only Flask registers this)
+    # -- needed to safely embed a translated string inside an inline <script>.
+    # Must return Markup (safe), not a plain str: with autoescape=True a
+    # plain str would get HTML-escaped a SECOND time after json.dumps already
+    # quoted it, turning its `"` into `&quot;` -- which the browser leaves
+    # un-decoded inside <script> text (it's not parsed as HTML there),
+    # corrupting the string instead of just being redundant.
+    env.filters["tojson"] = lambda v: Markup(json.dumps(v))
 
     LANGS = ["fr", "en"]
 
@@ -1139,7 +1192,7 @@ def main() -> None:
         '<text y=".9em" font-size="90">\U0001F306</text></svg>', encoding="utf-8")
 
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
-    (DIST / "assets" / "js" / "type-filter.js").write_text(TYPE_FILTER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
