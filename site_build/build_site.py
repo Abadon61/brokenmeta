@@ -16,6 +16,7 @@ import json
 import re
 import shutil
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 
 import requests
@@ -1073,6 +1074,14 @@ def main() -> None:
     env.globals["star_svg"] = STAR_SVG
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
+    # Cache-buster for the one stylesheet URL every page shares: without it,
+    # a CSS-only change (like this session's icon-size fix) never reaches a
+    # browser that already cached style.css from an earlier visit -- caught
+    # live: a rule was correctly in the deployed file but getComputedStyle
+    # still showed the pre-fix value because the CSSOM itself was stale.
+    # Changes on every build (not tied to data freshness) since template/CSS
+    # edits often ship without a backend data refresh.
+    env.globals["css_v"] = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
     # -- needed to safely embed a translated string inside an inline <script>.
     # Must return Markup (safe), not a plain str: with autoescape=True a
@@ -1270,7 +1279,7 @@ def main() -> None:
   .patch-balance-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
   .patch-balance-col li { display: flex; align-items: center; gap: 8px; color: var(--text-dim); font-size: 12.5px; line-height: 1.4; }
   .patch-balance-col li b { color: var(--cream); }
-  .patch-balance-icon { width: 24px; height: 24px; border: 1px solid var(--border-bright); object-fit: cover; flex: none; }
+  .patch-balance-icon { width: 32px; height: 32px; border: 1px solid var(--border-bright); object-fit: cover; flex: none; }
 
   /* Champion sheet's "Balance history" list. */
   .balance-history-list { display: flex; flex-direction: column; gap: 8px; }
