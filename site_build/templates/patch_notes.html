@@ -20,13 +20,13 @@
       {% if p.buffs %}
       <div class="patch-balance-col" data-kind="buff">
         <div class="patch-balance-label">▲ Buffs</div>
-        <ul>{% for b in p.buffs %}<li>{{ b }}</li>{% endfor %}</ul>
+        <ul>{% for b in p.buffs %}<li>{% if b.slug %}<img class="patch-balance-icon" src="{{ root }}assets/champions/{{ b.slug }}.png" alt="{{ b.champion }}" loading="lazy">{% endif %}<span><b>{{ b.champion or b.trait }}</b> — {{ b.text }}</span></li>{% endfor %}</ul>
       </div>
       {% endif %}
       {% if p.nerfs %}
       <div class="patch-balance-col" data-kind="nerf">
         <div class="patch-balance-label">▼ Nerfs</div>
-        <ul>{% for n in p.nerfs %}<li>{{ n }}</li>{% endfor %}</ul>
+        <ul>{% for n in p.nerfs %}<li>{% if n.slug %}<img class="patch-balance-icon" src="{{ root }}assets/champions/{{ n.slug }}.png" alt="{{ n.champion }}" loading="lazy">{% endif %}<span><b>{{ n.champion or n.trait }}</b> — {{ n.text }}</span></li>{% endfor %}</ul>
       </div>
       {% endif %}
     </div>

@@ -437,6 +437,7 @@ I18N: dict[str, dict] = {
         "games_col": "Parties", "winrate_col": "Winrate",
         "compositions_title": "Compositions",
         "champ_not_in_comp": "Ce champion n'apparaît dans aucune comp classée de cet échantillon.",
+        "balance_history_title": "Historique d'équilibrage",
         "back_to_leaderboard": "← Retour au leaderboard",
         "leaderboard_title": "Leaderboard — Teamfight Tactics Set 18",
         "th_player": "Joueur", "th_tier": "Palier", "th_form": "Forme (5 dernières)",
@@ -520,6 +521,7 @@ I18N: dict[str, dict] = {
         "games_col": "Games", "winrate_col": "Winrate",
         "compositions_title": "Comps",
         "champ_not_in_comp": "This champion doesn't appear in any ranked comp in this sample.",
+        "balance_history_title": "Balance history",
         "back_to_leaderboard": "← Back to leaderboard",
         "leaderboard_title": "Leaderboard — Teamfight Tactics Set 18",
         "th_player": "Player", "th_tier": "Tier", "th_form": "Form (last 5)",
@@ -985,20 +987,20 @@ def main() -> None:
             {"version": "18.1d", "tag": "Équilibrage", "date": "31 août 2026", "title": "Premier vrai passage d'équilibrage sur Enchanted Wilds",
              "summary": "Première vraie mise à jour d'équilibrage depuis le lancement du Set 18 (les 18.1a/18.1b des 27-28 août n'avaient touché que des bugs). Cassiopeia, Ahri, Cinderling, Master Yi et Morgana affaiblis ; Draven, Soraka, Amumu, Elder Dragon et Lux renforcés — Lux reçoit les deux à la fois (dégâts du sort en hausse, bonus Lunaire en baisse). Le palier Riftbeast (7) est légèrement réduit. Suivie le 1er septembre d'une série de correctifs : mauvais placement affiché en fin de partie classée pour les 1ers/2èmes, dégâts vrais de l'augment « Soul Awakening » qui ne s'appliquaient qu'aux dégâts d'attaque, un bug de matchmaking pouvant refaire tomber deux joueurs l'un contre l'autre deux manches de suite, et plusieurs autres correctifs mineurs (Adaptor, Alune, icônes Master of All Origins, dette de vie en Double Up).",
              "buffs": [
-                 "Amumu — Mana : 30/140 → 30/125 · Soin (% PV max) : 2,2 % → 2,5 %",
-                 "Soraka — Dégâts initiaux à l'étoile : 190/285 → 225/335",
-                 "Draven — Mana : 0/120 → 0/110 · Vitesse d'attaque de base : 0,8 → 0,85",
-                 "Elder Dragon — Dégâts d'attaque de base : 115 → 125",
-                 "Lux — Dégâts du sort : 330/520 → 355/550",
+                 {"champion": "Amumu", "text": "Mana : 30/140 → 30/125 · Soin (% PV max) : 2,2 % → 2,5 %"},
+                 {"champion": "Soraka", "text": "Dégâts initiaux à l'étoile : 190/285 → 225/335"},
+                 {"champion": "Draven", "text": "Mana : 0/120 → 0/110 · Vitesse d'attaque de base : 0,8 → 0,85"},
+                 {"champion": "Elder Dragon", "text": "Dégâts d'attaque de base : 115 → 125"},
+                 {"champion": "Lux", "text": "Dégâts du sort : 330/520 → 355/550"},
              ],
              "nerfs": [
-                 "Cassiopeia — Dégâts du sort : 440/660/1050 → 400/600/950",
-                 "Ahri — Dégâts du sort : 450/675 → 425/640",
-                 "Cinderling — Dégâts d'attaque de base : 45 → 40 · Dégâts du sort : 340/510/765/1300 → 310/465/700/1200",
-                 "Master Yi — Résistances : 60 → 55",
-                 "Morgana — Mana : 0/60 → 0/65",
-                 "Lux — Bonus de dégâts Lunaire : 10 % → 8 %",
-                 "Trait Riftbeast (7) — Bonus AD/AP/VA : 6 % → 5 %",
+                 {"champion": "Cassiopeia", "text": "Dégâts du sort : 440/660/1050 → 400/600/950"},
+                 {"champion": "Ahri", "text": "Dégâts du sort : 450/675 → 425/640"},
+                 {"champion": "Cinderling", "text": "Dégâts d'attaque de base : 45 → 40 · Dégâts du sort : 340/510/765/1300 → 310/465/700/1200"},
+                 {"champion": "Master Yi", "text": "Résistances : 60 → 55"},
+                 {"champion": "Morgana", "text": "Mana : 0/60 → 0/65"},
+                 {"champion": "Lux", "text": "Bonus de dégâts Lunaire : 10 % → 8 %"},
+                 {"trait": "Riftbeast (7)", "text": "Bonus AD/AP/VA : 6 % → 5 %"},
              ],
              "url": "https://tftguide.org/en/patch-notes/18.1d"},
             {"version": "18.1", "tag": "Set 18", "date": "25 août 2026", "title": "Enchanted Wilds arrive sur le jeu en direct",
@@ -1015,20 +1017,20 @@ def main() -> None:
             {"version": "18.1d", "tag": "Balance", "date": "August 31, 2026", "title": "First real balance pass on Enchanted Wilds",
              "summary": "The first real balance update since Set 18 launched (18.1a/18.1b on August 27-28 only touched bugs). Cassiopeia, Ahri, Cinderling, Master Yi and Morgana got weaker; Draven, Soraka, Amumu, Elder Dragon and Lux got stronger — Lux gets both at once (spell damage up, Lunar damage amp down). The Riftbeast (7) tier was trimmed slightly. Followed on September 1 by a round of bug fixes: the end-of-game screen showing the wrong final placement for 1st/2nd in Ranked, the “Soul Awakening” augment's true damage only applying to attack damage instead of ability damage too, a matchmaking issue that could pit the same two players against each other two rounds in a row, and several smaller fixes (Adaptor, Alune, Master of All Origins icons, Double Up life debt).",
              "buffs": [
-                 "Amumu — Mana: 30/140 → 30/125 · Heal (% max HP): 2.2% → 2.5%",
-                 "Soraka — Initial star damage: 190/285 → 225/335",
-                 "Draven — Mana: 0/120 → 0/110 · Base attack speed: 0.8 → 0.85",
-                 "Elder Dragon — Base AD: 115 → 125",
-                 "Lux — Spell damage: 330/520 → 355/550",
+                 {"champion": "Amumu", "text": "Mana: 30/140 → 30/125 · Heal (% max HP): 2.2% → 2.5%"},
+                 {"champion": "Soraka", "text": "Initial star damage: 190/285 → 225/335"},
+                 {"champion": "Draven", "text": "Mana: 0/120 → 0/110 · Base attack speed: 0.8 → 0.85"},
+                 {"champion": "Elder Dragon", "text": "Base AD: 115 → 125"},
+                 {"champion": "Lux", "text": "Spell damage: 330/520 → 355/550"},
              ],
              "nerfs": [
-                 "Cassiopeia — Spell damage: 440/660/1050 → 400/600/950",
-                 "Ahri — Spell damage: 450/675 → 425/640",
-                 "Cinderling — Base AD: 45 → 40 · Spell damage: 340/510/765/1300 → 310/465/700/1200",
-                 "Master Yi — Resists: 60 → 55",
-                 "Morgana — Mana: 0/60 → 0/65",
-                 "Lux — Lunar damage amp: 10% → 8%",
-                 "Riftbeast (7) trait — AD/AP/AS bonus: 6% → 5%",
+                 {"champion": "Cassiopeia", "text": "Spell damage: 440/660/1050 → 400/600/950"},
+                 {"champion": "Ahri", "text": "Spell damage: 450/675 → 425/640"},
+                 {"champion": "Cinderling", "text": "Base AD: 45 → 40 · Spell damage: 340/510/765/1300 → 310/465/700/1200"},
+                 {"champion": "Master Yi", "text": "Resists: 60 → 55"},
+                 {"champion": "Morgana", "text": "Mana: 0/60 → 0/65"},
+                 {"champion": "Lux", "text": "Lunar damage amp: 10% → 8%"},
+                 {"trait": "Riftbeast (7)", "text": "AD/AP/AS bonus: 6% → 5%"},
              ],
              "url": "https://tftguide.org/en/patch-notes/18.1d"},
             {"version": "18.1", "tag": "Set 18", "date": "August 25, 2026", "title": "Enchanted Wilds goes live",
@@ -1042,6 +1044,26 @@ def main() -> None:
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-8/"},
         ],
     }
+
+    # ---- Resolve a champion icon for every buff/nerf line item (trait-only
+    # entries like Riftbeast have no icon), and build a per-champion balance
+    # history (buffs/nerfs across ALL patches, most-recent-first since
+    # PATCHES itself is already ordered that way) for the champion sheet's
+    # own "Balance history" section. Champion names are identical between
+    # languages (real proper nouns from the game), only each entry's `text`
+    # differs, so history has to stay keyed per-language even though the
+    # icon/slug resolution below only needs to happen once. ----
+    balance_history_by_lang: dict[str, dict[str, list[dict]]] = {lang: {} for lang in PATCHES}
+    for lang, patch_list in PATCHES.items():
+        for p in patch_list:
+            for kind in ("buffs", "nerfs"):
+                for item in p.get(kind, []):
+                    champ = item.get("champion")
+                    item["slug"] = champ_slug_and_download(champ) if champ else None
+                    if champ:
+                        balance_history_by_lang[lang].setdefault(champ, []).append({
+                            "version": p["version"], "date": p["date"], "kind": kind[:-1], "text": item["text"],
+                        })
 
     # ---- Render: every page renders twice, once per language. French stays
     # at the URL root (default, matches the site's existing audience); English
@@ -1139,7 +1161,8 @@ def main() -> None:
                 render("player.html", f"/player/{region.lower()}/{p['slug']}/", lang, active_nav="leaderboard",
                        p=p, region_name=region_name)
         for d in champion_vms:
-            render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions", d=d)
+            render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions", d=d,
+                   balance_history=balance_history_by_lang[lang].get(d["name"], []))
 
         # ---- Région / Rang: real pages per slice (not a JS data blob) ----
         # Region and rank are two ALTERNATE ways to slice the same dataset
@@ -1244,7 +1267,20 @@ def main() -> None:
   .patch-balance-label { font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
   .patch-balance-col[data-kind="buff"] .patch-balance-label { color: var(--good); }
   .patch-balance-col[data-kind="nerf"] .patch-balance-label { color: var(--warn); }
-  .patch-balance-col ul { margin: 0; padding-left: 18px; color: var(--text-dim); font-size: 12.5px; line-height: 1.6; }
+  .patch-balance-col ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .patch-balance-col li { display: flex; align-items: center; gap: 8px; color: var(--text-dim); font-size: 12.5px; line-height: 1.4; }
+  .patch-balance-col li b { color: var(--cream); }
+  .patch-balance-icon { width: 24px; height: 24px; border: 1px solid var(--border-bright); object-fit: cover; flex: none; }
+
+  /* Champion sheet's "Balance history" list. */
+  .balance-history-list { display: flex; flex-direction: column; gap: 8px; }
+  .balance-history-row { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--row); border: 1px solid var(--border); flex-wrap: wrap; }
+  .balance-history-kind { flex: none; width: 16px; text-align: center; font-size: 13px; }
+  .balance-history-row[data-kind="buff"] .balance-history-kind { color: var(--good); }
+  .balance-history-row[data-kind="nerf"] .balance-history-kind { color: var(--warn); }
+  .balance-history-patch { flex: none; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--cyan); }
+  .balance-history-date { flex: none; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-faint); }
+  .balance-history-text { flex: 1; min-width: 200px; color: var(--text-dim); font-size: 12.5px; }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
