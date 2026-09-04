@@ -830,3 +830,11 @@
   .overlay-cta svg { width: 13px; height: 13px; stroke: #0b0221; fill: none; stroke-width: 2.2; }
   .overlay-cta .cta-label { font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
   .overlay-cta .cta-soon { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: rgba(11,2,33,0.15); padding: 2px 6px; margin-left: 2px; }
+
+  /* FR/EN toggle -- real separate pages (hreflang-linked), this just jumps
+     between the current page's two language URLs. */
+  .lang-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
+  .lang-btn { display: block; background: var(--row); border: none; color: var(--text-faint); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; padding: 6px 10px; text-decoration: none; }
+  .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
+  .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
+  .lang-btn:not([data-active="true"]):hover { color: var(--cream); }
