@@ -443,7 +443,7 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Compos les plus jouées par le top 10",
         "not_enough_recent_top10": "Pas assez de parties récentes chez le top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
-        "patch_banner": 'Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l\'article complet (tous les chiffres d\'équilibrage) sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a>.',
+        "patch_banner": 'Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel, et pas toujours pour les petits correctifs d\'équilibrage entre deux patchs. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l\'article complet, sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> quand Riot en a publié un, sinon vers une source communautaire de référence.',
         "patch_word": "Patch", "read_full_article": "Lire l'article complet →",
     },
     "en": {
@@ -526,7 +526,7 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Most played comps by the top 10",
         "not_enough_recent_top10": "Not enough recent games from the top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
-        "patch_banner": 'Riot doesn\'t publish TFT patch notes through an API — only as articles on its official site. Here\'s a hand-written summary of the latest patches; each card links to the full article (all the real balance numbers) on <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a>.',
+        "patch_banner": 'Riot doesn\'t publish TFT patch notes through an API — only as articles on its official site, and not always for smaller mid-patch balance hotfixes. Here\'s a hand-written summary of the latest patches; each card links to the full article, on <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> when Riot published one, otherwise to a reliable community source.',
         "patch_word": "Patch", "read_full_article": "Read full article →",
     },
 }
@@ -967,6 +967,25 @@ def main() -> None:
     # dict -- real hand-translated English, not machine-translated) ----
     PATCHES = {
         "fr": [
+            {"version": "18.1d", "tag": "Équilibrage", "date": "31 août 2026", "title": "Premier vrai passage d'équilibrage sur Enchanted Wilds",
+             "summary": "Première vraie mise à jour d'équilibrage depuis le lancement du Set 18 (les 18.1a/18.1b des 27-28 août n'avaient touché que des bugs). Cassiopeia, Ahri, Cinderling, Master Yi et Morgana affaiblis ; Draven, Soraka, Amumu, Elder Dragon et Lux renforcés — Lux reçoit les deux à la fois (dégâts du sort en hausse, bonus Lunaire en baisse). Le palier Riftbeast (7) est légèrement réduit. Suivie le 1er septembre d'une série de correctifs : mauvais placement affiché en fin de partie classée pour les 1ers/2èmes, dégâts vrais de l'augment « Soul Awakening » qui ne s'appliquaient qu'aux dégâts d'attaque, un bug de matchmaking pouvant refaire tomber deux joueurs l'un contre l'autre deux manches de suite, et plusieurs autres correctifs mineurs (Adaptor, Alune, icônes Master of All Origins, dette de vie en Double Up).",
+             "buffs": [
+                 "Amumu — Mana : 30/140 → 30/125 · Soin (% PV max) : 2,2 % → 2,5 %",
+                 "Soraka — Dégâts initiaux à l'étoile : 190/285 → 225/335",
+                 "Draven — Mana : 0/120 → 0/110 · Vitesse d'attaque de base : 0,8 → 0,85",
+                 "Elder Dragon — Dégâts d'attaque de base : 115 → 125",
+                 "Lux — Dégâts du sort : 330/520 → 355/550",
+             ],
+             "nerfs": [
+                 "Cassiopeia — Dégâts du sort : 440/660/1050 → 400/600/950",
+                 "Ahri — Dégâts du sort : 450/675 → 425/640",
+                 "Cinderling — Dégâts d'attaque de base : 45 → 40 · Dégâts du sort : 340/510/765/1300 → 310/465/700/1200",
+                 "Master Yi — Résistances : 60 → 55",
+                 "Morgana — Mana : 0/60 → 0/65",
+                 "Lux — Bonus de dégâts Lunaire : 10 % → 8 %",
+                 "Trait Riftbeast (7) — Bonus AD/AP/VA : 6 % → 5 %",
+             ],
+             "url": "https://tftguide.org/en/patch-notes/18.1d"},
             {"version": "18.1", "tag": "Set 18", "date": "25 août 2026", "title": "Enchanted Wilds arrive sur le jeu en direct",
              "summary": "Lancement du Set 18 « Enchanted Wilds » (Riftbeasts, Elderwood, la nouvelle mécanique Wisps) et bascule du moteur du jeu de Hextech vers Unreal Engine. Le Set 17 « Space Gods » reste jouable en parallèle quelques patchs de plus. Plusieurs correctifs ont suivi les 27 et 28 août : fuites mémoire, temps de chargement, et une réactivation de la file Double Up après un bug l'ayant fait désactiver temporairement.",
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-1/"},
@@ -978,6 +997,25 @@ def main() -> None:
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-8/"},
         ],
         "en": [
+            {"version": "18.1d", "tag": "Balance", "date": "August 31, 2026", "title": "First real balance pass on Enchanted Wilds",
+             "summary": "The first real balance update since Set 18 launched (18.1a/18.1b on August 27-28 only touched bugs). Cassiopeia, Ahri, Cinderling, Master Yi and Morgana got weaker; Draven, Soraka, Amumu, Elder Dragon and Lux got stronger — Lux gets both at once (spell damage up, Lunar damage amp down). The Riftbeast (7) tier was trimmed slightly. Followed on September 1 by a round of bug fixes: the end-of-game screen showing the wrong final placement for 1st/2nd in Ranked, the “Soul Awakening” augment's true damage only applying to attack damage instead of ability damage too, a matchmaking issue that could pit the same two players against each other two rounds in a row, and several smaller fixes (Adaptor, Alune, Master of All Origins icons, Double Up life debt).",
+             "buffs": [
+                 "Amumu — Mana: 30/140 → 30/125 · Heal (% max HP): 2.2% → 2.5%",
+                 "Soraka — Initial star damage: 190/285 → 225/335",
+                 "Draven — Mana: 0/120 → 0/110 · Base attack speed: 0.8 → 0.85",
+                 "Elder Dragon — Base AD: 115 → 125",
+                 "Lux — Spell damage: 330/520 → 355/550",
+             ],
+             "nerfs": [
+                 "Cassiopeia — Spell damage: 440/660/1050 → 400/600/950",
+                 "Ahri — Spell damage: 450/675 → 425/640",
+                 "Cinderling — Base AD: 45 → 40 · Spell damage: 340/510/765/1300 → 310/465/700/1200",
+                 "Master Yi — Resists: 60 → 55",
+                 "Morgana — Mana: 0/60 → 0/65",
+                 "Lux — Lunar damage amp: 10% → 8%",
+                 "Riftbeast (7) trait — AD/AP/AS bonus: 6% → 5%",
+             ],
+             "url": "https://tftguide.org/en/patch-notes/18.1d"},
             {"version": "18.1", "tag": "Set 18", "date": "August 25, 2026", "title": "Enchanted Wilds goes live",
              "summary": "Set 18 “Enchanted Wilds” launches (Riftbeasts, Elderwood, the new Wisps mechanic) alongside the game's engine switch from Hextech to Unreal Engine. Set 17 “Space Gods” stays playable in parallel for a few more patches. Several hotfixes followed on August 27 and 28: memory leaks, load times, and Double Up re-enabled after a bug had temporarily disabled the queue.",
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-1/"},
@@ -1184,6 +1222,14 @@ def main() -> None:
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
   .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
   .lang-btn:not([data-active="true"]):hover { color: var(--cream); }
+
+  /* Balance-patch buff/nerf columns on the Patch Notes cards. */
+  .patch-balance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
+  @media (max-width: 560px) { .patch-balance-grid { grid-template-columns: 1fr; } }
+  .patch-balance-label { font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+  .patch-balance-col[data-kind="buff"] .patch-balance-label { color: var(--good); }
+  .patch-balance-col[data-kind="nerf"] .patch-balance-label { color: var(--warn); }
+  .patch-balance-col ul { margin: 0; padding-left: 18px; color: var(--text-dim); font-size: 12.5px; line-height: 1.6; }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
