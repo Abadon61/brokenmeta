@@ -109,6 +109,68 @@ COPY_COMP_JS = """
 })();
 """
 
+# Progressive enhancement, ported from the Artifact's wireChampionIcons():
+# any ".champ-link-icon" (unit portraits, item-combo headers, board-variant
+# icons, ...) shows a real stat tooltip on hover and jumps to that
+# champion's page on click. Unlike the Artifact (one big embedded data
+# object), stats are fetched once from assets/data/champions.json -- see
+# main()'s champion_tooltip_data write-out -- and the click target is
+# baked into each icon's own data-champ-href at build time, so this file
+# needs no per-page templating. FR/EN labels are embedded directly here
+# (not routed through the Jinja `t()` system) since this one static file
+# is shared, unchanged, across every language's pages.
+CHAMP_ICON_JS = """
+(function () {
+  var icons = document.querySelectorAll('.champ-link-icon');
+  if (!icons.length) return;
+  var LABELS = {
+    fr: {playrate: 'Popularité', avgplacement: 'Placement moyen', avgstar: 'Étoile moyenne',
+         items: function (s) { return 'Objets fréquents : ' + s; }},
+    en: {playrate: 'Play rate', avgplacement: 'Avg placement', avgstar: 'Avg star',
+         items: function (s) { return 'Common items: ' + s; }}
+  };
+  var L = LABELS[document.documentElement.lang === 'en' ? 'en' : 'fr'];
+  var tooltip = document.getElementById('tooltip');
+  var dataPromise = fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).catch(function () { return {}; });
+  var champData = null;
+  dataPromise.then(function (d) { champData = d; });
+
+  function showTooltip(e) {
+    if (!champData || !tooltip) return;
+    var d = champData[e.currentTarget.dataset.champSlug];
+    if (!d) return;
+    tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
+      + '<div class="tt-row"><span>' + L.playrate + '</span><b class="nums">' + d.pick_rate_pct + '</b></div>'
+      + '<div class="tt-row"><span>' + L.avgplacement + '</span><b class="nums">' + d.avg_placement.toFixed(2) + '</b></div>'
+      + '<div class="tt-row"><span>' + L.avgstar + '</span><b class="nums">' + d.avg_star_level.toFixed(1) + '\\u2605</b></div>'
+      + (d.top_items && d.top_items.length ? '<div class="tt-items">' + L.items(d.top_items.join(', ')) + '</div>' : '');
+    tooltip.dataset.visible = 'true';
+    moveTooltip(e);
+  }
+  function moveTooltip(e) {
+    if (!tooltip) return;
+    var pad = 14, x = e.clientX + pad, y = e.clientY + pad;
+    if (x + 190 > window.innerWidth) x = e.clientX - 190 - pad;
+    if (y + 130 > window.innerHeight) y = e.clientY - 130 - pad;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+  function hideTooltip() { if (tooltip) tooltip.dataset.visible = 'false'; }
+
+  icons.forEach(function (icon) {
+    icon.addEventListener('mouseenter', showTooltip);
+    icon.addEventListener('mousemove', moveTooltip);
+    icon.addEventListener('mouseleave', hideTooltip);
+    icon.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var href = icon.dataset.champHref;
+      if (href) location.href = href;
+    });
+  });
+})();
+"""
+
 
 def slugify(name: str) -> str:
     s = re.sub(r"[^a-z0-9]+", "-", name.lower()).strip("-")
@@ -317,6 +379,7 @@ I18N: dict[str, dict] = {
         "champ_list_title": "Liste des champions", "th_rank": "Rang", "th_champion": "Champion",
         "th_playrate": "Popularité", "th_avgplacement": "Placement moyen", "th_top4": "Top 4",
         "th_avgstar": "Étoile moyenne", "th_commonitems": "Objets fréquents",
+        "tt_common_items": lambda items: f"Objets fréquents : {items}",
         "champ_unranked_note": 'Les champions marqués <b style="color:var(--cream)">?</b> n\'ont pas encore assez de parties observées dans cet échantillon pour un rang fiable — ils restent affichés avec leurs stats brutes.',
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
@@ -396,6 +459,7 @@ I18N: dict[str, dict] = {
         "champ_list_title": "Champion list", "th_rank": "Rank", "th_champion": "Champion",
         "th_playrate": "Play rate", "th_avgplacement": "Avg placement", "th_top4": "Top 4",
         "th_avgstar": "Avg star", "th_commonitems": "Common items",
+        "tt_common_items": lambda items: f"Common items: {items}",
         "champ_unranked_note": 'Champions marked <b style="color:var(--cream)">?</b> don\'t have enough observed games in this sample yet for a reliable rank — they\'re still shown with their raw stats.',
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
@@ -756,6 +820,20 @@ def main() -> None:
     champion_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), d["avg_placement"]))
     print(f"Building {len(champion_vms)} champion pages...")
 
+    # ---- Hover-tooltip data for every ".champ-link-icon" on the site (ported
+    # from the Artifact's currentChampions lookup) -- one shared static JSON
+    # file instead of embedding this per page, fetched once client-side by
+    # assets/js/champ-icons.js. Language-independent (numbers + item names
+    # aren't translated), keyed by slug to match data-champ-slug. ----
+    champion_tooltip_data = {
+        d["slug"]: {
+            "name": d["name"], "pick_rate_pct": d["pick_rate_pct"],
+            "avg_placement": round(d["avg_placement"], 2), "avg_star_level": round(d["avg_star_level"], 1),
+            "top_items": [ti["name"] for ti in d["top_items"]],
+        }
+        for d in champion_vms
+    }
+
     # ---- Leaderboard view-model (region display name filled in per-language
     # just before rendering -- everything else here is language-independent) ----
     REGION_NAMES = {
@@ -1063,6 +1141,10 @@ def main() -> None:
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "js" / "type-filter.js").write_text(TYPE_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
+    (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
+    (DIST / "assets" / "data" / "champions.json").write_text(
+        json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
 
     # ---- robots.txt + sitemap.xml ----
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}sitemap.xml\n", encoding="utf-8")

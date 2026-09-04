@@ -28,7 +28,7 @@
     {% for g in p.recent_games %}
     {% set inner %}
       <span class="lb-square {{ 'win' if g.is_win else 'loss' }}" title="{{ t(lang, 'placement_colon', g.placement) }}">{{ g.placement }}</span>
-      {% if g.carry_slug %}<img src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)">{% endif %}
+      {% if g.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)" data-champ-slug="{{ g.carry_slug }}" data-champ-href="{{ root }}champions/{{ g.carry_slug }}/">{% endif %}
       <span class="profile-comp-name">{{ g.label }}</span>
     {% endset %}
     {% if g.comp_slug %}

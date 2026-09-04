@@ -72,7 +72,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span>{{ t(lang, 'footer_generated', generated_at, set_name) }}</span>
   <span><a href="{{ root }}sitemap.xml" style="color:inherit">sitemap</a></span>
 </footer>
+<div id="tooltip" data-visible="false"></div>
 {% block extra_body %}{% endblock %}
+<script>window.BM_ROOT = "{{ root }}";</script>
 <script src="{{ root }}assets/js/copy-comp.js" defer></script>
+<script src="{{ root }}assets/js/champ-icons.js" defer></script>
 </body>
 </html>

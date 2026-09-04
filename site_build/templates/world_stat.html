@@ -48,7 +48,7 @@
     {% if col.comps %}
       {% for c in col.comps %}
       <div class="ws-comp-row">
-        <img class="ws-comp-icon" src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.carry }}" loading="lazy">
+        <img class="ws-comp-icon champ-link-icon" src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.carry }}" loading="lazy" data-champ-slug="{{ c.slug }}" data-champ-href="{{ root }}champions/{{ c.slug }}/">
         <div class="ws-comp-info">
           <div class="ws-comp-label">{{ c.label }}</div>
           <div class="ws-comp-meta">{{ t(lang, 'games_count', c.count) }} · {{ t(lang, 'avg_placement_inline') }} {{ '%.2f'|format(c.avg_placement) }}</div>

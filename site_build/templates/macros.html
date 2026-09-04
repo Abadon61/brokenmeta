@@ -12,7 +12,7 @@
 <div class="unit-cell">
   <div class="unit-icon-wrap">
     {% if is_top %}<span class="unit-corner tl"></span><span class="unit-corner tr"></span><span class="unit-corner bl"></span><span class="unit-corner br"></span>{% endif %}
-    <img class="unit-icon" src="{{ root }}assets/champions/{{ unit.slug }}.png" alt="{{ unit.champion }}" loading="lazy" style="border-color:var(--cost-{{ unit.cost or 1 }})">
+    <img class="unit-icon champ-link-icon" src="{{ root }}assets/champions/{{ unit.slug }}.png" alt="{{ unit.champion }}" loading="lazy" style="border-color:var(--cost-{{ unit.cost or 1 }})" data-champ-slug="{{ unit.slug }}" data-champ-href="{{ root }}champions/{{ unit.slug }}/">
     {% if unit.three_star %}<span class="star-row">{{ star_svg|safe }}{{ star_svg|safe }}{{ star_svg|safe }}</span>{% endif %}
   </div>
   <div class="unit-items">
@@ -38,7 +38,7 @@
   <div class="row-body">
     <div class="row-top">
       <div class="row-name-block">
-        {% if c.carry_slug %}<img class="carry-portrait" src="{{ root }}assets/champions/{{ c.carry_slug }}.png" alt="{{ c.carry }}" loading="lazy">{% endif %}
+        {% if c.carry_slug %}<img class="carry-portrait champ-link-icon" src="{{ root }}assets/champions/{{ c.carry_slug }}.png" alt="{{ c.carry }}" loading="lazy" data-champ-slug="{{ c.carry_slug }}" data-champ-href="{{ root }}champions/{{ c.carry_slug }}/">{% endif %}
         <div class="row-name">{{ c.display_label }}{% if c.playstyle_tag %}<span class="playstyle-tag">{{ c.playstyle_tag }}</span>{% endif %}{% if c.trend %}<span class="trend-badge trend-{{ c.trend.state }}">{{ c.trend.arrow }} {{ '%.2f'|format(c.trend.delta) }}</span>{% endif %}</div>
       </div>
       <div class="pill-row">

@@ -30,7 +30,7 @@
   {% for block in c.item_combo_blocks %}
   <div class="champ-combo-block">
     <div class="champ-combo-header">
-      <img class="champ-combo-icon" src="{{ root }}assets/champions/{{ block.slug }}.png" alt="{{ block.champion }}" loading="lazy">
+      <img class="champ-combo-icon champ-link-icon" src="{{ root }}assets/champions/{{ block.slug }}.png" alt="{{ block.champion }}" loading="lazy" data-champ-slug="{{ block.slug }}" data-champ-href="{{ root }}champions/{{ block.slug }}/">
       <div class="champ-combo-name">{{ block.champion }}</div>
     </div>
     <div class="table-wrap"><table class="item-stats-table">
@@ -82,13 +82,13 @@
 <div class="board-variants">
   {% for v in c.board_variants %}
   <div class="variant-row">
-    <div class="variant-icons">{% for slug, name in v.icons %}<img src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>
+    <div class="variant-icons">{% for slug, name in v.icons %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy" data-champ-slug="{{ slug }}" data-champ-href="{{ root }}champions/{{ slug }}/">{% endfor %}</div>
     <div class="variant-bottom-row">
       {% if loop.first %}<span class="variant-baseline-tag">{{ t(lang, 'baseline_tag') }}</span>
       {% else %}<div class="variant-diff">
-        {% if v.removed %}<div class="variant-diff-group">{% for slug, name in v.removed %}<img class="diff-icon removed" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>{% endif %}
+        {% if v.removed %}<div class="variant-diff-group">{% for slug, name in v.removed %}<img class="diff-icon removed champ-link-icon" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy" data-champ-slug="{{ slug }}" data-champ-href="{{ root }}champions/{{ slug }}/">{% endfor %}</div>{% endif %}
         <span class="diff-arrow">→</span>
-        {% if v.added %}<div class="variant-diff-group">{% for slug, name in v.added %}<img class="diff-icon added" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>{% endif %}
+        {% if v.added %}<div class="variant-diff-group">{% for slug, name in v.added %}<img class="diff-icon added champ-link-icon" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy" data-champ-slug="{{ slug }}" data-champ-href="{{ root }}champions/{{ slug }}/">{% endfor %}</div>{% endif %}
       </div>{% endif %}
       <div class="variant-stats">
         <span class="variant-share nums">{{ t(lang, 'share_of_games', v.share_pct) }}</span>
@@ -113,7 +113,7 @@
     <div class="bonus-group-title">{{ t(lang, group.kind, group.total_units) }}</div>
     {% for row in group.rows %}
     <div class="bonus-row">
-      <div class="bonus-icons">{% for slug, name in row.icons %}<img src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>
+      <div class="bonus-icons">{% for slug, name in row.icons %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy" data-champ-slug="{{ slug }}" data-champ-href="{{ root }}champions/{{ slug }}/">{% endfor %}</div>
       <span class="bonus-names">{{ row.names }}</span>
       <span class="bonus-stats"><b class="nums">{{ '%.2f'|format(row.avg_placement) }}</b> {{ t(lang, 'avg_placement_inline') }} · {{ t(lang, 'games_count', row.games) }}</span>
     </div>
@@ -130,7 +130,7 @@
 <div class="similar-variant-list">
   {% for v in c.similar_variants %}
   <div class="similar-variant-row">
-    {% if v.carry_slug %}<img src="{{ root }}assets/champions/{{ v.carry_slug }}.png" alt="{{ v.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)">{% endif %}
+    {% if v.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ v.carry_slug }}.png" alt="{{ v.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)" data-champ-slug="{{ v.carry_slug }}" data-champ-href="{{ root }}champions/{{ v.carry_slug }}/">{% endif %}
     <span class="similar-variant-name">{{ v.label }}</span>
     <span class="similar-variant-size">{{ t(lang, 'units_word', v.board_size) }}</span>
     <span class="bonus-stats">{{ t(lang, 'games_count', v.play_count) }} · <b class="nums">{{ '%.2f'|format(v.avg_placement) }}</b> {{ t(lang, 'avg_placement_inline') }}</span>

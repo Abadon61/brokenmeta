@@ -14,7 +14,7 @@
       <tr data-tier="{{ d.tier }}">
         <td><div class="champ-tier-badge" style="--tc:{{ d.tier_var }}">{{ d.tier }}</div></td>
         <td><a class="champ-name-cell" href="{{ root }}champions/{{ d.slug }}/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="{{ root }}assets/champions/{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy">
+          <img class="champ-table-icon champ-link-icon" src="{{ root }}assets/champions/{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy" data-champ-slug="{{ d.slug }}" data-champ-href="{{ root }}champions/{{ d.slug }}/">
           <span>{{ d.name }}</span>
         </a></td>
         <td class="num">{{ d.pick_rate_pct }}</td>
