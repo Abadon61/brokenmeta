@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
-{% block title %}{{ c.display_label }} — Tier {{ c.tier }} | BrokenMeta.gg{% endblock %}
+{% block title %}BrokenMeta.gg | {{ c.display_label }} — Tier {{ c.tier }}{% endblock %}
 {% block description %}{% if lang == 'fr' %}{{ c.display_label }} sur TFT Set 18 : Tier {{ c.tier }}, {{ '%.2f'|format(c.avg_placement) }} placement moyen, {{ c.top4_pct }} de top 4 sur {{ c.play_count }} parties classées réelles. Composition complète, objets et matchups.{% else %}{{ c.display_label }} on TFT Set 18: Tier {{ c.tier }}, {{ '%.2f'|format(c.avg_placement) }} avg placement, {{ c.top4_pct }} top 4 over {{ c.play_count }} real ranked games. Full composition, items and matchups.{% endif %}{% endblock %}
 {% block content %}
 <div class="fiche-header">

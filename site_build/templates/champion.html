@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}{{ d.name }} — TFT Set 18 | BrokenMeta.gg{% endblock %}
+{% block title %}BrokenMeta.gg | {{ d.name }} — TFT Set 18{% endblock %}
 {% block description %}{% if lang == 'fr' %}{{ d.name }} sur TFT Set 18 : Tier {{ d.tier }}, {{ d.pick_rate_pct }} de pick rate, {{ '%.2f'|format(d.avg_placement) }} placement moyen, {{ d.top4_pct }} de top 4. Meilleurs objets et compositions réelles.{% else %}{{ d.name }} on TFT Set 18: Tier {{ d.tier }}, {{ d.pick_rate_pct }} pick rate, {{ '%.2f'|format(d.avg_placement) }} avg placement, {{ d.top4_pct }} top 4. Real best items and comps.{% endif %}{% endblock %}
 {% block content %}
 <div class="champ-fiche-header">

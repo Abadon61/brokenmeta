@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
-{% block title %}{{ p.riot_id }} — {{ region_name }} | BrokenMeta.gg{% endblock %}
+{% block title %}BrokenMeta.gg | {{ p.riot_id }} — {{ region_name }}{% endblock %}
 {% block description %}{{ t(lang, 'player_page_desc', p.riot_id, region_name) }}{% endblock %}
 {% block content %}
 <a class="back-link" href="{{ root }}leaderboard/">{{ t(lang, 'back_to_leaderboard') }}</a>

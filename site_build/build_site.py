@@ -992,8 +992,8 @@ def main() -> None:
             title_suffix = "" if not scope_label else f" — {scope_label}"
             render("overview.html", root_path, _lang,
                    active_nav="comps",
-                   page_title=f"Tier List{title_suffix} — {len(rows)} compositions | BrokenMeta.gg" if _lang == "fr"
-                              else f"Tier List{title_suffix} — {len(rows)} comps | BrokenMeta.gg",
+                   page_title=f"BrokenMeta.gg | Tier List{title_suffix} — {len(rows)} compositions" if _lang == "fr"
+                              else f"BrokenMeta.gg | Tier List{title_suffix} — {len(rows)} comps",
                    page_description=f"Tier list Teamfight Tactics Set 18{title_suffix} : {len(rows)} compositions, données réelles Riot Match-V1." if _lang == "fr"
                                      else f"Teamfight Tactics Set 18 tier list{title_suffix}: {len(rows)} real ranked comps, real Riot Match-V1 data.",
                    h1=f"Tier List{title_suffix} — Teamfight Tactics Set 18",
@@ -1011,8 +1011,8 @@ def main() -> None:
                 tier_url = root_path + f"tier/{tier.lower()}/"
                 render("list_page.html", tier_url, _lang,
                        active_nav="comps",
-                       page_title=f"Tier {tier}{title_suffix} — {len(tier_rows)} compositions | TFT Set 18 | BrokenMeta.gg" if _lang == "fr"
-                                  else f"Tier {tier}{title_suffix} — {len(tier_rows)} comps | TFT Set 18 | BrokenMeta.gg",
+                       page_title=f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} compositions | TFT Set 18" if _lang == "fr"
+                                  else f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} comps | TFT Set 18",
                        page_description=f"Compositions Tier {tier}{title_suffix} sur Teamfight Tactics Set 18 ({len(tier_rows)} compos), données réelles." if _lang == "fr"
                                          else f"Tier {tier}{title_suffix} comps on Teamfight Tactics Set 18 ({len(tier_rows)} comps), real data.",
                        h1=f"Tier {tier}{title_suffix} — Teamfight Tactics Set 18",
