@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}</title>
+<meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
+<link rel="canonical" href="{{ canonical }}">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+<meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
+<meta property="og:url" content="{{ canonical }}">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="{{ root }}favicon.svg">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="{{ root }}assets/css/style.css">
+{% block extra_head %}{% endblock %}
+</head>
+<body>
+<div class="topbar">
+  <a class="wordmark" href="{{ root }}" style="text-decoration:none"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+</div>
+<div class="navbar">
+  <span class="title">Teamfight Tactics</span>
+  <nav class="nav-menu">
+    <a class="nav-link" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>Compo List</a>
+    <a class="nav-link" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>Champion List</a>
+    <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>Patch Notes</a>
+    <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>Leaderboard</a>
+  </nav>
+</div>
+<div class="page">
+{% block content %}{% endblock %}
+</div>
+<footer>
+  <span>Généré le {{ generated_at }} · Set {{ set_name }}</span>
+  <span><a href="{{ root }}sitemap.xml" style="color:inherit">sitemap</a></span>
+</footer>
+{% block extra_body %}{% endblock %}
+</body>
+</html>

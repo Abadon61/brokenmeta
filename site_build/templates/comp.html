@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ c.display_label }} — Tier {{ c.tier }} | BrokenMeta.gg{% endblock %}
+{% block description %}{{ c.display_label }} sur TFT Set 18 : Tier {{ c.tier }}, {{ '%.2f'|format(c.avg_placement) }} placement moyen, {{ c.top4_pct }} de top 4 sur {{ c.play_count }} parties classées réelles. Composition complète, objets et matchups.{% endblock %}
+{% block content %}
+<div class="fiche-header">
+  <div class="fiche-tier-badge" style="--tc:{{ c.tier_var }}">{{ c.tier }}</div>
+  <div>
+    <h1 class="fiche-title">{{ c.display_label }}{% if c.trend %}<span class="trend-badge trend-{{ c.trend.state }}">{{ c.trend.arrow }} {{ '%.2f'|format(c.trend.delta) }}</span>{% endif %}</h1>
+    {% if c.level_badge %}<div class="fiche-meta">{{ c.level_badge }}</div>{% endif %}
+  </div>
+  <div>
+    <div class="fiche-stats pill-row">
+      {{ m.pill('Placement', '%.2f'|format(c.avg_placement)) }}
+      {{ m.pill('Top 4', c.top4_pct) }}
+      {{ m.pill('Contest.', c.contestation_index|round|int, c.contestation_level) }}
+    </div>
+  </div>
+</div>
+
+{% if c.trend_note %}<div class="placement-trend-empty" style="margin-bottom:20px">{{ c.trend_note }}</div>{% endif %}
+
+<h2 class="fiche-section-title">Composition complète</h2>
+<div class="fiche-board-wrap">
+  <div class="fiche-board" style="--tc:{{ c.tier_var }}">{{ m.units_row(c.core_units_display, root) }}</div>
+</div>
+
+<h2 class="fiche-section-title">Combinaisons d'objets — persos principaux (top 10)</h2>
+{% if c.item_combo_blocks %}
+<div class="champ-combo-grid">
+  {% for block in c.item_combo_blocks %}
+  <div class="champ-combo-block">
+    <div class="champ-combo-header">
+      <img class="champ-combo-icon" src="{{ root }}assets/champions/{{ block.slug }}.png" alt="{{ block.champion }}" loading="lazy">
+      <div class="champ-combo-name">{{ block.champion }}</div>
+    </div>
+    <div class="table-wrap"><table class="item-stats-table">
+      <thead><tr><th>Combinaison</th><th>Placement moyen</th></tr></thead>
+      <tbody>
+        {% for row in block.rows %}<tr>
+          <td><div class="item-name-cell">{% for it in row.item_icons %}<img class="item-icon-sm" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% endfor %}</div></td>
+          <td class="num">{{ '%.2f'|format(row.avg_placement) }}</td>
+        </tr>{% endfor %}
+      </tbody>
+    </table></div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">Pas assez de données pour dégager des persos principaux sur cette comp.</div>{% endif %}
+
+<h2 class="fiche-section-title">Joué dans le TOP ladders</h2>
+{% if c.ladder_sightings %}
+<div class="profile-comp-list">
+  {% for s in c.ladder_sightings %}
+  <div class="ladder-sighting-row">
+    <span class="ladder-region-chip">{{ s.region }}</span>
+    <span class="ladder-player-name">{{ s.riot_id }}</span>
+    <span class="lb-tier-tag" data-tier="{{ s.tier }}">{{ s.tier }}</span>
+    <span class="ladder-lp nums">{{ s.lp }} LP</span>
+    <span class="lb-square {{ 'win' if s.placement <= 4 else 'loss' }}" title="Placement : {{ s.placement }}">{{ s.placement }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">Aucun joueur du leaderboard n'a joué cette compo dans les 10 dernières parties observées.</div>{% endif %}
+
+<h2 class="fiche-section-title">Match-up vs</h2>
+{% if c.matchups %}
+<div class="fiche-matchup-list">
+  {% for mu in c.matchups %}
+  <div class="fiche-matchup-row" data-side="{{ mu.side }}">
+    {% if mu.opp_slug %}<img class="item-icon-sm" src="{{ root }}assets/champions/{{ mu.opp_slug }}.png" alt="" loading="lazy">{% endif %}
+    <span class="m-name">vs <a href="{{ root }}compo/{{ mu.opp_url_slug }}/" style="color:inherit">{{ mu.opp_label }}</a></span>
+    <span class="m-encounters nums">{{ mu.encounters }} rencontres</span>
+    <span class="matchup-bar-wrap"><span class="matchup-bar" style="width:{{ mu.pct_int }}%"></span></span>
+    <span class="m-pct nums">{{ mu.pct }}</span>
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">Pas assez de rencontres en lobby partagée pour cette comp dans cet échantillon.</div>{% endif %}
+
+<h2 class="fiche-section-title">Variantes de board</h2>
+{% if c.board_variants %}
+<div class="board-variants">
+  {% for v in c.board_variants %}
+  <div class="variant-row">
+    <div class="variant-icons">{% for slug, name in v.icons %}<img src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>
+    <div class="variant-bottom-row">
+      {% if loop.first %}<span class="variant-baseline-tag">Référence</span>
+      {% else %}<div class="variant-diff">
+        {% if v.removed %}<div class="variant-diff-group">{% for slug, name in v.removed %}<img class="diff-icon removed" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>{% endif %}
+        <span class="diff-arrow">→</span>
+        {% if v.added %}<div class="variant-diff-group">{% for slug, name in v.added %}<img class="diff-icon added" src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>{% endif %}
+      </div>{% endif %}
+      <div class="variant-stats">
+        <span class="variant-share nums">{{ v.share_pct }} des parties</span>
+        <span class="variant-placement nums">{{ '%.2f'|format(v.avg_placement) }} placement moyen</span>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div class="variants-note">Versions réelles du board final de cette comp : quel groupe exact de champions apparaît ensemble, à quelle fréquence, et le placement moyen de ces parties. Pas un historique de partie (Riot n'expose que le board de fin de partie, jamais son évolution) : une comparaison de builds, pas un chemin dans le temps.</div>
+{% else %}<div class="matchup-empty">Pas assez de parties pour dégager des variantes fiables de cette comp.</div>{% endif %}
+
+<h2 class="fiche-section-title">Compléments de board (9e/10e unité)</h2>
+{% if c.bonus_base %}
+<div class="bonus-slots">
+  <div class="bonus-base-row">
+    <span class="bonus-base-label">Board de base — {{ c.bonus_base.core_size }} unités</span>
+    <span class="bonus-stats">{% if c.bonus_base.avg_placement is not none %}<b class="nums">{{ '%.2f'|format(c.bonus_base.avg_placement) }}</b> placement moyen · {{ c.bonus_base.games }} parties{% else %}Pas assez de parties avec exactement ce board, sans ajout{% endif %}</span>
+  </div>
+  {% for group in c.bonus_groups %}
+  <div>
+    <div class="bonus-group-title">{{ group.title }}</div>
+    {% for row in group.rows %}
+    <div class="bonus-row">
+      <div class="bonus-icons">{% for slug, name in row.icons %}<img src="{{ root }}assets/champions/{{ slug }}.png" alt="{{ name }}" title="{{ name }}" loading="lazy">{% endfor %}</div>
+      <span class="bonus-names">{{ row.names }}</span>
+      <span class="bonus-stats"><b class="nums">{{ '%.2f'|format(row.avg_placement) }}</b> placement moyen · {{ row.games }} partie{{ 's' if row.games > 1 else '' }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+  {% if not c.bonus_groups %}<div class="matchup-empty" style="margin-top:10px">Pas assez de parties avec une unité en plus pour dégager un signal fiable.</div>{% endif %}
+</div>
+<div class="variants-note">Le board principal ci-dessus s'arrête à 9 unités : atteindre un 10e emplacement demande le niveau 10, qui à lui seul corrèle déjà fortement avec un bon placement. Ci-dessous, le placement moyen des parties ayant ce board de base <b style="color:var(--cream)">plus</b> une ou deux unités en plus, présenté comme une corrélation à interpréter, pas une recommandation causale.</div>
+{% else %}<div class="matchup-empty">Pas assez de données pour dégager un board de base fiable sur cette comp.</div>{% endif %}
+
+{% if c.similar_variants %}
+<h2 class="fiche-section-title">Tentatives incomplètes regroupées ici</h2>
+<div class="similar-variant-list">
+  {% for v in c.similar_variants %}
+  <div class="similar-variant-row">
+    {% if v.carry_slug %}<img src="{{ root }}assets/champions/{{ v.carry_slug }}.png" alt="{{ v.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)">{% endif %}
+    <span class="similar-variant-name">{{ v.label }}</span>
+    <span class="similar-variant-size">{{ v.board_size }} unités</span>
+    <span class="bonus-stats">{{ v.play_count }} partie{{ 's' if v.play_count > 1 else '' }} · <b class="nums">{{ '%.2f'|format(v.avg_placement) }}</b> placement moyen</span>
+  </div>
+  {% endfor %}
+</div>
+<div class="variants-note">Ces compos partagent un sous-ensemble strict des unités ci-dessus (jamais d'unité en plus) — des tentatives probables de cette même comp, arrêtées en cours de route plutôt que des archétypes distincts.</div>
+{% endif %}
+
+<h2 class="fiche-section-title">Chemin d'augments</h2>
+<div class="augments-note">
+  <b>Donnée indisponible.</b> L'API Riot ne renseigne pas le champ des augments pour ce set — vérifié directement sur l'échantillon collecté (le champ "augments" n'apparaît même pas dans la réponse, sur 23 000+ participants réels examinés). Le champ existe bien dans le schéma officiel et fonctionnait sur d'anciens sets, donc ce n'est probablement pas définitif — cette section s'activera automatiquement dès qu'il se remplit à nouveau.
+</div>
+{% endblock %}

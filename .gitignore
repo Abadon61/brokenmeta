@@ -1,0 +1,16 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+data/raw/
+data/output/*.json
+!data/output/.gitkeep
+
+# Generated static site (rebuilt from data/output/*.json via
+# site_build/build_site.py) -- binary images + ~35MB, not source.
+site_build/dist/
+site_build/*.zip
+*.zip
+
+# Local runtime state, not source.
+.claude/scheduled_tasks.lock

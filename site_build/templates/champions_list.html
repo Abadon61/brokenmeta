@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Liste des champions — TFT Set 18 | BrokenMeta.gg{% endblock %}
+{% block description %}Tous les champions Teamfight Tactics Set 18 classés S/A/B/C par taux de top 4 réel, avec taux de pick, placement moyen et meilleurs objets.{% endblock %}
+{% block content %}
+<h1 class="page-h1">Champions — Teamfight Tactics Set 18</h1>
+<div class="champ-table-wrap">
+  <table class="champ-table">
+    <thead><tr>
+      <th>Rang</th><th>Champion</th><th class="num">Popularité</th><th class="num">Placement moyen</th>
+      <th class="num">Top 4</th><th class="num">Étoile moyenne</th><th>Objets fréquents</th>
+    </tr></thead>
+    <tbody>
+      {% for d in champions %}
+      <tr data-tier="{{ d.tier }}">
+        <td><div class="champ-tier-badge" style="--tc:{{ d.tier_var }}">{{ d.tier }}</div></td>
+        <td><a class="champ-name-cell" href="{{ root }}champions/{{ d.slug }}/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="{{ root }}assets/champions/{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy">
+          <span>{{ d.name }}</span>
+        </a></td>
+        <td class="num">{{ d.pick_rate_pct }}</td>
+        <td class="num">{{ '%.2f'|format(d.avg_placement) }}</td>
+        <td class="num">{{ d.top4_pct }}</td>
+        <td class="num">{{ '%.1f'|format(d.avg_star_level) }}★</td>
+        <td><div class="champ-items">
+          {% for it in d.top_items %}<img class="item-icon-sm" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% else %}<span class="matchup-empty">—</span>{% endfor %}
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="champ-unranked-note">Les champions marqués <b style="color:var(--cream)">?</b> n'ont pas encore assez de parties observées dans cet échantillon pour un rang fiable — ils restent affichés avec leurs stats brutes.</div>
+{% endblock %}

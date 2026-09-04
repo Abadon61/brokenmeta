@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard — TFT Set 18 | BrokenMeta.gg{% endblock %}
+{% block description %}Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur Teamfight Tactics Set 18, via l'API League-v1 de Riot.{% endblock %}
+{% block content %}
+<h1 class="page-h1">Leaderboard — Teamfight Tactics Set 18</h1>
+{% for region in regions %}
+<h2 class="fiche-section-title">{{ region.name }}</h2>
+<div class="lb-table-wrap">
+  <table class="lb-table">
+    <thead><tr><th class="num">Rang</th><th>Joueur</th><th>Palier</th><th class="num">LP</th><th>Forme (5 dernières)</th></tr></thead>
+    <tbody>
+      {% for p in region.rows %}
+      <tr>
+        <td class="num"><span class="lb-rank" data-top="{{ p.rank <= 3 }}">#{{ p.rank }}</span></td>
+        <td><div class="lb-player-cell"><span class="lb-riotid">{{ p.riot_id }}</span>{% if p.hot_streak %}<span class="lb-hot" title="Série en cours">🔥</span>{% endif %}</div></td>
+        <td><span class="lb-tier-tag" data-tier="{{ p.tier }}">{{ p.tier }}</span></td>
+        <td class="num">{{ p.lp }} LP</td>
+        <td><div class="lb-form">
+          {% for sq in p.form %}<span class="lb-square {{ sq.cls }}" title="{{ sq.title }}">{{ sq.label }}</span>{% endfor %}
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endfor %}
+<div class="lb-note">Classement réel (League-v1, Challenger complété par Grandmaster/Master si le serveur en a moins de 100), trié par LP. TFT n'a pas de victoire/défaite au sens strict : <b style="color:var(--good)">W</b> = top 4 sur la partie, <b style="color:var(--warn)">L</b> = 5ᵉ-8ᵉ — une convention d'affichage, pas une donnée Riot.</div>
+{% endblock %}
