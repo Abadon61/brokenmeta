@@ -69,6 +69,22 @@ def slugify(name: str) -> str:
     return s or "x"
 
 
+def initials(riot_id: str) -> str:
+    """Same convention as the Artifact's initials() -- first two characters
+    of the name part (before the #tag), uppercased. A no-op on CJK names,
+    same as the Artifact's JS .toUpperCase() on those, so behavior matches."""
+    name = (riot_id or "").split("#")[0].strip()
+    return (name[:2] or "?").upper()
+
+
+def player_url_slug(rank: int, riot_id: str) -> str:
+    """Rank prefix guarantees uniqueness within a region even when the name
+    slugifies to nothing (CJK names collapse to 'x' -- verified on real
+    leaderboard data, e.g. dozens of Korean riotIds all slugify to 'x')."""
+    name = (riot_id or "").split("#")[0].strip()
+    return f"{rank}-{slugify(name)}"
+
+
 def load(name: str) -> dict:
     return json.loads((OUT / name).read_text(encoding="utf-8"))
 
@@ -264,6 +280,11 @@ I18N: dict[str, dict] = {
         "th_player": "Joueur", "th_tier": "Palier", "th_form": "Forme (5 dernières)",
         "hot_streak_title": "Série en cours",
         "lb_note": 'Classement réel (League-v1, Challenger complété par Grandmaster/Master si le serveur en a moins de 100), trié par LP. TFT n\'a pas de victoire/défaite au sens strict : <b style="color:var(--good)">W</b> = top 4 sur la partie, <b style="color:var(--warn)">L</b> = 5ᵉ-8ᵉ — une convention d\'affichage, pas une donnée Riot.',
+        "player_page_desc": lambda riot_id, region: f"Profil réel de {riot_id} sur le leaderboard {region} de Teamfight Tactics Set 18 : LP, palier, winrate et 10 dernières parties classées, via l'API officielle de Riot.",
+        "region_rank_of": lambda region, rank: f"{region} · Rang #{rank}",
+        "record_label": "Bilan", "record_wl": lambda w, l: f"{w}W / {l}L", "winrate_label": "Winrate",
+        "last10_games_title": "10 dernières parties classées",
+        "no_recent_games": "Pas de partie récente enregistrée pour ce joueur.",
         "see_worldstat": "Voir World Stat →",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Élo moyen du top 100 par région",
@@ -336,6 +357,11 @@ I18N: dict[str, dict] = {
         "th_player": "Player", "th_tier": "Tier", "th_form": "Form (last 5)",
         "hot_streak_title": "On a streak",
         "lb_note": 'Real standings (League-v1, Challenger topped up with Grandmaster/Master if the server has fewer than 100), sorted by LP. TFT doesn\'t have a strict win/loss: <b style="color:var(--good)">W</b> = top 4 that game, <b style="color:var(--warn)">L</b> = 5th-8th — a display convention, not a Riot-provided stat.',
+        "player_page_desc": lambda riot_id, region: f"Real profile for {riot_id} on the {region} Teamfight Tactics Set 18 leaderboard: LP, tier, winrate and the last 10 ranked games, via Riot's official API.",
+        "region_rank_of": lambda region, rank: f"{region} · Rank #{rank}",
+        "record_label": "Record", "record_wl": lambda w, l: f"{w}W / {l}L", "winrate_label": "Winrate",
+        "last10_games_title": "Last 10 ranked games",
+        "no_recent_games": "No recent games recorded for this player.",
         "see_worldstat": "View World Stat →",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Average Elo of the top 100 by region",
@@ -623,6 +649,10 @@ def main() -> None:
     print(f"Building {len(comps_filtered)} comp pages...")
     comp_vms = [build_comp_vm(c) for c in comps_filtered]
     comp_vms.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]))
+    # Only comps that passed the quality filter get a real /compo/<slug>/
+    # page -- used below to decide whether a player's recent-game row links
+    # to a real fiche or shows as plain (unlinked) text.
+    comp_vm_by_key = {c["key"]: c for c in comp_vms}
 
     region_rows = {r: sorted_rows(rows) for r, rows in region_raw_filtered.items()}
     rank_rows = {b: sorted_rows(rows) for b, rows in rank_raw_filtered.items()}
@@ -661,11 +691,14 @@ def main() -> None:
         "en": {"EUW": "West Europe (EUW)", "NA": "North America (NA)", "BR": "Brazil (BR)", "KR": "Korea (KR)"},
     }
     lb_regions_raw = []
+    player_vms_by_region: dict[str, list[dict]] = {}
     for region, rows in leaderboard_json["regions"].items():
         if not rows:
             continue
         vm_rows = []
+        players = []
         for p in rows[:100]:
+            slug = player_url_slug(p["rank"], p["riotId"])
             form = []
             for placement in (p.get("recentPlacements") or [])[:5]:
                 win = placement <= 4
@@ -673,8 +706,38 @@ def main() -> None:
             while len(form) < 5:
                 form.append({"cls": "empty", "label": "–", "placement": None})
             vm_rows.append({"rank": p["rank"], "riot_id": p["riotId"], "tier": p["tier"], "lp": p["leaguePoints"],
-                             "hot_streak": p.get("hotStreak", False), "form": form})
+                             "hot_streak": p.get("hotStreak", False), "form": form, "slug": slug})
+
+            # ---- Player profile: real /player/<region>/<rank-slug>/ page,
+            # opened from clicking this leaderboard row. Header repeats this
+            # row's real stats plus a real winrate computed from wins/losses,
+            # then the player's last 10 ranked games with the comp each one
+            # was actually played -- same convention as every other comp
+            # signature in the app. A recent game only links to a real comp
+            # fiche when that comp passed the quality filter (has a real
+            # /compo/ page); otherwise it's shown as plain text -- avoids
+            # generating thin single-game stub pages for one-off comps. ----
+            total = p["wins"] + p["losses"]
+            wr = (p["wins"] / total) if total else 0
+            recent_games = []
+            for g in (p.get("recentComps") or [])[:10]:
+                cv = comp_vm_by_key.get(g["compKey"])
+                carry = g.get("carry")
+                recent_games.append({
+                    "placement": g["placement"], "is_win": g["placement"] <= 4,
+                    "label": cv["display_label"] if cv else g.get("compLabel", ""),
+                    "carry_slug": champ_slug_and_download(carry) if carry else None,
+                    "carry": carry,
+                    "comp_slug": cv["slug"] if cv else None,
+                })
+            players.append({
+                "region": region, "rank": p["rank"], "riot_id": p["riotId"], "tier": p["tier"],
+                "lp": p["leaguePoints"], "wins": p["wins"], "losses": p["losses"],
+                "hot_streak": p.get("hotStreak", False), "winrate_pct": pct(wr),
+                "initials": initials(p["riotId"]), "slug": slug, "recent_games": recent_games,
+            })
         lb_regions_raw.append({"code": region, "rows": vm_rows})
+        player_vms_by_region[region] = players
 
     # ---- World Stat: elo-over-time chart, top 10 by region, top comps by
     # region -- reached from a button on the Leaderboard. All three pieces
@@ -798,7 +861,7 @@ def main() -> None:
     for lang in LANGS:
         render("champions_list.html", "/champions/", lang, active_nav="champions", champions=champion_vms)
 
-        lb_regions = [{"name": REGION_NAMES[lang].get(r["code"], r["code"]),
+        lb_regions = [{"code": r["code"], "name": REGION_NAMES[lang].get(r["code"], r["code"]),
                        "rows": [{**row, "form": [{**sq, "title": (translate(lang, "placement_colon", sq["placement"]) if sq["placement"] is not None else "")} for sq in row["form"]]}
                                 for row in r["rows"]]}
                       for r in lb_regions_raw]
@@ -810,6 +873,14 @@ def main() -> None:
 
         for c in comp_vms:
             render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c)
+
+        # ---- Player profile pages: one per leaderboard row, opened from
+        # the leaderboard table (see player.html + leaderboard.html link) ----
+        for region, players in player_vms_by_region.items():
+            region_name = REGION_NAMES[lang].get(region, region)
+            for p in players:
+                render("player.html", f"/player/{region.lower()}/{p['slug']}/", lang, active_nav="leaderboard",
+                       p=p, region_name=region_name)
         for d in champion_vms:
             render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions", d=d)
 

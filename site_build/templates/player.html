@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ p.riot_id }} — {{ region_name }} | BrokenMeta.gg{% endblock %}
+{% block description %}{{ t(lang, 'player_page_desc', p.riot_id, region_name) }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ root }}leaderboard/">{{ t(lang, 'back_to_leaderboard') }}</a>
+
+<div class="player-header">
+  <div class="player-avatar">{{ p.initials }}</div>
+  <div>
+    <div class="player-name-row">
+      <span class="player-name">{{ p.riot_id }}</span>
+      <span class="lb-tier-tag" data-tier="{{ p.tier }}">{{ p.tier }}</span>
+      {% if p.hot_streak %}<span class="lb-hot" title="{{ t(lang, 'hot_streak_title') }}">🔥</span>{% endif %}
+    </div>
+    <div class="player-meta">{{ t(lang, 'region_rank_of', region_name, p.rank) }}</div>
+  </div>
+  <div class="player-stats pill-row">
+    {{ m.pill('LP', p.lp) }}
+    {{ m.pill(t(lang, 'record_label'), t(lang, 'record_wl', p.wins, p.losses)) }}
+    {{ m.pill(t(lang, 'winrate_label'), p.winrate_pct) }}
+  </div>
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'last10_games_title') }}</h2>
+<div class="profile-comp-list">
+  {% if p.recent_games %}
+    {% for g in p.recent_games %}
+    {% set inner %}
+      <span class="lb-square {{ 'win' if g.is_win else 'loss' }}" title="{{ t(lang, 'placement_colon', g.placement) }}">{{ g.placement }}</span>
+      {% if g.carry_slug %}<img src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)">{% endif %}
+      <span class="profile-comp-name">{{ g.label }}</span>
+    {% endset %}
+    {% if g.comp_slug %}
+    <a class="profile-comp-row" href="{{ root }}compo/{{ g.comp_slug }}/">{{ inner|safe }}</a>
+    {% else %}
+    <div class="profile-comp-row" style="cursor:default">{{ inner|safe }}</div>
+    {% endif %}
+    {% endfor %}
+  {% else %}
+    <div class="matchup-empty">{{ t(lang, 'no_recent_games') }}</div>
+  {% endif %}
+</div>
+{% endblock %}

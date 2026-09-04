@@ -13,9 +13,9 @@
     <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_player') }}</th><th>{{ t(lang, 'th_tier') }}</th><th class="num">LP</th><th>{{ t(lang, 'th_form') }}</th></tr></thead>
     <tbody>
       {% for p in region.rows %}
-      <tr>
+      <tr onclick="location.href='{{ root }}player/{{ region.code|lower }}/{{ p.slug }}/'">
         <td class="num"><span class="lb-rank" data-top="{{ p.rank <= 3 }}">#{{ p.rank }}</span></td>
-        <td><div class="lb-player-cell"><span class="lb-riotid">{{ p.riot_id }}</span>{% if p.hot_streak %}<span class="lb-hot" title="{{ t(lang, 'hot_streak_title') }}">🔥</span>{% endif %}</div></td>
+        <td><a class="lb-player-cell" href="{{ root }}player/{{ region.code|lower }}/{{ p.slug }}/"><span class="lb-riotid">{{ p.riot_id }}</span>{% if p.hot_streak %}<span class="lb-hot" title="{{ t(lang, 'hot_streak_title') }}">🔥</span>{% endif %}</a></td>
         <td><span class="lb-tier-tag" data-tier="{{ p.tier }}">{{ p.tier }}</span></td>
         <td class="num">{{ p.lp }} LP</td>
         <td><div class="lb-form">
