@@ -499,23 +499,22 @@ def main() -> None:
     raw_image_map = build_champion_image_map(SET_MUTATOR, refresh=False)
     info_by_name = {info["name"]: info for info in raw_image_map.values()}
 
-    # ---- Team Planner copy button (ported from the Artifact) -- real
-    # numeric codes straight from Riot's own game-data file, see
-    # build_team_planner_codes()'s docstring for the honest caveat: the
-    # pasted string's exact byte layout for THIS set has no public spec, this
-    # is a best-effort widened version of an older set's documented format.
-    # Confirmed by the user in-game: the paste only ever places champions,
-    # never items or star levels, regardless of format details. ----
+    # ---- Team Planner copy button (ported from the Artifact) -- each slot
+    # is the champion's 1-indexed alphabetical rank (2 hex digits), NOT a
+    # raw CDragon id -- see build_team_planner_codes()'s docstring for the
+    # full story of the first (wrong) version and how this one was fixed
+    # after the user's live in-game test rejected it. Still experimental:
+    # this shape hasn't itself been confirmed working in-game yet. ----
     champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
     planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
 
     def team_planner_code(core_units: list[dict]) -> str:
         slots = []
         for u in (core_units or [])[:10]:
-            code = planner_codes.get(u["champion"])
-            slots.append(f"{code:04x}" if code is not None else "0000")
+            rank = planner_codes.get(u["champion"])
+            slots.append(f"{rank:02x}" if rank is not None else "00")
         while len(slots) < 10:
-            slots.append("0000")
+            slots.append("00")
         return "01" + "".join(slots) + SET_MUTATOR
 
     by_region = load("tierlist_by_region.json") if (OUT / "tierlist_by_region.json").exists() else {"regions": {}}

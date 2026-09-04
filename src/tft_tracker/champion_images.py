@@ -203,29 +203,39 @@ def classify_item_offense(set_mutator: str, id_prefix: str = "DA_", refresh: boo
 
 def build_team_planner_codes(set_mutator: str, name_map: dict[str, str] | None = None,
                               refresh: bool = False) -> dict[str, int]:
-    """Returns {display_champion_name: team_planner_code} for one set,
-    sourced directly from Riot's own game-data file -- real numeric IDs, not
-    reverse-engineered guesses.
-
-    What this does NOT solve: the exact string format the in-game Team
-    Planner expects when pasted. The only public write-ups of that format
-    (two community gists) describe a 2-hex-digit-per-champion scheme from a
-    much older, smaller set -- checked against these codes for the current
-    set, whose values (1001-1085) don't fit in 2 hex digits, so that scheme
-    is out of date. The front end builds its best-effort guess (4 hex
-    digits/champion, same overall "01 + slots + set name" shape) from these
-    codes; per the user's own in-game testing, the paste only ever places
-    champions -- items and star levels are confirmed NOT part of this
-    format, by Riot design or by the format's limits, either way."""
+    """Returns {display_champion_name: 1-indexed alphabetical rank} for one
+    set -- the real per-slot value the in-game Team Planner paste format
+    uses, CONFIRMED live (2026-09-04): a first version of this function
+    returned CDragon's own `team_planner_code` field (values 1001-1085)
+    formatted as 4 hex digits per slot -- the user tested a comp copied in
+    that shape and the game rejected it outright ("Code invalide"). Fresh
+    research after that failure (a community gist, cross-checked against
+    Riot's own patch-14.22 QoL announcement introducing copy/paste codes)
+    turned up the real scheme: NOT that numeric field at all. Each slot is
+    2 hex digits holding the champion's 1-indexed rank when this set's own
+    Team Planner roster (exactly the `set_mutator` entries in
+    tftchampions-teamplanner.json -- a curated ~65-champion list that
+    includes Set 18's summonable Riftbeast creatures alongside real
+    champions, and is a strict subset of the full CDragon roster, which
+    also carries non-champion junk like armory keys, training dummies and
+    augment-only Lux skins) is sorted alphabetically by its raw
+    `character_id` string (e.g. "DA_Cinderling18") -- NOT the cleaned
+    display name. `team_planner_code` turns out to be an unrelated internal
+    Riot id, not part of the pasteable string at all. Blank slots are "00".
+    Champions/items beyond this: still unconfirmed whether the paste places
+    anything but champions -- the earlier "champions only, no items/stars"
+    claim was based on testing the WRONG code shape, so it isn't reliable
+    evidence either; treat this whole feature as experimental until a
+    correctly-shaped code is confirmed working in-game."""
     data = _load_teamplanner_data(refresh=refresh)
     entries = data.get(set_mutator, [])
+    ordered = sorted(entries, key=lambda c: c.get("character_id", ""))
     codes: dict[str, int] = {}
-    for champ in entries:
+    for i, champ in enumerate(ordered, start=1):
         cid = clean_id(champ.get("character_id", ""))
-        code = champ.get("team_planner_code")
-        if not cid or code is None:
+        if not cid:
             continue
-        codes[display_name(cid, name_map)] = code
+        codes[display_name(cid, name_map)] = i
     return codes
 
 
