@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parent
 sys.path.insert(0, str(PROJECT / "src"))
 from tft_tracker.champion_images import (  # noqa: E402
-    build_champion_image_map, build_item_image_map,
+    build_champion_image_map, build_item_image_map, build_team_planner_codes,
 )
 
 OUT = PROJECT / "data" / "output"
@@ -62,6 +62,52 @@ TYPE_FILTER_JS = """
 })();
 """
 STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>'
+COPY_SVG = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
+            'stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect>'
+            '<path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>')
+
+# Progressive enhancement, same pattern as TYPE_FILTER_JS -- every comp's
+# planner_code is already baked into the button's data-code attribute at
+# build time (no client-side lookup table needed, unlike the Artifact).
+COPY_COMP_JS = """
+(function () {
+  var CHECK_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+  async function copyToClipboard(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return;
+    }
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  document.querySelectorAll('.copy-comp-btn').forEach(function (btn) {
+    var originalHTML = btn.innerHTML;
+    var originalTitle = btn.title;
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      copyToClipboard(btn.dataset.code).then(function () {
+        btn.dataset.copied = 'true';
+        btn.innerHTML = CHECK_SVG;
+        btn.title = btn.dataset.copiedTitle;
+      }, function () {
+        btn.title = btn.dataset.failedTitle;
+      });
+      setTimeout(function () {
+        btn.dataset.copied = 'false';
+        btn.innerHTML = originalHTML;
+        btn.title = originalTitle;
+      }, 2200);
+    });
+  });
+})();
+"""
 
 
 def slugify(name: str) -> str:
@@ -238,6 +284,8 @@ I18N: dict[str, dict] = {
         "tier_word": "Tier",
         "type_all": "Tout type",
         "view_full_sheet": "Voir la fiche complète →",
+        "copy_comp_title": "Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets).",
+        "copy_comp_aria": "Copier la compo", "copied_title": "Copié ! (champions seulement, pas les objets)", "copy_failed_title": "Échec de la copie",
         "full_composition_title": "Composition complète",
         "item_combos_title": "Combinaisons d'objets — persos principaux (top 10)",
         "combo_col_header": "Combinaison", "avg_placement_col": "Placement moyen",
@@ -315,6 +363,8 @@ I18N: dict[str, dict] = {
         "tier_word": "Tier",
         "type_all": "All types",
         "view_full_sheet": "View full sheet →",
+        "copy_comp_title": "Copy the comp to the game's Team Planner — experimental, champions only (no items).",
+        "copy_comp_aria": "Copy comp", "copied_title": "Copied! (champions only, no items)", "copy_failed_title": "Copy failed",
         "full_composition_title": "Full composition",
         "item_combos_title": "Item combos — main carries (top 10)",
         "combo_col_header": "Combo", "avg_placement_col": "Avg placement",
@@ -449,6 +499,25 @@ def main() -> None:
     raw_image_map = build_champion_image_map(SET_MUTATOR, refresh=False)
     info_by_name = {info["name"]: info for info in raw_image_map.values()}
 
+    # ---- Team Planner copy button (ported from the Artifact) -- real
+    # numeric codes straight from Riot's own game-data file, see
+    # build_team_planner_codes()'s docstring for the honest caveat: the
+    # pasted string's exact byte layout for THIS set has no public spec, this
+    # is a best-effort widened version of an older set's documented format.
+    # Confirmed by the user in-game: the paste only ever places champions,
+    # never items or star levels, regardless of format details. ----
+    champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
+    planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
+
+    def team_planner_code(core_units: list[dict]) -> str:
+        slots = []
+        for u in (core_units or [])[:10]:
+            code = planner_codes.get(u["champion"])
+            slots.append(f"{code:04x}" if code is not None else "0000")
+        while len(slots) < 10:
+            slots.append("0000")
+        return "01" + "".join(slots) + SET_MUTATOR
+
     by_region = load("tierlist_by_region.json") if (OUT / "tierlist_by_region.json").exists() else {"regions": {}}
     by_rank = load("tierlist_by_rank.json") if (OUT / "tierlist_by_rank.json").exists() else {"ranks": {}}
 
@@ -555,6 +624,7 @@ def main() -> None:
             "contestation_index": c.get("contestation_index", 0), "contestation_level": c.get("contestation_level", "Low"),
             "level_badge_n": (re.search(r"\d+", c["level_badge"]).group() if c.get("level_badge") else None),
             "trend": trend_for(c["key"]),
+            "planner_code": team_planner_code(c.get("core_units")),
         }
 
     def build_comp_vm(c: dict) -> dict:
@@ -801,6 +871,7 @@ def main() -> None:
     # hreflang-linked URL, not a client-side toggle over one page. ----
     env = Environment(loader=FileSystemLoader(str(ROOT / "templates")), autoescape=True)
     env.globals["star_svg"] = STAR_SVG
+    env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
 
     LANGS = ["fr", "en"]
@@ -989,6 +1060,7 @@ def main() -> None:
 
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "js" / "type-filter.js").write_text(TYPE_FILTER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
 
     # ---- robots.txt + sitemap.xml ----
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}sitemap.xml\n", encoding="utf-8")

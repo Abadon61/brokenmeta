@@ -45,8 +45,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="{{ root }}" style="text-decoration:none"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="lang-toggle">
-    <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ lang == 'fr' }}">FR</a>
-    <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ lang == 'en' }}">EN</a>
+    <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ (lang == 'fr')|lower }}">FR</a>
+    <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ (lang == 'en')|lower }}">EN</a>
   </div>
 </div>
 <div class="navbar">
@@ -73,5 +73,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span><a href="{{ root }}sitemap.xml" style="color:inherit">sitemap</a></span>
 </footer>
 {% block extra_body %}{% endblock %}
+<script src="{{ root }}assets/js/copy-comp.js" defer></script>
 </body>
 </html>

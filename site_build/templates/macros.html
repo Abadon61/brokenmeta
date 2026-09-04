@@ -1,5 +1,13 @@
 {% macro pill(label, value, level=None) %}<div class="pill"><div class="p-label">{{ label }}</div><div class="p-value nums"{% if level %} data-level="{{ level }}"{% endif %}>{{ value }}</div></div>{% endmacro %}
 
+{# "Copy comp for the in-game Team Planner" -- see build_site.py's
+   team_planner_code() for the byte-layout caveat. The code is baked into
+   data-code at build time (no client-side lookup needed); assets/js/
+   copy-comp.js wires the click (preventDefault + stopPropagation, since
+   this button sits inside a clickable <a class="comp-row">/.fiche-header
+   card in the DOM). #}
+{% macro copy_comp_button(code, lang) %}<button class="copy-icon-btn copy-comp-btn" data-code="{{ code }}" data-copied-title="{{ t(lang, 'copied_title') }}" data-failed-title="{{ t(lang, 'copy_failed_title') }}" title="{{ t(lang, 'copy_comp_title') }}" aria-label="{{ t(lang, 'copy_comp_aria') }}">{{ copy_svg|safe }}</button>{% endmacro %}
+
 {% macro unit_cell(unit, is_top, root) %}
 <div class="unit-cell">
   <div class="unit-icon-wrap">
@@ -41,6 +49,7 @@
     </div>
     {{ units_row(c.core_units_display, root) }}
   </div>
+  {{ copy_comp_button(c.planner_code, lang) }}
 </a>
 {% endmacro %}
 
@@ -53,13 +62,13 @@
   <div class="region-row">
     <span class="region-label">{{ t(lang, 'lbl_region') }}</span>
     <div class="tier-filters">
-      {% for chip in region_chips %}<a class="chip" href="{{ chip.href }}" data-active="{{ chip.active }}">{{ chip.label }}</a>{% endfor %}
+      {% for chip in region_chips %}<a class="chip" data-region href="{{ chip.href }}" data-active="{{ chip.active|lower }}">{{ chip.label }}</a>{% endfor %}
     </div>
   </div>
   <div class="region-row">
     <span class="region-label">{{ t(lang, 'lbl_rank') }}</span>
     <div class="tier-filters">
-      {% for chip in rank_chips %}<a class="chip" href="{{ chip.href }}" data-active="{{ chip.active }}">{{ chip.label }}</a>{% endfor %}
+      {% for chip in rank_chips %}<a class="chip" data-rank href="{{ chip.href }}" data-active="{{ chip.active|lower }}">{{ chip.label }}</a>{% endfor %}
     </div>
   </div>
 </div>
@@ -73,8 +82,8 @@
   <div class="filter-block">
     <span class="region-label">{{ t(lang, 'lbl_type') }}</span>
     <div class="tier-filters">
-      <button class="chip" data-active="true" data-filter-type="ALL">{{ t(lang, 'type_all') }}</button>
-      {% for cat in cats %}<button class="chip" data-filter-type="{{ cat }}">{{ cat }}</button>{% endfor %}
+      <button class="chip" data-playstyle data-active="true" data-filter-type="ALL">{{ t(lang, 'type_all') }}</button>
+      {% for cat in cats %}<button class="chip" data-playstyle data-active="false" data-filter-type="{{ cat }}">{{ cat }}</button>{% endfor %}
     </div>
   </div>
 </div>
