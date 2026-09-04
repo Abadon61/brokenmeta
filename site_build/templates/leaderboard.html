@@ -2,7 +2,10 @@
 {% block title %}Leaderboard — TFT Set 18 | BrokenMeta.gg{% endblock %}
 {% block description %}Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur Teamfight Tactics Set 18, via l'API League-v1 de Riot.{% endblock %}
 {% block content %}
-<h1 class="page-h1">Leaderboard — Teamfight Tactics Set 18</h1>
+<div class="lb-header-row">
+  <h1 class="page-h1" style="margin:0">Leaderboard — Teamfight Tactics Set 18</h1>
+  <a class="fiche-link" href="{{ root }}leaderboard/world-stat/" style="margin-top:0">Voir World Stat →</a>
+</div>
 {% for region in regions %}
 <h2 class="fiche-section-title">{{ region.name }}</h2>
 <div class="lb-table-wrap">

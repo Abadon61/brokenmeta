@@ -121,6 +121,76 @@ def rank_bracket_label(key: str) -> str:
 REGION_SHORT = {"EUW": "EUW", "NA": "NA", "BR": "BR", "KR": "KR"}
 
 
+REGION_COLOR_VAR = {"EUW": "var(--magenta)", "NA": "var(--cyan)", "BR": "var(--gold)", "KR": "var(--teal)"}
+FR_MONTHS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
+
+
+def short_date_fr(iso: str) -> str:
+    y, m, d = iso.split("-")
+    return f"{d} {FR_MONTHS[int(m) - 1]}"
+
+
+def build_elo_chart_svg(snapshots: list[dict], regions: list[str]) -> str:
+    """Ports the Artifact's eloChartSVG()/renderEloChart(): a real avg-LP-
+    over-time line per region, from leaderboard_history.json snapshots --
+    grows one point every time the leaderboard gets refreshed, never
+    interpolated or faked."""
+    W, H, padL, padR, padT, padB = 760, 300, 46, 18, 18, 34
+    plot_w, plot_h = W - padL - padR, H - padT - padB
+    n = len(snapshots)
+    if not snapshots or not regions:
+        return '<div class="empty-state">Pas encore de relevé de classement pour construire la courbe.</div>'
+
+    all_values = [s["avgLp"][r] for s in snapshots for r in regions if s.get("avgLp", {}).get(r) is not None]
+    if not all_values:
+        return '<div class="empty-state">Pas encore de donnée de LP moyen.</div>'
+    y_min, y_max = min(all_values), max(all_values)
+    if y_min == y_max:
+        y_min -= 10
+        y_max += 10
+    y_pad = (y_max - y_min) * 0.12
+    y_min, y_max = max(0, y_min - y_pad), y_max + y_pad
+
+    def x_for(i: int) -> float:
+        return padL + plot_w / 2 if n == 1 else padL + (plot_w * i) / (n - 1)
+
+    def y_for(v: float) -> float:
+        return padT + plot_h - ((v - y_min) / (y_max - y_min)) * plot_h
+
+    grid = []
+    GRID_STEPS = 4
+    for g in range(GRID_STEPS + 1):
+        v = y_min + (y_max - y_min) * g / GRID_STEPS
+        y = y_for(v)
+        grid.append(f'<line x1="{padL}" y1="{y:.1f}" x2="{W - padR}" y2="{y:.1f}" stroke="var(--border)" stroke-width="1" />')
+        grid.append(f'<text x="{padL - 8}" y="{y + 3:.1f}" text-anchor="end" font-size="10">{round(v)}</text>')
+
+    x_labels = []
+    step = -(-n // 6)  # ceil(n/6)
+    for i, s in enumerate(snapshots):
+        if n > 1 and i % step != 0 and i != n - 1:
+            continue
+        x_labels.append(f'<text x="{x_for(i):.1f}" y="{H - padB + 18}" text-anchor="middle" font-size="10">{short_date_fr(s["date"])}</text>')
+
+    lines = []
+    for region in regions:
+        pts = [(i, s["avgLp"][region]) for i, s in enumerate(snapshots) if s.get("avgLp", {}).get(region) is not None]
+        if not pts:
+            continue
+        color = REGION_COLOR_VAR[region]
+        if len(pts) == 1:
+            i, v = pts[0]
+            lines.append(f'<circle cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="5" fill="{color}" stroke="var(--bg)" stroke-width="2" />')
+        else:
+            d = " ".join(f'{"M" if idx == 0 else "L"}{x_for(i):.1f},{y_for(v):.1f}' for idx, (i, v) in enumerate(pts))
+            lines.append(f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2.5" />')
+            for i, v in pts:
+                lines.append(f'<circle cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="3.5" fill="{color}" />')
+
+    return (f'<svg class="ws-chart-svg" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">'
+            + "".join(grid) + "".join(x_labels) + "".join(lines) + "</svg>")
+
+
 def playstyle_cat(tag: str | None) -> str:
     return (tag or "").split(" ")[0]
 
@@ -174,6 +244,7 @@ def main() -> None:
     leaderboard_json = load("leaderboard.json")
     matchups_json = load("matchups.json")
     comp_history = load("comp_history.json") if (OUT / "comp_history.json").exists() else {"snapshots": []}
+    leaderboard_history = load("leaderboard_history.json") if (OUT / "leaderboard_history.json").exists() else {"snapshots": []}
 
     # ---- Fresh clean output dir ----
     if DIST.exists():
@@ -434,6 +505,36 @@ def main() -> None:
                              "hot_streak": p.get("hotStreak", False), "form": form})
         lb_regions.append({"name": REGION_NAMES.get(region, region), "rows": vm_rows})
 
+    # ---- World Stat: elo-over-time chart, top 10 by region, top comps by
+    # region -- reached from a button on the Leaderboard. All three pieces
+    # are derived from data already loaded (leaderboard_history.json,
+    # leaderboard.json's top_comps), same as the Artifact's version. ----
+    ws_snapshots = leaderboard_history.get("snapshots", [])
+    ws_regions_present = [r for r in ["EUW", "NA", "BR", "KR"] if leaderboard_json["regions"].get(r)]
+    elo_chart_svg = build_elo_chart_svg(ws_snapshots, ws_regions_present)
+    latest_snapshot = ws_snapshots[-1] if ws_snapshots else None
+    legend = [{"name": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR[r],
+               "value": (f"{round(latest_snapshot['avgLp'][r])} LP" if latest_snapshot and latest_snapshot.get("avgLp", {}).get(r) is not None else "—")}
+              for r in ws_regions_present]
+
+    region_cols = []
+    for r in (ws_regions_present or list(REGION_SHORT.keys())):
+        top10 = (leaderboard_json["regions"].get(r) or [])[:10]
+        players = []
+        for p in top10:
+            total = p["wins"] + p["losses"]
+            wr = p["wins"] / total if total else 0
+            players.append({"rank": p["rank"], "riot_id": p["riotId"], "tier": p["tier"], "wr_pct": pct(wr)})
+        region_cols.append({"name": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR.get(r, "var(--gray)"), "players": players})
+
+    comp_cols = []
+    top_comps = leaderboard_json.get("top_comps", {})
+    for r in (ws_regions_present or list(REGION_SHORT.keys())):
+        rows = top_comps.get(r, [])
+        comps = [{"slug": champ_slug_and_download(row["carry"]), "carry": row["carry"], "label": row["label"],
+                  "count": row["count"], "avg_placement": row["avgPlacement"]} for row in rows]
+        comp_cols.append({"name": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR.get(r, "var(--gray)"), "comps": comps})
+
     # ---- Patch notes (same hand-written content as the Artifact's FR list) ----
     patches = [
         {"version": "18.1", "tag": "Set 18", "date": "25 août 2026", "title": "Enchanted Wilds arrive sur le jeu en direct",
@@ -462,6 +563,9 @@ def main() -> None:
 
     render("champions_list.html", DIST / "champions" / "index.html", "../", active_nav="champions", champions=champion_vms)
     render("leaderboard.html", DIST / "leaderboard" / "index.html", "../", active_nav="leaderboard", regions=lb_regions)
+    render("world_stat.html", DIST / "leaderboard" / "world-stat" / "index.html", "../../", active_nav="leaderboard",
+           elo_chart_svg=elo_chart_svg, legend=legend, single_point=len(ws_snapshots) == 1,
+           region_cols=region_cols, comp_cols=comp_cols)
     render("patch_notes.html", DIST / "patch-notes" / "index.html", "../", active_nav="patchnotes", patches=patches)
 
     for c in comp_vms:
@@ -575,6 +679,14 @@ def main() -> None:
      rank labels) -- this site's real Région/Rang chips can be two-word
      labels ("Or-Émeraude") that overflow a narrow viewport without this. */
   .tier-filters { flex-wrap: wrap; }
+
+  /* Overlay TFT badge (Overwolf project CTA, ported from the Artifact) --
+     inert on purpose, no download link exists yet. */
+  .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+  .overlay-cta { display: flex; align-items: center; gap: 6px; background: var(--cyan); color: #0b0221; padding: 6px 8px 6px 10px; }
+  .overlay-cta svg { width: 13px; height: 13px; stroke: #0b0221; fill: none; stroke-width: 2.2; }
+  .overlay-cta .cta-label { font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
+  .overlay-cta .cta-soon { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: rgba(11,2,33,0.15); padding: 2px 6px; margin-left: 2px; }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
