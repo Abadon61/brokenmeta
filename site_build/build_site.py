@@ -499,23 +499,26 @@ def main() -> None:
     raw_image_map = build_champion_image_map(SET_MUTATOR, refresh=False)
     info_by_name = {info["name"]: info for info in raw_image_map.values()}
 
-    # ---- Team Planner copy button (ported from the Artifact) -- each slot
-    # is the champion's 1-indexed alphabetical rank (2 hex digits), NOT a
-    # raw CDragon id -- see build_team_planner_codes()'s docstring for the
-    # full story of the first (wrong) version and how this one was fixed
-    # after the user's live in-game test rejected it. Still experimental:
-    # this shape hasn't itself been confirmed working in-game yet. ----
+    # ---- Team Planner copy button (ported from the Artifact) -- format
+    # confirmed by extracting metatft.com's own (working) encoder out of its
+    # Redux store: header "02" (not "01" -- that's only for TFTSet13/
+    # TFTSet4_Act2), each of 10 slots is CDragon's `team_planner_code` field
+    # zero-padded to 3 hex digits (not 2, not 4), blank = "000". See
+    # build_team_planner_codes()'s docstring in champion_images.py for the
+    # two earlier wrong versions this replaced, both rejected by the user's
+    # live in-game test. ----
     champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
     planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
+    PLANNER_HEADER = "01" if SET_MUTATOR in ("TFTSet13", "TFTSet4_Act2") else "02"
 
     def team_planner_code(core_units: list[dict]) -> str:
         slots = []
         for u in (core_units or [])[:10]:
-            rank = planner_codes.get(u["champion"])
-            slots.append(f"{rank:02x}" if rank is not None else "00")
+            code = planner_codes.get(u["champion"])
+            slots.append(f"{code:03x}" if code is not None else "000")
         while len(slots) < 10:
-            slots.append("00")
-        return "01" + "".join(slots) + SET_MUTATOR
+            slots.append("000")
+        return PLANNER_HEADER + "".join(slots) + SET_MUTATOR
 
     by_region = load("tierlist_by_region.json") if (OUT / "tierlist_by_region.json").exists() else {"regions": {}}
     by_rank = load("tierlist_by_rank.json") if (OUT / "tierlist_by_rank.json").exists() else {"ranks": {}}

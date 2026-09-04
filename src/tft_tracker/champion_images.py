@@ -203,39 +203,38 @@ def classify_item_offense(set_mutator: str, id_prefix: str = "DA_", refresh: boo
 
 def build_team_planner_codes(set_mutator: str, name_map: dict[str, str] | None = None,
                               refresh: bool = False) -> dict[str, int]:
-    """Returns {display_champion_name: 1-indexed alphabetical rank} for one
-    set -- the real per-slot value the in-game Team Planner paste format
-    uses, CONFIRMED live (2026-09-04): a first version of this function
-    returned CDragon's own `team_planner_code` field (values 1001-1085)
-    formatted as 4 hex digits per slot -- the user tested a comp copied in
-    that shape and the game rejected it outright ("Code invalide"). Fresh
-    research after that failure (a community gist, cross-checked against
-    Riot's own patch-14.22 QoL announcement introducing copy/paste codes)
-    turned up the real scheme: NOT that numeric field at all. Each slot is
-    2 hex digits holding the champion's 1-indexed rank when this set's own
-    Team Planner roster (exactly the `set_mutator` entries in
-    tftchampions-teamplanner.json -- a curated ~65-champion list that
-    includes Set 18's summonable Riftbeast creatures alongside real
-    champions, and is a strict subset of the full CDragon roster, which
-    also carries non-champion junk like armory keys, training dummies and
-    augment-only Lux skins) is sorted alphabetically by its raw
-    `character_id` string (e.g. "DA_Cinderling18") -- NOT the cleaned
-    display name. `team_planner_code` turns out to be an unrelated internal
-    Riot id, not part of the pasteable string at all. Blank slots are "00".
-    Champions/items beyond this: still unconfirmed whether the paste places
-    anything but champions -- the earlier "champions only, no items/stars"
-    claim was based on testing the WRONG code shape, so it isn't reliable
-    evidence either; treat this whole feature as experimental until a
-    correctly-shaped code is confirmed working in-game."""
+    """Returns {display_champion_name: team_planner_code} for one set --
+    CDragon's own `team_planner_code` field IS the right per-slot value
+    after all. Real history of getting here (2026-09-04): a first version
+    used this exact field, formatted as 4 hex digits/slot with a "01"
+    header -- the user tested it in-game and the Team Planner rejected it
+    ("Code invalide"). A second version, following a community gist for an
+    OLDER, smaller set (TFTSet13), switched to a totally different scheme
+    (1-indexed alphabetical rank, 2 hex digits/slot) -- also rejected by
+    the user's live test. The real fix came from extracting the actual
+    algorithm out of metatft.com's own Team Builder (a site whose Copy
+    Team Code button is confirmed working): its Redux store's
+    `lookups.unit_lookup[champ].code` is this exact `team_planner_code`
+    field, zero-padded to 3 HEX DIGITS (not 2, not 4) -- verified by
+    cross-checking 51 of 52 sampled champions' codes byte-for-byte against
+    MetaTFT's live values (read directly out of its browser state, not
+    guessed); the one mismatch (Ivern, off by 1) is most likely CDragon
+    "latest" being one small data revision out of sync with whatever
+    MetaTFT's own snapshot uses, not a flaw in this formula. The other
+    piece MetaTFT's own encoder revealed: sets other than TFTSet13 and
+    TFTSet4_Act2 use header "02", not "01" -- the format apparently changed
+    at some point after the older gists were written. See
+    site_build/build_site.py's team_planner_code() for where the header
+    and 3-hex-digit/blank="000" formatting happens."""
     data = _load_teamplanner_data(refresh=refresh)
     entries = data.get(set_mutator, [])
-    ordered = sorted(entries, key=lambda c: c.get("character_id", ""))
     codes: dict[str, int] = {}
-    for i, champ in enumerate(ordered, start=1):
+    for champ in entries:
         cid = clean_id(champ.get("character_id", ""))
-        if not cid:
+        code = champ.get("team_planner_code")
+        if not cid or code is None:
             continue
-        codes[display_name(cid, name_map)] = i
+        codes[display_name(cid, name_map)] = code
     return codes
 
 
