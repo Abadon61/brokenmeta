@@ -7,15 +7,23 @@
 <p class="page-intro">{{ intro }}</p>
 
 {{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
+{{ m.search_bar(lang) }}
 
 {% for group in tier_groups %}
-<div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:30px 0 14px;{% if loop.first %}margin-top:0;{% endif %}">
-  <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'tier_word') }} {{ group.tier }}</h2>
-  <a href="{{ tier_href(group.tier) }}" class="fiche-link" style="margin-top:0">{{ t(lang, 'see_full_tier', group.total, group.tier) }}</a>
-</div>
-<div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
-<div>
-  {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
+<div class="tier-group" data-tier-group>
+  <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:30px 0 14px;{% if loop.first %}margin-top:0;{% endif %}">
+    <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'tier_word') }} {{ group.tier }}</h2>
+    <a href="{{ tier_href(group.tier) }}" class="fiche-link" style="margin-top:0">{{ t(lang, 'see_full_tier', group.total, group.tier) }}</a>
+  </div>
+  <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
+  <div>
+    {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
+  </div>
 </div>
 {% endfor %}
+<div class="empty-state" id="emptyState" hidden></div>
+{% endblock %}
+{% block extra_body %}
+<script>window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
+<script src="{{ root }}assets/js/list-filters.js" defer></script>
 {% endblock %}

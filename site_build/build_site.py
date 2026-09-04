@@ -45,18 +45,28 @@ TIER_VAR = {"S": "var(--red)", "A": "var(--gold)", "B": "var(--teal)", "C": "var
 # Progressive enhancement only -- every comp is already in the static HTML
 # (crawlable, works with JS off); Région/Rang are real separate pages, but
 # Type (Reroll/Fast/Slow) and search don't need their own data slice, just
-# combined show/hide among rows already rendered on the current tier page.
+# combined show/hide among rows already rendered on the current page.
 # Ported from the Artifact's matchesSearch()/render() filter chain, with
 # each row's search haystack precomputed server-side into data-search
-# (see build_row_vm's "search_blob") instead of scraping DOM text. The two
-# empty-state messages ("no comp matches this filter" vs "...this search")
-# come from window.BM_I18N_EMPTY_* set by list_page.html's own <script>, so
-# this one shared file needs no per-language copy.
+# (see build_row_vm's "search_blob") instead of scraping DOM text.
+#
+# Two different page shapes use this: list_page.html (a single flat #rows
+# list, plus the Type chips) and overview.html (the homepage/scope preview,
+# grouped into one [data-tier-group] block per tier, no Type chips there).
+# Selecting every ".comp-row" on the page (not scoped to #rows) covers
+# both; group visibility is handled separately so an emptied-out preview
+# group (e.g. "Tier S" has zero matches) disappears header and all, not
+# just its rows. The two empty-state messages ("no comp matches this
+# filter" vs "...this search") come from window.BM_I18N_EMPTY_* set by
+# each template's own <script>, so this one shared file needs no
+# per-language copy, and works whether or not BM_I18N_EMPTY_FILTER is
+# defined at all (overview.html only ever needs the search one, since it
+# has no Type filter to produce a filter-only empty state).
 LIST_FILTERS_JS = """
 (function () {
-  var container = document.getElementById('rows');
-  if (!container) return;
-  var rows = Array.prototype.slice.call(container.querySelectorAll('.comp-row'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.comp-row'));
+  if (!rows.length) return;
+  var groups = Array.prototype.slice.call(document.querySelectorAll('[data-tier-group]'));
   var bar = document.getElementById('typeFilterBar');
   var searchInput = document.getElementById('compSearch');
   var emptyState = document.getElementById('emptyState');
@@ -71,6 +81,11 @@ LIST_FILTERS_JS = """
       var show = typeOk && searchOk;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
+    });
+    groups.forEach(function (group) {
+      var groupVisible = group.querySelectorAll('.comp-row').length
+        && Array.prototype.some.call(group.querySelectorAll('.comp-row'), function (r) { return r.style.display !== 'none'; });
+      group.style.display = groupVisible ? '' : 'none';
     });
     if (emptyState) {
       emptyState.hidden = visible !== 0;
