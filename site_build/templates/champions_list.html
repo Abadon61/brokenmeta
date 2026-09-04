@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block title %}Liste des champions — TFT Set 18 | BrokenMeta.gg{% endblock %}
-{% block description %}Tous les champions Teamfight Tactics Set 18 classés S/A/B/C par taux de top 4 réel, avec taux de pick, placement moyen et meilleurs objets.{% endblock %}
+{% block title %}{% if lang == 'fr' %}Liste des champions — TFT Set 18{% else %}Champion list — TFT Set 18{% endif %} | BrokenMeta.gg{% endblock %}
+{% block description %}{% if lang == 'fr' %}Tous les champions Teamfight Tactics Set 18 classés S/A/B/C par taux de top 4 réel, avec taux de pick, placement moyen et meilleurs objets.{% else %}Every Teamfight Tactics Set 18 champion ranked S/A/B/C by real top 4 rate, with pick rate, avg placement and best items.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">Champions — Teamfight Tactics Set 18</h1>
+<h1 class="page-h1">{{ t(lang, 'champions_title') }}</h1>
 <div class="champ-table-wrap">
   <table class="champ-table">
     <thead><tr>
-      <th>Rang</th><th>Champion</th><th class="num">Popularité</th><th class="num">Placement moyen</th>
-      <th class="num">Top 4</th><th class="num">Étoile moyenne</th><th>Objets fréquents</th>
+      <th>{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_playrate') }}</th><th class="num">{{ t(lang, 'th_avgplacement') }}</th>
+      <th class="num">{{ t(lang, 'th_top4') }}</th><th class="num">{{ t(lang, 'th_avgstar') }}</th><th>{{ t(lang, 'th_commonitems') }}</th>
     </tr></thead>
     <tbody>
       {% for d in champions %}
@@ -29,5 +29,5 @@
     </tbody>
   </table>
 </div>
-<div class="champ-unranked-note">Les champions marqués <b style="color:var(--cream)">?</b> n'ont pas encore assez de parties observées dans cet échantillon pour un rang fiable — ils restent affichés avec leurs stats brutes.</div>
+<div class="champ-unranked-note">{{ t(lang, 'champ_unranked_note')|safe }}</div>
 {% endblock %}

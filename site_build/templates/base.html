@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="fr">
+<html lang="{{ lang }}">
 <head>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
@@ -22,11 +22,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}</title>
 <meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
 <link rel="canonical" href="{{ canonical }}">
+<link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
+<link rel="alternate" hreflang="{{ alt_lang }}" href="{{ alt_canonical }}">
+<link rel="alternate" hreflang="x-default" href="{{ canonical if lang == 'fr' else alt_canonical }}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BrokenMeta.gg">
 <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
 <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
 <meta property="og:url" content="{{ canonical }}">
+<meta property="og:locale" content="{{ 'fr_FR' if lang == 'fr' else 'en_US' }}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="{{ root }}favicon.svg">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
@@ -40,20 +44,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="topbar">
   <a class="wordmark" href="{{ root }}" style="text-decoration:none"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="lang-toggle">
+    <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ lang == 'fr' }}">FR</a>
+    <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ lang == 'en' }}">EN</a>
+  </div>
 </div>
 <div class="navbar">
   <span class="title">Teamfight Tactics</span>
   <div class="navbar-right">
     <nav class="nav-menu">
-      <a class="nav-link" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>Compo List</a>
-      <a class="nav-link" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>Champion List</a>
-      <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>Patch Notes</a>
-      <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>Leaderboard</a>
+      <a class="nav-link" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
+      <a class="nav-link" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
+      <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+      <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
     </nav>
-    <div class="overlay-cta" title="L'overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.">
+    <div class="overlay-cta" title="{{ t(lang, 'overlay_cta_title') }}">
       <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
       <span class="cta-label">Overlay TFT</span>
-      <span class="cta-soon">Bientôt</span>
+      <span class="cta-soon">{{ t(lang, 'overlay_cta_soon') }}</span>
     </div>
   </div>
 </div>
@@ -61,7 +69,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% block content %}{% endblock %}
 </div>
 <footer>
-  <span>Généré le {{ generated_at }} · Set {{ set_name }}</span>
+  <span>{{ t(lang, 'footer_generated', generated_at, set_name) }}</span>
   <span><a href="{{ root }}sitemap.xml" style="color:inherit">sitemap</a></span>
 </footer>
 {% block extra_body %}{% endblock %}

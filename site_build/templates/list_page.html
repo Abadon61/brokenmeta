@@ -6,11 +6,11 @@
 <h1 class="page-h1">{{ h1 }}</h1>
 <p class="page-intro">{{ intro }}</p>
 
-{{ m.scope_filter_bar(region_chips, rank_chips) }}
-{{ m.type_filter_bar(type_cats) }}
+{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
+{{ m.type_filter_bar(type_cats, lang) }}
 
 <div id="rows">
-  {% for c in comps %}{{ m.comp_summary_row(c, root) }}{% endfor %}
+  {% for c in comps %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
 </div>
 {% endblock %}
 {% block extra_body %}{% if type_cats %}<script src="{{ root }}assets/js/type-filter.js" defer></script>{% endif %}{% endblock %}

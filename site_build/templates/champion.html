@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block title %}{{ d.name }} — TFT Set 18 | BrokenMeta.gg{% endblock %}
-{% block description %}{{ d.name }} sur TFT Set 18 : Tier {{ d.tier }}, {{ d.pick_rate_pct }} de pick rate, {{ '%.2f'|format(d.avg_placement) }} placement moyen, {{ d.top4_pct }} de top 4. Meilleurs objets et compositions réelles.{% endblock %}
+{% block description %}{% if lang == 'fr' %}{{ d.name }} sur TFT Set 18 : Tier {{ d.tier }}, {{ d.pick_rate_pct }} de pick rate, {{ '%.2f'|format(d.avg_placement) }} placement moyen, {{ d.top4_pct }} de top 4. Meilleurs objets et compositions réelles.{% else %}{{ d.name }} on TFT Set 18: Tier {{ d.tier }}, {{ d.pick_rate_pct }} pick rate, {{ '%.2f'|format(d.avg_placement) }} avg placement, {{ d.top4_pct }} top 4. Real best items and comps.{% endif %}{% endblock %}
 {% block content %}
 <div class="champ-fiche-header">
   <img class="champ-fiche-icon" src="{{ root }}assets/champions/{{ d.slug }}.png" alt="{{ d.name }}">
@@ -14,17 +14,17 @@
     </div>
     {% if d.ability_desc %}<div class="champ-fiche-ability-desc">{{ d.ability_desc|safe }}</div>{% endif %}
     <div class="champ-fiche-stats pill-row">
-      <div class="pill"><div class="p-label">Popularité</div><div class="p-value nums">{{ d.pick_rate_pct }}</div></div>
-      <div class="pill"><div class="p-label">Top 4</div><div class="p-value nums">{{ d.top4_pct }}</div></div>
-      <div class="pill"><div class="p-label">Placement</div><div class="p-value nums">{{ '%.2f'|format(d.avg_placement) }}</div></div>
+      <div class="pill"><div class="p-label">{{ t(lang, 'th_playrate') }}</div><div class="p-value nums">{{ d.pick_rate_pct }}</div></div>
+      <div class="pill"><div class="p-label">{{ t(lang, 'top4_label') }}</div><div class="p-value nums">{{ d.top4_pct }}</div></div>
+      <div class="pill"><div class="p-label">{{ t(lang, 'placement_label') }}</div><div class="p-value nums">{{ '%.2f'|format(d.avg_placement) }}</div></div>
     </div>
   </div>
 </div>
 
-<h2 class="fiche-section-title">Meilleurs objets</h2>
+<h2 class="fiche-section-title">{{ t(lang, 'best_items_title') }}</h2>
 {% if d.combo_rows %}
 <div class="table-wrap"><table class="item-stats-table">
-  <thead><tr><th>Combinaison</th><th class="num">Parties</th><th class="num">Top 4</th><th class="num">Winrate</th></tr></thead>
+  <thead><tr><th>{{ t(lang, 'combo_col_header') }}</th><th class="num">{{ t(lang, 'games_col') }}</th><th class="num">{{ t(lang, 'top4_label') }}</th><th class="num">{{ t(lang, 'winrate_col') }}</th></tr></thead>
   <tbody>
     {% for row in d.combo_rows %}<tr>
       <td><div class="item-name-cell">{% for it in row.item_icons %}<img class="item-icon-sm" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% endfor %}</div></td>
@@ -34,18 +34,18 @@
     </tr>{% endfor %}
   </tbody>
 </table></div>
-{% else %}<div class="matchup-empty">Pas assez de données de combinaisons pour ce champion dans cet échantillon.</div>{% endif %}
+{% else %}<div class="matchup-empty">{{ t(lang, 'no_combo_data') }}</div>{% endif %}
 
-<h2 class="fiche-section-title">Compositions</h2>
+<h2 class="fiche-section-title">{{ t(lang, 'compositions_title') }}</h2>
 {% if d.comps %}
 <div class="champ-comp-list">
   {% for c in d.comps %}
   <a class="champ-comp-row" href="{{ root }}compo/{{ c.slug }}/">
     <div class="ccr-tier" style="background:{{ c.tier_var }}">{{ c.tier }}</div>
     <span class="ccr-name">{{ c.display_label }}</span>
-    <span class="ccr-stats"><b class="nums">{{ '%.2f'|format(c.avg_placement) }}</b> placement · <b class="nums">{{ c.top4_pct }}</b> top 4</span>
+    <span class="ccr-stats"><b class="nums">{{ '%.2f'|format(c.avg_placement) }}</b> {{ t(lang, 'placement_label')|lower }} · <b class="nums">{{ c.top4_pct }}</b> {{ t(lang, 'top4_label')|lower }}</span>
   </a>
   {% endfor %}
 </div>
-{% else %}<div class="matchup-empty">Ce champion n'apparaît dans aucune comp classée de cet échantillon.</div>{% endif %}
+{% else %}<div class="matchup-empty">{{ t(lang, 'champ_not_in_comp') }}</div>{% endif %}
 {% endblock %}

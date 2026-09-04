@@ -23,7 +23,7 @@
    already in style_base.css (.comp-row[data-tier="S"] { --tc: var(--red) }
    etc.) -- no inline style needed here, only fiche-context elements that
    have no such rule pass tier_var explicitly. #}
-{% macro comp_summary_row(c, root) %}
+{% macro comp_summary_row(c, root, lang) %}
 <a class="comp-row" data-tier="{{ c.tier }}" data-playstyle-cat="{{ c.playstyle_cat or '' }}" href="{{ root }}compo/{{ c.slug }}/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class="tier-badge">{{ c.tier }}</div>
@@ -34,9 +34,9 @@
         <div class="row-name">{{ c.display_label }}{% if c.playstyle_tag %}<span class="playstyle-tag">{{ c.playstyle_tag }}</span>{% endif %}{% if c.trend %}<span class="trend-badge trend-{{ c.trend.state }}">{{ c.trend.arrow }} {{ '%.2f'|format(c.trend.delta) }}</span>{% endif %}</div>
       </div>
       <div class="pill-row">
-        {{ pill('Placement', '%.2f'|format(c.avg_placement)) }}
-        {{ pill('Top 4', c.top4_pct) }}
-        {{ pill('Contest.', c.contestation_index|round|int, c.contestation_level) }}
+        {{ pill(t(lang, 'placement_label'), '%.2f'|format(c.avg_placement)) }}
+        {{ pill(t(lang, 'top4_label'), c.top4_pct) }}
+        {{ pill(t(lang, 'contest_label'), c.contestation_index|round|int, c.contestation_level) }}
       </div>
     </div>
     {{ units_row(c.core_units_display, root) }}
@@ -48,16 +48,16 @@
    link to the equivalent page in that scope, computed server-side in
    build_site.py (scope_chip_lists()) so this macro just renders whatever
    (label, href, active) list it's handed. #}
-{% macro scope_filter_bar(region_chips, rank_chips) %}
+{% macro scope_filter_bar(region_chips, rank_chips, lang) %}
 <div class="scope-group">
   <div class="region-row">
-    <span class="region-label">Région</span>
+    <span class="region-label">{{ t(lang, 'lbl_region') }}</span>
     <div class="tier-filters">
       {% for chip in region_chips %}<a class="chip" href="{{ chip.href }}" data-active="{{ chip.active }}">{{ chip.label }}</a>{% endfor %}
     </div>
   </div>
   <div class="region-row">
-    <span class="region-label">Rang</span>
+    <span class="region-label">{{ t(lang, 'lbl_rank') }}</span>
     <div class="tier-filters">
       {% for chip in rank_chips %}<a class="chip" href="{{ chip.href }}" data-active="{{ chip.active }}">{{ chip.label }}</a>{% endfor %}
     </div>
@@ -67,13 +67,13 @@
 
 {# Type (Reroll/Fast/Slow) doesn't need separate pages -- it's a client-side
    show/hide over rows already on the page (see assets/js/type-filter.js). #}
-{% macro type_filter_bar(cats) %}
+{% macro type_filter_bar(cats, lang) %}
 {% if cats %}
 <div class="controls" id="typeFilterBar" style="border-bottom:none;margin-bottom:6px;padding-bottom:0">
   <div class="filter-block">
-    <span class="region-label">Type</span>
+    <span class="region-label">{{ t(lang, 'lbl_type') }}</span>
     <div class="tier-filters">
-      <button class="chip" data-active="true" data-filter-type="ALL">Tout type</button>
+      <button class="chip" data-active="true" data-filter-type="ALL">{{ t(lang, 'type_all') }}</button>
       {% for cat in cats %}<button class="chip" data-filter-type="{{ cat }}">{{ cat }}</button>{% endfor %}
     </div>
   </div>

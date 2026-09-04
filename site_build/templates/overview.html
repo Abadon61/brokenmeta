@@ -6,16 +6,16 @@
 <h1 class="page-h1">{{ h1 }}</h1>
 <p class="page-intro">{{ intro }}</p>
 
-{{ m.scope_filter_bar(region_chips, rank_chips) }}
+{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
 
 {% for group in tier_groups %}
 <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:30px 0 14px;{% if loop.first %}margin-top:0;{% endif %}">
-  <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">Tier {{ group.tier }}</h2>
-  <a href="{{ tier_href(group.tier) }}" class="fiche-link" style="margin-top:0">Voir les {{ group.total }} compos Tier {{ group.tier }} →</a>
+  <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'tier_word') }} {{ group.tier }}</h2>
+  <a href="{{ tier_href(group.tier) }}" class="fiche-link" style="margin-top:0">{{ t(lang, 'see_full_tier', group.total, group.tier) }}</a>
 </div>
 <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
 <div>
-  {% for c in group.preview %}{{ m.comp_summary_row(c, root) }}{% endfor %}
+  {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
 </div>
 {% endfor %}
 {% endblock %}

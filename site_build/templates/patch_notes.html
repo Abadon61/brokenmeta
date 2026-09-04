@@ -1,23 +1,21 @@
 {% extends "base.html" %}
 {% block title %}Patch Notes — TFT Set 18 | BrokenMeta.gg{% endblock %}
-{% block description %}Résumé des derniers patchs Teamfight Tactics Set 18, avec liens vers les articles officiels complets.{% endblock %}
+{% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18, avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches, with links to the full official articles.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">Patch Notes — Teamfight Tactics Set 18</h1>
-<div class="patch-note-banner">
-  Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l'article complet (tous les chiffres d'équilibrage) sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a>.
-</div>
+<h1 class="page-h1">{{ t(lang, 'patch_notes_title') }}</h1>
+<div class="patch-note-banner">{{ t(lang, 'patch_banner')|safe }}</div>
 <div class="patch-list">
   {% for p in patches %}
   <div class="patch-card">
     <div class="patch-card-top">
       <div class="patch-version-row">
-        <span class="patch-version">Patch {{ p.version }}</span>
+        <span class="patch-version">{{ t(lang, 'patch_word') }} {{ p.version }}</span>
         <span class="patch-tag">{{ p.tag }}</span>
       </div>
       <span class="patch-date nums">{{ p.date }}</span>
     </div>
     <div class="patch-summary"><b style="color:var(--cream)">{{ p.title }}.</b> {{ p.summary }}</div>
-    <a class="patch-link" href="{{ p.url }}" target="_blank" rel="noopener">Lire l'article complet →</a>
+    <a class="patch-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ t(lang, 'read_full_article') }}</a>
   </div>
   {% endfor %}
 </div>

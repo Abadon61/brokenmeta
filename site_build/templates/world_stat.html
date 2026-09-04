@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}World Stat — TFT Set 18 | BrokenMeta.gg{% endblock %}
-{% block description %}Comparaison entre régions sur Teamfight Tactics Set 18 : évolution de l'élo moyen du top 100, palier et winrate du top 10, compos les plus jouées — données réelles Riot.{% endblock %}
+{% block description %}{% if lang == 'fr' %}Comparaison entre régions sur Teamfight Tactics Set 18 : évolution de l'élo moyen du top 100, palier et winrate du top 10, compos les plus jouées — données réelles Riot.{% else %}Region comparison for Teamfight Tactics Set 18: average top 100 Elo over time, top 10 tier and winrate, most played comps — real Riot data.{% endif %}{% endblock %}
 {% block content %}
-<a class="back-link" href="{{ root }}leaderboard/">← Retour au leaderboard</a>
+<a class="back-link" href="{{ root }}leaderboard/">{{ t(lang, 'back_to_leaderboard') }}</a>
 
-<h1 class="page-h1">World Stat — Teamfight Tactics Set 18</h1>
+<h1 class="page-h1">{{ t(lang, 'worldstat_title') }}</h1>
 
-<h2 class="ws-section-title" style="margin-top:0">Élo moyen du top 100 par région</h2>
+<h2 class="ws-section-title" style="margin-top:0">{{ t(lang, 'worldstat_elo_title') }}</h2>
 <div class="ws-chart-wrap">
   {{ elo_chart_svg|safe }}
   <div class="ws-legend">
@@ -18,10 +18,10 @@
     </div>
     {% endfor %}
   </div>
-  {% if single_point %}<div class="ws-chart-note">Premier relevé — un seul point par région pour l'instant. La courbe se construira au fil des prochains rafraîchissements du classement.</div>{% endif %}
+  {% if single_point %}<div class="ws-chart-note">{{ t(lang, 'worldstat_single_point_note') }}</div>{% endif %}
 </div>
 
-<h2 class="ws-section-title">Top 10 par région — palier &amp; winrate</h2>
+<h2 class="ws-section-title">{{ t(lang, 'worldstat_top10_title') }}</h2>
 <div class="ws-region-grid">
   {% for col in region_cols %}
   <div class="ws-region-col">
@@ -35,12 +35,12 @@
         <span class="ws-player-wr nums">{{ p.wr_pct }}</span>
       </div>
       {% endfor %}
-    {% else %}<div class="matchup-empty">Pas assez de joueurs classés.</div>{% endif %}
+    {% else %}<div class="matchup-empty">{{ t(lang, 'not_enough_ranked_players') }}</div>{% endif %}
   </div>
   {% endfor %}
 </div>
 
-<h2 class="ws-section-title">Compos les plus jouées par le top 10</h2>
+<h2 class="ws-section-title">{{ t(lang, 'worldstat_topcomps_title') }}</h2>
 <div class="ws-comp-grid">
   {% for col in comp_cols %}
   <div class="ws-comp-col">
@@ -51,11 +51,11 @@
         <img class="ws-comp-icon" src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.carry }}" loading="lazy">
         <div class="ws-comp-info">
           <div class="ws-comp-label">{{ c.label }}</div>
-          <div class="ws-comp-meta">{{ c.count }} partie{{ 's' if c.count > 1 else '' }} · placement moyen {{ '%.2f'|format(c.avg_placement) }}</div>
+          <div class="ws-comp-meta">{{ t(lang, 'games_count', c.count) }} · {{ t(lang, 'avg_placement_inline') }} {{ '%.2f'|format(c.avg_placement) }}</div>
         </div>
       </div>
       {% endfor %}
-    {% else %}<div class="matchup-empty">Pas assez de parties récentes chez le top 10.</div>{% endif %}
+    {% else %}<div class="matchup-empty">{{ t(lang, 'not_enough_recent_top10') }}</div>{% endif %}
   </div>
   {% endfor %}
 </div>
