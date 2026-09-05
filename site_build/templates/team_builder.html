@@ -24,14 +24,10 @@
     <div class="hex-board-wrap"><div class="hex-board" id="hexBoard"></div></div>
     <p class="builder-empty-hint" id="builderEmptyHint">{{ t(lang, 'builder_empty_hint') }}</p>
 
-    <div class="bench-wrap">
-      <div class="builder-section-label">{{ t(lang, 'builder_bench_title') }}</div>
-      <div class="bench" id="benchRow"></div>
-    </div>
-
     <div class="builder-actions">
       <button type="button" class="metascope-search-button" id="builderReset">{{ t(lang, 'builder_reset') }}</button>
       <button type="button" class="metascope-search-button" id="builderShare">{{ t(lang, 'builder_share') }}</button>
+      <button type="button" class="metascope-search-button" id="builderCopyGame" title="{{ t(lang, 'copy_comp_title') }}">{{ t(lang, 'builder_copy_game') }}</button>
       <span id="builderShareStatus" class="metascope-status" hidden></span>
     </div>
   </div>
@@ -49,6 +45,8 @@
 window.BM_BUILDER_I18N = {
   noTraits: {{ t(lang, 'builder_no_traits')|tojson }},
   shareCopied: {{ t(lang, 'builder_share_copied')|tojson }},
+  copyGameCopied: {{ t(lang, 'builder_copy_game_copied')|tojson }},
+  copyGameEmpty: {{ t(lang, 'builder_copy_game_empty')|tojson }},
   nextAt: {{ t(lang, 'builder_next_at', '__N__')|tojson }}
 };
 </script>

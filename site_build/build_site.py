@@ -488,25 +488,26 @@ TEAM_BUILDER_JS = """
 (function () {
   var ROOT = window.BM_ROOT || '';
   var I = window.BM_BUILDER_I18N || {};
-  var ROWS = 4, COLS = 7, BENCH_SIZE = 9;
+  var ROWS = 4, COLS = 7;
 
   var picker = document.getElementById('champPicker');
   var boardEl = document.getElementById('hexBoard');
-  var benchEl = document.getElementById('benchRow');
   var traitPanel = document.getElementById('traitPanel');
   var searchInput = document.getElementById('builderSearch');
   var costFilters = document.getElementById('builderCostFilters');
   var emptyHint = document.getElementById('builderEmptyHint');
   var resetBtn = document.getElementById('builderReset');
   var shareBtn = document.getElementById('builderShare');
+  var copyGameBtn = document.getElementById('builderCopyGame');
   var shareStatus = document.getElementById('builderShareStatus');
   if (!picker || !boardEl) return;
 
   var champions = [];
   var champBySlug = {};
   var traitDefs = [];
+  var plannerHeader = '02';
+  var setMutator = '';
   var board = new Array(ROWS * COLS).fill(null);
-  var bench = new Array(BENCH_SIZE).fill(null);
   var activeCostFilter = 'ALL';
 
   function champImg(slug) {
@@ -518,8 +519,11 @@ TEAM_BUILDER_JS = """
 
   // ---- Placement: two ways in, on purpose --------------------------------
   // 1) Drag and drop (mouse + touch via Pointer Events): pick up a champion
-  //    from the picker, or an already-placed one straight off the board/
-  //    bench, and drop it on any hex/bench cell. Dropping outside removes it.
+  //    from the picker, or an already-placed one straight off the board,
+  //    and drop it on any hex cell. Dropping outside the board removes it.
+  //    (No bench -- deliberate: it doesn't count toward traits in the real
+  //    game either, so it added a UI section without adding anything a
+  //    comp-building tool needs.)
   // 2) Tap-to-arm: a plain click/tap (no real movement) on a picker
   //    champion "arms" it instead -- a persistent border/glow, not a
   //    fleeting mid-drag one -- and the next tap on any cell places it
@@ -543,7 +547,7 @@ TEAM_BUILDER_JS = """
 
   function beginDrag(slug, origin, x, y, pickerEl) {
     dragSlug = slug;
-    dragOrigin = origin; // null if fresh from the picker, else {zone, idx}
+    dragOrigin = origin; // null if fresh from the picker, else the board index it came from
     dragStartX = x; dragStartY = y; dragMoved = false;
     dragSourcePickerEl = pickerEl || null;
     if (dragSourcePickerEl) dragSourcePickerEl.dataset.dragging = 'true';
@@ -561,14 +565,11 @@ TEAM_BUILDER_JS = """
     var el = document.elementFromPoint(x, y);
     if (!el) return null;
     var hex = el.closest('.hex-cell');
-    if (hex) return { zone: 'board', idx: parseInt(hex.dataset.idx, 10), el: hex };
-    var bc = el.closest('.bench-cell');
-    if (bc) return { zone: 'bench', idx: parseInt(bc.dataset.idx, 10), el: bc };
+    if (hex) return { idx: parseInt(hex.dataset.idx, 10), el: hex };
     return null;
   }
-  function placeArmedOn(zone, idx) {
-    var arr = zone === 'board' ? board : bench;
-    arr[idx] = armedSlug;
+  function placeArmedOn(idx) {
+    board[idx] = armedSlug;
     setArmed(null, null);
     renderCells();
     renderTraitPanel();
@@ -609,17 +610,15 @@ TEAM_BUILDER_JS = """
 
     var hit = cellUnder(e.clientX, e.clientY);
     if (hit) {
-      var destArr = hit.zone === 'board' ? board : bench;
-      var displaced = destArr[hit.idx];
-      destArr[hit.idx] = dragSlug;
-      if (dragOrigin && displaced) {
+      var displaced = board[hit.idx];
+      board[hit.idx] = dragSlug;
+      if (dragOrigin !== null && displaced) {
         // swap instead of losing the champion that was already there
-        var originArr = dragOrigin.zone === 'board' ? board : bench;
-        originArr[dragOrigin.idx] = displaced;
+        board[dragOrigin] = displaced;
       }
     }
-    // hit === null (dropped outside board/bench): already removed from
-    // its origin below on pickup, so this is how a unit gets discarded.
+    // hit === null (dropped outside the board): already removed from its
+    // origin below on pickup, so this is how a unit gets discarded.
     renderCells();
     renderTraitPanel();
     syncUrl();
@@ -633,31 +632,29 @@ TEAM_BUILDER_JS = """
     if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
     clearDragSourceHighlight();
     // Interrupted mid-drag (e.g. OS gesture) -- put it back where it came from.
-    if (dragOrigin) {
-      var arr = dragOrigin.zone === 'board' ? board : bench;
-      arr[dragOrigin.idx] = dragSlug;
+    if (dragOrigin !== null) {
+      board[dragOrigin] = dragSlug;
       renderCells();
     }
     dragSlug = null; dragOrigin = null;
   });
 
-  // ---- Board / bench DOM (built once; only their filled state changes) ----
-  function wireCellDrag(cell, zone) {
+  // ---- Board DOM (built once; only its filled state changes) ----
+  function wireCellDrag(cell) {
     cell.addEventListener('pointerdown', function (e) {
       var idx = parseInt(cell.dataset.idx, 10);
       if (armedSlug) {
         e.preventDefault();
-        placeArmedOn(zone, idx);
+        placeArmedOn(idx);
         return;
       }
-      var arr = zone === 'board' ? board : bench;
-      var slug = arr[idx];
+      var slug = board[idx];
       if (!slug) return;
       e.preventDefault();
-      arr[idx] = null;
+      board[idx] = null;
       renderCells();
       renderTraitPanel();
-      beginDrag(slug, { zone: zone, idx: idx }, e.clientX, e.clientY);
+      beginDrag(slug, idx, e.clientX, e.clientY);
     });
   }
   function buildBoard() {
@@ -671,30 +668,17 @@ TEAM_BUILDER_JS = """
         var cell = document.createElement('div');
         cell.className = 'hex-cell';
         cell.dataset.idx = String(idx);
-        wireCellDrag(cell, 'board');
+        wireCellDrag(cell);
         rowEl.appendChild(cell);
       }
       boardEl.appendChild(rowEl);
-    }
-  }
-  function buildBench() {
-    benchEl.innerHTML = '';
-    for (var i = 0; i < BENCH_SIZE; i++) {
-      var cell = document.createElement('div');
-      cell.className = 'bench-cell';
-      cell.dataset.idx = String(i);
-      wireCellDrag(cell, 'bench');
-      benchEl.appendChild(cell);
     }
   }
 
   function renderCells() {
     var boardCells = boardEl.querySelectorAll('.hex-cell');
     board.forEach(function (slug, i) { paintCell(boardCells[i], slug); });
-    var benchCells = benchEl.querySelectorAll('.bench-cell');
-    bench.forEach(function (slug, i) { paintCell(benchCells[i], slug); });
-    var anyFilled = board.some(Boolean) || bench.some(Boolean);
-    if (emptyHint) emptyHint.hidden = anyFilled;
+    if (emptyHint) emptyHint.hidden = board.some(Boolean);
   }
   function paintCell(el, slug) {
     if (!el) return;
@@ -793,12 +777,7 @@ TEAM_BUILDER_JS = """
   function syncUrl() {
     var b = [];
     board.forEach(function (slug, i) { if (slug) b.push(i + ':' + slug); });
-    var e = [];
-    bench.forEach(function (slug, i) { if (slug) e.push(i + ':' + slug); });
-    var params = new URLSearchParams();
-    if (b.length) params.set('b', b.join(','));
-    if (e.length) params.set('e', e.join(','));
-    var qs = params.toString();
+    var qs = b.length ? ('b=' + b.join(',')) : '';
     history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
   }
   function loadFromUrl() {
@@ -807,11 +786,6 @@ TEAM_BUILDER_JS = """
       var m = pair.split(':');
       var idx = parseInt(m[0], 10), slug = m[1];
       if (slug && champBySlug[slug] && idx >= 0 && idx < board.length) board[idx] = slug;
-    });
-    (params.get('e') || '').split(',').forEach(function (pair) {
-      var m = pair.split(':');
-      var idx = parseInt(m[0], 10), slug = m[1];
-      if (slug && champBySlug[slug] && idx >= 0 && idx < bench.length) bench[idx] = slug;
     });
   }
 
@@ -829,11 +803,17 @@ TEAM_BUILDER_JS = """
     document.execCommand('copy');
     document.body.removeChild(ta);
   }
+  function showStatus(text, isError) {
+    if (!shareStatus) return;
+    shareStatus.hidden = false;
+    shareStatus.textContent = text || '';
+    shareStatus.dataset.error = isError ? 'true' : 'false';
+    setTimeout(function () { shareStatus.hidden = true; }, 2200);
+  }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       board = new Array(ROWS * COLS).fill(null);
-      bench = new Array(BENCH_SIZE).fill(null);
       setArmed(null, null);
       renderCells();
       renderTraitPanel();
@@ -842,23 +822,37 @@ TEAM_BUILDER_JS = """
   }
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
-      copyToClipboard(location.href).then(function () {
-        if (!shareStatus) return;
-        shareStatus.hidden = false;
-        shareStatus.textContent = I.shareCopied || '';
-        shareStatus.dataset.error = 'false';
-        setTimeout(function () { shareStatus.hidden = true; }, 2200);
+      copyToClipboard(location.href).then(function () { showStatus(I.shareCopied, false); });
+    });
+  }
+  if (copyGameBtn) {
+    // Same encoding the real /compo/ pages' copy button uses (see
+    // team_planner_code() in build_site.py): header + 10 slots of
+    // 3-hex-digit per-champion codes (blank = "000") + the set mutator.
+    // Board order (top-left to bottom-right by hex index) is as good an
+    // order as any -- the game's planner doesn't care about slot order,
+    // only which champions are in it.
+    copyGameBtn.addEventListener('click', function () {
+      var placed = board.filter(Boolean);
+      if (!placed.length) { showStatus(I.copyGameEmpty, true); return; }
+      var slots = placed.slice(0, 10).map(function (slug) {
+        var c = champBySlug[slug];
+        return (c && c.planner_code) || '000';
       });
+      while (slots.length < 10) slots.push('000');
+      var code = plannerHeader + slots.join('') + setMutator;
+      copyToClipboard(code).then(function () { showStatus(I.copyGameCopied, false); });
     });
   }
 
   fetch(ROOT + 'assets/data/builder.json').then(function (r) { return r.json(); }).then(function (data) {
     champions = data.champions || [];
     traitDefs = data.traits || [];
+    plannerHeader = data.plannerHeader || plannerHeader;
+    setMutator = data.setMutator || '';
     champions.forEach(function (c) { champBySlug[c.slug] = c; });
     buildPicker();
     buildBoard();
-    buildBench();
     loadFromUrl();
     renderCells();
     renderTraitPanel();
@@ -1032,13 +1026,15 @@ I18N: dict[str, dict] = {
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Compose librement ta comp TFT Set 18 sur un vrai plateau hexagonal : place tes champions, suis tes synergies de familles en direct, et partage le résultat par lien.",
         "builder_h1": "Team Builder",
-        "builder_intro": "Place des champions sur le plateau pour voir tes synergies de familles se calculer en direct. Seuls les champions posés sur le plateau comptent pour les familles (pas le banc), comme dans le vrai jeu.",
+        "builder_intro": "Place des champions sur le plateau pour voir tes synergies de familles se calculer en direct.",
         "builder_search_placeholder": "Rechercher un champion…",
         "builder_reset": "Réinitialiser",
         "builder_share": "Copier le lien de partage",
         "builder_share_copied": "Lien copié !",
+        "builder_copy_game": "Copier pour le jeu",
+        "builder_copy_game_copied": "Copié ! (colle-le dans le Team Planner du jeu)",
+        "builder_copy_game_empty": "Place au moins un champion avant de copier.",
         "builder_empty_hint": "Le plateau est vide — clique un champion ci-dessus puis une case pour le placer.",
-        "builder_bench_title": "Banc",
         "builder_traits_title": "Familles",
         "builder_no_traits": "Aucune synergie active pour l'instant.",
         "builder_next_at": lambda n: f"prochain palier à {n}",
@@ -1159,13 +1155,15 @@ I18N: dict[str, dict] = {
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Freely build your TFT Set 18 comp on a real hex board: place champions, track trait synergies live, and share the result with a link.",
         "builder_h1": "Team Builder",
-        "builder_intro": "Place champions on the board to see your trait synergies calculated live. Only champions placed on the board count toward traits (not the bench), same as in the real game.",
+        "builder_intro": "Place champions on the board to see your trait synergies calculated live.",
         "builder_search_placeholder": "Search a champion…",
         "builder_reset": "Reset",
         "builder_share": "Copy share link",
         "builder_share_copied": "Link copied!",
+        "builder_copy_game": "Copy for the game",
+        "builder_copy_game_copied": "Copied! (paste it into the game's Team Planner)",
+        "builder_copy_game_empty": "Place at least one champion before copying.",
         "builder_empty_hint": "The board is empty — click a champion above, then a cell to place it.",
-        "builder_bench_title": "Bench",
         "builder_traits_title": "Traits",
         "builder_no_traits": "No active synergy yet.",
         "builder_next_at": lambda n: f"next tier at {n}",
@@ -1357,6 +1355,20 @@ def main() -> None:
     raw_image_map = build_champion_image_map(SET_MUTATOR, refresh=False)
     info_by_name = {info["name"]: info for info in raw_image_map.values()}
 
+    # ---- Team Planner copy button (ported from the Artifact) -- format
+    # confirmed by extracting metatft.com's own (working) encoder out of its
+    # Redux store: header "02" (not "01" -- that's only for TFTSet13/
+    # TFTSet4_Act2), each of 10 slots is CDragon's `team_planner_code` field
+    # zero-padded to 3 hex digits (not 2, not 4), blank = "000". See
+    # build_team_planner_codes()'s docstring in champion_images.py for the
+    # two earlier wrong versions this replaced, both rejected by the user's
+    # live in-game test. Computed here (ahead of the Team Builder block
+    # below, which also needs it per-champion) rather than at its original
+    # spot further down. ----
+    champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
+    planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
+    PLANNER_HEADER = "01" if SET_MUTATOR in ("TFTSet13", "TFTSet4_Act2") else "02"
+
     # ---- Team Builder: full static roster + trait breakpoints. Unlike
     # every other page on the site, this doesn't depend on match data at
     # all -- raw_image_map already has every real champion in the set
@@ -1368,7 +1380,11 @@ def main() -> None:
             continue
         slug = slugify(info["name"])
         images.champion(slug, info["icon"])
-        builder_champions.append({"name": info["name"], "slug": slug, "cost": info["cost"], "traits": info["traits"]})
+        code = planner_codes.get(info["name"])
+        builder_champions.append({
+            "name": info["name"], "slug": slug, "cost": info["cost"], "traits": info["traits"],
+            "planner_code": f"{code:03x}" if code is not None else None,
+        })
     builder_champions.sort(key=lambda c: (c["cost"] or 0, c["name"]))
 
     builder_traits = []
@@ -1379,18 +1395,11 @@ def main() -> None:
 
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "builder.json").write_text(
-        json.dumps({"champions": builder_champions, "traits": builder_traits}, ensure_ascii=False), encoding="utf-8")
+        json.dumps({
+            "champions": builder_champions, "traits": builder_traits,
+            "plannerHeader": PLANNER_HEADER, "setMutator": SET_MUTATOR,
+        }, ensure_ascii=False), encoding="utf-8")
 
-    # ---- Team Planner copy button (ported from the Artifact) -- format
-    # confirmed by extracting metatft.com's own (working) encoder out of its
-    # Redux store: header "02" (not "01" -- that's only for TFTSet13/
-    # TFTSet4_Act2), each of 10 slots is CDragon's `team_planner_code` field
-    # zero-padded to 3 hex digits (not 2, not 4), blank = "000". See
-    # build_team_planner_codes()'s docstring in champion_images.py for the
-    # two earlier wrong versions this replaced, both rejected by the user's
-    # live in-game test. ----
-    champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
-    planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
     # Same classification derive_comp() uses to pick a comp's carry (see
     # comp_signature.py) -- published below as its own data file so
     # MetaScope's worker (a live Riot-ID lookup for players we DON'T
@@ -1398,7 +1407,6 @@ def main() -> None:
     # stays in lockstep with this exact site build, not a copy that can
     # drift out of sync.
     item_offense = classify_item_offense(SET_MUTATOR)
-    PLANNER_HEADER = "01" if SET_MUTATOR in ("TFTSet13", "TFTSet4_Act2") else "02"
 
     def team_planner_code(core_units: list[dict]) -> str:
         slots = []
