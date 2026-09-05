@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'ms_analysis_of', player.riot_id) }}{% endblock %}
+{% block description %}{{ t(lang, 'ms_analysis_desc', player.riot_id, g.comp_label) }}{% endblock %}
+{% block content %}
+<a class="back-link" href="{{ root }}player/{{ player.region|lower }}/{{ player.slug }}/">{{ t(lang, 'ms_back_to_profile', player.riot_id) }}</a>
+
+<div class="fiche-header">
+  {% if g.carry_slug %}<img class="champ-fiche-icon" src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}">{% endif %}
+  <div>
+    <h1 class="fiche-title">{% if g.comp_slug %}<a href="{{ root }}compo/{{ g.comp_slug }}/" style="color:inherit">{{ g.comp_label }}</a>{% else %}{{ g.comp_label }}{% endif %}</h1>
+    <div class="fiche-meta">{{ t(lang, 'ms_played_by', player.riot_id) }}</div>
+  </div>
+  <div class="fiche-stats pill-row">
+    {{ m.pill(t(lang, 'placement_label'), g.placement) }}
+    {% if g.level %}{{ m.pill(t(lang, 'ms_level_label'), g.level) }}{% endif %}
+    {% if g.gold_left is not none %}{{ m.pill(t(lang, 'ms_gold_left_label'), g.gold_left) }}{% endif %}
+  </div>
+</div>
+
+{% if g.units %}
+<h2 class="fiche-section-title">{{ t(lang, 'ms_your_board_title') }}</h2>
+<div class="fiche-board-wrap">
+  <div class="fiche-board">
+    {% for u in g.units %}
+    <div class="unit-cell">
+      <div class="unit-icon-wrap">
+        <img class="unit-icon champ-link-icon" src="{{ root }}assets/champions/{{ u.slug }}.png" alt="{{ u.champion }}" loading="lazy" style="border-color:var(--cost-{{ u.cost or 1 }})" data-champ-slug="{{ u.slug }}" data-champ-href="{{ root }}champions/{{ u.slug }}/">
+        {% if u.star and u.star >= 3 %}<span class="star-row">{{ star_svg|safe }}{{ star_svg|safe }}{{ star_svg|safe }}</span>{% elif u.star == 2 %}<span class="star-row">{{ star_svg|safe }}{{ star_svg|safe }}</span>{% endif %}
+      </div>
+      <div class="unit-items">{% for it in u.items %}<img class="item-icon" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% endfor %}</div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'ms_insights_title') }}</h2>
+{% if lang == 'en' %}<div class="metascope-lang-note">{{ t(lang, 'ms_insights_fr_only') }}</div>{% endif %}
+{% if g.insights %}
+<div class="metascope-insight-list">
+  {% for ins in g.insights %}
+  <div class="metascope-insight-row" data-type="{{ ins.type }}">
+    <span class="metascope-insight-icon">{% if ins.type == 'good' %}✓{% elif ins.type == 'warning' %}⚠{% else %}ℹ{% endif %}</span>
+    <div>
+      <span class="metascope-insight-category">{{ ins.category }}</span>
+      <span class="metascope-insight-text">{{ ins.text }}</span>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'ms_no_insights') }}</div>{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'ms_lobby_title') }}</h2>
+{% if g.lobby %}
+<div class="profile-comp-list">
+  <div class="profile-comp-row" style="cursor:default;background:transparent;border-color:transparent">
+    <span class="lb-square" style="background:transparent;border:none;color:var(--text-faint)">—</span>
+    {% if g.carry_slug %}<img src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--cyan)">{% endif %}
+    <span class="profile-comp-name"><b>{{ player.riot_id }}</b> — {{ g.comp_label }}</span>
+    <span class="lb-square {{ 'win' if g.placement <= 4 else 'loss' }}">{{ g.placement }}</span>
+  </div>
+  {% for l in g.lobby %}
+  <div class="profile-comp-row" style="cursor:default" data-counter="{{ l.is_counter|lower }}">
+    <span class="lb-square {{ 'win' if l.placement <= 4 else 'loss' }}">{{ l.placement }}</span>
+    {% if l.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ l.carry_slug }}.png" alt="{{ l.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)" data-champ-slug="{{ l.carry_slug }}" data-champ-href="{{ root }}champions/{{ l.carry_slug }}/">{% endif %}
+    {% if l.comp_slug %}<a class="profile-comp-name" href="{{ root }}compo/{{ l.comp_slug }}/">{{ l.riotId }} — {{ l.comp_label }}</a>{% else %}<span class="profile-comp-name">{{ l.riotId }} — {{ l.comp_label }}</span>{% endif %}
+    {% if l.is_counter %}<span class="metascope-counter-tag">{{ t(lang, 'ms_counter_tag') }}</span>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'ms_no_lobby') }}</div>{% endif %}
+{% endblock %}

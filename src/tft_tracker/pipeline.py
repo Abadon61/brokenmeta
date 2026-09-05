@@ -22,6 +22,7 @@ from pathlib import Path
 import requests
 
 from . import config
+from .analysis import build_report, load_benchmarks, load_matchups
 from .champion_images import build_champion_image_map, classify_item_offense
 from .champion_stats import build_champion_stats
 from .collector import collect_bracket
@@ -169,20 +170,20 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
     return result
 
 
-def _top_comps_from_games(comp_games: list[tuple[dict, str | None]], name_map: dict[str, str] | None,
+def _top_comps_from_games(comp_games: list[tuple[dict, str | None, dict]], name_map: dict[str, str] | None,
                            top_k: int = 3, item_offense: dict[str, str] | None = None) -> list[dict]:
-    """Aggregates the raw (participant, set_name) pairs behind a region's
-    top-N players' recent games into "the comps those players actually
-    play" -- count, average placement, real champion names via name_map.
-    Sample here is small by construction (top_n_for_comps players x up to
-    RECENT_GAMES each), which is inherent to "what do the very best players
-    do right now", not a bug -- the front end should treat this as a signal,
-    not a tier-list-grade sample."""
+    """Aggregates the raw (participant, set_name, match) triples behind a
+    region's top-N players' recent games into "the comps those players
+    actually play" -- count, average placement, real champion names via
+    name_map. Sample here is small by construction (top_n_for_comps players
+    x up to RECENT_GAMES each), which is inherent to "what do the very best
+    players do right now", not a bug -- the front end should treat this as
+    a signal, not a tier-list-grade sample."""
     counts: Counter[str] = Counter()
     label_for_key: dict[str, str] = {}
     carry_for_key: dict[str, str] = {}
     placement_sum: dict[str, int] = {}
-    for participant, _set_name in comp_games:
+    for participant, _set_name, _match in comp_games:
         sig = derive_comp(participant, name_map=name_map, item_offense=item_offense)
         counts[sig.key] += 1
         label_for_key[sig.key] = sig.label
@@ -273,7 +274,7 @@ def _run_leaderboard(client: RiotClient, regions: list[str], size: int, out_path
     # apiName is sometimes a leftover dev codename -- see champion_images.py).
     detected_set = None
     for games in comp_games_by_region.values():
-        for _participant, set_name in games:
+        for _participant, set_name, _match in games:
             if set_name:
                 detected_set = set_name
                 break
@@ -295,22 +296,55 @@ def _run_leaderboard(client: RiotClient, regions: list[str], size: int, out_path
         for region, games in comp_games_by_region.items()
     }
 
+    # Real per-game analysis report for every player's recent games -- same
+    # engine the local analyze_app.py tool uses (build_report: compares this
+    # exact game against the comp's real benchmarks, checks the carry's item
+    # build, flags opponents that historically counter this comp), just run
+    # here at collection time instead of live, since the full match (all 8
+    # participants) is already fetched for free. Backs the site's
+    # "Analyser la partie" pages -- MetaScope's first phase, pre-computed
+    # for the ~top-100-per-region players we already track; a live lookup
+    # for an arbitrary Riot ID is a separate, later phase (needs a real
+    # public backend to keep the Riot key server-side, not just this static
+    # pipeline). Loaded from whatever the last full pipeline run left on
+    # disk -- may be one refresh cycle stale on a --leaderboard-only run,
+    # same tradeoff World Stat's top-comps comparison already accepts.
+    benchmarks: dict[str, dict] = {}
+    matchup_lookup: dict[tuple[str, str], dict] = {}
+    try:
+        benchmarks = load_benchmarks()
+        matchup_lookup = load_matchups()
+    except (OSError, json.JSONDecodeError) as e:
+        print(f"[warn] no existing tierlist/matchups on disk yet -- per-game analysis will skip benchmarks: {e}")
+
     # Derive each player's own recent-games comp signatures now that
     # name_map is known -- same derive_comp() call as everywhere else, so a
     # player's "recentComps" keys line up with the regular comps dataset.
     for rows in rows_by_region.values():
         for row in rows:
             games = row.pop("_games", [])
-            row["recentComps"] = [
-                {
+            puuid = row["puuid"]
+            recent_comps = []
+            for participant, _set_name, match in games:
+                sig = derive_comp(participant, name_map=name_map, item_offense=item_offense)
+                report = build_report(participant, name_map, benchmarks, match=match, puuid=puuid,
+                                       matchup_lookup=matchup_lookup, item_offense=item_offense)
+                recent_comps.append({
+                    "matchId": match.get("metadata", {}).get("match_id"),
                     "placement": participant.get("placement"),
-                    "compKey": (sig := derive_comp(participant, name_map=name_map,
-                                                    item_offense=item_offense)).key,
+                    "compKey": sig.key,
                     "compLabel": sig.label,
                     "carry": sig.carry,
-                }
-                for participant in (g[0] for g in games)
-            ]
+                    # Compact per-game analysis -- everything build_report()
+                    # doesn't already duplicate from data the static site
+                    # builds separately (comp's own aggregate benchmark is
+                    # looked up client-side via compKey, not repeated here).
+                    "analysis": {
+                        "level": report["level"], "goldLeft": report["goldLeft"], "lastRound": report["lastRound"],
+                        "units": report["units"], "insights": report["insights"], "lobby": report["lobby"],
+                    },
+                })
+            row["recentComps"] = recent_comps
 
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps({

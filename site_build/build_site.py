@@ -16,6 +16,7 @@ import json
 import re
 import shutil
 import sys
+from collections import Counter
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -449,6 +450,22 @@ I18N: dict[str, dict] = {
         "record_label": "Bilan", "record_wl": lambda w, l: f"{w}W / {l}L", "winrate_label": "Winrate",
         "last10_games_title": "10 dernières parties classées",
         "no_recent_games": "Pas de partie récente enregistrée pour ce joueur.",
+        "ms_stats_title": "Statistiques", "ms_regional_rank": "Rang régional",
+        "ms_habits_title": "Habitudes de jeu", "ms_reroll_lover": "Adepte du reroll",
+        "ms_top_played": "Compos favorites", "ms_no_habits": "Pas assez de parties récentes pour dégager une habitude de jeu.",
+        "ms_analyze_hint": "Clique sur « Analyser la partie » pour voir en détail ce qui a bien (ou moins bien) marché dans une de ces parties.",
+        "ms_analyze_button": "Analyser la partie",
+        "ms_analysis_of": lambda riot_id: f"Analyse de partie — {riot_id}",
+        "ms_analysis_desc": lambda riot_id, comp: f"Analyse réelle d'une partie classée de {riot_id} sur {comp} : comparaison aux moyennes de la comp, qualité du build, adversaires rencontrés — MetaScope, via l'API officielle de Riot.",
+        "ms_back_to_profile": lambda riot_id: f"← Retour au profil de {riot_id}",
+        "ms_level_label": "Niveau", "ms_gold_left_label": "Or restant",
+        "ms_your_board_title": "Ton board en fin de partie",
+        "ms_insights_title": "Ce qui a marché (ou non)",
+        "ms_insights_fr_only": "Ces observations sont pour l'instant générées uniquement en français.",
+        "ms_no_insights": "Pas assez de données pour comparer cette partie à des moyennes fiables.",
+        "ms_lobby_title": "Classement de la partie",
+        "ms_counter_tag": "Contre ta compo",
+        "ms_no_lobby": "Détail des adversaires indisponible pour cette partie.",
         "see_worldstat": "Voir World Stat →",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Élo moyen du top 100 par région",
@@ -533,6 +550,22 @@ I18N: dict[str, dict] = {
         "record_label": "Record", "record_wl": lambda w, l: f"{w}W / {l}L", "winrate_label": "Winrate",
         "last10_games_title": "Last 10 ranked games",
         "no_recent_games": "No recent games recorded for this player.",
+        "ms_stats_title": "Stats", "ms_regional_rank": "Regional rank",
+        "ms_habits_title": "Playstyle habits", "ms_reroll_lover": "Reroll enthusiast",
+        "ms_top_played": "Favorite comps", "ms_no_habits": "Not enough recent games to identify a playstyle habit.",
+        "ms_analyze_hint": "Click \"Analyze this game\" to see in detail what worked (or didn't) in one of these games.",
+        "ms_analyze_button": "Analyze this game",
+        "ms_analysis_of": lambda riot_id: f"Game analysis — {riot_id}",
+        "ms_analysis_desc": lambda riot_id, comp: f"Real analysis of a ranked game by {riot_id} on {comp}: comparison against the comp's averages, build quality, opponents faced — MetaScope, via Riot's official API.",
+        "ms_back_to_profile": lambda riot_id: f"← Back to {riot_id}'s profile",
+        "ms_level_label": "Level", "ms_gold_left_label": "Gold left",
+        "ms_your_board_title": "Your board at the end of the game",
+        "ms_insights_title": "What worked (or didn't)",
+        "ms_insights_fr_only": "These insights are currently only generated in French.",
+        "ms_no_insights": "Not enough data to compare this game against reliable averages.",
+        "ms_lobby_title": "Game standings",
+        "ms_counter_tag": "Counters your comp",
+        "ms_no_lobby": "Opponent detail unavailable for this game.",
         "see_worldstat": "View World Stat →",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Average Elo of the top 100 by region",
@@ -932,25 +965,98 @@ def main() -> None:
             # generating thin single-game stub pages for one-off comps. ----
             total = p["wins"] + p["losses"]
             wr = (p["wins"] / total) if total else 0
+            all_recent = p.get("recentComps") or []
             recent_games = []
-            for g in (p.get("recentComps") or [])[:10]:
+            for g in all_recent[:10]:
                 cv = comp_vm_by_key.get(g["compKey"])
                 carry = g.get("carry")
+                match_id = g.get("matchId")
+                has_analysis = bool(match_id and g.get("analysis"))
                 recent_games.append({
                     "placement": g["placement"], "is_win": g["placement"] <= 4,
                     "label": cv["display_label"] if cv else g.get("compLabel", ""),
                     "carry_slug": champ_slug_and_download(carry) if carry else None,
                     "carry": carry,
                     "comp_slug": cv["slug"] if cv else None,
+                    "match_id": match_id, "has_analysis": has_analysis,
                 })
+
+            # ---- MetaScope habits: real signal from this same recent-games
+            # sample, no separate collection needed. "Reroll lover" needs a
+            # real majority, not one lucky reroll comp; "most played" only
+            # calls out a comp actually repeated (count >= 2), never pads
+            # out to 2 with one-off games. ----
+            placements = [g["placement"] for g in all_recent if g.get("placement")]
+            avg_placement = round(sum(placements) / len(placements), 2) if placements else None
+            reroll_games = sum(1 for g in all_recent if (comp_vm_by_key.get(g["compKey"]) or {}).get("playstyle_cat") == "Reroll"
+                                or "Reroll" in (g.get("compLabel") or ""))
+            is_reroll_lover = len(all_recent) >= 5 and reroll_games / len(all_recent) >= 0.5
+            comp_counts = Counter(g["compKey"] for g in all_recent if g.get("compKey"))
+            top_played = []
+            for key, count in comp_counts.most_common(2):
+                if count < 2:
+                    break
+                sample = next(g for g in all_recent if g["compKey"] == key)
+                cv = comp_vm_by_key.get(key)
+                top_played.append({
+                    "label": cv["display_label"] if cv else sample.get("compLabel", ""),
+                    "count": count, "carry_slug": champ_slug_and_download(sample["carry"]) if sample.get("carry") else None,
+                    "comp_slug": cv["slug"] if cv else None,
+                })
+
             players.append({
                 "region": region, "rank": p["rank"], "riot_id": p["riotId"], "tier": p["tier"],
                 "lp": p["leaguePoints"], "wins": p["wins"], "losses": p["losses"],
                 "hot_streak": p.get("hotStreak", False), "winrate_pct": pct(wr),
                 "initials": initials(p["riotId"]), "slug": slug, "recent_games": recent_games,
+                "avg_placement": avg_placement, "is_reroll_lover": is_reroll_lover, "top_played": top_played,
+                # Kept only to build each game's analysis page further down
+                # (needs the raw analysis payload, not the trimmed recent_games
+                # view-model above) -- never passed to a template directly.
+                "_raw_recent": all_recent,
             })
         lb_regions_raw.append({"code": region, "rows": vm_rows})
         player_vms_by_region[region] = players
+
+    # ---- MetaScope: "Analyser la partie" -- one static page per player per
+    # recent game that has a real analysis payload (see pipeline.py's
+    # _run_leaderboard: build_report() already ran for these at collection
+    # time, same engine as the local analyze_app.py tool, so no live API
+    # call happens here, just icon/slug resolution). Insight text itself is
+    # French-only for now (analysis.py was written before this site went
+    # bilingual) -- shown as-is on the EN page too, with a short note, rather
+    # than holding the whole feature back on translating every insight
+    # sentence into a parameterized i18n entry. ----
+    def build_game_analysis_vm(g: dict) -> dict | None:
+        analysis = g.get("analysis")
+        if not g.get("matchId") or not analysis:
+            return None
+        cv = comp_vm_by_key.get(g["compKey"])
+        lobby_vm = []
+        for entry in analysis.get("lobby", []):
+            opp_cv = comp_vm_by_key.get(entry["compKey"])
+            lobby_vm.append({
+                **entry,
+                "carry_slug": champ_slug_and_download(entry["carry"]) if entry.get("carry") else None,
+                "comp_slug": opp_cv["slug"] if opp_cv else None,
+                "comp_label": opp_cv["display_label"] if opp_cv else entry["compLabel"],
+                "is_counter": entry.get("counterRate") is not None and entry["counterRate"] >= 0.55 and entry.get("encounters", 0) >= 4,
+            })
+        units_vm = []
+        for u in analysis.get("units", []):
+            units_vm.append({
+                "champion": u["champion"], "slug": champ_slug_and_download(u["champion"]),
+                "cost": u.get("cost"), "star": u.get("star"),
+                "items": [{"name": n, "slug": item_slug_and_download(n)} for n in (u.get("items") or [])],
+            })
+        return {
+            "match_id": g["matchId"], "placement": g["placement"],
+            "comp_label": cv["display_label"] if cv else g.get("compLabel", ""),
+            "comp_slug": cv["slug"] if cv else None,
+            "carry": g.get("carry"), "carry_slug": champ_slug_and_download(g["carry"]) if g.get("carry") else None,
+            "level": analysis.get("level"), "gold_left": analysis.get("goldLeft"), "last_round": analysis.get("lastRound"),
+            "units": units_vm, "insights": analysis.get("insights") or [], "lobby": lobby_vm,
+        }
 
     # ---- World Stat: elo-over-time chart, top 10 by region, top comps by
     # region -- reached from a button on the Leaderboard. All three pieces
@@ -1169,6 +1275,11 @@ def main() -> None:
             for p in players:
                 render("player.html", f"/player/{region.lower()}/{p['slug']}/", lang, active_nav="leaderboard",
                        p=p, region_name=region_name)
+                for g in p["_raw_recent"]:
+                    game_vm = build_game_analysis_vm(g)
+                    if game_vm:
+                        render("game_analysis.html", f"/player/{region.lower()}/{p['slug']}/match/{game_vm['match_id']}/",
+                               lang, active_nav="leaderboard", g=game_vm, player=p, region_name=region_name)
         for d in champion_vms:
             render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions", d=d,
                    balance_history=balance_history_by_lang[lang].get(d["name"], []))
@@ -1290,6 +1401,43 @@ def main() -> None:
   .balance-history-patch { flex: none; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--cyan); }
   .balance-history-date { flex: none; font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-faint); }
   .balance-history-text { flex: 1; min-width: 200px; color: var(--text-dim); font-size: 12.5px; }
+
+  /* ---------- MetaScope: player profile stats/habits sidebar + game
+     analysis page ---------- */
+  .metascope-layout { display: flex; align-items: flex-start; gap: 20px; }
+  .metascope-sidebar { flex: 0 0 240px; display: flex; flex-direction: column; gap: 14px; }
+  .metascope-main { flex: 1; min-width: 0; }
+  @media (max-width: 720px) { .metascope-layout { flex-direction: column; } .metascope-sidebar { flex: none; width: 100%; } }
+  .metascope-box { background: var(--row); border: 1px solid var(--border); padding: 14px 16px; }
+  .metascope-box-title { font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--cyan); margin-bottom: 10px; }
+  .metascope-stat-row { display: flex; justify-content: space-between; gap: 10px; padding: 3px 0; font-size: 12.5px; color: var(--text-dim); }
+  .metascope-stat-row b { color: var(--cream); }
+  .metascope-habit-badge { display: inline-block; background: var(--magenta-dim); border: 1px solid var(--magenta); color: var(--cream); font-size: 12px; font-weight: 600; padding: 5px 10px; margin-bottom: 10px; }
+  .metascope-top-played-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); font-family: 'Space Mono', monospace; margin-bottom: 6px; }
+  .metascope-top-played-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+  .metascope-top-played-name { flex: 1; min-width: 0; font-size: 12.5px; color: inherit; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  a.metascope-top-played-name:hover { color: var(--cyan); }
+  .metascope-top-played-count { color: var(--text-faint); font-size: 11px; }
+  .metascope-hint { color: var(--text-faint); font-size: 12px; margin: -6px 0 14px; }
+  .metascope-analyze-link { margin-left: auto; flex: none; color: var(--cyan); font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; white-space: nowrap; }
+  .metascope-analyze-link:hover { color: var(--cream); }
+  .profile-comp-row .profile-comp-name { text-decoration: none; color: inherit; }
+  a.profile-comp-name:hover { color: var(--cyan); }
+
+  .metascope-lang-note { padding: 10px 14px; margin-bottom: 14px; background: rgba(5,217,232,0.06); border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; }
+  .metascope-insight-list { display: flex; flex-direction: column; gap: 8px; }
+  .metascope-insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--row); border: 1px solid var(--border); border-left: 3px solid var(--border); }
+  .metascope-insight-row[data-type="good"] { border-left-color: var(--good); }
+  .metascope-insight-row[data-type="warning"] { border-left-color: var(--warn); }
+  .metascope-insight-row[data-type="info"] { border-left-color: var(--cyan); }
+  .metascope-insight-icon { flex: none; width: 18px; text-align: center; font-size: 13px; }
+  .metascope-insight-row[data-type="good"] .metascope-insight-icon { color: var(--good); }
+  .metascope-insight-row[data-type="warning"] .metascope-insight-icon { color: var(--warn); }
+  .metascope-insight-row[data-type="info"] .metascope-insight-icon { color: var(--cyan); }
+  .metascope-insight-category { display: block; font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 2px; }
+  .metascope-insight-text { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
+  .metascope-counter-tag { flex: none; background: rgba(255,56,100,0.14); border: 1px solid var(--warn); color: var(--warn); font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; margin-left: auto; }
+  .profile-comp-row[data-counter="true"] { border-color: var(--warn); }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 

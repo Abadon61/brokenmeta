@@ -44,12 +44,17 @@ def _apex_pool(client: RiotClient, platform: str) -> list[dict]:
     return pool
 
 
-def _recent_games(client: RiotClient, regional: str, puuid: str) -> list[tuple[dict, str | None]]:
-    """Returns [(participant_dict, tft_set_core_name), ...] for this
-    player's last RECENT_GAMES ranked matches, most-recent-first. Keeping
-    the raw participant (not just its placement) lets a caller re-derive
-    the comp signature later -- e.g. for the World Stat "most-played by the
-    top 10" comparison -- without a second round of API calls."""
+def _recent_games(client: RiotClient, regional: str, puuid: str) -> list[tuple[dict, str | None, dict]]:
+    """Returns [(participant_dict, tft_set_core_name, full_match), ...] for
+    this player's last RECENT_GAMES ranked matches, most-recent-first.
+    Keeping the raw participant (not just its placement) lets a caller
+    re-derive the comp signature later -- e.g. for the World Stat
+    "most-played by the top 10" comparison -- without a second round of API
+    calls. The full match (all 8 participants) is ALSO kept now -- no extra
+    API cost, it's already fetched here -- so pipeline.py can later build a
+    real per-game lobby + analysis report (same engine as the local
+    analyze_app.py tool) for the player-profile "Analyser la partie"
+    feature, once name_map/benchmarks/matchup_lookup are known."""
     match_ids = client.get_match_ids_by_puuid(regional, puuid, count=RECENT_GAMES)
     games = []
     for mid in match_ids:
@@ -63,17 +68,18 @@ def _recent_games(client: RiotClient, regional: str, puuid: str) -> list[tuple[d
             (p for p in info.get("participants", []) if p.get("puuid") == puuid), None
         )
         if participant and participant.get("placement"):
-            games.append((participant, info.get("tft_set_core_name")))
+            games.append((participant, info.get("tft_set_core_name"), match))
     return games
 
 
 def collect_region_leaderboard(client: RiotClient, region: str, size: int = LEADERBOARD_SIZE,
                                 top_n_for_comps: int = TOP_N_FOR_COMPS,
-                                verbose: bool = True) -> tuple[list[dict], list[tuple[dict, str | None]]]:
+                                verbose: bool = True) -> tuple[list[dict], list[tuple[dict, str | None, dict]]]:
     """Returns (rows, comp_source_games). `comp_source_games` is the raw
-    (participant, set_name) pairs behind the top `top_n_for_comps` players'
-    recent games -- not part of `rows`, kept separate since it's only
-    consumed by the World Stat comp comparison, not the leaderboard table."""
+    (participant, set_name, match) triples behind the top `top_n_for_comps`
+    players' recent games -- not part of `rows`, kept separate since it's
+    only consumed by the World Stat comp comparison, not the leaderboard
+    table."""
     platform = config.REGIONS[region]["platform"]
     regional = config.REGIONS[region]["regional"]
 
@@ -82,7 +88,7 @@ def collect_region_leaderboard(client: RiotClient, region: str, size: int = LEAD
     top = pool[:size]
 
     rows = []
-    comp_source_games: list[tuple[dict, str | None]] = []
+    comp_source_games: list[tuple[dict, str | None, dict]] = []
     for rank, e in enumerate(top, start=1):
         puuid = e["puuid"]
         account = client.get_account_by_puuid(regional, puuid) or {}
@@ -95,15 +101,18 @@ def collect_region_leaderboard(client: RiotClient, region: str, size: int = LEAD
         rows.append({
             "rank": rank,
             "tier": e["_tier"],
+            "puuid": puuid,
+            "region": region,
             "riotId": f"{game_name}#{tag_line}" if tag_line else game_name,
             "leaguePoints": e.get("leaguePoints", 0),
             "wins": e.get("wins", 0),
             "losses": e.get("losses", 0),
             "hotStreak": bool(e.get("hotStreak")),
-            "recentPlacements": [p.get("placement") for p, _ in games],  # most-recent-first, 1-8
+            "recentPlacements": [p.get("placement") for p, _, _ in games],  # most-recent-first, 1-8
             # Internal only -- consumed by pipeline.py to derive each game's
-            # comp signature once a name_map exists, then replaced with
-            # "recentComps" and stripped before the JSON is written.
+            # comp signature (and, for the profile's "Analyser la partie"
+            # feature, a full lobby + insights report) once a name_map and
+            # benchmarks exist; stripped before the JSON is written.
             "_games": games,
         })
         if verbose and rank % 20 == 0:
@@ -114,9 +123,9 @@ def collect_region_leaderboard(client: RiotClient, region: str, size: int = LEAD
 
 def collect_leaderboard(client: RiotClient, regions: list[str], size: int = LEADERBOARD_SIZE,
                          top_n_for_comps: int = TOP_N_FOR_COMPS
-                         ) -> tuple[dict[str, list[dict]], dict[str, list[tuple[dict, str | None]]]]:
+                         ) -> tuple[dict[str, list[dict]], dict[str, list[tuple[dict, str | None, dict]]]]:
     rows_by_region: dict[str, list[dict]] = {}
-    comp_games_by_region: dict[str, list[tuple[dict, str | None]]] = {}
+    comp_games_by_region: dict[str, list[tuple[dict, str | None, dict]]] = {}
     for region in regions:
         rows, comp_games = collect_region_leaderboard(client, region, size=size, top_n_for_comps=top_n_for_comps)
         rows_by_region[region] = rows

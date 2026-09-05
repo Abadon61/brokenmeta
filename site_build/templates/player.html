@@ -22,23 +22,51 @@
   </div>
 </div>
 
-<h2 class="fiche-section-title">{{ t(lang, 'last10_games_title') }}</h2>
-<div class="profile-comp-list">
-  {% if p.recent_games %}
-    {% for g in p.recent_games %}
-    {% set inner %}
-      <span class="lb-square {{ 'win' if g.is_win else 'loss' }}" title="{{ t(lang, 'placement_colon', g.placement) }}">{{ g.placement }}</span>
-      {% if g.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)" data-champ-slug="{{ g.carry_slug }}" data-champ-href="{{ root }}champions/{{ g.carry_slug }}/">{% endif %}
-      <span class="profile-comp-name">{{ g.label }}</span>
-    {% endset %}
-    {% if g.comp_slug %}
-    <a class="profile-comp-row" href="{{ root }}compo/{{ g.comp_slug }}/">{{ inner|safe }}</a>
-    {% else %}
-    <div class="profile-comp-row" style="cursor:default">{{ inner|safe }}</div>
-    {% endif %}
-    {% endfor %}
-  {% else %}
-    <div class="matchup-empty">{{ t(lang, 'no_recent_games') }}</div>
-  {% endif %}
+<div class="metascope-layout">
+  <div class="metascope-sidebar">
+    <div class="metascope-box">
+      <div class="metascope-box-title">{{ t(lang, 'ms_stats_title') }}</div>
+      <div class="metascope-stat-row"><span>LP</span><b class="nums">{{ p.lp }}</b></div>
+      {% if p.avg_placement %}<div class="metascope-stat-row"><span>{{ t(lang, 'placement_label') }}</span><b class="nums">{{ '%.2f'|format(p.avg_placement) }}</b></div>{% endif %}
+      <div class="metascope-stat-row"><span>{{ t(lang, 'ms_regional_rank') }}</span><b class="nums">#{{ p.rank }} {{ region_name }}</b></div>
+    </div>
+    <div class="metascope-box">
+      <div class="metascope-box-title">{{ t(lang, 'ms_habits_title') }}</div>
+      {% if p.is_reroll_lover %}
+      <div class="metascope-habit-badge">🎲 {{ t(lang, 'ms_reroll_lover') }}</div>
+      {% endif %}
+      {% if p.top_played %}
+      <div class="metascope-top-played-label">{{ t(lang, 'ms_top_played') }}</div>
+      {% for tp in p.top_played %}
+      <div class="metascope-top-played-row">
+        {% if tp.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ tp.carry_slug }}.png" alt="{{ tp.label }}" loading="lazy" data-champ-slug="{{ tp.carry_slug }}" data-champ-href="{{ root }}champions/{{ tp.carry_slug }}/">{% endif %}
+        {% if tp.comp_slug %}<a class="metascope-top-played-name" href="{{ root }}compo/{{ tp.comp_slug }}/">{{ tp.label }}</a>{% else %}<span class="metascope-top-played-name">{{ tp.label }}</span>{% endif %}
+        <span class="metascope-top-played-count nums">×{{ tp.count }}</span>
+      </div>
+      {% endfor %}
+      {% elif not p.is_reroll_lover %}
+      <div class="matchup-empty">{{ t(lang, 'ms_no_habits') }}</div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="metascope-main">
+    <h2 class="fiche-section-title" style="margin-top:0">{{ t(lang, 'last10_games_title') }}</h2>
+    {% if p.recent_games %}<p class="metascope-hint">{{ t(lang, 'ms_analyze_hint') }}</p>{% endif %}
+    <div class="profile-comp-list">
+      {% if p.recent_games %}
+        {% for g in p.recent_games %}
+        <div class="profile-comp-row" style="cursor:default">
+          <span class="lb-square {{ 'win' if g.is_win else 'loss' }}" title="{{ t(lang, 'placement_colon', g.placement) }}">{{ g.placement }}</span>
+          {% if g.carry_slug %}<img class="champ-link-icon" src="{{ root }}assets/champions/{{ g.carry_slug }}.png" alt="{{ g.carry }}" loading="lazy" style="width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)" data-champ-slug="{{ g.carry_slug }}" data-champ-href="{{ root }}champions/{{ g.carry_slug }}/">{% endif %}
+          {% if g.comp_slug %}<a class="profile-comp-name" href="{{ root }}compo/{{ g.comp_slug }}/">{{ g.label }}</a>{% else %}<span class="profile-comp-name">{{ g.label }}</span>{% endif %}
+          {% if g.has_analysis %}<a class="metascope-analyze-link" href="{{ root }}player/{{ p.region|lower }}/{{ p.slug }}/match/{{ g.match_id }}/">{{ t(lang, 'ms_analyze_button') }} →</a>{% endif %}
+        </div>
+        {% endfor %}
+      {% else %}
+        <div class="matchup-empty">{{ t(lang, 'no_recent_games') }}</div>
+      {% endif %}
+    </div>
+  </div>
 </div>
 {% endblock %}
