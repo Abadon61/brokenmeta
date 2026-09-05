@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'builder_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'builder_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'builder_h1') }}</h1>
+<p class="page-intro">{{ t(lang, 'builder_intro') }}</p>
+
+<div class="builder-layout">
+  <div class="builder-main">
+    <div class="search-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" id="builderSearch" class="search-input" placeholder="{{ t(lang, 'builder_search_placeholder') }}" autocomplete="off">
+    </div>
+    <div class="builder-cost-filters" id="builderCostFilters">
+      <button type="button" class="chip" data-cost-filter="ALL" data-active="true">{{ t(lang, 'tier_all') }}</button>
+      <button type="button" class="chip" data-cost-filter="1">1</button>
+      <button type="button" class="chip" data-cost-filter="2">2</button>
+      <button type="button" class="chip" data-cost-filter="3">3</button>
+      <button type="button" class="chip" data-cost-filter="4">4</button>
+      <button type="button" class="chip" data-cost-filter="5">5</button>
+    </div>
+    <div class="champ-picker" id="champPicker"></div>
+
+    <div class="hex-board-wrap"><div class="hex-board" id="hexBoard"></div></div>
+    <p class="builder-empty-hint" id="builderEmptyHint">{{ t(lang, 'builder_empty_hint') }}</p>
+
+    <div class="bench-wrap">
+      <div class="builder-section-label">{{ t(lang, 'builder_bench_title') }}</div>
+      <div class="bench" id="benchRow"></div>
+    </div>
+
+    <div class="builder-actions">
+      <button type="button" class="metascope-search-button" id="builderReset">{{ t(lang, 'builder_reset') }}</button>
+      <button type="button" class="metascope-search-button" id="builderShare">{{ t(lang, 'builder_share') }}</button>
+      <span id="builderShareStatus" class="metascope-status" hidden></span>
+    </div>
+  </div>
+
+  <div class="builder-sidebar">
+    <div class="metascope-box">
+      <div class="metascope-box-title">{{ t(lang, 'builder_traits_title') }}</div>
+      <div id="traitPanel"></div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_BUILDER_I18N = {
+  noTraits: {{ t(lang, 'builder_no_traits')|tojson }},
+  shareCopied: {{ t(lang, 'builder_share_copied')|tojson }},
+  nextAt: {{ t(lang, 'builder_next_at', '__N__')|tojson }}
+};
+</script>
+<script src="{{ root }}assets/js/team-builder.js" defer></script>
+{% endblock %}

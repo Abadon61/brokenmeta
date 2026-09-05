@@ -134,8 +134,43 @@ def build_champion_image_map(set_mutator: str, refresh: bool = False) -> dict[st
             "cost": champ.get("cost"),
             "ability_name": ability.get("name") or "",
             "ability_desc": clean_ability_text(ability.get("desc")),
+            # Empty for neutral board hazards (Murk Wolf, Rift Herald, ...) --
+            # every real playable champion has at least one. Used as the
+            # roster filter for the Team Builder (see build_trait_data()),
+            # since match data alone never covers every champion in the set.
+            "traits": champ.get("traits") or [],
         }
     return images
+
+
+def build_trait_data(set_mutator: str, refresh: bool = False) -> list[dict]:
+    """Returns [{"name", "icon", "effects": [{"min_units", "style"}, ...]}]
+    for one set's traits (breakpoints only, ascending by min_units) -- the
+    synergy thresholds a Team Builder needs to tell a visitor "3/5 active,
+    next at 5". Deliberately drops CDragon's `desc`/`maxUnits`: the tooltip
+    text has the same unresolvable @Placeholder@/opaque-hash-variable issue
+    already documented on clean_ability_text() above, and isn't needed just
+    to show numeric breakpoints -- rendering trait flavor text is left for
+    a later pass rather than guessing at those values."""
+    data = _load_cdragon_data(refresh=refresh)
+    set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
+    if not set_entry:
+        return []
+
+    traits = []
+    for trait in set_entry.get("traits", []):
+        name = trait.get("name")
+        if not name:
+            continue
+        effects = sorted(
+            ({"min_units": e["minUnits"], "style": e.get("style", 1)}
+             for e in trait.get("effects", []) if e.get("minUnits") is not None),
+            key=lambda e: e["min_units"],
+        )
+        if not effects:
+            continue
+        traits.append({"name": name, "icon": _asset_url(trait.get("icon")), "effects": effects})
+    return traits
 
 
 def _load_teamplanner_data(refresh: bool = False) -> dict:

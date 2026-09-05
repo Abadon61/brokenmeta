@@ -28,7 +28,7 @@
         <img class="unit-icon champ-link-icon" src="{{ root }}assets/champions/{{ u.slug }}.png" alt="{{ u.champion }}" loading="lazy" style="border-color:var(--cost-{{ u.cost or 1 }})" data-champ-slug="{{ u.slug }}" data-champ-href="{{ root }}champions/{{ u.slug }}/">
         {% if u.star and u.star >= 3 %}<span class="star-row">{{ star_svg|safe }}{{ star_svg|safe }}{{ star_svg|safe }}</span>{% elif u.star == 2 %}<span class="star-row">{{ star_svg|safe }}{{ star_svg|safe }}</span>{% endif %}
       </div>
-      <div class="unit-items">{% for it in u.items %}<img class="item-icon" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% endfor %}</div>
+      <div class="unit-items">{% for it in u['items'] %}<img class="item-icon" src="{{ root }}assets/items/{{ it.slug }}.png" alt="{{ it.name }}" title="{{ it.name }}" loading="lazy">{% endfor %}</div>
     </div>
     {% endfor %}
   </div>
