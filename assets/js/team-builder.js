@@ -35,7 +35,11 @@
   // board/bench, and drop it on any hex/bench cell. Dropping outside the
   // board/bench removes it -- the only other way to clear a cell, since
   // this replaces the old click-to-arm-then-click-to-place flow entirely. --
-  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null;
+  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null, dragSourcePickerEl = null;
+
+  function clearDragSourceHighlight() {
+    if (dragSourcePickerEl) { dragSourcePickerEl.dataset.dragging = 'false'; dragSourcePickerEl = null; }
+  }
 
   function beginDrag(slug, origin, x, y) {
     dragSlug = slug;
@@ -76,6 +80,7 @@
     dragGhost = null;
     document.body.classList.remove('builder-dragging');
     if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
+    clearDragSourceHighlight();
 
     var hit = cellUnder(e.clientX, e.clientY);
     if (hit) {
@@ -101,6 +106,7 @@
     dragGhost = null;
     document.body.classList.remove('builder-dragging');
     if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
+    clearDragSourceHighlight();
     // Interrupted mid-drag (e.g. OS gesture) -- put it back where it came from.
     if (dragOrigin) {
       var arr = dragOrigin.zone === 'board' ? board : bench;
@@ -184,11 +190,13 @@
       item.dataset.slug = c.slug;
       item.dataset.cost = String(c.cost || 1);
       item.dataset.name = c.name.toLowerCase();
-      item.style.borderColor = 'var(--cost-' + (c.cost || 1) + ')';
+      item.style.setProperty('--picker-cost-color', 'var(--cost-' + (c.cost || 1) + ')');
       item.title = c.name;
       item.innerHTML = '<img src="' + champImg(c.slug) + '" alt="' + c.name + '" loading="lazy">';
       item.addEventListener('pointerdown', function (e) {
         e.preventDefault();
+        item.dataset.dragging = 'true';
+        dragSourcePickerEl = item;
         beginDrag(c.slug, null, e.clientX, e.clientY);
       });
       picker.appendChild(item);
