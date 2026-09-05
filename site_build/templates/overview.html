@@ -38,5 +38,5 @@
 {% endblock %}
 {% block extra_body %}
 <script>window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
-<script src="{{ root }}assets/js/list-filters.js" defer></script>
+<script src="{{ root }}assets/js/list-filters.js?v={{ css_v }}" defer></script>
 {% endblock %}
