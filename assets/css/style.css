@@ -878,13 +878,25 @@
      board always fits its container, at any viewport, with no horizontal
      scrollbar. */
   .hex-board-wrap { display: flex; justify-content: center; margin: 6px 0 30px; width: 100%; }
-  .hex-board { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 640px; gap: 14px; }
-  .hex-row { display: flex; justify-content: center; gap: 1.6%; width: 100%; }
-  .hex-row[data-offset="true"] { margin-left: 7.3%; }
+  .hex-board { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 640px; }
+  .hex-row { display: flex; justify-content: center; gap: 1.4%; width: 100%; }
+  /* Real TFT/MetaTFT hexes are pointy-top (point at top/bottom, flat left/
+     right edges), which is why alternating rows offset horizontally AND
+     rows overlap slightly (row spacing = ~75% of a hex's height, the
+     standard pointy-top hex-grid formula) instead of just stacking with a
+     plain gap -- that combination is what makes them interlock into a
+     real honeycomb instead of floating, disconnected bands. */
+  .hex-row:not(:first-child) { margin-top: -2.3%; }
+  /* transform, not margin-left: this row is width:100% with flex-shrink
+     enabled by default, so a margin here fought with the flex algorithm
+     for space and shrank the row instead of shifting it (measured: ~10px
+     offset instead of the intended half-cell ~17.5px). transform doesn't
+     participate in layout sizing at all, so it shifts purely visually. */
+  .hex-row[data-offset="true"] { transform: translateX(6.7%); }
   .hex-cell {
-    flex: 0 0 12%; aspect-ratio: 1 / 0.86; position: relative; touch-action: none;
+    flex: 0 0 12%; aspect-ratio: 0.87 / 1; position: relative; touch-action: none;
     background: var(--row); cursor: pointer; display: flex; align-items: center; justify-content: center;
-    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
     filter: drop-shadow(0 0 0 1px var(--border-bright));
     transition: background .12s ease, transform .12s ease;
   }
