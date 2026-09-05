@@ -36,17 +36,15 @@ export class RiotClient {
     return this.get<{ puuid: string; gameName: string; tagLine: string }>(url);
   }
 
-  // No TFT League-v1 "by puuid" shortcut exists (verified against Riot-
-  // Watcher's own endpoint definitions, a well-maintained reference
-  // wrapper) -- unlike some LoL v4 endpoints, TFT still needs the classic
-  // 2-hop: puuid -> encryptedSummonerId (Summoner-v1), then that id ->
-  // league entries (League-v1's by-summoner route).
-  async getLeagueEntriesByPuuid(platform: string, puuid: string) {
-    const summonerUrl = `https://${platform}.api.riotgames.com/tft/summoner/v1/summoners/by-puuid/${puuid}`;
-    const summoner = await this.get<{ id: string }>(summonerUrl);
-    if (!summoner?.id) return null;
-    const leagueUrl = `https://${platform}.api.riotgames.com/tft/league/v1/entries/by-summoner/${summoner.id}`;
-    return this.get<Array<{ queueType: string; tier: string; rank: string; leaguePoints: number; wins: number; losses: number; hotStreak: boolean }>>(leagueUrl);
+  // Verified directly against the live API (2026-09-05) with a real key and
+  // a real puuid, one real request, 200 OK -- a reference wrapper library's
+  // source code suggested this route didn't exist for TFT (only an older
+  // by-summoner one), which was WRONG (that library just hadn't caught up
+  // with a real Riot API addition). Lesson: check the live endpoint, not a
+  // third party's code, when the two disagree and a real key is on hand.
+  getLeagueEntriesByPuuid(platform: string, puuid: string) {
+    const url = `https://${platform}.api.riotgames.com/tft/league/v1/by-puuid/${puuid}`;
+    return this.get<Array<{ queueType: string; tier: string; rank: string; leaguePoints: number; wins: number; losses: number; hotStreak: boolean }>>(url);
   }
 
   getMatchIdsByPuuid(regional: string, puuid: string, count = 15) {
