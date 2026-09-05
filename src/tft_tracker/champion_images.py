@@ -47,6 +47,16 @@ _NBSP_RE = re.compile(r"&nbsp;")
 _ICON_MARKER_RE = re.compile(r"%i:[^%]*%")
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
 _VAR_RE = re.compile(r"@(\w+?)@")
+# A chunk of these placeholder names carry a Riot-internal computation suffix
+# ("MagicDamageCalc1", "PhysicalDamageCalc2", "HexPercentDamageFalloffTooltip")
+# rather than being a plain stat name -- checked against every @Var@ token
+# across the whole current champion roster (153 distinct names): the only
+# recurring "junk" suffixes are "Calc" (optionally numbered, for abilities
+# with several scaling values) and "Tooltip". Left in, they turned the
+# humanized fallback into something that reads like a raw API artifact
+# ("Magic Damage Calc1") instead of a plain label ("Magic Damage"). Stripped
+# before the camelCase split below so both read the same way.
+_JUNK_SUFFIX_RE = re.compile(r"(?:Calc\d*|Tooltip)$")
 # Split "PercentManaPerSecond" -> "Percent Mana Per Second" but keep runs of
 # capitals together (e.g. "MRReduction" -> "MR Reduction", not "M R
 # Reduction"): only break lower->upper, or upper->upper-then-lower.
@@ -55,7 +65,8 @@ _WHITESPACE_RE = re.compile(r"\s{2,}")
 
 
 def _humanize_var(match: re.Match) -> str:
-    spaced = _CAMEL_SPLIT_RE.sub(" ", match.group(1))
+    name = _JUNK_SUFFIX_RE.sub("", match.group(1)) or match.group(1)
+    spaced = _CAMEL_SPLIT_RE.sub(" ", name)
     return f"<em>{spaced}</em>"
 
 
