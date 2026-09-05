@@ -1770,9 +1770,20 @@ def main() -> None:
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
-    (DIST / "favicon.svg").write_text(
-        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
-        '<text y=".9em" font-size="90">\U0001F306</text></svg>', encoding="utf-8")
+    # Real brand assets (PROJECT/logo/) instead of the old emoji placeholder:
+    # - logo-sword.svg (white, transparent) sits in the header next to the
+    #   wordmark, on the site's dark top bar.
+    # - favicon.svg (logo_color.svg, dark navy, transparent) is the browser
+    #   tab icon -- SVG favicons are supported by every modern browser.
+    # - favicon-google.png (logo_google.svg pre-rendered to a flat 512x512
+    #   PNG, see logo/README or the conversion above) is there specifically
+    #   for Google Search results: Google does not support SVG favicons, so
+    #   without a raster fallback the SERP would show a generic globe icon.
+    LOGO_DIR = PROJECT / "logo"
+    (DIST / "assets" / "img").mkdir(parents=True, exist_ok=True)
+    shutil.copy(LOGO_DIR / "logo_epee_sans_fond.svg", DIST / "assets" / "img" / "logo-sword.svg")
+    shutil.copy(LOGO_DIR / "logo_color.svg", DIST / "favicon.svg")
+    shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "favicon-google.png")
 
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")

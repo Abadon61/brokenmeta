@@ -33,6 +33,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:locale" content="{{ 'fr_FR' if lang == 'fr' else 'en_US' }}">
 <meta name="twitter:card" content="summary">
 <link rel="icon" type="image/svg+xml" href="{{ root }}favicon.svg">
+<link rel="icon" type="image/png" sizes="512x512" href="{{ root }}favicon-google.png">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
 <link rel="stylesheet" href="{{ root }}assets/css/style.css?v={{ css_v }}">
 {% block extra_head %}{% endblock %}
@@ -43,7 +44,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="topbar">
-  <a class="wordmark" href="{{ root }}" style="text-decoration:none"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <a class="wordmark" href="{{ root }}" style="text-decoration:none"><img class="wordmark-logo" src="{{ root }}assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="lang-toggle">
     <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ (lang == 'fr')|lower }}">FR</a>
     <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ (lang == 'en')|lower }}">EN</a>
