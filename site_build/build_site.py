@@ -34,6 +34,13 @@ from tft_tracker.champion_images import (  # noqa: E402
 OUT = PROJECT / "data" / "output"
 DIST = ROOT / "dist"
 SET_MUTATOR = "TFTSet18"
+# Single source of truth for the human-facing set name used in SEO-critical
+# spots (titles, on-page kickers, intro copy): "TFT" is what players actually
+# type into Google (confirmed via Google Trends: "tft" outweighs "comp tft"
+# ~15:1 in France), so this is deliberately the abbreviation, not "Teamfight
+# Tactics Set 18". Same string in FR and EN -- real players use it unchanged
+# in both languages. Bump this (and SET_MUTATOR) together when Set 19 ships.
+SET_LABEL = "TFT Set 18"
 BASE_URL = "https://brokenmeta.gg/"
 
 # Same quality filter as the Artifact's export_data.py -- keeps both
@@ -645,9 +652,11 @@ I18N: dict[str, dict] = {
         "region_all": "Toutes", "rank_all": "Tous rangs", "tier_all": "Tout",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
         "level_badge": lambda n: f"Niveau {n}",
-        "home_intro": lambda n, m: f"{n} compositions calculées à partir de {m} parties classées réelles, collectées via l'API officielle de Riot (Match-V1). Aucune donnée inventée ou estimée : chaque statistique vient d'un vrai match.",
-        "scope_intro": lambda n, suffix: f"{n} compositions{suffix} classées, triées par taux de top 4 puis placement moyen. Données réelles issues de l'API Riot Match-V1.",
-        "tier_scope_intro": lambda n, tier, suffix: f"{n} compositions classées Tier {tier}{suffix}, triées par taux de top 4 puis placement moyen.",
+        "home_intro": lambda n, m: f"{n} compositions {SET_LABEL} calculées à partir de {m} parties classées réelles, collectées via l'API officielle de Riot (Match-V1). Aucune donnée inventée ou estimée : chaque statistique vient d'un vrai match.",
+        "faq_best_comp_q": f"Quelle est la meilleure comp {SET_LABEL} en ce moment ?",
+        "faq_best_comp_a": lambda label, tier, placement, top4, matches: f"D'après {matches} vraies parties classées analysées, la meilleure comp {SET_LABEL} en ce moment est {label} (Tier {tier}), avec un placement moyen de {placement} et {top4} de top 4.",
+        "scope_intro": lambda n, suffix: f"{n} compositions {SET_LABEL}{suffix} classées, triées par taux de top 4 puis placement moyen. Données réelles issues de l'API Riot Match-V1.",
+        "tier_scope_intro": lambda n, tier, suffix: f"{n} compositions {SET_LABEL} classées Tier {tier}{suffix}, triées par taux de top 4 puis placement moyen.",
         "see_full_tier": lambda n, tier: f"Voir les {n} compos Tier {tier} →",
         "tier_word": "Tier",
         "type_all": "Tout type",
@@ -752,9 +761,11 @@ I18N: dict[str, dict] = {
         "region_all": "All", "rank_all": "All ranks", "tier_all": "All",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
         "level_badge": lambda n: f"Level {n}",
-        "home_intro": lambda n, m: f"{n} comps calculated from {m} real ranked games, collected via Riot's official API (Match-V1). No invented or estimated data: every stat comes from a real match.",
-        "scope_intro": lambda n, suffix: f"{n} ranked comps{suffix}, sorted by top 4 rate then average placement. Real data from the Riot Match-V1 API.",
-        "tier_scope_intro": lambda n, tier, suffix: f"{n} comps ranked Tier {tier}{suffix}, sorted by top 4 rate then average placement.",
+        "home_intro": lambda n, m: f"{n} {SET_LABEL} comps calculated from {m} real ranked games, collected via Riot's official API (Match-V1). No invented or estimated data: every stat comes from a real match.",
+        "faq_best_comp_q": f"What's the best {SET_LABEL} comp right now?",
+        "faq_best_comp_a": lambda label, tier, placement, top4, matches: f"Based on {matches} real ranked games analyzed, the best {SET_LABEL} comp right now is {label} (Tier {tier}), with a {placement} average placement and {top4} top 4 rate.",
+        "scope_intro": lambda n, suffix: f"{n} {SET_LABEL} ranked comps{suffix}, sorted by top 4 rate then average placement. Real data from the Riot Match-V1 API.",
+        "tier_scope_intro": lambda n, tier, suffix: f"{n} {SET_LABEL} comps ranked Tier {tier}{suffix}, sorted by top 4 rate then average placement.",
         "see_full_tier": lambda n, tier: f"See all {n} Tier {tier} comps →",
         "tier_word": "Tier",
         "type_all": "All types",
@@ -1456,6 +1467,7 @@ def main() -> None:
     env.globals["star_svg"] = STAR_SVG
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
+    env.globals["SET_LABEL"] = SET_LABEL
     # Cache-buster for the one stylesheet URL every page shares: without it,
     # a CSS-only change (like this session's icon-size fix) never reaches a
     # browser that already cached style.css from an earlier visit -- caught
@@ -1594,17 +1606,44 @@ def main() -> None:
             region_chips, rank_chips = scope_chip_lists(kind, key, None)
             suffix = f" — {scope_label}" if scope_label else ""
             title_suffix = "" if not scope_label else f" — {scope_label}"
+            # Structured data (schema.org ItemList) for the tier list this page
+            # actually shows -- gives Google (rich results) and AI answer
+            # engines a clean, unambiguous "here are the top TFT Set 18 comps"
+            # summary to lift, instead of having to parse the visual layout.
+            list_name = f"{SET_LABEL} Tier List{title_suffix}"
+            item_list_schema = {
+                "@context": "https://schema.org", "@type": "ItemList", "name": list_name,
+                "itemListElement": [
+                    {"@type": "ListItem", "position": i + 1, "name": c["display_label"],
+                     "url": canonical_for(f"/compo/{c['slug']}/", _lang)}
+                    for i, c in enumerate(c for group in tier_groups for c in group["preview"])
+                ],
+            }
+            # A short, real-data FAQ on the true homepage only (not every
+            # region/rank scope variant, to avoid near-duplicate FAQ text
+            # across dozens of pages): both a classic featured-snippet bait
+            # and a clean, quotable answer for AI answer engines (GEO).
+            faq = None
+            if kind == "all" and rows:
+                top = rows[0]
+                matches_str = f"{total_matches:,}" if _lang == "en" else f"{total_matches:,}".replace(",", " ")
+                faq = {
+                    "q": translate(_lang, "faq_best_comp_q"),
+                    "a": translate(_lang, "faq_best_comp_a", top["display_label"], top["tier"],
+                                   f"{top['avg_placement']:.2f}", top["top4_pct"], matches_str),
+                }
             render("overview.html", root_path, _lang,
                    active_nav="comps",
-                   page_title=f"BrokenMeta.gg | Tier List{title_suffix} — {len(rows)} compositions" if _lang == "fr"
-                              else f"BrokenMeta.gg | Tier List{title_suffix} — {len(rows)} comps",
+                   page_title=f"BrokenMeta.gg | {SET_LABEL} Tier List{title_suffix} — {len(rows)} compositions" if _lang == "fr"
+                              else f"BrokenMeta.gg | {SET_LABEL} Tier List{title_suffix} — {len(rows)} comps",
                    page_description=f"Tier list Teamfight Tactics Set 18{title_suffix} : {len(rows)} compositions, données réelles Riot Match-V1." if _lang == "fr"
                                      else f"Teamfight Tactics Set 18 tier list{title_suffix}: {len(rows)} real ranked comps, real Riot Match-V1 data.",
                    h1=f"Tier List{title_suffix} — Teamfight Tactics Set 18",
                    intro=translate(_lang, "home_intro", len(rows), f"{total_matches:,}" if _lang == "en" else f"{total_matches:,}".replace(",", " ")) if kind == "all"
                          else translate(_lang, "scope_intro", len(rows), suffix),
                    tier_groups=tier_groups, region_chips=region_chips, rank_chips=rank_chips,
-                   tier_href=lambda t, _root=root_path: _root + f"tier/{t.lower()}/")
+                   tier_href=lambda t, _root=root_path: _root + f"tier/{t.lower()}/",
+                   item_list_schema=item_list_schema, faq=faq)
 
             for group in tier_groups:
                 tier = group["tier"]

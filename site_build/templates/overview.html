@@ -22,6 +22,19 @@
 </div>
 {% endfor %}
 <div class="empty-state" id="emptyState" hidden></div>
+
+{% if faq %}
+<div class="faq-block">
+  <h2 class="fiche-section-title">{{ faq.q }}</h2>
+  <p class="page-intro">{{ faq.a }}</p>
+</div>
+{% endif %}
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ item_list_schema|tojson }}</script>
+{% if faq %}
+<script type="application/ld+json">{{ ({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": faq.q, "acceptedAnswer": {"@type": "Answer", "text": faq.a}}]})|tojson }}</script>
+{% endif %}
 {% endblock %}
 {% block extra_body %}
 <script>window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
