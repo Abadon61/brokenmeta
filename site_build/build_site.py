@@ -169,10 +169,14 @@ COPY_COMP_JS = """
 # needs no per-page templating. FR/EN labels are embedded directly here
 # (not routed through the Jinja `t()` system) since this one static file
 # is shared, unchanged, across every language's pages.
+#
+# Event DELEGATION on `document` (not per-icon listeners) on purpose: every
+# other page's icons exist at load time, but MetaScope (see metascope.js)
+# renders its whole profile/analysis view from a live API response AFTER
+# this script has already run -- delegation means those icons get the same
+# hover/click behavior for free, no re-init call needed from that script.
 CHAMP_ICON_JS = """
 (function () {
-  var icons = document.querySelectorAll('.champ-link-icon');
-  if (!icons.length) return;
   var LABELS = {
     fr: {playrate: 'Popularité', avgplacement: 'Placement moyen', avgstar: 'Étoile moyenne',
          items: function (s) { return 'Objets fréquents : ' + s; }},
@@ -181,13 +185,12 @@ CHAMP_ICON_JS = """
   };
   var L = LABELS[document.documentElement.lang === 'en' ? 'en' : 'fr'];
   var tooltip = document.getElementById('tooltip');
-  var dataPromise = fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).catch(function () { return {}; });
   var champData = null;
-  dataPromise.then(function (d) { champData = d; });
+  fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
 
-  function showTooltip(e) {
+  function showTooltip(icon, e) {
     if (!champData || !tooltip) return;
-    var d = champData[e.currentTarget.dataset.champSlug];
+    var d = champData[icon.dataset.champSlug];
     if (!d) return;
     tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
       + '<div class="tt-row"><span>' + L.playrate + '</span><b class="nums">' + d.pick_rate_pct + '</b></div>'
@@ -207,17 +210,269 @@ CHAMP_ICON_JS = """
   }
   function hideTooltip() { if (tooltip) tooltip.dataset.visible = 'false'; }
 
-  icons.forEach(function (icon) {
-    icon.addEventListener('mouseenter', showTooltip);
-    icon.addEventListener('mousemove', moveTooltip);
-    icon.addEventListener('mouseleave', hideTooltip);
-    icon.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var href = icon.dataset.champHref;
-      if (href) location.href = href;
+  document.addEventListener('mouseover', function (e) {
+    var icon = e.target.closest('.champ-link-icon');
+    if (icon) showTooltip(icon, e);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (e.target.closest('.champ-link-icon')) moveTooltip(e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest('.champ-link-icon')) hideTooltip();
+  });
+  document.addEventListener('click', function (e) {
+    var icon = e.target.closest('.champ-link-icon');
+    if (!icon) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var href = icon.dataset.champHref;
+    if (href) location.href = href;
+  });
+})();
+"""
+
+# The one page on the whole site that renders itself: a Riot ID typed by any
+# visitor can't be pre-built at deploy time, so this fetches from
+# metascope-worker (see metascope-worker/, a separate Cloudflare Worker --
+# the only live backend BrokenMeta.gg has) and builds the same markup/CSS
+# classes the static player.html/game_analysis.html templates already use,
+# by hand, in JS. Two "screens" (profile, then one game's analysis) toggled
+# in place, with the URL kept in sync via history.pushState so a result is
+# still linkable/shareable and survives a refresh or the back button.
+METASCOPE_JS = """
+(function () {
+  var API = window.BM_METASCOPE_API;
+  var ROOT = window.BM_ROOT || '';
+  var I = window.BM_I18N_MS || {};
+  var form = document.getElementById('metascopeForm');
+  var riotIdInput = document.getElementById('metascopeRiotId');
+  var regionSelect = document.getElementById('metascopeRegion');
+  var statusEl = document.getElementById('metascopeStatus');
+  var results = document.getElementById('metascopeResults');
+  if (!form || !API) return;
+
+  var currentProfile = null; // cached so "back" from an analysis doesn't refetch
+
+  function el(tag, className, html) {
+    var e = document.createElement(tag);
+    if (className) e.className = className;
+    if (html !== undefined) e.innerHTML = html;
+    return e;
+  }
+  function champIcon(slug, alt, cls, style) {
+    if (!slug) return '';
+    return '<img class="champ-link-icon' + (cls ? ' ' + cls : '') + '" src="' + ROOT + 'assets/champions/' + slug + '.png" alt="' + alt + '" loading="lazy"'
+      + (style ? ' style="' + style + '"' : '') + ' data-champ-slug="' + slug + '" data-champ-href="' + ROOT + 'champions/' + slug + '/">';
+  }
+  function pill(label, value) {
+    return '<div class="pill"><div class="p-label">' + label + '</div><div class="p-value nums">' + value + '</div></div>';
+  }
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+  function initials(riotId) { var name = (riotId || '').split('#')[0].trim(); return (name.slice(0, 2) || '?').toUpperCase(); }
+
+  function setStatus(text, isError) {
+    if (!text) { statusEl.hidden = true; statusEl.textContent = ''; return; }
+    statusEl.hidden = false;
+    statusEl.textContent = text;
+    statusEl.dataset.error = isError ? 'true' : 'false';
+  }
+
+  function setUrl(params) {
+    var qs = new URLSearchParams(params).toString();
+    var url = location.pathname + (qs ? '?' + qs : '');
+    history.pushState(params, '', url);
+  }
+
+  async function fetchJson(url) {
+    var res = await fetch(url);
+    var data = await res.json().catch(function () { return {}; });
+    if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+    return data;
+  }
+
+  function renderProfile(data) {
+    currentProfile = data;
+    var total = (data.wins || 0) + (data.losses || 0);
+    var wr = total ? Math.round((data.wins / total) * 100) + '%' : null;
+
+    var header = el('div', 'player-header',
+      '<div class="player-avatar">' + esc(initials(data.riotId)) + '</div>'
+      + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span>'
+      + (data.tier ? '<span class="lb-tier-tag" data-tier="' + data.tier + '">' + data.tier + '</span>' : '')
+      + (data.hotStreak ? '<span class="lb-hot" title="' + esc(I.hotStreakTitle) + '">\\ud83d\\udd25</span>' : '')
+      + '</div><div class="player-meta">' + esc(data.region) + '</div></div>'
+      + '<div class="player-stats pill-row">'
+      + pill('LP', data.leaguePoints != null ? data.leaguePoints : '—')
+      + pill(I.recordLabel, total ? (data.wins + 'W / ' + data.losses + 'L') : '—')
+      + pill(I.winrateLabel, wr || I.winrateUnavailable)
+      + '</div>');
+
+    var statsBox = el('div', 'metascope-box',
+      '<div class="metascope-box-title">' + esc(I.statsTitle) + '</div>'
+      + '<div class="metascope-stat-row"><span>LP</span><b class="nums">' + (data.leaguePoints != null ? data.leaguePoints : '—') + '</b></div>'
+      + (data.avgPlacement != null ? '<div class="metascope-stat-row"><span>' + esc(I.placementLabel) + '</span><b class="nums">' + data.avgPlacement.toFixed(2) + '</b></div>' : ''));
+
+    var habitsInner = '<div class="metascope-box-title">' + esc(I.habitsTitle) + '</div>';
+    if (data.isRerollLover) habitsInner += '<div class="metascope-habit-badge">\\ud83c\\udfb2 ' + esc(I.rerollLover) + '</div>';
+    if (data.topPlayed && data.topPlayed.length) {
+      habitsInner += '<div class="metascope-top-played-label">' + esc(I.topPlayed) + '</div>';
+      data.topPlayed.forEach(function (tp) {
+        habitsInner += '<div class="metascope-top-played-row">' + champIcon(tp.carrySlug, tp.label)
+          + (tp.compSlug ? '<a class="metascope-top-played-name" href="' + ROOT + 'compo/' + tp.compSlug + '/">' + esc(tp.label) + '</a>'
+                          : '<span class="metascope-top-played-name">' + esc(tp.label) + '</span>')
+          + '<span class="metascope-top-played-count nums">\\u00d7' + tp.count + '</span></div>';
+      });
+    } else if (!data.isRerollLover) {
+      habitsInner += '<div class="matchup-empty">' + esc(I.noHabits) + '</div>';
+    }
+    var habitsBox = el('div', 'metascope-box', habitsInner);
+
+    var sidebar = el('div', 'metascope-sidebar');
+    sidebar.appendChild(statsBox);
+    sidebar.appendChild(habitsBox);
+
+    var gamesHtml = '';
+    (data.recentGames || []).forEach(function (g) {
+      gamesHtml += '<div class="profile-comp-row" style="cursor:default">'
+        + '<span class="lb-square ' + (g.placement <= 4 ? 'win' : 'loss') + '">' + g.placement + '</span>'
+        + champIcon(g.carrySlug, g.carry, null, 'width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)')
+        + (g.compSlug ? '<a class="profile-comp-name" href="' + ROOT + 'compo/' + g.compSlug + '/">' + esc(g.compLabel) + '</a>'
+                       : '<span class="profile-comp-name">' + esc(g.compLabel) + '</span>')
+        + '<a class="metascope-analyze-link" href="javascript:;" data-match-id="' + g.matchId + '">' + esc(I.analyzeButton) + ' \\u2192</a>'
+        + '</div>';
+    });
+    var main = el('div', 'metascope-main',
+      '<h2 class="fiche-section-title" style="margin-top:0">' + esc(I.last10GamesTitle) + '</h2>'
+      + (data.recentGames && data.recentGames.length ? '<p class="metascope-hint">' + esc(I.analyzeHint) + '</p>' : '')
+      + '<div class="profile-comp-list">' + (gamesHtml || '<div class="matchup-empty">' + esc(I.noRecentGames) + '</div>') + '</div>');
+
+    var layout = el('div', 'metascope-layout');
+    layout.appendChild(sidebar);
+    layout.appendChild(main);
+
+    results.innerHTML = '';
+    results.appendChild(header);
+    results.appendChild(layout);
+
+    main.querySelectorAll('[data-match-id]').forEach(function (btn) {
+      btn.addEventListener('click', function () { runAnalyze(btn.dataset.matchId); });
+    });
+  }
+
+  function renderAnalysis(data) {
+    var insightsHtml = (data.insights || []).map(function (ins) {
+      var icon = ins.type === 'good' ? '\\u2713' : ins.type === 'warning' ? '\\u26a0' : '\\u2139';
+      return '<div class="metascope-insight-row" data-type="' + ins.type + '">'
+        + '<span class="metascope-insight-icon">' + icon + '</span>'
+        + '<div><span class="metascope-insight-category">' + esc(ins.category) + '</span>'
+        + '<span class="metascope-insight-text">' + esc(ins.text) + '</span></div></div>';
+    }).join('');
+
+    var unitsHtml = (data.units || []).map(function (u) {
+      var itemsHtml = (u.items || []).map(function (it) {
+        return '<img class="item-icon" src="' + ROOT + 'assets/items/' + it.slug + '.png" alt="' + esc(it.name) + '" title="' + esc(it.name) + '" loading="lazy">';
+      }).join('');
+      var stars = u.star >= 3 ? '\\u2605\\u2605\\u2605' : u.star === 2 ? '\\u2605\\u2605' : '';
+      return '<div class="unit-cell"><div class="unit-icon-wrap">'
+        + champIcon(u.slug, u.champion, 'unit-icon', 'border-color:var(--cost-' + (u.cost || 1) + ')')
+        + (stars ? '<span class="star-row">' + stars + '</span>' : '')
+        + '</div><div class="unit-items">' + itemsHtml + '</div></div>';
+    }).join('');
+
+    var lobbyHtml = '<div class="profile-comp-row" style="cursor:default;background:transparent;border-color:transparent">'
+      + '<span class="lb-square" style="background:transparent;border:none;color:var(--text-faint)">\\u2014</span>'
+      + champIcon(data.carrySlug, data.carry, null, 'width:26px;height:26px;object-fit:cover;border:1px solid var(--cyan)')
+      + '<span class="profile-comp-name"><b>' + esc(currentProfile ? currentProfile.riotId : '') + '</b> \\u2014 ' + esc(data.compLabel) + '</span>'
+      + '<span class="lb-square ' + (data.placement <= 4 ? 'win' : 'loss') + '">' + data.placement + '</span></div>';
+    (data.lobby || []).forEach(function (l) {
+      lobbyHtml += '<div class="profile-comp-row" style="cursor:default" data-counter="' + (l.isCounter ? 'true' : 'false') + '">'
+        + '<span class="lb-square ' + (l.placement <= 4 ? 'win' : 'loss') + '">' + l.placement + '</span>'
+        + champIcon(l.carrySlug, l.carry, null, 'width:26px;height:26px;object-fit:cover;border:1px solid var(--border-bright)')
+        + (l.compSlug ? '<a class="profile-comp-name" href="' + ROOT + 'compo/' + l.compSlug + '/">' + esc(l.riotId) + ' \\u2014 ' + esc(l.compLabel) + '</a>'
+                       : '<span class="profile-comp-name">' + esc(l.riotId) + ' \\u2014 ' + esc(l.compLabel) + '</span>')
+        + (l.isCounter ? '<span class="metascope-counter-tag">' + esc(I.counterTag) + '</span>' : '')
+        + '</div>';
+    });
+
+    var container = el('div', '',
+      '<a class="back-link" href="javascript:;" id="msBackLink">' + esc(I.backButton) + '</a>'
+      + '<div class="fiche-header">' + champIcon(data.carrySlug, data.carry, 'champ-fiche-icon')
+      + '<div><h1 class="fiche-title">' + (data.compSlug ? '<a href="' + ROOT + 'compo/' + data.compSlug + '/" style="color:inherit">' + esc(data.compLabel) + '</a>' : esc(data.compLabel)) + '</h1></div>'
+      + '<div class="fiche-stats pill-row">' + pill(I.placementLabel, data.placement)
+      + (data.level ? pill(I.levelLabel, data.level) : '') + (data.goldLeft != null ? pill(I.goldLeftLabel, data.goldLeft) : '') + '</div></div>'
+      + (unitsHtml ? '<h2 class="fiche-section-title">' + esc(I.yourBoardTitle) + '</h2><div class="fiche-board-wrap"><div class="fiche-board">' + unitsHtml + '</div></div>' : '')
+      + '<h2 class="fiche-section-title">' + esc(I.insightsTitle) + '</h2>'
+      + (I.lang === 'en' ? '<div class="metascope-lang-note">' + esc(I.insightsFrOnly) + '</div>' : '')
+      + (insightsHtml ? '<div class="metascope-insight-list">' + insightsHtml + '</div>' : '<div class="matchup-empty">' + esc(I.noInsights) + '</div>')
+      + '<h2 class="fiche-section-title">' + esc(I.lobbyTitle) + '</h2>'
+      + (data.lobby && data.lobby.length ? '<div class="profile-comp-list">' + lobbyHtml + '</div>' : '<div class="matchup-empty">' + esc(I.noLobby) + '</div>'));
+
+    results.innerHTML = '';
+    results.appendChild(container);
+    document.getElementById('msBackLink').addEventListener('click', function () {
+      setUrl({ riotId: currentProfile.riotId, region: currentProfile.region });
+      if (currentProfile) renderProfile(currentProfile);
+    });
+    window.scrollTo(0, 0);
+  }
+
+  async function runProfile(riotId, region) {
+    setStatus(I.loading, false);
+    results.innerHTML = '';
+    try {
+      var data = await fetchJson(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
+      setStatus(null);
+      setUrl({ riotId: riotId, region: region });
+      renderProfile(data);
+    } catch (e) {
+      setStatus(e.message || String(e), true);
+    }
+  }
+
+  async function runAnalyze(matchId) {
+    if (!currentProfile) return;
+    setStatus(I.loading, false);
+    try {
+      var data = await fetchJson(API + '/analyze?region=' + encodeURIComponent(currentProfile.region) + '&matchId=' + encodeURIComponent(matchId) + '&puuid=' + encodeURIComponent(currentProfile.puuid));
+      setStatus(null);
+      setUrl({ riotId: currentProfile.riotId, region: currentProfile.region, match: matchId });
+      renderAnalysis(data);
+    } catch (e) {
+      setStatus(e.message || String(e), true);
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var riotId = riotIdInput.value.trim();
+    var region = regionSelect.value;
+    if (riotId) runProfile(riotId, region);
+  });
+
+  window.addEventListener('popstate', function (e) {
+    var p = new URLSearchParams(location.search);
+    var riotId = p.get('riotId');
+    if (!riotId) { results.innerHTML = ''; setStatus(null); return; }
+    riotIdInput.value = riotId;
+    regionSelect.value = p.get('region') || 'EUW';
+    runProfile(riotId, regionSelect.value).then(function () {
+      var matchId = p.get('match');
+      if (matchId) runAnalyze(matchId);
     });
   });
+
+  // Auto-run on load if the URL already carries a lookup (shared link, or a
+  // refresh/back-navigation onto a result).
+  var initial = new URLSearchParams(location.search);
+  var initialRiotId = initial.get('riotId');
+  if (initialRiotId) {
+    riotIdInput.value = initialRiotId;
+    regionSelect.value = initial.get('region') || 'EUW';
+    runProfile(initialRiotId, regionSelect.value).then(function () {
+      var matchId = initial.get('match');
+      if (matchId) runAnalyze(matchId);
+    });
+  }
 })();
 """
 
@@ -382,6 +637,7 @@ def build_elo_chart_svg(snapshots: list[dict], regions: list[str], lang: str = "
 I18N: dict[str, dict] = {
     "fr": {
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
+        "nav_metascope": "MetaScope",
         "overlay_cta_title": "L'overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.",
         "overlay_cta_soon": "Bientôt",
         "footer_generated": lambda date, s: f"Généré le {date} · Set {s}",
@@ -466,7 +722,13 @@ I18N: dict[str, dict] = {
         "ms_lobby_title": "Classement de la partie",
         "ms_counter_tag": "Contre ta compo",
         "ms_no_lobby": "Détail des adversaires indisponible pour cette partie.",
-        "see_worldstat": "Voir World Stat →",
+        "ms_page_intro": "Entre ton Riot ID pour voir ton profil réel — LP, placement moyen, habitudes de jeu — et analyser en détail une de tes parties récentes : ce qui a bien (ou moins bien) marché, et si des adversaires contraient ta compo.",
+        "ms_riotid_placeholder": "Pseudo#TAG",
+        "ms_search_button": "Voir mon profil",
+        "ms_loading": "Recherche en cours…",
+        "ms_back_button": "← Retour au profil",
+        "ms_winrate_unavailable": "Palier non classé pour l'instant.",
+        "ms_profile_of": lambda riot_id: f"Profil de {riot_id}",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Élo moyen du top 100 par région",
         "no_leaderboard_chart": "Pas encore de relevé de classement pour construire la courbe.",
@@ -482,6 +744,7 @@ I18N: dict[str, dict] = {
     },
     "en": {
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
+        "nav_metascope": "MetaScope",
         "overlay_cta_title": "The Overwolf overlay is in development, not yet available for download.",
         "overlay_cta_soon": "Soon",
         "footer_generated": lambda date, s: f"Generated on {date} · Set {s}",
@@ -566,7 +829,13 @@ I18N: dict[str, dict] = {
         "ms_lobby_title": "Game standings",
         "ms_counter_tag": "Counters your comp",
         "ms_no_lobby": "Opponent detail unavailable for this game.",
-        "see_worldstat": "View World Stat →",
+        "ms_page_intro": "Enter your Riot ID to see your real profile — LP, average placement, playstyle habits — and analyze one of your recent games in detail: what worked (or didn't), and whether any opponents countered your comp.",
+        "ms_riotid_placeholder": "Name#TAG",
+        "ms_search_button": "View my profile",
+        "ms_loading": "Searching…",
+        "ms_back_button": "← Back to profile",
+        "ms_winrate_unavailable": "Not ranked yet.",
+        "ms_profile_of": lambda riot_id: f"{riot_id}'s profile",
         "worldstat_title": "World Stat — Teamfight Tactics Set 18",
         "worldstat_elo_title": "Average Elo of the top 100 by region",
         "no_leaderboard_chart": "Not enough leaderboard data yet to build the chart.",
@@ -1271,6 +1540,7 @@ def main() -> None:
                elo_chart_svg=build_elo_chart_svg(ws_snapshots, ws_regions_present, lang), legend=legend, single_point=len(ws_snapshots) == 1,
                region_cols=region_cols, comp_cols=comp_cols)
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
+        render("metascope.html", "/metascope/", lang, active_nav="metascope")
 
         for c in comp_vms:
             render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c)
@@ -1445,6 +1715,19 @@ def main() -> None:
   .metascope-insight-text { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
   .metascope-counter-tag { flex: none; background: rgba(255,56,100,0.14); border: 1px solid var(--warn); color: var(--warn); font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; margin-left: auto; }
   .profile-comp-row[data-counter="true"] { border-color: var(--warn); }
+
+  /* MetaScope search form + status line (leaderboard.html/list_page.html
+     rows above reuse .search-input, but that one's a plain <input
+     type=search> with a magnifier icon absolutely positioned via
+     .search-row -- this form has a region <select> and a submit button
+     alongside it, so it gets its own flex row instead). */
+  .metascope-search-form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .metascope-search-form .search-input { flex: 1; min-width: 220px; padding: 10px 14px; }
+  .metascope-region-select { background: var(--row); border: 1px solid var(--border); color: var(--cream); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 0 12px; }
+  .metascope-search-button { background: var(--magenta); border: none; color: #fff; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: background .12s ease; }
+  .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
+  .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
+  .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
@@ -1456,6 +1739,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")

@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | MetaScope{% endblock %}
+{% block description %}{% if lang == 'fr' %}Analyse réelle de ton profil et de tes parties Teamfight Tactics : LP, placement moyen, habitudes de jeu, et un rapport détaillé partie par partie, via l'API officielle de Riot.{% else %}Real analysis of your Teamfight Tactics profile and games: LP, average placement, playstyle habits, and a detailed game-by-game report, via Riot's official API.{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">MetaScope</h1>
+<p class="page-intro">{{ t(lang, 'ms_page_intro') }}</p>
+
+<form id="metascopeForm" class="metascope-search-form">
+  <input type="text" id="metascopeRiotId" class="search-input" placeholder="{{ t(lang, 'ms_riotid_placeholder') }}" autocomplete="off" required>
+  <select id="metascopeRegion" class="metascope-region-select">
+    <option value="EUW">EUW</option>
+    <option value="NA">NA</option>
+    <option value="BR">BR</option>
+    <option value="KR">KR</option>
+  </select>
+  <button type="submit" class="metascope-search-button">{{ t(lang, 'ms_search_button') }}</button>
+</form>
+<div id="metascopeStatus" class="metascope-status" hidden></div>
+<div id="metascopeResults"></div>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_METASCOPE_API = "https://metascope-worker.brokenmeta.workers.dev";
+window.BM_I18N_MS = {
+  loading: {{ t(lang, 'ms_loading')|tojson }},
+  backButton: {{ t(lang, 'ms_back_button')|tojson }},
+  statsTitle: {{ t(lang, 'ms_stats_title')|tojson }},
+  habitsTitle: {{ t(lang, 'ms_habits_title')|tojson }},
+  rerollLover: {{ t(lang, 'ms_reroll_lover')|tojson }},
+  topPlayed: {{ t(lang, 'ms_top_played')|tojson }},
+  noHabits: {{ t(lang, 'ms_no_habits')|tojson }},
+  last10GamesTitle: {{ t(lang, 'last10_games_title')|tojson }},
+  analyzeHint: {{ t(lang, 'ms_analyze_hint')|tojson }},
+  analyzeButton: {{ t(lang, 'ms_analyze_button')|tojson }},
+  noRecentGames: {{ t(lang, 'no_recent_games')|tojson }},
+  placementLabel: {{ t(lang, 'placement_label')|tojson }},
+  recordLabel: {{ t(lang, 'record_label')|tojson }},
+  winrateLabel: {{ t(lang, 'winrate_label')|tojson }},
+  winrateUnavailable: {{ t(lang, 'ms_winrate_unavailable')|tojson }},
+  yourBoardTitle: {{ t(lang, 'ms_your_board_title')|tojson }},
+  insightsTitle: {{ t(lang, 'ms_insights_title')|tojson }},
+  insightsFrOnly: {{ t(lang, 'ms_insights_fr_only')|tojson }},
+  noInsights: {{ t(lang, 'ms_no_insights')|tojson }},
+  lobbyTitle: {{ t(lang, 'ms_lobby_title')|tojson }},
+  counterTag: {{ t(lang, 'ms_counter_tag')|tojson }},
+  noLobby: {{ t(lang, 'ms_no_lobby')|tojson }},
+  levelLabel: {{ t(lang, 'ms_level_label')|tojson }},
+  goldLeftLabel: {{ t(lang, 'ms_gold_left_label')|tojson }},
+  hotStreakTitle: {{ t(lang, 'hot_streak_title')|tojson }},
+  lang: {{ lang|tojson }}
+};
+</script>
+<script src="{{ root }}assets/js/metascope.js" defer></script>
+{% endblock %}
