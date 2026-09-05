@@ -1,8 +1,8 @@
 {% extends "base.html" %}
-{% block title %}BrokenMeta.gg | MetaScope{% endblock %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Analyse ton profil{% else %}Analyze your profile{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Analyse réelle de ton profil et de tes parties Teamfight Tactics : LP, placement moyen, habitudes de jeu, et un rapport détaillé partie par partie, via l'API officielle de Riot.{% else %}Real analysis of your Teamfight Tactics profile and games: LP, average placement, playstyle habits, and a detailed game-by-game report, via Riot's official API.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">MetaScope</h1>
+<h1 class="page-h1">{{ t(lang, 'nav_metascope') }}</h1>
 <p class="page-intro">{{ t(lang, 'ms_page_intro') }}</p>
 
 <form id="metascopeForm" class="metascope-search-form">

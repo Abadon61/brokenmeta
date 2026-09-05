@@ -637,7 +637,7 @@ def build_elo_chart_svg(snapshots: list[dict], regions: list[str], lang: str = "
 I18N: dict[str, dict] = {
     "fr": {
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
-        "nav_metascope": "MetaScope",
+        "nav_metascope": "Analyse ton profil",
         "overlay_cta_title": "L'overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.",
         "overlay_cta_soon": "Bientôt",
         "footer_generated": lambda date, s: f"Généré le {date} · Set {s}",
@@ -744,7 +744,7 @@ I18N: dict[str, dict] = {
     },
     "en": {
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
-        "nav_metascope": "MetaScope",
+        "nav_metascope": "Analyze your profile",
         "overlay_cta_title": "The Overwolf overlay is in development, not yet available for download.",
         "overlay_cta_soon": "Soon",
         "footer_generated": lambda date, s: f"Generated on {date} · Set {s}",
