@@ -866,10 +866,16 @@
   }
   .champ-picker-item {
     width: 52px; height: 52px; flex: none; cursor: grab; position: relative; touch-action: none;
-    border: 2px solid var(--cost-1); transition: border-color .12s ease, transform .12s ease;
+    /* Cost color comes from a custom property (set inline per-item), not a
+       plain inline border-color -- an inline style declaration would beat
+       the [data-dragging="true"] rule below on specificity and the
+       selection border would never show. */
+    border: 2px solid var(--picker-cost-color, var(--cost-1));
+    transition: border-color .12s ease, transform .12s ease;
   }
   .champ-picker-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
   .champ-picker-item:hover { transform: translateY(-2px); }
+  .champ-picker-item[data-dragging="true"] { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan); }
   .champ-picker-item[data-hidden="true"] { display: none; }
   .champ-picker-empty { color: var(--text-faint); font-size: 12.5px; padding: 10px; }
 
