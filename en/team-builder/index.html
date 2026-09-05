@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrokenMeta.gg | Team Builder — Teamfight Tactics Set 18</title>
+<meta name="description" content="Freely build your TFT Set 18 comp on a real hex board: place champions, track trait synergies live, and share the result with a link.">
+<link rel="canonical" href="https://brokenmeta.gg/en/team-builder/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/team-builder/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/team-builder/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/team-builder/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="BrokenMeta.gg | Team Builder — Teamfight Tactics Set 18">
+<meta property="og:description" content="Freely build your TFT Set 18 comp on a real hex board: place champions, track trait synergies live, and share the result with a link.">
+<meta property="og:url" content="https://brokenmeta.gg/en/team-builder/">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260905175914">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260905175914">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20260905175914">
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../" style="text-decoration:none"><img class="wordmark-logo" src="../../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="lang-toggle">
+    <a class="lang-btn" href="https://brokenmeta.gg/team-builder/" data-active="false">FR</a>
+    <a class="lang-btn" href="https://brokenmeta.gg/en/team-builder/" data-active="true">EN</a>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">Teamfight Tactics</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      <a class="nav-link" href="../../" >Comp List</a>
+      <a class="nav-link" href="../../champions/" >Champion List</a>
+      <a class="nav-link" href="../../patch-notes/" >Patch Notes</a>
+      <a class="nav-link" href="../../leaderboard/" >Leaderboard</a>
+      <a class="nav-link" href="../../team-builder/" data-active="true">Team Builder</a>
+    </nav>
+    <a class="nav-cta-button" href="../../metascope/" >
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      Analyze your profile
+    </a>
+    <div class="overlay-cta" title="The Overwolf overlay is in development, not yet available for download.">
+      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+      <span class="cta-label">Overlay TFT</span>
+      <span class="cta-soon">Soon</span>
+    </div>
+  </div>
+</div>
+<div class="page">
+
+<h1 class="page-h1">Team Builder</h1>
+<p class="page-intro">Place champions on the board to see your trait synergies calculated live. Only champions placed on the board count toward traits (not the bench), same as in the real game.</p>
+
+<div class="builder-layout">
+  <div class="builder-main">
+    <div class="search-row">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input type="search" id="builderSearch" class="search-input" placeholder="Search a champion…" autocomplete="off">
+    </div>
+    <div class="builder-cost-filters" id="builderCostFilters">
+      <button type="button" class="chip" data-cost-filter="ALL" data-active="true">All</button>
+      <button type="button" class="chip" data-cost-filter="1">1</button>
+      <button type="button" class="chip" data-cost-filter="2">2</button>
+      <button type="button" class="chip" data-cost-filter="3">3</button>
+      <button type="button" class="chip" data-cost-filter="4">4</button>
+      <button type="button" class="chip" data-cost-filter="5">5</button>
+    </div>
+    <div class="champ-picker" id="champPicker"></div>
+
+    <div class="hex-board-wrap"><div class="hex-board" id="hexBoard"></div></div>
+    <p class="builder-empty-hint" id="builderEmptyHint">The board is empty — click a champion above, then a cell to place it.</p>
+
+    <div class="bench-wrap">
+      <div class="builder-section-label">Bench</div>
+      <div class="bench" id="benchRow"></div>
+    </div>
+
+    <div class="builder-actions">
+      <button type="button" class="metascope-search-button" id="builderReset">Reset</button>
+      <button type="button" class="metascope-search-button" id="builderShare">Copy share link</button>
+      <span id="builderShareStatus" class="metascope-status" hidden></span>
+    </div>
+  </div>
+
+  <div class="builder-sidebar">
+    <div class="metascope-box">
+      <div class="metascope-box-title">Traits</div>
+      <div id="traitPanel"></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../">Comp List</a>
+      <a href="../../champions/">Champion List</a>
+      <a href="../../patch-notes/">Patch Notes</a>
+      <a href="../../leaderboard/">Leaderboard</a>
+      <a href="../../metascope/">Analyze your profile</a>
+      <a href="../../team-builder/">Team Builder</a>
+      <a href="../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-05 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg isn&#39;t endorsed by Riot Games and doesn&#39;t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+window.BM_BUILDER_I18N = {
+  noTraits: "No active synergy yet.",
+  shareCopied: "Link copied!",
+  nextAt: "next tier at __N__"
+};
+</script>
+<script src="../../assets/js/team-builder.js" defer></script>
+
+<script>window.BM_ROOT = "../../";</script>
+<script src="../../assets/js/copy-comp.js" defer></script>
+<script src="../../assets/js/champ-icons.js" defer></script>
+</body>
+</html>
