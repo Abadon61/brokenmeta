@@ -1645,10 +1645,10 @@ def main() -> None:
   /* Overlay TFT badge (Overwolf project CTA, ported from the Artifact) --
      inert on purpose, no download link exists yet. */
   .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
-  .overlay-cta { display: flex; align-items: center; gap: 6px; background: var(--cyan); color: #0b0221; padding: 6px 8px 6px 10px; }
-  .overlay-cta svg { width: 13px; height: 13px; stroke: #0b0221; fill: none; stroke-width: 2.2; }
+  .overlay-cta { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.45); padding: 6px 8px 6px 10px; cursor: not-allowed; }
+  .overlay-cta svg { width: 13px; height: 13px; stroke: rgba(255,255,255,0.45); fill: none; stroke-width: 2.2; }
   .overlay-cta .cta-label { font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
-  .overlay-cta .cta-soon { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: rgba(11,2,33,0.15); padding: 2px 6px; margin-left: 2px; }
+  .overlay-cta .cta-soon { font-family: 'Space Mono', monospace; font-size: 9px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6); padding: 2px 6px; margin-left: 2px; }
 
   /* FR/EN toggle -- real separate pages (hreflang-linked), this just jumps
      between the current page's two language URLs. */
