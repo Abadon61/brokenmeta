@@ -30,20 +30,37 @@
     return ROOT + 'assets/traits/' + slug + '.png';
   }
 
-  // ---- Drag and drop (mouse + touch via Pointer Events): pick up a
-  // champion from the picker, or an already-placed one straight off the
-  // board/bench, and drop it on any hex/bench cell. Dropping outside the
-  // board/bench removes it -- the only other way to clear a cell, since
-  // this replaces the old click-to-arm-then-click-to-place flow entirely. --
-  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null, dragSourcePickerEl = null;
+  // ---- Placement: two ways in, on purpose --------------------------------
+  // 1) Drag and drop (mouse + touch via Pointer Events): pick up a champion
+  //    from the picker, or an already-placed one straight off the board/
+  //    bench, and drop it on any hex/bench cell. Dropping outside removes it.
+  // 2) Tap-to-arm: a plain click/tap (no real movement) on a picker
+  //    champion "arms" it instead -- a persistent border/glow, not a
+  //    fleeting mid-drag one -- and the next tap on any cell places it
+  //    there. Needed because a real drag's "currently held" highlight
+  //    collapses to a few milliseconds for a plain click, invisible in
+  //    practice; this is what actually answers "show me what I picked".
+  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null;
+  var dragSourcePickerEl = null, dragStartX = 0, dragStartY = 0, dragMoved = false;
+  var armedSlug = null, armedPickerEl = null;
+  var TAP_THRESHOLD = 6; // px of movement below which a press counts as a tap, not a drag
 
+  function setArmed(slug, pickerEl) {
+    if (armedPickerEl) armedPickerEl.dataset.armed = 'false';
+    armedSlug = slug;
+    armedPickerEl = pickerEl || null;
+    if (armedPickerEl) armedPickerEl.dataset.armed = 'true';
+  }
   function clearDragSourceHighlight() {
     if (dragSourcePickerEl) { dragSourcePickerEl.dataset.dragging = 'false'; dragSourcePickerEl = null; }
   }
 
-  function beginDrag(slug, origin, x, y) {
+  function beginDrag(slug, origin, x, y, pickerEl) {
     dragSlug = slug;
     dragOrigin = origin; // null if fresh from the picker, else {zone, idx}
+    dragStartX = x; dragStartY = y; dragMoved = false;
+    dragSourcePickerEl = pickerEl || null;
+    if (dragSourcePickerEl) dragSourcePickerEl.dataset.dragging = 'true';
     dragGhost = document.createElement('img');
     dragGhost.src = champImg(slug);
     dragGhost.className = 'builder-drag-ghost';
@@ -63,9 +80,18 @@
     if (bc) return { zone: 'bench', idx: parseInt(bc.dataset.idx, 10), el: bc };
     return null;
   }
+  function placeArmedOn(zone, idx) {
+    var arr = zone === 'board' ? board : bench;
+    arr[idx] = armedSlug;
+    setArmed(null, null);
+    renderCells();
+    renderTraitPanel();
+    syncUrl();
+  }
   document.addEventListener('pointermove', function (e) {
     if (!dragGhost) return;
     positionGhost(e.clientX, e.clientY);
+    if (Math.abs(e.clientX - dragStartX) + Math.abs(e.clientY - dragStartY) > TAP_THRESHOLD) dragMoved = true;
     var hit = cellUnder(e.clientX, e.clientY);
     var el = hit ? hit.el : null;
     if (el !== dragOverEl) {
@@ -80,6 +106,19 @@
     dragGhost = null;
     document.body.classList.remove('builder-dragging');
     if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
+
+    if (!dragMoved && dragOrigin === null) {
+      // A tap (not a drag) on a picker champion: arm it instead of
+      // cancelling. Re-tapping the already-armed one toggles it off.
+      // (Grab the source element BEFORE clearing it -- clearDragSourceHighlight()
+      // nulls out dragSourcePickerEl as a side effect.)
+      var tappedEl = dragSourcePickerEl;
+      var wasThisOneArmed = armedPickerEl === tappedEl;
+      clearDragSourceHighlight();
+      setArmed(wasThisOneArmed ? null : dragSlug, wasThisOneArmed ? null : tappedEl);
+      dragSlug = null; dragOrigin = null;
+      return;
+    }
     clearDragSourceHighlight();
 
     var hit = cellUnder(e.clientX, e.clientY);
@@ -120,6 +159,11 @@
   function wireCellDrag(cell, zone) {
     cell.addEventListener('pointerdown', function (e) {
       var idx = parseInt(cell.dataset.idx, 10);
+      if (armedSlug) {
+        e.preventDefault();
+        placeArmedOn(zone, idx);
+        return;
+      }
       var arr = zone === 'board' ? board : bench;
       var slug = arr[idx];
       if (!slug) return;
@@ -195,9 +239,8 @@
       item.innerHTML = '<img src="' + champImg(c.slug) + '" alt="' + c.name + '" loading="lazy">';
       item.addEventListener('pointerdown', function (e) {
         e.preventDefault();
-        item.dataset.dragging = 'true';
-        dragSourcePickerEl = item;
-        beginDrag(c.slug, null, e.clientX, e.clientY);
+        if (armedPickerEl && armedPickerEl !== item) setArmed(null, null);
+        beginDrag(c.slug, null, e.clientX, e.clientY, item);
       });
       picker.appendChild(item);
     });
@@ -305,6 +348,7 @@
     resetBtn.addEventListener('click', function () {
       board = new Array(ROWS * COLS).fill(null);
       bench = new Array(BENCH_SIZE).fill(null);
+      setArmed(null, null);
       renderCells();
       renderTraitPanel();
       history.replaceState(null, '', location.pathname);
