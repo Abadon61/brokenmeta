@@ -896,3 +896,16 @@
   .metascope-insight-text { color: var(--text-dim); font-size: 13px; line-height: 1.5; }
   .metascope-counter-tag { flex: none; background: rgba(255,56,100,0.14); border: 1px solid var(--warn); color: var(--warn); font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; margin-left: auto; }
   .profile-comp-row[data-counter="true"] { border-color: var(--warn); }
+
+  /* MetaScope search form + status line (leaderboard.html/list_page.html
+     rows above reuse .search-input, but that one's a plain <input
+     type=search> with a magnifier icon absolutely positioned via
+     .search-row -- this form has a region <select> and a submit button
+     alongside it, so it gets its own flex row instead). */
+  .metascope-search-form { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px; }
+  .metascope-search-form .search-input { flex: 1; min-width: 220px; padding: 10px 14px; }
+  .metascope-region-select { background: var(--row); border: 1px solid var(--border); color: var(--cream); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 0 12px; }
+  .metascope-search-button { background: var(--magenta); border: none; color: #fff; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: background .12s ease; }
+  .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
+  .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
+  .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }

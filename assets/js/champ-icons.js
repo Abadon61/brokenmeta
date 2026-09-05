@@ -1,7 +1,5 @@
 
 (function () {
-  var icons = document.querySelectorAll('.champ-link-icon');
-  if (!icons.length) return;
   var LABELS = {
     fr: {playrate: 'Popularité', avgplacement: 'Placement moyen', avgstar: 'Étoile moyenne',
          items: function (s) { return 'Objets fréquents : ' + s; }},
@@ -10,13 +8,12 @@
   };
   var L = LABELS[document.documentElement.lang === 'en' ? 'en' : 'fr'];
   var tooltip = document.getElementById('tooltip');
-  var dataPromise = fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).catch(function () { return {}; });
   var champData = null;
-  dataPromise.then(function (d) { champData = d; });
+  fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
 
-  function showTooltip(e) {
+  function showTooltip(icon, e) {
     if (!champData || !tooltip) return;
-    var d = champData[e.currentTarget.dataset.champSlug];
+    var d = champData[icon.dataset.champSlug];
     if (!d) return;
     tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
       + '<div class="tt-row"><span>' + L.playrate + '</span><b class="nums">' + d.pick_rate_pct + '</b></div>'
@@ -36,15 +33,22 @@
   }
   function hideTooltip() { if (tooltip) tooltip.dataset.visible = 'false'; }
 
-  icons.forEach(function (icon) {
-    icon.addEventListener('mouseenter', showTooltip);
-    icon.addEventListener('mousemove', moveTooltip);
-    icon.addEventListener('mouseleave', hideTooltip);
-    icon.addEventListener('click', function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      var href = icon.dataset.champHref;
-      if (href) location.href = href;
-    });
+  document.addEventListener('mouseover', function (e) {
+    var icon = e.target.closest('.champ-link-icon');
+    if (icon) showTooltip(icon, e);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (e.target.closest('.champ-link-icon')) moveTooltip(e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest('.champ-link-icon')) hideTooltip();
+  });
+  document.addEventListener('click', function (e) {
+    var icon = e.target.closest('.champ-link-icon');
+    if (!icon) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var href = icon.dataset.champHref;
+    if (href) location.href = href;
   });
 })();
