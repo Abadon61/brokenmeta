@@ -199,7 +199,11 @@ CHAMP_ICON_JS = """
     if (!champData || !tooltip) return;
     var d = champData[icon.dataset.champSlug];
     if (!d) return;
+    var traitsHtml = (d.traits || []).map(function (t) {
+      return '<span class="tt-trait-chip"><img src="' + (window.BM_ROOT || '') + 'assets/traits/' + t.slug + '.png" alt="">' + t.name + '</span>';
+    }).join('');
     tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
+      + (traitsHtml ? '<div class="tt-traits">' + traitsHtml + '</div>' : '')
       + '<div class="tt-row"><span>' + L.playrate + '</span><b class="nums">' + d.pick_rate_pct + '</b></div>'
       + '<div class="tt-row"><span>' + L.avgplacement + '</span><b class="nums">' + d.avg_placement.toFixed(2) + '</b></div>'
       + '<div class="tt-row"><span>' + L.avgstar + '</span><b class="nums">' + d.avg_star_level.toFixed(1) + '\\u2605</b></div>'
@@ -1392,6 +1396,43 @@ def main() -> None:
         slug = slugify(trait["name"])
         images.trait(slug, trait["icon"])
         builder_traits.append({"name": trait["name"], "slug": slug, "effects": trait["effects"]})
+    trait_by_name = {t["name"]: t for t in builder_traits}
+
+    def champion_trait_chips(champ_name: str) -> list[dict]:
+        """[{"name","slug"}] for a champion's real traits (same icons as
+        the Team Builder) -- used on the champion sheet and its hover
+        tooltip, neither of which showed this before."""
+        info = info_by_name.get(champ_name, {})
+        return [{"name": t, "slug": trait_by_name[t]["slug"]} for t in info.get("traits", []) if t in trait_by_name]
+
+    def compute_comp_traits(core_units: list[dict]) -> list[dict]:
+        """Same active/next-threshold math as the Team Builder's client-side
+        renderTraitPanel(), run once here instead: how many of this comp's
+        core units share each trait, and whether that's enough to be active.
+        Only traits with at least one unit are returned (a comp's incidental
+        1-of-a-trait units still show, same as the Team Builder)."""
+        counts: dict[str, int] = {}
+        for u in core_units or []:
+            for t in info_by_name.get(u["champion"], {}).get("traits", []):
+                counts[t] = counts.get(t, 0) + 1
+        rows = []
+        for trait in builder_traits:
+            count = counts.get(trait["name"], 0)
+            if not count:
+                continue
+            effects = trait["effects"]  # ascending by min_units
+            active_idx = -1
+            for i, e in enumerate(effects):
+                if count >= e["min_units"]:
+                    active_idx = i
+            next_min = effects[active_idx + 1]["min_units"] if active_idx + 1 < len(effects) else None
+            rows.append({
+                "name": trait["name"], "slug": trait["slug"], "count": count,
+                "active": active_idx >= 0, "tier": active_idx if active_idx >= 0 else None,
+                "next_min": next_min,
+            })
+        rows.sort(key=lambda r: (not r["active"], -r["count"]))
+        return rows
 
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "builder.json").write_text(
@@ -1611,6 +1652,7 @@ def main() -> None:
             "board_variants": board_variants,
             "bonus_base": bonus_base, "bonus_groups": bonus_groups,
             "similar_variants": similar,
+            "comp_traits": compute_comp_traits(c.get("core_units")),
         })
         return row
 
@@ -1646,6 +1688,7 @@ def main() -> None:
             "avg_star_level": d["avg_star_level"],
             "top_items": [{"name": ti["item"], "slug": item_slug_and_download(ti["item"])} for ti in (d.get("top_items") or [])[:3]],
             "ability_name": info.get("ability_name", ""), "ability_desc": info.get("ability_desc", ""),
+            "traits": champion_trait_chips(d["id"]),
             "combo_rows": [
                 {"item_icons": [{"name": n, "slug": item_slug_and_download(n)} for n in r["items"]],
                  "games": r["games"], "top4_pct": pct(r.get("top4Rate", 0)), "winrate_pct": pct(r.get("winRate", 0))}
@@ -1669,6 +1712,7 @@ def main() -> None:
             "name": d["name"], "pick_rate_pct": d["pick_rate_pct"],
             "avg_placement": round(d["avg_placement"], 2), "avg_star_level": round(d["avg_star_level"], 1),
             "top_items": [ti["name"] for ti in d["top_items"]],
+            "traits": d["traits"],
         }
         for d in champion_vms
     }

@@ -14,6 +14,16 @@
       </div>
     </div>
     {% if d.ability_desc %}<div class="champ-fiche-ability-desc">{{ d.ability_desc|safe }}</div>{% endif %}
+    {% if d.traits %}
+    <div class="champ-fiche-traits">
+      {% for tr in d.traits %}
+      <div class="trait-row" data-active="true">
+        <img src="{{ root }}assets/traits/{{ tr.slug }}.png" alt="{{ tr.name }}" loading="lazy">
+        <span class="trait-row-name">{{ tr.name }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
     <div class="champ-fiche-stats pill-row">
       <div class="pill"><div class="p-label">{{ t(lang, 'th_playrate') }}</div><div class="p-value nums">{{ d.pick_rate_pct }}</div></div>
       <div class="pill"><div class="p-label">{{ t(lang, 'top4_label') }}</div><div class="p-value nums">{{ d.top4_pct }}</div></div>
