@@ -15,7 +15,11 @@
     if (!champData || !tooltip) return;
     var d = champData[icon.dataset.champSlug];
     if (!d) return;
+    var traitsHtml = (d.traits || []).map(function (t) {
+      return '<span class="tt-trait-chip"><img src="' + (window.BM_ROOT || '') + 'assets/traits/' + t.slug + '.png" alt="">' + t.name + '</span>';
+    }).join('');
     tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
+      + (traitsHtml ? '<div class="tt-traits">' + traitsHtml + '</div>' : '')
       + '<div class="tt-row"><span>' + L.playrate + '</span><b class="nums">' + d.pick_rate_pct + '</b></div>'
       + '<div class="tt-row"><span>' + L.avgplacement + '</span><b class="nums">' + d.avg_placement.toFixed(2) + '</b></div>'
       + '<div class="tt-row"><span>' + L.avgstar + '</span><b class="nums">' + d.avg_star_level.toFixed(1) + '\u2605</b></div>'
