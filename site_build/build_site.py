@@ -648,6 +648,8 @@ I18N: dict[str, dict] = {
         "overlay_cta_title": "L'overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.",
         "overlay_cta_soon": "Bientôt",
         "footer_generated": lambda date, s: f"Généré le {date} · Set {s}",
+        "footer_disclaimer": "BrokenMeta.gg n'est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.",
+        "footer_nav_title": "Navigation", "footer_about_title": "À propos",
         "lbl_region": "Région", "lbl_rank": "Rang", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "Toutes", "rank_all": "Tous rangs", "tier_all": "Tout",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
@@ -655,6 +657,8 @@ I18N: dict[str, dict] = {
         "home_intro": lambda n, m: f"{n} compositions {SET_LABEL} calculées à partir de {m} parties classées réelles, collectées via l'API officielle de Riot (Match-V1). Aucune donnée inventée ou estimée : chaque statistique vient d'un vrai match.",
         "faq_best_comp_q": f"Quelle est la meilleure comp {SET_LABEL} en ce moment ?",
         "faq_best_comp_a": lambda label, tier, placement, top4, matches: f"D'après {matches} vraies parties classées analysées, la meilleure comp {SET_LABEL} en ce moment est {label} (Tier {tier}), avec un placement moyen de {placement} et {top4} de top 4.",
+        "faq_comp_tier_q": lambda label: f"Quel tier a {label} sur {SET_LABEL} ?",
+        "faq_comp_tier_a": lambda label, tier, placement, top4, matches: f"{label} est actuellement Tier {tier} sur {SET_LABEL}, avec un placement moyen de {placement} et {top4} de top 4 sur {matches} vraies parties classées analysées.",
         "scope_intro": lambda n, suffix: f"{n} compositions {SET_LABEL}{suffix} classées, triées par taux de top 4 puis placement moyen. Données réelles issues de l'API Riot Match-V1.",
         "tier_scope_intro": lambda n, tier, suffix: f"{n} compositions {SET_LABEL} classées Tier {tier}{suffix}, triées par taux de top 4 puis placement moyen.",
         "see_full_tier": lambda n, tier: f"Voir les {n} compos Tier {tier} →",
@@ -757,6 +761,8 @@ I18N: dict[str, dict] = {
         "overlay_cta_title": "The Overwolf overlay is in development, not yet available for download.",
         "overlay_cta_soon": "Soon",
         "footer_generated": lambda date, s: f"Generated on {date} · Set {s}",
+        "footer_disclaimer": "BrokenMeta.gg isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.",
+        "footer_nav_title": "Navigation", "footer_about_title": "About",
         "lbl_region": "Region", "lbl_rank": "Rank", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "All", "rank_all": "All ranks", "tier_all": "All",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
@@ -764,6 +770,8 @@ I18N: dict[str, dict] = {
         "home_intro": lambda n, m: f"{n} {SET_LABEL} comps calculated from {m} real ranked games, collected via Riot's official API (Match-V1). No invented or estimated data: every stat comes from a real match.",
         "faq_best_comp_q": f"What's the best {SET_LABEL} comp right now?",
         "faq_best_comp_a": lambda label, tier, placement, top4, matches: f"Based on {matches} real ranked games analyzed, the best {SET_LABEL} comp right now is {label} (Tier {tier}), with a {placement} average placement and {top4} top 4 rate.",
+        "faq_comp_tier_q": lambda label: f"What tier is {label} on {SET_LABEL}?",
+        "faq_comp_tier_a": lambda label, tier, placement, top4, matches: f"{label} is currently Tier {tier} on {SET_LABEL}, with a {placement} average placement and {top4} top 4 rate over {matches} real ranked games analyzed.",
         "scope_intro": lambda n, suffix: f"{n} {SET_LABEL} ranked comps{suffix}, sorted by top 4 rate then average placement. Real data from the Riot Match-V1 API.",
         "tier_scope_intro": lambda n, tier, suffix: f"{n} {SET_LABEL} comps ranked Tier {tier}{suffix}, sorted by top 4 rate then average placement.",
         "see_full_tier": lambda n, tier: f"See all {n} Tier {tier} comps →",
@@ -1555,7 +1563,29 @@ def main() -> None:
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
 
         for c in comp_vms:
-            render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c)
+            comp_url = canonical_for(f"/compo/{c['slug']}/", lang)
+            comp_headline = f"{c['display_label']} — Tier {c['tier']} ({SET_LABEL})"
+            comp_desc = translate(lang, "faq_comp_tier_a", c["display_label"], c["tier"],
+                                   f"{c['avg_placement']:.2f}", c["top4_pct"], c["play_count"])
+            article_schema = {
+                "@context": "https://schema.org", "@type": "Article",
+                "headline": comp_headline, "description": comp_desc,
+                "datePublished": combined["generated_at"][:10], "dateModified": combined["generated_at"][:10],
+                "mainEntityOfPage": {"@type": "WebPage", "@id": comp_url},
+                "author": {"@type": "Organization", "name": "BrokenMeta.gg"},
+                "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"},
+            }
+            if c.get("carry_slug"):
+                article_schema["image"] = f"{BASE_URL}assets/champions/{c['carry_slug']}.png"
+            faq_schema = {
+                "@context": "https://schema.org", "@type": "FAQPage",
+                "mainEntity": [{
+                    "@type": "Question", "name": translate(lang, "faq_comp_tier_q", c["display_label"]),
+                    "acceptedAnswer": {"@type": "Answer", "text": comp_desc},
+                }],
+            }
+            render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c,
+                   article_schema=article_schema, faq_schema=faq_schema)
 
         # ---- Player profile pages: one per leaderboard row, opened from
         # the leaderboard table (see player.html + leaderboard.html link) ----

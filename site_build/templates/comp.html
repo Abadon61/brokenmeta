@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
 {% block title %}BrokenMeta.gg | {{ c.display_label }} — {{ SET_LABEL }} (Tier {{ c.tier }}){% endblock %}
-{% block description %}{% if lang == 'fr' %}{{ c.display_label }} sur TFT Set 18 : Tier {{ c.tier }}, {{ '%.2f'|format(c.avg_placement) }} placement moyen, {{ c.top4_pct }} de top 4 sur {{ c.play_count }} parties classées réelles. Composition complète, objets et matchups.{% else %}{{ c.display_label }} on TFT Set 18: Tier {{ c.tier }}, {{ '%.2f'|format(c.avg_placement) }} avg placement, {{ c.top4_pct }} top 4 over {{ c.play_count }} real ranked games. Full composition, items and matchups.{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}{{ c.display_label }} — Tier {{ c.tier }}, TFT Set 18 : {{ '%.2f'|format(c.avg_placement) }} placement moyen, {{ c.top4_pct }} top 4 sur {{ c.play_count }} parties réelles. Composition, objets et matchups.{% else %}{{ c.display_label }} — Tier {{ c.tier }}, TFT Set 18: {{ '%.2f'|format(c.avg_placement) }} avg placement, {{ c.top4_pct }} top 4 over {{ c.play_count }} real games. Composition, items and matchups.{% endif %}{% endblock %}
 {% block content %}
 <div class="fiche-header">
   <div class="fiche-tier-badge" style="--tc:{{ c.tier_var }}">{{ c.tier }}</div>
@@ -143,4 +143,8 @@
 
 <h2 class="fiche-section-title">{{ t(lang, 'augments_title') }}</h2>
 <div class="augments-note">{{ t(lang, 'augments_note')|safe }}</div>
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
 {% endblock %}

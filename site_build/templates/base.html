@@ -74,8 +74,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 {% block content %}{% endblock %}
 </div>
 <footer>
-  <span>{{ t(lang, 'footer_generated', generated_at, set_name) }}</span>
-  <span><a href="{{ root }}sitemap.xml" style="color:inherit">sitemap</a></span>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="{{ root }}">{{ t(lang, 'nav_comps') }}</a>
+      <a href="{{ root }}champions/">{{ t(lang, 'nav_champions') }}</a>
+      <a href="{{ root }}patch-notes/">{{ t(lang, 'nav_patchnotes') }}</a>
+      <a href="{{ root }}leaderboard/">{{ t(lang, 'nav_leaderboard') }}</a>
+      <a href="{{ root }}metascope/">{{ t(lang, 'nav_metascope') }}</a>
+      <a href="{{ root }}sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">{{ t(lang, 'footer_generated', generated_at, set_name) }}</span>
+  </div>
+  <p class="footer-disclaimer">{{ t(lang, 'footer_disclaimer') }}</p>
 </footer>
 <div id="tooltip" data-visible="false"></div>
 {% block extra_body %}{% endblock %}
