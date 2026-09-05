@@ -507,7 +507,6 @@ TEAM_BUILDER_JS = """
   var traitDefs = [];
   var board = new Array(ROWS * COLS).fill(null);
   var bench = new Array(BENCH_SIZE).fill(null);
-  var armedSlug = null;
   var activeCostFilter = 'ALL';
 
   function champImg(slug) {
@@ -517,7 +516,100 @@ TEAM_BUILDER_JS = """
     return ROOT + 'assets/traits/' + slug + '.png';
   }
 
+  // ---- Drag and drop (mouse + touch via Pointer Events): pick up a
+  // champion from the picker, or an already-placed one straight off the
+  // board/bench, and drop it on any hex/bench cell. Dropping outside the
+  // board/bench removes it -- the only other way to clear a cell, since
+  // this replaces the old click-to-arm-then-click-to-place flow entirely. --
+  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null;
+
+  function beginDrag(slug, origin, x, y) {
+    dragSlug = slug;
+    dragOrigin = origin; // null if fresh from the picker, else {zone, idx}
+    dragGhost = document.createElement('img');
+    dragGhost.src = champImg(slug);
+    dragGhost.className = 'builder-drag-ghost';
+    document.body.appendChild(dragGhost);
+    document.body.classList.add('builder-dragging');
+    positionGhost(x, y);
+  }
+  function positionGhost(x, y) {
+    if (dragGhost) { dragGhost.style.left = x + 'px'; dragGhost.style.top = y + 'px'; }
+  }
+  function cellUnder(x, y) {
+    var el = document.elementFromPoint(x, y);
+    if (!el) return null;
+    var hex = el.closest('.hex-cell');
+    if (hex) return { zone: 'board', idx: parseInt(hex.dataset.idx, 10), el: hex };
+    var bc = el.closest('.bench-cell');
+    if (bc) return { zone: 'bench', idx: parseInt(bc.dataset.idx, 10), el: bc };
+    return null;
+  }
+  document.addEventListener('pointermove', function (e) {
+    if (!dragGhost) return;
+    positionGhost(e.clientX, e.clientY);
+    var hit = cellUnder(e.clientX, e.clientY);
+    var el = hit ? hit.el : null;
+    if (el !== dragOverEl) {
+      if (dragOverEl) dragOverEl.dataset.dragover = 'false';
+      if (el) el.dataset.dragover = 'true';
+      dragOverEl = el;
+    }
+  });
+  document.addEventListener('pointerup', function (e) {
+    if (!dragGhost) return;
+    document.body.removeChild(dragGhost);
+    dragGhost = null;
+    document.body.classList.remove('builder-dragging');
+    if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
+
+    var hit = cellUnder(e.clientX, e.clientY);
+    if (hit) {
+      var destArr = hit.zone === 'board' ? board : bench;
+      var displaced = destArr[hit.idx];
+      destArr[hit.idx] = dragSlug;
+      if (dragOrigin && displaced) {
+        // swap instead of losing the champion that was already there
+        var originArr = dragOrigin.zone === 'board' ? board : bench;
+        originArr[dragOrigin.idx] = displaced;
+      }
+    }
+    // hit === null (dropped outside board/bench): already removed from
+    // its origin below on pickup, so this is how a unit gets discarded.
+    renderCells();
+    renderTraitPanel();
+    syncUrl();
+    dragSlug = null; dragOrigin = null;
+  });
+  document.addEventListener('pointercancel', function () {
+    if (!dragGhost) return;
+    document.body.removeChild(dragGhost);
+    dragGhost = null;
+    document.body.classList.remove('builder-dragging');
+    if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
+    // Interrupted mid-drag (e.g. OS gesture) -- put it back where it came from.
+    if (dragOrigin) {
+      var arr = dragOrigin.zone === 'board' ? board : bench;
+      arr[dragOrigin.idx] = dragSlug;
+      renderCells();
+    }
+    dragSlug = null; dragOrigin = null;
+  });
+
   // ---- Board / bench DOM (built once; only their filled state changes) ----
+  function wireCellDrag(cell, zone) {
+    cell.addEventListener('pointerdown', function (e) {
+      var idx = parseInt(cell.dataset.idx, 10);
+      var arr = zone === 'board' ? board : bench;
+      var slug = arr[idx];
+      if (!slug) return;
+      e.preventDefault();
+      arr[idx] = null;
+      renderCells();
+      renderTraitPanel();
+      beginDrag(slug, { zone: zone, idx: idx }, e.clientX, e.clientY);
+    });
+  }
   function buildBoard() {
     boardEl.innerHTML = '';
     for (var r = 0; r < ROWS; r++) {
@@ -529,9 +621,7 @@ TEAM_BUILDER_JS = """
         var cell = document.createElement('div');
         cell.className = 'hex-cell';
         cell.dataset.idx = String(idx);
-        cell.addEventListener('click', function (e) {
-          onCellClick(parseInt(e.currentTarget.dataset.idx, 10), 'board');
-        });
+        wireCellDrag(cell, 'board');
         rowEl.appendChild(cell);
       }
       boardEl.appendChild(rowEl);
@@ -543,26 +633,9 @@ TEAM_BUILDER_JS = """
       var cell = document.createElement('div');
       cell.className = 'bench-cell';
       cell.dataset.idx = String(i);
-      cell.addEventListener('click', function (e) {
-        onCellClick(parseInt(e.currentTarget.dataset.idx, 10), 'bench');
-      });
+      wireCellDrag(cell, 'bench');
       benchEl.appendChild(cell);
     }
-  }
-
-  function onCellClick(idx, zone) {
-    var arr = zone === 'board' ? board : bench;
-    if (armedSlug) {
-      arr[idx] = armedSlug;
-      setArmed(null);
-    } else if (arr[idx]) {
-      arr[idx] = null;
-    } else {
-      return;
-    }
-    renderCells();
-    renderTraitPanel();
-    syncUrl();
   }
 
   function renderCells() {
@@ -600,16 +673,11 @@ TEAM_BUILDER_JS = """
       item.style.borderColor = 'var(--cost-' + (c.cost || 1) + ')';
       item.title = c.name;
       item.innerHTML = '<img src="' + champImg(c.slug) + '" alt="' + c.name + '" loading="lazy">';
-      item.addEventListener('click', function () {
-        setArmed(armedSlug === c.slug ? null : c.slug);
+      item.addEventListener('pointerdown', function (e) {
+        e.preventDefault();
+        beginDrag(c.slug, null, e.clientX, e.clientY);
       });
       picker.appendChild(item);
-    });
-  }
-  function setArmed(slug) {
-    armedSlug = slug;
-    picker.querySelectorAll('.champ-picker-item').forEach(function (el) {
-      el.dataset.armed = el.dataset.slug === slug ? 'true' : 'false';
     });
   }
   function applyPickerFilters() {
@@ -715,7 +783,6 @@ TEAM_BUILDER_JS = """
     resetBtn.addEventListener('click', function () {
       board = new Array(ROWS * COLS).fill(null);
       bench = new Array(BENCH_SIZE).fill(null);
-      setArmed(null);
       renderCells();
       renderTraitPanel();
       history.replaceState(null, '', location.pathname);

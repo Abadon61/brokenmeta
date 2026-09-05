@@ -865,29 +865,33 @@
     padding: 12px; background: var(--row); border: 1px solid var(--border); margin-bottom: 26px;
   }
   .champ-picker-item {
-    width: 52px; height: 52px; flex: none; cursor: pointer; position: relative;
+    width: 52px; height: 52px; flex: none; cursor: grab; position: relative; touch-action: none;
     border: 2px solid var(--cost-1); transition: border-color .12s ease, transform .12s ease;
   }
-  .champ-picker-item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .champ-picker-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
   .champ-picker-item:hover { transform: translateY(-2px); }
-  .champ-picker-item[data-armed="true"] { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan); }
   .champ-picker-item[data-hidden="true"] { display: none; }
   .champ-picker-empty { color: var(--text-faint); font-size: 12.5px; padding: 10px; }
 
-  .hex-board-wrap { display: flex; justify-content: center; margin: 6px 0 30px; overflow-x: auto; }
-  .hex-board { display: flex; flex-direction: column; align-items: center; }
-  .hex-row { display: flex; }
-  .hex-row:not(:first-child) { margin-top: -18px; }
-  .hex-row[data-offset="true"] { margin-left: 43px; }
+  /* Real hexagons with visible breathing room between them (not an
+     interlocking puzzle) -- percentage-based sizing so the full 7-wide
+     board always fits its container, at any viewport, with no horizontal
+     scrollbar. */
+  .hex-board-wrap { display: flex; justify-content: center; margin: 6px 0 30px; width: 100%; }
+  .hex-board { display: flex; flex-direction: column; align-items: center; width: 100%; max-width: 640px; gap: 14px; }
+  .hex-row { display: flex; justify-content: center; gap: 1.6%; width: 100%; }
+  .hex-row[data-offset="true"] { margin-left: 7.3%; }
   .hex-cell {
-    width: 86px; height: 74px; margin: 0 3px; flex: none; position: relative;
+    flex: 0 0 12%; aspect-ratio: 1 / 0.86; position: relative; touch-action: none;
     background: var(--row); cursor: pointer; display: flex; align-items: center; justify-content: center;
     clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-    transition: background .12s ease;
+    filter: drop-shadow(0 0 0 1px var(--border-bright));
+    transition: background .12s ease, transform .12s ease;
   }
   .hex-cell:hover { background: var(--row-hover); }
   .hex-cell[data-filled="true"] { background: var(--bg-2); }
-  .hex-cell img { width: 76%; height: 76%; object-fit: cover; pointer-events: none; }
+  .hex-cell[data-dragover="true"] { background: var(--cyan); transform: scale(1.08); }
+  .hex-cell img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
   .bench-wrap { margin-bottom: 26px; }
   .builder-section-label {
@@ -897,13 +901,24 @@
   .bench { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
   .bench-cell {
     width: 58px; height: 58px; flex: none; background: var(--row); border: 1px dashed var(--border-bright);
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; display: flex; align-items: center; justify-content: center; touch-action: none;
+    transition: background .12s ease, transform .12s ease;
   }
   .bench-cell[data-filled="true"] { border-style: solid; background: var(--bg-2); }
-  .bench-cell img { width: 80%; height: 80%; object-fit: cover; pointer-events: none; }
+  .bench-cell[data-dragover="true"] { background: var(--cyan); transform: scale(1.08); }
+  .bench-cell img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 
   .builder-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
   .builder-empty-hint { color: var(--text-faint); font-size: 12.5px; text-align: center; margin: -14px 0 20px; }
+
+  /* The floating icon that follows the pointer/finger while dragging a
+     champion from the picker or moving one already placed. */
+  .builder-drag-ghost {
+    position: fixed; width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+    pointer-events: none; z-index: 999; transform: translate(-50%, -50%);
+    box-shadow: 0 4px 14px rgba(0,0,0,0.55); border: 2px solid var(--cyan);
+  }
+  body.builder-dragging, body.builder-dragging * { cursor: grabbing !important; }
 
   .trait-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
   .trait-row:last-child { border-bottom: none; }
