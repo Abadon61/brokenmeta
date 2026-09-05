@@ -1773,16 +1773,20 @@ def main() -> None:
     # Real brand assets (PROJECT/logo/) instead of the old emoji placeholder:
     # - logo-sword.svg (white, transparent) sits in the header next to the
     #   wordmark, on the site's dark top bar.
-    # - favicon.svg (logo_color.svg, dark navy, transparent) is the browser
-    #   tab icon -- SVG favicons are supported by every modern browser.
-    # - favicon-google.png (logo_google.svg pre-rendered to a flat 512x512
-    #   PNG, see logo/README or the conversion above) is there specifically
-    #   for Google Search results: Google does not support SVG favicons, so
-    #   without a raster fallback the SERP would show a generic globe icon.
+    # - favicon.svg ("logo google.svg", the circular navy-badge version) is
+    #   the browser tab icon -- SVG favicons are supported by every modern
+    #   browser. Tried logo_color.svg (dark navy sword, transparent) first,
+    #   but a dark mark on a transparent background all but disappears on a
+    #   dark-themed browser tab bar; the filled circle badge stays visible
+    #   on any tab color.
+    # - favicon-google.png (the same circular badge, pre-rendered to a flat
+    #   512x512 PNG) is there specifically for Google Search results:
+    #   Google does not support SVG favicons, so without a raster fallback
+    #   the SERP would show a generic globe icon.
     LOGO_DIR = PROJECT / "logo"
     (DIST / "assets" / "img").mkdir(parents=True, exist_ok=True)
     shutil.copy(LOGO_DIR / "logo_epee_sans_fond.svg", DIST / "assets" / "img" / "logo-sword.svg")
-    shutil.copy(LOGO_DIR / "logo_color.svg", DIST / "favicon.svg")
+    shutil.copy(LOGO_DIR / "logo google.svg", DIST / "favicon.svg")
     shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "favicon-google.png")
 
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
