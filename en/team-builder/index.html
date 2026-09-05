@@ -32,10 +32,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://brokenmeta.gg/en/team-builder/">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260905191134">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260905191134">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260905204316">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260905204316">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=20260905202255">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20260905204316">
 
 </head>
 <body>
@@ -74,7 +74,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="page">
 
 <h1 class="page-h1">Team Builder</h1>
-<p class="page-intro">Place champions on the board to see your trait synergies calculated live. Only champions placed on the board count toward traits (not the bench), same as in the real game.</p>
+<p class="page-intro">Place champions on the board to see your trait synergies calculated live.</p>
 
 <div class="builder-layout">
   <div class="builder-main">
@@ -95,14 +95,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="hex-board-wrap"><div class="hex-board" id="hexBoard"></div></div>
     <p class="builder-empty-hint" id="builderEmptyHint">The board is empty — click a champion above, then a cell to place it.</p>
 
-    <div class="bench-wrap">
-      <div class="builder-section-label">Bench</div>
-      <div class="bench" id="benchRow"></div>
-    </div>
-
     <div class="builder-actions">
       <button type="button" class="metascope-search-button" id="builderReset">Reset</button>
       <button type="button" class="metascope-search-button" id="builderShare">Copy share link</button>
+      <button type="button" class="metascope-search-button" id="builderCopyGame" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items).">Copy for the game</button>
       <span id="builderShareStatus" class="metascope-status" hidden></span>
     </div>
   </div>
@@ -137,6 +133,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 window.BM_BUILDER_I18N = {
   noTraits: "No active synergy yet.",
   shareCopied: "Link copied!",
+  copyGameCopied: "Copied! (paste it into the game's Team Planner)",
+  copyGameEmpty: "Place at least one champion before copying.",
   nextAt: "next tier at __N__"
 };
 </script>

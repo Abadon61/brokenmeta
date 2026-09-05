@@ -2,25 +2,26 @@
 (function () {
   var ROOT = window.BM_ROOT || '';
   var I = window.BM_BUILDER_I18N || {};
-  var ROWS = 4, COLS = 7, BENCH_SIZE = 9;
+  var ROWS = 4, COLS = 7;
 
   var picker = document.getElementById('champPicker');
   var boardEl = document.getElementById('hexBoard');
-  var benchEl = document.getElementById('benchRow');
   var traitPanel = document.getElementById('traitPanel');
   var searchInput = document.getElementById('builderSearch');
   var costFilters = document.getElementById('builderCostFilters');
   var emptyHint = document.getElementById('builderEmptyHint');
   var resetBtn = document.getElementById('builderReset');
   var shareBtn = document.getElementById('builderShare');
+  var copyGameBtn = document.getElementById('builderCopyGame');
   var shareStatus = document.getElementById('builderShareStatus');
   if (!picker || !boardEl) return;
 
   var champions = [];
   var champBySlug = {};
   var traitDefs = [];
+  var plannerHeader = '02';
+  var setMutator = '';
   var board = new Array(ROWS * COLS).fill(null);
-  var bench = new Array(BENCH_SIZE).fill(null);
   var activeCostFilter = 'ALL';
 
   function champImg(slug) {
@@ -32,8 +33,11 @@
 
   // ---- Placement: two ways in, on purpose --------------------------------
   // 1) Drag and drop (mouse + touch via Pointer Events): pick up a champion
-  //    from the picker, or an already-placed one straight off the board/
-  //    bench, and drop it on any hex/bench cell. Dropping outside removes it.
+  //    from the picker, or an already-placed one straight off the board,
+  //    and drop it on any hex cell. Dropping outside the board removes it.
+  //    (No bench -- deliberate: it doesn't count toward traits in the real
+  //    game either, so it added a UI section without adding anything a
+  //    comp-building tool needs.)
   // 2) Tap-to-arm: a plain click/tap (no real movement) on a picker
   //    champion "arms" it instead -- a persistent border/glow, not a
   //    fleeting mid-drag one -- and the next tap on any cell places it
@@ -57,7 +61,7 @@
 
   function beginDrag(slug, origin, x, y, pickerEl) {
     dragSlug = slug;
-    dragOrigin = origin; // null if fresh from the picker, else {zone, idx}
+    dragOrigin = origin; // null if fresh from the picker, else the board index it came from
     dragStartX = x; dragStartY = y; dragMoved = false;
     dragSourcePickerEl = pickerEl || null;
     if (dragSourcePickerEl) dragSourcePickerEl.dataset.dragging = 'true';
@@ -75,14 +79,11 @@
     var el = document.elementFromPoint(x, y);
     if (!el) return null;
     var hex = el.closest('.hex-cell');
-    if (hex) return { zone: 'board', idx: parseInt(hex.dataset.idx, 10), el: hex };
-    var bc = el.closest('.bench-cell');
-    if (bc) return { zone: 'bench', idx: parseInt(bc.dataset.idx, 10), el: bc };
+    if (hex) return { idx: parseInt(hex.dataset.idx, 10), el: hex };
     return null;
   }
-  function placeArmedOn(zone, idx) {
-    var arr = zone === 'board' ? board : bench;
-    arr[idx] = armedSlug;
+  function placeArmedOn(idx) {
+    board[idx] = armedSlug;
     setArmed(null, null);
     renderCells();
     renderTraitPanel();
@@ -123,17 +124,15 @@
 
     var hit = cellUnder(e.clientX, e.clientY);
     if (hit) {
-      var destArr = hit.zone === 'board' ? board : bench;
-      var displaced = destArr[hit.idx];
-      destArr[hit.idx] = dragSlug;
-      if (dragOrigin && displaced) {
+      var displaced = board[hit.idx];
+      board[hit.idx] = dragSlug;
+      if (dragOrigin !== null && displaced) {
         // swap instead of losing the champion that was already there
-        var originArr = dragOrigin.zone === 'board' ? board : bench;
-        originArr[dragOrigin.idx] = displaced;
+        board[dragOrigin] = displaced;
       }
     }
-    // hit === null (dropped outside board/bench): already removed from
-    // its origin below on pickup, so this is how a unit gets discarded.
+    // hit === null (dropped outside the board): already removed from its
+    // origin below on pickup, so this is how a unit gets discarded.
     renderCells();
     renderTraitPanel();
     syncUrl();
@@ -147,31 +146,29 @@
     if (dragOverEl) { dragOverEl.dataset.dragover = 'false'; dragOverEl = null; }
     clearDragSourceHighlight();
     // Interrupted mid-drag (e.g. OS gesture) -- put it back where it came from.
-    if (dragOrigin) {
-      var arr = dragOrigin.zone === 'board' ? board : bench;
-      arr[dragOrigin.idx] = dragSlug;
+    if (dragOrigin !== null) {
+      board[dragOrigin] = dragSlug;
       renderCells();
     }
     dragSlug = null; dragOrigin = null;
   });
 
-  // ---- Board / bench DOM (built once; only their filled state changes) ----
-  function wireCellDrag(cell, zone) {
+  // ---- Board DOM (built once; only its filled state changes) ----
+  function wireCellDrag(cell) {
     cell.addEventListener('pointerdown', function (e) {
       var idx = parseInt(cell.dataset.idx, 10);
       if (armedSlug) {
         e.preventDefault();
-        placeArmedOn(zone, idx);
+        placeArmedOn(idx);
         return;
       }
-      var arr = zone === 'board' ? board : bench;
-      var slug = arr[idx];
+      var slug = board[idx];
       if (!slug) return;
       e.preventDefault();
-      arr[idx] = null;
+      board[idx] = null;
       renderCells();
       renderTraitPanel();
-      beginDrag(slug, { zone: zone, idx: idx }, e.clientX, e.clientY);
+      beginDrag(slug, idx, e.clientX, e.clientY);
     });
   }
   function buildBoard() {
@@ -185,30 +182,17 @@
         var cell = document.createElement('div');
         cell.className = 'hex-cell';
         cell.dataset.idx = String(idx);
-        wireCellDrag(cell, 'board');
+        wireCellDrag(cell);
         rowEl.appendChild(cell);
       }
       boardEl.appendChild(rowEl);
-    }
-  }
-  function buildBench() {
-    benchEl.innerHTML = '';
-    for (var i = 0; i < BENCH_SIZE; i++) {
-      var cell = document.createElement('div');
-      cell.className = 'bench-cell';
-      cell.dataset.idx = String(i);
-      wireCellDrag(cell, 'bench');
-      benchEl.appendChild(cell);
     }
   }
 
   function renderCells() {
     var boardCells = boardEl.querySelectorAll('.hex-cell');
     board.forEach(function (slug, i) { paintCell(boardCells[i], slug); });
-    var benchCells = benchEl.querySelectorAll('.bench-cell');
-    bench.forEach(function (slug, i) { paintCell(benchCells[i], slug); });
-    var anyFilled = board.some(Boolean) || bench.some(Boolean);
-    if (emptyHint) emptyHint.hidden = anyFilled;
+    if (emptyHint) emptyHint.hidden = board.some(Boolean);
   }
   function paintCell(el, slug) {
     if (!el) return;
@@ -307,12 +291,7 @@
   function syncUrl() {
     var b = [];
     board.forEach(function (slug, i) { if (slug) b.push(i + ':' + slug); });
-    var e = [];
-    bench.forEach(function (slug, i) { if (slug) e.push(i + ':' + slug); });
-    var params = new URLSearchParams();
-    if (b.length) params.set('b', b.join(','));
-    if (e.length) params.set('e', e.join(','));
-    var qs = params.toString();
+    var qs = b.length ? ('b=' + b.join(',')) : '';
     history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
   }
   function loadFromUrl() {
@@ -321,11 +300,6 @@
       var m = pair.split(':');
       var idx = parseInt(m[0], 10), slug = m[1];
       if (slug && champBySlug[slug] && idx >= 0 && idx < board.length) board[idx] = slug;
-    });
-    (params.get('e') || '').split(',').forEach(function (pair) {
-      var m = pair.split(':');
-      var idx = parseInt(m[0], 10), slug = m[1];
-      if (slug && champBySlug[slug] && idx >= 0 && idx < bench.length) bench[idx] = slug;
     });
   }
 
@@ -343,11 +317,17 @@
     document.execCommand('copy');
     document.body.removeChild(ta);
   }
+  function showStatus(text, isError) {
+    if (!shareStatus) return;
+    shareStatus.hidden = false;
+    shareStatus.textContent = text || '';
+    shareStatus.dataset.error = isError ? 'true' : 'false';
+    setTimeout(function () { shareStatus.hidden = true; }, 2200);
+  }
 
   if (resetBtn) {
     resetBtn.addEventListener('click', function () {
       board = new Array(ROWS * COLS).fill(null);
-      bench = new Array(BENCH_SIZE).fill(null);
       setArmed(null, null);
       renderCells();
       renderTraitPanel();
@@ -356,23 +336,37 @@
   }
   if (shareBtn) {
     shareBtn.addEventListener('click', function () {
-      copyToClipboard(location.href).then(function () {
-        if (!shareStatus) return;
-        shareStatus.hidden = false;
-        shareStatus.textContent = I.shareCopied || '';
-        shareStatus.dataset.error = 'false';
-        setTimeout(function () { shareStatus.hidden = true; }, 2200);
+      copyToClipboard(location.href).then(function () { showStatus(I.shareCopied, false); });
+    });
+  }
+  if (copyGameBtn) {
+    // Same encoding the real /compo/ pages' copy button uses (see
+    // team_planner_code() in build_site.py): header + 10 slots of
+    // 3-hex-digit per-champion codes (blank = "000") + the set mutator.
+    // Board order (top-left to bottom-right by hex index) is as good an
+    // order as any -- the game's planner doesn't care about slot order,
+    // only which champions are in it.
+    copyGameBtn.addEventListener('click', function () {
+      var placed = board.filter(Boolean);
+      if (!placed.length) { showStatus(I.copyGameEmpty, true); return; }
+      var slots = placed.slice(0, 10).map(function (slug) {
+        var c = champBySlug[slug];
+        return (c && c.planner_code) || '000';
       });
+      while (slots.length < 10) slots.push('000');
+      var code = plannerHeader + slots.join('') + setMutator;
+      copyToClipboard(code).then(function () { showStatus(I.copyGameCopied, false); });
     });
   }
 
   fetch(ROOT + 'assets/data/builder.json').then(function (r) { return r.json(); }).then(function (data) {
     champions = data.champions || [];
     traitDefs = data.traits || [];
+    plannerHeader = data.plannerHeader || plannerHeader;
+    setMutator = data.setMutator || '';
     champions.forEach(function (c) { champBySlug[c.slug] = c; });
     buildPicker();
     buildBoard();
-    buildBench();
     loadFromUrl();
     renderCells();
     renderTraitPanel();
