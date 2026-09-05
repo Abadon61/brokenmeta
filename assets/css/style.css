@@ -120,6 +120,22 @@
   .nav-link[data-active="true"] { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
   .nav-link:hover { color: #fff; }
 
+  /* A real link (unlike .overlay-cta below, which is an inert "soon"
+     badge) styled to pop against the magenta navbar -- this is the entry
+     point into MetaScope, so it gets a button treatment instead of
+     blending in with the plain text nav-links. */
+  .nav-cta-button {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--cyan); color: #0b0221; text-decoration: none;
+    font-family: 'Cal Sans', sans-serif; font-size: 12.5px; font-weight: 700;
+    letter-spacing: 0.04em; text-transform: uppercase;
+    padding: 7px 14px 7px 12px;
+    box-shadow: 0 0 0 1px rgba(11,2,33,0.15);
+    transition: background .12s ease, color .12s ease;
+  }
+  .nav-cta-button svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.4; flex: none; }
+  .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: var(--cream); color: #0b0221; }
+
   .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   /* Not a link/button -- there's nowhere real to send anyone yet (the
      Overwolf app isn't packaged/submitted). An inert badge that's honest
