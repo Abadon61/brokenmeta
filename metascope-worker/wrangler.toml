@@ -1,0 +1,11 @@
+name = "metascope-worker"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+# RIOT_API_KEY is NOT set here (never commit a secret to a config file that
+# goes to git) -- set it once with:
+#   npx wrangler secret put RIOT_API_KEY
+# CORS_ORIGIN is not secret, just here for clarity that it's configurable.
+[vars]
+CORS_ORIGIN = "https://brokenmeta.gg"
+SITE_BASE = "https://brokenmeta.gg"

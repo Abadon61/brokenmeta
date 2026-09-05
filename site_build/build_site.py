@@ -28,7 +28,7 @@ ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parent
 sys.path.insert(0, str(PROJECT / "src"))
 from tft_tracker.champion_images import (  # noqa: E402
-    build_champion_image_map, build_item_image_map, build_team_planner_codes,
+    build_champion_image_map, build_item_image_map, build_team_planner_codes, classify_item_offense,
 )
 
 OUT = PROJECT / "data" / "output"
@@ -663,6 +663,13 @@ def main() -> None:
     # live in-game test. ----
     champ_name_map = {cid: info["name"] for cid, info in raw_image_map.items()}
     planner_codes = build_team_planner_codes(SET_MUTATOR, name_map=champ_name_map, refresh=False)
+    # Same classification derive_comp() uses to pick a comp's carry (see
+    # comp_signature.py) -- published below as its own data file so
+    # MetaScope's worker (a live Riot-ID lookup for players we DON'T
+    # already track, running comp derivation itself for an arbitrary game)
+    # stays in lockstep with this exact site build, not a copy that can
+    # drift out of sync.
+    item_offense = classify_item_offense(SET_MUTATOR)
     PLANNER_HEADER = "01" if SET_MUTATOR in ("TFTSet13", "TFTSet4_Act2") else "02"
 
     def team_planner_code(core_units: list[dict]) -> str:
@@ -1452,6 +1459,39 @@ def main() -> None:
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
+
+    # ---- MetaScope worker data: the same real numbers this build already
+    # computed, published as small standalone files so the worker (a
+    # separate, tiny Cloudflare Worker -- see metascope-worker/ -- doing a
+    # LIVE Riot-ID lookup for a player we don't already track) can derive a
+    # comp signature and compare it to real benchmarks without duplicating
+    # or drifting from this site's own numbers. Trimmed to only the fields
+    # analysis.py's build_report()/derive_comp() actually read -- tierlist.
+    # json itself is 8MB+, most of it (item_stats, board_variants, bonus_
+    # slots, contestation fields) irrelevant to a live single-game report. ----
+    worker_benchmarks = {
+        c["key"]: {
+            "avg_gold_left": c.get("avg_gold_left"), "avg_level": c.get("avg_level"),
+            "avg_last_round": c.get("avg_last_round"), "avg_placement": c["avg_placement"],
+            "top4_rate": c["top4_rate"],
+            "core_units": [{"champion": u["champion"], "items": u.get("items") or []} for u in c.get("core_units", [])],
+            "item_combo_stats": [{"champion": r["champion"], "items": r["items"],
+                                   "avgPlacement": r["avgPlacement"], "games": r["games"]}
+                                  for r in c.get("item_combo_stats", [])],
+        }
+        for c in combined["comps"] if c.get("has_enough_data")
+    }
+    worker_matchups = [
+        {"comp_a": m["comp_a"], "comp_b": m["comp_b"],
+         "a_ahead_rate": m["a_ahead_rate"], "b_ahead_rate": m["b_ahead_rate"], "encounters": m["encounters"]}
+        for m in matchups_json["matchups"]
+    ]
+    worker_comp_index = {c["key"]: {"slug": c["slug"], "display_label": c["display_label"]} for c in comp_vms}
+    for name, payload in [
+        ("benchmarks.json", worker_benchmarks), ("matchups.json", worker_matchups),
+        ("comp-index.json", worker_comp_index), ("name-map.json", champ_name_map), ("item-offense.json", item_offense),
+    ]:
+        (DIST / "assets" / "data" / name).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
     # ---- robots.txt + sitemap.xml ----
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}sitemap.xml\n", encoding="utf-8")

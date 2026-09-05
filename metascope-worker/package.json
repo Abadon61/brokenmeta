@@ -1,0 +1,19 @@
+{
+  "name": "metascope-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MetaScope backend: the only piece of BrokenMeta.gg that isn't a static file. Looks up a Riot ID live, runs the same real comp-signature + benchmark-comparison engine the Python pipeline uses for tracked leaderboard players, for ANY player. Keeps RIOT_API_KEY server-side (Cloudflare secret), never shipped to the browser.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260905.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260903.1": true
+  }
+}
