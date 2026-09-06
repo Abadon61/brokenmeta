@@ -9,7 +9,8 @@
   var L = LABELS[document.documentElement.lang === 'en' ? 'en' : 'fr'];
   var tooltip = document.getElementById('tooltip');
   var champData = null;
-  fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
+  var champFile = document.documentElement.lang === 'fr' ? 'champions_fr.json' : 'champions.json';
+  fetch((window.BM_ROOT || '') + 'assets/data/' + champFile).then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
 
   function showTooltip(icon, e) {
     if (!champData || !tooltip) return;

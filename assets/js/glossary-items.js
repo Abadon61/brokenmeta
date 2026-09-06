@@ -2,7 +2,8 @@
 (function () {
   var tooltip = document.getElementById('tooltip');
   var itemData = null;
-  fetch((window.BM_ROOT || '') + 'assets/data/glossary-items.json').then(function (r) { return r.json(); }).then(function (d) { itemData = d; }).catch(function () {});
+  var itemFile = document.documentElement.lang === 'fr' ? 'glossary-items_fr.json' : 'glossary-items.json';
+  fetch((window.BM_ROOT || '') + 'assets/data/' + itemFile).then(function (r) { return r.json(); }).then(function (d) { itemData = d; }).catch(function () {});
 
   function showTooltip(icon, e) {
     if (!itemData || !tooltip) return;

@@ -279,10 +279,11 @@
     }
     traitPanel.innerHTML = rows.map(function (r) {
       var label = r.nextMin ? (r.count + '/' + r.nextMin) : String(r.count);
+      var traitName = I.lang === 'fr' && r.t.name_fr ? r.t.name_fr : r.t.name;
       return '<div class="trait-row" data-active="' + (r.activeIdx >= 0) + '"' +
         (r.activeIdx >= 0 ? ' data-tier="' + r.activeIdx + '"' : '') + '>' +
-        '<img src="' + traitImg(r.t.slug) + '" alt="' + r.t.name + '" loading="lazy">' +
-        '<span class="trait-row-name">' + r.t.name + '</span>' +
+        '<img src="' + traitImg(r.t.slug) + '" alt="' + traitName + '" loading="lazy">' +
+        '<span class="trait-row-name">' + traitName + '</span>' +
         '<span class="trait-row-count">' + label + '</span></div>';
     }).join('');
   }
