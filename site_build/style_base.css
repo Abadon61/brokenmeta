@@ -117,10 +117,9 @@
     background: none; border: none; padding: 0;
     font-family: 'Cal Sans', sans-serif; font-size: 13px;
     letter-spacing: 0.06em; text-transform: uppercase;
-    color: rgba(255,255,255,0.6);
+    color: #fff; text-decoration: none;
   }
-  .nav-link[data-active="true"] { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
-  .nav-link:hover { color: #fff; }
+  .nav-link[data-active="true"], .nav-link:hover { color: var(--cyan); }
 
   /* A plain <details>/<summary> -- no JS needed, works the same via click
      on touch and desktop (a pure CSS :hover-only menu doesn't open on
@@ -135,7 +134,7 @@
     transform: rotate(45deg) translateY(-2px); transition: transform .12s ease;
   }
   .nav-dropdown[open] summary::after { transform: rotate(-135deg) translateY(2px); }
-  .nav-dropdown[data-active="true"] > summary { color: #fff; text-decoration: underline; text-underline-offset: 4px; }
+  .nav-dropdown[data-active="true"] > summary, .nav-dropdown summary:hover { color: var(--cyan); }
   .nav-dropdown-menu {
     position: absolute; top: calc(100% + 12px); left: 50%; transform: translateX(-50%);
     display: flex; flex-direction: column; min-width: 180px; z-index: 20;
@@ -156,7 +155,7 @@
      blending in with the plain text nav-links. */
   .nav-cta-button {
     display: flex; align-items: center; gap: 6px;
-    background: var(--cyan); color: #0b0221; text-decoration: none;
+    background: var(--cyan); color: #fff; text-decoration: none;
     font-family: 'Cal Sans', sans-serif; font-size: 12.5px; font-weight: 700;
     letter-spacing: 0.04em; text-transform: uppercase;
     padding: 7px 14px 7px 12px;
@@ -164,7 +163,7 @@
     transition: background .12s ease, color .12s ease;
   }
   .nav-cta-button svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.4; flex: none; }
-  .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: var(--cream); color: #0b0221; }
+  .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: #fff; color: var(--cyan); }
 
   .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   /* Not a link/button -- there's nowhere real to send anyone yet (the
