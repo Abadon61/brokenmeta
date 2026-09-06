@@ -18,8 +18,8 @@
     <div class="champ-fiche-traits">
       {% for tr in d.traits %}
       <div class="trait-row" data-active="true">
-        <img src="{{ root }}assets/traits/{{ tr.slug }}.png" alt="{{ tr.name }}" loading="lazy">
-        <span class="trait-row-name">{{ tr.name }}</span>
+        <img src="{{ root }}assets/traits/{{ tr.slug }}.png" alt="{{ trait_label(tr.name, lang) }}" loading="lazy">
+        <span class="trait-row-name">{{ trait_label(tr.name, lang) }}</span>
       </div>
       {% endfor %}
     </div>

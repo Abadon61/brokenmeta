@@ -7,8 +7,8 @@
 <div class="glossary-icon-grid">
   {% for f in families %}
   <a class="glossary-icon-item" href="{{ root }}glossaire/familles/{{ f.slug }}/">
-    <img src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ f.name }}" loading="lazy">
-    <span>{{ f.name }}</span>
+    <img src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ trait_label(f.name, lang) }}" loading="lazy">
+    <span>{{ trait_label(f.name, lang) }}</span>
   </a>
   {% endfor %}
 </div>

@@ -29,6 +29,7 @@ PROJECT = ROOT.parent
 sys.path.insert(0, str(PROJECT / "src"))
 from tft_tracker.champion_images import (  # noqa: E402
     build_augment_data, build_champion_image_map, build_family_docs, build_full_item_catalog, build_item_image_map,
+    build_locale_champion_text_map, build_locale_item_text_map, build_locale_trait_name_map,
     build_team_planner_codes, build_trait_data, classify_item_offense,
 )
 
@@ -201,7 +202,8 @@ CHAMP_ICON_JS = """
   var L = LABELS[document.documentElement.lang === 'en' ? 'en' : 'fr'];
   var tooltip = document.getElementById('tooltip');
   var champData = null;
-  fetch((window.BM_ROOT || '') + 'assets/data/champions.json').then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
+  var champFile = document.documentElement.lang === 'fr' ? 'champions_fr.json' : 'champions.json';
+  fetch((window.BM_ROOT || '') + 'assets/data/' + champFile).then(function (r) { return r.json(); }).then(function (d) { champData = d; }).catch(function () {});
 
   function showTooltip(icon, e) {
     if (!champData || !tooltip) return;
@@ -260,7 +262,8 @@ GLOSSARY_ITEM_JS = """
 (function () {
   var tooltip = document.getElementById('tooltip');
   var itemData = null;
-  fetch((window.BM_ROOT || '') + 'assets/data/glossary-items.json').then(function (r) { return r.json(); }).then(function (d) { itemData = d; }).catch(function () {});
+  var itemFile = document.documentElement.lang === 'fr' ? 'glossary-items_fr.json' : 'glossary-items.json';
+  fetch((window.BM_ROOT || '') + 'assets/data/' + itemFile).then(function (r) { return r.json(); }).then(function (d) { itemData = d; }).catch(function () {});
 
   function showTooltip(icon, e) {
     if (!itemData || !tooltip) return;
@@ -824,10 +827,11 @@ TEAM_BUILDER_JS = """
     }
     traitPanel.innerHTML = rows.map(function (r) {
       var label = r.nextMin ? (r.count + '/' + r.nextMin) : String(r.count);
+      var traitName = I.lang === 'fr' && r.t.name_fr ? r.t.name_fr : r.t.name;
       return '<div class="trait-row" data-active="' + (r.activeIdx >= 0) + '"' +
         (r.activeIdx >= 0 ? ' data-tier="' + r.activeIdx + '"' : '') + '>' +
-        '<img src="' + traitImg(r.t.slug) + '" alt="' + r.t.name + '" loading="lazy">' +
-        '<span class="trait-row-name">' + r.t.name + '</span>' +
+        '<img src="' + traitImg(r.t.slug) + '" alt="' + traitName + '" loading="lazy">' +
+        '<span class="trait-row-name">' + traitName + '</span>' +
         '<span class="trait-row-count">' + label + '</span></div>';
     }).join('');
   }
@@ -1489,6 +1493,77 @@ def main() -> None:
     raw_image_map = build_champion_image_map(SET_MUTATOR, refresh=False)
     info_by_name = {info["name"]: info for info in raw_image_map.values()}
 
+    # ---- French display text (champion ability, trait/family, item/augment
+    # name+desc) -- Community Dragon publishes the same data per Riot locale
+    # (verified live: cdragon/tft/fr_fr.json exists, real official French
+    # text, not machine translation). Icons/slugs/URLs/cross-referencing
+    # everywhere else in this build stay keyed off the English data above
+    # (unchanged) -- these are read-only translation lookups joined back
+    # onto that existing identity by apiName/clean_id, applied only where a
+    # page is actually rendered for lang == "fr" (see each render loop
+    # below). Fetched once here regardless of how many languages the site
+    # ends up with, same caching (data/raw/_cdragon_tft_fr_fr.json) as the
+    # English file.
+    champ_text_fr_by_id = build_locale_champion_text_map(SET_MUTATOR, locale="fr_fr", refresh=False)
+    info_by_name_fr = {info["name"]: champ_text_fr_by_id.get(cid, {}) for cid, info in raw_image_map.items()}
+    _trait_api_to_en = build_locale_trait_name_map(SET_MUTATOR, locale="en_us", refresh=False)
+    _trait_api_to_fr = build_locale_trait_name_map(SET_MUTATOR, locale="fr_fr", refresh=False)
+    TRAIT_NAME_FR = {en: _trait_api_to_fr[api] for api, en in _trait_api_to_en.items() if api in _trait_api_to_fr}
+    _family_docs_fr_by_fr_name = build_family_docs(SET_MUTATOR, locale="fr_fr")
+    FAMILY_DOCS_FR = {en: _family_docs_fr_by_fr_name[fr] for api, en in _trait_api_to_en.items()
+                       if (fr := _trait_api_to_fr.get(api)) and fr in _family_docs_fr_by_fr_name}
+    item_text_fr_by_api = build_locale_item_text_map(locale="fr_fr", refresh=False)
+
+    def trait_label(name: str, lang: str) -> str:
+        return TRAIT_NAME_FR.get(name, name) if lang == "fr" else name
+
+    def localize_champion_vm(d: dict, lang: str) -> dict:
+        """d (champion_vms) is built once and reused for both languages --
+        this returns a shallow copy with just ability_name/ability_desc
+        swapped for the French text when lang == 'fr', everything else
+        (icons, slug, tier, comps, traits...) untouched."""
+        if lang != "fr":
+            return d
+        fr = info_by_name_fr.get(d["name"])
+        if not fr:
+            return d
+        return {**d, "ability_name": fr.get("ability_name") or d["ability_name"],
+                "ability_desc": fr.get("ability_desc") or d["ability_desc"]}
+
+    def localize_family(f: dict, lang: str) -> dict:
+        if lang != "fr":
+            return f
+        fr = FAMILY_DOCS_FR.get(f["name"])
+        if not fr:
+            return f
+        bp_texts = fr.get("breakpoint_text", [])
+        breakpoints = [{**bp, "text": bp_texts[i]} if i < len(bp_texts) and bp_texts[i] else bp
+                       for i, bp in enumerate(f["breakpoints"])]
+        return {**f, "intro": fr.get("intro") or f["intro"], "breakpoints": breakpoints}
+
+    def localize_item(it: dict, lang: str) -> dict:
+        if lang != "fr":
+            return it
+        out = dict(it)
+        fr = item_text_fr_by_api.get(it.get("api_name"))
+        if fr:
+            out["name"] = fr.get("name") or it["name"]
+            out["desc"] = fr.get("desc") or it["desc"]
+        if it.get("composition"):
+            out["composition"] = [
+                {**c, "name": (item_text_fr_by_api.get(c.get("api_name")) or {}).get("name") or c["name"]}
+                for c in it["composition"]
+            ]
+        return out
+
+    def localize_augment(a: dict, lang: str) -> dict:
+        if lang != "fr":
+            return a
+        fr = item_text_fr_by_api.get(a.get("api_name"))
+        if not fr:
+            return a
+        return {**a, "name": fr.get("name") or a["name"], "desc": fr.get("desc") or a["desc"]}
+
     # ---- Team Planner copy button (ported from the Artifact) -- format
     # confirmed by extracting metatft.com's own (working) encoder out of its
     # Redux store: header "02" (not "01" -- that's only for TFTSet13/
@@ -1525,7 +1600,8 @@ def main() -> None:
     for trait in build_trait_data(SET_MUTATOR, refresh=False):
         slug = slugify(trait["name"])
         images.trait(slug, trait["icon"])
-        builder_traits.append({"name": trait["name"], "slug": slug, "effects": trait["effects"]})
+        builder_traits.append({"name": trait["name"], "name_fr": trait_label(trait["name"], "fr"),
+                                "slug": slug, "effects": trait["effects"]})
     trait_by_name = {t["name"]: t for t in builder_traits}
 
     def champion_trait_chips(champ_name: str) -> list[dict]:
@@ -1915,7 +1991,7 @@ def main() -> None:
         a_slug = slugify(a["clean_id"])
         if a["icon"]:
             images.augment(a_slug, a["icon"])
-        glossary_augments_flat.append({"name": a["name"], "icon_slug": a_slug, "desc": a["desc"], "tier": a["tier"]})
+        glossary_augments_flat.append({"name": a["name"], "api_name": a["api_name"], "icon_slug": a_slug, "desc": a["desc"], "tier": a["tier"]})
     # Pre-grouped Silver -> Gold -> Prismatic rather than a template-side
     # {% groupby %}: Jinja2's groupby re-sorts groups alphabetically by key
     # ("Gold, Prismatic, Silver"), which would silently undo this exact
@@ -1942,7 +2018,7 @@ def main() -> None:
             comp_slug = slugify(comp["clean_id"])
             if comp["icon"]:
                 images.item(comp_slug, comp["icon"])
-            composition.append({"name": comp["name"], "slug": comp_slug})
+            composition.append({"name": comp["name"], "api_name": comp["api_name"], "slug": comp_slug})
         champion_rows = []
         for row in item_champion_stats_raw.get(it["clean_id"], []):
             name = row["champion"]
@@ -1952,7 +2028,7 @@ def main() -> None:
                 "top4_pct": pct(row["top4Rate"]), "winrate_pct": pct(row["winRate"]),
             })
         glossary_items.append({
-            "name": it["name"], "slug": slug, "icon_slug": slug,
+            "name": it["name"], "api_name": it["api_name"], "slug": slug, "icon_slug": slug,
             "composition": composition, "desc": it["desc"], "champion_rows": champion_rows,
         })
     glossary_items.sort(key=lambda i: i["name"])
@@ -2215,6 +2291,7 @@ def main() -> None:
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
     env.globals["SET_LABEL"] = SET_LABEL
+    env.globals["trait_label"] = trait_label
     # Cache-buster for the one stylesheet URL every page shares: without it,
     # a CSS-only change (like this session's icon-size fix) never reaches a
     # browser that already cached style.css from an earlier visit -- caught
@@ -2298,11 +2375,16 @@ def main() -> None:
         render("glossary_champions.html", "/glossaire/champions/", lang, active_nav="glossary", champions=glossary_champions)
         render("glossary_families.html", "/glossaire/familles/", lang, active_nav="glossary", families=glossary_families)
         for f in glossary_families:
-            render("glossary_family_detail.html", f"/glossaire/familles/{f['slug']}/", lang, active_nav="glossary", f=f)
-        render("glossary_augments.html", "/glossaire/augments/", lang, active_nav="glossary", augment_groups=glossary_augment_groups)
-        render("glossary_items.html", "/glossaire/objets/", lang, active_nav="glossary", items=glossary_items)
+            render("glossary_family_detail.html", f"/glossaire/familles/{f['slug']}/", lang, active_nav="glossary",
+                   f=localize_family(f, lang))
+        render("glossary_augments.html", "/glossaire/augments/", lang, active_nav="glossary",
+               augment_groups=[{**g, "augments": [localize_augment(a, lang) for a in g["augments"]]}
+                                for g in glossary_augment_groups])
+        render("glossary_items.html", "/glossaire/objets/", lang, active_nav="glossary",
+               items=[localize_item(it, lang) for it in glossary_items])
         for it in glossary_items:
-            render("glossary_item_detail.html", f"/glossaire/objets/{it['slug']}/", lang, active_nav="glossary", it=it)
+            render("glossary_item_detail.html", f"/glossaire/objets/{it['slug']}/", lang, active_nav="glossary",
+                   it=localize_item(it, lang))
 
         lb_regions = [{"code": r["code"], "name": REGION_NAMES[lang].get(r["code"], r["code"]),
                        "rows": [{**row, "form": [{**sq, "title": (translate(lang, "placement_colon", sq["placement"]) if sq["placement"] is not None else "")} for sq in row["form"]]}
@@ -2354,7 +2436,8 @@ def main() -> None:
                         render("game_analysis.html", f"/player/{region.lower()}/{p['slug']}/match/{game_vm['match_id']}/",
                                lang, active_nav="leaderboard", g=game_vm, player=p, region_name=region_name)
         for d in champion_vms:
-            render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions", d=d,
+            render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions",
+                   d=localize_champion_vm(d, lang),
                    balance_history=balance_history_by_lang[lang].get(d["name"], []))
 
         # ---- Région / Rang: real pages per slice (not a JS data blob) ----
@@ -2590,6 +2673,23 @@ def main() -> None:
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
     (DIST / "assets" / "data" / "glossary-items.json").write_text(
         json.dumps(glossary_item_tooltip_data, ensure_ascii=False), encoding="utf-8")
+    # French counterparts of the two client-side hover-tooltip data files --
+    # same shape, only the trait/item-composition display text swapped (see
+    # champ-icons.js / glossary-items.js, which pick the file to fetch off
+    # document.documentElement.lang). Icons/slugs/numbers are unchanged
+    # (language-independent), so this is a small overlay, not a rebuild.
+    champion_tooltip_data_fr = {
+        slug: {**d, "traits": [{**t, "name": trait_label(t["name"], "fr")} for t in d["traits"]]}
+        for slug, d in champion_tooltip_data.items()
+    }
+    (DIST / "assets" / "data" / "champions_fr.json").write_text(
+        json.dumps(champion_tooltip_data_fr, ensure_ascii=False), encoding="utf-8")
+    glossary_item_tooltip_data_fr = {
+        i["slug"]: {"name": localize_item(i, "fr")["name"], "composition": localize_item(i, "fr")["composition"]}
+        for i in glossary_items
+    }
+    (DIST / "assets" / "data" / "glossary-items_fr.json").write_text(
+        json.dumps(glossary_item_tooltip_data_fr, ensure_ascii=False), encoding="utf-8")
 
     # ---- MetaScope worker data: the same real numbers this build already
     # computed, published as small standalone files so the worker (a

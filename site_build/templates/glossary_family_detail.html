@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
-{% block title %}BrokenMeta.gg | {{ f.name }} — {{ t(lang, 'glossary_families_title') }}{% endblock %}
-{% block description %}{{ t(lang, 'family_detail_desc', f.name) }}{% endblock %}
+{% block title %}BrokenMeta.gg | {{ trait_label(f.name, lang) }} — {{ t(lang, 'glossary_families_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'family_detail_desc', trait_label(f.name, lang)) }}{% endblock %}
 {% block content %}
 <div class="family-fiche-header">
-  <img class="family-fiche-icon" src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ f.name }}">
+  <img class="family-fiche-icon" src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ trait_label(f.name, lang) }}">
   <div>
     <div class="fiche-kicker">{{ t(lang, 'nav_glossary_families') }}</div>
-    <h1 class="champ-fiche-name">{{ f.name }}</h1>
+    <h1 class="champ-fiche-name">{{ trait_label(f.name, lang) }}</h1>
   </div>
 </div>
 {% if f.intro %}<p class="family-fiche-intro">{{ f.intro }}</p>{% endif %}

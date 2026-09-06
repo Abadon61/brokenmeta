@@ -23,6 +23,18 @@ CDRAGON_TFT_DATA_URL = "https://raw.communitydragon.org/latest/cdragon/tft/en_us
 CDRAGON_ASSET_BASE = "https://raw.communitydragon.org/latest/game/"
 CACHE_PATH = Path("data/raw/_cdragon_tft.json")
 
+# Community Dragon publishes the same TFT data file per Riot locale (verified
+# live: .../cdragon/tft/fr_fr.json exists, same schema as en_us.json, real
+# official French text -- not a machine translation). Every OTHER locale
+# gets its own cache file; en_us keeps its original (pre-existing) cache
+# path so this doesn't force a re-download of data every build already has.
+def _cdragon_url(locale: str) -> str:
+    return f"https://raw.communitydragon.org/latest/cdragon/tft/{locale}.json"
+
+
+def _cdragon_cache_path(locale: str) -> Path:
+    return CACHE_PATH if locale == "en_us" else Path(f"data/raw/_cdragon_tft_{locale}.json")
+
 # Riot's own "paste into the in-game Team Planner" feature (added patch
 # 14.22). This file is the authoritative source for the numeric code each
 # champion pastes as -- no guessing needed for THAT part. What's still
@@ -46,7 +58,14 @@ _TEX_RE = re.compile(r"\.(tex|dds)$", re.IGNORECASE)
 _NBSP_RE = re.compile(r"&nbsp;")
 _ICON_MARKER_RE = re.compile(r"%i:[^%]*%")
 _HTML_TAG_RE = re.compile(r"<[^>]+>")
-_VAR_RE = re.compile(r"@(\w+?)@")
+# Some placeholders carry a "*<number>" multiplier before the closing "@"
+# (e.g. "@Durability*100@%" -- a 0-1 ratio the tooltip displays as a
+# percentage) -- the bare \w+ variable-name group didn't match these at all
+# (asterisk isn't a word character), so they leaked through completely raw
+# instead of getting the same humanized-stand-in treatment as every other
+# placeholder. The multiplier itself carries no information worth keeping
+# (it's a display-scale factor, not a real value), so it's simply dropped.
+_VAR_RE = re.compile(r"@(\w+?)(?:\*\d+)?@")
 # A chunk of these placeholder names carry a Riot-internal computation suffix
 # ("MagicDamageCalc1", "PhysicalDamageCalc2", "HexPercentDamageFalloffTooltip")
 # rather than being a plain stat name -- checked against every @Var@ token
@@ -92,18 +111,75 @@ def _asset_url(tex_path: str | None) -> str:
     return CDRAGON_ASSET_BASE + _TEX_RE.sub(".png", tex_path)
 
 
-def _load_cdragon_data(refresh: bool = False) -> dict:
-    if not refresh and CACHE_PATH.exists():
+def _load_cdragon_data(refresh: bool = False, locale: str = "en_us") -> dict:
+    cache_path = _cdragon_cache_path(locale)
+    if not refresh and cache_path.exists():
         try:
-            return json.loads(CACHE_PATH.read_text(encoding="utf-8"))
+            return json.loads(cache_path.read_text(encoding="utf-8"))
         except (json.JSONDecodeError, OSError):
             pass
-    resp = requests.get(CDRAGON_TFT_DATA_URL, timeout=60)
+    resp = requests.get(_cdragon_url(locale), timeout=60)
     resp.raise_for_status()
     data = resp.json()
-    CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    CACHE_PATH.write_text(json.dumps(data), encoding="utf-8")
+    cache_path.parent.mkdir(parents=True, exist_ok=True)
+    cache_path.write_text(json.dumps(data), encoding="utf-8")
     return data
+
+
+def build_locale_champion_text_map(set_mutator: str, locale: str, refresh: bool = False) -> dict[str, dict]:
+    """Returns {clean_champion_id: {"name", "ability_name", "ability_desc"}}
+    for one CDragon locale -- a lightweight, non-deduped companion to
+    build_champion_image_map() used ONLY to translate display text on an
+    already-built (English-keyed) champion, joined back by the same
+    clean_id -- icons/slugs/cost/traits stay sourced from the English map
+    everywhere else, only these three strings ever get swapped per language."""
+    data = _load_cdragon_data(refresh=refresh, locale=locale)
+    set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
+    if not set_entry:
+        return {}
+    out: dict[str, dict] = {}
+    for champ in set_entry.get("champions", []):
+        cid = clean_id(champ.get("apiName", ""))
+        if not cid:
+            continue
+        ability = champ.get("ability") or {}
+        out[cid] = {
+            "name": champ.get("name") or cid,
+            "ability_name": ability.get("name") or "",
+            "ability_desc": clean_ability_text(ability.get("desc")),
+        }
+    return out
+
+
+def build_locale_trait_name_map(set_mutator: str, locale: str, refresh: bool = False) -> dict[str, str]:
+    """Returns {trait_apiName: display_name} for one set/locale -- traits
+    are keyed by their (English) display NAME everywhere else in this
+    codebase (no stable id was ever threaded through), so this is used to
+    build a {english_name: french_name} translation table by joining two
+    locales' calls of this same function on apiName, not to replace that
+    existing keying anywhere."""
+    data = _load_cdragon_data(refresh=refresh, locale=locale)
+    set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
+    if not set_entry:
+        return {}
+    return {t["apiName"]: t["name"] for t in set_entry.get("traits", []) if t.get("apiName") and t.get("name")}
+
+
+def build_locale_item_text_map(locale: str, refresh: bool = False) -> dict[str, dict]:
+    """Returns {apiName: {"name", "desc"}} for EVERY item/augment record
+    (augments live in the same flat `items` array, `isAugment: True`) in one
+    CDragon locale -- no dedup/filtering, unlike build_full_item_catalog()/
+    build_augment_data(). Those two already pick one representative apiName
+    per (English) display name; this is just a flat translation lookup
+    joined back onto that choice by apiName, which is identical across
+    locales (only `name`/`desc` text differs)."""
+    data = _load_cdragon_data(refresh=refresh, locale=locale)
+    out: dict[str, dict] = {}
+    for it in data.get("items", []):
+        api = it.get("apiName")
+        if api:
+            out[api] = {"name": it.get("name"), "desc": _clean_item_desc(it.get("desc"))}
+    return out
 
 
 def build_champion_image_map(set_mutator: str, refresh: bool = False) -> dict[str, dict[str, str]]:
@@ -169,7 +245,7 @@ def build_trait_data(set_mutator: str, refresh: bool = False) -> list[dict]:
         )
         if not effects:
             continue
-        traits.append({"name": name, "icon": _asset_url(trait.get("icon")), "effects": effects})
+        traits.append({"name": name, "api_name": trait.get("apiName"), "icon": _asset_url(trait.get("icon")), "effects": effects})
     return traits
 
 
@@ -191,7 +267,7 @@ def _clean_item_desc(desc: str | None) -> str:
     return clean_ability_text(_BR_RE.sub(" ", desc))
 
 
-def build_family_docs(set_mutator: str, refresh: bool = False) -> dict[str, dict]:
+def build_family_docs(set_mutator: str, refresh: bool = False, locale: str = "en_us") -> dict[str, dict]:
     """Returns {trait_name: {"intro": str, "breakpoint_text": [str, ...]}}
     for the Glossary's "how does this family work" section -- the flavor
     text build_trait_data() deliberately drops. `breakpoint_text` is ordered
@@ -207,7 +283,7 @@ def build_family_docs(set_mutator: str, refresh: bool = False) -> dict[str, dict
     clean_ability_text() does for champion abilities: those numbers live
     behind opaque hashed variable names CDragon doesn't resolve, so showing
     them would mean fabricating a value, not reporting one."""
-    data = _load_cdragon_data(refresh=refresh)
+    data = _load_cdragon_data(refresh=refresh, locale=locale)
     set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
     if not set_entry:
         return {}
@@ -413,7 +489,7 @@ def build_full_item_catalog(set_mutator: str, id_prefix: str = "DA_", refresh: b
             comp_item = component_by_api.get(comp_api)
             comp_display.append({
                 "name": (comp_item or {}).get("name") or clean_id(comp_api),
-                "clean_id": clean_id(comp_api),
+                "clean_id": clean_id(comp_api), "api_name": comp_api,
                 "icon": _asset_url((comp_item or {}).get("icon")) if comp_item else "",
             })
 

@@ -30,8 +30,8 @@
 <div class="comp-traits-list">
   {% for tr in c.comp_traits %}
   <div class="trait-row" data-active="{{ tr.active|lower }}"{% if tr.active %} data-tier="{{ tr.tier }}"{% endif %}>
-    <img src="{{ root }}assets/traits/{{ tr.slug }}.png" alt="{{ tr.name }}" loading="lazy">
-    <span class="trait-row-name">{{ tr.name }}</span>
+    <img src="{{ root }}assets/traits/{{ tr.slug }}.png" alt="{{ trait_label(tr.name, lang) }}" loading="lazy">
+    <span class="trait-row-name">{{ trait_label(tr.name, lang) }}</span>
     <span class="trait-row-count">{{ tr.count }}{% if tr.next_min %}/{{ tr.next_min }}{% endif %}</span>
   </div>
   {% endfor %}
