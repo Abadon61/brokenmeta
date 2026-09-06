@@ -44,9 +44,16 @@ SET_MUTATOR = "TFTSet18"
 SET_LABEL = "TFT Set 18"
 BASE_URL = "https://brokenmeta.gg/"
 
-# Same quality filter as the Artifact's export_data.py -- keeps both
-# versions showing the same ~500 real, well-sampled comps.
-MIN_PLAY_COUNT = 10
+# Was 10 (matching the Artifact's export_data.py), same as everywhere real
+# TFT trackers set a low floor -- but with the raw match cache now spanning
+# 20k+ real ranked games instead of ~4-5k, a 10-game comp can cross that bar
+# on pure variance (TFT placement has high game-to-game swing). Raised to
+# 100 on 2026-09-06 after checking the actual distribution: ~537 comps
+# qualify at 10 vs ~158 at 100, and every comp at 100+ games has a real
+# statistical base instead of a lucky handful of games. The Artifact
+# (export_data.py) still uses 10 -- deliberately diverged, not kept in sync,
+# since it doesn't have this site's real match volume to support a higher bar.
+MIN_PLAY_COUNT = 100
 MAX_AVG_PLACEMENT = 6.00
 MIN_CORE_BOARD_SIZE = 7
 
