@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'glossary_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'glossary_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'glossary_intro') }}</p>
+<div class="glossary-hub-grid">
+  <a class="glossary-hub-card" href="{{ root }}glossaire/champions/">
+    <div class="glossary-hub-card-title">{{ t(lang, 'nav_glossary_champions') }}</div>
+    <div class="glossary-hub-card-desc">{{ t(lang, 'glossary_champions_hub_desc') }}</div>
+    <div class="glossary-hub-card-count">{{ t(lang, 'glossary_count', counts.champions) }}</div>
+  </a>
+  <a class="glossary-hub-card" href="{{ root }}glossaire/familles/">
+    <div class="glossary-hub-card-title">{{ t(lang, 'nav_glossary_families') }}</div>
+    <div class="glossary-hub-card-desc">{{ t(lang, 'glossary_families_hub_desc') }}</div>
+    <div class="glossary-hub-card-count">{{ t(lang, 'glossary_count', counts.families) }}</div>
+  </a>
+  <a class="glossary-hub-card" href="{{ root }}glossaire/augments/">
+    <div class="glossary-hub-card-title">{{ t(lang, 'nav_glossary_augments') }}</div>
+    <div class="glossary-hub-card-desc">{{ t(lang, 'glossary_augments_hub_desc') }}</div>
+    <div class="glossary-hub-card-count">{{ t(lang, 'glossary_count', counts.augments) }}</div>
+  </a>
+  <a class="glossary-hub-card" href="{{ root }}glossaire/objets/">
+    <div class="glossary-hub-card-title">{{ t(lang, 'nav_glossary_items') }}</div>
+    <div class="glossary-hub-card-desc">{{ t(lang, 'glossary_items_hub_desc') }}</div>
+    <div class="glossary-hub-card-count">{{ t(lang, 'glossary_count', counts['items']) }}</div>
+  </a>
+</div>
+{% endblock %}

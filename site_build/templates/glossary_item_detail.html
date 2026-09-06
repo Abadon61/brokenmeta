@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ it.name }} — {{ t(lang, 'glossary_items_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'item_detail_desc', it.name) }}{% endblock %}
+{% block content %}
+<div class="item-fiche-header">
+  <img class="item-fiche-icon" src="{{ root }}assets/items/{{ it.icon_slug }}.png" alt="{{ it.name }}">
+  <div>
+    <div class="fiche-kicker">{{ t(lang, 'nav_glossary_items') }}</div>
+    <h1 class="champ-fiche-name">{{ it.name }}</h1>
+  </div>
+</div>
+{% if it.desc %}<div class="item-fiche-desc">{{ it.desc|safe }}</div>{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'item_composition_title') }}</h2>
+<div class="item-composition-row">
+  {% for comp in it.composition %}
+  {% if not loop.first %}<span class="item-composition-plus">+</span>{% endif %}
+  <div class="item-composition-piece">
+    <img src="{{ root }}assets/items/{{ comp.slug }}.png" alt="{{ comp.name }}" loading="lazy">
+    <span>{{ comp.name }}</span>
+  </div>
+  {% endfor %}
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'item_top_champions_title') }}</h2>
+{% if it.champion_rows %}
+<div class="table-wrap"><table class="item-champ-table">
+  <thead><tr><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'games_col') }}</th><th class="num">{{ t(lang, 'placement_label') }}</th><th class="num">{{ t(lang, 'top4_label') }}</th><th class="num">{{ t(lang, 'winrate_col') }}</th></tr></thead>
+  <tbody>
+    {% for row in it.champion_rows %}<tr>
+      <td><div class="item-champ-name-cell">
+        {% if row.has_page %}<a href="{{ root }}champions/{{ row.slug }}/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">{% endif %}
+        <img src="{{ root }}assets/champions/{{ row.slug }}.png" alt="{{ row.name }}" loading="lazy">
+        <span>{{ row.name }}</span>
+        {% if row.has_page %}</a>{% endif %}
+      </div></td>
+      <td class="num">{{ row.games }}</td>
+      <td class="num">{{ '%.2f'|format(row.avg_placement) }}</td>
+      <td class="num">{{ row.top4_pct }}</td>
+      <td class="num">{{ row.winrate_pct }}</td>
+    </tr>{% endfor %}
+  </tbody>
+</table></div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'item_no_champion_data') }}</div>{% endif %}
+{% endblock %}

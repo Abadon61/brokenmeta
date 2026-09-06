@@ -59,6 +59,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
       <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
       <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
+      <details class="nav-dropdown" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>
+        <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
+        <div class="nav-dropdown-menu">
+          <a href="{{ root }}glossaire/champions/">{{ t(lang, 'nav_glossary_champions') }}</a>
+          <a href="{{ root }}glossaire/familles/">{{ t(lang, 'nav_glossary_families') }}</a>
+          <a href="{{ root }}glossaire/augments/">{{ t(lang, 'nav_glossary_augments') }}</a>
+          <a href="{{ root }}glossaire/objets/">{{ t(lang, 'nav_glossary_items') }}</a>
+        </div>
+      </details>
     </nav>
     <a class="nav-cta-button" href="{{ root }}metascope/" {% if active_nav == 'metascope' %}data-active="true"{% endif %}>
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
@@ -79,6 +88,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="footer-nav">
       <a href="{{ root }}">{{ t(lang, 'nav_comps') }}</a>
       <a href="{{ root }}champions/">{{ t(lang, 'nav_champions') }}</a>
+      <a href="{{ root }}glossaire/">{{ t(lang, 'nav_glossary') }}</a>
       <a href="{{ root }}patch-notes/">{{ t(lang, 'nav_patchnotes') }}</a>
       <a href="{{ root }}leaderboard/">{{ t(lang, 'nav_leaderboard') }}</a>
       <a href="{{ root }}metascope/">{{ t(lang, 'nav_metascope') }}</a>

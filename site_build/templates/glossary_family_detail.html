@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}BrokenMeta.gg | {{ f.name }} — {{ t(lang, 'glossary_families_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'family_detail_desc', f.name) }}{% endblock %}
+{% block content %}
+<div class="family-fiche-header">
+  <img class="family-fiche-icon" src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ f.name }}">
+  <div>
+    <div class="fiche-kicker">{{ t(lang, 'nav_glossary_families') }}</div>
+    <h1 class="champ-fiche-name">{{ f.name }}</h1>
+  </div>
+</div>
+{% if f.intro %}<p class="family-fiche-intro">{{ f.intro }}</p>{% endif %}
+
+{% if f.breakpoints %}
+<h2 class="fiche-section-title">{{ t(lang, 'family_breakpoints_title') }}</h2>
+<div class="family-breakpoint-list">
+  {% for bp in f.breakpoints %}
+  <div class="family-breakpoint-row">
+    <div class="family-breakpoint-count nums">{{ bp.min_units }}</div>
+    <div class="family-breakpoint-text">{{ bp.text|safe if bp.text else t(lang, 'family_breakpoint_fallback', bp.min_units) }}</div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'family_members_title') }}</h2>
+{% if f.members %}
+<div class="glossary-icon-grid">
+  {% for c in f.members %}
+  {% if c.has_page %}
+  <a class="glossary-icon-item" href="{{ root }}champions/{{ c.slug }}/">
+    <img src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.name }}" loading="lazy">
+    <span>{{ c.name }}</span>
+  </a>
+  {% else %}
+  <span class="glossary-icon-item" data-linkable="false">
+    <img src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.name }}" loading="lazy">
+    <span>{{ c.name }}</span>
+  </span>
+  {% endif %}
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'family_no_members') }}</div>{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'family_comps_title') }}</h2>
+{% if f.comps %}
+<div>
+  {% for c in f.comps %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
+</div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'family_no_comps') }}</div>{% endif %}
+{% endblock %}

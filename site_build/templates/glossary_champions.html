@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_champions_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'glossary_champions_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'glossary_champions_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'glossary_champions_intro') }}</p>
+<div class="glossary-icon-grid">
+  {% for c in champions %}
+  <a class="glossary-icon-item" href="{{ root }}champions/{{ c.slug }}/">
+    <img src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.name }}" loading="lazy">
+    <span>{{ c.name }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

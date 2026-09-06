@@ -173,6 +173,65 @@ def build_trait_data(set_mutator: str, refresh: bool = False) -> list[dict]:
     return traits
 
 
+_ROW_RE = re.compile(r"<row>(.*?)</row>", re.IGNORECASE | re.DOTALL)
+# clean_ability_text()'s generic tag-stripper deletes <br> with no
+# replacement, which is fine for champion abilities (barely ever used
+# there) but wrong for item/augment desc text, where "<br><br>" is a real
+# paragraph break Riot relies on to separate role-conditional clauses (e.g.
+# Adaptive Helm's "...based on their Role:<br><br>Tanks and Fighters: ..."
+# -- deleting it outright glues "Role:Tanks" into one word). Turned into a
+# space here, before the shared cleaner runs, rather than changing that
+# shared regex and risking a champion-ability regression elsewhere.
+_BR_RE = re.compile(r"<br\s*/?>", re.IGNORECASE)
+
+
+def _clean_item_desc(desc: str | None) -> str:
+    if not desc:
+        return ""
+    return clean_ability_text(_BR_RE.sub(" ", desc))
+
+
+def build_family_docs(set_mutator: str, refresh: bool = False) -> dict[str, dict]:
+    """Returns {trait_name: {"intro": str, "breakpoint_text": [str, ...]}}
+    for the Glossary's "how does this family work" section -- the flavor
+    text build_trait_data() deliberately drops. `breakpoint_text` is ordered
+    the same as build_trait_data()'s `effects` (ascending min_units), one
+    entry per <row> Riot's own desc wraps each breakpoint in.
+
+    Every "@MinUnits@" token is substituted with the REAL threshold number
+    for its row (we already know it from `effects[].minUnits`, no guessing
+    involved) before the generic clean_ability_text() humanization runs on
+    the rest -- so "(@MinUnits@) A Stonebark Tree" becomes "(3) A Stonebark
+    Tree", not a placeholder. Every OTHER "@Var@" token (e.g.
+    "@StonebarkTreeBonusHealth@") stays a humanized stand-in exactly like
+    clean_ability_text() does for champion abilities: those numbers live
+    behind opaque hashed variable names CDragon doesn't resolve, so showing
+    them would mean fabricating a value, not reporting one."""
+    data = _load_cdragon_data(refresh=refresh)
+    set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
+    if not set_entry:
+        return {}
+
+    docs: dict[str, dict] = {}
+    for trait in set_entry.get("traits", []):
+        name = trait.get("name")
+        desc_raw = trait.get("desc") or ""
+        if not name or not desc_raw:
+            continue
+        min_units_by_row = [e["minUnits"] for e in sorted(
+            (e for e in trait.get("effects", []) if e.get("minUnits") is not None),
+            key=lambda e: e["minUnits"])]
+        row_matches = _ROW_RE.findall(desc_raw)
+        first_row_pos = desc_raw.lower().find("<row>")
+        intro = clean_ability_text(desc_raw[:first_row_pos] if first_row_pos != -1 else desc_raw)
+        breakpoint_text = []
+        for i, row_raw in enumerate(row_matches):
+            row = row_raw.replace("@MinUnits@", str(min_units_by_row[i])) if i < len(min_units_by_row) else row_raw
+            breakpoint_text.append(clean_ability_text(row))
+        docs[name] = {"intro": intro, "breakpoint_text": breakpoint_text}
+    return docs
+
+
 def _load_teamplanner_data(refresh: bool = False) -> dict:
     if not refresh and TEAMPLANNER_CACHE_PATH.exists():
         try:
@@ -309,3 +368,143 @@ def build_item_image_map(needed_names: set[str], id_prefix: str = "DA_", refresh
             images[cid] = _asset_url(item.get("icon"))
             remaining.discard(cid)
     return images
+
+
+def build_full_item_catalog(set_mutator: str, id_prefix: str = "DA_", refresh: bool = False) -> list[dict]:
+    """Returns every FINISHED item of one set (2-component combines and
+    trait emblems; raw components excluded) for the Glossary's item list --
+    unlike build_item_image_map(), not scoped to names seen in real matches,
+    so a never-built item still gets a page.
+
+    Each entry: {"api_name", "name", "icon", "composition": [{"name",
+    "icon"}, ...], "desc"}.
+
+    `desc` is the honest part: Community Dragon's per-set item records (the
+    ones with this set's own `id_prefix`, e.g. "DA_RedBuff") carry a real
+    icon and composition, but an EMPTY `desc`/`effects` -- checked live
+    against all 55 Set 18 finished items, zero exceptions. The actual effect
+    text lives instead on that same item's older, unprefixed "canonical"
+    record (item mechanics are shared game-wide; only the icon/skin is
+    reskinned per set) -- e.g. "DA_RedBuff" has no text, but
+    "TFT_Item_RapidFireCannon" (an old internal name for the same item) has
+    the real one. This only trusts that fallback when every candidate
+    record sharing this item's name agrees on `effects` (byte-for-byte) --
+    32 of 55 items clear that bar; the rest get an empty `desc` rather than
+    a guessed or possibly-stale one."""
+    data = _load_cdragon_data(refresh=refresh)
+    all_items = data.get("items", [])
+    component_by_api = {it["apiName"]: it for it in all_items if it.get("apiName")}
+
+    desc_candidates: dict[str, list[dict]] = {}
+    for it in all_items:
+        if it.get("desc") and not it.get("isAugment"):
+            desc_candidates.setdefault(it["name"], []).append(it)
+
+    items = []
+    for it in all_items:
+        api_name = it.get("apiName") or ""
+        if not api_name.startswith(id_prefix) or it.get("isAugment"):
+            continue
+        composition = it.get("composition") or []
+        if len(composition) < 2:
+            continue  # raw component or a non-combinable item, not "complete"
+        comp_display = []
+        for comp_api in composition:
+            comp_item = component_by_api.get(comp_api)
+            comp_display.append({
+                "name": (comp_item or {}).get("name") or clean_id(comp_api),
+                "clean_id": clean_id(comp_api),
+                "icon": _asset_url((comp_item or {}).get("icon")) if comp_item else "",
+            })
+
+        desc = ""
+        candidates = desc_candidates.get(it.get("name") or "") or []
+        distinct_effects = {json.dumps(c.get("effects"), sort_keys=True) for c in candidates}
+        if len(distinct_effects) == 1:
+            desc = _clean_item_desc(candidates[0]["desc"])
+
+        items.append({
+            # `clean_id` matches the exact same convention build_item_image_map()
+            # and every match-derived itemName already use (comp_signature.clean_id
+            # on the raw apiName, e.g. "GiantSlayer") -- the slug this becomes
+            # (site_build's slugify()) must line up with existing per-item icon
+            # files/URLs elsewhere on the site, which `name` (CDragon's spaced
+            # display form, "Giant Slayer") would NOT produce the same slug for.
+            "api_name": api_name, "clean_id": clean_id(api_name), "name": it.get("name") or api_name,
+            "icon": _asset_url(it.get("icon")), "composition": comp_display, "desc": desc,
+        })
+    items.sort(key=lambda i: i["name"])
+    return items
+
+
+# Augment rarity ("tags") is one of the fields CDragon hashes into an opaque
+# "{hex}" placeholder instead of the real string -- but every single one of
+# Set 18's 596 augments carries EXACTLY one of these 3 hashes with zero
+# overlap, which is already strong evidence they're 3 mutually-exclusive
+# buckets (rarity has exactly 3 values). Matched to an actual tier name via
+# Riot's own "Destiny" augment family -- literal augments named "Silver
+# Destiny" / "Gold Destiny" / "Prismatic Destiny" (their names spell out
+# their own rarity) map 1:1 onto these 3 hashes with no exceptions across
+# every "Destiny"/"DestinyPlus"/"DestinyPlusPlus" variant checked -- then
+# cross-confirmed against two more independent named pairs: "Glass Cannon
+# I"/"Glass Cannon II" (Silver/Gold) and "Cybernetic Uplink"/"Cybernetic
+# Implants" (both apiName-suffixed "_Gold"). Three independent anchors
+# agreeing, not one coincidental name match.
+_SILVER_TAG_HASH = "{d11fd6d5}"
+_GOLD_TAG_HASH = "{ce1fd21c}"
+_PRISMATIC_TAG_HASH = "{cf1fd3af}"
+_AUGMENT_TIER_BY_HASH = {_SILVER_TAG_HASH: "Silver", _GOLD_TAG_HASH: "Gold", _PRISMATIC_TAG_HASH: "Prismatic"}
+_AUGMENT_TIER_SORT = {"Silver": 0, "Gold": 1, "Prismatic": 2}
+
+
+def build_augment_data(set_mutator: str, refresh: bool = False) -> list[dict]:
+    """Returns every augment in one set's pool, sorted Silver -> Gold ->
+    Prismatic (then name): [{"api_name", "name", "icon", "desc", "tier"}].
+
+    A set's augment pool (`setData[].augments`) is a flat list of apiNames
+    that legitimately spans OLDER sets too (Set 18 reuses plenty of
+    "standard" augments introduced years earlier, under their original
+    apiName prefix, e.g. "TFT6_Augment_...") -- unlike champions/items,
+    this is intentionally NOT filtered to one id_prefix.
+
+    That same pool lists the same augment under more than one apiName for
+    ~45% of entries (596 raw -> 409 distinct names: a years-old base
+    apiName plus this set's own reskinned one, both mechanically identical
+    -- confirmed: only 1 of 185 duplicate-name groups disagreed on tier,
+    and every single one had a "DA_"-prefixed variant available), so
+    duplicates are collapsed to that Set 18 variant, which also has the
+    correct current-set icon art."""
+    data = _load_cdragon_data(refresh=refresh)
+    set_entry = next((s for s in data.get("setData", []) if s.get("mutator") == set_mutator), None)
+    if not set_entry:
+        return []
+    augment_api_names = set(set_entry.get("augments") or [])
+    by_api = {it["apiName"]: it for it in data.get("items", []) if it.get("apiName")}
+
+    by_name: dict[str, dict] = {}
+    for api_name in augment_api_names:
+        it = by_api.get(api_name)
+        if not it or not it.get("name"):
+            continue
+        name = it["name"]
+        # Prefer this set's own "DA_"-prefixed variant over an older base
+        # apiName sharing the same name (see docstring) -- first DA_ variant
+        # seen wins if somehow more than one exists.
+        existing = by_name.get(name)
+        if existing is not None and existing["apiName"].startswith("DA_") and not api_name.startswith("DA_"):
+            continue
+        by_name[name] = it
+
+    augments = []
+    for name, it in by_name.items():
+        tags = set(it.get("tags") or [])
+        tier = next((label for h, label in _AUGMENT_TIER_BY_HASH.items() if h in tags), None)
+        if not tier:
+            continue  # unrecognized tag combo -- skipped, not guessed
+        augments.append({
+            "api_name": it["apiName"], "clean_id": clean_id(it["apiName"]), "name": name,
+            "icon": _asset_url(it.get("icon")), "desc": _clean_item_desc(it.get("desc")),
+            "tier": tier,
+        })
+    augments.sort(key=lambda a: (_AUGMENT_TIER_SORT.get(a["tier"], 9), a["name"]))
+    return augments
