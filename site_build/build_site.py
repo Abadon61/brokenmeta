@@ -28,7 +28,8 @@ ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parent
 sys.path.insert(0, str(PROJECT / "src"))
 from tft_tracker.champion_images import (  # noqa: E402
-    build_champion_image_map, build_item_image_map, build_team_planner_codes, build_trait_data, classify_item_offense,
+    build_augment_data, build_champion_image_map, build_family_docs, build_full_item_catalog, build_item_image_map,
+    build_team_planner_codes, build_trait_data, classify_item_offense,
 )
 
 OUT = PROJECT / "data" / "output"
@@ -238,6 +239,53 @@ CHAMP_ICON_JS = """
     e.stopPropagation();
     var href = icon.dataset.champHref;
     if (href) location.href = href;
+  });
+})();
+"""
+
+# Same tooltip mechanism as CHAMP_ICON_JS above (shared #tooltip div, one
+# lazy-fetched static JSON), for the Glossary's item icon grid: hovering an
+# item shows its real crafting components (the ".item-icon"/".item-icon-sm"
+# used everywhere else on the site already have a native `title` tooltip for
+# this, deliberately not reused here so this one richer version -- icons,
+# not just names -- doesn't fight the plain-text one on the exact same class).
+GLOSSARY_ITEM_JS = """
+(function () {
+  var tooltip = document.getElementById('tooltip');
+  var itemData = null;
+  fetch((window.BM_ROOT || '') + 'assets/data/glossary-items.json').then(function (r) { return r.json(); }).then(function (d) { itemData = d; }).catch(function () {});
+
+  function showTooltip(icon, e) {
+    if (!itemData || !tooltip) return;
+    var d = itemData[icon.dataset.itemSlug];
+    if (!d) return;
+    var compHtml = (d.composition || []).map(function (c) {
+      return '<span class="tt-trait-chip"><img src="' + (window.BM_ROOT || '') + 'assets/items/' + c.slug + '.png" alt="">' + c.name + '</span>';
+    }).join('');
+    tooltip.innerHTML = '<div class="tt-name">' + d.name + '</div>'
+      + (compHtml ? '<div class="tt-traits">' + compHtml + '</div>' : '');
+    tooltip.dataset.visible = 'true';
+    moveTooltip(e);
+  }
+  function moveTooltip(e) {
+    if (!tooltip) return;
+    var pad = 14, x = e.clientX + pad, y = e.clientY + pad;
+    if (x + 190 > window.innerWidth) x = e.clientX - 190 - pad;
+    if (y + 130 > window.innerHeight) y = e.clientY - 130 - pad;
+    tooltip.style.left = x + 'px';
+    tooltip.style.top = y + 'px';
+  }
+  function hideTooltip() { if (tooltip) tooltip.dataset.visible = 'false'; }
+
+  document.addEventListener('mouseover', function (e) {
+    var icon = e.target.closest('.item-tt-icon');
+    if (icon) showTooltip(icon, e);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (e.target.closest('.item-tt-icon')) moveTooltip(e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest('.item-tt-icon')) hideTooltip();
   });
 })();
 """
@@ -1151,6 +1199,41 @@ I18N: dict[str, dict] = {
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
         "patch_banner": 'Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel, et pas toujours pour les petits correctifs d\'équilibrage entre deux patchs. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l\'article complet, sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> quand Riot en a publié un, sinon vers une source communautaire de référence.',
         "patch_word": "Patch", "read_full_article": "Lire l'article complet →",
+        "nav_glossary": "Glossaire",
+        "nav_glossary_champions": "Champions", "nav_glossary_families": "Familles",
+        "nav_glossary_augments": "Augments", "nav_glossary_items": "Objets",
+        "glossary_title": f"Glossaire {SET_LABEL}",
+        "glossary_desc": f"Glossaire complet {SET_LABEL} : tous les champions, familles, augments et objets, avec leurs effets réels.",
+        "glossary_intro": "Référence complète du set : champions, familles, augments et objets, avec leurs vraies fiches (effets, composants, synergies).",
+        "glossary_count": lambda n: f"{n} entrées",
+        "glossary_champions_hub_desc": "Tous les champions du set, avec accès direct à leur fiche complète.",
+        "glossary_families_hub_desc": "Toutes les familles (traits) : comment elles fonctionnent, qui en fait partie, quelles comps s'appuient dessus.",
+        "glossary_augments_hub_desc": "Tous les augments du set, triés par rareté (Argent, Or, Prismatique).",
+        "glossary_items_hub_desc": "Tous les objets complets du set, leurs composants et les champions qui en tirent le meilleur parti.",
+        "glossary_champions_title": f"Champions — Glossaire {SET_LABEL}",
+        "glossary_champions_desc": f"Liste illustrée de tous les champions {SET_LABEL} classés, avec accès direct à la fiche de chacun.",
+        "glossary_champions_intro": "Clique un champion pour voir sa fiche complète (objets, compositions, historique d'équilibrage).",
+        "glossary_families_title": f"Familles — Glossaire {SET_LABEL}",
+        "glossary_families_desc": f"Toutes les familles (traits) de {SET_LABEL} : paliers, champions membres, compositions basées dessus.",
+        "glossary_families_intro": "Clique une famille pour voir comment elle fonctionne, ses champions membres, et les comps qui s'appuient dessus.",
+        "family_detail_desc": lambda name: f"Famille {name} sur {SET_LABEL} : comment elle fonctionne, ses champions membres, et les compositions réelles construites autour d'elle.",
+        "family_breakpoints_title": "Paliers de la famille",
+        "family_breakpoint_fallback": lambda n: f"({n}) Palier actif.",
+        "family_members_title": "Champions de la famille",
+        "family_no_members": "Aucun champion trouvé pour cette famille.",
+        "family_comps_title": "Compositions basées sur cette famille",
+        "family_no_comps": "Aucune comp classée n'est actuellement construite autour de cette famille dans cet échantillon.",
+        "glossary_augments_title": f"Augments — Glossaire {SET_LABEL}",
+        "glossary_augments_desc": f"Tous les augments {SET_LABEL}, triés par rareté (Argent, Or, Prismatique), avec leur effet réel.",
+        "glossary_augments_intro": 'Riot ne publie pas quel augment un joueur a pris via l\'API Match-V1 pour ce set (voir la note sur les fiches de comp) — cette liste est donc une référence statique, sans statistique de pick rate ou de winrate.',
+        "augment_tier_silver": "Argent", "augment_tier_gold": "Or", "augment_tier_prismatic": "Prismatique",
+        "glossary_items_title": f"Objets — Glossaire {SET_LABEL}",
+        "glossary_items_desc": f"Tous les objets complets {SET_LABEL}, leurs composants et les champions qui en tirent le meilleur winrate.",
+        "glossary_items_intro": "Survole une icône pour voir ses composants. Clique un objet pour voir sa fiche complète.",
+        "item_detail_desc": lambda name: f"{name} sur {SET_LABEL} : effet, composants nécessaires, et les champions avec le meilleur winrate en le portant.",
+        "item_composition_title": "Composants nécessaires",
+        "item_top_champions_title": "Champions avec un fort winrate sur cet objet",
+        "item_no_champion_data": "Pas assez de parties observées avec cet objet pour dégager des champions fiables.",
     },
     "en": {
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
@@ -1280,6 +1363,41 @@ I18N: dict[str, dict] = {
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
         "patch_banner": 'Riot doesn\'t publish TFT patch notes through an API — only as articles on its official site, and not always for smaller mid-patch balance hotfixes. Here\'s a hand-written summary of the latest patches; each card links to the full article, on <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> when Riot published one, otherwise to a reliable community source.',
         "patch_word": "Patch", "read_full_article": "Read full article →",
+        "nav_glossary": "Glossary",
+        "nav_glossary_champions": "Champions", "nav_glossary_families": "Families",
+        "nav_glossary_augments": "Augments", "nav_glossary_items": "Items",
+        "glossary_title": f"{SET_LABEL} Glossary",
+        "glossary_desc": f"Complete {SET_LABEL} glossary: every champion, family, augment and item, with their real effects.",
+        "glossary_intro": "The set's full reference: champions, families, augments and items, each with a real page (effects, components, synergies).",
+        "glossary_count": lambda n: f"{n} entries",
+        "glossary_champions_hub_desc": "Every champion in the set, with direct access to their full sheet.",
+        "glossary_families_hub_desc": "Every family (trait): how it works, its members, and which comps build around it.",
+        "glossary_augments_hub_desc": "Every augment in the set, sorted by rarity (Silver, Gold, Prismatic).",
+        "glossary_items_hub_desc": "Every finished item in the set, its components, and the champions who get the most out of it.",
+        "glossary_champions_title": f"Champions — {SET_LABEL} Glossary",
+        "glossary_champions_desc": f"Illustrated list of every ranked {SET_LABEL} champion, with direct access to each one's sheet.",
+        "glossary_champions_intro": "Click a champion to see their full sheet (items, comps, balance history).",
+        "glossary_families_title": f"Families — {SET_LABEL} Glossary",
+        "glossary_families_desc": f"Every {SET_LABEL} family (trait): breakpoints, member champions, and comps built around it.",
+        "glossary_families_intro": "Click a family to see how it works, its member champions, and the comps built around it.",
+        "family_detail_desc": lambda name: f"The {name} family on {SET_LABEL}: how it works, its member champions, and the real comps built around it.",
+        "family_breakpoints_title": "Family breakpoints",
+        "family_breakpoint_fallback": lambda n: f"({n}) Active breakpoint.",
+        "family_members_title": "Family champions",
+        "family_no_members": "No champion found for this family.",
+        "family_comps_title": "Comps built around this family",
+        "family_no_comps": "No ranked comp is currently built around this family in this sample.",
+        "glossary_augments_title": f"Augments — {SET_LABEL} Glossary",
+        "glossary_augments_desc": f"Every {SET_LABEL} augment, sorted by rarity (Silver, Gold, Prismatic), with its real effect.",
+        "glossary_augments_intro": "Riot's Match-V1 API doesn't expose which augment a player took for this set (see the note on comp sheets) — this list is a static reference, with no pick rate or win rate stat.",
+        "augment_tier_silver": "Silver", "augment_tier_gold": "Gold", "augment_tier_prismatic": "Prismatic",
+        "glossary_items_title": f"Items — {SET_LABEL} Glossary",
+        "glossary_items_desc": f"Every finished {SET_LABEL} item, its components, and the champions with the best win rate holding it.",
+        "glossary_items_intro": "Hover an icon to see its components. Click an item to see its full sheet.",
+        "item_detail_desc": lambda name: f"{name} on {SET_LABEL}: effect, required components, and the champions with the best win rate holding it.",
+        "item_composition_title": "Required components",
+        "item_top_champions_title": "Champions with a high win rate on this item",
+        "item_no_champion_data": "Not enough observed games with this item to identify reliable champions.",
     },
 }
 
@@ -1316,9 +1434,11 @@ class ImageCache:
         self.champ_dir = dist / "assets" / "champions"
         self.item_dir = dist / "assets" / "items"
         self.trait_dir = dist / "assets" / "traits"
+        self.augment_dir = dist / "assets" / "augments"
         self.champ_dir.mkdir(parents=True, exist_ok=True)
         self.item_dir.mkdir(parents=True, exist_ok=True)
         self.trait_dir.mkdir(parents=True, exist_ok=True)
+        self.augment_dir.mkdir(parents=True, exist_ok=True)
         self._done: set[str] = set()
 
     def _fetch(self, url: str, dest: Path) -> None:
@@ -1339,6 +1459,9 @@ class ImageCache:
 
     def trait(self, slug: str, url: str) -> None:
         self._fetch(url, self.trait_dir / f"{slug}.png")
+
+    def augment(self, slug: str, url: str) -> None:
+        self._fetch(url, self.augment_dir / f"{slug}.png")
 
 
 def main() -> None:
@@ -1559,6 +1682,12 @@ def main() -> None:
             "display_label": f"{c['label']} {c['playstyle_tag']}" if c.get("playstyle_tag") else c["label"],
             "carry": carry, "carry_slug": champ_slug_and_download(carry) if carry else None,
             "core_units_display": core_display,
+            # Ranked same as derive_comp() ranks them (most-activated first) --
+            # traits[0] is this comp's single IDENTITY trait (same one baked
+            # into `key`/`label`), used by the Glossary's family pages to find
+            # "comps actually BUILT AROUND this family" rather than every comp
+            # that merely has a unit or two carrying it as a minor tag.
+            "traits": c.get("traits") or [],
             "avg_placement": c["avg_placement"], "top4_pct": pct(c["top4_rate"]),
             "play_count": c["play_count"], "play_rate": c.get("play_rate", 0),
             "contestation_index": c.get("contestation_index", 0), "contestation_level": c.get("contestation_level", "Low"),
@@ -1715,6 +1844,117 @@ def main() -> None:
             "traits": d["traits"],
         }
         for d in champion_vms
+    }
+
+    # ==========================================================================
+    # ---- Glossaire TFT: a static reference distinct from every tier-list
+    # page above -- every real champion/family/item/augment in the set, not
+    # just the ones with enough sample to rank. Only "Champions" reuses an
+    # existing page set as-is (see below); Familles/Augments/Objets are new.
+    # ==========================================================================
+
+    # Only real champions with an actual /champions/<slug>/ fiche (tier != "?",
+    # see champion_vms above) get linked to from anywhere in the Glossaire --
+    # same page set the site already exposes, nothing new generated here, so
+    # every "cliquable" icon the Glossaire promises really does resolve.
+    ranked_champion_names = {d["name"] for d in champion_vms}
+    glossary_champions = champion_vms
+
+    # ---- Familles: full trait roster, each with a real explanation (see
+    # build_family_docs), its real member champions, and the real comps
+    # actually BUILT AROUND it (comp["traits"][0] == this trait -- see
+    # build_row_vm's "traits" field). ----
+    family_docs = build_family_docs(SET_MUTATOR)
+    glossary_families = []
+    for trait in builder_traits:
+        doc = family_docs.get(trait["name"], {})
+        member_infos = sorted(
+            (info for info in raw_image_map.values() if trait["name"] in (info.get("traits") or [])),
+            key=lambda info: (info.get("cost") or 0, info["name"]),
+        )
+        members = []
+        for info in member_infos:
+            name = info["name"]
+            slug = champ_slug_and_download(name)
+            members.append({"name": name, "slug": slug, "has_page": name in ranked_champion_names})
+        family_comps = sorted(
+            (c for c in comp_vms if c["traits"] and c["traits"][0] == trait["name"]),
+            key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]),
+        )
+        # Riot's own <row> order always matches ascending min_units (checked
+        # across every Set 18 trait) -- zipped here, once, rather than in the
+        # template, since a plain Jinja2 Environment has no zip() global.
+        # Falls back to just the number with no flavor text if the two ever
+        # come out different lengths, rather than mis-pairing them.
+        bp_texts = doc.get("breakpoint_text", [])
+        breakpoints = [
+            {"min_units": e["min_units"], "text": bp_texts[i] if i < len(bp_texts) else ""}
+            for i, e in enumerate(trait["effects"])
+        ]
+        glossary_families.append({
+            "name": trait["name"], "slug": trait["slug"], "icon_slug": trait["slug"],
+            "intro": doc.get("intro", ""), "breakpoints": breakpoints,
+            "members": members, "comps": family_comps,
+        })
+    glossary_families.sort(key=lambda f: f["name"])
+
+    # ---- Augments: one static reference page, grouped Silver -> Gold ->
+    # Prismatic (see build_augment_data). No usage stats: Riot's Match-V1
+    # doesn't expose which augments a participant took for this set at all
+    # (see the existing "augments_note" i18n string) -- a purely static
+    # reference is genuinely all real data supports here. ----
+    glossary_augments_flat = []
+    for a in build_augment_data(SET_MUTATOR):
+        a_slug = slugify(a["clean_id"])
+        if a["icon"]:
+            images.augment(a_slug, a["icon"])
+        glossary_augments_flat.append({"name": a["name"], "icon_slug": a_slug, "desc": a["desc"], "tier": a["tier"]})
+    # Pre-grouped Silver -> Gold -> Prismatic rather than a template-side
+    # {% groupby %}: Jinja2's groupby re-sorts groups alphabetically by key
+    # ("Gold, Prismatic, Silver"), which would silently undo this exact
+    # ordering build_augment_data() already sorted for.
+    glossary_augment_groups = [
+        {"tier": tier, "augments": [a for a in glossary_augments_flat if a["tier"] == tier]}
+        for tier in ("Silver", "Gold", "Prismatic")
+    ]
+
+    # ---- Objets: every FINISHED item in the set (not just ones seen in real
+    # matches, unlike item_image_map above), each with its real components
+    # (for the hover tooltip) and, on its own fiche, the real champions who
+    # get a high win rate holding it alone (see champion_stats.
+    # build_item_champion_stats -- computed once, for the WHOLE sample, not
+    # per-region/rank: see compute_full_payload's want_item_stats). ----
+    item_champion_stats_raw = champion_stats.get("item_champion_stats", {})
+    glossary_items = []
+    for it in build_full_item_catalog(SET_MUTATOR, id_prefix="DA_"):
+        slug = slugify(it["clean_id"])
+        if it["icon"]:
+            images.item(slug, it["icon"])
+        composition = []
+        for comp in it["composition"]:
+            comp_slug = slugify(comp["clean_id"])
+            if comp["icon"]:
+                images.item(comp_slug, comp["icon"])
+            composition.append({"name": comp["name"], "slug": comp_slug})
+        champion_rows = []
+        for row in item_champion_stats_raw.get(it["clean_id"], []):
+            name = row["champion"]
+            champion_rows.append({
+                "name": name, "slug": champ_slug_and_download(name), "has_page": name in ranked_champion_names,
+                "games": row["games"], "avg_placement": row["avgPlacement"],
+                "top4_pct": pct(row["top4Rate"]), "winrate_pct": pct(row["winRate"]),
+            })
+        glossary_items.append({
+            "name": it["name"], "slug": slug, "icon_slug": slug,
+            "composition": composition, "desc": it["desc"], "champion_rows": champion_rows,
+        })
+    glossary_items.sort(key=lambda i: i["name"])
+
+    # Small tooltip data file for item icons across the Glossary (composition
+    # on hover) -- same pattern as champions.json above, fetched once by a
+    # small addition to champ-icons.js rather than inlined per page.
+    glossary_item_tooltip_data = {
+        i["slug"]: {"name": i["name"], "composition": i["composition"]} for i in glossary_items
     }
 
     # ---- Leaderboard view-model (region display name filled in per-language
@@ -2043,6 +2283,20 @@ def main() -> None:
     for lang in LANGS:
         render("champions_list.html", "/champions/", lang, active_nav="champions", champions=champion_vms)
 
+        # ---- Glossaire ----
+        render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={
+            "champions": len(glossary_champions), "families": len(glossary_families),
+            "augments": len(glossary_augments_flat), "items": len(glossary_items),
+        })
+        render("glossary_champions.html", "/glossaire/champions/", lang, active_nav="glossary", champions=glossary_champions)
+        render("glossary_families.html", "/glossaire/familles/", lang, active_nav="glossary", families=glossary_families)
+        for f in glossary_families:
+            render("glossary_family_detail.html", f"/glossaire/familles/{f['slug']}/", lang, active_nav="glossary", f=f)
+        render("glossary_augments.html", "/glossaire/augments/", lang, active_nav="glossary", augment_groups=glossary_augment_groups)
+        render("glossary_items.html", "/glossaire/objets/", lang, active_nav="glossary", items=glossary_items)
+        for it in glossary_items:
+            render("glossary_item_detail.html", f"/glossaire/objets/{it['slug']}/", lang, active_nav="glossary", it=it)
+
         lb_regions = [{"code": r["code"], "name": REGION_NAMES[lang].get(r["code"], r["code"]),
                        "rows": [{**row, "form": [{**sq, "title": (translate(lang, "placement_colon", sq["placement"]) if sq["placement"] is not None else "")} for sq in row["form"]]}
                                 for row in r["rows"]]}
@@ -2316,11 +2570,14 @@ def main() -> None:
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "glossary-items.js").write_text(GLOSSARY_ITEM_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
+    (DIST / "assets" / "data" / "glossary-items.json").write_text(
+        json.dumps(glossary_item_tooltip_data, ensure_ascii=False), encoding="utf-8")
 
     # ---- MetaScope worker data: the same real numbers this build already
     # computed, published as small standalone files so the worker (a

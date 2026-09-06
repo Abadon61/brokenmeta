@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_families_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'glossary_families_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'glossary_families_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'glossary_families_intro') }}</p>
+<div class="glossary-icon-grid">
+  {% for f in families %}
+  <a class="glossary-icon-item" href="{{ root }}glossaire/familles/{{ f.slug }}/">
+    <img src="{{ root }}assets/traits/{{ f.icon_slug }}.png" alt="{{ f.name }}" loading="lazy">
+    <span>{{ f.name }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_augments_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'glossary_augments_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'glossary_augments_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'glossary_augments_intro') }}</p>
+{% for group in augment_groups %}
+{% if group.augments %}
+<h2 class="augment-tier-title" data-tier="{{ group.tier }}">{{ t(lang, 'augment_tier_' + group.tier|lower) }} <span class="glossary-hub-card-count">{{ group.augments|length }}</span></h2>
+<div class="augment-grid">
+  {% for a in group.augments %}
+  <div class="augment-card">
+    <img src="{{ root }}assets/augments/{{ a.icon_slug }}.png" alt="{{ a.name }}" loading="lazy">
+    <div>
+      <div class="augment-card-name">{{ a.name }}</div>
+      {% if a.desc %}<div class="augment-card-desc">{{ a.desc|safe }}</div>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

@@ -76,9 +76,45 @@ class ChampionAgg:
         return rows
 
 
+def build_item_champion_stats(item_champ_placements: dict[str, dict[str, list[int]]],
+                               min_games: int = 5, top_champions: int = 6) -> dict[str, list[dict]]:
+    """Turns the raw {item: {champion: [placement, ...]}} collected
+    alongside ChampionAgg (see build_champion_stats()) into the Item
+    Glossary's "who plays this well" table: for one item, its top
+    champions by real win rate WHILE HOLDING IT ALONE -- not inside a
+    3-item combo the way ChampionAgg.item_combo_stats() is scoped, so a
+    single strong item shows up here even on a build that varies its other
+    2 slots. `min_games` keeps thin single-game flukes out (a 1-game 100%
+    "win rate" would otherwise top every list)."""
+    result: dict[str, list[dict]] = {}
+    for item, by_champ in item_champ_placements.items():
+        rows = []
+        for champ, placements in by_champ.items():
+            n = len(placements)
+            if n < min_games:
+                continue
+            rows.append({
+                "champion": champ, "games": n,
+                "avgPlacement": round(sum(placements) / n, 3),
+                "top4Rate": round(sum(1 for x in placements if x <= 4) / n, 4),
+                "winRate": round(sum(1 for x in placements if x == 1) / n, 4),
+            })
+        rows.sort(key=lambda r: (-r["winRate"], -r["top4Rate"], -r["games"]))
+        if rows:
+            result[item] = rows[:top_champions]
+    return result
+
+
 def build_champion_stats(matches: list[dict], total_participants: int, top_items: int = 5,
-                          name_map: dict[str, str] | None = None) -> list[dict]:
+                          name_map: dict[str, str] | None = None) -> tuple[list[dict], dict[str, list[dict]]]:
     champs: dict[str, ChampionAgg] = {}
+    # item (clean id) -> champion (display name) -> [placement, ...], across
+    # every game that champion held that item at all -- feeds
+    # build_item_champion_stats() below. A duplicated item on one unit
+    # (2x the same completed item) still only counts once per game here
+    # (set(complete), not the list) -- this answers "how do games go when
+    # this champion holds this item", not "how many copies".
+    item_champ_placements: dict[str, dict[str, list[int]]] = {}
 
     for match in matches:
         for p in match.get("info", {}).get("participants", []):
@@ -106,6 +142,8 @@ def build_champion_stats(matches: list[dict], total_participants: int, top_items
                 if len(complete) >= 3:
                     combo = tuple(complete[:3])
                     agg.item_combo.setdefault(combo, []).append(placement)
+                for item in set(complete):
+                    item_champ_placements.setdefault(item, {}).setdefault(cid, []).append(placement)
 
     rows = []
     for cid, agg in champs.items():
@@ -126,7 +164,7 @@ def build_champion_stats(matches: list[dict], total_participants: int, top_items
         })
 
     rows.sort(key=lambda r: -r["pick_count"])
-    return assign_champion_tiers(rows)
+    return assign_champion_tiers(rows), build_item_champion_stats(item_champ_placements)
 
 
 def assign_champion_tiers(rows: list[dict]) -> list[dict]:

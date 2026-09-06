@@ -124,7 +124,7 @@ def _filter_to_current_set(matches: list[dict]) -> tuple[list[dict], str | None,
 
 def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champions: bool,
                           image_map: dict | None, name_map: dict[str, str] | None = None,
-                          item_offense: dict[str, str] | None = None) -> dict:
+                          item_offense: dict[str, str] | None = None, want_item_stats: bool = False) -> dict:
     """Everything derivable from one pool of matches: comps (tier list),
     matchup proxy, and champion hover stats. Used both for the combined
     ("ALL") view and for each individual region's view -- same math, just a
@@ -137,7 +137,12 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
     derive_comp() pick the unit actually built to deal damage as the carry,
     instead of just whichever unit is holding the most items (a well-
     itemized tank -- Warmog's/Gargoyle/Sunfire is a completed 3-item build
-    same as any carry's -- would otherwise win that on raw count alone)."""
+    same as any carry's -- would otherwise win that on raw count alone).
+    `want_item_stats` adds the Item Glossary's per-item champion win rates
+    (see champion_stats.build_item_champion_stats) -- off by default and
+    only turned on for the combined ("ALL") view: a per-region/per-rank
+    slice is too thin for a single-item win rate to mean anything, and
+    computing it on every slice would just be wasted work."""
     observations, comps = collect_participant_observations(matches, name_map=name_map,
                                                              item_offense=item_offense)
     total_participants = len(observations)
@@ -149,6 +154,7 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
             result["matchups"] = []
         if want_champions:
             result["champions"] = []
+            result["item_champion_stats"] = {}
         return result
 
     rows, regression = build_tier_list(comps, total_participants)
@@ -159,13 +165,14 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
         result["matchups"] = build_matchup_table(matches, name_map=name_map, item_offense=item_offense)
 
     if want_champions:
-        champion_rows = build_champion_stats(matches, total_participants, name_map=name_map)
+        champion_rows, item_champion_stats = build_champion_stats(matches, total_participants, name_map=name_map)
         if image_map:
             for row in champion_rows:
                 images = image_map.get(row["id"], {})
                 row["icon_url"] = images.get("icon", "")
                 row["splash_url"] = images.get("splash", "")
         result["champions"] = champion_rows
+        result["item_champion_stats"] = item_champion_stats if want_item_stats else {}
 
     return result
 
@@ -489,7 +496,7 @@ def main(argv=None) -> None:
     # ---- Combined ("ALL") view: same file shapes as before, for Wix sync ----
     combined = compute_full_payload(all_matches, want_matchups=args.matchups,
                                      want_champions=not args.no_champions, image_map=image_map,
-                                     name_map=name_map, item_offense=item_offense)
+                                     name_map=name_map, item_offense=item_offense, want_item_stats=True)
 
     output = {
         "generated_at": generated_at,
@@ -545,6 +552,7 @@ def main(argv=None) -> None:
             "note": "Per-champion aggregates for a hover tooltip: pick rate, average star level, "
                     "most common items, and how games featuring this champion tend to go.",
             "champions": combined["champions"],
+            "item_champion_stats": combined.get("item_champion_stats", {}),
         }, indent=2), encoding="utf-8")
         print(f"Champion hover stats written to {cout_path} ({len(combined['champions'])} champions).")
 

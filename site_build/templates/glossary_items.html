@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_items_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'glossary_items_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'glossary_items_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'glossary_items_intro') }}</p>
+<div class="glossary-icon-grid">
+  {% for it in items %}
+  <a class="glossary-icon-item" href="{{ root }}glossaire/objets/{{ it.slug }}/">
+    <img class="item-tt-icon" data-item-slug="{{ it.icon_slug }}" src="{{ root }}assets/items/{{ it.icon_slug }}.png" alt="{{ it.name }}" loading="lazy">
+    <span>{{ it.name }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
+{% block extra_body %}
+<script src="{{ root }}assets/js/glossary-items.js?v={{ css_v }}" defer></script>
+{% endblock %}
