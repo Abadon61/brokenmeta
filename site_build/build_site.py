@@ -2459,8 +2459,13 @@ def main() -> None:
   .tier-filters { flex-wrap: wrap; }
 
   /* Overlay TFT badge (Overwolf project CTA, ported from the Artifact) --
-     inert on purpose, no download link exists yet. */
-  .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+     inert on purpose, no download link exists yet. (.navbar-right itself
+     lives only in style_base.css now -- this exact duplicate used to sit
+     here too and silently won the cascade over that file's responsive
+     @media rule, since it came later in the concatenated stylesheet and
+     wasn't wrapped in a media query. Same class of bug as the .overlay-cta
+     cache issue from an earlier session: two copies of one rule, only one
+     kept up to date.) */
   .overlay-cta { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.45); padding: 6px 8px 6px 10px; cursor: not-allowed; }
   .overlay-cta svg { width: 13px; height: 13px; stroke: rgba(255,255,255,0.45); fill: none; stroke-width: 2.2; }
   .overlay-cta .cta-label { font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }

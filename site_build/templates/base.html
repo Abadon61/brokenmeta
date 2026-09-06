@@ -1,3 +1,4 @@
+{% import "macros.html" as m %}
 <!doctype html>
 <html lang="{{ lang }}">
 <head>
@@ -54,31 +55,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span class="title">Teamfight Tactics</span>
   <div class="navbar-right">
     <nav class="nav-menu">
-      <a class="nav-link" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
-      <a class="nav-link" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
-      <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
-      <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
-      <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
-      <details class="nav-dropdown" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>
-        <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
-        <div class="nav-dropdown-menu">
-          <a href="{{ root }}glossaire/champions/">{{ t(lang, 'nav_glossary_champions') }}</a>
-          <a href="{{ root }}glossaire/familles/">{{ t(lang, 'nav_glossary_families') }}</a>
-          <a href="{{ root }}glossaire/augments/">{{ t(lang, 'nav_glossary_augments') }}</a>
-          <a href="{{ root }}glossaire/objets/">{{ t(lang, 'nav_glossary_items') }}</a>
-        </div>
-      </details>
+      {{ m.nav_links(lang, root, active_nav) }}
     </nav>
-    <a class="nav-cta-button" href="{{ root }}metascope/" {% if active_nav == 'metascope' %}data-active="true"{% endif %}>
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
-      {{ t(lang, 'nav_metascope') }}
-    </a>
-    <div class="overlay-cta" title="{{ t(lang, 'overlay_cta_title') }}">
-      <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
-      <span class="cta-label">Overlay TFT</span>
-      <span class="cta-soon">{{ t(lang, 'overlay_cta_soon') }}</span>
-    </div>
+    {{ m.nav_cta(lang, root, active_nav) }}
   </div>
+  <details class="mobile-nav">
+    <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+    <div class="mobile-nav-panel">
+      <nav class="mobile-nav-links">{{ m.nav_links(lang, root, active_nav) }}</nav>
+      <div class="mobile-nav-actions">{{ m.nav_cta(lang, root, active_nav) }}</div>
+    </div>
+  </details>
 </div>
 <div class="page">
 {% block content %}{% endblock %}

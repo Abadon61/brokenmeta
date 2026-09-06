@@ -1,3 +1,39 @@
+{# Single source for the site nav's links, rendered once for the desktop
+   row (.nav-menu) and again inside the mobile hamburger panel (below
+   ~780px, where the full row no longer fits and used to wrap into a messy
+   multi-line block) -- two places in the DOM, one place in the templates,
+   so a future nav item only needs adding here. #}
+{% macro nav_links(lang, root, active_nav) %}
+<a class="nav-link" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
+<a class="nav-link" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
+<a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
+<a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
+<details class="nav-dropdown" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>
+  <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
+  <div class="nav-dropdown-menu">
+    <a href="{{ root }}glossaire/champions/">{{ t(lang, 'nav_glossary_champions') }}</a>
+    <a href="{{ root }}glossaire/familles/">{{ t(lang, 'nav_glossary_families') }}</a>
+    <a href="{{ root }}glossaire/augments/">{{ t(lang, 'nav_glossary_augments') }}</a>
+    <a href="{{ root }}glossaire/objets/">{{ t(lang, 'nav_glossary_items') }}</a>
+  </div>
+</details>
+{% endmacro %}
+
+{# Same reasoning as nav_links() above: the CTA button + the "soon" badge,
+   shared between the desktop navbar-right and the mobile panel. #}
+{% macro nav_cta(lang, root, active_nav) %}
+<a class="nav-cta-button" href="{{ root }}metascope/" {% if active_nav == 'metascope' %}data-active="true"{% endif %}>
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  {{ t(lang, 'nav_metascope') }}
+</a>
+<div class="overlay-cta" title="{{ t(lang, 'overlay_cta_title') }}">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+  <span class="cta-label">Overlay TFT</span>
+  <span class="cta-soon">{{ t(lang, 'overlay_cta_soon') }}</span>
+</div>
+{% endmacro %}
+
 {% macro pill(label, value, level=None) %}<div class="pill"><div class="p-label">{{ label }}</div><div class="p-value nums"{% if level %} data-level="{{ level }}"{% endif %}>{{ value }}</div></div>{% endmacro %}
 
 {# "Copy comp for the in-game Team Planner" -- see build_site.py's
