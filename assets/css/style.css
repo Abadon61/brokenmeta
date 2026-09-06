@@ -101,6 +101,7 @@
     flex-wrap: wrap;
     gap: 12px;
     background: var(--magenta);
+    position: relative;
   }
   .navbar .title {
     font-family: 'Cal Sans', sans-serif;
@@ -188,6 +189,68 @@
     letter-spacing: 0.04em; text-transform: uppercase;
     background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.6);
     padding: 2px 6px; margin-left: 2px;
+  }
+
+  /* Mobile nav: below ~780px the full row (6 links + a dropdown + the CTA
+     button + the overlay badge) no longer fits and used to wrap into a
+     messy multi-line block. Collapses into the standard hamburger pattern
+     instead -- a plain <details>/<summary> (same zero-JS approach as
+     .nav-dropdown above), hidden entirely above the breakpoint so it never
+     competes with the normal desktop row. */
+  .mobile-nav { display: none; }
+  .mobile-nav summary {
+    cursor: pointer; list-style: none;
+    width: 34px; height: 30px; flex: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px;
+  }
+  .mobile-nav summary::-webkit-details-marker { display: none; }
+  .mobile-nav summary span {
+    display: block; width: 22px; height: 2px; background: #fff;
+    transition: transform .15s ease, opacity .15s ease;
+  }
+  .mobile-nav[open] summary span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .mobile-nav[open] summary span:nth-child(2) { opacity: 0; }
+  .mobile-nav[open] summary span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .mobile-nav-panel {
+    position: absolute; top: 100%; left: 0; right: 0; z-index: 30;
+    background: var(--bg-2); border-bottom: 1px solid var(--border-bright);
+    box-shadow: 0 16px 30px rgba(0,0,0,0.45);
+    display: flex; flex-direction: column;
+    max-height: calc(100vh - 90px); overflow-y: auto;
+  }
+  .mobile-nav-links { display: flex; flex-direction: column; }
+  .mobile-nav-links .nav-link {
+    padding: 14px 22px; border-bottom: 1px solid var(--border);
+    color: var(--text-dim); font-size: 14px;
+  }
+  .mobile-nav-links .nav-link[data-active="true"] {
+    color: var(--cream); background: var(--row-hover); text-decoration: none;
+    border-left: 3px solid var(--cyan); padding-left: 19px;
+  }
+  .mobile-nav-links .nav-dropdown { position: static; }
+  .mobile-nav-links .nav-dropdown summary {
+    /* A <summary>'s box defaults to shrink-to-fit even with display:flex --
+       invisible on the desktop dropdown (shrink-to-fit is what you want
+       inline in a row) but leaves it stuck at content width here, where it
+       needs to fill the panel like every other row. */
+    width: 100%; box-sizing: border-box;
+    padding: 14px 22px; border-bottom: 1px solid var(--border);
+    color: var(--text-dim); font-size: 14px; justify-content: space-between;
+  }
+  .mobile-nav-links .nav-dropdown[data-active="true"] > summary { color: var(--cream); }
+  .mobile-nav-links .nav-dropdown-menu {
+    position: static; transform: none; min-width: 0;
+    box-shadow: none; border: none; background: var(--row);
+  }
+  .mobile-nav-links .nav-dropdown-menu a { padding: 12px 22px 12px 36px; border-bottom: 1px solid var(--border); }
+  .mobile-nav-actions { display: flex; flex-direction: column; gap: 10px; padding: 16px 22px 20px; }
+  .mobile-nav-actions .nav-cta-button, .mobile-nav-actions .overlay-cta { width: 100%; justify-content: center; }
+
+  @media (max-width: 780px) {
+    .navbar .title { display: none; }
+    .navbar-right { display: none; }
+    .mobile-nav { display: block; margin-left: auto; }
   }
 
   .page { max-width: 1000px; margin: 0 auto; padding: 24px 20px 70px; }
@@ -1074,8 +1137,13 @@
   .tier-filters { flex-wrap: wrap; }
 
   /* Overlay TFT badge (Overwolf project CTA, ported from the Artifact) --
-     inert on purpose, no download link exists yet. */
-  .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
+     inert on purpose, no download link exists yet. (.navbar-right itself
+     lives only in style_base.css now -- this exact duplicate used to sit
+     here too and silently won the cascade over that file's responsive
+     @media rule, since it came later in the concatenated stylesheet and
+     wasn't wrapped in a media query. Same class of bug as the .overlay-cta
+     cache issue from an earlier session: two copies of one rule, only one
+     kept up to date.) */
   .overlay-cta { display: flex; align-items: center; gap: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.14); color: rgba(255,255,255,0.45); padding: 6px 8px 6px 10px; cursor: not-allowed; }
   .overlay-cta svg { width: 13px; height: 13px; stroke: rgba(255,255,255,0.45); fill: none; stroke-width: 2.2; }
   .overlay-cta .cta-label { font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; }
