@@ -588,21 +588,36 @@ TEAM_BUILDER_JS = """
   var shareBtn = document.getElementById('builderShare');
   var copyGameBtn = document.getElementById('builderCopyGame');
   var shareStatus = document.getElementById('builderShareStatus');
+  var itemPicker = document.getElementById('itemPicker');
+  var itemSearchInput = document.getElementById('builderItemSearch');
   if (!picker || !boardEl) return;
 
+  var MAX_ITEMS_PER_UNIT = 3;
   var champions = [];
   var champBySlug = {};
   var traitDefs = [];
+  var items = [];
+  var itemBySlug = {};
   var plannerHeader = '02';
   var setMutator = '';
+  // Each board cell is null (empty) or {slug, items: [itemSlug, ...]} (up
+  // to MAX_ITEMS_PER_UNIT) -- items travel with a champion when it's moved
+  // or swapped, same object reference, never resynthesized.
   var board = new Array(ROWS * COLS).fill(null);
   var activeCostFilter = 'ALL';
+  var armedItemSlug = null, armedItemEl = null;
 
   function champImg(slug) {
     return ROOT + 'assets/champions/' + slug + '.png';
   }
   function traitImg(slug) {
     return ROOT + 'assets/traits/' + slug + '.png';
+  }
+  function itemImg(slug) {
+    return ROOT + 'assets/items/' + slug + '.png';
+  }
+  function itemLabel(it) {
+    return (I.lang === 'fr' && it.name_fr) ? it.name_fr : it.name;
   }
 
   // ---- Placement: two ways in, on purpose --------------------------------
@@ -618,7 +633,7 @@ TEAM_BUILDER_JS = """
   //    there. Needed because a real drag's "currently held" highlight
   //    collapses to a few milliseconds for a plain click, invisible in
   //    practice; this is what actually answers "show me what I picked".
-  var dragGhost = null, dragSlug = null, dragOrigin = null, dragOverEl = null;
+  var dragGhost = null, dragSlug = null, dragItems = [], dragOrigin = null, dragOverEl = null;
   var dragSourcePickerEl = null, dragStartX = 0, dragStartY = 0, dragMoved = false;
   var armedSlug = null, armedPickerEl = null;
   var TAP_THRESHOLD = 6; // px of movement below which a press counts as a tap, not a drag
@@ -628,13 +643,22 @@ TEAM_BUILDER_JS = """
     armedSlug = slug;
     armedPickerEl = pickerEl || null;
     if (armedPickerEl) armedPickerEl.dataset.armed = 'true';
+    if (slug) setArmedItem(null, null); // mutually exclusive with an armed item
+  }
+  function setArmedItem(slug, el) {
+    if (armedItemEl) armedItemEl.dataset.armed = 'false';
+    armedItemSlug = slug;
+    armedItemEl = el || null;
+    if (armedItemEl) armedItemEl.dataset.armed = 'true';
+    if (slug) setArmed(null, null); // mutually exclusive with an armed champion
   }
   function clearDragSourceHighlight() {
     if (dragSourcePickerEl) { dragSourcePickerEl.dataset.dragging = 'false'; dragSourcePickerEl = null; }
   }
 
-  function beginDrag(slug, origin, x, y, pickerEl) {
+  function beginDrag(slug, origin, x, y, pickerEl, sourceItems) {
     dragSlug = slug;
+    dragItems = sourceItems || [];
     dragOrigin = origin; // null if fresh from the picker, else the board index it came from
     dragStartX = x; dragStartY = y; dragMoved = false;
     dragSourcePickerEl = pickerEl || null;
@@ -657,10 +681,31 @@ TEAM_BUILDER_JS = """
     return null;
   }
   function placeArmedOn(idx) {
-    board[idx] = armedSlug;
+    board[idx] = { slug: armedSlug, items: [] };
     setArmed(null, null);
     renderCells();
     renderTraitPanel();
+    syncUrl();
+  }
+  function attachArmedItemOn(idx) {
+    var cellData = board[idx];
+    if (!cellData) return; // items only attach to an already-placed champion, leave it armed
+    if (cellData.items.length >= MAX_ITEMS_PER_UNIT) {
+      showStatus(I.itemSlotsFull, true);
+      return;
+    }
+    cellData.items.push(armedItemSlug);
+    setArmedItem(null, null);
+    renderCells();
+    syncUrl();
+  }
+  function removeItemFrom(idx, itemSlug) {
+    var cellData = board[idx];
+    if (!cellData) return;
+    var pos = cellData.items.indexOf(itemSlug);
+    if (pos === -1) return;
+    cellData.items.splice(pos, 1);
+    renderCells();
     syncUrl();
   }
   document.addEventListener('pointermove', function (e) {
@@ -699,18 +744,18 @@ TEAM_BUILDER_JS = """
     var hit = cellUnder(e.clientX, e.clientY);
     if (hit) {
       var displaced = board[hit.idx];
-      board[hit.idx] = dragSlug;
+      board[hit.idx] = { slug: dragSlug, items: dragItems };
       if (dragOrigin !== null && displaced) {
         // swap instead of losing the champion that was already there
         board[dragOrigin] = displaced;
       }
     }
     // hit === null (dropped outside the board): already removed from its
-    // origin below on pickup, so this is how a unit gets discarded.
+    // origin below on pickup, so this is how a unit (and its items) gets discarded.
     renderCells();
     renderTraitPanel();
     syncUrl();
-    dragSlug = null; dragOrigin = null;
+    dragSlug = null; dragItems = []; dragOrigin = null;
   });
   document.addEventListener('pointercancel', function () {
     if (!dragGhost) return;
@@ -721,28 +766,43 @@ TEAM_BUILDER_JS = """
     clearDragSourceHighlight();
     // Interrupted mid-drag (e.g. OS gesture) -- put it back where it came from.
     if (dragOrigin !== null) {
-      board[dragOrigin] = dragSlug;
+      board[dragOrigin] = { slug: dragSlug, items: dragItems };
       renderCells();
     }
-    dragSlug = null; dragOrigin = null;
+    dragSlug = null; dragItems = []; dragOrigin = null;
   });
 
   // ---- Board DOM (built once; only its filled state changes) ----
   function wireCellDrag(cell) {
     cell.addEventListener('pointerdown', function (e) {
       var idx = parseInt(cell.dataset.idx, 10);
+      // Tapping directly on an already-equipped item icon, with nothing
+      // armed, removes just that item -- checked first so it never falls
+      // through to "pick up the whole champion to move it".
+      var iconHit = e.target.closest('.hex-item-icon');
+      if (iconHit && !armedSlug && !armedItemSlug) {
+        e.preventDefault();
+        e.stopPropagation();
+        removeItemFrom(idx, iconHit.dataset.itemSlug);
+        return;
+      }
       if (armedSlug) {
         e.preventDefault();
         placeArmedOn(idx);
         return;
       }
-      var slug = board[idx];
-      if (!slug) return;
+      if (armedItemSlug) {
+        e.preventDefault();
+        attachArmedItemOn(idx);
+        return;
+      }
+      var cellData = board[idx];
+      if (!cellData) return;
       e.preventDefault();
       board[idx] = null;
       renderCells();
       renderTraitPanel();
-      beginDrag(slug, idx, e.clientX, e.clientY);
+      beginDrag(cellData.slug, idx, e.clientX, e.clientY, null, cellData.items);
     });
   }
   function buildBoard() {
@@ -765,14 +825,21 @@ TEAM_BUILDER_JS = """
 
   function renderCells() {
     var boardCells = boardEl.querySelectorAll('.hex-cell');
-    board.forEach(function (slug, i) { paintCell(boardCells[i], slug); });
+    board.forEach(function (cellData, i) { paintCell(boardCells[i], cellData); });
     if (emptyHint) emptyHint.hidden = board.some(Boolean);
   }
-  function paintCell(el, slug) {
+  function paintCell(el, cellData) {
     if (!el) return;
+    var slug = cellData && cellData.slug;
     if (slug && champBySlug[slug]) {
       el.dataset.filled = 'true';
-      el.innerHTML = '<img src="' + champImg(slug) + '" alt="' + champBySlug[slug].name + '" loading="lazy">';
+      var itemsHtml = (cellData.items || []).map(function (itSlug) {
+        var it = itemBySlug[itSlug];
+        var label = it ? itemLabel(it) : '';
+        return '<img class="hex-item-icon" data-item-slug="' + itSlug + '" src="' + itemImg(itSlug) + '" alt="' + label + '" title="' + label + '" loading="lazy">';
+      }).join('');
+      el.innerHTML = '<img class="hex-champ-icon" src="' + champImg(slug) + '" alt="' + champBySlug[slug].name + '" loading="lazy">' +
+        (itemsHtml ? '<div class="hex-item-row">' + itemsHtml + '</div>' : '');
     } else {
       el.dataset.filled = 'false';
       el.innerHTML = '';
@@ -822,12 +889,45 @@ TEAM_BUILDER_JS = """
     });
   }
 
+  // ---- Item picker: tap an item to arm it (same persistent-highlight
+  // convention as an armed champion, see setArmed), then tap an
+  // already-placed champion's hex to equip it there. Deliberately no
+  // drag-and-drop for items -- they attach to an existing unit, not to a
+  // hex coordinate, so "tap the target" reads clearer than dragging a small
+  // icon onto an even smaller part of the board. ----
+  function buildItemPicker() {
+    if (!itemPicker) return;
+    itemPicker.innerHTML = '';
+    items.forEach(function (it) {
+      var el = document.createElement('div');
+      el.className = 'item-picker-item';
+      el.dataset.slug = it.slug;
+      el.dataset.name = it.name.toLowerCase();
+      var label = itemLabel(it);
+      el.title = label;
+      el.innerHTML = '<img src="' + itemImg(it.slug) + '" alt="' + label + '" loading="lazy">';
+      el.addEventListener('click', function () {
+        var wasArmed = armedItemSlug === it.slug;
+        setArmedItem(wasArmed ? null : it.slug, wasArmed ? null : el);
+      });
+      itemPicker.appendChild(el);
+    });
+  }
+  if (itemSearchInput) {
+    itemSearchInput.addEventListener('input', function () {
+      var q = itemSearchInput.value.trim().toLowerCase();
+      itemPicker.querySelectorAll('.item-picker-item').forEach(function (el) {
+        el.dataset.hidden = (!q || el.dataset.name.indexOf(q) !== -1) ? 'false' : 'true';
+      });
+    });
+  }
+
   // ---- Trait synergy panel (board only, matches real TFT rules) ----
   function renderTraitPanel() {
     if (!traitPanel) return;
     var counts = {};
-    board.forEach(function (slug) {
-      var c = slug && champBySlug[slug];
+    board.forEach(function (cellData) {
+      var c = cellData && champBySlug[cellData.slug];
       if (!c) return;
       (c.traits || []).forEach(function (t) { counts[t] = (counts[t] || 0) + 1; });
     });
@@ -865,16 +965,31 @@ TEAM_BUILDER_JS = """
   // ---- Shareable URL state ----
   function syncUrl() {
     var b = [];
-    board.forEach(function (slug, i) { if (slug) b.push(i + ':' + slug); });
+    board.forEach(function (cellData, i) {
+      if (!cellData) return;
+      // "." can't appear inside a slug (kebab-case: letters/digits/hyphens
+      // only), so it's a safe separator for the item list appended after
+      // the champion slug -- old share links with no items still parse
+      // fine (rest.slice(1) is just empty).
+      var entry = i + ':' + cellData.slug;
+      if (cellData.items && cellData.items.length) entry += '.' + cellData.items.join('.');
+      b.push(entry);
+    });
     var qs = b.length ? ('b=' + b.join(',')) : '';
     history.replaceState(null, '', location.pathname + (qs ? '?' + qs : ''));
   }
   function loadFromUrl() {
     var params = new URLSearchParams(location.search);
     (params.get('b') || '').split(',').forEach(function (pair) {
+      if (!pair) return;
       var m = pair.split(':');
-      var idx = parseInt(m[0], 10), slug = m[1];
-      if (slug && champBySlug[slug] && idx >= 0 && idx < board.length) board[idx] = slug;
+      var idx = parseInt(m[0], 10);
+      var rest = (m[1] || '').split('.');
+      var slug = rest[0];
+      var itemSlugs = rest.slice(1).filter(function (s) { return itemBySlug[s]; });
+      if (slug && champBySlug[slug] && idx >= 0 && idx < board.length) {
+        board[idx] = { slug: slug, items: itemSlugs.slice(0, MAX_ITEMS_PER_UNIT) };
+      }
     });
   }
 
@@ -904,6 +1019,7 @@ TEAM_BUILDER_JS = """
     resetBtn.addEventListener('click', function () {
       board = new Array(ROWS * COLS).fill(null);
       setArmed(null, null);
+      setArmedItem(null, null);
       renderCells();
       renderTraitPanel();
       history.replaceState(null, '', location.pathname);
@@ -924,8 +1040,11 @@ TEAM_BUILDER_JS = """
     copyGameBtn.addEventListener('click', function () {
       var placed = board.filter(Boolean);
       if (!placed.length) { showStatus(I.copyGameEmpty, true); return; }
-      var slots = placed.slice(0, 10).map(function (slug) {
-        var c = champBySlug[slug];
+      // Items aren't part of this format at all -- the real in-game Team
+      // Planner paste is champions only, confirmed against a live test
+      // (see team_planner_code()'s docstring in build_site.py).
+      var slots = placed.slice(0, 10).map(function (cellData) {
+        var c = champBySlug[cellData.slug];
         return (c && c.planner_code) || '000';
       });
       while (slots.length < 10) slots.push('000');
@@ -937,10 +1056,13 @@ TEAM_BUILDER_JS = """
   fetch(ROOT + 'assets/data/builder.json').then(function (r) { return r.json(); }).then(function (data) {
     champions = data.champions || [];
     traitDefs = data.traits || [];
+    items = data.items || [];
     plannerHeader = data.plannerHeader || plannerHeader;
     setMutator = data.setMutator || '';
     champions.forEach(function (c) { champBySlug[c.slug] = c; });
+    items.forEach(function (it) { itemBySlug[it.slug] = it; });
     buildPicker();
+    buildItemPicker();
     buildBoard();
     loadFromUrl();
     renderCells();
@@ -1126,6 +1248,10 @@ I18N: dict[str, dict] = {
         "builder_empty_hint": "Le plateau est vide — clique un champion ci-dessus puis une case pour le placer.",
         "builder_traits_title": "Familles",
         "builder_no_traits": "Aucune synergie active pour l'instant.",
+        "builder_items_title": "Objets",
+        "builder_items_hint": "Clique un objet puis clique un champion posé pour l'équiper. Reclique un objet déjà équipé pour le retirer.",
+        "builder_item_search_placeholder": "Chercher un objet...",
+        "builder_item_slots_full": "3 objets max par champion.",
         "builder_next_at": lambda n: f"prochain palier à {n}",
         "overlay_cta_title": "L'overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.",
         "overlay_cta_soon": "Bientôt",
@@ -1293,6 +1419,10 @@ I18N: dict[str, dict] = {
         "builder_empty_hint": "The board is empty — click a champion above, then a cell to place it.",
         "builder_traits_title": "Traits",
         "builder_no_traits": "No active synergy yet.",
+        "builder_items_title": "Items",
+        "builder_items_hint": "Click an item, then click a placed champion to equip it there. Click an equipped item again to remove it.",
+        "builder_item_search_placeholder": "Search an item...",
+        "builder_item_slots_full": "3 items max per champion.",
         "builder_next_at": lambda n: f"next tier at {n}",
         "overlay_cta_title": "The Overwolf overlay is in development, not yet available for download.",
         "overlay_cta_soon": "Soon",
@@ -1655,6 +1785,19 @@ def main() -> None:
                                 "slug": slug, "effects": trait["effects"]})
     trait_by_name = {t["name"]: t for t in builder_traits}
 
+    # Same catalog/slugs/icons as the Glossary's item list (build_full_item_catalog
+    # + item_text_fr_by_api, both already computed above) -- reused as-is so
+    # the Team Builder's item picker shares icon files with the rest of the
+    # site instead of a second, possibly-diverging item list.
+    builder_items = []
+    for it in build_full_item_catalog(SET_MUTATOR, id_prefix="DA_"):
+        slug = slugify(it["clean_id"])
+        if it["icon"]:
+            images.item(slug, it["icon"])
+        fr = item_text_fr_by_api.get(it.get("api_name")) or {}
+        builder_items.append({"name": it["name"], "name_fr": fr.get("name") or it["name"], "slug": slug})
+    builder_items.sort(key=lambda i: i["name"])
+
     def champion_trait_chips(champ_name: str) -> list[dict]:
         """[{"name","slug"}] for a champion's real traits (same icons as
         the Team Builder) -- used on the champion sheet and its hover
@@ -1694,7 +1837,7 @@ def main() -> None:
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "builder.json").write_text(
         json.dumps({
-            "champions": builder_champions, "traits": builder_traits,
+            "champions": builder_champions, "traits": builder_traits, "items": builder_items,
             "plannerHeader": PLANNER_HEADER, "setMutator": SET_MUTATOR,
         }, ensure_ascii=False), encoding="utf-8")
 

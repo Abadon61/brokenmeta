@@ -37,6 +37,15 @@
       <div class="metascope-box-title">{{ t(lang, 'builder_traits_title') }}</div>
       <div id="traitPanel"></div>
     </div>
+    <div class="metascope-box">
+      <div class="metascope-box-title">{{ t(lang, 'builder_items_title') }}</div>
+      <p class="builder-items-hint">{{ t(lang, 'builder_items_hint') }}</p>
+      <div class="search-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="builderItemSearch" class="search-input" placeholder="{{ t(lang, 'builder_item_search_placeholder') }}" autocomplete="off">
+      </div>
+      <div class="item-picker" id="itemPicker"></div>
+    </div>
   </div>
 </div>
 {% endblock %}
@@ -48,6 +57,7 @@ window.BM_BUILDER_I18N = {
   copyGameCopied: {{ t(lang, 'builder_copy_game_copied')|tojson }},
   copyGameEmpty: {{ t(lang, 'builder_copy_game_empty')|tojson }},
   nextAt: {{ t(lang, 'builder_next_at', '__N__')|tojson }},
+  itemSlotsFull: {{ t(lang, 'builder_item_slots_full')|tojson }},
   lang: {{ lang|tojson }}
 };
 </script>
