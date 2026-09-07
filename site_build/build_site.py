@@ -300,6 +300,32 @@ GLOSSARY_ITEM_JS = """
 })();
 """
 
+# Gameplan tabs on a comp fiche (see build_comp_vm's "gameplan" field, itself
+# precomputed offline by compute_gameplans.py) -- delegated on document like
+# CHAMP_ICON_JS above, one static block per page, no re-init needed. Panels
+# default to only the first one visible (server-rendered, see comp.html) so
+# there's a sane no-JS fallback: the tabs just don't switch, first step
+# still reads fine on its own.
+GAMEPLAN_TABS_JS = """
+(function () {
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('.gameplan-tab-btn');
+    if (!btn) return;
+    var block = btn.closest('.gameplan-block');
+    if (!block) return;
+    var idx = btn.dataset.gameplanTab;
+    block.querySelectorAll('.gameplan-tab-btn').forEach(function (b) {
+      var active = b.dataset.gameplanTab === idx;
+      b.dataset.active = String(active);
+      b.setAttribute('aria-selected', String(active));
+    });
+    block.querySelectorAll('.gameplan-tab-panel').forEach(function (p) {
+      p.hidden = p.dataset.gameplanPanel !== idx;
+    });
+  });
+})();
+"""
+
 # The one page on the whole site that renders itself: a Riot ID typed by any
 # visitor can't be pre-built at deploy time, so this fetches from
 # metascope-worker (see metascope-worker/, a separate Cloudflare Worker --
@@ -1136,6 +1162,9 @@ I18N: dict[str, dict] = {
         "matchups_vs_title": "Match-up vs", "vs_word": "vs",
         "encounters_count": lambda n: f"{n} rencontres",
         "not_enough_shared_lobby_comp": "Pas assez de rencontres en lobby partagée pour cette comp dans cet échantillon.",
+        "gameplan_title": "Plan de jeu",
+        "gameplan_disclaimer": "Ces chiffres supposent un joueur seul, sans contestation par les autres joueurs de la partie. Une contestation réelle sur ces champions peut rendre ces estimations optimistes.",
+        "gameplan_fr_only": "Le détail de chaque étape est pour l'instant généré uniquement en français.",
         "board_variants_title": "Variantes de board",
         "not_enough_variants": "Pas assez de parties pour dégager des variantes fiables de cette comp.",
         "baseline_tag": "Référence", "share_of_games": lambda p: f"{p} des parties", "avg_placement_inline": "placement moyen",
@@ -1300,6 +1329,9 @@ I18N: dict[str, dict] = {
         "matchups_vs_title": "Matchups vs", "vs_word": "vs",
         "encounters_count": lambda n: f"{n} encounters",
         "not_enough_shared_lobby_comp": "Not enough shared-lobby encounters for this comp in this sample.",
+        "gameplan_title": "Game Plan",
+        "gameplan_disclaimer": "These numbers assume a solo player with no contest from other players in the lobby. Real contest on these champions can make these estimates optimistic.",
+        "gameplan_fr_only": "Each step's detail is currently only generated in French.",
         "board_variants_title": "Board variants",
         "not_enough_variants": "Not enough games to identify reliable variants for this comp.",
         "baseline_tag": "Baseline", "share_of_games": lambda p: f"{p} of games", "avg_placement_inline": "avg placement",
@@ -1482,6 +1514,13 @@ def main() -> None:
     matchups_json = load("matchups.json")
     comp_history = load("comp_history.json") if (OUT / "comp_history.json").exists() else {"snapshots": []}
     leaderboard_history = load("leaderboard_history.json") if (OUT / "leaderboard_history.json").exists() else {"snapshots": []}
+    # Precomputed by the separate compute_gameplans.py (real Monte Carlo
+    # simulation, ~5-7s/comp -- far too slow to run from here, which needs
+    # to stay fast for routine template/CSS iteration). {comp_key: [{"tab",
+    # "title", "description"}, ...]}. Missing/empty until that script has
+    # been run at least once; comps without an entry just show no gameplan
+    # section rather than erroring.
+    gameplans_by_key = load("gameplans.json") if (OUT / "gameplans.json").exists() else {}
 
     # ---- Fresh clean output dir ----
     if DIST.exists():
@@ -1516,6 +1555,18 @@ def main() -> None:
 
     def trait_label(name: str, lang: str) -> str:
         return TRAIT_NAME_FR.get(name, name) if lang == "fr" else name
+
+    # Gameplan tab labels: real, hand-written per language (unlike the step
+    # title/description text below them, which stays French-only -- see
+    # gameplan_fr_only). Keyed by generate_gameplan()'s stable "tab" value,
+    # not parsed from any generated text.
+    GAMEPLAN_TAB_LABELS = {
+        "fr": {"reroll": "Reroll", "level_up": "Montée de niveau", "complete_board": "Compléter le board", "end_game": "Fin de partie"},
+        "en": {"reroll": "Reroll", "level_up": "Level up", "complete_board": "Complete the board", "end_game": "End of game"},
+    }
+
+    def gameplan_tab_label(tab_key: str, lang: str) -> str:
+        return GAMEPLAN_TAB_LABELS.get(lang, GAMEPLAN_TAB_LABELS["fr"]).get(tab_key, tab_key)
 
     def localize_champion_vm(d: dict, lang: str) -> dict:
         """d (champion_vms) is built once and reused for both languages --
@@ -1865,6 +1916,7 @@ def main() -> None:
             "bonus_base": bonus_base, "bonus_groups": bonus_groups,
             "similar_variants": similar,
             "comp_traits": compute_comp_traits(c.get("core_units")),
+            "gameplan": gameplans_by_key.get(c["key"]) or [],
         })
         return row
 
@@ -2292,6 +2344,7 @@ def main() -> None:
     env.globals["t"] = translate
     env.globals["SET_LABEL"] = SET_LABEL
     env.globals["trait_label"] = trait_label
+    env.globals["gameplan_tab_label"] = gameplan_tab_label
     # Cache-buster for the one stylesheet URL every page shares: without it,
     # a CSS-only change (like this session's icon-size fix) never reaches a
     # browser that already cached style.css from an earlier visit -- caught
@@ -2666,6 +2719,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "glossary-items.js").write_text(GLOSSARY_ITEM_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)

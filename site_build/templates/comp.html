@@ -25,6 +25,25 @@
   <div class="fiche-board" style="--tc:{{ c.tier_var }}">{{ m.units_row(c.core_units_display, root) }}</div>
 </div>
 
+{% if c.gameplan %}
+<h2 class="fiche-section-title">{{ t(lang, 'gameplan_title') }}</h2>
+<div class="gameplan-block">
+  {% if lang == 'en' %}<div class="metascope-lang-note">{{ t(lang, 'gameplan_fr_only') }}</div>{% endif %}
+  <div class="gameplan-tabs" role="tablist">
+    {% for step in c.gameplan %}
+    <button type="button" class="gameplan-tab-btn" role="tab" data-gameplan-tab="{{ loop.index0 }}" {% if loop.first %}data-active="true"{% endif %} aria-selected="{{ (loop.first)|lower }}">{{ gameplan_tab_label(step.tab, lang) }}</button>
+    {% endfor %}
+  </div>
+  {% for step in c.gameplan %}
+  <div class="gameplan-tab-panel" role="tabpanel" data-gameplan-panel="{{ loop.index0 }}"{% if not loop.first %} hidden{% endif %}>
+    <h3 class="gameplan-step-title">{{ step.title }}</h3>
+    <p class="gameplan-step-desc">{{ step.description }}</p>
+  </div>
+  {% endfor %}
+  <p class="gameplan-disclaimer">{{ t(lang, 'gameplan_disclaimer') }}</p>
+</div>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ t(lang, 'builder_traits_title') }}</h2>
 {% if c.comp_traits %}
 <div class="comp-traits-list">
@@ -160,4 +179,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 <script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% block extra_body %}
+{% if c.gameplan %}<script src="{{ root }}assets/js/gameplan-tabs.js?v={{ css_v }}" defer></script>{% endif %}
 {% endblock %}
