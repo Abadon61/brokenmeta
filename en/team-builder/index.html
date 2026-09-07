@@ -33,10 +33,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:url" content="https://brokenmeta.gg/en/team-builder/">
 <meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260907164004">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260907164004">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260907181623">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260907181623">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=20260907164004">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20260907181623">
 
 </head>
 <body>
@@ -154,6 +154,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="metascope-box-title">Traits</div>
       <div id="traitPanel"></div>
     </div>
+    <div class="metascope-box">
+      <div class="metascope-box-title">Items</div>
+      <p class="builder-items-hint">Click an item, then click a placed champion to equip it there. Click an equipped item again to remove it.</p>
+      <div class="search-row">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" id="builderItemSearch" class="search-input" placeholder="Search an item..." autocomplete="off">
+      </div>
+      <div class="item-picker" id="itemPicker"></div>
+    </div>
   </div>
 </div>
 
@@ -183,13 +192,14 @@ window.BM_BUILDER_I18N = {
   copyGameCopied: "Copied! (paste it into the game's Team Planner)",
   copyGameEmpty: "Place at least one champion before copying.",
   nextAt: "next tier at __N__",
+  itemSlotsFull: "3 items max per champion.",
   lang: "en"
 };
 </script>
-<script src="../../assets/js/team-builder.js?v=20260907164004" defer></script>
+<script src="../../assets/js/team-builder.js?v=20260907181623" defer></script>
 
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=20260907164004" defer></script>
-<script src="../../assets/js/champ-icons.js?v=20260907164004" defer></script>
+<script src="../../assets/js/copy-comp.js?v=20260907181623" defer></script>
+<script src="../../assets/js/champ-icons.js?v=20260907181623" defer></script>
 </body>
 </html>

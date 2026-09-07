@@ -978,6 +978,20 @@
   .champ-picker-item[data-hidden="true"] { display: none; }
   .champ-picker-empty { color: var(--text-faint); font-size: 12.5px; padding: 10px; }
 
+  .builder-items-hint { color: var(--text-faint); font-size: 11.5px; line-height: 1.5; margin: 0 0 10px; }
+  .item-picker {
+    display: flex; flex-wrap: wrap; gap: 6px; max-height: 220px; overflow-y: auto;
+    padding: 10px; background: var(--row); border: 1px solid var(--border);
+  }
+  .item-picker-item {
+    width: 32px; height: 32px; flex: none; cursor: pointer;
+    border: 2px solid var(--border-bright); transition: border-color .12s ease, transform .12s ease;
+  }
+  .item-picker-item img { width: 100%; height: 100%; object-fit: cover; display: block; pointer-events: none; }
+  .item-picker-item:hover { transform: translateY(-2px); }
+  .item-picker-item[data-armed="true"] { border-color: var(--cyan); box-shadow: 0 0 0 2px var(--cyan); }
+  .item-picker-item[data-hidden="true"] { display: none; }
+
   /* Real hexagons with visible breathing room between them (not an
      interlocking puzzle) -- percentage-based sizing so the full 7-wide
      board always fits its container, at any viewport, with no horizontal
@@ -1008,7 +1022,19 @@
   .hex-cell:hover { background: var(--row-hover); }
   .hex-cell[data-filled="true"] { background: var(--bg-2); }
   .hex-cell[data-dragover="true"] { background: var(--cyan); transform: scale(1.08); }
-  .hex-cell img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .hex-champ-icon { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  /* Small item row overlaid on the lower part of a filled hex -- unlike the
+     champion image (pointer-events: none, only the hex itself is
+     interactive), each icon here IS clickable on its own (tap to remove
+     just that item -- see wireCellDrag's iconHit check). */
+  .hex-item-row {
+    position: absolute; left: 50%; bottom: 6%; transform: translateX(-50%);
+    display: flex; gap: 1px; z-index: 2;
+  }
+  .hex-item-icon {
+    width: 22%; aspect-ratio: 1; object-fit: cover; flex: none;
+    border: 1px solid var(--bg); background: var(--bg-2); cursor: pointer;
+  }
 
   .builder-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 4px; }
   .builder-empty-hint { color: var(--text-faint); font-size: 12.5px; text-align: center; margin: -14px 0 20px; }
