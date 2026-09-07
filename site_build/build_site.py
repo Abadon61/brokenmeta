@@ -1335,8 +1335,17 @@ I18N: dict[str, dict] = {
         "ms_top_played": "Compos favorites", "ms_no_habits": "Pas assez de parties récentes pour dégager une habitude de jeu.",
         "ms_analyze_hint": "Clique sur « Analyser la partie » pour voir en détail ce qui a bien (ou moins bien) marché dans une de ces parties.",
         "ms_analyze_button": "Analyser la partie",
-        "ms_analysis_of": lambda riot_id: f"Analyse de partie — {riot_id}",
-        "ms_analysis_desc": lambda riot_id, comp: f"Analyse réelle d'une partie classée de {riot_id} sur {comp} : comparaison aux moyennes de la comp, qualité du build, adversaires rencontrés — MetaScope, via l'API officielle de Riot.",
+        # Was riot_id only -- every one of a tracked player's ~10 match
+        # pages shared byte-for-byte the same title (confirmed live: 100%
+        # of match pages shared a title with another). Placement + comp
+        # make each match's title/description genuinely distinct from a
+        # player's other matches (SEO audit, 2026-09-07).
+        "ms_analysis_of": lambda riot_id, placement, comp: f"Analyse de partie — {riot_id} : Top {placement}, {comp}",
+        "ms_analysis_desc": lambda riot_id, comp, placement, level: (
+            f"Partie classée réelle de {riot_id} sur {comp}, terminée Top {placement}"
+            + (f" (niveau {level})" if level else "")
+            + " : comparaison aux moyennes de la comp, qualité du build, adversaires rencontrés — via l'API officielle de Riot."
+        ),
         "ms_back_to_profile": lambda riot_id: f"← Retour au profil de {riot_id}",
         "ms_level_label": "Niveau", "ms_gold_left_label": "Or restant",
         "ms_your_board_title": "Ton board en fin de partie",
@@ -1506,8 +1515,12 @@ I18N: dict[str, dict] = {
         "ms_top_played": "Favorite comps", "ms_no_habits": "Not enough recent games to identify a playstyle habit.",
         "ms_analyze_hint": "Click \"Analyze this game\" to see in detail what worked (or didn't) in one of these games.",
         "ms_analyze_button": "Analyze this game",
-        "ms_analysis_of": lambda riot_id: f"Game analysis — {riot_id}",
-        "ms_analysis_desc": lambda riot_id, comp: f"Real analysis of a ranked game by {riot_id} on {comp}: comparison against the comp's averages, build quality, opponents faced — MetaScope, via Riot's official API.",
+        "ms_analysis_of": lambda riot_id, placement, comp: f"Game analysis — {riot_id}: Top {placement}, {comp}",
+        "ms_analysis_desc": lambda riot_id, comp, placement, level: (
+            f"Real ranked game by {riot_id} on {comp}, finished Top {placement}"
+            + (f" (level {level})" if level else "")
+            + ": comparison against the comp's averages, build quality, opponents faced — via Riot's official API."
+        ),
         "ms_back_to_profile": lambda riot_id: f"← Back to {riot_id}'s profile",
         "ms_level_label": "Level", "ms_gold_left_label": "Gold left",
         "ms_your_board_title": "Your board at the end of the game",
@@ -2937,7 +2950,19 @@ def main() -> None:
         rel = p.parent.relative_to(DIST).as_posix()
         return BASE_URL if rel == "." else f"{BASE_URL}{rel}/"
 
-    urls = sorted(url_for_index(p) for p in DIST.rglob("index.html"))
+    # Individual player match pages (/player/.../match/xxx/) are excluded:
+    # real per-match content, but templated and numerous enough (thousands
+    # site-wide, ~83% of what the sitemap used to list) that they aren't
+    # worth Google's crawl budget as indexed destinations -- they also carry
+    # a noindex,follow meta tag (see game_analysis.html) for the same
+    # reason, so this is belt-and-suspenders, not the only signal. Still
+    # real, linkable pages (a profile's "analyze this game" link, and
+    # cross-links between a lobby's players, are untouched). SEO audit,
+    # 2026-09-07.
+    urls = sorted(
+        url_for_index(p) for p in DIST.rglob("index.html")
+        if "/match/" not in p.relative_to(DIST).as_posix()
+    )
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sitemap += [f"  <url><loc>{u}</loc></url>" for u in urls]
     sitemap.append("</urlset>")

@@ -1,7 +1,17 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
-{% block title %}BrokenMeta.gg | {{ t(lang, 'ms_analysis_of', player.riot_id) }}{% endblock %}
-{% block description %}{{ t(lang, 'ms_analysis_desc', player.riot_id, g.comp_label) }}{% endblock %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'ms_analysis_of', player.riot_id, g.placement, g.comp_label) }}{% endblock %}
+{% block description %}{{ t(lang, 'ms_analysis_desc', player.riot_id, g.comp_label, g.placement, g.level) }}{% endblock %}
+{% block extra_head %}
+<!-- One real per-match page per tracked player's last ~10 games (thousands
+     site-wide) -- real content (board, insights, lobby), but templated
+     enough, and numerous enough, that it isn't worth Google's crawl budget
+     as its own indexed destination. Stays linkable (a profile's "analyze
+     this game" link, and cross-links between a lobby's players, keep
+     working) -- just not indexed. See site_build/build_site.py's sitemap
+     generation, which excludes these same URLs. SEO audit, 2026-09-07. -->
+<meta name="robots" content="noindex,follow">
+{% endblock %}
 {% block content %}
 <a class="back-link" href="{{ root }}player/{{ player.region|lower }}/{{ player.slug }}/">{{ t(lang, 'ms_back_to_profile', player.riot_id) }}</a>
 
