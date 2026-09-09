@@ -319,6 +319,59 @@
   .chip[data-tier="C"][data-active="true"] { background: var(--gray); }
   .chip[data-cost-filter][data-active="true"] { background: var(--cyan); }
 
+  /* Rank filter (homepage only) -- a <details> disclosure styled like the
+     other chips so it reads as part of the same row, opening a checkbox
+     list instead of navigating like the plain rank chips do elsewhere.
+     See macros.html's rank_filter_dropdown() + assets/js/rank-filter.js. */
+  .rank-dropdown { position: relative; display: inline-block; }
+  .rank-dropdown summary { cursor: pointer; list-style: none; display: flex; align-items: center; gap: 7px; }
+  .rank-dropdown summary::-webkit-details-marker { display: none; }
+  .rank-dropdown summary::after {
+    content: ''; width: 6px; height: 6px; flex: none;
+    border-right: 1.5px solid currentColor; border-bottom: 1.5px solid currentColor;
+    transform: rotate(45deg) translateY(-2px); transition: transform .12s ease;
+  }
+  .rank-dropdown[open] summary::after { transform: rotate(-135deg) translateY(2px); }
+  .rank-dropdown-menu {
+    position: absolute; top: calc(100% + 10px); left: 0; z-index: 20;
+    display: flex; flex-direction: column;
+    min-width: 250px; background: var(--bg-2); border: 1px solid var(--border-bright);
+    box-shadow: 0 10px 24px rgba(0,0,0,0.35);
+  }
+  .rank-option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 14px; border-bottom: 1px solid var(--border);
+    cursor: pointer; font-size: 13px; color: var(--text-dim);
+  }
+  .rank-option:hover { background: var(--row-hover); color: var(--cream); }
+  .rank-option-check { flex: none; accent-color: var(--cyan); width: 14px; height: 14px; }
+  .rank-option-name { flex: 1; min-width: 0; }
+  .rank-option-count { flex: none; font-size: 11px; color: var(--text-faint); }
+  .rank-filter-apply {
+    margin: 6px 10px 10px; padding: 9px;
+    background: var(--cyan); border: none; color: #0b0221;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .rank-filter-apply:hover { background: var(--cream); }
+
+  /* Small colored "emblem" stand-in per bracket (no licensed rank art on
+     hand) -- a diamond so it still reads as a rank marker, not a bullet. */
+  .rank-badge {
+    flex: none; width: 13px; height: 13px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    background: var(--rk, var(--gray));
+    box-shadow: 0 0 6px 0 var(--rk, transparent);
+  }
+  .rank-badge[data-rank-key="IRON"] { --rk: #7b7b87; }
+  .rank-badge[data-rank-key="BRONZE"] { --rk: #b5773f; }
+  .rank-badge[data-rank-key="SILVER"] { --rk: #c7c9d9; }
+  .rank-badge[data-rank-key="GOLD"] { --rk: var(--gold); }
+  .rank-badge[data-rank-key="PLATINUM"] { --rk: #3ee6c4; }
+  .rank-badge[data-rank-key="EMERALD"] { --rk: #2de67e; }
+  .rank-badge[data-rank-key="DIAMOND"] { --rk: var(--cyan); }
+  .rank-badge[data-rank-key="MASTER_PLUS"] { --rk: var(--magenta); }
+
   .sort-control { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-faint); font-family: 'Space Mono', monospace; letter-spacing: 0.04em; }
   .sort-control select {
     background: var(--row);

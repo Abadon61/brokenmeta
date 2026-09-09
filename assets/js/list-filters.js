@@ -14,7 +14,12 @@
     rows.forEach(function (row) {
       var typeOk = activeType === 'ALL' || row.dataset.playstyleCat === activeType;
       var searchOk = !q || (row.dataset.search || '').indexOf(q) !== -1;
-      var show = typeOk && searchOk;
+      // rankHidden is owned by assets/js/rank-filter.js (homepage only) --
+      // it's how the 15-per-tier preview cap AND the rank checkbox filter
+      // both hide rows, so a comp-row's real visibility is always the AND
+      // of all three, computed in this one place.
+      var rankOk = row.dataset.rankHidden !== 'true';
+      var show = typeOk && searchOk && rankOk;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -43,4 +48,5 @@
     });
   }
   if (searchInput) searchInput.addEventListener('input', applyFilters);
+  window.BM_applyListFilters = applyFilters;
 })();
