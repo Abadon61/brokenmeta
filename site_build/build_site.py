@@ -3225,18 +3225,30 @@ def main() -> None:
         rel = p.parent.relative_to(DIST).as_posix()
         return BASE_URL if rel == "." else f"{BASE_URL}{rel}/"
 
-    # Individual player match pages (/player/.../match/xxx/) are excluded:
-    # real per-match content, but templated and numerous enough (thousands
-    # site-wide, ~83% of what the sitemap used to list) that they aren't
-    # worth Google's crawl budget as indexed destinations -- they also carry
-    # a noindex,follow meta tag (see game_analysis.html) for the same
-    # reason, so this is belt-and-suspenders, not the only signal. Still
-    # real, linkable pages (a profile's "analyze this game" link, and
-    # cross-links between a lobby's players, are untouched). SEO audit,
-    # 2026-09-07.
+    # Every /player/ page (profile + per-match) is excluded from the
+    # sitemap and carries a noindex,follow meta tag (see player.html /
+    # game_analysis.html): match pages are templated and numerous enough
+    # (thousands site-wide, ~83% of what the sitemap used to list) to not
+    # be worth Google's crawl budget (SEO audit, 2026-09-07); profile pages
+    # were added to the same exclusion once GSC showed most of them stuck
+    # in "Explorée, actuellement non indexée" -- their URL bakes in the
+    # player's CURRENT leaderboard rank (see player_url_slug()), which
+    # shifts on every leaderboard refresh, so a given URL's content keeps
+    # changing under Google and a stable index entry can never form
+    # (2026-09-09). Belt-and-suspenders with the meta tag, not the only
+    # signal. Still real, linkable pages -- cross-links between a lobby's
+    # players, a profile's "analyze this game" link, are untouched.
     urls = sorted(
         url_for_index(p) for p in DIST.rglob("index.html")
-        if "/match/" not in p.relative_to(DIST).as_posix()
+        # A real path-segment check, not a substring one: the FR (root-
+        # language) player pages have "player" as the very FIRST segment
+        # (e.g. "player/br/x/index.html", no leading "/"), so a naive
+        # "/player/" substring check misses exactly those -- only the EN
+        # ones ("en/player/...") happen to have a "/" before "player" from
+        # the "en/" prefix. Caught via a debug print while wiring the
+        # profile-page exclusion (2026-09-09): the EN half was silently
+        # excluded, the FR half silently wasn't.
+        if "player" not in p.relative_to(DIST).parts
     )
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sitemap += [f"  <url><loc>{u}</loc></url>" for u in urls]
