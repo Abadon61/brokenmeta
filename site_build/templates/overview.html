@@ -6,18 +6,22 @@
 <h1 class="page-h1">{{ h1 }}</h1>
 <p class="page-intro">{{ intro }}</p>
 
-{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
+{{ m.scope_filter_bar(region_chips, rank_chips, lang, rank_filter_data) }}
 {{ m.search_bar(lang) }}
 
 {% for group in tier_groups %}
-<div class="tier-group" data-tier-group>
+<div class="tier-group" data-tier-group="{{ group.tier }}">
   <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:30px 0 14px;{% if loop.first %}margin-top:0;{% endif %}">
     <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'tier_word') }} {{ group.tier }}</h2>
-    <a href="{{ tier_href(group.tier) }}" class="fiche-link" style="margin-top:0">{{ t(lang, 'see_full_tier', group.total, group.tier) }}</a>
+    <a href="{{ tier_href(group.tier) }}" class="fiche-link see-full-tier-link" style="margin-top:0">{{ t(lang, 'see_full_tier', group.total, group.tier) }}</a>
   </div>
   <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
-  <div>
-    {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
+  <div class="tier-rows">
+    {% if interactive_rank_filter %}
+      {% for c in group.full %}{{ m.comp_summary_row(c, root, lang, preview_hidden=(loop.index0 >= rank_filter_preview_cap)) }}{% endfor %}
+    {% else %}
+      {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
+    {% endif %}
   </div>
 </div>
 {% endfor %}
@@ -39,4 +43,15 @@
 {% block extra_body %}
 <script>window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
 <script src="{{ root }}assets/js/list-filters.js?v={{ css_v }}" defer></script>
+{% if interactive_rank_filter %}
+<script>
+  window.BM_RANK_FILTER_I18N = {
+    lang: {{ lang|tojson }},
+    allLabel: {{ t(lang, 'rank_all')|tojson }},
+    nSelectedTpl: {{ t(lang, 'rank_filter_n_selected', '__N__')|tojson }},
+    noneLabel: {{ t(lang, 'rank_filter_none')|tojson }},
+  };
+</script>
+<script src="{{ root }}assets/js/rank-filter.js?v={{ css_v }}" defer></script>
+{% endif %}
 {% endblock %}

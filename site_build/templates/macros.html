@@ -67,8 +67,8 @@
    already in style_base.css (.comp-row[data-tier="S"] { --tc: var(--red) }
    etc.) -- no inline style needed here, only fiche-context elements that
    have no such rule pass tier_var explicitly. #}
-{% macro comp_summary_row(c, root, lang) %}
-<a class="comp-row" data-tier="{{ c.tier }}" data-playstyle-cat="{{ c.playstyle_cat or '' }}" data-search="{{ c.search_blob }}" href="{{ root }}compo/{{ c.slug }}/">
+{% macro comp_summary_row(c, root, lang, preview_hidden=False) %}
+<a class="comp-row" data-key="{{ c.key }}" data-tier="{{ c.tier }}" data-playstyle-cat="{{ c.playstyle_cat or '' }}" data-search="{{ c.search_blob }}" href="{{ root }}compo/{{ c.slug }}/"{% if preview_hidden %} data-preview-hidden="true"{% endif %}>
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class="tier-badge">{{ c.tier }}</div>
   <div class="row-body">
@@ -93,7 +93,7 @@
    link to the equivalent page in that scope, computed server-side in
    build_site.py (scope_chip_lists()) so this macro just renders whatever
    (label, href, active) list it's handed. #}
-{% macro scope_filter_bar(region_chips, rank_chips, lang) %}
+{% macro scope_filter_bar(region_chips, rank_chips, lang, rank_filter_data=None) %}
 <div class="scope-group">
   <div class="region-row">
     <span class="region-label">{{ t(lang, 'lbl_region') }}</span>
@@ -103,11 +103,41 @@
   </div>
   <div class="region-row">
     <span class="region-label">{{ t(lang, 'lbl_rank') }}</span>
+    {% if rank_filter_data %}
+      {{ rank_filter_dropdown(rank_filter_data, lang) }}
+    {% else %}
     <div class="tier-filters">
       {% for chip in rank_chips %}<a class="chip" data-rank href="{{ chip.href }}" data-active="{{ chip.active|lower }}">{{ chip.label }}</a>{% endfor %}
     </div>
+    {% endif %}
   </div>
 </div>
+{% endmacro %}
+
+{# Compact multi-select rank filter (homepage only) -- a checkbox per
+   individual bracket (icon + name + real match count, like MetaTFT's own
+   rank filter) instead of the plain one-at-a-time chip row above. Stays a
+   pure <details>/<summary> disclosure (no JS needed just to open/close);
+   assets/js/rank-filter.js owns the checkbox state, the Appliquer button,
+   and recombining the checked brackets into live stats -- see that file
+   and build_site.py's rank_filter_data for the math. #}
+{% macro rank_filter_dropdown(rank_filter_data, lang) %}
+<details class="rank-dropdown" id="rankFilterDropdown">
+  <summary class="chip" data-rank data-active="false">
+    <span id="rankFilterSummary">{{ t(lang, 'rank_all') }}</span>
+  </summary>
+  <div class="rank-dropdown-menu">
+    {% for b in rank_filter_data.brackets %}
+    <label class="rank-option">
+      <input type="checkbox" class="rank-option-check" value="{{ b.key }}" checked>
+      <span class="rank-badge" data-rank-key="{{ b.key }}" aria-hidden="true"></span>
+      <span class="rank-option-name">{{ b.label_fr if lang == 'fr' else b.label_en }}</span>
+      <span class="rank-option-count nums">{{ '{:,}'.format(b.total_matches).replace(',', ' ') if lang == 'fr' else '{:,}'.format(b.total_matches) }}</span>
+    </label>
+    {% endfor %}
+    <button type="button" class="rank-filter-apply" id="rankFilterApply">{{ t(lang, 'rank_filter_apply') }}</button>
+  </div>
+</details>
 {% endmacro %}
 
 {# Client-side show/hide over rows already on the page, same as Type below

@@ -32,6 +32,8 @@ from tft_tracker.champion_images import (  # noqa: E402
     build_locale_champion_text_map, build_locale_item_text_map, build_locale_trait_name_map,
     build_team_planner_codes, build_trait_data, classify_item_offense,
 )
+from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
+from tft_tracker.tierlist import TIER_BUCKETS  # noqa: E402 -- same reason
 
 OUT = PROJECT / "data" / "output"
 DIST = ROOT / "dist"
@@ -96,7 +98,12 @@ LIST_FILTERS_JS = """
     rows.forEach(function (row) {
       var typeOk = activeType === 'ALL' || row.dataset.playstyleCat === activeType;
       var searchOk = !q || (row.dataset.search || '').indexOf(q) !== -1;
-      var show = typeOk && searchOk;
+      // rankHidden is owned by assets/js/rank-filter.js (homepage only) --
+      // it's how the 15-per-tier preview cap AND the rank checkbox filter
+      // both hide rows, so a comp-row's real visibility is always the AND
+      // of all three, computed in this one place.
+      var rankOk = row.dataset.rankHidden !== 'true';
+      var show = typeOk && searchOk && rankOk;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -125,6 +132,205 @@ LIST_FILTERS_JS = """
     });
   }
   if (searchInput) searchInput.addEventListener('input', applyFilters);
+  window.BM_applyListFilters = applyFilters;
+})();
+"""
+
+# Homepage-only: lets a visitor check any combination of rank brackets
+# (not just click one at a time like the region/rank chips) and see the
+# tier list recombine live -- see build_site.py's rank_filter_data comment
+# (the math this ports from src/tft_tracker/tierlist.py) and macros.html's
+# rank_filter_dropdown(). Composes with list-filters.js via the shared
+# `rankHidden` dataset flag + window.BM_applyListFilters(), never touches
+# board art/icons/planner code (those stay whatever the combined "all
+# ranks" data already baked into the card -- only tier + the three pills
+# change).
+RANK_FILTER_JS = """
+(function () {
+  var dropdown = document.getElementById('rankFilterDropdown');
+  if (!dropdown) return;
+  var summaryEl = document.getElementById('rankFilterSummary');
+  var applyBtn = document.getElementById('rankFilterApply');
+  var checks = Array.prototype.slice.call(dropdown.querySelectorAll('.rank-option-check'));
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.comp-row[data-key]'));
+  if (!rows.length) return;
+  var groups = {};
+  Array.prototype.slice.call(document.querySelectorAll('[data-tier-group]')).forEach(function (g) {
+    groups[g.dataset.tierGroup] = g.querySelector('.tier-rows');
+  });
+  var seeFullLinks = Array.prototype.slice.call(document.querySelectorAll('.see-full-tier-link'));
+  var summaryChip = dropdown.querySelector('summary');
+  var I18N = window.BM_RANK_FILTER_I18N || {};
+
+  // Snapshot the server-rendered ("all ranks", full real dataset) truth --
+  // restored verbatim whenever every bracket ends up checked again, so
+  // re-checking everything never leaves the page showing the smaller
+  // live-collected per-bracket sample instead of the site's real numbers.
+  var original = {};
+  rows.forEach(function (row) {
+    var pills = row.querySelectorAll('.p-value');
+    original[row.dataset.key] = {
+      tier: row.dataset.tier,
+      rankHidden: row.dataset.previewHidden === 'true',
+      placementText: pills[0] ? pills[0].textContent : '',
+      top4Text: pills[1] ? pills[1].textContent : '',
+      contestText: pills[2] ? pills[2].textContent : '',
+      contestLevel: pills[2] ? pills[2].getAttribute('data-level') : '',
+    };
+    row.dataset.rankHidden = original[row.dataset.key].rankHidden ? 'true' : 'false';
+  });
+  if (window.BM_applyListFilters) window.BM_applyListFilters();
+
+  var data = null;
+  fetch((window.BM_ROOT || '') + 'assets/data/rank-filter.json').then(function (r) { return r.json(); }).then(function (d) { data = d; }).catch(function () {});
+
+  function updateSummary(selected) {
+    if (!summaryEl) return;
+    if (selected.length === checks.length) { summaryEl.textContent = I18N.allLabel || ''; return; }
+    if (selected.length === 1) {
+      var opt = dropdown.querySelector('.rank-option-check[value="' + selected[0] + '"]');
+      var nameEl = opt && opt.closest('.rank-option').querySelector('.rank-option-name');
+      summaryEl.textContent = nameEl ? nameEl.textContent : selected[0];
+      return;
+    }
+    summaryEl.textContent = (I18N.nSelectedTpl || '__N__').replace('__N__', String(selected.length));
+  }
+
+  function reappend(tierOf) {
+    ['S', 'A', 'B', 'C'].forEach(function (tierName) {
+      var rowsEl = groups[tierName];
+      if (!rowsEl) return;
+      rows.filter(function (row) { return tierOf(row) === tierName; })
+          .forEach(function (row) { rowsEl.appendChild(row); });
+    });
+  }
+
+  function resetToDefault() {
+    rows.forEach(function (row) {
+      var o = original[row.dataset.key];
+      if (!o) return;
+      row.dataset.tier = o.tier;
+      row.dataset.rankHidden = o.rankHidden ? 'true' : 'false';
+      var badge = row.querySelector('.tier-badge');
+      if (badge) badge.textContent = o.tier;
+      var pills = row.querySelectorAll('.p-value');
+      if (pills[0]) pills[0].textContent = o.placementText;
+      if (pills[1]) pills[1].textContent = o.top4Text;
+      if (pills[2]) { pills[2].textContent = o.contestText; pills[2].setAttribute('data-level', o.contestLevel || 'Low'); }
+    });
+    reappend(function (row) { return original[row.dataset.key] ? original[row.dataset.key].tier : null; });
+    seeFullLinks.forEach(function (a) { a.style.display = ''; });
+    if (summaryChip) summaryChip.dataset.active = 'false';
+    updateSummary(checks.map(function (c) { return c.value; }));
+    if (window.BM_applyListFilters) window.BM_applyListFilters();
+  }
+
+  function recompute(selectedKeys) {
+    if (!data) return;
+    var selectedSet = {};
+    selectedKeys.forEach(function (k) { selectedSet[k] = true; });
+
+    // Sum play_count, weight-average the three rates -- correct because
+    // each bracket is a disjoint slice of the same real matches (a match
+    // is played at exactly one rank), same reasoning as tierlist.py
+    // computing everything from one flat match list.
+    var combined = {};
+    Object.keys(data.comps).forEach(function (key) {
+      var perBracket = data.comps[key];
+      var playCount = 0, placementSum = 0, top4Sum = 0, winSum = 0;
+      selectedKeys.forEach(function (b) {
+        var v = perBracket[b];
+        if (!v) return;
+        playCount += v[0];
+        placementSum += v[1] * v[0];
+        top4Sum += v[2] * v[0];
+        winSum += v[3] * v[0];
+      });
+      if (playCount > 0) {
+        combined[key] = { playCount: playCount, avgPlacement: placementSum / playCount, top4Rate: top4Sum / playCount, winRate: winSum / playCount };
+      }
+    });
+
+    // Same "does it get a real page" gate as build_site.py's
+    // filter_quality() (board-size/all-5-cost are structural and already
+    // guaranteed -- every key here already has a real /compo/ page).
+    var quality = Object.keys(combined).filter(function (key) {
+      var c = combined[key];
+      return c.playCount >= data.min_play_count && c.avgPlacement <= data.max_avg_placement;
+    });
+    // Same S/A/B/C assignment as tierlist.py's build_tier_list(): rank by
+    // (-top4Rate, avgPlacement) among comps with enough sample, bucket by
+    // cumulative fraction.
+    var ranked = quality.filter(function (key) { return combined[key].playCount >= data.min_sample_for_tier; });
+    ranked.sort(function (a, b) {
+      var ca = combined[a], cb = combined[b];
+      return cb.top4Rate - ca.top4Rate || ca.avgPlacement - cb.avgPlacement;
+    });
+    var tierOf = {};
+    var n = ranked.length, cursor = 0;
+    data.tier_buckets.forEach(function (bucket) {
+      var tierName = bucket[0], end = tierName === 'C' ? n : Math.min(n, Math.round(n * bucket[1]));
+      for (var i = cursor; i < Math.max(end, cursor); i++) tierOf[ranked[i]] = tierName;
+      cursor = Math.max(end, cursor);
+    });
+
+    // Contestation pill: same play-rate-percentile idea as tierlist.py,
+    // over this filtered scope's own ranked comps (the broader pre-
+    // quality-filter pool Python uses isn't shipped to the client) --
+    // a reasonable approximation for a display-only pill, not the tier.
+    var totalParticipants = 0;
+    data.brackets.forEach(function (b) { if (selectedSet[b.key]) totalParticipants += b.total_participants; });
+    var playRates = ranked.map(function (key) { return totalParticipants ? combined[key].playCount / totalParticipants : 0; }).sort(function (a, b) { return a - b; });
+    function percentileOf(rate) {
+      if (!playRates.length) return 0;
+      var idx = 0;
+      while (idx < playRates.length && playRates[idx] <= rate) idx++;
+      return (idx / playRates.length) * 100;
+    }
+    function levelOf(p) { return p >= 66 ? 'High' : (p >= 33 ? 'Medium' : 'Low'); }
+
+    rows.forEach(function (row) {
+      var key = row.dataset.key, tier = tierOf[key];
+      if (!tier) { row.dataset.rankHidden = 'true'; return; }
+      row.dataset.rankHidden = 'false';
+      row.dataset.tier = tier;
+      var badge = row.querySelector('.tier-badge');
+      if (badge) badge.textContent = tier;
+      var c = combined[key];
+      var pills = row.querySelectorAll('.p-value');
+      if (pills[0]) pills[0].textContent = c.avgPlacement.toFixed(2);
+      if (pills[1]) pills[1].textContent = Math.round(c.top4Rate * 100) + '%';
+      if (pills[2]) {
+        var p = percentileOf(totalParticipants ? c.playCount / totalParticipants : 0);
+        pills[2].textContent = String(Math.round(p));
+        pills[2].setAttribute('data-level', levelOf(p));
+      }
+    });
+    reappend(function (row) { return tierOf[row.dataset.key] || null; });
+    // Within each now-settled group, order by the recombined placement --
+    // reappending in this sorted order both re-sorts and re-parents.
+    ['S', 'A', 'B', 'C'].forEach(function (tierName) {
+      var rowsEl = groups[tierName];
+      if (!rowsEl) return;
+      rows.filter(function (row) { return tierOf[row.dataset.key] === tierName; })
+          .sort(function (a, b) { return combined[a.dataset.key].avgPlacement - combined[b.dataset.key].avgPlacement; })
+          .forEach(function (row) { rowsEl.appendChild(row); });
+    });
+    seeFullLinks.forEach(function (a) { a.style.display = 'none'; });
+    if (summaryChip) summaryChip.dataset.active = 'true';
+    updateSummary(selectedKeys);
+    if (window.BM_applyListFilters) window.BM_applyListFilters();
+  }
+
+  if (applyBtn) {
+    applyBtn.addEventListener('click', function () {
+      var selected = checks.filter(function (c) { return c.checked; }).map(function (c) { return c.value; });
+      if (!selected.length) { if (summaryEl) summaryEl.textContent = I18N.noneLabel || ''; return; }
+      if (selected.length === checks.length) resetToDefault();
+      else recompute(selected);
+      dropdown.removeAttribute('open');
+    });
+  }
 })();
 """
 STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>'
@@ -1260,6 +1466,9 @@ I18N: dict[str, dict] = {
         "footer_nav_title": "Navigation", "footer_about_title": "À propos",
         "lbl_region": "Région", "lbl_rank": "Rang", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "Toutes", "rank_all": "Tous rangs", "tier_all": "Tout",
+        "rank_filter_n_selected": lambda n: f"{n} rangs sélectionnés",
+        "rank_filter_apply": "Appliquer",
+        "rank_filter_none": "Sélectionne au moins un rang",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
         "level_badge": lambda n: f"Niveau {n}",
         "home_intro": lambda n, m: f"{n} compositions {SET_LABEL} calculées à partir de {m} parties classées réelles, collectées via l'API officielle de Riot (Match-V1). Aucune donnée inventée ou estimée : chaque statistique vient d'un vrai match.",
@@ -1440,6 +1649,9 @@ I18N: dict[str, dict] = {
         "footer_nav_title": "Navigation", "footer_about_title": "About",
         "lbl_region": "Region", "lbl_rank": "Rank", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "All", "rank_all": "All ranks", "tier_all": "All",
+        "rank_filter_n_selected": lambda n: f"{n} ranks selected",
+        "rank_filter_apply": "Apply",
+        "rank_filter_none": "Pick at least one rank",
         "placement_label": "Placement", "top4_label": "Top 4", "contest_label": "Contest.",
         "level_badge": lambda n: f"Level {n}",
         "home_intro": lambda n, m: f"{n} {SET_LABEL} comps calculated from {m} real ranked games, collected via Riot's official API (Match-V1). No invented or estimated data: every stat comes from a real match.",
@@ -2559,6 +2771,57 @@ def main() -> None:
     available_regions = [r for r in ["EUW", "NA", "BR", "KR"] if region_rows.get(r)]
     available_ranks = sorted([b for b in rank_rows if rank_rows.get(b)], key=rank_sort_key)
 
+    # ---- Rank-bracket filter data (client-side, homepage only): a per-comp
+    # numeric table for every individual bracket (Iron..Diamond, Master+),
+    # so assets/js/rank-filter.js can let a visitor CHECK any combination
+    # (not just click one bracket at a time like the region/rank chips
+    # below) and recombine it into weighted-average stats + a live-
+    # recomputed S/A/B/C tier, without a page reload or extra static pages
+    # per combination. Sourced from the RAW by-rank-bracket payload (not
+    # rank_rows, which already dropped comps below MIN_PLAY_COUNT *within
+    # that one bracket alone* -- a comp too rare in e.g. Iron alone can
+    # still clear the bar once Iron+Bronze+Silver are checked together, so
+    # the client needs every bracket's real numbers to add them up itself).
+    # Restricted to comp_vm_by_key: a bracket-only sample can never surface
+    # a comp missing from the full combined dataset, since any one
+    # bracket's play_count is always <= the combined one. Numbers only --
+    # icons/labels/slugs/board art stay whatever the combined ("all ranks")
+    # data already baked into the server-rendered card, unaffected by which
+    # ranks are checked (see rank-filter.js for why that's a reasonable
+    # simplification, not an accuracy gap for the numbers themselves).
+    rank_filter_brackets = []
+    rank_filter_comps: dict[str, dict[str, list]] = {}
+    for b in sorted(by_rank["ranks"].keys(), key=rank_sort_key):
+        payload = by_rank["ranks"][b]
+        if not payload.get("total_matches"):
+            continue
+        rank_filter_brackets.append({
+            "key": b, "label_fr": rank_bracket_label(b, "fr"), "label_en": rank_bracket_label(b, "en"),
+            "total_matches": payload["total_matches"],
+            "total_participants": payload.get("total_participants", 0),
+        })
+        for c in payload.get("comps", []):
+            if c["key"] not in comp_vm_by_key or not c.get("play_count"):
+                continue
+            rank_filter_comps.setdefault(c["key"], {})[b] = [
+                c["play_count"], round(c["avg_placement"], 3), round(c.get("top4_rate", 0), 4), round(c.get("win_rate", 0), 4),
+            ]
+    # Mirrors src/tft_tracker/tierlist.py's build_tier_list() exactly for the
+    # two thresholds/bucketing that actually decide a comp's tier
+    # (MIN_SAMPLE_FOR_TIER + TIER_BUCKETS) -- imported, not retyped, so the
+    # two can't quietly drift apart. MIN_PLAY_COUNT/MAX_AVG_PLACEMENT are
+    # build_site.py's own later "does it get a real page" gate (filter_
+    # quality() above); the client applies the same gate to the combined
+    # (selected-brackets) numbers before showing/tiering a comp.
+    rank_filter_data = {
+        "brackets": rank_filter_brackets,
+        "comps": rank_filter_comps,
+        "min_play_count": MIN_PLAY_COUNT,
+        "max_avg_placement": MAX_AVG_PLACEMENT,
+        "min_sample_for_tier": tft_config.MIN_SAMPLE_FOR_TIER,
+        "tier_buckets": TIER_BUCKETS,
+    }
+
     def region_root(r: str) -> str:
         return f"/region/{r.lower()}/"
 
@@ -2673,11 +2936,18 @@ def main() -> None:
         def render_scope(kind: str, key: str | None, rows: list[dict], scope_label: str, _lang=lang) -> None:
             root_path = scope_root(kind, key)
             HOMEPAGE_PREVIEW_PER_TIER = 15
+            # The homepage ("all" scope) also ships every comp beyond the
+            # 15-preview (see "full" below) so the rank-filter checkboxes
+            # (assets/js/rank-filter.js) have real cards to reveal/re-tier
+            # once a visitor picks a combination other than "every rank" --
+            # every other scope (region root, single-rank root) keeps the
+            # plain preview-only page it's always had, unaffected.
             tier_groups = []
             for tier in ["S", "A", "B", "C"]:
                 tier_rows = [c for c in rows if c["tier"] == tier]
                 if tier_rows:
-                    tier_groups.append({"tier": tier, "total": len(tier_rows), "preview": tier_rows[:HOMEPAGE_PREVIEW_PER_TIER]})
+                    tier_groups.append({"tier": tier, "total": len(tier_rows),
+                                         "preview": tier_rows[:HOMEPAGE_PREVIEW_PER_TIER], "full": tier_rows})
 
             region_chips, rank_chips = scope_chip_lists(kind, key, None)
             suffix = f" — {scope_label}" if scope_label else ""
@@ -2719,7 +2989,10 @@ def main() -> None:
                          else translate(_lang, "scope_intro", len(rows), suffix),
                    tier_groups=tier_groups, region_chips=region_chips, rank_chips=rank_chips,
                    tier_href=lambda t, _root=root_path: _root + f"tier/{t.lower()}/",
-                   item_list_schema=item_list_schema, faq=faq)
+                   item_list_schema=item_list_schema, faq=faq,
+                   interactive_rank_filter=(kind == "all"),
+                   rank_filter_data=(rank_filter_data if kind == "all" else None),
+                   rank_filter_preview_cap=HOMEPAGE_PREVIEW_PER_TIER)
 
             for group in tier_groups:
                 tier = group["tier"]
@@ -2878,6 +3151,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "rank-filter.js").write_text(RANK_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
@@ -2931,6 +3205,7 @@ def main() -> None:
     for name, payload in [
         ("benchmarks.json", worker_benchmarks), ("matchups.json", worker_matchups),
         ("comp-index.json", worker_comp_index), ("name-map.json", champ_name_map), ("item-offense.json", item_offense),
+        ("rank-filter.json", rank_filter_data),
     ]:
         (DIST / "assets" / "data" / name).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
