@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | Page introuvable{% endblock %}
+{% block description %}Cette page n'existe pas ou plus sur BrokenMeta.gg -- retourne à la tier list TFT Set 18.{% endblock %}
+{% block extra_head %}
+<meta name="robots" content="noindex,follow">
+{% endblock %}
+{% block content %}
+<div class="error-page">
+  <div class="error-code">404</div>
+  <h1 class="page-h1">Cette page n'existe pas (ou plus)</h1>
+  <p class="page-intro">
+    Le lien est peut-être cassé, ou la page a été retirée -- par exemple une ancienne page de match,
+    ou une compo qui n'a plus assez de parties pour rester classée.
+  </p>
+  <div class="error-actions">
+    <a href="/" class="error-cta">Voir la tier list</a>
+    <a href="/champions/" class="fiche-link">Liste des champions →</a>
+    <a href="/glossaire/" class="fiche-link">Glossaire →</a>
+    <a href="/leaderboard/" class="fiche-link">Classement →</a>
+  </div>
+</div>
+{% endblock %}

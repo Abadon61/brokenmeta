@@ -32,7 +32,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
 <meta property="og:url" content="{{ canonical }}">
 <meta property="og:locale" content="{{ 'fr_FR' if lang == 'fr' else 'en_US' }}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{% block og_image %}{{ BASE_URL }}assets/img/og-image.png{% endblock %}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
 <link rel="icon" type="image/svg+xml" href="{{ root }}favicon.svg?v={{ css_v }}">
 <link rel="icon" type="image/png" sizes="512x512" href="{{ root }}favicon-google.png?v={{ css_v }}">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
@@ -46,9 +50,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 <div class="topbar">
   <a class="wordmark" href="{{ root }}" style="text-decoration:none"><img class="wordmark-logo" src="{{ root }}assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
-  <div class="lang-toggle">
-    <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ (lang == 'fr')|lower }}">FR</a>
-    <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ (lang == 'en')|lower }}">EN</a>
+  <div class="topbar-right">
+    <div class="lang-toggle">
+      <a class="lang-btn" href="{{ canonical if lang == 'fr' else alt_canonical }}" data-active="{{ (lang == 'fr')|lower }}">FR</a>
+      <a class="lang-btn" href="{{ alt_canonical if lang == 'fr' else canonical }}" data-active="{{ (lang == 'en')|lower }}">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">{{ m.nav_links(lang, root, active_nav) }}</nav>
+        <div class="mobile-nav-actions">{{ m.nav_cta(lang, root, active_nav) }}</div>
+      </div>
+    </details>
   </div>
 </div>
 <div class="navbar">
@@ -59,13 +75,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </nav>
     {{ m.nav_cta(lang, root, active_nav) }}
   </div>
-  <details class="mobile-nav">
-    <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
-    <div class="mobile-nav-panel">
-      <nav class="mobile-nav-links">{{ m.nav_links(lang, root, active_nav) }}</nav>
-      <div class="mobile-nav-actions">{{ m.nav_cta(lang, root, active_nav) }}</div>
-    </div>
-  </details>
 </div>
 <div class="page">
 {% block content %}{% endblock %}
