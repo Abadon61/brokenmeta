@@ -183,8 +183,10 @@
       setStatus(null);
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
+      if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: true});
     } catch (e) {
       setStatus(e.message || String(e), true);
+      if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: false});
     }
   }
 

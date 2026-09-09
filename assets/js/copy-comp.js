@@ -25,6 +25,7 @@
         btn.dataset.copied = 'true';
         btn.innerHTML = CHECK_SVG;
         btn.title = btn.dataset.copiedTitle;
+        if (window.gtag) gtag('event', 'copy_comp_code');
       }, function () {
         btn.title = btn.dataset.failedTitle;
       });

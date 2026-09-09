@@ -181,6 +181,7 @@
       if (!selected.length) { if (summaryEl) summaryEl.textContent = I18N.noneLabel || ''; return; }
       if (selected.length === checks.length) resetToDefault();
       else recompute(selected);
+      if (window.gtag) gtag('event', 'rank_filter_apply', {rank_count: selected.length, ranks: selected.join(',')});
       dropdown.removeAttribute('open');
     });
   }

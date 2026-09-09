@@ -475,7 +475,10 @@
       });
       while (slots.length < 10) slots.push('000');
       var code = plannerHeader + slots.join('') + setMutator;
-      copyToClipboard(code).then(function () { showStatus(I.copyGameCopied, false); });
+      copyToClipboard(code).then(function () {
+        showStatus(I.copyGameCopied, false);
+        if (window.gtag) gtag('event', 'team_builder_copy', {champion_count: placed.length});
+      });
     });
   }
 
