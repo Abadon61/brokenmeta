@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block title %}{{ "BrokenMeta.gg | Politique de confidentialité" if lang == "fr" else "BrokenMeta.gg | Privacy Policy" }}{% endblock %}
+{% block description %}{{ "Quelles données BrokenMeta.gg collecte, pourquoi, et comment les exercer -- Google Analytics, l'API Riot Games, MetaScope." if lang == "fr" else "What data BrokenMeta.gg collects, why, and how to exercise your rights -- Google Analytics, the Riot Games API, MetaScope." }}{% endblock %}
+{% block content %}
+<div class="legal-page">
+{% if lang == "fr" %}
+<h1 class="page-h1">Politique de confidentialité</h1>
+<p class="page-intro">Dernière mise à jour : {{ generated_at }}. BrokenMeta.gg est un site non-officiel, fait par un joueur, qui affiche des statistiques réelles de Teamfight Tactics. Cette page explique quelles données sont collectées quand tu visites le site, pourquoi, et comment les contrôler.</p>
+
+<h2 class="fiche-section-title">Qui exploite ce site</h2>
+<p>BrokenMeta.gg est un projet indépendant, non affilié à Riot Games. Pour toute question sur cette politique ou tes données, voir la section Contact en bas de page.</p>
+
+<h2 class="fiche-section-title">Données issues de l'API Riot Games</h2>
+<p>Les compositions, classements, statistiques de champions et objets viennent de l'API officielle de Riot Games (Match-V1, League-V1) : ce sont des données de jeu déjà publiques (parties classées, classements de ladder), pas des informations personnelles que Riot ou BrokenMeta.gg collecteraient au-delà de ce que le jeu affiche déjà à tout le monde. Aucun compte, aucune connexion n'est nécessaire pour consulter le site.</p>
+
+<h2 class="fiche-section-title">MetaScope (recherche de profil)</h2>
+<p>Quand tu tapes un Riot ID dans MetaScope, cette recherche est transmise en direct à l'API Riot Games via notre propre service (un Cloudflare Worker) pour aller chercher le profil et l'historique de parties correspondants. Le Riot ID que tu saisis et le résultat renvoyé <strong>ne sont pas enregistrés</strong> sur nos serveurs : la requête est traitée à la volée et rien n'est conservé au-delà du temps de réponse.</p>
+
+<h2 class="fiche-section-title">Mesure d'audience (Google Analytics / Google Tag Manager)</h2>
+<p>Le site utilise Google Analytics (GA4) et Google Tag Manager pour comprendre comment il est utilisé (pages visitées, provenance, appareil, interactions comme la copie d'une comp ou l'usage du filtre par rang) et l'améliorer. Ces outils déposent des cookies et transmettent des données à Google, qui peut les traiter selon sa propre politique de confidentialité (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>). Aucune de ces données n'est vendue.</p>
+<p>À l'heure actuelle, ces outils se chargent par défaut à ta visite, sans bandeau de consentement préalable -- une évolution vers un vrai bandeau de choix est prévue.</p>
+
+<h2 class="fiche-section-title">Stockage local (localStorage)</h2>
+<p>Ton choix de langue (FR/EN) est mémorisé dans le stockage local de ton navigateur pour ne pas te le redemander à chaque visite. Cette information reste uniquement sur ton appareil et n'est jamais transmise à nos serveurs.</p>
+
+<h2 class="fiche-section-title">Sous-traitants et services tiers</h2>
+<ul>
+  <li><strong>Hostinger</strong> -- hébergement du site.</li>
+  <li><strong>Cloudflare</strong> -- exécution du service MetaScope (Workers).</li>
+  <li><strong>Google</strong> -- Analytics, Tag Manager, polices Google Fonts.</li>
+  <li><strong>Riot Games</strong> -- source des données de jeu (API officielle).</li>
+</ul>
+
+<h2 class="fiche-section-title">Durée de conservation</h2>
+<p>Les données d'audience (Google Analytics) sont conservées selon la configuration standard de Google Analytics. Les recherches MetaScope ne sont pas conservées (voir plus haut). Le site ne fait fonctionner aucune base de données de comptes ou de profils utilisateurs.</p>
+
+<h2 class="fiche-section-title">Tes droits</h2>
+<p>Si tu es dans l'Union européenne, le Règlement général sur la protection des données (RGPD) te donne le droit d'accéder à tes données, de les rectifier, de les faire effacer, de t'opposer à leur traitement, et de les récupérer (portabilité). Pour l'exercer, contacte-nous (voir ci-dessous) ou adresse une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
+
+<h2 class="fiche-section-title">Sécurité</h2>
+<p>Le site est servi en HTTPS. N'étant pas un site à compte utilisateur, il ne stocke ni mot de passe ni moyen de paiement.</p>
+
+<h2 class="fiche-section-title">Modifications</h2>
+<p>Cette politique peut évoluer avec le site (nouvelles fonctionnalités, nouveaux outils tiers). La date de dernière mise à jour en haut de page reflète la version en vigueur.</p>
+
+<h2 class="fiche-section-title">Contact</h2>
+<p>Pour toute question sur cette politique ou pour exercer tes droits : <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
+
+{% else %}
+<h1 class="page-h1">Privacy Policy</h1>
+<p class="page-intro">Last updated: {{ generated_at }}. BrokenMeta.gg is an unofficial, player-made site showing real Teamfight Tactics statistics. This page explains what data is collected when you visit, why, and how to control it.</p>
+
+<h2 class="fiche-section-title">Who runs this site</h2>
+<p>BrokenMeta.gg is an independent project, not affiliated with Riot Games. For any question about this policy or your data, see the Contact section below.</p>
+
+<h2 class="fiche-section-title">Data from the Riot Games API</h2>
+<p>Comps, rankings, champion and item stats come from Riot Games' official API (Match-V1, League-V1): this is already-public game data (ranked games, ladder standings), not personal information collected by Riot or BrokenMeta.gg beyond what the game already shows everyone. No account or login is needed to browse the site.</p>
+
+<h2 class="fiche-section-title">MetaScope (profile lookup)</h2>
+<p>When you type a Riot ID into MetaScope, that search is sent live to the Riot Games API through our own backend (a Cloudflare Worker) to fetch the matching profile and match history. The Riot ID you enter and the result returned are <strong>not stored</strong> on our servers: the request is handled on the fly and nothing is kept beyond the response time.</p>
+
+<h2 class="fiche-section-title">Analytics (Google Analytics / Google Tag Manager)</h2>
+<p>The site uses Google Analytics (GA4) and Google Tag Manager to understand how it's used (pages visited, referrer, device, interactions like copying a comp or using the rank filter) and improve it. These tools set cookies and send data to Google, which may process it under its own privacy policy (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>). None of this data is sold.</p>
+<p>Right now, these tools load by default on your visit, with no consent banner yet -- a proper consent flow is planned.</p>
+
+<h2 class="fiche-section-title">Local storage</h2>
+<p>Your language choice (FR/EN) is remembered in your browser's local storage so you're not asked again on every visit. This stays on your device only and is never sent to our servers.</p>
+
+<h2 class="fiche-section-title">Processors and third-party services</h2>
+<ul>
+  <li><strong>Hostinger</strong> -- site hosting.</li>
+  <li><strong>Cloudflare</strong> -- runs the MetaScope service (Workers).</li>
+  <li><strong>Google</strong> -- Analytics, Tag Manager, Google Fonts.</li>
+  <li><strong>Riot Games</strong> -- source of the game data (official API).</li>
+</ul>
+
+<h2 class="fiche-section-title">Retention</h2>
+<p>Analytics data (Google Analytics) is kept per Google Analytics' standard configuration. MetaScope searches are not retained (see above). The site runs no database of user accounts or profiles.</p>
+
+<h2 class="fiche-section-title">Your rights</h2>
+<p>If you're in the European Union, the GDPR gives you the right to access, correct, delete, object to processing of, and receive a copy of (portability) your data. To exercise it, contact us (below) or file a complaint with the CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
+
+<h2 class="fiche-section-title">Security</h2>
+<p>The site is served over HTTPS. Since there's no user-account system, it stores no passwords or payment details.</p>
+
+<h2 class="fiche-section-title">Changes</h2>
+<p>This policy may evolve alongside the site (new features, new third-party tools). The "last updated" date at the top reflects the version in force.</p>
+
+<h2 class="fiche-section-title">Contact</h2>
+<p>For any question about this policy or to exercise your rights: <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
+{% endif %}
+</div>
+{% endblock %}

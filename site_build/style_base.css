@@ -599,6 +599,17 @@
   /* 404 page (see templates/404.html) -- site-audit finding, 2026-09-09:
      until now a broken link fell through to Hostinger's generic error
      page instead of staying on-brand with a way back in. */
+  /* Privacy policy / terms (templates/confidentialite.html, cgu.html) --
+     long-form prose, so plain semantic HTML kept to a readable width
+     rather than a new component system. */
+  .legal-page { max-width: 720px; }
+  .legal-page p { color: var(--text-dim); line-height: 1.7; margin: 0 0 14px; }
+  .legal-page ul { color: var(--text-dim); line-height: 1.7; margin: 0 0 14px; padding-left: 22px; }
+  .legal-page li { margin-bottom: 4px; }
+  .legal-page a { color: var(--cyan); }
+  .legal-page a:hover { color: var(--cream); }
+  .legal-page .fiche-section-title:first-of-type { margin-top: 20px; }
+
   .error-page { text-align: center; padding: 70px 20px 40px; }
   .error-code {
     font-family: 'Cal Sans', sans-serif; font-size: 96px; font-weight: 700; line-height: 1;

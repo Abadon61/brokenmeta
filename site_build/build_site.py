@@ -1471,6 +1471,7 @@ I18N: dict[str, dict] = {
         "footer_generated": lambda date, s: f"Généré le {date} · Set {s}",
         "footer_disclaimer": "BrokenMeta.gg n'est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.",
         "footer_nav_title": "Navigation", "footer_about_title": "À propos",
+        "nav_privacy": "Confidentialité", "nav_terms": "CGU",
         "lbl_region": "Région", "lbl_rank": "Rang", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "Toutes", "rank_all": "Tous rangs", "tier_all": "Tout",
         "rank_filter_n_selected": lambda n: f"{n} rangs sélectionnés",
@@ -1654,6 +1655,7 @@ I18N: dict[str, dict] = {
         "footer_generated": lambda date, s: f"Generated on {date} · Set {s}",
         "footer_disclaimer": "BrokenMeta.gg isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.",
         "footer_nav_title": "Navigation", "footer_about_title": "About",
+        "nav_privacy": "Privacy", "nav_terms": "Terms",
         "lbl_region": "Region", "lbl_rank": "Rank", "lbl_tier": "Tier", "lbl_type": "Type",
         "region_all": "All", "rank_all": "All ranks", "tier_all": "All",
         "rank_filter_n_selected": lambda n: f"{n} ranks selected",
@@ -2877,6 +2879,8 @@ def main() -> None:
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
+        render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
+        render("cgu.html", "/cgu/", lang, active_nav=None)
 
         for c in comp_vms:
             comp_url = canonical_for(f"/compo/{c['slug']}/", lang)

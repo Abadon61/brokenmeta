@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}{{ "BrokenMeta.gg | Conditions d'utilisation" if lang == "fr" else "BrokenMeta.gg | Terms of Use" }}{% endblock %}
+{% block description %}{{ "Conditions d'utilisation de BrokenMeta.gg : nature des données, propriété intellectuelle, limites de responsabilité." if lang == "fr" else "BrokenMeta.gg's terms of use: nature of the data, intellectual property, limits of liability." }}{% endblock %}
+{% block content %}
+<div class="legal-page">
+{% if lang == "fr" %}
+<h1 class="page-h1">Conditions d'utilisation</h1>
+<p class="page-intro">Dernière mise à jour : {{ generated_at }}. En consultant BrokenMeta.gg, tu acceptes les conditions ci-dessous.</p>
+
+<h2 class="fiche-section-title">Objet du site</h2>
+<p>BrokenMeta.gg est un site non-officiel consacré à Teamfight Tactics (TFT), fait par un joueur pour la communauté. Il n'est ni approuvé, ni sponsorisé, ni géré par Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+
+<h2 class="fiche-section-title">Nature des données affichées</h2>
+<p>Les compositions, tiers, statistiques de champions, objets et classements sont calculés à partir de vraies parties classées, collectées via l'API officielle de Riot Games (Match-V1, League-V1) -- aucune donnée n'est inventée ou estimée. Ces statistiques reflètent un échantillon réel de parties à un instant donné et évoluent avec le patch, la méta et le volume de données collectées : elles sont fournies à titre informatif, sans garantie d'exhaustivité ni de résultat en partie.</p>
+
+<h2 class="fiche-section-title">Propriété intellectuelle</h2>
+<p>Les visuels de champions, objets, traits et augments proviennent des assets publics de Riot Games (Community Dragon) et restent la propriété de Riot Games, Inc. Le code, la mise en page, les textes et l'analyse produits par BrokenMeta.gg peuvent être consultés librement mais ne peuvent pas être reproduits ou redistribués comme s'ils étaient les tiens sans autorisation.</p>
+
+<h2 class="fiche-section-title">Usage autorisé</h2>
+<p>Le site est prévu pour une consultation personnelle et non-commerciale. Sont interdits : l'extraction automatisée massive du contenu (scraping) en dehors d'un usage raisonnable, toute tentative de perturber le fonctionnement du site ou de MetaScope, et toute utilisation contraire aux <a href="https://developer.riotgames.com/policies/general" target="_blank" rel="noopener">règles de l'API Riot Games</a>.</p>
+
+<h2 class="fiche-section-title">Limitation de responsabilité</h2>
+<p>Le site est fourni "en l'état", sans garantie de disponibilité continue, d'exactitude ou d'absence d'erreur. BrokenMeta.gg ne peut être tenu responsable des décisions prises en partie sur la base des statistiques affichées, ni d'une indisponibilité temporaire du site ou de MetaScope (notamment liée aux limites de l'API Riot Games).</p>
+
+<h2 class="fiche-section-title">Liens et services externes</h2>
+<p>Le site s'appuie sur des services tiers (API Riot Games, Google Analytics, Cloudflare, Hostinger) dont l'utilisation est soumise à leurs propres conditions. Voir la <a href="{{ root }}confidentialite/">politique de confidentialité</a> pour le détail.</p>
+
+<h2 class="fiche-section-title">Droit applicable</h2>
+<p>Ces conditions sont régies par le droit français. Tout litige relève, à défaut de résolution amiable, des tribunaux compétents.</p>
+
+<h2 class="fiche-section-title">Modifications</h2>
+<p>Ces conditions peuvent être mises à jour à mesure que le site évolue. La date en haut de page indique la version en vigueur.</p>
+
+<h2 class="fiche-section-title">Contact</h2>
+<p>Pour toute question : <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
+
+{% else %}
+<h1 class="page-h1">Terms of Use</h1>
+<p class="page-intro">Last updated: {{ generated_at }}. By browsing BrokenMeta.gg, you agree to the terms below.</p>
+
+<h2 class="fiche-section-title">What this site is</h2>
+<p>BrokenMeta.gg is an unofficial Teamfight Tactics (TFT) site, made by a player for the community. It isn't endorsed, sponsored, or run by Riot Games. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+
+<h2 class="fiche-section-title">Nature of the data shown</h2>
+<p>Comps, tiers, champion/item stats, and rankings are computed from real ranked games collected via Riot Games' official API (Match-V1, League-V1) -- nothing is invented or estimated. These stats reflect a real sample of games at a given point in time and change with the patch, the meta, and how much data has been collected: they're provided for informational purposes, with no guarantee of completeness or in-game results.</p>
+
+<h2 class="fiche-section-title">Intellectual property</h2>
+<p>Champion, item, trait, and augment art comes from Riot Games' public assets (Community Dragon) and remains the property of Riot Games, Inc. The code, layout, text, and analysis produced by BrokenMeta.gg can be freely browsed but may not be reproduced or redistributed as your own without permission.</p>
+
+<h2 class="fiche-section-title">Acceptable use</h2>
+<p>The site is meant for personal, non-commercial browsing. Not allowed: bulk automated scraping beyond reasonable use, any attempt to disrupt the site or MetaScope, and any use that violates <a href="https://developer.riotgames.com/policies/general" target="_blank" rel="noopener">Riot Games' API policies</a>.</p>
+
+<h2 class="fiche-section-title">Limitation of liability</h2>
+<p>The site is provided "as is", with no guarantee of continuous availability, accuracy, or freedom from error. BrokenMeta.gg isn't liable for in-game decisions made based on the stats shown, nor for temporary downtime of the site or MetaScope (including limits imposed by the Riot Games API).</p>
+
+<h2 class="fiche-section-title">External links and services</h2>
+<p>The site relies on third-party services (Riot Games API, Google Analytics, Cloudflare, Hostinger), each subject to their own terms. See the <a href="{{ root }}confidentialite/">Privacy Policy</a> for details.</p>
+
+<h2 class="fiche-section-title">Governing law</h2>
+<p>These terms are governed by French law. Any dispute, absent an amicable resolution, falls to the competent courts.</p>
+
+<h2 class="fiche-section-title">Changes</h2>
+<p>These terms may be updated as the site evolves. The date at the top shows the version in force.</p>
+
+<h2 class="fiche-section-title">Contact</h2>
+<p>For any question: <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
+{% endif %}
+</div>
+{% endblock %}
