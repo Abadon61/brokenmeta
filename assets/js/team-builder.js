@@ -102,7 +102,7 @@
   function cellUnder(x, y) {
     var el = document.elementFromPoint(x, y);
     if (!el) return null;
-    var hex = el.closest('.hex-cell');
+    var hex = el.closest('.hex-slot');
     if (hex) return { idx: parseInt(hex.dataset.idx, 10), el: hex };
     return null;
   }
@@ -240,7 +240,7 @@
       for (var c = 0; c < COLS; c++) {
         var idx = r * COLS + c;
         var cell = document.createElement('div');
-        cell.className = 'hex-cell';
+        cell.className = 'hex-slot';
         cell.dataset.idx = String(idx);
         wireCellDrag(cell);
         rowEl.appendChild(cell);
@@ -250,7 +250,7 @@
   }
 
   function renderCells() {
-    var boardCells = boardEl.querySelectorAll('.hex-cell');
+    var boardCells = boardEl.querySelectorAll('.hex-slot');
     board.forEach(function (cellData, i) { paintCell(boardCells[i], cellData); });
     if (emptyHint) emptyHint.hidden = board.some(Boolean);
   }
@@ -264,7 +264,7 @@
         var label = it ? itemLabel(it) : '';
         return '<img class="hex-item-icon" data-item-slug="' + itSlug + '" src="' + itemImg(itSlug) + '" alt="' + label + '" title="' + label + '" loading="lazy">';
       }).join('');
-      el.innerHTML = '<img class="hex-champ-icon" src="' + champImg(slug) + '" alt="' + champBySlug[slug].name + '" loading="lazy">' +
+      el.innerHTML = '<div class="hex-cell"><img class="hex-champ-icon" src="' + champImg(slug) + '" alt="' + champBySlug[slug].name + '" loading="lazy"></div>' +
         (itemsHtml ? '<div class="hex-item-row">' + itemsHtml + '</div>' : '');
     } else {
       el.dataset.filled = 'false';
