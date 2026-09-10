@@ -2646,11 +2646,16 @@ def main() -> None:
                  {"champion": "Warwick", "text": "Dégâts d'attaque : 40 → 45"},
                  {"champion": "Kha'Zix", "text": "Dégâts d'attaque de base : 30 → 40"},
                  {"champion": "Ivern", "text": "Hexagones de départ : 2 → 3 · Bouclier : 165/300 → 185/350"},
+                 {"item": "Bloodthirster", "text": "Seuil de déclenchement : 40 % → 50 % · VA/PA : 15 % → 18 % · Bouclier : 25 % → 30 %"},
+                 {"item": "HandOfJustice", "text": "VA/PA de base : 15 % → 18 % · Vol de vie de base : 12 % → 15 %"},
              ],
              "nerfs": [
                  {"champion": "Rengar", "text": "Vitesse d'attaque de base : 0,8 → 0,75"},
                  {"champion": "Master Yi", "text": "Dégâts d'attaque de base (forme AD) : 65 → 60 · Dégâts du sort (forme AP) : 140/210/335 → 125/190/285"},
                  {"champion": "Sentinel", "text": "Bouclier du sort : 400/500 → 350/450"},
+                 {"item": "EdgeOfNight", "text": "Seuil de déclenchement : 60 % → 40 % · Soin (PV manquants) : 20 % → 15 %"},
+                 {"item": "EmblemHunter", "text": "Dégâts d'attaque de base accordés : 30 % → 25 %"},
+                 {"item": "EmblemVanguard", "text": "Armure/RM accordées : 30 → 25"},
                  {"trait": "Solar", "text": "Gain de bonus de dégâts magiques par 3 étoiles : 1,5 % → 1 % · Bonus complet à 3 étoiles (VA/armure/RM) réduit : 18 %/15 → 15 %/12"},
                  {"trait": "Hunter", "text": "Durée de ciblage du bonus de dégâts : 4s → 3s"},
                  {"trait": "Rapidfire", "text": "Vitesse d'attaque par tir : 3/5/9/15 % → 3/5/8/12 %"},
@@ -2696,12 +2701,17 @@ def main() -> None:
                  {"champion": "Warwick", "text": "AD: 40 → 45"},
                  {"champion": "Kha'Zix", "text": "Base AD: 30 → 40"},
                  {"champion": "Ivern", "text": "Starting hexes: 2 → 3 · Shield: 165/300 → 185/350"},
+                 {"item": "Bloodthirster", "text": "Trigger health: 40% → 50% · AD/AP: 15% → 18% · Shield: 25% → 30%"},
+                 {"item": "HandOfJustice", "text": "Base AD/AP: 15% → 18% · Base omnivamp: 12% → 15%"},
              ],
              "nerfs": [
                  {"champion": "Rengar", "text": "Base attack speed: 0.8 → 0.75"},
                  {"champion": "Master Yi", "text": "Base AD (AD form): 65 → 60 · Ability damage (AP form): 140/210/335 → 125/190/285"},
                  {"champion": "Sentinel", "text": "Ability shield: 400/500 → 350/450"},
                  {"trait": "Solar", "text": "Magic damage bonus gained per 3-star: 1.5% → 1% · Full 3-star bonus (AS/armor/MR) cut: 18%/15 → 15%/12"},
+                 {"item": "EdgeOfNight", "text": "Trigger health: 60% → 40% · Missing-health heal: 20% → 15%"},
+                 {"item": "EmblemHunter", "text": "Base AD granted: 30% → 25%"},
+                 {"item": "EmblemVanguard", "text": "Armor/MR granted: 30 → 25"},
                  {"trait": "Hunter", "text": "Damage amp targeting duration: 4s → 3s"},
                  {"trait": "Rapidfire", "text": "Attack speed per shot: 3/5/9/15% → 3/5/8/12%"},
              ],
@@ -2801,16 +2811,36 @@ def main() -> None:
     # languages (real proper nouns from the game), only each entry's `text`
     # differs, so history has to stay keyed per-language even though the
     # icon/slug resolution below only needs to happen once. ----
+    # Match-V1's internal item names ("EdgeOfNight", "EmblemHunter", ...)
+    # aren't real display names -- unlike champion names, which already are
+    # ("Kha'Zix", "Master Yi"). Only covers the items actually used in a
+    # PATCHES entry so far; add to this if a future patch note cites a new
+    # one. Source: site's own glossary item data (Community Dragon), 2026-09-10.
+    ITEM_DISPLAY_NAMES = {
+        "fr": {"Bloodthirster": "Soif-de-sang", "HandOfJustice": "Main de la justice",
+               "EdgeOfNight": "Manteau de la nuit", "EmblemHunter": "Emblème de Chasseur",
+               "EmblemVanguard": "Emblème d'Initiateur"},
+        "en": {"Bloodthirster": "Bloodthirster", "HandOfJustice": "Hand of Justice",
+               "EdgeOfNight": "Edge of Night", "EmblemHunter": "Hunter Emblem",
+               "EmblemVanguard": "Vanguard Emblem"},
+    }
     balance_history_by_lang: dict[str, dict[str, list[dict]]] = {lang: {} for lang in PATCHES}
     for lang, patch_list in PATCHES.items():
         for p in patch_list:
             for kind in ("buffs", "nerfs"):
-                for item in p.get(kind, []):
-                    champ = item.get("champion")
-                    item["slug"] = champ_slug_and_download(champ) if champ else None
+                for entry in p.get(kind, []):
+                    champ = entry.get("champion")
+                    tft_item = entry.get("item")
+                    entry["slug"] = champ_slug_and_download(champ) if champ else None
+                    # Items get their own icon folder (assets/items/, not
+                    # assets/champions/) -- icon_kind tells the template
+                    # which one a given slug belongs to.
+                    entry["item_slug"] = item_slug_and_download(tft_item) if tft_item else None
+                    entry["item_name"] = ITEM_DISPLAY_NAMES[lang].get(tft_item, tft_item) if tft_item else None
+                    entry["icon_kind"] = "champion" if champ else ("item" if tft_item else None)
                     if champ:
                         balance_history_by_lang[lang].setdefault(champ, []).append({
-                            "version": p["version"], "date": p["date"], "kind": kind[:-1], "text": item["text"],
+                            "version": p["version"], "date": p["date"], "kind": kind[:-1], "text": entry["text"],
                         })
 
     # ---- Render: every page renders twice, once per language. French stays

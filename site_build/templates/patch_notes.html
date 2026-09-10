@@ -1,4 +1,11 @@
 {% extends "base.html" %}
+{% macro balance_line(b) %}
+<li>
+  {% if b.icon_kind == 'champion' %}<img class="patch-balance-icon" src="{{ root }}assets/champions/{{ b.slug }}.png" alt="{{ b.champion }}" loading="lazy">
+  {% elif b.icon_kind == 'item' %}<img class="patch-balance-icon" src="{{ root }}assets/items/{{ b.item_slug }}.png" alt="{{ b.item_name }}" loading="lazy">{% endif %}
+  <span><b>{{ b.champion or b.item_name or b.trait }}</b> — {{ b.text }}</span>
+</li>
+{% endmacro %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18 (dernier : {{ patches[0].version }}), avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches (latest: {{ patches[0].version }}), with links to the full official articles.{% endif %}{% endblock %}
 {% block content %}
@@ -21,13 +28,13 @@
       {% if p.buffs %}
       <div class="patch-balance-col" data-kind="buff">
         <div class="patch-balance-label">▲ Buffs</div>
-        <ul>{% for b in p.buffs %}<li>{% if b.slug %}<img class="patch-balance-icon" src="{{ root }}assets/champions/{{ b.slug }}.png" alt="{{ b.champion }}" loading="lazy">{% endif %}<span><b>{{ b.champion or b.trait }}</b> — {{ b.text }}</span></li>{% endfor %}</ul>
+        <ul>{% for b in p.buffs %}{{ balance_line(b) }}{% endfor %}</ul>
       </div>
       {% endif %}
       {% if p.nerfs %}
       <div class="patch-balance-col" data-kind="nerf">
         <div class="patch-balance-label">▼ Nerfs</div>
-        <ul>{% for n in p.nerfs %}<li>{% if n.slug %}<img class="patch-balance-icon" src="{{ root }}assets/champions/{{ n.slug }}.png" alt="{{ n.champion }}" loading="lazy">{% endif %}<span><b>{{ n.champion or n.trait }}</b> — {{ n.text }}</span></li>{% endfor %}</ul>
+        <ul>{% for n in p.nerfs %}{{ balance_line(n) }}{% endfor %}</ul>
       </div>
       {% endif %}
     </div>
