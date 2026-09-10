@@ -561,6 +561,19 @@
   .matchup-line[data-side="behind"] .m-pct { color: var(--warn); }
   .matchup-empty { font-size: 11.5px; color: var(--text-faint); font-style: italic; }
 
+  /* Hand-written editorial note on a champion sheet (see build_site.py's
+     CHAMPION_NOTES) -- a real, data-grounded claim the auto-generated
+     tables above don't spell out in text. */
+  .champ-editorial-note {
+    font-size: 13px; line-height: 1.6; color: var(--text-dim);
+    background: var(--row); border-left: 2px solid var(--cyan);
+    padding: 10px 14px; margin: 10px 0 0;
+  }
+  .champ-editorial-note a { color: var(--cyan); }
+  .champ-editorial-note a:hover { color: var(--cream); }
+  .page-intro a { color: var(--cyan); }
+  .page-intro a:hover { color: var(--cream); }
+
   #tooltip {
     position: fixed; z-index: 50; pointer-events: none;
     background: var(--bg-2); border: 1px solid var(--border-bright);
