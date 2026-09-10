@@ -85,6 +85,13 @@
      visitor override it by hand (a browser's UI language isn't always the
      same as the person's preferred reading language) and remembers the
      choice in localStorage. */
+  .social-links { display: flex; align-items: center; gap: 10px; flex: none; }
+  .social-icon {
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-faint); transition: color .12s ease;
+  }
+  .social-icon:hover { color: var(--cyan); }
+
   .lang-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .lang-btn {
     background: var(--row); border: none; color: var(--text-faint);
