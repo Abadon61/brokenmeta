@@ -46,6 +46,7 @@
   </tbody>
 </table></div>
 {% else %}<div class="matchup-empty">{{ t(lang, 'no_combo_data') }}</div>{% endif %}
+{% if editorial_note and editorial_note.after_items %}<p class="champ-editorial-note">{{ editorial_note.after_items|safe }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ t(lang, 'compositions_title') }}</h2>
 {% if d.comps %}
@@ -59,6 +60,7 @@
   {% endfor %}
 </div>
 {% else %}<div class="matchup-empty">{{ t(lang, 'champ_not_in_comp') }}</div>{% endif %}
+{% if editorial_note and editorial_note.after_comps %}<p class="champ-editorial-note">{{ editorial_note.after_comps|safe }}</p>{% endif %}
 
 {% if balance_history %}
 <h2 class="fiche-section-title">{{ t(lang, 'balance_history_title') }}</h2>

@@ -1589,6 +1589,8 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Compos les plus jouées par le top 10",
         "not_enough_recent_top10": "Pas assez de parties récentes chez le top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
+        "patch_notes_title_dynamic": lambda v: f"Patch Notes TFT Set 18 — Dernier patch : {v}",
+        "patch_last_updated": lambda v, d: f"Dernier patch couvert : {v} ({d}).",
         "patch_banner": 'Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel, et pas toujours pour les petits correctifs d\'équilibrage entre deux patchs. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l\'article complet, sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> quand Riot en a publié un, sinon vers une source communautaire de référence.',
         "patch_word": "Patch", "read_full_article": "Lire l'article complet →",
         "nav_glossary": "Glossaire",
@@ -1609,6 +1611,7 @@ I18N: dict[str, dict] = {
         "glossary_families_desc": f"Toutes les familles (traits) de {SET_LABEL} : paliers, champions membres, compositions basées dessus.",
         "glossary_families_intro": "Clique une famille pour voir comment elle fonctionne, ses champions membres, et les comps qui s'appuient dessus.",
         "family_detail_desc": lambda name: f"Famille {name} sur {SET_LABEL} : comment elle fonctionne, ses champions membres, et les compositions réelles construites autour d'elle.",
+        "family_h1_dynamic": lambda name: f"Compo {name} {SET_LABEL} : synergie et meilleures compositions",
         "family_breakpoints_title": "Paliers de la famille",
         "family_breakpoint_fallback": lambda n: f"({n}) Palier actif.",
         "family_members_title": "Champions de la famille",
@@ -1768,6 +1771,8 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Most played comps by the top 10",
         "not_enough_recent_top10": "Not enough recent games from the top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
+        "patch_notes_title_dynamic": lambda v: f"Patch Notes TFT Set 18 — Latest patch: {v}",
+        "patch_last_updated": lambda v, d: f"Latest patch covered: {v} ({d}).",
         "patch_banner": 'Riot doesn\'t publish TFT patch notes through an API — only as articles on its official site, and not always for smaller mid-patch balance hotfixes. Here\'s a hand-written summary of the latest patches; each card links to the full article, on <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> when Riot published one, otherwise to a reliable community source.',
         "patch_word": "Patch", "read_full_article": "Read full article →",
         "nav_glossary": "Glossary",
@@ -1788,6 +1793,7 @@ I18N: dict[str, dict] = {
         "glossary_families_desc": f"Every {SET_LABEL} family (trait): breakpoints, member champions, and comps built around it.",
         "glossary_families_intro": "Click a family to see how it works, its member champions, and the comps built around it.",
         "family_detail_desc": lambda name: f"The {name} family on {SET_LABEL}: how it works, its member champions, and the real comps built around it.",
+        "family_h1_dynamic": lambda name: f"{name} {SET_LABEL} Comp: Synergy and Best Compositions",
         "family_breakpoints_title": "Family breakpoints",
         "family_breakpoint_fallback": lambda n: f"({n}) Active breakpoint.",
         "family_members_title": "Family champions",
@@ -2630,6 +2636,26 @@ def main() -> None:
     # dict -- real hand-translated English, not machine-translated) ----
     PATCHES = {
         "fr": [
+            {"version": "18.2", "tag": "Équilibrage", "date": "10 septembre 2026", "title": "Premier grand patch d'équilibrage d'Enchanted Wilds",
+             "summary": "Après les correctifs mineurs de 18.1d, ce patch bouge vraiment la méta : grosse baisse du coût des Wisps de combat, de boutique et d'économie, et de l'XP nécessaire pour monter niveau 8 à 10 — pour faciliter le reroll et la montée de niveau. Rengar, Master Yi et Sentinel affaiblis ; Akali, Varus, Warwick, Yunara, Leona, Kha'Zix et Ivern renforcés. Le trait Solar est nerfé (bonus à 3 étoiles réduit), tout comme Chasseur (durée de ciblage du bonus de dégâts réduite) et Tir Rapide.",
+             "buffs": [
+                 {"champion": "Akali", "text": "Mana (forme AD) : 0/30 → 0/25"},
+                 {"champion": "Varus", "text": "Dégâts du sort : 385/580/925/1530 → 415/625/1000/1700"},
+                 {"champion": "Yunara", "text": "Dégâts du sort : 150/225/335/570 → 160/240/370/630"},
+                 {"champion": "Leona", "text": "Mana : 40/100 → 30/90 · Résistances dégressives : 60/70/80/100 → 60/80/100/130"},
+                 {"champion": "Warwick", "text": "Dégâts d'attaque : 40 → 45"},
+                 {"champion": "Kha'Zix", "text": "Dégâts d'attaque de base : 30 → 40"},
+                 {"champion": "Ivern", "text": "Hexagones de départ : 2 → 3 · Bouclier : 165/300 → 185/350"},
+             ],
+             "nerfs": [
+                 {"champion": "Rengar", "text": "Vitesse d'attaque de base : 0,8 → 0,75"},
+                 {"champion": "Master Yi", "text": "Dégâts d'attaque de base (forme AD) : 65 → 60 · Dégâts du sort (forme AP) : 140/210/335 → 125/190/285"},
+                 {"champion": "Sentinel", "text": "Bouclier du sort : 400/500 → 350/450"},
+                 {"trait": "Solar", "text": "Gain de bonus de dégâts magiques par 3 étoiles : 1,5 % → 1 % · Bonus complet à 3 étoiles (VA/armure/RM) réduit : 18 %/15 → 15 %/12"},
+                 {"trait": "Hunter", "text": "Durée de ciblage du bonus de dégâts : 4s → 3s"},
+                 {"trait": "Rapidfire", "text": "Vitesse d'attaque par tir : 3/5/9/15 % → 3/5/8/12 %"},
+             ],
+             "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-2/"},
             {"version": "18.1d", "tag": "Équilibrage", "date": "31 août 2026", "title": "Premier vrai passage d'équilibrage sur Enchanted Wilds",
              "summary": "Première vraie mise à jour d'équilibrage depuis le lancement du Set 18 (les 18.1a/18.1b des 27-28 août n'avaient touché que des bugs). Cassiopeia, Ahri, Cinderling, Master Yi et Morgana affaiblis ; Draven, Soraka, Amumu, Elder Dragon et Lux renforcés — Lux reçoit les deux à la fois (dégâts du sort en hausse, bonus Lunaire en baisse). Le palier Riftbeast (7) est légèrement réduit. Suivie le 1er septembre d'une série de correctifs : mauvais placement affiché en fin de partie classée pour les 1ers/2èmes, dégâts vrais de l'augment « Soul Awakening » qui ne s'appliquaient qu'aux dégâts d'attaque, un bug de matchmaking pouvant refaire tomber deux joueurs l'un contre l'autre deux manches de suite, et plusieurs autres correctifs mineurs (Adaptor, Alune, icônes Master of All Origins, dette de vie en Double Up).",
              "buffs": [
@@ -2660,6 +2686,26 @@ def main() -> None:
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-8/"},
         ],
         "en": [
+            {"version": "18.2", "tag": "Balance", "date": "September 10, 2026", "title": "First big Enchanted Wilds balance patch",
+             "summary": "After 18.1d's minor fixes, this patch really shifts the meta: a big cut to combat, shop, and economy Wisp costs, and to the XP needed to hit level 8 through 10 -- making rerolling and leveling easier. Rengar, Master Yi, and Sentinel got weaker; Akali, Varus, Warwick, Yunara, Leona, Kha'Zix, and Ivern got stronger. The Solar trait got nerfed (lower 3-star bonus), along with Hunter (shorter damage-amp targeting window) and Rapidfire.",
+             "buffs": [
+                 {"champion": "Akali", "text": "Mana (AD form): 0/30 → 0/25"},
+                 {"champion": "Varus", "text": "Ability damage: 385/580/925/1530 → 415/625/1000/1700"},
+                 {"champion": "Yunara", "text": "Ability damage: 150/225/335/570 → 160/240/370/630"},
+                 {"champion": "Leona", "text": "Mana: 40/100 → 30/90 · Decaying resists: 60/70/80/100 → 60/80/100/130"},
+                 {"champion": "Warwick", "text": "AD: 40 → 45"},
+                 {"champion": "Kha'Zix", "text": "Base AD: 30 → 40"},
+                 {"champion": "Ivern", "text": "Starting hexes: 2 → 3 · Shield: 165/300 → 185/350"},
+             ],
+             "nerfs": [
+                 {"champion": "Rengar", "text": "Base attack speed: 0.8 → 0.75"},
+                 {"champion": "Master Yi", "text": "Base AD (AD form): 65 → 60 · Ability damage (AP form): 140/210/335 → 125/190/285"},
+                 {"champion": "Sentinel", "text": "Ability shield: 400/500 → 350/450"},
+                 {"trait": "Solar", "text": "Magic damage bonus gained per 3-star: 1.5% → 1% · Full 3-star bonus (AS/armor/MR) cut: 18%/15 → 15%/12"},
+                 {"trait": "Hunter", "text": "Damage amp targeting duration: 4s → 3s"},
+                 {"trait": "Rapidfire", "text": "Attack speed per shot: 3/5/9/15% → 3/5/8/12%"},
+             ],
+             "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-18-2/"},
             {"version": "18.1d", "tag": "Balance", "date": "August 31, 2026", "title": "First real balance pass on Enchanted Wilds",
              "summary": "The first real balance update since Set 18 launched (18.1a/18.1b on August 27-28 only touched bugs). Cassiopeia, Ahri, Cinderling, Master Yi and Morgana got weaker; Draven, Soraka, Amumu, Elder Dragon and Lux got stronger — Lux gets both at once (spell damage up, Lunar damage amp down). The Riftbeast (7) tier was trimmed slightly. Followed on September 1 by a round of bug fixes: the end-of-game screen showing the wrong final placement for 1st/2nd in Ranked, the “Soul Awakening” augment's true damage only applying to attack damage instead of ability damage too, a matchmaking issue that could pit the same two players against each other two rounds in a row, and several smaller fixes (Adaptor, Alune, Master of All Origins icons, Double Up life debt).",
              "buffs": [
@@ -2689,6 +2735,62 @@ def main() -> None:
              "summary": "The “Choncc's Lore & Legends” mode becomes “Choncc's Classic Treasure” with classic League elements (PvE monsters, Kayle's court, old items like Heart of Gold). Small balance adjustments to Space Gods, and Enchanted Wilds (Set 18) hits PBE the same day.",
              "url": "https://teamfighttactics.leagueoflegends.com/en-us/news/game-updates/teamfight-tactics-patch-17-8/"},
         ],
+    }
+
+    # ---- Hand-written editorial notes for a champion sheet: real, specific
+    # claims grounded in this build's own numbers (checked against
+    # data/output/*.json before writing, not guessed) for a search intent
+    # the auto-generated stats/table don't answer on their own. Rendered in
+    # champion.html only when a champion's name has an entry here -- every
+    # other champion page is untouched. SEO fix pass, 2026-09-10.
+    CHAMPION_NOTES = {
+        "fr": {
+            # Answers "elise reroll": she genuinely isn't one right now --
+            # every Elise-carry board (Slayer_Elise, Vanguard_Elise, ...)
+            # stays under MIN_PLAY_COUNT, so none gets a real page. Emerald
+            # Caitlyn is the highest-tier real reroll comp she still shows
+            # up in (Tier A, 142 games).
+            "Elise": {"after_comps": "Elise n'est pas un reroll viable dans la méta actuelle : à 5,30 de placement moyen et seulement 35 % de top 4 sur TFT Set 18, aucune composition centrée sur elle n'atteint assez de vraies parties pour être classée sur ce site. Pour une vraie stratégie de reroll où elle apparaît en soutien, voir <a href=\"/compo/emerald-caitlyn/\">Emerald Caitlyn</a> (Tier A)."},
+            # Answers "defender rengar" / "defender rengar tft": a real
+            # combo already in the table above, just never named in text.
+            "Rengar": {"after_items": "La combinaison Emblème de Défenseur + Lame de Guinsoo + Résolution du Titan (« Rengar Defender ») est une vraie synergie observée en jeu classé : 65 % de top 4 sur 156 parties, la meilleure combinaison à trois objets sur ce champion en dehors de Bord de la Nuit."},
+        },
+        "en": {
+            "Elise": {"after_comps": "Elise isn't a viable reroll right now: at a 5.30 average placement and only 35% top 4 rate on TFT Set 18, no comp built around her reaches enough real games to get ranked on this site. For a real reroll strategy where she shows up as a support piece, see <a href=\"/en/compo/emerald-caitlyn/\">Emerald Caitlyn</a> (Tier A)."},
+            "Rengar": {"after_items": "The Emblem of the Defender + Guinsoo's Rageblade + Titan's Resolve combo (a real \"Rengar Defender\" build) is a genuine synergy seen in ranked games: 65% top 4 over 156 games, the best three-item combo on this champion outside of Edge of Night."},
+        },
+    }
+
+    # ---- Same idea as CHAMPION_NOTES, one level down: a hand-written intro
+    # paragraph for a specific comp page, keyed by comp key. `meta` overrides
+    # the auto-generated meta description when both word orders of a comp's
+    # name need covering naturally (e.g. "aphelios elderwood" AND "elderwood
+    # aphelios" are both real search intents for the same comp) -- title/H1
+    # stay as c.display_label untouched, since that's the comp's one real
+    # name, not something to duplicate both ways. `intro` renders as the
+    # page's first paragraph, right under the header. SEO fix pass,
+    # 2026-09-10.
+    COMP_NOTES = {
+        "fr": {
+            "Elderwood_Aphelios": {
+                "meta": "Elderwood Aphelios — la comp Aphelios en Elderwood la plus jouée du set : Tier A, TFT Set 18, 4,48 placement moyen, 49 % top 4 sur 1923 parties réelles.",
+                "intro": "Elderwood Aphelios est la comp Aphelios en Elderwood de référence sur TFT Set 18 : Aphelios comme carry principal, porté par le palier Elderwood.",
+            },
+            # "akali camille reroll" / "camille akali reroll": pas de vraie
+            # comp combinée dans les données (aucun board classé n'a Akali
+            # ET Camille comme carry en même temps) -- ce sont deux rerolls
+            # Solar distincts partageant le même socle de traits.
+            "Solar_Akali": {"intro": "Tu cherchais une comp combinant Akali et Camille ? Ce sont deux rerolls Solar distincts, avec le même socle de traits mais un carry différent : voir <a href=\"/compo/solar-camille/\">Solar Camille</a>."},
+            "Solar_Camille": {"intro": "Tu cherchais une comp combinant Akali et Camille ? Ce sont deux rerolls Solar distincts, avec le même socle de traits mais un carry différent : voir <a href=\"/compo/solar-akali/\">Solar Akali</a>."},
+        },
+        "en": {
+            "Elderwood_Aphelios": {
+                "meta": "Elderwood Aphelios — the set's most-played Aphelios Elderwood comp: Tier A, TFT Set 18, 4.48 avg placement, 49% top 4 over 1923 real games.",
+                "intro": "Elderwood Aphelios is the reference Aphelios Elderwood comp on TFT Set 18: Aphelios as the main carry, powered by the Elderwood tier.",
+            },
+            "Solar_Akali": {"intro": "Looking for a comp combining Akali and Camille? These are two separate Solar rerolls sharing the same trait shell with a different carry: see <a href=\"/en/compo/solar-camille/\">Solar Camille</a>."},
+            "Solar_Camille": {"intro": "Looking for a comp combining Akali and Camille? These are two separate Solar rerolls sharing the same trait shell with a different carry: see <a href=\"/en/compo/solar-akali/\">Solar Akali</a>."},
+        },
     }
 
     # ---- Resolve a champion icon for every buff/nerf line item (trait-only
@@ -2905,7 +3007,8 @@ def main() -> None:
                 }],
             }
             render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c,
-                   article_schema=article_schema, faq_schema=faq_schema)
+                   article_schema=article_schema, faq_schema=faq_schema,
+                   comp_note=COMP_NOTES[lang].get(c["key"]))
 
         # ---- Player profile pages: one per leaderboard row, opened from
         # the leaderboard table (see player.html + leaderboard.html link) ----
@@ -2922,7 +3025,8 @@ def main() -> None:
         for d in champion_vms:
             render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions",
                    d=localize_champion_vm(d, lang),
-                   balance_history=balance_history_by_lang[lang].get(d["name"], []))
+                   balance_history=balance_history_by_lang[lang].get(d["name"], []),
+                   editorial_note=CHAMPION_NOTES[lang].get(d["name"]))
 
         # ---- Région / Rang: real pages per slice (not a JS data blob) ----
         # Region and rank are two ALTERNATE ways to slice the same dataset

@@ -1,8 +1,9 @@
 {% extends "base.html" %}
-{% block title %}BrokenMeta.gg | Patch Notes — TFT Set 18{% endblock %}
-{% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18, avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches, with links to the full official articles.{% endif %}{% endblock %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18 (dernier : {{ patches[0].version }}), avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches (latest: {{ patches[0].version }}), with links to the full official articles.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'patch_notes_title') }}</h1>
+<h1 class="page-h1">{{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}</h1>
+<p class="page-intro">{{ t(lang, 'patch_last_updated', patches[0].version, patches[0].date) }}</p>
 <div class="patch-note-banner">{{ t(lang, 'patch_banner')|safe }}</div>
 <div class="patch-list">
   {% for p in patches %}
