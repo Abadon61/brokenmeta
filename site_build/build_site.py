@@ -3128,8 +3128,8 @@ def main() -> None:
                    active_nav="comps",
                    page_title=f"BrokenMeta.gg | {SET_LABEL} Tier List{title_suffix} — {len(rows)} compositions" if _lang == "fr"
                               else f"BrokenMeta.gg | {SET_LABEL} Tier List{title_suffix} — {len(rows)} comps",
-                   page_description=f"Tier list Teamfight Tactics Set 18{title_suffix} : {len(rows)} compositions, données réelles Riot Match-V1." if _lang == "fr"
-                                     else f"Teamfight Tactics Set 18 tier list{title_suffix}: {len(rows)} real ranked comps, real Riot Match-V1 data.",
+                   page_description=f"Meilleure comp TFT Set 18{title_suffix} : tier list S/A/B/C avec winrate et placement moyen. {len(rows)} compos, données Riot réelles." if _lang == "fr"
+                                     else f"Best TFT Set 18 comps{title_suffix}: tier list S/A/B/C with win rate and average placement. {len(rows)} comps, real Riot data.",
                    h1=f"Tier List{title_suffix} — Teamfight Tactics Set 18",
                    intro=translate(_lang, "home_intro", len(rows), f"{total_matches:,}" if _lang == "en" else f"{total_matches:,}".replace(",", " ")) if kind == "all"
                          else translate(_lang, "scope_intro", len(rows), suffix),
@@ -3151,8 +3151,8 @@ def main() -> None:
                        active_nav="comps",
                        page_title=f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} compositions | TFT Set 18" if _lang == "fr"
                                   else f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} comps | TFT Set 18",
-                       page_description=f"Compositions Tier {tier}{title_suffix} sur Teamfight Tactics Set 18 ({len(tier_rows)} compos), données réelles." if _lang == "fr"
-                                         else f"Tier {tier}{title_suffix} comps on Teamfight Tactics Set 18 ({len(tier_rows)} comps), real data.",
+                       page_description=f"Tier {tier} TFT Set 18{title_suffix} : meilleures compositions, winrate et placement moyen. {len(tier_rows)} compos, données Riot réelles." if _lang == "fr"
+                                         else f"Tier {tier} TFT Set 18{title_suffix}: best comps, win rate and average placement. {len(tier_rows)} comps, real Riot data.",
                        h1=f"Tier {tier}{title_suffix} — Teamfight Tactics Set 18",
                        intro=translate(_lang, "tier_scope_intro", len(tier_rows), tier, suffix),
                        comps=tier_rows, type_cats=cats,
