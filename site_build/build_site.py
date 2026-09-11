@@ -1052,7 +1052,7 @@ TEAM_BUILDER_JS = """
         (itemsHtml ? '<div class="hex-item-row">' + itemsHtml + '</div>' : '');
     } else {
       el.dataset.filled = 'false';
-      el.innerHTML = '';
+      el.innerHTML = '<div class="hex-cell"></div>';
     }
   }
 
