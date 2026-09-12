@@ -100,9 +100,18 @@ LIST_FILTERS_JS = """
       var searchOk = !q || (row.dataset.search || '').indexOf(q) !== -1;
       // rankHidden is owned by assets/js/rank-filter.js (homepage only) --
       // it's how the 15-per-tier preview cap AND the rank checkbox filter
-      // both hide rows, so a comp-row's real visibility is always the AND
-      // of all three, computed in this one place.
-      var rankOk = row.dataset.rankHidden !== 'true';
+      // both hide rows, so a comp-row's real visibility is normally the AND
+      // of all three, computed in this one place. EXCEPT while actively
+      // searching: a real bug report caught this -- typing an exact comp
+      // name (e.g. "greenfather tristana", ranked #80 of 95 in its tier,
+      // so outside the top-15 preview) matched searchOk fine but still
+      // never appeared, because the preview cap's rankHidden=true silently
+      // won the AND. A text search is an explicit "find this specific
+      // comp" intent, so it should surface any real match regardless of
+      // the preview cap -- bypass rankHidden entirely whenever there's a
+      // query, instead of only defeating it for the (rare) case of a
+      // comp disqualified by an actively-selected rank bracket.
+      var rankOk = q ? true : row.dataset.rankHidden !== 'true';
       var show = typeOk && searchOk && rankOk;
       row.style.display = show ? '' : 'none';
       if (show) visible++;
