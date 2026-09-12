@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Spotlight Lux</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .spotlight { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
+  .portrait-col { flex: none; display: flex; flex-direction: column; align-items: center; gap: 22px; }
+  .portrait-frame { width: 400px; height: 400px; }
+  .chip.portrait { width: 400px; height: 400px; border-radius: 10px; border-width: 5px; }
+  .trait-tag {
+    display: flex; align-items: center; gap: 10px; background: rgba(5,217,232,0.08);
+    border: 2px solid var(--border-bright); border-radius: 999px; padding: 9px 22px 9px 9px;
+  }
+  .trait-tag img { width: 34px; height: 34px; }
+  .trait-tag span { font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; font-size: 16px; color: var(--text-dim); }
+  .text-col { max-width: 900px; margin-top: 34px; }
+  .headline { font-family: 'Cal Sans', sans-serif; font-size: 50px; line-height: 1.14; text-transform: uppercase; color: var(--cream); }
+  .headline .accent { color: var(--gold); }
+  .lead-text { font-size: 26px; color: var(--text-dim); margin-top: 20px; line-height: 1.4; }
+  .stats-row { display: flex; justify-content: center; gap: 0; margin-top: 38px; }
+  .stats-row .stat-tile { width: 280px; border-left: 1px solid var(--border); }
+  .stats-row .stat-tile:first-child { border-left: none; }
+  .stats-row .stat-tile .num { font-size: 60px; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-spotlight-lux">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/logo_epee_sans_fond.svg" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">Patch 18.2</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">SPOTLIGHT CHAMPION</div>
+  </div>
+
+  <div class="content">
+    <div class="spotlight">
+      <div class="portrait-col">
+        <div class="portrait-frame frame" style="--tc: var(--gold);">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="chip portrait cost-5"><img src="https://brokenmeta.gg/assets/champions/lux.png" alt="Lux" crossorigin="anonymous"></div>
+        </div>
+        <div class="trait-tag"><img src="https://brokenmeta.gg/assets/traits/avatar.png" alt="" crossorigin="anonymous"><span>Avatar</span></div>
+      </div>
+      <div class="text-col">
+        <div class="headline">Lux, la carry<br>la plus <span class="accent">sous-cotée</span><br>du patch</div>
+        <div class="lead-text"><strong>Meilleur placement moyen</strong> de tout le patch 18.2, tous champions confondus — et <strong>personne n'en parle</strong>.</div>
+        <div class="stats-row">
+          <div class="stat-tile"><div class="num good">3,51</div><div class="label">Placement moyen</div></div>
+          <div class="stat-tile"><div class="num good">67,7%</div><div class="label">Top 4</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../site_build/dist/favicon-google.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

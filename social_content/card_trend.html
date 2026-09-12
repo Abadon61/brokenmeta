@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Explosion vs Effondrement</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .trend { display: flex; flex-direction: column; gap: 0; height: 100%; justify-content: center; }
+  .trend-block {
+    display: flex; align-items: center; gap: 40px;
+    padding: 56px 48px; background: rgba(23,10,61,0.5);
+    border: 1px solid var(--border);
+  }
+  .trend-block.up { background: rgba(45,230,196,0.07); }
+  .trend-block.down { background: rgba(255,56,100,0.07); }
+  .trend-icons { display: flex; align-items: center; gap: 18px; flex: none; }
+  .chip.trend-trait { width: 86px; height: 86px; }
+  .chip.trend-champ { width: 150px; height: 150px; }
+  .trend-info { flex: 1; min-width: 0; }
+  .trend-tag {
+    display: inline-flex; align-items: center; gap: 8px; font-family: 'Space Mono', monospace;
+    font-size: 19px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 7px 18px; border-radius: 999px; margin-bottom: 14px;
+  }
+  .up .trend-tag { color: #06261f; background: var(--teal); }
+  .down .trend-tag { color: #2b0a12; background: var(--red); }
+  .trend-name { font-family: 'Cal Sans', sans-serif; font-size: 42px; text-transform: uppercase; }
+  .trend-move { font-family: 'Space Mono', monospace; font-size: 28px; color: var(--text-dim); margin-top: 12px; }
+  .trend-move .arrow { color: var(--text-faint); margin: 0 10px; }
+  .up .trend-move b { color: var(--teal); font-size: 36px; }
+  .down .trend-move b { color: var(--red); font-size: 36px; }
+  .vs-sep {
+    text-align: center; font-family: 'Cal Sans', sans-serif; font-size: 32px; color: var(--text-faint);
+    padding: 32px 0; position: relative;
+  }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-trend-sett-amumu">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/logo_epee_sans_fond.svg" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">Patch 18.2</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">TENDANCE DE LA SEMAINE</div>
+  </div>
+  <div class="subtitle">Le <strong>plus gros bond</strong> et la <strong>plus grosse chute</strong> de placement moyen entre les deux derniers relevés.</div>
+
+  <div class="content">
+    <div class="trend">
+      <div class="trend-block up frame" style="--tc: var(--teal);">
+        <div class="corner tl xl"></div>
+        <div class="corner tr xl"></div>
+        <div class="corner bl xl"></div>
+        <div class="corner br xl"></div>
+        <div class="trend-icons">
+          <div class="chip trend-champ cost-4"><img src="https://brokenmeta.gg/assets/champions/sett.png" alt="" crossorigin="anonymous"></div>
+        </div>
+        <div class="trend-info">
+          <div class="trend-tag">▲ Up</div>
+          <div class="trend-name">Alune Sett</div>
+          <div class="trend-move">6,70 <span class="arrow">→</span> <b>4,64</b></div>
+        </div>
+      </div>
+
+      <div class="vs-sep">VS</div>
+
+      <div class="trend-block down frame" style="--tc: var(--red);">
+        <div class="corner tl xl"></div>
+        <div class="corner tr xl"></div>
+        <div class="corner bl xl"></div>
+        <div class="corner br xl"></div>
+        <div class="trend-icons">
+          <div class="chip trend-champ cost-4"><img src="https://brokenmeta.gg/assets/champions/amumu.png" alt="" crossorigin="anonymous"></div>
+        </div>
+        <div class="trend-info">
+          <div class="trend-tag">▼ Down</div>
+          <div class="trend-name">Emerald Amumu</div>
+          <div class="trend-move">4,28 <span class="arrow">→</span> <b>5,30</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../site_build/dist/favicon-google.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

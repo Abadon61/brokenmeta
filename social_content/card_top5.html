@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Top 5 comps</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .rows { display: flex; flex-direction: column; gap: 30px; }
+  .row { display: flex; align-items: stretch; gap: 18px; }
+  .rank { width: 46px; flex: none; display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-weight: 700; font-size: 30px; color: var(--text-faint); }
+  .row-card { flex: 1; display: flex; align-items: stretch; background: rgba(23,10,61,0.55);
+    border: 1px solid var(--border); min-width: 0; }
+  .tier-badge { width: 90px; flex: none; display: flex; align-items: center; justify-content: center;
+    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 40px; color: #0b0221; }
+  .row-card[data-tier="S"] { --tc: var(--red); }
+  .row-card[data-tier="A"] { --tc: var(--gold); }
+  .row-card[data-tier="B"] { --tc: var(--teal); }
+  .row-card[data-tier="C"] { --tc: var(--gray); }
+  .row-card .tier-badge { background: var(--tc); }
+  .row-body { flex: 1; min-width: 0; padding: 26px 32px; display: flex; align-items: center; }
+  .row-top { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 20px; }
+  .row-name-block { display: flex; align-items: center; gap: 18px; min-width: 0; }
+  .carry-portrait { width: 78px; height: 78px; border-radius: 12px; border: 2px solid var(--border-bright); object-fit: cover; flex: none; }
+  .row-name { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 27px; text-transform: uppercase;
+    line-height: 1.15; }
+  .reroll-pill { font-family: 'Space Mono', monospace; font-size: 14px; font-weight: 700; letter-spacing: 0.05em;
+    text-transform: uppercase; color: var(--magenta); border: 1.5px solid var(--magenta); border-radius: 999px;
+    padding: 5px 13px; flex: none; }
+  .row-stats { display: flex; gap: 30px; flex: none; }
+  .stat-col { text-align: center; }
+  .stat-label { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); }
+  .stat-val { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 29px; color: var(--cyan); margin-top: 4px; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-top5-comps-18-2">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/logo_epee_sans_fond.svg" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">Patch 18.2</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">TOP 5 COMPS</div>
+  </div>
+  <div class="subtitle">Les <strong>compositions les plus fortes</strong> de la semaine, classées par placement moyen.</div>
+
+  <div class="content">
+    <div class="rows">
+      <div class="row">
+        <div class="rank">1</div>
+        <div class="row-card frame" data-tier="S">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="tier-badge">S</div>
+          <div class="row-body">
+            <div class="row-top">
+              <div class="row-name-block">
+                <img class="carry-portrait" src="https://brokenmeta.gg/assets/champions/kog-maw.png" alt="" crossorigin="anonymous">
+                <div class="row-name">Brawler Kog'Maw</div>
+                <div class="reroll-pill">Reroll</div>
+              </div>
+              <div class="row-stats">
+                <div class="stat-col"><div class="stat-label">Placement</div><div class="stat-val">2,40</div></div>
+                <div class="stat-col"><div class="stat-label">Top 4</div><div class="stat-val">77%</div></div>
+                <div class="stat-col"><div class="stat-label">Contest</div><div class="stat-val">85</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="rank">2</div>
+        <div class="row-card frame" data-tier="S">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="tier-badge">S</div>
+          <div class="row-body">
+            <div class="row-top">
+              <div class="row-name-block">
+                <img class="carry-portrait" src="https://brokenmeta.gg/assets/champions/kha-zix.png" alt="" crossorigin="anonymous">
+                <div class="row-name">Executioner Kha'Zix</div>
+                <div class="reroll-pill">Reroll</div>
+              </div>
+              <div class="row-stats">
+                <div class="stat-col"><div class="stat-label">Placement</div><div class="stat-val">2,94</div></div>
+                <div class="stat-col"><div class="stat-label">Top 4</div><div class="stat-val">75%</div></div>
+                <div class="stat-col"><div class="stat-label">Contest</div><div class="stat-val">87</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="rank">3</div>
+        <div class="row-card frame" data-tier="S">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="tier-badge">S</div>
+          <div class="row-body">
+            <div class="row-top">
+              <div class="row-name-block">
+                <img class="carry-portrait" src="https://brokenmeta.gg/assets/champions/kayle.png" alt="" crossorigin="anonymous">
+                <div class="row-name">Eclipse Kayle</div>
+                <div class="reroll-pill">Reroll</div>
+              </div>
+              <div class="row-stats">
+                <div class="stat-col"><div class="stat-label">Placement</div><div class="stat-val">2,94</div></div>
+                <div class="stat-col"><div class="stat-label">Top 4</div><div class="stat-val">81%</div></div>
+                <div class="stat-col"><div class="stat-label">Contest</div><div class="stat-val">93</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="rank">4</div>
+        <div class="row-card frame" data-tier="S">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="tier-badge">S</div>
+          <div class="row-body">
+            <div class="row-top">
+              <div class="row-name-block">
+                <img class="carry-portrait" src="https://brokenmeta.gg/assets/champions/teemo.png" alt="" crossorigin="anonymous">
+                <div class="row-name">Greenfather Teemo</div>
+              </div>
+              <div class="row-stats">
+                <div class="stat-col"><div class="stat-label">Placement</div><div class="stat-val">3,00</div></div>
+                <div class="stat-col"><div class="stat-label">Top 4</div><div class="stat-val">75%</div></div>
+                <div class="stat-col"><div class="stat-label">Contest</div><div class="stat-val">81</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="rank">5</div>
+        <div class="row-card frame" data-tier="S">
+          <div class="corner tl lg"></div>
+          <div class="corner tr lg"></div>
+          <div class="corner bl lg"></div>
+          <div class="corner br lg"></div>
+          <div class="tier-badge">S</div>
+          <div class="row-body">
+            <div class="row-top">
+              <div class="row-name-block">
+                <img class="carry-portrait" src="https://brokenmeta.gg/assets/champions/veigar.png" alt="" crossorigin="anonymous">
+                <div class="row-name">Greenfather Veigar</div>
+                <div class="reroll-pill">Reroll</div>
+              </div>
+              <div class="row-stats">
+                <div class="stat-col"><div class="stat-label">Placement</div><div class="stat-val">3,03</div></div>
+                <div class="stat-col"><div class="stat-label">Top 4</div><div class="stat-val">68%</div></div>
+                <div class="stat-col"><div class="stat-label">Contest</div><div class="stat-val">86</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../site_build/dist/favicon-google.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

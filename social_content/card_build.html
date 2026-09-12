@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Build caché Maokai</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .build-top { display: flex; align-items: center; gap: 36px; }
+  .portrait-frame-sm { width: 190px; height: 190px; flex: none; }
+  .chip.portrait-sm { width: 190px; height: 190px; border-radius: 10px; border-width: 4px; }
+  .champ-name { font-family: 'Cal Sans', sans-serif; font-size: 56px; text-transform: uppercase; }
+  .trait-tags { display: flex; gap: 14px; margin-top: 16px; }
+  .trait-tags .tag {
+    font-family: 'Space Mono', monospace; font-size: 17px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--text-dim); border: 1.5px solid var(--border-bright); border-radius: 999px; padding: 8px 20px;
+  }
+  .lead-text { font-size: 32px; color: var(--text-dim); margin-top: 32px; line-height: 1.4; max-width: 1000px; }
+  .items-row { display: flex; align-items: center; justify-content: center; gap: 40px; margin: 58px 0 10px; }
+  .item-block { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+  .item-frame { width: 168px; height: 168px; }
+  .chip.item-lg { width: 168px; height: 168px; border-radius: 10px; }
+  .item-block .item-name { font-family: 'Space Mono', monospace; font-size: 17px; color: var(--text-dim); text-align: center; max-width: 180px; }
+  .plus { font-family: 'Cal Sans', sans-serif; font-size: 56px; color: var(--text-faint); }
+  .stats-row { display: flex; justify-content: center; gap: 0; margin-top: 58px; }
+  .stats-row .stat-tile { width: 280px; border-left: 1px solid var(--border); }
+  .stats-row .stat-tile:first-child { border-left: none; }
+  .stats-row .stat-tile .num { font-size: 72px; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-build-cache-maokai">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/logo_epee_sans_fond.svg" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">Patch 18.2</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">LE BUILD CACHÉ</div>
+  </div>
+
+  <div class="content" style="align-items:center;">
+    <div class="build-top">
+      <div class="portrait-frame-sm frame" style="--tc: var(--gold);">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="chip portrait-sm cost-5"><img src="https://brokenmeta.gg/assets/champions/maokai.png" alt="Maokai" crossorigin="anonymous"></div>
+      </div>
+      <div>
+        <div class="champ-name">Maokai</div>
+        <div class="trait-tags"><span class="tag">Old Growth</span><span class="tag">Juggernaut</span></div>
+      </div>
+    </div>
+    <div class="lead-text">Cette combinaison de 3 objets affiche l'un des <strong>meilleurs winrates</strong> du patch, tous champions confondus — et elle est <strong>encore loin d'être méta</strong>.</div>
+
+    <div class="items-row">
+      <div class="item-block">
+        <div class="item-frame frame" style="--tc: var(--border-bright);">
+          <div class="corner tl md"></div>
+          <div class="corner tr md"></div>
+          <div class="corner bl md"></div>
+          <div class="corner br md"></div>
+          <div class="chip item item-lg"><img src="https://brokenmeta.gg/assets/items/dragonsclaw.png" alt="" crossorigin="anonymous"></div>
+        </div>
+        <div class="item-name">Griffe de dragon</div>
+      </div>
+      <div class="plus">+</div>
+      <div class="item-block">
+        <div class="item-frame frame" style="--tc: var(--border-bright);">
+          <div class="corner tl md"></div>
+          <div class="corner tr md"></div>
+          <div class="corner bl md"></div>
+          <div class="corner br md"></div>
+          <div class="chip item item-lg"><img src="https://brokenmeta.gg/assets/items/gargoylestoneplate.png" alt="" crossorigin="anonymous"></div>
+        </div>
+        <div class="item-name">Lithoplastron de gargouille</div>
+      </div>
+      <div class="plus">+</div>
+      <div class="item-block">
+        <div class="item-frame frame" style="--tc: var(--border-bright);">
+          <div class="corner tl md"></div>
+          <div class="corner tr md"></div>
+          <div class="corner bl md"></div>
+          <div class="corner br md"></div>
+          <div class="chip item item-lg"><img src="https://brokenmeta.gg/assets/items/warmogsarmor.png" alt="" crossorigin="anonymous"></div>
+        </div>
+        <div class="item-name">Armure de Warmog</div>
+      </div>
+    </div>
+
+    <div class="stats-row">
+      <div class="stat-tile"><div class="num good">44,3%</div><div class="label">Winrate</div></div>
+      <div class="stat-tile"><div class="num good">72,6%</div><div class="label">Top 4</div></div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../site_build/dist/favicon-google.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

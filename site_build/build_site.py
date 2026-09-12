@@ -2721,6 +2721,11 @@ def main() -> None:
             movers.append({
                 "slug": c["slug"], "display_label": c["display_label"], "tier": c["tier"], "tier_var": c["tier_var"],
                 "carry_slug": c.get("carry_slug"), "carry": c.get("carry"),
+                # Identity trait (English name, raw -- not a slug): the social
+                # content studio's build_digest.py already knows how to turn
+                # this into a real trait icon slug via its own builder.json
+                # read, same lookup it already does for top_comps().
+                "identity_trait": c["traits"][0] if c.get("traits") else None,
                 "prev_placement": round(prev_p, 2), "latest_placement": round(latest_p, 2), "delta": round(abs(delta), 2),
             })
         risers = sorted((m for m in movers if m["latest_placement"] < m["prev_placement"]), key=lambda m: -m["delta"])[:top_n]
@@ -2730,6 +2735,16 @@ def main() -> None:
     trend_risers, trend_fallers = build_trend_rows()
     print(f"Trends: {len(trend_risers)} risers, {len(trend_fallers)} fallers "
           f"({prev_snap_date} -> {latest_snap_date})." if prev_snap_date else "Trends: only one snapshot so far, skipped.")
+
+    # Handed to social_content/build_digest.py so its own "biggest riser/
+    # faller" talking point comes from this EXACT canonical list -- the same
+    # one /tendances/ shows live -- instead of a second, separately-derived
+    # (and slightly different: no Hors Meta exclusion, no min_delta noise
+    # filter) copy of the same computation living only in that tool.
+    (OUT / "trends_digest.json").write_text(json.dumps({
+        "prev_date": prev_snap_date, "latest_date": latest_snap_date,
+        "risers": trend_risers, "fallers": trend_fallers,
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     # ---- Counter Finder (/contres/): a searchable version of the "Counters"
     # section every comp page already shows (matchups_by_comp above), scoped
