@@ -1728,6 +1728,11 @@ I18N: dict[str, dict] = {
         "confidence_high": "Élevée", "confidence_medium": "Moyenne", "confidence_low": "Faible",
         "confidence_note": lambda level, n: f"Confiance de l'échantillon : {level} ({n} parties).",
         "methodology_link_text": "Voir comment c'est calculé →",
+        "nav_sleepers": "Pépites cachées",
+        "sleepers_title": "Pépites cachées — Teamfight Tactics Set 18",
+        "sleepers_intro": "Les champions et compos les plus performants malgré un faible taux de sélection ce cycle-ci -- de vraies pépites que peu de joueurs exploitent encore. Seuil basé sur la médiane réelle du cycle, pas un pourcentage fixe.",
+        "sleepers_champions_title": "Champions sous-cotés",
+        "sleepers_comps_title": "Compos sous-cotées",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1942,6 +1947,11 @@ I18N: dict[str, dict] = {
         "confidence_high": "High", "confidence_medium": "Medium", "confidence_low": "Low",
         "confidence_note": lambda level, n: f"Sample confidence: {level} ({n} games).",
         "methodology_link_text": "See how this is calculated →",
+        "nav_sleepers": "Sleeper Picks",
+        "sleepers_title": "Sleeper Picks — Teamfight Tactics Set 18",
+        "sleepers_intro": "The best-performing champions and comps despite a low pick/play rate this cycle -- real hidden gems few players use yet. Threshold is the real median for this cycle, not a fixed percentage.",
+        "sleepers_champions_title": "Underrated champions",
+        "sleepers_comps_title": "Underrated comps",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2662,7 +2672,8 @@ def main() -> None:
         info = info_by_name.get(d["id"], {})
         return {
             "name": d["id"], "slug": slug, "tier": d.get("tier", "?"), "tier_var": TIER_VAR.get(d.get("tier"), "var(--gray)"),
-            "pick_rate_pct": pct(d["pick_rate"]), "avg_placement": d["avg_placement"], "top4_pct": pct(d["top4_rate"]),
+            "pick_rate_pct": pct(d["pick_rate"]), "pick_rate": d["pick_rate"],
+            "avg_placement": d["avg_placement"], "top4_pct": pct(d["top4_rate"]), "top4_rate": d["top4_rate"],
             "avg_star_level": d["avg_star_level"],
             "top_items": [{"name": ti["item"], "slug": item_slug_and_download(ti["item"])} for ti in (d.get("top_items") or [])[:3]],
             "ability_name": info.get("ability_name", ""), "ability_desc": info.get("ability_desc", ""),
@@ -2694,6 +2705,36 @@ def main() -> None:
         }
         for d in champion_vms
     }
+
+    # ---- Sleeper Picks (/pepites-cachees/): real strong performance at a
+    # low pick/play rate -- the "everyone's sleeping on this" angle, an
+    # editorial cut nothing else on the site surfaces (every other list
+    # sorts by performance alone). Threshold is data-driven, not a fixed
+    # percentage: below the MEDIAN pick/play rate among ranked champions or
+    # published comps that cycle, then the best performers within that
+    # less-popular half. Comps sort by the same shrunk sort_placement used
+    # everywhere else (ascending -- lower placement is better), not raw
+    # avg_placement, so a thin-sample outlier can't fake its way onto this
+    # list either.
+    def _median(values: list[float]) -> float:
+        s = sorted(values)
+        return s[len(s) // 2] if s else 0.0
+
+    champ_median_pick_rate = _median([d["pick_rate"] for d in champion_vms])
+    sleeper_champions = sorted(
+        (d for d in champion_vms if d["pick_rate"] <= champ_median_pick_rate),
+        key=lambda d: -d["top4_rate"],
+    )[:10]
+
+    comp_pool_for_sleepers = [c for c in comp_vms if not c.get("is_hors_meta")]
+    comp_median_play_rate = _median([c["play_rate"] for c in comp_pool_for_sleepers])
+    sleeper_comps = sorted(
+        (c for c in comp_pool_for_sleepers if c["play_rate"] <= comp_median_play_rate),
+        key=lambda c: c["sort_placement"],
+    )[:10]
+    for c in sleeper_comps:
+        c["play_rate_pct"] = pct(c["play_rate"])
+    print(f"Sleeper Picks: {len(sleeper_champions)} champions, {len(sleeper_comps)} comps.")
 
     # ==========================================================================
     # ---- Glossaire TFT: a static reference distinct from every tier-list
@@ -3351,6 +3392,8 @@ def main() -> None:
                has_data=bool(prev_snap_date), prev_date=prev_snap_date, latest_date=latest_snap_date,
                risers=trend_risers, fallers=trend_fallers)
         render("counters.html", "/contres/", lang, active_nav="counters")
+        render("sleepers.html", "/pepites-cachees/", lang, active_nav="sleepers",
+               sleeper_champions=sleeper_champions, sleeper_comps=sleeper_comps)
 
         # ---- Glossaire ----
         render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={
