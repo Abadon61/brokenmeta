@@ -1606,6 +1606,11 @@ I18N: dict[str, dict] = {
         "th_avgstar": "Étoile moyenne", "th_commonitems": "Objets fréquents",
         "tt_common_items": lambda items: f"Objets fréquents : {items}",
         "champ_unranked_note": 'Les champions marqués <b style="color:var(--cream)">?</b> n\'ont pas encore assez de parties observées dans cet échantillon pour un rang fiable — ils restent affichés avec leurs stats brutes.',
+        "nav_items": "Item List",
+        "items_title": "Tier List Objets — Teamfight Tactics Set 18",
+        "items_intro": "Tous les objets finis de TFT Set 18, classés S/A/B/C par placement moyen réel sur toutes les parties où ils ont été portés — toutes compositions confondues, pas juste une combo précise.",
+        "th_item": "Objet", "th_winrate": "Winrate", "th_bestchampions": "Meilleurs champions",
+        "items_unranked_note": "Seuls les objets finis (2 composants ou emblème) avec au moins 100 parties observées sont classés ici ; les consommables (potions) et objets trop rares ne sont pas inclus.",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1797,6 +1802,11 @@ I18N: dict[str, dict] = {
         "th_avgstar": "Avg star", "th_commonitems": "Common items",
         "tt_common_items": lambda items: f"Common items: {items}",
         "champ_unranked_note": 'Champions marked <b style="color:var(--cream)">?</b> don\'t have enough observed games in this sample yet for a reliable rank — they\'re still shown with their raw stats.',
+        "nav_items": "Item List",
+        "items_title": "Item Tier List — Teamfight Tactics Set 18",
+        "items_intro": "Every finished TFT Set 18 item, ranked S/A/B/C by real average placement across every game it was held in — across all comps, not one specific combo.",
+        "th_item": "Item", "th_winrate": "Win rate", "th_bestchampions": "Best champions",
+        "items_unranked_note": "Only finished items (2-component combines or emblems) with at least 100 observed games are ranked here; consumables (potions) and items too rare to trust aren't included.",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2548,8 +2558,18 @@ def main() -> None:
     # per-region/rank: see compute_full_payload's want_item_stats). ----
     item_champion_stats_raw = champion_stats.get("item_champion_stats", {})
     glossary_items = []
+    # clean_id -> {name, slug}, captured for the Item Tier List below: real
+    # match data (item_stats, from build_global_item_stats) is keyed by the
+    # same clean_id() as everywhere else in the pipeline, but carries no
+    # display name/slug of its own -- and, unlike this 55-item "every
+    # FINISHED item" catalog, it's NOT pre-filtered to real craftable items
+    # (is_complete_item() only excludes raw components, so consumables like
+    # Health/Mana/Blast Potion still show up in real match data). Intersecting
+    # against this catalog is what keeps those off the Item Tier List.
+    catalog_item_by_clean_id: dict[str, dict] = {}
     for it in build_full_item_catalog(SET_MUTATOR, id_prefix="DA_"):
         slug = slugify(it["clean_id"])
+        catalog_item_by_clean_id[it["clean_id"]] = {"name": it["name"], "slug": slug, "api_name": it["api_name"]}
         if it["icon"]:
             images.item(slug, it["icon"])
         composition = []
@@ -2571,6 +2591,29 @@ def main() -> None:
             "composition": composition, "desc": it["desc"], "champion_rows": champion_rows,
         })
     glossary_items.sort(key=lambda i: i["name"])
+
+    # ---- Item Tier List: same real-data-only ranking as the Champion List
+    # (assign_champion_tiers, see champion_stats.py), scoped to the 55-item
+    # catalog above so a consumable never gets a "tier". ----
+    def build_item_vm(row: dict) -> dict:
+        meta = catalog_item_by_clean_id[row["item"]]
+        best_champs = item_champion_stats_raw.get(row["item"], [])[:3]
+        return {
+            "name": meta["name"], "api_name": meta["api_name"], "desc": "", "slug": meta["slug"],
+            "tier": row["tier"], "tier_var": TIER_VAR.get(row["tier"], "var(--gray)"),
+            "pick_rate_pct": pct(row["pick_rate"]), "avg_placement": row["avg_placement"],
+            "top4_pct": pct(row["top4_rate"]), "win_rate_pct": pct(row["win_rate"]),
+            "play_count": row["play_count"],
+            "best_champions": [
+                {"name": c["champion"], "slug": champ_slug_and_download(c["champion"])}
+                for c in best_champs
+            ],
+        }
+
+    item_vms = [build_item_vm(r) for r in champion_stats.get("item_stats", [])
+                if r.get("tier") != "?" and r["item"] in catalog_item_by_clean_id]
+    item_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), d["avg_placement"]))
+    print(f"Building item tier list ({len(item_vms)} items)...")
 
     # Small tooltip data file for item icons across the Glossary (composition
     # on hover) -- same pattern as champions.json above, fetched once by a
@@ -3085,6 +3128,8 @@ def main() -> None:
     print("Building comp / champion / list pages (FR + EN)...")
     for lang in LANGS:
         render("champions_list.html", "/champions/", lang, active_nav="champions", champions=champion_vms)
+        render("items_list.html", "/objets/", lang, active_nav="items",
+               items=[localize_item(it, lang) for it in item_vms])
 
         # ---- Glossaire ----
         render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={

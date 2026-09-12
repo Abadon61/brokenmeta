@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tier List Objets — TFT Set 18{% else %}Item Tier List — TFT Set 18{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Tous les objets finis Teamfight Tactics Set 18 classés S/A/B/C par placement moyen réel, avec taux de sélection, winrate et meilleurs champions.{% else %}Every finished Teamfight Tactics Set 18 item ranked S/A/B/C by real average placement, with pick rate, win rate and best champions.{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'items_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'items_intro') }}</p>
+<div class="champ-table-wrap">
+  <table class="champ-table">
+    <thead><tr>
+      <th>{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_item') }}</th><th class="num">{{ t(lang, 'th_playrate') }}</th><th class="num">{{ t(lang, 'th_avgplacement') }}</th>
+      <th class="num">{{ t(lang, 'th_top4') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th>{{ t(lang, 'th_bestchampions') }}</th>
+    </tr></thead>
+    <tbody>
+      {% for d in items %}
+      <tr data-tier="{{ d.tier }}">
+        <td><div class="champ-tier-badge" style="--tc:{{ d.tier_var }}">{{ d.tier }}</div></td>
+        <td><a class="champ-name-cell" href="{{ root }}glossaire/objets/{{ d.slug }}/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="{{ root }}assets/items/{{ d.slug }}.png" alt="{{ d.name }}" loading="lazy">
+          <span>{{ d.name }}</span>
+        </a></td>
+        <td class="num">{{ d.pick_rate_pct }}</td>
+        <td class="num">{{ '%.2f'|format(d.avg_placement) }}</td>
+        <td class="num">{{ d.top4_pct }}</td>
+        <td class="num">{{ d.win_rate_pct }}</td>
+        <td><div class="champ-items">
+          {% for c in d.best_champions %}<img class="champ-icon-sm champ-link-icon" src="{{ root }}assets/champions/{{ c.slug }}.png" alt="{{ c.name }}" title="{{ c.name }}" loading="lazy" data-champ-slug="{{ c.slug }}" data-champ-href="{{ root }}champions/{{ c.slug }}/">{% else %}<span class="matchup-empty">—</span>{% endfor %}
+        </div></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="champ-unranked-note">{{ t(lang, 'items_unranked_note')|safe }}</div>
+{% endblock %}

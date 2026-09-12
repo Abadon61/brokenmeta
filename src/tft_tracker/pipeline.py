@@ -155,6 +155,7 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
         if want_champions:
             result["champions"] = []
             result["item_champion_stats"] = {}
+            result["item_stats"] = []
         return result
 
     rows, regression = build_tier_list(comps, total_participants)
@@ -165,7 +166,7 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
         result["matchups"] = build_matchup_table(matches, name_map=name_map, item_offense=item_offense)
 
     if want_champions:
-        champion_rows, item_champion_stats = build_champion_stats(matches, total_participants, name_map=name_map)
+        champion_rows, item_champion_stats, item_stats = build_champion_stats(matches, total_participants, name_map=name_map)
         if image_map:
             for row in champion_rows:
                 images = image_map.get(row["id"], {})
@@ -173,6 +174,7 @@ def compute_full_payload(matches: list[dict], *, want_matchups: bool, want_champ
                 row["splash_url"] = images.get("splash", "")
         result["champions"] = champion_rows
         result["item_champion_stats"] = item_champion_stats if want_item_stats else {}
+        result["item_stats"] = item_stats
 
     return result
 
@@ -553,6 +555,7 @@ def main(argv=None) -> None:
                     "most common items, and how games featuring this champion tend to go.",
             "champions": combined["champions"],
             "item_champion_stats": combined.get("item_champion_stats", {}),
+            "item_stats": combined.get("item_stats", []),
         }, indent=2), encoding="utf-8")
         print(f"Champion hover stats written to {cout_path} ({len(combined['champions'])} champions).")
 

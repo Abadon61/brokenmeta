@@ -105,8 +105,51 @@ def build_item_champion_stats(item_champ_placements: dict[str, dict[str, list[in
     return result
 
 
+MIN_SAMPLE_FOR_ITEM_TIER = 100  # same bar as a comp's own MIN_PLAY_COUNT (build_site.py) -- see build_global_item_stats
+
+
+def build_global_item_stats(item_champ_placements: dict[str, dict[str, list[int]]],
+                             total_participants: int) -> list[dict]:
+    """The Item Tier List's real numbers: for one item, EVERY placement from
+    EVERY champion that held it, flattened -- not scoped to a single
+    champion or comp the way item_stats()/item_combo_stats() are elsewhere.
+    Reuses item_champ_placements (already collected alongside ChampionAgg
+    for build_item_champion_stats' "who plays this well" table) instead of
+    a second pass over raw matches -- same underlying observations, just
+    grouped by item alone instead of by item-then-champion.
+
+    A single item slot on a unit is one observation, so games where two
+    different champions both held e.g. Infinity Edge count it twice --
+    intentional: this answers "how do games featuring this item tend to
+    go", not "how many unique games". Tiered with the exact same
+    percentile-bucket system as champions (assign_champion_tiers) -- checked
+    live, item sample sizes run comparable to or larger than champions' (an
+    item can sit on any of ~9 champion slots/game), so the same reasoning
+    that made small-sample shrinkage unnecessary for champions holds here
+    too, not assumed."""
+    rows = []
+    for item, by_champ in item_champ_placements.items():
+        placements = [p for pls in by_champ.values() for p in pls]
+        n = len(placements)
+        if n < MIN_SAMPLE_FOR_ITEM_TIER:
+            continue
+        rows.append({
+            "item": item,
+            # pick_count, not just play_count: assign_champion_tiers() (reused
+            # as-is below) reads this exact key name for its own eligibility
+            # check and tier sort -- same field, kept under both names since
+            # "play_count" is what comps/the rest of the site call it.
+            "play_count": n, "pick_count": n,
+            "pick_rate": round(n / total_participants, 4) if total_participants else 0.0,
+            "avg_placement": round(sum(placements) / n, 3),
+            "top4_rate": round(sum(1 for p in placements if p <= 4) / n, 4),
+            "win_rate": round(sum(1 for p in placements if p == 1) / n, 4),
+        })
+    return assign_champion_tiers(rows)
+
+
 def build_champion_stats(matches: list[dict], total_participants: int, top_items: int = 5,
-                          name_map: dict[str, str] | None = None) -> tuple[list[dict], dict[str, list[dict]]]:
+                          name_map: dict[str, str] | None = None) -> tuple[list[dict], dict[str, list[dict]], list[dict]]:
     champs: dict[str, ChampionAgg] = {}
     # item (clean id) -> champion (display name) -> [placement, ...], across
     # every game that champion held that item at all -- feeds
@@ -164,7 +207,8 @@ def build_champion_stats(matches: list[dict], total_participants: int, top_items
         })
 
     rows.sort(key=lambda r: -r["pick_count"])
-    return assign_champion_tiers(rows), build_item_champion_stats(item_champ_placements)
+    item_stats = build_global_item_stats(item_champ_placements, total_participants)
+    return assign_champion_tiers(rows), build_item_champion_stats(item_champ_placements), item_stats
 
 
 def assign_champion_tiers(rows: list[dict]) -> list[dict]:
