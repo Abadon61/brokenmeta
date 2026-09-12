@@ -682,6 +682,33 @@ def build_tier_list(comps: dict[str, CompStats], total_participants: int) -> tup
             r["tier"] = tier_name
         cursor = max(end, cursor)
 
+    # Absolute floor, on top of the percentile bucketing above: a pure
+    # percentile split (top 12% -> S, etc.) always fills every tier no
+    # matter how the whole pool is doing, which is exactly what a data set
+    # this size (tens of thousands of games, not MetaTFT's millions) needs
+    # to stay readable when the sample is thin -- but it also means "S"
+    # only ever promises "best of what we tracked this cycle," never
+    # "genuinely strong," and a mediocre patch could put a below-average
+    # comp in S just because it was the least-bad option that day.
+    #
+    # These ceilings pin each tier to the one fixed, patch-independent
+    # anchor TFT actually has -- the population's real average placement is
+    # ALWAYS exactly 4.50 (8 players, one game) -- with margins calibrated
+    # against MetaTFT's own live tier boundaries (checked directly on their
+    # site: their S comps top out at 4.25, A at 4.50). A comp that clears
+    # its percentile slot but not the matching ceiling gets bumped down
+    # tier by tier until it either earns one or lands in C (uncapped, so
+    # nothing is ever left without a tier). Checked against the shrunk
+    # ranking_score_placement, not the raw avg_placement, so a thin-sample
+    # comp can't dodge this the same way it can't game the percentile step.
+    ABSOLUTE_TIER_CEILING = {"S": 4.30, "A": 4.50, "B": 4.80}
+    TIER_ORDER = ["S", "A", "B", "C"]
+    for r in ranked:
+        idx = TIER_ORDER.index(r["tier"])
+        while idx < len(TIER_ORDER) - 1 and r["ranking_score_placement"] > ABSOLUTE_TIER_CEILING[TIER_ORDER[idx]]:
+            idx += 1
+        r["tier"] = TIER_ORDER[idx]
+
     unranked = [r for r in rows if not r["has_enough_data"]]
     for r in unranked:
         r["tier"] = "?"
