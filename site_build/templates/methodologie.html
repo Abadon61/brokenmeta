@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% block title %}{{ "BrokenMeta.gg | Méthodologie" if lang == "fr" else "BrokenMeta.gg | Methodology" }}{% endblock %}
+{% block description %}{{ "Comment BrokenMeta.gg calcule sa tier list TFT Set 18 : seuils de qualité, calcul des tiers S/A/B/C, correction des petits échantillons, système Hors Meta -- expliqué en détail, sans donnée inventée." if lang == "fr" else "How BrokenMeta.gg calculates its TFT Set 18 tier list: quality thresholds, S/A/B/C tier math, small-sample correction, the Hors Meta system -- explained in full, no invented data." }}{% endblock %}
+{% block content %}
+<div class="legal-page">
+{% if lang == "fr" %}
+<h1 class="page-h1">Méthodologie</h1>
+<p class="page-intro">Comment on calcule tout ce qui s'affiche sur le site, en détail et sans rien cacher. Si un chiffre te semble étrange, la réponse est probablement ici.</p>
+
+<h2 class="fiche-section-title">D'où viennent les données</h2>
+<p>Tout vient de l'API officielle de Riot Games (Match-V1) : de vraies parties classées, collectées automatiquement sur les 4 régions (EUW, NA, BR, KR), tous les paliers de rang confondus. Aucune statistique n'est estimée, extrapolée ou inventée -- chaque nombre affiché vient directement d'au moins une vraie partie. Le total de parties analysées est indiqué en haut de la page d'accueil et se met à jour à chaque actualisation des données.</p>
+
+<h2 class="fiche-section-title">Quand une comp obtient une page</h2>
+<p>Toutes les compositions rencontrées en jeu ne sont pas publiées : une comp doit franchir un seuil de qualité avant d'avoir droit à sa propre page <code>/compo/</code> :</p>
+<ul>
+  <li>Au moins <strong>100 parties</strong> observées</li>
+  <li>Un placement moyen de <strong>6.00 ou mieux</strong> (au-delà, l'échantillon est trop marginal pour être une vraie stratégie)</li>
+  <li>Un board final d'au moins <strong>7 unités</strong> (en dessous, c'est presque toujours une élimination précoce, pas une comp construite intentionnellement)</li>
+  <li>Pas un board composé à 100% de 5-coûts (ça arrive par une partie longue et chanceuse, jamais par un vrai plan)</li>
+</ul>
+
+<h2 class="fiche-section-title">Comment le Tier S/A/B/C est calculé</h2>
+<p>Parmi les comps qui ont au moins 5 parties, on les classe par taux de top 4 (le plus haut d'abord), puis par placement moyen en cas d'égalité. Cette liste triée est ensuite découpée en tranches cumulatives : <strong>S</strong> = les 12% les mieux classées, <strong>A</strong> = les 28% suivantes (jusqu'à 40% cumulé), <strong>B</strong> = les 35% suivantes (jusqu'à 75% cumulé), <strong>C</strong> = les 25% restantes.</p>
+
+<h2 class="fiche-section-title">Le correctif des petits échantillons</h2>
+<p>Une vraie anomalie a été détectée en direct sur le site : une comp reroll rare, avec seulement 149 parties observées, affichait un placement moyen de 1.95 et 93% de top 4 -- statistiquement impossible en TFT, où la moyenne théorique est toujours exactement 4.50 (8 joueurs, un seul 1er). Même le meilleur comp du monde ne descend quasiment jamais sous 4.00 de moyenne réelle, à cause du hasard des combats.</p>
+<p>Cause identifiée : sur un petit échantillon, les rares joueurs qui réussissent à construire une comp difficile à exécuter dominent complètement les chiffres. La correction utilise un <strong>lissage bayésien</strong> (la même technique que les classements « meilleurs commentaires » de Reddit ou les notes IMDB) : le score utilisé pour le classement est ramené vers la moyenne réelle de l'ensemble des comps, d'autant plus fortement que l'échantillon est petit. Important : <strong>les chiffres affichés (placement moyen, top 4) ne sont jamais modifiés</strong> -- seul l'ordre de classement et le tier attribué le sont. Ce que tu vois sur une fiche comp est toujours la vraie donnée brute.</p>
+
+<h2 class="fiche-section-title">Le plancher absolu par tier</h2>
+<p>Le classement par percentile seul a un défaut : le mot « S » ne veut alors dire que « la moins pire du lot de ce cycle-ci », même si tout l'échantillon du moment est faible. Pour éviter ça, chaque tier a aussi un <strong>plafond de placement absolu</strong> (après lissage) : S ≤ 4.30, A ≤ 4.50, B ≤ 4.80. Une comp qui atteint son tier par percentile mais ne franchit pas ce plafond est automatiquement rétrogradée d'un cran, et ainsi de suite jusqu'à ce qu'elle mérite vraiment sa place (le Tier C n'a pas de plafond : rien ne reste sans tier). Ces seuils sont calibrés sur la moyenne théorique de 4.50 et vérifiés en direct contre les vraies bornes de tier du plus gros tracker du marché (MetaTFT : leur Tier S s'arrête à 4.25, leur Tier A à 4.50).</p>
+
+<h2 class="fiche-section-title">Le système Hors Meta</h2>
+<p>Notre clé API de développeur Riot expire toutes les 24h, donc chaque actualisation des données repose sur un nouvel échantillon, jamais sur l'historique complet en une seule fois. Une comp qui passait le seuil de qualité lors d'un refresh précédent peut, par pur hasard d'échantillonnage, repasser sous la barre au refresh suivant -- ça ne veut pas dire qu'elle est devenue mauvaise. Plutôt que de supprimer sa page (et casser un lien déjà partagé ou indexé par Google), elle passe en catégorie <strong>Hors Meta</strong> : toujours consultable, avec un badge distinct et un message précisant son dernier tier connu et la date de sa dernière apparition dans le calcul actif.</p>
+
+<h2 class="fiche-section-title">Ce qu'on ne peut pas mesurer</h2>
+<p>Les augments ne sont, pour l'instant, pas exposés par l'API publique de Riot pour ce Set (vérifié directement : le champ correspondant est totalement absent de plus de 23 000 participants analysés) -- c'est pour ça qu'aucune tier list d'augments basée sur de vraies données n'existe sur le site. On active cette section dès que Riot republie la donnée.</p>
+{% else %}
+<h1 class="page-h1">Methodology</h1>
+<p class="page-intro">How everything on this site is actually calculated, in full, nothing hidden. If a number looks off, the answer is probably here.</p>
+
+<h2 class="fiche-section-title">Where the data comes from</h2>
+<p>Everything comes from Riot Games' official API (Match-V1): real ranked games, collected automatically across all 4 regions (EUW, NA, BR, KR) and every rank bracket. No stat is estimated, extrapolated, or invented -- every number shown comes directly from at least one real match. The total match count is shown at the top of the homepage and updates with every data refresh.</p>
+
+<h2 class="fiche-section-title">When a comp gets a page</h2>
+<p>Not every composition seen in game gets published -- a comp has to clear a quality bar before it earns its own <code>/compo/</code> page:</p>
+<ul>
+  <li>At least <strong>100 games</strong> observed</li>
+  <li>An average placement of <strong>6.00 or better</strong> (past that, the sample is too marginal to be a real strategy)</li>
+  <li>A final board of at least <strong>7 units</strong> (below that, it's almost always an early elimination, not a deliberately built comp)</li>
+  <li>Not a board made entirely of 5-cost units (that happens from one long, lucky game, never from a real plan)</li>
+</ul>
+
+<h2 class="fiche-section-title">How the S/A/B/C tier is calculated</h2>
+<p>Among comps with at least 5 games, they're ranked by top 4 rate (highest first), then average placement as a tiebreaker. That sorted list is split into cumulative slices: <strong>S</strong> = the top 12%, <strong>A</strong> = the next 28% (40% cumulative), <strong>B</strong> = the next 35% (75% cumulative), <strong>C</strong> = the remaining 25%.</p>
+
+<h2 class="fiche-section-title">The small-sample fix</h2>
+<p>A real anomaly was caught live on the site: a rare reroll comp with only 149 observed games showed a 1.95 average placement and 93% top 4 rate -- statistically impossible in TFT, where the population mean is always exactly 4.50 (8 players, one 1st place). Even the single best comp on record almost never drops below a real 4.00 average, thanks to TFT's combat RNG.</p>
+<p>Root cause: on a small sample, the rare players who manage to hit a hard-to-execute comp completely dominate the numbers. The fix uses <strong>empirical-Bayes shrinkage</strong> (the same idea behind Reddit's "best" comment sorting or IMDB ratings): the score used for ranking is pulled toward the real average across all comps, by an amount that grows as the sample shrinks. Important: <strong>the numbers shown (average placement, top 4) are never modified</strong> -- only the ranking order and assigned tier are. What you see on a comp's page is always the real, raw number.</p>
+
+<h2 class="fiche-section-title">The absolute floor per tier</h2>
+<p>Percentile ranking alone has a flaw: "S" only ever means "least-bad of this cycle's pool," even if the whole sample that cycle is weak. To fix that, every tier also has an <strong>absolute placement ceiling</strong> (post-shrinkage): S ≤ 4.30, A ≤ 4.50, B ≤ 4.80. A comp that earns its percentile slot but doesn't clear that ceiling gets bumped down a tier, and again, until it actually earns its spot (Tier C has no ceiling, so nothing is ever left without one). These thresholds are anchored to TFT's fixed theoretical mean of 4.50 and checked live against the biggest tracker in the market's own real tier boundaries (MetaTFT: their S tier tops out at 4.25, A at 4.50).</p>
+
+<h2 class="fiche-section-title">The Hors Meta system</h2>
+<p>Our Riot developer API key expires every 24h, so every data refresh draws on a fresh sample, never the full history at once. A comp that cleared the quality bar in a previous refresh can, purely by sampling luck, fall below it next time -- that doesn't mean it stopped being good. Instead of deleting its page (and breaking an already-shared or Google-indexed link), it moves to a dedicated <strong>Hors Meta</strong> category: still viewable, with a distinct badge and a note stating its last known tier and the date it last appeared in the active calculation.</p>
+
+<h2 class="fiche-section-title">What we can't measure</h2>
+<p>Augments currently aren't exposed by Riot's public API for this Set (checked directly: the field is entirely absent across 23,000+ analyzed participants) -- that's why no real-data augment tier list exists on the site yet. That section activates automatically the moment Riot republishes the field.</p>
+{% endif %}
+</div>
+{% endblock %}
