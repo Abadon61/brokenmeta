@@ -350,6 +350,105 @@ RANK_FILTER_JS = """
   }
 })();
 """
+# /contres/ page: search any comp, see who counters it and what it counters,
+# site-wide -- the same "Counters" section every comp page already has
+# (matchups_by_comp in main(), unrelated to this file-scope block), just
+# searchable instead of scoped to one comp. Ships as one static JSON
+# (matchup-finder.json, see main()) plus the already-shipped comp-index.json
+# (MetaScope's worker autocomplete data, reused as-is here for the search
+# box) instead of a page per comp -- hundreds of comps, most matchup
+# pairs shared, so one client-side lookup beats hundreds of near-duplicate
+# static pages. Renders using the exact same .fiche-matchup-row/-list
+# classes as a comp page's own Counters section, so the two look identical.
+COUNTER_FINDER_JS = """
+(function () {
+  var searchInput = document.getElementById('counterSearch');
+  if (!searchInput) return;
+  var resultsEl = document.getElementById('counterSearchResults');
+  var outputEl = document.getElementById('counterOutput');
+  var emptyEl = document.getElementById('counterEmpty');
+  var selectedNameEl = document.getElementById('counterSelectedName');
+  var forListEl = document.getElementById('counterForList');
+  var againstListEl = document.getElementById('counterAgainstList');
+  var root = window.BM_ROOT || '';
+  var compIndex = null, matchupData = null;
+
+  Promise.all([
+    fetch(root + 'assets/data/comp-index.json').then(function (r) { return r.json(); }),
+    fetch(root + 'assets/data/matchup-finder.json').then(function (r) { return r.json(); }),
+  ]).then(function (res) {
+    compIndex = res[0];
+    matchupData = res[1];
+  }).catch(function () {});
+
+  function renderResults(query) {
+    resultsEl.innerHTML = '';
+    if (!query || !compIndex || !matchupData) { resultsEl.hidden = true; return; }
+    var q = query.toLowerCase();
+    var matches = [];
+    for (var key in compIndex) {
+      if (!matchupData[key]) continue; // only comps with real matchup data are searchable
+      if (compIndex[key].display_label.toLowerCase().indexOf(q) !== -1) {
+        matches.push(key);
+        if (matches.length >= 8) break;
+      }
+    }
+    if (!matches.length) { resultsEl.hidden = true; return; }
+    matches.forEach(function (key) {
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'counter-result-item';
+      btn.textContent = compIndex[key].display_label;
+      btn.addEventListener('click', function () { selectComp(key); });
+      resultsEl.appendChild(btn);
+    });
+    resultsEl.hidden = false;
+  }
+
+  function matchupRow(m) {
+    var side = m.aheadPct >= 50 ? 'ahead' : 'behind';
+    var row = document.createElement('div');
+    row.className = 'fiche-matchup-row';
+    row.dataset.side = side;
+    var nameHtml = m.oppSlug
+      ? '<a href="' + root + 'compo/' + m.oppSlug + '/" style="color:inherit">' + m.oppLabel + '</a>'
+      : m.oppLabel;
+    row.innerHTML =
+      '<span class="m-name">' + nameHtml + '</span>' +
+      '<span class="m-encounters nums">' + m.encounters + '</span>' +
+      '<span class="matchup-bar-wrap"><span class="matchup-bar" style="width:' + m.aheadPct + '%"></span></span>' +
+      '<span class="m-pct nums">' + m.aheadPct + '%</span>';
+    return row;
+  }
+
+  function selectComp(key) {
+    searchInput.value = compIndex[key].display_label;
+    resultsEl.hidden = true;
+    resultsEl.innerHTML = '';
+    var rows = matchupData[key] || [];
+    var against = rows.filter(function (m) { return m.aheadPct < 50; })
+                       .sort(function (a, b) { return a.aheadPct - b.aheadPct; });
+    var forUs = rows.filter(function (m) { return m.aheadPct >= 50; })
+                     .sort(function (a, b) { return b.aheadPct - a.aheadPct; });
+    againstListEl.innerHTML = '';
+    forListEl.innerHTML = '';
+    against.forEach(function (m) { againstListEl.appendChild(matchupRow(m)); });
+    forUs.forEach(function (m) { forListEl.appendChild(matchupRow(m)); });
+    if (selectedNameEl) selectedNameEl.textContent = compIndex[key].display_label;
+    outputEl.hidden = false;
+    emptyEl.hidden = true;
+    if (window.gtag) gtag('event', 'counter_finder_search', {comp_key: key});
+  }
+
+  searchInput.addEventListener('input', function () {
+    outputEl.hidden = true;
+    renderResults(searchInput.value.trim());
+  });
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.counter-search-wrap')) resultsEl.hidden = true;
+  });
+})();
+"""
 STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>'
 COPY_SVG = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
             'stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect>'
@@ -1618,6 +1717,14 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Plus grosses chutes",
         "trends_none": "Aucun mouvement significatif sur cette période.",
         "trends_no_history": "Pas encore assez d'historique pour calculer des tendances — reviens après le prochain refresh de données.",
+        "nav_counters": "Contres",
+        "nav_tools": "Outils",
+        "counters_title": "Chercheur de contres — Teamfight Tactics Set 18",
+        "counters_intro": "Cherche une comp pour voir, sur données réelles de rencontres en jeu, quelles compositions la contrent et lesquelles elle contre.",
+        "counters_search_placeholder": "Rechercher une comp…",
+        "counters_empty_state": "Tape le nom d'une comp ci-dessus pour voir ses contres.",
+        "counters_against_title": "▼ La contrent",
+        "counters_for_title": "▲ Elle contre",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1821,6 +1928,14 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Biggest drops",
         "trends_none": "No significant movement over this period.",
         "trends_no_history": "Not enough history yet to compute trends -- check back after the next data refresh.",
+        "nav_counters": "Counters",
+        "nav_tools": "Tools",
+        "counters_title": "Counter Finder — Teamfight Tactics Set 18",
+        "counters_intro": "Search any comp to see, from real in-game encounter data, which comps counter it and which ones it beats.",
+        "counters_search_placeholder": "Search a comp…",
+        "counters_empty_state": "Type a comp name above to see its counters.",
+        "counters_against_title": "▼ Counter it",
+        "counters_for_title": "▲ It counters",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2487,6 +2602,35 @@ def main() -> None:
     trend_risers, trend_fallers = build_trend_rows()
     print(f"Trends: {len(trend_risers)} risers, {len(trend_fallers)} fallers "
           f"({prev_snap_date} -> {latest_snap_date})." if prev_snap_date else "Trends: only one snapshot so far, skipped.")
+
+    # ---- Counter Finder (/contres/): a searchable version of the "Counters"
+    # section every comp page already shows (matchups_by_comp above), scoped
+    # to the whole site instead of one comp at a time. Ships as one static
+    # JSON (assets/js/counter-finder.js does the search + render client-side,
+    # same pattern as rank-filter.js/comp-index.json), keyed by comp key so
+    # the search box's autocomplete (comp-index.json, already shipped for
+    # MetaScope's worker) can resolve straight into it with no extra lookup.
+    # Only real, currently-published comps are included -- an opponent with
+    # no real page (didn't clear MIN_PLAY_COUNT this cycle) still shows up
+    # by name, just unlinked, exactly like comp.html's own matchups section.
+    matchup_finder_data: dict[str, list[dict]] = {}
+    for key, rows in matchups_by_comp.items():
+        c = comp_vm_by_key.get(key)
+        if not c or c.get("is_hors_meta"):
+            continue
+        mu_rows = sorted((m for m in rows if m["encounters"] >= 4), key=lambda m: -m["encounters"])[:40]
+        entries = []
+        for m in mu_rows:
+            opp = comp_vm_by_key.get(m["opp"])
+            entries.append({
+                "oppLabel": opp["display_label"] if opp else m["opp_label"],
+                "oppSlug": opp["slug"] if (opp and not opp.get("is_hors_meta")) else None,
+                "oppTier": opp["tier"] if opp else None, "oppTierVar": opp["tier_var"] if opp else None,
+                "encounters": m["encounters"], "aheadPct": round(m["ahead"] * 100),
+            })
+        if entries:
+            matchup_finder_data[key] = entries
+    print(f"Counter Finder: {len(matchup_finder_data)} comps with real matchup data.")
 
     region_rows = {r: sorted_rows(rows) for r, rows in region_raw_filtered.items()}
     rank_rows = {b: sorted_rows(rows) for b, rows in rank_raw_filtered.items()}
@@ -3189,6 +3333,7 @@ def main() -> None:
         render("trends.html", "/tendances/", lang, active_nav="trends",
                has_data=bool(prev_snap_date), prev_date=prev_snap_date, latest_date=latest_snap_date,
                risers=trend_risers, fallers=trend_fallers)
+        render("counters.html", "/contres/", lang, active_nav="counters")
 
         # ---- Glossaire ----
         render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={
@@ -3563,6 +3708,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "rank-filter.js").write_text(RANK_FILTER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "counter-finder.js").write_text(COUNTER_FINDER_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
@@ -3616,7 +3762,7 @@ def main() -> None:
     for name, payload in [
         ("benchmarks.json", worker_benchmarks), ("matchups.json", worker_matchups),
         ("comp-index.json", worker_comp_index), ("name-map.json", champ_name_map), ("item-offense.json", item_offense),
-        ("rank-filter.json", rank_filter_data),
+        ("rank-filter.json", rank_filter_data), ("matchup-finder.json", matchup_finder_data),
     ]:
         (DIST / "assets" / "data" / name).write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
 
