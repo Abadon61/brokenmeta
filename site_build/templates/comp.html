@@ -9,6 +9,7 @@
     <div class="fiche-kicker">{{ SET_LABEL }}</div>
     <h1 class="fiche-title">{{ c.display_label }}{% if c.trend %}<span class="trend-badge trend-{{ c.trend.state }}">{{ c.trend.arrow }} {{ '%.2f'|format(c.trend.delta) }}</span>{% endif %}</h1>
     {% if c.level_badge_n %}<div class="fiche-meta">{{ t(lang, 'level_badge', c.level_badge_n) }}</div>{% endif %}
+    {% if not c.is_hors_meta %}<div class="fiche-meta" data-confidence="{{ c.confidence_level|lower }}">{{ t(lang, 'confidence_note', t(lang, 'confidence_' + c.confidence_level|lower), c.play_count) }} <a href="{{ root }}methodologie/">{{ t(lang, 'methodology_link_text') }}</a></div>{% endif %}
   </div>
   <div>
     <div class="fiche-stats pill-row">

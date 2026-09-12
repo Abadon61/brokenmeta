@@ -33,7 +33,7 @@ from tft_tracker.champion_images import (  # noqa: E402
     build_team_planner_codes, build_trait_data, classify_item_offense,
 )
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
-from tft_tracker.tierlist import TIER_BUCKETS  # noqa: E402 -- same reason
+from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
 OUT = PROJECT / "data" / "output"
 DIST = ROOT / "dist"
@@ -1725,6 +1725,9 @@ I18N: dict[str, dict] = {
         "counters_empty_state": "Tape le nom d'une comp ci-dessus pour voir ses contres.",
         "counters_against_title": "▼ La contrent",
         "counters_for_title": "▲ Elle contre",
+        "confidence_high": "Élevée", "confidence_medium": "Moyenne", "confidence_low": "Faible",
+        "confidence_note": lambda level, n: f"Confiance de l'échantillon : {level} ({n} parties).",
+        "methodology_link_text": "Voir comment c'est calculé →",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1936,6 +1939,9 @@ I18N: dict[str, dict] = {
         "counters_empty_state": "Type a comp name above to see its counters.",
         "counters_against_title": "▼ Counter it",
         "counters_for_title": "▲ It counters",
+        "confidence_high": "High", "confidence_medium": "Medium", "confidence_low": "Low",
+        "confidence_note": lambda level, n: f"Sample confidence: {level} ({n} games).",
+        "methodology_link_text": "See how this is calculated →",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2438,6 +2444,17 @@ def main() -> None:
             # number for rows that never went through tierlist.py's ranking
             # (Hors Meta comps carry whatever score they had when archived).
             "sort_placement": c.get("ranking_score_placement", c["avg_placement"]),
+            # Sample confidence (see /methodologie/): High once a comp's own
+            # sample clears 2x SHRINKAGE_PRIOR_GAMES -- at that point its own
+            # data already outweighs the population prior 2:1, so shrinkage
+            # barely moves it (Solar_Xayah, 5528 games, is a real example:
+            # 51.8% shrunk vs 51.86% raw). Medium above MIN_PLAY_COUNT*3:
+            # still gets meaningfully corrected but isn't right at the
+            # publish floor. Low is everything just past the 100-game bar,
+            # where shrinkage is doing real, necessary work.
+            "confidence_level": ("High" if c["play_count"] >= SHRINKAGE_PRIOR_GAMES * 2
+                                  else "Medium" if c["play_count"] >= MIN_PLAY_COUNT * 3
+                                  else "Low"),
             "play_count": c["play_count"], "play_rate": c.get("play_rate", 0),
             "contestation_index": c.get("contestation_index", 0), "contestation_level": c.get("contestation_level", "Low"),
             "level_badge_n": (re.search(r"\d+", c["level_badge"]).group() if c.get("level_badge") else None),

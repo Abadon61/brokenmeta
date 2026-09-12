@@ -466,6 +466,12 @@ TIER_BUCKETS = [
     ("C", 1.01),
 ]
 
+# Module-level (not just a build_tier_list() local) so build_site.py can
+# reuse the exact same number for the comp fiche's "sample confidence" note
+# instead of a second, potentially-drifting copy of "500" -- see
+# build_tier_list() below for what this actually does.
+SHRINKAGE_PRIOR_GAMES = 500
+
 MERGE_MIN_RATIO = 0.7  # smaller comp must retain at least this fraction of the parent's unit count
 MERGE_MIN_PLAY_COUNT = 2  # candidates below this aren't worth comparing (pure noise)
 
@@ -650,16 +656,16 @@ def build_tier_list(comps: dict[str, CompStats], total_participants: int) -> tup
     total_placement = sum(r["avg_placement"] * r["play_count"] for r in ranked_pool)
     global_top4_rate = (total_top4 / total_games) if total_games else 0.5
     global_avg_placement = (total_placement / total_games) if total_games else 4.5
-    # Tuned against real data, not guessed: at 100 (== MIN_PLAY_COUNT, the
-    # obvious first guess), a 149-game comp that ran a real 93% top4 only
-    # shrank to a still-implausible 76% (real S-tier comps, ours and
-    # competitors', sit at 53-59% -- see MetaTFT's live top comps, 58.2%
-    # down to 53.0%). Swept K from 100 to 1000 against that same comp: 500
-    # lands its shrunk score at 60.3%, right at the edge of that real
-    # range, while barely moving an already-well-sampled comp (Solar_Xayah,
-    # 5528 games: 51.8% at every K tested, as expected -- shrinkage should
-    # only meaningfully move comps whose own sample is thin relative to it).
-    SHRINKAGE_PRIOR_GAMES = 500
+    # SHRINKAGE_PRIOR_GAMES (module level, see above) was tuned against real
+    # data, not guessed: at 100 (== MIN_PLAY_COUNT, the obvious first guess),
+    # a 149-game comp that ran a real 93% top4 only shrank to a still-
+    # implausible 76% (real S-tier comps, ours and competitors', sit at
+    # 53-59% -- see MetaTFT's live top comps, 58.2% down to 53.0%). Swept K
+    # from 100 to 1000 against that same comp: 500 lands its shrunk score at
+    # 60.3%, right at the edge of that real range, while barely moving an
+    # already-well-sampled comp (Solar_Xayah, 5528 games: 51.8% at every K
+    # tested, as expected -- shrinkage should only meaningfully move comps
+    # whose own sample is thin relative to it).
 
     def shrunk_top4(r: dict) -> float:
         top4_count = r["top4_rate"] * r["play_count"]
