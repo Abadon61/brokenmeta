@@ -37,10 +37,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260912194824">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260912194824">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260912215752">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260912215752">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=20260912194824">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20260912215752">
 
 </head>
 <body>
@@ -51,6 +51,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../../" style="text-decoration:none"><img class="wordmark-logo" src="../../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="topbar-right">
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
     <div class="social-links">
       <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -81,6 +93,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="nav-dropdown-menu">
     <a href="../../tendances/">Trends</a>
     <a href="../../contres/">Counters</a>
+    <a href="../../pepites-cachees/">Sleeper Picks</a>
+    <a href="../../combos-objets/">Item Combos</a>
   </div>
 </details>
 <details class="nav-dropdown" >
@@ -124,6 +138,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="nav-dropdown-menu">
     <a href="../../tendances/">Trends</a>
     <a href="../../contres/">Counters</a>
+    <a href="../../pepites-cachees/">Sleeper Picks</a>
+    <a href="../../combos-objets/">Item Combos</a>
   </div>
 </details>
 <details class="nav-dropdown" >
@@ -179,6 +195,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="S">
         <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/bramblevest/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/bramblevest.png" alt="Bramble Vest" loading="lazy">
+          <span>Bramble Vest</span>
+        </a></td>
+        <td class="num">16%</td>
+        <td class="num">3.98</td>
+        <td class="num">60%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/evenshroud/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/evenshroud.png" alt="Evenshroud" loading="lazy">
           <span>Evenshroud</span>
@@ -189,6 +220,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">18%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/steraksgage/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/steraksgage.png" alt="Sterak&#39;s Gage" loading="lazy">
+          <span>Sterak&#39;s Gage</span>
+        </a></td>
+        <td class="num">22%</td>
+        <td class="num">3.99</td>
+        <td class="num">60%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/ionicspark/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/ionicspark.png" alt="Ionic Spark" loading="lazy">
+          <span>Ionic Spark</span>
+        </a></td>
+        <td class="num">13%</td>
+        <td class="num">3.97</td>
+        <td class="num">60%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/thiefsgloves/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/thiefsgloves.png" alt="Thief&#39;s Gloves" loading="lazy">
+          <span>Thief&#39;s Gloves</span>
+        </a></td>
+        <td class="num">33%</td>
+        <td class="num">3.98</td>
+        <td class="num">60%</td>
+        <td class="num">17%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
         </div></td>
       </tr>
       
@@ -224,66 +300,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="S">
         <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/ionicspark/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/ionicspark.png" alt="Ionic Spark" loading="lazy">
-          <span>Ionic Spark</span>
-        </a></td>
-        <td class="num">13%</td>
-        <td class="num">3.97</td>
-        <td class="num">60%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="S">
-        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/bramblevest/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/bramblevest.png" alt="Bramble Vest" loading="lazy">
-          <span>Bramble Vest</span>
-        </a></td>
-        <td class="num">16%</td>
-        <td class="num">3.98</td>
-        <td class="num">60%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="S">
-        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/thiefsgloves/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/thiefsgloves.png" alt="Thief&#39;s Gloves" loading="lazy">
-          <span>Thief&#39;s Gloves</span>
-        </a></td>
-        <td class="num">33%</td>
-        <td class="num">3.98</td>
-        <td class="num">60%</td>
-        <td class="num">17%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="S">
-        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/steraksgage/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/steraksgage.png" alt="Sterak&#39;s Gage" loading="lazy">
-          <span>Sterak&#39;s Gage</span>
-        </a></td>
-        <td class="num">22%</td>
-        <td class="num">3.99</td>
-        <td class="num">60%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="S">
-        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/adaptivehelm/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/adaptivehelm.png" alt="Adaptive Helm" loading="lazy">
           <span>Adaptive Helm</span>
@@ -312,8 +328,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/steadfastheart/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/steadfastheart.png" alt="Steadfast Heart" loading="lazy">
           <span>Steadfast Heart</span>
@@ -324,51 +340,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">15%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/edgeofnight/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/edgeofnight.png" alt="Edge of Night" loading="lazy">
-          <span>Edge of Night</span>
-        </a></td>
-        <td class="num">25%</td>
-        <td class="num">4.05</td>
-        <td class="num">59%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/bloodthirster/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/bloodthirster.png" alt="Bloodthirster" loading="lazy">
-          <span>Bloodthirster</span>
-        </a></td>
-        <td class="num">14%</td>
-        <td class="num">4.06</td>
-        <td class="num">58%</td>
-        <td class="num">15%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemvanguard/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/emblemvanguard.png" alt="Vanguard Emblem" loading="lazy">
-          <span>Vanguard Emblem</span>
-        </a></td>
-        <td class="num">3%</td>
-        <td class="num">4.06</td>
-        <td class="num">58%</td>
-        <td class="num">17%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
         </div></td>
       </tr>
       
@@ -404,6 +375,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/edgeofnight/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/edgeofnight.png" alt="Edge of Night" loading="lazy">
+          <span>Edge of Night</span>
+        </a></td>
+        <td class="num">25%</td>
+        <td class="num">4.05</td>
+        <td class="num">59%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/emblemrapidfire/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/emblemrapidfire.png" alt="Rapidfire Emblem" loading="lazy">
           <span>Rapidfire Emblem</span>
@@ -414,6 +400,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">15%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/bloodthirster/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/bloodthirster.png" alt="Bloodthirster" loading="lazy">
+          <span>Bloodthirster</span>
+        </a></td>
+        <td class="num">14%</td>
+        <td class="num">4.06</td>
+        <td class="num">58%</td>
+        <td class="num">15%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
         </div></td>
       </tr>
       
@@ -434,36 +435,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/titansresolve/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/titansresolve.png" alt="Titan&#39;s Resolve" loading="lazy">
-          <span>Titan&#39;s Resolve</span>
-        </a></td>
-        <td class="num">17%</td>
-        <td class="num">4.08</td>
-        <td class="num">58%</td>
-        <td class="num">15%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/sunfirecape/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/sunfirecape.png" alt="Sunfire Cape" loading="lazy">
-          <span>Sunfire Cape</span>
-        </a></td>
-        <td class="num">24%</td>
-        <td class="num">4.09</td>
-        <td class="num">58%</td>
-        <td class="num">15%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/aphelios.png" alt="Aphelios" title="Aphelios" loading="lazy" data-champ-slug="aphelios" data-champ-href="../../champions/aphelios/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/alune.png" alt="Alune" title="Alune" loading="lazy" data-champ-slug="alune" data-champ-href="../../champions/alune/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/hextechgunblade/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/hextechgunblade.png" alt="Hextech Gunblade" loading="lazy">
           <span>Hextech Gunblade</span>
@@ -479,46 +450,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/redbuff/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/redbuff.png" alt="Red Buff" loading="lazy">
-          <span>Red Buff</span>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/titansresolve/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/titansresolve.png" alt="Titan&#39;s Resolve" loading="lazy">
+          <span>Titan&#39;s Resolve</span>
         </a></td>
-        <td class="num">27%</td>
-        <td class="num">4.09</td>
+        <td class="num">17%</td>
+        <td class="num">4.08</td>
         <td class="num">58%</td>
-        <td class="num">16%</td>
+        <td class="num">15%</td>
         <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
         </div></td>
       </tr>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/embleminvoker/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/embleminvoker.png" alt="Invoker Emblem" loading="lazy">
-          <span>Invoker Emblem</span>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemvanguard/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/emblemvanguard.png" alt="Vanguard Emblem" loading="lazy">
+          <span>Vanguard Emblem</span>
         </a></td>
-        <td class="num">4%</td>
-        <td class="num">4.09</td>
+        <td class="num">3%</td>
+        <td class="num">4.06</td>
         <td class="num">58%</td>
-        <td class="num">16%</td>
+        <td class="num">17%</td>
         <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/alune.png" alt="Alune" title="Alune" loading="lazy" data-champ-slug="alune" data-champ-href="../../champions/alune/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/tacticianscape/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/tacticianscape.png" alt="Tactician&#39;s Cape" loading="lazy">
-          <span>Tactician&#39;s Cape</span>
-        </a></td>
-        <td class="num">1%</td>
-        <td class="num">4.09</td>
-        <td class="num">58%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/sentinel.png" alt="Sentinel" title="Sentinel" loading="lazy" data-champ-slug="sentinel" data-champ-href="../../champions/sentinel/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
         </div></td>
       </tr>
       
@@ -539,16 +495,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/strikersflail/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/strikersflail.png" alt="Striker&#39;s Flail" loading="lazy">
-          <span>Striker&#39;s Flail</span>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/sunfirecape/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/sunfirecape.png" alt="Sunfire Cape" loading="lazy">
+          <span>Sunfire Cape</span>
         </a></td>
-        <td class="num">25%</td>
-        <td class="num">4.10</td>
+        <td class="num">24%</td>
+        <td class="num">4.09</td>
         <td class="num">58%</td>
         <td class="num">15%</td>
         <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/elder-dragon.png" alt="Elder Dragon" title="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../../champions/elder-dragon/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/aphelios.png" alt="Aphelios" title="Aphelios" loading="lazy" data-champ-slug="aphelios" data-champ-href="../../champions/aphelios/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/alune.png" alt="Alune" title="Alune" loading="lazy" data-champ-slug="alune" data-champ-href="../../champions/alune/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/embleminvoker/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/embleminvoker.png" alt="Invoker Emblem" loading="lazy">
+          <span>Invoker Emblem</span>
+        </a></td>
+        <td class="num">4%</td>
+        <td class="num">4.09</td>
+        <td class="num">58%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/alune.png" alt="Alune" title="Alune" loading="lazy" data-champ-slug="alune" data-champ-href="../../champions/alune/">
         </div></td>
       </tr>
       
@@ -569,6 +540,51 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/redbuff/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/redbuff.png" alt="Red Buff" loading="lazy">
+          <span>Red Buff</span>
+        </a></td>
+        <td class="num">27%</td>
+        <td class="num">4.09</td>
+        <td class="num">58%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/tacticianscape/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/tacticianscape.png" alt="Tactician&#39;s Cape" loading="lazy">
+          <span>Tactician&#39;s Cape</span>
+        </a></td>
+        <td class="num">1%</td>
+        <td class="num">4.09</td>
+        <td class="num">58%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/sentinel.png" alt="Sentinel" title="Sentinel" loading="lazy" data-champ-slug="sentinel" data-champ-href="../../champions/sentinel/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/strikersflail/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/strikersflail.png" alt="Striker&#39;s Flail" loading="lazy">
+          <span>Striker&#39;s Flail</span>
+        </a></td>
+        <td class="num">25%</td>
+        <td class="num">4.10</td>
+        <td class="num">58%</td>
+        <td class="num">15%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/elder-dragon.png" alt="Elder Dragon" title="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../../champions/elder-dragon/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/morellonomicon/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/morellonomicon.png" alt="Morellonomicon" loading="lazy">
           <span>Morellonomicon</span>
@@ -584,36 +600,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/giantslayer/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/giantslayer.png" alt="Giant Slayer" loading="lazy">
-          <span>Giant Slayer</span>
-        </a></td>
-        <td class="num">30%</td>
-        <td class="num">4.12</td>
-        <td class="num">57%</td>
-        <td class="num">15%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemexecutioner/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/emblemexecutioner.png" alt="Executioner Emblem" loading="lazy">
-          <span>Executioner Emblem</span>
-        </a></td>
-        <td class="num">5%</td>
-        <td class="num">4.12</td>
-        <td class="num">57%</td>
-        <td class="num">17%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/dragonsclaw/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/dragonsclaw.png" alt="Dragon&#39;s Claw" loading="lazy">
           <span>Dragon&#39;s Claw</span>
@@ -624,6 +610,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">14%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/yunara.png" alt="Yunara" title="Yunara" loading="lazy" data-champ-slug="yunara" data-champ-href="../../champions/yunara/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/giantslayer/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/giantslayer.png" alt="Giant Slayer" loading="lazy">
+          <span>Giant Slayer</span>
+        </a></td>
+        <td class="num">30%</td>
+        <td class="num">4.12</td>
+        <td class="num">57%</td>
+        <td class="num">15%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/">
         </div></td>
       </tr>
       
@@ -659,36 +660,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/deathblade/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/deathblade.png" alt="Deathblade" loading="lazy">
-          <span>Deathblade</span>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemexecutioner/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/emblemexecutioner.png" alt="Executioner Emblem" loading="lazy">
+          <span>Executioner Emblem</span>
         </a></td>
-        <td class="num">25%</td>
-        <td class="num">4.15</td>
-        <td class="num">56%</td>
-        <td class="num">16%</td>
+        <td class="num">5%</td>
+        <td class="num">4.12</td>
+        <td class="num">57%</td>
+        <td class="num">17%</td>
         <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
         </div></td>
       </tr>
       
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemelderwood/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/emblemelderwood.png" alt="Elderwood Emblem" loading="lazy">
-          <span>Elderwood Emblem</span>
-        </a></td>
-        <td class="num">3%</td>
-        <td class="num">4.14</td>
-        <td class="num">55%</td>
-        <td class="num">18%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ahri.png" alt="Ahri" title="Ahri" loading="lazy" data-champ-slug="ahri" data-champ-href="../../champions/ahri/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/emblemhunter/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/emblemhunter.png" alt="Hunter Emblem" loading="lazy">
           <span>Hunter Emblem</span>
@@ -699,6 +685,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">15%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/elder-dragon.png" alt="Elder Dragon" title="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../../champions/elder-dragon/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/rengar.png" alt="Rengar" title="Rengar" loading="lazy" data-champ-slug="rengar" data-champ-href="../../champions/rengar/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/deathblade/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/deathblade.png" alt="Deathblade" loading="lazy">
+          <span>Deathblade</span>
+        </a></td>
+        <td class="num">25%</td>
+        <td class="num">4.15</td>
+        <td class="num">56%</td>
+        <td class="num">16%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
         </div></td>
       </tr>
       
@@ -749,21 +750,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/lastwhisper/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/lastwhisper.png" alt="Last Whisper" loading="lazy">
-          <span>Last Whisper</span>
-        </a></td>
-        <td class="num">26%</td>
-        <td class="num">4.20</td>
-        <td class="num">55%</td>
-        <td class="num">16%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/elder-dragon.png" alt="Elder Dragon" title="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../../champions/elder-dragon/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/spearofshojin/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/spearofshojin.png" alt="Spear of Shojin" loading="lazy">
           <span>Spear of Shojin</span>
@@ -774,6 +760,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">14%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemelderwood/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/emblemelderwood.png" alt="Elderwood Emblem" loading="lazy">
+          <span>Elderwood Emblem</span>
+        </a></td>
+        <td class="num">3%</td>
+        <td class="num">4.14</td>
+        <td class="num">55%</td>
+        <td class="num">18%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ahri.png" alt="Ahri" title="Ahri" loading="lazy" data-champ-slug="ahri" data-champ-href="../../champions/ahri/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/spiritvisage/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/spiritvisage.png" alt="Spirit Visage" loading="lazy">
+          <span>Spirit Visage</span>
+        </a></td>
+        <td class="num">41%</td>
+        <td class="num">4.21</td>
+        <td class="num">55%</td>
+        <td class="num">15%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ashe.png" alt="Ashe" title="Ashe" loading="lazy" data-champ-slug="ashe" data-champ-href="../../champions/ashe/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
         </div></td>
       </tr>
       
@@ -794,31 +810,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemfae/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/emblemfae.png" alt="Fae Emblem" loading="lazy">
-          <span>Fae Emblem</span>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/lastwhisper/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/lastwhisper.png" alt="Last Whisper" loading="lazy">
+          <span>Last Whisper</span>
         </a></td>
-        <td class="num">3%</td>
+        <td class="num">26%</td>
         <td class="num">4.20</td>
-        <td class="num">54%</td>
-        <td class="num">21%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/spiritvisage/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/spiritvisage.png" alt="Spirit Visage" loading="lazy">
-          <span>Spirit Visage</span>
-        </a></td>
-        <td class="num">41%</td>
-        <td class="num">4.21</td>
         <td class="num">55%</td>
-        <td class="num">15%</td>
+        <td class="num">16%</td>
         <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ashe.png" alt="Ashe" title="Ashe" loading="lazy" data-champ-slug="ashe" data-champ-href="../../champions/ashe/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/ivern.png" alt="Ivern" title="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../../champions/ivern/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/elder-dragon.png" alt="Elder Dragon" title="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../../champions/elder-dragon/">
         </div></td>
       </tr>
       
@@ -884,6 +885,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemfae/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/emblemfae.png" alt="Fae Emblem" loading="lazy">
+          <span>Fae Emblem</span>
+        </a></td>
+        <td class="num">3%</td>
+        <td class="num">4.20</td>
+        <td class="num">54%</td>
+        <td class="num">21%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/draven.png" alt="Draven" title="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../../champions/draven/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/maokai.png" alt="Maokai" title="Maokai" loading="lazy" data-champ-slug="maokai" data-champ-href="../../champions/maokai/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="C">
+        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/gargoylestoneplate/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/gargoylestoneplate.png" alt="Gargoyle Stoneplate" loading="lazy">
           <span>Gargoyle Stoneplate</span>
@@ -929,6 +945,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="C">
         <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
+        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemprimal/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon" src="../../assets/items/emblemprimal.png" alt="Primal Emblem" loading="lazy">
+          <span>Primal Emblem</span>
+        </a></td>
+        <td class="num">2%</td>
+        <td class="num">4.41</td>
+        <td class="num">52%</td>
+        <td class="num">12%</td>
+        <td><div class="champ-items">
+          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/leona.png" alt="Leona" title="Leona" loading="lazy" data-champ-slug="leona" data-champ-href="../../champions/leona/">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="C">
+        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
         <td><a class="champ-name-cell" href="../../glossaire/objets/guinsoosrageblade/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon" src="../../assets/items/guinsoosrageblade.png" alt="Guinsoo&#39;s Rageblade" loading="lazy">
           <span>Guinsoo&#39;s Rageblade</span>
@@ -954,21 +985,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">14%</td>
         <td><div class="champ-items">
           <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/lux.png" alt="Lux" title="Lux" loading="lazy" data-champ-slug="lux" data-champ-href="../../champions/lux/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/kennen.png" alt="Kennen" title="Kennen" loading="lazy" data-champ-slug="kennen" data-champ-href="../../champions/kennen/">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="C">
-        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
-        <td><a class="champ-name-cell" href="../../glossaire/objets/emblemprimal/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon" src="../../assets/items/emblemprimal.png" alt="Primal Emblem" loading="lazy">
-          <span>Primal Emblem</span>
-        </a></td>
-        <td class="num">2%</td>
-        <td class="num">4.41</td>
-        <td class="num">52%</td>
-        <td class="num">12%</td>
-        <td><div class="champ-items">
-          <img class="champ-icon-sm champ-link-icon" src="../../assets/champions/taric.png" alt="Taric" title="Taric" loading="lazy" data-champ-slug="taric" data-champ-href="../../champions/taric/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/gnar.png" alt="Gnar" title="Gnar" loading="lazy" data-champ-slug="gnar" data-champ-href="../../champions/gnar/"><img class="champ-icon-sm champ-link-icon" src="../../assets/champions/leona.png" alt="Leona" title="Leona" loading="lazy" data-champ-slug="leona" data-champ-href="../../champions/leona/">
         </div></td>
       </tr>
       
@@ -1015,7 +1031,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=20260912194824" defer></script>
-<script src="../../assets/js/champ-icons.js?v=20260912194824" defer></script>
+<script src="../../assets/js/copy-comp.js?v=20260912215752" defer></script>
+<script src="../../assets/js/champ-icons.js?v=20260912215752" defer></script>
+<script src="../../assets/js/site-search.js?v=20260912215752" defer></script>
 </body>
 </html>

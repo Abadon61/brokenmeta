@@ -37,10 +37,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260912194824">
-<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=20260912194824">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260912215752">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=20260912215752">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=20260912194824">
+<link rel="stylesheet" href="../assets/css/style.css?v=20260912215752">
 
 </head>
 <body>
@@ -51,6 +51,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../" style="text-decoration:none"><img class="wordmark-logo" src="../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="topbar-right">
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
     <div class="social-links">
       <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
         <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
@@ -81,6 +93,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="nav-dropdown-menu">
     <a href="../tendances/">Tendances</a>
     <a href="../contres/">Contres</a>
+    <a href="../pepites-cachees/">Pépites cachées</a>
+    <a href="../combos-objets/">Combos d&#39;objets</a>
   </div>
 </details>
 <details class="nav-dropdown" >
@@ -124,6 +138,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="nav-dropdown-menu">
     <a href="../tendances/">Tendances</a>
     <a href="../contres/">Contres</a>
+    <a href="../pepites-cachees/">Pépites cachées</a>
+    <a href="../combos-objets/">Combos d&#39;objets</a>
   </div>
 </details>
 <details class="nav-dropdown" >
@@ -208,21 +224,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="S">
         <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../champions/ivern/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ivern.png" alt="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../champions/ivern/">
-          <span>Ivern</span>
-        </a></td>
-        <td class="num">13%</td>
-        <td class="num">3.75</td>
-        <td class="num">62%</td>
-        <td class="num">1.4★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/adaptivehelm.png" alt="AdaptiveHelm" title="AdaptiveHelm" loading="lazy"><img class="item-icon-sm" src="../assets/items/bluebuff.png" alt="BlueBuff" title="BlueBuff" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="S">
-        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
         <td><a class="champ-name-cell" href="../champions/ashe/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/ashe.png" alt="Ashe" loading="lazy" data-champ-slug="ashe" data-champ-href="../champions/ashe/">
           <span>Ashe</span>
@@ -238,16 +239,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="S">
         <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
-        <td><a class="champ-name-cell" href="../champions/elder-dragon/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/elder-dragon.png" alt="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../champions/elder-dragon/">
-          <span>Elder Dragon</span>
+        <td><a class="champ-name-cell" href="../champions/ivern/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ivern.png" alt="Ivern" loading="lazy" data-champ-slug="ivern" data-champ-href="../champions/ivern/">
+          <span>Ivern</span>
         </a></td>
-        <td class="num">8%</td>
-        <td class="num">3.81</td>
+        <td class="num">13%</td>
+        <td class="num">3.75</td>
         <td class="num">62%</td>
-        <td class="num">1.5★</td>
+        <td class="num">1.4★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/adaptivehelm.png" alt="AdaptiveHelm" title="AdaptiveHelm" loading="lazy"><img class="item-icon-sm" src="../assets/items/bluebuff.png" alt="BlueBuff" title="BlueBuff" loading="lazy">
         </div></td>
       </tr>
       
@@ -263,6 +264,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.4★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="S">
+        <td><div class="champ-tier-badge" style="--tc:var(--red)">S</div></td>
+        <td><a class="champ-name-cell" href="../champions/elder-dragon/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/elder-dragon.png" alt="Elder Dragon" loading="lazy" data-champ-slug="elder-dragon" data-champ-href="../champions/elder-dragon/">
+          <span>Elder Dragon</span>
+        </a></td>
+        <td class="num">8%</td>
+        <td class="num">3.81</td>
+        <td class="num">62%</td>
+        <td class="num">1.5★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
         </div></td>
       </tr>
       
@@ -298,21 +314,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/draven/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/draven.png" alt="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../champions/draven/">
-          <span>Draven</span>
-        </a></td>
-        <td class="num">8%</td>
-        <td class="num">4.14</td>
-        <td class="num">54%</td>
-        <td class="num">1.6★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/krakensfury.png" alt="KrakensFury" title="KrakensFury" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../champions/nidalee/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/nidalee.png" alt="Nidalee" loading="lazy" data-champ-slug="nidalee" data-champ-href="../champions/nidalee/">
           <span>Nidalee</span>
@@ -323,21 +324,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.7★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/steraksgage.png" alt="SteraksGage" title="SteraksGage" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/sett/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/sett.png" alt="Sett" loading="lazy" data-champ-slug="sett" data-champ-href="../champions/sett/">
-          <span>Sett</span>
-        </a></td>
-        <td class="num">21%</td>
-        <td class="num">4.25</td>
-        <td class="num">55%</td>
-        <td class="num">1.7★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
         </div></td>
       </tr>
       
@@ -358,6 +344,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/sett/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/sett.png" alt="Sett" loading="lazy" data-champ-slug="sett" data-champ-href="../champions/sett/">
+          <span>Sett</span>
+        </a></td>
+        <td class="num">21%</td>
+        <td class="num">4.25</td>
+        <td class="num">55%</td>
+        <td class="num">1.7★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/draven/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/draven.png" alt="Draven" loading="lazy" data-champ-slug="draven" data-champ-href="../champions/draven/">
+          <span>Draven</span>
+        </a></td>
+        <td class="num">8%</td>
+        <td class="num">4.14</td>
+        <td class="num">54%</td>
+        <td class="num">1.6★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/krakensfury.png" alt="KrakensFury" title="KrakensFury" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../champions/rengar/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/rengar.png" alt="Rengar" loading="lazy" data-champ-slug="rengar" data-champ-href="../champions/rengar/">
           <span>Rengar</span>
@@ -368,21 +384,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">2.6★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/edgeofnight.png" alt="EdgeOfNight" title="EdgeOfNight" loading="lazy"><img class="item-icon-sm" src="../assets/items/titansresolve.png" alt="TitansResolve" title="TitansResolve" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/lillia/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/lillia.png" alt="Lillia" loading="lazy" data-champ-slug="lillia" data-champ-href="../champions/lillia/">
-          <span>Lillia</span>
-        </a></td>
-        <td class="num">14%</td>
-        <td class="num">4.32</td>
-        <td class="num">53%</td>
-        <td class="num">1.6★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/protectorsvow.png" alt="ProtectorsVow" title="ProtectorsVow" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
         </div></td>
       </tr>
       
@@ -403,46 +404,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/amumu/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/amumu.png" alt="Amumu" loading="lazy" data-champ-slug="amumu" data-champ-href="../champions/amumu/">
-          <span>Amumu</span>
+        <td><a class="champ-name-cell" href="../champions/teemo/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/teemo.png" alt="Teemo" loading="lazy" data-champ-slug="teemo" data-champ-href="../champions/teemo/">
+          <span>Teemo</span>
         </a></td>
-        <td class="num">26%</td>
-        <td class="num">4.33</td>
+        <td class="num">5%</td>
+        <td class="num">4.37</td>
         <td class="num">53%</td>
-        <td class="num">1.7★</td>
+        <td class="num">2.2★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/master-yi/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/master-yi.png" alt="Master Yi" loading="lazy" data-champ-slug="master-yi" data-champ-href="../champions/master-yi/">
-          <span>Master Yi</span>
-        </a></td>
-        <td class="num">8%</td>
-        <td class="num">4.34</td>
-        <td class="num">53%</td>
-        <td class="num">2.4★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/edgeofnight.png" alt="EdgeOfNight" title="EdgeOfNight" loading="lazy"><img class="item-icon-sm" src="../assets/items/titansresolve.png" alt="TitansResolve" title="TitansResolve" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/aphelios/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/aphelios.png" alt="Aphelios" loading="lazy" data-champ-slug="aphelios" data-champ-href="../champions/aphelios/">
-          <span>Aphelios</span>
-        </a></td>
-        <td class="num">14%</td>
-        <td class="num">4.35</td>
-        <td class="num">53%</td>
-        <td class="num">1.7★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/krakensfury.png" alt="KrakensFury" title="KrakensFury" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/morellonomicon.png" alt="Morellonomicon" title="Morellonomicon" loading="lazy">
         </div></td>
       </tr>
       
@@ -463,6 +434,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/lillia/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/lillia.png" alt="Lillia" loading="lazy" data-champ-slug="lillia" data-champ-href="../champions/lillia/">
+          <span>Lillia</span>
+        </a></td>
+        <td class="num">14%</td>
+        <td class="num">4.32</td>
+        <td class="num">53%</td>
+        <td class="num">1.6★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/protectorsvow.png" alt="ProtectorsVow" title="ProtectorsVow" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/aphelios/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/aphelios.png" alt="Aphelios" loading="lazy" data-champ-slug="aphelios" data-champ-href="../champions/aphelios/">
+          <span>Aphelios</span>
+        </a></td>
+        <td class="num">14%</td>
+        <td class="num">4.35</td>
+        <td class="num">53%</td>
+        <td class="num">1.7★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/krakensfury.png" alt="KrakensFury" title="KrakensFury" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
         <td><a class="champ-name-cell" href="../champions/gromp/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/gromp.png" alt="Gromp" loading="lazy" data-champ-slug="gromp" data-champ-href="../champions/gromp/">
           <span>Gromp</span>
@@ -473,21 +474,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.9★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="A">
-        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/sivir/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/sivir.png" alt="Sivir" loading="lazy" data-champ-slug="sivir" data-champ-href="../champions/sivir/">
-          <span>Sivir</span>
-        </a></td>
-        <td class="num">14%</td>
-        <td class="num">4.36</td>
-        <td class="num">53%</td>
-        <td class="num">1.7★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/redbuff.png" alt="RedBuff" title="RedBuff" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy">
         </div></td>
       </tr>
       
@@ -508,16 +494,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="A">
         <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
-        <td><a class="champ-name-cell" href="../champions/teemo/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/teemo.png" alt="Teemo" loading="lazy" data-champ-slug="teemo" data-champ-href="../champions/teemo/">
-          <span>Teemo</span>
+        <td><a class="champ-name-cell" href="../champions/sivir/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/sivir.png" alt="Sivir" loading="lazy" data-champ-slug="sivir" data-champ-href="../champions/sivir/">
+          <span>Sivir</span>
         </a></td>
-        <td class="num">5%</td>
-        <td class="num">4.37</td>
+        <td class="num">14%</td>
+        <td class="num">4.36</td>
         <td class="num">53%</td>
-        <td class="num">2.2★</td>
+        <td class="num">1.7★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/morellonomicon.png" alt="Morellonomicon" title="Morellonomicon" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/redbuff.png" alt="RedBuff" title="RedBuff" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/master-yi/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/master-yi.png" alt="Master Yi" loading="lazy" data-champ-slug="master-yi" data-champ-href="../champions/master-yi/">
+          <span>Master Yi</span>
+        </a></td>
+        <td class="num">8%</td>
+        <td class="num">4.34</td>
+        <td class="num">53%</td>
+        <td class="num">2.4★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/guinsoosrageblade.png" alt="GuinsoosRageblade" title="GuinsoosRageblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/edgeofnight.png" alt="EdgeOfNight" title="EdgeOfNight" loading="lazy"><img class="item-icon-sm" src="../assets/items/titansresolve.png" alt="TitansResolve" title="TitansResolve" loading="lazy">
         </div></td>
       </tr>
       
@@ -531,6 +532,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">4.38</td>
         <td class="num">53%</td>
         <td class="num">2.0★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="A">
+        <td><div class="champ-tier-badge" style="--tc:var(--gold)">A</div></td>
+        <td><a class="champ-name-cell" href="../champions/amumu/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/amumu.png" alt="Amumu" loading="lazy" data-champ-slug="amumu" data-champ-href="../champions/amumu/">
+          <span>Amumu</span>
+        </a></td>
+        <td class="num">26%</td>
+        <td class="num">4.33</td>
+        <td class="num">53%</td>
+        <td class="num">1.7★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
         </div></td>
@@ -553,21 +569,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/ezreal/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ezreal.png" alt="Ezreal" loading="lazy" data-champ-slug="ezreal" data-champ-href="../champions/ezreal/">
-          <span>Ezreal</span>
-        </a></td>
-        <td class="num">13%</td>
-        <td class="num">4.38</td>
-        <td class="num">51%</td>
-        <td class="num">1.7★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
         <td><a class="champ-name-cell" href="../champions/brambleback/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/brambleback.png" alt="Brambleback" loading="lazy" data-champ-slug="brambleback" data-champ-href="../champions/brambleback/">
           <span>Brambleback</span>
@@ -578,6 +579,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.7★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/edgeofnight.png" alt="EdgeOfNight" title="EdgeOfNight" loading="lazy"><img class="item-icon-sm" src="../assets/items/steraksgage.png" alt="SteraksGage" title="SteraksGage" loading="lazy"><img class="item-icon-sm" src="../assets/items/quicksilver.png" alt="Quicksilver" title="Quicksilver" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../champions/cinderling/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/cinderling.png" alt="Cinderling" loading="lazy" data-champ-slug="cinderling" data-champ-href="../champions/cinderling/">
+          <span>Cinderling</span>
+        </a></td>
+        <td class="num">12%</td>
+        <td class="num">4.44</td>
+        <td class="num">52%</td>
+        <td class="num">2.2★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy">
         </div></td>
       </tr>
       
@@ -613,16 +629,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/cinderling/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/cinderling.png" alt="Cinderling" loading="lazy" data-champ-slug="cinderling" data-champ-href="../champions/cinderling/">
-          <span>Cinderling</span>
+        <td><a class="champ-name-cell" href="../champions/zyra/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/zyra.png" alt="Zyra" loading="lazy" data-champ-slug="zyra" data-champ-href="../champions/zyra/">
+          <span>Zyra</span>
         </a></td>
-        <td class="num">12%</td>
-        <td class="num">4.44</td>
-        <td class="num">52%</td>
-        <td class="num">2.2★</td>
+        <td class="num">15%</td>
+        <td class="num">4.47</td>
+        <td class="num">51%</td>
+        <td class="num">1.8★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/infinityedge.png" alt="InfinityEdge" title="InfinityEdge" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy">
         </div></td>
       </tr>
       
@@ -643,16 +659,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/zyra/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/zyra.png" alt="Zyra" loading="lazy" data-champ-slug="zyra" data-champ-href="../champions/zyra/">
-          <span>Zyra</span>
+        <td><a class="champ-name-cell" href="../champions/ezreal/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ezreal.png" alt="Ezreal" loading="lazy" data-champ-slug="ezreal" data-champ-href="../champions/ezreal/">
+          <span>Ezreal</span>
         </a></td>
-        <td class="num">15%</td>
-        <td class="num">4.47</td>
+        <td class="num">13%</td>
+        <td class="num">4.38</td>
         <td class="num">51%</td>
-        <td class="num">1.8★</td>
+        <td class="num">1.7★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/lastwhisper.png" alt="LastWhisper" title="LastWhisper" loading="lazy"><img class="item-icon-sm" src="../assets/items/deathblade.png" alt="Deathblade" title="Deathblade" loading="lazy">
         </div></td>
       </tr>
       
@@ -683,21 +699,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.8★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/morellonomicon.png" alt="Morellonomicon" title="Morellonomicon" loading="lazy"><img class="item-icon-sm" src="../assets/items/rabadonsdeathcap.png" alt="RabadonsDeathcap" title="RabadonsDeathcap" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/alistar/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/alistar.png" alt="Alistar" loading="lazy" data-champ-slug="alistar" data-champ-href="../champions/alistar/">
-          <span>Alistar</span>
-        </a></td>
-        <td class="num">13%</td>
-        <td class="num">4.50</td>
-        <td class="num">49%</td>
-        <td class="num">1.8★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
         </div></td>
       </tr>
       
@@ -748,16 +749,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/hecarim/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/hecarim.png" alt="Hecarim" loading="lazy" data-champ-slug="hecarim" data-champ-href="../champions/hecarim/">
-          <span>Hecarim</span>
+        <td><a class="champ-name-cell" href="../champions/leona/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/leona.png" alt="Leona" loading="lazy" data-champ-slug="leona" data-champ-href="../champions/leona/">
+          <span>Leona</span>
         </a></td>
-        <td class="num">18%</td>
-        <td class="num">4.56</td>
+        <td class="num">14%</td>
+        <td class="num">4.57</td>
         <td class="num">49%</td>
-        <td class="num">1.9★</td>
+        <td class="num">2.4★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
         </div></td>
       </tr>
       
@@ -771,21 +772,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">4.56</td>
         <td class="num">49%</td>
         <td class="num">2.3★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/leona/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/leona.png" alt="Leona" loading="lazy" data-champ-slug="leona" data-champ-href="../champions/leona/">
-          <span>Leona</span>
-        </a></td>
-        <td class="num">14%</td>
-        <td class="num">4.57</td>
-        <td class="num">49%</td>
-        <td class="num">2.4★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
         </div></td>
@@ -808,21 +794,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/shen/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/shen.png" alt="Shen" loading="lazy" data-champ-slug="shen" data-champ-href="../champions/shen/">
-          <span>Shen</span>
-        </a></td>
-        <td class="num">10%</td>
-        <td class="num">4.58</td>
-        <td class="num">49%</td>
-        <td class="num">1.9★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/thiefsgloves.png" alt="ThiefsGloves" title="ThiefsGloves" loading="lazy"><img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
         <td><a class="champ-name-cell" href="../champions/mama-beak/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/mama-beak.png" alt="Mama Beak" loading="lazy" data-champ-slug="mama-beak" data-champ-href="../champions/mama-beak/">
           <span>Mama Beak</span>
@@ -838,31 +809,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/diana/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/diana.png" alt="Diana" loading="lazy" data-champ-slug="diana" data-champ-href="../champions/diana/">
-          <span>Diana</span>
+        <td><a class="champ-name-cell" href="../champions/shen/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/shen.png" alt="Shen" loading="lazy" data-champ-slug="shen" data-champ-href="../champions/shen/">
+          <span>Shen</span>
         </a></td>
-        <td class="num">18%</td>
-        <td class="num">4.59</td>
-        <td class="num">48%</td>
+        <td class="num">10%</td>
+        <td class="num">4.58</td>
+        <td class="num">49%</td>
         <td class="num">1.9★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/thiefsgloves.png" alt="ThiefsGloves" title="ThiefsGloves" loading="lazy"><img class="item-icon-sm" src="../assets/items/handofjustice.png" alt="HandOfJustice" title="HandOfJustice" loading="lazy"><img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="B">
-        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
-        <td><a class="champ-name-cell" href="../champions/ornn/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ornn.png" alt="Ornn" loading="lazy" data-champ-slug="ornn" data-champ-href="../champions/ornn/">
-          <span>Ornn</span>
-        </a></td>
-        <td class="num">19%</td>
-        <td class="num">4.59</td>
-        <td class="num">49%</td>
-        <td class="num">2.3★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/thiefsgloves.png" alt="ThiefsGloves" title="ThiefsGloves" loading="lazy"><img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
         </div></td>
       </tr>
       
@@ -883,6 +839,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="B">
         <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../champions/hecarim/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/hecarim.png" alt="Hecarim" loading="lazy" data-champ-slug="hecarim" data-champ-href="../champions/hecarim/">
+          <span>Hecarim</span>
+        </a></td>
+        <td class="num">18%</td>
+        <td class="num">4.56</td>
+        <td class="num">49%</td>
+        <td class="num">1.9★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../champions/ornn/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/ornn.png" alt="Ornn" loading="lazy" data-champ-slug="ornn" data-champ-href="../champions/ornn/">
+          <span>Ornn</span>
+        </a></td>
+        <td class="num">19%</td>
+        <td class="num">4.59</td>
+        <td class="num">49%</td>
+        <td class="num">2.3★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
         <td><a class="champ-name-cell" href="../champions/rek-sai/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/rek-sai.png" alt="Rek&#39;Sai" loading="lazy" data-champ-slug="rek-sai" data-champ-href="../champions/rek-sai/">
           <span>Rek&#39;Sai</span>
@@ -896,8 +882,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr data-tier="C">
-        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
+        <td><a class="champ-name-cell" href="../champions/alistar/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/alistar.png" alt="Alistar" loading="lazy" data-champ-slug="alistar" data-champ-href="../champions/alistar/">
+          <span>Alistar</span>
+        </a></td>
+        <td class="num">13%</td>
+        <td class="num">4.50</td>
+        <td class="num">49%</td>
+        <td class="num">1.8★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="B">
+        <td><div class="champ-tier-badge" style="--tc:var(--teal)">B</div></td>
         <td><a class="champ-name-cell" href="../champions/tristana/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/tristana.png" alt="Tristana" loading="lazy" data-champ-slug="tristana" data-champ-href="../champions/tristana/">
           <span>Tristana</span>
@@ -913,31 +914,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="C">
         <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
-        <td><a class="champ-name-cell" href="../champions/cassiopeia/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/cassiopeia.png" alt="Cassiopeia" loading="lazy" data-champ-slug="cassiopeia" data-champ-href="../champions/cassiopeia/">
-          <span>Cassiopeia</span>
+        <td><a class="champ-name-cell" href="../champions/diana/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/diana.png" alt="Diana" loading="lazy" data-champ-slug="diana" data-champ-href="../champions/diana/">
+          <span>Diana</span>
         </a></td>
-        <td class="num">8%</td>
-        <td class="num">4.62</td>
+        <td class="num">18%</td>
+        <td class="num">4.59</td>
         <td class="num">48%</td>
-        <td class="num">2.4★</td>
+        <td class="num">1.9★</td>
         <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/archangelsstaff.png" alt="ArchangelsStaff" title="ArchangelsStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/hextechgunblade.png" alt="HextechGunblade" title="HextechGunblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="C">
-        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
-        <td><a class="champ-name-cell" href="../champions/leblanc/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/leblanc.png" alt="LeBlanc" loading="lazy" data-champ-slug="leblanc" data-champ-href="../champions/leblanc/">
-          <span>LeBlanc</span>
-        </a></td>
-        <td class="num">8%</td>
-        <td class="num">4.64</td>
-        <td class="num">47%</td>
-        <td class="num">2.1★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/bluebuff.png" alt="BlueBuff" title="BlueBuff" loading="lazy">
+          <img class="item-icon-sm" src="../assets/items/thiefsgloves.png" alt="ThiefsGloves" title="ThiefsGloves" loading="lazy"><img class="item-icon-sm" src="../assets/items/handofjustice.png" alt="HandOfJustice" title="HandOfJustice" loading="lazy"><img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy">
         </div></td>
       </tr>
       
@@ -968,6 +954,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">2.5★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/handofjustice.png" alt="HandOfJustice" title="HandOfJustice" loading="lazy"><img class="item-icon-sm" src="../assets/items/edgeofnight.png" alt="EdgeOfNight" title="EdgeOfNight" loading="lazy"><img class="item-icon-sm" src="../assets/items/rabadonsdeathcap.png" alt="RabadonsDeathcap" title="RabadonsDeathcap" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="C">
+        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
+        <td><a class="champ-name-cell" href="../champions/cassiopeia/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/cassiopeia.png" alt="Cassiopeia" loading="lazy" data-champ-slug="cassiopeia" data-champ-href="../champions/cassiopeia/">
+          <span>Cassiopeia</span>
+        </a></td>
+        <td class="num">8%</td>
+        <td class="num">4.62</td>
+        <td class="num">48%</td>
+        <td class="num">2.4★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/archangelsstaff.png" alt="ArchangelsStaff" title="ArchangelsStaff" loading="lazy"><img class="item-icon-sm" src="../assets/items/hextechgunblade.png" alt="HextechGunblade" title="HextechGunblade" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy">
         </div></td>
       </tr>
       
@@ -1013,6 +1014,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">1.8★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/voidstaff.png" alt="VoidStaff" title="VoidStaff" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="C">
+        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
+        <td><a class="champ-name-cell" href="../champions/leblanc/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/leblanc.png" alt="LeBlanc" loading="lazy" data-champ-slug="leblanc" data-champ-href="../champions/leblanc/">
+          <span>LeBlanc</span>
+        </a></td>
+        <td class="num">8%</td>
+        <td class="num">4.64</td>
+        <td class="num">47%</td>
+        <td class="num">2.1★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/jeweledgauntlet.png" alt="JeweledGauntlet" title="JeweledGauntlet" loading="lazy"><img class="item-icon-sm" src="../assets/items/spearofshojin.png" alt="SpearOfShojin" title="SpearOfShojin" loading="lazy"><img class="item-icon-sm" src="../assets/items/bluebuff.png" alt="BlueBuff" title="BlueBuff" loading="lazy">
         </div></td>
       </tr>
       
@@ -1108,21 +1124,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
       <tr data-tier="C">
         <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
-        <td><a class="champ-name-cell" href="../champions/elise/" style="text-decoration:none;color:inherit">
-          <img class="champ-table-icon champ-link-icon" src="../assets/champions/elise.png" alt="Elise" loading="lazy" data-champ-slug="elise" data-champ-href="../champions/elise/">
-          <span>Elise</span>
-        </a></td>
-        <td class="num">4%</td>
-        <td class="num">5.31</td>
-        <td class="num">34%</td>
-        <td class="num">1.9★</td>
-        <td><div class="champ-items">
-          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
-        </div></td>
-      </tr>
-      
-      <tr data-tier="C">
-        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
         <td><a class="champ-name-cell" href="../champions/warwick/" style="text-decoration:none;color:inherit">
           <img class="champ-table-icon champ-link-icon" src="../assets/champions/warwick.png" alt="Warwick" loading="lazy" data-champ-slug="warwick" data-champ-href="../champions/warwick/">
           <span>Warwick</span>
@@ -1133,6 +1134,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <td class="num">2.1★</td>
         <td><div class="champ-items">
           <img class="item-icon-sm" src="../assets/items/titansresolve.png" alt="TitansResolve" title="TitansResolve" loading="lazy"><img class="item-icon-sm" src="../assets/items/steraksgage.png" alt="SteraksGage" title="SteraksGage" loading="lazy"><img class="item-icon-sm" src="../assets/items/bloodthirster.png" alt="Bloodthirster" title="Bloodthirster" loading="lazy">
+        </div></td>
+      </tr>
+      
+      <tr data-tier="C">
+        <td><div class="champ-tier-badge" style="--tc:var(--gray)">C</div></td>
+        <td><a class="champ-name-cell" href="../champions/elise/" style="text-decoration:none;color:inherit">
+          <img class="champ-table-icon champ-link-icon" src="../assets/champions/elise.png" alt="Elise" loading="lazy" data-champ-slug="elise" data-champ-href="../champions/elise/">
+          <span>Elise</span>
+        </a></td>
+        <td class="num">4%</td>
+        <td class="num">5.31</td>
+        <td class="num">34%</td>
+        <td class="num">1.9★</td>
+        <td><div class="champ-items">
+          <img class="item-icon-sm" src="../assets/items/gargoylestoneplate.png" alt="GargoyleStoneplate" title="GargoyleStoneplate" loading="lazy"><img class="item-icon-sm" src="../assets/items/warmogsarmor.png" alt="WarmogsArmor" title="WarmogsArmor" loading="lazy"><img class="item-icon-sm" src="../assets/items/spiritvisage.png" alt="SpiritVisage" title="SpiritVisage" loading="lazy">
         </div></td>
       </tr>
       
@@ -1164,7 +1180,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_ROOT = "../";</script>
-<script src="../assets/js/copy-comp.js?v=20260912194824" defer></script>
-<script src="../assets/js/champ-icons.js?v=20260912194824" defer></script>
+<script src="../assets/js/copy-comp.js?v=20260912215752" defer></script>
+<script src="../assets/js/champ-icons.js?v=20260912215752" defer></script>
+<script src="../assets/js/site-search.js?v=20260912215752" defer></script>
 </body>
 </html>
