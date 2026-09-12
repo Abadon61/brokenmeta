@@ -1733,6 +1733,11 @@ I18N: dict[str, dict] = {
         "sleepers_intro": "Les champions et compos les plus performants malgré un faible taux de sélection ce cycle-ci -- de vraies pépites que peu de joueurs exploitent encore. Seuil basé sur la médiane réelle du cycle, pas un pourcentage fixe.",
         "sleepers_champions_title": "Champions sous-cotés",
         "sleepers_comps_title": "Compos sous-cotées",
+        "nav_combos": "Combos d'objets",
+        "combos_title": "Tier List Combos d'Objets — Teamfight Tactics Set 18",
+        "combos_intro": "Les meilleures combinaisons de 3 objets finis, tous champions confondus, classées S/A/B/C par placement moyen réel.",
+        "th_combo": "Combo", "th_games": "Parties",
+        "combos_note": "Top 60 combos sur au moins 100 parties observées. Une combinaison peut apparaître sur plusieurs champions différents ; les chiffres cumulent toutes les parties où elle a été construite, peu importe qui la portait.",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1952,6 +1957,11 @@ I18N: dict[str, dict] = {
         "sleepers_intro": "The best-performing champions and comps despite a low pick/play rate this cycle -- real hidden gems few players use yet. Threshold is the real median for this cycle, not a fixed percentage.",
         "sleepers_champions_title": "Underrated champions",
         "sleepers_comps_title": "Underrated comps",
+        "nav_combos": "Item Combos",
+        "combos_title": "Item Combo Tier List — Teamfight Tactics Set 18",
+        "combos_intro": "The best 3-finished-item combos, across every champion, ranked S/A/B/C by real average placement.",
+        "th_combo": "Combo", "th_games": "Games",
+        "combos_note": "Top 60 combos with at least 100 observed games. A combo can appear on several different champions; the numbers pool every game it was built in, regardless of who carried it.",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2674,6 +2684,7 @@ def main() -> None:
             "name": d["id"], "slug": slug, "tier": d.get("tier", "?"), "tier_var": TIER_VAR.get(d.get("tier"), "var(--gray)"),
             "pick_rate_pct": pct(d["pick_rate"]), "pick_rate": d["pick_rate"],
             "avg_placement": d["avg_placement"], "top4_pct": pct(d["top4_rate"]), "top4_rate": d["top4_rate"],
+            "ranking_score_top4": d.get("ranking_score_top4", d["top4_rate"]),
             "avg_star_level": d["avg_star_level"],
             "top_items": [{"name": ti["item"], "slug": item_slug_and_download(ti["item"])} for ti in (d.get("top_items") or [])[:3]],
             "ability_name": info.get("ability_name", ""), "ability_desc": info.get("ability_desc", ""),
@@ -2688,7 +2699,7 @@ def main() -> None:
         }
 
     champion_vms = [build_champion_vm(d) for d in champion_stats["champions"] if d.get("tier") != "?"]
-    champion_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), d["avg_placement"]))
+    champion_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), -d["ranking_score_top4"]))
     print(f"Building {len(champion_vms)} champion pages...")
 
     # ---- Hover-tooltip data for every ".champ-link-icon" on the site (ported
@@ -2861,6 +2872,7 @@ def main() -> None:
             "tier": row["tier"], "tier_var": TIER_VAR.get(row["tier"], "var(--gray)"),
             "pick_rate_pct": pct(row["pick_rate"]), "avg_placement": row["avg_placement"],
             "top4_pct": pct(row["top4_rate"]), "win_rate_pct": pct(row["win_rate"]),
+            "ranking_score_top4": row.get("ranking_score_top4", row["top4_rate"]),
             "play_count": row["play_count"],
             "best_champions": [
                 {"name": c["champion"], "slug": champ_slug_and_download(c["champion"])}
@@ -2870,8 +2882,40 @@ def main() -> None:
 
     item_vms = [build_item_vm(r) for r in champion_stats.get("item_stats", [])
                 if r.get("tier") != "?" and r["item"] in catalog_item_by_clean_id]
-    item_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), d["avg_placement"]))
+    item_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), -d["ranking_score_top4"]))
     print(f"Building item tier list ({len(item_vms)} items)...")
+
+    # ---- Combo Tier List: same shape as the Item Tier List, one level up --
+    # every real 3-completed-item combo, flattened across every champion
+    # that built it (see build_global_combo_stats). No catalog filter needed
+    # here (unlike items): a combo only exists in this data at all once
+    # is_complete_item() already excluded raw components/consumables per
+    # unit, upstream in champion_stats.py.
+    def build_combo_vm(row: dict) -> dict:
+        icons = []
+        for clean in row["items"]:
+            meta = catalog_item_by_clean_id.get(clean)
+            icons.append({"name": meta["name"] if meta else clean, "api_name": meta["api_name"] if meta else None,
+                           "slug": meta["slug"] if meta else slugify(clean)})
+        return {
+            "icons": icons, "tier": row["tier"], "tier_var": TIER_VAR.get(row["tier"], "var(--gray)"),
+            "avg_placement": row["avg_placement"], "top4_pct": pct(row["top4_rate"]), "win_rate_pct": pct(row["win_rate"]),
+            "ranking_score_top4": row.get("ranking_score_top4", row["top4_rate"]), "play_count": row["play_count"],
+        }
+
+    def localize_combo(combo: dict, lang: str) -> dict:
+        if lang != "fr":
+            return combo
+        out = dict(combo)
+        out["icons"] = [
+            {**icon, "name": (item_text_fr_by_api.get(icon["api_name"]) or {}).get("name") or icon["name"]}
+            for icon in combo["icons"]
+        ]
+        return out
+
+    combo_vms = [build_combo_vm(r) for r in champion_stats.get("combo_stats", []) if r.get("tier") != "?"]
+    combo_vms.sort(key=lambda d: ({"S": 0, "A": 1, "B": 2, "C": 3}.get(d["tier"], 4), -d["ranking_score_top4"]))
+    print(f"Building combo tier list ({len(combo_vms)} combos)...")
 
     # Small tooltip data file for item icons across the Glossary (composition
     # on hover) -- same pattern as champions.json above, fetched once by a
@@ -3394,6 +3438,8 @@ def main() -> None:
         render("counters.html", "/contres/", lang, active_nav="counters")
         render("sleepers.html", "/pepites-cachees/", lang, active_nav="sleepers",
                sleeper_champions=sleeper_champions, sleeper_comps=sleeper_comps)
+        render("combos.html", "/combos-objets/", lang, active_nav="combos",
+               combos=[localize_combo(c, lang) for c in combo_vms[:60]])
 
         # ---- Glossaire ----
         render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={

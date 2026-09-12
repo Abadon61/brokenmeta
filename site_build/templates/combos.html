@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tier List Combos d'Objets — TFT Set 18{% else %}Item Combo Tier List — TFT Set 18{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Les meilleures combinaisons de 3 objets Teamfight Tactics Set 18, tous champions confondus, classées S/A/B/C par placement moyen réel.{% else %}The best 3-item combos in Teamfight Tactics Set 18, across every champion, ranked S/A/B/C by real average placement.{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'combos_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'combos_intro') }}</p>
+<div class="champ-table-wrap">
+  <table class="champ-table">
+    <thead><tr>
+      <th>{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_combo') }}</th><th class="num">{{ t(lang, 'th_avgplacement') }}</th>
+      <th class="num">{{ t(lang, 'th_top4') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th>
+    </tr></thead>
+    <tbody>
+      {% for d in combos %}
+      <tr data-tier="{{ d.tier }}">
+        <td><div class="champ-tier-badge" style="--tc:{{ d.tier_var }}">{{ d.tier }}</div></td>
+        <td><div class="champ-items" style="gap:6px">
+          {% for icon in d.icons %}<img class="champ-table-icon" src="{{ root }}assets/items/{{ icon.slug }}.png" alt="{{ icon.name }}" title="{{ icon.name }}" loading="lazy">{% endfor %}
+        </div></td>
+        <td class="num">{{ '%.2f'|format(d.avg_placement) }}</td>
+        <td class="num">{{ d.top4_pct }}</td>
+        <td class="num">{{ d.win_rate_pct }}</td>
+        <td class="num">{{ d.play_count }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<div class="champ-unranked-note">{{ t(lang, 'combos_note') }}</div>
+{% endblock %}

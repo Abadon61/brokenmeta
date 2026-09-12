@@ -10,12 +10,13 @@
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
-<details class="nav-dropdown" {% if active_nav in ('trends', 'counters', 'sleepers') %}data-active="true"{% endif %}>
+<details class="nav-dropdown" {% if active_nav in ('trends', 'counters', 'sleepers', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tools') }}</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}tendances/">{{ t(lang, 'nav_trends') }}</a>
     <a href="{{ root }}contres/">{{ t(lang, 'nav_counters') }}</a>
     <a href="{{ root }}pepites-cachees/">{{ t(lang, 'nav_sleepers') }}</a>
+    <a href="{{ root }}combos-objets/">{{ t(lang, 'nav_combos') }}</a>
   </div>
 </details>
 <details class="nav-dropdown" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>

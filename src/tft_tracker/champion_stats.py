@@ -14,7 +14,7 @@ from collections import Counter
 from dataclasses import dataclass, field
 
 from .comp_signature import clean_id, display_name, is_complete_item
-from .tierlist import TIER_BUCKETS
+from .tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES
 
 # Champions get picked far more often per match (up to ~9 slots/game) than
 # any single comp does, so this can safely sit higher than
@@ -148,8 +148,38 @@ def build_global_item_stats(item_champ_placements: dict[str, dict[str, list[int]
     return assign_champion_tiers(rows)
 
 
+def build_global_combo_stats(champs: dict[str, "ChampionAgg"]) -> list[dict]:
+    """The Combo Tier List's real numbers: every real 3-completed-item combo
+    ever seen, flattened ACROSS every champion that built it (a champion's
+    own ChampionAgg.item_combo already tracks this per-champion, for that
+    champion's own "Best Items" tab -- this merges all of those into one
+    global view, since a strong combo is often strong on more than one
+    carry). Same MIN_SAMPLE_FOR_ITEM_TIER bar and assign_champion_tiers()
+    percentile tiering as the Item Tier List, for the same reason: checked,
+    combo sample sizes run comparable to single items (any 3-item build a
+    unit completes counts once per game), so no extra small-sample handling
+    needed beyond the existing 100-game floor."""
+    global_combo: dict[tuple, list[int]] = {}
+    for agg in champs.values():
+        for combo, placements in agg.item_combo.items():
+            global_combo.setdefault(combo, []).extend(placements)
+    rows = []
+    for combo, placements in global_combo.items():
+        n = len(placements)
+        if n < MIN_SAMPLE_FOR_ITEM_TIER:
+            continue
+        rows.append({
+            "items": list(combo),
+            "play_count": n, "pick_count": n,
+            "avg_placement": round(sum(placements) / n, 3),
+            "top4_rate": round(sum(1 for p in placements if p <= 4) / n, 4),
+            "win_rate": round(sum(1 for p in placements if p == 1) / n, 4),
+        })
+    return assign_champion_tiers(rows)
+
+
 def build_champion_stats(matches: list[dict], total_participants: int, top_items: int = 5,
-                          name_map: dict[str, str] | None = None) -> tuple[list[dict], dict[str, list[dict]], list[dict]]:
+                          name_map: dict[str, str] | None = None) -> tuple[list[dict], dict[str, list[dict]], list[dict], list[dict]]:
     champs: dict[str, ChampionAgg] = {}
     # item (clean id) -> champion (display name) -> [placement, ...], across
     # every game that champion held that item at all -- feeds
@@ -208,18 +238,48 @@ def build_champion_stats(matches: list[dict], total_participants: int, top_items
 
     rows.sort(key=lambda r: -r["pick_count"])
     item_stats = build_global_item_stats(item_champ_placements, total_participants)
-    return assign_champion_tiers(rows), build_item_champion_stats(item_champ_placements), item_stats
+    combo_stats = build_global_combo_stats(champs)
+    return assign_champion_tiers(rows), build_item_champion_stats(item_champ_placements), item_stats, combo_stats
 
 
 def assign_champion_tiers(rows: list[dict]) -> list[dict]:
     """Same percentile-bucket tiering as the comp tier list (see
     tierlist.TIER_BUCKETS / build_tier_list) -- top4_rate then avg_placement
-    among champions with enough picks to trust, ranked S/A/B/C by where they
+    among entries with enough picks to trust, ranked S/A/B/C by where they
     fall in that sorted list. Kept as one shared set of buckets so "S" means
     the same thing (top ~12% of what's actually ranked) whether you're
-    looking at a comp or a single champion."""
+    looking at a comp, a champion, an item, or a 3-item combo.
+
+    Shared by champions, items (build_global_item_stats), AND combos
+    (build_global_combo_stats) -- champions/items were checked live and
+    don't need shrinkage (smallest ranked sample seen: ~8,000 picks, miles
+    above where it would matter), but combos do: a specific 3-item combo is
+    far rarer than any single item, and one real anomaly slipped through
+    here uncorrected before this was added (a 106-game combo at 92% top4 --
+    the exact same small-sample pattern as the comp tier list's own
+    Eclipse_Xayah case). Applying the same empirical-Bayes shrinkage here
+    unconditionally is safe either way: it barely moves an already-huge
+    sample (the correction shrinks toward 0 as play_count grows) and
+    properly restrains a thin one, so one shared function stays correct for
+    every caller instead of only combos getting a fix."""
     eligible = [r for r in rows if r["pick_count"] >= MIN_SAMPLE_FOR_CHAMPION_TIER]
-    ranked = sorted(eligible, key=lambda r: (-r["top4_rate"], r["avg_placement"]))
+    if not eligible:
+        for r in rows:
+            r.setdefault("tier", "?")
+            r["has_enough_data"] = False
+        return rows
+
+    total_n = sum(r["pick_count"] for r in eligible)
+    global_top4_rate = sum(r["top4_rate"] * r["pick_count"] for r in eligible) / total_n if total_n else 0.5
+
+    def shrunk_top4(r: dict) -> float:
+        top4_count = r["top4_rate"] * r["pick_count"]
+        return (top4_count + SHRINKAGE_PRIOR_GAMES * global_top4_rate) / (r["pick_count"] + SHRINKAGE_PRIOR_GAMES)
+
+    for r in eligible:
+        r["ranking_score_top4"] = round(shrunk_top4(r), 4)
+
+    ranked = sorted(eligible, key=lambda r: (-r["ranking_score_top4"], r["avg_placement"]))
     n = len(ranked)
     cursor = 0
     for tier_name, cutoff_fraction in TIER_BUCKETS:
