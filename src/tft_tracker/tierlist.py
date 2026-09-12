@@ -622,10 +622,58 @@ def build_tier_list(comps: dict[str, CompStats], total_participants: int) -> tup
             and not _is_all_five_cost(r["core_units"])]
     rows = _merge_similar_comps(rows)
 
-    ranked = sorted(
-        (r for r in rows if r["has_enough_data"]),
-        key=lambda r: (-r["top4_rate"], r["avg_placement"]),
-    )
+    # Small-sample bias fix (real bug caught live: a 149-game rare reroll comp
+    # showed a 1.95 avg placement / 93% top4 -- statistically impossible in
+    # TFT, where the population mean is always exactly 4.50 and even the
+    # single best real comp on record rarely clears 4.0. Root cause: a comp
+    # is identified from its FINAL board (Riot exposes nothing else), and
+    # MIN_CORE_BOARD_SIZE above already excludes anyone who died before
+    # reaching a real board -- for a RARE archetype specifically, that means
+    # a thin sample skews almost entirely toward players who already
+    # succeeded at hitting it, since a failed attempt usually dies with too
+    # few units to count at all. More games dilutes this back to reality
+    # (a 5528-game sibling comp sits at a normal 4.43); a few hundred don't.
+    #
+    # Fix is an empirical-Bayes shrinkage estimator (the same idea behind
+    # IMDB/Reddit "best" sorts): a comp's ranking score gets pulled toward
+    # the population's real average, by an amount that shrinks as its own
+    # sample grows -- SHRINKAGE_PRIOR_GAMES is literally "how many of a
+    # comp's own games it takes to outweigh the population prior by 1:1".
+    # Deliberately only changes TIER ASSIGNMENT / display order, never the
+    # avg_placement/top4_rate fields themselves -- those stay the real,
+    # unmodified number for every comp regardless of sample size, matching
+    # the site's own "no invented or estimated data" promise; only which
+    # bucket a comp lands in (and where it sorts within one) is adjusted.
+    ranked_pool = [r for r in rows if r["has_enough_data"]]
+    total_games = sum(r["play_count"] for r in ranked_pool)
+    total_top4 = sum(r["top4_rate"] * r["play_count"] for r in ranked_pool)
+    total_placement = sum(r["avg_placement"] * r["play_count"] for r in ranked_pool)
+    global_top4_rate = (total_top4 / total_games) if total_games else 0.5
+    global_avg_placement = (total_placement / total_games) if total_games else 4.5
+    # Tuned against real data, not guessed: at 100 (== MIN_PLAY_COUNT, the
+    # obvious first guess), a 149-game comp that ran a real 93% top4 only
+    # shrank to a still-implausible 76% (real S-tier comps, ours and
+    # competitors', sit at 53-59% -- see MetaTFT's live top comps, 58.2%
+    # down to 53.0%). Swept K from 100 to 1000 against that same comp: 500
+    # lands its shrunk score at 60.3%, right at the edge of that real
+    # range, while barely moving an already-well-sampled comp (Solar_Xayah,
+    # 5528 games: 51.8% at every K tested, as expected -- shrinkage should
+    # only meaningfully move comps whose own sample is thin relative to it).
+    SHRINKAGE_PRIOR_GAMES = 500
+
+    def shrunk_top4(r: dict) -> float:
+        top4_count = r["top4_rate"] * r["play_count"]
+        return (top4_count + SHRINKAGE_PRIOR_GAMES * global_top4_rate) / (r["play_count"] + SHRINKAGE_PRIOR_GAMES)
+
+    def shrunk_placement(r: dict) -> float:
+        placement_sum = r["avg_placement"] * r["play_count"]
+        return (placement_sum + SHRINKAGE_PRIOR_GAMES * global_avg_placement) / (r["play_count"] + SHRINKAGE_PRIOR_GAMES)
+
+    for r in ranked_pool:
+        r["ranking_score_top4"] = round(shrunk_top4(r), 4)
+        r["ranking_score_placement"] = round(shrunk_placement(r), 4)
+
+    ranked = sorted(ranked_pool, key=lambda r: (-r["ranking_score_top4"], r["ranking_score_placement"]))
     n = len(ranked)
     cursor = 0
     for tier_name, cutoff_fraction in TIER_BUCKETS:
@@ -639,5 +687,8 @@ def build_tier_list(comps: dict[str, CompStats], total_participants: int) -> tup
         r["tier"] = "?"
 
     all_rows = ranked + unranked
-    all_rows.sort(key=lambda r: (r["tier"] == "?", {"S": 0, "A": 1, "B": 2, "C": 3, "?": 4}[r["tier"]], r["avg_placement"]))
+    all_rows.sort(key=lambda r: (
+        r["tier"] == "?", {"S": 0, "A": 1, "B": 2, "C": 3, "?": 4}[r["tier"]],
+        r.get("ranking_score_placement", r["avg_placement"]),
+    ))
     return all_rows, {"regression_intercept": round(intercept, 3), "regression_slope": round(slope, 3)}

@@ -2290,6 +2290,15 @@ def main() -> None:
             # that merely has a unit or two carrying it as a minor tag.
             "traits": c.get("traits") or [],
             "avg_placement": c["avg_placement"], "top4_pct": pct(c["top4_rate"]),
+            # Display order only -- see tierlist.py's build_tier_list for why
+            # a small-sample comp's real avg_placement/top4_pct above must
+            # never be touched (that promise is on the homepage itself), but
+            # sorting BY that raw number would put the exact same outlier
+            # right back at the top of its tier even after ranking_score_*
+            # correctly kept it out of a higher one. Falls back to the real
+            # number for rows that never went through tierlist.py's ranking
+            # (Hors Meta comps carry whatever score they had when archived).
+            "sort_placement": c.get("ranking_score_placement", c["avg_placement"]),
             "play_count": c["play_count"], "play_rate": c.get("play_rate", 0),
             "contestation_index": c.get("contestation_index", 0), "contestation_level": c.get("contestation_level", "Low"),
             "level_badge_n": (re.search(r"\d+", c["level_badge"]).group() if c.get("level_badge") else None),
@@ -2400,13 +2409,13 @@ def main() -> None:
 
     def sorted_rows(raw_comps: list[dict]) -> list[dict]:
         rows = [build_row_vm(c) for c in raw_comps]
-        rows.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]))
+        rows.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["sort_placement"]))
         return rows
 
     print(f"Building {len(comps_filtered)} comp pages ({len(hors_meta_comps)} Hors Meta)..."
           if hors_meta_comps else f"Building {len(comps_filtered)} comp pages...")
     comp_vms = [build_comp_vm(c) for c in comps_filtered + hors_meta_comps]
-    comp_vms.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]))
+    comp_vms.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["sort_placement"]))
     # Comps that passed the quality filter, plus Hors Meta ones (see
     # build_hors_meta_comps), get a real /compo/<slug>/ page -- used below to
     # decide whether a player's recent-game row links to a real fiche or
@@ -2422,7 +2431,7 @@ def main() -> None:
         combos = (d.get("item_combo_stats") or [])[:10]
         rows_for_champ = [c for c in comp_vms if any(u["champion"] == d["id"] for u in c["core_units_display"])]
         order = {"S": 0, "A": 1, "B": 2, "C": 3}
-        rows_for_champ.sort(key=lambda c: (order.get(c["tier"], 4), c["avg_placement"]))
+        rows_for_champ.sort(key=lambda c: (order.get(c["tier"], 4), c["sort_placement"]))
         info = info_by_name.get(d["id"], {})
         return {
             "name": d["id"], "slug": slug, "tier": d.get("tier", "?"), "tier_var": TIER_VAR.get(d.get("tier"), "var(--gray)"),
@@ -2492,7 +2501,7 @@ def main() -> None:
             members.append({"name": name, "slug": slug, "has_page": name in ranked_champion_names})
         family_comps = sorted(
             (c for c in comp_vms if c["traits"] and c["traits"][0] == trait["name"]),
-            key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]),
+            key=lambda c: (TIER_SORT.get(c["tier"], 4), c["sort_placement"]),
         )
         # Riot's own <row> order always matches ascending min_units (checked
         # across every Set 18 trait) -- zipped here, once, rather than in the
