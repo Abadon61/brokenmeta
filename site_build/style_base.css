@@ -514,6 +514,27 @@
   .trend-badge.trend-down { color: var(--warn); }
   .trend-badge.trend-stable { color: var(--text-faint); }
 
+  /* /tendances/ page -- same real prev/latest placement swing as the small
+     .trend-badge above, just its own full row instead of an inline badge. */
+  .trends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+  @media (max-width: 720px) { .trends-grid { grid-template-columns: 1fr; } }
+  .trends-up { color: var(--good); }
+  .trends-down { color: var(--warn); }
+  .trend-list { display: flex; flex-direction: column; gap: 8px; }
+  .trend-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--row); border: 1px solid var(--border);
+    padding: 8px 12px; text-decoration: none; color: inherit;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  .trend-row:hover { background: var(--row-hover); border-color: var(--border-bright); }
+  .trend-row .tier-badge { width: 34px; height: 34px; font-size: 15px; margin: 0; }
+  .trend-row-name { flex: 1; min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .trend-row-move { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; flex: none; }
+  .trend-move-up { color: var(--good); }
+  .trend-move-down { color: var(--warn); }
+  .trend-row-detail { font-size: 11px; color: var(--text-faint); flex: none; }
+
   .pill-row { display: flex; gap: 1px; flex: none; border: 1px solid var(--border-bright); }
   .pill { background: var(--bg-2); padding: 4px 13px; text-align: center; min-width: 54px; }
   .pill .p-label { font-size: 8.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); font-family: 'Space Mono', monospace; }

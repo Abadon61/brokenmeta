@@ -1611,6 +1611,13 @@ I18N: dict[str, dict] = {
         "items_intro": "Tous les objets finis de TFT Set 18, classés S/A/B/C par placement moyen réel sur toutes les parties où ils ont été portés — toutes compositions confondues, pas juste une combo précise.",
         "th_item": "Objet", "th_winrate": "Winrate", "th_bestchampions": "Meilleurs champions",
         "items_unranked_note": "Seuls les objets finis (2 composants ou emblème) avec au moins 100 parties observées sont classés ici ; les consommables (potions) et objets trop rares ne sont pas inclus.",
+        "nav_trends": "Tendances",
+        "trends_title": "Tendances — Teamfight Tactics Set 18",
+        "trends_intro": lambda prev, latest: f"Écarts de placement moyen entre le calcul du {prev} et celui du {latest} — comps déjà classées dans les deux, données réelles.",
+        "trends_risers": "▲ Plus fortes progressions",
+        "trends_fallers": "▼ Plus grosses chutes",
+        "trends_none": "Aucun mouvement significatif sur cette période.",
+        "trends_no_history": "Pas encore assez d'historique pour calculer des tendances — reviens après le prochain refresh de données.",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1807,6 +1814,13 @@ I18N: dict[str, dict] = {
         "items_intro": "Every finished TFT Set 18 item, ranked S/A/B/C by real average placement across every game it was held in — across all comps, not one specific combo.",
         "th_item": "Item", "th_winrate": "Win rate", "th_bestchampions": "Best champions",
         "items_unranked_note": "Only finished items (2-component combines or emblems) with at least 100 observed games are ranked here; consumables (potions) and items too rare to trust aren't included.",
+        "nav_trends": "Trends",
+        "trends_title": "Trends — Teamfight Tactics Set 18",
+        "trends_intro": lambda prev, latest: f"Average-placement swings between the {prev} and {latest} refreshes -- comps already ranked in both, real data.",
+        "trends_risers": "▲ Biggest gains",
+        "trends_fallers": "▼ Biggest drops",
+        "trends_none": "No significant movement over this period.",
+        "trends_no_history": "Not enough history yet to compute trends -- check back after the next data refresh.",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -2431,6 +2445,48 @@ def main() -> None:
     # decide whether a player's recent-game row links to a real fiche or
     # shows as plain (unlinked) text.
     comp_vm_by_key = {c["key"]: c for c in comp_vms}
+
+    # ---- Tendances: biggest movers since the previous data refresh, from
+    # the exact same comp_history.json snapshots that already back each
+    # comp row's small trend arrow (trend_for above) -- that arrow is the
+    # only place this data was ever surfaced before. Compares the two most
+    # recent snapshot DATES globally (not per-comp) since every comp in one
+    # pipeline run gets the same snapshot date; a comp missing from either
+    # snapshot (new this cycle, or no longer live) is skipped rather than
+    # guessed at. Real placement swings only -- not tier changes, since a
+    # comp can cross a tier boundary on a tiny move near a cutoff while a
+    # comp with a much bigger real swing stays within its tier. ----
+    snapshot_dates = sorted({s["date"] for s in comp_history.get("snapshots", [])})
+    latest_snap_date = snapshot_dates[-1] if snapshot_dates else None
+    prev_snap_date = snapshot_dates[-2] if len(snapshot_dates) >= 2 else None
+
+    def build_trend_rows(min_delta: float = 0.05, top_n: int = 15) -> tuple[list[dict], list[dict]]:
+        if not prev_snap_date:
+            return [], []
+        movers = []
+        for key, hist in history_by_key.items():
+            by_date = {h["date"]: h["avgPlacement"] for h in hist}
+            if latest_snap_date not in by_date or prev_snap_date not in by_date:
+                continue
+            c = comp_vm_by_key.get(key)
+            if not c or c.get("is_hors_meta"):
+                continue
+            prev_p, latest_p = by_date[prev_snap_date], by_date[latest_snap_date]
+            delta = prev_p - latest_p  # positive == placement improved (lower number)
+            if abs(delta) < min_delta:
+                continue
+            movers.append({
+                "slug": c["slug"], "display_label": c["display_label"], "tier": c["tier"], "tier_var": c["tier_var"],
+                "carry_slug": c.get("carry_slug"), "carry": c.get("carry"),
+                "prev_placement": round(prev_p, 2), "latest_placement": round(latest_p, 2), "delta": round(abs(delta), 2),
+            })
+        risers = sorted((m for m in movers if m["latest_placement"] < m["prev_placement"]), key=lambda m: -m["delta"])[:top_n]
+        fallers = sorted((m for m in movers if m["latest_placement"] > m["prev_placement"]), key=lambda m: -m["delta"])[:top_n]
+        return risers, fallers
+
+    trend_risers, trend_fallers = build_trend_rows()
+    print(f"Trends: {len(trend_risers)} risers, {len(trend_fallers)} fallers "
+          f"({prev_snap_date} -> {latest_snap_date})." if prev_snap_date else "Trends: only one snapshot so far, skipped.")
 
     region_rows = {r: sorted_rows(rows) for r, rows in region_raw_filtered.items()}
     rank_rows = {b: sorted_rows(rows) for b, rows in rank_raw_filtered.items()}
@@ -3130,6 +3186,9 @@ def main() -> None:
         render("champions_list.html", "/champions/", lang, active_nav="champions", champions=champion_vms)
         render("items_list.html", "/objets/", lang, active_nav="items",
                items=[localize_item(it, lang) for it in item_vms])
+        render("trends.html", "/tendances/", lang, active_nav="trends",
+               has_data=bool(prev_snap_date), prev_date=prev_snap_date, latest_date=latest_snap_date,
+               risers=trend_risers, fallers=trend_fallers)
 
         # ---- Glossaire ----
         render("glossary_index.html", "/glossaire/", lang, active_nav="glossary", counts={

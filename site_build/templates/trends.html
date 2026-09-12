@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tendances — TFT Set 18{% else %}Trends — TFT Set 18{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Les plus fortes progressions et chutes de placement moyen depuis le dernier calcul de la tier list TFT Set 18, comp par comp, sur données réelles.{% else %}The biggest average-placement gains and drops since the last TFT Set 18 tier list refresh, comp by comp, on real data.{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'trends_title') }}</h1>
+{% if has_data %}
+<p class="page-intro">{{ t(lang, 'trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+
+<div class="trends-grid">
+  <div>
+    <h2 class="fiche-section-title trends-up">{{ t(lang, 'trends_risers') }}</h2>
+    {% if risers %}
+    <div class="trend-list">
+      {% for r in risers %}
+      <a class="trend-row" href="{{ root }}compo/{{ r.slug }}/">
+        <div class="tier-badge" style="--tc:{{ r.tier_var }}">{{ r.tier }}</div>
+        {% if r.carry_slug %}<img class="carry-portrait" src="{{ root }}assets/champions/{{ r.carry_slug }}.png" alt="{{ r.carry }}" loading="lazy">{% endif %}
+        <div class="trend-row-name">{{ r.display_label }}</div>
+        <div class="trend-row-move trend-move-up">▲ {{ '%.2f'|format(r.delta) }}</div>
+        <div class="trend-row-detail nums">{{ '%.2f'|format(r.prev_placement) }} → {{ '%.2f'|format(r.latest_placement) }}</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'trends_none') }}</div>{% endif %}
+  </div>
+  <div>
+    <h2 class="fiche-section-title trends-down">{{ t(lang, 'trends_fallers') }}</h2>
+    {% if fallers %}
+    <div class="trend-list">
+      {% for r in fallers %}
+      <a class="trend-row" href="{{ root }}compo/{{ r.slug }}/">
+        <div class="tier-badge" style="--tc:{{ r.tier_var }}">{{ r.tier }}</div>
+        {% if r.carry_slug %}<img class="carry-portrait" src="{{ root }}assets/champions/{{ r.carry_slug }}.png" alt="{{ r.carry }}" loading="lazy">{% endif %}
+        <div class="trend-row-name">{{ r.display_label }}</div>
+        <div class="trend-row-move trend-move-down">▼ {{ '%.2f'|format(r.delta) }}</div>
+        <div class="trend-row-detail nums">{{ '%.2f'|format(r.prev_placement) }} → {{ '%.2f'|format(r.latest_placement) }}</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'trends_none') }}</div>{% endif %}
+  </div>
+</div>
+{% else %}
+<p class="page-intro">{{ t(lang, 'trends_no_history') }}</p>
+{% endif %}
+{% endblock %}
