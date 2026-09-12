@@ -1,0 +1,216 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BrokenMeta.gg | Méthodologie</title>
+<meta name="description" content="Comment BrokenMeta.gg calcule sa tier list TFT Set 18 : seuils de qualité, calcul des tiers S/A/B/C, correction des petits échantillons, système Hors Meta -- expliqué en détail, sans donnée inventée.">
+<link rel="canonical" href="https://brokenmeta.gg/methodologie/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/methodologie/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/methodologie/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/methodologie/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="BrokenMeta.gg | Méthodologie">
+<meta property="og:description" content="Comment BrokenMeta.gg calcule sa tier list TFT Set 18 : seuils de qualité, calcul des tiers S/A/B/C, correction des petits échantillons, système Hors Meta -- expliqué en détail, sans donnée inventée.">
+<meta property="og:url" content="https://brokenmeta.gg/methodologie/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=20260912194824">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=20260912194824">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../assets/css/style.css?v=20260912194824">
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../" style="text-decoration:none"><img class="wordmark-logo" src="../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="topbar-right">
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/methodologie/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/methodologie/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+<a class="nav-link" href="../" >Compo List</a>
+<a class="nav-link" href="../champions/" >Champion List</a>
+<a class="nav-link" href="../objets/" >Item List</a>
+<a class="nav-link" href="../patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../team-builder/" >Team Builder</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Outils</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../tendances/">Tendances</a>
+    <a href="../contres/">Contres</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../glossaire/champions/">Champions</a>
+    <a href="../glossaire/familles/">Familles</a>
+    <a href="../glossaire/augments/">Augments</a>
+    <a href="../glossaire/objets/">Objets</a>
+  </div>
+</details>
+</nav>
+        <div class="mobile-nav-actions">
+<a class="nav-cta-button" href="../metascope/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Analyse ton profil
+</a>
+<div class="overlay-cta" title="L&#39;overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+  <span class="cta-label">Overlay TFT</span>
+  <span class="cta-soon">Bientôt</span>
+</div>
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">Teamfight Tactics</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+<a class="nav-link" href="../" >Compo List</a>
+<a class="nav-link" href="../champions/" >Champion List</a>
+<a class="nav-link" href="../objets/" >Item List</a>
+<a class="nav-link" href="../patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../team-builder/" >Team Builder</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Outils</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../tendances/">Tendances</a>
+    <a href="../contres/">Contres</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../glossaire/champions/">Champions</a>
+    <a href="../glossaire/familles/">Familles</a>
+    <a href="../glossaire/augments/">Augments</a>
+    <a href="../glossaire/objets/">Objets</a>
+  </div>
+</details>
+
+    </nav>
+    
+<a class="nav-cta-button" href="../metascope/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Analyse ton profil
+</a>
+<div class="overlay-cta" title="L&#39;overlay Overwolf est en cours de développement, pas encore disponible au téléchargement.">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+  <span class="cta-label">Overlay TFT</span>
+  <span class="cta-soon">Bientôt</span>
+</div>
+
+  </div>
+</div>
+<div class="page">
+
+<div class="legal-page">
+
+<h1 class="page-h1">Méthodologie</h1>
+<p class="page-intro">Comment on calcule tout ce qui s'affiche sur le site, en détail et sans rien cacher. Si un chiffre te semble étrange, la réponse est probablement ici.</p>
+
+<h2 class="fiche-section-title">D'où viennent les données</h2>
+<p>Tout vient de l'API officielle de Riot Games (Match-V1) : de vraies parties classées, collectées automatiquement sur les 4 régions (EUW, NA, BR, KR), tous les paliers de rang confondus. Aucune statistique n'est estimée, extrapolée ou inventée -- chaque nombre affiché vient directement d'au moins une vraie partie. Le total de parties analysées est indiqué en haut de la page d'accueil et se met à jour à chaque actualisation des données.</p>
+
+<h2 class="fiche-section-title">Quand une comp obtient une page</h2>
+<p>Toutes les compositions rencontrées en jeu ne sont pas publiées : une comp doit franchir un seuil de qualité avant d'avoir droit à sa propre page <code>/compo/</code> :</p>
+<ul>
+  <li>Au moins <strong>100 parties</strong> observées</li>
+  <li>Un placement moyen de <strong>6.00 ou mieux</strong> (au-delà, l'échantillon est trop marginal pour être une vraie stratégie)</li>
+  <li>Un board final d'au moins <strong>7 unités</strong> (en dessous, c'est presque toujours une élimination précoce, pas une comp construite intentionnellement)</li>
+  <li>Pas un board composé à 100% de 5-coûts (ça arrive par une partie longue et chanceuse, jamais par un vrai plan)</li>
+</ul>
+
+<h2 class="fiche-section-title">Comment le Tier S/A/B/C est calculé</h2>
+<p>Parmi les comps qui ont au moins 5 parties, on les classe par taux de top 4 (le plus haut d'abord), puis par placement moyen en cas d'égalité. Cette liste triée est ensuite découpée en tranches cumulatives : <strong>S</strong> = les 12% les mieux classées, <strong>A</strong> = les 28% suivantes (jusqu'à 40% cumulé), <strong>B</strong> = les 35% suivantes (jusqu'à 75% cumulé), <strong>C</strong> = les 25% restantes.</p>
+
+<h2 class="fiche-section-title">Le correctif des petits échantillons</h2>
+<p>Une vraie anomalie a été détectée en direct sur le site : une comp reroll rare, avec seulement 149 parties observées, affichait un placement moyen de 1.95 et 93% de top 4 -- statistiquement impossible en TFT, où la moyenne théorique est toujours exactement 4.50 (8 joueurs, un seul 1er). Même le meilleur comp du monde ne descend quasiment jamais sous 4.00 de moyenne réelle, à cause du hasard des combats.</p>
+<p>Cause identifiée : sur un petit échantillon, les rares joueurs qui réussissent à construire une comp difficile à exécuter dominent complètement les chiffres. La correction utilise un <strong>lissage bayésien</strong> (la même technique que les classements « meilleurs commentaires » de Reddit ou les notes IMDB) : le score utilisé pour le classement est ramené vers la moyenne réelle de l'ensemble des comps, d'autant plus fortement que l'échantillon est petit. Important : <strong>les chiffres affichés (placement moyen, top 4) ne sont jamais modifiés</strong> -- seul l'ordre de classement et le tier attribué le sont. Ce que tu vois sur une fiche comp est toujours la vraie donnée brute.</p>
+
+<h2 class="fiche-section-title">Le plancher absolu par tier</h2>
+<p>Le classement par percentile seul a un défaut : le mot « S » ne veut alors dire que « la moins pire du lot de ce cycle-ci », même si tout l'échantillon du moment est faible. Pour éviter ça, chaque tier a aussi un <strong>plafond de placement absolu</strong> (après lissage) : S ≤ 4.30, A ≤ 4.50, B ≤ 4.80. Une comp qui atteint son tier par percentile mais ne franchit pas ce plafond est automatiquement rétrogradée d'un cran, et ainsi de suite jusqu'à ce qu'elle mérite vraiment sa place (le Tier C n'a pas de plafond : rien ne reste sans tier). Ces seuils sont calibrés sur la moyenne théorique de 4.50 et vérifiés en direct contre les vraies bornes de tier du plus gros tracker du marché (MetaTFT : leur Tier S s'arrête à 4.25, leur Tier A à 4.50).</p>
+
+<h2 class="fiche-section-title">Le système Hors Meta</h2>
+<p>Notre clé API de développeur Riot expire toutes les 24h, donc chaque actualisation des données repose sur un nouvel échantillon, jamais sur l'historique complet en une seule fois. Une comp qui passait le seuil de qualité lors d'un refresh précédent peut, par pur hasard d'échantillonnage, repasser sous la barre au refresh suivant -- ça ne veut pas dire qu'elle est devenue mauvaise. Plutôt que de supprimer sa page (et casser un lien déjà partagé ou indexé par Google), elle passe en catégorie <strong>Hors Meta</strong> : toujours consultable, avec un badge distinct et un message précisant son dernier tier connu et la date de sa dernière apparition dans le calcul actif.</p>
+
+<h2 class="fiche-section-title">Ce qu'on ne peut pas mesurer</h2>
+<p>Les augments ne sont, pour l'instant, pas exposés par l'API publique de Riot pour ce Set (vérifié directement : le champ correspondant est totalement absent de plus de 23 000 participants analysés) -- c'est pour ça qu'aucune tier list d'augments basée sur de vraies données n'existe sur le site. On active cette section dès que Riot republie la donnée.</p>
+
+</div>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../">Compo List</a>
+      <a href="../champions/">Champion List</a>
+      <a href="../glossaire/">Glossaire</a>
+      <a href="../patch-notes/">Patch Notes</a>
+      <a href="../leaderboard/">Leaderboard</a>
+      <a href="../metascope/">Analyse ton profil</a>
+      <a href="../team-builder/">Team Builder</a>
+      <a href="../methodologie/">Méthodologie</a>
+      <a href="../confidentialite/">Confidentialité</a>
+      <a href="../cgu/">CGU</a>
+      <a href="../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-12 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../";</script>
+<script src="../assets/js/copy-comp.js?v=20260912194824" defer></script>
+<script src="../assets/js/champ-icons.js?v=20260912194824" defer></script>
+</body>
+</html>
