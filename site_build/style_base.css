@@ -85,6 +85,38 @@
      visitor override it by hand (a browser's UI language isn't always the
      same as the person's preferred reading language) and remembers the
      choice in localStorage. */
+  /* Header search (site-search.js): a plain icon button that reveals a
+     dropdown panel anchored to it -- .site-search-wrap carries the
+     position:relative the panel needs, independent of .topbar-right's own
+     layout, same isolation pattern as .nav-dropdown. */
+  .site-search-wrap { position: relative; flex: none; }
+  .site-search-toggle {
+    background: none; border: none; color: var(--text-faint);
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px; cursor: pointer; transition: color .12s ease;
+  }
+  .site-search-toggle:hover, .site-search-toggle[aria-expanded="true"] { color: var(--cyan); }
+  .site-search-panel {
+    position: absolute; top: calc(100% + 10px); right: 0; z-index: 20;
+    width: 340px; max-width: calc(100vw - 24px);
+    background: var(--bg-2); border: 1px solid var(--border-bright);
+    padding: 12px;
+  }
+  .site-search-panel .search-row { margin-bottom: 0; }
+  .site-search-results { max-height: 320px; overflow-y: auto; margin-top: 8px; }
+  .site-search-result-item {
+    display: flex; align-items: center; gap: 10px; padding: 8px 6px;
+    text-decoration: none; color: var(--cream); font-size: 13px;
+  }
+  .site-search-result-item:hover { background: var(--row-hover); }
+  .site-search-result-icon { width: 22px; height: 22px; object-fit: cover; border: 1px solid var(--border-bright); flex: none; }
+  .site-search-result-type {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint);
+    font-family: 'Space Mono', monospace; flex: none; width: 56px;
+  }
+  .site-search-result-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .site-search-empty { color: var(--text-faint); font-size: 12.5px; padding: 8px 6px; }
+
   .social-links { display: flex; align-items: center; gap: 10px; flex: none; }
   .social-icon {
     display: flex; align-items: center; justify-content: center;

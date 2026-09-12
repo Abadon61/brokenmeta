@@ -449,6 +449,95 @@ COUNTER_FINDER_JS = """
   });
 })();
 """
+# Header search (base.html's .site-search-wrap, every page site-wide) --
+# one flat index (site-search.json / site-search_fr.json, see main())
+# covering every champion, item, and published comp, searched client-side
+# the same way list-filters.js does a comp-row's data-search: plain
+# substring match, no server round-trip. Loaded lazily (only once the
+# panel is actually opened) since it's fetched on every single page load
+# otherwise -- most visits never touch it.
+SITE_SEARCH_JS = """
+(function () {
+  var toggle = document.getElementById('siteSearchToggle');
+  var panel = document.getElementById('siteSearchPanel');
+  var input = document.getElementById('siteSearchInput');
+  var resultsEl = document.getElementById('siteSearchResults');
+  if (!toggle || !panel || !input || !resultsEl) return;
+  var root = window.BM_ROOT || '';
+  var lang = document.documentElement.lang === 'fr' ? 'fr' : 'en';
+  var TYPE_LABELS = {
+    fr: {champion: 'Champion', item: 'Objet', comp: 'Compo'},
+    en: {champion: 'Champion', item: 'Item', comp: 'Comp'},
+  }[lang];
+  var EMPTY_TEXT = lang === 'fr' ? 'Aucun r\\u00e9sultat.' : 'No results.';
+  var index = null, indexPromise = null;
+
+  function loadIndex() {
+    if (indexPromise) return indexPromise;
+    var file = lang === 'fr' ? 'site-search_fr.json' : 'site-search.json';
+    indexPromise = fetch(root + 'assets/data/' + file).then(function (r) { return r.json(); })
+      .then(function (d) { index = d; return d; });
+    return indexPromise;
+  }
+
+  function iconSrc(entry) {
+    if (entry.type === 'champion') return root + 'assets/champions/' + entry.slug + '.png';
+    if (entry.type === 'item') return root + 'assets/items/' + entry.slug + '.png';
+    return null;
+  }
+
+  function renderResults(q) {
+    if (!q || !index) { resultsEl.innerHTML = ''; return; }
+    var needle = q.toLowerCase();
+    var matches = index.filter(function (e) { return e.name.toLowerCase().indexOf(needle) !== -1; }).slice(0, 12);
+    resultsEl.innerHTML = '';
+    if (!matches.length) {
+      var empty = document.createElement('div');
+      empty.className = 'site-search-empty';
+      empty.textContent = EMPTY_TEXT;
+      resultsEl.appendChild(empty);
+      return;
+    }
+    matches.forEach(function (entry) {
+      var a = document.createElement('a');
+      a.className = 'site-search-result-item';
+      a.href = root + entry.href;
+      var icon = iconSrc(entry);
+      a.innerHTML =
+        (icon ? '<img class="site-search-result-icon" src="' + icon + '" alt="" loading="lazy">'
+              : '<span class="site-search-result-icon"></span>') +
+        '<span class="site-search-result-type">' + TYPE_LABELS[entry.type] + '</span>' +
+        '<span class="site-search-result-name">' + entry.name + '</span>';
+      resultsEl.appendChild(a);
+    });
+  }
+
+  function openPanel() {
+    panel.hidden = false;
+    toggle.setAttribute('aria-expanded', 'true');
+    loadIndex().then(function () { renderResults(input.value.trim()); });
+    setTimeout(function () { input.focus(); }, 0);
+  }
+  function closePanel() {
+    panel.hidden = true;
+    toggle.setAttribute('aria-expanded', 'false');
+    input.value = '';
+    resultsEl.innerHTML = '';
+  }
+
+  toggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    if (panel.hidden) openPanel(); else closePanel();
+  });
+  input.addEventListener('input', function () { renderResults(input.value.trim()); });
+  document.addEventListener('click', function (e) {
+    if (!panel.hidden && !e.target.closest('.site-search-wrap')) closePanel();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !panel.hidden) closePanel();
+  });
+})();
+"""
 STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>'
 COPY_SVG = ('<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" '
             'stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect>'
@@ -1738,6 +1827,7 @@ I18N: dict[str, dict] = {
         "combos_intro": "Les meilleures combinaisons de 3 objets finis, tous champions confondus, classées S/A/B/C par placement moyen réel.",
         "th_combo": "Combo", "th_games": "Parties",
         "combos_note": "Top 60 combos sur au moins 100 parties observées. Une combinaison peut apparaître sur plusieurs champions différents ; les chiffres cumulent toutes les parties où elle a été construite, peu importe qui la portait.",
+        "site_search_placeholder": "Rechercher un champion, un objet, une comp…",
         "best_items_title": "Meilleurs objets",
         "no_combo_data": "Pas assez de données de combinaisons pour ce champion dans cet échantillon.",
         "games_col": "Parties", "winrate_col": "Winrate",
@@ -1962,6 +2052,7 @@ I18N: dict[str, dict] = {
         "combos_intro": "The best 3-finished-item combos, across every champion, ranked S/A/B/C by real average placement.",
         "th_combo": "Combo", "th_games": "Games",
         "combos_note": "Top 60 combos with at least 100 observed games. A combo can appear on several different champions; the numbers pool every game it was built in, regardless of who carried it.",
+        "site_search_placeholder": "Search a champion, item, comp…",
         "best_items_title": "Best items",
         "no_combo_data": "Not enough item-combo data for this champion in this sample.",
         "games_col": "Games", "winrate_col": "Winrate",
@@ -3815,6 +3906,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "rank-filter.js").write_text(RANK_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "counter-finder.js").write_text(COUNTER_FINDER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "site-search.js").write_text(SITE_SEARCH_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
@@ -3837,6 +3929,38 @@ def main() -> None:
     }
     (DIST / "assets" / "data" / "glossary-items_fr.json").write_text(
         json.dumps(glossary_item_tooltip_data_fr, ensure_ascii=False), encoding="utf-8")
+
+    # ---- Site-wide search index (header search box, see SITE_SEARCH_JS):
+    # one flat list combining every champion (real /champions/ page), item
+    # (real /glossaire/objets/ page -- the full 55-item catalog, not just
+    # item_vms, so a search always resolves even for an item that hasn't
+    # cleared the Item Tier List's own 100-game bar) and published comp
+    # (real /compo/ page, Hors Meta excluded -- same reasoning as Trends:
+    # an archived comp shouldn't be handed out as a live search result).
+    # Champion/comp names are proper nouns, unchanged between FR/EN (same
+    # assumption the rest of the site already makes); only item names need
+    # a translated overlay, same champions.json/champions_fr.json pattern
+    # as everywhere else on this page.
+    item_tier_by_slug = {it["slug"]: it["tier"] for it in item_vms}
+    item_api_name_by_slug = {it["slug"]: it["api_name"] for it in glossary_items}
+    site_search_index = (
+        [{"type": "champion", "name": d["name"], "slug": d["slug"], "tier": d["tier"], "href": f"champions/{d['slug']}/"}
+         for d in champion_vms]
+        + [{"type": "item", "name": it["name"], "slug": it["slug"], "tier": item_tier_by_slug.get(it["slug"], "?"),
+            "href": f"glossaire/objets/{it['slug']}/"}
+           for it in glossary_items]
+        + [{"type": "comp", "name": c["display_label"], "slug": c["slug"], "tier": c["tier"], "href": f"compo/{c['slug']}/"}
+           for c in comp_vms if not c.get("is_hors_meta")]
+    )
+    (DIST / "assets" / "data" / "site-search.json").write_text(
+        json.dumps(site_search_index, ensure_ascii=False), encoding="utf-8")
+    site_search_index_fr = [
+        {**entry, "name": (item_text_fr_by_api.get(item_api_name_by_slug.get(entry["slug"])) or {}).get("name") or entry["name"]}
+        if entry["type"] == "item" else entry
+        for entry in site_search_index
+    ]
+    (DIST / "assets" / "data" / "site-search_fr.json").write_text(
+        json.dumps(site_search_index_fr, ensure_ascii=False), encoding="utf-8")
 
     # ---- MetaScope worker data: the same real numbers this build already
     # computed, published as small standalone files so the worker (a
