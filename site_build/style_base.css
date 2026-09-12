@@ -411,6 +411,12 @@
   .comp-row[data-tier="A"] { --tc: var(--gold); }
   .comp-row[data-tier="B"] { --tc: var(--teal); }
   .comp-row[data-tier="C"] { --tc: var(--gray); }
+  /* Hors Meta: a comp that was published in a past refresh but missed the
+     live quality bar this time (see build_hors_meta_comps) -- muted on
+     purpose, distinct from the S/A/B/C palette so it never reads as an
+     active tier. */
+  .comp-row[data-tier="HM"] { --tc: var(--text-faint); }
+  .comp-row[data-tier="HM"] .tier-badge { font-size: 15px; }
 
   .corner {
     position: absolute;
@@ -581,6 +587,15 @@
   .page-intro a { color: var(--cyan); }
   .page-intro a:hover { color: var(--cream); }
 
+  /* Hors Meta disclaimer (see build_hors_meta_comps) -- same shape as
+     .champ-editorial-note but the muted accent, not cyan, so it reads as
+     "archived/stale" rather than a normal highlighted callout. */
+  .hors-meta-note {
+    font-size: 13px; line-height: 1.6; color: var(--text-dim);
+    background: var(--row); border-left: 2px solid var(--text-faint);
+    padding: 10px 14px; margin: 14px 0 0;
+  }
+
   #tooltip {
     position: fixed; z-index: 50; pointer-events: none;
     background: var(--bg-2); border: 1px solid var(--border-bright);
@@ -704,6 +719,7 @@
     font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 28px;
     color: #0b0221; background: var(--tc);
   }
+  .fiche-tier-badge-hm { font-size: 16px; }
   .fiche-title { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 24px; text-transform: uppercase; letter-spacing: 0.01em; }
   .fiche-meta { font-size: 12px; color: var(--text-faint); font-family: 'Space Mono', monospace; margin-top: 4px; }
   /* Small eyebrow label above a comp/champion H1 -- keeps "TFT Set 18" as

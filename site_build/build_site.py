@@ -37,6 +37,12 @@ from tft_tracker.tierlist import TIER_BUCKETS  # noqa: E402 -- same reason
 
 OUT = PROJECT / "data" / "output"
 DIST = ROOT / "dist"
+# Persistent, git-tracked (unlike data/output/*.json, which is gitignored and
+# gets fully overwritten by every refresh) -- see build_hors_meta_comps() for
+# why this exists: a comp that doesn't clear MIN_PLAY_COUNT in one refresh's
+# sample isn't necessarily a dead comp, just an unlucky sample, and shouldn't
+# silently 404 an already-published/indexed URL.
+COMP_ARCHIVE_PATH = PROJECT / "data" / "comp_archive.json"
 SET_MUTATOR = "TFTSet18"
 # Single source of truth for the human-facing set name used in SEO-critical
 # spots (titles, on-page kickers, intro copy): "TFT" is what players actually
@@ -60,7 +66,8 @@ MIN_PLAY_COUNT = 100
 MAX_AVG_PLACEMENT = 6.00
 MIN_CORE_BOARD_SIZE = 7
 
-TIER_VAR = {"S": "var(--red)", "A": "var(--gold)", "B": "var(--teal)", "C": "var(--gray)", "?": "var(--gray)"}
+TIER_VAR = {"S": "var(--red)", "A": "var(--gold)", "B": "var(--teal)", "C": "var(--gray)", "?": "var(--gray)",
+            "HM": "var(--text-faint)"}
 
 # Progressive enhancement only -- every comp is already in the static HTML
 # (crawlable, works with JS off); Région/Rang are real separate pages, but
@@ -1345,6 +1352,57 @@ def filter_quality(raw_comps: list[dict]) -> list[dict]:
     ]
 
 
+def load_comp_archive() -> dict:
+    if not COMP_ARCHIVE_PATH.exists():
+        return {}
+    return json.loads(COMP_ARCHIVE_PATH.read_text(encoding="utf-8"))
+
+
+def save_comp_archive(archive: dict) -> None:
+    COMP_ARCHIVE_PATH.write_text(json.dumps(archive, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
+
+
+def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]:
+    """"Hors Meta" archive: a comp that qualified for a real /compo/ page in
+    a past refresh but doesn't clear filter_quality() this time isn't
+    necessarily dead -- a Riot dev API key's 24h TTL means every refresh
+    re-samples a bounded slice of matches (never the full history in one
+    go), so a real, previously-strong comp can legitimately miss
+    MIN_PLAY_COUNT purely on sample luck, not because it stopped working.
+    Silently dropping its page would 404 an already-published, possibly
+    Google-indexed URL over nothing but that variance.
+
+    data/comp_archive.json (git-tracked, unlike data/output/*.json which is
+    gitignored and fully overwritten every refresh) is the persistent memory
+    across refreshes: every comp that qualifies gets its full record
+    refreshed here every time, so the archive always holds each comp's own
+    latest-known-good snapshot. Anything in the archive for the CURRENT set
+    that doesn't qualify this run becomes a "Hors Meta" comp -- same full
+    record, tier overwritten to "HM", carrying its last real tier/date
+    alongside so comp.html can be honest about it being archived instead of
+    live. Gated on SET_LABEL so a set rotation doesn't resurrect Set 17
+    comps forever; TFT sets share no champions/traits/items, so an old
+    comp's board wouldn't even render sensibly under a new set's assets.
+
+    Returns (hors_meta_comps, updated_archive) -- the caller renders the
+    comps then writes the archive back with save_comp_archive() once the
+    build actually succeeds, not before."""
+    archive = load_comp_archive()
+    today = datetime.now(timezone.utc).date().isoformat()
+    live_keys = {c["key"] for c in comps_filtered}
+
+    for c in comps_filtered:
+        archive[c["key"]] = {**c, "_set": SET_LABEL, "_last_seen": today}
+
+    hors_meta = []
+    for key, entry in archive.items():
+        if key in live_keys or entry.get("_set") != SET_LABEL:
+            continue
+        hm = {**entry, "tier": "HM", "last_known_tier": entry.get("tier"), "is_hors_meta": True}
+        hors_meta.append(hm)
+    return hors_meta, archive
+
+
 RANK_WORD = {
     "fr": {"IRON": "Fer", "BRONZE": "Bronze", "SILVER": "Argent", "GOLD": "Or", "PLATINUM": "Platine",
            "EMERALD": "Émeraude", "DIAMOND": "Diamant", "MASTER": "Maître", "GRANDMASTER": "Grand Maître",
@@ -1497,6 +1555,14 @@ I18N: dict[str, dict] = {
         "tier_scope_intro": lambda n, tier, suffix: f"{n} compositions {SET_LABEL} classées Tier {tier}{suffix}, triées par taux de top 4 puis placement moyen.",
         "see_full_tier": lambda n, tier: f"Voir les {n} compos Tier {tier} →",
         "tier_word": "Tier",
+        # Hors Meta (see build_hors_meta_comps in build_site.py): a comp that
+        # qualified for a real page in a past refresh but missed the quality
+        # bar this time purely on live-sample luck, kept archived instead of
+        # 404ing.
+        "tier_hors_meta": "Hors Meta",
+        "see_full_hors_meta": lambda n: f"Voir les {n} compos Hors Meta →",
+        "hors_meta_scope_intro": lambda n, suffix: f"{n} compositions {SET_LABEL}{suffix} anciennement classées, gardées ici pour référence : elles ne recueillent plus assez de parties récentes pour rester classées activement, mais restent consultables.",
+        "hors_meta_note": lambda tier, date: f"Cette compo était Tier {tier} lors d'un précédent calcul (dernière fois vue le {date}), mais ne recueille plus assez de parties récentes pour être classée activement ce cycle-ci. Elle reste consultable pour référence.",
         "type_all": "Tout type",
         "search_placeholder": "Rechercher une comp, un carry, un champion…",
         "empty_no_comp_filter": "Aucune comp ne correspond à ce filtre.",
@@ -1684,6 +1750,10 @@ I18N: dict[str, dict] = {
         "tier_scope_intro": lambda n, tier, suffix: f"{n} {SET_LABEL} comps ranked Tier {tier}{suffix}, sorted by top 4 rate then average placement.",
         "see_full_tier": lambda n, tier: f"See all {n} Tier {tier} comps →",
         "tier_word": "Tier",
+        "tier_hors_meta": "Off-Meta",
+        "see_full_hors_meta": lambda n: f"See all {n} Off-Meta comps →",
+        "hors_meta_scope_intro": lambda n, suffix: f"{n} previously-ranked {SET_LABEL} comps{suffix}, kept here for reference: they no longer get enough recent games to stay actively ranked, but are still viewable.",
+        "hors_meta_note": lambda tier, date: f"This comp was Tier {tier} in a previous refresh (last seen {date}), but doesn't get enough recent games to stay actively ranked this cycle. Kept here for reference.",
         "type_all": "All types",
         "search_placeholder": "Search a comp, a carry, a champion…",
         "empty_no_comp_filter": "No comp matches this filter.",
@@ -2113,12 +2183,17 @@ def main() -> None:
     all_comps_raw = combined["comps"]
     comps_filtered = filter_quality(all_comps_raw)
     comps_by_key = {c["key"]: c for c in all_comps_raw}
+    hors_meta_comps, comp_archive = build_hors_meta_comps(comps_filtered)
+    if hors_meta_comps:
+        print(f"Hors Meta: {len(hors_meta_comps)} previously-published comp(s) kept archived "
+              f"(didn't clear the live quality bar this refresh): "
+              + ", ".join(c["label"] for c in hors_meta_comps))
 
     region_raw_filtered = {r: filter_quality(payload["comps"]) for r, payload in by_region["regions"].items()}
     rank_raw_filtered = {b: filter_quality(payload["comps"]) for b, payload in by_rank["ranks"].items()}
 
     needed_items: set[str] = set()
-    for pool in [comps_filtered, *region_raw_filtered.values(), *rank_raw_filtered.values()]:
+    for pool in [comps_filtered, hors_meta_comps, *region_raw_filtered.values(), *rank_raw_filtered.values()]:
         for c in pool:
             for u in c.get("core_units", []):
                 needed_items.update(u.get("items") or [])
@@ -2226,6 +2301,15 @@ def main() -> None:
             "search_blob": " ".join(filter(None, [
                 c["label"], carry, c.get("playstyle_tag"), *[u["champion"] for u in core_display],
             ])).lower(),
+            # Hors Meta (see build_hors_meta_comps): is_hors_meta drives the
+            # comp.html disclaimer banner; last_known_tier/last_seen_date_iso
+            # are only meaningful when it's set. Kept as a raw ISO date (not
+            # pre-formatted) because this view-model is built once and reused
+            # for both languages -- comp.html formats it per-language via the
+            # short_date Jinja global, same pattern as patch_notes.html's dates.
+            "is_hors_meta": c.get("is_hors_meta", False),
+            "last_known_tier": c.get("last_known_tier"),
+            "last_seen_date_iso": c.get("_last_seen"),
         }
 
     def build_comp_vm(c: dict) -> dict:
@@ -2319,12 +2403,14 @@ def main() -> None:
         rows.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]))
         return rows
 
-    print(f"Building {len(comps_filtered)} comp pages...")
-    comp_vms = [build_comp_vm(c) for c in comps_filtered]
+    print(f"Building {len(comps_filtered)} comp pages ({len(hors_meta_comps)} Hors Meta)..."
+          if hors_meta_comps else f"Building {len(comps_filtered)} comp pages...")
+    comp_vms = [build_comp_vm(c) for c in comps_filtered + hors_meta_comps]
     comp_vms.sort(key=lambda c: (TIER_SORT.get(c["tier"], 4), c["avg_placement"]))
-    # Only comps that passed the quality filter get a real /compo/<slug>/
-    # page -- used below to decide whether a player's recent-game row links
-    # to a real fiche or shows as plain (unlinked) text.
+    # Comps that passed the quality filter, plus Hors Meta ones (see
+    # build_hors_meta_comps), get a real /compo/<slug>/ page -- used below to
+    # decide whether a player's recent-game row links to a real fiche or
+    # shows as plain (unlinked) text.
     comp_vm_by_key = {c["key"]: c for c in comp_vms}
 
     region_rows = {r: sorted_rows(rows) for r, rows in region_raw_filtered.items()}
@@ -2864,6 +2950,7 @@ def main() -> None:
     env.globals["SET_LABEL"] = SET_LABEL
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
+    env.globals["short_date"] = short_date
     # Cache-buster for the one stylesheet URL every page shares: without it,
     # a CSS-only change (like this session's icon-size fix) never reaches a
     # browser that already cached style.css from an earlier visit -- caught
@@ -3088,7 +3175,8 @@ def main() -> None:
 
             return region_chips, rank_chips
 
-        def render_scope(kind: str, key: str | None, rows: list[dict], scope_label: str, _lang=lang) -> None:
+        def render_scope(kind: str, key: str | None, rows: list[dict], scope_label: str, _lang=lang,
+                          hors_meta_rows: list[dict] | None = None) -> None:
             root_path = scope_root(kind, key)
             HOMEPAGE_PREVIEW_PER_TIER = 15
             # The homepage ("all" scope) also ships every comp beyond the
@@ -3133,6 +3221,17 @@ def main() -> None:
                     "a": translate(_lang, "faq_best_comp_a", top["display_label"], top["tier"],
                                    f"{top['avg_placement']:.2f}", top["top4_pct"], matches_str),
                 }
+
+            # Hors Meta (see build_hors_meta_comps): appended as one extra
+            # group AFTER schema/FAQ are computed from the true S/A/B/C
+            # tier_groups above, so rich-result markup and the featured-
+            # snippet FAQ answer only ever cite the live-qualifying meta --
+            # never an archived comp. "all" scope only (region/rank scopes
+            # don't get an archive slice -- see the call site below).
+            if hors_meta_rows:
+                tier_groups.append({"tier": "HM", "total": len(hors_meta_rows),
+                                     "preview": hors_meta_rows[:HOMEPAGE_PREVIEW_PER_TIER], "full": hors_meta_rows})
+
             render("overview.html", root_path, _lang,
                    active_nav="comps",
                    page_title=f"BrokenMeta.gg | {SET_LABEL} Tier List{title_suffix} — {len(rows)} compositions" if _lang == "fr"
@@ -3151,23 +3250,46 @@ def main() -> None:
 
             for group in tier_groups:
                 tier = group["tier"]
-                tier_rows = [c for c in rows if c["tier"] == tier]
+                # group["full"], not a fresh [c for c in rows if ...] filter:
+                # Hors Meta rows aren't in `rows` at all (see the "all" scope
+                # call below) -- group["full"] is the one place both a real
+                # tier's and the HM group's actual row list already live.
+                tier_rows = group["full"]
+                is_hm = tier == "HM"
+                tier_title = translate(_lang, "tier_hors_meta") if is_hm else f"Tier {tier}"
                 cats = sorted({c["playstyle_cat"] for c in tier_rows if c["playstyle_cat"]},
                               key=lambda x: ["Reroll", "Fast", "Slow"].index(x) if x in ["Reroll", "Fast", "Slow"] else 9)
-                region_chips_t, rank_chips_t = scope_chip_lists(kind, key, tier)
+                # No region/rank chips on the HM page: those links would
+                # point at e.g. /region/euw/tier/hm/, which never gets built
+                # (hors_meta_rows is only ever passed for the "all" scope --
+                # an archived comp has no per-region/per-rank breakdown to
+                # honestly slice by anyway). list_page.html hides the whole
+                # filter row when both lists are empty.
+                region_chips_t, rank_chips_t = ([], []) if is_hm else scope_chip_lists(kind, key, tier)
                 tier_url = root_path + f"tier/{tier.lower()}/"
+                if is_hm:
+                    page_description = (
+                        f"Compositions TFT Set 18 Hors Meta{title_suffix} : anciennement fortes, plus assez jouées récemment pour être classées activement. {len(tier_rows)} compos archivées, données Riot réelles."
+                        if _lang == "fr" else
+                        f"Off-Meta TFT Set 18 comps{title_suffix}: previously strong, not played enough recently to stay actively ranked. {len(tier_rows)} archived comps, real Riot data.")
+                    intro = translate(_lang, "hors_meta_scope_intro", len(tier_rows), suffix)
+                else:
+                    page_description = (
+                        f"Tier {tier} TFT Set 18{title_suffix} : meilleures compositions, winrate et placement moyen. {len(tier_rows)} compos, données Riot réelles." if _lang == "fr"
+                        else f"Tier {tier} TFT Set 18{title_suffix}: best comps, win rate and average placement. {len(tier_rows)} comps, real Riot data.")
+                    intro = translate(_lang, "tier_scope_intro", len(tier_rows), tier, suffix)
                 render("list_page.html", tier_url, _lang,
                        active_nav="comps",
-                       page_title=f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} compositions | TFT Set 18" if _lang == "fr"
-                                  else f"BrokenMeta.gg | Tier {tier}{title_suffix} — {len(tier_rows)} comps | TFT Set 18",
-                       page_description=f"Tier {tier} TFT Set 18{title_suffix} : meilleures compositions, winrate et placement moyen. {len(tier_rows)} compos, données Riot réelles." if _lang == "fr"
-                                         else f"Tier {tier} TFT Set 18{title_suffix}: best comps, win rate and average placement. {len(tier_rows)} comps, real Riot data.",
-                       h1=f"Tier {tier}{title_suffix} — Teamfight Tactics Set 18",
-                       intro=translate(_lang, "tier_scope_intro", len(tier_rows), tier, suffix),
+                       page_title=f"BrokenMeta.gg | {tier_title}{title_suffix} — {len(tier_rows)} compositions | TFT Set 18" if _lang == "fr"
+                                  else f"BrokenMeta.gg | {tier_title}{title_suffix} — {len(tier_rows)} comps | TFT Set 18",
+                       page_description=page_description,
+                       h1=f"{tier_title}{title_suffix} — Teamfight Tactics Set 18",
+                       intro=intro,
                        comps=tier_rows, type_cats=cats,
                        region_chips=region_chips_t, rank_chips=rank_chips_t)
 
-        render_scope("all", None, comp_vms, "")
+        render_scope("all", None, [c for c in comp_vms if not c.get("is_hors_meta")], "",
+                     hors_meta_rows=[c for c in comp_vms if c.get("is_hors_meta")])
         for r in available_regions:
             render_scope("region", r, region_rows[r], REGION_SHORT.get(r, r))
         for b in available_ranks:
@@ -3440,6 +3562,12 @@ def main() -> None:
     size_mb = sum(f.stat().st_size for f in DIST.rglob("*") if f.is_file()) / 1e6
     print(f"Done: {n_files} files, {size_mb:.1f} MB total, in {DIST}")
     print(f"{len(urls)} URLs in sitemap.xml")
+
+    # Written last, only once the build above has fully succeeded (see
+    # build_hors_meta_comps): every comp that qualified this run just
+    # refreshed its own archive entry with today's real data, so this is
+    # always the latest-known-good snapshot of every comp ever published.
+    save_comp_archive(comp_archive)
 
 
 if __name__ == "__main__":

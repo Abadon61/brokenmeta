@@ -6,7 +6,7 @@
 <h1 class="page-h1">{{ h1 }}</h1>
 <p class="page-intro">{{ intro }}</p>
 
-{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}
+{% if region_chips or rank_chips %}{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}{% endif %}
 {{ m.search_bar(lang) }}
 {{ m.type_filter_bar(type_cats, lang) }}
 
