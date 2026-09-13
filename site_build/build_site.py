@@ -1699,6 +1699,7 @@ def build_elo_chart_svg(snapshots: list[dict], regions: list[str], lang: str = "
 # ---------------------------------------------------------------------------
 I18N: dict[str, dict] = {
     "fr": {
+        "nav_tierlists": "Tier List TFT",
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyse ton profil",
         "nav_builder": "Team Builder",
@@ -1928,6 +1929,7 @@ I18N: dict[str, dict] = {
         "item_no_champion_data": "Pas assez de parties observées avec cet objet pour dégager des champions fiables.",
     },
     "en": {
+        "nav_tierlists": "TFT Tier Lists",
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyze your profile",
         "nav_builder": "Team Builder",
