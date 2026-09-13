@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}League of Legends -- Analyse ton profil{% else %}League of Legends -- Analyze your profile{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Analyse réelle de ton profil League of Legends : rang, historique de parties, rôles, comparaison à ton rang et activité, via l'API officielle de Riot.{% else %}Real analysis of your League of Legends profile: rank, match history, roles, comparison to your rank and activity, via Riot's official API.{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'nav_league') }}</h1>
+<p class="page-intro">
+  {% if lang == 'fr' %}
+  Section en bêta : le lookup ci-dessous tourne sur une vraie clé API Riot (rang, historique de parties, rôles, activité -- tout est réel). Deux sections restent des exemples illustratifs, faute de données exposées par l'API Riot -- elles sont clairement marquées.
+  {% else %}
+  Beta section: the lookup below runs on a real Riot API key (rank, match history, roles, activity -- all real). Two sections stay illustrative examples, because Riot's API doesn't expose that data -- they're clearly labeled.
+  {% endif %}
+</p>
+
+<form id="leagueForm" class="metascope-search-form">
+  <input type="text" id="leagueRiotId" class="search-input" placeholder="{% if lang == 'fr' %}Pseudo#TAG{% else %}Name#TAG{% endif %}" autocomplete="off" required>
+  <select id="leagueRegion" class="metascope-region-select">
+    <option value="EUW">EUW</option>
+    <option value="NA">NA</option>
+    <option value="BR">BR</option>
+    <option value="KR">KR</option>
+  </select>
+  <button type="submit" class="metascope-search-button">{{ t(lang, 'ms_search_button') }}</button>
+</form>
+<div id="leagueStatus" class="metascope-status" hidden></div>
+<div id="leagueResults"></div>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
+window.BM_I18N_LEAGUE = {
+  loading: {% if lang == 'fr' %}"Recherche en cours…"{% else %}"Looking it up…"{% endif %},
+  lang: {{ lang|tojson }}
+};
+</script>
+<script src="{{ root }}assets/js/league.js?v={{ css_v }}" defer></script>
+{% endblock %}

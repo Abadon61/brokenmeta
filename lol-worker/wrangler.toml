@@ -1,0 +1,14 @@
+name = "lol-worker"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+# RIOT_API_KEY_LOL is NOT set here (never commit a secret to a config file
+# that goes to git) -- set it once with:
+#   npx wrangler secret put RIOT_API_KEY_LOL
+# This is a DIFFERENT key from metascope-worker's RIOT_API_KEY -- Riot
+# issues a separate key per game, even for Development keys. It's also a
+# Development key for now: it expires every 24h and needs manual rotation
+# (same operational gap as the TFT worker) until a Production key is
+# granted -- see the comment at the top of index.ts.
+[vars]
+CORS_ORIGIN = "https://brokenmeta.gg"

@@ -1,0 +1,15 @@
+{
+  "name": "lol-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "League profile lookup backend for BrokenMeta.gg's LoL section: resolves a Riot ID live via the Riot LoL API (Account-V1, Summoner-V4, League-V4, Match-V5) and returns real rank + match-history + role/queue/activity stats. Keeps RIOT_API_KEY_LOL server-side (Cloudflare secret), never shipped to the browser. Uses a Development key for now -- see the 24h-expiry note in index.ts.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260905.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}
