@@ -648,6 +648,8 @@ COPY_COMP_JS = """
 FAVORITES_JS = """
 (function () {
   var KEY = 'bm_favorites';
+  var RECENT_KEY = 'bm_recently_viewed';
+  var RECENT_MAX = 12;
   var STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>';
 
   function load() {
@@ -655,6 +657,12 @@ FAVORITES_JS = """
   }
   function save(list) {
     try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+  }
+  function loadRecent() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveRecent(list) {
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(list)); } catch (e) {}
   }
   function isSaved(list, key) {
     return list.some(function (f) { return f.key === key; });
@@ -698,6 +706,17 @@ FAVORITES_JS = """
   // fires on the normal first load too (persisted: false, a harmless
   // no-op re-sync) and, critically, on a bfcache restore (persisted: true).
   window.addEventListener('pageshow', function (e) { if (e.persisted) syncButtonStates(); });
+
+  // Passive "Vus récemment" tracking: every real /compo/<slug>/ visit
+  // records itself (see comp.html's window.BM_CURRENT_COMP), no ★ click
+  // needed. De-duped by moving an already-seen comp back to the front
+  // instead of listing it twice; capped so the list stays a quick
+  // "what was I just looking at", not an unbounded history dump.
+  if (window.BM_CURRENT_COMP && window.BM_CURRENT_COMP.key) {
+    var recent = loadRecent().filter(function (f) { return f.key !== window.BM_CURRENT_COMP.key; });
+    recent.unshift(window.BM_CURRENT_COMP);
+    saveRecent(recent.slice(0, RECENT_MAX));
+  }
 
   document.querySelectorAll('.fav-btn[data-fav-key]').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
@@ -759,6 +778,64 @@ FAVORITES_JS = """
     maybeShowEmptyState();
   } else {
     favorites.forEach(renderRow);
+  }
+
+  // "Vus récemment" -- same page, separate container, separate storage key.
+  // Each row gets its own ★ (reusing toggle()/applyState() as-is) so a
+  // comp you just glanced at can be favorited straight from here too,
+  // without hunting it back down on a list page.
+  var recentList = document.getElementById('recentlyViewedList');
+  var clearBtn = document.getElementById('recentlyViewedClear');
+  if (!recentList) return;
+
+  var recentEmptyText = recentList.dataset.emptyText || '';
+
+  function maybeShowRecentEmptyState() {
+    if (!recentList.querySelector('.recent-row')) {
+      recentList.innerHTML = '<p class="favorites-empty">' + recentEmptyText + '</p>';
+      if (clearBtn) clearBtn.hidden = true;
+    }
+  }
+
+  function renderRecentRow(f) {
+    var a = document.createElement('a');
+    a.className = 'comp-row recent-row';
+    a.setAttribute('data-tier', f.tier || '');
+    a.href = root + 'compo/' + f.slug + '/';
+    var carryImg = f.carrySlug
+      ? '<img class="carry-portrait" src="' + root + 'assets/champions/' + f.carrySlug + '.png" alt="" loading="lazy">'
+      : '';
+    var isFav = isSaved(load(), f.key);
+    a.innerHTML =
+      '<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>' +
+      '<div class="tier-badge">' + (f.tier || '') + '</div>' +
+      '<div class="row-body"><div class="row-top"><div class="row-name-block">' + carryImg +
+      '<div class="row-name">' + f.label + '</div></div></div></div>' +
+      '<button type="button" class="fav-btn" data-fav-key="' + f.key + '" data-fav-slug="' + f.slug + '" data-fav-label="' + f.label +
+      '" data-fav-tier="' + (f.tier || '') + '" data-fav-carry-slug="' + (f.carrySlug || '') + '" data-add-title="' + addTitle +
+      '" data-remove-title="' + removeTitle + '" title="' + (isFav ? removeTitle : addTitle) + '" aria-pressed="' + (isFav ? 'true' : 'false') + '">' + STAR_SVG + '</button>';
+    var favBtn = a.querySelector('.fav-btn');
+    favBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      applyState(favBtn, toggle(favBtn));
+    });
+    recentList.appendChild(a);
+  }
+
+  var recent = loadRecent();
+  if (!recent.length) {
+    maybeShowRecentEmptyState();
+  } else {
+    if (clearBtn) clearBtn.hidden = false;
+    recent.forEach(renderRecentRow);
+  }
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      saveRecent([]);
+      recentList.innerHTML = '';
+      maybeShowRecentEmptyState();
+    });
   }
 })();
 """
@@ -2052,6 +2129,9 @@ I18N: dict[str, dict] = {
         "favorites_empty": "Aucune comp sauvegardée pour l'instant. Clique sur l'étoile ★ d'une comp pour l'ajouter ici.",
         "favorites_promo_hint": "Ajoute des comps à tes favoris avec l'étoile",
         "favorites_promo_button": "Retrouver mes favoris",
+        "recently_viewed_title": "Vus récemment",
+        "recently_viewed_empty": "Aucune comp consultée pour l'instant sur ce navigateur.",
+        "recently_viewed_clear": "Vider l'historique",
         "full_composition_title": "Composition complète",
         "item_combos_title": "Combinaisons d'objets — persos principaux (top 10)",
         "combo_col_header": "Combinaison", "avg_placement_col": "Placement moyen",
@@ -2100,6 +2180,13 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Plus grosses chutes",
         "trends_none": "Aucun mouvement significatif sur cette période.",
         "trends_no_history": "Pas encore assez d'historique pour calculer des tendances — reviens après le prochain refresh de données.",
+        "nav_changelog": "Changements de tier",
+        "changelog_title": "Changements de tier — Teamfight Tactics Set 18",
+        "changelog_intro": lambda prev, latest: f"Chaque comp dont la lettre de tier a changé entre le calcul du {prev} et celui du {latest} — un changement de tier visible sur toutes les pages du site, pas juste un écart de placement.",
+        "changelog_promotions": "▲ Montées de tier",
+        "changelog_demotions": "▼ Descentes de tier",
+        "changelog_none": "Aucun changement de tier sur cette période.",
+        "changelog_no_history": "Pas encore assez d'historique pour calculer les changements de tier — reviens après le prochain refresh de données.",
         "nav_counters": "Contres",
         "nav_tools": "Outils",
         "counters_title": "Chercheur de contres — Teamfight Tactics Set 18",
@@ -2301,6 +2388,9 @@ I18N: dict[str, dict] = {
         "favorites_empty": "No saved comps yet. Click a comp's ★ star to add it here.",
         "favorites_promo_hint": "Add comps to your favorites with the star",
         "favorites_promo_button": "View my favorites",
+        "recently_viewed_title": "Recently Viewed",
+        "recently_viewed_empty": "No comps viewed yet on this browser.",
+        "recently_viewed_clear": "Clear history",
         "full_composition_title": "Full composition",
         "item_combos_title": "Item combos — main carries (top 10)",
         "combo_col_header": "Combo", "avg_placement_col": "Avg placement",
@@ -2349,6 +2439,13 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Biggest drops",
         "trends_none": "No significant movement over this period.",
         "trends_no_history": "Not enough history yet to compute trends -- check back after the next data refresh.",
+        "nav_changelog": "Tier Changes",
+        "changelog_title": "Tier Changes — Teamfight Tactics Set 18",
+        "changelog_intro": lambda prev, latest: f"Every comp whose letter tier changed between the {prev} and {latest} refreshes -- a change visible everywhere on the site, not just a placement swing.",
+        "changelog_promotions": "▲ Tier promotions",
+        "changelog_demotions": "▼ Tier demotions",
+        "changelog_none": "No tier changes over this period.",
+        "changelog_no_history": "Not enough history yet to compute tier changes -- check back after the next data refresh.",
         "nav_counters": "Counters",
         "nav_tools": "Tools",
         "counters_title": "Counter Finder — Teamfight Tactics Set 18",
@@ -2815,7 +2912,10 @@ def main() -> None:
     history_by_key: dict[str, list[dict]] = {}
     for snap in comp_history.get("snapshots", []):
         for key, row in snap.get("comps", {}).items():
-            history_by_key.setdefault(key, []).append({"date": snap["date"], "avgPlacement": row["avgPlacement"]})
+            history_by_key.setdefault(key, []).append({
+                "date": snap["date"], "avgPlacement": row["avgPlacement"], "tier": row.get("tier"),
+                "play_count": row.get("playCount", 0),
+            })
     for rows in history_by_key.values():
         rows.sort(key=lambda r: r["date"])
 
@@ -3065,6 +3165,63 @@ def main() -> None:
         "prev_date": prev_snap_date, "latest_date": latest_snap_date,
         "risers": trend_risers, "fallers": trend_fallers,
     }, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    # ---- Tier changelog (/changements/): every comp whose LETTER TIER
+    # actually crossed a boundary between the last two snapshots -- a
+    # different cut than /tendances/ above, which ranks by raw placement
+    # delta and can miss a comp that just barely flipped from B to A (small
+    # delta, but a real, visible change on every list page) while surfacing
+    # a big placement swing that never crossed a tier line at all. Each
+    # snapshot already carries its own tier per comp (comp_history.json),
+    # so this is a straight comparison, no new data needed.
+    #
+    # A real trap here, caught in this session's own review: a raw
+    # comparison flagged 404 tier-changed keys between two snapshots, but
+    # 89% of them (360/404) had under 300 games in the PREVIOUS snapshot --
+    # exactly the small-sample regime the whole tier system already applies
+    # empirical-Bayes shrinkage to correct for (see MIN_PLAY_COUNT /
+    # SHRINKAGE_PRIOR_GAMES above). A comp reclassifying as its own sample
+    # simply grows past that noisy zone isn't a real change worth reporting
+    # -- it's the estimate becoming more accurate, not the meta moving. So
+    # the PREVIOUS reading must already clear the site's own "Medium"
+    # confidence bar (play_count >= MIN_PLAY_COUNT * 3) before a flip counts;
+    # what's left after that filter lines up with the real mid-window
+    # balance patch (18.2, 2026-09-10) instead of sampling noise.
+    def build_tier_changelog() -> tuple[list[dict], list[dict]]:
+        if not prev_snap_date:
+            return [], []
+        changes = []
+        for key, hist in history_by_key.items():
+            by_date = {h["date"]: h for h in hist}
+            prev_row, latest_row = by_date.get(prev_snap_date), by_date.get(latest_snap_date)
+            if not prev_row or not latest_row:
+                continue
+            prev_tier, latest_tier = prev_row["tier"], latest_row["tier"]
+            if not prev_tier or not latest_tier or prev_tier == latest_tier:
+                continue
+            if prev_tier not in TIER_SORT or latest_tier not in TIER_SORT:
+                continue  # e.g. Hors Meta's "HM" -- never a real S/A/B/C move
+            if prev_row["play_count"] < MIN_PLAY_COUNT * 3:
+                continue  # prev reading too small-sample to trust the flip
+            c = comp_vm_by_key.get(key)
+            if not c or c.get("is_hors_meta"):
+                continue
+            changes.append({
+                "slug": c["slug"], "display_label": c["display_label"],
+                "carry_slug": c.get("carry_slug"), "carry": c.get("carry"),
+                "prev_tier": prev_tier, "prev_tier_var": TIER_VAR.get(prev_tier, "var(--gray)"),
+                "latest_tier": latest_tier, "latest_tier_var": TIER_VAR.get(latest_tier, "var(--gray)"),
+                "jump": abs(TIER_SORT[latest_tier] - TIER_SORT[prev_tier]),
+            })
+        promotions = sorted((c for c in changes if TIER_SORT[c["latest_tier"]] < TIER_SORT[c["prev_tier"]]),
+                             key=lambda c: (-c["jump"], c["display_label"]))
+        demotions = sorted((c for c in changes if TIER_SORT[c["latest_tier"]] > TIER_SORT[c["prev_tier"]]),
+                            key=lambda c: (-c["jump"], c["display_label"]))
+        return promotions, demotions
+
+    tier_promotions, tier_demotions = build_tier_changelog()
+    print(f"Tier changelog: {len(tier_promotions)} promoted, {len(tier_demotions)} demoted "
+          f"({prev_snap_date} -> {latest_snap_date})." if prev_snap_date else "Tier changelog: only one snapshot so far, skipped.")
 
     # ---- Counter Finder (/contres/): a searchable version of the "Counters"
     # section every comp page already shows (matchups_by_comp above), scoped
@@ -3861,6 +4018,9 @@ def main() -> None:
         render("trends.html", "/tendances/", lang, active_nav="trends",
                has_data=bool(prev_snap_date), prev_date=prev_snap_date, latest_date=latest_snap_date,
                risers=trend_risers, fallers=trend_fallers)
+        render("tier_changelog.html", "/changements/", lang, active_nav="changelog",
+               has_data=bool(prev_snap_date), prev_date=prev_snap_date, latest_date=latest_snap_date,
+               promotions=tier_promotions, demotions=tier_demotions)
         render("counters.html", "/contres/", lang, active_nav="counters")
         render("sleepers.html", "/pepites-cachees/", lang, active_nav="sleepers",
                sleeper_champions=sleeper_champions, sleeper_comps=sleeper_comps)
@@ -3901,7 +4061,7 @@ def main() -> None:
         render("cgu.html", "/cgu/", lang, active_nav=None)
         render("methodologie.html", "/methodologie/", lang, active_nav=None)
         render("favoris.html", "/favoris/", lang, active_nav="favorites")
-        render("discord_notify.html", "/discord/", lang, active_nav=None)
+        render("discord_notify.html", "/discord/", lang, active_nav="discord")
 
         for c in comp_vms:
             comp_url = canonical_for(f"/compo/{c['slug']}/", lang)

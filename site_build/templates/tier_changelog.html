@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'changelog_title') }}{% endblock %}
+{% block description %}{% if has_data %}{{ t(lang, 'changelog_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}{% else %}{{ t(lang, 'changelog_no_history') }}{% endif %}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'changelog_title') }}</h1>
+{% if has_data %}
+<p class="page-intro">{{ t(lang, 'changelog_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+
+<div class="trends-grid">
+  <div>
+    <h2 class="fiche-section-title trends-up">{{ t(lang, 'changelog_promotions') }}</h2>
+    {% if promotions %}
+    <div class="trend-list">
+      {% for r in promotions %}
+      <a class="trend-row" href="{{ root }}compo/{{ r.slug }}/">
+        <div class="tier-badge" style="--tc:{{ r.latest_tier_var }}">{{ r.latest_tier }}</div>
+        {% if r.carry_slug %}<img class="carry-portrait" src="{{ root }}assets/champions/{{ r.carry_slug }}.png" alt="{{ r.carry }}" loading="lazy">{% endif %}
+        <div class="trend-row-name">{{ r.display_label }}</div>
+        <div class="trend-row-move trend-move-up">{{ r.prev_tier }} → {{ r.latest_tier }}</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'changelog_none') }}</div>{% endif %}
+  </div>
+  <div>
+    <h2 class="fiche-section-title trends-down">{{ t(lang, 'changelog_demotions') }}</h2>
+    {% if demotions %}
+    <div class="trend-list">
+      {% for r in demotions %}
+      <a class="trend-row" href="{{ root }}compo/{{ r.slug }}/">
+        <div class="tier-badge" style="--tc:{{ r.latest_tier_var }}">{{ r.latest_tier }}</div>
+        {% if r.carry_slug %}<img class="carry-portrait" src="{{ root }}assets/champions/{{ r.carry_slug }}.png" alt="{{ r.carry }}" loading="lazy">{% endif %}
+        <div class="trend-row-name">{{ r.display_label }}</div>
+        <div class="trend-row-move trend-move-down">{{ r.prev_tier }} → {{ r.latest_tier }}</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'changelog_none') }}</div>{% endif %}
+  </div>
+</div>
+{% else %}
+<p class="page-intro">{{ t(lang, 'changelog_no_history') }}</p>
+{% endif %}
+{% endblock %}

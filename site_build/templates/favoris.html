@@ -8,4 +8,10 @@
      data-empty-text="{{ t(lang, 'favorites_empty') }}"
      data-add-title="{{ t(lang, 'fav_add_title') }}"
      data-remove-title="{{ t(lang, 'fav_remove_title') }}"></div>
+
+<div class="recently-viewed-header">
+  <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'recently_viewed_title') }}</h2>
+  <button type="button" id="recentlyViewedClear" class="discord-unsubscribe-button" hidden>{{ t(lang, 'recently_viewed_clear') }}</button>
+</div>
+<div id="recentlyViewedList" class="favorites-list" data-empty-text="{{ t(lang, 'recently_viewed_empty') }}"></div>
 {% endblock %}

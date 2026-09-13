@@ -23,8 +23,10 @@
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}tendances/" {% if active_nav == 'trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_trends') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}changements/" {% if active_nav == 'changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_changelog') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}contres/" {% if active_nav == 'counters' %}data-active="true"{% endif %}>{{ t(lang, 'nav_counters') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}pepites-cachees/" {% if active_nav == 'sleepers' %}data-active="true"{% endif %}>{{ t(lang, 'nav_sleepers') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}discord/" {% if active_nav == 'discord' %}data-active="true"{% endif %}>{{ t(lang, 'nav_discord') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/champions/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_champions') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/familles/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_families') }}</a>
@@ -43,12 +45,14 @@
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
-<details class="nav-dropdown" {% if active_nav in ('trends', 'counters', 'sleepers') %}data-active="true"{% endif %}>
+<details class="nav-dropdown" {% if active_nav in ('trends', 'changelog', 'counters', 'sleepers', 'discord') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tools') }}</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}tendances/">{{ t(lang, 'nav_trends') }}</a>
+    <a href="{{ root }}changements/">{{ t(lang, 'nav_changelog') }}</a>
     <a href="{{ root }}contres/">{{ t(lang, 'nav_counters') }}</a>
     <a href="{{ root }}pepites-cachees/">{{ t(lang, 'nav_sleepers') }}</a>
+    <a href="{{ root }}discord/">{{ t(lang, 'nav_discord') }}</a>
   </div>
 </details>
 <details class="nav-dropdown" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>

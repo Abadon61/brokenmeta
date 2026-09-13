@@ -191,4 +191,7 @@
 {% endblock %}
 {% block extra_body %}
 {% if c.gameplan %}<script src="{{ root }}assets/js/gameplan-tabs.js?v={{ css_v }}" defer></script>{% endif %}
+{# Read by favorites.js to passively record this page in "Vus récemment" on
+   /favoris/ -- not tied to the ★ button, every real comp-page visit counts. #}
+<script>window.BM_CURRENT_COMP = {{ {"key": c.key, "slug": c.slug, "label": c.display_label, "tier": c.tier, "carrySlug": c.carry_slug}|tojson }};</script>
 {% endblock %}
