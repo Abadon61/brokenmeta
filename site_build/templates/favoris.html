@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}{{ t(lang, 'favorites_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'favorites_intro') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'nav_favorites') }}</h1>
+<p class="page-intro">{{ t(lang, 'favorites_intro') }}</p>
+<div id="favoritesList" class="favorites-list"
+     data-empty-text="{{ t(lang, 'favorites_empty') }}"
+     data-add-title="{{ t(lang, 'fav_add_title') }}"
+     data-remove-title="{{ t(lang, 'fav_remove_title') }}"></div>
+{% endblock %}

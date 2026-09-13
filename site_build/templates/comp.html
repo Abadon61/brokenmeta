@@ -17,7 +17,13 @@
       {{ m.pill(t(lang, 'top4_label'), c.top4_pct) }}
       {{ m.pill(t(lang, 'contest_label'), c.contestation_index|round|int, c.contestation_level) }}
     </div>
+    {% if c.sparkline %}
+    <div class="comp-sparkline comp-sparkline-{{ c.sparkline.direction }}" title="{{ t(lang, 'sparkline_tooltip') }}">
+      {{ c.sparkline.svg|safe }}
+    </div>
+    {% endif %}
   </div>
+  {{ m.favorite_button(c, lang) }}
   {{ m.copy_comp_button(c.planner_code, lang) }}
 </div>
 {% if c.is_hors_meta %}<p class="page-intro hors-meta-note">{{ t(lang, 'hors_meta_note', c.last_known_tier, short_date(c.last_seen_date_iso, lang)) }}</p>{% endif %}

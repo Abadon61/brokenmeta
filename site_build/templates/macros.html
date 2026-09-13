@@ -87,6 +87,14 @@
    card in the DOM). #}
 {% macro copy_comp_button(code, lang) %}<button class="copy-icon-btn copy-comp-btn" data-code="{{ code }}" data-copied-title="{{ t(lang, 'copied_title') }}" data-failed-title="{{ t(lang, 'copy_failed_title') }}" title="{{ t(lang, 'copy_comp_title') }}" aria-label="{{ t(lang, 'copy_comp_aria') }}">{{ copy_svg|safe }}</button>{% endmacro %}
 
+{# Favorites: pure client-side (localStorage, see assets/js/favorites.js) --
+   no account system on this site, so "saved comps" can only ever live in
+   the visitor's own browser. Every field favorites.js needs to render the
+   /favoris/ page later is baked into data-fav-* here at build time so that
+   page never has to look anything up server-side. Reuses the same star_svg
+   as the fiche board's 3-star indicator -- one star = "saved", not a rating. #}
+{% macro favorite_button(c, lang) %}<button type="button" class="fav-btn" data-fav-key="{{ c.key }}" data-fav-slug="{{ c.slug }}" data-fav-label="{{ c.display_label }}" data-fav-tier="{{ c.tier }}" data-fav-carry-slug="{{ c.carry_slug or '' }}" data-add-title="{{ t(lang, 'fav_add_title') }}" data-remove-title="{{ t(lang, 'fav_remove_title') }}" title="{{ t(lang, 'fav_add_title') }}" aria-label="{{ t(lang, 'fav_add_title') }}" aria-pressed="false">{{ star_svg|safe }}</button>{% endmacro %}
+
 {% macro unit_cell(unit, is_top, root) %}
 <div class="unit-cell">
   <div class="unit-icon-wrap">
@@ -128,6 +136,7 @@
     </div>
     {{ units_row(c.core_units_display, root) }}
   </div>
+  {{ favorite_button(c, lang) }}
   {{ copy_comp_button(c.planner_code, lang) }}
 </a>
 {% endmacro %}
