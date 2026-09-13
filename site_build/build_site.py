@@ -1298,6 +1298,13 @@ METASCOPE_JS = """
 # possible once this worker has been snapshotting rank over time.
 LEAGUE_JS = """
 (function () {
+  // Straight port of the BrokenMeta League concept Artifact's rendering
+  // (same HTML structure/CSS classes as league_profile's <style>, see
+  // build_site.py), but every function here reads from the REAL worker
+  // payload instead of a seeded mock generator -- no MATCH_HISTORY, no
+  // fabricated duo/ping/message data. Only two sections stay illustrative
+  // (see devSectionsHtml): Riot's API has no LP-history endpoint and
+  // exposes no ping/chat data at all, at any endpoint.
   var API = window.BM_LEAGUE_API;
   var I = window.BM_I18N_LEAGUE || {};
   var form = document.getElementById('leagueForm');
@@ -1315,27 +1322,28 @@ LEAGUE_JS = """
     support: '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
   };
   var ROLE_LABEL = { top: 'Top', jungle: 'Jungle', mid: 'Mid', adc: 'ADC', support: 'Support' };
-  var WEEKDAY_LABELS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible' };
 
-  function roleIcon(role) { return '<svg class="league-champ-role-icon" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
+  function roleIcon(role, cls) { return '<svg class="' + (cls || 'champ-role-icon') + '" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   function initials(name) { return (name || '?').replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() || '?'; }
+  function tierLabel(tier) { return tier ? tier.charAt(0) + tier.slice(1).toLowerCase() : ''; }
 
   // Portraits de champion réels (Data Dragon, clé = championName renvoyé
   // tel quel par Match-V5 -- garanti identique à la clé ddragon par Riot,
-  // aucune table de correspondance à maintenir). La version est résolue
-  // une fois au chargement plutôt que codée en dur, pour ne pas se
-  // périmer à chaque patch.
+  // aucune table de correspondance à maintenir). Version résolue une fois
+  // au chargement plutôt que codée en dur, pour ne pas se périmer à
+  // chaque patch.
   var ddragonVersion = null;
   var ddragonReady = fetch('https://ddragon.leagueoflegends.com/api/versions.json')
     .then(function (r) { return r.json(); })
     .then(function (v) { ddragonVersion = v[0]; })
     .catch(function () {});
-  function champIconHtml(championName) {
+  function champPortraitInner(championName) {
     if (ddragonVersion) {
-      return '<img class="league-icon-fallback" src="https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/img/champion/' + encodeURIComponent(championName) + '.png" alt="' + esc(championName) + '" style="width:32px;height:32px;object-fit:cover;border:1px solid var(--border-bright);flex:none" loading="lazy">';
+      return '<img class="league-icon-fallback" src="https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/img/champion/' + encodeURIComponent(championName) + '.png" alt="' + esc(championName) + '" loading="lazy">';
     }
-    return '<span class="player-avatar" style="width:32px;height:32px;font-size:11px">' + esc(initials(championName)) + '</span>';
+    return esc(initials(championName));
   }
 
   function el(tag, className, html) {
@@ -1372,167 +1380,352 @@ LEAGUE_JS = """
     if (hours < 24) return hours + ' h';
     return Math.round(hours / 24) + ' j';
   }
+  // Anneau de winrate -- rayon 27 (circonférence ~169.65), même tracé que
+  // l'artefact mais avec le pourcentage RÉEL du joueur, pas une valeur
+  // figée dans le markup.
+  function rankRingSvg(pct, good) {
+    var c = 169.65;
+    var offset = Math.round((c * (1 - pct / 100)) * 10) / 10;
+    return '<svg viewBox="0 0 64 64" class="rank-ring">'
+      + '<circle cx="32" cy="32" r="27" fill="none" stroke="var(--border-bright)" stroke-width="6"/>'
+      + '<circle cx="32" cy="32" r="27" fill="none" stroke="var(--' + (good ? 'good' : 'warn') + ')" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 32 32)"/>'
+      + '</svg>';
+  }
 
   var currentData = null;
   var currentQueue = 'solo';
+  var currentTab = 'history';
 
-  function rankCard(label, entry) {
-    if (!entry) return '<div class="league-rank-card"><span class="league-rank-queue">' + label + '</span><span class="league-rank-tier" style="color:var(--text-faint)">Non classé</span></div>';
-    return '<div class="league-rank-card"><span class="league-rank-queue">' + label + '</span>'
-      + '<span class="lb-tier-tag" data-tier="' + entry.tier + '">' + entry.tier + ' ' + entry.rank + '</span>'
-      + '<span class="league-rank-lp">' + entry.leaguePoints + ' LP</span>'
-      + '<span class="player-meta" style="margin:0">' + entry.wins + 'V ' + entry.losses + 'D</span></div>';
-  }
-
-  function matchRowHtml(m) {
-    var kda = ((m.kills + m.assists) / Math.max(1, m.deaths)).toFixed(1);
+  function buildLoadoutHtml(m) {
     var itemsHtml = m.items.map(function (it) {
-      return it.iconUrl ? '<img class="league-item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="league-item-slot"></span>';
+      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
     }).join('');
     var spellsHtml = m.spells.map(function (s) {
-      return s.iconUrl ? '<img class="league-spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="' + esc(s.name) + '" title="' + esc(s.name) + '" loading="lazy">' : '';
+      return s.iconUrl ? '<img class="spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="" title="' + esc(s.name) + '" loading="lazy">' : '';
     }).join('');
-    var runesHtml = (m.runes.keystoneIconUrl ? '<img class="league-rune-icon league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '')
-      + (m.runes.secondaryStyleIconUrl ? '<img class="league-rune-icon league-icon-fallback" src="' + m.runes.secondaryStyleIconUrl + '" alt="" title="' + esc(m.runes.secondaryStyleName) + '" style="width:14px;height:14px" loading="lazy">' : '');
-    return '<div class="league-match-row" data-win="' + m.win + '">'
-      + '<span class="league-match-result">' + (m.win ? 'Victoire' : 'Défaite') + '</span>'
-      + '<span class="league-match-champ">' + roleIcon(m.role) + champIconHtml(m.champion) + esc(m.champion) + '</span>'
-      + '<span class="league-loadout"><span class="league-loadout-col">' + spellsHtml + '</span><span class="league-loadout-col">' + runesHtml + '</span><span class="league-items">' + itemsHtml + '</span></span>'
-      + '<span class="league-match-kda mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '<br><span style="color:var(--text-faint);font-size:10px">' + kda + ' KDA</span></span>'
-      + '<span class="league-match-cs">' + m.cs + ' CS<br>' + (m.cs / m.durationMin).toFixed(1) + '/min</span>'
-      + '<span class="league-match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</span>'
+    var runesHtml = (m.runes.keystoneIconUrl ? '<img class="rune-icon league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '')
+      + (m.runes.secondaryStyleIconUrl ? '<img class="rune-icon small league-icon-fallback" src="' + m.runes.secondaryStyleIconUrl + '" alt="" title="' + esc(m.runes.secondaryStyleName) + '" loading="lazy">' : '');
+    return '<div class="match-loadout">'
+      + '<div class="spell-col">' + spellsHtml + '</div>'
+      + '<div class="spell-col">' + runesHtml + '</div>'
+      + '<div class="match-loadout-items">' + itemsHtml + '</div>'
       + '</div>';
+  }
+
+  function matchRowHtml(m, idx) {
+    var kdaRatio = ((m.kills + m.assists) / Math.max(1, m.deaths)).toFixed(1);
+    var csPerMin = (m.cs / m.durationMin).toFixed(1);
+    return '<div class="match-row-wrap">'
+      + '<div class="match-row ' + (m.win ? 'win' : 'loss') + '">'
+      + '<div class="match-result">' + (m.win ? 'Victoire' : 'Défaite') + '</div>'
+      + '<div class="match-champ-block">' + roleIcon(m.role, 'champ-role-icon')
+      + '<span class="champ-portrait-wrap"><span class="champ-portrait">' + champPortraitInner(m.champion) + '</span>'
+      + (m.runes.keystoneIconUrl ? '<img class="champ-rune-badge league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '') + '</span>'
+      + '<div><div class="match-champ-name">' + esc(m.champion) + '</div><div class="match-queue">' + QUEUE_LABEL[currentQueue] + '</div></div></div>'
+      + buildLoadoutHtml(m)
+      + '<div class="match-kda"><div class="match-kda-v mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '</div><div class="match-kda-ratio">' + kdaRatio + ' KDA</div></div>'
+      + '<div class="match-cs"><div class="mono">' + m.cs + ' CS</div><div class="match-cs-l">' + csPerMin + '/min</div></div>'
+      + '<div class="match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</div>'
+      + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="Voir la partie">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>'
+      + '</div>'
+      + '<div class="match-detail" id="matchDetail' + idx + '" hidden></div>'
+      + '</div>';
+  }
+
+  function renderScoreboardTeam(players, label, sideClass) {
+    return '<div class="scoreboard-team ' + sideClass + '"><div class="scoreboard-team-label">' + label + '</div>'
+      + players.map(function (p) {
+        var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
+        var itemsHtml = p.items.map(function (it) {
+          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+        }).join('');
+        return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
+          + roleIcon(p.role, 'champ-role-icon') + '<span class="champ-portrait">' + champPortraitInner(p.champion) + '</span>'
+          + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' (toi)' : esc(p.name)) + '</span>'
+          + kdaText
+          + '<span class="scoreboard-cs mono">' + p.cs + ' CS</span>'
+          + '<span class="scoreboard-gold mono">' + (p.gold / 1000).toFixed(1) + 'k</span>'
+          + '<span class="scoreboard-items">' + itemsHtml + '</span>'
+          + '</div>';
+      }).join('') + '</div>';
+  }
+
+  // Badges de perf + classement dans la partie -- calculés sur le K/D/A
+  // RÉEL du joueur et comparés aux 9 AUTRES vrais scores du scoreboard
+  // (pas de simulation). Pas de ligne "elo moyen" ici : Riot n'expose pas
+  // le rang des autres joueurs d'une partie, contrairement au mockup.
+  function buildMatchSummary(m) {
+    var badges = [];
+    if (m.deaths === 0) badges.push('Increvable');
+    if (m.kills >= 7) badges.push('Triple Kill');
+    else if (m.kills >= 5) badges.push('Double Kill');
+    if (m.assists >= 10) badges.push('Soutien exemplaire');
+
+    function score(p) { return p.kills * 2 + p.assists - p.deaths * 1.5; }
+    var mySelf = m.scoreboard.filter(function (p) { return p.isSelf; })[0];
+    var ranked = m.scoreboard.slice().sort(function (a, b) { return score(b) - score(a); });
+    var rank = ranked.indexOf(mySelf) + 1;
+    var medal = rank <= 3 ? 'Or' : rank <= 6 ? 'Argent' : 'Bronze';
+    badges.unshift(medal + ' ' + rank + '/10');
+
+    var badgesHtml = badges.map(function (b, i) {
+      return '<span class="perf-badge' + (i === 0 ? ' medal' : '') + '">' + b + '</span>';
+    }).join('');
+    return '<div class="match-summary-strip"><div class="summary-badges">' + badgesHtml + '</div></div>';
+  }
+
+  function toggleMatchDetail(idx, m) {
+    var detail = document.getElementById('matchDetail' + idx);
+    var willOpen = detail.hidden;
+    detail.hidden = !willOpen;
+    document.getElementById('matchExpandBtn' + idx).setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if (willOpen && !detail.dataset.built) {
+      var allies = m.scoreboard.filter(function (p) { return p.team === 'ally'; });
+      var enemies = m.scoreboard.filter(function (p) { return p.team === 'enemy'; });
+      detail.innerHTML = buildMatchSummary(m) + '<div class="scoreboard-grid">'
+        + renderScoreboardTeam(allies, 'Alliés', 'ally')
+        + renderScoreboardTeam(enemies, 'Adversaires', 'enemy')
+        + '</div>';
+      detail.dataset.built = '1';
+      bindIconFallback(detail);
+    }
+  }
+
+  function renderMatchList(matches) {
+    var list = document.getElementById('matchHistoryList');
+    if (!matches.length) { list.innerHTML = '<div class="matchup-empty">Aucune partie récente dans cette file.</div>'; return; }
+    list.innerHTML = matches.map(matchRowHtml).join('');
+    bindIconFallback(list);
+    matches.forEach(function (m, idx) {
+      document.getElementById('matchExpandBtn' + idx).addEventListener('click', function () { toggleMatchDetail(idx, m); });
+    });
+  }
+
+  function champKda(c) { return c.kda.toFixed(1); }
+
+  function renderChampionsTable(champions) {
+    var wrap = document.getElementById('championsTableWrap');
+    if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">Aucun champion joué dans cette file.</div>'; return; }
+    var rows = champions.map(function (c) {
+      return '<tr><td><div class="champ-cell"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>' + esc(c.champ) + '</div></td>'
+        + '<td class="num mono">' + c.games + '</td>'
+        + '<td class="num"><span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></td>'
+        + '<td class="num mono">' + c.avgKills.toFixed(1) + ' / ' + c.avgDeaths.toFixed(1) + ' / ' + c.avgAssists.toFixed(1) + '</td>'
+        + '<td class="num mono">' + champKda(c) + '</td></tr>';
+    }).join('');
+    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>Champion</th><th class="num">Parties</th><th class="num">Winrate</th><th class="num">KDA moyen</th><th class="num">Ratio</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    bindIconFallback(wrap);
   }
 
   // Les deux sections que l'API Riot ne peut pas alimenter aujourd'hui --
   // Match-V5 ne donne que le LP ACTUEL (pas d'historique) et n'expose ni
-  // pings ni messages, à aucun endpoint. Rendues avec un exemple fixe et
-  // clairement étiqueté, pas des chiffres qui feraient croire à de la
-  // vraie donnée du joueur recherché.
+  // pings ni messages, à aucun endpoint. Exemple fixe et clairement
+  // étiqueté, jamais présenté comme la donnée du joueur recherché.
   function devSectionsHtml() {
     var badge = '<div class="league-dev-badge"><span class="dot"></span>En développement -- en attente de l\\'API de production Riot</div>';
-    var lpPoints = '0,60 20,52 40,58 60,40 80,44 100,26 120,30 140,14 160,20 180,6';
-    return '<div class="metascope-box" style="margin-top:16px">'
-      + badge
-      + '<div class="metascope-box-title">Progression de LP</div>'
-      + '<p class="metascope-hint" style="margin:0 0 10px">Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu\\'on aura commencé à relever ton LP dans le temps. Exemple illustratif :</p>'
-      + '<svg viewBox="0 0 180 70" style="width:100%;height:80px;display:block"><polyline points="' + lpPoints + '" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      + '</div>'
-      + '<div class="metascope-box" style="margin-top:16px">'
-      + badge
-      + '<div class="metascope-box-title">Communication en jeu</div>'
-      + '<p class="metascope-hint" style="margin:0 0 10px">Les pings et les messages de chat ne sont pas exposés par l\\'API Riot, à aucun endpoint -- cette section restera un exemple tant que ça n\\'aura pas changé. Exemple illustratif :</p>'
-      + '<div class="metascope-stat-row"><span>Messages / partie</span><b class="nums">6.4</b></div>'
-      + '<div class="metascope-stat-row"><span>En chemin</span><b class="nums">2.1 / partie</b></div>'
-      + '<div class="metascope-stat-row"><span>Ennemi manquant</span><b class="nums">1.8 / partie</b></div>'
-      + '<div class="metascope-stat-row"><span>Attention</span><b class="nums">1.2 / partie</b></div>'
-      + '</div>';
+    var lpPoints = '10,150 90,120 170,135 250,90 330,100 410,55 490,65 570,25 650,45 730,10';
+    return '<div class="stats-section"><div class="lp-chart-card">' + badge
+      + '<div class="stats-block-title" style="margin-bottom:8px">Progression de LP</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu\\'on aura commencé à relever ton LP dans le temps. Exemple illustratif :</p>'
+      + '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="90" x2="732" y2="90" class="lp-chart-zero"/>'
+      + '<polygon points="' + lpPoints + ' 730,156 10,156" class="lp-chart-area"/>'
+      + '<polyline points="' + lpPoints + '" class="lp-chart-line"/><circle cx="730" cy="10" r="4.5" class="lp-chart-dot"/></svg>'
+      + '</div></div>'
+      + '<div class="stats-section"><div class="lp-chart-card">' + badge
+      + '<div class="stats-block-title" style="margin-bottom:8px">Communication en jeu</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Les pings et les messages de chat ne sont exposés par l\\'API Riot à aucun endpoint -- cette section restera un exemple tant que ça n\\'aura pas changé. Exemple illustratif :</p>'
+      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">6.4</div><div class="stats-comms-msg-label">Messages / partie</div></div>'
+      + '<div class="comms-ping-list">'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">En chemin</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:70%"></div></div><span class="comms-ping-value mono">2.1 / partie</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">Ennemi manquant</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:60%"></div></div><span class="comms-ping-value mono">1.8 / partie</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">Attention</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:40%"></div></div><span class="comms-ping-value mono">1.2 / partie</span></div>'
+      + '</div></div></div></div>';
   }
 
-  function renderQueue(queueKey) {
-    currentQueue = queueKey;
-    var q = currentData.queues[queueKey];
-    document.querySelectorAll('.league-queue-tab').forEach(function (btn) {
-      btn.setAttribute('data-active', btn.dataset.queue === queueKey ? 'true' : 'false');
-    });
-
-    var matchListHtml = q.matches.length
-      ? q.matches.map(matchRowHtml).join('')
-      : '<div class="matchup-empty">Aucune partie récente dans cette file (sur les ' + (q.matches.length || 0) + ' dernières parties toutes files confondues).</div>';
+  function renderStatsTab(q, rankAverages) {
+    var wrap = document.getElementById('statsTabWrap');
+    var topChamps = q.champions.filter(function (c) { return c.games >= 2; }).slice().sort(function (a, b) { return b.kda - a.kda; }).slice(0, 3);
+    var topChampsHtml = topChamps.length ? topChamps.map(function (c, i) {
+      return '<div class="stats-top-champ-card"><span class="stats-top-champ-rank">#' + (i + 1) + '</span>'
+        + '<span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>'
+        + '<div class="stats-top-champ-info"><div class="stats-top-champ-name">' + esc(c.champ) + '</div>'
+        + '<div class="stats-top-champ-sub">' + c.games + ' parties &middot; <span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '% WR</span></div></div>'
+        + '<div class="stats-top-champ-kda mono">' + c.kda.toFixed(1) + ' <span>KDA</span></div></div>';
+    }).join('') : '<div class="matchup-empty">Pas assez de parties sur un même champion dans cette file (min. 2).</div>';
 
     var maxRoleGames = Math.max.apply(null, q.roleStats.map(function (r) { return r.games; })) || 1;
     var roleHtml = q.roleStats.length ? q.roleStats.map(function (r) {
       var pct = Math.round((r.games / maxRoleGames) * 100);
-      return '<div class="league-role-row"><span class="league-role-name">' + roleIcon(r.role) + (ROLE_LABEL[r.role] || r.role) + '</span>'
-        + '<div class="league-role-bar-track"><div class="league-role-bar-fill" style="width:' + pct + '%"></div></div>'
-        + '<span class="league-role-wr" style="color:' + (r.wr >= 50 ? 'var(--good)' : 'var(--warn)') + '">' + r.wr + '%</span></div>';
-    }).join('') : '<div class="matchup-empty">Pas de partie dans cette file.</div>';
+      return '<div class="role-stat-row"><div class="role-stat-role">' + roleIcon(r.role) + (ROLE_LABEL[r.role] || r.role) + '</div>'
+        + '<div class="role-stat-bar-track"><div class="role-stat-bar-fill" style="width:' + pct + '%"></div></div>'
+        + '<div class="role-stat-games mono">' + r.games + ' parties</div>'
+        + '<div class="role-stat-wr ' + (r.wr >= 50 ? 'good' : 'warn') + '">' + r.wr + '%</div></div>';
+    }).join('') : '<div class="matchup-empty">Aucune partie dans cette file.</div>';
 
-    function compareLine(label, you, rank, unit, decimals) {
-      var scale = Math.max(you, rank) * 1.15 || 1;
-      return '<div class="league-compare-line"><span>' + label + '</span><div class="league-compare-track"><div class="league-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="league-compare-val mono">' + you.toFixed(decimals) + unit + '</span></div>'
-        + '<div class="league-compare-line"><span>Rang</span><div class="league-compare-track"><div class="league-compare-fill rank" style="width:' + Math.round((rank / scale) * 100) + '%"></div></div><span class="league-compare-val mono">' + rank.toFixed(decimals) + unit + '</span></div>';
+    function compareCard(label, you, rankAvg, unit, decimals) {
+      var scale = Math.max(you, rankAvg) * 1.15 || 1;
+      var diff = you - rankAvg;
+      return '<div class="stats-compare-card"><div class="stats-compare-label">' + label + '</div>'
+        + '<div class="stats-compare-row"><span class="stats-compare-name">Toi</span><div class="stats-compare-track"><div class="stats-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + you.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-row"><span class="stats-compare-name">Rang</span><div class="stats-compare-track"><div class="stats-compare-fill rank" style="width:' + Math.round((rankAvg / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + rankAvg.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' vs moyenne</div></div>';
     }
-    var ra = currentData.rankAverages;
     var sa = q.statsAvg;
-    var compareHtml = (q.matches.length ? [
-      '<div class="league-compare-card"><div class="league-compare-label">CS / min</div>' + compareLine('Toi', sa.csPerMin, ra.csPerMin, '', 1) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Gold / min</div>' + compareLine('Toi', sa.goldPerMin, ra.goldPerMin, '', 0) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Dégâts / min</div>' + compareLine('Toi', sa.dmgPerMin, ra.dmgPerMin, '', 0) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Participation aux kills</div>' + compareLine('Toi', sa.killParticipation, ra.killParticipation, '%', 0) + '</div>',
-    ].join('') : '<div class="matchup-empty">Pas assez de parties pour comparer.</div>');
+    var compareHtml = q.matches.length ? [
+      compareCard('CS / min', sa.csPerMin, rankAverages.csPerMin, '', 1),
+      compareCard('Gold / min', sa.goldPerMin, rankAverages.goldPerMin, '', 0),
+      compareCard('Dégâts / min', sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
+      compareCard('Participation aux kills', sa.killParticipation, rankAverages.killParticipation, '%', 0),
+    ].join('') : '<div class="matchup-empty">Pas assez de parties pour comparer.</div>';
 
     var maxWeekday = Math.max.apply(null, q.weekdayStats.map(function (d) { return d.games; })) || 1;
     var weekdayHtml = q.weekdayStats.map(function (d) {
       var pct = Math.round((d.games / maxWeekday) * 100);
-      return '<div class="league-weekday-col"><div class="league-weekday-val mono">' + d.games + '</div>'
-        + '<div class="league-weekday-track"><div class="league-weekday-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
-        + '<div class="league-weekday-label">' + d.label + '</div></div>';
+      var labelClass = d.idx === 5 ? ' sam' : d.idx === 6 ? ' dim' : '';
+      return '<div class="weekday-bar-col"><div class="weekday-bar-value mono">' + d.games + '</div>'
+        + '<div class="weekday-bar-track"><div class="weekday-bar-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
+        + '<div class="weekday-bar-label' + labelClass + '">' + d.label + '</div></div>';
     }).join('');
-
     var hourlyHtml = q.hourlyStats.filter(function (h) { return h.games > 0; }).map(function (h) {
-      return '<div class="league-hourly-row"><span class="league-hourly-time">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
-        + '<span class="league-hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' parties</span>'
-        + '<span class="league-hourly-wr mono">' + h.wr + '%</span></div>';
+      return '<div class="hourly-row"><span class="hourly-time mono">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
+        + '<span class="hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' jeux</span>'
+        + '<span class="hourly-wr mono">' + h.wr + '%</span></div>';
     }).join('') || '<div class="matchup-empty">Pas assez de parties pour un historique horaire.</div>';
 
-    var playedWithHtml = q.playedWith.length ? q.playedWith.map(function (p) {
-      return '<div class="league-playedwith-row"><span class="league-playedwith-name">' + esc(p.riotId) + '</span>'
-        + '<span class="player-meta" style="margin:0">' + p.games + ' parties</span>'
-        + '<span class="league-playedwith-wr" style="color:' + (p.wr >= 50 ? 'var(--good)' : 'var(--warn)') + '">' + p.wr + '%</span></div>';
-    }).join('') : '<div class="matchup-empty">Pas de coéquipier récurrent détecté sur cet échantillon.</div>';
-
-    var main = document.getElementById('leagueQueuePanel');
-    main.innerHTML =
-      '<div class="metascope-layout">'
-      + '<div class="metascope-sidebar">'
-      + '<div class="metascope-box"><div class="metascope-box-title">Répartition par rôle</div><div class="league-role-list">' + roleHtml + '</div></div>'
-      + '<div class="metascope-box"><div class="metascope-box-title">Joué avec</div>' + playedWithHtml + '</div>'
-      + '</div>'
-      + '<div class="metascope-main">'
-      + '<h2 class="fiche-section-title" style="margin-top:0">Historique (' + q.matches.length + ' parties)</h2>'
-      + '<div class="league-match-list">' + matchListHtml + '</div>'
-      + '</div>'
-      + '</div>'
-      + '<div class="metascope-box" style="margin-top:20px"><div class="metascope-box-title">Toi vs moyenne du rang</div><div class="league-compare-grid">' + compareHtml + '</div></div>'
-      + '<div class="metascope-box" style="margin-top:16px"><div class="metascope-box-title">Modèles d\\'activité</div>'
-      + '<div class="league-weekday-chart">' + weekdayHtml + '</div>'
-      + '<div class="league-hourly-list">' + hourlyHtml + '</div></div>'
+    wrap.innerHTML =
+      '<div class="stats-section"><div class="stats-block-title">Meilleures perfs de la saison <span class="profile-section-note">classé par KDA, min. 2 parties</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">Répartition par rôle <span class="profile-section-note">' + q.matches.length + ' parties</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">Toi vs moyenne du rang</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">Modèles d\\'activité</div></div>'
+      + '<div class="activity-subtitle">En semaine</div><div class="weekday-chart">' + weekdayHtml + '</div>'
+      + '<div class="activity-subtitle" style="margin-top:18px">Par heure</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
       + devSectionsHtml();
-    bindIconFallback(main);
+    bindIconFallback(wrap);
+  }
+
+  function renderSidebarQueueBits(q) {
+    var most = q.champions.slice(0, 4);
+    document.getElementById('mostPlayedGrid').innerHTML = most.length ? most.map(function (c) {
+      return '<div class="most-played-row"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>'
+        + '<span class="most-played-name">' + esc(c.champ) + '</span>'
+        + '<span class="most-played-kda mono">' + c.kda.toFixed(1) + ' KDA</span>'
+        + '<span class="most-played-wr ' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></div>';
+    }).join('') : '<div class="matchup-empty">Aucune partie.</div>';
+    bindIconFallback(document.getElementById('mostPlayedGrid'));
+
+    var hasPlayedWith = q.playedWith.length > 0;
+    document.getElementById('duoPartnerDivider').hidden = !hasPlayedWith;
+    document.getElementById('duoPartnerTitle').hidden = !hasPlayedWith;
+    document.getElementById('duoPartnerList').innerHTML = q.playedWith.map(function (p) {
+      return '<div class="duo-partner-row"><div class="duo-partner-info"><div class="duo-partner-name">' + esc(p.riotId) + '</div>'
+        + '<div class="duo-partner-meta">' + p.games + ' parties ensemble</div></div>'
+        + '<div class="duo-partner-stats"><div class="duo-partner-wr ' + (p.wr >= 50 ? 'good' : 'warn') + '">' + p.wr + '%</div>'
+        + '<div class="duo-partner-record">' + p.wins + 'V ' + (p.games - p.wins) + 'D</div></div></div>';
+    }).join('');
+  }
+
+  function setProfileTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabHistory').setAttribute('data-active', tab === 'history' ? 'true' : 'false');
+    document.getElementById('tabChampions').setAttribute('data-active', tab === 'champions' ? 'true' : 'false');
+    document.getElementById('tabStats').setAttribute('data-active', tab === 'stats' ? 'true' : 'false');
+    document.getElementById('matchHistoryList').hidden = tab !== 'history';
+    document.getElementById('championsTableWrap').hidden = tab !== 'champions';
+    document.getElementById('statsTabWrap').hidden = tab !== 'stats';
+    renderActiveTab();
+  }
+
+  function renderActiveTab() {
+    var q = currentData.queues[currentQueue];
+    if (currentTab === 'history') renderMatchList(q.matches);
+    else if (currentTab === 'champions') renderChampionsTable(q.champions);
+    else renderStatsTab(q, currentData.rankAverages);
+  }
+
+  function renderQueue(queueKey) {
+    currentQueue = queueKey;
+    document.querySelectorAll('.queue-filter-btn').forEach(function (btn) {
+      btn.setAttribute('data-active', btn.dataset.queue === queueKey ? 'true' : 'false');
+    });
+    renderSidebarQueueBits(currentData.queues[queueKey]);
+    renderActiveTab();
   }
 
   function renderProfile(data) {
     currentData = data;
+    currentQueue = data.ranks.solo || !data.ranks.flex ? 'solo' : 'flex';
+    currentTab = 'history';
+
+    var primary = data.ranks.solo || data.ranks.flex;
+    var secondary = data.ranks.solo ? data.ranks.flex : null;
+    var wr = primary ? Math.round((primary.wins / Math.max(1, primary.wins + primary.losses)) * 100) : 0;
+
     var avatarHtml = data.profileIconId
       ? '<img class="league-icon-fallback" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/' + data.profileIconId + '.jpg" alt="">'
       : esc(initials(data.riotId));
+
+    var sidebarHtml =
+      '<div class="profile-id">' + esc(data.riotId.split('#')[0]) + ' <span class="tag">#' + esc(data.riotId.split('#')[1] || '') + '</span></div>'
+      + (primary ? '<div class="rank-emblem-wrap"><img class="rank-emblem league-icon-fallback" src="' + primary.emblemUrl + '" alt=""></div>'
+        + '<div class="rank-tier-name">' + tierLabel(primary.tier) + ' ' + primary.rank + '</div>'
+        + '<div class="rank-lp mono">' + primary.leaguePoints + ' LP</div>'
+        + '<div class="rank-ring-wrap">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + 'V</div></div></div>'
+        + '<div class="rank-record">' + primary.wins + 'V ' + primary.losses + 'D</div>'
+        : '<div class="rank-tier-name" style="color:var(--text-faint)">Non classé</div>')
+      + '<div class="sidebar-divider"></div>'
+      + (secondary
+        ? '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value">' + tierLabel(secondary.tier) + ' ' + secondary.rank + ' <span class="mono">' + secondary.leaguePoints + ' LP</span></span></div>'
+        : '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value" style="color:var(--text-faint)">Non classé</span></div>')
+      + '<div class="sidebar-divider"></div>'
+      + '<div class="sidebar-subtitle">Le plus joué <span class="profile-section-note">' + QUEUE_LABEL[currentQueue] + '</span></div>'
+      + '<div class="most-played-list" id="mostPlayedGrid"></div>'
+      + '<button type="button" class="see-all-champs-btn" id="seeAllChampsBtn">Voir tous les champions →</button>'
+      + '<div class="sidebar-divider" id="duoPartnerDivider" hidden></div>'
+      + '<div class="sidebar-subtitle" id="duoPartnerTitle" hidden>Joué avec <span class="profile-section-note">derniers matchs</span></div>'
+      + '<div class="duo-partner-list" id="duoPartnerList"></div>';
+
+    var card = el('div', 'profile-card', '');
+    card.style.setProperty('--tc', 'var(--gold)');
+    card.innerHTML =
+      '<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>'
+      + '<div class="profile-sidebar">' + sidebarHtml + '</div>'
+      + '<div class="profile-main">'
+      + '<div class="profile-main-tabs">'
+      + '<button type="button" class="profile-main-tab" id="tabHistory" data-active="true">Historique</button>'
+      + '<button type="button" class="profile-main-tab" id="tabChampions">Champions</button>'
+      + '<button type="button" class="profile-main-tab" id="tabStats">Statistiques</button>'
+      + '</div>'
+      + '<div id="queueFilterBar" class="queue-filter-bar">'
+      + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">Classé en solo/duo</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">Classé flexible</button>'
+      + '</div>'
+      + '<div class="match-history-list" id="matchHistoryList"></div>'
+      + '<div id="championsTableWrap" hidden></div>'
+      + '<div id="statsTabWrap" hidden></div>'
+      + '</div>';
+
     var header = el('div', 'player-header',
       '<div class="player-avatar">' + avatarHtml + '</div>'
       + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span></div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; Niveau ' + data.summonerLevel : '') + '</div></div>');
 
-    var rankRow = el('div', 'league-rank-row', rankCard('Solo/Duo', data.ranks.solo) + rankCard('Flex', data.ranks.flex));
-
-    var queueTabs = el('div', 'league-queue-tabs',
-      '<button type="button" class="league-queue-tab" data-queue="solo" data-active="true">Classé en solo/duo</button>'
-      + '<button type="button" class="league-queue-tab" data-queue="flex">Classé flexible</button>');
-
-    var panel = el('div', '');
-    panel.id = 'leagueQueuePanel';
-
     results.innerHTML = '';
     results.appendChild(header);
     bindIconFallback(header);
-    results.appendChild(rankRow);
-    results.appendChild(queueTabs);
-    results.appendChild(panel);
+    results.appendChild(card);
+    bindIconFallback(card);
 
-    queueTabs.querySelectorAll('.league-queue-tab').forEach(function (btn) {
+    document.getElementById('tabHistory').addEventListener('click', function () { setProfileTab('history'); });
+    document.getElementById('tabChampions').addEventListener('click', function () { setProfileTab('champions'); });
+    document.getElementById('tabStats').addEventListener('click', function () { setProfileTab('stats'); });
+    document.getElementById('seeAllChampsBtn').addEventListener('click', function () { setProfileTab('champions'); });
+    document.querySelectorAll('.queue-filter-btn').forEach(function (btn) {
       btn.addEventListener('click', function () { renderQueue(btn.dataset.queue); });
     });
 
-    renderQueue('solo');
+    renderSidebarQueueBits(data.queues[currentQueue]);
+    renderActiveTab();
     window.scrollTo(0, 0);
   }
 
@@ -2341,6 +2534,7 @@ I18N: dict[str, dict] = {
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyse ton profil",
         "nav_builder": "Team Builder",
+        "nav_games": "Jeux",
         "nav_league": "League of Legends",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
@@ -2605,6 +2799,7 @@ I18N: dict[str, dict] = {
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyze your profile",
         "nav_builder": "Team Builder",
+        "nav_games": "Games",
         "nav_league": "League of Legends",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
@@ -4683,79 +4878,265 @@ def main() -> None:
   .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
   @media (max-width: 720px) { .favorites-promo { width: 100%; } }
 
-  /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker),
-     same visual language as MetaScope (reuses .metascope-*/.player-*/.pill
-     above) plus the League-only pieces below: queue toggle, match rows
-     with real loadout icons, role/activity bars, and the "en
-     développement" badge on the two sections the Riot API can't back
-     (pings/messages, LP history) -- see league.js / league_profile.html. */
+  /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker).
+     This is a straight visual port of the BrokenMeta League concept
+     Artifact -- same class names on purpose (checked against the rest of
+     this stylesheet for collisions: none), so the real page reads as the
+     SAME product as the concept, not a simplified stand-in. Only the data
+     source changed: league.js fills these from real worker JSON instead
+     of the Artifact's seeded mock generator. Two sections keep an "en
+     développement" badge because Riot's API genuinely can't back them
+     (per-game LP history, pings/chat) -- see league.js. */
   .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .league-rank-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 18px; }
-  .league-rank-card { display: flex; align-items: center; gap: 10px; background: var(--row); border: 1px solid var(--border); padding: 8px 14px; }
-  .league-rank-queue { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
-  .league-rank-tier { font-weight: 700; }
-  .league-rank-lp { color: var(--gold); font-size: 12px; font-family: 'Space Mono', monospace; }
-  .league-queue-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
-  .league-queue-tab { background: none; border: 1px solid var(--border); color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 7px 14px; cursor: pointer; }
-  .league-queue-tab[data-active="true"] { color: var(--cyan); border-color: var(--cyan); }
-  .league-queue-tab:hover:not([data-active="true"]) { color: var(--cream); }
   .league-dev-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(255,194,60,0.1); border: 1px solid rgba(255,194,60,0.4); padding: 4px 9px; margin-bottom: 10px; }
   .league-dev-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
-  .league-match-list { display: flex; flex-direction: column; }
-  .league-match-row { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); border-left: 3px solid var(--gray, var(--text-faint)); }
-  .league-match-row:last-child { border-bottom: none; }
-  .league-match-row[data-win="true"] { border-left-color: var(--good); background: rgba(45,230,196,0.04); }
-  .league-match-row[data-win="false"] { border-left-color: var(--warn); background: rgba(255,84,112,0.04); }
-  .league-match-result { width: 50px; flex: none; font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
-  .league-match-row[data-win="true"] .league-match-result { color: var(--good); }
-  .league-match-row[data-win="false"] .league-match-result { color: var(--warn); }
-  .league-match-champ { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; }
-  .league-champ-role-icon { width: 13px; height: 13px; color: var(--text-faint); flex: none; }
-  .league-loadout { display: flex; align-items: center; gap: 6px; flex: none; }
-  .league-loadout-col { display: flex; flex-direction: column; gap: 2px; }
-  .league-spell-icon, .league-rune-icon { width: 20px; height: 20px; border: 1px solid var(--border-bright); flex: none; }
-  .league-rune-icon { border-radius: 50%; background: var(--bg-2); }
-  .league-items { display: grid; grid-template-columns: repeat(4, 15px); grid-auto-rows: 15px; gap: 2px; flex: none; }
-  .league-item-slot { width: 15px; height: 15px; background: var(--row-hover); border: 1px solid var(--border-bright); }
-  .league-match-kda { flex: none; width: 78px; text-align: center; font-size: 12px; }
-  .league-match-cs { flex: none; width: 64px; text-align: center; font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
-  .league-match-meta { flex: none; width: 74px; text-align: right; font-size: 10px; color: var(--text-faint); }
-  @media (max-width: 780px) { .league-loadout, .league-match-cs { display: none; } }
-  .league-role-list { display: flex; flex-direction: column; gap: 10px; }
-  .league-role-row { display: flex; align-items: center; gap: 10px; }
-  .league-role-name { display: flex; align-items: center; gap: 6px; width: 72px; flex: none; font-size: 12px; font-weight: 600; }
-  .league-role-name svg { width: 14px; height: 14px; color: var(--text-faint); }
-  .league-role-bar-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
-  .league-role-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
-  .league-role-wr { width: 44px; flex: none; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; }
-  .league-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 4px; }
-  .league-compare-card { background: var(--row); border: 1px solid var(--border); padding: 12px 14px; }
-  .league-compare-label { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
-  .league-compare-line { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
-  .league-compare-line span:first-child { width: 36px; flex: none; color: var(--text-faint); }
-  .league-compare-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); }
-  .league-compare-fill.you { height: 100%; background: var(--cyan); }
-  .league-compare-fill.rank { height: 100%; background: var(--text-faint); }
-  .league-compare-val { width: 50px; flex: none; text-align: right; font-family: 'Space Mono', monospace; }
-  .league-weekday-chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; margin-bottom: 16px; }
-  .league-weekday-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
-  .league-weekday-val { font-size: 10px; color: var(--text-faint); margin-bottom: 4px; }
-  .league-weekday-track { flex: 1; width: 100%; max-width: 28px; background: var(--bg-2); border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
-  .league-weekday-fill { width: 100%; }
-  .league-weekday-fill.good { background: var(--cyan); }
-  .league-weekday-fill.warn { background: var(--warn); }
-  .league-weekday-label { font-size: 10px; color: var(--text-faint); margin-top: 6px; }
-  .league-hourly-list { max-height: 180px; overflow-y: auto; border-top: 1px solid var(--border); }
-  .league-hourly-row { display: flex; align-items: center; gap: 10px; padding: 6px 2px; border-bottom: 1px solid var(--border); font-size: 11.5px; }
-  .league-hourly-row:last-child { border-bottom: none; }
-  .league-hourly-time { width: 46px; flex: none; color: var(--text-dim); font-family: 'Space Mono', monospace; }
-  .league-hourly-badge { flex: none; width: 58px; text-align: center; font-size: 10.5px; font-weight: 700; padding: 3px 5px; background: var(--text-faint); color: var(--bg); }
-  .league-hourly-badge.good { background: var(--cyan); color: #0b0221; }
-  .league-hourly-badge.warn { background: var(--warn); }
-  .league-hourly-wr { margin-left: auto; color: var(--text-dim); }
-  .league-playedwith-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
-  .league-playedwith-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .league-playedwith-wr { font-family: 'Space Mono', monospace; font-weight: 700; }
+
+  /* Une seule carte, deux colonnes -- rang + historique dans le même
+     panneau, comme op.gg, pas deux blocs séparés. */
+  .profile-card { display: flex; background: var(--row); border: 1px solid var(--border-bright); position: relative; align-items: stretch; margin-top: 4px; }
+  .profile-sidebar { width: 220px; flex: none; padding: 20px 18px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+  .profile-id { font-weight: 600; font-size: 15px; align-self: flex-start; margin-bottom: 10px; }
+  .profile-id .tag { color: var(--text-faint); font-weight: 400; }
+  .rank-emblem-wrap { width: 88px; height: 88px; }
+  .rank-emblem { width: 100%; height: 100%; object-fit: contain; }
+  .rank-tier-name { font-family: 'Cal Sans', sans-serif; font-size: 16px; margin-top: 4px; }
+  .rank-lp { font-size: 12.5px; color: var(--gold); margin-top: 2px; }
+  .rank-ring-wrap { position: relative; width: 64px; height: 64px; margin: 14px 0 6px; }
+  .rank-ring { width: 100%; height: 100%; }
+  .rank-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; }
+  .rank-ring-sub { font-size: 9px; color: var(--text-faint); }
+  .rank-record { font-size: 11.5px; color: var(--text-faint); }
+  .sidebar-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0 12px; }
+  .sidebar-subtitle { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); align-self: flex-start; margin-bottom: 8px; }
+  .most-played-list { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .most-played-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .most-played-row .champ-portrait { width: 26px; height: 26px; font-size: 9px; flex: none; }
+  .most-played-name { flex: 1; min-width: 0; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .most-played-wr { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11.5px; flex: none; }
+  .most-played-wr.good, .duo-partner-wr.good, .role-stat-wr.good { color: var(--good); }
+  .most-played-wr.warn, .duo-partner-wr.warn, .role-stat-wr.warn { color: var(--warn); }
+  .most-played-kda { font-size: 10px; color: var(--text-faint); flex: none; width: 52px; text-align: right; }
+  .see-all-champs-btn { background: none; border: none; color: var(--cyan); font-size: 11.5px; cursor: pointer; padding: 8px 0 0; align-self: flex-start; }
+  .see-all-champs-btn:hover { color: var(--cream); text-decoration: underline; }
+  .duo-partner-list { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 4px; }
+  .duo-partner-row { display: flex; align-items: flex-start; gap: 8px; }
+  .duo-partner-row .champ-portrait { width: 28px; height: 28px; font-size: 9.5px; flex: none; margin-top: 1px; }
+  .duo-partner-info { flex: 1; min-width: 0; text-align: left; }
+  .duo-partner-name { font-weight: 600; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .duo-partner-name .tag { font-weight: 400; color: var(--text-faint); font-size: 11px; }
+  .duo-partner-meta { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
+  .duo-partner-stats { flex: none; text-align: right; }
+  .duo-partner-wr { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12.5px; }
+  .duo-partner-record { font-size: 10px; color: var(--text-faint); margin-top: 1px; white-space: nowrap; }
+  .flex-rank-row { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .flex-rank-value { font-size: 12.5px; color: var(--text-dim); }
+  .flex-rank-value .mono { color: var(--gold); }
+  .recent-form { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  .profile-main { flex: 1; min-width: 0; }
+  .profile-main-tabs { display: flex; gap: 4px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .profile-main-tab { background: none; border: none; color: var(--text-faint); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 12px; cursor: pointer; }
+  .profile-main-tab[data-active="true"] { color: var(--cream); background: var(--row-hover); }
+  .queue-filter-bar { display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .queue-filter-btn { background: none; border: none; color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 5px 10px; cursor: pointer; }
+  .queue-filter-btn[data-active="true"] { color: var(--cyan); }
+  .queue-filter-btn:hover:not([data-active="true"]) { color: var(--cream); }
+
+  .champions-table-head { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .season-badge { background: var(--row-hover); border: 1px solid var(--border-bright); color: var(--cream); font-size: 11px; font-weight: 700; padding: 4px 10px; }
+  .champions-queue-tabs, .stats-queue-tabs { display: flex; gap: 4px; }
+  .champions-queue-tab, .stats-queue-tab { background: none; border: none; color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 5px 10px; cursor: pointer; }
+  .champions-queue-tab[data-active="true"], .stats-queue-tab[data-active="true"] { color: var(--cyan); }
+  .champions-queue-tab:hover:not([data-active="true"]), .stats-queue-tab:hover:not([data-active="true"]) { color: var(--cream); }
+  .stats-queue-tabs { border-bottom: 1px solid var(--border); margin: -18px -16px 4px; padding: 0 12px; }
+  .stats-queue-tab { padding: 10px 10px; }
+  .champions-table-scroll { overflow-x: auto; }
+  .champions-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .champions-table th { text-align: left; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); padding: 8px 16px; border-bottom: 1px solid var(--border); font-weight: 700; }
+  .champions-table th.num, .champions-table td.num { text-align: right; }
+  .champions-table td { padding: 8px 16px; border-bottom: 1px solid var(--border); }
+  .champions-table tr:last-child td { border-bottom: none; }
+  .champions-table .champ-cell { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .champions-table .champ-cell .champ-portrait { width: 26px; height: 26px; font-size: 9px; }
+
+  /* Onglet Statistiques. */
+  .stats-section { padding: 18px 16px; border-bottom: 1px solid var(--border); }
+  .stats-section:last-child { border-bottom: none; }
+  .stats-block-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 16px; }
+  .stats-block-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .role-stats-list { display: flex; flex-direction: column; gap: 12px; }
+  .role-stat-row { display: flex; align-items: center; gap: 12px; }
+  .role-stat-role { display: flex; align-items: center; gap: 7px; width: 84px; flex: none; font-size: 12.5px; font-weight: 600; }
+  .role-stat-role svg { width: 15px; height: 15px; color: var(--text-faint); flex: none; }
+  .role-stat-bar-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
+  .role-stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
+  .role-stat-games { width: 74px; flex: none; text-align: right; font-size: 11px; color: var(--text-faint); }
+  .role-stat-wr { width: 48px; flex: none; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12.5px; }
+  .stats-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .stats-compare-card { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 14px 16px; }
+  .stats-compare-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+  .stats-compare-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .stats-compare-name { width: 40px; flex: none; font-size: 11px; color: var(--text-dim); }
+  .stats-compare-track { flex: 1; height: 9px; background: var(--row); border: 1px solid var(--border); }
+  .stats-compare-fill { height: 100%; }
+  .stats-compare-fill.you { background: var(--cyan); }
+  .stats-compare-fill.rank { background: var(--text-faint); }
+  .stats-compare-value { width: 52px; flex: none; text-align: right; font-size: 11.5px; }
+  .stats-compare-diff { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .stats-compare-diff.good { color: var(--good); }
+  .stats-compare-diff.warn { color: var(--warn); }
+
+  .stats-top-champs { display: flex; gap: 12px; flex-wrap: wrap; }
+  .stats-top-champ-card { flex: 1; min-width: 170px; display: flex; align-items: center; gap: 10px; background: var(--bg-2); border: 1px solid var(--border-bright); padding: 12px 14px; position: relative; }
+  .stats-top-champ-rank { position: absolute; top: 6px; right: 8px; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; color: var(--text-faint); }
+  .stats-top-champ-card .champ-portrait { width: 38px; height: 38px; font-size: 12px; flex: none; }
+  .stats-top-champ-info { flex: 1; min-width: 0; }
+  .stats-top-champ-name { font-weight: 600; font-size: 13px; }
+  .stats-top-champ-sub { font-size: 10.5px; color: var(--text-faint); margin-top: 2px; }
+  .stats-top-champ-sub .good { color: var(--good); }
+  .stats-top-champ-sub .warn { color: var(--warn); }
+  .stats-top-champ-kda { text-align: right; font-weight: 700; font-size: 15px; color: var(--gold); flex: none; }
+  .stats-top-champ-kda span { display: block; font-size: 9px; font-weight: 400; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .lp-chart-card { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 16px; }
+  .lp-chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .lp-chart-total { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; }
+  .lp-chart-total.good { color: var(--good); }
+  .lp-chart-total.warn { color: var(--warn); }
+  .lp-chart-svg { display: block; width: 100%; height: 170px; }
+  .lp-chart-zero { stroke: var(--border-bright); stroke-width: 1; stroke-dasharray: 4 4; }
+  .lp-chart-area { fill: rgba(5, 217, 232, 0.12); stroke: none; }
+  .lp-chart-line { fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .lp-chart-dot { fill: var(--cyan); stroke: var(--bg-2); stroke-width: 2; }
+
+  .stats-comms-grid { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center; }
+  .stats-comms-msg { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 18px 10px; text-align: center; }
+  .stats-comms-msg-value { font-size: 28px; }
+  .stats-comms-msg-label { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px; }
+  .comms-ping-list { display: flex; flex-direction: column; gap: 10px; }
+  .comms-ping-row { display: flex; align-items: center; gap: 12px; }
+  .comms-ping-label { width: 130px; flex: none; font-size: 12px; color: var(--text-dim); }
+  .comms-ping-bar-track { flex: 1; height: 8px; background: var(--row); border: 1px solid var(--border); }
+  .comms-ping-bar-fill { height: 100%; background: var(--magenta); }
+  .comms-ping-value { width: 70px; flex: none; text-align: right; font-size: 11px; color: var(--text-faint); }
+  @media (max-width: 640px) { .stats-comms-grid { grid-template-columns: 1fr; } .comms-ping-label { width: 110px; } }
+
+  .activity-toggle { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-faint); cursor: pointer; user-select: none; }
+  .activity-toggle input { display: none; }
+  .activity-toggle-slider { width: 34px; height: 18px; flex: none; background: var(--row); border: 1px solid var(--border-bright); border-radius: 20px; position: relative; transition: background .15s ease, border-color .15s ease; }
+  .activity-toggle-slider::after { content: ''; position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-faint); transition: transform .15s ease, background .15s ease; }
+  .activity-toggle input:checked + .activity-toggle-slider { background: var(--cyan); border-color: var(--cyan); }
+  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #0b0221; }
+  .activity-subtitle { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; }
+  .info-hint { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-faint); color: var(--text-faint); font-size: 9px; cursor: help; flex: none; }
+  .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
+  .weekday-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .weekday-bar-value { font-size: 11px; color: var(--text-faint); margin-bottom: 6px; }
+  .weekday-bar-track { flex: 1; width: 100%; max-width: 34px; background: var(--bg-2); border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
+  .weekday-bar-fill { width: 100%; transition: height .2s ease; }
+  .weekday-bar-fill.good { background: var(--cyan); }
+  .weekday-bar-fill.warn { background: var(--warn); }
+  .weekday-bar-label { font-size: 11px; color: var(--text-faint); margin-top: 8px; font-weight: 600; }
+  .weekday-bar-label.sam { color: var(--cyan); }
+  .weekday-bar-label.dim { color: var(--warn); }
+  .hourly-list { max-height: 224px; overflow-y: auto; border-top: 1px solid var(--border); scrollbar-width: thin; scrollbar-color: var(--border-bright) transparent; }
+  .hourly-list::-webkit-scrollbar { width: 8px; }
+  .hourly-list::-webkit-scrollbar-track { background: transparent; }
+  .hourly-list::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+  .hourly-row { display: flex; align-items: center; gap: 12px; padding: 8px 4px; border-bottom: 1px solid var(--border); }
+  .hourly-row:last-child { border-bottom: none; }
+  .hourly-time { width: 52px; flex: none; font-size: 12px; color: var(--text-dim); }
+  .hourly-badge { flex: none; width: 64px; text-align: center; font-size: 11px; font-weight: 700; padding: 4px 6px; color: var(--cream); background: var(--gray, var(--text-faint)); }
+  .hourly-badge.good { background: var(--cyan); color: #0b0221; }
+  .hourly-badge.warn { background: var(--warn); }
+  .hourly-wr { margin-left: auto; font-size: 12px; color: var(--text-dim); width: 44px; text-align: right; }
+
+  /* Historique -- une ligne = 68px (loadout inline), cadre limité à 20
+     lignes de haut, scroll dedans pour le reste. */
+  .match-history-list { display: flex; flex-direction: column; max-height: calc(68px * 20 - 1px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border-bright) transparent; }
+  /* league.js toggles [hidden] to switch tabs -- without this,
+     .match-history-list's own `display: flex` above beats the browser's
+     built-in `[hidden] { display: none }` on specificity ties (same
+     0-1-0 weight, and an author rule always wins over the UA sheet), so
+     the history list stayed visible under the Champions/Stats tabs. Bug
+     caught in local testing before this went live. */
+  .match-history-list[hidden], #championsTableWrap[hidden], #statsTabWrap[hidden] { display: none; }
+  .match-history-list::-webkit-scrollbar { width: 8px; }
+  .match-history-list::-webkit-scrollbar-track { background: transparent; }
+  .match-history-list::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+  .match-row { display: flex; align-items: center; gap: 14px; min-height: 68px; border-bottom: 1px solid var(--border); border-left: 3px solid var(--gray, var(--text-faint)); padding: 10px 16px; }
+  .match-history-list > .match-row-wrap:last-child .match-row { border-bottom: none; }
+  .match-row.win { border-left-color: var(--good); background: rgba(45,230,196,0.04); }
+  .match-row.loss { border-left-color: var(--warn); background: rgba(255,84,112,0.04); }
+  .match-result { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; width: 56px; flex: none; }
+  .match-row.win .match-result { color: var(--good); }
+  .match-row.loss .match-result { color: var(--warn); }
+  .match-champ-block { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .match-champ-block .champ-portrait { width: 32px; height: 32px; font-size: 11px; }
+  .champ-portrait-wrap { position: relative; display: inline-flex; flex: none; }
+  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #0b0221; border: 2px solid var(--bg-2); object-fit: cover; }
+  .match-champ-name { font-weight: 600; font-size: 13px; }
+  .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
+  .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
+  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 16px); grid-auto-rows: 16px; gap: 2px; }
+  .match-loadout-items .item-slot { width: 16px; height: 16px; }
+  @media (max-width: 900px) { .match-loadout { display: none; } }
+  .match-kda { text-align: center; flex: none; width: 84px; }
+  .match-kda-v { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; }
+  .match-kda-ratio { font-size: 10.5px; color: var(--text-faint); }
+  .match-cs { text-align: center; flex: none; width: 74px; font-family: 'Space Mono', monospace; font-size: 11.5px; color: var(--text-dim); }
+  .match-cs-l { font-size: 9.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .match-meta { text-align: right; flex: none; width: 84px; font-size: 10.5px; color: var(--text-faint); line-height: 1.5; }
+  .match-expand-btn { background: none; border: none; color: var(--text-faint); cursor: pointer; flex: none; padding: 4px; display: flex; }
+  .match-expand-btn svg { width: 16px; height: 16px; transition: transform .15s ease; }
+  .match-expand-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .match-expand-btn:hover { color: var(--cream); }
+  .match-detail { padding: 14px 16px 16px; background: var(--bg-2); border-bottom: 1px solid var(--border); }
+  /* Sorts + runes -- utilisés à la fois par le loadout inline de la ligne
+     repliée (.match-loadout) et par le résumé du volet déplié
+     (.match-summary-strip). Oublier ces deux règles laisse les vraies
+     icônes (de vraies images, pas des <span> vides comme dans le mockup)
+     s'afficher à leur taille native -- bug repéré en test local avant
+     mise en ligne. */
+  .spell-col { display: flex; flex-direction: column; gap: 3px; }
+  .spell-icon { width: 22px; height: 22px; border-radius: 3px; border: 1px solid var(--border-bright); object-fit: cover; }
+  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #0b0221; object-fit: cover; }
+  .rune-icon.small { width: 16px; height: 16px; margin-left: 3px; }
+  .match-summary-strip { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .summary-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .perf-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 4px 9px; background: var(--row); border: 1px solid var(--border-bright); color: var(--text-dim); }
+  .perf-badge.medal { background: var(--gold); color: #0b0221; border-color: var(--gold); }
+  .summary-extra { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-faint); margin-left: auto; }
+  .summary-extra strong { color: var(--cream); }
+  @media (max-width: 640px) { .summary-extra { margin-left: 0; } }
+  .scoreboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .scoreboard-team-label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 8px; }
+  .scoreboard-team.ally .scoreboard-team-label { color: var(--cyan); }
+  .scoreboard-team.enemy .scoreboard-team-label { color: var(--warn); }
+  .scoreboard-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
+  .scoreboard-row.is-self { background: rgba(255,201,77,0.08); border-radius: 2px; padding-left: 4px; }
+  .scoreboard-row .champ-portrait { width: 24px; height: 24px; font-size: 8px; flex: none; }
+  .scoreboard-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scoreboard-kda { flex: none; width: 56px; color: var(--text-dim); font-size: 11px; }
+  .scoreboard-cs { flex: none; width: 54px; color: var(--text-dim); font-size: 11px; }
+  .scoreboard-gold { flex: none; width: 40px; color: var(--gold); font-size: 11px; }
+  .scoreboard-items { display: flex; gap: 2px; flex: none; }
+  .item-slot { width: 14px; height: 14px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; }
+  @media (max-width: 640px) { .scoreboard-grid { grid-template-columns: 1fr; } .scoreboard-kda, .scoreboard-cs, .scoreboard-gold { display: none; } }
+
+  .champ-portrait { width: 40px; height: 40px; flex: none; border-radius: 50%; background: linear-gradient(135deg, var(--row-hover), var(--bg-2)); border: 1.5px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Cal Sans', sans-serif; font-size: 13px; color: var(--text-dim); overflow: hidden; }
+  .champ-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .champ-role-icon { width: 15px; height: 15px; color: var(--text-faint); flex: none; }
+
+  @media (max-width: 720px) {
+    .profile-card { flex-direction: column; }
+    .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; text-align: left; }
+    .profile-id { width: 100%; }
+    .most-played-list { width: auto; flex: 1; min-width: 140px; }
+    .match-row { flex-wrap: wrap; }
+    .match-kda, .match-cs, .match-meta { width: auto; }
+  }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 

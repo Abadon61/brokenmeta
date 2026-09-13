@@ -81,6 +81,13 @@ export function itemIconUrl(itemId: number): string | null {
   return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/items/icons2d/${itemId}.png`;
 }
 
+// Emblème de rang réel (verified pattern, already used by the TFT side of
+// the site) -- clé = le tier tel que renvoyé par League-V4, en minuscules.
+export function rankEmblemUrl(tier: string | null | undefined): string | null {
+  if (!tier) return null;
+  return `https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/images/ranked-emblem/emblem-${tier.toLowerCase()}.png`;
+}
+
 // Approximate per-tier per-minute benchmarks -- NOT sourced from Riot (they
 // don't expose this), and not yet from BrokenMeta's own aggregated match
 // data either (that would need the same kind of large-scale collection

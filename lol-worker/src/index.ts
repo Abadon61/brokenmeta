@@ -20,7 +20,7 @@
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
 import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX } from "./riot";
-import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, itemIconUrl } from "./lolData";
+import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, itemIconUrl, rankEmblemUrl } from "./lolData";
 
 export interface Env {
   RIOT_API_KEY_LOL: string;
@@ -106,7 +106,10 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   return json({
     riotId: `${account.gameName}#${account.tagLine}`, region,
     profileIconId: summoner?.profileIconId ?? null, summonerLevel: summoner?.summonerLevel ?? null,
-    ranks: { solo: soloEntry, flex: flexEntry },
+    ranks: {
+      solo: soloEntry ? { ...soloEntry, emblemUrl: rankEmblemUrl(soloEntry.tier) } : null,
+      flex: flexEntry ? { ...flexEntry, emblemUrl: rankEmblemUrl(flexEntry.tier) } : null,
+    },
     rankAverages,
     queues: {
       solo: buildQueueBlock(soloMatches, puuid),
@@ -150,6 +153,19 @@ function extractMatch(match: any, puuid: string) {
     .filter((p) => p.teamId === me.teamId && p.puuid !== puuid)
     .map((p) => ({ puuid: p.puuid, riotId: p.riotIdGameName ? `${p.riotIdGameName}#${p.riotIdTagline}` : p.summonerName || "Joueur inconnu" }));
 
+  // Les 10 joueurs, pour le volet "voir la partie" -- même info que la
+  // ligne repliée mais pour tout le monde, plus l'or et les 6 objets.
+  // Généré ici pour chaque partie (coût déjà payé, `participants` est
+  // déjà en mémoire) plutôt que recalculé côté client.
+  const scoreboard = participants.map((p) => ({
+    puuid: p.puuid, isSelf: p.puuid === puuid, team: p.teamId === me.teamId ? "ally" : "enemy",
+    name: p.puuid === puuid ? null : (p.riotIdGameName ? `${p.riotIdGameName}#${p.riotIdTagline}` : p.summonerName || "Joueur inconnu"),
+    champion: p.championName, role: LANE_TO_ROLE[p.individualPosition] || "mid",
+    kills: p.kills, deaths: p.deaths, assists: p.assists,
+    cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0), gold: p.goldEarned || 0,
+    items: [p.item0, p.item1, p.item2, p.item3, p.item4, p.item5, p.item6].map((id: number) => ({ id, iconUrl: itemIconUrl(id) })),
+  }));
+
   const startedAt = info.gameStartTimestamp || match.info.gameCreation;
   const d = new Date(startedAt);
   // getDay(): 0=Dim..6=Sam -- décalé pour retomber sur l'ordre Lun..Dim
@@ -170,7 +186,7 @@ function extractMatch(match: any, puuid: string) {
       keystoneId, keystoneName: keystoneId ? KEYSTONES[keystoneId]?.name || "?" : null, keystoneIconUrl: keystoneId ? keystoneIconUrl(keystoneId) : null,
       secondaryStyleId: subStyle?.style ?? null, secondaryStyleName: subStyle ? RUNE_TREES[subStyle.style]?.name || "?" : null, secondaryStyleIconUrl: subStyle ? treeIconUrl(subStyle.style) : null,
     },
-    teammates,
+    teammates, scoreboard,
     startedAt, weekday, hour: d.getUTCHours(),
   };
 }
@@ -180,6 +196,7 @@ function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
   const weekday = WEEKDAY_LABELS.map((label, idx) => ({ label, idx, games: 0, wins: 0 }));
   const hourly = Array.from({ length: 24 }, (_, hour) => ({ hour, games: 0, wins: 0 }));
   const teammateMap: Record<string, { riotId: string; games: number; wins: number }> = {};
+  const champMap: Record<string, { champ: string; games: number; wins: number; kills: number; deaths: number; assists: number }> = {};
   let csSum = 0, goldSum = 0, dmgSum = 0, kpSum = 0;
 
   for (const m of matches) {
@@ -199,6 +216,11 @@ function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
       teammateMap[t.puuid].games++;
       if (m.win) teammateMap[t.puuid].wins++;
     }
+    if (!champMap[m.champion]) champMap[m.champion] = { champ: m.champion, games: 0, wins: 0, kills: 0, deaths: 0, assists: 0 };
+    const c = champMap[m.champion];
+    c.games++;
+    if (m.win) c.wins++;
+    c.kills += m.kills; c.deaths += m.deaths; c.assists += m.assists;
   }
 
   const n = matches.length || 1;
@@ -211,10 +233,17 @@ function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
     .map((t) => ({ ...t, wr: Math.round((t.wins / t.games) * 100) }))
     .sort((a, b) => b.games - a.games)
     .slice(0, 3);
+  const champions = Object.values(champMap)
+    .map((c) => ({
+      champ: c.champ, games: c.games, wr: Math.round((c.wins / c.games) * 100),
+      avgKills: Math.round((c.kills / c.games) * 10) / 10, avgDeaths: Math.round((c.deaths / c.games) * 10) / 10, avgAssists: Math.round((c.assists / c.games) * 10) / 10,
+      kda: Math.round(((c.kills + c.assists) / Math.max(1, c.deaths)) * 10) / 10,
+    }))
+    .sort((a, b) => b.games - a.games);
 
   return {
     matches: matches.map(({ teammates, ...rest }) => rest),
-    roleStats, weekdayStats, hourlyStats, playedWith,
+    roleStats, weekdayStats, hourlyStats, playedWith, champions,
     statsAvg: { csPerMin: csSum / n, goldPerMin: goldSum / n, dmgPerMin: dmgSum / n, killParticipation: kpSum / n },
   };
 }

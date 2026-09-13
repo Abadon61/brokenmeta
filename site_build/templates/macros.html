@@ -13,6 +13,12 @@
    title followed by its links, always visible, nothing to expand. #}
 {% macro nav_links(lang, root, active_nav, mobile=False) %}
 {% if mobile %}
+{# Switch de jeu -- en haut du panneau mobile, pas mélangé aux groupes
+   d'outils TFT ci-dessous (voir le vrai game-toggle du topbar en
+   desktop, dans base.html, pour la même logique). #}
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_games') }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav != 'league' %}data-active="true"{% endif %}>Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
@@ -21,7 +27,6 @@
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
-<a class="nav-link" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>{{ t(lang, 'nav_league') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}tendances/" {% if active_nav == 'trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_trends') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}changements/" {% if active_nav == 'changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_changelog') }}</a>
@@ -46,7 +51,6 @@
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
-<a class="nav-link" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>{{ t(lang, 'nav_league') }}</a>
 <details class="nav-dropdown" {% if active_nav in ('trends', 'changelog', 'counters', 'sleepers', 'discord') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tools') }}</summary>
   <div class="nav-dropdown-menu">

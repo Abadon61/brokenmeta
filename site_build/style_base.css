@@ -30,10 +30,11 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    background:
-      repeating-linear-gradient(0deg, rgba(5,217,232,0.035) 0px, rgba(5,217,232,0.035) 1px, transparent 1px, transparent 26px),
-      radial-gradient(ellipse 900px 480px at 50% -8%, rgba(255,45,149,0.20), transparent 62%),
-      var(--bg);
+    /* Fond plat -- pas de texture de scanlines ni de lueur magenta en
+       haut (c'était l'ancien traitement) : même couleur de base
+       (--bg) que l'artefact BrokenMeta League, mais sans la décoration
+       superposée, à la demande explicite. */
+    background: var(--bg);
     color: var(--cream);
     font-family: 'Afacad Flux', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -147,6 +148,24 @@
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
   .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
   .lang-btn:hover:not([data-active="true"]) { color: var(--cream); }
+
+  /* Switch entre les jeux gérés par le site -- vit dans le topbar (pas
+     dans le menu rose, qui est lui-même déjà scopé "outils du jeu actif")
+     pour bien marquer que TFT et LoL sont deux sections distinctes, pas
+     l'une un sous-outil de l'autre. Même famille visuelle que
+     .lang-toggle juste au-dessus, mais avec des icônes plutôt que du
+     texte. */
+  .game-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
+  .game-toggle-btn {
+    background: var(--row); border: none; color: var(--text-faint);
+    padding: 6px 10px; display: flex; align-items: center; justify-content: center;
+    transition: color .12s ease, background .12s ease;
+  }
+  .game-toggle-btn svg { width: 16px; height: 16px; }
+  .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
+  .game-toggle-btn[data-active="true"] { background: var(--magenta); color: #fff; }
+  .game-toggle-btn:hover:not([data-active="true"]) { color: var(--cream); }
+  @media (max-width: 560px) { .game-toggle { display: none; } }
 
   .navbar {
     padding: 10px 24px;
