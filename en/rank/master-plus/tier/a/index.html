@@ -37,10 +37,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=20260913093643">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=20260913093643">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=20260913102811">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=20260913102811">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../../manifest.webmanifest">
+<meta name="theme-color" content="#0b0221">
+<link rel="apple-touch-icon" href="../../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=20260913093643">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=20260913102811">
 
 </head>
 <body>
@@ -51,6 +59,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
     <div class="site-search-wrap">
       <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
@@ -333,6 +344,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Sentinel" data-fav-slug="greenfather-sentinel" data-fav-label="Greenfather Sentinel" data-fav-tier="A" data-fav-carry-slug="sentinel" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024283ed4054303fc41540b3fb413000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -456,6 +468,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="LuxUniqueTrait_Amumu" data-fav-slug="luxuniquetrait-amumu" data-fav-label="LuxUniqueTrait Amumu" data-fav-tier="A" data-fav-carry-slug="amumu" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023ed3ff42841341540b4303fb401000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -557,6 +570,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Solar_Varus" data-fav-slug="solar-varus" data-fav-label="Solar Varus Reroll" data-fav-tier="A" data-fav-carry-slug="varus" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023ea4354113f541f40a427000000000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -680,6 +694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Sivir" data-fav-slug="greenfather-sivir" data-fav-label="Greenfather Sivir" data-fav-tier="A" data-fav-carry-slug="sivir" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243742c3ed42841b4053f0415430000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -803,6 +818,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="LuxUniqueTrait_Ahri" data-fav-slug="luxuniquetrait-ahri" data-fav-label="LuxUniqueTrait Ahri" data-fav-tier="A" data-fav-carry-slug="ahri" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0240740f3e942a4284184133ec430000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -926,6 +942,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Amumu" data-fav-slug="greenfather-amumu" data-fav-label="Greenfather Amumu" data-fav-tier="A" data-fav-carry-slug="amumu" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023ed42840541540b4303fb3fc401000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1049,6 +1066,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Executioner_Soraka" data-fav-slug="executioner-soraka" data-fav-label="Executioner Soraka" data-fav-tier="A" data-fav-carry-slug="soraka" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a3f140042e41443c3ed3ff40b000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1172,6 +1190,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Executioner_Zyra" data-fav-slug="executioner-zyra" data-fav-label="Executioner Zyra" data-fav-tier="A" data-fav-carry-slug="zyra" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a3f140043c42e4143ed3ff40b000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1295,6 +1314,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Ahri" data-fav-slug="greenfather-ahri" data-fav-label="Greenfather Ahri" data-fav-tier="A" data-fav-carry-slug="ahri" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024073e942a4284184053ec430401000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1418,6 +1438,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Juggernaut_Sivir" data-fav-slug="juggernaut-sivir" data-fav-label="Juggernaut Sivir" data-fav-tier="A" data-fav-carry-slug="sivir" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024204264273f443742c3ed4153f0000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1530,6 +1551,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rival_Nidalee" data-fav-slug="rival-nidalee" data-fav-label="Rival Nidalee Slow 7" data-fav-tier="A" data-fav-carry-slug="nidalee" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a42443741640f40e41b42a000000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1653,6 +1675,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Primal_Sivir" data-fav-slug="primal-sivir" data-fav-label="Primal Sivir" data-fav-tier="A" data-fav-carry-slug="sivir" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f743740e42c41b4283ed3f0413000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1776,6 +1799,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Elderwood_Ezreal" data-fav-slug="elderwood-ezreal" data-fav-label="Elderwood Ezreal" data-fav-tier="A" data-fav-carry-slug="ezreal" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f4393eb4104033ff40140b413000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1899,6 +1923,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Aphelios" data-fav-slug="greenfather-aphelios" data-fav-label="Greenfather Aphelios" data-fav-tier="A" data-fav-carry-slug="aphelios" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023fa4224373ef4283ed3f3405430000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2022,6 +2047,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Morgana" data-fav-slug="greenfather-morgana" data-fav-label="Greenfather Morgana" data-fav-tier="A" data-fav-carry-slug="morgana" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241842842a3e93ed4054304153fc000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2145,6 +2171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Ezreal" data-fav-slug="greenfather-ezreal" data-fav-label="Greenfather Ezreal Fast 10" data-fav-tier="A" data-fav-carry-slug="ezreal" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb3ff3ed40540b4014154303fb000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2268,6 +2295,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="LuxUniqueTrait_Ezreal" data-fav-slug="luxuniquetrait-ezreal" data-fav-label="LuxUniqueTrait Ezreal Fast 10" data-fav-tier="A" data-fav-carry-slug="ezreal" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb3ff3ed41340140b4304153fb000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2391,6 +2419,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Sett" data-fav-slug="greenfather-sett" data-fav-label="Greenfather Sett" data-fav-tier="A" data-fav-carry-slug="sett" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0242a4054014303f03ec41341540b000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2514,6 +2543,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="LuxUniqueTrait_Sentinel" data-fav-slug="luxuniquetrait-sentinel" data-fav-label="LuxUniqueTrait Sentinel" data-fav-tier="A" data-fav-carry-slug="sentinel" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024283ed4134303fc3fb41540b401000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2637,6 +2667,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Executioner_Ezreal" data-fav-slug="executioner-ezreal" data-fav-label="Executioner Ezreal" data-fav-tier="A" data-fav-carry-slug="ezreal" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f14003ff42e3ed41443c40b401000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2760,6 +2791,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Primal_Nidalee" data-fav-slug="primal-nidalee" data-fav-label="Primal Nidalee" data-fav-tier="A" data-fav-carry-slug="nidalee" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f740e43741b42c4283ed4133f0000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2883,6 +2915,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Invoker_Morgana" data-fav-slug="invoker-morgana" data-fav-label="Invoker Morgana" data-fav-tier="A" data-fav-carry-slug="morgana" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0242940740f40e40341842842a3e9000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3006,6 +3039,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rapidfire_Aphelios" data-fav-slug="rapidfire-aphelios" data-fav-label="Rapidfire Aphelios" data-fav-tier="A" data-fav-carry-slug="aphelios" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024354394204223fa3ef3f34283ed000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3118,6 +3152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Defender_Cassiopeia" data-fav-slug="defender-cassiopeia" data-fav-label="Defender Cassiopeia Reroll" data-fav-tier="A" data-fav-carry-slug="cassiopeia" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f41142b4213f6400424412000000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3241,6 +3276,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="AluneUniqueTrait_Morgana" data-fav-slug="aluneuniquetrait-morgana" data-fav-label="AluneUniqueTrait Morgana" data-fav-tier="A" data-fav-carry-slug="morgana" data-add-title="Add to favorites" data-remove-title="Remove from favorites" title="Add to favorites" aria-label="Add to favorites" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0242940f3fa4183e942842a3ec3f0000TFTSet18" data-copied-title="Copied! (champions only, no items)" data-failed-title="Copy failed" title="Copy the comp to the game&#39;s Team Planner — experimental, champions only (no items)." aria-label="Copy comp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3270,11 +3306,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_I18N_EMPTY_FILTER = "No comp matches this filter."; window.BM_I18N_EMPTY_SEARCH = "No comp matches \"__Q__\".";</script>
-<script src="../../../../../assets/js/list-filters.js?v=20260913093643" defer></script>
+<script src="../../../../../assets/js/list-filters.js?v=20260913102811" defer></script>
 
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=20260913093643" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=20260913093643" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=20260913093643" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=20260913102811" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=20260913102811" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=20260913102811" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=20260913102811" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
 </body>
 </html>

@@ -37,10 +37,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260913093643">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260913093643">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=20260913102811">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=20260913102811">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#0b0221">
+<link rel="apple-touch-icon" href="../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=20260913093643">
+<link rel="stylesheet" href="../../assets/css/style.css?v=20260913102811">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Rival LeBlanc \u2014 Tier C (TFT Set 18)", "description": "Rival LeBlanc est actuellement Tier C sur TFT Set 18, avec un placement moyen de 5.72 et 29% de top 4 sur 164 vraies parties class\u00e9es analys\u00e9es.", "datePublished": "2026-09-12", "dateModified": "2026-09-12", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/compo/rival-leblanc/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://brokenmeta.gg/assets/champions/leblanc.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel tier a Rival LeBlanc sur TFT Set 18 ?", "acceptedAnswer": {"@type": "Answer", "text": "Rival LeBlanc est actuellement Tier C sur TFT Set 18, avec un placement moyen de 5.72 et 29% de top 4 sur 164 vraies parties class\u00e9es analys\u00e9es."}}]}</script>
@@ -54,6 +62,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../../" style="text-decoration:none"><img class="wordmark-logo" src="../../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
     <div class="site-search-wrap">
       <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
@@ -187,7 +198,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="pill"><div class="p-label">Top 4</div><div class="p-value nums">29%</div></div>
       <div class="pill"><div class="p-label">Contest.</div><div class="p-value nums" data-level="High">83</div></div>
     </div>
+    
+    <div class="comp-sparkline comp-sparkline-stable" title="Placement moyen dans le temps">
+      <svg class="sparkline-svg" viewBox="0 0 200 48" xmlns="http://www.w3.org/2000/svg"><path class="sparkline-area" d="M4.0,39.4 L42.4,13.8 L80.8,30.7 L119.2,26.4 L157.6,8.6 L196.0,27.2 L196.0,44 L4.0,44 Z" /><path class="sparkline-line" d="M4.0,39.4 L42.4,13.8 L80.8,30.7 L119.2,26.4 L157.6,8.6 L196.0,27.2" /><circle class="sparkline-dot" cx="196.0" cy="27.2" r="3.5" /></svg>
+    </div>
+    
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rival_LeBlanc" data-fav-slug="rival-leblanc" data-fav-label="Rival LeBlanc" data-fav-tier="C" data-fav-carry-slug="leblanc" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f4394103eb40c4033fa4243ef000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </div>
 
@@ -762,8 +779,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=20260913093643" defer></script>
-<script src="../../assets/js/champ-icons.js?v=20260913093643" defer></script>
-<script src="../../assets/js/site-search.js?v=20260913093643" defer></script>
+<script src="../../assets/js/copy-comp.js?v=20260913102811" defer></script>
+<script src="../../assets/js/champ-icons.js?v=20260913102811" defer></script>
+<script src="../../assets/js/site-search.js?v=20260913102811" defer></script>
+<script src="../../assets/js/favorites.js?v=20260913102811" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
 </body>
 </html>

@@ -96,6 +96,19 @@
     padding: 4px; cursor: pointer; transition: color .12s ease;
   }
   .site-search-toggle:hover, .site-search-toggle[aria-expanded="true"] { color: var(--cyan); }
+
+  /* Topbar shortcut straight to /favoris/ -- deliberately just an icon
+     (same visual weight as the search toggle) rather than another nav
+     dropdown entry, so it doesn't undo the mobile-menu simplification. */
+  .favorites-topbar-link {
+    display: flex; align-items: center; justify-content: center;
+    padding: 4px; color: var(--text-faint); transition: color .12s ease;
+  }
+  .favorites-topbar-link:hover, .favorites-topbar-link[data-active="true"] { color: var(--gold); }
+
+  .favorites-list { display: flex; flex-direction: column; gap: 10px; }
+  .favorites-empty { color: var(--text-faint); padding: 30px 0; text-align: center; }
+  .fav-row .row-body { padding: 14px 60px 14px 16px; }
   .site-search-panel {
     position: absolute; top: calc(100% + 10px); right: 0; z-index: 20;
     width: 340px; max-width: calc(100vw - 24px);
@@ -560,6 +573,20 @@
   .trend-badge.trend-down { color: var(--warn); }
   .trend-badge.trend-stable { color: var(--text-faint); }
 
+  /* Inline placement-over-time chart on a comp's fiche page (see
+     build_comp_sparkline() -- same comp_history.json snapshots as the
+     trend badge above, shown as a shape instead of a single delta).
+     Color comes from the direction class via currentColor so the SVG
+     itself carries no fixed color, same pattern as .trend-badge. */
+  .comp-sparkline { width: 130px; flex: none; cursor: default; }
+  .comp-sparkline-up { color: var(--good); }
+  .comp-sparkline-down { color: var(--warn); }
+  .comp-sparkline-stable { color: var(--text-faint); }
+  .sparkline-svg { display: block; width: 100%; height: auto; overflow: visible; }
+  .sparkline-area { fill: currentColor; opacity: 0.12; }
+  .sparkline-line { fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .sparkline-dot { fill: currentColor; }
+
   /* /tendances/ page -- same real prev/latest placement swing as the small
      .trend-badge above, just its own full row instead of an inline badge. */
   .trends-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
@@ -759,6 +786,21 @@
   .copy-icon-btn[data-copied="true"] { color: var(--good); border-color: var(--good); }
   .copy-icon-btn svg { width: 14px; height: 14px; }
   .fiche-board-wrap { position: relative; padding: 2px 46px 40px 2px; }
+
+  /* Sits immediately left of .copy-icon-btn -- same box, same anchor
+     (.comp-row / .fiche-header are both position:relative), just shifted
+     over by one button-width + gap so the two never overlap. */
+  .fav-btn {
+    position: absolute; bottom: 10px; right: 51px; z-index: 2;
+    width: 27px; height: 27px; flex: none;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-2); border: 1px solid var(--border-bright);
+    color: var(--text-faint); cursor: pointer;
+    transition: color .12s ease, border-color .12s ease;
+  }
+  .fav-btn:hover { color: var(--gold); border-color: var(--gold); }
+  .fav-btn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); }
+  .fav-btn svg { width: 14px; height: 14px; fill: currentColor; }
 
   /* ---------- Comp detail sheet ---------- */
   .detail-view { display: none; }

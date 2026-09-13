@@ -37,10 +37,18 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=20260913093643">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=20260913093643">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=20260913102811">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=20260913102811">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../manifest.webmanifest">
+<meta name="theme-color" content="#0b0221">
+<link rel="apple-touch-icon" href="../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=20260913093643">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=20260913102811">
 
 </head>
 <body>
@@ -51,6 +59,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../assets/img/logo-sword.svg" alt="" width="24" height="37" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
     <div class="site-search-wrap">
       <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
@@ -333,6 +344,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Fae_Tristana" data-fav-slug="fae-tristana" data-fav-label="Fae Tristana Slow 7" data-fav-tier="C" data-fav-carry-slug="tristana" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0242043d43943342143742441242c000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -456,6 +468,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="AluneUniqueTrait_Morgana" data-fav-slug="aluneuniquetrait-morgana" data-fav-label="AluneUniqueTrait Morgana" data-fav-tier="C" data-fav-carry-slug="morgana" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024294073fa40f4184283e942a3ec000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -579,6 +592,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Caustic_Nidalee" data-fav-slug="caustic-nidalee" data-fav-label="Caustic Nidalee" data-fav-tier="C" data-fav-carry-slug="nidalee" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a40e43740f3fa41641b42842a000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -691,6 +705,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Summoner_Zyra" data-fav-slug="summoner-zyra" data-fav-label="Summoner Zyra Fast 10" data-fav-tier="C" data-fav-carry-slug="zyra" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a3f140043c41442e3ed40b000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -814,6 +829,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Solar_Aphelios" data-fav-slug="solar-aphelios" data-fav-label="Solar Aphelios" data-fav-tier="C" data-fav-carry-slug="aphelios" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241142043941f42740a42b3fa3ef000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -937,6 +953,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rival_Ezreal" data-fav-slug="rival-ezreal" data-fav-label="Rival Ezreal Slow 7" data-fav-tier="C" data-fav-carry-slug="ezreal" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f4103eb40340c4243fa3ff3ef000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1060,6 +1077,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Maokai_UniqueTrait_Morgana" data-fav-slug="maokai-uniquetrait-morgana" data-fav-label="Maokai_UniqueTrait Morgana" data-fav-tier="C" data-fav-carry-slug="morgana" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024184283ed42a3e941543040b3fc000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1183,6 +1201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Maokai_UniqueTrait_Aphelios" data-fav-slug="maokai-uniquetrait-aphelios" data-fav-label="Maokai_UniqueTrait Aphelios" data-fav-tier="C" data-fav-carry-slug="aphelios" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023fa4224033ef3ed4283f3415430000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1306,6 +1325,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="ZyraUniqueTrait_Ahri" data-fav-slug="zyrauniquetrait-ahri" data-fav-label="ZyraUniqueTrait Ahri" data-fav-tier="C" data-fav-carry-slug="ahri" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a4074373e943c42a42c3f0401000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1429,6 +1449,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Riftbeast_Murkwolf" data-fav-slug="riftbeast-murkwolf" data-fav-label="Riftbeast Murkwolf" data-fav-tier="C" data-fav-carry-slug="murkwolf" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024293f741942640240f4224283f3000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1552,6 +1573,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rival_Rengar" data-fav-slug="rival-rengar" data-fav-label="Rival Rengar Reroll" data-fav-tier="C" data-fav-carry-slug="rengar" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a42443741640f40e3fa42a41b000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1664,6 +1686,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="FloraFatalis_Azir" data-fav-slug="florafatalis-azir" data-fav-label="FloraFatalis Azir" data-fav-tier="C" data-fav-carry-slug="azir" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0242343643d3f140042142e414000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1787,6 +1810,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Caustic_Sivir" data-fav-slug="caustic-sivir" data-fav-label="Caustic Sivir" data-fav-tier="C" data-fav-carry-slug="sivir" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f740e40f42c41b4283ed4303f0000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -1910,6 +1934,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Maokai_UniqueTrait_Amumu" data-fav-slug="maokai-uniquetrait-amumu" data-fav-label="Maokai_UniqueTrait Amumu" data-fav-tier="C" data-fav-carry-slug="amumu" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb3ed3ff4153fb43040b4013fc000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2033,6 +2058,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="FloraFatalis_Ahri" data-fav-slug="florafatalis-ahri" data-fav-label="FloraFatalis Ahri" data-fav-tier="C" data-fav-carry-slug="ahri" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0240743a4003e942e42a4144283ec000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2145,6 +2171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Elderwood_LeBlanc" data-fav-slug="elderwood-leblanc" data-fav-label="Elderwood LeBlanc" data-fav-tier="C" data-fav-carry-slug="leblanc" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f4394103eb4034003ff401000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2268,6 +2295,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Battlemage_Veigar" data-fav-slug="battlemage-veigar" data-fav-label="Battlemage Veigar Reroll" data-fav-tier="C" data-fav-carry-slug="veigar" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243642343d4314384004213f1414000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2380,6 +2408,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Elderwood_Xayah" data-fav-slug="elderwood-xayah" data-fav-label="Elderwood Xayah" data-fav-tier="C" data-fav-carry-slug="xayah" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243941f4203eb4104033ff401000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2503,6 +2532,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="AluneUniqueTrait_Aphelios" data-fav-slug="aluneuniquetrait-aphelios" data-fav-label="AluneUniqueTrait Aphelios" data-fav-tier="C" data-fav-carry-slug="aphelios" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243941f3eb4033fa3ef4123ec401000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2626,6 +2656,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Greenfather_Alistar" data-fav-slug="greenfather-alistar" data-fav-label="Greenfather Alistar" data-fav-tier="C" data-fav-carry-slug="alistar" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb3ed3ff40541540b3fb401430000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2738,6 +2769,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Battlemage_Morgana" data-fav-slug="battlemage-morgana" data-fav-label="Battlemage Morgana" data-fav-tier="C" data-fav-carry-slug="morgana" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024293fa4144184283e942a430000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2861,6 +2893,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Battlemage_Ahri" data-fav-slug="battlemage-ahri" data-fav-label="Battlemage Ahri" data-fav-tier="C" data-fav-carry-slug="ahri" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0240743a4003e941442a4284183ec000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -2984,6 +3017,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Vanguard_Aphelios" data-fav-slug="vanguard-aphelios" data-fav-label="Vanguard Aphelios" data-fav-tier="C" data-fav-carry-slug="aphelios" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024203fd3fa4034223ef4283f3430000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3107,6 +3141,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="FloraFatalis_Ezreal" data-fav-slug="florafatalis-ezreal" data-fav-label="FloraFatalis Ezreal" data-fav-tier="C" data-fav-carry-slug="ezreal" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f3eb4104004033ff42e401430000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3230,6 +3265,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="ZyraUniqueTrait_Zyra" data-fav-slug="zyrauniquetrait-zyra" data-fav-label="ZyraUniqueTrait Zyra" data-fav-tier="C" data-fav-carry-slug="zyra" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a4074373fa43c42a3e942842c000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3353,6 +3389,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="AluneUniqueTrait_Ahri" data-fav-slug="aluneuniquetrait-ahri" data-fav-label="AluneUniqueTrait Ahri" data-fav-tier="C" data-fav-carry-slug="ahri" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023fa4213e942a4124283ec3f0401000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3476,6 +3513,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Blossom_Ahri" data-fav-slug="blossom-ahri" data-fav-label="Blossom Ahri" data-fav-tier="C" data-fav-carry-slug="ahri" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a40743b4164373e942a3f0401000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3599,6 +3637,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Battlemage_Ezreal" data-fav-slug="battlemage-ezreal" data-fav-label="Battlemage Ezreal" data-fav-tier="C" data-fav-carry-slug="ezreal" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb4143ff3ed40b3fb401430405000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3711,6 +3750,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Inferno_Varus" data-fav-slug="inferno-varus" data-fav-label="Inferno Varus" data-fav-tier="C" data-fav-carry-slug="varus" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024353ea41142b40a4273ed40b000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3834,6 +3874,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Summoner_Azir" data-fav-slug="summoner-azir" data-fav-label="Summoner Azir" data-fav-tier="C" data-fav-carry-slug="azir" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a4233f140042243c41442e3ed000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -3935,6 +3976,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Rival_Kha&#39;Zix" data-fav-slug="rival-kha-zix" data-fav-label="Rival Kha&#39;Zix Reroll" data-fav-tier="C" data-fav-carry-slug="kha-zix" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241040c3fa4034243ff3ef000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4058,6 +4100,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Coven_Morgana" data-fav-slug="coven-morgana" data-fav-label="Coven Morgana" data-fav-tier="C" data-fav-carry-slug="morgana" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f53fd3f43f63fa403418428413000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4170,6 +4213,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Summoner_Soraka" data-fav-slug="summoner-soraka" data-fav-label="Summoner Soraka Fast 10" data-fav-tier="C" data-fav-carry-slug="soraka" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243a3f140042e43c4143ed40b000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4282,6 +4326,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Juggernaut_Caitlyn" data-fav-slug="juggernaut-caitlyn" data-fav-label="Juggernaut Caitlyn Reroll" data-fav-tier="C" data-fav-carry-slug="caitlyn" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024203f442642743743342c3ed000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4405,6 +4450,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Emerald_Ezreal" data-fav-slug="emerald-ezreal" data-fav-label="Emerald Ezreal" data-fav-tier="C" data-fav-carry-slug="ezreal" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f3eb4033ff3ed43040b4013fb000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4528,6 +4574,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="FloraFatalis_Soraka" data-fav-slug="florafatalis-soraka" data-fav-label="FloraFatalis Soraka" data-fav-tier="C" data-fav-carry-slug="soraka" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024003f142e4143ed43c40b4153ec000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4629,6 +4676,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Coven_Caitlyn" data-fav-slug="coven-caitlyn" data-fav-label="Coven Caitlyn" data-fav-tier="C" data-fav-carry-slug="caitlyn" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f53fd3f43f63fa418428000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4752,6 +4800,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Sprykin_Veigar" data-fav-slug="sprykin-veigar" data-fav-label="Sprykin Veigar Reroll" data-fav-tier="C" data-fav-carry-slug="veigar" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0243643d42343142140043342a401000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4864,6 +4913,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="FloraFatalis_Cassiopeia" data-fav-slug="florafatalis-cassiopeia" data-fav-label="FloraFatalis Cassiopeia" data-fav-tier="C" data-fav-carry-slug="cassiopeia" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241f41142b4003f642142e412000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -4987,6 +5037,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Coven_Cassiopeia" data-fav-slug="coven-cassiopeia" data-fav-label="Coven Cassiopeia" data-fav-tier="C" data-fav-carry-slug="cassiopeia" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023f53fd3f43f63fa400403418428000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -5088,6 +5139,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Solar_Kayle" data-fav-slug="solar-kayle" data-fav-label="Solar Kayle Reroll" data-fav-tier="C" data-fav-carry-slug="kayle" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="0241141f43942042740a403000000000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -5211,6 +5263,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="ZyraUniqueTrait_Aphelios" data-fav-slug="zyrauniquetrait-aphelios" data-fav-label="ZyraUniqueTrait Aphelios" data-fav-tier="C" data-fav-carry-slug="aphelios" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="024203fd3fa42240343c3ef4283f3000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -5334,6 +5387,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
   </div>
+  <button type="button" class="fav-btn" data-fav-key="Maokai_UniqueTrait_Ezreal" data-fav-slug="maokai-uniquetrait-ezreal" data-fav-label="Maokai_UniqueTrait Ezreal" data-fav-tier="C" data-fav-carry-slug="ezreal" data-add-title="Ajouter aux favoris" data-remove-title="Retirer des favoris" title="Ajouter aux favoris" aria-label="Ajouter aux favoris" aria-pressed="false"><svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg></button>
   <button class="copy-icon-btn copy-comp-btn" data-code="023eb4033ff3ed41540b3fb401430000TFTSet18" data-copied-title="Copié ! (champions seulement, pas les objets)" data-failed-title="Échec de la copie" title="Copier la compo pour le Team Planner du jeu — expérimental, champions seulement (pas les objets)." aria-label="Copier la compo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg></button>
 </a>
 
@@ -5363,11 +5417,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_I18N_EMPTY_FILTER = "Aucune comp ne correspond \u00e0 ce filtre."; window.BM_I18N_EMPTY_SEARCH = "Aucune comp ne correspond \u00e0 \u00ab __Q__ \u00bb.";</script>
-<script src="../../../../assets/js/list-filters.js?v=20260913093643" defer></script>
+<script src="../../../../assets/js/list-filters.js?v=20260913102811" defer></script>
 
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=20260913093643" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=20260913093643" defer></script>
-<script src="../../../../assets/js/site-search.js?v=20260913093643" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=20260913102811" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=20260913102811" defer></script>
+<script src="../../../../assets/js/site-search.js?v=20260913102811" defer></script>
+<script src="../../../../assets/js/favorites.js?v=20260913102811" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
 </body>
 </html>
