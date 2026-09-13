@@ -4391,15 +4391,18 @@ def main() -> None:
     #   but a dark mark on a transparent background all but disappears on a
     #   dark-themed browser tab bar; the filled circle badge stays visible
     #   on any tab color.
-    # - favicon-google.png (the same circular badge, pre-rendered to a flat
-    #   512x512 PNG) is there specifically for Google Search results:
+    # - favicon-google.png is there specifically for Google Search results:
     #   Google does not support SVG favicons, so without a raster fallback
-    #   the SERP would show a generic globe icon.
+    #   the SERP would show a generic globe icon. Deliberately its OWN
+    #   source file (favicon_google_only.png), not logo_google_512.png --
+    #   the user's own request was "make it show up clearly on Google",
+    #   not "replace the tab icon / PWA icon everywhere", so this stays
+    #   scoped to only the one place that actually needed it.
     LOGO_DIR = PROJECT / "logo"
     (DIST / "assets" / "img").mkdir(parents=True, exist_ok=True)
     shutil.copy(LOGO_DIR / "logo_epee_sans_fond.svg", DIST / "assets" / "img" / "logo-sword.svg")
     shutil.copy(LOGO_DIR / "logo google.svg", DIST / "favicon.svg")
-    shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "favicon-google.png")
+    shutil.copy(LOGO_DIR / "favicon_google_only.png", DIST / "favicon-google.png")
 
     # PWA: installable "Add to Home Screen" support. icon-192/512.png reuse
     # the same circular badge as the favicon (logo_google_512.png -- see
