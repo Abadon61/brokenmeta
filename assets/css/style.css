@@ -1562,3 +1562,77 @@
   .favorites-promo-button { align-self: flex-start; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; transition: background .12s ease; }
   .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
   @media (max-width: 720px) { .favorites-promo { width: 100%; } }
+
+  /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker),
+     same visual language as MetaScope (reuses .metascope-*/.player-*/.pill
+     above) plus the League-only pieces below: queue toggle, match rows
+     with real loadout icons, role/activity bars, and the "en
+     développement" badge on the two sections the Riot API can't back
+     (pings/messages, LP history) -- see league.js / league_profile.html. */
+  .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .league-rank-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 18px; }
+  .league-rank-card { display: flex; align-items: center; gap: 10px; background: var(--row); border: 1px solid var(--border); padding: 8px 14px; }
+  .league-rank-queue { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
+  .league-rank-tier { font-weight: 700; }
+  .league-rank-lp { color: var(--gold); font-size: 12px; font-family: 'Space Mono', monospace; }
+  .league-queue-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
+  .league-queue-tab { background: none; border: 1px solid var(--border); color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 7px 14px; cursor: pointer; }
+  .league-queue-tab[data-active="true"] { color: var(--cyan); border-color: var(--cyan); }
+  .league-queue-tab:hover:not([data-active="true"]) { color: var(--cream); }
+  .league-dev-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(255,194,60,0.1); border: 1px solid rgba(255,194,60,0.4); padding: 4px 9px; margin-bottom: 10px; }
+  .league-dev-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
+  .league-match-list { display: flex; flex-direction: column; }
+  .league-match-row { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); border-left: 3px solid var(--gray, var(--text-faint)); }
+  .league-match-row:last-child { border-bottom: none; }
+  .league-match-row[data-win="true"] { border-left-color: var(--good); background: rgba(45,230,196,0.04); }
+  .league-match-row[data-win="false"] { border-left-color: var(--warn); background: rgba(255,84,112,0.04); }
+  .league-match-result { width: 50px; flex: none; font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
+  .league-match-row[data-win="true"] .league-match-result { color: var(--good); }
+  .league-match-row[data-win="false"] .league-match-result { color: var(--warn); }
+  .league-match-champ { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; }
+  .league-champ-role-icon { width: 13px; height: 13px; color: var(--text-faint); flex: none; }
+  .league-loadout { display: flex; align-items: center; gap: 6px; flex: none; }
+  .league-loadout-col { display: flex; flex-direction: column; gap: 2px; }
+  .league-spell-icon, .league-rune-icon { width: 20px; height: 20px; border: 1px solid var(--border-bright); flex: none; }
+  .league-rune-icon { border-radius: 50%; background: var(--bg-2); }
+  .league-items { display: grid; grid-template-columns: repeat(4, 15px); grid-auto-rows: 15px; gap: 2px; flex: none; }
+  .league-item-slot { width: 15px; height: 15px; background: var(--row-hover); border: 1px solid var(--border-bright); }
+  .league-match-kda { flex: none; width: 78px; text-align: center; font-size: 12px; }
+  .league-match-cs { flex: none; width: 64px; text-align: center; font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+  .league-match-meta { flex: none; width: 74px; text-align: right; font-size: 10px; color: var(--text-faint); }
+  @media (max-width: 780px) { .league-loadout, .league-match-cs { display: none; } }
+  .league-role-list { display: flex; flex-direction: column; gap: 10px; }
+  .league-role-row { display: flex; align-items: center; gap: 10px; }
+  .league-role-name { display: flex; align-items: center; gap: 6px; width: 72px; flex: none; font-size: 12px; font-weight: 600; }
+  .league-role-name svg { width: 14px; height: 14px; color: var(--text-faint); }
+  .league-role-bar-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
+  .league-role-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
+  .league-role-wr { width: 44px; flex: none; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; }
+  .league-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 4px; }
+  .league-compare-card { background: var(--row); border: 1px solid var(--border); padding: 12px 14px; }
+  .league-compare-label { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
+  .league-compare-line { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
+  .league-compare-line span:first-child { width: 36px; flex: none; color: var(--text-faint); }
+  .league-compare-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); }
+  .league-compare-fill.you { height: 100%; background: var(--cyan); }
+  .league-compare-fill.rank { height: 100%; background: var(--text-faint); }
+  .league-compare-val { width: 50px; flex: none; text-align: right; font-family: 'Space Mono', monospace; }
+  .league-weekday-chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; margin-bottom: 16px; }
+  .league-weekday-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .league-weekday-val { font-size: 10px; color: var(--text-faint); margin-bottom: 4px; }
+  .league-weekday-track { flex: 1; width: 100%; max-width: 28px; background: var(--bg-2); border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
+  .league-weekday-fill { width: 100%; }
+  .league-weekday-fill.good { background: var(--cyan); }
+  .league-weekday-fill.warn { background: var(--warn); }
+  .league-weekday-label { font-size: 10px; color: var(--text-faint); margin-top: 6px; }
+  .league-hourly-list { max-height: 180px; overflow-y: auto; border-top: 1px solid var(--border); }
+  .league-hourly-row { display: flex; align-items: center; gap: 10px; padding: 6px 2px; border-bottom: 1px solid var(--border); font-size: 11.5px; }
+  .league-hourly-row:last-child { border-bottom: none; }
+  .league-hourly-time { width: 46px; flex: none; color: var(--text-dim); font-family: 'Space Mono', monospace; }
+  .league-hourly-badge { flex: none; width: 58px; text-align: center; font-size: 10.5px; font-weight: 700; padding: 3px 5px; background: var(--text-faint); color: var(--bg); }
+  .league-hourly-badge.good { background: var(--cyan); color: #0b0221; }
+  .league-hourly-badge.warn { background: var(--warn); }
+  .league-hourly-wr { margin-left: auto; color: var(--text-dim); }
+  .league-playedwith-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
+  .league-playedwith-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .league-playedwith-wr { font-family: 'Space Mono', monospace; font-weight: 700; }
