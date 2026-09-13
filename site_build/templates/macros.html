@@ -2,8 +2,35 @@
    row (.nav-menu) and again inside the mobile hamburger panel (below
    ~780px, where the full row no longer fits and used to wrap into a messy
    multi-line block) -- two places in the DOM, one place in the templates,
-   so a future nav item only needs adding here. #}
-{% macro nav_links(lang, root, active_nav) %}
+   so a future nav item only needs adding here.
+
+   On desktop the three groups (Tier List TFT / Outils / Glossaire) collapse
+   into <details> dropdowns to save horizontal space. On mobile that same
+   pattern forces an extra tap-to-reveal per group inside a panel that's
+   already a tap away behind the hamburger -- confusing rather than helpful
+   when there's no space constraint to justify it. So mobile=True renders
+   the exact same groups flat instead: a plain non-interactive section
+   title followed by its links, always visible, nothing to expand. #}
+{% macro nav_links(lang, root, active_nav, mobile=False) %}
+{% if mobile %}
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}objets/" {% if active_nav == 'items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_items') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}combos-objets/" {% if active_nav == 'combos' %}data-active="true"{% endif %}>{{ t(lang, 'nav_combos') }}</a>
+<a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
+<a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}tendances/" {% if active_nav == 'trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_trends') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}contres/" {% if active_nav == 'counters' %}data-active="true"{% endif %}>{{ t(lang, 'nav_counters') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}pepites-cachees/" {% if active_nav == 'sleepers' %}data-active="true"{% endif %}>{{ t(lang, 'nav_sleepers') }}</a>
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/champions/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_champions') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/familles/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_families') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/augments/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_augments') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
+{% else %}
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>
   <div class="nav-dropdown-menu">
@@ -33,6 +60,7 @@
     <a href="{{ root }}glossaire/objets/">{{ t(lang, 'nav_glossary_items') }}</a>
   </div>
 </details>
+{% endif %}
 {% endmacro %}
 
 {# Same reasoning as nav_links() above: the CTA button + the "soon" badge,
