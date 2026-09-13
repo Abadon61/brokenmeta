@@ -681,9 +681,25 @@ FAVORITES_JS = """
     if (addTitle && removeTitle) btn.title = saved ? removeTitle : addTitle;
   }
 
-  var favorites = load();
+  // Re-reads localStorage and re-applies every button's pressed state --
+  // not just run once at load, because a plain "read once at script start"
+  // goes stale the moment a visitor un-favorites a comp on /favoris/ then
+  // hits the browser's Back button: bfcache restores the tier-list page's
+  // DOM exactly as it was (including that comp's stale aria-pressed=true)
+  // WITHOUT re-running this script, so the star never got a chance to
+  // notice the localStorage change made on the other page.
+  function syncButtonStates() {
+    var favorites = load();
+    document.querySelectorAll('.fav-btn[data-fav-key]').forEach(function (btn) {
+      applyState(btn, isSaved(favorites, btn.dataset.favKey));
+    });
+  }
+  syncButtonStates();
+  // fires on the normal first load too (persisted: false, a harmless
+  // no-op re-sync) and, critically, on a bfcache restore (persisted: true).
+  window.addEventListener('pageshow', function (e) { if (e.persisted) syncButtonStates(); });
+
   document.querySelectorAll('.fav-btn[data-fav-key]').forEach(function (btn) {
-    applyState(btn, isSaved(favorites, btn.dataset.favKey));
     btn.addEventListener('click', function (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -738,6 +754,7 @@ FAVORITES_JS = """
     list.appendChild(a);
   }
 
+  var favorites = load();
   if (!favorites.length) {
     maybeShowEmptyState();
   } else {
