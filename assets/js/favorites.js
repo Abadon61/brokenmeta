@@ -1,6 +1,8 @@
 
 (function () {
   var KEY = 'bm_favorites';
+  var RECENT_KEY = 'bm_recently_viewed';
+  var RECENT_MAX = 12;
   var STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>';
 
   function load() {
@@ -8,6 +10,12 @@
   }
   function save(list) {
     try { localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) {}
+  }
+  function loadRecent() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveRecent(list) {
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(list)); } catch (e) {}
   }
   function isSaved(list, key) {
     return list.some(function (f) { return f.key === key; });
@@ -51,6 +59,17 @@
   // fires on the normal first load too (persisted: false, a harmless
   // no-op re-sync) and, critically, on a bfcache restore (persisted: true).
   window.addEventListener('pageshow', function (e) { if (e.persisted) syncButtonStates(); });
+
+  // Passive "Vus récemment" tracking: every real /compo/<slug>/ visit
+  // records itself (see comp.html's window.BM_CURRENT_COMP), no ★ click
+  // needed. De-duped by moving an already-seen comp back to the front
+  // instead of listing it twice; capped so the list stays a quick
+  // "what was I just looking at", not an unbounded history dump.
+  if (window.BM_CURRENT_COMP && window.BM_CURRENT_COMP.key) {
+    var recent = loadRecent().filter(function (f) { return f.key !== window.BM_CURRENT_COMP.key; });
+    recent.unshift(window.BM_CURRENT_COMP);
+    saveRecent(recent.slice(0, RECENT_MAX));
+  }
 
   document.querySelectorAll('.fav-btn[data-fav-key]').forEach(function (btn) {
     btn.addEventListener('click', function (e) {
@@ -112,5 +131,63 @@
     maybeShowEmptyState();
   } else {
     favorites.forEach(renderRow);
+  }
+
+  // "Vus récemment" -- same page, separate container, separate storage key.
+  // Each row gets its own ★ (reusing toggle()/applyState() as-is) so a
+  // comp you just glanced at can be favorited straight from here too,
+  // without hunting it back down on a list page.
+  var recentList = document.getElementById('recentlyViewedList');
+  var clearBtn = document.getElementById('recentlyViewedClear');
+  if (!recentList) return;
+
+  var recentEmptyText = recentList.dataset.emptyText || '';
+
+  function maybeShowRecentEmptyState() {
+    if (!recentList.querySelector('.recent-row')) {
+      recentList.innerHTML = '<p class="favorites-empty">' + recentEmptyText + '</p>';
+      if (clearBtn) clearBtn.hidden = true;
+    }
+  }
+
+  function renderRecentRow(f) {
+    var a = document.createElement('a');
+    a.className = 'comp-row recent-row';
+    a.setAttribute('data-tier', f.tier || '');
+    a.href = root + 'compo/' + f.slug + '/';
+    var carryImg = f.carrySlug
+      ? '<img class="carry-portrait" src="' + root + 'assets/champions/' + f.carrySlug + '.png" alt="" loading="lazy">'
+      : '';
+    var isFav = isSaved(load(), f.key);
+    a.innerHTML =
+      '<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>' +
+      '<div class="tier-badge">' + (f.tier || '') + '</div>' +
+      '<div class="row-body"><div class="row-top"><div class="row-name-block">' + carryImg +
+      '<div class="row-name">' + f.label + '</div></div></div></div>' +
+      '<button type="button" class="fav-btn" data-fav-key="' + f.key + '" data-fav-slug="' + f.slug + '" data-fav-label="' + f.label +
+      '" data-fav-tier="' + (f.tier || '') + '" data-fav-carry-slug="' + (f.carrySlug || '') + '" data-add-title="' + addTitle +
+      '" data-remove-title="' + removeTitle + '" title="' + (isFav ? removeTitle : addTitle) + '" aria-pressed="' + (isFav ? 'true' : 'false') + '">' + STAR_SVG + '</button>';
+    var favBtn = a.querySelector('.fav-btn');
+    favBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      applyState(favBtn, toggle(favBtn));
+    });
+    recentList.appendChild(a);
+  }
+
+  var recent = loadRecent();
+  if (!recent.length) {
+    maybeShowRecentEmptyState();
+  } else {
+    if (clearBtn) clearBtn.hidden = false;
+    recent.forEach(renderRecentRow);
+  }
+  if (clearBtn) {
+    clearBtn.addEventListener('click', function () {
+      saveRecent([]);
+      recentList.innerHTML = '';
+      maybeShowRecentEmptyState();
+    });
   }
 })();
