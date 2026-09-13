@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import re
 import shutil
+import subprocess
 import sys
 from collections import Counter
 from datetime import datetime, timezone
@@ -4417,6 +4418,20 @@ def main() -> None:
     # refreshed its own archive entry with today's real data, so this is
     # always the latest-known-good snapshot of every comp ever published.
     save_comp_archive(comp_archive)
+
+    # Opt-in only, deliberately -- this function runs on every single site
+    # rebuild (every template tweak during dev, every CSS fix), and most of
+    # those have no new data worth telling a Discord subscriber about.
+    # --notify-discord is for the one real "I just refreshed the data"
+    # rebuild in your normal routine: chains build_digest.py (needs
+    # DIST/assets/data/{builder,comp-index}.json, which only exist now that
+    # the build above has finished) into publish_discord_digest.py, so that
+    # single flag replaces three separate manual commands.
+    if "--notify-discord" in sys.argv:
+        print("--notify-discord: refreshing digest + notifying subscribers...")
+        social_content = PROJECT / "social_content"
+        subprocess.run([sys.executable, str(social_content / "build_digest.py")], check=True)
+        subprocess.run([sys.executable, str(social_content / "publish_discord_digest.py")], check=True)
 
 
 if __name__ == "__main__":
