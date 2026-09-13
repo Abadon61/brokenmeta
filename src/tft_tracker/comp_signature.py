@@ -68,10 +68,28 @@ def _active_traits(traits: list[dict]) -> list[dict]:
     return [t for t in traits if t.get("tier_current", 0) > 0]
 
 
+# A champion's own personal trait (Riot's API names these e.g.
+# "DA_18_LuxUniqueTrait", "DA_AluneUniqueTrait18" -- confirmed against real
+# Set 18 match data), not a shared team synergy: it activates the instant
+# that ONE champion is on the board, at whatever "style" Riot happens to
+# render it (often high, since these get a flashy chromatic-looking border
+# even at a single copy). Ranked by style first, that trivially-satisfied
+# personal trait can out-rank the real, multi-unit synergy the comp is
+# actually built around -- producing meaningless comp names like
+# "LuxUniqueTrait Ahri" that describe a trait belonging to a champion who
+# isn't even necessarily the carry, instead of the real archetype (site
+# feedback, 2026-09-13). Filtered out of candidacy entirely, for both the
+# identity trait and the display tags, so a genuine shared trait takes that
+# slot when one is active, and "Generic" (see trait_part below) when none is.
+def _is_personal_unique_trait(trait_name: str) -> bool:
+    return "unique" in trait_name.lower()
+
+
 def derive_comp(participant: dict, identity_trait_count: int = 1, display_trait_count: int = 3,
                  name_map: dict[str, str] | None = None,
                  item_offense: dict[str, str] | None = None) -> CompSignature:
     active = _active_traits(participant.get("traits") or [])
+    active = [t for t in active if not _is_personal_unique_trait(t.get("name", ""))]
     # Rank by how "activated" a trait is: style (bronze/silver/gold/chromatic)
     # first, then how many breakpoints it has cleared, then unit count.
     active.sort(key=lambda t: (t.get("style", 0), t.get("tier_current", 0), t.get("num_units", 0)),
