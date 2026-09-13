@@ -12,6 +12,7 @@ Output:              site_build/dist/  (upload this folder's CONTENTS to
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 import shutil
@@ -3893,9 +3894,19 @@ def main() -> None:
     # browser that already cached style.css from an earlier visit -- caught
     # live: a rule was correctly in the deployed file but getComputedStyle
     # still showed the pre-fix value because the CSSOM itself was stale.
-    # Changes on every build (not tied to data freshness) since template/CSS
-    # edits often ship without a backend data refresh.
-    env.globals["css_v"] = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
+    #
+    # A hash of this file's own source, not a build timestamp: every inline
+    # CSS/JS constant lives right here, so a real style/script edit always
+    # changes these bytes and correctly busts the cache -- but a build with
+    # NO code change (re-running the generator, or a data-only refresh)
+    # now reproduces the exact same css_v instead of a fresh one every
+    # time. That mattered in practice, not just in theory: since css_v is
+    # embedded in every single page's asset URLs, a timestamp here made
+    # every one of the ~9600 HTML files change on every rebuild regardless
+    # of what actually changed, which is what made the deploy-worktree
+    # sync/commit slow even for a one-file asset swap (site-audit finding,
+    # 2026-09-13).
+    env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
     # -- needed to safely embed a translated string inside an inline <script>.
     # Must return Markup (safe), not a plain str: with autoescape=True a
