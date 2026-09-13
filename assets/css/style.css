@@ -30,10 +30,11 @@
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body {
-    background:
-      repeating-linear-gradient(0deg, rgba(5,217,232,0.035) 0px, rgba(5,217,232,0.035) 1px, transparent 1px, transparent 26px),
-      radial-gradient(ellipse 900px 480px at 50% -8%, rgba(255,45,149,0.20), transparent 62%),
-      var(--bg);
+    /* Fond plat -- pas de texture de scanlines ni de lueur magenta en
+       haut (c'était l'ancien traitement) : même couleur de base
+       (--bg) que l'artefact BrokenMeta League, mais sans la décoration
+       superposée, à la demande explicite. */
+    background: var(--bg);
     color: var(--cream);
     font-family: 'Afacad Flux', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -147,6 +148,24 @@
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
   .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
   .lang-btn:hover:not([data-active="true"]) { color: var(--cream); }
+
+  /* Switch entre les jeux gérés par le site -- vit dans le topbar (pas
+     dans le menu rose, qui est lui-même déjà scopé "outils du jeu actif")
+     pour bien marquer que TFT et LoL sont deux sections distinctes, pas
+     l'une un sous-outil de l'autre. Même famille visuelle que
+     .lang-toggle juste au-dessus, mais avec des icônes plutôt que du
+     texte. */
+  .game-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
+  .game-toggle-btn {
+    background: var(--row); border: none; color: var(--text-faint);
+    padding: 6px 10px; display: flex; align-items: center; justify-content: center;
+    transition: color .12s ease, background .12s ease;
+  }
+  .game-toggle-btn svg { width: 16px; height: 16px; }
+  .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
+  .game-toggle-btn[data-active="true"] { background: var(--magenta); color: #fff; }
+  .game-toggle-btn:hover:not([data-active="true"]) { color: var(--cream); }
+  @media (max-width: 560px) { .game-toggle { display: none; } }
 
   .navbar {
     padding: 10px 24px;
@@ -1563,76 +1582,262 @@
   .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
   @media (max-width: 720px) { .favorites-promo { width: 100%; } }
 
-  /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker),
-     same visual language as MetaScope (reuses .metascope-*/.player-*/.pill
-     above) plus the League-only pieces below: queue toggle, match rows
-     with real loadout icons, role/activity bars, and the "en
-     développement" badge on the two sections the Riot API can't back
-     (pings/messages, LP history) -- see league.js / league_profile.html. */
+  /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker).
+     This is a straight visual port of the BrokenMeta League concept
+     Artifact -- same class names on purpose (checked against the rest of
+     this stylesheet for collisions: none), so the real page reads as the
+     SAME product as the concept, not a simplified stand-in. Only the data
+     source changed: league.js fills these from real worker JSON instead
+     of the Artifact's seeded mock generator. Two sections keep an "en
+     développement" badge because Riot's API genuinely can't back them
+     (per-game LP history, pings/chat) -- see league.js. */
   .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
-  .league-rank-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 4px 0 18px; }
-  .league-rank-card { display: flex; align-items: center; gap: 10px; background: var(--row); border: 1px solid var(--border); padding: 8px 14px; }
-  .league-rank-queue { font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
-  .league-rank-tier { font-weight: 700; }
-  .league-rank-lp { color: var(--gold); font-size: 12px; font-family: 'Space Mono', monospace; }
-  .league-queue-tabs { display: flex; gap: 4px; margin-bottom: 16px; }
-  .league-queue-tab { background: none; border: 1px solid var(--border); color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 7px 14px; cursor: pointer; }
-  .league-queue-tab[data-active="true"] { color: var(--cyan); border-color: var(--cyan); }
-  .league-queue-tab:hover:not([data-active="true"]) { color: var(--cream); }
   .league-dev-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(255,194,60,0.1); border: 1px solid rgba(255,194,60,0.4); padding: 4px 9px; margin-bottom: 10px; }
   .league-dev-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
-  .league-match-list { display: flex; flex-direction: column; }
-  .league-match-row { display: flex; align-items: center; gap: 12px; padding: 9px 4px; border-bottom: 1px solid var(--border); border-left: 3px solid var(--gray, var(--text-faint)); }
-  .league-match-row:last-child { border-bottom: none; }
-  .league-match-row[data-win="true"] { border-left-color: var(--good); background: rgba(45,230,196,0.04); }
-  .league-match-row[data-win="false"] { border-left-color: var(--warn); background: rgba(255,84,112,0.04); }
-  .league-match-result { width: 50px; flex: none; font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
-  .league-match-row[data-win="true"] .league-match-result { color: var(--good); }
-  .league-match-row[data-win="false"] .league-match-result { color: var(--warn); }
-  .league-match-champ { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; font-size: 12.5px; font-weight: 600; }
-  .league-champ-role-icon { width: 13px; height: 13px; color: var(--text-faint); flex: none; }
-  .league-loadout { display: flex; align-items: center; gap: 6px; flex: none; }
-  .league-loadout-col { display: flex; flex-direction: column; gap: 2px; }
-  .league-spell-icon, .league-rune-icon { width: 20px; height: 20px; border: 1px solid var(--border-bright); flex: none; }
-  .league-rune-icon { border-radius: 50%; background: var(--bg-2); }
-  .league-items { display: grid; grid-template-columns: repeat(4, 15px); grid-auto-rows: 15px; gap: 2px; flex: none; }
-  .league-item-slot { width: 15px; height: 15px; background: var(--row-hover); border: 1px solid var(--border-bright); }
-  .league-match-kda { flex: none; width: 78px; text-align: center; font-size: 12px; }
-  .league-match-cs { flex: none; width: 64px; text-align: center; font-size: 11px; color: var(--text-dim); font-family: 'Space Mono', monospace; }
-  .league-match-meta { flex: none; width: 74px; text-align: right; font-size: 10px; color: var(--text-faint); }
-  @media (max-width: 780px) { .league-loadout, .league-match-cs { display: none; } }
-  .league-role-list { display: flex; flex-direction: column; gap: 10px; }
-  .league-role-row { display: flex; align-items: center; gap: 10px; }
-  .league-role-name { display: flex; align-items: center; gap: 6px; width: 72px; flex: none; font-size: 12px; font-weight: 600; }
-  .league-role-name svg { width: 14px; height: 14px; color: var(--text-faint); }
-  .league-role-bar-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
-  .league-role-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
-  .league-role-wr { width: 44px; flex: none; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px; }
-  .league-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 14px; margin-top: 4px; }
-  .league-compare-card { background: var(--row); border: 1px solid var(--border); padding: 12px 14px; }
-  .league-compare-label { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 8px; font-family: 'Space Mono', monospace; }
-  .league-compare-line { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; font-size: 11px; }
-  .league-compare-line span:first-child { width: 36px; flex: none; color: var(--text-faint); }
-  .league-compare-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); }
-  .league-compare-fill.you { height: 100%; background: var(--cyan); }
-  .league-compare-fill.rank { height: 100%; background: var(--text-faint); }
-  .league-compare-val { width: 50px; flex: none; text-align: right; font-family: 'Space Mono', monospace; }
-  .league-weekday-chart { display: flex; align-items: flex-end; gap: 8px; height: 130px; margin-bottom: 16px; }
-  .league-weekday-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
-  .league-weekday-val { font-size: 10px; color: var(--text-faint); margin-bottom: 4px; }
-  .league-weekday-track { flex: 1; width: 100%; max-width: 28px; background: var(--bg-2); border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
-  .league-weekday-fill { width: 100%; }
-  .league-weekday-fill.good { background: var(--cyan); }
-  .league-weekday-fill.warn { background: var(--warn); }
-  .league-weekday-label { font-size: 10px; color: var(--text-faint); margin-top: 6px; }
-  .league-hourly-list { max-height: 180px; overflow-y: auto; border-top: 1px solid var(--border); }
-  .league-hourly-row { display: flex; align-items: center; gap: 10px; padding: 6px 2px; border-bottom: 1px solid var(--border); font-size: 11.5px; }
-  .league-hourly-row:last-child { border-bottom: none; }
-  .league-hourly-time { width: 46px; flex: none; color: var(--text-dim); font-family: 'Space Mono', monospace; }
-  .league-hourly-badge { flex: none; width: 58px; text-align: center; font-size: 10.5px; font-weight: 700; padding: 3px 5px; background: var(--text-faint); color: var(--bg); }
-  .league-hourly-badge.good { background: var(--cyan); color: #0b0221; }
-  .league-hourly-badge.warn { background: var(--warn); }
-  .league-hourly-wr { margin-left: auto; color: var(--text-dim); }
-  .league-playedwith-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
-  .league-playedwith-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .league-playedwith-wr { font-family: 'Space Mono', monospace; font-weight: 700; }
+
+  /* Une seule carte, deux colonnes -- rang + historique dans le même
+     panneau, comme op.gg, pas deux blocs séparés. */
+  .profile-card { display: flex; background: var(--row); border: 1px solid var(--border-bright); position: relative; align-items: stretch; margin-top: 4px; }
+  .profile-sidebar { width: 220px; flex: none; padding: 20px 18px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
+  .profile-id { font-weight: 600; font-size: 15px; align-self: flex-start; margin-bottom: 10px; }
+  .profile-id .tag { color: var(--text-faint); font-weight: 400; }
+  .rank-emblem-wrap { width: 88px; height: 88px; }
+  .rank-emblem { width: 100%; height: 100%; object-fit: contain; }
+  .rank-tier-name { font-family: 'Cal Sans', sans-serif; font-size: 16px; margin-top: 4px; }
+  .rank-lp { font-size: 12.5px; color: var(--gold); margin-top: 2px; }
+  .rank-ring-wrap { position: relative; width: 64px; height: 64px; margin: 14px 0 6px; }
+  .rank-ring { width: 100%; height: 100%; }
+  .rank-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; }
+  .rank-ring-sub { font-size: 9px; color: var(--text-faint); }
+  .rank-record { font-size: 11.5px; color: var(--text-faint); }
+  .sidebar-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0 12px; }
+  .sidebar-subtitle { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); align-self: flex-start; margin-bottom: 8px; }
+  .most-played-list { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+  .most-played-row { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .most-played-row .champ-portrait { width: 26px; height: 26px; font-size: 9px; flex: none; }
+  .most-played-name { flex: 1; min-width: 0; text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .most-played-wr { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 11.5px; flex: none; }
+  .most-played-wr.good, .duo-partner-wr.good, .role-stat-wr.good { color: var(--good); }
+  .most-played-wr.warn, .duo-partner-wr.warn, .role-stat-wr.warn { color: var(--warn); }
+  .most-played-kda { font-size: 10px; color: var(--text-faint); flex: none; width: 52px; text-align: right; }
+  .see-all-champs-btn { background: none; border: none; color: var(--cyan); font-size: 11.5px; cursor: pointer; padding: 8px 0 0; align-self: flex-start; }
+  .see-all-champs-btn:hover { color: var(--cream); text-decoration: underline; }
+  .duo-partner-list { display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 4px; }
+  .duo-partner-row { display: flex; align-items: flex-start; gap: 8px; }
+  .duo-partner-row .champ-portrait { width: 28px; height: 28px; font-size: 9.5px; flex: none; margin-top: 1px; }
+  .duo-partner-info { flex: 1; min-width: 0; text-align: left; }
+  .duo-partner-name { font-weight: 600; font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .duo-partner-name .tag { font-weight: 400; color: var(--text-faint); font-size: 11px; }
+  .duo-partner-meta { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
+  .duo-partner-stats { flex: none; text-align: right; }
+  .duo-partner-wr { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12.5px; }
+  .duo-partner-record { font-size: 10px; color: var(--text-faint); margin-top: 1px; white-space: nowrap; }
+  .flex-rank-row { width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+  .flex-rank-value { font-size: 12.5px; color: var(--text-dim); }
+  .flex-rank-value .mono { color: var(--gold); }
+  .recent-form { font-size: 11px; color: var(--text-dim); margin-top: 4px; }
+
+  .profile-main { flex: 1; min-width: 0; }
+  .profile-main-tabs { display: flex; gap: 4px; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .profile-main-tab { background: none; border: none; color: var(--text-faint); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 6px 12px; cursor: pointer; }
+  .profile-main-tab[data-active="true"] { color: var(--cream); background: var(--row-hover); }
+  .queue-filter-bar { display: flex; gap: 4px; flex-wrap: wrap; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .queue-filter-btn { background: none; border: none; color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 5px 10px; cursor: pointer; }
+  .queue-filter-btn[data-active="true"] { color: var(--cyan); }
+  .queue-filter-btn:hover:not([data-active="true"]) { color: var(--cream); }
+
+  .champions-table-head { display: flex; align-items: center; gap: 10px; padding: 10px 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .season-badge { background: var(--row-hover); border: 1px solid var(--border-bright); color: var(--cream); font-size: 11px; font-weight: 700; padding: 4px 10px; }
+  .champions-queue-tabs, .stats-queue-tabs { display: flex; gap: 4px; }
+  .champions-queue-tab, .stats-queue-tab { background: none; border: none; color: var(--text-faint); font-size: 12px; font-weight: 600; padding: 5px 10px; cursor: pointer; }
+  .champions-queue-tab[data-active="true"], .stats-queue-tab[data-active="true"] { color: var(--cyan); }
+  .champions-queue-tab:hover:not([data-active="true"]), .stats-queue-tab:hover:not([data-active="true"]) { color: var(--cream); }
+  .stats-queue-tabs { border-bottom: 1px solid var(--border); margin: -18px -16px 4px; padding: 0 12px; }
+  .stats-queue-tab { padding: 10px 10px; }
+  .champions-table-scroll { overflow-x: auto; }
+  .champions-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .champions-table th { text-align: left; font-family: 'Space Mono', monospace; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); padding: 8px 16px; border-bottom: 1px solid var(--border); font-weight: 700; }
+  .champions-table th.num, .champions-table td.num { text-align: right; }
+  .champions-table td { padding: 8px 16px; border-bottom: 1px solid var(--border); }
+  .champions-table tr:last-child td { border-bottom: none; }
+  .champions-table .champ-cell { display: flex; align-items: center; gap: 8px; font-weight: 600; }
+  .champions-table .champ-cell .champ-portrait { width: 26px; height: 26px; font-size: 9px; }
+
+  /* Onglet Statistiques. */
+  .stats-section { padding: 18px 16px; border-bottom: 1px solid var(--border); }
+  .stats-section:last-child { border-bottom: none; }
+  .stats-block-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-bottom: 16px; }
+  .stats-block-title-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 18px; flex-wrap: wrap; }
+  .role-stats-list { display: flex; flex-direction: column; gap: 12px; }
+  .role-stat-row { display: flex; align-items: center; gap: 12px; }
+  .role-stat-role { display: flex; align-items: center; gap: 7px; width: 84px; flex: none; font-size: 12.5px; font-weight: 600; }
+  .role-stat-role svg { width: 15px; height: 15px; color: var(--text-faint); flex: none; }
+  .role-stat-bar-track { flex: 1; height: 8px; background: var(--bg-2); border: 1px solid var(--border); overflow: hidden; }
+  .role-stat-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
+  .role-stat-games { width: 74px; flex: none; text-align: right; font-size: 11px; color: var(--text-faint); }
+  .role-stat-wr { width: 48px; flex: none; text-align: right; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12.5px; }
+  .stats-compare-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 18px; }
+  .stats-compare-card { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 14px 16px; }
+  .stats-compare-label { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 12px; }
+  .stats-compare-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .stats-compare-name { width: 40px; flex: none; font-size: 11px; color: var(--text-dim); }
+  .stats-compare-track { flex: 1; height: 9px; background: var(--row); border: 1px solid var(--border); }
+  .stats-compare-fill { height: 100%; }
+  .stats-compare-fill.you { background: var(--cyan); }
+  .stats-compare-fill.rank { background: var(--text-faint); }
+  .stats-compare-value { width: 52px; flex: none; text-align: right; font-size: 11.5px; }
+  .stats-compare-diff { font-size: 11px; margin-top: 4px; font-weight: 600; }
+  .stats-compare-diff.good { color: var(--good); }
+  .stats-compare-diff.warn { color: var(--warn); }
+
+  .stats-top-champs { display: flex; gap: 12px; flex-wrap: wrap; }
+  .stats-top-champ-card { flex: 1; min-width: 170px; display: flex; align-items: center; gap: 10px; background: var(--bg-2); border: 1px solid var(--border-bright); padding: 12px 14px; position: relative; }
+  .stats-top-champ-rank { position: absolute; top: 6px; right: 8px; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; color: var(--text-faint); }
+  .stats-top-champ-card .champ-portrait { width: 38px; height: 38px; font-size: 12px; flex: none; }
+  .stats-top-champ-info { flex: 1; min-width: 0; }
+  .stats-top-champ-name { font-weight: 600; font-size: 13px; }
+  .stats-top-champ-sub { font-size: 10.5px; color: var(--text-faint); margin-top: 2px; }
+  .stats-top-champ-sub .good { color: var(--good); }
+  .stats-top-champ-sub .warn { color: var(--warn); }
+  .stats-top-champ-kda { text-align: right; font-weight: 700; font-size: 15px; color: var(--gold); flex: none; }
+  .stats-top-champ-kda span { display: block; font-size: 9px; font-weight: 400; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  .lp-chart-card { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 16px; }
+  .lp-chart-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+  .lp-chart-total { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; }
+  .lp-chart-total.good { color: var(--good); }
+  .lp-chart-total.warn { color: var(--warn); }
+  .lp-chart-svg { display: block; width: 100%; height: 170px; }
+  .lp-chart-zero { stroke: var(--border-bright); stroke-width: 1; stroke-dasharray: 4 4; }
+  .lp-chart-area { fill: rgba(5, 217, 232, 0.12); stroke: none; }
+  .lp-chart-line { fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+  .lp-chart-dot { fill: var(--cyan); stroke: var(--bg-2); stroke-width: 2; }
+
+  .stats-comms-grid { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center; }
+  .stats-comms-msg { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 18px 10px; text-align: center; }
+  .stats-comms-msg-value { font-size: 28px; }
+  .stats-comms-msg-label { font-size: 10.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 4px; }
+  .comms-ping-list { display: flex; flex-direction: column; gap: 10px; }
+  .comms-ping-row { display: flex; align-items: center; gap: 12px; }
+  .comms-ping-label { width: 130px; flex: none; font-size: 12px; color: var(--text-dim); }
+  .comms-ping-bar-track { flex: 1; height: 8px; background: var(--row); border: 1px solid var(--border); }
+  .comms-ping-bar-fill { height: 100%; background: var(--magenta); }
+  .comms-ping-value { width: 70px; flex: none; text-align: right; font-size: 11px; color: var(--text-faint); }
+  @media (max-width: 640px) { .stats-comms-grid { grid-template-columns: 1fr; } .comms-ping-label { width: 110px; } }
+
+  .activity-toggle { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--text-faint); cursor: pointer; user-select: none; }
+  .activity-toggle input { display: none; }
+  .activity-toggle-slider { width: 34px; height: 18px; flex: none; background: var(--row); border: 1px solid var(--border-bright); border-radius: 20px; position: relative; transition: background .15s ease, border-color .15s ease; }
+  .activity-toggle-slider::after { content: ''; position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-faint); transition: transform .15s ease, background .15s ease; }
+  .activity-toggle input:checked + .activity-toggle-slider { background: var(--cyan); border-color: var(--cyan); }
+  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #0b0221; }
+  .activity-subtitle { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; }
+  .info-hint { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-faint); color: var(--text-faint); font-size: 9px; cursor: help; flex: none; }
+  .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
+  .weekday-bar-col { flex: 1; display: flex; flex-direction: column; align-items: center; height: 100%; }
+  .weekday-bar-value { font-size: 11px; color: var(--text-faint); margin-bottom: 6px; }
+  .weekday-bar-track { flex: 1; width: 100%; max-width: 34px; background: var(--bg-2); border: 1px solid var(--border); display: flex; align-items: flex-end; overflow: hidden; }
+  .weekday-bar-fill { width: 100%; transition: height .2s ease; }
+  .weekday-bar-fill.good { background: var(--cyan); }
+  .weekday-bar-fill.warn { background: var(--warn); }
+  .weekday-bar-label { font-size: 11px; color: var(--text-faint); margin-top: 8px; font-weight: 600; }
+  .weekday-bar-label.sam { color: var(--cyan); }
+  .weekday-bar-label.dim { color: var(--warn); }
+  .hourly-list { max-height: 224px; overflow-y: auto; border-top: 1px solid var(--border); scrollbar-width: thin; scrollbar-color: var(--border-bright) transparent; }
+  .hourly-list::-webkit-scrollbar { width: 8px; }
+  .hourly-list::-webkit-scrollbar-track { background: transparent; }
+  .hourly-list::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+  .hourly-row { display: flex; align-items: center; gap: 12px; padding: 8px 4px; border-bottom: 1px solid var(--border); }
+  .hourly-row:last-child { border-bottom: none; }
+  .hourly-time { width: 52px; flex: none; font-size: 12px; color: var(--text-dim); }
+  .hourly-badge { flex: none; width: 64px; text-align: center; font-size: 11px; font-weight: 700; padding: 4px 6px; color: var(--cream); background: var(--gray, var(--text-faint)); }
+  .hourly-badge.good { background: var(--cyan); color: #0b0221; }
+  .hourly-badge.warn { background: var(--warn); }
+  .hourly-wr { margin-left: auto; font-size: 12px; color: var(--text-dim); width: 44px; text-align: right; }
+
+  /* Historique -- une ligne = 68px (loadout inline), cadre limité à 20
+     lignes de haut, scroll dedans pour le reste. */
+  .match-history-list { display: flex; flex-direction: column; max-height: calc(68px * 20 - 1px); overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border-bright) transparent; }
+  /* league.js toggles [hidden] to switch tabs -- without this,
+     .match-history-list's own `display: flex` above beats the browser's
+     built-in `[hidden] { display: none }` on specificity ties (same
+     0-1-0 weight, and an author rule always wins over the UA sheet), so
+     the history list stayed visible under the Champions/Stats tabs. Bug
+     caught in local testing before this went live. */
+  .match-history-list[hidden], #championsTableWrap[hidden], #statsTabWrap[hidden] { display: none; }
+  .match-history-list::-webkit-scrollbar { width: 8px; }
+  .match-history-list::-webkit-scrollbar-track { background: transparent; }
+  .match-history-list::-webkit-scrollbar-thumb { background: var(--border-bright); border-radius: 4px; }
+  .match-row { display: flex; align-items: center; gap: 14px; min-height: 68px; border-bottom: 1px solid var(--border); border-left: 3px solid var(--gray, var(--text-faint)); padding: 10px 16px; }
+  .match-history-list > .match-row-wrap:last-child .match-row { border-bottom: none; }
+  .match-row.win { border-left-color: var(--good); background: rgba(45,230,196,0.04); }
+  .match-row.loss { border-left-color: var(--warn); background: rgba(255,84,112,0.04); }
+  .match-result { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; width: 56px; flex: none; }
+  .match-row.win .match-result { color: var(--good); }
+  .match-row.loss .match-result { color: var(--warn); }
+  .match-champ-block { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+  .match-champ-block .champ-portrait { width: 32px; height: 32px; font-size: 11px; }
+  .champ-portrait-wrap { position: relative; display: inline-flex; flex: none; }
+  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #0b0221; border: 2px solid var(--bg-2); object-fit: cover; }
+  .match-champ-name { font-weight: 600; font-size: 13px; }
+  .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
+  .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
+  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 16px); grid-auto-rows: 16px; gap: 2px; }
+  .match-loadout-items .item-slot { width: 16px; height: 16px; }
+  @media (max-width: 900px) { .match-loadout { display: none; } }
+  .match-kda { text-align: center; flex: none; width: 84px; }
+  .match-kda-v { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; }
+  .match-kda-ratio { font-size: 10.5px; color: var(--text-faint); }
+  .match-cs { text-align: center; flex: none; width: 74px; font-family: 'Space Mono', monospace; font-size: 11.5px; color: var(--text-dim); }
+  .match-cs-l { font-size: 9.5px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.04em; }
+  .match-meta { text-align: right; flex: none; width: 84px; font-size: 10.5px; color: var(--text-faint); line-height: 1.5; }
+  .match-expand-btn { background: none; border: none; color: var(--text-faint); cursor: pointer; flex: none; padding: 4px; display: flex; }
+  .match-expand-btn svg { width: 16px; height: 16px; transition: transform .15s ease; }
+  .match-expand-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+  .match-expand-btn:hover { color: var(--cream); }
+  .match-detail { padding: 14px 16px 16px; background: var(--bg-2); border-bottom: 1px solid var(--border); }
+  /* Sorts + runes -- utilisés à la fois par le loadout inline de la ligne
+     repliée (.match-loadout) et par le résumé du volet déplié
+     (.match-summary-strip). Oublier ces deux règles laisse les vraies
+     icônes (de vraies images, pas des <span> vides comme dans le mockup)
+     s'afficher à leur taille native -- bug repéré en test local avant
+     mise en ligne. */
+  .spell-col { display: flex; flex-direction: column; gap: 3px; }
+  .spell-icon { width: 22px; height: 22px; border-radius: 3px; border: 1px solid var(--border-bright); object-fit: cover; }
+  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #0b0221; object-fit: cover; }
+  .rune-icon.small { width: 16px; height: 16px; margin-left: 3px; }
+  .match-summary-strip { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .summary-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+  .perf-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 4px 9px; background: var(--row); border: 1px solid var(--border-bright); color: var(--text-dim); }
+  .perf-badge.medal { background: var(--gold); color: #0b0221; border-color: var(--gold); }
+  .summary-extra { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-faint); margin-left: auto; }
+  .summary-extra strong { color: var(--cream); }
+  @media (max-width: 640px) { .summary-extra { margin-left: 0; } }
+  .scoreboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .scoreboard-team-label { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 8px; }
+  .scoreboard-team.ally .scoreboard-team-label { color: var(--cyan); }
+  .scoreboard-team.enemy .scoreboard-team-label { color: var(--warn); }
+  .scoreboard-row { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
+  .scoreboard-row.is-self { background: rgba(255,201,77,0.08); border-radius: 2px; padding-left: 4px; }
+  .scoreboard-row .champ-portrait { width: 24px; height: 24px; font-size: 8px; flex: none; }
+  .scoreboard-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scoreboard-kda { flex: none; width: 56px; color: var(--text-dim); font-size: 11px; }
+  .scoreboard-cs { flex: none; width: 54px; color: var(--text-dim); font-size: 11px; }
+  .scoreboard-gold { flex: none; width: 40px; color: var(--gold); font-size: 11px; }
+  .scoreboard-items { display: flex; gap: 2px; flex: none; }
+  .item-slot { width: 14px; height: 14px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; }
+  @media (max-width: 640px) { .scoreboard-grid { grid-template-columns: 1fr; } .scoreboard-kda, .scoreboard-cs, .scoreboard-gold { display: none; } }
+
+  .champ-portrait { width: 40px; height: 40px; flex: none; border-radius: 50%; background: linear-gradient(135deg, var(--row-hover), var(--bg-2)); border: 1.5px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Cal Sans', sans-serif; font-size: 13px; color: var(--text-dim); overflow: hidden; }
+  .champ-portrait img { width: 100%; height: 100%; object-fit: cover; }
+  .champ-role-icon { width: 15px; height: 15px; color: var(--text-faint); flex: none; }
+
+  @media (max-width: 720px) {
+    .profile-card { flex-direction: column; }
+    .profile-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; text-align: left; }
+    .profile-id { width: 100%; }
+    .most-played-list { width: auto; flex: 1; min-width: 140px; }
+    .match-row { flex-wrap: wrap; }
+    .match-kda, .match-cs, .match-meta { width: auto; }
+  }

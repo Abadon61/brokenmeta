@@ -1,5 +1,12 @@
 
 (function () {
+  // Straight port of the BrokenMeta League concept Artifact's rendering
+  // (same HTML structure/CSS classes as league_profile's <style>, see
+  // build_site.py), but every function here reads from the REAL worker
+  // payload instead of a seeded mock generator -- no MATCH_HISTORY, no
+  // fabricated duo/ping/message data. Only two sections stay illustrative
+  // (see devSectionsHtml): Riot's API has no LP-history endpoint and
+  // exposes no ping/chat data at all, at any endpoint.
   var API = window.BM_LEAGUE_API;
   var I = window.BM_I18N_LEAGUE || {};
   var form = document.getElementById('leagueForm');
@@ -17,27 +24,28 @@
     support: '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
   };
   var ROLE_LABEL = { top: 'Top', jungle: 'Jungle', mid: 'Mid', adc: 'ADC', support: 'Support' };
-  var WEEKDAY_LABELS = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible' };
 
-  function roleIcon(role) { return '<svg class="league-champ-role-icon" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
+  function roleIcon(role, cls) { return '<svg class="' + (cls || 'champ-role-icon') + '" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   function initials(name) { return (name || '?').replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() || '?'; }
+  function tierLabel(tier) { return tier ? tier.charAt(0) + tier.slice(1).toLowerCase() : ''; }
 
   // Portraits de champion réels (Data Dragon, clé = championName renvoyé
   // tel quel par Match-V5 -- garanti identique à la clé ddragon par Riot,
-  // aucune table de correspondance à maintenir). La version est résolue
-  // une fois au chargement plutôt que codée en dur, pour ne pas se
-  // périmer à chaque patch.
+  // aucune table de correspondance à maintenir). Version résolue une fois
+  // au chargement plutôt que codée en dur, pour ne pas se périmer à
+  // chaque patch.
   var ddragonVersion = null;
   var ddragonReady = fetch('https://ddragon.leagueoflegends.com/api/versions.json')
     .then(function (r) { return r.json(); })
     .then(function (v) { ddragonVersion = v[0]; })
     .catch(function () {});
-  function champIconHtml(championName) {
+  function champPortraitInner(championName) {
     if (ddragonVersion) {
-      return '<img class="league-icon-fallback" src="https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/img/champion/' + encodeURIComponent(championName) + '.png" alt="' + esc(championName) + '" style="width:32px;height:32px;object-fit:cover;border:1px solid var(--border-bright);flex:none" loading="lazy">';
+      return '<img class="league-icon-fallback" src="https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/img/champion/' + encodeURIComponent(championName) + '.png" alt="' + esc(championName) + '" loading="lazy">';
     }
-    return '<span class="player-avatar" style="width:32px;height:32px;font-size:11px">' + esc(initials(championName)) + '</span>';
+    return esc(initials(championName));
   }
 
   function el(tag, className, html) {
@@ -74,167 +82,352 @@
     if (hours < 24) return hours + ' h';
     return Math.round(hours / 24) + ' j';
   }
+  // Anneau de winrate -- rayon 27 (circonférence ~169.65), même tracé que
+  // l'artefact mais avec le pourcentage RÉEL du joueur, pas une valeur
+  // figée dans le markup.
+  function rankRingSvg(pct, good) {
+    var c = 169.65;
+    var offset = Math.round((c * (1 - pct / 100)) * 10) / 10;
+    return '<svg viewBox="0 0 64 64" class="rank-ring">'
+      + '<circle cx="32" cy="32" r="27" fill="none" stroke="var(--border-bright)" stroke-width="6"/>'
+      + '<circle cx="32" cy="32" r="27" fill="none" stroke="var(--' + (good ? 'good' : 'warn') + ')" stroke-width="6" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + offset + '" transform="rotate(-90 32 32)"/>'
+      + '</svg>';
+  }
 
   var currentData = null;
   var currentQueue = 'solo';
+  var currentTab = 'history';
 
-  function rankCard(label, entry) {
-    if (!entry) return '<div class="league-rank-card"><span class="league-rank-queue">' + label + '</span><span class="league-rank-tier" style="color:var(--text-faint)">Non classé</span></div>';
-    return '<div class="league-rank-card"><span class="league-rank-queue">' + label + '</span>'
-      + '<span class="lb-tier-tag" data-tier="' + entry.tier + '">' + entry.tier + ' ' + entry.rank + '</span>'
-      + '<span class="league-rank-lp">' + entry.leaguePoints + ' LP</span>'
-      + '<span class="player-meta" style="margin:0">' + entry.wins + 'V ' + entry.losses + 'D</span></div>';
-  }
-
-  function matchRowHtml(m) {
-    var kda = ((m.kills + m.assists) / Math.max(1, m.deaths)).toFixed(1);
+  function buildLoadoutHtml(m) {
     var itemsHtml = m.items.map(function (it) {
-      return it.iconUrl ? '<img class="league-item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="league-item-slot"></span>';
+      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
     }).join('');
     var spellsHtml = m.spells.map(function (s) {
-      return s.iconUrl ? '<img class="league-spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="' + esc(s.name) + '" title="' + esc(s.name) + '" loading="lazy">' : '';
+      return s.iconUrl ? '<img class="spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="" title="' + esc(s.name) + '" loading="lazy">' : '';
     }).join('');
-    var runesHtml = (m.runes.keystoneIconUrl ? '<img class="league-rune-icon league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '')
-      + (m.runes.secondaryStyleIconUrl ? '<img class="league-rune-icon league-icon-fallback" src="' + m.runes.secondaryStyleIconUrl + '" alt="" title="' + esc(m.runes.secondaryStyleName) + '" style="width:14px;height:14px" loading="lazy">' : '');
-    return '<div class="league-match-row" data-win="' + m.win + '">'
-      + '<span class="league-match-result">' + (m.win ? 'Victoire' : 'Défaite') + '</span>'
-      + '<span class="league-match-champ">' + roleIcon(m.role) + champIconHtml(m.champion) + esc(m.champion) + '</span>'
-      + '<span class="league-loadout"><span class="league-loadout-col">' + spellsHtml + '</span><span class="league-loadout-col">' + runesHtml + '</span><span class="league-items">' + itemsHtml + '</span></span>'
-      + '<span class="league-match-kda mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '<br><span style="color:var(--text-faint);font-size:10px">' + kda + ' KDA</span></span>'
-      + '<span class="league-match-cs">' + m.cs + ' CS<br>' + (m.cs / m.durationMin).toFixed(1) + '/min</span>'
-      + '<span class="league-match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</span>'
+    var runesHtml = (m.runes.keystoneIconUrl ? '<img class="rune-icon league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '')
+      + (m.runes.secondaryStyleIconUrl ? '<img class="rune-icon small league-icon-fallback" src="' + m.runes.secondaryStyleIconUrl + '" alt="" title="' + esc(m.runes.secondaryStyleName) + '" loading="lazy">' : '');
+    return '<div class="match-loadout">'
+      + '<div class="spell-col">' + spellsHtml + '</div>'
+      + '<div class="spell-col">' + runesHtml + '</div>'
+      + '<div class="match-loadout-items">' + itemsHtml + '</div>'
       + '</div>';
+  }
+
+  function matchRowHtml(m, idx) {
+    var kdaRatio = ((m.kills + m.assists) / Math.max(1, m.deaths)).toFixed(1);
+    var csPerMin = (m.cs / m.durationMin).toFixed(1);
+    return '<div class="match-row-wrap">'
+      + '<div class="match-row ' + (m.win ? 'win' : 'loss') + '">'
+      + '<div class="match-result">' + (m.win ? 'Victoire' : 'Défaite') + '</div>'
+      + '<div class="match-champ-block">' + roleIcon(m.role, 'champ-role-icon')
+      + '<span class="champ-portrait-wrap"><span class="champ-portrait">' + champPortraitInner(m.champion) + '</span>'
+      + (m.runes.keystoneIconUrl ? '<img class="champ-rune-badge league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '') + '</span>'
+      + '<div><div class="match-champ-name">' + esc(m.champion) + '</div><div class="match-queue">' + QUEUE_LABEL[currentQueue] + '</div></div></div>'
+      + buildLoadoutHtml(m)
+      + '<div class="match-kda"><div class="match-kda-v mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '</div><div class="match-kda-ratio">' + kdaRatio + ' KDA</div></div>'
+      + '<div class="match-cs"><div class="mono">' + m.cs + ' CS</div><div class="match-cs-l">' + csPerMin + '/min</div></div>'
+      + '<div class="match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</div>'
+      + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="Voir la partie">'
+      + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>'
+      + '</div>'
+      + '<div class="match-detail" id="matchDetail' + idx + '" hidden></div>'
+      + '</div>';
+  }
+
+  function renderScoreboardTeam(players, label, sideClass) {
+    return '<div class="scoreboard-team ' + sideClass + '"><div class="scoreboard-team-label">' + label + '</div>'
+      + players.map(function (p) {
+        var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
+        var itemsHtml = p.items.map(function (it) {
+          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+        }).join('');
+        return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
+          + roleIcon(p.role, 'champ-role-icon') + '<span class="champ-portrait">' + champPortraitInner(p.champion) + '</span>'
+          + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' (toi)' : esc(p.name)) + '</span>'
+          + kdaText
+          + '<span class="scoreboard-cs mono">' + p.cs + ' CS</span>'
+          + '<span class="scoreboard-gold mono">' + (p.gold / 1000).toFixed(1) + 'k</span>'
+          + '<span class="scoreboard-items">' + itemsHtml + '</span>'
+          + '</div>';
+      }).join('') + '</div>';
+  }
+
+  // Badges de perf + classement dans la partie -- calculés sur le K/D/A
+  // RÉEL du joueur et comparés aux 9 AUTRES vrais scores du scoreboard
+  // (pas de simulation). Pas de ligne "elo moyen" ici : Riot n'expose pas
+  // le rang des autres joueurs d'une partie, contrairement au mockup.
+  function buildMatchSummary(m) {
+    var badges = [];
+    if (m.deaths === 0) badges.push('Increvable');
+    if (m.kills >= 7) badges.push('Triple Kill');
+    else if (m.kills >= 5) badges.push('Double Kill');
+    if (m.assists >= 10) badges.push('Soutien exemplaire');
+
+    function score(p) { return p.kills * 2 + p.assists - p.deaths * 1.5; }
+    var mySelf = m.scoreboard.filter(function (p) { return p.isSelf; })[0];
+    var ranked = m.scoreboard.slice().sort(function (a, b) { return score(b) - score(a); });
+    var rank = ranked.indexOf(mySelf) + 1;
+    var medal = rank <= 3 ? 'Or' : rank <= 6 ? 'Argent' : 'Bronze';
+    badges.unshift(medal + ' ' + rank + '/10');
+
+    var badgesHtml = badges.map(function (b, i) {
+      return '<span class="perf-badge' + (i === 0 ? ' medal' : '') + '">' + b + '</span>';
+    }).join('');
+    return '<div class="match-summary-strip"><div class="summary-badges">' + badgesHtml + '</div></div>';
+  }
+
+  function toggleMatchDetail(idx, m) {
+    var detail = document.getElementById('matchDetail' + idx);
+    var willOpen = detail.hidden;
+    detail.hidden = !willOpen;
+    document.getElementById('matchExpandBtn' + idx).setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+    if (willOpen && !detail.dataset.built) {
+      var allies = m.scoreboard.filter(function (p) { return p.team === 'ally'; });
+      var enemies = m.scoreboard.filter(function (p) { return p.team === 'enemy'; });
+      detail.innerHTML = buildMatchSummary(m) + '<div class="scoreboard-grid">'
+        + renderScoreboardTeam(allies, 'Alliés', 'ally')
+        + renderScoreboardTeam(enemies, 'Adversaires', 'enemy')
+        + '</div>';
+      detail.dataset.built = '1';
+      bindIconFallback(detail);
+    }
+  }
+
+  function renderMatchList(matches) {
+    var list = document.getElementById('matchHistoryList');
+    if (!matches.length) { list.innerHTML = '<div class="matchup-empty">Aucune partie récente dans cette file.</div>'; return; }
+    list.innerHTML = matches.map(matchRowHtml).join('');
+    bindIconFallback(list);
+    matches.forEach(function (m, idx) {
+      document.getElementById('matchExpandBtn' + idx).addEventListener('click', function () { toggleMatchDetail(idx, m); });
+    });
+  }
+
+  function champKda(c) { return c.kda.toFixed(1); }
+
+  function renderChampionsTable(champions) {
+    var wrap = document.getElementById('championsTableWrap');
+    if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">Aucun champion joué dans cette file.</div>'; return; }
+    var rows = champions.map(function (c) {
+      return '<tr><td><div class="champ-cell"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>' + esc(c.champ) + '</div></td>'
+        + '<td class="num mono">' + c.games + '</td>'
+        + '<td class="num"><span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></td>'
+        + '<td class="num mono">' + c.avgKills.toFixed(1) + ' / ' + c.avgDeaths.toFixed(1) + ' / ' + c.avgAssists.toFixed(1) + '</td>'
+        + '<td class="num mono">' + champKda(c) + '</td></tr>';
+    }).join('');
+    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>Champion</th><th class="num">Parties</th><th class="num">Winrate</th><th class="num">KDA moyen</th><th class="num">Ratio</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    bindIconFallback(wrap);
   }
 
   // Les deux sections que l'API Riot ne peut pas alimenter aujourd'hui --
   // Match-V5 ne donne que le LP ACTUEL (pas d'historique) et n'expose ni
-  // pings ni messages, à aucun endpoint. Rendues avec un exemple fixe et
-  // clairement étiqueté, pas des chiffres qui feraient croire à de la
-  // vraie donnée du joueur recherché.
+  // pings ni messages, à aucun endpoint. Exemple fixe et clairement
+  // étiqueté, jamais présenté comme la donnée du joueur recherché.
   function devSectionsHtml() {
     var badge = '<div class="league-dev-badge"><span class="dot"></span>En développement -- en attente de l\'API de production Riot</div>';
-    var lpPoints = '0,60 20,52 40,58 60,40 80,44 100,26 120,30 140,14 160,20 180,6';
-    return '<div class="metascope-box" style="margin-top:16px">'
-      + badge
-      + '<div class="metascope-box-title">Progression de LP</div>'
-      + '<p class="metascope-hint" style="margin:0 0 10px">Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu\'on aura commencé à relever ton LP dans le temps. Exemple illustratif :</p>'
-      + '<svg viewBox="0 0 180 70" style="width:100%;height:80px;display:block"><polyline points="' + lpPoints + '" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-      + '</div>'
-      + '<div class="metascope-box" style="margin-top:16px">'
-      + badge
-      + '<div class="metascope-box-title">Communication en jeu</div>'
-      + '<p class="metascope-hint" style="margin:0 0 10px">Les pings et les messages de chat ne sont pas exposés par l\'API Riot, à aucun endpoint -- cette section restera un exemple tant que ça n\'aura pas changé. Exemple illustratif :</p>'
-      + '<div class="metascope-stat-row"><span>Messages / partie</span><b class="nums">6.4</b></div>'
-      + '<div class="metascope-stat-row"><span>En chemin</span><b class="nums">2.1 / partie</b></div>'
-      + '<div class="metascope-stat-row"><span>Ennemi manquant</span><b class="nums">1.8 / partie</b></div>'
-      + '<div class="metascope-stat-row"><span>Attention</span><b class="nums">1.2 / partie</b></div>'
-      + '</div>';
+    var lpPoints = '10,150 90,120 170,135 250,90 330,100 410,55 490,65 570,25 650,45 730,10';
+    return '<div class="stats-section"><div class="lp-chart-card">' + badge
+      + '<div class="stats-block-title" style="margin-bottom:8px">Progression de LP</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu\'on aura commencé à relever ton LP dans le temps. Exemple illustratif :</p>'
+      + '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="90" x2="732" y2="90" class="lp-chart-zero"/>'
+      + '<polygon points="' + lpPoints + ' 730,156 10,156" class="lp-chart-area"/>'
+      + '<polyline points="' + lpPoints + '" class="lp-chart-line"/><circle cx="730" cy="10" r="4.5" class="lp-chart-dot"/></svg>'
+      + '</div></div>'
+      + '<div class="stats-section"><div class="lp-chart-card">' + badge
+      + '<div class="stats-block-title" style="margin-bottom:8px">Communication en jeu</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Les pings et les messages de chat ne sont exposés par l\'API Riot à aucun endpoint -- cette section restera un exemple tant que ça n\'aura pas changé. Exemple illustratif :</p>'
+      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">6.4</div><div class="stats-comms-msg-label">Messages / partie</div></div>'
+      + '<div class="comms-ping-list">'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">En chemin</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:70%"></div></div><span class="comms-ping-value mono">2.1 / partie</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">Ennemi manquant</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:60%"></div></div><span class="comms-ping-value mono">1.8 / partie</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">Attention</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:40%"></div></div><span class="comms-ping-value mono">1.2 / partie</span></div>'
+      + '</div></div></div></div>';
   }
 
-  function renderQueue(queueKey) {
-    currentQueue = queueKey;
-    var q = currentData.queues[queueKey];
-    document.querySelectorAll('.league-queue-tab').forEach(function (btn) {
-      btn.setAttribute('data-active', btn.dataset.queue === queueKey ? 'true' : 'false');
-    });
-
-    var matchListHtml = q.matches.length
-      ? q.matches.map(matchRowHtml).join('')
-      : '<div class="matchup-empty">Aucune partie récente dans cette file (sur les ' + (q.matches.length || 0) + ' dernières parties toutes files confondues).</div>';
+  function renderStatsTab(q, rankAverages) {
+    var wrap = document.getElementById('statsTabWrap');
+    var topChamps = q.champions.filter(function (c) { return c.games >= 2; }).slice().sort(function (a, b) { return b.kda - a.kda; }).slice(0, 3);
+    var topChampsHtml = topChamps.length ? topChamps.map(function (c, i) {
+      return '<div class="stats-top-champ-card"><span class="stats-top-champ-rank">#' + (i + 1) + '</span>'
+        + '<span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>'
+        + '<div class="stats-top-champ-info"><div class="stats-top-champ-name">' + esc(c.champ) + '</div>'
+        + '<div class="stats-top-champ-sub">' + c.games + ' parties &middot; <span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '% WR</span></div></div>'
+        + '<div class="stats-top-champ-kda mono">' + c.kda.toFixed(1) + ' <span>KDA</span></div></div>';
+    }).join('') : '<div class="matchup-empty">Pas assez de parties sur un même champion dans cette file (min. 2).</div>';
 
     var maxRoleGames = Math.max.apply(null, q.roleStats.map(function (r) { return r.games; })) || 1;
     var roleHtml = q.roleStats.length ? q.roleStats.map(function (r) {
       var pct = Math.round((r.games / maxRoleGames) * 100);
-      return '<div class="league-role-row"><span class="league-role-name">' + roleIcon(r.role) + (ROLE_LABEL[r.role] || r.role) + '</span>'
-        + '<div class="league-role-bar-track"><div class="league-role-bar-fill" style="width:' + pct + '%"></div></div>'
-        + '<span class="league-role-wr" style="color:' + (r.wr >= 50 ? 'var(--good)' : 'var(--warn)') + '">' + r.wr + '%</span></div>';
-    }).join('') : '<div class="matchup-empty">Pas de partie dans cette file.</div>';
+      return '<div class="role-stat-row"><div class="role-stat-role">' + roleIcon(r.role) + (ROLE_LABEL[r.role] || r.role) + '</div>'
+        + '<div class="role-stat-bar-track"><div class="role-stat-bar-fill" style="width:' + pct + '%"></div></div>'
+        + '<div class="role-stat-games mono">' + r.games + ' parties</div>'
+        + '<div class="role-stat-wr ' + (r.wr >= 50 ? 'good' : 'warn') + '">' + r.wr + '%</div></div>';
+    }).join('') : '<div class="matchup-empty">Aucune partie dans cette file.</div>';
 
-    function compareLine(label, you, rank, unit, decimals) {
-      var scale = Math.max(you, rank) * 1.15 || 1;
-      return '<div class="league-compare-line"><span>' + label + '</span><div class="league-compare-track"><div class="league-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="league-compare-val mono">' + you.toFixed(decimals) + unit + '</span></div>'
-        + '<div class="league-compare-line"><span>Rang</span><div class="league-compare-track"><div class="league-compare-fill rank" style="width:' + Math.round((rank / scale) * 100) + '%"></div></div><span class="league-compare-val mono">' + rank.toFixed(decimals) + unit + '</span></div>';
+    function compareCard(label, you, rankAvg, unit, decimals) {
+      var scale = Math.max(you, rankAvg) * 1.15 || 1;
+      var diff = you - rankAvg;
+      return '<div class="stats-compare-card"><div class="stats-compare-label">' + label + '</div>'
+        + '<div class="stats-compare-row"><span class="stats-compare-name">Toi</span><div class="stats-compare-track"><div class="stats-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + you.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-row"><span class="stats-compare-name">Rang</span><div class="stats-compare-track"><div class="stats-compare-fill rank" style="width:' + Math.round((rankAvg / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + rankAvg.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' vs moyenne</div></div>';
     }
-    var ra = currentData.rankAverages;
     var sa = q.statsAvg;
-    var compareHtml = (q.matches.length ? [
-      '<div class="league-compare-card"><div class="league-compare-label">CS / min</div>' + compareLine('Toi', sa.csPerMin, ra.csPerMin, '', 1) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Gold / min</div>' + compareLine('Toi', sa.goldPerMin, ra.goldPerMin, '', 0) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Dégâts / min</div>' + compareLine('Toi', sa.dmgPerMin, ra.dmgPerMin, '', 0) + '</div>',
-      '<div class="league-compare-card"><div class="league-compare-label">Participation aux kills</div>' + compareLine('Toi', sa.killParticipation, ra.killParticipation, '%', 0) + '</div>',
-    ].join('') : '<div class="matchup-empty">Pas assez de parties pour comparer.</div>');
+    var compareHtml = q.matches.length ? [
+      compareCard('CS / min', sa.csPerMin, rankAverages.csPerMin, '', 1),
+      compareCard('Gold / min', sa.goldPerMin, rankAverages.goldPerMin, '', 0),
+      compareCard('Dégâts / min', sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
+      compareCard('Participation aux kills', sa.killParticipation, rankAverages.killParticipation, '%', 0),
+    ].join('') : '<div class="matchup-empty">Pas assez de parties pour comparer.</div>';
 
     var maxWeekday = Math.max.apply(null, q.weekdayStats.map(function (d) { return d.games; })) || 1;
     var weekdayHtml = q.weekdayStats.map(function (d) {
       var pct = Math.round((d.games / maxWeekday) * 100);
-      return '<div class="league-weekday-col"><div class="league-weekday-val mono">' + d.games + '</div>'
-        + '<div class="league-weekday-track"><div class="league-weekday-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
-        + '<div class="league-weekday-label">' + d.label + '</div></div>';
+      var labelClass = d.idx === 5 ? ' sam' : d.idx === 6 ? ' dim' : '';
+      return '<div class="weekday-bar-col"><div class="weekday-bar-value mono">' + d.games + '</div>'
+        + '<div class="weekday-bar-track"><div class="weekday-bar-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
+        + '<div class="weekday-bar-label' + labelClass + '">' + d.label + '</div></div>';
     }).join('');
-
     var hourlyHtml = q.hourlyStats.filter(function (h) { return h.games > 0; }).map(function (h) {
-      return '<div class="league-hourly-row"><span class="league-hourly-time">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
-        + '<span class="league-hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' parties</span>'
-        + '<span class="league-hourly-wr mono">' + h.wr + '%</span></div>';
+      return '<div class="hourly-row"><span class="hourly-time mono">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
+        + '<span class="hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' jeux</span>'
+        + '<span class="hourly-wr mono">' + h.wr + '%</span></div>';
     }).join('') || '<div class="matchup-empty">Pas assez de parties pour un historique horaire.</div>';
 
-    var playedWithHtml = q.playedWith.length ? q.playedWith.map(function (p) {
-      return '<div class="league-playedwith-row"><span class="league-playedwith-name">' + esc(p.riotId) + '</span>'
-        + '<span class="player-meta" style="margin:0">' + p.games + ' parties</span>'
-        + '<span class="league-playedwith-wr" style="color:' + (p.wr >= 50 ? 'var(--good)' : 'var(--warn)') + '">' + p.wr + '%</span></div>';
-    }).join('') : '<div class="matchup-empty">Pas de coéquipier récurrent détecté sur cet échantillon.</div>';
-
-    var main = document.getElementById('leagueQueuePanel');
-    main.innerHTML =
-      '<div class="metascope-layout">'
-      + '<div class="metascope-sidebar">'
-      + '<div class="metascope-box"><div class="metascope-box-title">Répartition par rôle</div><div class="league-role-list">' + roleHtml + '</div></div>'
-      + '<div class="metascope-box"><div class="metascope-box-title">Joué avec</div>' + playedWithHtml + '</div>'
-      + '</div>'
-      + '<div class="metascope-main">'
-      + '<h2 class="fiche-section-title" style="margin-top:0">Historique (' + q.matches.length + ' parties)</h2>'
-      + '<div class="league-match-list">' + matchListHtml + '</div>'
-      + '</div>'
-      + '</div>'
-      + '<div class="metascope-box" style="margin-top:20px"><div class="metascope-box-title">Toi vs moyenne du rang</div><div class="league-compare-grid">' + compareHtml + '</div></div>'
-      + '<div class="metascope-box" style="margin-top:16px"><div class="metascope-box-title">Modèles d\'activité</div>'
-      + '<div class="league-weekday-chart">' + weekdayHtml + '</div>'
-      + '<div class="league-hourly-list">' + hourlyHtml + '</div></div>'
+    wrap.innerHTML =
+      '<div class="stats-section"><div class="stats-block-title">Meilleures perfs de la saison <span class="profile-section-note">classé par KDA, min. 2 parties</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">Répartition par rôle <span class="profile-section-note">' + q.matches.length + ' parties</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">Toi vs moyenne du rang</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">Modèles d\'activité</div></div>'
+      + '<div class="activity-subtitle">En semaine</div><div class="weekday-chart">' + weekdayHtml + '</div>'
+      + '<div class="activity-subtitle" style="margin-top:18px">Par heure</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
       + devSectionsHtml();
-    bindIconFallback(main);
+    bindIconFallback(wrap);
+  }
+
+  function renderSidebarQueueBits(q) {
+    var most = q.champions.slice(0, 4);
+    document.getElementById('mostPlayedGrid').innerHTML = most.length ? most.map(function (c) {
+      return '<div class="most-played-row"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>'
+        + '<span class="most-played-name">' + esc(c.champ) + '</span>'
+        + '<span class="most-played-kda mono">' + c.kda.toFixed(1) + ' KDA</span>'
+        + '<span class="most-played-wr ' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></div>';
+    }).join('') : '<div class="matchup-empty">Aucune partie.</div>';
+    bindIconFallback(document.getElementById('mostPlayedGrid'));
+
+    var hasPlayedWith = q.playedWith.length > 0;
+    document.getElementById('duoPartnerDivider').hidden = !hasPlayedWith;
+    document.getElementById('duoPartnerTitle').hidden = !hasPlayedWith;
+    document.getElementById('duoPartnerList').innerHTML = q.playedWith.map(function (p) {
+      return '<div class="duo-partner-row"><div class="duo-partner-info"><div class="duo-partner-name">' + esc(p.riotId) + '</div>'
+        + '<div class="duo-partner-meta">' + p.games + ' parties ensemble</div></div>'
+        + '<div class="duo-partner-stats"><div class="duo-partner-wr ' + (p.wr >= 50 ? 'good' : 'warn') + '">' + p.wr + '%</div>'
+        + '<div class="duo-partner-record">' + p.wins + 'V ' + (p.games - p.wins) + 'D</div></div></div>';
+    }).join('');
+  }
+
+  function setProfileTab(tab) {
+    currentTab = tab;
+    document.getElementById('tabHistory').setAttribute('data-active', tab === 'history' ? 'true' : 'false');
+    document.getElementById('tabChampions').setAttribute('data-active', tab === 'champions' ? 'true' : 'false');
+    document.getElementById('tabStats').setAttribute('data-active', tab === 'stats' ? 'true' : 'false');
+    document.getElementById('matchHistoryList').hidden = tab !== 'history';
+    document.getElementById('championsTableWrap').hidden = tab !== 'champions';
+    document.getElementById('statsTabWrap').hidden = tab !== 'stats';
+    renderActiveTab();
+  }
+
+  function renderActiveTab() {
+    var q = currentData.queues[currentQueue];
+    if (currentTab === 'history') renderMatchList(q.matches);
+    else if (currentTab === 'champions') renderChampionsTable(q.champions);
+    else renderStatsTab(q, currentData.rankAverages);
+  }
+
+  function renderQueue(queueKey) {
+    currentQueue = queueKey;
+    document.querySelectorAll('.queue-filter-btn').forEach(function (btn) {
+      btn.setAttribute('data-active', btn.dataset.queue === queueKey ? 'true' : 'false');
+    });
+    renderSidebarQueueBits(currentData.queues[queueKey]);
+    renderActiveTab();
   }
 
   function renderProfile(data) {
     currentData = data;
+    currentQueue = data.ranks.solo || !data.ranks.flex ? 'solo' : 'flex';
+    currentTab = 'history';
+
+    var primary = data.ranks.solo || data.ranks.flex;
+    var secondary = data.ranks.solo ? data.ranks.flex : null;
+    var wr = primary ? Math.round((primary.wins / Math.max(1, primary.wins + primary.losses)) * 100) : 0;
+
     var avatarHtml = data.profileIconId
       ? '<img class="league-icon-fallback" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/' + data.profileIconId + '.jpg" alt="">'
       : esc(initials(data.riotId));
+
+    var sidebarHtml =
+      '<div class="profile-id">' + esc(data.riotId.split('#')[0]) + ' <span class="tag">#' + esc(data.riotId.split('#')[1] || '') + '</span></div>'
+      + (primary ? '<div class="rank-emblem-wrap"><img class="rank-emblem league-icon-fallback" src="' + primary.emblemUrl + '" alt=""></div>'
+        + '<div class="rank-tier-name">' + tierLabel(primary.tier) + ' ' + primary.rank + '</div>'
+        + '<div class="rank-lp mono">' + primary.leaguePoints + ' LP</div>'
+        + '<div class="rank-ring-wrap">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + 'V</div></div></div>'
+        + '<div class="rank-record">' + primary.wins + 'V ' + primary.losses + 'D</div>'
+        : '<div class="rank-tier-name" style="color:var(--text-faint)">Non classé</div>')
+      + '<div class="sidebar-divider"></div>'
+      + (secondary
+        ? '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value">' + tierLabel(secondary.tier) + ' ' + secondary.rank + ' <span class="mono">' + secondary.leaguePoints + ' LP</span></span></div>'
+        : '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value" style="color:var(--text-faint)">Non classé</span></div>')
+      + '<div class="sidebar-divider"></div>'
+      + '<div class="sidebar-subtitle">Le plus joué <span class="profile-section-note">' + QUEUE_LABEL[currentQueue] + '</span></div>'
+      + '<div class="most-played-list" id="mostPlayedGrid"></div>'
+      + '<button type="button" class="see-all-champs-btn" id="seeAllChampsBtn">Voir tous les champions →</button>'
+      + '<div class="sidebar-divider" id="duoPartnerDivider" hidden></div>'
+      + '<div class="sidebar-subtitle" id="duoPartnerTitle" hidden>Joué avec <span class="profile-section-note">derniers matchs</span></div>'
+      + '<div class="duo-partner-list" id="duoPartnerList"></div>';
+
+    var card = el('div', 'profile-card', '');
+    card.style.setProperty('--tc', 'var(--gold)');
+    card.innerHTML =
+      '<span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>'
+      + '<div class="profile-sidebar">' + sidebarHtml + '</div>'
+      + '<div class="profile-main">'
+      + '<div class="profile-main-tabs">'
+      + '<button type="button" class="profile-main-tab" id="tabHistory" data-active="true">Historique</button>'
+      + '<button type="button" class="profile-main-tab" id="tabChampions">Champions</button>'
+      + '<button type="button" class="profile-main-tab" id="tabStats">Statistiques</button>'
+      + '</div>'
+      + '<div id="queueFilterBar" class="queue-filter-bar">'
+      + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">Classé en solo/duo</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">Classé flexible</button>'
+      + '</div>'
+      + '<div class="match-history-list" id="matchHistoryList"></div>'
+      + '<div id="championsTableWrap" hidden></div>'
+      + '<div id="statsTabWrap" hidden></div>'
+      + '</div>';
+
     var header = el('div', 'player-header',
       '<div class="player-avatar">' + avatarHtml + '</div>'
       + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span></div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; Niveau ' + data.summonerLevel : '') + '</div></div>');
 
-    var rankRow = el('div', 'league-rank-row', rankCard('Solo/Duo', data.ranks.solo) + rankCard('Flex', data.ranks.flex));
-
-    var queueTabs = el('div', 'league-queue-tabs',
-      '<button type="button" class="league-queue-tab" data-queue="solo" data-active="true">Classé en solo/duo</button>'
-      + '<button type="button" class="league-queue-tab" data-queue="flex">Classé flexible</button>');
-
-    var panel = el('div', '');
-    panel.id = 'leagueQueuePanel';
-
     results.innerHTML = '';
     results.appendChild(header);
     bindIconFallback(header);
-    results.appendChild(rankRow);
-    results.appendChild(queueTabs);
-    results.appendChild(panel);
+    results.appendChild(card);
+    bindIconFallback(card);
 
-    queueTabs.querySelectorAll('.league-queue-tab').forEach(function (btn) {
+    document.getElementById('tabHistory').addEventListener('click', function () { setProfileTab('history'); });
+    document.getElementById('tabChampions').addEventListener('click', function () { setProfileTab('champions'); });
+    document.getElementById('tabStats').addEventListener('click', function () { setProfileTab('stats'); });
+    document.getElementById('seeAllChampsBtn').addEventListener('click', function () { setProfileTab('champions'); });
+    document.querySelectorAll('.queue-filter-btn').forEach(function (btn) {
       btn.addEventListener('click', function () { renderQueue(btn.dataset.queue); });
     });
 
-    renderQueue('solo');
+    renderSidebarQueueBits(data.queues[currentQueue]);
+    renderActiveTab();
     window.scrollTo(0, 0);
   }
 
