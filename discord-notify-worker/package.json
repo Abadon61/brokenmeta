@@ -1,0 +1,15 @@
+{
+  "name": "discord-notify-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Lets any BrokenMeta.gg visitor paste their own Discord webhook URL to get automatic digest updates (new patches, biggest riser/faller) -- one subscriber list, fanned out by /broadcast whenever the site owner publishes a new digest. Never stores anything but the webhook URLs themselves.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260905.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}

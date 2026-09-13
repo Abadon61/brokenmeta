@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'discord_page_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'discord_intro') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'discord_page_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'discord_intro') }}</p>
+
+<h2 class="fiche-section-title">{{ t(lang, 'discord_how_title') }}</h2>
+<ol class="discord-how-list">
+  <li>{{ t(lang, 'discord_how_step1') }}</li>
+  <li>{{ t(lang, 'discord_how_step2') }}</li>
+  <li>{{ t(lang, 'discord_how_step3') }}</li>
+</ol>
+
+<form id="discordForm" class="discord-form">
+  <input type="url" id="discordWebhookUrl" class="search-input" placeholder="{{ t(lang, 'discord_form_placeholder') }}" autocomplete="off" required>
+  <div class="discord-form-actions">
+    <button type="submit" data-action="subscribe" class="metascope-search-button">{{ t(lang, 'discord_subscribe_button') }}</button>
+    <button type="submit" data-action="unsubscribe" class="discord-unsubscribe-button">{{ t(lang, 'discord_unsubscribe_button') }}</button>
+  </div>
+</form>
+<div id="discordStatus" class="metascope-status" hidden></div>
+<p class="discord-privacy-note">{{ t(lang, 'discord_privacy_note') }}</p>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_DISCORD_API = "https://discord-notify-worker.brokenmeta.workers.dev";
+window.BM_I18N_DISCORD = {
+  errorInvalid: {{ t(lang, 'discord_error_invalid')|tojson }},
+  errorGeneric: {{ t(lang, 'discord_error_generic')|tojson }},
+  successSubscribed: {{ t(lang, 'discord_success_subscribed')|tojson }},
+  successUnsubscribed: {{ t(lang, 'discord_success_unsubscribed')|tojson }},
+};
+</script>
+<script src="{{ root }}assets/js/discord-notify.js?v={{ css_v }}" defer></script>
+{% endblock %}

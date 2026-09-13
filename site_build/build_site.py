@@ -745,6 +745,55 @@ FAVORITES_JS = """
 })();
 """
 
+# /discord/ page: subscribe/unsubscribe a visitor's own Discord webhook
+# with discord-notify-worker (see that directory) -- both actions hit the
+# same endpoint shape, just /subscribe vs /unsubscribe, picked by which
+# button was clicked (the form has two submit buttons, not one).
+DISCORD_NOTIFY_JS = """
+(function () {
+  var API = window.BM_DISCORD_API;
+  var I = window.BM_I18N_DISCORD || {};
+  var form = document.getElementById('discordForm');
+  var input = document.getElementById('discordWebhookUrl');
+  var statusEl = document.getElementById('discordStatus');
+  if (!form || !API) return;
+
+  function setStatus(text, isError) {
+    if (!text) { statusEl.hidden = true; statusEl.textContent = ''; return; }
+    statusEl.hidden = false;
+    statusEl.textContent = text;
+    statusEl.dataset.error = isError ? 'true' : 'false';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var action = (e.submitter && e.submitter.dataset.action) || 'subscribe';
+    var webhookUrl = input.value.trim();
+    var buttons = form.querySelectorAll('button');
+    buttons.forEach(function (b) { b.disabled = true; });
+    setStatus('', false);
+
+    fetch(API + '/' + action, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ webhookUrl: webhookUrl }),
+    })
+      .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
+      .then(function (r) {
+        if (r.ok) {
+          setStatus(action === 'subscribe' ? I.successSubscribed : I.successUnsubscribed, false);
+          if (window.gtag) gtag('event', 'discord_' + action);
+          form.reset();
+        } else {
+          setStatus((r.data && r.data.error) || I.errorGeneric, true);
+        }
+      })
+      .catch(function () { setStatus(I.errorGeneric, true); })
+      .finally(function () { buttons.forEach(function (b) { b.disabled = false; }); });
+  });
+})();
+"""
+
 # Progressive enhancement, ported from the Artifact's wireChampionIcons():
 # any ".champ-link-icon" (unit portraits, item-combo headers, board-variant
 # icons, ...) shows a real stat tooltip on hover and jumps to that
@@ -1907,6 +1956,21 @@ I18N: dict[str, dict] = {
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyse ton profil",
         "nav_builder": "Team Builder",
+        "nav_discord": "Alertes Discord",
+        "discord_page_title": "Recevoir les mises à jour sur Discord",
+        "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
+        "discord_how_title": "Comment créer un webhook Discord",
+        "discord_how_step1": "Dans Discord, va dans les paramètres du salon où tu veux recevoir les mises à jour.",
+        "discord_how_step2": "Intégrations → Webhooks → Nouveau webhook.",
+        "discord_how_step3": "Clique sur « Copier l'URL du webhook », puis colle-la ci-dessous.",
+        "discord_form_placeholder": "https://discord.com/api/webhooks/…",
+        "discord_subscribe_button": "S'abonner",
+        "discord_unsubscribe_button": "Se désabonner",
+        "discord_success_subscribed": "C'est fait ! Un message de bienvenue vient d'arriver sur ton salon Discord.",
+        "discord_success_unsubscribed": "Désabonné. Tu ne recevras plus les digests sur ce webhook.",
+        "discord_error_invalid": "Cette URL ne ressemble pas à un webhook Discord valide.",
+        "discord_error_generic": "Une erreur est survenue -- vérifie l'URL et réessaie.",
+        "discord_privacy_note": "On stocke uniquement l'URL de ton webhook, rien d'autre (pas d'IP, pas de cookie, pas de compte). Tu peux te désabonner à tout moment en recollant la même URL.",
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Compose librement ta comp TFT Set 18 sur un vrai plateau hexagonal : place tes champions, suis tes synergies de familles en direct, et partage le résultat par lien.",
         "builder_h1": "Team Builder",
@@ -2143,6 +2207,21 @@ I18N: dict[str, dict] = {
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyze your profile",
         "nav_builder": "Team Builder",
+        "nav_discord": "Discord Alerts",
+        "discord_page_title": "Get updates on Discord",
+        "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
+        "discord_how_title": "How to create a Discord webhook",
+        "discord_how_step1": "In Discord, go to the settings of the channel where you want updates.",
+        "discord_how_step2": "Integrations → Webhooks → New Webhook.",
+        "discord_how_step3": "Click \"Copy Webhook URL\", then paste it below.",
+        "discord_form_placeholder": "https://discord.com/api/webhooks/…",
+        "discord_subscribe_button": "Subscribe",
+        "discord_unsubscribe_button": "Unsubscribe",
+        "discord_success_subscribed": "Done! A welcome message just landed in your Discord channel.",
+        "discord_success_unsubscribed": "Unsubscribed. You won't get digests on this webhook anymore.",
+        "discord_error_invalid": "That doesn't look like a valid Discord webhook URL.",
+        "discord_error_generic": "Something went wrong -- check the URL and try again.",
+        "discord_privacy_note": "We only store your webhook URL, nothing else (no IP, no cookie, no account). Unsubscribe anytime by pasting the same URL again.",
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Freely build your TFT Set 18 comp on a real hex board: place champions, track trait synergies live, and share the result with a link.",
         "builder_h1": "Team Builder",
@@ -3800,6 +3879,7 @@ def main() -> None:
         render("cgu.html", "/cgu/", lang, active_nav=None)
         render("methodologie.html", "/methodologie/", lang, active_nav=None)
         render("favoris.html", "/favoris/", lang, active_nav="favorites")
+        render("discord_notify.html", "/discord/", lang, active_nav=None)
 
         for c in comp_vms:
             comp_url = canonical_for(f"/compo/{c['slug']}/", lang)
@@ -4089,6 +4169,22 @@ def main() -> None:
   .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
   .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
   .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }
+
+  /* /discord/ page -- reuses .metascope-search-form's layout/status
+     conventions above; only its own two-button row and privacy footnote
+     need new rules. */
+  .discord-how-list { color: var(--text-dim); font-size: 13.5px; line-height: 1.7; padding-left: 22px; margin-bottom: 20px; }
+  .discord-form { display: flex; flex-direction: column; gap: 12px; margin-bottom: 14px; max-width: 520px; }
+  .discord-form .search-input { padding: 10px 14px; width: 100%; box-sizing: border-box; }
+  .discord-form-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  /* Not inside a row with the tall .search-input this time (see
+     .metascope-search-form, which relies on flex stretch against the
+     input for its own button's height) -- both buttons here need an
+     explicit height instead so they match each other. */
+  .discord-form-actions button { height: 36px; }
+  .discord-unsubscribe-button { background: none; border: 1px solid var(--border-bright); color: var(--text-dim); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: color .12s ease, border-color .12s ease; }
+  .discord-unsubscribe-button:hover { color: var(--warn); border-color: var(--warn); }
+  .discord-privacy-note { color: var(--text-faint); font-size: 12px; max-width: 520px; }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
@@ -4169,6 +4265,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "counter-finder.js").write_text(COUNTER_FINDER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "site-search.js").write_text(SITE_SEARCH_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "favorites.js").write_text(FAVORITES_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "discord-notify.js").write_text(DISCORD_NOTIFY_JS, encoding="utf-8")
     (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "data" / "champions.json").write_text(
         json.dumps(champion_tooltip_data, ensure_ascii=False), encoding="utf-8")
