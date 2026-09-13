@@ -2033,6 +2033,8 @@ I18N: dict[str, dict] = {
         "favorites_title": "Mes favoris — Teamfight Tactics Set 18",
         "favorites_intro": "Les comps que tu as sauvegardées, gardées uniquement dans ce navigateur (aucun compte, aucun serveur).",
         "favorites_empty": "Aucune comp sauvegardée pour l'instant. Clique sur l'étoile ★ d'une comp pour l'ajouter ici.",
+        "favorites_promo_hint": "Ajoute des comps à tes favoris avec l'étoile",
+        "favorites_promo_button": "Retrouver mes favoris",
         "full_composition_title": "Composition complète",
         "item_combos_title": "Combinaisons d'objets — persos principaux (top 10)",
         "combo_col_header": "Combinaison", "avg_placement_col": "Placement moyen",
@@ -2280,6 +2282,8 @@ I18N: dict[str, dict] = {
         "favorites_title": "My Favorites — Teamfight Tactics Set 18",
         "favorites_intro": "The comps you've saved, kept only in this browser (no account, no server).",
         "favorites_empty": "No saved comps yet. Click a comp's ★ star to add it here.",
+        "favorites_promo_hint": "Add comps to your favorites with the star",
+        "favorites_promo_button": "View my favorites",
         "full_composition_title": "Full composition",
         "item_combos_title": "Item combos — main carries (top 10)",
         "combo_col_header": "Combo", "avg_placement_col": "Avg placement",
@@ -4186,6 +4190,18 @@ def main() -> None:
   .discord-unsubscribe-button { background: none; border: 1px solid var(--border-bright); color: var(--text-dim); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: color .12s ease, border-color .12s ease; }
   .discord-unsubscribe-button:hover { color: var(--warn); border-color: var(--warn); }
   .discord-privacy-note { color: var(--text-faint); font-size: 12px; max-width: 520px; }
+
+  /* Homepage/region/rank/tier list pages (overview.html) -- points visitors
+     at the per-row ★ favorite buttons (easy to miss since they only show
+     up once you're already looking at a comp row) and at /favoris/ itself. */
+  .page-header-with-promo { display: flex; justify-content: space-between; align-items: flex-start; gap: 20px; flex-wrap: wrap; }
+  .page-header-with-promo > div:first-child { flex: 1; min-width: 260px; }
+  .favorites-promo { flex: none; display: flex; flex-direction: column; gap: 10px; background: var(--row); border: 1px solid var(--border-bright); padding: 14px 18px; min-width: 220px; }
+  .favorites-promo-hint { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-dim); }
+  .favorites-promo-hint svg { width: 14px; height: 14px; fill: var(--gold); flex: none; }
+  .favorites-promo-button { align-self: flex-start; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; transition: background .12s ease; }
+  .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
+  @media (max-width: 720px) { .favorites-promo { width: 100%; } }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 

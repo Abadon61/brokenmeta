@@ -3,8 +3,16 @@
 {% block title %}{{ page_title }}{% endblock %}
 {% block description %}{{ page_description }}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ h1 }}</h1>
-<p class="page-intro">{{ intro }}</p>
+<div class="page-header-with-promo">
+  <div>
+    <h1 class="page-h1">{{ h1 }}</h1>
+    <p class="page-intro">{{ intro }}</p>
+  </div>
+  <div class="favorites-promo">
+    <div class="favorites-promo-hint">{{ star_svg|safe }} {{ t(lang, 'favorites_promo_hint') }}</div>
+    <a class="favorites-promo-button" href="{{ root }}favoris/">{{ t(lang, 'favorites_promo_button') }}</a>
+  </div>
+</div>
 
 {% if region_chips or rank_chips %}{{ m.scope_filter_bar(region_chips, rank_chips, lang) }}{% endif %}
 {{ m.search_bar(lang) }}
