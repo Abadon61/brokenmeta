@@ -1,9 +1,10 @@
 """One-off generator for the sitewide social-share image (og:image /
 twitter:image) -- see base.html. Not part of build_site.py's per-build
 pipeline: the output is a static PNG committed to logo/og-image.png, same
-as the other hand-placed brand assets there (logo_epee_sans_fond.svg,
-logo google.svg). Re-run this manually only when the brand or the headline
-numbers change enough to be worth a refresh.
+as the other hand-placed brand assets there (couponicone clair/sombre
+carre.svg, favicon-auto.svg). Re-run this manually only when the brand or
+the headline numbers change enough to be worth a refresh -- this file
+still bakes in the OLD sword mark and hasn't been regenerated yet.
 
 Run: py site_build/generate_og_image.py
 """

@@ -5140,26 +5140,30 @@ def main() -> None:
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
 
-    # Real brand assets (PROJECT/logo/) instead of the old emoji placeholder:
-    # - logo-sword.svg (white, transparent) sits in the header next to the
-    #   wordmark, on the site's dark top bar.
-    # - favicon.svg ("logo google.svg", the circular navy-badge version) is
-    #   the browser tab icon -- SVG favicons are supported by every modern
-    #   browser. Tried logo_color.svg (dark navy sword, transparent) first,
-    #   but a dark mark on a transparent background all but disappears on a
-    #   dark-themed browser tab bar; the filled circle badge stays visible
-    #   on any tab color.
-    # - favicon-google.png is there specifically for Google Search results:
-    #   Google does not support SVG favicons, so without a raster fallback
-    #   the SERP would show a generic globe icon. Deliberately its OWN
-    #   source file (favicon_google_only.png), not logo_google_512.png --
-    #   the user's own request was "make it show up clearly on Google",
-    #   not "replace the tab icon / PWA icon everywhere", so this stays
-    #   scoped to only the one place that actually needed it.
+    # Real brand assets (PROJECT/logo/) -- the "coupon icon" mark
+    # (logo/couponicone clair|sombre carre.svg) replaced the old sword as
+    # THE brand logo everywhere, each variant picked for the background it
+    # actually sits on:
+    # - logo-mark.svg: the CLAIR (white) variant, in the header next to the
+    #   wordmark on the site's own dark top bar -- the site is always dark,
+    #   never adapts to a light host theme, so no need for a switching copy
+    #   here.
+    # - favicon.svg: both variants merged into one file (favicon-auto.svg)
+    #   with prefers-color-scheme picking sombre (navy) by default and
+    #   clair (white) when the browser/OS is in dark mode -- modern
+    #   browsers apply that media query inside an SVG favicon, so the tab
+    #   icon adapts on its own in both directions from one file.
+    # - favicon-google.png: Google Search does NOT support SVG favicons and
+    #   does not re-render per visitor's own theme -- it crawls and caches
+    #   one static image. Sourced from the SOMBRE (navy) variant since a
+    #   SERP is normally a light background; rasterized once via
+    #   rasterize_favicon.py (Cairo/rsvg isn't installed locally, so that
+    #   script renders through a headless canvas instead -- see its
+    #   comment) rather than at every build.
     LOGO_DIR = PROJECT / "logo"
     (DIST / "assets" / "img").mkdir(parents=True, exist_ok=True)
-    shutil.copy(LOGO_DIR / "logo_epee_sans_fond.svg", DIST / "assets" / "img" / "logo-sword.svg")
-    shutil.copy(LOGO_DIR / "logo google.svg", DIST / "favicon.svg")
+    shutil.copy(LOGO_DIR / "couponicone clair carre.svg", DIST / "assets" / "img" / "logo-mark.svg")
+    shutil.copy(LOGO_DIR / "favicon-auto.svg", DIST / "favicon.svg")
     shutil.copy(LOGO_DIR / "favicon_google_only.png", DIST / "favicon-google.png")
 
     # PWA: installable "Add to Home Screen" support. icon-192/512.png reuse
