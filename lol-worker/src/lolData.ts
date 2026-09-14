@@ -76,10 +76,9 @@ export function treeIconUrl(styleId: number): string | null {
   return file ? `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/${file}.png` : null;
 }
 
-export function itemIconUrl(itemId: number): string | null {
-  if (!itemId) return null;
-  return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/items/icons2d/${itemId}.png`;
-}
+// Item icons moved to itemData.ts -- a numeric id alone 404s (CommunityDragon
+// needs the item's own filename, e.g. "3071_fighter_t3_blackcleaver.png"),
+// so building the URL needs a real id -> iconPath lookup, not a guess here.
 
 // Emblème de rang réel (verified pattern, already used by the TFT side of
 // the site) -- clé = le tier tel que renvoyé par League-V4, en minuscules.

@@ -20,7 +20,8 @@
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
 import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX } from "./riot";
-import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, itemIconUrl, rankEmblemUrl } from "./lolData";
+import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, rankEmblemUrl } from "./lolData";
+import { getItemIconMap } from "./itemData";
 
 export interface Env {
   RIOT_API_KEY_LOL: string;
@@ -84,9 +85,14 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   if (!account) return json({ error: "Joueur introuvable avec ce Riot ID sur cette région." }, 404, origin);
   const puuid = account.puuid;
 
-  const [summoner, leagueEntries] = await Promise.all([
+  // Chargé une fois, en parallèle du reste -- ne dépend ni du compte ni
+  // de la région, et sert à corriger l'URL de CHAQUE objet de CHAQUE
+  // partie plus bas (voir itemData.ts pour pourquoi un id seul ne suffit
+  // pas à construire l'URL d'icône).
+  const [summoner, leagueEntries, itemIconMap] = await Promise.all([
     client.getSummonerByPuuid(platform, puuid),
     client.getLeagueEntriesByPuuid(platform, puuid),
+    getItemIconMap(),
   ]);
   const soloEntry = leagueEntries.find((e) => e.queueType === "RANKED_SOLO_5x5") || null;
   const flexEntry = leagueEntries.find((e) => e.queueType === "RANKED_FLEX_SR") || null;
@@ -95,7 +101,7 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   // triés par queueId -- moins d'appels que de demander les ids séparément
   // par queue (l'endpoint by-puuid ne filtre pas par queue sur Match-V5).
   const matchIds = await client.getMatchIdsByPuuid(regional, puuid, MATCHES_PER_QUEUE * 2);
-  const matches = await fetchMatchesSequential(client, regional, matchIds, puuid);
+  const matches = await fetchMatchesSequential(client, regional, matchIds, puuid, itemIconMap);
 
   const soloMatches = matches.filter((m) => m.queueId === QUEUE_SOLO);
   const flexMatches = matches.filter((m) => m.queueId === QUEUE_FLEX);
@@ -124,18 +130,18 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
 // for a low-traffic beta page, not a production-scale one.
 type ExtractedMatch = NonNullable<ReturnType<typeof extractMatch>>;
 
-async function fetchMatchesSequential(client: RiotClient, regional: string, matchIds: string[], puuid: string): Promise<ExtractedMatch[]> {
+async function fetchMatchesSequential(client: RiotClient, regional: string, matchIds: string[], puuid: string, itemIconMap: Record<number, string>): Promise<ExtractedMatch[]> {
   const out: ExtractedMatch[] = [];
   for (const id of matchIds) {
     const match = await client.getMatch(regional, id);
     if (!match) continue;
-    const extracted = extractMatch(match, puuid);
+    const extracted = extractMatch(match, puuid, itemIconMap);
     if (extracted) out.push(extracted);
   }
   return out;
 }
 
-function extractMatch(match: any, puuid: string) {
+function extractMatch(match: any, puuid: string, itemIconMap: Record<number, string>) {
   const info = match.info;
   if (!info) return null;
   const participants: any[] = info.participants || [];
@@ -163,7 +169,7 @@ function extractMatch(match: any, puuid: string) {
     champion: p.championName, role: LANE_TO_ROLE[p.individualPosition] || "mid",
     kills: p.kills, deaths: p.deaths, assists: p.assists,
     cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0), gold: p.goldEarned || 0,
-    items: [p.item0, p.item1, p.item2, p.item3, p.item4, p.item5, p.item6].map((id: number) => ({ id, iconUrl: itemIconUrl(id) })),
+    items: [p.item0, p.item1, p.item2, p.item3, p.item4, p.item5, p.item6].map((id: number) => ({ id, iconUrl: itemIconMap[id] || null })),
   }));
 
   const startedAt = info.gameStartTimestamp || match.info.gameCreation;
@@ -180,7 +186,7 @@ function extractMatch(match: any, puuid: string) {
     goldPerMin: Math.round((me.goldEarned || 0) / durationMin),
     dmgPerMin: Math.round((me.totalDamageDealtToChampions || 0) / durationMin),
     killParticipation: Math.round(((me.kills + me.assists) / teamKills) * 100),
-    items: [me.item0, me.item1, me.item2, me.item3, me.item4, me.item5, me.item6].map((id) => ({ id, iconUrl: itemIconUrl(id) })),
+    items: [me.item0, me.item1, me.item2, me.item3, me.item4, me.item5, me.item6].map((id) => ({ id, iconUrl: itemIconMap[id] || null })),
     spells: [me.summoner1Id, me.summoner2Id].map((id) => ({ id, name: SUMMONER_SPELLS[id]?.name || "?", iconUrl: spellIconUrl(id) })),
     runes: {
       keystoneId, keystoneName: keystoneId ? KEYSTONES[keystoneId]?.name || "?" : null, keystoneIconUrl: keystoneId ? keystoneIconUrl(keystoneId) : null,
