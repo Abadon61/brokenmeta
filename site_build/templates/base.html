@@ -59,12 +59,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="topbar">
   <a class="wordmark" href="{{ root }}" style="text-decoration:none"><img class="wordmark-logo" src="{{ root }}assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="game-toggle" role="group" aria-label="{{ t(lang, 'nav_games') }}">
-    <a class="game-toggle-btn" href="{{ root }}" title="Teamfight Tactics" aria-label="Teamfight Tactics"{% if active_nav != 'league' %} data-active="true"{% endif %}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8.66 5v10L12 22l-8.66-5V7z"/></svg>
-    </a>
-    <a class="game-toggle-btn" href="{{ root }}league/" title="League of Legends" aria-label="League of Legends"{% if active_nav == 'league' %} data-active="true"{% endif %}>
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 3v6c0 5-3.5 9-8 11-4.5-2-8-6-8-11V5z"/></svg>
-    </a>
+    <a class="game-toggle-btn" href="{{ root }}"{% if active_nav != 'league' %} data-active="true"{% endif %}>Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="{{ root }}league/"{% if active_nav == 'league' %} data-active="true"{% endif %}>League of Legends</a>
   </div>
   <div class="topbar-right">
     <a class="favorites-topbar-link" href="{{ root }}favoris/" aria-label="{{ t(lang, 'nav_favorites') }}" title="{{ t(lang, 'nav_favorites') }}"{% if active_nav == 'favorites' %} data-active="true"{% endif %}>

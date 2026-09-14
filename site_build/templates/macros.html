@@ -14,11 +14,15 @@
 {% macro nav_links(lang, root, active_nav, mobile=False) %}
 {% if mobile %}
 {# Switch de jeu -- en haut du panneau mobile, pas mélangé aux groupes
-   d'outils TFT ci-dessous (voir le vrai game-toggle du topbar en
-   desktop, dans base.html, pour la même logique). #}
+   d'outils ci-dessous (voir le vrai game-toggle du topbar en desktop,
+   dans base.html, pour la même logique). #}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_games') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav != 'league' %}data-active="true"{% endif %}>Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
+{% if active_nav == 'league' %}
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
+<div class="nav-link mobile-nav-sublink nav-link-soon">{{ t(lang, 'league_tools_soon') }}</div>
+{% else %}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
@@ -38,6 +42,14 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/familles/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_families') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/augments/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_augments') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
+{% endif %}
+{% elif active_nav == 'league' %}
+{# Le menu rose met en avant les outils du JEU ACTIF -- League n'a pour
+   l'instant que la page de profil (déjà la page courante), donc rien à
+   proposer en plus tant que d'autres pages LoL n'existent pas. Un badge
+   honnête plutôt que des liens vers des pages qui n'existent pas encore
+   (même logique que le badge "Overlay TFT -- bientôt" de nav_cta). #}
+<span class="nav-link nav-link-soon">{{ t(lang, 'league_tools_soon') }}</span>
 {% else %}
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>
@@ -74,8 +86,11 @@
 {% endmacro %}
 
 {# Same reasoning as nav_links() above: the CTA button + the "soon" badge,
-   shared between the desktop navbar-right and the mobile panel. #}
+   shared between the desktop navbar-right and the mobile panel -- also
+   game-specific, since "Analyse ton profil" already points at MetaScope
+   (TFT) and "Overlay TFT" obviously doesn't apply to League. #}
 {% macro nav_cta(lang, root, active_nav) %}
+{% if active_nav != 'league' %}
 <a class="nav-cta-button" href="{{ root }}metascope/" {% if active_nav == 'metascope' %}data-active="true"{% endif %}>
   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   {{ t(lang, 'nav_metascope') }}
@@ -85,6 +100,7 @@
   <span class="cta-label">Overlay TFT</span>
   <span class="cta-soon">{{ t(lang, 'overlay_cta_soon') }}</span>
 </div>
+{% endif %}
 {% endmacro %}
 
 {% macro pill(label, value, level=None) %}<div class="pill"><div class="p-label">{{ label }}</div><div class="p-value nums"{% if level %} data-level="{{ level }}"{% endif %}>{{ value }}</div></div>{% endmacro %}
