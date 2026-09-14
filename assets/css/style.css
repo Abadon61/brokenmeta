@@ -153,19 +153,24 @@
      dans le menu rose, qui est lui-même déjà scopé "outils du jeu actif")
      pour bien marquer que TFT et LoL sont deux sections distinctes, pas
      l'une un sous-outil de l'autre. Même famille visuelle que
-     .lang-toggle juste au-dessus, mais avec des icônes plutôt que du
-     texte. */
+     .lang-toggle juste au-dessus -- en toutes lettres plutôt qu'en
+     icônes, deux icônes abstraites ne se comprenaient pas d'elles-mêmes. */
   .game-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .game-toggle-btn {
     background: var(--row); border: none; color: var(--text-faint);
-    padding: 6px 10px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
+    letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap;
+    padding: 6px 12px; display: flex; align-items: center; justify-content: center;
     transition: color .12s ease, background .12s ease;
   }
-  .game-toggle-btn svg { width: 16px; height: 16px; }
   .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
   .game-toggle-btn[data-active="true"] { background: var(--magenta); color: #fff; }
   .game-toggle-btn:hover:not([data-active="true"]) { color: var(--cream); }
-  @media (max-width: 560px) { .game-toggle { display: none; } }
+  /* Deux libellés complets ("Teamfight Tactics" + "League of Legends")
+     prennent trop de place à partir d'une largeur moyenne -- le menu
+     hamburger (section "Jeux" en haut du panneau mobile) prend le relais
+     avec les mêmes libellés en dessous de ce seuil. */
+  @media (max-width: 900px) { .game-toggle { display: none; } }
 
   .navbar {
     padding: 10px 24px;
@@ -194,6 +199,11 @@
     color: #fff; text-decoration: none;
   }
   .nav-link[data-active="true"], .nav-link:hover { color: var(--cyan); }
+  /* Menu rose de League tant qu'il n'y a que la page de profil -- un
+     badge honnête ("bientôt"), pas un lien cliquable vers du vide.
+     Même famille visuelle que .overlay-cta .cta-soon. */
+  .nav-link-soon { color: var(--text-faint); cursor: default; opacity: 0.85; }
+  .nav-link-soon:hover { color: var(--text-faint); }
 
   /* A plain <details>/<summary> -- no JS needed, works the same via click
      on touch and desktop (a pure CSS :hover-only menu doesn't open on
