@@ -37,8 +37,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=cbc38f86a5">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=cbc38f86a5">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=7cca075270">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=7cca075270">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=cbc38f86a5">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=7cca075270">
 
 </head>
 <body>
@@ -247,8 +247,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 
 <h2 class="fiche-section-title">Role distribution</h2>
-<div class="league-dev-badge"><span class="dot"></span>In development</div>
-<div class="matchup-empty">Coming soon: real pick rate and win rate by role (Top/Jungle/Mid/ADC/Support) -- this needs a large-scale League match collection, on the same principle as this site&#39;s TFT comp tracker, not yet built for League of Legends. No invented numbers in the meantime.</div>
+
+<div class="role-stats-list">
+  
+  <div class="role-stat-row">
+    <div class="role-stat-role">ADC</div>
+    <div class="role-stat-bar-track"><div class="role-stat-bar-fill" style="width:3%"></div></div>
+    <div class="role-stat-games mono">3.5% pick</div>
+    <div class="role-stat-wr good">57.1% WR</div>
+  </div>
+  
+</div>
+<p class="profile-section-note" style="display:block;margin-top:10px">Real pick rate (among Gold-to-Challenger ranked games collected on EUW/NA/BR/KR) and real win rate, from a still-modest sample -- not yet at the scale of this site&#39;s TFT comp tracker. A role without enough observed games doesn&#39;t show up here.</p>
+
 
 </div>
 <footer>
@@ -274,10 +285,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=cbc38f86a5" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=cbc38f86a5" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=cbc38f86a5" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=cbc38f86a5" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=7cca075270" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=7cca075270" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=7cca075270" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=7cca075270" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
