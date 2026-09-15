@@ -37,8 +37,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=954a97747b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=954a97747b">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=30c867544c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=30c867544c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -48,7 +48,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=954a97747b">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=30c867544c">
 
 </head>
 <body>
@@ -107,6 +107,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/objets/" data-active="true">Item</a>
 <a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/champions/" >Champion</a>
 <a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../../league/patch-notes/" >Patch Notes</a>
 
 
 </nav>
@@ -132,6 +133,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../../league/glossaire/runes/">Runes</a>
   </div>
 </details>
+<a class="nav-link" href="../../../../league/patch-notes/" >Patch Notes</a>
 
 
     </nav>
@@ -144,1279 +146,1286 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h1 class="page-h1">Items — League of Legends Glossary</h1>
 <p class="page-intro">Hover an icon for a quick preview. Click an item to see its full sheet (stats, cost, components).</p>
-<div class="glossary-icon-grid">
+
+<div class="search-row">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+  <input type="search" id="lolGlossarySearch" class="search-input" placeholder="Search an item…" autocomplete="off">
+</div>
+
+<div class="glossary-icon-grid" id="lolGlossaryGrid">
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3031/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3031/" data-search="infinity edge">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="Infinity Edge" loading="lazy" title="Massively enhances critical strikes">
     <span>Infinity Edge</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3089/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3089/" data-search="rabadon&#39;s deathcap">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="Rabadon&#39;s Deathcap" loading="lazy" title="Massively increases Ability Power">
     <span>Rabadon&#39;s Deathcap</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3072/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3072/" data-search="bloodthirster">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3072.png" alt="Bloodthirster" loading="lazy" title="Grants Attack Damage, Life Steal and Life Steal now overheals">
     <span>Bloodthirster</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3078/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3078/" data-search="trinity force">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="Trinity Force" loading="lazy" title="Tons of Damage">
     <span>Trinity Force</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6333/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6333/" data-search="death&#39;s dance">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="Death&#39;s Dance" loading="lazy" title="">
     <span>Death&#39;s Dance</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3036/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3036/" data-search="lord dominik&#39;s regards">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="Lord Dominik&#39;s Regards" loading="lazy" title="Overcomes enemies with high health and armor">
     <span>Lord Dominik&#39;s Regards</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2501/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2501/" data-search="overlord&#39;s bloodmail">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2501.png" alt="Overlord&#39;s Bloodmail" loading="lazy" title="">
     <span>Overlord&#39;s Bloodmail</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3074/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3074/" data-search="ravenous hydra">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3074.png" alt="Ravenous Hydra" loading="lazy" title="Melee attacks hit nearby enemies, dealing damage and restoring Health">
     <span>Ravenous Hydra</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6631/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6631/" data-search="stridebreaker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6631.png" alt="Stridebreaker" loading="lazy" title="">
     <span>Stridebreaker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3748/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3748/" data-search="titanic hydra">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3748.png" alt="Titanic Hydra" loading="lazy" title="Deals area of effect damage based on owner&#39;s health">
     <span>Titanic Hydra</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3157/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3157/" data-search="zhonya&#39;s hourglass">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="Zhonya&#39;s Hourglass" loading="lazy" title="Activate to become invincible but unable to take actions">
     <span>Zhonya&#39;s Hourglass</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3153/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3153/" data-search="blade of the ruined king">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="Blade of The Ruined King" loading="lazy" title="Deals damage based on target&#39;s Health, can steal Move Speed">
     <span>Blade of The Ruined King</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3026/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3026/" data-search="guardian angel">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3026.png" alt="Guardian Angel" loading="lazy" title="Periodically revives champion upon death">
     <span>Guardian Angel</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6665/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6665/" data-search="jak&#39;sho, the protean">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6665.png" alt="Jak&#39;Sho, The Protean" loading="lazy" title="">
     <span>Jak&#39;Sho, The Protean</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3139/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3139/" data-search="mercurial scimitar">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3139.png" alt="Mercurial Scimitar" loading="lazy" title="Activate to remove all crowd control debuffs and grant massive Move Speed">
     <span>Mercurial Scimitar</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4645/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4645/" data-search="shadowflame">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="Shadowflame" loading="lazy" title="">
     <span>Shadowflame</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3053/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3053/" data-search="sterak&#39;s gage">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3053.png" alt="Sterak&#39;s Gage" loading="lazy" title="Shields against large bursts of damage">
     <span>Sterak&#39;s Gage</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3095/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3095/" data-search="stormrazor">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="Stormrazor" loading="lazy" title="Tremendously empower other Energized effects.">
     <span>Stormrazor</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2510/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2510/" data-search="dusk and dawn">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2510.png" alt="Dusk and Dawn" loading="lazy" title="">
     <span>Dusk and Dawn</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2517/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2517/" data-search="endless hunger">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="Endless Hunger" loading="lazy" title="">
     <span>Endless Hunger</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3156/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3156/" data-search="maw of malmortius">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="Maw of Malmortius" loading="lazy" title="Grants bonus Attack Damage when Health is low">
     <span>Maw of Malmortius</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4633/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4633/" data-search="riftmaker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4633.png" alt="Riftmaker" loading="lazy" title="">
     <span>Riftmaker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3161/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3161/" data-search="spear of shojin">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="Spear of Shojin" loading="lazy" title="Reduce damage taken from champions by a flat amount. Attack while near multiple enemy champions to increase this amount for a short time.">
     <span>Spear of Shojin</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6610/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6610/" data-search="sundered sky">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="Sundered Sky" loading="lazy" title="">
     <span>Sundered Sky</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3083/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3083/" data-search="warmog&#39;s armor">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3083.png" alt="Warmog&#39;s Armor" loading="lazy" title="Grants massive Health and Health Regen">
     <span>Warmog&#39;s Armor</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3508/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3508/" data-search="essence reaver">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3508.png" alt="Essence Reaver" loading="lazy" title="">
     <span>Essence Reaver</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3102/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3102/" data-search="banshee&#39;s veil">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3102.png" alt="Banshee&#39;s Veil" loading="lazy" title="Periodically blocks enemy abilities">
     <span>Banshee&#39;s Veil</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2520/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2520/" data-search="bastionbreaker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2520.png" alt="Bastionbreaker" loading="lazy" title="">
     <span>Bastionbreaker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3071/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3071/" data-search="black cleaver">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="Black Cleaver" loading="lazy" title="Dealing physical damage to enemy champions reduces their Armor">
     <span>Black Cleaver</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6609/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6609/" data-search="chempunk chainsword">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6609.png" alt="Chempunk Chainsword" loading="lazy" title="">
     <span>Chempunk Chainsword</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4629/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4629/" data-search="cosmic drive">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4629.png" alt="Cosmic Drive" loading="lazy" title="Massive amounts of Cooldown Reduction">
     <span>Cosmic Drive</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3137/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3137/" data-search="cryptbloom">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3137.png" alt="Cryptbloom" loading="lazy" title="Activate to remove all debuffs and grant massive Move Speed">
     <span>Cryptbloom</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3814/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3814/" data-search="edge of night">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3814.png" alt="Edge of Night" loading="lazy" title="Periodically blocks enemy abilities">
     <span>Edge of Night</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3073/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3073/" data-search="experimental hexplate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3073.png" alt="Experimental Hexplate" loading="lazy" title="Increases maximum Mana as Mana is spent">
     <span>Experimental Hexplate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3124/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3124/" data-search="guinsoo&#39;s rageblade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3124.png" alt="Guinsoo&#39;s Rageblade" loading="lazy" title="">
     <span>Guinsoo&#39;s Rageblade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3084/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3084/" data-search="heartsteel">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="Heartsteel" loading="lazy" title="Restores Health on kill or assist">
     <span>Heartsteel</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3146/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3146/" data-search="hextech gunblade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3146.png" alt="Hextech Gunblade" loading="lazy" title="Increases Attack Damage and Ability Power, activate to slow a target">
     <span>Hextech Gunblade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3181/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3181/" data-search="hullbreaker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3181.png" alt="Hullbreaker" loading="lazy" title="">
     <span>Hullbreaker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6673/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6673/" data-search="immortal shieldbow">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="Immortal Shieldbow" loading="lazy" title="">
     <span>Immortal Shieldbow</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6672/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6672/" data-search="kraken slayer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="Kraken Slayer" loading="lazy" title="">
     <span>Kraken Slayer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6653/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6653/" data-search="liandry&#39;s torment">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="Liandry&#39;s Torment" loading="lazy" title="Charge up in combat to deal high damage over time, especially against durable enemies">
     <span>Liandry&#39;s Torment</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3033/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3033/" data-search="mortal reminder">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3033.png" alt="Mortal Reminder" loading="lazy" title="Overcomes enemies with high Health recovery and Armor">
     <span>Mortal Reminder</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6694/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6694/" data-search="serylda&#39;s grudge">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6694.png" alt="Serylda&#39;s Grudge" loading="lazy" title="">
     <span>Serylda&#39;s Grudge</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3087/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3087/" data-search="statikk shiv">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3087.png" alt="Statikk Shiv" loading="lazy" title="Movement builds charges that release chain lightning on basic attack">
     <span>Statikk Shiv</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3302/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3302/" data-search="terminus">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3302.png" alt="Terminus" loading="lazy" title="Kill minions periodically to heal and grant gold to a nearby ally">
     <span>Terminus</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6676/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6676/" data-search="the collector">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="The Collector" loading="lazy" title="">
     <span>The Collector</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667666/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667666/" data-search="the collector">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/667666.png" alt="The Collector" loading="lazy" title="">
     <span>The Collector</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3135/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3135/" data-search="void staff">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="Void Staff" loading="lazy" title="Increases magic damage">
     <span>Void Staff</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6699/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6699/" data-search="voltaic cyclosword">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6699.png" alt="Voltaic Cyclosword" loading="lazy" title="">
     <span>Voltaic Cyclosword</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3032/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3032/" data-search="yun tal wildarrows">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="Yun Tal Wildarrows" loading="lazy" title="">
     <span>Yun Tal Wildarrows</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3003/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3003/" data-search="archangel&#39;s staff">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3003.png" alt="Archangel&#39;s Staff" loading="lazy" title="Increases Ability Power based on maximum Mana">
     <span>Archangel&#39;s Staff</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323003/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323003/" data-search="archangel&#39;s staff">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323003.png" alt="Archangel&#39;s Staff" loading="lazy" title="">
     <span>Archangel&#39;s Staff</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/8010/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/8010/" data-search="bloodletter&#39;s curse">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/8010.png" alt="Bloodletter&#39;s Curse" loading="lazy" title="">
     <span>Bloodletter&#39;s Curse</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326621/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326621/" data-search="dawncore">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/326621.png" alt="Dawncore" loading="lazy" title="">
     <span>Dawncore</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3742/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3742/" data-search="dead man&#39;s plate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3742.png" alt="Dead Man&#39;s Plate" loading="lazy" title="Build momentum as you move around then smash into enemies.">
     <span>Dead Man&#39;s Plate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6692/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6692/" data-search="eclipse">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6692.png" alt="Eclipse" loading="lazy" title="">
     <span>Eclipse</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6662/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6662/" data-search="iceborn gauntlet">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6662.png" alt="Iceborn Gauntlet" loading="lazy" title="High Magic Resist.Passively slow nearby enemies. When spells are cast near you, release a wave of energy that damages and slows.">
     <span>Iceborn Gauntlet</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2504/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2504/" data-search="kaenic rookern">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2504.png" alt="Kaenic Rookern" loading="lazy" title="">
     <span>Kaenic Rookern</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323109/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323109/" data-search="knight&#39;s vow">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323109.png" alt="Knight&#39;s Vow" loading="lazy" title="">
     <span>Knight&#39;s Vow</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3100/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3100/" data-search="lich bane">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="Lich Bane" loading="lazy" title="Grants a bonus to next attack after spell cast">
     <span>Lich Bane</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3004/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3004/" data-search="manamune">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3004.png" alt="Manamune" loading="lazy" title="Increases Attack Damage based on maximum Mana">
     <span>Manamune</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323004/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323004/" data-search="manamune">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323004.png" alt="Manamune" loading="lazy" title="">
     <span>Manamune</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326617/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326617/" data-search="moonstone renewer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/326617.png" alt="Moonstone Renewer" loading="lazy" title="">
     <span>Moonstone Renewer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3115/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3115/" data-search="nashor&#39;s tooth">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3115.png" alt="Nashor&#39;s Tooth" loading="lazy" title="Increases Attack Speed, Ability Power, and Cooldown Reduction">
     <span>Nashor&#39;s Tooth</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/328020/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/328020/" data-search="abyssal mask">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/328020.png" alt="Abyssal Mask" loading="lazy" title="">
     <span>Abyssal Mask</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3165/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3165/" data-search="morellonomicon">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3165.png" alt="Morellonomicon" loading="lazy" title="Increases magic damage">
     <span>Morellonomicon</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6698/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6698/" data-search="profane hydra">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6698.png" alt="Profane Hydra" loading="lazy" title="">
     <span>Profane Hydra</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2522/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2522/" data-search="actualizer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="Actualizer" loading="lazy" title="">
     <span>Actualizer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2503/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2503/" data-search="blackfire torch">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="Blackfire Torch" loading="lazy" title="">
     <span>Blackfire Torch</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4401/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4401/" data-search="force of nature">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4401.png" alt="Force of Nature" loading="lazy" title="Move Speed, Magic Resist, and max Health Regeneration">
     <span>Force of Nature</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2523/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2523/" data-search="hexoptics c44">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2523.png" alt="Hexoptics C44" loading="lazy" title="">
     <span>Hexoptics C44</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6664/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6664/" data-search="hollow radiance">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6664.png" alt="Hollow Radiance" loading="lazy" title="Immobilize enemies to gain a shield. Activate to run faster at opponents.">
     <span>Hollow Radiance</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6697/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6697/" data-search="hubris">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6697.png" alt="Hubris" loading="lazy" title="">
     <span>Hubris</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323222/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323222/" data-search="mikael&#39;s blessing">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323222.png" alt="Mikael&#39;s Blessing" loading="lazy" title="">
     <span>Mikael&#39;s Blessing</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323107/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323107/" data-search="redemption">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323107.png" alt="Redemption" loading="lazy" title="">
     <span>Redemption</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4646/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4646/" data-search="stormsurge">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4646.png" alt="Stormsurge" loading="lazy" title="">
     <span>Stormsurge</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3068/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3068/" data-search="sunfire aegis">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3068.png" alt="Sunfire Aegis" loading="lazy" title="High armor. Constantly deals damage to nearby enemies. Immobilize enemies to release a wave of damaging flame">
     <span>Sunfire Aegis</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3179/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3179/" data-search="umbral glaive">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3179.png" alt="Umbral Glaive" loading="lazy" title="Provides trap and ward detection periodically">
     <span>Umbral Glaive</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2502/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2502/" data-search="unending despair">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="Unending Despair" loading="lazy" title="">
     <span>Unending Despair</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3091/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3091/" data-search="wit&#39;s end">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3091.png" alt="Wit&#39;s End" loading="lazy" title="Resist magic damage and claw your way back to life.">
     <span>Wit&#39;s End</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3142/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3142/" data-search="youmuu&#39;s ghostblade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3142.png" alt="Youmuu&#39;s Ghostblade" loading="lazy" title="Activate to greatly increase Move Speed">
     <span>Youmuu&#39;s Ghostblade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6696/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6696/" data-search="axiom arc">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6696.png" alt="Axiom Arc" loading="lazy" title="">
     <span>Axiom Arc</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6655/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6655/" data-search="luden&#39;s echo">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6655.png" alt="Luden&#39;s Echo" loading="lazy" title="High burst damage, good against fragile foes">
     <span>Luden&#39;s Echo</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323110/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323110/" data-search="frozen heart">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323110.png" alt="Frozen Heart" loading="lazy" title="">
     <span>Frozen Heart</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4628/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4628/" data-search="horizon focus">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4628.png" alt="Horizon Focus" loading="lazy" title="Immobilizing a champion causes lightning to strike them">
     <span>Horizon Focus</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3118/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3118/" data-search="malignance">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="Malignance" loading="lazy" title="Partner with an ally to protect each other">
     <span>Malignance</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3143/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3143/" data-search="randuin&#39;s omen">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3143.png" alt="Randuin&#39;s Omen" loading="lazy" title="Greatly increases defenses, activate to slow nearby enemies">
     <span>Randuin&#39;s Omen</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3065/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3065/" data-search="spirit visage">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="Spirit Visage" loading="lazy" title="Increases Health and healing effects">
     <span>Spirit Visage</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/8020/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/8020/" data-search="abyssal mask">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/8020.png" alt="Abyssal Mask" loading="lazy" title="">
     <span>Abyssal Mask</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2512/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2512/" data-search="fiendhunter bolts">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2512.png" alt="Fiendhunter Bolts" loading="lazy" title="">
     <span>Fiendhunter Bolts</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3152/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3152/" data-search="hextech rocketbelt">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="Hextech Rocketbelt" loading="lazy" title="Activate to dash forward and unleash a fiery explosion">
     <span>Hextech Rocketbelt</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6675/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6675/" data-search="navori flickerblade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="Navori Flickerblade" loading="lazy" title="">
     <span>Navori Flickerblade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3046/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3046/" data-search="phantom dancer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3046.png" alt="Phantom Dancer" loading="lazy" title="Move faster while attacking enemies and gain a shield when on low health.">
     <span>Phantom Dancer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3094/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3094/" data-search="rapid firecannon">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3094.png" alt="Rapid Firecannon" loading="lazy" title="Movement builds charges that release a sieging fire attack on release">
     <span>Rapid Firecannon</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3085/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3085/" data-search="runaan&#39;s hurricane">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3085.png" alt="Runaan&#39;s Hurricane" loading="lazy" title="Ranged attacks fire two bolts at nearby enemies">
     <span>Runaan&#39;s Hurricane</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323075/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323075/" data-search="thornmail">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323075.png" alt="Thornmail" loading="lazy" title="">
     <span>Thornmail</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323504/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323504/" data-search="ardent censer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323504.png" alt="Ardent Censer" loading="lazy" title="">
     <span>Ardent Censer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326620/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326620/" data-search="echoes of helia">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/326620.png" alt="Echoes of Helia" loading="lazy" title="">
     <span>Echoes of Helia</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323190/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323190/" data-search="locket of the iron solari">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323190.png" alt="Locket of the Iron Solari" loading="lazy" title="">
     <span>Locket of the Iron Solari</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2525/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2525/" data-search="protoplasm harness">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2525.png" alt="Protoplasm Harness" loading="lazy" title="">
     <span>Protoplasm Harness</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326657/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326657/" data-search="rod of ages">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/326657.png" alt="Rod of Ages" loading="lazy" title="">
     <span>Rod of Ages</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6657/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6657/" data-search="rod of ages">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="Rod of Ages" loading="lazy" title="">
     <span>Rod of Ages</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3116/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3116/" data-search="rylai&#39;s crystal scepter">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3116.png" alt="Rylai&#39;s Crystal Scepter" loading="lazy" title="Abilities slow enemies">
     <span>Rylai&#39;s Crystal Scepter</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/322065/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/322065/" data-search="shurelya&#39;s battlesong">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/322065.png" alt="Shurelya&#39;s Battlesong" loading="lazy" title="">
     <span>Shurelya&#39;s Battlesong</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326616/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/326616/" data-search="staff of flowing water">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/326616.png" alt="Staff of Flowing Water" loading="lazy" title="">
     <span>Staff of Flowing Water</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663039/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663039/" data-search="atma&#39;s reckoning">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663039.png" alt="Atma&#39;s Reckoning" loading="lazy" title="">
     <span>Atma&#39;s Reckoning</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663059/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663059/" data-search="cloak of starry night">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663059.png" alt="Cloak of Starry Night" loading="lazy" title="">
     <span>Cloak of Starry Night</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/664644/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/664644/" data-search="crown of the shattered queen">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/664644.png" alt="Crown of the Shattered Queen" loading="lazy" title="">
     <span>Crown of the Shattered Queen</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667109/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667109/" data-search="cruelty">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/667109.png" alt="Cruelty" loading="lazy" title="">
     <span>Cruelty</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6621/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6621/" data-search="dawncore">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6621.png" alt="Dawncore" loading="lazy" title="">
     <span>Dawncore</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663056/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663056/" data-search="demon king&#39;s crown">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663056.png" alt="Demon King&#39;s Crown" loading="lazy" title="">
     <span>Demon King&#39;s Crown</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667112/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667112/" data-search="flesheater">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/667112.png" alt="Flesheater" loading="lazy" title="">
     <span>Flesheater</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3110/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3110/" data-search="frozen heart">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3110.png" alt="Frozen Heart" loading="lazy" title="Massively increases Armor and slows enemy basic attacks">
     <span>Frozen Heart</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667101/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/667101/" data-search="gambler&#39;s blade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/667101.png" alt="Gambler&#39;s Blade" loading="lazy" title="">
     <span>Gambler&#39;s Blade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663193/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663193/" data-search="gargoyle stoneplate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663193.png" alt="Gargoyle Stoneplate" loading="lazy" title="">
     <span>Gargoyle Stoneplate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663146/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663146/" data-search="hextech gunblade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663146.png" alt="Hextech Gunblade" loading="lazy" title="">
     <span>Hextech Gunblade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6695/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6695/" data-search="serpent&#39;s fang">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6695.png" alt="Serpent&#39;s Fang" loading="lazy" title="">
     <span>Serpent&#39;s Fang</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663058/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663058/" data-search="shield of molten stone">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663058.png" alt="Shield of Molten Stone" loading="lazy" title="">
     <span>Shield of Molten Stone</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/664011/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/664011/" data-search="sword of blossoming dawn">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/664011.png" alt="Sword of Blossoming Dawn" loading="lazy" title="">
     <span>Sword of Blossoming Dawn</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663060/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663060/" data-search="sword of the divine">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663060.png" alt="Sword of the Divine" loading="lazy" title="">
     <span>Sword of the Divine</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663172/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663172/" data-search="zephyr">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663172.png" alt="Zephyr" loading="lazy" title="">
     <span>Zephyr</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3075/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3075/" data-search="thornmail">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3075.png" alt="Thornmail" loading="lazy" title="">
     <span>Thornmail</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/324005/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/324005/" data-search="imperial mandate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/324005.png" alt="Imperial Mandate" loading="lazy" title="">
     <span>Imperial Mandate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4005/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4005/" data-search="imperial mandate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="Imperial Mandate" loading="lazy" title="Defer damage until later.">
     <span>Imperial Mandate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3119/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3119/" data-search="winter&#39;s approach">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3119.png" alt="Winter&#39;s Approach" loading="lazy" title="">
     <span>Winter&#39;s Approach</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323119/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323119/" data-search="winter&#39;s approach">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323119.png" alt="Winter&#39;s Approach" loading="lazy" title="">
     <span>Winter&#39;s Approach</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2524/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2524/" data-search="bandlepipes">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2524.png" alt="Bandlepipes" loading="lazy" title="">
     <span>Bandlepipes</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3109/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3109/" data-search="knight&#39;s vow">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3109.png" alt="Knight&#39;s Vow" loading="lazy" title="Partner with an ally to protect each other">
     <span>Knight&#39;s Vow</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3222/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3222/" data-search="mikael&#39;s blessing">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="Mikael&#39;s Blessing" loading="lazy" title="Activate to remove all disabling effects from an allied champion">
     <span>Mikael&#39;s Blessing</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3107/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3107/" data-search="redemption">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="Redemption" loading="lazy" title="Activate to heal allies and damage enemies in an area">
     <span>Redemption</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323050/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323050/" data-search="zeke&#39;s convergence">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323050.png" alt="Zeke&#39;s Convergence" loading="lazy" title="">
     <span>Zeke&#39;s Convergence</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6616/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6616/" data-search="staff of flowing water">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6616.png" alt="Staff of Flowing Water" loading="lazy" title="Your heals and shields reduce crowd control and grant Move Speed">
     <span>Staff of Flowing Water</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2526/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2526/" data-search="whispering circlet">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2526.png" alt="Whispering Circlet" loading="lazy" title="">
     <span>Whispering Circlet</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/322526/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/322526/" data-search="whispering circlet">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/322526.png" alt="Whispering Circlet" loading="lazy" title="">
     <span>Whispering Circlet</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3504/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3504/" data-search="ardent censer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3504.png" alt="Ardent Censer" loading="lazy" title="Shield and heal effects on other units grant both of you Attack Speed and their attacks deal additional on-hit magic damage.">
     <span>Ardent Censer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6620/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6620/" data-search="echoes of helia">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="Echoes of Helia" loading="lazy" title="Damage low-health enemies to trigger a cursed explosion, dealing damage and slowing nearby foes">
     <span>Echoes of Helia</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3190/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3190/" data-search="locket of the iron solari">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="Locket of the Iron Solari" loading="lazy" title="Activate to shield nearby allies from damage">
     <span>Locket of the Iron Solari</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6617/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6617/" data-search="moonstone renewer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="Moonstone Renewer" loading="lazy" title="Your heals and shields cool down faster and have greater effect on low health allies">
     <span>Moonstone Renewer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2065/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2065/" data-search="shurelya&#39;s battlesong">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2065.png" alt="Shurelya&#39;s Battlesong" loading="lazy" title="Activate to speed up nearby allies.">
     <span>Shurelya&#39;s Battlesong</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3050/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3050/" data-search="zeke&#39;s convergence">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3050.png" alt="Zeke&#39;s Convergence" loading="lazy" title="Grants you and your ally bonuses when you cast your ultimate.">
     <span>Zeke&#39;s Convergence</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2420/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2420/" data-search="seeker&#39;s armguard">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2420.png" alt="Seeker&#39;s Armguard" loading="lazy" title="Activate to become invincible but unable to take actions">
     <span>Seeker&#39;s Armguard</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2421/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2421/" data-search="shattered armguard">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2421.png" alt="Shattered Armguard" loading="lazy" title="Upgrades to stopwatch">
     <span>Shattered Armguard</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4632/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4632/" data-search="verdant barrier">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4632.png" alt="Verdant Barrier" loading="lazy" title="">
     <span>Verdant Barrier</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3041/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3041/" data-search="mejai&#39;s soulstealer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3041.png" alt="Mejai&#39;s Soulstealer" loading="lazy" title="Grants Ability Power for kills and assists">
     <span>Mejai&#39;s Soulstealer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3035/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3035/" data-search="last whisper">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3035.png" alt="Last Whisper" loading="lazy" title="Overcomes enemies with high Armor">
     <span>Last Whisper</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2020/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2020/" data-search="the brutalizer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2020.png" alt="The Brutalizer" loading="lazy" title="">
     <span>The Brutalizer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1038/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1038/" data-search="b. f. sword">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1038.png" alt="B. F. Sword" loading="lazy" title="Greatly increases Attack Damage">
     <span>B. F. Sword</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3803/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3803/" data-search="catalyst of aeons">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3803.png" alt="Catalyst of Aeons" loading="lazy" title="">
     <span>Catalyst of Aeons</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3147/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3147/" data-search="haunting guise">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3147.png" alt="Haunting Guise" loading="lazy" title="Deals additional physical damage when ambushing enemies">
     <span>Haunting Guise</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3155/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3155/" data-search="hexdrinker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3155.png" alt="Hexdrinker" loading="lazy" title="Increases Attack Damage and Magic Resist">
     <span>Hexdrinker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6670/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6670/" data-search="noonquiver">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6670.png" alt="Noonquiver" loading="lazy" title="">
     <span>Noonquiver</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3140/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3140/" data-search="quicksilver sash">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3140.png" alt="Quicksilver Sash" loading="lazy" title="Activate to remove all crowd control debuffs">
     <span>Quicksilver Sash</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3173/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3173/" data-search="chainlaced crushers">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="Chainlaced Crushers" loading="lazy" title="Increases Move Speed and Cooldown Reduction">
     <span>Chainlaced Crushers</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3111/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3111/" data-search="mercury&#39;s treads">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3111.png" alt="Mercury&#39;s Treads" loading="lazy" title="Increases Move Speed and reduces duration of disabling effects">
     <span>Mercury&#39;s Treads</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3211/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3211/" data-search="spectre&#39;s cowl">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3211.png" alt="Spectre&#39;s Cowl" loading="lazy" title="Improves defense and grants regeneration upon being damaged">
     <span>Spectre&#39;s Cowl</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3174/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3174/" data-search="armored advance">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3174.png" alt="Armored Advance" loading="lazy" title="Deal damage to empower your heals and shields">
     <span>Armored Advance</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3051/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3051/" data-search="hearthbound axe">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3051.png" alt="Hearthbound Axe" loading="lazy" title="">
     <span>Hearthbound Axe</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3802/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3802/" data-search="lost chapter">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3802.png" alt="Lost Chapter" loading="lazy" title="Restores Mana upon levelling up.">
     <span>Lost Chapter</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1058/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1058/" data-search="needlessly large rod">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1058.png" alt="Needlessly Large Rod" loading="lazy" title="Greatly increases Ability Power">
     <span>Needlessly Large Rod</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3047/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3047/" data-search="plated steelcaps">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3047.png" alt="Plated Steelcaps" loading="lazy" title="Enhances Move Speed and reduces incoming basic attack damage">
     <span>Plated Steelcaps</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3077/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3077/" data-search="tiamat">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3077.png" alt="Tiamat" loading="lazy" title="Melee attacks hit nearby enemies">
     <span>Tiamat</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3086/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3086/" data-search="zeal">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3086.png" alt="Zeal" loading="lazy" title="Slight bonuses to Critical Strike Chance, Move Speed and Attack Speed">
     <span>Zeal</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2021/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2021/" data-search="tunneler">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2021.png" alt="Tunneler" loading="lazy" title="">
     <span>Tunneler</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3006/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3006/" data-search="berserker&#39;s greaves">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3006.png" alt="Berserker&#39;s Greaves" loading="lazy" title="Enhances Move Speed and Attack Speed">
     <span>Berserker&#39;s Greaves</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4630/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4630/" data-search="blighting jewel">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4630.png" alt="Blighting Jewel" loading="lazy" title="">
     <span>Blighting Jewel</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3172/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3172/" data-search="gunmetal greaves">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3172.png" alt="Gunmetal Greaves" loading="lazy" title="Mobility and Tenacity">
     <span>Gunmetal Greaves</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3145/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3145/" data-search="hextech alternator">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3145.png" alt="Hextech Alternator" loading="lazy" title="Increases Ability Power. Deal bonus magic damage on attack periodically.">
     <span>Hextech Alternator</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3044/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3044/" data-search="phage">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3044.png" alt="Phage" loading="lazy" title="Attacks and kills give a small burst of speed">
     <span>Phage</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3020/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3020/" data-search="sorcerer&#39;s shoes">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3020.png" alt="Sorcerer&#39;s Shoes" loading="lazy" title="Enhances Move Speed and magic damage">
     <span>Sorcerer&#39;s Shoes</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3175/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3175/" data-search="spellslinger&#39;s shoes">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3175.png" alt="Spellslinger&#39;s Shoes" loading="lazy" title="">
     <span>Spellslinger&#39;s Shoes</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2019/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2019/" data-search="steel sigil">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2019.png" alt="Steel Sigil" loading="lazy" title="">
     <span>Steel Sigil</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3133/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3133/" data-search="caulfield&#39;s warhammer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3133.png" alt="Caulfield&#39;s Warhammer" loading="lazy" title="Attack Damage and Cooldown Reduction">
     <span>Caulfield&#39;s Warhammer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3009/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3009/" data-search="boots of swiftness">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3009.png" alt="Boots of Swiftness" loading="lazy" title="Enhances Move Speed and reduces the effect of slows">
     <span>Boots of Swiftness</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3008/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3008/" data-search="gluttonous greaves">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3008.png" alt="Gluttonous Greaves" loading="lazy" title="Increases Attack Damage based on maximum Mana">
     <span>Gluttonous Greaves</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3168/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3168/" data-search="immortal path">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3168.png" alt="Immortal Path" loading="lazy" title="">
     <span>Immortal Path</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3134/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3134/" data-search="serrated dirk">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3134.png" alt="Serrated Dirk" loading="lazy" title="Increases Attack Damage and Lethality">
     <span>Serrated Dirk</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3170/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3170/" data-search="swiftmarch">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3170.png" alt="Swiftmarch" loading="lazy" title="Improves defense and reduces duration of disabling effects">
     <span>Swiftmarch</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3082/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3082/" data-search="warden&#39;s mail">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3082.png" alt="Warden&#39;s Mail" loading="lazy" title="">
     <span>Warden&#39;s Mail</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3177/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3177/" data-search="guardian&#39;s blade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3177.png" alt="Guardian&#39;s Blade" loading="lazy" title="Good starting item for attackers">
     <span>Guardian&#39;s Blade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3184/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3184/" data-search="guardian&#39;s hammer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3184.png" alt="Guardian&#39;s Hammer" loading="lazy" title="Good starting item for attackers">
     <span>Guardian&#39;s Hammer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2051/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2051/" data-search="guardian&#39;s horn">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2051.png" alt="Guardian&#39;s Horn" loading="lazy" title="Good starting item for tanks">
     <span>Guardian&#39;s Horn</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3112/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3112/" data-search="guardian&#39;s orb">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3112.png" alt="Guardian&#39;s Orb" loading="lazy" title="Good starting item for mages">
     <span>Guardian&#39;s Orb</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3113/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3113/" data-search="aether wisp">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3113.png" alt="Aether Wisp" loading="lazy" title="Increases Ability Power and Move Speed">
     <span>Aether Wisp</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6660/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6660/" data-search="bami&#39;s cinder">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6660.png" alt="Bami&#39;s Cinder" loading="lazy" title="">
     <span>Bami&#39;s Cinder</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4642/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/4642/" data-search="bandleglass mirror">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4642.png" alt="Bandleglass Mirror" loading="lazy" title="">
     <span>Bandleglass Mirror</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3171/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3171/" data-search="crimson lucidity">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3171.png" alt="Crimson Lucidity" loading="lazy" title="">
     <span>Crimson Lucidity</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2508/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2508/" data-search="fated ashes">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2508.png" alt="Fated Ashes" loading="lazy" title="">
     <span>Fated Ashes</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1011/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1011/" data-search="giant&#39;s belt">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1011.png" alt="Giant&#39;s Belt" loading="lazy" title="Greatly increases Health">
     <span>Giant&#39;s Belt</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3024/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3024/" data-search="glacial buckler">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3024.png" alt="Glacial Buckler" loading="lazy" title="Increases Armor and Cooldown Reduction">
     <span>Glacial Buckler</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3158/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3158/" data-search="ionian boots of lucidity">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3158.png" alt="Ionian Boots of Lucidity" loading="lazy" title="Increases Move Speed and Cooldown Reduction">
     <span>Ionian Boots of Lucidity</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3057/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3057/" data-search="sheen">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3057.png" alt="Sheen" loading="lazy" title="Grants a bonus to next attack after spell cast">
     <span>Sheen</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1053/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1053/" data-search="vampiric scepter">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1053.png" alt="Vampiric Scepter" loading="lazy" title="Basic attacks restore Health">
     <span>Vampiric Scepter</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663064/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/663064/" data-search="veigar&#39;s talisman of ascension">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/663064.png" alt="Veigar&#39;s Talisman of Ascension" loading="lazy" title="">
     <span>Veigar&#39;s Talisman of Ascension</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1037/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1037/" data-search="pickaxe">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1037.png" alt="Pickaxe" loading="lazy" title="Moderately increases Attack Damage">
     <span>Pickaxe</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1026/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1026/" data-search="blasting wand">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1026.png" alt="Blasting Wand" loading="lazy" title="Moderately increases Ability Power">
     <span>Blasting Wand</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3108/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3108/" data-search="fiendish codex">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3108.png" alt="Fiendish Codex" loading="lazy" title="Increases Ability Power and Cooldown Reduction">
     <span>Fiendish Codex</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1057/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1057/" data-search="negatron cloak">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1057.png" alt="Negatron Cloak" loading="lazy" title="Moderately increases Magic Resist">
     <span>Negatron Cloak</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3076/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3076/" data-search="bramble vest">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3076.png" alt="Bramble Vest" loading="lazy" title="">
     <span>Bramble Vest</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1031/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1031/" data-search="chain vest">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1031.png" alt="Chain Vest" loading="lazy" title="Greatly increases Armor">
     <span>Chain Vest</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3801/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3801/" data-search="crystalline bracer">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3801.png" alt="Crystalline Bracer" loading="lazy" title="Grants Health and Health Regen">
     <span>Crystalline Bracer</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3123/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3123/" data-search="executioner&#39;s calling">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3123.png" alt="Executioner&#39;s Calling" loading="lazy" title="Overcomes enemies with high health gain">
     <span>Executioner&#39;s Calling</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3067/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3067/" data-search="kindlegem">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3067.png" alt="Kindlegem" loading="lazy" title="Increases Health and Cooldown Reduction">
     <span>Kindlegem</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3916/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3916/" data-search="oblivion orb">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3916.png" alt="Oblivion Orb" loading="lazy" title="Increases magic damage">
     <span>Oblivion Orb</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3066/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3066/" data-search="winged moonplate">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3066.png" alt="Winged Moonplate" loading="lazy" title="">
     <span>Winged Moonplate</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6690/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/6690/" data-search="rectrix">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6690.png" alt="Rectrix" loading="lazy" title="">
     <span>Rectrix</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1043/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1043/" data-search="recurve bow">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1043.png" alt="Recurve Bow" loading="lazy" title="Greatly increases Attack Speed">
     <span>Recurve Bow</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1018/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1018/" data-search="cloak of agility">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1018.png" alt="Cloak of Agility" loading="lazy" title="Increases critical strike chance">
     <span>Cloak of Agility</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3114/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3114/" data-search="forbidden idol">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3114.png" alt="Forbidden Idol" loading="lazy" title="Increases Heal and Shield Power, Mana Regeneration, and Cooldown Reduction">
     <span>Forbidden Idol</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3144/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3144/" data-search="scout&#39;s slingshot">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3144.png" alt="Scout&#39;s Slingshot" loading="lazy" title="Activate to deal magic damage and slow target champion">
     <span>Scout&#39;s Slingshot</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2138/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2138/" data-search="elixir of iron">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2138.png" alt="Elixir of Iron" loading="lazy" title="Temporarily increases defenses. Leaves a trail for allies to follow.">
     <span>Elixir of Iron</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2139/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2139/" data-search="elixir of sorcery">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2139.png" alt="Elixir of Sorcery" loading="lazy" title="Temporarily grants Ability Power and Bonus Damage to champions and turrets.">
     <span>Elixir of Sorcery</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2140/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2140/" data-search="elixir of wrath">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2140.png" alt="Elixir of Wrath" loading="lazy" title="Temporarily grants Attack Damage and heals you when dealing physical damage to champions.">
     <span>Elixir of Wrath</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1083/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1083/" data-search="cull">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1083.png" alt="Cull" loading="lazy" title="Provides damage and Life Steal on hit - Killing minions grant bonus Gold">
     <span>Cull</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1055/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1055/" data-search="doran&#39;s blade">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1055.png" alt="Doran&#39;s Blade" loading="lazy" title="Good starting item for attackers">
     <span>Doran&#39;s Blade</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1120/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1120/" data-search="doran&#39;s helm">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1120.png" alt="Doran&#39;s Helm" loading="lazy" title="">
     <span>Doran&#39;s Helm</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1054/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1054/" data-search="doran&#39;s shield">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1054.png" alt="Doran&#39;s Shield" loading="lazy" title="Good defensive starting item">
     <span>Doran&#39;s Shield</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1102/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1102/" data-search="gustwalker hatchling">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1102.png" alt="Gustwalker Hatchling" loading="lazy" title="">
     <span>Gustwalker Hatchling</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1106/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1106/" data-search="gustwalker hatchling">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1106.png" alt="Gustwalker Hatchling" loading="lazy" title="">
     <span>Gustwalker Hatchling</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1103/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1103/" data-search="mosstomper seedling">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1103.png" alt="Mosstomper Seedling" loading="lazy" title="">
     <span>Mosstomper Seedling</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1105/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1105/" data-search="mosstomper seedling">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1105.png" alt="Mosstomper Seedling" loading="lazy" title="">
     <span>Mosstomper Seedling</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1101/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1101/" data-search="scorchclaw pup">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1101.png" alt="Scorchclaw Pup" loading="lazy" title="">
     <span>Scorchclaw Pup</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1107/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1107/" data-search="scorchclaw pup">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1107.png" alt="Scorchclaw Pup" loading="lazy" title="">
     <span>Scorchclaw Pup</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1052/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1052/" data-search="amplifying tome">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1052.png" alt="Amplifying Tome" loading="lazy" title="Slightly increases Ability Power">
     <span>Amplifying Tome</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3877/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3877/" data-search="bloodsong">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3877.png" alt="Bloodsong" loading="lazy" title="">
     <span>Bloodsong</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3869/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3869/" data-search="celestial opposition">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3869.png" alt="Celestial Opposition" loading="lazy" title="">
     <span>Celestial Opposition</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1086/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1086/" data-search="doran&#39;s bow">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1086.png" alt="Doran&#39;s Bow" loading="lazy" title="">
     <span>Doran&#39;s Bow</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1056/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1056/" data-search="doran&#39;s ring">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1056.png" alt="Doran&#39;s Ring" loading="lazy" title="Good starting item for casters">
     <span>Doran&#39;s Ring</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3870/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3870/" data-search="dream maker">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3870.png" alt="Dream Maker" loading="lazy" title="">
     <span>Dream Maker</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1033/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1033/" data-search="null-magic mantle">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1033.png" alt="Null-Magic Mantle" loading="lazy" title="Slightly increases Magic Resist">
     <span>Null-Magic Mantle</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1028/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1028/" data-search="ruby crystal">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1028.png" alt="Ruby Crystal" loading="lazy" title="Increases Health">
     <span>Ruby Crystal</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3876/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3876/" data-search="solstice sleigh">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3876.png" alt="Solstice Sleigh" loading="lazy" title="">
     <span>Solstice Sleigh</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3070/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3070/" data-search="tear of the goddess">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3070.png" alt="Tear of the Goddess" loading="lazy" title="Increases maximum Mana as Mana is spent">
     <span>Tear of the Goddess</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323070/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/323070/" data-search="tear of the goddess">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/323070.png" alt="Tear of the Goddess" loading="lazy" title="">
     <span>Tear of the Goddess</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3865/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3865/" data-search="world atlas">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3865.png" alt="World Atlas" loading="lazy" title="">
     <span>World Atlas</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3871/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3871/" data-search="zaz&#39;zak&#39;s realmspike">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3871.png" alt="Zaz&#39;Zak&#39;s Realmspike" loading="lazy" title="">
     <span>Zaz&#39;Zak&#39;s Realmspike</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1082/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1082/" data-search="dark seal">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1082.png" alt="Dark Seal" loading="lazy" title="Provides Ability Power and Mana.  Increases in power as you kill enemies.">
     <span>Dark Seal</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1036/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1036/" data-search="long sword">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1036.png" alt="Long Sword" loading="lazy" title="Slightly increases Attack Damage">
     <span>Long Sword</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1001/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1001/" data-search="boots">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1001.png" alt="Boots" loading="lazy" title="Slightly increases Move Speed">
     <span>Boots</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2141/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2141/" data-search="cappa juice">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2141.png" alt="Cappa Juice" loading="lazy" title="">
     <span>Cappa Juice</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1029/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1029/" data-search="cloth armor">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1029.png" alt="Cloth Armor" loading="lazy" title="Slightly increases Armor">
     <span>Cloth Armor</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1006/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1006/" data-search="rejuvenation bead">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1006.png" alt="Rejuvenation Bead" loading="lazy" title="Slightly increases Health Regen">
     <span>Rejuvenation Bead</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1027/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1027/" data-search="sapphire crystal">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1027.png" alt="Sapphire Crystal" loading="lazy" title="Increases Mana">
     <span>Sapphire Crystal</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1042/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1042/" data-search="dagger">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1042.png" alt="Dagger" loading="lazy" title="Slightly increases Attack Speed">
     <span>Dagger</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2022/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2022/" data-search="glowing mote">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2022.png" alt="Glowing Mote" loading="lazy" title="">
     <span>Glowing Mote</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1004/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/1004/" data-search="faerie charm">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/1004.png" alt="Faerie Charm" loading="lazy" title="Slightly increases Mana Regen">
     <span>Faerie Charm</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2031/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2031/" data-search="refillable potion">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2031.png" alt="Refillable Potion" loading="lazy" title="Restores Health over time. Refills at shop.">
     <span>Refillable Potion</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2055/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2055/" data-search="control ward">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2055.png" alt="Control Ward" loading="lazy" title="Used to disable wards and invisible traps in an area.">
     <span>Control Ward</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2003/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/2003/" data-search="health potion">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2003.png" alt="Health Potion" loading="lazy" title="Consume to restore Health over time">
     <span>Health Potion</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3363/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3363/" data-search="farsight alteration">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3363.png" alt="Farsight Alteration" loading="lazy" title="Grants increased range and reveals the targetted area">
     <span>Farsight Alteration</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3599/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3599/" data-search="kalista&#39;s black spear">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3599.png" alt="Kalista&#39;s Black Spear" loading="lazy" title="Kalista&#39;s spear that binds an Oathsworn Ally.">
     <span>Kalista&#39;s Black Spear</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3600/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3600/" data-search="kalista&#39;s black spear">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3600.png" alt="Kalista&#39;s Black Spear" loading="lazy" title="Kalista&#39;s spear that binds an Oathsworn Ally.">
     <span>Kalista&#39;s Black Spear</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3364/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3364/" data-search="oracle lens">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3364.png" alt="Oracle Lens" loading="lazy" title="Disables nearby invisible wards and traps for a duration">
     <span>Oracle Lens</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3330/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3330/" data-search="scarecrow effigy">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3330.png" alt="Scarecrow Effigy" loading="lazy" title="Periodically place a Stealth Ward">
     <span>Scarecrow Effigy</span>
   </a>
   
-  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3340/">
+  <a class="glossary-icon-item" href="../../../../league/glossaire/objets/3340/" data-search="stealth ward">
     <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3340.png" alt="Stealth Ward" loading="lazy" title="Periodically place a Stealth Ward">
     <span>Stealth Ward</span>
   </a>
   
 </div>
+<div class="matchup-empty" id="lolGlossaryEmpty" hidden>No results.</div>
 
 </div>
 <footer>
@@ -1441,11 +1450,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <div id="tooltip" data-visible="false"></div>
 
+<script src="../../../../assets/js/lol-glossary-filters.js?v=30c867544c" defer></script>
+
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=954a97747b" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=954a97747b" defer></script>
-<script src="../../../../assets/js/site-search.js?v=954a97747b" defer></script>
-<script src="../../../../assets/js/favorites.js?v=954a97747b" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=30c867544c" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=30c867544c" defer></script>
+<script src="../../../../assets/js/site-search.js?v=30c867544c" defer></script>
+<script src="../../../../assets/js/favorites.js?v=30c867544c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

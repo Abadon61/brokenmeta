@@ -24,7 +24,7 @@
     support: '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
   };
   var ROLE_LABEL = { top: 'Top', jungle: 'Jungle', mid: 'Mid', adc: 'ADC', support: 'Support' };
-  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible' };
+  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible', aram: 'ARAM' };
 
   function roleIcon(role, cls) { return '<svg class="' + (cls || 'champ-role-icon') + '" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
@@ -458,6 +458,7 @@
       + '<div id="queueFilterBar" class="queue-filter-bar">'
       + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">Classé en solo/duo</button>'
       + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">Classé flexible</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="aram" data-active="' + (currentQueue === 'aram' ? 'true' : 'false') + '">ARAM</button>'
       + '</div>'
       + '<div class="match-history-list" id="matchHistoryList"></div>'
       + '<div id="championsTableWrap" hidden></div>'
