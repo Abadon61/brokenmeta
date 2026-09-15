@@ -1622,6 +1622,28 @@
   .lol-diff-bar { height: 8px; background: var(--row); border: 1px solid var(--border-bright); overflow: hidden; }
   .lol-diff-fill { height: 100%; background: var(--magenta); }
   .lol-diff-row b { text-align: right; color: var(--cream); }
+  .lol-ability-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+  .lol-ability-row { display: flex; gap: 14px; align-items: flex-start; }
+  .lol-ability-icon { width: 48px; height: 48px; flex: none; border: 2px solid var(--border-bright); }
+  .lol-ability-body { flex: 1; min-width: 0; }
+  .lol-ability-name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .lol-ability-key { flex: none; min-width: 20px; height: 20px; padding: 0 5px; display: inline-flex; align-items: center; justify-content: center; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
+  .lol-ability-desc { font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+  .lol-ability-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 6px; font-size: 11px; color: var(--text-faint); }
+  .lol-ability-meta b { color: var(--cream); }
+  /* Glossaire runes+sorts -- une seule page, sections par arbre (5) puis
+     sorts d'invocateur, pas de fiche par entrée (l'effet court tient déjà
+     entièrement sur la grille, inutile d'ajouter un niveau de clic). */
+  .lol-rune-tree { margin-bottom: 26px; }
+  .lol-rune-tree-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .lol-rune-tree-header img { width: 32px; height: 32px; }
+  .lol-rune-tree-header h3 { font-family: 'Cal Sans', sans-serif; font-size: 16px; font-weight: 400; margin: 0; }
+  .lol-rune-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .lol-rune-row:last-child { border-bottom: none; }
+  .lol-rune-cell { display: flex; gap: 8px; align-items: flex-start; width: 220px; flex: none; }
+  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #0b0221; flex: none; }
+  .lol-rune-cell .lol-rune-name { font-weight: 600; font-size: 12.5px; margin-bottom: 2px; }
+  .lol-rune-cell .lol-rune-desc { font-size: 11px; color: var(--text-faint); line-height: 1.4; }
   /* Un composant de base (ex: Bottes de vitesse) peut se transformer en
      une dizaine d'objets différents -- .item-composition-row n'a pas
      besoin de retour à la ligne côté TFT (recette à 2-3 composants max,
