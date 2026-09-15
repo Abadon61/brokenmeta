@@ -4,12 +4,22 @@
 {% block content %}
 <h1 class="page-h1">{{ t(lang, 'lol_glossary_items_title') }}</h1>
 <p class="page-intro">{{ t(lang, 'lol_glossary_items_intro') }}</p>
-<div class="glossary-icon-grid">
+
+<div class="search-row">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+  <input type="search" id="lolGlossarySearch" class="search-input" placeholder="{{ t(lang, 'lol_search_item_placeholder') }}" autocomplete="off">
+</div>
+
+<div class="glossary-icon-grid" id="lolGlossaryGrid">
   {% for it in items %}
-  <a class="glossary-icon-item" href="{{ root }}league/glossaire/objets/{{ it.slug }}/">
+  <a class="glossary-icon-item" href="{{ root }}league/glossaire/objets/{{ it.slug }}/" data-search="{{ it.name|lower }}">
     <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ it.icon_file }}" alt="{{ it.name }}" loading="lazy" title="{{ it.plaintext }}">
     <span>{{ it.name }}</span>
   </a>
   {% endfor %}
 </div>
+<div class="matchup-empty" id="lolGlossaryEmpty" hidden>{{ t(lang, 'lol_glossary_empty') }}</div>
+{% endblock %}
+{% block extra_body %}
+<script src="{{ root }}assets/js/lol-glossary-filters.js?v={{ css_v }}" defer></script>
 {% endblock %}

@@ -205,6 +205,48 @@ LIST_FILTERS_JS = """
 })();
 """
 
+# Search (+ optional class filter chips) over a League glossary icon grid
+# (champions or items) -- deliberately its own small script rather than
+# reusing list-filters.js: that one is hardcoded to .comp-row's own
+# dataset shape (data-playstyle-cat/data-search) and TFT's tier-group
+# preview cap, neither of which apply here. Scoped by container id so it
+# can never touch the TFT glossary's own .glossary-icon-grid pages
+# (shared CSS class, deliberately not shared behavior).
+LOL_GLOSSARY_FILTER_JS = """
+(function () {
+  var grid = document.getElementById('lolGlossaryGrid');
+  if (!grid) return;
+  var items = Array.prototype.slice.call(grid.querySelectorAll('.glossary-icon-item'));
+  var searchInput = document.getElementById('lolGlossarySearch');
+  var filterBar = document.getElementById('lolClassFilterBar');
+  var emptyState = document.getElementById('lolGlossaryEmpty');
+  var activeClass = 'ALL';
+
+  function apply() {
+    var q = (searchInput ? searchInput.value.trim().toLowerCase() : '');
+    var visible = 0;
+    items.forEach(function (el) {
+      var classOk = activeClass === 'ALL' || (el.dataset.classes || '').indexOf(activeClass) !== -1;
+      var searchOk = !q || (el.dataset.search || '').indexOf(q) !== -1;
+      var show = classOk && searchOk;
+      el.style.display = show ? '' : 'none';
+      if (show) visible++;
+    });
+    if (emptyState) emptyState.hidden = visible !== 0;
+  }
+  if (filterBar) {
+    filterBar.addEventListener('click', function (e) {
+      var btn = e.target.closest('[data-filter-class]');
+      if (!btn) return;
+      [].forEach.call(filterBar.querySelectorAll('[data-filter-class]'), function (b) { b.dataset.active = String(b === btn); });
+      activeClass = btn.dataset.filterClass;
+      apply();
+    });
+  }
+  if (searchInput) searchInput.addEventListener('input', apply);
+})();
+"""
+
 # Homepage-only: lets a visitor check any combination of rank brackets
 # (not just click one at a time like the region/rank chips) and see the
 # tier list recombine live -- see build_site.py's rank_filter_data comment
@@ -1323,7 +1365,7 @@ LEAGUE_JS = """
     support: '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
   };
   var ROLE_LABEL = { top: 'Top', jungle: 'Jungle', mid: 'Mid', adc: 'ADC', support: 'Support' };
-  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible' };
+  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible', aram: 'ARAM' };
 
   function roleIcon(role, cls) { return '<svg class="' + (cls || 'champ-role-icon') + '" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
@@ -1757,6 +1799,7 @@ LEAGUE_JS = """
       + '<div id="queueFilterBar" class="queue-filter-bar">'
       + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">Classé en solo/duo</button>'
       + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">Classé flexible</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="aram" data-active="' + (currentQueue === 'aram' ? 'true' : 'false') + '">ARAM</button>'
       + '</div>'
       + '<div class="match-history-list" id="matchHistoryList"></div>'
       + '<div id="championsTableWrap" hidden></div>'
@@ -2890,6 +2933,14 @@ I18N: dict[str, dict] = {
         "lol_glossary_runes_desc": "Les 5 arbres de runes complets et les sorts d'invocateur de Faille de l'invocateur, avec leur effet réel.",
         "lol_glossary_runes_intro": "Les 5 arbres de runes (précepte + 3 lignes) et les sorts d'invocateur utilisables sur Faille de l'invocateur, avec leur effet réel.",
         "lol_summoner_spells_title": "Sorts d'invocateur",
+        "lol_search_champion_placeholder": "Rechercher un champion…",
+        "lol_search_item_placeholder": "Rechercher un objet…",
+        "lol_filter_all_classes": "Toutes les classes",
+        "lol_glossary_empty": "Aucun résultat.",
+        "lol_patch_notes_title": "Patch Notes — League of Legends",
+        "lol_patch_notes_desc": lambda v: f"Résumé des derniers patchs League of Legends (dernier : {v}), avec liens vers les articles officiels complets.",
+        "lol_patch_last_updated": lambda v, d: f"Dernière mise à jour : patch {v} ({d}).",
+        "lol_patch_banner": 'Riot ne publie pas les patch notes League of Legends via une API -- uniquement sous forme d\'articles sur son site officiel. Voici un résumé de synthèse (nos mots, pas une reprise du texte de Riot) des derniers patchs ; chaque carte renvoie vers l\'article complet sur <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -3184,6 +3235,14 @@ I18N: dict[str, dict] = {
         "lol_glossary_runes_desc": "All 5 rune trees and the summoner spells usable on Summoner's Rift, with their real effect.",
         "lol_glossary_runes_intro": "The 5 rune trees (keystone + 3 rows) and the summoner spells usable on Summoner's Rift, with their real effect.",
         "lol_summoner_spells_title": "Summoner spells",
+        "lol_search_champion_placeholder": "Search a champion…",
+        "lol_search_item_placeholder": "Search an item…",
+        "lol_filter_all_classes": "All classes",
+        "lol_glossary_empty": "No results.",
+        "lol_patch_notes_title": "Patch Notes — League of Legends",
+        "lol_patch_notes_desc": lambda v: f"Summary of the latest League of Legends patches (latest: {v}), with links to the full official articles.",
+        "lol_patch_last_updated": lambda v, d: f"Last updated: patch {v} ({d}).",
+        "lol_patch_banner": 'Riot doesn\'t publish League of Legends patch notes through an API -- only as articles on its official site. Here\'s a summary (our own words, not lifted from Riot\'s copy) of the latest patches; each card links to the full article on <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
     },
 }
 
@@ -3459,8 +3518,10 @@ def lol_item_detail_view(it: dict, lang: str, lookup: dict[str, dict]) -> dict:
 
 
 def localize_lol_champion(c: dict, lang: str) -> dict:
+    class_labels = LOL_CLASS_LABEL["fr" if lang == "fr" else "en"]
     return {"id": c["id"], "slug": c["slug"], "icon_file": c["icon_file"],
-            "name": c["name_fr"] if lang == "fr" else c["name_en"]}
+            "name": c["name_fr"] if lang == "fr" else c["name_en"],
+            "classes": [class_labels.get(tag, tag) for tag in c["tags"]], "raw_classes": c["tags"]}
 
 
 def lol_champion_detail_view(c: dict, lang: str) -> dict:
@@ -4534,6 +4595,42 @@ def main() -> None:
                   "count": row["count"], "avg_placement": row["avgPlacement"]} for row in rows]
         comp_cols.append({"name": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR.get(r, "var(--gray)"), "comps": comps})
 
+    # ---- League of Legends patch notes -- same rationale as the TFT
+    # PATCHES below (Riot doesn't expose patch notes through an API,
+    # only as articles), but sourced from actually reading each real
+    # article on leagueoflegends.com at build time (see the session that
+    # added this), not from memory -- these 3 are the real latest
+    # patches as of this write-up, hand-summarized (own words, not
+    # copy-pasted from Riot's marketing copy). No numeric before/after
+    # values are asserted here (unlike the TFT list) since verifying the
+    # exact scaling per stat per champion would need a much deeper per-
+    # patch read; qualitative "buffed/nerfed" is what was actually
+    # confirmed from source.
+    PATCHES_LOL = {
+        "fr": [
+            {"version": "26.18", "date": "9 septembre 2026", "title": "Patch 26.18",
+             "summary": "Nerfs sur Nautilus et Bard (dominants en pro), buffs sur Viego, Master Yi, Ekko et Kassadin. Cinq champions classiques rejoignent League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao), et les pools d'augments d'ARAM Mayhem sont retravaillés pour mieux coller aux kits des champions.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes"},
+            {"version": "26.17", "date": "25 août 2026", "title": "Patch 26.17",
+             "summary": "Buffs sur les AD carries de mêlée (Irelia, Yasuo, Yone), nerfs sur Nasus et Vayne en top lane ainsi que sur Xerath, Nocturne et Graves. Stormrazor gagne en vitesse d'attaque, Sundered Sky perd des statistiques. League Classic reçoit deux pages de runes supplémentaires, plus de PI/XP, l'échange de champions en sélection et un système de vote du Conseil.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes"},
+            {"version": "26.16", "date": "11 août 2026", "title": "Patch 26.16",
+             "summary": "Trois champions classiques de plus (Akali, Kennen, Shen). Les stratégies dominantes en bot lane (roam support, mages) sont affaiblies, l'itemisation AD est renforcée (Berserker's Greaves, Black Cleaver, Eclipse), et plusieurs mécaniques système (pénalité de la quête de rôle Support, montée en puissance des familiers de jungle) sont ajustées pour diversifier la méta.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes"},
+        ],
+        "en": [
+            {"version": "26.18", "date": "September 9, 2026", "title": "Patch 26.18",
+             "summary": "Nerfs to Nautilus and Bard (overperforming in pro play), buffs to Viego, Master Yi, Ekko, and Kassadin. Five classic champions join League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao), and ARAM Mayhem's augment pools are reworked to better fit champion kits.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes"},
+            {"version": "26.17", "date": "August 25, 2026", "title": "Patch 26.17",
+             "summary": "Buffs to melee AD carries (Irelia, Yasuo, Yone), nerfs to Nasus and Vayne in top lane plus Xerath, Nocturne, and Graves. Stormrazor gains attack speed, Sundered Sky loses stats. League Classic gets two extra rune pages, more IP/XP, champion select swapping, and a Council voting system.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes"},
+            {"version": "26.16", "date": "August 11, 2026", "title": "Patch 26.16",
+             "summary": "Three more classic champions (Akali, Kennen, Shen). Dominant bot lane strategies (support roaming, mage picks) get weaker, AD itemization gets stronger (Berserker's Greaves, Black Cleaver, Eclipse), and several system mechanics (Support Role Quest penalty, jungle pet scaling) are adjusted to diversify the meta.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes"},
+        ],
+    }
+
     # ---- Patch notes (same hand-written content as the Artifact's i18n
     # dict -- real hand-translated English, not machine-translated) ----
     PATCHES = {
@@ -4953,7 +5050,8 @@ def main() -> None:
                    active_nav="league", active_sub="lol-glossary-items",
                    ddragon_version=ddragon_version, it=lol_item_detail_view(it, lang, lol_items_lookup))
         render("lol_glossary_champions.html", "/league/glossaire/champions/", lang, active_nav="league", active_sub="lol-glossary-champions",
-               ddragon_version=ddragon_version, champions=[localize_lol_champion(c, lang) for c in lol_champions])
+               ddragon_version=ddragon_version, champions=[localize_lol_champion(c, lang) for c in lol_champions],
+               class_options=list(LOL_CLASS_LABEL["fr" if lang == "fr" else "en"].items()))
         for c in lol_champions:
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
@@ -4961,6 +5059,8 @@ def main() -> None:
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
+        render("lol_patch_notes.html", "/league/patch-notes/", lang, active_nav="league", active_sub="lol-patchnotes",
+               patches=PATCHES_LOL[lang])
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -5684,6 +5784,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "lol-glossary-filters.js").write_text(LOL_GLOSSARY_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "rank-filter.js").write_text(RANK_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "counter-finder.js").write_text(COUNTER_FINDER_JS, encoding="utf-8")

@@ -4,12 +4,30 @@
 {% block content %}
 <h1 class="page-h1">{{ t(lang, 'lol_glossary_champions_title') }}</h1>
 <p class="page-intro">{{ t(lang, 'lol_glossary_champions_intro') }}</p>
-<div class="glossary-icon-grid">
+
+<div class="search-row">
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+  <input type="search" id="lolGlossarySearch" class="search-input" placeholder="{{ t(lang, 'lol_search_champion_placeholder') }}" autocomplete="off">
+</div>
+<div class="controls" id="lolClassFilterBar" style="border-bottom:none;margin-bottom:6px;padding-bottom:0">
+  <div class="filter-block">
+    <div class="tier-filters">
+      <button class="chip" data-filter-class="ALL" data-active="true">{{ t(lang, 'lol_filter_all_classes') }}</button>
+      {% for tag, label in class_options %}<button class="chip" data-filter-class="{{ tag }}" data-active="false">{{ label }}</button>{% endfor %}
+    </div>
+  </div>
+</div>
+
+<div class="glossary-icon-grid" id="lolGlossaryGrid">
   {% for c in champions %}
-  <a class="glossary-icon-item" href="{{ root }}league/glossaire/champions/{{ c.slug }}/">
+  <a class="glossary-icon-item" href="{{ root }}league/glossaire/champions/{{ c.slug }}/" data-search="{{ c.name|lower }}" data-classes="{{ c.raw_classes|join(' ') }}">
     <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ c.icon_file }}" alt="{{ c.name }}" loading="lazy">
     <span>{{ c.name }}</span>
   </a>
   {% endfor %}
 </div>
+<div class="matchup-empty" id="lolGlossaryEmpty" hidden>{{ t(lang, 'lol_glossary_empty') }}</div>
+{% endblock %}
+{% block extra_body %}
+<script src="{{ root }}assets/js/lol-glossary-filters.js?v={{ css_v }}" defer></script>
 {% endblock %}

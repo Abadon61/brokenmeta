@@ -19,7 +19,7 @@
 //      SEQUENTIALLY on purpose (see fetchMatchesSequential) rather than in
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
-import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX } from "./riot";
+import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM } from "./riot";
 import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, rankEmblemUrl } from "./lolData";
 import { getItemIconMap } from "./itemData";
 
@@ -97,14 +97,17 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   const soloEntry = leagueEntries.find((e) => e.queueType === "RANKED_SOLO_5x5") || null;
   const flexEntry = leagueEntries.find((e) => e.queueType === "RANKED_FLEX_SR") || null;
 
-  // Un seul pool de match ids couvrant les deux queues, tirés une fois puis
+  // Un seul pool de match ids couvrant les trois queues, tirés une fois puis
   // triés par queueId -- moins d'appels que de demander les ids séparément
   // par queue (l'endpoint by-puuid ne filtre pas par queue sur Match-V5).
+  // L'ARAM était déjà présent dans ce même pool et silencieusement jeté --
+  // aucun appel API supplémentaire pour l'exposer.
   const matchIds = await client.getMatchIdsByPuuid(regional, puuid, MATCHES_PER_QUEUE * 2);
   const matches = await fetchMatchesSequential(client, regional, matchIds, puuid, itemIconMap);
 
   const soloMatches = matches.filter((m) => m.queueId === QUEUE_SOLO);
   const flexMatches = matches.filter((m) => m.queueId === QUEUE_FLEX);
+  const aramMatches = matches.filter((m) => m.queueId === QUEUE_ARAM);
 
   const tierForAverages = (soloEntry?.tier || flexEntry?.tier || "GOLD").toUpperCase();
   const rankAverages = RANK_AVERAGES_BY_TIER[tierForAverages] || RANK_AVERAGES_BY_TIER.GOLD;
@@ -120,6 +123,7 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
     queues: {
       solo: buildQueueBlock(soloMatches, puuid),
       flex: buildQueueBlock(flexMatches, puuid),
+      aram: buildQueueBlock(aramMatches, puuid),
     },
   }, 200, origin);
 }

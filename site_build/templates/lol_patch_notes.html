@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_patch_notes_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_patch_notes_desc', patches[0].version) }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_patch_notes_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_patch_last_updated', patches[0].version, patches[0].date) }}</p>
+<div class="patch-note-banner">{{ t(lang, 'lol_patch_banner')|safe }}</div>
+<div class="patch-list">
+  {% for p in patches %}
+  <div class="patch-card">
+    <div class="patch-card-top">
+      <div class="patch-version-row">
+        <span class="patch-version">{{ t(lang, 'patch_word') }} {{ p.version }}</span>
+      </div>
+      <span class="patch-date nums">{{ p.date }}</span>
+    </div>
+    <div class="patch-summary"><b style="color:var(--cream)">{{ p.title }}.</b> {{ p.summary }}</div>
+    <a class="patch-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ t(lang, 'read_full_article') }}</a>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}
