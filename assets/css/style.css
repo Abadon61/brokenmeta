@@ -1605,6 +1605,30 @@
   .league-dev-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(255,194,60,0.1); border: 1px solid rgba(255,194,60,0.4); padding: 4px 9px; margin-bottom: 10px; }
   .league-dev-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
 
+  /* Glossaire LoL -- fiches objet/champion (Data Dragon, voir
+     fetch_lol_glossary_data). Ce sont les mêmes gabarits/classes .fiche-*,
+     .pill*, .item-fiche-*, .champ-fiche-*, .item-composition-* que le
+     glossaire TFT (item_fiche_header etc.) -- seules les règles ci-dessous
+     sont nouvelles (spécifiques à ce contenu). */
+  .item-fiche-desc mainText, .item-fiche-desc rules { display: block; }
+  .item-fiche-desc attention { color: var(--gold); font-weight: 700; font-family: 'Space Mono', monospace; }
+  .item-fiche-desc passive, .item-fiche-desc active { display: inline-block; color: var(--cyan); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.03em; margin-top: 4px; }
+  .item-fiche-desc physicaldamage { color: var(--warn); }
+  .item-fiche-desc magicdamage { color: #b98bff; }
+  .item-fiche-desc truedamage, .item-fiche-desc scalelevel { color: var(--text-dim); }
+  .item-fiche-desc scalearmor, .item-fiche-desc scalemr, .item-fiche-desc speed, .item-fiche-desc healing, .item-fiche-desc shield { color: var(--good); }
+  .lol-diff-grid { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+  .lol-diff-row { display: grid; grid-template-columns: 90px 1fr 40px; align-items: center; gap: 12px; font-size: 12.5px; color: var(--text-dim); }
+  .lol-diff-bar { height: 8px; background: var(--row); border: 1px solid var(--border-bright); overflow: hidden; }
+  .lol-diff-fill { height: 100%; background: var(--magenta); }
+  .lol-diff-row b { text-align: right; color: var(--cream); }
+  /* Un composant de base (ex: Bottes de vitesse) peut se transformer en
+     une dizaine d'objets différents -- .item-composition-row n'a pas
+     besoin de retour à la ligne côté TFT (recette à 2-3 composants max,
+     jamais assez pour déborder) mais en a besoin ici pour "Se transforme
+     en" côté LoL ; sans effet quand le contenu tient déjà sur une ligne. */
+  .item-composition-row { flex-wrap: wrap; row-gap: 10px; }
+
   /* Une seule carte, deux colonnes -- rang + historique dans le même
      panneau, comme op.gg, pas deux blocs séparés. */
   .profile-card { display: flex; background: var(--row); border: 1px solid var(--border-bright); position: relative; align-items: stretch; margin-top: 4px; }
