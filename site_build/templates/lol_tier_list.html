@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_tier_list_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_tier_list_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_tier_list_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_tier_list_intro') }}</p>
+
+{% for role in ['top', 'jungle', 'mid', 'adc', 'support'] %}
+<h2 class="fiche-section-title">{{ {'top': 'Top', 'jungle': 'Jungle', 'mid': 'Mid', 'adc': 'ADC', 'support': 'Support'}[role] }}</h2>
+{% set rows = by_role.get(role, []) %}
+{% if rows %}
+<div class="champions-table-scroll"><table class="champions-table">
+  <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_tier') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th></tr></thead>
+  <tbody>
+    {% for r in rows %}
+    <tr>
+      <td class="num mono">#{{ loop.index }}</td>
+      <td><div class="champ-cell"><a href="{{ root }}league/glossaire/champions/{{ r.slug }}/" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none">
+        <span class="champ-portrait"><img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ r.icon_file }}" alt="{{ r.name }}" loading="lazy"></span>{{ r.name }}
+      </a></div></td>
+      <td class="num"><span class="lol-tier-tag" data-tier="{{ r.tier }}">{{ r.tier }}</span></td>
+      <td class="num mono">{{ (r.pick_rate * 100)|round(1) }}%</td>
+      <td class="num"><span class="{{ 'good' if r.win_rate >= 0.5 else 'warn' }}">{{ (r.win_rate * 100)|round(1) }}%</span></td>
+      <td class="num mono">{{ r.games }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table></div>
+{% else %}
+<div class="matchup-empty">{{ t(lang, 'lol_tier_list_empty') }}</div>
+{% endif %}
+{% endfor %}
+{% endblock %}

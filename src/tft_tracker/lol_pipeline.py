@@ -40,6 +40,10 @@ PLAYERS_PER_BRACKET = 150
 MATCH_IDS_PER_PLAYER = 4     # kept low: 10 usable rows/match already multiplies this 10x downstream
 MAX_MATCHES_PER_BRACKET = 300
 MIN_SAMPLE_PER_ROLE = 20     # min games on a champion+role before it gets a real pick/win rate
+MIN_SAMPLE_PER_ITEM = 15     # min games with an item on a champion before it gets a real pick/win rate
+MAX_ITEMS_PER_CHAMPION = 15  # keep the JSON (and the site's "best items" table) to a real top slice
+MIN_SAMPLE_PER_MATCHUP = 10  # min games in a specific lane matchup before it gets a real win rate
+MAX_MATCHUPS_PER_CHAMPION = 15
 
 OUTPUT_PATH = f"{config.OUTPUT_DIR}/lol_champion_role_stats.json"
 
@@ -112,10 +116,36 @@ def collect_bracket(client: LolRiotClient, region: str, tier: str) -> BracketSam
     return sample
 
 
+def load_matches_from_cache(cache_dir: str = "data/raw_lol") -> list[dict]:
+    """Every ranked-solo match already sitting in the local disk cache
+    (each API-collection run writes one file per match id, immutable once
+    played) -- lets item/matchup aggregation be added and recomputed for
+    free against everything already fetched, no new Riot API calls. Same
+    idea as pipeline.py's --from-cache for TFT; region/tier bracket
+    membership isn't recoverable this way (that's a property of the seed
+    player at collection time, not of the match itself), so a from-cache
+    run's `regions`/`tiers` output fields just say so."""
+    matches = []
+    for path in Path(cache_dir).glob("*.json"):
+        try:
+            match = json.loads(path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            continue
+        if match.get("info", {}).get("queueId") == QUEUE_SOLO:
+            matches.append(match)
+    return matches
+
+
 def aggregate(matches: list[dict]) -> dict:
     """champion -> role -> {games, wins}, reading all 10 participants of
-    every match (not just a seed player) -- see module docstring."""
+    every match (not just a seed player) -- see module docstring. Also
+    tallies item picks and lane matchups off the exact same participant
+    rows, at no extra API cost (the items/opposing laner are already
+    sitting right there in each match already fetched for the role
+    stats)."""
     stats: dict[str, dict[str, dict[str, int]]] = defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0}))
+    item_stats: dict[str, dict[int, dict[str, int]]] = defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0}))
+    matchup_stats: dict[str, dict[str, dict[str, dict[str, int]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0})))
     seen_match_ids: set[str] = set()
     total_rows = 0
     for match in matches:
@@ -123,17 +153,55 @@ def aggregate(matches: list[dict]) -> dict:
         if not mid or mid in seen_match_ids:
             continue  # a match can be re-fetched across brackets/regions sharing a seed player
         seen_match_ids.add(mid)
-        for p in match.get("info", {}).get("participants", []):
+        participants = match.get("info", {}).get("participants", [])
+
+        by_role_team: dict[tuple[str, int], dict] = {}
+        for p in participants:
             champ = p.get("championName")
             role = LANE_TO_ROLE.get(p.get("individualPosition"))
             if not champ or not role:
                 continue
+            win = bool(p.get("win"))
             row = stats[champ][role]
             row["games"] += 1
-            if p.get("win"):
+            if win:
                 row["wins"] += 1
             total_rows += 1
-    return {"stats": stats, "unique_matches": len(seen_match_ids), "total_rows": total_rows}
+
+            for item_id in (p.get(f"item{i}") for i in range(7)):
+                if not item_id:
+                    continue  # 0 = empty slot
+                irow = item_stats[champ][item_id]
+                irow["games"] += 1
+                if win:
+                    irow["wins"] += 1
+
+            by_role_team[(role, p.get("teamId"))] = {"champion": champ, "win": win}
+
+        # Pair each role's two occupants (one per team) into a real lane
+        # matchup -- both directions recorded (A-vs-B and B-vs-A), since
+        # each is its own useful "how does X fare into Y" lookup.
+        roles_seen = {role for role, _ in by_role_team}
+        for role in roles_seen:
+            sides = [v for (r, _team), v in by_role_team.items() if r == role]
+            if len(sides) != 2:
+                continue  # a role missing on one side (e.g. no jungler logged) -- skip, not a real 1v1
+            a, b = sides
+            if a["champion"] == b["champion"]:
+                continue  # mirror matchup: not a meaningful counter signal
+            row_a = matchup_stats[role][a["champion"]][b["champion"]]
+            row_a["games"] += 1
+            if a["win"]:
+                row_a["wins"] += 1
+            row_b = matchup_stats[role][b["champion"]][a["champion"]]
+            row_b["games"] += 1
+            if b["win"]:
+                row_b["wins"] += 1
+
+    return {
+        "stats": stats, "item_stats": item_stats, "matchup_stats": matchup_stats,
+        "unique_matches": len(seen_match_ids), "total_rows": total_rows,
+    }
 
 
 def build_output(stats: dict[str, dict[str, dict[str, int]]], regions: list[str], tiers: list[str],
@@ -170,13 +238,82 @@ def build_output(stats: dict[str, dict[str, dict[str, int]]], regions: list[str]
     }
 
 
+def build_item_output(item_stats: dict[str, dict[int, dict[str, int]]], champ_total_games: dict[str, int],
+                       regions: list[str], tiers: list[str]) -> dict:
+    """Per champion, its real most-built items (own win rate holding that
+    item, own pick rate = games with it / champion's own total games --
+    NOT normalized against other champions, since an item's baseline pick
+    rate is a champion-specific question: 'how often do Ahri players buy
+    this', not 'how often does anyone in the game')."""
+    by_champion: dict[str, list[dict]] = {}
+    for champ, items in item_stats.items():
+        total = champ_total_games.get(champ, 0)
+        if not total:
+            continue
+        rows = []
+        for item_id, row in items.items():
+            if row["games"] < MIN_SAMPLE_PER_ITEM:
+                continue
+            rows.append({
+                "item_id": item_id, "games": row["games"], "wins": row["wins"],
+                "win_rate": round(row["wins"] / row["games"], 4),
+                "pick_rate": round(row["games"] / total, 4),
+            })
+        rows.sort(key=lambda r: -r["games"])
+        if rows:
+            by_champion[champ] = rows[:MAX_ITEMS_PER_CHAMPION]
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "regions": regions, "tiers": tiers,
+        "min_sample_per_item": MIN_SAMPLE_PER_ITEM,
+        "by_champion": by_champion,
+    }
+
+
+def build_matchup_output(matchup_stats: dict[str, dict[str, dict[str, dict[str, int]]]],
+                          regions: list[str], tiers: list[str]) -> dict:
+    """role -> champion -> real lane opponents it has faced, each with its
+    real win rate specifically against that opponent (not its overall
+    win rate) -- a real counter-pick signal, from the exact same matches
+    already collected for the role stats (see aggregate())."""
+    by_role: dict[str, dict[str, list[dict]]] = {}
+    for role, champs in matchup_stats.items():
+        role_out: dict[str, list[dict]] = {}
+        for champ, enemies in champs.items():
+            rows = []
+            for enemy, row in enemies.items():
+                if row["games"] < MIN_SAMPLE_PER_MATCHUP:
+                    continue
+                rows.append({
+                    "enemy": enemy, "games": row["games"], "wins": row["wins"],
+                    "win_rate": round(row["wins"] / row["games"], 4),
+                })
+            rows.sort(key=lambda r: -r["games"])
+            if rows:
+                role_out[champ] = rows[:MAX_MATCHUPS_PER_CHAMPION]
+        if role_out:
+            by_role[role] = role_out
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "regions": regions, "tiers": tiers,
+        "min_sample_per_matchup": MIN_SAMPLE_PER_MATCHUP,
+        "by_role": by_role,
+    }
+
+
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Collect real LoL ranked matches and compute real champion pick/win rate by role.")
     p.add_argument("--regions", default=",".join(LOL_REGIONS.keys()))
     p.add_argument("--tiers", default=",".join(DEFAULT_TIERS), help=f"Comma-separated ranks among {ALL_TIERS}")
     p.add_argument("--all-tiers", action="store_true", help="Sample every rank from IRON to CHALLENGER (overrides --tiers).")
     p.add_argument("--no-cache", action="store_true", help="Ignore the local raw-match cache.")
+    p.add_argument("--from-cache", action="store_true",
+                    help="Recompute role/item/matchup stats from every ranked match already sitting in "
+                         "data/raw_lol/, with NO live API calls at all. Ignores --regions/--tiers (a cached "
+                         "match's bracket isn't recoverable) -- output says 'from-cache' instead.")
     p.add_argument("--out", default=OUTPUT_PATH)
+    p.add_argument("--items-out", default=f"{config.OUTPUT_DIR}/lol_champion_items.json")
+    p.add_argument("--matchups-out", default=f"{config.OUTPUT_DIR}/lol_matchups.json")
     return p.parse_args(argv)
 
 
@@ -185,24 +322,45 @@ def main(argv=None) -> None:
     regions = [r.strip().upper() for r in args.regions.split(",") if r.strip()]
     tiers = ALL_TIERS if args.all_tiers else [t.strip().upper() for t in args.tiers.split(",") if t.strip()]
 
-    client = LolRiotClient(use_cache=not args.no_cache)
-    all_matches: list[dict] = []
-    for region in regions:
-        for tier in tiers:
-            print(f"== {region} / {tier} ==")
-            sample = collect_bracket(client, region, tier)
-            print(f"   seed players: {len(sample.seed_puuids)} | unique matches: {len(sample.match_ids)} | ranked matches kept: {len(sample.matches)}")
-            all_matches.extend(sample.matches)
+    if args.from_cache:
+        print("Loading every ranked match already in data/raw_lol/ (no live API calls)...")
+        all_matches = load_matches_from_cache()
+        regions, tiers = ["from-cache"], ["from-cache"]
+        request_count = 0
+    else:
+        client = LolRiotClient(use_cache=not args.no_cache)
+        all_matches = []
+        for region in regions:
+            for tier in tiers:
+                print(f"== {region} / {tier} ==")
+                sample = collect_bracket(client, region, tier)
+                print(f"   seed players: {len(sample.seed_puuids)} | unique matches: {len(sample.match_ids)} | ranked matches kept: {len(sample.matches)}")
+                all_matches.extend(sample.matches)
+        request_count = client.request_count
 
     agg = aggregate(all_matches)
     print(f"\nCollected {agg['unique_matches']} unique ranked matches, {agg['total_rows']} champion+role rows "
-          f"across {len(regions)} region(s) / {len(tiers)} tier(s) ({client.request_count} API requests).")
+          f"across {len(regions)} region(s) / {len(tiers)} tier(s) ({request_count} API requests).")
 
     output = build_output(agg["stats"], regions, tiers, agg["unique_matches"], agg["total_rows"])
     out_path = Path(args.out)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Champion role stats written to {out_path} ({len(output['by_champion'])} champions with at least one qualifying role).")
+
+    champ_total_games = {champ: sum(r["games"] for r in roles.values()) for champ, roles in agg["stats"].items()}
+    item_output = build_item_output(agg["item_stats"], champ_total_games, regions, tiers)
+    items_path = Path(args.items_out)
+    items_path.parent.mkdir(parents=True, exist_ok=True)
+    items_path.write_text(json.dumps(item_output, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Champion item stats written to {items_path} ({len(item_output['by_champion'])} champions with at least one qualifying item).")
+
+    matchup_output = build_matchup_output(agg["matchup_stats"], regions, tiers)
+    matchups_path = Path(args.matchups_out)
+    matchups_path.parent.mkdir(parents=True, exist_ok=True)
+    matchups_path.write_text(json.dumps(matchup_output, indent=2, ensure_ascii=False), encoding="utf-8")
+    total_matchup_champs = sum(len(v) for v in matchup_output["by_role"].values())
+    print(f"Lane matchups written to {matchups_path} ({total_matchup_champs} role+champion combos with at least one qualifying matchup).")
 
 
 if __name__ == "__main__":

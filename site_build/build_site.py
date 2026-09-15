@@ -18,7 +18,7 @@ import re
 import shutil
 import subprocess
 import sys
-from collections import Counter
+from collections import Counter, defaultdict
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
@@ -2768,7 +2768,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Jeux",
         "nav_league": "League of Legends",
         "league_tools_soon": "Outils LoL — bientôt",
-        "nav_lol_items": "Objet", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes",
+        "nav_lol_items": "Objet", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes", "nav_lol_tier_list": "Tier List",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
         "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
@@ -3076,6 +3076,11 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_desc": "Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur League of Legends, via l'API League-v4 de Riot.",
         "lol_leaderboard_intro": "Top 20 réel par région (Challenger, Grandmaster puis Master), tiré en direct de l'API Riot. Clique un joueur pour voir sa fiche complète.",
         "lol_leaderboard_note": "Classement mis en cache une quinzaine de minutes côté serveur -- un rafraîchissement peut prendre jusqu'à une minute la première fois après cette fenêtre (deux appels API par joueur sont nécessaires pour retrouver son vrai pseudo).",
+        "lol_tier_list_title": "Tier List — League of Legends",
+        "lol_tier_list_desc": "Classement réel des champions par rôle (Top/Jungle/Mid/ADC/Support) sur League of Legends, à partir de vraies parties classées collectées via l'API Riot.",
+        "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Un rôle qui n'a pas encore assez de données n'apparaît pas.",
+        "lol_tier_list_empty": "Pas encore assez de données collectées pour ce rôle.",
+        "th_pickrate": "Pick rate",
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -3085,7 +3090,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Games",
         "nav_league": "League of Legends",
         "league_tools_soon": "LoL tools — coming soon",
-        "nav_lol_items": "Item", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes",
+        "nav_lol_items": "Item", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes", "nav_lol_tier_list": "Tier List",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
         "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
@@ -3383,6 +3388,11 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_desc": "Real Challenger/Grandmaster/Master standings by region (EUW, NA, BR, KR) on League of Legends, via Riot's League-v4 API.",
         "lol_leaderboard_intro": "Real top 20 per region (Challenger, then Grandmaster, then Master), pulled live from Riot's API. Click a player to see their full sheet.",
         "lol_leaderboard_note": "The leaderboard is cached server-side for about 15 minutes -- a refresh past that window can take up to a minute the first time (each player needs 2 API calls to recover their real name).",
+        "lol_tier_list_title": "Tier List — League of Legends",
+        "lol_tier_list_desc": "Real champion rankings by role (Top/Jungle/Mid/ADC/Support) on League of Legends, from real ranked games collected via Riot's API.",
+        "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. A role without enough data yet doesn't show up.",
+        "lol_tier_list_empty": "Not enough data collected for this role yet.",
+        "th_pickrate": "Pick rate",
     },
 }
 
@@ -3822,6 +3832,41 @@ def lol_patch_change_view(change: dict, lookup: dict[str, dict]) -> dict:
         "name": change["name_en"], "icon_kind": match["kind"] if match else None,
         "icon_file": match["icon_file"] if match else None, "slug": match["slug"] if match else None,
     }
+
+
+LOL_TIER_BUCKETS = [("S", 0.10), ("A", 0.30), ("B", 0.65), ("C", 1.0)]
+
+
+def build_lol_tier_list(role_stats_by_champion: dict, lol_champions: list[dict], lang: str) -> dict:
+    """role -> ranked list of real champions (win rate desc, S/A/B/C by
+    cumulative rank -- same simple bucketing idea as tierlist.py's TFT tier
+    list) for /league/tier-list/. Empty for a role with zero qualifying
+    champions yet (early in the collection) rather than a fabricated list."""
+    by_id = {c["id"]: c for c in lol_champions}
+    by_role: dict[str, list[dict]] = defaultdict(list)
+    for champ_id, info in role_stats_by_champion.items():
+        champ = by_id.get(champ_id)
+        if not champ:
+            continue  # a champion id the pipeline saw that isn't in the current ddragon roster (skin variant id, etc.)
+        for role, row in info["roles"].items():
+            by_role[role].append({
+                "slug": champ["slug"], "icon_file": champ["icon_file"],
+                "name": champ["name_fr"] if lang == "fr" else champ["name_en"],
+                "games": row["games"], "win_rate": row["win_rate"], "pick_rate": row["pick_rate"],
+            })
+
+    result: dict[str, list[dict]] = {}
+    for role, rows in by_role.items():
+        rows.sort(key=lambda r: -r["win_rate"])
+        n = len(rows)
+        cursor = 0
+        for tier_name, frac in LOL_TIER_BUCKETS:
+            end = n if tier_name == "C" else min(n, round(n * frac))
+            for row in rows[cursor:max(end, cursor)]:
+                row["tier"] = tier_name
+            cursor = max(end, cursor)
+        result[role] = rows
+    return result
 
 
 def localize_lol_runes_page(rune_trees: list[dict], summoner_spells: list[dict], lang: str) -> tuple[list[dict], list[dict]]:
@@ -5651,6 +5696,8 @@ def main() -> None:
                patches=[{**p, "changes": [lol_patch_change_view(c, lol_patch_icon_lookup) for c in p["changes"]]}
                         for p in PATCHES_LOL[lang]])
         render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard")
+        render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
+               ddragon_version=ddragon_version, by_role=build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -6000,6 +6047,14 @@ def main() -> None:
   .live-game-bans-row .champ-portrait { width: 26px; height: 26px; font-size: 9px; filter: grayscale(0.6); opacity: 0.85; position: relative; }
   .live-game-bans-row .champ-portrait::after { content: ""; position: absolute; inset: 0; background: linear-gradient(45deg, transparent 46%, var(--warn) 48%, var(--warn) 52%, transparent 54%); }
   .live-game-bans-empty { font-size: 11.5px; color: var(--text-faint); }
+  /* Tier List champions LoL -- réutilise la forme de .lb-tier-tag (TFT)
+     mais avec ses propres 4 couleurs S/A/B/C plutôt que de détourner les
+     couleurs Challenger/Grandmaster/Master (sémantiquement différent). */
+  .lol-tier-tag { display: inline-block; min-width: 22px; padding: 3px 7px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-align: center; border: 1px solid; }
+  .lol-tier-tag[data-tier="S"] { border-color: var(--gold); color: var(--gold); background: rgba(255,194,60,0.12); }
+  .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1); }
+  .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
+  .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
 
   /* Glossaire LoL -- fiches objet/champion (Data Dragon, voir
      fetch_lol_glossary_data). Ce sont les mêmes gabarits/classes .fiche-*,
