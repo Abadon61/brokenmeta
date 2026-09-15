@@ -24,7 +24,55 @@
     support: '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
   };
   var ROLE_LABEL = { top: 'Top', jungle: 'Jungle', mid: 'Mid', adc: 'ADC', support: 'Support' };
-  var QUEUE_LABEL = { solo: 'Classé en solo/duo', flex: 'Classé flexible', aram: 'ARAM' };
+  var QUEUE_LABEL = { solo: I.queueSolo, flex: I.queueFlex, aram: I.queueAram };
+  // Toutes les files existantes ne sont pas listées (URF, Nexus Blitz,
+  // événements temporaires...) -- fallback générique plutôt que de
+  // deviner un libellé pour une file absente de cette table.
+  var QUEUE_ID_LABEL = { 400: I.queueNormalDraft, 420: I.queueSolo, 430: I.queueNormalBlind, 440: I.queueFlex, 450: I.queueAram, 700: I.queueClash };
+  function liveGameQueueLabel(id) { return QUEUE_ID_LABEL[id] || I.queueCustom; }
+
+  // Bandeau "en partie" -- Spectator-V5, vérifié à chaque recherche de
+  // profil (voir index.ts). Même style de ligne que le scoreboard d'une
+  // partie terminée (.scoreboard-row/-team) : équipe du joueur cherché
+  // d'abord, classée "ally" même si Riot lui a attribué teamId 200 cette
+  // partie-ci (le bleu/rouge alterne, ce qui compte c'est "son équipe").
+  function buildLiveGameHtml(lg) {
+    var selfP = lg.participants.filter(function (p) { return p.isSelf; })[0];
+    var selfTeam = selfP ? selfP.teamId : 100;
+    var otherP = lg.participants.filter(function (p) { return p.teamId !== selfTeam; })[0];
+    var enemyTeam = otherP ? otherP.teamId : (selfTeam === 100 ? 200 : 100);
+    var mins = Math.floor(lg.gameLengthSeconds / 60), secs = lg.gameLengthSeconds % 60;
+    function teamRows(list) {
+      return list.map(function (p) {
+        var spellsHtml = p.spells.map(function (s) {
+          return s.iconUrl ? '<img class="spell-icon league-icon-fallback" style="width:18px;height:18px" src="' + s.iconUrl + '" alt="" title="' + esc(s.name) + '" loading="lazy">' : '';
+        }).join('');
+        var runeHtml = p.runes.keystoneIconUrl ? '<img class="rune-icon small league-icon-fallback" src="' + p.runes.keystoneIconUrl + '" alt="" title="' + esc(p.runes.keystoneName) + '" loading="lazy">' : '';
+        return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
+          + '<span class="champ-portrait">' + (p.championName ? champPortraitInner(p.championName) : '?') + '</span>'
+          + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.riotId || '') + ' ' + I.you : esc(p.riotId || '?')) + (p.bot ? ' <span class="profile-section-note">' + I.bot + '</span>' : '') + '</span>'
+          + '<span class="scoreboard-items" style="gap:2px">' + spellsHtml + runeHtml + '</span>'
+          + '</div>';
+      }).join('');
+    }
+    function bansHtml(teamId) {
+      var bans = (lg.bannedChampions || []).filter(function (b) { return b.teamId === teamId && b.championName; });
+      if (!bans.length) return '<span class="live-game-bans-empty">' + I.noBans + '</span>';
+      return bans.map(function (b) {
+        return '<span class="champ-portrait live-game-ban"><span class="champ-portrait">' + champPortraitInner(b.championName) + '</span></span>';
+      }).join('');
+    }
+    var hasBans = (lg.bannedChampions || []).some(function (b) { return b.championName; });
+    return '<div class="live-game-header"><span class="live-dot"></span>' + esc(I.liveGameLabel) + ' — ' + esc(liveGameQueueLabel(lg.gameQueueConfigId)) + ' — ' + mins + ':' + (secs < 10 ? '0' : '') + secs + '</div>'
+      + '<div class="scoreboard-grid">'
+      + '<div class="scoreboard-team ally">' + teamRows(lg.participants.filter(function (p) { return p.teamId === selfTeam; })) + '</div>'
+      + '<div class="scoreboard-team enemy">' + teamRows(lg.participants.filter(function (p) { return p.teamId !== selfTeam; })) + '</div>'
+      + '</div>'
+      + (hasBans ? '<div class="live-game-bans"><span class="live-game-bans-label">' + esc(I.bannedChampionsTitle) + '</span>'
+        + '<div class="live-game-bans-row">' + bansHtml(selfTeam) + '</div>'
+        + '<div class="live-game-bans-row">' + bansHtml(enemyTeam) + '</div>'
+        + '</div>' : '');
+  }
 
   function roleIcon(role, cls) { return '<svg class="' + (cls || 'champ-role-icon') + '" viewBox="0 0 34 34" xmlns="http://www.w3.org/2000/svg">' + (ROLE_ICON[role] || '') + '</svg>'; }
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
@@ -134,10 +182,10 @@
   });
   function timeAgo(ts) {
     var mins = Math.round((Date.now() - ts) / 60000);
-    if (mins < 60) return mins + ' min';
+    if (mins < 60) return mins + ' ' + I.minAbbr;
     var hours = Math.round(mins / 60);
-    if (hours < 24) return hours + ' h';
-    return Math.round(hours / 24) + ' j';
+    if (hours < 24) return hours + ' ' + I.hourAbbr;
+    return Math.round(hours / 24) + ' ' + I.dayAbbr;
   }
   // Anneau de winrate -- rayon 27 (circonférence ~169.65), même tracé que
   // l'artefact mais avec le pourcentage RÉEL du joueur, pas une valeur
@@ -176,7 +224,7 @@
     var csPerMin = (m.cs / m.durationMin).toFixed(1);
     return '<div class="match-row-wrap">'
       + '<div class="match-row ' + (m.win ? 'win' : 'loss') + '">'
-      + '<div class="match-result">' + (m.win ? 'Victoire' : 'Défaite') + '</div>'
+      + '<div class="match-result">' + (m.win ? I.win : I.loss) + '</div>'
       + '<div class="match-champ-block">' + roleIcon(m.role, 'champ-role-icon')
       + '<span class="champ-portrait-wrap"><span class="champ-portrait">' + champPortraitInner(m.champion) + '</span>'
       + (m.runes.keystoneIconUrl ? '<img class="champ-rune-badge league-icon-fallback" src="' + m.runes.keystoneIconUrl + '" alt="" title="' + esc(m.runes.keystoneName) + '" loading="lazy">' : '') + '</span>'
@@ -185,7 +233,7 @@
       + '<div class="match-kda"><div class="match-kda-v mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '</div><div class="match-kda-ratio">' + kdaRatio + ' KDA</div></div>'
       + '<div class="match-cs"><div class="mono">' + m.cs + ' CS</div><div class="match-cs-l">' + csPerMin + '/min</div></div>'
       + '<div class="match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</div>'
-      + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="Voir la partie">'
+      + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="' + esc(I.viewMatchAria) + '">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>'
       + '</div>'
       + '<div class="match-detail" id="matchDetail' + idx + '" hidden></div>'
@@ -201,7 +249,7 @@
         }).join('');
         return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
           + roleIcon(p.role, 'champ-role-icon') + '<span class="champ-portrait">' + champPortraitInner(p.champion) + '</span>'
-          + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' (toi)' : esc(p.name)) + '</span>'
+          + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' ' + I.you : esc(p.name)) + '</span>'
           + kdaText
           + '<span class="scoreboard-cs mono">' + p.cs + ' CS</span>'
           + '<span class="scoreboard-gold mono">' + (p.gold / 1000).toFixed(1) + 'k</span>'
@@ -216,16 +264,16 @@
   // le rang des autres joueurs d'une partie, contrairement au mockup.
   function buildMatchSummary(m) {
     var badges = [];
-    if (m.deaths === 0) badges.push('Increvable');
-    if (m.kills >= 7) badges.push('Triple Kill');
-    else if (m.kills >= 5) badges.push('Double Kill');
-    if (m.assists >= 10) badges.push('Soutien exemplaire');
+    if (m.deaths === 0) badges.push(I.badgeDeathless);
+    if (m.kills >= 7) badges.push(I.badgeTripleKill);
+    else if (m.kills >= 5) badges.push(I.badgeDoubleKill);
+    if (m.assists >= 10) badges.push(I.badgeGoodSupport);
 
     function score(p) { return p.kills * 2 + p.assists - p.deaths * 1.5; }
     var mySelf = m.scoreboard.filter(function (p) { return p.isSelf; })[0];
     var ranked = m.scoreboard.slice().sort(function (a, b) { return score(b) - score(a); });
     var rank = ranked.indexOf(mySelf) + 1;
-    var medal = rank <= 3 ? 'Or' : rank <= 6 ? 'Argent' : 'Bronze';
+    var medal = rank <= 3 ? I.medalGold : rank <= 6 ? I.medalSilver : I.medalBronze;
     badges.unshift(medal + ' ' + rank + '/10');
 
     var badgesHtml = badges.map(function (b, i) {
@@ -243,8 +291,8 @@
       var allies = m.scoreboard.filter(function (p) { return p.team === 'ally'; });
       var enemies = m.scoreboard.filter(function (p) { return p.team === 'enemy'; });
       detail.innerHTML = buildMatchSummary(m) + '<div class="scoreboard-grid">'
-        + renderScoreboardTeam(allies, 'Alliés', 'ally')
-        + renderScoreboardTeam(enemies, 'Adversaires', 'enemy')
+        + renderScoreboardTeam(allies, I.allies, 'ally')
+        + renderScoreboardTeam(enemies, I.enemies, 'enemy')
         + '</div>';
       detail.dataset.built = '1';
       bindIconFallback(detail);
@@ -253,7 +301,7 @@
 
   function renderMatchList(matches) {
     var list = document.getElementById('matchHistoryList');
-    if (!matches.length) { list.innerHTML = '<div class="matchup-empty">Aucune partie récente dans cette file.</div>'; return; }
+    if (!matches.length) { list.innerHTML = '<div class="matchup-empty">' + esc(I.noRecentMatches) + '</div>'; return; }
     list.innerHTML = matches.map(matchRowHtml).join('');
     bindIconFallback(list);
     matches.forEach(function (m, idx) {
@@ -265,7 +313,7 @@
 
   function renderChampionsTable(champions) {
     var wrap = document.getElementById('championsTableWrap');
-    if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">Aucun champion joué dans cette file.</div>'; return; }
+    if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">' + esc(I.noChampionsPlayed) + '</div>'; return; }
     var rows = champions.map(function (c) {
       return '<tr><td><div class="champ-cell"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>' + esc(c.champ) + '</div></td>'
         + '<td class="num mono">' + c.games + '</td>'
@@ -273,7 +321,7 @@
         + '<td class="num mono">' + c.avgKills.toFixed(1) + ' / ' + c.avgDeaths.toFixed(1) + ' / ' + c.avgAssists.toFixed(1) + '</td>'
         + '<td class="num mono">' + champKda(c) + '</td></tr>';
     }).join('');
-    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>Champion</th><th class="num">Parties</th><th class="num">Winrate</th><th class="num">KDA moyen</th><th class="num">Ratio</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>' + esc(I.thChampion) + '</th><th class="num">' + esc(I.thGames) + '</th><th class="num">' + esc(I.thWinrate) + '</th><th class="num">' + esc(I.thAvgKda) + '</th><th class="num">' + esc(I.thRatio) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
     bindIconFallback(wrap);
   }
 
@@ -282,23 +330,24 @@
   // pings ni messages, à aucun endpoint. Exemple fixe et clairement
   // étiqueté, jamais présenté comme la donnée du joueur recherché.
   function devSectionsHtml() {
-    var badge = '<div class="league-dev-badge"><span class="dot"></span>En développement -- en attente de l\'API de production Riot</div>';
+    var badge = '<div class="league-dev-badge"><span class="dot"></span>' + esc(I.devBadge) + '</div>';
     var lpPoints = '10,150 90,120 170,135 250,90 330,100 410,55 490,65 570,25 650,45 730,10';
+    var perGame = I.lang === 'fr' ? ' / partie' : ' / game';
     return '<div class="stats-section"><div class="lp-chart-card">' + badge
-      + '<div class="stats-block-title" style="margin-bottom:8px">Progression de LP</div>'
-      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu\'on aura commencé à relever ton LP dans le temps. Exemple illustratif :</p>'
+      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.lpProgressTitle) + '</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.lpProgressNote) + '</p>'
       + '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="90" x2="732" y2="90" class="lp-chart-zero"/>'
       + '<polygon points="' + lpPoints + ' 730,156 10,156" class="lp-chart-area"/>'
       + '<polyline points="' + lpPoints + '" class="lp-chart-line"/><circle cx="730" cy="10" r="4.5" class="lp-chart-dot"/></svg>'
       + '</div></div>'
       + '<div class="stats-section"><div class="lp-chart-card">' + badge
-      + '<div class="stats-block-title" style="margin-bottom:8px">Communication en jeu</div>'
-      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">Les pings et les messages de chat ne sont exposés par l\'API Riot à aucun endpoint -- cette section restera un exemple tant que ça n\'aura pas changé. Exemple illustratif :</p>'
-      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">6.4</div><div class="stats-comms-msg-label">Messages / partie</div></div>'
+      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsTitle) + '</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsNote) + '</p>'
+      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">6.4</div><div class="stats-comms-msg-label">' + esc(I.messagesPerGame) + '</div></div>'
       + '<div class="comms-ping-list">'
-      + '<div class="comms-ping-row"><span class="comms-ping-label">En chemin</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:70%"></div></div><span class="comms-ping-value mono">2.1 / partie</span></div>'
-      + '<div class="comms-ping-row"><span class="comms-ping-label">Ennemi manquant</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:60%"></div></div><span class="comms-ping-value mono">1.8 / partie</span></div>'
-      + '<div class="comms-ping-row"><span class="comms-ping-label">Attention</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:40%"></div></div><span class="comms-ping-value mono">1.2 / partie</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">' + esc(I.pingOnMyWay) + '</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:70%"></div></div><span class="comms-ping-value mono">2.1' + perGame + '</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">' + esc(I.pingMissing) + '</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:60%"></div></div><span class="comms-ping-value mono">1.8' + perGame + '</span></div>'
+      + '<div class="comms-ping-row"><span class="comms-ping-label">' + esc(I.pingDanger) + '</span><div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:40%"></div></div><span class="comms-ping-value mono">1.2' + perGame + '</span></div>'
       + '</div></div></div></div>';
   }
 
@@ -311,54 +360,57 @@
         + '<div class="stats-top-champ-info"><div class="stats-top-champ-name">' + esc(c.champ) + '</div>'
         + '<div class="stats-top-champ-sub">' + c.games + ' parties &middot; <span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '% WR</span></div></div>'
         + '<div class="stats-top-champ-kda mono">' + c.kda.toFixed(1) + ' <span>KDA</span></div></div>';
-    }).join('') : '<div class="matchup-empty">Pas assez de parties sur un même champion dans cette file (min. 2).</div>';
+    }).join('') : '<div class="matchup-empty">' + esc(I.notEnoughSameChamp) + '</div>';
 
     var maxRoleGames = Math.max.apply(null, q.roleStats.map(function (r) { return r.games; })) || 1;
     var roleHtml = q.roleStats.length ? q.roleStats.map(function (r) {
       var pct = Math.round((r.games / maxRoleGames) * 100);
       return '<div class="role-stat-row"><div class="role-stat-role">' + roleIcon(r.role) + (ROLE_LABEL[r.role] || r.role) + '</div>'
         + '<div class="role-stat-bar-track"><div class="role-stat-bar-fill" style="width:' + pct + '%"></div></div>'
-        + '<div class="role-stat-games mono">' + r.games + ' parties</div>'
+        + '<div class="role-stat-games mono">' + r.games + ' ' + esc(I.partiesUnit) + '</div>'
         + '<div class="role-stat-wr ' + (r.wr >= 50 ? 'good' : 'warn') + '">' + r.wr + '%</div></div>';
-    }).join('') : '<div class="matchup-empty">Aucune partie dans cette file.</div>';
+    }).join('') : '<div class="matchup-empty">' + esc(I.noMatchesInQueue) + '</div>';
 
     function compareCard(label, you, rankAvg, unit, decimals) {
       var scale = Math.max(you, rankAvg) * 1.15 || 1;
       var diff = you - rankAvg;
       return '<div class="stats-compare-card"><div class="stats-compare-label">' + label + '</div>'
-        + '<div class="stats-compare-row"><span class="stats-compare-name">Toi</span><div class="stats-compare-track"><div class="stats-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + you.toFixed(decimals) + unit + '</span></div>'
-        + '<div class="stats-compare-row"><span class="stats-compare-name">Rang</span><div class="stats-compare-track"><div class="stats-compare-fill rank" style="width:' + Math.round((rankAvg / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + rankAvg.toFixed(decimals) + unit + '</span></div>'
-        + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' vs moyenne</div></div>';
+        + '<div class="stats-compare-row"><span class="stats-compare-name">' + esc(I.youLabel) + '</span><div class="stats-compare-track"><div class="stats-compare-fill you" style="width:' + Math.round((you / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + you.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-row"><span class="stats-compare-name">' + esc(I.rankAvgLabel) + '</span><div class="stats-compare-track"><div class="stats-compare-fill rank" style="width:' + Math.round((rankAvg / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + rankAvg.toFixed(decimals) + unit + '</span></div>'
+        + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' ' + esc(I.vsAvg) + '</div></div>';
     }
     var sa = q.statsAvg;
     var compareHtml = q.matches.length ? [
-      compareCard('CS / min', sa.csPerMin, rankAverages.csPerMin, '', 1),
-      compareCard('Gold / min', sa.goldPerMin, rankAverages.goldPerMin, '', 0),
-      compareCard('Dégâts / min', sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
-      compareCard('Participation aux kills', sa.killParticipation, rankAverages.killParticipation, '%', 0),
-    ].join('') : '<div class="matchup-empty">Pas assez de parties pour comparer.</div>';
+      compareCard(I.csPerMin, sa.csPerMin, rankAverages.csPerMin, '', 1),
+      compareCard(I.goldPerMin, sa.goldPerMin, rankAverages.goldPerMin, '', 0),
+      compareCard(I.dmgPerMin, sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
+      compareCard(I.killParticipation, sa.killParticipation, rankAverages.killParticipation, '%', 0),
+    ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
 
     var maxWeekday = Math.max.apply(null, q.weekdayStats.map(function (d) { return d.games; })) || 1;
     var weekdayHtml = q.weekdayStats.map(function (d) {
       var pct = Math.round((d.games / maxWeekday) * 100);
       var labelClass = d.idx === 5 ? ' sam' : d.idx === 6 ? ' dim' : '';
+      // d.label vient du worker, toujours en français (WEEKDAY_LABELS y est
+      // codé en dur) -- recalculé ici depuis l'index numérique plutôt que
+      // d'ajouter un paramètre de langue à l'API pour un simple libellé.
       return '<div class="weekday-bar-col"><div class="weekday-bar-value mono">' + d.games + '</div>'
         + '<div class="weekday-bar-track"><div class="weekday-bar-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
-        + '<div class="weekday-bar-label' + labelClass + '">' + d.label + '</div></div>';
+        + '<div class="weekday-bar-label' + labelClass + '">' + esc(I.weekdayLabels[d.idx]) + '</div></div>';
     }).join('');
     var hourlyHtml = q.hourlyStats.filter(function (h) { return h.games > 0; }).map(function (h) {
       return '<div class="hourly-row"><span class="hourly-time mono">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
-        + '<span class="hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' jeux</span>'
+        + '<span class="hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' ' + esc(I.gamesUnit) + '</span>'
         + '<span class="hourly-wr mono">' + h.wr + '%</span></div>';
-    }).join('') || '<div class="matchup-empty">Pas assez de parties pour un historique horaire.</div>';
+    }).join('') || '<div class="matchup-empty">' + esc(I.notEnoughHourly) + '</div>';
 
     wrap.innerHTML =
-      '<div class="stats-section"><div class="stats-block-title">Meilleures perfs de la saison <span class="profile-section-note">classé par KDA, min. 2 parties</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">Répartition par rôle <span class="profile-section-note">' + q.matches.length + ' parties</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">Toi vs moyenne du rang</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">Modèles d\'activité</div></div>'
-      + '<div class="activity-subtitle">En semaine</div><div class="weekday-chart">' + weekdayHtml + '</div>'
-      + '<div class="activity-subtitle" style="margin-top:18px">Par heure</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
+      '<div class="stats-section"><div class="stats-block-title">' + esc(I.seasonBestTitle) + ' <span class="profile-section-note">' + esc(I.seasonBestSub) + '</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
+      + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart">' + weekdayHtml + '</div>'
+      + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
       + devSectionsHtml();
     bindIconFallback(wrap);
   }
@@ -370,7 +422,7 @@
         + '<span class="most-played-name">' + esc(c.champ) + '</span>'
         + '<span class="most-played-kda mono">' + c.kda.toFixed(1) + ' KDA</span>'
         + '<span class="most-played-wr ' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></div>';
-    }).join('') : '<div class="matchup-empty">Aucune partie.</div>';
+    }).join('') : '<div class="matchup-empty">' + esc(I.noRecentGame) + '</div>';
     bindIconFallback(document.getElementById('mostPlayedGrid'));
 
     var hasPlayedWith = q.playedWith.length > 0;
@@ -378,9 +430,9 @@
     document.getElementById('duoPartnerTitle').hidden = !hasPlayedWith;
     document.getElementById('duoPartnerList').innerHTML = q.playedWith.map(function (p) {
       return '<div class="duo-partner-row"><div class="duo-partner-info"><div class="duo-partner-name">' + esc(p.riotId) + '</div>'
-        + '<div class="duo-partner-meta">' + p.games + ' parties ensemble</div></div>'
+        + '<div class="duo-partner-meta">' + p.games + ' ' + esc(I.gamesTogether) + '</div></div>'
         + '<div class="duo-partner-stats"><div class="duo-partner-wr ' + (p.wr >= 50 ? 'good' : 'warn') + '">' + p.wr + '%</div>'
-        + '<div class="duo-partner-record">' + p.wins + 'V ' + (p.games - p.wins) + 'D</div></div></div>';
+        + '<div class="duo-partner-record">' + p.wins + I.winAbbr + ' ' + (p.games - p.wins) + I.lossAbbr + '</div></div></div>';
     }).join('');
   }
 
@@ -429,19 +481,19 @@
       + (primary ? '<div class="rank-emblem-wrap"><img class="rank-emblem league-icon-fallback" src="' + primary.emblemUrl + '" alt=""></div>'
         + '<div class="rank-tier-name">' + tierLabel(primary.tier) + ' ' + primary.rank + '</div>'
         + '<div class="rank-lp mono">' + primary.leaguePoints + ' LP</div>'
-        + '<div class="rank-ring-wrap">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + 'V</div></div></div>'
-        + '<div class="rank-record">' + primary.wins + 'V ' + primary.losses + 'D</div>'
-        : '<div class="rank-tier-name" style="color:var(--text-faint)">Non classé</div>')
+        + '<div class="rank-ring-wrap">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + I.winAbbr + '</div></div></div>'
+        + '<div class="rank-record">' + primary.wins + I.winAbbr + ' ' + primary.losses + I.lossAbbr + '</div>'
+        : '<div class="rank-tier-name" style="color:var(--text-faint)">' + esc(I.unranked) + '</div>')
       + '<div class="sidebar-divider"></div>'
       + (secondary
-        ? '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value">' + tierLabel(secondary.tier) + ' ' + secondary.rank + ' <span class="mono">' + secondary.leaguePoints + ' LP</span></span></div>'
-        : '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">Classé flexible</span><span class="flex-rank-value" style="color:var(--text-faint)">Non classé</span></div>')
+        ? '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">' + esc(I.queueFlex) + '</span><span class="flex-rank-value">' + tierLabel(secondary.tier) + ' ' + secondary.rank + ' <span class="mono">' + secondary.leaguePoints + ' LP</span></span></div>'
+        : '<div class="flex-rank-row"><span class="sidebar-subtitle" style="margin-bottom:0">' + esc(I.queueFlex) + '</span><span class="flex-rank-value" style="color:var(--text-faint)">' + esc(I.unranked) + '</span></div>')
       + '<div class="sidebar-divider"></div>'
-      + '<div class="sidebar-subtitle">Le plus joué <span class="profile-section-note">' + QUEUE_LABEL[currentQueue] + '</span></div>'
+      + '<div class="sidebar-subtitle">' + esc(I.mostPlayed) + ' <span class="profile-section-note">' + QUEUE_LABEL[currentQueue] + '</span></div>'
       + '<div class="most-played-list" id="mostPlayedGrid"></div>'
-      + '<button type="button" class="see-all-champs-btn" id="seeAllChampsBtn">Voir tous les champions →</button>'
+      + '<button type="button" class="see-all-champs-btn" id="seeAllChampsBtn">' + esc(I.seeAllChamps) + '</button>'
       + '<div class="sidebar-divider" id="duoPartnerDivider" hidden></div>'
-      + '<div class="sidebar-subtitle" id="duoPartnerTitle" hidden>Joué avec <span class="profile-section-note">derniers matchs</span></div>'
+      + '<div class="sidebar-subtitle" id="duoPartnerTitle" hidden>' + esc(I.playedWith) + ' <span class="profile-section-note">' + esc(I.recentMatches) + '</span></div>'
       + '<div class="duo-partner-list" id="duoPartnerList"></div>';
 
     var card = el('div', 'profile-card', '');
@@ -451,14 +503,14 @@
       + '<div class="profile-sidebar">' + sidebarHtml + '</div>'
       + '<div class="profile-main">'
       + '<div class="profile-main-tabs">'
-      + '<button type="button" class="profile-main-tab" id="tabHistory" data-active="true">Historique</button>'
-      + '<button type="button" class="profile-main-tab" id="tabChampions">Champions</button>'
-      + '<button type="button" class="profile-main-tab" id="tabStats">Statistiques</button>'
+      + '<button type="button" class="profile-main-tab" id="tabHistory" data-active="true">' + esc(I.tabHistory) + '</button>'
+      + '<button type="button" class="profile-main-tab" id="tabChampions">' + esc(I.tabChampions) + '</button>'
+      + '<button type="button" class="profile-main-tab" id="tabStats">' + esc(I.tabStats) + '</button>'
       + '</div>'
       + '<div id="queueFilterBar" class="queue-filter-bar">'
-      + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">Classé en solo/duo</button>'
-      + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">Classé flexible</button>'
-      + '<button type="button" class="queue-filter-btn" data-queue="aram" data-active="' + (currentQueue === 'aram' ? 'true' : 'false') + '">ARAM</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="solo" data-active="' + (currentQueue === 'solo' ? 'true' : 'false') + '">' + esc(I.queueSolo) + '</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="flex" data-active="' + (currentQueue === 'flex' ? 'true' : 'false') + '">' + esc(I.queueFlex) + '</button>'
+      + '<button type="button" class="queue-filter-btn" data-queue="aram" data-active="' + (currentQueue === 'aram' ? 'true' : 'false') + '">' + esc(I.queueAram) + '</button>'
       + '</div>'
       + '<div class="match-history-list" id="matchHistoryList"></div>'
       + '<div id="championsTableWrap" hidden></div>'
@@ -468,11 +520,16 @@
     var header = el('div', 'player-header',
       '<div class="player-avatar">' + avatarHtml + '</div>'
       + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span></div>'
-      + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; Niveau ' + data.summonerLevel : '') + '</div></div>');
+      + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; ' + esc(I.level) + ' ' + data.summonerLevel : '') + '</div></div>');
 
     results.innerHTML = '';
     results.appendChild(header);
     bindIconFallback(header);
+    if (data.liveGame) {
+      var liveEl = el('div', 'live-game-banner', buildLiveGameHtml(data.liveGame));
+      results.appendChild(liveEl);
+      bindIconFallback(liveEl);
+    }
     results.appendChild(card);
     bindIconFallback(card);
 
@@ -490,7 +547,7 @@
   }
 
   async function runProfile(riotId, region) {
-    setStatus(I.loading || 'Recherche en cours…', false);
+    setStatus(I.loading, false);
     results.innerHTML = '';
     try {
       await ddragonReady;
