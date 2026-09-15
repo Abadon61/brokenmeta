@@ -64,6 +64,20 @@
 </div>
 
 <h2 class="fiche-section-title">{{ t(lang, 'lol_champ_roles_title') }}</h2>
+{% if d.role_stats %}
+<div class="role-stats-list">
+  {% for r in d.role_stats %}
+  <div class="role-stat-row">
+    <div class="role-stat-role">{{ r.role_label }}</div>
+    <div class="role-stat-bar-track"><div class="role-stat-bar-fill" style="width:{{ (r.pick_rate * 100)|round|int }}%"></div></div>
+    <div class="role-stat-games mono">{{ (r.pick_rate * 100)|round(1) }}% pick</div>
+    <div class="role-stat-wr {{ 'good' if r.win_rate >= 0.5 else 'warn' }}">{{ (r.win_rate * 100)|round(1) }}% WR</div>
+  </div>
+  {% endfor %}
+</div>
+<p class="profile-section-note" style="display:block;margin-top:10px">{{ t(lang, 'lol_champ_roles_real_note') }}</p>
+{% else %}
 <div class="league-dev-badge"><span class="dot"></span>{{ t(lang, 'lol_champ_roles_soon_badge') }}</div>
 <div class="matchup-empty">{{ t(lang, 'lol_champ_roles_pending') }}</div>
+{% endif %}
 {% endblock %}

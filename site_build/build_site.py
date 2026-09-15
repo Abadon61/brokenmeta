@@ -3055,6 +3055,7 @@ I18N: dict[str, dict] = {
         "lol_champ_stat_attackspeed": "Vitesse d'attaque", "lol_champ_stat_movespeed": "Vitesse de déplacement", "lol_champ_stat_attackrange": "Portée",
         "lol_champ_roles_title": "Répartition par rôle",
         "lol_champ_roles_soon_badge": "En développement",
+        "lol_champ_roles_real_note": "Taux de pick réels (parmi les parties classées Or à Challenger collectées sur EUW/NA/BR/KR) et winrate réel, à partir d'un échantillon encore modeste -- pas encore à l'échelle du tracker de compositions TFT de ce site. Un rôle sans assez de parties observées n'apparaît pas ici.",
         "lol_champ_roles_pending": "Bientôt : taux de pick et de victoire réels par rôle (Top/Jungle/Mid/ADC/Support) -- nécessite une collecte de parties League à grande échelle, sur le même principe que le tracker de compositions TFT de ce site, pas encore mise en place pour League of Legends. Aucun chiffre inventé en attendant.",
         "lol_champ_abilities_title": "Compétences",
         "lol_champ_passive_label": "Passif",
@@ -3361,6 +3362,7 @@ I18N: dict[str, dict] = {
         "lol_champ_stat_attackspeed": "Attack speed", "lol_champ_stat_movespeed": "Movement speed", "lol_champ_stat_attackrange": "Range",
         "lol_champ_roles_title": "Role distribution",
         "lol_champ_roles_soon_badge": "In development",
+        "lol_champ_roles_real_note": "Real pick rate (among Gold-to-Challenger ranked games collected on EUW/NA/BR/KR) and real win rate, from a still-modest sample -- not yet at the scale of this site's TFT comp tracker. A role without enough observed games doesn't show up here.",
         "lol_champ_roles_pending": "Coming soon: real pick rate and win rate by role (Top/Jungle/Mid/ADC/Support) -- this needs a large-scale League match collection, on the same principle as this site's TFT comp tracker, not yet built for League of Legends. No invented numbers in the meantime.",
         "lol_champ_abilities_title": "Abilities",
         "lol_champ_passive_label": "Passive",
@@ -3762,9 +3764,22 @@ def localize_lol_champion(c: dict, lang: str) -> dict:
             "classes": [class_labels.get(tag, tag) for tag in c["tags"]], "raw_classes": c["tags"]}
 
 
-def lol_champion_detail_view(c: dict, lang: str) -> dict:
+def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict) -> dict:
     base = localize_lol_champion(c, lang)
     class_labels = LOL_CLASS_LABEL["fr" if lang == "fr" else "en"]
+    # Real pick rate / win rate by role -- see lol_run.py. Keyed by the
+    # same ddragon champion id used everywhere else (c["id"], e.g. "Ahri",
+    # "MonkeyKing"), sorted by games desc so the champion's real primary
+    # role (by how often it's actually played, not a guess) leads. Empty
+    # until that pipeline has been run at least once, or for a champion/
+    # role combo that hasn't cleared MIN_SAMPLE_PER_ROLE yet -- the
+    # template falls back to the honest "en développement" badge either way.
+    role_label = {"top": "Top", "jungle": "Jungle", "mid": "Mid", "adc": "ADC", "support": "Support"}
+    champ_roles = (role_stats_by_champion.get(c["id"]) or {}).get("roles", {})
+    role_stats = sorted(
+        [{"role": role, "role_label": role_label.get(role, role), **data} for role, data in champ_roles.items()],
+        key=lambda r: -r["games"],
+    )
     base.update({
         "title": c["title_fr"] if lang == "fr" else c["title_en"],
         "blurb": c["blurb_fr"] if lang == "fr" else c["blurb_en"],
@@ -3778,6 +3793,7 @@ def lol_champion_detail_view(c: dict, lang: str) -> dict:
         "passive": c["passive_fr"] if lang == "fr" else c["passive_en"],
         "spells": c["spells_fr"] if lang == "fr" else c["spells_en"],
         "info": c["info"], "stats": c["stats"],
+        "role_stats": role_stats,
     })
     return base
 
@@ -3830,6 +3846,13 @@ def main() -> None:
     matchups_json = load("matchups.json")
     comp_history = load("comp_history.json") if (OUT / "comp_history.json").exists() else {"snapshots": []}
     leaderboard_history = load("leaderboard_history.json") if (OUT / "leaderboard_history.json").exists() else {"snapshots": []}
+    # Real champion pick-rate/win-rate by role for the League glossary --
+    # see lol_run.py / src/tft_tracker/lol_pipeline.py. Optional: until
+    # that pipeline has been run at least once, lol_champion_role_stats
+    # stays {} and every champion keeps the honest "en développement"
+    # badge (see lol_champion_detail_view) instead of a KeyError.
+    lol_role_stats_raw = load("lol_champion_role_stats.json") if (OUT / "lol_champion_role_stats.json").exists() else {"by_champion": {}}
+    lol_role_stats_by_champion: dict = lol_role_stats_raw.get("by_champion", {})
     # Precomputed by the separate compute_gameplans.py (real Monte Carlo
     # simulation, ~5-7s/comp -- far too slow to run from here, which needs
     # to stay fast for routine template/CSS iteration). {comp_key: [{"tab",
@@ -5619,7 +5642,7 @@ def main() -> None:
         for c in lol_champions:
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
-                   ddragon_version=ddragon_version, d=lol_champion_detail_view(c, lang))
+                   ddragon_version=ddragon_version, d=lol_champion_detail_view(c, lang, lol_role_stats_by_champion))
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
