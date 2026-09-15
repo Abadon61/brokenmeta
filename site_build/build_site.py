@@ -19,6 +19,7 @@ import shutil
 import subprocess
 import sys
 from collections import Counter
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -2594,7 +2595,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Jeux",
         "nav_league": "League of Legends",
         "league_tools_soon": "Outils LoL — bientôt",
-        "nav_lol_items": "Objet", "nav_lol_champions": "Champion",
+        "nav_lol_items": "Objet", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
         "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
@@ -2882,6 +2883,13 @@ I18N: dict[str, dict] = {
         "lol_champ_roles_title": "Répartition par rôle",
         "lol_champ_roles_soon_badge": "En développement",
         "lol_champ_roles_pending": "Bientôt : taux de pick et de victoire réels par rôle (Top/Jungle/Mid/ADC/Support) -- nécessite une collecte de parties League à grande échelle, sur le même principe que le tracker de compositions TFT de ce site, pas encore mise en place pour League of Legends. Aucun chiffre inventé en attendant.",
+        "lol_champ_abilities_title": "Compétences",
+        "lol_champ_passive_label": "Passif",
+        "lol_ability_cooldown_label": "Rechargement", "lol_ability_cost_label": "Coût", "lol_ability_range_label": "Portée",
+        "lol_glossary_runes_title": "Runes & Sorts — Glossaire League of Legends",
+        "lol_glossary_runes_desc": "Les 5 arbres de runes complets et les sorts d'invocateur de Faille de l'invocateur, avec leur effet réel.",
+        "lol_glossary_runes_intro": "Les 5 arbres de runes (précepte + 3 lignes) et les sorts d'invocateur utilisables sur Faille de l'invocateur, avec leur effet réel.",
+        "lol_summoner_spells_title": "Sorts d'invocateur",
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -2891,7 +2899,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Games",
         "nav_league": "League of Legends",
         "league_tools_soon": "LoL tools — coming soon",
-        "nav_lol_items": "Item", "nav_lol_champions": "Champion",
+        "nav_lol_items": "Item", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
         "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
@@ -3169,6 +3177,13 @@ I18N: dict[str, dict] = {
         "lol_champ_roles_title": "Role distribution",
         "lol_champ_roles_soon_badge": "In development",
         "lol_champ_roles_pending": "Coming soon: real pick rate and win rate by role (Top/Jungle/Mid/ADC/Support) -- this needs a large-scale League match collection, on the same principle as this site's TFT comp tracker, not yet built for League of Legends. No invented numbers in the meantime.",
+        "lol_champ_abilities_title": "Abilities",
+        "lol_champ_passive_label": "Passive",
+        "lol_ability_cooldown_label": "Cooldown", "lol_ability_cost_label": "Cost", "lol_ability_range_label": "Range",
+        "lol_glossary_runes_title": "Runes & Spells — League of Legends Glossary",
+        "lol_glossary_runes_desc": "All 5 rune trees and the summoner spells usable on Summoner's Rift, with their real effect.",
+        "lol_glossary_runes_intro": "The 5 rune trees (keystone + 3 rows) and the summoner spells usable on Summoner's Rift, with their real effect.",
+        "lol_summoner_spells_title": "Summoner spells",
     },
 }
 
@@ -3264,12 +3279,20 @@ def fetch_ddragon_version() -> str:
     return resp.json()[0]
 
 
-def fetch_lol_glossary_data(ddragon_version: str) -> tuple[list[dict], dict[str, dict], list[dict]]:
-    """Returns (items, items_lookup, champions) -- see module comment above.
-    items_lookup covers EVERY item Data Dragon knows (including ones
-    filtered out of the public `items` list below) so a component/upgrade
-    reference in a recipe can always show a real name+icon, linking to its
-    own page only when that item passed the filter."""
+def fetch_lol_champion_full(ddragon_version: str, champ_id: str, locale: str) -> dict:
+    url = f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/data/{locale}/champion/{champ_id}.json"
+    resp = requests.get(url, timeout=30)
+    resp.raise_for_status()
+    return resp.json()["data"][champ_id]
+
+
+def fetch_lol_glossary_data(ddragon_version: str) -> tuple[list[dict], dict[str, dict], list[dict], list[dict], list[dict]]:
+    """Returns (items, items_lookup, champions, rune_trees, summoner_spells)
+    -- see module comment above. items_lookup covers EVERY item Data Dragon
+    knows (including ones filtered out of the public `items` list below) so
+    a component/upgrade reference in a recipe can always show a real
+    name+icon, linking to its own page only when that item passed the
+    filter."""
 
     def fetch(locale: str, kind: str) -> dict:
         url = f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/data/{locale}/{kind}.json"
@@ -3279,6 +3302,28 @@ def fetch_lol_glossary_data(ddragon_version: str) -> tuple[list[dict], dict[str,
 
     items_fr, items_en = fetch("fr_FR", "item"), fetch("en_US", "item")
     champs_fr, champs_en = fetch("fr_FR", "champion"), fetch("en_US", "champion")
+
+    # Full per-champion files (lore, passive, 4 spells) -- the summary
+    # champion.json above only has the short "blurb", not the actual
+    # abilities. ~350 small CDN requests (173 champions x 2 locales);
+    # parallelized since Data Dragon is a plain CDN, not a rate-limited
+    # Riot API like the live worker -- no throttling concern here.
+    champ_ids = list(champs_en.keys())
+    print(f"  Fetching full champion data (lore + abilities) for {len(champ_ids)} champions x 2 locales...")
+    with ThreadPoolExecutor(max_workers=16) as pool:
+        full_fr = dict(zip(champ_ids, pool.map(lambda cid: fetch_lol_champion_full(ddragon_version, cid, "fr_FR"), champ_ids)))
+        full_en = dict(zip(champ_ids, pool.map(lambda cid: fetch_lol_champion_full(ddragon_version, cid, "en_US"), champ_ids)))
+
+    def fetch_list(locale: str, kind: str) -> list:
+        # runesReforged.json is a bare top-level array, unlike item/champion/
+        # summoner.json which wrap their entries in a top-level "data" object.
+        url = f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/data/{locale}/{kind}.json"
+        resp = requests.get(url, timeout=30)
+        resp.raise_for_status()
+        return resp.json()
+
+    runes_fr, runes_en = fetch_list("fr_FR", "runesReforged"), fetch_list("en_US", "runesReforged")
+    summ_fr, summ_en = fetch("fr_FR", "summoner"), fetch("en_US", "summoner")
 
     items_lookup: dict[str, dict] = {}
     for item_id, en in items_en.items():
@@ -3311,19 +3356,76 @@ def fetch_lol_glossary_data(ddragon_version: str) -> tuple[list[dict], dict[str,
         entry.setdefault("has_page", False)
     items.sort(key=lambda it: (-(it["gold"].get("total") or 0), it["name_en"]))
 
+    def ability_view(spell: dict, resource_name: str) -> dict:
+        # costType is a literal, un-substituted "{{ abilityresourcename }}"
+        # template placeholder for most champions (Data Dragon leaves it to
+        # the client to fill in) -- swap it for the champion's own real
+        # resource name (partype) we already have, e.g. "Mana"/"Energie"/
+        # "Fureur", so the page never shows raw template syntax.
+        cost_type = (spell.get("costType") or "").strip()
+        if "{{" in cost_type:
+            cost_type = resource_name
+        return {
+            "name": spell.get("name") or "", "desc": spell.get("description") or "",
+            "icon_file": spell["image"]["full"], "cooldown": spell.get("cooldownBurn") or "",
+            "cost": spell.get("costBurn") or "", "cost_type": cost_type,
+            "range": spell.get("rangeBurn") or "",
+        }
+
     champions = []
     for champ_id, en in champs_en.items():
         fr = champs_fr.get(champ_id, {})
+        full_fr_c, full_en_c = full_fr[champ_id], full_en[champ_id]
         champions.append({
             "id": champ_id, "slug": champ_id.lower(), "icon_file": en["image"]["full"],
             "name_fr": fr.get("name") or en.get("name"), "name_en": en.get("name"),
             "title_fr": fr.get("title") or "", "title_en": en.get("title") or "",
             "blurb_fr": fr.get("blurb") or "", "blurb_en": en.get("blurb") or "",
+            "lore_fr": full_fr_c.get("lore") or fr.get("blurb") or "", "lore_en": full_en_c.get("lore") or en.get("blurb") or "",
             "partype_fr": fr.get("partype") or "", "partype_en": en.get("partype") or "",
             "tags": en.get("tags") or [], "info": en.get("info") or {}, "stats": en.get("stats") or {},
+            "passive_fr": {"name": full_fr_c["passive"]["name"], "desc": full_fr_c["passive"]["description"], "icon_file": full_fr_c["passive"]["image"]["full"]},
+            "passive_en": {"name": full_en_c["passive"]["name"], "desc": full_en_c["passive"]["description"], "icon_file": full_en_c["passive"]["image"]["full"]},
+            "spells_fr": [ability_view(s, fr.get("partype") or "") for s in full_fr_c["spells"]],
+            "spells_en": [ability_view(s, en.get("partype") or "") for s in full_en_c["spells"]],
         })
     champions.sort(key=lambda c: c["name_en"])
-    return items, items_lookup, champions
+
+    def rune_tree_view(trees: list) -> list:
+        return [{
+            "id": t["id"], "name": t["name"], "icon_file": t["icon"],
+            "slots": [[{"id": r["id"], "name": r["name"], "icon_file": r["icon"], "short_desc": r["shortDesc"]}
+                       for r in slot["runes"]] for slot in t["slots"]],
+        } for t in trees]
+
+    rune_trees = []
+    for tree_fr, tree_en in zip(rune_tree_view(runes_fr), rune_tree_view(runes_en)):
+        rune_trees.append({
+            "id": tree_en["id"], "icon_file": tree_en["icon_file"],
+            "name_fr": tree_fr["name"], "name_en": tree_en["name"],
+            "slots": [
+                [{"id": r_en["id"], "icon_file": r_en["icon_file"],
+                  "name_fr": r_fr["name"], "name_en": r_en["name"],
+                  "short_desc_fr": r_fr["short_desc"], "short_desc_en": r_en["short_desc"]}
+                 for r_fr, r_en in zip(slot_fr, slot_en)]
+                for slot_fr, slot_en in zip(tree_fr["slots"], tree_en["slots"])
+            ],
+        })
+
+    summoner_spells = []
+    for sid, en in summ_en.items():
+        if "CLASSIC" not in (en.get("modes") or []):
+            continue  # Summoner's Rift only -- skip ARAM/URF/Arena-exclusive spells
+        fr = summ_fr.get(sid, {})
+        summoner_spells.append({
+            "id": sid, "icon_file": en["image"]["full"],
+            "name_fr": fr.get("name") or en.get("name"), "name_en": en.get("name"),
+            "desc_fr": fr.get("description") or "", "desc_en": en.get("description") or "",
+            "cooldown_fr": fr.get("cooldownBurn") or "", "cooldown_en": en.get("cooldownBurn") or "",
+        })
+    summoner_spells.sort(key=lambda s: s["name_en"])
+
+    return items, items_lookup, champions, rune_trees, summoner_spells
 
 
 def localize_lol_item(it: dict, lang: str) -> dict:
@@ -3367,15 +3469,33 @@ def lol_champion_detail_view(c: dict, lang: str) -> dict:
     base.update({
         "title": c["title_fr"] if lang == "fr" else c["title_en"],
         "blurb": c["blurb_fr"] if lang == "fr" else c["blurb_en"],
+        "lore": c["lore_fr"] if lang == "fr" else c["lore_en"],
         "partype": c["partype_fr"] if lang == "fr" else c["partype_en"],
         # partype is localized ("None" -> "Aucune" in fr_FR), so the
         # no-resource check needs the stable English value, not the
         # display string (Warwick/Garen/... have no mana bar at all).
         "has_resource": c["partype_en"] != "None",
         "classes": [class_labels.get(tag, tag) for tag in c["tags"]],
+        "passive": c["passive_fr"] if lang == "fr" else c["passive_en"],
+        "spells": c["spells_fr"] if lang == "fr" else c["spells_en"],
         "info": c["info"], "stats": c["stats"],
     })
     return base
+
+
+def localize_lol_runes_page(rune_trees: list[dict], summoner_spells: list[dict], lang: str) -> tuple[list[dict], list[dict]]:
+    trees = [{
+        "id": t["id"], "icon_file": t["icon_file"], "name": t["name_fr"] if lang == "fr" else t["name_en"],
+        "slots": [[{"id": r["id"], "icon_file": r["icon_file"],
+                    "name": r["name_fr"] if lang == "fr" else r["name_en"],
+                    "short_desc": r["short_desc_fr"] if lang == "fr" else r["short_desc_en"]}
+                   for r in slot] for slot in t["slots"]],
+    } for t in rune_trees]
+    spells = [{
+        "id": s["id"], "icon_file": s["icon_file"], "name": s["name_fr"] if lang == "fr" else s["name_en"],
+        "desc": s["desc_fr"] if lang == "fr" else s["desc_en"], "cooldown": s["cooldown_fr"] if lang == "fr" else s["cooldown_en"],
+    } for s in summoner_spells]
+    return trees, spells
 
 
 def main() -> None:
@@ -4772,8 +4892,9 @@ def main() -> None:
 
     print("Fetching League of Legends glossary data (Data Dragon)...")
     ddragon_version = fetch_ddragon_version()
-    lol_items, lol_items_lookup, lol_champions = fetch_lol_glossary_data(ddragon_version)
-    print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions (Data Dragon {ddragon_version}).")
+    lol_items, lol_items_lookup, lol_champions, lol_rune_trees, lol_summoner_spells = fetch_lol_glossary_data(ddragon_version)
+    print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions, "
+          f"{len(lol_rune_trees)} rune trees, {len(lol_summoner_spells)} summoner spells (Data Dragon {ddragon_version}).")
 
     print("Building comp / champion / list pages (FR + EN)...")
     for lang in LANGS:
@@ -4837,6 +4958,9 @@ def main() -> None:
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
                    ddragon_version=ddragon_version, d=lol_champion_detail_view(c, lang))
+        _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
+        render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
+               ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -5191,6 +5315,28 @@ def main() -> None:
   .lol-diff-bar { height: 8px; background: var(--row); border: 1px solid var(--border-bright); overflow: hidden; }
   .lol-diff-fill { height: 100%; background: var(--magenta); }
   .lol-diff-row b { text-align: right; color: var(--cream); }
+  .lol-ability-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 22px; }
+  .lol-ability-row { display: flex; gap: 14px; align-items: flex-start; }
+  .lol-ability-icon { width: 48px; height: 48px; flex: none; border: 2px solid var(--border-bright); }
+  .lol-ability-body { flex: 1; min-width: 0; }
+  .lol-ability-name { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14px; margin-bottom: 3px; }
+  .lol-ability-key { flex: none; min-width: 20px; height: 20px; padding: 0 5px; display: inline-flex; align-items: center; justify-content: center; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 10.5px; font-weight: 700; text-transform: uppercase; }
+  .lol-ability-desc { font-size: 13px; line-height: 1.6; color: var(--text-dim); }
+  .lol-ability-meta { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-top: 6px; font-size: 11px; color: var(--text-faint); }
+  .lol-ability-meta b { color: var(--cream); }
+  /* Glossaire runes+sorts -- une seule page, sections par arbre (5) puis
+     sorts d'invocateur, pas de fiche par entrée (l'effet court tient déjà
+     entièrement sur la grille, inutile d'ajouter un niveau de clic). */
+  .lol-rune-tree { margin-bottom: 26px; }
+  .lol-rune-tree-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .lol-rune-tree-header img { width: 32px; height: 32px; }
+  .lol-rune-tree-header h3 { font-family: 'Cal Sans', sans-serif; font-size: 16px; font-weight: 400; margin: 0; }
+  .lol-rune-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .lol-rune-row:last-child { border-bottom: none; }
+  .lol-rune-cell { display: flex; gap: 8px; align-items: flex-start; width: 220px; flex: none; }
+  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #0b0221; flex: none; }
+  .lol-rune-cell .lol-rune-name { font-weight: 600; font-size: 12.5px; margin-bottom: 2px; }
+  .lol-rune-cell .lol-rune-desc { font-size: 11px; color: var(--text-faint); line-height: 1.4; }
   /* Un composant de base (ex: Bottes de vitesse) peut se transformer en
      une dizaine d'objets différents -- .item-composition-row n'a pas
      besoin de retour à la ligne côté TFT (recette à 2-3 composants max,

@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_glossary_runes_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_glossary_runes_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_glossary_runes_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_glossary_runes_intro') }}</p>
+
+{% for tree in trees %}
+<div class="lol-rune-tree">
+  <div class="lol-rune-tree-header">
+    <img src="https://ddragon.leagueoflegends.com/cdn/img/{{ tree.icon_file }}" alt="{{ tree.name }}" loading="lazy">
+    <h3>{{ tree.name }}</h3>
+  </div>
+  {% for slot in tree.slots %}
+  <div class="lol-rune-row">
+    {% for r in slot %}
+    <div class="lol-rune-cell">
+      <img src="https://ddragon.leagueoflegends.com/cdn/img/{{ r.icon_file }}" alt="{{ r.name }}" loading="lazy">
+      <div>
+        <div class="lol-rune-name">{{ r.name }}</div>
+        <div class="lol-rune-desc">{{ r.short_desc|striptags }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endfor %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_summoner_spells_title') }}</h2>
+<div class="lol-rune-row">
+  {% for s in summoner_spells %}
+  <div class="lol-rune-cell">
+    <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/spell/{{ s.icon_file }}" alt="{{ s.name }}" loading="lazy" style="border-radius:0">
+    <div>
+      <div class="lol-rune-name">{{ s.name }}</div>
+      <div class="lol-rune-desc">{{ s.desc }}{% if s.cooldown %} ({{ t(lang, 'lol_ability_cooldown_label') }} {{ s.cooldown }}s){% endif %}</div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

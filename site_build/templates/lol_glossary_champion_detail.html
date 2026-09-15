@@ -15,7 +15,32 @@
 </div>
 
 <h2 class="fiche-section-title">{{ t(lang, 'lol_champ_lore_title') }}</h2>
-<p class="page-intro" style="margin-top:0">{{ d.blurb }}</p>
+<p class="page-intro" style="margin-top:0">{{ d.lore }}</p>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_abilities_title') }}</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/passive/{{ d.passive.icon_file }}" alt="{{ d.passive.name }}" loading="lazy">
+    <div class="lol-ability-body">
+      <div class="lol-ability-name"><span class="lol-ability-key">{{ t(lang, 'lol_champ_passive_label') }}</span>{{ d.passive.name }}</div>
+      <div class="lol-ability-desc">{{ d.passive.desc|safe }}</div>
+    </div>
+  </div>
+  {% for sp in d.spells %}
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/spell/{{ sp.icon_file }}" alt="{{ sp.name }}" loading="lazy">
+    <div class="lol-ability-body">
+      <div class="lol-ability-name"><span class="lol-ability-key">{{ ['Q', 'W', 'E', 'R'][loop.index0] }}</span>{{ sp.name }}</div>
+      <div class="lol-ability-desc">{{ sp.desc|safe }}</div>
+      <div class="lol-ability-meta">
+        {% if sp.cooldown %}<span>{{ t(lang, 'lol_ability_cooldown_label') }} : <b class="nums">{{ sp.cooldown }}</b>s</span>{% endif %}
+        {% if sp.cost and sp.cost != '0' %}<span>{{ t(lang, 'lol_ability_cost_label') }} : <b class="nums">{{ sp.cost }}</b> {{ sp.cost_type }}</span>{% endif %}
+        {% if sp.range %}<span>{{ t(lang, 'lol_ability_range_label') }} : <b class="nums">{{ sp.range }}</b></span>{% endif %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
 <h2 class="fiche-section-title">{{ t(lang, 'lol_champ_difficulty_title') }}</h2>
 <div class="lol-diff-grid">

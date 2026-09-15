@@ -23,6 +23,7 @@
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/objets/" {% if active_sub == 'lol-glossary-items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_items') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/champions/" {% if active_sub == 'lol-glossary-champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_champions') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/runes/" {% if active_sub == 'lol-glossary-runes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_runes') }}</a>
 {% else %}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
@@ -49,11 +50,12 @@
    seul le Glossaire (objets + champions, données réelles Data Dragon)
    existe côté League en plus du lookup de profil (déjà la page
    courante). Même structure de dropdown que le Glossaire TFT ci-dessous. #}
-<details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions') %}data-active="true"{% endif %}>
+<details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions', 'lol-glossary-runes') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}league/glossaire/objets/">{{ t(lang, 'nav_lol_items') }}</a>
     <a href="{{ root }}league/glossaire/champions/">{{ t(lang, 'nav_lol_champions') }}</a>
+    <a href="{{ root }}league/glossaire/runes/">{{ t(lang, 'nav_lol_runes') }}</a>
   </div>
 </details>
 {% else %}
