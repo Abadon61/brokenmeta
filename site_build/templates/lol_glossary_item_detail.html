@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ it.name }} — {{ t(lang, 'lol_glossary_items_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_item_detail_desc', it.name) }}{% endblock %}
+{% block content %}
+<div class="item-fiche-header">
+  <img class="item-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ it.icon_file }}" alt="{{ it.name }}">
+  <div>
+    <div class="fiche-kicker">{{ t(lang, 'nav_lol_items') }}</div>
+    <h1 class="champ-fiche-name">{{ it.name }}</h1>
+  </div>
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_item_cost_title') }}</h2>
+<div class="pill-row">
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_item_cost_total') }}</div><div class="p-value nums">{{ it.gold.total }}</div></div>
+  {% if it.gold.base and it.gold.base != it.gold.total %}<div class="pill"><div class="p-label">{{ t(lang, 'lol_item_cost_base') }}</div><div class="p-value nums">{{ it.gold.base }}</div></div>{% endif %}
+  {% if it.gold.sell %}<div class="pill"><div class="p-label">{{ t(lang, 'lol_item_cost_sell') }}</div><div class="p-value nums">{{ it.gold.sell }}</div></div>{% endif %}
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_item_stats_title') }}</h2>
+{% if it.desc %}<div class="item-fiche-desc">{{ it.desc|safe }}</div>{% else %}<div class="matchup-empty">{{ it.plaintext }}</div>{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_item_composition_title') }}</h2>
+{% if it['from'] %}
+<div class="item-composition-row">
+  {% for comp in it['from'] %}
+  {% if not loop.first %}<span class="item-composition-plus">+</span>{% endif %}
+  <div class="item-composition-piece">
+    {% if comp.has_page %}<a href="{{ root }}league/glossaire/objets/{{ comp.slug }}/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">{% endif %}
+    <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ comp.icon_file }}" alt="{{ comp.name }}" loading="lazy">
+    <span>{{ comp.name }}</span>
+    {% if comp.has_page %}</a>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% else %}<div class="matchup-empty">{{ t(lang, 'lol_item_no_composition') }}</div>{% endif %}
+
+{% if it.into %}
+<h2 class="fiche-section-title">{{ t(lang, 'lol_item_builds_into_title') }}</h2>
+<div class="item-composition-row">
+  {% for comp in it.into %}
+  <div class="item-composition-piece">
+    {% if comp.has_page %}<a href="{{ root }}league/glossaire/objets/{{ comp.slug }}/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:8px">{% endif %}
+    <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ comp.icon_file }}" alt="{{ comp.name }}" loading="lazy">
+    <span>{{ comp.name }}</span>
+    {% if comp.has_page %}</a>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+{% endblock %}

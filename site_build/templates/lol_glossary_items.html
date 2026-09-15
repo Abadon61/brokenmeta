@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_glossary_items_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_glossary_items_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_glossary_items_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_glossary_items_intro') }}</p>
+<div class="glossary-icon-grid">
+  {% for it in items %}
+  <a class="glossary-icon-item" href="{{ root }}league/glossaire/objets/{{ it.slug }}/">
+    <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ it.icon_file }}" alt="{{ it.name }}" loading="lazy" title="{{ it.plaintext }}">
+    <span>{{ it.name }}</span>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -11,7 +11,7 @@
    when there's no space constraint to justify it. So mobile=True renders
    the exact same groups flat instead: a plain non-interactive section
    title followed by its links, always visible, nothing to expand. #}
-{% macro nav_links(lang, root, active_nav, mobile=False) %}
+{% macro nav_links(lang, root, active_nav, mobile=False, active_sub=None) %}
 {% if mobile %}
 {# Switch de jeu -- en haut du panneau mobile, pas mélangé aux groupes
    d'outils ci-dessous (voir le vrai game-toggle du topbar en desktop,
@@ -20,8 +20,9 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav != 'league' %}data-active="true"{% endif %}>Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
 {% if active_nav == 'league' %}
-<div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
-<div class="nav-link mobile-nav-sublink nav-link-soon">{{ t(lang, 'league_tools_soon') }}</div>
+<div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/objets/" {% if active_sub == 'lol-glossary-items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_items') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/champions/" {% if active_sub == 'lol-glossary-champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_champions') }}</a>
 {% else %}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
@@ -44,12 +45,17 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
 {% endif %}
 {% elif active_nav == 'league' %}
-{# Le menu rose met en avant les outils du JEU ACTIF -- League n'a pour
-   l'instant que la page de profil (déjà la page courante), donc rien à
-   proposer en plus tant que d'autres pages LoL n'existent pas. Un badge
-   honnête plutôt que des liens vers des pages qui n'existent pas encore
-   (même logique que le badge "Overlay TFT -- bientôt" de nav_cta). #}
-<span class="nav-link nav-link-soon">{{ t(lang, 'league_tools_soon') }}</span>
+{# Le menu rose met en avant les outils du JEU ACTIF -- pour l'instant,
+   seul le Glossaire (objets + champions, données réelles Data Dragon)
+   existe côté League en plus du lookup de profil (déjà la page
+   courante). Même structure de dropdown que le Glossaire TFT ci-dessous. #}
+<details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions') %}data-active="true"{% endif %}>
+  <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
+  <div class="nav-dropdown-menu">
+    <a href="{{ root }}league/glossaire/objets/">{{ t(lang, 'nav_lol_items') }}</a>
+    <a href="{{ root }}league/glossaire/champions/">{{ t(lang, 'nav_lol_champions') }}</a>
+  </div>
+</details>
 {% else %}
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>

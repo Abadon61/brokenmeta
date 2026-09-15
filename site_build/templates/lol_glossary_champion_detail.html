@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ d.name }} — {{ t(lang, 'lol_glossary_champions_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_champ_detail_desc', d.name, d.title) }}{% endblock %}
+{% block content %}
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ d.icon_file }}" alt="{{ d.name }}">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">{{ t(lang, 'nav_lol_champions') }}</div>
+    <h1 class="champ-fiche-name">{{ d.name }}</h1>
+    <div class="champ-fiche-ability-name">{{ d.title }}</div>
+    <div class="champ-fiche-traits">
+      {% for cls in d.classes %}<div class="perf-badge">{{ cls }}</div>{% endfor %}
+    </div>
+  </div>
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_lore_title') }}</h2>
+<p class="page-intro" style="margin-top:0">{{ d.blurb }}</p>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_difficulty_title') }}</h2>
+<div class="lol-diff-grid">
+  <div class="lol-diff-row"><span>{{ t(lang, 'lol_champ_attack_label') }}</span><div class="lol-diff-bar"><div class="lol-diff-fill" style="width:{{ (d.info.attack or 0) * 10 }}%"></div></div><b class="nums">{{ d.info.attack }}/10</b></div>
+  <div class="lol-diff-row"><span>{{ t(lang, 'lol_champ_defense_label') }}</span><div class="lol-diff-bar"><div class="lol-diff-fill" style="width:{{ (d.info.defense or 0) * 10 }}%"></div></div><b class="nums">{{ d.info.defense }}/10</b></div>
+  <div class="lol-diff-row"><span>{{ t(lang, 'lol_champ_magic_label') }}</span><div class="lol-diff-bar"><div class="lol-diff-fill" style="width:{{ (d.info.magic or 0) * 10 }}%"></div></div><b class="nums">{{ d.info.magic }}/10</b></div>
+  <div class="lol-diff-row"><span>{{ t(lang, 'lol_champ_difficulty_label') }}</span><div class="lol-diff-bar"><div class="lol-diff-fill" style="width:{{ (d.info.difficulty or 0) * 10 }}%"></div></div><b class="nums">{{ d.info.difficulty }}/10</b></div>
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_base_stats_title') }}</h2>
+<div class="pill-row">
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_hp') }}</div><div class="p-value nums">{{ d.stats.hp }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_hpregen') }}</div><div class="p-value nums">{{ '%.1f'|format(d.stats.hpregen) }}</div></div>
+  {% if d.has_resource %}<div class="pill"><div class="p-label">{{ d.partype }}</div><div class="p-value nums">{{ d.stats.mp }}</div></div>{% endif %}
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_armor') }}</div><div class="p-value nums">{{ '%.0f'|format(d.stats.armor) }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_spellblock') }}</div><div class="p-value nums">{{ '%.0f'|format(d.stats.spellblock) }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_attackdamage') }}</div><div class="p-value nums">{{ '%.0f'|format(d.stats.attackdamage) }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_attackspeed') }}</div><div class="p-value nums">{{ '%.3f'|format(d.stats.attackspeed) }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_movespeed') }}</div><div class="p-value nums">{{ d.stats.movespeed }}</div></div>
+  <div class="pill"><div class="p-label">{{ t(lang, 'lol_champ_stat_attackrange') }}</div><div class="p-value nums">{{ d.stats.attackrange }}</div></div>
+</div>
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_roles_title') }}</h2>
+<div class="league-dev-badge"><span class="dot"></span>{{ t(lang, 'lol_champ_roles_soon_badge') }}</div>
+<div class="matchup-empty">{{ t(lang, 'lol_champ_roles_pending') }}</div>
+{% endblock %}

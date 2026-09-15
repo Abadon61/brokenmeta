@@ -2594,6 +2594,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Jeux",
         "nav_league": "League of Legends",
         "league_tools_soon": "Outils LoL — bientôt",
+        "nav_lol_items": "Objet", "nav_lol_champions": "Champion",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
         "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
@@ -2851,6 +2852,36 @@ I18N: dict[str, dict] = {
         "item_composition_title": "Composants nécessaires",
         "item_top_champions_title": "Champions avec un fort winrate sur cet objet",
         "item_no_champion_data": "Pas assez de parties observées avec cet objet pour dégager des champions fiables.",
+
+        # ---- Glossaire League of Legends (objets + champions) -- données
+        # réelles Data Dragon (Riot), pas de pipeline de collecte à grande
+        # échelle côté LoL pour l'instant (contrairement au TFT), voir
+        # lol_champ_roles_pending. ----
+        "lol_glossary_items_title": "Objets — Glossaire League of Legends",
+        "lol_glossary_items_desc": "Tous les objets achetables de League of Legends sur Faille de l'invocateur : coût, statistiques et composants requis pour les fabriquer.",
+        "lol_glossary_items_intro": "Survole une icône pour un aperçu. Clique un objet pour voir sa fiche complète (statistiques, coût, composants).",
+        "lol_item_detail_desc": lambda name: f"{name} sur League of Legends : statistiques, coût et composants nécessaires pour le fabriquer.",
+        "lol_item_stats_title": "Statistiques",
+        "lol_item_cost_title": "Coût",
+        "lol_item_cost_base": "Coût de base", "lol_item_cost_total": "Coût total", "lol_item_cost_sell": "Prix de revente",
+        "lol_item_composition_title": "Composants nécessaires",
+        "lol_item_no_composition": "Objet de base -- ne nécessite aucun composant.",
+        "lol_item_builds_into_title": "Se transforme en",
+        "lol_glossary_champions_title": "Champions — Glossaire League of Legends",
+        "lol_glossary_champions_desc": "Tous les champions de League of Legends, avec leur histoire, leur classe et leurs statistiques de base réelles.",
+        "lol_glossary_champions_intro": "Clique un champion pour voir sa fiche complète (histoire, classe, statistiques).",
+        "lol_champ_detail_desc": lambda name, title: f"{name}, {title} -- histoire, classe et statistiques de base réelles sur League of Legends.",
+        "lol_champ_lore_title": "Histoire",
+        "lol_champ_class_title": "Classe",
+        "lol_champ_difficulty_title": "Profil de difficulté",
+        "lol_champ_attack_label": "Attaque", "lol_champ_defense_label": "Défense", "lol_champ_magic_label": "Magie", "lol_champ_difficulty_label": "Difficulté",
+        "lol_champ_base_stats_title": "Statistiques de base (niveau 1)",
+        "lol_champ_stat_hp": "Points de vie", "lol_champ_stat_hpregen": "Régén. PV (/5s)", "lol_champ_stat_mp": "Ressource",
+        "lol_champ_stat_armor": "Armure", "lol_champ_stat_spellblock": "Résistance magique", "lol_champ_stat_attackdamage": "Dégâts d'attaque",
+        "lol_champ_stat_attackspeed": "Vitesse d'attaque", "lol_champ_stat_movespeed": "Vitesse de déplacement", "lol_champ_stat_attackrange": "Portée",
+        "lol_champ_roles_title": "Répartition par rôle",
+        "lol_champ_roles_soon_badge": "En développement",
+        "lol_champ_roles_pending": "Bientôt : taux de pick et de victoire réels par rôle (Top/Jungle/Mid/ADC/Support) -- nécessite une collecte de parties League à grande échelle, sur le même principe que le tracker de compositions TFT de ce site, pas encore mise en place pour League of Legends. Aucun chiffre inventé en attendant.",
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -2860,6 +2891,7 @@ I18N: dict[str, dict] = {
         "nav_games": "Games",
         "nav_league": "League of Legends",
         "league_tools_soon": "LoL tools — coming soon",
+        "nav_lol_items": "Item", "nav_lol_champions": "Champion",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
         "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
@@ -3108,6 +3140,35 @@ I18N: dict[str, dict] = {
         "item_composition_title": "Required components",
         "item_top_champions_title": "Champions with a high win rate on this item",
         "item_no_champion_data": "Not enough observed games with this item to identify reliable champions.",
+
+        # ---- League of Legends glossary (items + champions) -- real Data
+        # Dragon (Riot) data, no large-scale collection pipeline for LoL
+        # yet (unlike TFT), see lol_champ_roles_pending. ----
+        "lol_glossary_items_title": "Items — League of Legends Glossary",
+        "lol_glossary_items_desc": "Every purchasable Summoner's Rift item in League of Legends: cost, stats and the components needed to build it.",
+        "lol_glossary_items_intro": "Hover an icon for a quick preview. Click an item to see its full sheet (stats, cost, components).",
+        "lol_item_detail_desc": lambda name: f"{name} in League of Legends: stats, cost and the components needed to build it.",
+        "lol_item_stats_title": "Stats",
+        "lol_item_cost_title": "Cost",
+        "lol_item_cost_base": "Base cost", "lol_item_cost_total": "Total cost", "lol_item_cost_sell": "Sell price",
+        "lol_item_composition_title": "Required components",
+        "lol_item_no_composition": "Basic item -- needs no components.",
+        "lol_item_builds_into_title": "Builds into",
+        "lol_glossary_champions_title": "Champions — League of Legends Glossary",
+        "lol_glossary_champions_desc": "Every League of Legends champion, with their lore, class and real base stats.",
+        "lol_glossary_champions_intro": "Click a champion to see their full sheet (lore, class, stats).",
+        "lol_champ_detail_desc": lambda name, title: f"{name}, {title} -- lore, class and real base stats in League of Legends.",
+        "lol_champ_lore_title": "Lore",
+        "lol_champ_class_title": "Class",
+        "lol_champ_difficulty_title": "Difficulty profile",
+        "lol_champ_attack_label": "Attack", "lol_champ_defense_label": "Defense", "lol_champ_magic_label": "Magic", "lol_champ_difficulty_label": "Difficulty",
+        "lol_champ_base_stats_title": "Base stats (level 1)",
+        "lol_champ_stat_hp": "Health", "lol_champ_stat_hpregen": "HP regen (/5s)", "lol_champ_stat_mp": "Resource",
+        "lol_champ_stat_armor": "Armor", "lol_champ_stat_spellblock": "Magic resist", "lol_champ_stat_attackdamage": "Attack damage",
+        "lol_champ_stat_attackspeed": "Attack speed", "lol_champ_stat_movespeed": "Movement speed", "lol_champ_stat_attackrange": "Range",
+        "lol_champ_roles_title": "Role distribution",
+        "lol_champ_roles_soon_badge": "In development",
+        "lol_champ_roles_pending": "Coming soon: real pick rate and win rate by role (Top/Jungle/Mid/ADC/Support) -- this needs a large-scale League match collection, on the same principle as this site's TFT comp tracker, not yet built for League of Legends. No invented numbers in the meantime.",
     },
 }
 
@@ -3172,6 +3233,149 @@ class ImageCache:
 
     def augment(self, slug: str, url: str) -> None:
         self._fetch(url, self.augment_dir / f"{slug}.png")
+
+
+# ---------- League of Legends glossary (objets + champions) --------------
+# Unlike the TFT glossary above (built from this project's own run.py
+# collection, data/output/*.json), League has no equivalent large-scale
+# match-collection pipeline yet -- lol-worker only ever sees the matches of
+# whoever looks their own profile up (see league_profile.html). So this
+# glossary is Riot's own reference data (Data Dragon), not an analytics
+# product: real items (cost/stats/recipe) and real champions (lore, class,
+# base stats), but no aggregate pick rate / win rate by role -- that would
+# need a TFT-style collection built for League too, which doesn't exist
+# yet (see lol_champ_roles_pending in I18N). Nothing here is invented to
+# fill that gap.
+#
+# Images are hotlinked straight to Data Dragon's CDN (same as
+# league_profile's live JS) rather than downloaded into assets/ like the
+# TFT ImageCache above -- keeps this consistent with how the rest of the
+# League side already sources its art, and avoids doubling the already
+# sizeable dist/ with ~450 more images that Riot already serves reliably.
+LOL_CLASS_LABEL = {
+    "fr": {"Fighter": "Combattant", "Mage": "Mage", "Assassin": "Assassin", "Tank": "Tank", "Support": "Support", "Marksman": "Tireur"},
+    "en": {"Fighter": "Fighter", "Mage": "Mage", "Assassin": "Assassin", "Tank": "Tank", "Support": "Support", "Marksman": "Marksman"},
+}
+
+
+def fetch_ddragon_version() -> str:
+    resp = requests.get("https://ddragon.leagueoflegends.com/api/versions.json", timeout=30)
+    resp.raise_for_status()
+    return resp.json()[0]
+
+
+def fetch_lol_glossary_data(ddragon_version: str) -> tuple[list[dict], dict[str, dict], list[dict]]:
+    """Returns (items, items_lookup, champions) -- see module comment above.
+    items_lookup covers EVERY item Data Dragon knows (including ones
+    filtered out of the public `items` list below) so a component/upgrade
+    reference in a recipe can always show a real name+icon, linking to its
+    own page only when that item passed the filter."""
+
+    def fetch(locale: str, kind: str) -> dict:
+        url = f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/data/{locale}/{kind}.json"
+        resp = requests.get(url, timeout=30)
+        resp.raise_for_status()
+        return resp.json()["data"]
+
+    items_fr, items_en = fetch("fr_FR", "item"), fetch("en_US", "item")
+    champs_fr, champs_en = fetch("fr_FR", "champion"), fetch("en_US", "champion")
+
+    items_lookup: dict[str, dict] = {}
+    for item_id, en in items_en.items():
+        fr = items_fr.get(item_id, {})
+        items_lookup[item_id] = {
+            "id": item_id, "slug": item_id, "icon_file": en["image"]["full"],
+            "name_fr": fr.get("name") or en.get("name"), "name_en": en.get("name"),
+        }
+
+    items = []
+    for item_id, en in items_en.items():
+        gold = en.get("gold") or {}
+        maps = en.get("maps") or {}
+        # Only real Summoner's Rift, purchasable items -- Data Dragon's
+        # item.json also carries ARAM/Arena-only, tutorial and deprecated
+        # entries that would just clutter a Faille de l'invocateur glossary.
+        if not gold.get("purchasable") or not maps.get("11"):
+            continue
+        fr = items_fr.get(item_id, {})
+        items.append({
+            "id": item_id, "slug": item_id, "icon_file": en["image"]["full"],
+            "name_fr": fr.get("name") or en.get("name"), "name_en": en.get("name"),
+            "plaintext_fr": fr.get("plaintext") or "", "plaintext_en": en.get("plaintext") or "",
+            "desc_fr": fr.get("description") or "", "desc_en": en.get("description") or "",
+            "gold": gold, "stats": en.get("stats") or {},
+            "from_ids": en.get("from") or [], "into_ids": en.get("into") or [],
+        })
+        items_lookup[item_id]["has_page"] = True
+    for entry in items_lookup.values():
+        entry.setdefault("has_page", False)
+    items.sort(key=lambda it: (-(it["gold"].get("total") or 0), it["name_en"]))
+
+    champions = []
+    for champ_id, en in champs_en.items():
+        fr = champs_fr.get(champ_id, {})
+        champions.append({
+            "id": champ_id, "slug": champ_id.lower(), "icon_file": en["image"]["full"],
+            "name_fr": fr.get("name") or en.get("name"), "name_en": en.get("name"),
+            "title_fr": fr.get("title") or "", "title_en": en.get("title") or "",
+            "blurb_fr": fr.get("blurb") or "", "blurb_en": en.get("blurb") or "",
+            "partype_fr": fr.get("partype") or "", "partype_en": en.get("partype") or "",
+            "tags": en.get("tags") or [], "info": en.get("info") or {}, "stats": en.get("stats") or {},
+        })
+    champions.sort(key=lambda c: c["name_en"])
+    return items, items_lookup, champions
+
+
+def localize_lol_item(it: dict, lang: str) -> dict:
+    return {
+        "id": it["id"], "slug": it["slug"], "icon_file": it["icon_file"],
+        "name": it["name_fr"] if lang == "fr" else it["name_en"],
+        "plaintext": it["plaintext_fr"] if lang == "fr" else it["plaintext_en"],
+        "gold": it["gold"],
+    }
+
+
+def lol_item_detail_view(it: dict, lang: str, lookup: dict[str, dict]) -> dict:
+    def resolve(ids: list[str]) -> list[dict]:
+        out = []
+        for cid in ids:
+            ref = lookup.get(cid)
+            if not ref:
+                continue
+            out.append({"id": cid, "slug": ref["slug"], "icon_file": ref["icon_file"], "has_page": ref["has_page"],
+                        "name": ref["name_fr"] if lang == "fr" else ref["name_en"]})
+        return out
+
+    base = localize_lol_item(it, lang)
+    base.update({
+        "desc": it["desc_fr"] if lang == "fr" else it["desc_en"],
+        "stats": it["stats"],
+        "from": resolve(it["from_ids"]),
+        "into": resolve(it["into_ids"]),
+    })
+    return base
+
+
+def localize_lol_champion(c: dict, lang: str) -> dict:
+    return {"id": c["id"], "slug": c["slug"], "icon_file": c["icon_file"],
+            "name": c["name_fr"] if lang == "fr" else c["name_en"]}
+
+
+def lol_champion_detail_view(c: dict, lang: str) -> dict:
+    base = localize_lol_champion(c, lang)
+    class_labels = LOL_CLASS_LABEL["fr" if lang == "fr" else "en"]
+    base.update({
+        "title": c["title_fr"] if lang == "fr" else c["title_en"],
+        "blurb": c["blurb_fr"] if lang == "fr" else c["blurb_en"],
+        "partype": c["partype_fr"] if lang == "fr" else c["partype_en"],
+        # partype is localized ("None" -> "Aucune" in fr_FR), so the
+        # no-resource check needs the stable English value, not the
+        # display string (Warwick/Garen/... have no mana bar at all).
+        "has_resource": c["partype_en"] != "None",
+        "classes": [class_labels.get(tag, tag) for tag in c["tags"]],
+        "info": c["info"], "stats": c["stats"],
+    })
+    return base
 
 
 def main() -> None:
@@ -4566,6 +4770,11 @@ def main() -> None:
             return rank_root(key)
         return "/"
 
+    print("Fetching League of Legends glossary data (Data Dragon)...")
+    ddragon_version = fetch_ddragon_version()
+    lol_items, lol_items_lookup, lol_champions = fetch_lol_glossary_data(ddragon_version)
+    print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions (Data Dragon {ddragon_version}).")
+
     print("Building comp / champion / list pages (FR + EN)...")
     for lang in LANGS:
         render("champions_list.html", "/champions/", lang, active_nav="champions", champions=champion_vms)
@@ -4613,6 +4822,21 @@ def main() -> None:
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
         render("league_profile.html", "/league/", lang, active_nav="league")
+
+        # ---- Glossaire League of Legends (objets + champions, données
+        # réelles Data Dragon -- voir fetch_lol_glossary_data) ----
+        render("lol_glossary_items.html", "/league/glossaire/objets/", lang, active_nav="league", active_sub="lol-glossary-items",
+               ddragon_version=ddragon_version, items=[localize_lol_item(it, lang) for it in lol_items])
+        for it in lol_items:
+            render("lol_glossary_item_detail.html", f"/league/glossaire/objets/{it['slug']}/", lang,
+                   active_nav="league", active_sub="lol-glossary-items",
+                   ddragon_version=ddragon_version, it=lol_item_detail_view(it, lang, lol_items_lookup))
+        render("lol_glossary_champions.html", "/league/glossaire/champions/", lang, active_nav="league", active_sub="lol-glossary-champions",
+               ddragon_version=ddragon_version, champions=[localize_lol_champion(c, lang) for c in lol_champions])
+        for c in lol_champions:
+            render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
+                   active_nav="league", active_sub="lol-glossary-champions",
+                   ddragon_version=ddragon_version, d=lol_champion_detail_view(c, lang))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -4949,6 +5173,30 @@ def main() -> None:
   .player-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .league-dev-badge { display: inline-flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); background: rgba(255,194,60,0.1); border: 1px solid rgba(255,194,60,0.4); padding: 4px 9px; margin-bottom: 10px; }
   .league-dev-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
+
+  /* Glossaire LoL -- fiches objet/champion (Data Dragon, voir
+     fetch_lol_glossary_data). Ce sont les mêmes gabarits/classes .fiche-*,
+     .pill*, .item-fiche-*, .champ-fiche-*, .item-composition-* que le
+     glossaire TFT (item_fiche_header etc.) -- seules les règles ci-dessous
+     sont nouvelles (spécifiques à ce contenu). */
+  .item-fiche-desc mainText, .item-fiche-desc rules { display: block; }
+  .item-fiche-desc attention { color: var(--gold); font-weight: 700; font-family: 'Space Mono', monospace; }
+  .item-fiche-desc passive, .item-fiche-desc active { display: inline-block; color: var(--cyan); font-weight: 700; text-transform: uppercase; font-size: 11px; letter-spacing: 0.03em; margin-top: 4px; }
+  .item-fiche-desc physicaldamage { color: var(--warn); }
+  .item-fiche-desc magicdamage { color: #b98bff; }
+  .item-fiche-desc truedamage, .item-fiche-desc scalelevel { color: var(--text-dim); }
+  .item-fiche-desc scalearmor, .item-fiche-desc scalemr, .item-fiche-desc speed, .item-fiche-desc healing, .item-fiche-desc shield { color: var(--good); }
+  .lol-diff-grid { display: flex; flex-direction: column; gap: 10px; max-width: 420px; }
+  .lol-diff-row { display: grid; grid-template-columns: 90px 1fr 40px; align-items: center; gap: 12px; font-size: 12.5px; color: var(--text-dim); }
+  .lol-diff-bar { height: 8px; background: var(--row); border: 1px solid var(--border-bright); overflow: hidden; }
+  .lol-diff-fill { height: 100%; background: var(--magenta); }
+  .lol-diff-row b { text-align: right; color: var(--cream); }
+  /* Un composant de base (ex: Bottes de vitesse) peut se transformer en
+     une dizaine d'objets différents -- .item-composition-row n'a pas
+     besoin de retour à la ligne côté TFT (recette à 2-3 composants max,
+     jamais assez pour déborder) mais en a besoin ici pour "Se transforme
+     en" côté LoL ; sans effet quand le contenu tient déjà sur une ligne. */
+  .item-composition-row { flex-wrap: wrap; row-gap: 10px; }
 
   /* Une seule carte, deux colonnes -- rang + historique dans le même
      panneau, comme op.gg, pas deux blocs séparés. */
