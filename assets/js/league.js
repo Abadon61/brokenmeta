@@ -48,6 +48,27 @@
     return esc(initials(championName));
   }
 
+  // Glossaire des objets (nom réel, description courte, prix) -- source
+  // Data Dragon, la même que pour ddragonVersion ci-dessus, en FR ou EN
+  // selon la langue de la page. Alimente uniquement l'infobulle au survol
+  // d'une icône d'objet (voir wireItemTooltip) ; les icônes elles-mêmes
+  // viennent toujours de itemIconMap côté worker (CommunityDragon), ce
+  // fichier ne sert qu'à retrouver le nom/texte à partir de l'id Riot.
+  var lolItemGlossary = null;
+  ddragonReady.then(function () {
+    if (!ddragonVersion) return;
+    var locale = document.documentElement.lang === 'fr' ? 'fr_FR' : 'en_US';
+    return fetch('https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/data/' + locale + '/item.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        lolItemGlossary = {};
+        Object.keys(d.data || {}).forEach(function (id) {
+          var it = d.data[id];
+          lolItemGlossary[id] = { name: it.name, plaintext: it.plaintext || '', price: it.gold ? it.gold.total : null };
+        });
+      });
+  }).catch(function () {});
+
   function el(tag, className, html) {
     var e = document.createElement(tag);
     if (className) e.className = className;
@@ -75,6 +96,42 @@
       img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
     });
   }
+
+  // Infobulle au survol d'une icône d'objet -- même mécanisme (#tooltip
+  // partagé, classes .tt-*) que CHAMP_ICON_JS/GLOSSARY_ITEM_JS pour la
+  // partie TFT du site. Délégation sur `document` : les lignes de partie
+  // sont réinjectées via innerHTML à chaque rendu (renderProfile,
+  // renderQueue...), pas la peine de re-brancher un listener par icône.
+  var lolTooltip = document.getElementById('tooltip');
+  function showItemTooltip(icon, e) {
+    if (!lolItemGlossary || !lolTooltip) return;
+    var d = lolItemGlossary[icon.dataset.itemId];
+    if (!d) return;
+    lolTooltip.innerHTML = '<div class="tt-name">' + esc(d.name) + '</div>'
+      + (d.price ? '<div class="tt-row"><span>Prix</span><b class="nums">' + d.price + '</b></div>' : '')
+      + (d.plaintext ? '<div class="tt-items">' + esc(d.plaintext) + '</div>' : '');
+    lolTooltip.dataset.visible = 'true';
+    moveItemTooltip(e);
+  }
+  function moveItemTooltip(e) {
+    if (!lolTooltip) return;
+    var pad = 14, x = e.clientX + pad, y = e.clientY + pad;
+    if (x + 190 > window.innerWidth) x = e.clientX - 190 - pad;
+    if (y + 130 > window.innerHeight) y = e.clientY - 130 - pad;
+    lolTooltip.style.left = x + 'px';
+    lolTooltip.style.top = y + 'px';
+  }
+  function hideItemTooltip() { if (lolTooltip) lolTooltip.dataset.visible = 'false'; }
+  document.addEventListener('mouseover', function (e) {
+    var icon = e.target.closest('.item-slot[data-item-id]');
+    if (icon) showItemTooltip(icon, e);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (e.target.closest('.item-slot[data-item-id]')) moveItemTooltip(e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest('.item-slot[data-item-id]')) hideItemTooltip();
+  });
   function timeAgo(ts) {
     var mins = Math.round((Date.now() - ts) / 60000);
     if (mins < 60) return mins + ' min';
@@ -100,7 +157,7 @@
 
   function buildLoadoutHtml(m) {
     var itemsHtml = m.items.map(function (it) {
-      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" data-item-id="' + it.id + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
     }).join('');
     var spellsHtml = m.spells.map(function (s) {
       return s.iconUrl ? '<img class="spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="" title="' + esc(s.name) + '" loading="lazy">' : '';
@@ -140,7 +197,7 @@
       + players.map(function (p) {
         var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
         var itemsHtml = p.items.map(function (it) {
-          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" data-item-id="' + it.id + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
         }).join('');
         return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
           + roleIcon(p.role, 'champ-role-icon') + '<span class="champ-portrait">' + champPortraitInner(p.champion) + '</span>'

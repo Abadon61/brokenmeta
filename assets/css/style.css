@@ -1611,15 +1611,26 @@
   .profile-sidebar { width: 220px; flex: none; padding: 20px 18px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
   .profile-id { font-weight: 600; font-size: 15px; align-self: flex-start; margin-bottom: 10px; }
   .profile-id .tag { color: var(--text-faint); font-weight: 400; }
-  .rank-emblem-wrap { width: 88px; height: 88px; }
-  .rank-emblem { width: 100%; height: 100%; object-fit: contain; }
+  /* Les emblèmes de rang de CommunityDragon sont des bannières 16:9 avec
+     un très gros cadre transparent autour du blason (vérifié pixel par
+     pixel : le blason n'occupe qu'environ 15-25% de la largeur et 16-33%
+     de la hauteur du fichier selon le palier) -- avec object-fit:contain
+     dans un cadre carré, le blason réel finissait minuscule (~20% de large
+     x ~17% de haut) malgré un cadre de 112px, d'où le retour "image trop
+     petite". object-fit:cover + un zoom recentré compense : cover
+     supprime déjà le vide latéral, et scale(1.8) est calibré sous la
+     marge de sécurité la plus stricte des 10 paliers testés (Challenger,
+     zoom max sans rogner le blason ~2.28) pour ne jamais couper l'icône
+     d'aucun rang. */
+  .rank-emblem-wrap { width: 112px; height: 112px; overflow: hidden; }
+  .rank-emblem { width: 100%; height: 100%; object-fit: cover; transform: scale(1.8); }
   .rank-tier-name { font-family: 'Cal Sans', sans-serif; font-size: 16px; margin-top: 4px; }
   .rank-lp { font-size: 12.5px; color: var(--gold); margin-top: 2px; }
-  .rank-ring-wrap { position: relative; width: 64px; height: 64px; margin: 14px 0 6px; }
+  .rank-ring-wrap { position: relative; width: 80px; height: 80px; margin: 16px 0 6px; }
   .rank-ring { width: 100%; height: 100%; }
   .rank-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; }
-  .rank-ring-sub { font-size: 9px; color: var(--text-faint); }
+  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; }
+  .rank-ring-sub { font-size: 10px; color: var(--text-faint); }
   .rank-record { font-size: 11.5px; color: var(--text-faint); }
   .sidebar-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0 12px; }
   .sidebar-subtitle { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); align-self: flex-start; margin-bottom: 8px; }
@@ -1793,8 +1804,8 @@
   .match-champ-name { font-weight: 600; font-size: 13px; }
   .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
   .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
-  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 16px); grid-auto-rows: 16px; gap: 2px; }
-  .match-loadout-items .item-slot { width: 16px; height: 16px; }
+  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 20px); grid-auto-rows: 20px; gap: 3px; }
+  .match-loadout-items .item-slot { width: 20px; height: 20px; }
   @media (max-width: 900px) { .match-loadout { display: none; } }
   .match-kda { text-align: center; flex: none; width: 84px; }
   .match-kda-v { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; }
@@ -1836,7 +1847,7 @@
   .scoreboard-cs { flex: none; width: 54px; color: var(--text-dim); font-size: 11px; }
   .scoreboard-gold { flex: none; width: 40px; color: var(--gold); font-size: 11px; }
   .scoreboard-items { display: flex; gap: 2px; flex: none; }
-  .item-slot { width: 14px; height: 14px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; }
+  .item-slot { width: 16px; height: 16px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; cursor: help; }
   @media (max-width: 640px) { .scoreboard-grid { grid-template-columns: 1fr; } .scoreboard-kda, .scoreboard-cs, .scoreboard-gold { display: none; } }
 
   .champ-portrait { width: 40px; height: 40px; flex: none; border-radius: 50%; background: linear-gradient(135deg, var(--row-hover), var(--bg-2)); border: 1.5px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Cal Sans', sans-serif; font-size: 13px; color: var(--text-dim); overflow: hidden; }
