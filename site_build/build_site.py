@@ -1346,6 +1346,27 @@ LEAGUE_JS = """
     return esc(initials(championName));
   }
 
+  // Glossaire des objets (nom réel, description courte, prix) -- source
+  // Data Dragon, la même que pour ddragonVersion ci-dessus, en FR ou EN
+  // selon la langue de la page. Alimente uniquement l'infobulle au survol
+  // d'une icône d'objet (voir wireItemTooltip) ; les icônes elles-mêmes
+  // viennent toujours de itemIconMap côté worker (CommunityDragon), ce
+  // fichier ne sert qu'à retrouver le nom/texte à partir de l'id Riot.
+  var lolItemGlossary = null;
+  ddragonReady.then(function () {
+    if (!ddragonVersion) return;
+    var locale = document.documentElement.lang === 'fr' ? 'fr_FR' : 'en_US';
+    return fetch('https://ddragon.leagueoflegends.com/cdn/' + ddragonVersion + '/data/' + locale + '/item.json')
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        lolItemGlossary = {};
+        Object.keys(d.data || {}).forEach(function (id) {
+          var it = d.data[id];
+          lolItemGlossary[id] = { name: it.name, plaintext: it.plaintext || '', price: it.gold ? it.gold.total : null };
+        });
+      });
+  }).catch(function () {});
+
   function el(tag, className, html) {
     var e = document.createElement(tag);
     if (className) e.className = className;
@@ -1373,6 +1394,42 @@ LEAGUE_JS = """
       img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
     });
   }
+
+  // Infobulle au survol d'une icône d'objet -- même mécanisme (#tooltip
+  // partagé, classes .tt-*) que CHAMP_ICON_JS/GLOSSARY_ITEM_JS pour la
+  // partie TFT du site. Délégation sur `document` : les lignes de partie
+  // sont réinjectées via innerHTML à chaque rendu (renderProfile,
+  // renderQueue...), pas la peine de re-brancher un listener par icône.
+  var lolTooltip = document.getElementById('tooltip');
+  function showItemTooltip(icon, e) {
+    if (!lolItemGlossary || !lolTooltip) return;
+    var d = lolItemGlossary[icon.dataset.itemId];
+    if (!d) return;
+    lolTooltip.innerHTML = '<div class="tt-name">' + esc(d.name) + '</div>'
+      + (d.price ? '<div class="tt-row"><span>Prix</span><b class="nums">' + d.price + '</b></div>' : '')
+      + (d.plaintext ? '<div class="tt-items">' + esc(d.plaintext) + '</div>' : '');
+    lolTooltip.dataset.visible = 'true';
+    moveItemTooltip(e);
+  }
+  function moveItemTooltip(e) {
+    if (!lolTooltip) return;
+    var pad = 14, x = e.clientX + pad, y = e.clientY + pad;
+    if (x + 190 > window.innerWidth) x = e.clientX - 190 - pad;
+    if (y + 130 > window.innerHeight) y = e.clientY - 130 - pad;
+    lolTooltip.style.left = x + 'px';
+    lolTooltip.style.top = y + 'px';
+  }
+  function hideItemTooltip() { if (lolTooltip) lolTooltip.dataset.visible = 'false'; }
+  document.addEventListener('mouseover', function (e) {
+    var icon = e.target.closest('.item-slot[data-item-id]');
+    if (icon) showItemTooltip(icon, e);
+  });
+  document.addEventListener('mousemove', function (e) {
+    if (e.target.closest('.item-slot[data-item-id]')) moveItemTooltip(e);
+  });
+  document.addEventListener('mouseout', function (e) {
+    if (e.target.closest('.item-slot[data-item-id]')) hideItemTooltip();
+  });
   function timeAgo(ts) {
     var mins = Math.round((Date.now() - ts) / 60000);
     if (mins < 60) return mins + ' min';
@@ -1398,7 +1455,7 @@ LEAGUE_JS = """
 
   function buildLoadoutHtml(m) {
     var itemsHtml = m.items.map(function (it) {
-      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+      return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" data-item-id="' + it.id + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
     }).join('');
     var spellsHtml = m.spells.map(function (s) {
       return s.iconUrl ? '<img class="spell-icon league-icon-fallback" src="' + s.iconUrl + '" alt="" title="' + esc(s.name) + '" loading="lazy">' : '';
@@ -1438,7 +1495,7 @@ LEAGUE_JS = """
       + players.map(function (p) {
         var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
         var itemsHtml = p.items.map(function (it) {
-          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
+          return it.iconUrl ? '<img class="item-slot league-icon-fallback" src="' + it.iconUrl + '" data-item-id="' + it.id + '" alt="" loading="lazy">' : '<span class="item-slot"></span>';
         }).join('');
         return '<div class="scoreboard-row' + (p.isSelf ? ' is-self' : '') + '">'
           + roleIcon(p.role, 'champ-role-icon') + '<span class="champ-portrait">' + champPortraitInner(p.champion) + '</span>'
@@ -4899,15 +4956,26 @@ def main() -> None:
   .profile-sidebar { width: 220px; flex: none; padding: 20px 18px; text-align: center; border-right: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; }
   .profile-id { font-weight: 600; font-size: 15px; align-self: flex-start; margin-bottom: 10px; }
   .profile-id .tag { color: var(--text-faint); font-weight: 400; }
-  .rank-emblem-wrap { width: 88px; height: 88px; }
-  .rank-emblem { width: 100%; height: 100%; object-fit: contain; }
+  /* Les emblèmes de rang de CommunityDragon sont des bannières 16:9 avec
+     un très gros cadre transparent autour du blason (vérifié pixel par
+     pixel : le blason n'occupe qu'environ 15-25% de la largeur et 16-33%
+     de la hauteur du fichier selon le palier) -- avec object-fit:contain
+     dans un cadre carré, le blason réel finissait minuscule (~20% de large
+     x ~17% de haut) malgré un cadre de 112px, d'où le retour "image trop
+     petite". object-fit:cover + un zoom recentré compense : cover
+     supprime déjà le vide latéral, et scale(1.8) est calibré sous la
+     marge de sécurité la plus stricte des 10 paliers testés (Challenger,
+     zoom max sans rogner le blason ~2.28) pour ne jamais couper l'icône
+     d'aucun rang. */
+  .rank-emblem-wrap { width: 112px; height: 112px; overflow: hidden; }
+  .rank-emblem { width: 100%; height: 100%; object-fit: cover; transform: scale(1.8); }
   .rank-tier-name { font-family: 'Cal Sans', sans-serif; font-size: 16px; margin-top: 4px; }
   .rank-lp { font-size: 12.5px; color: var(--gold); margin-top: 2px; }
-  .rank-ring-wrap { position: relative; width: 64px; height: 64px; margin: 14px 0 6px; }
+  .rank-ring-wrap { position: relative; width: 80px; height: 80px; margin: 16px 0 6px; }
   .rank-ring { width: 100%; height: 100%; }
   .rank-ring-label { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; }
-  .rank-ring-sub { font-size: 9px; color: var(--text-faint); }
+  .rank-ring-pct { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; }
+  .rank-ring-sub { font-size: 10px; color: var(--text-faint); }
   .rank-record { font-size: 11.5px; color: var(--text-faint); }
   .sidebar-divider { width: 100%; height: 1px; background: var(--border); margin: 16px 0 12px; }
   .sidebar-subtitle { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); align-self: flex-start; margin-bottom: 8px; }
@@ -5081,8 +5149,8 @@ def main() -> None:
   .match-champ-name { font-weight: 600; font-size: 13px; }
   .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
   .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
-  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 16px); grid-auto-rows: 16px; gap: 2px; }
-  .match-loadout-items .item-slot { width: 16px; height: 16px; }
+  .match-loadout-items { display: grid; grid-template-columns: repeat(4, 20px); grid-auto-rows: 20px; gap: 3px; }
+  .match-loadout-items .item-slot { width: 20px; height: 20px; }
   @media (max-width: 900px) { .match-loadout { display: none; } }
   .match-kda { text-align: center; flex: none; width: 84px; }
   .match-kda-v { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px; }
@@ -5124,7 +5192,7 @@ def main() -> None:
   .scoreboard-cs { flex: none; width: 54px; color: var(--text-dim); font-size: 11px; }
   .scoreboard-gold { flex: none; width: 40px; color: var(--gold); font-size: 11px; }
   .scoreboard-items { display: flex; gap: 2px; flex: none; }
-  .item-slot { width: 14px; height: 14px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; }
+  .item-slot { width: 16px; height: 16px; background: var(--row); border: 1px solid var(--border-bright); flex: none; object-fit: cover; cursor: help; }
   @media (max-width: 640px) { .scoreboard-grid { grid-template-columns: 1fr; } .scoreboard-kda, .scoreboard-cs, .scoreboard-gold { display: none; } }
 
   .champ-portrait { width: 40px; height: 40px; flex: none; border-radius: 50%; background: linear-gradient(135deg, var(--row-hover), var(--bg-2)); border: 1.5px solid var(--border-bright); display: flex; align-items: center; justify-content: center; font-family: 'Cal Sans', sans-serif; font-size: 13px; color: var(--text-dim); overflow: hidden; }
