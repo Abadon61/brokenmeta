@@ -35,7 +35,12 @@ export interface RiotLeagueEntry {
 // summonerId (not puuid, unlike RiotLeagueEntry above -- a real API
 // inconsistency, not a mistake here) with no queueType per entry either.
 export interface RiotLeagueItem {
-  summonerId: string; leaguePoints: number; rank: string;
+  // Riot has been migrating summonerId out of its API surface in favor of
+  // puuid (confirmed elsewhere, e.g. Spectator-V5) -- these bulk apex-tier
+  // endpoints' exact current shape isn't reliably documented, so both are
+  // optional here and the caller checks which one it actually got rather
+  // than assuming.
+  summonerId?: string; puuid?: string; leaguePoints: number; rank: string;
   wins: number; losses: number; hotStreak: boolean; veteran: boolean; freshBlood: boolean;
 }
 export interface RiotLeagueList { tier: string; name: string; entries: RiotLeagueItem[]; }
@@ -106,6 +111,15 @@ export class RiotClient {
 
   getMatch(regional: string, matchId: string) {
     const url = `https://${regional}.api.riotgames.com/lol/match/v5/matches/${matchId}`;
+    return this.get<any>(url);
+  }
+
+  // Spectator-V5 (the "by-summoner" path segment is legacy naming --
+  // Riot switched the actual identifier to puuid in V5, confirmed via
+  // their own dev-relations announcement). 404 (not in game right now)
+  // is the expected, common case -- returns null, not an error.
+  getActiveGameByPuuid(platform: string, puuid: string) {
+    const url = `https://${platform}.api.riotgames.com/lol/spectator/v5/active-games/by-summoner/${puuid}`;
     return this.get<any>(url);
   }
 }

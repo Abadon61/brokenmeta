@@ -20,18 +20,25 @@
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
 import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM, RiotLeagueItem } from "./riot";
-import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, rankEmblemUrl } from "./lolData";
+import { LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, rankEmblemUrl } from "./lolData";
 import { getItemIconMap } from "./itemData";
+import { getChampionIdMap } from "./championData";
+import { getSpellMap, getPerkMap, getRuneTreeMap, IconRef } from "./spellsAndRunes";
 
 export interface Env {
   RIOT_API_KEY_LOL: string;
   CORS_ORIGIN: string;
 }
 
-// Kept low deliberately -- see the rate-limit note above. 20 matches is
-// already ~20 sequential calls per queue; bumping this multiplies lookup
-// time and risk of a 429 linearly.
-const MATCHES_PER_QUEUE = 20;
+// Kept low deliberately -- see the rate-limit note above. Also bounded by
+// Cloudflare's per-invocation subrequest ceiling (confirmed live during
+// this rollout: a 20-per-queue lookup already sits close to it once the
+// live-game check's own lookups -- championIdMap on a cold cache -- are
+// added on top; a lookup for a very active player then reliably tips over
+// and 500s). 15 leaves real headroom for that plus every other per-
+// request cache that might be cold at once (items/spells/perks/rune
+// trees/champion ids), at the cost of a slightly shorter match history.
+const MATCHES_PER_QUEUE = 15;
 const WEEKDAY_LABELS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
 function corsHeaders(origin: string): Record<string, string> {
@@ -90,13 +97,27 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   // de la région, et sert à corriger l'URL de CHAQUE objet de CHAQUE
   // partie plus bas (voir itemData.ts pour pourquoi un id seul ne suffit
   // pas à construire l'URL d'icône).
-  const [summoner, leagueEntries, itemIconMap] = await Promise.all([
+  const [summoner, leagueEntries, itemIconMap, spellMap, perkMap, treeMap, activeGame] = await Promise.all([
     client.getSummonerByPuuid(platform, puuid),
     client.getLeagueEntriesByPuuid(platform, puuid),
     getItemIconMap(),
+    getSpellMap(),
+    getPerkMap(),
+    getRuneTreeMap(), // every match row's secondary-rune-style icon needs this, not just live games
+    client.getActiveGameByPuuid(platform, puuid),
   ]);
   const soloEntry = leagueEntries.find((e) => e.queueType === "RANKED_SOLO_5x5") || null;
   const flexEntry = leagueEntries.find((e) => e.queueType === "RANKED_FLEX_SR") || null;
+  // Only pay for championIdMap (a couple more subrequests on a cold cache)
+  // for the rare lookup that's actually in a live game right now -- keeps
+  // the common case (not in a game) as cheap as before this feature
+  // existed, which matters here: a single profile lookup can already sit
+  // close to Cloudflare's per-invocation subrequest ceiling (up to 40
+  // match detail fetches), so anything unconditional gets added at real
+  // risk of tipping it over -- confirmed live during this rollout.
+  const liveGame = activeGame
+    ? extractLiveGame(activeGame, puuid, await getChampionIdMap(), spellMap, perkMap, treeMap)
+    : null;
 
   // Un seul pool de match ids couvrant les trois queues, tirés une fois puis
   // triés par queueId -- moins d'appels que de demander les ids séparément
@@ -104,7 +125,7 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   // L'ARAM était déjà présent dans ce même pool et silencieusement jeté --
   // aucun appel API supplémentaire pour l'exposer.
   const matchIds = await client.getMatchIdsByPuuid(regional, puuid, MATCHES_PER_QUEUE * 2);
-  const matches = await fetchMatchesSequential(client, regional, matchIds, puuid, itemIconMap);
+  const matches = await fetchMatchesSequential(client, regional, matchIds, puuid, itemIconMap, spellMap, perkMap, treeMap);
 
   const soloMatches = matches.filter((m) => m.queueId === QUEUE_SOLO);
   const flexMatches = matches.filter((m) => m.queueId === QUEUE_FLEX);
@@ -121,12 +142,55 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
       flex: flexEntry ? { ...flexEntry, emblemUrl: rankEmblemUrl(flexEntry.tier) } : null,
     },
     rankAverages,
+    liveGame,
     queues: {
       solo: buildQueueBlock(soloMatches, puuid),
       flex: buildQueueBlock(flexMatches, puuid),
       aram: buildQueueBlock(aramMatches, puuid),
     },
   }, 200, origin);
+}
+
+// Spectator-V5 -- real "in a live game right now" state, checked on every
+// profile lookup (a cheap extra parallel call, see the Promise.all above).
+// null activeGame is the common case (not in a game): a plain 404 from
+// Riot, not an error -- getActiveGameByPuuid's underlying get<T>() already
+// turns that into null, same convention as every other lookup in this
+// file. championIdMap resolves Spectator's numeric championId to the
+// same real ddragon championName string Match-V5 already gives elsewhere,
+// so the front-end's existing champPortraitInner() needs no change to
+// render these portraits too.
+function extractLiveGame(
+  activeGame: any, puuid: string, championIdMap: Record<number, string>,
+  spellMap: Record<number, IconRef>, perkMap: Record<number, IconRef>, treeMap: Record<number, IconRef>
+) {
+  if (!activeGame || !Array.isArray(activeGame.participants)) return null;
+
+  const participants = activeGame.participants.map((p: any) => {
+    const subStyle = p.perks?.perkSubStyle;
+    const keystoneId = p.perks?.perkIds?.[0] ?? null;
+    const keystone = keystoneId ? perkMap[keystoneId] : null;
+    const tree = subStyle ? treeMap[subStyle] : null;
+    return {
+      riotId: p.riotId || null, isSelf: p.puuid === puuid, teamId: p.teamId, bot: !!p.bot,
+      championName: championIdMap[p.championId] || null,
+      spells: [p.spell1Id, p.spell2Id].map((id: number) => ({ id, name: spellMap[id]?.name || "?", iconUrl: spellMap[id]?.iconUrl ?? null })),
+      runes: {
+        keystoneName: keystone?.name || null, keystoneIconUrl: keystone?.iconUrl ?? null,
+        secondaryStyleName: tree?.name || null, secondaryStyleIconUrl: tree?.iconUrl ?? null,
+      },
+    };
+  });
+
+  const bannedChampions = (activeGame.bannedChampions || []).map((b: any) => ({
+    championName: championIdMap[b.championId] || null, teamId: b.teamId,
+  }));
+
+  return {
+    gameMode: activeGame.gameMode, gameQueueConfigId: activeGame.gameQueueConfigId,
+    gameLengthSeconds: activeGame.gameLength, gameStartTime: activeGame.gameStartTime,
+    participants, bannedChampions,
+  };
 }
 
 // Real Challenger/Grandmaster/Master ladder -- unlike the TFT tier list
@@ -180,9 +244,16 @@ async function handleLeaderboard(url: URL, env: Env, origin: string): Promise<Re
   let rank = 0;
   for (const item of top) {
     rank++;
-    const summoner = await client.getSummonerById(platform, item.summonerId);
-    if (!summoner) continue;
-    const account = await client.getAccountByPuuid(regional, summoner.puuid);
+    // Prefer puuid straight off the entry when Riot actually includes it
+    // (skips a call entirely) -- fall back to the summonerId -> puuid hop
+    // only when it doesn't.
+    let puuid = item.puuid || null;
+    if (!puuid && item.summonerId) {
+      const summoner = await client.getSummonerById(platform, item.summonerId);
+      puuid = summoner?.puuid || null;
+    }
+    if (!puuid) continue;
+    const account = await client.getAccountByPuuid(regional, puuid);
     entries.push({
       rank, riotId: account ? `${account.gameName}#${account.tagLine}` : null,
       tier: item.tier, leaguePoints: item.leaguePoints, wins: item.wins, losses: item.losses, hotStreak: item.hotStreak,
@@ -202,18 +273,24 @@ async function handleLeaderboard(url: URL, env: Env, origin: string): Promise<Re
 // for a low-traffic beta page, not a production-scale one.
 type ExtractedMatch = NonNullable<ReturnType<typeof extractMatch>>;
 
-async function fetchMatchesSequential(client: RiotClient, regional: string, matchIds: string[], puuid: string, itemIconMap: Record<number, string>): Promise<ExtractedMatch[]> {
+async function fetchMatchesSequential(
+  client: RiotClient, regional: string, matchIds: string[], puuid: string, itemIconMap: Record<number, string>,
+  spellMap: Record<number, IconRef>, perkMap: Record<number, IconRef>, treeMap: Record<number, IconRef>
+): Promise<ExtractedMatch[]> {
   const out: ExtractedMatch[] = [];
   for (const id of matchIds) {
     const match = await client.getMatch(regional, id);
     if (!match) continue;
-    const extracted = extractMatch(match, puuid, itemIconMap);
+    const extracted = extractMatch(match, puuid, itemIconMap, spellMap, perkMap, treeMap);
     if (extracted) out.push(extracted);
   }
   return out;
 }
 
-function extractMatch(match: any, puuid: string, itemIconMap: Record<number, string>) {
+function extractMatch(
+  match: any, puuid: string, itemIconMap: Record<number, string>,
+  spellMap: Record<number, IconRef>, perkMap: Record<number, IconRef>, treeMap: Record<number, IconRef>
+) {
   const info = match.info;
   if (!info) return null;
   const participants: any[] = info.participants || [];
@@ -259,10 +336,10 @@ function extractMatch(match: any, puuid: string, itemIconMap: Record<number, str
     dmgPerMin: Math.round((me.totalDamageDealtToChampions || 0) / durationMin),
     killParticipation: Math.round(((me.kills + me.assists) / teamKills) * 100),
     items: [me.item0, me.item1, me.item2, me.item3, me.item4, me.item5, me.item6].map((id) => ({ id, iconUrl: itemIconMap[id] || null })),
-    spells: [me.summoner1Id, me.summoner2Id].map((id) => ({ id, name: SUMMONER_SPELLS[id]?.name || "?", iconUrl: spellIconUrl(id) })),
+    spells: [me.summoner1Id, me.summoner2Id].map((id) => ({ id, name: spellMap[id]?.name || "?", iconUrl: spellMap[id]?.iconUrl ?? null })),
     runes: {
-      keystoneId, keystoneName: keystoneId ? KEYSTONES[keystoneId]?.name || "?" : null, keystoneIconUrl: keystoneId ? keystoneIconUrl(keystoneId) : null,
-      secondaryStyleId: subStyle?.style ?? null, secondaryStyleName: subStyle ? RUNE_TREES[subStyle.style]?.name || "?" : null, secondaryStyleIconUrl: subStyle ? treeIconUrl(subStyle.style) : null,
+      keystoneId, keystoneName: keystoneId ? perkMap[keystoneId]?.name || null : null, keystoneIconUrl: keystoneId ? perkMap[keystoneId]?.iconUrl ?? null : null,
+      secondaryStyleId: subStyle?.style ?? null, secondaryStyleName: subStyle ? treeMap[subStyle.style]?.name || null : null, secondaryStyleIconUrl: subStyle ? treeMap[subStyle.style]?.iconUrl ?? null : null,
     },
     teammates, scoreboard,
     startedAt, weekday, hour: d.getUTCHours(),

@@ -1,80 +1,14 @@
-// Static reference data: Riot's numeric IDs (summoner spells, runes) mapped
-// to display names and CommunityDragon icon slugs. These IDs are stable
-// Riot constants (unlike the artifact mockup, nothing here is invented),
-// but the exact FR names and a few icon slugs are from memory, not a live
-// verification pass in this session -- spot-check against the live FR
-// client and the CommunityDragon paths before relying on this for the
-// production-key submission. A wrong slug just hides one icon (see
-// spellIconUrl/runeIconUrl callers' onerror handling) -- it never breaks
-// the page.
-export const SUMMONER_SPELLS: Record<number, { name: string; slug: string }> = {
-  1: { name: "Purification", slug: "summonerboost" },
-  3: { name: "Épuisement", slug: "summonerexhaust" },
-  4: { name: "Flash", slug: "summonerflash" },
-  6: { name: "Hâte", slug: "summonerhaste" },
-  7: { name: "Soin", slug: "summonerheal" },
-  11: { name: "Châtiment", slug: "summonersmite" },
-  12: { name: "Téléportation", slug: "summonerteleport" },
-  13: { name: "Clarté", slug: "summonermana" },
-  14: { name: "Embrasement", slug: "summonerdot" },
-  21: { name: "Barrière", slug: "summonerbarrier" },
-  32: { name: "Boule de neige", slug: "summonersnowball" },
-};
-
-export const RUNE_TREES: Record<number, { name: string; slug: string }> = {
-  8000: { name: "Précision", slug: "precision" },
-  8100: { name: "Domination", slug: "domination" },
-  8200: { name: "Sorcellerie", slug: "sorcery" },
-  8400: { name: "Résolution", slug: "resolve" },
-  8300: { name: "Inspiration", slug: "inspiration" },
-};
-
-export const KEYSTONES: Record<number, { name: string; slug: string; tree: number }> = {
-  8005: { name: "Coup assuré", slug: "presstheattack", tree: 8000 },
-  8008: { name: "Tempo fatal", slug: "lethaltempo", tree: 8000 },
-  8021: { name: "Pas rapide", slug: "fleetfootwork", tree: 8000 },
-  8010: { name: "Conquérant", slug: "conqueror", tree: 8000 },
-  8112: { name: "Électrocution", slug: "electrocute", tree: 8100 },
-  8124: { name: "Prédateur", slug: "predator", tree: 8100 },
-  8128: { name: "Moisson sinistre", slug: "darkharvest", tree: 8100 },
-  9923: { name: "Pluie de lames", slug: "hailofblades", tree: 8100 },
-  8214: { name: "Convocation d'Aery", slug: "summonaery", tree: 8200 },
-  8229: { name: "Comète arcanique", slug: "arcanecomet", tree: 8200 },
-  8230: { name: "Accélération", slug: "phaserush", tree: 8200 },
-  8437: { name: "Étreinte de l'increvable", slug: "graspoftheundying", tree: 8400 },
-  8439: { name: "Choc en retour", slug: "aftershock", tree: 8400 },
-  8465: { name: "Gardien", slug: "guardian", tree: 8400 },
-  8351: { name: "Renfort glacial", slug: "glacialaugment", tree: 8300 },
-  8360: { name: "Grimoire descellé", slug: "unsealedspellbook", tree: 8300 },
-  8358: { name: "Initiative", slug: "firststrike", tree: 8300 },
-};
-
+// Summoner spell / rune name+icon lookups moved to spellsAndRunes.ts --
+// this file's old static SUMMONER_SPELLS/RUNE_TREES/KEYSTONES tables were
+// hand-typed from memory and turned out wrong for several real spells/
+// runes once actually checked against CommunityDragon (e.g. Ignite's
+// real file is "SummonerIgnite.png", not the guessed "summonerdot.png";
+// Aftershock's real folder is "VeteranAftershock", not "aftershock").
+// Same lesson as items below: a numeric id alone doesn't reliably predict
+// CommunityDragon's filename, a real id -> iconPath lookup does.
 export const LANE_TO_ROLE: Record<string, string> = {
   TOP: "top", JUNGLE: "jungle", MIDDLE: "mid", BOTTOM: "adc", UTILITY: "support",
 };
-
-export function spellIconUrl(spellId: number): string | null {
-  const s = SUMMONER_SPELLS[spellId];
-  return s ? `https://raw.communitydragon.org/latest/game/data/spells/icons2d/${s.slug}.png` : null;
-}
-
-export function keystoneIconUrl(perkId: number): string | null {
-  const k = KEYSTONES[perkId];
-  if (!k) return null;
-  const tree = RUNE_TREES[k.tree];
-  return `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/${tree.slug}/${k.slug}/${k.slug}.png`;
-}
-
-export function treeIconUrl(styleId: number): string | null {
-  // The tree-level icon filenames on CommunityDragon don't follow the
-  // {slug}/{slug}.png pattern the keystones use -- only Precision (7201)
-  // and Domination (7200) were confirmed live in this project so far.
-  // Unconfirmed trees fall back to null (icon hidden, name still shows)
-  // rather than guessing a filename that might 404.
-  const confirmed: Record<number, string> = { 8000: "7201_precision", 8100: "7200_domination" };
-  const file = confirmed[styleId];
-  return file ? `https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/perk-images/styles/${file}.png` : null;
-}
 
 // Item icons moved to itemData.ts -- a numeric id alone 404s (CommunityDragon
 // needs the item's own filename, e.g. "3071_fighter_t3_blackcleaver.png"),

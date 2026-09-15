@@ -27,10 +27,8 @@
 {% block extra_body %}
 <script>
 window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
-window.BM_I18N_LEAGUE = {
-  loading: {% if lang == 'fr' %}"Recherche en cours…"{% else %}"Looking it up…"{% endif %},
-  lang: {{ lang|tojson }}
-};
+window.BM_I18N_LEAGUE = {{ league_i18n|tojson }};
+window.BM_I18N_LEAGUE.lang = {{ lang|tojson }};
 </script>
 <script src="{{ root }}assets/js/league.js?v={{ css_v }}" defer></script>
 {% endblock %}
