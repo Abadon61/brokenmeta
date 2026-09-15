@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_leaderboard_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_leaderboard_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_leaderboard_title') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_leaderboard_intro') }}</p>
+
+<div class="tier-filters" id="lolLbRegionBar">
+  <button class="chip" data-region="EUW" data-active="true">EUW</button>
+  <button class="chip" data-region="NA" data-active="false">NA</button>
+  <button class="chip" data-region="BR" data-active="false">BR</button>
+  <button class="chip" data-region="KR" data-active="false">KR</button>
+</div>
+
+<div id="lolLbStatus" class="metascope-status" hidden></div>
+<div class="lb-table-wrap" id="lolLbTableWrap" hidden>
+  <table class="lb-table">
+    <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_player') }}</th><th>{{ t(lang, 'th_tier') }}</th><th class="num">LP</th><th class="num">{{ t(lang, 'th_record') }}</th></tr></thead>
+    <tbody id="lolLbTableBody"></tbody>
+  </table>
+</div>
+<div class="lb-note">{{ t(lang, 'lol_leaderboard_note') }}</div>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
+window.BM_I18N_LOL_LB = {
+  loading: {% if lang == 'fr' %}"Chargement du classement en direct… (jusqu'à une minute la première fois)"{% else %}"Loading the live leaderboard… (up to a minute the first time)"{% endif %},
+  error: {% if lang == 'fr' %}"Impossible de charger le classement pour l'instant."{% else %}"Couldn't load the leaderboard right now."{% endif %},
+  anonymous: {% if lang == 'fr' %}"Compte anonymisé"{% else %}"Anonymized account"{% endif %},
+  hotStreakTitle: {{ t(lang, 'hot_streak_title')|tojson }},
+  wins: {% if lang == 'fr' %}"V"{% else %}"W"{% endif %},
+  losses: {% if lang == 'fr' %}"D"{% else %}"L"{% endif %},
+  root: "{{ root }}"
+};
+</script>
+<script src="{{ root }}assets/js/lol-leaderboard.js?v={{ css_v }}" defer></script>
+{% endblock %}

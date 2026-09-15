@@ -15,6 +15,38 @@
       <span class="patch-date nums">{{ p.date }}</span>
     </div>
     <div class="patch-summary"><b style="color:var(--cream)">{{ p.title }}.</b> {{ p.summary }}</div>
+    {% if p.changes %}
+    <div class="lol-patch-change-list">
+      {% for c in p.changes %}
+      <div class="lol-patch-change-row" data-status="{{ c.status }}">
+        {% if c.icon_kind == 'champion' %}
+        <img class="lol-patch-change-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ c.icon_file }}" alt="{{ c.name }}" loading="lazy">
+        {% elif c.icon_kind == 'item' %}
+        <img class="lol-patch-change-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ c.icon_file }}" alt="{{ c.name }}" loading="lazy">
+        {% elif c.icon_kind == 'rune' %}
+        <img class="lol-patch-change-icon" style="border-radius:50%;background:#0b0221" src="https://ddragon.leagueoflegends.com/cdn/img/{{ c.icon_file }}" alt="{{ c.name }}" loading="lazy">
+        {% else %}
+        <div class="lol-patch-change-icon lol-patch-change-icon-none"></div>
+        {% endif %}
+        <div class="lol-patch-change-body">
+          <div class="lol-patch-change-name-row">
+            {% if c.icon_kind == 'champion' and c.slug %}<a href="{{ root }}league/glossaire/champions/{{ c.slug }}/" class="lol-patch-change-name">{{ c.name }}</a>
+            {% elif c.icon_kind == 'item' and c.slug %}<a href="{{ root }}league/glossaire/objets/{{ c.slug }}/" class="lol-patch-change-name">{{ c.name }}</a>
+            {% else %}<span class="lol-patch-change-name">{{ c.name }}</span>{% endif %}
+            <span class="lol-patch-status-tag" data-status="{{ c.status }}">
+              {% if c.status == 'buff' %}▲ Buff
+              {%- elif c.status == 'nerf' %}▼ Nerf
+              {%- else %}◆ {{ 'Adjustment' if lang == 'en' else 'Ajustement' }}{% endif %}
+            </span>
+          </div>
+          <ul class="lol-patch-change-lines">
+            {% for line in c.lines %}<li>{{ line }}</li>{% endfor %}
+          </ul>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
     <a class="patch-link" href="{{ p.url }}" target="_blank" rel="noopener">{{ t(lang, 'read_full_article') }}</a>
   </div>
   {% endfor %}

@@ -19,7 +19,7 @@
 //      SEQUENTIALLY on purpose (see fetchMatchesSequential) rather than in
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
-import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM } from "./riot";
+import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM, RiotLeagueItem } from "./riot";
 import { SUMMONER_SPELLS, KEYSTONES, RUNE_TREES, LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, spellIconUrl, keystoneIconUrl, treeIconUrl, rankEmblemUrl } from "./lolData";
 import { getItemIconMap } from "./itemData";
 
@@ -57,6 +57,7 @@ export default {
     const url = new URL(request.url);
     try {
       if (url.pathname === "/profile") return await handleProfile(url, env, origin);
+      if (url.pathname === "/leaderboard") return await handleLeaderboard(url, env, origin);
       return json({ error: "Route inconnue." }, 404, origin);
     } catch (e: any) {
       const status = e?.status && Number.isInteger(e.status) ? 502 : 500;
@@ -126,6 +127,73 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
       aram: buildQueueBlock(aramMatches, puuid),
     },
   }, 200, origin);
+}
+
+// Real Challenger/Grandmaster/Master ladder -- unlike the TFT tier list
+// (built offline by run.py from a large sampled collection), this is
+// cheap enough to compute live: the 3 apex-tier endpoints return their
+// FULL real ladder in one call each, no sampling needed. The one real
+// cost is that they return summonerId, not puuid or a Riot ID (a genuine
+// Riot API inconsistency -- the per-player /entries/by-puuid endpoint
+// used elsewhere in this file DOES give puuid directly) -- so each of
+// the top LEADERBOARD_SIZE entries needs 2 more calls (summoner-by-id
+// for its puuid, then account-by-puuid for the real name) to show a
+// real name instead of just a rank + LP. Edge-cached
+// (LEADERBOARD_CACHE_TTL) so that cost is paid once per region per
+// cache window, not once per visitor.
+const LEADERBOARD_SIZE = 20;
+const LEADERBOARD_CACHE_TTL = 900; // 15 min
+
+async function handleLeaderboard(url: URL, env: Env, origin: string): Promise<Response> {
+  const region = parseRegion(url.searchParams.get("region"));
+  if (!region) return json({ error: "Région inconnue." }, 400, origin);
+  const { platform, regional } = REGIONS[region];
+
+  const cache = caches.default;
+  const cacheKey = new Request(`https://lol-worker.internal/leaderboard-cache?region=${region}`);
+  const cached = await cache.match(cacheKey);
+  if (cached) {
+    const fresh = new Response(cached.body, cached);
+    Object.entries(corsHeaders(origin)).forEach(([k, v]) => fresh.headers.set(k, v));
+    return fresh;
+  }
+
+  const client = new RiotClient(env.RIOT_API_KEY_LOL);
+  const [challenger, grandmaster, master] = await Promise.all([
+    client.getChallengerLeague(platform, "RANKED_SOLO_5x5"),
+    client.getGrandmasterLeague(platform, "RANKED_SOLO_5x5"),
+    client.getMasterLeague(platform, "RANKED_SOLO_5x5"),
+  ]);
+
+  const all: (RiotLeagueItem & { tier: string })[] = [
+    ...(challenger?.entries || []).map((e) => ({ ...e, tier: "CHALLENGER" })),
+    ...(grandmaster?.entries || []).map((e) => ({ ...e, tier: "GRANDMASTER" })),
+    ...(master?.entries || []).map((e) => ({ ...e, tier: "MASTER" })),
+  ];
+  all.sort((a, b) => b.leaguePoints - a.leaguePoints);
+  const top = all.slice(0, LEADERBOARD_SIZE);
+
+  // Sequential, same rate-limit reasoning as fetchMatchesSequential below
+  // -- this is already a bounded ~40 calls (2 per entry) for the whole
+  // region, comfortably inside one rate-limit window.
+  const entries: { rank: number; riotId: string | null; tier: string; leaguePoints: number; wins: number; losses: number; hotStreak: boolean }[] = [];
+  let rank = 0;
+  for (const item of top) {
+    rank++;
+    const summoner = await client.getSummonerById(platform, item.summonerId);
+    if (!summoner) continue;
+    const account = await client.getAccountByPuuid(regional, summoner.puuid);
+    entries.push({
+      rank, riotId: account ? `${account.gameName}#${account.tagLine}` : null,
+      tier: item.tier, leaguePoints: item.leaguePoints, wins: item.wins, losses: item.losses, hotStreak: item.hotStreak,
+    });
+  }
+
+  const resp = json({ region, updatedAt: Date.now(), entries }, 200, origin);
+  const cacheable = new Response(resp.body, resp);
+  cacheable.headers.set("Cache-Control", `public, max-age=${LEADERBOARD_CACHE_TTL}`);
+  await cache.put(cacheKey, cacheable.clone());
+  return cacheable;
 }
 
 // Riot's dev-key rate limit (20 req/1s) is tight enough that fetching 40

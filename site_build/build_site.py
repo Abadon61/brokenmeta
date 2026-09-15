@@ -1871,6 +1871,79 @@ LEAGUE_JS = """
 })();
 """
 
+# Real Challenger/Grandmaster/Master ladder -- see lol-worker's
+# handleLeaderboard for how it's computed/cached. This client script only
+# renders whatever the worker returns (no fabricated rows): a null riotId
+# (privacy-restricted account -- Riot allows opting out of the account-v1
+# name lookup) shows I.anonymous instead of a name, never a guessed one.
+LOL_LEADERBOARD_JS = """
+(function () {
+  var API = window.BM_LEAGUE_API;
+  var I = window.BM_I18N_LOL_LB || {};
+  var bar = document.getElementById('lolLbRegionBar');
+  var statusEl = document.getElementById('lolLbStatus');
+  var tableWrap = document.getElementById('lolLbTableWrap');
+  var tbody = document.getElementById('lolLbTableBody');
+  if (!bar || !API) return;
+  var currentRegion = 'EUW';
+  var cache = {};
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+
+  function setStatus(text, isError) {
+    if (!text) { statusEl.hidden = true; statusEl.textContent = ''; return; }
+    statusEl.hidden = false;
+    statusEl.textContent = text;
+    statusEl.dataset.error = isError ? 'true' : 'false';
+  }
+
+  function rowHtml(e) {
+    var name = e.riotId ? esc(e.riotId) : '<i>' + esc(I.anonymous) + '</i>';
+    var href = e.riotId ? I.root + 'league/?riotId=' + encodeURIComponent(e.riotId) + '&region=' + currentRegion : null;
+    var total = e.wins + e.losses;
+    var wr = total ? Math.round((e.wins / total) * 100) : 0;
+    return '<tr' + (href ? " onclick=\\"location.href='" + href + "'\\" style=\\"cursor:pointer\\"" : '') + '>'
+      + '<td class="num"><span class="lb-rank" data-top="' + (e.rank <= 3) + '">#' + e.rank + '</span></td>'
+      + '<td><span class="lb-player-cell"><span class="lb-riotid">' + name + '</span>'
+      + (e.hotStreak ? '<span class="lb-hot" title="' + esc(I.hotStreakTitle) + '">\\ud83d\\udd25</span>' : '') + '</span></td>'
+      + '<td><span class="lb-tier-tag" data-tier="' + e.tier + '">' + e.tier + '</span></td>'
+      + '<td class="num mono">' + e.leaguePoints + ' LP</td>'
+      + '<td class="num mono">' + e.wins + I.wins + ' ' + e.losses + I.losses + ' <span class="' + (wr >= 50 ? 'good' : 'warn') + '">(' + wr + '%)</span></td>'
+      + '</tr>';
+  }
+
+  function render(entries) {
+    tbody.innerHTML = entries.map(rowHtml).join('');
+    tableWrap.hidden = false;
+  }
+
+  function load(region) {
+    currentRegion = region;
+    setStatus(I.loading, false);
+    tableWrap.hidden = true;
+    if (cache[region]) { setStatus(null); render(cache[region]); return; }
+    fetch(API + '/leaderboard?region=' + region)
+      .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
+      .then(function (res) {
+        if (!res.ok || res.data.error) throw new Error(res.data.error || 'error');
+        cache[region] = res.data.entries;
+        setStatus(null);
+        render(res.data.entries);
+      })
+      .catch(function () { setStatus(I.error, true); });
+  }
+
+  bar.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-region]');
+    if (!btn) return;
+    [].forEach.call(bar.querySelectorAll('[data-region]'), function (b) { b.dataset.active = String(b === btn); });
+    load(btn.dataset.region);
+  });
+
+  load(currentRegion);
+})();
+"""
+
 
 TEAM_BUILDER_JS = """
 (function () {
@@ -2806,7 +2879,7 @@ I18N: dict[str, dict] = {
         "balance_history_title": "Historique d'équilibrage",
         "back_to_leaderboard": "← Retour au leaderboard",
         "leaderboard_title": "Leaderboard — Teamfight Tactics Set 18",
-        "th_player": "Joueur", "th_tier": "Palier", "th_form": "Forme (5 dernières)",
+        "th_player": "Joueur", "th_tier": "Palier", "th_form": "Forme (5 dernières)", "th_record": "Bilan",
         "hot_streak_title": "Série en cours",
         "lb_note": 'Classement réel (League-v1, Challenger complété par Grandmaster/Master si le serveur en a moins de 100), trié par LP. TFT n\'a pas de victoire/défaite au sens strict : <b style="color:var(--good)">W</b> = top 4 sur la partie, <b style="color:var(--warn)">L</b> = 5ᵉ-8ᵉ — une convention d\'affichage, pas une donnée Riot.',
         "player_page_desc": lambda riot_id, region: f"Profil réel de {riot_id} sur le leaderboard {region} de Teamfight Tactics Set 18 : LP, palier, winrate et 10 dernières parties classées, via l'API officielle de Riot.",
@@ -2941,6 +3014,10 @@ I18N: dict[str, dict] = {
         "lol_patch_notes_desc": lambda v: f"Résumé des derniers patchs League of Legends (dernier : {v}), avec liens vers les articles officiels complets.",
         "lol_patch_last_updated": lambda v, d: f"Dernière mise à jour : patch {v} ({d}).",
         "lol_patch_banner": 'Riot ne publie pas les patch notes League of Legends via une API -- uniquement sous forme d\'articles sur son site officiel. Voici un résumé de synthèse (nos mots, pas une reprise du texte de Riot) des derniers patchs ; chaque carte renvoie vers l\'article complet sur <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
+        "lol_leaderboard_title": "Leaderboard — League of Legends",
+        "lol_leaderboard_desc": "Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur League of Legends, via l'API League-v4 de Riot.",
+        "lol_leaderboard_intro": "Top 20 réel par région (Challenger, Grandmaster puis Master), tiré en direct de l'API Riot. Clique un joueur pour voir sa fiche complète.",
+        "lol_leaderboard_note": "Classement mis en cache une quinzaine de minutes côté serveur -- un rafraîchissement peut prendre jusqu'à une minute la première fois après cette fenêtre (deux appels API par joueur sont nécessaires pour retrouver son vrai pseudo).",
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -3114,7 +3191,7 @@ I18N: dict[str, dict] = {
         "balance_history_title": "Balance history",
         "back_to_leaderboard": "← Back to leaderboard",
         "leaderboard_title": "Leaderboard — Teamfight Tactics Set 18",
-        "th_player": "Player", "th_tier": "Tier", "th_form": "Form (last 5)",
+        "th_player": "Player", "th_tier": "Tier", "th_form": "Form (last 5)", "th_record": "Record",
         "hot_streak_title": "On a streak",
         "lb_note": 'Real standings (League-v1, Challenger topped up with Grandmaster/Master if the server has fewer than 100), sorted by LP. TFT doesn\'t have a strict win/loss: <b style="color:var(--good)">W</b> = top 4 that game, <b style="color:var(--warn)">L</b> = 5th-8th — a display convention, not a Riot-provided stat.',
         "player_page_desc": lambda riot_id, region: f"Real profile for {riot_id} on the {region} Teamfight Tactics Set 18 leaderboard: LP, tier, winrate and the last 10 ranked games, via Riot's official API.",
@@ -3243,6 +3320,10 @@ I18N: dict[str, dict] = {
         "lol_patch_notes_desc": lambda v: f"Summary of the latest League of Legends patches (latest: {v}), with links to the full official articles.",
         "lol_patch_last_updated": lambda v, d: f"Last updated: patch {v} ({d}).",
         "lol_patch_banner": 'Riot doesn\'t publish League of Legends patch notes through an API -- only as articles on its official site. Here\'s a summary (our own words, not lifted from Riot\'s copy) of the latest patches; each card links to the full article on <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
+        "lol_leaderboard_title": "Leaderboard — League of Legends",
+        "lol_leaderboard_desc": "Real Challenger/Grandmaster/Master standings by region (EUW, NA, BR, KR) on League of Legends, via Riot's League-v4 API.",
+        "lol_leaderboard_intro": "Real top 20 per region (Challenger, then Grandmaster, then Master), pulled live from Riot's API. Click a player to see their full sheet.",
+        "lol_leaderboard_note": "The leaderboard is cached server-side for about 15 minutes -- a refresh past that window can take up to a minute the first time (each player needs 2 API calls to recover their real name).",
     },
 }
 
@@ -3542,6 +3623,32 @@ def lol_champion_detail_view(c: dict, lang: str) -> dict:
         "info": c["info"], "stats": c["stats"],
     })
     return base
+
+
+def build_lol_patch_icon_lookup(lol_champions: list[dict], lol_items_lookup: dict[str, dict], rune_trees: list[dict]) -> dict[str, dict]:
+    """name_en.lower() -> {kind, icon_file, slug} for every champion, every
+    item (including ones without their own glossary page -- a patch can
+    touch a component, not just finished items), and every rune -- used to
+    find a real icon for each PATCHES_LOL change entry by its name_en."""
+    lookup: dict[str, dict] = {}
+    for c in lol_champions:
+        lookup[c["name_en"].lower()] = {"kind": "champion", "icon_file": c["icon_file"], "slug": c["slug"]}
+    for it in lol_items_lookup.values():
+        lookup[it["name_en"].lower()] = {"kind": "item", "icon_file": it["icon_file"], "slug": it["slug"] if it["has_page"] else None}
+    for tree in rune_trees:
+        for slot in tree["slots"]:
+            for r in slot:
+                lookup[r["name_en"].lower()] = {"kind": "rune", "icon_file": r["icon_file"], "slug": None}
+    return lookup
+
+
+def lol_patch_change_view(change: dict, lookup: dict[str, dict]) -> dict:
+    match = lookup.get(change["name_en"].lower())
+    return {
+        "status": change["status"], "lines": change["lines"],
+        "name": change["name_en"], "icon_kind": match["kind"] if match else None,
+        "icon_file": match["icon_file"] if match else None, "slug": match["slug"] if match else None,
+    }
 
 
 def localize_lol_runes_page(rune_trees: list[dict], summoner_spells: list[dict], lang: str) -> tuple[list[dict], list[dict]]:
@@ -4598,36 +4705,331 @@ def main() -> None:
     # ---- League of Legends patch notes -- same rationale as the TFT
     # PATCHES below (Riot doesn't expose patch notes through an API,
     # only as articles), but sourced from actually reading each real
-    # article on leagueoflegends.com at build time (see the session that
-    # added this), not from memory -- these 3 are the real latest
-    # patches as of this write-up, hand-summarized (own words, not
-    # copy-pasted from Riot's marketing copy). No numeric before/after
-    # values are asserted here (unlike the TFT list) since verifying the
-    # exact scaling per stat per champion would need a much deeper per-
-    # patch read; qualitative "buffed/nerfed" is what was actually
-    # confirmed from source.
+    # article on leagueoflegends.com at build time, stat line by stat
+    # line -- every before -> after number below is copied from the real
+    # article, not invented or approximated. Scope: the main Summoner's
+    # Rift CHAMPIONS/ITEMS/RUNES sections of each patch; the separate
+    # "Classic Mode"/"Arena Mode" balance sub-sections are Riot's other
+    # game modes and are left out to keep this focused and readable.
+    # `name_en` is the stable key used to find each entry's real icon
+    # (matched against the champion/item catalog above by English name,
+    # case-insensitive) -- `lines` is the actual FR/EN text shown.
     PATCHES_LOL = {
         "fr": [
             {"version": "26.18", "date": "9 septembre 2026", "title": "Patch 26.18",
-             "summary": "Nerfs sur Nautilus et Bard (dominants en pro), buffs sur Viego, Master Yi, Ekko et Kassadin. Cinq champions classiques rejoignent League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao), et les pools d'augments d'ARAM Mayhem sont retravaillés pour mieux coller aux kits des champions.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes"},
+             "summary": "Cinq champions classiques rejoignent League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao) et les pools d'augments d'ARAM Mayhem sont retravaillés. Détail des changements d'équilibrage ci-dessous.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes",
+             "changes": [
+                 {"kind": "champion", "status": "nerf", "name_en": "Bard",
+                  "lines": ["Armure : 34 + 5/niveau → 32 + 4,7/niveau"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Cassiopeia",
+                  "lines": ["Passif — bonus de vitesse : 6–40 % → 5–36 %",
+                            "Q — Dégâts : 75/110/145/180/215 → 65/100/135/170/205",
+                            "Q — Ratio de PA : 65 % → 75 %",
+                            "E — Coût en mana : 40 → 45",
+                            "E — Ratio de PA (base) : 10 % → 20 %",
+                            "E — Ratio de PA (renforcé) : 55 % → 45 %",
+                            "E — Dégâts : 52–120 → 50–120",
+                            "R — Dégâts : 150/250/350 → 125/225/325",
+                            "R — Ratio de PA : 50 % → 75 %"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Ekko",
+                  "lines": ["Q — Coût en mana : 50/60/70/80/90 → 40/50/60/70/80",
+                            "Q — Ratio de PA (dégâts au retour) : 60 % → 70 %"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Kassadin",
+                  "lines": ["Q — Ratio de PA : 70 % → 80 %", "R — Dégâts de base : 70/90/110 → 80/95/110"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Master Yi",
+                  "lines": ["Croissance de l'armure : 33 + 4,5/niveau → 33 + 5/niveau",
+                            "R — Vitesse de déplacement : 35/45/55 % → 40/50/60 %"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nautilus",
+                  "lines": ["Dégâts d'attaque : 61 + 3,3/niveau → 58 + 3,3/niveau",
+                            "Q — Dégâts : 85/130/175/220/265 → 85/125/165/205/245"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Seraphine",
+                  "lines": ["E — Temps de recharge : 11/10,5/10/9,5/9s → 11s fixe"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Syndra",
+                  "lines": ["Passif — Mana des éclats : 20–255 → 20–199",
+                            "W — Temps de recharge : 12/11/10/9/8s → 13/12/11/10/9s"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Viego",
+                  "lines": ["Croissance des dégâts d'attaque : 3,5 → 4",
+                            "Passif — le soin gagne des bonus supplémentaires selon les DA bonus/PA/vitesse d'attaque bonus/PV bonus"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Zaahen",
+                  "lines": ["Q — remis en recharge immédiatement à la résurrection (nouveau)",
+                            "Q2 — Dégâts : 25/50/75/100/125 → 30/60/90/120/150"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Zeri",
+                  "lines": ["W — Ratio de DA bonus : 120 % → 100 %",
+                            "W (dégâts contre un mur) — Ratio de DA bonus : 180 % → 150 %"]},
+                 {"kind": "item", "status": "buff", "name_en": "Guinsoo's Rageblade",
+                  "lines": ["Durée des stacks de Frappe Bouillonnante : 3s → 4s"]},
+                 {"kind": "system", "status": "buff", "name_en": "Spin to Win (augment ARAM)",
+                  "lines": ["Bonus de dégâts sur les compétences ultimes : 30 % → 50 %"]},
+                 {"kind": "system", "status": "adjust", "name_en": "Ultra Hydra (augment ARAM)",
+                  "lines": ["Interdiction de vendre les objets Hydra tant que l'augment est actif (nouveau)"]},
+             ]},
             {"version": "26.17", "date": "25 août 2026", "title": "Patch 26.17",
-             "summary": "Buffs sur les AD carries de mêlée (Irelia, Yasuo, Yone), nerfs sur Nasus et Vayne en top lane ainsi que sur Xerath, Nocturne et Graves. Stormrazor gagne en vitesse d'attaque, Sundered Sky perd des statistiques. League Classic reçoit deux pages de runes supplémentaires, plus de PI/XP, l'échange de champions en sélection et un système de vote du Conseil.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes"},
+             "summary": "League Classic reçoit deux pages de runes supplémentaires, plus de PI/XP par partie, l'échange de champions en sélection et un système de vote du Conseil. Détail des changements d'équilibrage ci-dessous.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes",
+             "changes": [
+                 {"kind": "champion", "status": "buff", "name_en": "Aurelion Sol",
+                  "lines": ["Q — Coût en mana par seconde : 35/40/45/50/55 → 30/35/40/45/50",
+                            "W — Temps de recharge : 22/20,5/19/17,5/16s → 22/20/18/16/14s"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Cho'Gath",
+                  "lines": ["E — Dégâts de base (3 attaques) : 20/40/60/80/100 → 30/50/70/90/110 (+30 % PA, ratio PV max inchangé)"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Graves",
+                  "lines": ["Q — Ratio de DA bonus (dégâts initiaux) : 65 % → 55 %",
+                            "Q — Ratio de DA bonus (dégâts au retour) : 55/70/85/100/115 % → 45/60/75/90/105 %"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Irelia",
+                  "lines": ["Q — Ratio de DA : 70 % → 80 %",
+                            "W — Réduction de dégâts par 100 PA : 7 % → 8 %",
+                            "R — Ratio de PA : 70 % → 100 %"]},
+                 {"kind": "champion", "status": "buff", "name_en": "LeBlanc",
+                  "lines": ["Ratio de vitesse d'attaque de base : 0,4 → 0,625",
+                            "Croissance de la vitesse d'attaque : 2,35 % → 1,5 %",
+                            "W — Ratio de PA : 80 % → 90 %",
+                            "R+W — Ratio de PA : 80 % → 90 %"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nasus",
+                  "lines": ["Passif — Vol de vie : 12/18/24 % → 10/15/20 %"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nocturne",
+                  "lines": ["Armure de base : 38 → 36", "PV de base : 655 → 640"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Qiyana",
+                  "lines": ["Q — Dégâts : 70/100/130/160/190 → 80/110/140/170/200 (ratio DA bonus 85 % → 90 %)",
+                            "Q — Modificateur de dégâts sur monstres : 175 % → 160 %"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Thresh",
+                  "lines": ["E — Dégâts actifs : 75/120/165/210/255 → 65/110/155/200/245 (ratio PA 70 % → 60 %)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Trundle",
+                  "lines": ["W — Vitesse d'attaque : 30/45/60/75/90 % → 30/50/70/90/110 %"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Vayne",
+                  "lines": ["PV de base : 550 + 103/niveau → 580 + 98/niveau",
+                            "Régén. PV de base : 3,5 + 0,55/niveau → 4 + 0,5/niveau",
+                            "Ratio de vitesse d'attaque de base : 0,658 + 3,3 %/niveau → 0,67 + 2,8 %/niveau",
+                            "Q — Coût en mana : 30 → 46/42/38/34/30",
+                            "W — Dégâts vrais (% PV max cible) : 6/7/8/9/10 % → 4/5,5/7/8,5/10 %",
+                            "W — Dégâts minimum : 50/65/80/95/110 → 40/55/70/85/100"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Xerath",
+                  "lines": ["PV de base : 596 → 575",
+                            "Q — Dégâts : 75/115/155/195/235 → 70/110/150/190/230 (ratio PA 90 % inchangé)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Yasuo",
+                  "lines": ["Passif — Réduction des dégâts critiques subis : -10 % → -5 %"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Yone",
+                  "lines": ["Passif — Réduction des dégâts critiques subis : -10 % → -5 %"]},
+                 {"kind": "item", "status": "buff", "name_en": "Stormrazor",
+                  "lines": ["Vitesse d'attaque : 20 % → 25 %"]},
+                 {"kind": "item", "status": "nerf", "name_en": "Sundered Sky",
+                  "lines": ["PV : 450 → 400", "Dégâts d'attaque : 45 → 40"]},
+             ]},
             {"version": "26.16", "date": "11 août 2026", "title": "Patch 26.16",
-             "summary": "Trois champions classiques de plus (Akali, Kennen, Shen). Les stratégies dominantes en bot lane (roam support, mages) sont affaiblies, l'itemisation AD est renforcée (Berserker's Greaves, Black Cleaver, Eclipse), et plusieurs mécaniques système (pénalité de la quête de rôle Support, montée en puissance des familiers de jungle) sont ajustées pour diversifier la méta.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes"},
+             "summary": "Trois champions classiques de plus (Akali, Kennen, Shen) et plusieurs mécaniques système ajustées pour diversifier la méta bot lane. Détail des changements d'équilibrage ci-dessous.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes",
+             "changes": [
+                 {"kind": "champion", "status": "buff", "name_en": "Azir",
+                  "lines": ["Q — Dégâts : 60/80/100/120/140 → 75/95/115/135/155 (+35–55 % PA inchangé)"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Bel'Veth",
+                  "lines": ["Croissance des PV : 110 → 105",
+                            "R (forme véritable) — Vitesse d'attaque : 5/15/25 % → 6/13/20 %"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Camille",
+                  "lines": ["Mana : 339 → 375",
+                            "Passif — Bouclier : 20 % PV max → 10/15/20/25 % PV max (niveaux 1/7/13/19)",
+                            "Passif — Temps de recharge : 18/14/10/6s → 14/11/8s (niveaux 1/7/13)",
+                            "W — Temps de recharge : 15/14/13/12/11s → 12/11,5/11/10,5/10s",
+                            "W — Dégâts du cône extérieur : 6/6,5/7/7,5/8 % → 7/7,5/8/8,5/9 % (+2,5 % par 100 DA bonus)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Gwen",
+                  "lines": ["Passif — Soin : 50 % (post-mitigation, plafond 10–25, +6,5 % PA) → 67 % (plafond 12–40, +7 % PA)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Kennen",
+                  "lines": ["R — Résistances bonus : 20/40/60 → 25/50/75",
+                            "R — Dégâts : 40/75/110 (+22,5 % PA) → 40/80/120 (+25 % PA)",
+                            "R — Dégâts maximum : 300/562,5/825 → 300/600/900"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Nasus",
+                  "lines": ["Q — Stacks par sbire/monstre : 3 (12 sur champion/gros sbire/monstre) → 4 (10 sur champion/gros sbire/monstre)"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Poppy",
+                  "lines": ["Dégâts d'attaque : 60 → 56", "Régén. PV : 8 → 9", "Mana : 280 + 40/niveau → 300 + 45/niveau",
+                            "Q — Ratio de DA bonus : 100 % → 75 % (+7–9 % PV max selon le niveau)",
+                            "Q — Plafond sur monstres : 75/105/135/165/195 → 85/120/155/190/225",
+                            "Q — Ralentissement : 20/25/30/35/40 % → 20/23/26/29/32 % (+8 % par 1000 PV bonus)",
+                            "W — Armure/RM totales : 12 % (doublé sous 40 % PV) → 16 % (doublé sous 40 % PV)"]},
+                 {"kind": "item", "status": "buff", "name_en": "Berserker's Greaves",
+                  "lines": ["Vitesse d'attaque : 25 % → 30 %", "Vitesse d'attaque (T3) : 40 % → 45 %"]},
+                 {"kind": "item", "status": "buff", "name_en": "Black Cleaver",
+                  "lines": ["Dégâts d'attaque : 40 → 45", "Vitesse de déplacement (Ferveur) : 20 pendant 2s → 20 (corps à corps) / 10 (distance) pendant 2s"]},
+                 {"kind": "item", "status": "buff", "name_en": "Eclipse",
+                  "lines": ["Dégâts : 6 % PV max (corps à corps) / 4 % (distance) → 8 % / 5 %",
+                            "Bouclier : 160 + 40 % DA bonus (corps à corps) / 80 + 20 % (distance) → 150 + 40 % / 75 + 20 %"]},
+                 {"kind": "item", "status": "buff", "name_en": "Runaan's Hurricane",
+                  "lines": ["Vitesse de déplacement : 4 % → 5 %", "Dégâts des flèches (Furie du Vent) : 55 % DA → 65 % DA"]},
+                 {"kind": "item", "status": "buff", "name_en": "Sterak's Gage",
+                  "lines": ["Dégâts d'attaque bonus : 45 % DA de base → 50 % DA de base"]},
+                 {"kind": "item", "status": "nerf", "name_en": "Sundered Sky",
+                  "lines": ["Recette : Foreur + Bottillons de Caulfield + Cristal de rubis (400po) + 500po → Foreur + Bottillons de Caulfield + 900po",
+                            "Soin : 100 % DA de base (corps à corps) / 50 % (distance) + 6 % PV manquants → 90 % / 45 % + 4 % PV manquants",
+                            "PV : 400 → 450"]},
+                 {"kind": "item", "status": "adjust", "name_en": "Sunfire Aegis",
+                  "lines": ["Dégâts : 20 (+1 % PV bonus) → 20 (+1,5 % PV bonus)",
+                            "Modificateur sbires/monstres : 160 % / 200 % → 150 % / 180 %",
+                            "Coût de la recette : 600po → 700po"]},
+                 {"kind": "item", "status": "buff", "name_en": "Tiamat",
+                  "lines": ["Dégâts d'attaque : 20 → 25"]},
+                 {"kind": "rune", "status": "buff", "name_en": "Fleet Footwork",
+                  "lines": ["Soin : 10–130 → 15–160 (bonus DA/PA inchangés)"]},
+                 {"kind": "rune", "status": "nerf", "name_en": "Hail of Blades",
+                  "lines": ["Vitesse d'attaque : 120 % (corps à corps) / 60 % (distance) → 90 % / 60 %",
+                            "Dégâts vrais bonus : 4–20 (+8 % DA bonus, +6 % PA) → 2–20 (+12 % DA bonus, +10 % PA)"]},
+                 {"kind": "system", "status": "nerf", "name_en": "Quête de rôle Support",
+                  "lines": ["Stacks nécessaires (champion/tourelle) : 22/20 et 24/22 selon corps à corps/distance → 18 et 21",
+                            "Malus hors bot lane : -25 % jusqu'au niveau 3 → -33 % jusqu'au niveau 5"]},
+             ]},
         ],
         "en": [
             {"version": "26.18", "date": "September 9, 2026", "title": "Patch 26.18",
-             "summary": "Nerfs to Nautilus and Bard (overperforming in pro play), buffs to Viego, Master Yi, Ekko, and Kassadin. Five classic champions join League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao), and ARAM Mayhem's augment pools are reworked to better fit champion kits.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes"},
+             "summary": "Five classic champions join League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao) and ARAM Mayhem's augment pools are reworked. Full balance changes below.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-18-notes",
+             "changes": [
+                 {"kind": "champion", "status": "nerf", "name_en": "Bard",
+                  "lines": ["Armor: 34 + 5/level → 32 + 4.7/level"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Cassiopeia",
+                  "lines": ["Passive move speed bonus: 6-40% → 5-36%",
+                            "Q Damage: 75/110/145/180/215 → 65/100/135/170/205",
+                            "Q AP Ratio: 65% → 75%",
+                            "E Mana Cost: 40 → 45",
+                            "E Base AP Ratio: 10% → 20%",
+                            "E Enhanced AP Ratio: 55% → 45%",
+                            "E Damage: 52-120 → 50-120",
+                            "R Damage: 150/250/350 → 125/225/325",
+                            "R AP Ratio: 50% → 75%"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Ekko",
+                  "lines": ["Q Mana Cost: 50/60/70/80/90 → 40/50/60/70/80",
+                            "Q Return Damage AP Ratio: 60% → 70%"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Kassadin",
+                  "lines": ["Q AP Ratio: 70% → 80%", "R Base Damage: 70/90/110 → 80/95/110"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Master Yi",
+                  "lines": ["Armor Growth: 33 + 4.5/level → 33 + 5/level",
+                            "R Move Speed: 35/45/55% → 40/50/60%"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nautilus",
+                  "lines": ["Attack Damage: 61 + 3.3/level → 58 + 3.3/level",
+                            "Q Damage: 85/130/175/220/265 → 85/125/165/205/245"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Seraphine",
+                  "lines": ["E Cooldown: 11/10.5/10/9.5/9s → 11s flat"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Syndra",
+                  "lines": ["Passive Splinter Mana: 20-255 → 20-199",
+                            "W Cooldown: 12/11/10/9/8s → 13/12/11/10/9s"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Viego",
+                  "lines": ["Attack Damage Growth: 3.5 → 4",
+                            "Passive heal now scales further with bonus AD/AP/bonus attack speed/bonus HP"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Zaahen",
+                  "lines": ["Q now goes on cooldown immediately on resurrection (new)",
+                            "Q2 Damage: 25/50/75/100/125 → 30/60/90/120/150"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Zeri",
+                  "lines": ["W bonus AD ratio: 120% → 100%",
+                            "W wall-impact bonus AD ratio: 180% → 150%"]},
+                 {"kind": "item", "status": "buff", "name_en": "Guinsoo's Rageblade",
+                  "lines": ["Seething Strike stack duration: 3s → 4s"]},
+                 {"kind": "system", "status": "buff", "name_en": "Spin to Win (ARAM augment)",
+                  "lines": ["Ultimate damage increase: 30% → 50%"]},
+                 {"kind": "system", "status": "adjust", "name_en": "Ultra Hydra (ARAM augment)",
+                  "lines": ["Can no longer sell Hydra items while this augment is active (new)"]},
+             ]},
             {"version": "26.17", "date": "August 25, 2026", "title": "Patch 26.17",
-             "summary": "Buffs to melee AD carries (Irelia, Yasuo, Yone), nerfs to Nasus and Vayne in top lane plus Xerath, Nocturne, and Graves. Stormrazor gains attack speed, Sundered Sky loses stats. League Classic gets two extra rune pages, more IP/XP, champion select swapping, and a Council voting system.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes"},
+             "summary": "League Classic gets two extra rune pages, more IP/XP per game, champion select swapping, and a Council voting system. Full balance changes below.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-17-notes",
+             "changes": [
+                 {"kind": "champion", "status": "buff", "name_en": "Aurelion Sol",
+                  "lines": ["Q Mana Cost Per Second: 35/40/45/50/55 → 30/35/40/45/50",
+                            "W Cooldown: 22/20.5/19/17.5/16s → 22/20/18/16/14s"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Cho'Gath",
+                  "lines": ["E Base Damage (3 attacks): 20/40/60/80/100 → 30/50/70/90/110 (+30% AP unchanged)"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Graves",
+                  "lines": ["Q initial damage bonus AD ratio: 65% → 55%",
+                            "Q return damage bonus AD ratio: 55/70/85/100/115% → 45/60/75/90/105%"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Irelia",
+                  "lines": ["Q AD ratio: 70% → 80%", "W damage reduction per 100 AP: 7% → 8%", "R AP ratio: 70% → 100%"]},
+                 {"kind": "champion", "status": "buff", "name_en": "LeBlanc",
+                  "lines": ["Base attack speed ratio: 0.4 → 0.625",
+                            "Attack speed growth: 2.35% → 1.5%",
+                            "W AP ratio: 80% → 90%", "R+W AP ratio: 80% → 90%"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nasus",
+                  "lines": ["Passive lifesteal: 12/18/24% → 10/15/20%"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Nocturne",
+                  "lines": ["Base armor: 38 → 36", "Base health: 655 → 640"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Qiyana",
+                  "lines": ["Q damage: 70/100/130/160/190 → 80/110/140/170/200 (bonus AD ratio 85% → 90%)",
+                            "Q monster damage modifier: 175% → 160%"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Thresh",
+                  "lines": ["E active damage: 75/120/165/210/255 → 65/110/155/200/245 (AP ratio 70% → 60%)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Trundle",
+                  "lines": ["W attack speed: 30/45/60/75/90% → 30/50/70/90/110%"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Vayne",
+                  "lines": ["Base health: 550 + 103/level → 580 + 98/level",
+                            "Base health regen: 3.5 + 0.55/level → 4 + 0.5/level",
+                            "Base attack speed ratio: 0.658 + 3.3%/level → 0.67 + 2.8%/level",
+                            "Q mana cost: 30 → 46/42/38/34/30",
+                            "W true damage (% target max HP): 6/7/8/9/10% → 4/5.5/7/8.5/10%",
+                            "W minimum damage: 50/65/80/95/110 → 40/55/70/85/100"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Xerath",
+                  "lines": ["Base health: 596 → 575",
+                            "Q damage: 75/115/155/195/235 → 70/110/150/190/230 (90% AP ratio unchanged)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Yasuo",
+                  "lines": ["Passive crit damage taken reduction: -10% → -5%"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Yone",
+                  "lines": ["Passive crit damage taken reduction: -10% → -5%"]},
+                 {"kind": "item", "status": "buff", "name_en": "Stormrazor",
+                  "lines": ["Attack speed: 20% → 25%"]},
+                 {"kind": "item", "status": "nerf", "name_en": "Sundered Sky",
+                  "lines": ["Health: 450 → 400", "Attack damage: 45 → 40"]},
+             ]},
             {"version": "26.16", "date": "August 11, 2026", "title": "Patch 26.16",
-             "summary": "Three more classic champions (Akali, Kennen, Shen). Dominant bot lane strategies (support roaming, mage picks) get weaker, AD itemization gets stronger (Berserker's Greaves, Black Cleaver, Eclipse), and several system mechanics (Support Role Quest penalty, jungle pet scaling) are adjusted to diversify the meta.",
-             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes"},
+             "summary": "Three more classic champions (Akali, Kennen, Shen) and several system mechanics adjusted to diversify the bot lane meta. Full balance changes below.",
+             "url": "https://www.leagueoflegends.com/en-us/news/game-updates/league-of-legends-patch-26-16-notes",
+             "changes": [
+                 {"kind": "champion", "status": "buff", "name_en": "Azir",
+                  "lines": ["Q damage: 60/80/100/120/140 → 75/95/115/135/155 (+35-55% AP unchanged)"]},
+                 {"kind": "champion", "status": "nerf", "name_en": "Bel'Veth",
+                  "lines": ["Health growth: 110 → 105", "R true form attack speed: 5/15/25% → 6/13/20%"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Camille",
+                  "lines": ["Mana: 339 → 375",
+                            "Passive shield: 20% max health → 10/15/20/25% max health (levels 1/7/13/19)",
+                            "Passive cooldown: 18/14/10/6s → 14/11/8s (levels 1/7/13)",
+                            "W cooldown: 15/14/13/12/11s → 12/11.5/11/10.5/10s",
+                            "W outer cone damage: 6/6.5/7/7.5/8% → 7/7.5/8/8.5/9% (+2.5% per 100 bonus AD)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Gwen",
+                  "lines": ["Passive heal: 50% post-mitigation, capped 10-25 (+6.5% AP) → 67%, capped 12-40 (+7% AP)"]},
+                 {"kind": "champion", "status": "buff", "name_en": "Kennen",
+                  "lines": ["R bonus resistances: 20/40/60 → 25/50/75",
+                            "R damage: 40/75/110 (+22.5% AP) → 40/80/120 (+25% AP)",
+                            "R maximum damage: 300/562.5/825 → 300/600/900"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Nasus",
+                  "lines": ["Q stacks per minion/monster: 3 (12 vs champions/large minions/monsters) → 4 (10 vs champions/large minions/monsters)"]},
+                 {"kind": "champion", "status": "adjust", "name_en": "Poppy",
+                  "lines": ["Attack damage: 60 → 56", "Health regen: 8 → 9", "Mana: 280 + 40/level → 300 + 45/level",
+                            "Q bonus AD ratio: 100% → 75% (+7-9% max health scaling by level)",
+                            "Q monster cap: 75/105/135/165/195 → 85/120/155/190/225",
+                            "Q slow: 20/25/30/35/40% → 20/23/26/29/32% (+8% per 1000 bonus health)",
+                            "W total armor/MR: 12% (doubled below 40% HP) → 16% (doubled below 40% HP)"]},
+                 {"kind": "item", "status": "buff", "name_en": "Berserker's Greaves",
+                  "lines": ["Attack speed: 25% → 30%", "Attack speed (T3): 40% → 45%"]},
+                 {"kind": "item", "status": "buff", "name_en": "Black Cleaver",
+                  "lines": ["Attack damage: 40 → 45", "Fervor move speed: 20 for 2s → 20 melee / 10 ranged for 2s"]},
+                 {"kind": "item", "status": "buff", "name_en": "Eclipse",
+                  "lines": ["Damage: 6% max health melee / 4% ranged → 8% / 5%",
+                            "Shield: 160 + 40% bonus AD melee / 80 + 20% ranged → 150 + 40% / 75 + 20%"]},
+                 {"kind": "item", "status": "buff", "name_en": "Runaan's Hurricane",
+                  "lines": ["Move speed: 4% → 5%", "Wind's Fury bolt damage: 55% AD → 65% AD"]},
+                 {"kind": "item", "status": "buff", "name_en": "Sterak's Gage",
+                  "lines": ["Bonus attack damage: 45% base AD → 50% base AD"]},
+                 {"kind": "item", "status": "nerf", "name_en": "Sundered Sky",
+                  "lines": ["Recipe: Tunneler + Caulfield's Warhammer + Ruby Crystal (400g) + 500g → Tunneler + Caulfield's Warhammer + 900g",
+                            "Healing: 100% base AD melee / 50% ranged + 6% missing health → 90% / 45% + 4% missing health",
+                            "Health: 400 → 450"]},
+                 {"kind": "item", "status": "adjust", "name_en": "Sunfire Aegis",
+                  "lines": ["Damage: 20 (+1% bonus health) → 20 (+1.5% bonus health)",
+                            "Minion/monster modifier: 160% / 200% → 150% / 180%",
+                            "Recipe cost: 600g → 700g"]},
+                 {"kind": "item", "status": "buff", "name_en": "Tiamat",
+                  "lines": ["Attack damage: 20 → 25"]},
+                 {"kind": "rune", "status": "buff", "name_en": "Fleet Footwork",
+                  "lines": ["Healing: 10-130 → 15-160 (bonus AD/AP scaling unchanged)"]},
+                 {"kind": "rune", "status": "nerf", "name_en": "Hail of Blades",
+                  "lines": ["Attack speed: 120% melee / 60% ranged → 90% / 60%",
+                            "Bonus true damage: 4-20 (+8% bonus AD, +6% AP) → 2-20 (+12% bonus AD, +10% AP)"]},
+                 {"kind": "system", "status": "nerf", "name_en": "Support Role Quest",
+                  "lines": ["Stacks needed (champion/turret): 22/20 and 24/22 melee/ranged → 18 and 21",
+                            "Off-lane minion penalty: -25% until level 3 → -33% until level 5"]},
+             ]},
         ],
     }
 
@@ -4992,6 +5394,11 @@ def main() -> None:
     lol_items, lol_items_lookup, lol_champions, lol_rune_trees, lol_summoner_spells = fetch_lol_glossary_data(ddragon_version)
     print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions, "
           f"{len(lol_rune_trees)} rune trees, {len(lol_summoner_spells)} summoner spells (Data Dragon {ddragon_version}).")
+    lol_patch_icon_lookup = build_lol_patch_icon_lookup(lol_champions, lol_items_lookup, lol_rune_trees)
+    _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
+                                      if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})
+    if _unmatched_patch_names:
+        print(f"  [warn] League patch notes: no icon match for {_unmatched_patch_names}")
 
     print("Building comp / champion / list pages (FR + EN)...")
     for lang in LANGS:
@@ -5060,7 +5467,10 @@ def main() -> None:
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
         render("lol_patch_notes.html", "/league/patch-notes/", lang, active_nav="league", active_sub="lol-patchnotes",
-               patches=PATCHES_LOL[lang])
+               ddragon_version=ddragon_version,
+               patches=[{**p, "changes": [lol_patch_change_view(c, lol_patch_icon_lookup) for c in p["changes"]]}
+                        for p in PATCHES_LOL[lang]])
+        render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard")
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -5437,6 +5847,25 @@ def main() -> None:
   .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #0b0221; flex: none; }
   .lol-rune-cell .lol-rune-name { font-weight: 600; font-size: 12.5px; margin-bottom: 2px; }
   .lol-rune-cell .lol-rune-desc { font-size: 11px; color: var(--text-faint); line-height: 1.4; }
+  /* Patch notes League -- une ligne détaillée par champion/objet/rune
+     touché (icône réelle + toutes les valeurs avant -> après), pas juste
+     un résumé en prose. Mêmes tokens --good/--warn que .patch-balance-*
+     (TFT) pour "buff"/"nerf", + un 3e état "adjust" (changement mixte). */
+  .lol-patch-change-list { display: flex; flex-direction: column; gap: 4px; margin: 14px 0; border-top: 1px solid var(--border); }
+  .lol-patch-change-row { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .lol-patch-change-icon { width: 36px; height: 36px; flex: none; border: 1px solid var(--border-bright); object-fit: cover; }
+  .lol-patch-change-icon-none { background: var(--row); }
+  .lol-patch-change-body { flex: 1; min-width: 0; }
+  .lol-patch-change-name-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 4px; }
+  .lol-patch-change-name { font-weight: 600; font-size: 13.5px; color: var(--cream); text-decoration: none; }
+  a.lol-patch-change-name:hover { color: var(--cyan); text-decoration: underline; }
+  .lol-patch-status-tag { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; border: 1px solid; }
+  .lol-patch-status-tag[data-status="buff"] { color: var(--good); border-color: var(--good); }
+  .lol-patch-status-tag[data-status="nerf"] { color: var(--warn); border-color: var(--warn); }
+  .lol-patch-status-tag[data-status="adjust"] { color: var(--text-faint); border-color: var(--border-bright); }
+  .lol-patch-change-lines { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 3px; }
+  .lol-patch-change-lines li { font-size: 12px; line-height: 1.5; color: var(--text-dim); }
+  .lol-patch-change-lines li::before { content: "· "; color: var(--text-faint); }
   /* Un composant de base (ex: Bottes de vitesse) peut se transformer en
      une dizaine d'objets différents -- .item-composition-row n'a pas
      besoin de retour à la ligne côté TFT (recette à 2-3 composants max,
@@ -5785,6 +6214,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-glossary-filters.js").write_text(LOL_GLOSSARY_FILTER_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "lol-leaderboard.js").write_text(LOL_LEADERBOARD_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "rank-filter.js").write_text(RANK_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "counter-finder.js").write_text(COUNTER_FINDER_JS, encoding="utf-8")

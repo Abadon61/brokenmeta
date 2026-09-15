@@ -30,14 +30,31 @@ export interface RiotLeagueEntry {
   queueType: string; tier: string; rank: string; leaguePoints: number;
   wins: number; losses: number; hotStreak: boolean; veteran: boolean;
 }
+// Bulk apex-tier endpoints (challenger/grandmaster/master) return this
+// shape instead -- one tier for the WHOLE list, entries keyed by
+// summonerId (not puuid, unlike RiotLeagueEntry above -- a real API
+// inconsistency, not a mistake here) with no queueType per entry either.
+export interface RiotLeagueItem {
+  summonerId: string; leaguePoints: number; rank: string;
+  wins: number; losses: number; hotStreak: boolean; veteran: boolean; freshBlood: boolean;
+}
+export interface RiotLeagueList { tier: string; name: string; entries: RiotLeagueItem[]; }
 
 export class RiotClient {
   constructor(private apiKey: string) {}
 
-  private async get<T>(url: string): Promise<T | null> {
+  private async get<T>(url: string, retriesLeft = 2): Promise<T | null> {
     const resp = await fetch(url, { headers: { "X-Riot-Token": this.apiKey } });
     if (resp.status === 200) return (await resp.json()) as T;
     if (resp.status === 404) return null;
+    if (resp.status === 429 && retriesLeft > 0) {
+      // Riot always sends Retry-After on 429s -- honor it (capped, this is
+      // a request-time wait, not a batch job) rather than failing a whole
+      // leaderboard/profile lookup on one transient rate-limit hit.
+      const retryAfter = Math.min(5, Number(resp.headers.get("Retry-After")) || 1);
+      await new Promise((r) => setTimeout(r, retryAfter * 1000));
+      return this.get<T>(url, retriesLeft - 1);
+    }
     const body = await resp.text().catch(() => "");
     throw new RiotAPIError(resp.status, url, body);
   }
@@ -47,9 +64,34 @@ export class RiotClient {
     return this.get<RiotAccount>(url);
   }
 
+  getAccountByPuuid(regional: string, puuid: string) {
+    const url = `https://${regional}.api.riotgames.com/riot/account/v1/accounts/by-puuid/${puuid}`;
+    return this.get<RiotAccount>(url);
+  }
+
   getSummonerByPuuid(platform: string, puuid: string) {
     const url = `https://${platform}.api.riotgames.com/lol/summoner/v4/summoners/by-puuid/${puuid}`;
     return this.get<RiotSummoner>(url);
+  }
+
+  getSummonerById(platform: string, summonerId: string) {
+    const url = `https://${platform}.api.riotgames.com/lol/summoner/v4/summoners/${summonerId}`;
+    return this.get<RiotSummoner>(url);
+  }
+
+  getChallengerLeague(platform: string, queue: string) {
+    const url = `https://${platform}.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/${queue}`;
+    return this.get<RiotLeagueList>(url);
+  }
+
+  getGrandmasterLeague(platform: string, queue: string) {
+    const url = `https://${platform}.api.riotgames.com/lol/league/v4/grandmasterleagues/by-queue/${queue}`;
+    return this.get<RiotLeagueList>(url);
+  }
+
+  getMasterLeague(platform: string, queue: string) {
+    const url = `https://${platform}.api.riotgames.com/lol/league/v4/masterleagues/by-queue/${queue}`;
+    return this.get<RiotLeagueList>(url);
   }
 
   getLeagueEntriesByPuuid(platform: string, puuid: string) {

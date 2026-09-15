@@ -25,6 +25,7 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/champions/" {% if active_sub == 'lol-glossary-champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_champions') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/runes/" {% if active_sub == 'lol-glossary-runes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_runes') }}</a>
 <a class="nav-link" href="{{ root }}league/patch-notes/" {% if active_sub == 'lol-patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}league/leaderboard/" {% if active_sub == 'lol-leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 {% else %}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
@@ -60,6 +61,7 @@
   </div>
 </details>
 <a class="nav-link" href="{{ root }}league/patch-notes/" {% if active_sub == 'lol-patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}league/leaderboard/" {% if active_sub == 'lol-leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 {% else %}
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>
