@@ -637,6 +637,10 @@
   .trend-move-up { color: var(--good); }
   .trend-move-down { color: var(--warn); }
   .trend-row-detail { font-size: 11px; color: var(--text-faint); flex: none; }
+  /* League /league/tendances/ -- a role icon instead of .tier-badge's
+     single-letter tier (a role name like "Support" wouldn't fit it). */
+  .trend-row-role { width: 34px; height: 34px; flex: none; display: flex; align-items: center; justify-content: center; background: var(--bg-2); border: 1px solid var(--border-bright); color: var(--text-faint); }
+  .trend-row-role svg { width: 18px; height: 18px; }
 
   .pill-row { display: flex; gap: 1px; flex: none; border: 1px solid var(--border-bright); }
   .pill { background: var(--bg-2); padding: 4px 13px; text-align: center; min-width: 54px; }
