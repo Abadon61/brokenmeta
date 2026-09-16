@@ -16,6 +16,47 @@
   var results = document.getElementById('leagueResults');
   if (!form || !API) return;
 
+  // Favorited League profiles + recently searched ones -- same localStorage
+  // pattern as FAVORITES_JS (TFT comps), separate keys so the two never mix,
+  // rendered back out on /favoris/ by FAVORITES_JS itself.
+  var LOL_FAV_KEY = 'bm_lol_favorites';
+  var LOL_RECENT_KEY = 'bm_lol_recent';
+  var LOL_RECENT_MAX = 8;
+  var STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>';
+
+  function lolFavKey(riotId, region) { return region + '|' + riotId; }
+  function loadLolFavorites() {
+    try { return JSON.parse(localStorage.getItem(LOL_FAV_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveLolFavorites(list) {
+    try { localStorage.setItem(LOL_FAV_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+  function isLolFavorite(riotId, region) {
+    return loadLolFavorites().some(function (f) { return f.key === lolFavKey(riotId, region); });
+  }
+  function toggleLolFavorite(riotId, region) {
+    var list = loadLolFavorites();
+    var key = lolFavKey(riotId, region);
+    var idx = list.findIndex(function (f) { return f.key === key; });
+    if (idx === -1) {
+      list.unshift({ key: key, riotId: riotId, region: region });
+      if (window.gtag) gtag('event', 'favorite_add', { kind: 'league_profile' });
+    } else {
+      list.splice(idx, 1);
+    }
+    saveLolFavorites(list);
+    return idx === -1; // now saved
+  }
+  function recordLolRecentSearch(riotId, region) {
+    try {
+      var key = lolFavKey(riotId, region);
+      var list = JSON.parse(localStorage.getItem(LOL_RECENT_KEY)) || [];
+      list = list.filter(function (f) { return f.key !== key; });
+      list.unshift({ key: key, riotId: riotId, region: region });
+      localStorage.setItem(LOL_RECENT_KEY, JSON.stringify(list.slice(0, LOL_RECENT_MAX)));
+    } catch (e) {}
+  }
+
   var ROLE_ICON = {
     top: '<path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M21,14H14v7h7V14Zm5-3V26L11.014,26l-4,4H30V7.016Z"/><polygon fill="#c8aa6e" points="4 4 4.003 28.045 9 23 9 9 23 9 28.045 4.003 4 4"/>',
     jungle: '<path fill="#c8aa6e" fill-rule="evenodd" d="M25,3c-2.128,3.3-5.147,6.851-6.966,11.469A42.373,42.373,0,0,1,20,20a27.7,27.7,0,0,1,1-3C21,12.023,22.856,8.277,25,3ZM13,20c-1.488-4.487-4.76-6.966-9-9,3.868,3.136,4.422,7.52,5,12l3.743,3.312C14.215,27.917,16.527,30.451,17,31c4.555-9.445-3.366-20.8-8-28C11.67,9.573,13.717,13.342,13,20Zm8,5a15.271,15.271,0,0,1,0,2l4-4c0.578-4.48,1.132-8.864,5-12C24.712,13.537,22.134,18.854,21,25Z"/>',
@@ -517,14 +558,27 @@
       + '<div id="statsTabWrap" hidden></div>'
       + '</div>';
 
+    var isFav = isLolFavorite(data.riotId, data.region);
     var header = el('div', 'player-header',
       '<div class="player-avatar">' + avatarHtml + '</div>'
-      + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span></div>'
+      + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span>'
+      + '<button type="button" class="fav-btn inline" id="lolFavBtn" aria-pressed="' + (isFav ? 'true' : 'false') + '" '
+      + 'title="' + esc(isFav ? I.favRemove : I.favAdd) + '" aria-label="' + esc(isFav ? I.favRemove : I.favAdd) + '">' + STAR_SVG + '</button></div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; ' + esc(I.level) + ' ' + data.summonerLevel : '') + '</div></div>');
 
     results.innerHTML = '';
     results.appendChild(header);
     bindIconFallback(header);
+    var lolFavBtn = document.getElementById('lolFavBtn');
+    if (lolFavBtn) {
+      lolFavBtn.addEventListener('click', function () {
+        var nowSaved = toggleLolFavorite(data.riotId, data.region);
+        lolFavBtn.setAttribute('aria-pressed', nowSaved ? 'true' : 'false');
+        var label = nowSaved ? I.favRemove : I.favAdd;
+        lolFavBtn.title = label;
+        lolFavBtn.setAttribute('aria-label', label);
+      });
+    }
     if (data.liveGame) {
       var liveEl = el('div', 'live-game-banner', buildLiveGameHtml(data.liveGame));
       results.appendChild(liveEl);
@@ -555,6 +609,7 @@
       setStatus(null);
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
+      recordLolRecentSearch(data.riotId, data.region);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
       setStatus(e.message || String(e), true);

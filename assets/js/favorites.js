@@ -190,4 +190,68 @@
       maybeShowRecentEmptyState();
     });
   }
+
+  // League profiles favorited/recently searched -- separate localStorage
+  // keys from the comp favorites above (see LEAGUE_JS), only ever rendered
+  // here on /favoris/ (this script loads on every page, but these two
+  // containers only exist on that one).
+  var lolFavList = document.getElementById('leagueFavoritesList');
+  var lolRecentList = document.getElementById('leagueRecentList');
+  if (!lolFavList && !lolRecentList) return;
+
+  function loadLol(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; }
+  }
+  function saveLol(key, list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+  }
+  function lolProfileHref(f) {
+    return root + 'league/?riotId=' + encodeURIComponent(f.riotId) + '&region=' + encodeURIComponent(f.region);
+  }
+  function renderLolRow(container, f, isFav) {
+    var a = document.createElement('a');
+    a.className = 'comp-row fav-row';
+    a.href = lolProfileHref(f);
+    var parts = f.riotId.split('#');
+    a.innerHTML =
+      '<div class="duo-partner-row" style="padding:14px 16px;align-items:center">'
+      + '<div class="duo-partner-info"><div class="duo-partner-name">' + parts[0] + (parts[1] ? ' <span class="tag">#' + parts[1] + '</span>' : '') + '</div>'
+      + '<div class="duo-partner-meta">' + f.region + '</div></div>'
+      + '<button type="button" class="fav-btn inline" data-fav-key="' + f.key + '" aria-pressed="true">' + STAR_SVG + '</button></div>';
+    var btn = a.querySelector('.fav-btn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var key = isFav ? LOL_FAV_KEY : LOL_RECENT_KEY;
+      saveLol(key, loadLol(key).filter(function (x) { return x.key !== f.key; }));
+      a.remove();
+      maybeShowLolEmptyState();
+    });
+    (isFav ? lolFavList : lolRecentList).appendChild(a);
+  }
+  function maybeShowLolEmptyState() {
+    if (lolFavList && !lolFavList.querySelector('.fav-row')) {
+      lolFavList.innerHTML = '<p class="favorites-empty">' + (lolFavList.dataset.emptyText || '') + '</p>';
+    }
+    if (lolRecentList && !lolRecentList.querySelector('.fav-row')) {
+      lolRecentList.innerHTML = '<p class="favorites-empty">' + (lolRecentList.dataset.emptyText || '') + '</p>';
+      if (lolRecentClear) lolRecentClear.hidden = true;
+    }
+  }
+  var LOL_FAV_KEY = 'bm_lol_favorites';
+  var LOL_RECENT_KEY = 'bm_lol_recent';
+  var lolRecentClear = document.getElementById('leagueRecentClear');
+  var lolFavorites = loadLol(LOL_FAV_KEY);
+  var lolRecent = loadLol(LOL_RECENT_KEY);
+  if (lolFavList) lolFavorites.forEach(function (f) { renderLolRow(lolFavList, f, true); });
+  if (lolRecentList) lolRecent.forEach(function (f) { renderLolRow(lolRecentList, f, false); });
+  maybeShowLolEmptyState();
+  if (lolRecentClear) {
+    lolRecentClear.hidden = !lolRecent.length;
+    lolRecentClear.addEventListener('click', function () {
+      saveLol(LOL_RECENT_KEY, []);
+      lolRecentList.innerHTML = '';
+      maybeShowLolEmptyState();
+    });
+  }
 })();
