@@ -97,7 +97,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
       <div class="mobile-nav-panel">
         <nav class="mobile-nav-links">{{ m.nav_links(lang, root, active_nav, mobile=True, active_sub=active_sub) }}</nav>
-        <div class="mobile-nav-actions">{{ m.nav_cta(lang, root, active_nav) }}</div>
+        <div class="mobile-nav-actions">{{ m.nav_cta(lang, root, active_nav, active_sub) }}</div>
       </div>
     </details>
   </div>
@@ -108,7 +108,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <nav class="nav-menu">
       {{ m.nav_links(lang, root, active_nav, active_sub=active_sub) }}
     </nav>
-    {{ m.nav_cta(lang, root, active_nav) }}
+    {{ m.nav_cta(lang, root, active_nav, active_sub) }}
   </div>
 </div>
 <div class="page">

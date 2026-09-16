@@ -6085,7 +6085,7 @@ def main() -> None:
                region_cols=region_cols, comp_cols=comp_cols)
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
-        render("league_profile.html", "/league/", lang, active_nav="league", league_i18n=LEAGUE_UI_I18N[lang])
+        render("league_profile.html", "/league/", lang, active_nav="league", active_sub="lol-profile", league_i18n=LEAGUE_UI_I18N[lang])
 
         # ---- Glossaire League of Legends (objets + champions, données
         # réelles Data Dragon -- voir fetch_lol_glossary_data) ----

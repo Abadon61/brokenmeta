@@ -103,8 +103,13 @@
    shared between the desktop navbar-right and the mobile panel -- also
    game-specific, since "Analyse ton profil" already points at MetaScope
    (TFT) and "Overlay TFT" obviously doesn't apply to League. #}
-{% macro nav_cta(lang, root, active_nav) %}
-{% if active_nav != 'league' %}
+{% macro nav_cta(lang, root, active_nav, active_sub=None) %}
+{% if active_nav == 'league' %}
+<a class="nav-cta-button" href="{{ root }}league/" {% if active_sub == 'lol-profile' %}data-active="true"{% endif %}>
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  {{ t(lang, 'ms_search_button') }}
+</a>
+{% else %}
 <a class="nav-cta-button" href="{{ root }}metascope/" {% if active_nav == 'metascope' %}data-active="true"{% endif %}>
   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   {{ t(lang, 'nav_metascope') }}
