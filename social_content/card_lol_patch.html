@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Patch League of Legends</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .lol-patch-version { font-family: 'Space Mono', monospace; font-size: 22px; color: var(--cream); font-weight: 700; margin-top: 6px; }
+  .lol-patch-block { margin-bottom: 40px; }
+  .lol-patch-block-title {
+    display: inline-flex; align-items: center; gap: 10px; font-family: 'Space Mono', monospace;
+    font-size: 20px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+    padding: 8px 20px; border-radius: 999px; margin-bottom: 22px;
+  }
+  .lol-patch-block.buffs .lol-patch-block-title { color: #06261f; background: var(--teal); }
+  .lol-patch-block.nerfs .lol-patch-block-title { color: #2b0a12; background: var(--red); }
+  .lol-patch-champ-row { display: flex; gap: 22px; flex-wrap: wrap; }
+  .lol-patch-champ { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 150px; }
+  .chip.lol-champ { width: 130px; height: 130px; border-radius: 50%; }
+  .lol-patch-block.buffs .chip.lol-champ { border-color: var(--teal); }
+  .lol-patch-block.nerfs .chip.lol-champ { border-color: var(--red); }
+  .lol-patch-champ-name { font-size: 19px; text-align: center; color: var(--cream); font-weight: 600; line-height: 1.2; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-lol-patch-26-18">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">League of Legends</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">Patch Notes</div>
+  </div>
+  <div class="lol-patch-version">Patch 26.18 -- 9 septembre 2026</div>
+  <div class="subtitle">Cinq champions classiques rejoignent League Classic (Fiora, Galio, Poppy, Shyvana, Xin Zhao) et les pools d'augments d'ARAM Mayhem sont retravaillés.</div>
+
+  <div class="content">
+    <div class="lol-patch-block buffs">
+      <div class="lol-patch-block-title">▲ Renforcés</div>
+      <div class="lol-patch-champ-row">
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--teal);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ekko.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Ekko</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--teal);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kassadin.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Kassadin</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--teal);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/MasterYi.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Master Yi</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--teal);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viego.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Viego</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--teal);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zaahen.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Zaahen</div></div>
+      </div>
+    </div>
+
+    <div class="lol-patch-block nerfs">
+      <div class="lol-patch-block-title">▼ Affaiblis</div>
+      <div class="lol-patch-champ-row">
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--red);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Bard.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Bard</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--red);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nautilus.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Nautilus</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--red);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Seraphine.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Seraphine</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--red);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Syndra</div></div>
+        <div class="lol-patch-champ"><div class="chip lol-champ frame" style="--tc: var(--red);"><div class="corner tl md"></div><div class="corner tr md"></div><div class="corner bl md"></div><div class="corner br md"></div><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zeri.png" alt="" crossorigin="anonymous"></div><div class="lol-patch-champ-name">Zeri</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Notes complètes sur <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>
