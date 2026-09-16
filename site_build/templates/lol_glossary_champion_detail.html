@@ -151,3 +151,7 @@
 <div class="matchup-empty">{{ t(lang, 'lol_champ_matchups_empty') }}</div>
 {% endif %}
 {% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}

@@ -179,7 +179,21 @@
         {{ pill(t(lang, 'contest_label'), c.contestation_index|round|int, c.contestation_level) }}
       </div>
     </div>
+    {% if preview_hidden %}
+    {# Beyond the homepage's default top-15-per-tier view, this row only
+       ever becomes visible via a search match or the rank-filter's live
+       recombination (see rank-filter.js) -- both just reveal/update the
+       EXISTING row element, never create a new one, so the icon-heavy
+       board markup below is otherwise pure dead DOM weight for a row
+       ~90% of visitors never see (SEO/perf audit, 2026-09-16: this plus
+       the Hors Meta cap took the homepage from ~30k to ~15k DOM nodes;
+       lazy-hydrating this too is the next cut). assets/js/list-filters.js
+       builds the real markup from this JSON the moment the row is about
+       to be shown, then removes the attribute so it only ever runs once. #}
+    <div class="units-row" data-units-lazy="{{ c.core_units_display|tojson_attr }}"></div>
+    {% else %}
     {{ units_row(c.core_units_display, root) }}
+    {% endif %}
   </div>
   {{ favorite_button(c, lang) }}
   {{ copy_comp_button(c.planner_code, lang) }}

@@ -152,6 +152,34 @@ LIST_FILTERS_JS = """
   var emptyState = document.getElementById('emptyState');
   var activeType = 'ALL';
 
+  // Homepage only (see macros.html's comp_summary_row): a row past the
+  // top-15-per-tier default view ships its unit/item board as a JSON blob
+  // instead of real <img> markup -- real icon markup for ~90% of the
+  // comps most visitors never scroll to was most of the homepage's DOM
+  // weight (SEO/perf audit, 2026-09-16). Built for real the first time
+  // this row is actually about to be shown (search match or a rank-filter
+  // recombination puts it back in view), then never touched again.
+  var STAR_SVG_UNIT = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>';
+  function hydrateRow(row) {
+    var el = row.querySelector('.units-row[data-units-lazy]');
+    if (!el) return;
+    var units;
+    try { units = JSON.parse(el.dataset.unitsLazy); } catch (e) { units = null; }
+    el.removeAttribute('data-units-lazy');
+    if (!units) return;
+    var root = window.BM_ROOT || '';
+    el.innerHTML = units.map(function (u) {
+      var corners = u.is_top ? '<span class="unit-corner tl"></span><span class="unit-corner tr"></span><span class="unit-corner bl"></span><span class="unit-corner br"></span>' : '';
+      var stars = u.three_star ? '<span class="star-row">' + STAR_SVG_UNIT + STAR_SVG_UNIT + STAR_SVG_UNIT + '</span>' : '';
+      var itemsHtml = (u.shown_items || []).map(function (item) {
+        return '<img class="item-icon" src="' + root + 'assets/items/' + item.slug + '.png" alt="' + item.name + '" title="' + item.name + '" loading="lazy">';
+      }).join('');
+      return '<div class="unit-cell"><div class="unit-icon-wrap">' + corners
+        + '<img class="unit-icon champ-link-icon" src="' + root + 'assets/champions/' + u.slug + '.png" alt="' + u.champion + '" loading="lazy" style="border-color:var(--cost-' + (u.cost || 1) + ')" data-champ-slug="' + u.slug + '" data-champ-href="' + root + 'champions/' + u.slug + '/">'
+        + stars + '</div><div class="unit-items">' + itemsHtml + '</div></div>';
+    }).join('');
+  }
+
   function applyFilters() {
     var q = (searchInput ? searchInput.value.trim().toLowerCase() : '');
     var visible = 0;
@@ -173,6 +201,7 @@ LIST_FILTERS_JS = """
       // comp disqualified by an actively-selected rank bracket.
       var rankOk = q ? true : row.dataset.rankHidden !== 'true';
       var show = typeOk && searchOk && rankOk;
+      if (show) hydrateRow(row);
       row.style.display = show ? '' : 'none';
       if (show) visible++;
     });
@@ -3031,6 +3060,7 @@ def build_comp_sparkline(history: list[dict]) -> dict | None:
 # ---------------------------------------------------------------------------
 I18N: dict[str, dict] = {
     "fr": {
+        "breadcrumb_home": "Accueil",
         "nav_tierlists": "Tier List TFT",
         "nav_comps": "Compo List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyse ton profil",
@@ -3373,6 +3403,7 @@ I18N: dict[str, dict] = {
         "lol_compare_button": "Comparer",
     },
     "en": {
+        "breadcrumb_home": "Home",
         "nav_tierlists": "TFT Tier Lists",
         "nav_comps": "Comp List", "nav_champions": "Champion List", "nav_patchnotes": "Patch Notes", "nav_leaderboard": "Leaderboard",
         "nav_metascope": "Analyze your profile",
@@ -4180,6 +4211,42 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
         "rune_pages": rune_pages,
     })
     return base
+
+
+def breadcrumb_schema(crumbs: list[tuple[str, str]]) -> dict:
+    """crumbs: [(name, url), ...] from the homepage to the current page, in
+    order -- schema.org BreadcrumbList for rich results (SEO audit,
+    2026-09-16). Real hierarchy only: every url here is a real, already-
+    canonicalized page on the site (canonical_for()'s own output), never a
+    fabricated path."""
+    return {
+        "@context": "https://schema.org", "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": i + 1, "name": name, "item": url}
+            for i, (name, url) in enumerate(crumbs)
+        ],
+    }
+
+
+def build_article_schema(headline: str, url: str, description: str, image: str | None = None) -> dict:
+    """schema.org Article for a real content page (champion/item sheet) --
+    same shape comp.html's own article_schema dict already uses, factored
+    out so champion/item detail pages (both games) can get the same rich-
+    result treatment without repeating the boilerplate (SEO audit,
+    2026-09-16). No dates: unlike a comp page (tied to one real data
+    refresh), these pages update on every Data Dragon/patch refresh with no
+    single meaningful "published" moment, so datePublished/dateModified
+    are left out rather than guessed."""
+    schema = {
+        "@context": "https://schema.org", "@type": "Article", "headline": headline,
+        "description": description,
+        "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+        "author": {"@type": "Organization", "name": "BrokenMeta.gg"},
+        "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"},
+    }
+    if image:
+        schema["image"] = image
+    return schema
 
 
 def build_lol_patch_icon_lookup(lol_champions: list[dict], lol_items_lookup: dict[str, dict], rune_trees: list[dict]) -> dict[str, dict]:
@@ -5918,6 +5985,13 @@ def main() -> None:
     # un-decoded inside <script> text (it's not parsed as HTML there),
     # corrupting the string instead of just being redundant.
     env.filters["tojson"] = lambda v: Markup(json.dumps(v))
+    # The attribute-context counterpart: a plain str (NOT Markup), so
+    # autoescape=True DOES quote-escape it -- the opposite need from
+    # tojson above, since this goes inside data-x="{{ ... }}" rather than
+    # a <script> body. json.dumps's own double quotes would otherwise
+    # prematurely close the HTML attribute; the browser HTML-decodes the
+    # entities back before JSON.parse ever sees the string.
+    env.filters["tojson_attr"] = lambda v: json.dumps(v)
 
     LANGS = ["fr", "en"]
 
@@ -6091,8 +6165,19 @@ def main() -> None:
         render("glossary_items.html", "/glossaire/objets/", lang, active_nav="glossary",
                items=[localize_item(it, lang) for it in glossary_items])
         for it in glossary_items:
+            _itv = localize_item(it, lang)
+            _item_url = canonical_for(f"/glossaire/objets/{it['slug']}/", lang)
             render("glossary_item_detail.html", f"/glossaire/objets/{it['slug']}/", lang, active_nav="glossary",
-                   it=localize_item(it, lang))
+                   it=_itv,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (translate(lang, "nav_glossary"), canonical_for("/glossaire/", lang)),
+                       (translate(lang, "nav_glossary_items"), canonical_for("/glossaire/objets/", lang)),
+                       (_itv["name"], _item_url),
+                   ]),
+                   article_schema=build_article_schema(f"{_itv['name']} — {SET_LABEL}", _item_url,
+                                                  translate(lang, "item_detail_desc", _itv["name"]),
+                                                  image=f"{BASE_URL}assets/items/{it['slug']}.png"))
 
         lb_regions = [{"code": r["code"], "name": REGION_NAMES[lang].get(r["code"], r["code"]),
                        "rows": [{**row, "form": [{**sq, "title": (translate(lang, "placement_colon", sq["placement"]) if sq["placement"] is not None else "")} for sq in row["form"]]}
@@ -6111,19 +6196,41 @@ def main() -> None:
         render("lol_glossary_items.html", "/league/glossaire/objets/", lang, active_nav="league", active_sub="lol-glossary-items",
                ddragon_version=ddragon_version, items=[localize_lol_item(it, lang) for it in lol_items])
         for it in lol_items:
+            _lit = lol_item_detail_view(it, lang, lol_items_lookup)
+            _lit_url = canonical_for(f"/league/glossaire/objets/{it['slug']}/", lang)
             render("lol_glossary_item_detail.html", f"/league/glossaire/objets/{it['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-items",
-                   ddragon_version=ddragon_version, it=lol_item_detail_view(it, lang, lol_items_lookup))
+                   ddragon_version=ddragon_version, it=_lit,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       (translate(lang, "nav_lol_items"), canonical_for("/league/glossaire/objets/", lang)),
+                       (_lit["name"], _lit_url),
+                   ]),
+                   article_schema=build_article_schema(f"{_lit['name']} — League of Legends", _lit_url,
+                                                  translate(lang, "lol_item_detail_desc", _lit["name"]),
+                                                  image=f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/img/item/{_lit['icon_file']}"))
         render("lol_glossary_champions.html", "/league/glossaire/champions/", lang, active_nav="league", active_sub="lol-glossary-champions",
                ddragon_version=ddragon_version, champions=[localize_lol_champion(c, lang) for c in lol_champions],
                class_options=list(LOL_CLASS_LABEL["fr" if lang == "fr" else "en"].items()))
         for c in lol_champions:
+            _lcv = lol_champion_detail_view(c, lang, lol_role_stats_by_champion, lol_items_by_champion,
+                                             lol_items_lookup, lol_matchups_by_role, lol_champ_by_id,
+                                             lol_runes_by_champion, lol_rune_by_id, lol_tree_by_id)
+            _lcv_url = canonical_for(f"/league/glossaire/champions/{c['slug']}/", lang)
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
                    ddragon_version=ddragon_version,
-                   d=lol_champion_detail_view(c, lang, lol_role_stats_by_champion, lol_items_by_champion,
-                                               lol_items_lookup, lol_matchups_by_role, lol_champ_by_id,
-                                               lol_runes_by_champion, lol_rune_by_id, lol_tree_by_id))
+                   d=_lcv,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       (translate(lang, "nav_lol_champions"), canonical_for("/league/glossaire/champions/", lang)),
+                       (_lcv["name"], _lcv_url),
+                   ]),
+                   article_schema=build_article_schema(f"{_lcv['name']} — League of Legends", _lcv_url,
+                                                  translate(lang, "lol_champ_detail_desc", _lcv["name"], _lcv["title"]),
+                                                  image=f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/img/champion/{_lcv['icon_file']}"))
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
@@ -6149,7 +6256,12 @@ def main() -> None:
         }
         render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
                ddragon_version=ddragon_version, by_role=_lol_by_role,
-               role_icons=LOL_ROLE_ICON_SVG, item_list_schema=_lol_tier_list_schema)
+               role_icons=LOL_ROLE_ICON_SVG, item_list_schema=_lol_tier_list_schema,
+               breadcrumb_schema=breadcrumb_schema([
+                   (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                   ("League of Legends", canonical_for("/league/", lang)),
+                   (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
+               ]))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -6181,6 +6293,10 @@ def main() -> None:
             }
             render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c,
                    article_schema=article_schema, faq_schema=faq_schema,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (c["display_label"], comp_url),
+                   ]),
                    comp_note=COMP_NOTES[lang].get(c["key"]))
 
         # ---- Player profile pages: one per leaderboard row, opened from
@@ -6196,10 +6312,26 @@ def main() -> None:
                         render("game_analysis.html", f"/player/{region.lower()}/{p['slug']}/match/{game_vm['match_id']}/",
                                lang, active_nav="leaderboard", g=game_vm, player=p, region_name=region_name)
         for d in champion_vms:
+            _dv = localize_champion_vm(d, lang)
+            _champ_url = canonical_for(f"/champions/{d['slug']}/", lang)
+            _champ_desc = (
+                f"{_dv['name']} sur TFT Set 18 : Tier {_dv['tier']}, {_dv['pick_rate_pct']} de pick rate, "
+                f"{_dv['avg_placement']:.2f} placement moyen, {_dv['top4_pct']} de top 4. Meilleurs objets et compositions réelles."
+                if lang == "fr" else
+                f"{_dv['name']} on TFT Set 18: Tier {_dv['tier']}, {_dv['pick_rate_pct']} pick rate, "
+                f"{_dv['avg_placement']:.2f} avg placement, {_dv['top4_pct']} top 4. Real best items and comps."
+            )
             render("champion.html", f"/champions/{d['slug']}/", lang, active_nav="champions",
-                   d=localize_champion_vm(d, lang),
+                   d=_dv,
                    balance_history=balance_history_by_lang[lang].get(d["name"], []),
-                   editorial_note=CHAMPION_NOTES[lang].get(d["name"]))
+                   editorial_note=CHAMPION_NOTES[lang].get(d["name"]),
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (translate(lang, "nav_champions"), canonical_for("/champions/", lang)),
+                       (_dv["name"], _champ_url),
+                   ]),
+                   article_schema=build_article_schema(f"{_dv['name']} — TFT Set 18", _champ_url, _champ_desc,
+                                                  image=f"{BASE_URL}assets/champions/{d['slug']}.png"))
 
         # ---- Région / Rang: real pages per slice (not a JS data blob) ----
         # Region and rank are two ALTERNATE ways to slice the same dataset

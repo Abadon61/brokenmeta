@@ -188,6 +188,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 <script type="application/ld+json">{{ faq_schema|tojson }}</script>
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block extra_body %}
 {% if c.gameplan %}<script src="{{ root }}assets/js/gameplan-tabs.js?v={{ css_v }}" defer></script>{% endif %}
