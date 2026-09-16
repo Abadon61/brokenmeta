@@ -12,3 +12,10 @@ compatibility_date = "2025-09-01"
 # granted -- see the comment at the top of index.ts.
 [vars]
 CORS_ORIGIN = "https://brokenmeta.gg"
+
+# Real LP-over-time history, one entry per real profile lookup (see
+# recordLpSnapshot in index.ts) -- no cron, no extra Riot API calls beyond
+# what a normal lookup already makes.
+[[kv_namespaces]]
+binding = "LP_HISTORY"
+id = "62d8e20f5d444cb886d77f5278d64a01"

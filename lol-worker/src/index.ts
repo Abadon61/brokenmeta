@@ -19,7 +19,7 @@
 //      SEQUENTIALLY on purpose (see fetchMatchesSequential) rather than in
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
-import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM, RiotLeagueItem } from "./riot";
+import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM, RiotLeagueItem, RiotLeagueEntry } from "./riot";
 import { LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, rankEmblemUrl } from "./lolData";
 import { getItemIconMap } from "./itemData";
 import { getChampionIdMap } from "./championData";
@@ -28,6 +28,7 @@ import { getSpellMap, getPerkMap, getRuneTreeMap, IconRef } from "./spellsAndRun
 export interface Env {
   RIOT_API_KEY_LOL: string;
   CORS_ORIGIN: string;
+  LP_HISTORY: KVNamespace;
 }
 
 // Kept low deliberately -- see the rate-limit note above. Also bounded by
@@ -58,12 +59,12 @@ function json(data: unknown, status: number, origin: string): Response {
 }
 
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const origin = env.CORS_ORIGIN;
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders(origin) });
     const url = new URL(request.url);
     try {
-      if (url.pathname === "/profile") return await handleProfile(url, env, origin);
+      if (url.pathname === "/profile") return await handleProfile(url, env, origin, ctx);
       if (url.pathname === "/leaderboard") return await handleLeaderboard(url, env, origin);
       return json({ error: "Route inconnue." }, 404, origin);
     } catch (e: any) {
@@ -78,7 +79,7 @@ function parseRegion(raw: string | null): keyof typeof REGIONS | null {
   return region in REGIONS ? (region as keyof typeof REGIONS) : null;
 }
 
-async function handleProfile(url: URL, env: Env, origin: string): Promise<Response> {
+async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionContext): Promise<Response> {
   const riotId = (url.searchParams.get("riotId") || "").trim();
   const region = parseRegion(url.searchParams.get("region"));
   const [gameName, tagLine] = riotId.includes("#") ? riotId.split(/#(.*)/s) : [riotId, ""];
@@ -134,6 +135,19 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
   const tierForAverages = (soloEntry?.tier || flexEntry?.tier || "GOLD").toUpperCase();
   const rankAverages = RANK_AVERAGES_BY_TIER[tierForAverages] || RANK_AVERAGES_BY_TIER.GOLD;
 
+  // Real LP-over-time tracking: Match-V5 only ever gives the CURRENT LP, no
+  // history endpoint exists -- so instead of polling Riot on a schedule
+  // (expensive, and pointless for a profile nobody's looking at, on top of
+  // an already-tight dev-key rate limit), every REAL lookup that already
+  // fetches soloEntry/flexEntry for free appends one real point to that
+  // player's own history in KV. The curve only grows as real visits happen
+  // (their own repeated check-ins, or other visitors looking them up), but
+  // every point on it is a real recorded rank -- never fabricated.
+  const [lpHistorySolo, lpHistoryFlex] = await Promise.all([
+    recordLpSnapshot(env, ctx, puuid, "solo", soloEntry),
+    recordLpSnapshot(env, ctx, puuid, "flex", flexEntry),
+  ]);
+
   return json({
     riotId: `${account.gameName}#${account.tagLine}`, region,
     profileIconId: summoner?.profileIconId ?? null, summonerLevel: summoner?.summonerLevel ?? null,
@@ -143,12 +157,69 @@ async function handleProfile(url: URL, env: Env, origin: string): Promise<Respon
     },
     rankAverages,
     liveGame,
+    lpHistory: { solo: lpHistorySolo, flex: lpHistoryFlex },
     queues: {
       solo: buildQueueBlock(soloMatches, puuid),
       flex: buildQueueBlock(flexMatches, puuid),
       aram: buildQueueBlock(aramMatches, puuid),
     },
   }, 200, origin);
+}
+
+interface LpPoint {
+  ts: number;
+  tier: string;
+  rank: string;
+  leaguePoints: number;
+}
+
+const LP_HISTORY_MAX_POINTS = 300;
+// Don't add a new point on every single lookup -- a visitor refreshing
+// their own profile a few times in a row (or several different people
+// checking the same popular player back to back) would otherwise pack the
+// history with near-duplicate points instead of a real once-in-a-while
+// progression. One real point per queue every 3h is plenty to show a
+// meaningful curve over days/weeks without needing Riot's rate-limited API
+// any more than a normal lookup already costs.
+const LP_HISTORY_MIN_INTERVAL_MS = 3 * 60 * 60 * 1000;
+
+// Reads this player's stored history for one queue, appends today's real
+// entry (soloEntry/flexEntry from the live lookup this request already
+// made) if enough time has passed since the last point, and returns the
+// resulting array -- written back to KV via ctx.waitUntil so it never adds
+// latency to the profile response itself. `entry` is null when the player
+// isn't ranked in that queue (nothing to record, but any existing history
+// from before they went unranked -- a queue reset, a dodge ban's demotion,
+// etc. -- is still returned as-is).
+async function recordLpSnapshot(
+  env: Env, ctx: ExecutionContext, puuid: string, queue: "solo" | "flex", entry: RiotLeagueEntry | null
+): Promise<LpPoint[]> {
+  const key = `lp:${puuid}:${queue}`;
+  const raw = await env.LP_HISTORY.get(key);
+  let points: LpPoint[] = [];
+  if (raw) {
+    try { points = JSON.parse(raw); } catch { points = []; }
+  }
+  if (!entry) return points;
+
+  const now = Date.now();
+  const last = points[points.length - 1];
+  if (last && now - last.ts < LP_HISTORY_MIN_INTERVAL_MS
+      && last.tier === entry.tier && last.rank === entry.rank && last.leaguePoints === entry.leaguePoints) {
+    return points; // nothing changed since the last recorded point -- no need to store a duplicate
+  }
+  if (last && now - last.ts < LP_HISTORY_MIN_INTERVAL_MS) {
+    // Rank DID change since the last point (a game finished) but we're
+    // still inside the throttle window -- replace that last point rather
+    // than skip it, so a flurry of games doesn't get silently lost.
+    points[points.length - 1] = { ts: now, tier: entry.tier, rank: entry.rank, leaguePoints: entry.leaguePoints };
+  } else {
+    points.push({ ts: now, tier: entry.tier, rank: entry.rank, leaguePoints: entry.leaguePoints });
+  }
+  if (points.length > LP_HISTORY_MAX_POINTS) points = points.slice(points.length - LP_HISTORY_MAX_POINTS);
+
+  ctx.waitUntil(env.LP_HISTORY.put(key, JSON.stringify(points)));
+  return points;
 }
 
 // Spectator-V5 -- real "in a live game right now" state, checked on every

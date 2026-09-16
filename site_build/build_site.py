@@ -1398,20 +1398,20 @@ METASCOPE_JS = """
 
 # League of Legends profile lookup -- same real-backend pattern as
 # METASCOPE_JS above (fetch a Worker, render real data, nothing client-side
-# is invented), pointed at lol-worker instead of metascope-worker. Two
-# panels stay illustrative on purpose (see LEAGUE_DEV_SECTIONS below): Riot
-# doesn't expose per-game pings/chat at all, and Match-V5 only gives
-# CURRENT LP, not a history, so a real progression curve only becomes
-# possible once this worker has been snapshotting rank over time.
+# is invented), pointed at lol-worker instead of metascope-worker. Only the
+# in-game comms panel stays illustrative on purpose: Riot doesn't expose
+# per-game pings/chat at all, at any endpoint. LP progress is real -- see
+# recordLpSnapshot in lol-worker/src/index.ts: since Match-V5 only ever
+# gives the CURRENT LP, not a history, every real lookup appends one real
+# point to that player's own history in KV instead.
 LEAGUE_JS = """
 (function () {
   // Straight port of the BrokenMeta League concept Artifact's rendering
   // (same HTML structure/CSS classes as league_profile's <style>, see
   // build_site.py), but every function here reads from the REAL worker
   // payload instead of a seeded mock generator -- no MATCH_HISTORY, no
-  // fabricated duo/ping/message data. Only two sections stay illustrative
-  // (see devSectionsHtml): Riot's API has no LP-history endpoint and
-  // exposes no ping/chat data at all, at any endpoint.
+  // fabricated duo data. Only the comms section stays illustrative (see
+  // devSectionsHtml): Riot's API exposes no ping/chat data at any endpoint.
   var API = window.BM_LEAGUE_API;
   var I = window.BM_I18N_LEAGUE || {};
   var form = document.getElementById('leagueForm');
@@ -1524,6 +1524,38 @@ LEAGUE_JS = """
   function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
   function initials(name) { return (name || '?').replace(/[^A-Za-z]/g, '').slice(0, 2).toUpperCase() || '?'; }
   function tierLabel(tier) { return tier ? tier.charAt(0) + tier.slice(1).toLowerCase() : ''; }
+
+  // Real LP-over-time chart (see recordLpSnapshot in lol-worker/src/index.ts)
+  // -- each point is a REAL rank recorded on a real lookup, no fabricated
+  // history. A promotion resets the raw leaguePoints counter back near 0
+  // even though it's a real gain, so points are scored on a continuous
+  // tier+division ladder (100 "LP" per division, matching the real
+  // promotion threshold) instead of plotting raw leaguePoints, which would
+  // otherwise draw a promotion as a misleading drop.
+  var LP_TIER_ORDER = ['IRON', 'BRONZE', 'SILVER', 'GOLD', 'PLATINUM', 'EMERALD', 'DIAMOND', 'MASTER', 'GRANDMASTER', 'CHALLENGER'];
+  var LP_DIV_ORDER = { IV: 0, III: 1, II: 2, I: 3 };
+  function lpScore(p) {
+    var tierIdx = LP_TIER_ORDER.indexOf((p.tier || '').toUpperCase());
+    if (tierIdx < 0) tierIdx = 0;
+    return tierIdx * 400 + (LP_DIV_ORDER[p.rank] || 0) * 100 + (p.leaguePoints || 0);
+  }
+  function buildRealLpChartSvg(points) {
+    var w = 740, h = 170, padX = 10, padTop = 14, padBottom = 14;
+    var scores = points.map(lpScore);
+    var min = Math.min.apply(null, scores), max = Math.max.apply(null, scores);
+    var range = (max - min) || 1;
+    var n = points.length;
+    var coords = scores.map(function (s, i) {
+      var x = padX + (n === 1 ? 0 : (i / (n - 1)) * (w - 2 * padX));
+      var y = h - padBottom - ((s - min) / range) * (h - padTop - padBottom);
+      return [x, y];
+    });
+    var lineStr = coords.map(function (c) { return c[0].toFixed(1) + ',' + c[1].toFixed(1); }).join(' ');
+    var last = coords[coords.length - 1];
+    return '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="' + (h - padBottom) + '" x2="732" y2="' + (h - padBottom) + '" class="lp-chart-zero"/>'
+      + '<polygon points="' + lineStr + ' ' + last[0].toFixed(1) + ',156 ' + coords[0][0].toFixed(1) + ',156" class="lp-chart-area"/>'
+      + '<polyline points="' + lineStr + '" class="lp-chart-line"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="4.5" class="lp-chart-dot"/></svg>';
+  }
 
   // Portraits de champion réels (Data Dragon, clé = championName renvoyé
   // tel quel par Match-V5 -- garanti identique à la clé ddragon par Riot,
@@ -1771,21 +1803,32 @@ LEAGUE_JS = """
     bindIconFallback(wrap);
   }
 
-  // Les deux sections que l'API Riot ne peut pas alimenter aujourd'hui --
-  // Match-V5 ne donne que le LP ACTUEL (pas d'historique) et n'expose ni
-  // pings ni messages, à aucun endpoint. Exemple fixe et clairement
-  // étiqueté, jamais présenté comme la donnée du joueur recherché.
+  // LP progress is now real (see recordLpSnapshot in lol-worker/src/
+  // index.ts): every lookup appends one real point to that player's own
+  // history in KV, so the chart grows as real visits happen. Comms stays a
+  // clearly-labeled illustrative example below -- Riot's API doesn't
+  // expose pings or chat messages at any endpoint, so there's no real data
+  // to fall back to there at all.
+  function lpSectionHtml() {
+    var lpQueue = currentQueue === 'flex' ? 'flex' : 'solo';
+    var points = (currentData.lpHistory && currentData.lpHistory[lpQueue]) || [];
+    var queueLabel = lpQueue === 'flex' ? I.queueFlex : I.queueSolo;
+    var inner;
+    if (points.length >= 2) {
+      inner = '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.lpRealNote).replace('{queue}', queueLabel).replace('{n}', points.length) + '</p>'
+        + buildRealLpChartSvg(points);
+    } else {
+      var badge = '<div class="league-dev-badge"><span class="dot"></span>' + esc(points.length === 1 ? I.lpTrackingBadge : I.devBadge) + '</div>';
+      inner = badge + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(points.length === 1 ? I.lpOnePointNote : I.lpProgressNote) + '</p>';
+    }
+    return '<div class="stats-section"><div class="lp-chart-card">'
+      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.lpProgressTitle) + '</div>' + inner + '</div></div>';
+  }
+
   function devSectionsHtml() {
     var badge = '<div class="league-dev-badge"><span class="dot"></span>' + esc(I.devBadge) + '</div>';
-    var lpPoints = '10,150 90,120 170,135 250,90 330,100 410,55 490,65 570,25 650,45 730,10';
     var perGame = I.lang === 'fr' ? ' / partie' : ' / game';
-    return '<div class="stats-section"><div class="lp-chart-card">' + badge
-      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.lpProgressTitle) + '</div>'
-      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.lpProgressNote) + '</p>'
-      + '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="90" x2="732" y2="90" class="lp-chart-zero"/>'
-      + '<polygon points="' + lpPoints + ' 730,156 10,156" class="lp-chart-area"/>'
-      + '<polyline points="' + lpPoints + '" class="lp-chart-line"/><circle cx="730" cy="10" r="4.5" class="lp-chart-dot"/></svg>'
-      + '</div></div>'
+    return lpSectionHtml()
       + '<div class="stats-section"><div class="lp-chart-card">' + badge
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsTitle) + '</div>'
       + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsNote) + '</p>'
@@ -3683,7 +3726,10 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio",
         "devBadge": "En développement -- en attente de l'API de production Riot",
         "lpProgressTitle": "Progression de LP",
-        "lpProgressNote": "Match-V5 ne donne que ton LP du moment, pas son historique -- cette courbe montre à quoi ça ressemblera une fois qu'on aura commencé à relever ton LP dans le temps. Exemple illustratif :",
+        "lpProgressNote": "Non classé dans cette file, ou aucun relevé de LP enregistré pour l'instant -- revient plus tard une fois que ce profil aura été recherché en étant classé.",
+        "lpTrackingBadge": "Suivi démarré -- 1 seul relevé pour l'instant",
+        "lpOnePointNote": "Premier relevé de LP réel enregistré. Reviens après une nouvelle recherche (idéalement après quelques parties) pour voir la courbe se dessiner.",
+        "lpRealNote": "{n} relevés réels de LP en {queue}, enregistrés à chaque recherche de ce profil -- aucune valeur inventée.",
         "commsTitle": "Communication en jeu",
         "commsNote": "Les pings et les messages de chat ne sont exposés par l'API Riot à aucun endpoint -- cette section restera un exemple tant que ça n'aura pas changé. Exemple illustratif :",
         "messagesPerGame": "Messages / partie",
@@ -3729,7 +3775,10 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Games", "thWinrate": "Winrate", "thAvgKda": "Avg KDA", "thRatio": "Ratio",
         "devBadge": "In development -- pending Riot's production API",
         "lpProgressTitle": "LP progress",
-        "lpProgressNote": "Match-V5 only gives your CURRENT LP, not its history -- this chart shows what it'll look like once we start tracking your LP over time. Illustrative example:",
+        "lpProgressNote": "Unranked in this queue, or no LP recorded yet -- check back once this profile has been looked up while ranked.",
+        "lpTrackingBadge": "Tracking started -- only 1 point so far",
+        "lpOnePointNote": "First real LP point recorded. Come back after another lookup (ideally after a few games) to watch the curve take shape.",
+        "lpRealNote": "{n} real LP points in {queue}, recorded on every lookup of this profile -- nothing invented.",
         "commsTitle": "In-game communication",
         "commsNote": "Pings and chat messages aren't exposed by Riot's API at any endpoint -- this section will stay an example until that changes. Illustrative example:",
         "messagesPerGame": "Messages / game",
