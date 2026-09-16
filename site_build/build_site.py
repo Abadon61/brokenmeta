@@ -3063,6 +3063,10 @@ I18N: dict[str, dict] = {
         "lol_champ_matchups_title": "Contres en lane",
         "lol_champ_matchups_note": "Winrate réel face à chaque adversaire de lane rencontré dans les parties collectées -- un adversaire non listé n'a pas encore assez de parties observées.",
         "lol_champ_matchups_empty": "Pas encore assez de parties observées face à un adversaire de lane sur ce champion.",
+        "lol_champ_runes_title": "Runes les plus jouées",
+        "lol_champ_runes_note": "Taux de pick et winrate réels de chaque combo précepte + arbre secondaire, parmi les parties collectées.",
+        "lol_champ_runes_empty": "Pas encore assez de parties observées avec une page de runes sur ce champion.",
+        "th_runes": "Runes",
         "lol_champ_abilities_title": "Compétences",
         "lol_champ_passive_label": "Passif",
         "lol_ability_cooldown_label": "Rechargement", "lol_ability_cost_label": "Coût", "lol_ability_range_label": "Portée",
@@ -3381,6 +3385,10 @@ I18N: dict[str, dict] = {
         "lol_champ_matchups_title": "Lane matchups",
         "lol_champ_matchups_note": "Real win rate against each lane opponent seen in the collected games -- an opponent not listed doesn't have enough observed games yet.",
         "lol_champ_matchups_empty": "Not enough observed games against a lane opponent on this champion yet.",
+        "lol_champ_runes_title": "Most played runes",
+        "lol_champ_runes_note": "Real pick rate and win rate for each keystone + secondary tree combo, among collected games.",
+        "lol_champ_runes_empty": "Not enough observed games with a rune page on this champion yet.",
+        "th_runes": "Runes",
         "lol_champ_abilities_title": "Abilities",
         "lol_champ_passive_label": "Passive",
         "lol_ability_cooldown_label": "Cooldown", "lol_ability_cost_label": "Cost", "lol_ability_range_label": "Range",
@@ -3788,7 +3796,8 @@ def localize_lol_champion(c: dict, lang: str) -> dict:
 
 def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
                               items_by_champion: dict, items_lookup: dict[str, dict],
-                              matchups_by_role: dict, champ_by_id: dict[str, dict]) -> dict:
+                              matchups_by_role: dict, champ_by_id: dict[str, dict],
+                              runes_by_champion: dict, rune_by_id: dict[int, dict], tree_by_id: dict[int, dict]) -> dict:
     base = localize_lol_champion(c, lang)
     class_labels = LOL_CLASS_LABEL["fr" if lang == "fr" else "en"]
     # Real pick rate / win rate by role -- see lol_run.py. Keyed by the
@@ -3837,6 +3846,21 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
         if enemies:
             matchups.append({"role": r["role"], "role_label": r["role_label"], "enemies": enemies})
 
+    # Real rune pages -- see lol_run.py --runes-out. A page's identity is
+    # its keystone + secondary tree combo (e.g. "Cadence Fatale + Sorcellerie"),
+    # not the keystone alone.
+    rune_pages = []
+    for row in (runes_by_champion.get(c["id"]) or []):
+        keystone = rune_by_id.get(row["keystone_id"])
+        tree = tree_by_id.get(row["secondary_tree_id"])
+        if not keystone or not tree:
+            continue
+        rune_pages.append({
+            "keystone_icon": keystone["icon_file"], "keystone_name": keystone["name_fr"] if lang == "fr" else keystone["name_en"],
+            "tree_icon": tree["icon_file"], "tree_name": tree["name_fr"] if lang == "fr" else tree["name_en"],
+            "games": row["games"], "win_rate": row["win_rate"], "pick_rate": row["pick_rate"],
+        })
+
     base.update({
         "title": c["title_fr"] if lang == "fr" else c["title_en"],
         "blurb": c["blurb_fr"] if lang == "fr" else c["blurb_en"],
@@ -3853,6 +3877,7 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
         "role_stats": role_stats,
         "best_items": best_items,
         "matchups": matchups,
+        "rune_pages": rune_pages,
     })
     return base
 
@@ -3956,6 +3981,8 @@ def main() -> None:
     lol_items_by_champion: dict = lol_items_stats_raw.get("by_champion", {})
     lol_matchups_raw = load("lol_matchups.json") if (OUT / "lol_matchups.json").exists() else {"by_role": {}}
     lol_matchups_by_role: dict = lol_matchups_raw.get("by_role", {})
+    lol_runes_raw = load("lol_champion_runes.json") if (OUT / "lol_champion_runes.json").exists() else {"by_champion": {}}
+    lol_runes_by_champion: dict = lol_runes_raw.get("by_champion", {})
     # Precomputed by the separate compute_gameplans.py (real Monte Carlo
     # simulation, ~5-7s/comp -- far too slow to run from here, which needs
     # to stay fast for routine template/CSS iteration). {comp_key: [{"tab",
@@ -5693,11 +5720,14 @@ def main() -> None:
 
     lol_role_stats_by_champion = {_canon_lol_id(k): v for k, v in lol_role_stats_by_champion.items()}
     lol_items_by_champion = {_canon_lol_id(k): v for k, v in lol_items_by_champion.items()}
+    lol_runes_by_champion = {_canon_lol_id(k): v for k, v in lol_runes_by_champion.items()}
     lol_matchups_by_role = {
         role: {_canon_lol_id(champ_id): [{**row, "enemy": _canon_lol_id(row["enemy"])} for row in rows]
                for champ_id, rows in champs.items()}
         for role, champs in lol_matchups_by_role.items()
     }
+    lol_rune_by_id = {r["id"]: r for t in lol_rune_trees for slot in t["slots"] for r in slot}
+    lol_tree_by_id = {t["id"]: t for t in lol_rune_trees}
     _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
                                       if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})
     if _unmatched_patch_names:
@@ -5767,7 +5797,8 @@ def main() -> None:
                    active_nav="league", active_sub="lol-glossary-champions",
                    ddragon_version=ddragon_version,
                    d=lol_champion_detail_view(c, lang, lol_role_stats_by_champion, lol_items_by_champion,
-                                               lol_items_lookup, lol_matchups_by_role, lol_champ_by_id))
+                                               lol_items_lookup, lol_matchups_by_role, lol_champ_by_id,
+                                               lol_runes_by_champion, lol_rune_by_id, lol_tree_by_id))
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)

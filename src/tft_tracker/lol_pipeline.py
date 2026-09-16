@@ -44,6 +44,8 @@ MIN_SAMPLE_PER_ITEM = 15     # min games with an item on a champion before it ge
 MAX_ITEMS_PER_CHAMPION = 15  # keep the JSON (and the site's "best items" table) to a real top slice
 MIN_SAMPLE_PER_MATCHUP = 10  # min games in a specific lane matchup before it gets a real win rate
 MAX_MATCHUPS_PER_CHAMPION = 15
+MIN_SAMPLE_PER_RUNE_PAGE = 15  # min games on a keystone+secondary-tree combo before it gets a real pick/win rate
+MAX_RUNE_PAGES_PER_CHAMPION = 8  # a champion realistically only has a handful of real rune page identities
 
 OUTPUT_PATH = f"{config.OUTPUT_DIR}/lol_champion_role_stats.json"
 
@@ -139,13 +141,17 @@ def load_matches_from_cache(cache_dir: str = "data/raw_lol") -> list[dict]:
 def aggregate(matches: list[dict]) -> dict:
     """champion -> role -> {games, wins}, reading all 10 participants of
     every match (not just a seed player) -- see module docstring. Also
-    tallies item picks and lane matchups off the exact same participant
-    rows, at no extra API cost (the items/opposing laner are already
-    sitting right there in each match already fetched for the role
-    stats)."""
+    tallies item picks, lane matchups and rune pages off the exact same
+    participant rows, at no extra API cost (the items/opposing laner/perks
+    are already sitting right there in each match already fetched for the
+    role stats)."""
     stats: dict[str, dict[str, dict[str, int]]] = defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0}))
     item_stats: dict[str, dict[int, dict[str, int]]] = defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0}))
     matchup_stats: dict[str, dict[str, dict[str, dict[str, int]]]] = defaultdict(lambda: defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0})))
+    # Keyed by (keystone_perk_id, secondary_tree_style_id) -- that pair is
+    # a rune page's real identity (e.g. "Electrocute + Precision secondary"),
+    # not just the keystone alone.
+    rune_stats: dict[str, dict[tuple[int, int], dict[str, int]]] = defaultdict(lambda: defaultdict(lambda: {"games": 0, "wins": 0}))
     seen_match_ids: set[str] = set()
     total_rows = 0
     for match in matches:
@@ -176,6 +182,16 @@ def aggregate(matches: list[dict]) -> dict:
                 if win:
                     irow["wins"] += 1
 
+            styles = (p.get("perks") or {}).get("styles") or []
+            if len(styles) == 2 and styles[0].get("selections") and styles[1].get("style"):
+                keystone = styles[0]["selections"][0].get("perk")
+                secondary_tree = styles[1]["style"]
+                if keystone and secondary_tree:
+                    rrow = rune_stats[champ][(keystone, secondary_tree)]
+                    rrow["games"] += 1
+                    if win:
+                        rrow["wins"] += 1
+
             by_role_team[(role, p.get("teamId"))] = {"champion": champ, "win": win}
 
         # Pair each role's two occupants (one per team) into a real lane
@@ -199,7 +215,7 @@ def aggregate(matches: list[dict]) -> dict:
                 row_b["wins"] += 1
 
     return {
-        "stats": stats, "item_stats": item_stats, "matchup_stats": matchup_stats,
+        "stats": stats, "item_stats": item_stats, "matchup_stats": matchup_stats, "rune_stats": rune_stats,
         "unique_matches": len(seen_match_ids), "total_rows": total_rows,
     }
 
@@ -301,6 +317,37 @@ def build_matchup_output(matchup_stats: dict[str, dict[str, dict[str, dict[str, 
     }
 
 
+def build_rune_output(rune_stats: dict[str, dict[tuple[int, int], dict[str, int]]], champ_total_games: dict[str, int],
+                       regions: list[str], tiers: list[str]) -> dict:
+    """Per champion, its real most-played rune pages (keystone + secondary
+    tree combo), same pick/win-rate philosophy as build_item_output: pick
+    rate is against the champion's own total games, not the whole field."""
+    by_champion: dict[str, list[dict]] = {}
+    for champ, pages in rune_stats.items():
+        total = champ_total_games.get(champ, 0)
+        if not total:
+            continue
+        rows = []
+        for (keystone, secondary_tree), row in pages.items():
+            if row["games"] < MIN_SAMPLE_PER_RUNE_PAGE:
+                continue
+            rows.append({
+                "keystone_id": keystone, "secondary_tree_id": secondary_tree,
+                "games": row["games"], "wins": row["wins"],
+                "win_rate": round(row["wins"] / row["games"], 4),
+                "pick_rate": round(row["games"] / total, 4),
+            })
+        rows.sort(key=lambda r: -r["games"])
+        if rows:
+            by_champion[champ] = rows[:MAX_RUNE_PAGES_PER_CHAMPION]
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "regions": regions, "tiers": tiers,
+        "min_sample_per_rune_page": MIN_SAMPLE_PER_RUNE_PAGE,
+        "by_champion": by_champion,
+    }
+
+
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Collect real LoL ranked matches and compute real champion pick/win rate by role.")
     p.add_argument("--regions", default=",".join(LOL_REGIONS.keys()))
@@ -314,6 +361,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--out", default=OUTPUT_PATH)
     p.add_argument("--items-out", default=f"{config.OUTPUT_DIR}/lol_champion_items.json")
     p.add_argument("--matchups-out", default=f"{config.OUTPUT_DIR}/lol_matchups.json")
+    p.add_argument("--runes-out", default=f"{config.OUTPUT_DIR}/lol_champion_runes.json")
     return p.parse_args(argv)
 
 
@@ -361,6 +409,12 @@ def main(argv=None) -> None:
     matchups_path.write_text(json.dumps(matchup_output, indent=2, ensure_ascii=False), encoding="utf-8")
     total_matchup_champs = sum(len(v) for v in matchup_output["by_role"].values())
     print(f"Lane matchups written to {matchups_path} ({total_matchup_champs} role+champion combos with at least one qualifying matchup).")
+
+    rune_output = build_rune_output(agg["rune_stats"], champ_total_games, regions, tiers)
+    runes_path = Path(args.runes_out)
+    runes_path.parent.mkdir(parents=True, exist_ok=True)
+    runes_path.write_text(json.dumps(rune_output, indent=2, ensure_ascii=False), encoding="utf-8")
+    print(f"Champion rune pages written to {runes_path} ({len(rune_output['by_champion'])} champions with at least one qualifying rune page).")
 
 
 if __name__ == "__main__":

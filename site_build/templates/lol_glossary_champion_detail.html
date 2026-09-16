@@ -104,6 +104,28 @@
 <div class="matchup-empty">{{ t(lang, 'lol_champ_items_empty') }}</div>
 {% endif %}
 
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_runes_title') }}</h2>
+{% if d.rune_pages %}
+<div class="table-wrap"><table class="item-champ-table">
+  <thead><tr><th>{{ t(lang, 'th_runes') }}</th><th class="num">{{ t(lang, 'games_col') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'winrate_col') }}</th></tr></thead>
+  <tbody>
+    {% for rp in d.rune_pages %}<tr>
+      <td><div class="item-champ-name-cell">
+        <img class="rune-icon" src="https://ddragon.leagueoflegends.com/cdn/img/{{ rp.keystone_icon }}" alt="{{ rp.keystone_name }}" loading="lazy">
+        <img class="rune-icon small" src="https://ddragon.leagueoflegends.com/cdn/img/{{ rp.tree_icon }}" alt="{{ rp.tree_name }}" loading="lazy">
+        <span>{{ rp.keystone_name }} — {{ rp.tree_name }}</span>
+      </div></td>
+      <td class="num">{{ rp.games }}</td>
+      <td class="num">{{ (rp.pick_rate * 100)|round(1) }}%</td>
+      <td class="num {{ 'good' if rp.win_rate >= 0.5 else 'warn' }}">{{ (rp.win_rate * 100)|round(1) }}%</td>
+    </tr>{% endfor %}
+  </tbody>
+</table></div>
+<p class="profile-section-note" style="display:block;margin-top:10px">{{ t(lang, 'lol_champ_runes_note') }}</p>
+{% else %}
+<div class="matchup-empty">{{ t(lang, 'lol_champ_runes_empty') }}</div>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ t(lang, 'lol_champ_matchups_title') }}</h2>
 {% if d.matchups %}
 {% for block in d.matchups %}
