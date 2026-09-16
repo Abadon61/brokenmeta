@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_compare_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_compare_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'nav_lol_compare') }}</h1>
+<p class="page-intro">{{ t(lang, 'lol_compare_intro') }}</p>
+
+<form id="lolCompareForm" class="lol-compare-form">
+  <div class="lol-compare-form-side">
+    <div class="fiche-kicker">{{ t(lang, 'lol_compare_player_a') }}</div>
+    <input type="text" id="lolCompareRiotIdA" class="search-input" placeholder="{% if lang == 'fr' %}Pseudo#TAG{% else %}Name#TAG{% endif %}" autocomplete="off" required>
+    <select id="lolCompareRegionA" class="metascope-region-select">
+      <option value="EUW">EUW</option>
+      <option value="NA">NA</option>
+      <option value="BR">BR</option>
+      <option value="KR">KR</option>
+    </select>
+  </div>
+  <div class="lol-compare-form-vs">{{ t(lang, 'lol_compare_vs') }}</div>
+  <div class="lol-compare-form-side">
+    <div class="fiche-kicker">{{ t(lang, 'lol_compare_player_b') }}</div>
+    <input type="text" id="lolCompareRiotIdB" class="search-input" placeholder="{% if lang == 'fr' %}Pseudo#TAG{% else %}Name#TAG{% endif %}" autocomplete="off" required>
+    <select id="lolCompareRegionB" class="metascope-region-select">
+      <option value="EUW">EUW</option>
+      <option value="NA">NA</option>
+      <option value="BR">BR</option>
+      <option value="KR">KR</option>
+    </select>
+  </div>
+  <button type="submit" class="metascope-search-button">{{ t(lang, 'lol_compare_button') }}</button>
+</form>
+<div id="lolCompareStatus" class="metascope-status" hidden></div>
+<div id="lolCompareResults"></div>
+{% endblock %}
+{% block extra_body %}
+<script>
+window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
+window.BM_I18N_LEAGUE = {{ league_i18n|tojson }};
+window.BM_I18N_LEAGUE.lang = {{ lang|tojson }};
+</script>
+<script src="{{ root }}assets/js/lol-compare.js?v={{ css_v }}" defer></script>
+{% endblock %}

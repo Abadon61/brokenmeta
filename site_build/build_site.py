@@ -2047,6 +2047,111 @@ LEAGUE_JS = """
 })();
 """
 
+# /league/comparer/: fetch two real profiles from the same lol-worker
+# /profile endpoint as league.js and render their real stats side by side
+# -- rank, solo-queue win rate, and the same real per-minute averages
+# league.js already computes server-side (statsAvg), just "Player A vs
+# Player B" instead of "You vs rank average". No new worker route, no
+# fabricated numbers -- two ordinary profile lookups, rendered together.
+LOL_COMPARE_JS = """
+(function () {
+  var API = window.BM_LEAGUE_API;
+  var I = window.BM_I18N_LEAGUE || {};
+  var form = document.getElementById('lolCompareForm');
+  var statusEl = document.getElementById('lolCompareStatus');
+  var results = document.getElementById('lolCompareResults');
+  if (!form || !API) return;
+
+  function esc(s) { var d = document.createElement('div'); d.textContent = s == null ? '' : String(s); return d.innerHTML; }
+  function tierLabel(tier) { return tier ? tier.charAt(0) + tier.slice(1).toLowerCase() : ''; }
+  function setStatus(text, isError) {
+    if (!text) { statusEl.hidden = true; statusEl.textContent = ''; return; }
+    statusEl.hidden = false;
+    statusEl.textContent = text;
+    statusEl.dataset.error = isError ? 'true' : 'false';
+  }
+  async function fetchProfile(riotId, region) {
+    var res = await fetch(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
+    var data = await res.json().catch(function () { return {}; });
+    if (!res.ok) throw new Error((data && data.error) || ('HTTP ' + res.status));
+    return data;
+  }
+
+  function playerHeaderHtml(data) {
+    var primary = data.ranks.solo || data.ranks.flex;
+    var avatarHtml = data.profileIconId
+      ? '<img class="league-icon-fallback" src="https://raw.communitydragon.org/latest/plugins/rcp-be-lol-game-data/global/default/v1/profile-icons/' + data.profileIconId + '.jpg" alt="">'
+      : '';
+    return '<div class="lol-compare-player-header">'
+      + '<div class="player-avatar">' + avatarHtml + '</div>'
+      + '<div><div class="player-name">' + esc(data.riotId) + '</div>'
+      + '<div class="player-meta">' + esc(data.region) + '</div>'
+      + (primary
+        ? '<div class="rank-tier-name">' + tierLabel(primary.tier) + ' ' + primary.rank + ' <span class="mono">' + primary.leaguePoints + ' LP</span></div>'
+        : '<div class="rank-tier-name" style="color:var(--text-faint)">' + esc(I.unranked) + '</div>') + '</div></div>';
+  }
+
+  function compareCard(label, a, b, unit, decimals, aName, bName) {
+    var scale = Math.max(a, b) * 1.15 || 1;
+    return '<div class="stats-compare-card"><div class="stats-compare-label">' + esc(label) + '</div>'
+      + '<div class="stats-compare-row"><span class="stats-compare-name">' + esc(aName) + '</span><div class="stats-compare-track"><div class="stats-compare-fill you" style="width:' + Math.round((a / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + a.toFixed(decimals) + unit + '</span></div>'
+      + '<div class="stats-compare-row"><span class="stats-compare-name">' + esc(bName) + '</span><div class="stats-compare-track"><div class="stats-compare-fill rank" style="width:' + Math.round((b / scale) * 100) + '%"></div></div><span class="stats-compare-value mono">' + b.toFixed(decimals) + unit + '</span></div>'
+      + '</div>';
+  }
+
+  function soloOrFlex(data) {
+    return data.ranks.solo ? data.queues.solo : (data.ranks.flex ? data.queues.flex : data.queues.solo);
+  }
+
+  function renderCompare(dataA, dataB) {
+    var nameA = dataA.riotId.split('#')[0], nameB = dataB.riotId.split('#')[0];
+    var qa = soloOrFlex(dataA), qb = soloOrFlex(dataB);
+    var wrA = qa.matches.length ? Math.round(qa.matches.filter(function (m) { return m.win; }).length / qa.matches.length * 100) : 0;
+    var wrB = qb.matches.length ? Math.round(qb.matches.filter(function (m) { return m.win; }).length / qb.matches.length * 100) : 0;
+    var topA = qa.champions[0], topB = qb.champions[0];
+
+    var cardsHtml = (qa.matches.length && qb.matches.length) ? [
+      compareCard(I.thWinrate, wrA, wrB, '%', 0, nameA, nameB),
+      compareCard(I.csPerMin, qa.statsAvg.csPerMin, qb.statsAvg.csPerMin, '', 1, nameA, nameB),
+      compareCard(I.goldPerMin, qa.statsAvg.goldPerMin, qb.statsAvg.goldPerMin, '', 0, nameA, nameB),
+      compareCard(I.dmgPerMin, qa.statsAvg.dmgPerMin, qb.statsAvg.dmgPerMin, '', 0, nameA, nameB),
+      compareCard(I.killParticipation, qa.statsAvg.killParticipation, qb.statsAvg.killParticipation, '%', 0, nameA, nameB),
+    ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
+
+    var mostPlayedHtml = '<div class="lol-compare-most-played">'
+      + '<div>' + (topA ? esc(topA.champ) + ' <span class="mono">' + topA.kda.toFixed(1) + ' KDA</span>' : '') + '</div>'
+      + '<div class="stats-compare-label">' + esc(I.mostPlayed) + '</div>'
+      + '<div>' + (topB ? esc(topB.champ) + ' <span class="mono">' + topB.kda.toFixed(1) + ' KDA</span>' : '') + '</div>'
+      + '</div>';
+
+    results.innerHTML =
+      '<div class="lol-compare-headers">' + playerHeaderHtml(dataA) + '<div class="lol-compare-form-vs">' + esc(I.compareVs || 'VS') + '</div>' + playerHeaderHtml(dataB) + '</div>'
+      + mostPlayedHtml
+      + '<div class="stats-compare-grid">' + cardsHtml + '</div>';
+    results.querySelectorAll('.league-icon-fallback').forEach(function (img) {
+      img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
+    });
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var riotIdA = document.getElementById('lolCompareRiotIdA').value.trim();
+    var riotIdB = document.getElementById('lolCompareRiotIdB').value.trim();
+    var regionA = document.getElementById('lolCompareRegionA').value;
+    var regionB = document.getElementById('lolCompareRegionB').value;
+    if (!riotIdA || !riotIdB) return;
+    setStatus(I.loading, false);
+    results.innerHTML = '';
+    Promise.all([fetchProfile(riotIdA, regionA), fetchProfile(riotIdB, regionB)]).then(function (r) {
+      setStatus(null);
+      renderCompare(r[0], r[1]);
+    }).catch(function (err) {
+      setStatus(err.message || String(err), true);
+    });
+  });
+})();
+"""
+
 # Real Challenger/Grandmaster/Master ladder -- see lol-worker's
 # handleLeaderboard for how it's computed/cached. This client script only
 # renders whatever the worker returns (no fabricated rows): a null riotId
@@ -2888,6 +2993,7 @@ I18N: dict[str, dict] = {
         "nav_league": "League of Legends",
         "league_tools_soon": "Outils LoL — bientôt",
         "nav_lol_items": "Objet", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes", "nav_lol_tier_list": "Tier List",
+        "nav_lol_compare": "Comparer",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
         "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
@@ -3214,6 +3320,11 @@ I18N: dict[str, dict] = {
         "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Un rôle qui n'a pas encore assez de données n'apparaît pas.",
         "lol_tier_list_empty": "Pas encore assez de données collectées pour ce rôle.",
         "th_pickrate": "Pick rate",
+        "lol_compare_title": "Comparer deux profils — League of Legends",
+        "lol_compare_desc": "Compare deux profils League of Legends côte à côte : rang, winrate, CS/min, dégâts/min et participation aux kills, à partir de vraies parties classées.",
+        "lol_compare_intro": "Cherche deux invocateurs pour comparer leurs statistiques réelles côte à côte (file classée solo/duo).",
+        "lol_compare_player_a": "Joueur A", "lol_compare_player_b": "Joueur B", "lol_compare_vs": "VS",
+        "lol_compare_button": "Comparer",
     },
     "en": {
         "nav_tierlists": "TFT Tier Lists",
@@ -3224,6 +3335,7 @@ I18N: dict[str, dict] = {
         "nav_league": "League of Legends",
         "league_tools_soon": "LoL tools — coming soon",
         "nav_lol_items": "Item", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes", "nav_lol_tier_list": "Tier List",
+        "nav_lol_compare": "Compare",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
         "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
@@ -3540,6 +3652,11 @@ I18N: dict[str, dict] = {
         "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. A role without enough data yet doesn't show up.",
         "lol_tier_list_empty": "Not enough data collected for this role yet.",
         "th_pickrate": "Pick rate",
+        "lol_compare_title": "Compare two profiles — League of Legends",
+        "lol_compare_desc": "Compare two League of Legends profiles side by side: rank, win rate, CS/min, damage/min and kill participation, from real ranked games.",
+        "lol_compare_intro": "Look up two summoners to compare their real stats side by side (ranked solo/duo queue).",
+        "lol_compare_player_a": "Player A", "lol_compare_player_b": "Player B", "lol_compare_vs": "VS",
+        "lol_compare_button": "Compare",
     },
 }
 
@@ -5936,6 +6053,8 @@ def main() -> None:
                patches=[{**p, "changes": [lol_patch_change_view(c, lol_patch_icon_lookup) for c in p["changes"]]}
                         for p in PATCHES_LOL[lang]])
         render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard")
+        render("lol_compare.html", "/league/comparer/", lang, active_nav="league", active_sub="lol-compare",
+               league_i18n=LEAGUE_UI_I18N[lang])
         render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
                ddragon_version=ddragon_version, by_role=build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
@@ -6233,6 +6352,18 @@ def main() -> None:
   .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
   .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
   .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }
+
+  /* /league/comparer/ -- two .metascope-search-form-style inputs side by
+     side with a VS divider, reusing .stats-compare-* (You vs rank average)
+     for the actual numbers below. */
+  .lol-compare-form { display: flex; align-items: flex-end; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .lol-compare-form-side { display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 200px; }
+  .lol-compare-form-side .search-input { padding: 10px 14px; }
+  .lol-compare-form-vs { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--text-faint); padding: 0 4px 10px; }
+  .lol-compare-headers { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; flex-wrap: wrap; }
+  .lol-compare-player-header { display: flex; align-items: center; gap: 12px; flex: 1; min-width: 180px; }
+  .lol-compare-most-played { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 14px; text-align: center; background: var(--bg-2); border: 1px solid var(--border-bright); padding: 12px 16px; margin-bottom: 18px; font-size: 13px; }
+  @media (max-width: 640px) { .lol-compare-headers { flex-direction: column; } .lol-compare-most-played { grid-template-columns: 1fr; text-align: left; } }
 
   /* /discord/ page -- reuses .metascope-search-form's layout/status
      conventions above; only its own two-button row and privacy footnote
@@ -6701,6 +6832,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "lol-compare.js").write_text(LOL_COMPARE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-glossary-filters.js").write_text(LOL_GLOSSARY_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-leaderboard.js").write_text(LOL_LEADERBOARD_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")
