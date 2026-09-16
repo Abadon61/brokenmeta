@@ -2012,6 +2012,7 @@ LEAGUE_JS = """
       + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span>'
       + '<button type="button" class="fav-btn inline" id="lolFavBtn" aria-pressed="' + (isFav ? 'true' : 'false') + '" '
       + 'title="' + esc(isFav ? I.favRemove : I.favAdd) + '" aria-label="' + esc(isFav ? I.favRemove : I.favAdd) + '">' + STAR_SVG + '</button></div>'
+      + '<div class="lol-fav-hint" id="lolFavHint"' + (isFav ? ' hidden' : '') + '>' + esc(I.favHint) + '</div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; ' + esc(I.level) + ' ' + data.summonerLevel : '') + '</div></div>');
 
     results.innerHTML = '';
@@ -2025,6 +2026,8 @@ LEAGUE_JS = """
         var label = nowSaved ? I.favRemove : I.favAdd;
         lolFavBtn.title = label;
         lolFavBtn.setAttribute('aria-label', label);
+        var hint = document.getElementById('lolFavHint');
+        if (hint) hint.hidden = nowSaved;
       });
     }
     if (data.liveGame) {
@@ -3759,6 +3762,7 @@ LEAGUE_UI_I18N = {
         "noBans": "Aucun ban",
         "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "j",
         "favAdd": "Ajouter aux favoris", "favRemove": "Retirer des favoris",
+        "favHint": "Pour suivre ce profil, ajoute-le à tes favoris",
     },
     "en": {
         "loading": "Looking it up…",
@@ -3808,6 +3812,7 @@ LEAGUE_UI_I18N = {
         "noBans": "No bans",
         "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "d",
         "favAdd": "Add to favorites", "favRemove": "Remove from favorites",
+        "favHint": "To track this profile, add it to your favorites",
     },
 }
 
