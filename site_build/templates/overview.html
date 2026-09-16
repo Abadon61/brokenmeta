@@ -25,9 +25,17 @@
   </div>
   <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
   <div class="tier-rows">
-    {% if interactive_rank_filter %}
+    {% if interactive_rank_filter and group.tier != 'HM' %}
       {% for c in group.full %}{{ m.comp_summary_row(c, root, lang, preview_hidden=(loop.index0 >= rank_filter_preview_cap)) }}{% endfor %}
     {% else %}
+      {# Hors Meta comps didn't clear the live quality bar -- always capped
+         to the same preview size as a non-interactive scope page, even on
+         the homepage, regardless of interactive_rank_filter. Rendering all
+         of them (up to ~180, each with a full board of unit/item icons) so
+         the instant client-side search could find any one of them was
+         costing every homepage visitor a huge, mostly-wasted DOM (SEO/perf
+         audit, 2026-09-16: ~30k DOM nodes / 2.3MB HTML pre-fix, ~15s FCP).
+         The full archive is still one click away via see_full_hors_meta. #}
       {% for c in group.preview %}{{ m.comp_summary_row(c, root, lang) }}{% endfor %}
     {% endif %}
   </div>

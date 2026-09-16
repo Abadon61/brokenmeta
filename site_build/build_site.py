@@ -6134,9 +6134,22 @@ def main() -> None:
         render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard")
         render("lol_compare.html", "/league/comparer/", lang, active_nav="league", active_sub="lol-compare",
                league_i18n=LEAGUE_UI_I18N[lang])
+        _lol_by_role = build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang)
+        # Structured data (schema.org ItemList) for the Top role's ranking --
+        # the tab shown by default -- same rationale as the TFT tier list's
+        # own item_list_schema above: a clean summary for rich results/AI
+        # answer engines instead of five stacked HTML tables behind tabs.
+        _lol_tier_list_schema = {
+            "@context": "https://schema.org", "@type": "ItemList", "name": "League of Legends Tier List — Top",
+            "itemListElement": [
+                {"@type": "ListItem", "position": i + 1, "name": r["name"],
+                 "url": canonical_for(f"/league/glossaire/champions/{r['slug']}/", lang)}
+                for i, r in enumerate(_lol_by_role.get("top", [])[:15])
+            ],
+        }
         render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
-               ddragon_version=ddragon_version, by_role=build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang),
-               role_icons=LOL_ROLE_ICON_SVG)
+               ddragon_version=ddragon_version, by_role=_lol_by_role,
+               role_icons=LOL_ROLE_ICON_SVG, item_list_schema=_lol_tier_list_schema)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -7048,7 +7061,46 @@ def main() -> None:
     # on a real 404 instead of its own generic error page -- site-audit
     # finding, 2026-09-09. ErrorDocument fires however deep the missing URL
     # was, which is exactly why 404.html's own links are root-absolute.
-    (DIST / ".htaccess").write_text("ErrorDocument 404 /404.html\n", encoding="utf-8")
+    #
+    # Cache-Control: Hostinger's own default sends every response (CSS, JS,
+    # even HTML) as `private, max-age=0, no-store, no-cache, must-revalidate`
+    # -- confirmed live via curl (SEO/perf audit, 2026-09-16). That forces a
+    # full re-download of style.css and every JS bundle on EVERY page view,
+    # despite them already being cache-busted with a real content-hash query
+    # string (?v={{ css_v }}, a hash of build_site.py itself) specifically so
+    # they COULD be cached hard. `mod_expires`/`mod_headers` here override
+    # that default for the file types where it's safe: CSS/JS/fonts/images
+    # get a real long cache (a stale one only ever serves right up until the
+    # next deploy changes css_v, which busts the URL itself), while HTML
+    # keeps a short cache instead of none at all -- long enough to help a
+    # back button or an accidental double-click, short enough that a data
+    # refresh a few times a day is never stale for more than 5 minutes.
+    (DIST / ".htaccess").write_text(
+        "ErrorDocument 404 /404.html\n"
+        "\n"
+        "<IfModule mod_expires.c>\n"
+        "  ExpiresActive On\n"
+        "  ExpiresByType text/css \"access plus 1 year\"\n"
+        "  ExpiresByType application/javascript \"access plus 1 year\"\n"
+        "  ExpiresByType text/javascript \"access plus 1 year\"\n"
+        "  ExpiresByType image/png \"access plus 1 year\"\n"
+        "  ExpiresByType image/jpeg \"access plus 1 year\"\n"
+        "  ExpiresByType image/webp \"access plus 1 year\"\n"
+        "  ExpiresByType image/svg+xml \"access plus 1 year\"\n"
+        "  ExpiresByType font/woff2 \"access plus 1 year\"\n"
+        "  ExpiresByType text/html \"access plus 5 minutes\"\n"
+        "</IfModule>\n"
+        "\n"
+        "<IfModule mod_headers.c>\n"
+        "  <FilesMatch \"\\.(css|js|png|jpe?g|webp|svg|woff2)$\">\n"
+        "    Header set Cache-Control \"public, max-age=31536000, immutable\"\n"
+        "  </FilesMatch>\n"
+        "  <FilesMatch \"\\.html$\">\n"
+        "    Header set Cache-Control \"public, max-age=300, must-revalidate\"\n"
+        "  </FilesMatch>\n"
+        "</IfModule>\n",
+        encoding="utf-8",
+    )
 
     # Riot domain-ownership verification file (production API key application)
     # -- must be served at the real site root, so copy it through if present.

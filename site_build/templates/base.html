@@ -20,6 +20,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}</title>
 <meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
 <link rel="canonical" href="{{ canonical }}">

@@ -45,3 +45,6 @@
   {% endfor %}
 </div>
 {% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ item_list_schema|tojson }}</script>
+{% endblock %}
