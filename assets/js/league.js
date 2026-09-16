@@ -606,6 +606,7 @@
       + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span>'
       + '<button type="button" class="fav-btn inline" id="lolFavBtn" aria-pressed="' + (isFav ? 'true' : 'false') + '" '
       + 'title="' + esc(isFav ? I.favRemove : I.favAdd) + '" aria-label="' + esc(isFav ? I.favRemove : I.favAdd) + '">' + STAR_SVG + '</button></div>'
+      + '<div class="lol-fav-hint" id="lolFavHint"' + (isFav ? ' hidden' : '') + '>' + esc(I.favHint) + '</div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; ' + esc(I.level) + ' ' + data.summonerLevel : '') + '</div></div>');
 
     results.innerHTML = '';
@@ -619,6 +620,8 @@
         var label = nowSaved ? I.favRemove : I.favAdd;
         lolFavBtn.title = label;
         lolFavBtn.setAttribute('aria-label', label);
+        var hint = document.getElementById('lolFavHint');
+        if (hint) hint.hidden = nowSaved;
       });
     }
     if (data.liveGame) {
