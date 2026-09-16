@@ -881,6 +881,70 @@ FAVORITES_JS = """
       maybeShowRecentEmptyState();
     });
   }
+
+  // League profiles favorited/recently searched -- separate localStorage
+  // keys from the comp favorites above (see LEAGUE_JS), only ever rendered
+  // here on /favoris/ (this script loads on every page, but these two
+  // containers only exist on that one).
+  var lolFavList = document.getElementById('leagueFavoritesList');
+  var lolRecentList = document.getElementById('leagueRecentList');
+  if (!lolFavList && !lolRecentList) return;
+
+  function loadLol(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || []; } catch (e) { return []; }
+  }
+  function saveLol(key, list) {
+    try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
+  }
+  function lolProfileHref(f) {
+    return root + 'league/?riotId=' + encodeURIComponent(f.riotId) + '&region=' + encodeURIComponent(f.region);
+  }
+  function renderLolRow(container, f, isFav) {
+    var a = document.createElement('a');
+    a.className = 'comp-row fav-row';
+    a.href = lolProfileHref(f);
+    var parts = f.riotId.split('#');
+    a.innerHTML =
+      '<div class="duo-partner-row" style="padding:14px 16px;align-items:center">'
+      + '<div class="duo-partner-info"><div class="duo-partner-name">' + parts[0] + (parts[1] ? ' <span class="tag">#' + parts[1] + '</span>' : '') + '</div>'
+      + '<div class="duo-partner-meta">' + f.region + '</div></div>'
+      + '<button type="button" class="fav-btn inline" data-fav-key="' + f.key + '" aria-pressed="true">' + STAR_SVG + '</button></div>';
+    var btn = a.querySelector('.fav-btn');
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var key = isFav ? LOL_FAV_KEY : LOL_RECENT_KEY;
+      saveLol(key, loadLol(key).filter(function (x) { return x.key !== f.key; }));
+      a.remove();
+      maybeShowLolEmptyState();
+    });
+    (isFav ? lolFavList : lolRecentList).appendChild(a);
+  }
+  function maybeShowLolEmptyState() {
+    if (lolFavList && !lolFavList.querySelector('.fav-row')) {
+      lolFavList.innerHTML = '<p class="favorites-empty">' + (lolFavList.dataset.emptyText || '') + '</p>';
+    }
+    if (lolRecentList && !lolRecentList.querySelector('.fav-row')) {
+      lolRecentList.innerHTML = '<p class="favorites-empty">' + (lolRecentList.dataset.emptyText || '') + '</p>';
+      if (lolRecentClear) lolRecentClear.hidden = true;
+    }
+  }
+  var LOL_FAV_KEY = 'bm_lol_favorites';
+  var LOL_RECENT_KEY = 'bm_lol_recent';
+  var lolRecentClear = document.getElementById('leagueRecentClear');
+  var lolFavorites = loadLol(LOL_FAV_KEY);
+  var lolRecent = loadLol(LOL_RECENT_KEY);
+  if (lolFavList) lolFavorites.forEach(function (f) { renderLolRow(lolFavList, f, true); });
+  if (lolRecentList) lolRecent.forEach(function (f) { renderLolRow(lolRecentList, f, false); });
+  maybeShowLolEmptyState();
+  if (lolRecentClear) {
+    lolRecentClear.hidden = !lolRecent.length;
+    lolRecentClear.addEventListener('click', function () {
+      saveLol(LOL_RECENT_KEY, []);
+      lolRecentList.innerHTML = '';
+      maybeShowLolEmptyState();
+    });
+  }
 })();
 """
 
@@ -1356,6 +1420,47 @@ LEAGUE_JS = """
   var statusEl = document.getElementById('leagueStatus');
   var results = document.getElementById('leagueResults');
   if (!form || !API) return;
+
+  // Favorited League profiles + recently searched ones -- same localStorage
+  // pattern as FAVORITES_JS (TFT comps), separate keys so the two never mix,
+  // rendered back out on /favoris/ by FAVORITES_JS itself.
+  var LOL_FAV_KEY = 'bm_lol_favorites';
+  var LOL_RECENT_KEY = 'bm_lol_recent';
+  var LOL_RECENT_MAX = 8;
+  var STAR_SVG = '<svg viewBox="0 0 24 24"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>';
+
+  function lolFavKey(riotId, region) { return region + '|' + riotId; }
+  function loadLolFavorites() {
+    try { return JSON.parse(localStorage.getItem(LOL_FAV_KEY)) || []; } catch (e) { return []; }
+  }
+  function saveLolFavorites(list) {
+    try { localStorage.setItem(LOL_FAV_KEY, JSON.stringify(list)); } catch (e) {}
+  }
+  function isLolFavorite(riotId, region) {
+    return loadLolFavorites().some(function (f) { return f.key === lolFavKey(riotId, region); });
+  }
+  function toggleLolFavorite(riotId, region) {
+    var list = loadLolFavorites();
+    var key = lolFavKey(riotId, region);
+    var idx = list.findIndex(function (f) { return f.key === key; });
+    if (idx === -1) {
+      list.unshift({ key: key, riotId: riotId, region: region });
+      if (window.gtag) gtag('event', 'favorite_add', { kind: 'league_profile' });
+    } else {
+      list.splice(idx, 1);
+    }
+    saveLolFavorites(list);
+    return idx === -1; // now saved
+  }
+  function recordLolRecentSearch(riotId, region) {
+    try {
+      var key = lolFavKey(riotId, region);
+      var list = JSON.parse(localStorage.getItem(LOL_RECENT_KEY)) || [];
+      list = list.filter(function (f) { return f.key !== key; });
+      list.unshift({ key: key, riotId: riotId, region: region });
+      localStorage.setItem(LOL_RECENT_KEY, JSON.stringify(list.slice(0, LOL_RECENT_MAX)));
+    } catch (e) {}
+  }
 
   var ROLE_ICON = {
     top: '<path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M21,14H14v7h7V14Zm5-3V26L11.014,26l-4,4H30V7.016Z"/><polygon fill="#c8aa6e" points="4 4 4.003 28.045 9 23 9 9 23 9 28.045 4.003 4 4"/>',
@@ -1858,14 +1963,27 @@ LEAGUE_JS = """
       + '<div id="statsTabWrap" hidden></div>'
       + '</div>';
 
+    var isFav = isLolFavorite(data.riotId, data.region);
     var header = el('div', 'player-header',
       '<div class="player-avatar">' + avatarHtml + '</div>'
-      + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span></div>'
+      + '<div><div class="player-name-row"><span class="player-name">' + esc(data.riotId) + '</span>'
+      + '<button type="button" class="fav-btn inline" id="lolFavBtn" aria-pressed="' + (isFav ? 'true' : 'false') + '" '
+      + 'title="' + esc(isFav ? I.favRemove : I.favAdd) + '" aria-label="' + esc(isFav ? I.favRemove : I.favAdd) + '">' + STAR_SVG + '</button></div>'
       + '<div class="player-meta">' + esc(data.region) + (data.summonerLevel ? ' &middot; ' + esc(I.level) + ' ' + data.summonerLevel : '') + '</div></div>');
 
     results.innerHTML = '';
     results.appendChild(header);
     bindIconFallback(header);
+    var lolFavBtn = document.getElementById('lolFavBtn');
+    if (lolFavBtn) {
+      lolFavBtn.addEventListener('click', function () {
+        var nowSaved = toggleLolFavorite(data.riotId, data.region);
+        lolFavBtn.setAttribute('aria-pressed', nowSaved ? 'true' : 'false');
+        var label = nowSaved ? I.favRemove : I.favAdd;
+        lolFavBtn.title = label;
+        lolFavBtn.setAttribute('aria-label', label);
+      });
+    }
     if (data.liveGame) {
       var liveEl = el('div', 'live-game-banner', buildLiveGameHtml(data.liveGame));
       results.appendChild(liveEl);
@@ -1896,6 +2014,7 @@ LEAGUE_JS = """
       setStatus(null);
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
+      recordLolRecentSearch(data.riotId, data.region);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
       setStatus(e.message || String(e), true);
@@ -2850,6 +2969,10 @@ I18N: dict[str, dict] = {
         "recently_viewed_title": "Vus récemment",
         "recently_viewed_empty": "Aucune comp consultée pour l'instant sur ce navigateur.",
         "recently_viewed_clear": "Vider l'historique",
+        "lol_favorites_title": "Profils League favoris",
+        "lol_favorites_empty": "Aucun profil League sauvegardé pour l'instant. Clique sur l'étoile ★ à côté d'un pseudo sur sa fiche pour l'ajouter ici.",
+        "lol_recent_searches_title": "Recherches League récentes",
+        "lol_recent_searches_empty": "Aucune recherche League pour l'instant sur ce navigateur.",
         "full_composition_title": "Composition complète",
         "item_combos_title": "Combinaisons d'objets — persos principaux (top 10)",
         "combo_col_header": "Combinaison", "avg_placement_col": "Placement moyen",
@@ -3178,6 +3301,10 @@ I18N: dict[str, dict] = {
         "recently_viewed_title": "Recently Viewed",
         "recently_viewed_empty": "No comps viewed yet on this browser.",
         "recently_viewed_clear": "Clear history",
+        "lol_favorites_title": "Favorite League profiles",
+        "lol_favorites_empty": "No saved League profile yet. Click the ★ star next to a name on their sheet to add it here.",
+        "lol_recent_searches_title": "Recent League searches",
+        "lol_recent_searches_empty": "No League searches yet on this browser.",
         "full_composition_title": "Full composition",
         "item_combos_title": "Item combos — main carries (top 10)",
         "combo_col_header": "Combo", "avg_placement_col": "Avg placement",
@@ -3468,6 +3595,7 @@ LEAGUE_UI_I18N = {
         "bannedChampionsTitle": "Champions bannis",
         "noBans": "Aucun ban",
         "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "j",
+        "favAdd": "Ajouter aux favoris", "favRemove": "Retirer des favoris",
     },
     "en": {
         "loading": "Looking it up…",
@@ -3513,6 +3641,7 @@ LEAGUE_UI_I18N = {
         "bannedChampionsTitle": "Banned champions",
         "noBans": "No bans",
         "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "d",
+        "favAdd": "Add to favorites", "favRemove": "Remove from favorites",
     },
 }
 

@@ -14,4 +14,13 @@
   <button type="button" id="recentlyViewedClear" class="discord-unsubscribe-button" hidden>{{ t(lang, 'recently_viewed_clear') }}</button>
 </div>
 <div id="recentlyViewedList" class="favorites-list" data-empty-text="{{ t(lang, 'recently_viewed_empty') }}"></div>
+
+<h2 class="fiche-section-title" style="margin-top:30px">{{ t(lang, 'lol_favorites_title') }}</h2>
+<div id="leagueFavoritesList" class="favorites-list" data-empty-text="{{ t(lang, 'lol_favorites_empty') }}"></div>
+
+<div class="recently-viewed-header">
+  <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{{ t(lang, 'lol_recent_searches_title') }}</h2>
+  <button type="button" id="leagueRecentClear" class="discord-unsubscribe-button" hidden>{{ t(lang, 'recently_viewed_clear') }}</button>
+</div>
+<div id="leagueRecentList" class="favorites-list" data-empty-text="{{ t(lang, 'lol_recent_searches_empty') }}"></div>
 {% endblock %}

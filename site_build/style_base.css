@@ -831,6 +831,9 @@
   .fav-btn:hover { color: var(--gold); border-color: var(--gold); }
   .fav-btn[aria-pressed="true"] { color: var(--gold); border-color: var(--gold); }
   .fav-btn svg { width: 14px; height: 14px; fill: currentColor; }
+  /* Used inline (League profile header, favorites-page rows) instead of
+     absolutely pinned to a .comp-row/.fiche-header corner. */
+  .fav-btn.inline { position: static; margin-left: auto; }
 
   /* ---------- Comp detail sheet ---------- */
   .detail-view { display: none; }
