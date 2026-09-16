@@ -36,6 +36,20 @@ ALL_TIERS = SUB_APEX_TIERS + APEX_TIERS
 DEFAULT_TIERS = ["GOLD", "PLATINUM", "EMERALD", "DIAMOND", "MASTER", "GRANDMASTER", "CHALLENGER"]
 DIVISIONS_SAMPLED = ["I", "II", "III"]
 
+# Groups real tiers into 3 broad elo brackets for /league/tier-list/<elo>/ --
+# a real per-TIER split (7 separate tier lists) would leave most brackets
+# too thin to clear MIN_SAMPLE_PER_ROLE/the site's own 100-game tier-list
+# ranking floor; grouping keeps each bracket's real sample large enough to
+# be meaningful, and matches how players actually talk about "low/mid/high
+# elo" anyway. Only meaningful for a LIVE collection run (see main()) --
+# a cached match from --from-cache carries no record of which bracket's
+# seed player it came from, so this stays empty there rather than guessing.
+LOL_TIER_TO_ELO_BRACKET = {
+    "GOLD": "mid", "PLATINUM": "mid",
+    "EMERALD": "high", "DIAMOND": "high",
+    "MASTER": "apex", "GRANDMASTER": "apex", "CHALLENGER": "apex",
+}
+
 PLAYERS_PER_BRACKET = 150
 MATCH_IDS_PER_PLAYER = 4     # kept low: 10 usable rows/match already multiplies this 10x downstream
 MAX_MATCHES_PER_BRACKET = 300
@@ -254,6 +268,35 @@ def build_output(stats: dict[str, dict[str, dict[str, int]]], regions: list[str]
     }
 
 
+def _append_lol_role_history(by_champion: dict[str, dict], history_path: Path) -> None:
+    """Appends today's per champion+role (games, win_rate, pick_rate)
+    snapshot to a persistent history file -- same pattern as TFT's own
+    pipeline.py::_append_comp_history, so /league/tendances/ can eventually
+    show a real riser/faller list instead of nothing. Starts empty: the
+    first run only writes one point, a real trend only exists once this
+    has run on multiple different days."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    entries = {
+        f"{champ}|{role}": {"games": row["games"], "win_rate": row["win_rate"], "pick_rate": row["pick_rate"]}
+        for champ, info in by_champion.items() for role, row in info["roles"].items()
+    }
+
+    history: dict = {"snapshots": []}
+    if history_path.exists():
+        try:
+            history = json.loads(history_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    snapshots = [s for s in history.get("snapshots", []) if s.get("date") != today]
+    snapshots.append({"date": today, "entries": entries})
+    snapshots.sort(key=lambda s: s["date"])
+
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    history_path.write_text(json.dumps({"snapshots": snapshots}), encoding="utf-8")
+    print(f"Champion+role history: {len(snapshots)} snapshot(s) in {history_path}.")
+
+
 def build_item_output(item_stats: dict[str, dict[int, dict[str, int]]], champ_total_games: dict[str, int],
                        regions: list[str], tiers: list[str]) -> dict:
     """Per champion, its real most-built items (own win rate holding that
@@ -348,6 +391,23 @@ def build_rune_output(rune_stats: dict[str, dict[tuple[int, int], dict[str, int]
     }
 
 
+def build_elo_bracket_output(matches_by_bracket: dict[str, list[dict]], regions: list[str]) -> dict:
+    """role/pick-rate/win-rate by champion, kept SEPARATE per elo bracket
+    (mid/high/apex -- see LOL_TIER_TO_ELO_BRACKET) instead of the one
+    combined-across-everything view build_output() above produces. Reuses
+    aggregate()/build_output() as-is, once per bracket, on that bracket's
+    own real matches only -- real per-bracket sample, not the merged pool."""
+    by_bracket = {}
+    for bracket, matches in matches_by_bracket.items():
+        agg = aggregate(matches)
+        by_bracket[bracket] = build_output(agg["stats"], regions, [bracket], agg["unique_matches"], agg["total_rows"])
+    return {
+        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "regions": regions,
+        "by_bracket": by_bracket,
+    }
+
+
 def parse_args(argv=None) -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Collect real LoL ranked matches and compute real champion pick/win rate by role.")
     p.add_argument("--regions", default=",".join(LOL_REGIONS.keys()))
@@ -362,6 +422,8 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--items-out", default=f"{config.OUTPUT_DIR}/lol_champion_items.json")
     p.add_argument("--matchups-out", default=f"{config.OUTPUT_DIR}/lol_matchups.json")
     p.add_argument("--runes-out", default=f"{config.OUTPUT_DIR}/lol_champion_runes.json")
+    p.add_argument("--role-history-out", default=f"{config.OUTPUT_DIR}/lol_role_stats_history.json")
+    p.add_argument("--elo-bracket-out", default=f"{config.OUTPUT_DIR}/lol_role_stats_by_elo.json")
     return p.parse_args(argv)
 
 
@@ -370,6 +432,7 @@ def main(argv=None) -> None:
     regions = [r.strip().upper() for r in args.regions.split(",") if r.strip()]
     tiers = ALL_TIERS if args.all_tiers else [t.strip().upper() for t in args.tiers.split(",") if t.strip()]
 
+    matches_by_bracket: dict[str, list[dict]] = defaultdict(list)
     if args.from_cache:
         print("Loading every ranked match already in data/raw_lol/ (no live API calls)...")
         all_matches = load_matches_from_cache()
@@ -384,6 +447,9 @@ def main(argv=None) -> None:
                 sample = collect_bracket(client, region, tier)
                 print(f"   seed players: {len(sample.seed_puuids)} | unique matches: {len(sample.match_ids)} | ranked matches kept: {len(sample.matches)}")
                 all_matches.extend(sample.matches)
+                bracket = LOL_TIER_TO_ELO_BRACKET.get(tier)
+                if bracket:
+                    matches_by_bracket[bracket].extend(sample.matches)
         request_count = client.request_count
 
     agg = aggregate(all_matches)
@@ -395,6 +461,8 @@ def main(argv=None) -> None:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     out_path.write_text(json.dumps(output, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Champion role stats written to {out_path} ({len(output['by_champion'])} champions with at least one qualifying role).")
+
+    _append_lol_role_history(output["by_champion"], Path(args.role_history_out))
 
     champ_total_games = {champ: sum(r["games"] for r in roles.values()) for champ, roles in agg["stats"].items()}
     item_output = build_item_output(agg["item_stats"], champ_total_games, regions, tiers)
@@ -415,6 +483,17 @@ def main(argv=None) -> None:
     runes_path.parent.mkdir(parents=True, exist_ok=True)
     runes_path.write_text(json.dumps(rune_output, indent=2, ensure_ascii=False), encoding="utf-8")
     print(f"Champion rune pages written to {runes_path} ({len(rune_output['by_champion'])} champions with at least one qualifying rune page).")
+
+    if matches_by_bracket:
+        elo_output = build_elo_bracket_output(matches_by_bracket, regions)
+        elo_path = Path(args.elo_bracket_out)
+        elo_path.parent.mkdir(parents=True, exist_ok=True)
+        elo_path.write_text(json.dumps(elo_output, indent=2, ensure_ascii=False), encoding="utf-8")
+        for bracket, out in elo_output["by_bracket"].items():
+            print(f"  elo bracket '{bracket}': {out['unique_matches']} matches, {len(out['by_champion'])} champions with a qualifying role.")
+        print(f"Champion role stats by elo bracket written to {elo_path}.")
+    else:
+        print("No elo-bracket breakdown this run (only real for a live collection, not --from-cache).")
 
 
 if __name__ == "__main__":

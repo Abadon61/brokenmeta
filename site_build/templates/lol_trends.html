@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_trends_title') }}{% endblock %}
+{% block description %}{{ t(lang, 'lol_trends_desc') }}{% endblock %}
+{% block content %}
+<h1 class="page-h1">{{ t(lang, 'lol_trends_title') }}</h1>
+{% if has_data %}
+<p class="page-intro">{{ t(lang, 'lol_trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+
+<div class="trends-grid">
+  <div>
+    <h2 class="fiche-section-title trends-up">{{ t(lang, 'lol_trends_risers') }}</h2>
+    {% if risers %}
+    <div class="trend-list">
+      {% for r in risers %}
+      <a class="trend-row" href="{{ root }}league/glossaire/champions/{{ r.slug }}/">
+        <div class="trend-row-role" title="{{ r.role_label }}"><svg viewBox="0 0 32 32">{{ role_icons[r.role]|safe }}</svg></div>
+        <img class="carry-portrait" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ r.icon_file }}" alt="{{ r.name }}" loading="lazy">
+        <div class="trend-row-name">{{ r.name }}</div>
+        <div class="trend-row-move trend-move-up">▲ {{ (r.delta * 100)|round(1) }}%</div>
+        <div class="trend-row-detail nums">{{ (r.prev_win_rate * 100)|round(1) }}% → {{ (r.latest_win_rate * 100)|round(1) }}%</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'lol_trends_none') }}</div>{% endif %}
+  </div>
+  <div>
+    <h2 class="fiche-section-title trends-down">{{ t(lang, 'lol_trends_fallers') }}</h2>
+    {% if fallers %}
+    <div class="trend-list">
+      {% for r in fallers %}
+      <a class="trend-row" href="{{ root }}league/glossaire/champions/{{ r.slug }}/">
+        <div class="trend-row-role" title="{{ r.role_label }}"><svg viewBox="0 0 32 32">{{ role_icons[r.role]|safe }}</svg></div>
+        <img class="carry-portrait" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ r.icon_file }}" alt="{{ r.name }}" loading="lazy">
+        <div class="trend-row-name">{{ r.name }}</div>
+        <div class="trend-row-move trend-move-down">▼ {{ (r.delta * 100)|round(1) }}%</div>
+        <div class="trend-row-detail nums">{{ (r.prev_win_rate * 100)|round(1) }}% → {{ (r.latest_win_rate * 100)|round(1) }}%</div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}<div class="matchup-empty">{{ t(lang, 'lol_trends_none') }}</div>{% endif %}
+  </div>
+</div>
+{% else %}
+<p class="page-intro">{{ t(lang, 'lol_trends_no_history') }}</p>
+{% endif %}
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}

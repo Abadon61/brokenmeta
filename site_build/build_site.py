@@ -3203,6 +3203,14 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Plus grosses chutes",
         "trends_none": "Aucun mouvement significatif sur cette période.",
         "trends_no_history": "Pas encore assez d'historique pour calculer des tendances — reviens après le prochain refresh de données.",
+        "nav_lol_trends": "Tendances",
+        "lol_trends_title": "Tendances — League of Legends",
+        "lol_trends_desc": "Les champions et rôles dont le winrate progresse ou chute le plus depuis le dernier calcul, sur données réelles collectées via l'API Riot.",
+        "lol_trends_intro": lambda prev, latest: f"Écarts de winrate entre la collecte du {prev} et celle du {latest} — champion+rôle avec au moins 100 parties dans les deux, données réelles.",
+        "lol_trends_risers": "▲ Plus fortes progressions",
+        "lol_trends_fallers": "▼ Plus grosses chutes",
+        "lol_trends_none": "Aucun mouvement significatif sur cette période.",
+        "lol_trends_no_history": "Pas encore assez d'historique pour calculer des tendances — reviens après la prochaine collecte de parties.",
         "nav_changelog": "Changements de tier",
         "changelog_title": "Changements de tier — Teamfight Tactics Set 18",
         "changelog_intro": lambda prev, latest: f"Chaque comp dont la lettre de tier a changé entre le calcul du {prev} et celui du {latest} — un changement de tier visible sur toutes les pages du site, pas juste un écart de placement.",
@@ -3368,6 +3376,15 @@ I18N: dict[str, dict] = {
         "lol_champ_matchups_title": "Contres en lane",
         "lol_champ_matchups_note": "Winrate réel face à chaque adversaire de lane rencontré dans les parties collectées -- un adversaire non listé n'a pas encore assez de parties observées.",
         "lol_champ_matchups_empty": "Pas encore assez de parties observées face à un adversaire de lane sur ce champion.",
+        "lol_champ_matchups_see_all": "Voir tous les contres",
+        "th_role": "Rôle",
+        "lol_counters_title": lambda name: f"Contres de {name} — League of Legends",
+        "lol_counters_desc": lambda name: f"Quels champions contrent {name} en lane, et contre qui {name} gagne le plus souvent -- winrate réel par adversaire, à partir de vraies parties classées.",
+        "lol_counters_intro": lambda name: f"Winrate réel de {name} face à chaque adversaire de lane rencontré dans les parties collectées, rôle par rôle -- un adversaire non listé n'a pas encore assez de parties observées.",
+        "lol_counters_faq_toughest_q": lambda name: f"Quel champion contre le mieux {name} ?",
+        "lol_counters_faq_toughest_a": lambda name, enemy, role, wr: f"{enemy} est le contre le plus dur pour {name} en {role}, avec seulement {wr}% de winrate pour {name} dans cette confrontation, d'après les vraies parties classées collectées.",
+        "lol_counters_faq_easiest_q": lambda name: f"Quel champion {name} contre le plus facilement ?",
+        "lol_counters_faq_easiest_a": lambda name, enemy, role, wr: f"{name} gagne le plus souvent face à {enemy} en {role}, avec {wr}% de winrate réel dans cette confrontation.",
         "lol_champ_runes_title": "Runes les plus jouées",
         "lol_champ_runes_note": "Taux de pick et winrate réels de chaque combo précepte + arbre secondaire, parmi les parties collectées.",
         "lol_champ_runes_empty": "Pas encore assez de parties observées avec une page de runes sur ce champion.",
@@ -3542,6 +3559,14 @@ I18N: dict[str, dict] = {
         "trends_fallers": "▼ Biggest drops",
         "trends_none": "No significant movement over this period.",
         "trends_no_history": "Not enough history yet to compute trends -- check back after the next data refresh.",
+        "nav_lol_trends": "Trends",
+        "lol_trends_title": "Trends — League of Legends",
+        "lol_trends_desc": "The champions and roles with the biggest win-rate gains or drops since the last refresh, from real data collected via Riot's API.",
+        "lol_trends_intro": lambda prev, latest: f"Win-rate swings between the {prev} and {latest} collections -- champion+role with at least 100 games in both, real data.",
+        "lol_trends_risers": "▲ Biggest gains",
+        "lol_trends_fallers": "▼ Biggest drops",
+        "lol_trends_none": "No significant movement over this period.",
+        "lol_trends_no_history": "Not enough history yet to compute trends -- check back after the next match collection.",
         "nav_changelog": "Tier Changes",
         "changelog_title": "Tier Changes — Teamfight Tactics Set 18",
         "changelog_intro": lambda prev, latest: f"Every comp whose letter tier changed between the {prev} and {latest} refreshes -- a change visible everywhere on the site, not just a placement swing.",
@@ -3701,6 +3726,15 @@ I18N: dict[str, dict] = {
         "lol_champ_matchups_title": "Lane matchups",
         "lol_champ_matchups_note": "Real win rate against each lane opponent seen in the collected games -- an opponent not listed doesn't have enough observed games yet.",
         "lol_champ_matchups_empty": "Not enough observed games against a lane opponent on this champion yet.",
+        "lol_champ_matchups_see_all": "See all counters",
+        "th_role": "Role",
+        "lol_counters_title": lambda name: f"{name} Counters — League of Legends",
+        "lol_counters_desc": lambda name: f"Which champions counter {name} in lane, and who {name} beats most often -- real win rate per opponent, from real ranked games.",
+        "lol_counters_intro": lambda name: f"{name}'s real win rate against every lane opponent seen in the collected games, role by role -- an opponent not listed doesn't have enough observed games yet.",
+        "lol_counters_faq_toughest_q": lambda name: f"Which champion counters {name} best?",
+        "lol_counters_faq_toughest_a": lambda name, enemy, role, wr: f"{enemy} is {name}'s toughest counter in {role}, with only a {wr}% win rate for {name} in that matchup, from real collected ranked games.",
+        "lol_counters_faq_easiest_q": lambda name: f"Which champion does {name} counter most easily?",
+        "lol_counters_faq_easiest_a": lambda name, enemy, role, wr: f"{name} wins most often against {enemy} in {role}, with a real {wr}% win rate in that matchup.",
         "lol_champ_runes_title": "Most played runes",
         "lol_champ_runes_note": "Real pick rate and win rate for each keystone + secondary tree combo, among collected games.",
         "lol_champ_runes_empty": "Not enough observed games with a rune page on this champion yet.",
@@ -4177,6 +4211,19 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
         if enemies:
             matchups.append({"role": r["role"], "role_label": r["role_label"], "enemies": enemies})
 
+    # A short teaser for the main champion page (avoids duplicating the same
+    # full per-role breakdown as the dedicated /contres/ page below -- see
+    # that page's own module comment): the single toughest and single
+    # easiest real matchup, flattened across every role, sorted by games so
+    # a fluke low-sample pairing can't be picked over a well-observed one.
+    all_enemies = [
+        {**e, "role_label": m["role_label"]}
+        for m in matchups for e in m["enemies"]
+    ]
+    toughest_counter = min(all_enemies, key=lambda e: e["win_rate"]) if all_enemies else None
+    easiest_matchup = max(all_enemies, key=lambda e: e["win_rate"]) if all_enemies else None
+    matchups_preview = sorted(all_enemies, key=lambda e: -e["games"])[:3]
+
     # Real rune pages -- see lol_run.py --runes-out. A page's identity is
     # its keystone + secondary tree combo (e.g. "Cadence Fatale + Sorcellerie"),
     # not the keystone alone.
@@ -4207,7 +4254,8 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
         "info": c["info"], "stats": c["stats"],
         "role_stats": role_stats,
         "best_items": best_items,
-        "matchups": matchups,
+        "matchups": matchups, "matchups_preview": matchups_preview,
+        "toughest_counter": toughest_counter, "easiest_matchup": easiest_matchup,
         "rune_pages": rune_pages,
     })
     return base
@@ -4364,6 +4412,11 @@ def main() -> None:
     # badge (see lol_champion_detail_view) instead of a KeyError.
     lol_role_stats_raw = load("lol_champion_role_stats.json") if (OUT / "lol_champion_role_stats.json").exists() else {"by_champion": {}}
     lol_role_stats_by_champion: dict = lol_role_stats_raw.get("by_champion", {})
+    # Same "start empty, need 2+ real snapshots" pattern as comp_history
+    # above, for /league/tendances/ -- see lol_pipeline.py's
+    # _append_lol_role_history. Empty until this pipeline has run on at
+    # least two different days.
+    lol_role_history = load("lol_role_stats_history.json") if (OUT / "lol_role_stats_history.json").exists() else {"snapshots": []}
     # Real most-built items and real lane matchups -- see lol_run.py
     # --items-out/--matchups-out, same collection run as the role stats
     # above. Optional the same way: {} until the pipeline has produced
@@ -6127,6 +6180,52 @@ def main() -> None:
     }
     lol_rune_by_id = {r["id"]: r for t in lol_rune_trees for slot in t["slots"] for r in slot}
     lol_tree_by_id = {t["id"]: t for t in lol_rune_trees}
+
+    # ---- /league/tendances/: biggest real win-rate movers since the
+    # previous data refresh, same "need 2+ real snapshots" pattern as TFT's
+    # own /tendances/ above (see lol_pipeline.py's _append_lol_role_history).
+    # Limited to champion+role combos that clear the same 100-game bar as
+    # the tier list itself (LOL_TIER_LIST_MIN_GAMES) in BOTH snapshots, so a
+    # small-sample fluke can't manufacture a fake "riser". ----
+    _lol_role_label = {"top": "Top", "jungle": "Jungle", "mid": "Mid", "adc": "ADC", "support": "Support"}
+    lol_snapshot_dates = sorted({s["date"] for s in lol_role_history.get("snapshots", [])})
+    lol_latest_snap_date = lol_snapshot_dates[-1] if lol_snapshot_dates else None
+    lol_prev_snap_date = lol_snapshot_dates[-2] if len(lol_snapshot_dates) >= 2 else None
+    lol_history_by_key: dict[str, list[dict]] = {}
+    for snap in lol_role_history.get("snapshots", []):
+        for key, row in snap.get("entries", {}).items():
+            lol_history_by_key.setdefault(key, []).append({"date": snap["date"], **row})
+    for _rows in lol_history_by_key.values():
+        _rows.sort(key=lambda r: r["date"])
+
+    def build_lol_trend_rows(lang: str, min_delta: float = 0.02, top_n: int = 15) -> tuple[list[dict], list[dict]]:
+        if not lol_prev_snap_date:
+            return [], []
+        movers = []
+        for key, hist in lol_history_by_key.items():
+            by_date = {h["date"]: h for h in hist}
+            if lol_latest_snap_date not in by_date or lol_prev_snap_date not in by_date:
+                continue
+            prev_row, latest_row = by_date[lol_prev_snap_date], by_date[lol_latest_snap_date]
+            if prev_row["games"] < LOL_TIER_LIST_MIN_GAMES or latest_row["games"] < LOL_TIER_LIST_MIN_GAMES:
+                continue
+            champ_id, role = key.split("|", 1)
+            champ = lol_champ_by_id.get(_canon_lol_id(champ_id))
+            if not champ:
+                continue
+            delta = latest_row["win_rate"] - prev_row["win_rate"]
+            if abs(delta) < min_delta:
+                continue
+            movers.append({
+                "slug": champ["slug"], "icon_file": champ["icon_file"],
+                "name": champ["name_fr"] if lang == "fr" else champ["name_en"],
+                "role": role, "role_label": _lol_role_label.get(role, role),
+                "prev_win_rate": prev_row["win_rate"], "latest_win_rate": latest_row["win_rate"],
+                "delta": round(abs(delta), 4),
+            })
+        risers = sorted((m for m in movers if m["latest_win_rate"] > m["prev_win_rate"]), key=lambda m: -m["delta"])[:top_n]
+        fallers = sorted((m for m in movers if m["latest_win_rate"] < m["prev_win_rate"]), key=lambda m: -m["delta"])[:top_n]
+        return risers, fallers
     _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
                                       if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})
     if _unmatched_patch_names:
@@ -6231,6 +6330,43 @@ def main() -> None:
                    article_schema=build_article_schema(f"{_lcv['name']} — League of Legends", _lcv_url,
                                                   translate(lang, "lol_champ_detail_desc", _lcv["name"], _lcv["title"]),
                                                   image=f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/img/champion/{_lcv['icon_file']}"))
+            # A dedicated /contres/ page per champion (real per-role
+            # matchup breakdown, only built for a champion that actually
+            # has one) -- separate from the short 3-row teaser on the main
+            # fiche above so the two pages don't show the exact same table
+            # twice (SEO audit, 2026-09-16: "contre [champion]"/"counters
+            # [champion]" gets its own targeted URL+H1 instead of only
+            # ever being a section on the champion sheet).
+            if _lcv["matchups"]:
+                _counters_url = canonical_for(f"/league/glossaire/champions/{c['slug']}/contres/", lang)
+                _counters_faq = []
+                if _lcv["toughest_counter"]:
+                    tc = _lcv["toughest_counter"]
+                    _counters_faq.append({
+                        "q": translate(lang, "lol_counters_faq_toughest_q", _lcv["name"]),
+                        "a": translate(lang, "lol_counters_faq_toughest_a", _lcv["name"], tc["name"], tc["role_label"], f"{tc['win_rate'] * 100:.1f}"),
+                    })
+                if _lcv["easiest_matchup"]:
+                    em = _lcv["easiest_matchup"]
+                    _counters_faq.append({
+                        "q": translate(lang, "lol_counters_faq_easiest_q", _lcv["name"]),
+                        "a": translate(lang, "lol_counters_faq_easiest_a", _lcv["name"], em["name"], em["role_label"], f"{em['win_rate'] * 100:.1f}"),
+                    })
+                render("lol_champion_counters.html", f"/league/glossaire/champions/{c['slug']}/contres/", lang,
+                       active_nav="league", active_sub="lol-glossary-champions",
+                       ddragon_version=ddragon_version, d=_lcv, faq=_counters_faq,
+                       breadcrumb_schema=breadcrumb_schema([
+                           (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                           ("League of Legends", canonical_for("/league/", lang)),
+                           (translate(lang, "nav_lol_champions"), canonical_for("/league/glossaire/champions/", lang)),
+                           (_lcv["name"], _lcv_url),
+                           (translate(lang, "lol_champ_matchups_title"), _counters_url),
+                       ]),
+                       faq_schema={
+                           "@context": "https://schema.org", "@type": "FAQPage",
+                           "mainEntity": [{"@type": "Question", "name": f["q"],
+                                           "acceptedAnswer": {"@type": "Answer", "text": f["a"]}} for f in _counters_faq],
+                       } if _counters_faq else None)
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
@@ -6261,6 +6397,16 @@ def main() -> None:
                    (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                    ("League of Legends", canonical_for("/league/", lang)),
                    (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
+               ]))
+        _lol_risers, _lol_fallers = build_lol_trend_rows(lang)
+        render("lol_trends.html", "/league/tendances/", lang, active_nav="league", active_sub="lol-trends",
+               ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
+               has_data=bool(lol_prev_snap_date), prev_date=lol_prev_snap_date, latest_date=lol_latest_snap_date,
+               risers=_lol_risers, fallers=_lol_fallers,
+               breadcrumb_schema=breadcrumb_schema([
+                   (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                   ("League of Legends", canonical_for("/league/", lang)),
+                   (translate(lang, "lol_trends_title"), canonical_for("/league/tendances/", lang)),
                ]))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
