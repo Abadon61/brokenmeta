@@ -3057,6 +3057,12 @@ I18N: dict[str, dict] = {
         "lol_champ_roles_soon_badge": "En développement",
         "lol_champ_roles_real_note": "Taux de pick réels (parmi les parties classées Or à Challenger collectées sur EUW/NA/BR/KR) et winrate réel, à partir d'un échantillon encore modeste -- pas encore à l'échelle du tracker de compositions TFT de ce site. Un rôle sans assez de parties observées n'apparaît pas ici.",
         "lol_champ_roles_pending": "Bientôt : taux de pick et de victoire réels par rôle (Top/Jungle/Mid/ADC/Support) -- nécessite une collecte de parties League à grande échelle, sur le même principe que le tracker de compositions TFT de ce site, pas encore mise en place pour League of Legends. Aucun chiffre inventé en attendant.",
+        "lol_champ_items_title": "Objets les plus construits",
+        "lol_champ_items_note": "Taux de pick et winrate réels parmi les parties collectées, tous rôles confondus.",
+        "lol_champ_items_empty": "Pas encore assez de parties observées avec un objet sur ce champion.",
+        "lol_champ_matchups_title": "Contres en lane",
+        "lol_champ_matchups_note": "Winrate réel face à chaque adversaire de lane rencontré dans les parties collectées -- un adversaire non listé n'a pas encore assez de parties observées.",
+        "lol_champ_matchups_empty": "Pas encore assez de parties observées face à un adversaire de lane sur ce champion.",
         "lol_champ_abilities_title": "Compétences",
         "lol_champ_passive_label": "Passif",
         "lol_ability_cooldown_label": "Rechargement", "lol_ability_cost_label": "Coût", "lol_ability_range_label": "Portée",
@@ -3369,6 +3375,12 @@ I18N: dict[str, dict] = {
         "lol_champ_roles_soon_badge": "In development",
         "lol_champ_roles_real_note": "Real pick rate (among Gold-to-Challenger ranked games collected on EUW/NA/BR/KR) and real win rate, from a still-modest sample -- not yet at the scale of this site's TFT comp tracker. A role without enough observed games doesn't show up here.",
         "lol_champ_roles_pending": "Coming soon: real pick rate and win rate by role (Top/Jungle/Mid/ADC/Support) -- this needs a large-scale League match collection, on the same principle as this site's TFT comp tracker, not yet built for League of Legends. No invented numbers in the meantime.",
+        "lol_champ_items_title": "Most built items",
+        "lol_champ_items_note": "Real pick rate and win rate among collected games, all roles combined.",
+        "lol_champ_items_empty": "Not enough observed games with an item on this champion yet.",
+        "lol_champ_matchups_title": "Lane matchups",
+        "lol_champ_matchups_note": "Real win rate against each lane opponent seen in the collected games -- an opponent not listed doesn't have enough observed games yet.",
+        "lol_champ_matchups_empty": "Not enough observed games against a lane opponent on this champion yet.",
         "lol_champ_abilities_title": "Abilities",
         "lol_champ_passive_label": "Passive",
         "lol_ability_cooldown_label": "Cooldown", "lol_ability_cost_label": "Cost", "lol_ability_range_label": "Range",
@@ -3774,7 +3786,9 @@ def localize_lol_champion(c: dict, lang: str) -> dict:
             "classes": [class_labels.get(tag, tag) for tag in c["tags"]], "raw_classes": c["tags"]}
 
 
-def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict) -> dict:
+def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict,
+                              items_by_champion: dict, items_lookup: dict[str, dict],
+                              matchups_by_role: dict, champ_by_id: dict[str, dict]) -> dict:
     base = localize_lol_champion(c, lang)
     class_labels = LOL_CLASS_LABEL["fr" if lang == "fr" else "en"]
     # Real pick rate / win rate by role -- see lol_run.py. Keyed by the
@@ -3790,6 +3804,39 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict) -
         [{"role": role, "role_label": role_label.get(role, role), **data} for role, data in champ_roles.items()],
         key=lambda r: -r["games"],
     )
+
+    # Real most-built items -- see lol_run.py --items-out (same collection
+    # run as role_stats above). item_id is an int in the pipeline output but
+    # items_lookup is keyed by Data Dragon's string ids.
+    best_items = []
+    for row in (items_by_champion.get(c["id"]) or []):
+        ref = items_lookup.get(str(row["item_id"]))
+        if not ref:
+            continue
+        best_items.append({
+            "icon_file": ref["icon_file"], "slug": ref["slug"], "has_page": ref["has_page"],
+            "name": ref["name_fr"] if lang == "fr" else ref["name_en"],
+            "games": row["games"], "win_rate": row["win_rate"], "pick_rate": row["pick_rate"],
+        })
+
+    # Real lane matchups -- see lol_run.py --matchups-out. A matchup is
+    # inherently role-specific (top Darius vs Garen isn't a jungle pairing),
+    # so this only ever draws from the roles already surfaced in role_stats.
+    matchups = []
+    for r in role_stats:
+        enemies = []
+        for row in (matchups_by_role.get(r["role"], {}).get(c["id"]) or []):
+            enemy = champ_by_id.get(row["enemy"])
+            if not enemy:
+                continue
+            enemies.append({
+                "slug": enemy["slug"], "icon_file": enemy["icon_file"],
+                "name": enemy["name_fr"] if lang == "fr" else enemy["name_en"],
+                "games": row["games"], "win_rate": row["win_rate"],
+            })
+        if enemies:
+            matchups.append({"role": r["role"], "role_label": r["role_label"], "enemies": enemies})
+
     base.update({
         "title": c["title_fr"] if lang == "fr" else c["title_en"],
         "blurb": c["blurb_fr"] if lang == "fr" else c["blurb_en"],
@@ -3804,6 +3851,8 @@ def lol_champion_detail_view(c: dict, lang: str, role_stats_by_champion: dict) -
         "spells": c["spells_fr"] if lang == "fr" else c["spells_en"],
         "info": c["info"], "stats": c["stats"],
         "role_stats": role_stats,
+        "best_items": best_items,
+        "matchups": matchups,
     })
     return base
 
@@ -3898,6 +3947,15 @@ def main() -> None:
     # badge (see lol_champion_detail_view) instead of a KeyError.
     lol_role_stats_raw = load("lol_champion_role_stats.json") if (OUT / "lol_champion_role_stats.json").exists() else {"by_champion": {}}
     lol_role_stats_by_champion: dict = lol_role_stats_raw.get("by_champion", {})
+    # Real most-built items and real lane matchups -- see lol_run.py
+    # --items-out/--matchups-out, same collection run as the role stats
+    # above. Optional the same way: {} until the pipeline has produced
+    # them, and lol_champion_detail_view() falls back to an honest
+    # "not enough data" note per section either way.
+    lol_items_stats_raw = load("lol_champion_items.json") if (OUT / "lol_champion_items.json").exists() else {"by_champion": {}}
+    lol_items_by_champion: dict = lol_items_stats_raw.get("by_champion", {})
+    lol_matchups_raw = load("lol_matchups.json") if (OUT / "lol_matchups.json").exists() else {"by_role": {}}
+    lol_matchups_by_role: dict = lol_matchups_raw.get("by_role", {})
     # Precomputed by the separate compute_gameplans.py (real Monte Carlo
     # simulation, ~5-7s/comp -- far too slow to run from here, which needs
     # to stay fast for routine template/CSS iteration). {comp_key: [{"tab",
@@ -5620,6 +5678,26 @@ def main() -> None:
     print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions, "
           f"{len(lol_rune_trees)} rune trees, {len(lol_summoner_spells)} summoner spells (Data Dragon {ddragon_version}).")
     lol_patch_icon_lookup = build_lol_patch_icon_lookup(lol_champions, lol_items_lookup, lol_rune_trees)
+    lol_champ_by_id = {c["id"]: c for c in lol_champions}
+    # Riot's live Match-V5 API and Data Dragon's roster disagree on the
+    # exact casing of a handful of champion ids (e.g. real matches report
+    # "FiddleSticks", Data Dragon's key is "Fiddlesticks") -- remap the
+    # pipeline's raw keys against the real ddragon roster case-insensitively
+    # so those champions aren't silently dropped from role/item/matchup
+    # stats. Unknown ids (a removed/renamed champion the pipeline once saw)
+    # pass through unchanged and simply won't resolve to any page.
+    _lol_id_by_lower = {cid.lower(): cid for cid in lol_champ_by_id}
+
+    def _canon_lol_id(raw_id: str) -> str:
+        return _lol_id_by_lower.get(raw_id.lower(), raw_id)
+
+    lol_role_stats_by_champion = {_canon_lol_id(k): v for k, v in lol_role_stats_by_champion.items()}
+    lol_items_by_champion = {_canon_lol_id(k): v for k, v in lol_items_by_champion.items()}
+    lol_matchups_by_role = {
+        role: {_canon_lol_id(champ_id): [{**row, "enemy": _canon_lol_id(row["enemy"])} for row in rows]
+               for champ_id, rows in champs.items()}
+        for role, champs in lol_matchups_by_role.items()
+    }
     _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
                                       if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})
     if _unmatched_patch_names:
@@ -5687,7 +5765,9 @@ def main() -> None:
         for c in lol_champions:
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
-                   ddragon_version=ddragon_version, d=lol_champion_detail_view(c, lang, lol_role_stats_by_champion))
+                   ddragon_version=ddragon_version,
+                   d=lol_champion_detail_view(c, lang, lol_role_stats_by_champion, lol_items_by_champion,
+                                               lol_items_lookup, lol_matchups_by_role, lol_champ_by_id))
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)

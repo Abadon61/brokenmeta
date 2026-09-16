@@ -80,4 +80,52 @@
 <div class="league-dev-badge"><span class="dot"></span>{{ t(lang, 'lol_champ_roles_soon_badge') }}</div>
 <div class="matchup-empty">{{ t(lang, 'lol_champ_roles_pending') }}</div>
 {% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_items_title') }}</h2>
+{% if d.best_items %}
+<div class="table-wrap"><table class="item-champ-table">
+  <thead><tr><th>{{ t(lang, 'th_item') }}</th><th class="num">{{ t(lang, 'games_col') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'winrate_col') }}</th></tr></thead>
+  <tbody>
+    {% for it in d.best_items %}<tr>
+      <td><div class="item-champ-name-cell">
+        {% if it.has_page %}<a href="{{ root }}league/glossaire/objets/{{ it.slug }}/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">{% endif %}
+        <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/item/{{ it.icon_file }}" alt="{{ it.name }}" loading="lazy">
+        <span>{{ it.name }}</span>
+        {% if it.has_page %}</a>{% endif %}
+      </div></td>
+      <td class="num">{{ it.games }}</td>
+      <td class="num">{{ (it.pick_rate * 100)|round(1) }}%</td>
+      <td class="num {{ 'good' if it.win_rate >= 0.5 else 'warn' }}">{{ (it.win_rate * 100)|round(1) }}%</td>
+    </tr>{% endfor %}
+  </tbody>
+</table></div>
+<p class="profile-section-note" style="display:block;margin-top:10px">{{ t(lang, 'lol_champ_items_note') }}</p>
+{% else %}
+<div class="matchup-empty">{{ t(lang, 'lol_champ_items_empty') }}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ t(lang, 'lol_champ_matchups_title') }}</h2>
+{% if d.matchups %}
+{% for block in d.matchups %}
+<div class="fiche-kicker" style="margin:{{ '0 0 8px' if loop.first else '18px 0 8px' }}">{{ block.role_label }}</div>
+<div class="table-wrap"><table class="item-champ-table">
+  <thead><tr><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'games_col') }}</th><th class="num">{{ t(lang, 'winrate_col') }}</th></tr></thead>
+  <tbody>
+    {% for e in block.enemies %}<tr>
+      <td><div class="item-champ-name-cell">
+        <a href="{{ root }}league/glossaire/champions/{{ e.slug }}/" style="text-decoration:none;color:inherit;display:flex;align-items:center;gap:10px">
+          <img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ e.icon_file }}" alt="{{ e.name }}" style="border-radius:50%" loading="lazy">
+          <span>{{ e.name }}</span>
+        </a>
+      </div></td>
+      <td class="num">{{ e.games }}</td>
+      <td class="num {{ 'good' if e.win_rate >= 0.5 else 'warn' }}">{{ (e.win_rate * 100)|round(1) }}%</td>
+    </tr>{% endfor %}
+  </tbody>
+</table></div>
+{% endfor %}
+<p class="profile-section-note" style="display:block;margin-top:10px">{{ t(lang, 'lol_champ_matchups_note') }}</p>
+{% else %}
+<div class="matchup-empty">{{ t(lang, 'lol_champ_matchups_empty') }}</div>
+{% endif %}
 {% endblock %}
