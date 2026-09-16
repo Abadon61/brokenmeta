@@ -4205,6 +4205,17 @@ def lol_patch_change_view(change: dict, lookup: dict[str, dict]) -> dict:
 
 LOL_TIER_BUCKETS = [("S", 0.10), ("A", 0.30), ("B", 0.65), ("C", 1.0)]
 
+# Same role glyphs as league.js's ROLE_ICON (client-side, profile page role
+# stats) -- kept identical here so a role always looks the same everywhere
+# on the site, viewBox 0 0 32 32.
+LOL_ROLE_ICON_SVG = {
+    "top": '<path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M21,14H14v7h7V14Zm5-3V26L11.014,26l-4,4H30V7.016Z"/><polygon fill="#c8aa6e" points="4 4 4.003 28.045 9 23 9 9 23 9 28.045 4.003 4 4"/>',
+    "jungle": '<path fill="#c8aa6e" fill-rule="evenodd" d="M25,3c-2.128,3.3-5.147,6.851-6.966,11.469A42.373,42.373,0,0,1,20,20a27.7,27.7,0,0,1,1-3C21,12.023,22.856,8.277,25,3ZM13,20c-1.488-4.487-4.76-6.966-9-9,3.868,3.136,4.422,7.52,5,12l3.743,3.312C14.215,27.917,16.527,30.451,17,31c4.555-9.445-3.366-20.8-8-28C11.67,9.573,13.717,13.342,13,20Zm8,5a15.271,15.271,0,0,1,0,2l4-4c0.578-4.48,1.132-8.864,5-12C24.712,13.537,22.134,18.854,21,25Z"/>',
+    "mid": '<path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M30,12.968l-4.008,4L26,26H17l-4,4H30ZM16.979,8L21,4H4V20.977L8,17,8,8h8.981Z"/><polygon fill="#c8aa6e" points="25 4 4 25 4 30 9 30 30 9 30 4 25 4"/>',
+    "adc": '<path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M13,20h7V13H13v7ZM4,4V26.984l3.955-4L8,8,22.986,8l4-4H4Z"/><polygon fill="#c8aa6e" points="29.997 5.955 25 11 25 25 11 25 5.955 29.997 30 30 29.997 5.955"/>',
+    "support": '<path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/>',
+}
+
 
 def build_lol_tier_list(role_stats_by_champion: dict, lol_champions: list[dict], lang: str) -> dict:
     """role -> ranked list of real champions (win rate desc, S/A/B/C by
@@ -6105,7 +6116,8 @@ def main() -> None:
         render("lol_compare.html", "/league/comparer/", lang, active_nav="league", active_sub="lol-compare",
                league_i18n=LEAGUE_UI_I18N[lang])
         render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
-               ddragon_version=ddragon_version, by_role=build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang))
+               ddragon_version=ddragon_version, by_role=build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang),
+               role_icons=LOL_ROLE_ICON_SVG)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -6475,6 +6487,37 @@ def main() -> None:
   .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1); }
   .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
   .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
+
+  /* /league/tier-list/ -- role switcher as icon-on-top buttons instead of
+     stacking all five role tables one under another. Pure CSS (:has()),
+     no JS: a hidden radio per role + a <label> button, panels shown via
+     :has(#role-X:checked) so this still works if a viewer's JS is off. */
+  .lol-role-tab-input { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .lol-role-tab-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+  .lol-role-tab-btn {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    flex: 1; min-width: 84px; padding: 16px 10px;
+    background: var(--row); border: 1px solid var(--border);
+    color: var(--text-dim); cursor: pointer;
+    transition: border-color .12s ease, color .12s ease, background .12s ease;
+  }
+  .lol-role-tab-btn svg { width: 26px; height: 26px; flex: none; }
+  .lol-role-tab-btn span { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; }
+  .lol-role-tab-btn:hover { border-color: var(--border-bright); color: var(--cream); }
+  .lol-role-tab-input:checked + .lol-role-tab-btn { border-color: var(--cyan); background: var(--row-hover); color: var(--cream); }
+  .lol-role-tab-input:focus-visible + .lol-role-tab-btn { outline: 2px solid var(--cyan); outline-offset: 2px; }
+  .lol-role-tab-panel { display: none; }
+  .lol-role-tabs:has(#role-top:checked) .lol-role-tab-panel[data-role="top"],
+  .lol-role-tabs:has(#role-jungle:checked) .lol-role-tab-panel[data-role="jungle"],
+  .lol-role-tabs:has(#role-mid:checked) .lol-role-tab-panel[data-role="mid"],
+  .lol-role-tabs:has(#role-adc:checked) .lol-role-tab-panel[data-role="adc"],
+  .lol-role-tabs:has(#role-support:checked) .lol-role-tab-panel[data-role="support"] { display: block; }
+  @media (max-width: 560px) {
+    .lol-role-tab-buttons { gap: 6px; }
+    .lol-role-tab-btn { min-width: 0; flex-basis: 0; padding: 10px 4px; }
+    .lol-role-tab-btn svg { width: 22px; height: 22px; }
+    .lol-role-tab-btn span { font-size: 8.5px; }
+  }
 
   /* Glossaire LoL -- fiches objet/champion (Data Dragon, voir
      fetch_lol_glossary_data). Ce sont les mêmes gabarits/classes .fiche-*,
