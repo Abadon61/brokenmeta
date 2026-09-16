@@ -3360,7 +3360,7 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_note": "Classement mis en cache une quinzaine de minutes côté serveur -- un rafraîchissement peut prendre jusqu'à une minute la première fois après cette fenêtre (deux appels API par joueur sont nécessaires pour retrouver son vrai pseudo).",
         "lol_tier_list_title": "Tier List — League of Legends",
         "lol_tier_list_desc": "Classement réel des champions par rôle (Top/Jungle/Mid/ADC/Support) sur League of Legends, à partir de vraies parties classées collectées via l'API Riot.",
-        "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Un rôle qui n'a pas encore assez de données n'apparaît pas.",
+        "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Classement par winrate, limité aux champions avec au moins 100 parties observées à ce rôle (en dessous, un petit échantillon chanceux peut fausser le classement) -- les autres n'apparaissent pas encore ici.",
         "lol_tier_list_empty": "Pas encore assez de données collectées pour ce rôle.",
         "th_pickrate": "Pick rate",
         "lol_compare_title": "Comparer deux profils — League of Legends",
@@ -3692,7 +3692,7 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_note": "The leaderboard is cached server-side for about 15 minutes -- a refresh past that window can take up to a minute the first time (each player needs 2 API calls to recover their real name).",
         "lol_tier_list_title": "Tier List — League of Legends",
         "lol_tier_list_desc": "Real champion rankings by role (Top/Jungle/Mid/ADC/Support) on League of Legends, from real ranked games collected via Riot's API.",
-        "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. A role without enough data yet doesn't show up.",
+        "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. Ranked by win rate, limited to champions with at least 100 observed games at that role (below that, a small lucky sample can skew the ranking) -- others don't show up here yet.",
         "lol_tier_list_empty": "Not enough data collected for this role yet.",
         "th_pickrate": "Pick rate",
         "lol_compare_title": "Compare two profiles — League of Legends",
@@ -4217,11 +4217,23 @@ LOL_ROLE_ICON_SVG = {
 }
 
 
+LOL_TIER_LIST_MIN_GAMES = 100
+
+
 def build_lol_tier_list(role_stats_by_champion: dict, lol_champions: list[dict], lang: str) -> dict:
     """role -> ranked list of real champions (win rate desc, S/A/B/C by
     cumulative rank -- same simple bucketing idea as tierlist.py's TFT tier
     list) for /league/tier-list/. Empty for a role with zero qualifying
-    champions yet (early in the collection) rather than a fabricated list."""
+    champions yet (early in the collection) rather than a fabricated list.
+
+    Ranked strictly by win rate, but only among champion+role combos with
+    at least LOL_TIER_LIST_MIN_GAMES games -- MIN_SAMPLE_PER_ROLE (20) is
+    low enough that a small, lucky sample can outrank a champion with a
+    real, much larger sample at a genuinely lower win rate (confirmed in
+    practice: Garen was outranking Fizz on ~20-30 games each). The champion
+    detail page's own role-distribution bars keep the lower bar since they
+    exist to show *some* real signal, not to rank champions against
+    each other."""
     by_id = {c["id"]: c for c in lol_champions}
     by_role: dict[str, list[dict]] = defaultdict(list)
     for champ_id, info in role_stats_by_champion.items():
@@ -4229,6 +4241,8 @@ def build_lol_tier_list(role_stats_by_champion: dict, lol_champions: list[dict],
         if not champ:
             continue  # a champion id the pipeline saw that isn't in the current ddragon roster (skin variant id, etc.)
         for role, row in info["roles"].items():
+            if row["games"] < LOL_TIER_LIST_MIN_GAMES:
+                continue
             by_role[role].append({
                 "slug": champ["slug"], "icon_file": champ["icon_file"],
                 "name": champ["name_fr"] if lang == "fr" else champ["name_en"],
