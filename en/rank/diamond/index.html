@@ -20,6 +20,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>BrokenMeta.gg | TFT Set 18 Tier List — Diamond — 34 comps</title>
 <meta name="description" content="Best TFT Set 18 comps — Diamond: tier list S/A/B/C with win rate and average placement. 34 comps, real Riot data.">
 <link rel="canonical" href="https://brokenmeta.gg/en/rank/diamond/">
@@ -37,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9d4eaac2a9">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9d4eaac2a9">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=2cb78d0b60">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=2cb78d0b60">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -48,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=9d4eaac2a9">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=2cb78d0b60">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "ItemList", "name": "TFT Set 18 Tier List \u2014 Diamond", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Greenfather Ezreal Fast 10", "url": "https://brokenmeta.gg/en/compo/greenfather-ezreal/"}, {"@type": "ListItem", "position": 2, "name": "Greenfather Amumu", "url": "https://brokenmeta.gg/en/compo/greenfather-amumu/"}, {"@type": "ListItem", "position": 3, "name": "Greenfather Sentinel Fast 9", "url": "https://brokenmeta.gg/en/compo/greenfather-sentinel/"}, {"@type": "ListItem", "position": 4, "name": "Greenfather Sivir", "url": "https://brokenmeta.gg/en/compo/greenfather-sivir/"}, {"@type": "ListItem", "position": 5, "name": "Executioner Zyra", "url": "https://brokenmeta.gg/en/compo/executioner-zyra/"}, {"@type": "ListItem", "position": 6, "name": "Solar Varus Reroll", "url": "https://brokenmeta.gg/en/compo/solar-varus/"}, {"@type": "ListItem", "position": 7, "name": "Executioner Soraka", "url": "https://brokenmeta.gg/en/compo/executioner-soraka/"}, {"@type": "ListItem", "position": 8, "name": "Greenfather Morgana", "url": "https://brokenmeta.gg/en/compo/greenfather-morgana/"}, {"@type": "ListItem", "position": 9, "name": "Greenfather Ahri", "url": "https://brokenmeta.gg/en/compo/greenfather-ahri/"}, {"@type": "ListItem", "position": 10, "name": "Primal Sivir", "url": "https://brokenmeta.gg/en/compo/primal-sivir/"}, {"@type": "ListItem", "position": 11, "name": "Emerald Morgana", "url": "https://brokenmeta.gg/en/compo/emerald-morgana/"}, {"@type": "ListItem", "position": 12, "name": "Emerald Ahri", "url": "https://brokenmeta.gg/en/compo/emerald-ahri/"}, {"@type": "ListItem", "position": 13, "name": "Defender Cassiopeia Reroll", "url": "https://brokenmeta.gg/en/compo/defender-cassiopeia/"}, {"@type": "ListItem", "position": 14, "name": "Riftbeast Pebbles Reroll", "url": "https://brokenmeta.gg/en/compo/riftbeast-pebbles/"}, {"@type": "ListItem", "position": 15, "name": "Rapidfire Aphelios", "url": "https://brokenmeta.gg/en/compo/rapidfire-aphelios/"}, {"@type": "ListItem", "position": 16, "name": "Invoker Morgana", "url": "https://brokenmeta.gg/en/compo/invoker-morgana/"}, {"@type": "ListItem", "position": 17, "name": "Caustic Sivir", "url": "https://brokenmeta.gg/en/compo/caustic-sivir/"}, {"@type": "ListItem", "position": 18, "name": "Caustic Aphelios Fast 10", "url": "https://brokenmeta.gg/en/compo/caustic-aphelios/"}, {"@type": "ListItem", "position": 19, "name": "Caustic Nidalee Fast 9", "url": "https://brokenmeta.gg/en/compo/caustic-nidalee/"}, {"@type": "ListItem", "position": 20, "name": "Battlemage Sivir", "url": "https://brokenmeta.gg/en/compo/battlemage-sivir/"}, {"@type": "ListItem", "position": 21, "name": "Solar Akali Reroll", "url": "https://brokenmeta.gg/en/compo/solar-akali/"}, {"@type": "ListItem", "position": 22, "name": "Elderwood Ezreal", "url": "https://brokenmeta.gg/en/compo/elderwood-ezreal/"}, {"@type": "ListItem", "position": 23, "name": "Rival Kha'Zix Reroll", "url": "https://brokenmeta.gg/en/compo/rival-kha-zix/"}, {"@type": "ListItem", "position": 24, "name": "Fae Tristana Slow 7", "url": "https://brokenmeta.gg/en/compo/fae-tristana/"}, {"@type": "ListItem", "position": 25, "name": "Emerald Aphelios", "url": "https://brokenmeta.gg/en/compo/emerald-aphelios/"}, {"@type": "ListItem", "position": 26, "name": "Riftbeast Cinderling Reroll", "url": "https://brokenmeta.gg/en/compo/riftbeast-cinderling/"}, {"@type": "ListItem", "position": 27, "name": "Summoner Zyra Fast 9", "url": "https://brokenmeta.gg/en/compo/summoner-zyra/"}, {"@type": "ListItem", "position": 28, "name": "Battlemage Nidalee", "url": "https://brokenmeta.gg/en/compo/battlemage-nidalee/"}, {"@type": "ListItem", "position": 29, "name": "Emerald Ezreal", "url": "https://brokenmeta.gg/en/compo/emerald-ezreal/"}, {"@type": "ListItem", "position": 30, "name": "Spellweaver Veigar Reroll", "url": "https://brokenmeta.gg/en/compo/spellweaver-veigar/"}, {"@type": "ListItem", "position": 31, "name": "Summoner Soraka Fast 9", "url": "https://brokenmeta.gg/en/compo/summoner-soraka/"}, {"@type": "ListItem", "position": 32, "name": "Blossom Ahri", "url": "https://brokenmeta.gg/en/compo/blossom-ahri/"}, {"@type": "ListItem", "position": 33, "name": "Solar Kayle Reroll", "url": "https://brokenmeta.gg/en/compo/solar-kayle/"}, {"@type": "ListItem", "position": 34, "name": "Invoker Ahri", "url": "https://brokenmeta.gg/en/compo/invoker-ahri/"}]}</script>
 
@@ -247,6 +256,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
   <div class="tier-rows">
     
+      
       
 <a class="comp-row" data-key="Greenfather_Ezreal" data-tier="S" data-playstyle-cat="Fast" data-search="greenfather ezreal ezreal fast 10 alistar ezreal amumu ivern gnar kennen maokai draven taric" href="../../../compo/greenfather-ezreal/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
@@ -1468,6 +1478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="tier-rows">
     
       
+      
 <a class="comp-row" data-key="Emerald_Morgana" data-tier="A" data-playstyle-cat="" data-search="emerald morgana morgana pebbles karma krug morgana sentinel sett ahri taric alune" href="../../../compo/emerald-morgana/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class="tier-badge">A</div>
@@ -2462,6 +2473,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="tier-rows">
     
       
+      
 <a class="comp-row" data-key="Caustic_Nidalee" data-tier="B" data-playstyle-cat="Fast" data-search="caustic nidalee nidalee fast 9 varus kog&#39;maw vi diana nidalee sentinel amumu aphelios" href="../../../compo/caustic-nidalee/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
   <div class="tier-badge">B</div>
@@ -2711,6 +2723,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div style="border-bottom:1px solid var(--border);margin-bottom:16px"></div>
   <div class="tier-rows">
     
+      
       
 <a class="comp-row" data-key="Solar_Akali" data-tier="C" data-playstyle-cat="Reroll" data-search="solar akali akali reroll akali camille leona varus ornn sejuani kayle" href="../../../compo/solar-akali/">
   <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
@@ -4370,14 +4383,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div id="tooltip" data-visible="false"></div>
 
 <script>window.BM_I18N_EMPTY_SEARCH = "No comp matches \"__Q__\".";</script>
-<script src="../../../assets/js/list-filters.js?v=9d4eaac2a9" defer></script>
+<script src="../../../assets/js/list-filters.js?v=2cb78d0b60" defer></script>
 
 
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/site-search.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/favorites.js?v=9d4eaac2a9" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/site-search.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/favorites.js?v=2cb78d0b60" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

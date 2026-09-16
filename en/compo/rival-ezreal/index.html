@@ -20,6 +20,15 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>BrokenMeta.gg | Rival Ezreal Slow 7 — TFT Set 18 (Tier C)</title>
 <meta name="description" content="Rival Ezreal Slow 7 — Tier C, TFT Set 18: 4.69 avg placement, 46% top 4 over 136 real games. Composition, items and matchups.">
 <link rel="canonical" href="https://brokenmeta.gg/en/compo/rival-ezreal/">
@@ -37,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9d4eaac2a9">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9d4eaac2a9">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=2cb78d0b60">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=2cb78d0b60">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -48,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=9d4eaac2a9">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=2cb78d0b60">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Rival Ezreal Slow 7 \u2014 Tier C (TFT Set 18)", "description": "Rival Ezreal Slow 7 is currently Tier C on TFT Set 18, with a 4.69 average placement and 46% top 4 rate over 136 real ranked games analyzed.", "datePublished": "2026-09-14", "dateModified": "2026-09-14", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/compo/rival-ezreal/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://brokenmeta.gg/assets/champions/ezreal.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What tier is Rival Ezreal Slow 7 on TFT Set 18?", "acceptedAnswer": {"@type": "Answer", "text": "Rival Ezreal Slow 7 is currently Tier C on TFT Set 18, with a 4.69 average placement and 46% top 4 rate over 136 real ranked games analyzed."}}]}</script>
@@ -774,15 +783,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <div id="tooltip" data-visible="false"></div>
 
-<script src="../../../assets/js/gameplan-tabs.js?v=9d4eaac2a9" defer></script>
+<script src="../../../assets/js/gameplan-tabs.js?v=2cb78d0b60" defer></script>
 
 <script>window.BM_CURRENT_COMP = {"key": "Rival_Ezreal", "slug": "rival-ezreal", "label": "Rival Ezreal Slow 7", "tier": "C", "carrySlug": "ezreal"};</script>
 
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/site-search.js?v=9d4eaac2a9" defer></script>
-<script src="../../../assets/js/favorites.js?v=9d4eaac2a9" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/site-search.js?v=2cb78d0b60" defer></script>
+<script src="../../../assets/js/favorites.js?v=2cb78d0b60" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
