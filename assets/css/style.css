@@ -1648,6 +1648,15 @@
   .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
   .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
 
+  /* /league/tier-list/<bracket>/ -- a real link per elo bracket (own URL,
+     own page) rather than a client-side toggle, since each bracket is its
+     own indexable page with its own H1/title -- plain nav-style buttons,
+     not the radio-tab trick below (that's for panels on the SAME page). */
+  .lol-elo-switcher { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .lol-elo-btn { font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 16px; background: var(--row); border: 1px solid var(--border); color: var(--text-dim); text-decoration: none; transition: border-color .12s ease, color .12s ease; }
+  .lol-elo-btn:hover { border-color: var(--border-bright); color: var(--cream); }
+  .lol-elo-btn[data-active="true"] { border-color: var(--cyan); color: var(--cyan); background: var(--row-hover); }
+
   /* /league/tier-list/ -- role switcher as icon-on-top buttons instead of
      stacking all five role tables one under another. Pure CSS (:has()),
      no JS: a hidden radio per role + a <label> button, panels shown via
