@@ -3412,6 +3412,8 @@ I18N: dict[str, dict] = {
         "lol_tier_list_desc": "Classement réel des champions par rôle (Top/Jungle/Mid/ADC/Support) sur League of Legends, à partir de vraies parties classées collectées via l'API Riot.",
         "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Classement par winrate, limité aux champions avec au moins 100 parties observées à ce rôle (en dessous, un petit échantillon chanceux peut fausser le classement) -- les autres n'apparaissent pas encore ici.",
         "lol_tier_list_empty": "Pas encore assez de données collectées pour ce rôle.",
+        "lol_tier_list_overview": "Vue d'ensemble",
+        "lol_tier_list_bracket_desc": lambda bracket: f"Classement réel des champions par rôle en {bracket}, à partir de vraies parties classées collectées via l'API Riot dans ce palier de rang uniquement.",
         "th_pickrate": "Pick rate",
         "lol_compare_title": "Comparer deux profils — League of Legends",
         "lol_compare_desc": "Compare deux profils League of Legends côte à côte : rang, winrate, CS/min, dégâts/min et participation aux kills, à partir de vraies parties classées.",
@@ -3762,6 +3764,8 @@ I18N: dict[str, dict] = {
         "lol_tier_list_desc": "Real champion rankings by role (Top/Jungle/Mid/ADC/Support) on League of Legends, from real ranked games collected via Riot's API.",
         "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. Ranked by win rate, limited to champions with at least 100 observed games at that role (below that, a small lucky sample can skew the ranking) -- others don't show up here yet.",
         "lol_tier_list_empty": "Not enough data collected for this role yet.",
+        "lol_tier_list_overview": "Overview",
+        "lol_tier_list_bracket_desc": lambda bracket: f"Real champion rankings by role in {bracket}, from real ranked games collected via Riot's API in that rank bracket only.",
         "th_pickrate": "Pick rate",
         "lol_compare_title": "Compare two profiles — League of Legends",
         "lol_compare_desc": "Compare two League of Legends profiles side by side: rank, win rate, CS/min, damage/min and kill participation, from real ranked games.",
@@ -4339,6 +4343,16 @@ LOL_ROLE_ICON_SVG = {
 
 LOL_TIER_LIST_MIN_GAMES = 100
 
+# Same 3 elo brackets as lol_pipeline.py's LOL_TIER_TO_ELO_BRACKET, plus the
+# real-word label/URL slug each one gets on the site. Order matters here --
+# it's the order the elo-switcher row renders in on every bracket page.
+LOL_ELO_BRACKETS = ["mid", "high", "apex"]
+LOL_ELO_BRACKET_SLUG = {"mid": "bas-elo", "high": "milieu-elo", "apex": "haut-elo"}
+LOL_ELO_BRACKET_LABEL = {
+    "fr": {"mid": "Bas Elo", "high": "Milieu Elo", "apex": "Haut Elo"},
+    "en": {"mid": "Low Elo", "high": "Mid Elo", "apex": "High Elo"},
+}
+
 
 def build_lol_tier_list(role_stats_by_champion: dict, lol_champions: list[dict], lang: str) -> dict:
     """role -> ranked list of real champions (win rate desc, S/A/B/C by
@@ -4417,6 +4431,15 @@ def main() -> None:
     # _append_lol_role_history. Empty until this pipeline has run on at
     # least two different days.
     lol_role_history = load("lol_role_stats_history.json") if (OUT / "lol_role_stats_history.json").exists() else {"snapshots": []}
+    # Real per-elo-bracket role stats (mid=Gold/Platinum, high=Emerald/
+    # Diamond, apex=Master+) for /league/tier-list/<bracket>/ -- see
+    # lol_pipeline.py's LOL_TIER_TO_ELO_BRACKET/build_elo_bracket_output.
+    # Only ever produced by a LIVE collection run (a cached match carries
+    # no record of which bracket it came from), so this stays {} -- every
+    # bracket page honestly shows "not enough data yet" -- until that has
+    # actually happened at least once.
+    lol_role_stats_by_elo_raw = load("lol_role_stats_by_elo.json") if (OUT / "lol_role_stats_by_elo.json").exists() else {"by_bracket": {}}
+    lol_role_stats_by_bracket: dict = lol_role_stats_by_elo_raw.get("by_bracket", {})
     # Real most-built items and real lane matchups -- see lol_run.py
     # --items-out/--matchups-out, same collection run as the role stats
     # above. Optional the same way: {} until the pipeline has produced
@@ -6390,14 +6413,48 @@ def main() -> None:
                 for i, r in enumerate(_lol_by_role.get("top", [])[:15])
             ],
         }
+        _lol_elo_bracket_links = [
+            {"label": LOL_ELO_BRACKET_LABEL[lang][b], "slug": LOL_ELO_BRACKET_SLUG[b]}
+            for b in LOL_ELO_BRACKETS
+        ]
         render("lol_tier_list.html", "/league/tier-list/", lang, active_nav="league", active_sub="lol-tier-list",
                ddragon_version=ddragon_version, by_role=_lol_by_role,
                role_icons=LOL_ROLE_ICON_SVG, item_list_schema=_lol_tier_list_schema,
+               elo_bracket_links=_lol_elo_bracket_links, current_bracket=None,
                breadcrumb_schema=breadcrumb_schema([
                    (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                    ("League of Legends", canonical_for("/league/", lang)),
                    (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
                ]))
+        for _bracket in LOL_ELO_BRACKETS:
+            _bracket_raw = (lol_role_stats_by_bracket.get(_bracket) or {}).get("by_champion", {})
+            _bracket_role_stats = {_canon_lol_id(k): v for k, v in _bracket_raw.items()}
+            _bracket_by_role = build_lol_tier_list(_bracket_role_stats, lol_champions, lang)
+            _bracket_slug = LOL_ELO_BRACKET_SLUG[_bracket]
+            _bracket_label = LOL_ELO_BRACKET_LABEL[lang][_bracket]
+            _bracket_url = canonical_for(f"/league/tier-list/{_bracket_slug}/", lang)
+            render("lol_tier_list.html", f"/league/tier-list/{_bracket_slug}/", lang,
+                   active_nav="league", active_sub="lol-tier-list",
+                   ddragon_version=ddragon_version, by_role=_bracket_by_role,
+                   role_icons=LOL_ROLE_ICON_SVG,
+                   item_list_schema={
+                       "@context": "https://schema.org", "@type": "ItemList",
+                       "name": f"League of Legends Tier List — {_bracket_label} — Top",
+                       "itemListElement": [
+                           {"@type": "ListItem", "position": i + 1, "name": r["name"],
+                            "url": canonical_for(f"/league/glossaire/champions/{r['slug']}/", lang)}
+                           for i, r in enumerate(_bracket_by_role.get("top", [])[:15])
+                       ],
+                   },
+                   elo_bracket_links=_lol_elo_bracket_links, current_bracket=_bracket_slug,
+                   page_title_override=f"{translate(lang, 'lol_tier_list_title')} — {_bracket_label}",
+                   page_desc_override=translate(lang, "lol_tier_list_bracket_desc", _bracket_label),
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
+                       (_bracket_label, _bracket_url),
+                   ]))
         _lol_risers, _lol_fallers = build_lol_trend_rows(lang)
         render("lol_trends.html", "/league/tendances/", lang, active_nav="league", active_sub="lol-trends",
                ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
@@ -6797,6 +6854,15 @@ def main() -> None:
   .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1); }
   .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
   .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
+
+  /* /league/tier-list/<bracket>/ -- a real link per elo bracket (own URL,
+     own page) rather than a client-side toggle, since each bracket is its
+     own indexable page with its own H1/title -- plain nav-style buttons,
+     not the radio-tab trick below (that's for panels on the SAME page). */
+  .lol-elo-switcher { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .lol-elo-btn { font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.04em; padding: 8px 16px; background: var(--row); border: 1px solid var(--border); color: var(--text-dim); text-decoration: none; transition: border-color .12s ease, color .12s ease; }
+  .lol-elo-btn:hover { border-color: var(--border-bright); color: var(--cream); }
+  .lol-elo-btn[data-active="true"] { border-color: var(--cyan); color: var(--cyan); background: var(--row-hover); }
 
   /* /league/tier-list/ -- role switcher as icon-on-top buttons instead of
      stacking all five role tables one under another. Pure CSS (:has()),

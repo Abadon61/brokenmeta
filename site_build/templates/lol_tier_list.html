@@ -1,9 +1,18 @@
 {% extends "base.html" %}
-{% block title %}BrokenMeta.gg | {{ t(lang, 'lol_tier_list_title') }}{% endblock %}
-{% block description %}{{ t(lang, 'lol_tier_list_desc') }}{% endblock %}
+{% block title %}BrokenMeta.gg | {{ page_title_override or t(lang, 'lol_tier_list_title') }}{% endblock %}
+{% block description %}{{ page_desc_override or t(lang, 'lol_tier_list_desc') }}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_tier_list_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'lol_tier_list_intro') }}</p>
+<h1 class="page-h1">{{ page_title_override or t(lang, 'lol_tier_list_title') }}</h1>
+<p class="page-intro">{{ page_desc_override or t(lang, 'lol_tier_list_intro') }}</p>
+
+{% if elo_bracket_links %}
+<div class="lol-elo-switcher">
+  <a class="lol-elo-btn" href="{{ root }}league/tier-list/" {% if not current_bracket %}data-active="true"{% endif %}>{{ t(lang, 'lol_tier_list_overview') }}</a>
+  {% for b in elo_bracket_links %}
+  <a class="lol-elo-btn" href="{{ root }}league/tier-list/{{ b.slug }}/" {% if current_bracket == b.slug %}data-active="true"{% endif %}>{{ b.label }}</a>
+  {% endfor %}
+</div>
+{% endif %}
 
 {% set role_label = {'top': 'Top', 'jungle': 'Jungle', 'mid': 'Mid', 'adc': 'ADC', 'support': 'Support'} %}
 <div class="lol-role-tabs">
