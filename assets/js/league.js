@@ -175,7 +175,7 @@
     if (bmChartsState) return;
     bmChartsState = 1;
     var sc = document.createElement('script');
-    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=14dc3575d5';
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=2f99fb756d';
     sc.async = true;
     document.head.appendChild(sc);
   }
@@ -238,7 +238,12 @@
   async function fetchJson(url) {
     var res = await fetch(url);
     var data = await res.json().catch(function () { return {}; });
-    if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+    if (!res.ok) {
+      var err = new Error(data.error || ('HTTP ' + res.status));
+      err.rateLimited = !!data.rateLimited || res.status === 429;
+      err.retryAfter = data.retryAfter;
+      throw err;
+    }
     return data;
   }
   function bindIconFallback(container) {
@@ -334,6 +339,7 @@
       + buildLoadoutHtml(m)
       + '<div class="match-kda"><div class="match-kda-v mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '</div><div class="match-kda-ratio">' + kdaRatio + ' KDA</div></div>'
       + '<div class="match-cs"><div class="mono">' + m.cs + ' CS</div><div class="match-cs-l">' + csPerMin + '/min</div></div>'
+      + (m.dmgPerMin != null ? '<div class="match-cs match-dpm"><div class="mono">' + fmtInt(m.dmgPerMin) + '</div><div class="match-cs-l">' + esc(I.dpmLabel) + '</div></div>' : '')
       + '<div class="match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</div>'
       + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="' + esc(I.viewMatchAria) + '">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>'
@@ -342,7 +348,7 @@
       + '</div>';
   }
 
-  function renderScoreboardTeam(players, label, sideClass) {
+  function renderScoreboardTeam(players, label, sideClass, durationMin) {
     return '<div class="scoreboard-team ' + sideClass + '"><div class="scoreboard-team-label">' + label + '</div>'
       + players.map(function (p) {
         var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
@@ -354,6 +360,7 @@
           + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' ' + I.you : esc(p.name)) + '</span>'
           + kdaText
           + '<span class="scoreboard-cs mono">' + p.cs + ' CS</span>'
+          + (p.dmg != null && durationMin ? '<span class="scoreboard-cs scoreboard-dpm mono">' + fmtInt(p.dmg / durationMin) + ' ' + esc(I.dpmLabel) + '</span>' : '')
           + '<span class="scoreboard-gold mono">' + (p.gold / 1000).toFixed(1) + 'k</span>'
           + '<span class="scoreboard-items">' + itemsHtml + '</span>'
           + '</div>';
@@ -393,8 +400,8 @@
       var allies = m.scoreboard.filter(function (p) { return p.team === 'ally'; });
       var enemies = m.scoreboard.filter(function (p) { return p.team === 'enemy'; });
       detail.innerHTML = buildMatchSummary(m) + '<div class="scoreboard-grid">'
-        + renderScoreboardTeam(allies, I.allies, 'ally')
-        + renderScoreboardTeam(enemies, I.enemies, 'enemy')
+        + renderScoreboardTeam(allies, I.allies, 'ally', m.durationMin)
+        + renderScoreboardTeam(enemies, I.enemies, 'enemy', m.durationMin)
         + '</div>';
       detail.dataset.built = '1';
       bindIconFallback(detail);
@@ -416,14 +423,16 @@
   function renderChampionsTable(champions) {
     var wrap = document.getElementById('championsTableWrap');
     if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">' + esc(I.noChampionsPlayed) + '</div>'; return; }
+    var hasDpm = champions.some(function (c) { return c.dpm != null; });
     var rows = champions.map(function (c) {
       return '<tr><td><div class="champ-cell"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>' + esc(c.champ) + '</div></td>'
         + '<td class="num mono">' + c.games + '</td>'
         + '<td class="num"><span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></td>'
         + '<td class="num mono">' + c.avgKills.toFixed(1) + ' / ' + c.avgDeaths.toFixed(1) + ' / ' + c.avgAssists.toFixed(1) + '</td>'
-        + '<td class="num mono">' + champKda(c) + '</td></tr>';
+        + '<td class="num mono">' + champKda(c) + '</td>'
+        + (hasDpm ? '<td class="num mono">' + (c.dpm != null ? fmtInt(c.dpm) : '-') + '</td>' : '') + '</tr>';
     }).join('');
-    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>' + esc(I.thChampion) + '</th><th class="num">' + esc(I.thGames) + '</th><th class="num">' + esc(I.thWinrate) + '</th><th class="num">' + esc(I.thAvgKda) + '</th><th class="num">' + esc(I.thRatio) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>' + esc(I.thChampion) + '</th><th class="num">' + esc(I.thGames) + '</th><th class="num">' + esc(I.thWinrate) + '</th><th class="num">' + esc(I.thAvgKda) + '</th><th class="num">' + esc(I.thRatio) + '</th>' + (hasDpm ? '<th class="num">' + esc(I.thDpm) + '</th>' : '') + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     bindIconFallback(wrap);
   }
 
@@ -449,9 +458,114 @@
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.lpProgressTitle) + '</div>' + inner + '</div></div>';
   }
 
+  function fmtInt(n) {
+    var s = String(Math.round(n)), out = '';
+    for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? String.fromCharCode(160) + out : '');
+    return out;
+  }
+  function kpiTile(label, value, sub, tone) {
+    return '<div class="kpi-tile"><div class="kpi-label">' + esc(label) + '</div>'
+      + '<div class="kpi-value mono' + (tone ? ' ' + tone : '') + '">' + value + '</div>'
+      + (sub ? '<div class="kpi-sub">' + sub + '</div>' : '') + '</div>';
+  }
+  function kpiSection(title, note, tiles) {
+    return '<div class="stats-section"><div class="stats-block-title">' + esc(title)
+      + (note ? ' <span class="profile-section-note">' + esc(note) + '</span>' : '') + '</div>'
+      + '<div class="kpi-grid">' + tiles.join('') + '</div></div>';
+  }
+
+  // Real pings (Match-V5 exposes every ping type; only chat text is missing).
+  function realCommsHtml(q) {
+    var pg = q && q.pings;
+    if (!pg || !q.matches.length || !(pg.perGame > 0)) return null;
+    var types = Object.keys(pg.byType).filter(function (k) { return pg.byType[k] > 0; })
+      .sort(function (a, b) { return pg.byType[b] - pg.byType[a]; }).slice(0, 8);
+    var top = pg.byType[types[0]] || 1;
+    var rows = types.map(function (k) {
+      return '<div class="comms-ping-row"><span class="comms-ping-label">' + esc((I.pingLabels && I.pingLabels[k]) || k) + '</span>'
+        + '<div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:' + Math.round((pg.byType[k] / top) * 100) + '%"></div></div>'
+        + '<span class="comms-ping-value mono">' + pg.byType[k].toFixed(1) + '</span></div>';
+    }).join('');
+    return '<div class="stats-section"><div class="lp-chart-card">'
+      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsRealTitle) + '</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsRealNote).replace('{n}', q.matches.length) + '</p>'
+      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">' + pg.perGame.toFixed(1) + '</div>'
+      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div></div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
+  }
+
+  function combatSectionHtml(q, rankAverages) {
+    var c = q.combat;
+    if (!c || !q.matches.length) return '';
+    var diff = rankAverages && rankAverages.dmgPerMin ? c.dpm - rankAverages.dmgPerMin : null;
+    var dpmSub = diff === null ? '' : '<span class="' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + Math.round(diff) + '</span> ' + esc(I.kpiVsRank);
+    return kpiSection(I.combatTitle, I.perGameNote, [
+      kpiTile(I.kpiDpm, fmtInt(c.dpm), dpmSub, 'accent'),
+      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin)),
+      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin)),
+      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', '<span class="dim">' + esc(I.perGameUnit) + '</span>'),
+      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%'),
+      kpiTile(I.kpiHeal, fmtInt(c.healPerMin))
+    ]);
+  }
+
+  function visionSectionHtml(q) {
+    if (currentQueue === 'aram' || !q.vision || !q.objectives || !q.matches.length) return '';
+    var v = q.vision, o = q.objectives, per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
+    return kpiSection(I.visionTitle, I.perGameNote, [
+      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), null, 'accent'),
+      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), per),
+      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), per),
+      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), per),
+      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), per),
+      kpiTile(I.kpiPlates, o.plates.toFixed(1), per),
+      kpiTile(I.kpiDragons, o.dragons.toFixed(1), per),
+      kpiTile(I.kpiBarons, o.barons.toFixed(1), per),
+      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), per),
+      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin))
+    ]);
+  }
+
+  function recordsSectionHtml(q) {
+    var r = q.records, f = q.form;
+    if (!r || !q.matches.length) return '';
+    var tiles = [];
+    if (r.bestKda) tiles.push(kpiTile(I.kpiBestKda, r.bestKda.kills + '/' + r.bestKda.deaths + '/' + r.bestKda.assists, esc(r.bestKda.champion) + ' &middot; ' + r.bestKda.kda.toFixed(1) + ' KDA', r.bestKda.win ? 'good' : ''));
+    if (r.mostKills) tiles.push(kpiTile(I.kpiMostKills, r.mostKills.kills, esc(r.mostKills.champion)));
+    if (r.bestDpm) tiles.push(kpiTile(I.kpiBestDpm, fmtInt(r.bestDpm.dpm), esc(r.bestDpm.champion), 'accent'));
+    tiles.push(kpiTile(I.kpiPentas, r.pentas, r.quadras + ' ' + esc(I.quadrasLabel)));
+    tiles.push(kpiTile(I.kpiSpree, r.longestSpree));
+    tiles.push(kpiTile(I.kpiFirstBlood, r.firstBloodPct + '%'));
+    tiles.push(kpiTile(I.kpiSoloKills, r.soloKills));
+    if (f) {
+      tiles.push(kpiTile(f.streak.type === 'win' ? I.kpiStreakWin : I.kpiStreakLoss, f.streak.length, null, f.streak.type === 'win' ? 'good' : 'warn'));
+      if (f.afterLoss) tiles.push(kpiTile(I.kpiAfterLoss, f.afterLoss.wr + '%', f.afterLoss.games + ' ' + esc(I.gamesUnitShort), f.afterLoss.wr >= 50 ? 'good' : 'warn'));
+    }
+    var bucketLabel = { short: I.kpiShort, mid: I.kpiMid, long: I.kpiLong };
+    (q.durationStats || []).forEach(function (b) {
+      tiles.push(kpiTile(bucketLabel[b.bucket], b.wr + '%', b.games + ' ' + esc(I.gamesUnitShort), b.wr >= 50 ? 'good' : 'warn'));
+    });
+    return kpiSection(I.recordsTitle, null, tiles);
+  }
+
+  function masterySectionHtml() {
+    var list = currentData && currentData.mastery;
+    if (!list || !list.length) return '';
+    var top = list[0].points || 1;
+    var rows = list.map(function (m) {
+      return '<div class="mastery-row"><span class="champ-portrait">' + champPortraitInner(m.champ) + '</span>'
+        + '<span class="mastery-name">' + esc(m.champ) + '</span>'
+        + '<span class="mastery-level mono">' + esc(I.masteryLevel) + ' ' + m.level + '</span>'
+        + '<div class="mastery-bar-track"><div class="mastery-bar-fill" style="width:' + Math.round((m.points / top) * 100) + '%"></div></div>'
+        + '<span class="mastery-pts mono">' + fmtInt(m.points) + ' ' + esc(I.masteryPts) + '</span></div>';
+    }).join('');
+    return '<div class="stats-section"><div class="stats-block-title">' + esc(I.masteryTitle) + '</div><div class="mastery-list">' + rows + '</div></div>';
+  }
+
   function devSectionsHtml() {
     var badge = '<div class="league-dev-badge"><span class="dot"></span>' + esc(I.devBadge) + '</div>';
     var perGame = I.lang === 'fr' ? ' / partie' : ' / game';
+    var realComms = realCommsHtml(currentData.queues[currentQueue]);
+    if (realComms) return lpSectionHtml() + realComms;
     return lpSectionHtml()
       + '<div class="stats-section"><div class="lp-chart-card">' + badge
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsTitle) + '</div>'
@@ -500,6 +614,30 @@
       compareCard(I.killParticipation, sa.killParticipation, rankAverages.killParticipation, '%', 0),
     ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
 
+    // Radar (Bklit): shape of the profile vs the rank average at a glance.
+    // Each metric is normalised to its own max(you, rank avg) so the axes are
+    // comparable; the exact numbers stay in the four cards below.
+    var radarHtml = '';
+    if (q.matches.length) {
+      var radarMetrics = [
+        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: rankAverages.csPerMin },
+        { key: 'gold', label: '\u00a0\u00a0Gold/min', you: sa.goldPerMin, avg: rankAverages.goldPerMin },
+        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: rankAverages.dmgPerMin },
+        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: rankAverages.killParticipation }
+      ];
+      var youVals = {}, avgVals = {};
+      radarMetrics.forEach(function (m) {
+        var top = Math.max(m.you, m.avg) || 1;
+        youVals[m.key] = Math.round((m.you / top) * 100);
+        avgVals[m.key] = Math.round((m.avg / top) * 100);
+      });
+      radarHtml = '<div class="stats-radar" data-bm-chart="' + bmAttr({
+        type: 'radar', size: 320,
+        metrics: radarMetrics.map(function (m) { return { key: m.key, label: m.label }; }),
+        radar: [{ label: I.youLabel, color: 'var(--magenta)', values: youVals }, { label: I.rankAvgLabel, color: 'var(--cream)', values: avgVals }]
+      }) + '"></div>';
+    }
+
     var maxWeekday = Math.max.apply(null, q.weekdayStats.map(function (d) { return d.games; })) || 1;
     var weekdayHtml = q.weekdayStats.map(function (d) {
       var pct = Math.round((d.games / maxWeekday) * 100);
@@ -526,8 +664,10 @@
 
     wrap.innerHTML =
       '<div class="stats-section"><div class="stats-block-title">' + esc(I.seasonBestTitle) + ' <span class="profile-section-note">' + esc(I.seasonBestSub) + '</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
+      + masterySectionHtml()
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + combatSectionHtml(q, rankAverages) + visionSectionHtml(q) + recordsSectionHtml(q)
       + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
       + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart" data-bm-chart="' + bmAttr(weekdayPayload) + '">' + weekdayHtml + '</div>'
       + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
@@ -682,6 +822,38 @@
     window.scrollTo(0, 0);
   }
 
+  // The Riot dev key allows 100 requests / 2 min for ALL visitors combined
+  // (one profile costs ~36), so the worker caches profiles for 2 min and this
+  // cooldown only stops double-clicks (short) or backs off after a rate-limit
+  // answer (long). Kept in localStorage so a page refresh doesn't skip it.
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var submitLabel = submitBtn ? submitBtn.textContent : '';
+  var COOLDOWN_KEY = 'bmLolCooldownUntil';
+  var cooldownTimer = null;
+  function cooldownLeft() {
+    var until = 0;
+    try { until = Number(localStorage.getItem(COOLDOWN_KEY)) || 0; } catch (e) {}
+    return Math.ceil((until - Date.now()) / 1000);
+  }
+  function tickCooldown() {
+    clearTimeout(cooldownTimer);
+    if (!submitBtn) return;
+    var left = cooldownLeft();
+    if (left > 0) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = I.cooldownLabel.replace('{s}', left);
+      cooldownTimer = setTimeout(tickCooldown, 1000);
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitLabel;
+    }
+  }
+  function startCooldown(seconds) {
+    try { localStorage.setItem(COOLDOWN_KEY, String(Date.now() + seconds * 1000)); } catch (e) {}
+    tickCooldown();
+  }
+  tickCooldown();
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
     results.innerHTML = '';
@@ -692,15 +864,20 @@
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       recordLolRecentSearch(data.riotId, data.region);
+      var ageMin = data.generatedAt ? Math.round((Date.now() - data.generatedAt) / 60000) : 0;
+      if (ageMin >= 3) setStatus(I.staleNote.replace('{min}', ageMin), false);
+      startCooldown(8);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
       setStatus(e.message || String(e), true);
+      if (e && e.rateLimited) startCooldown(e.retryAfter || 75);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: false });
     }
   }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (cooldownLeft() > 0) return;
     var riotId = riotIdInput.value.trim();
     if (riotId) runProfile(riotId, regionSelect.value);
   });
