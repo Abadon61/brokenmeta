@@ -133,6 +133,9 @@
     if (tierIdx < 0) tierIdx = 0;
     return tierIdx * 400 + (LP_DIV_ORDER[p.rank] || 0) * 100 + (p.leaguePoints || 0);
   }
+  // Serialises a Bklit chart payload (see charts-ui/src/embed.tsx) into an
+  // HTML attribute value; the markup around it stays as the fallback.
+  function bmAttr(payload) { return JSON.stringify(payload).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
   function buildRealLpChartSvg(points) {
     var w = 740, h = 170, padX = 10, padTop = 14, padBottom = 14;
     var scores = points.map(lpScore);
@@ -159,21 +162,20 @@
         return { date: p.ts, lp: scores[i], tip: tier + ' ' + (p.rank || '') + ' - ' + (p.leaguePoints || 0) + ' LP' };
       })
     };
-    var attr = JSON.stringify(payload).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
-    return '<div class="bm-chart-mount" data-bm-area-chart="' + attr + '">' + svg + '</div>';
+    return '<div class="bm-chart-mount" data-bm-chart="' + bmAttr(payload) + '">' + svg + '</div>';
   }
 
   // Loads the Bklit chart bundle once, on the first profile that has an LP
-  // curve, then mounts every pending [data-bm-area-chart]. A MutationObserver
+  // curve, then mounts every pending [data-bm-chart]. A MutationObserver
   // covers tab switches / re-renders, which rebuild this markup from scratch.
   var bmChartsState = 0;
   function hydrateBmCharts() {
-    if (!document.querySelector('[data-bm-area-chart]:not([data-bm-mounted])')) return;
+    if (!document.querySelector('[data-bm-chart]:not([data-bm-mounted])')) return;
     if (window.bmCharts && window.bmCharts.mountAll) { window.bmCharts.mountAll(); return; }
     if (bmChartsState) return;
     bmChartsState = 1;
     var sc = document.createElement('script');
-    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=5eef33018d';
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=14dc3575d5';
     sc.async = true;
     document.head.appendChild(sc);
   }
@@ -509,6 +511,13 @@
         + '<div class="weekday-bar-track"><div class="weekday-bar-fill ' + (d.games === 0 ? '' : (d.wr >= 50 ? 'good' : 'warn')) + '" style="height:' + pct + '%"></div></div>'
         + '<div class="weekday-bar-label' + labelClass + '">' + esc(I.weekdayLabels[d.idx]) + '</div></div>';
     }).join('');
+    var weekdayPayload = {
+      type: 'bar', aspectRatio: '2.6 / 1',
+      series: [{ key: 'good', label: 'WR >= 50%', color: 'var(--good)' }, { key: 'warn', label: 'WR < 50%', color: 'var(--warn)' }],
+      data: q.weekdayStats.map(function (d) {
+        return { name: I.weekdayLabels[d.idx], good: d.wr >= 50 ? d.games : 0, warn: d.wr >= 50 ? 0 : d.games, tip: d.games + ' ' + I.gamesUnit + ' - ' + d.wr + '%' };
+      })
+    };
     var hourlyHtml = q.hourlyStats.filter(function (h) { return h.games > 0; }).map(function (h) {
       return '<div class="hourly-row"><span class="hourly-time mono">' + (h.hour < 10 ? '0' : '') + h.hour + ':00</span>'
         + '<span class="hourly-badge ' + (h.wr >= 50 ? 'good' : 'warn') + '">' + h.games + ' ' + esc(I.gamesUnit) + '</span>'
@@ -520,7 +529,7 @@
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
       + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
-      + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart">' + weekdayHtml + '</div>'
+      + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart" data-bm-chart="' + bmAttr(weekdayPayload) + '">' + weekdayHtml + '</div>'
       + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
       + devSectionsHtml();
     bindIconFallback(wrap);
@@ -592,7 +601,7 @@
       + (primary ? '<div class="rank-emblem-wrap"><img class="rank-emblem league-icon-fallback" src="' + primary.emblemUrl + '" alt=""></div>'
         + '<div class="rank-tier-name">' + tierLabel(primary.tier) + ' ' + primary.rank + '</div>'
         + '<div class="rank-lp mono">' + primary.leaguePoints + ' LP</div>'
-        + '<div class="rank-ring-wrap">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + I.winAbbr + '</div></div></div>'
+        + '<div class="rank-ring-wrap" data-bm-chart="' + bmAttr({ type: 'gauge', value: wr, suffix: '%', label: primary.wins + I.winAbbr, color: wr >= 50 ? 'var(--good)' : 'var(--warn)', size: 112 }) + '">' + rankRingSvg(wr, wr >= 50) + '<div class="rank-ring-label"><div class="rank-ring-pct">' + wr + '%</div><div class="rank-ring-sub">' + primary.wins + I.winAbbr + '</div></div></div>'
         + '<div class="rank-record">' + primary.wins + I.winAbbr + ' ' + primary.losses + I.lossAbbr + '</div>'
         : '<div class="rank-tier-name" style="color:var(--text-faint)">' + esc(I.unranked) + '</div>')
       + '<div class="sidebar-divider"></div>'
