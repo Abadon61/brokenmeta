@@ -3069,7 +3069,7 @@ I18N: dict[str, dict] = {
         "nav_league": "League of Legends",
         "league_tools_soon": "Outils LoL — bientôt",
         "nav_lol_items": "Objet", "nav_lol_champions": "Champion", "nav_lol_runes": "Runes", "nav_lol_tier_list": "Tier List",
-        "nav_lol_compare": "Comparer",
+        "nav_lol_compare": "Comparateur de profil",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
         "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
@@ -3408,6 +3408,20 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_desc": "Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur League of Legends, via l'API League-v4 de Riot.",
         "lol_leaderboard_intro": "Top 20 réel par région (Challenger, Grandmaster puis Master), tiré en direct de l'API Riot. Clique un joueur pour voir sa fiche complète.",
         "lol_leaderboard_note": "Classement mis en cache une quinzaine de minutes côté serveur -- un rafraîchissement peut prendre jusqu'à une minute la première fois après cette fenêtre (deux appels API par joueur sont nécessaires pour retrouver son vrai pseudo).",
+        "see_worldstat": "Voir World Stat →",
+        "lol_see_worldstat": "Voir World Stat →",
+        "back_to_lol_leaderboard": "← Retour au leaderboard",
+        "lol_worldstat_title": "World Stat — League of Legends",
+        "lol_worldstat_desc": "Évolution de l'élo moyen (LP) du top 100 Challenger/Grandmaster/Master par région sur League of Legends, données réelles Riot.",
+        "lol_worldstat_elo_title": "Élo moyen du top 100 par région",
+        "nav_lol_changelog": "Changements",
+        "lol_changelog_title": "Changements de tier — League of Legends",
+        "lol_changelog_desc": "Chaque champion+rôle dont la lettre de tier a changé entre les deux dernières collectes de parties League of Legends.",
+        "lol_changelog_intro": lambda prev, latest: f"Chaque champion+rôle dont la lettre de tier a changé entre la collecte du {prev} et celle du {latest} -- données réelles, échantillon d'au moins 300 parties dans la collecte précédente pour éviter le bruit d'un petit échantillon.",
+        "lol_changelog_promotions": "▲ Montées de tier",
+        "lol_changelog_demotions": "▼ Descentes de tier",
+        "lol_changelog_none": "Aucun changement de tier sur cette période.",
+        "lol_changelog_no_history": "Pas encore assez d'historique pour calculer les changements de tier -- reviens après la prochaine collecte de parties.",
         "lol_tier_list_title": "Tier List — League of Legends",
         "lol_tier_list_desc": "Classement réel des champions par rôle (Top/Jungle/Mid/ADC/Support) sur League of Legends, à partir de vraies parties classées collectées via l'API Riot.",
         "lol_tier_list_intro": "Winrate et pick rate réels par champion et par rôle, à partir d'un échantillon de parties classées réellement collectées (Or à Challenger, EUW/NA/BR/KR) -- pas encore à l'échelle du tracker de compositions TFT de ce site. Classement par winrate, limité aux champions avec au moins 100 parties observées à ce rôle (en dessous, un petit échantillon chanceux peut fausser le classement) -- les autres n'apparaissent pas encore ici.",
@@ -3760,6 +3774,20 @@ I18N: dict[str, dict] = {
         "lol_leaderboard_desc": "Real Challenger/Grandmaster/Master standings by region (EUW, NA, BR, KR) on League of Legends, via Riot's League-v4 API.",
         "lol_leaderboard_intro": "Real top 20 per region (Challenger, then Grandmaster, then Master), pulled live from Riot's API. Click a player to see their full sheet.",
         "lol_leaderboard_note": "The leaderboard is cached server-side for about 15 minutes -- a refresh past that window can take up to a minute the first time (each player needs 2 API calls to recover their real name).",
+        "see_worldstat": "See World Stat →",
+        "lol_see_worldstat": "See World Stat →",
+        "back_to_lol_leaderboard": "← Back to the leaderboard",
+        "lol_worldstat_title": "World Stat — League of Legends",
+        "lol_worldstat_desc": "Average Elo (LP) over time for the Challenger/Grandmaster/Master top 100 by region on League of Legends, real Riot data.",
+        "lol_worldstat_elo_title": "Average Elo of the top 100 by region",
+        "nav_lol_changelog": "Tier Changes",
+        "lol_changelog_title": "Tier Changes — League of Legends",
+        "lol_changelog_desc": "Every champion+role whose letter tier changed between the last two League of Legends match collections.",
+        "lol_changelog_intro": lambda prev, latest: f"Every champion+role whose letter tier changed between the {prev} and {latest} collections -- real data, at least 300 games in the previous collection to filter out small-sample noise.",
+        "lol_changelog_promotions": "▲ Tier promotions",
+        "lol_changelog_demotions": "▼ Tier demotions",
+        "lol_changelog_none": "No tier changes over this period.",
+        "lol_changelog_no_history": "Not enough history yet to compute tier changes -- check back after the next match collection.",
         "lol_tier_list_title": "Tier List — League of Legends",
         "lol_tier_list_desc": "Real champion rankings by role (Top/Jungle/Mid/ADC/Support) on League of Legends, from real ranked games collected via Riot's API.",
         "lol_tier_list_intro": "Real win rate and pick rate per champion and role, from an actually-collected ranked sample (Gold-Challenger, EUW/NA/BR/KR) -- not yet at the scale of this site's TFT comp tracker. Ranked by win rate, limited to champions with at least 100 observed games at that role (below that, a small lucky sample can skew the ranking) -- others don't show up here yet.",
@@ -4431,6 +4459,11 @@ def main() -> None:
     # _append_lol_role_history. Empty until this pipeline has run on at
     # least two different days.
     lol_role_history = load("lol_role_stats_history.json") if (OUT / "lol_role_stats_history.json").exists() else {"snapshots": []}
+    # Real avg-LP-per-region history for /league/leaderboard/world-stat/ --
+    # see lol_pipeline.py's _append_lol_leaderboard_history. Same "start
+    # empty, need 2+ snapshots for an actual line" pattern as TFT's own
+    # leaderboard_history.json above.
+    lol_leaderboard_history = load("lol_leaderboard_history.json") if (OUT / "lol_leaderboard_history.json").exists() else {"snapshots": []}
     # Real per-elo-bracket role stats (mid=Gold/Platinum, high=Emerald/
     # Diamond, apex=Master+) for /league/tier-list/<bracket>/ -- see
     # lol_pipeline.py's LOL_TIER_TO_ELO_BRACKET/build_elo_bracket_output.
@@ -6221,6 +6254,20 @@ def main() -> None:
     for _rows in lol_history_by_key.values():
         _rows.sort(key=lambda r: r["date"])
 
+    # ---- /league/leaderboard/world-stat/: avg-LP-over-time chart, same
+    # build_elo_chart_svg() the TFT World Stat page above already uses --
+    # only the elo curve, no top-10/top-comps columns (those come from a
+    # live per-player Worker fetch for League, not a static pipeline
+    # dataset, see lol_leaderboard.html). ----
+    lol_ws_snapshots = lol_leaderboard_history.get("snapshots", [])
+    lol_ws_regions_present = [r for r in ["EUW", "NA", "BR", "KR"]
+                               if any(s.get("avgLp", {}).get(r) is not None for s in lol_ws_snapshots)]
+    _lol_latest_ws_snapshot = lol_ws_snapshots[-1] if lol_ws_snapshots else None
+    lol_ws_legend = [{"name": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR[r],
+                       "value": (f"{round(_lol_latest_ws_snapshot['avgLp'][r])} LP"
+                                 if _lol_latest_ws_snapshot and _lol_latest_ws_snapshot.get("avgLp", {}).get(r) is not None else "—")}
+                      for r in lol_ws_regions_present]
+
     def build_lol_trend_rows(lang: str, min_delta: float = 0.02, top_n: int = 15) -> tuple[list[dict], list[dict]]:
         if not lol_prev_snap_date:
             return [], []
@@ -6249,6 +6296,66 @@ def main() -> None:
         risers = sorted((m for m in movers if m["latest_win_rate"] > m["prev_win_rate"]), key=lambda m: -m["delta"])[:top_n]
         fallers = sorted((m for m in movers if m["latest_win_rate"] < m["prev_win_rate"]), key=lambda m: -m["delta"])[:top_n]
         return risers, fallers
+
+    # ---- /league/changements/: every champion+role whose LETTER TIER (the
+    # same S/A/B/C rank-based bucketing as /league/tier-list/, LOL_TIER_BUCKETS)
+    # actually crossed a boundary between the last two snapshots -- same idea
+    # as the TFT tier changelog above, but League's tier isn't stored per
+    # snapshot (it's a relative rank within that snapshot's champion pool, not
+    # an absolute classification), so it has to be recomputed for each of the
+    # two dates from the raw win-rate history instead of read back directly.
+    def build_lol_tier_changelog(lang: str) -> tuple[list[dict], list[dict]]:
+        if not lol_prev_snap_date:
+            return [], []
+
+        def tiers_for_date(date: str) -> dict[str, str]:
+            rows_by_role: dict[str, list[tuple[str, float]]] = defaultdict(list)
+            for key, hist in lol_history_by_key.items():
+                row = next((h for h in hist if h["date"] == date), None)
+                if not row or row["games"] < LOL_TIER_LIST_MIN_GAMES:
+                    continue
+                _champ_id, role = key.split("|", 1)
+                rows_by_role[role].append((key, row["win_rate"]))
+            tier_by_key: dict[str, str] = {}
+            for _role, rows in rows_by_role.items():
+                rows.sort(key=lambda r: -r[1])
+                n = len(rows)
+                cursor = 0
+                for tier_name, frac in LOL_TIER_BUCKETS:
+                    end = n if tier_name == "C" else min(n, round(n * frac))
+                    for row_key, _wr in rows[cursor:max(end, cursor)]:
+                        tier_by_key[row_key] = tier_name
+                    cursor = max(end, cursor)
+            return tier_by_key
+
+        prev_tiers = tiers_for_date(lol_prev_snap_date)
+        latest_tiers = tiers_for_date(lol_latest_snap_date)
+        changes = []
+        for key, latest_tier in latest_tiers.items():
+            prev_tier = prev_tiers.get(key)
+            if not prev_tier or prev_tier == latest_tier:
+                continue
+            prev_row = next(h for h in lol_history_by_key[key] if h["date"] == lol_prev_snap_date)
+            if prev_row["games"] < LOL_TIER_LIST_MIN_GAMES * 3:
+                continue  # prev reading too small-sample to trust the flip -- same guard as TFT's own changelog
+            champ_id, role = key.split("|", 1)
+            champ = lol_champ_by_id.get(_canon_lol_id(champ_id))
+            if not champ:
+                continue
+            changes.append({
+                "slug": champ["slug"], "icon_file": champ["icon_file"],
+                "name": champ["name_fr"] if lang == "fr" else champ["name_en"],
+                "role": role, "role_label": _lol_role_label.get(role, role),
+                "prev_tier": prev_tier, "prev_tier_var": TIER_VAR.get(prev_tier, "var(--gray)"),
+                "latest_tier": latest_tier, "latest_tier_var": TIER_VAR.get(latest_tier, "var(--gray)"),
+                "jump": abs(TIER_SORT[latest_tier] - TIER_SORT[prev_tier]),
+            })
+        promotions = sorted((c for c in changes if TIER_SORT[c["latest_tier"]] < TIER_SORT[c["prev_tier"]]),
+                             key=lambda c: (-c["jump"], c["name"]))
+        demotions = sorted((c for c in changes if TIER_SORT[c["latest_tier"]] > TIER_SORT[c["prev_tier"]]),
+                            key=lambda c: (-c["jump"], c["name"]))
+        return promotions, demotions
+
     _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
                                       if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})
     if _unmatched_patch_names:
@@ -6465,6 +6572,19 @@ def main() -> None:
                    ("League of Legends", canonical_for("/league/", lang)),
                    (translate(lang, "lol_trends_title"), canonical_for("/league/tendances/", lang)),
                ]))
+        _lol_promotions, _lol_demotions = build_lol_tier_changelog(lang)
+        render("lol_tier_changelog.html", "/league/changements/", lang, active_nav="league", active_sub="lol-changelog",
+               ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
+               has_data=bool(lol_prev_snap_date), prev_date=lol_prev_snap_date, latest_date=lol_latest_snap_date,
+               promotions=_lol_promotions, demotions=_lol_demotions,
+               breadcrumb_schema=breadcrumb_schema([
+                   (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                   ("League of Legends", canonical_for("/league/", lang)),
+                   (translate(lang, "lol_changelog_title"), canonical_for("/league/changements/", lang)),
+               ]))
+        render("lol_world_stat.html", "/league/leaderboard/world-stat/", lang, active_nav="league", active_sub="lol-leaderboard",
+               elo_chart_svg=build_elo_chart_svg(lol_ws_snapshots, lol_ws_regions_present, lang),
+               legend=lol_ws_legend, single_point=len(lol_ws_snapshots) == 1)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)

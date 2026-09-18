@@ -22,6 +22,7 @@
 {% if active_nav == 'league' %}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
+<a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/objets/" {% if active_sub == 'lol-glossary-items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_items') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/champions/" {% if active_sub == 'lol-glossary-champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_champions') }}</a>
@@ -55,6 +56,7 @@
    dropdown que le Glossaire TFT ci-dessous. #}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
+<a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
 <details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions', 'lol-glossary-runes') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
   <div class="nav-dropdown-menu">

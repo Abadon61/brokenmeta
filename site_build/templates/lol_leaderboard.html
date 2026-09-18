@@ -2,7 +2,10 @@
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_leaderboard_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_leaderboard_desc') }}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_leaderboard_title') }}</h1>
+<div class="lb-header-row">
+  <h1 class="page-h1" style="margin:0">{{ t(lang, 'lol_leaderboard_title') }}</h1>
+  <a class="fiche-link" href="{{ root }}league/leaderboard/world-stat/" style="margin-top:0">{{ t(lang, 'lol_see_worldstat') }}</a>
+</div>
 <p class="page-intro">{{ t(lang, 'lol_leaderboard_intro') }}</p>
 
 <div class="tier-filters" id="lolLbRegionBar">

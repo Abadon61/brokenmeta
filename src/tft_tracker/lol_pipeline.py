@@ -297,6 +297,51 @@ def _append_lol_role_history(by_champion: dict[str, dict], history_path: Path) -
     print(f"Champion+role history: {len(snapshots)} snapshot(s) in {history_path}.")
 
 
+def collect_apex_lp_snapshot(client: LolRiotClient, regions: list[str], size: int = 100) -> dict[str, list[int]]:
+    """Per-region League Points of the top `size` apex-tier (Challenger/
+    Grandmaster/Master) players, straight from League-v4 -- no extra API
+    calls beyond what a normal run already does to seed apex-tier matches
+    (see _seed_puuids_for_bracket), just kept unsliced here so the average
+    isn't skewed by the smaller PLAYERS_PER_BRACKET seeding sample. Backs
+    /league/leaderboard/world-stat/'s elo-over-time chart, same idea as
+    TFT's own leaderboard_history.json."""
+    lp_by_region: dict[str, list[int]] = {}
+    for region in regions:
+        platform = LOL_REGIONS[region]["platform"]
+        pool: list[dict] = []
+        for tier in APEX_TIERS:
+            data = client.get_apex_league(platform, tier)
+            pool.extend(data.get("entries") or [])
+        pool.sort(key=lambda e: e.get("leaguePoints", 0), reverse=True)
+        lp_by_region[region] = [e.get("leaguePoints", 0) for e in pool[:size]]
+    return lp_by_region
+
+
+def _append_lol_leaderboard_history(lp_by_region: dict[str, list[int]], history_path: Path) -> None:
+    """Appends today's average-LP-per-region snapshot to a persistent
+    history file -- same pattern as pipeline.py's own
+    _append_leaderboard_history for TFT. Re-running on the same day
+    overwrites that day's snapshot rather than duplicating it."""
+    today = datetime.now(timezone.utc).date().isoformat()
+    avg_lp = {region: round(sum(lps) / len(lps), 1) for region, lps in lp_by_region.items() if lps}
+    sample_size = {region: len(lps) for region, lps in lp_by_region.items() if lps}
+
+    history: dict = {"snapshots": []}
+    if history_path.exists():
+        try:
+            history = json.loads(history_path.read_text(encoding="utf-8"))
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    snapshots = [s for s in history.get("snapshots", []) if s.get("date") != today]
+    snapshots.append({"date": today, "avgLp": avg_lp, "sampleSize": sample_size})
+    snapshots.sort(key=lambda s: s["date"])
+
+    history_path.parent.mkdir(parents=True, exist_ok=True)
+    history_path.write_text(json.dumps({"snapshots": snapshots}, indent=2), encoding="utf-8")
+    print(f"League leaderboard history: {len(snapshots)} snapshot(s) in {history_path}.")
+
+
 def build_item_output(item_stats: dict[str, dict[int, dict[str, int]]], champ_total_games: dict[str, int],
                        regions: list[str], tiers: list[str]) -> dict:
     """Per champion, its real most-built items (own win rate holding that
@@ -424,6 +469,7 @@ def parse_args(argv=None) -> argparse.Namespace:
     p.add_argument("--runes-out", default=f"{config.OUTPUT_DIR}/lol_champion_runes.json")
     p.add_argument("--role-history-out", default=f"{config.OUTPUT_DIR}/lol_role_stats_history.json")
     p.add_argument("--elo-bracket-out", default=f"{config.OUTPUT_DIR}/lol_role_stats_by_elo.json")
+    p.add_argument("--leaderboard-history-out", default=f"{config.OUTPUT_DIR}/lol_leaderboard_history.json")
     return p.parse_args(argv)
 
 
@@ -451,6 +497,8 @@ def main(argv=None) -> None:
                 if bracket:
                     matches_by_bracket[bracket].extend(sample.matches)
         request_count = client.request_count
+        apex_lp_by_region = collect_apex_lp_snapshot(client, regions)
+        _append_lol_leaderboard_history(apex_lp_by_region, Path(args.leaderboard_history_out))
 
     agg = aggregate(all_matches)
     print(f"\nCollected {agg['unique_matches']} unique ranked matches, {agg['total_rows']} champion+role rows "
