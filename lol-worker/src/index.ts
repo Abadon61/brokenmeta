@@ -75,6 +75,9 @@ export default {
       if (url.pathname === "/leaderboard") return await handleLeaderboard(url, env, origin);
       return json({ error: "Route inconnue." }, 404, origin);
     } catch (e: any) {
+      if (e?.status === 429) {
+        return json({ error: "Trop de recherches en ce moment (limite de l'API Riot). Réessaie dans une minute.", rateLimited: true, retryAfter: 75 }, 429, origin);
+      }
       const status = e?.status && Number.isInteger(e.status) ? 502 : 500;
       return json({ error: "Erreur interne. Réessaie dans un instant.", detail: String(e?.message || e) }, status, origin);
     }
@@ -86,7 +89,54 @@ function parseRegion(raw: string | null): keyof typeof REGIONS | null {
   return region in REGIONS ? (region as keyof typeof REGIONS) : null;
 }
 
+// Profile cache (Cache API, per data center, no KV write quota involved).
+// The Riot dev key allows 100 requests / 2 min for ALL visitors combined and
+// one profile costs ~36, so a repeated lookup must cost 0: a fresh copy is
+// served for 2 minutes, and a longer-lived stale copy is served instead of an
+// error when Riot answers 429 / 5xx.
+const PROFILE_FRESH_TTL = 120;
+const PROFILE_STALE_TTL = 3600;
+
+function profileCacheKey(kind: "fresh" | "stale", region: string, riotId: string): Request {
+  return new Request(`https://cache.brokenmeta.internal/profile/${kind}/${region}/${encodeURIComponent(riotId.toLowerCase())}`);
+}
+
+function withTtl(resp: Response, seconds: number): Response {
+  const copy = new Response(resp.body, resp);
+  copy.headers.set("Cache-Control", `public, max-age=${seconds}`);
+  return copy;
+}
+
 async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionContext): Promise<Response> {
+  const riotId = (url.searchParams.get("riotId") || "").trim();
+  const region = parseRegion(url.searchParams.get("region"));
+  const cache = caches.default;
+  const cacheable = !!region && riotId.includes("#");
+
+  if (cacheable) {
+    const hit = await cache.match(profileCacheKey("fresh", region, riotId));
+    if (hit) return hit;
+  }
+  try {
+    const resp = await handleProfileUncached(url, env, origin, ctx);
+    if (cacheable && resp.status === 200) {
+      ctx.waitUntil(Promise.all([
+        cache.put(profileCacheKey("fresh", region, riotId), withTtl(resp.clone(), PROFILE_FRESH_TTL)),
+        cache.put(profileCacheKey("stale", region, riotId), withTtl(resp.clone(), PROFILE_STALE_TTL)),
+      ]));
+    }
+    return resp;
+  } catch (e: any) {
+    const transient = e?.status === 429 || (Number.isInteger(e?.status) && e.status >= 500);
+    if (cacheable && transient) {
+      const stale = await cache.match(profileCacheKey("stale", region, riotId));
+      if (stale) return stale;
+    }
+    throw e;
+  }
+}
+
+async function handleProfileUncached(url: URL, env: Env, origin: string, ctx: ExecutionContext): Promise<Response> {
   const riotId = (url.searchParams.get("riotId") || "").trim();
   const region = parseRegion(url.searchParams.get("region"));
   const [gameName, tagLine] = riotId.includes("#") ? riotId.split(/#(.*)/s) : [riotId, ""];
@@ -164,7 +214,7 @@ async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionC
   ]);
 
   return json({
-    riotId: `${account.gameName}#${account.tagLine}`, region,
+    riotId: `${account.gameName}#${account.tagLine}`, region, generatedAt: Date.now(),
     profileIconId: summoner?.profileIconId ?? null, summonerLevel: summoner?.summonerLevel ?? null,
     ranks: {
       solo: soloEntry ? { ...soloEntry, emblemUrl: rankEmblemUrl(soloEntry.tier) } : null,

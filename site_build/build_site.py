@@ -1673,7 +1673,12 @@ LEAGUE_JS = """
   async function fetchJson(url) {
     var res = await fetch(url);
     var data = await res.json().catch(function () { return {}; });
-    if (!res.ok) throw new Error(data.error || ('HTTP ' + res.status));
+    if (!res.ok) {
+      var err = new Error(data.error || ('HTTP ' + res.status));
+      err.rateLimited = !!data.rateLimited || res.status === 429;
+      err.retryAfter = data.retryAfter;
+      throw err;
+    }
     return data;
   }
   function bindIconFallback(container) {
@@ -2252,6 +2257,38 @@ LEAGUE_JS = """
     window.scrollTo(0, 0);
   }
 
+  // The Riot dev key allows 100 requests / 2 min for ALL visitors combined
+  // (one profile costs ~36), so the worker caches profiles for 2 min and this
+  // cooldown only stops double-clicks (short) or backs off after a rate-limit
+  // answer (long). Kept in localStorage so a page refresh doesn't skip it.
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var submitLabel = submitBtn ? submitBtn.textContent : '';
+  var COOLDOWN_KEY = 'bmLolCooldownUntil';
+  var cooldownTimer = null;
+  function cooldownLeft() {
+    var until = 0;
+    try { until = Number(localStorage.getItem(COOLDOWN_KEY)) || 0; } catch (e) {}
+    return Math.ceil((until - Date.now()) / 1000);
+  }
+  function tickCooldown() {
+    clearTimeout(cooldownTimer);
+    if (!submitBtn) return;
+    var left = cooldownLeft();
+    if (left > 0) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = I.cooldownLabel.replace('{s}', left);
+      cooldownTimer = setTimeout(tickCooldown, 1000);
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitLabel;
+    }
+  }
+  function startCooldown(seconds) {
+    try { localStorage.setItem(COOLDOWN_KEY, String(Date.now() + seconds * 1000)); } catch (e) {}
+    tickCooldown();
+  }
+  tickCooldown();
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
     results.innerHTML = '';
@@ -2262,15 +2299,20 @@ LEAGUE_JS = """
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       recordLolRecentSearch(data.riotId, data.region);
+      var ageMin = data.generatedAt ? Math.round((Date.now() - data.generatedAt) / 60000) : 0;
+      if (ageMin >= 3) setStatus(I.staleNote.replace('{min}', ageMin), false);
+      startCooldown(8);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
       setStatus(e.message || String(e), true);
+      if (e && e.rateLimited) startCooldown(e.retryAfter || 75);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: false });
     }
   }
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (cooldownLeft() > 0) return;
     var riotId = riotIdInput.value.trim();
     if (riotId) runProfile(riotId, regionSelect.value);
   });
@@ -4024,6 +4066,7 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio",
         "devBadge": "En développement -- en attente de l'API de production Riot",
         "lpProgressTitle": "Progression de LP",
+        "cooldownLabel": "Réessaie dans {s} s", "staleNote": "Résultat mis en cache il y a {min} min (limite de l'API Riot atteinte). Réessaie un peu plus tard pour l'actualiser.",
         "thDpm": "DPM", "dpmLabel": "DPM",
         "commsRealTitle": "Communication en jeu (pings)",
         "commsRealNote": "Pings réellement envoyés, moyenne par partie sur tes {n} dernières parties. Riot n'expose pas les messages de chat, uniquement les pings.",
@@ -4085,6 +4128,7 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Games", "thWinrate": "Winrate", "thAvgKda": "Avg KDA", "thRatio": "Ratio",
         "devBadge": "In development -- pending Riot's production API",
         "lpProgressTitle": "LP progress",
+        "cooldownLabel": "Retry in {s}s", "staleNote": "Cached result from {min} min ago (Riot API limit reached). Try again a bit later to refresh it.",
         "thDpm": "DPM", "dpmLabel": "DPM",
         "commsRealTitle": "In-game communication (pings)",
         "commsRealNote": "Pings you actually sent, average per game over your last {n} games. Riot doesn't expose chat messages, only pings.",
@@ -7460,6 +7504,7 @@ def main() -> None:
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
   .weekday-chart[data-bm-mounted] { display: block; height: auto; }
   .stats-radar:not([data-bm-mounted]) { display: none; }
+  .metascope-search-button:disabled { opacity: .55; cursor: not-allowed; }
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
   .kpi-tile { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; min-width: 0; }
   .kpi-label { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
