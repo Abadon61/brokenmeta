@@ -8,7 +8,9 @@
 
 <h2 class="ws-section-title" style="margin-top:0">{{ t(lang, 'lol_worldstat_elo_title') }}</h2>
 <div class="ws-chart-wrap">
-  {{ elo_chart_svg|safe }}
+  {% if area_chart_payload %}<div class="bm-chart-mount" data-bm-area-chart="{{ area_chart_payload|tojson_attr }}">{{ elo_chart_svg|safe }}</div>
+  <script src="{{ root }}assets/js/bm-charts.js?v={{ css_v }}" defer></script>
+  {% else %}{{ elo_chart_svg|safe }}{% endif %}
   <div class="ws-legend">
     {% for r in legend %}
     <div class="ws-legend-item">

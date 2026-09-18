@@ -1,0 +1,33 @@
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@source "./components";
+
+@theme inline {
+  --color-chart-label: var(--chart-label);
+  --color-chart-tooltip-foreground: var(--chart-tooltip-foreground);
+  --color-chart-tooltip-muted: var(--chart-tooltip-muted);
+  --color-chart-tooltip-background: var(--chart-tooltip-background);
+  --color-chart-grid: var(--chart-grid);
+  --color-chart-foreground: var(--chart-foreground);
+  --color-chart-foreground-muted: var(--chart-foreground-muted);
+}
+
+:host {
+  display: block;
+  font-family: 'Space Mono', monospace;
+  --chart-background: transparent;
+  --chart-foreground: var(--text-faint, #8a81ab);
+  --chart-foreground-muted: var(--text-faint, #8a81ab);
+  --chart-label: var(--text-dim, #bdb4cf);
+  --chart-grid: rgba(240, 231, 216, 0.09);
+  --chart-crosshair: rgba(240, 231, 216, 0.45);
+  --chart-brush-border: var(--chart-grid);
+  --chart-line-primary: var(--magenta, #d72638);
+  --chart-line-secondary: var(--cyan, #f0e7d8);
+  --chart-tooltip-background: rgba(16, 11, 38, 0.94);
+  --chart-tooltip-foreground: var(--cream, #f0e7d8);
+  --chart-tooltip-muted: var(--text-dim, #bdb4cf);
+  --chart-marker-background: var(--bg-2, #1a1440);
+  --chart-marker-border: var(--border-bright, #4d4192);
+  --chart-marker-foreground: var(--cream, #f0e7d8);
+}

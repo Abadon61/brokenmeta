@@ -1581,10 +1581,38 @@ LEAGUE_JS = """
     });
     var lineStr = coords.map(function (c) { return c[0].toFixed(1) + ',' + c[1].toFixed(1); }).join(' ');
     var last = coords[coords.length - 1];
-    return '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="' + (h - padBottom) + '" x2="732" y2="' + (h - padBottom) + '" class="lp-chart-zero"/>'
+    var svg = '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="' + (h - padBottom) + '" x2="732" y2="' + (h - padBottom) + '" class="lp-chart-zero"/>'
       + '<polygon points="' + lineStr + ' ' + last[0].toFixed(1) + ',156 ' + coords[0][0].toFixed(1) + ',156" class="lp-chart-area"/>'
-      + '<polyline points="' + lineStr + '" class="lp-chart-line"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="4.5" class="lp-chart-dot"/></svg>';
+      + '<polyline points="' + lineStr + '" class="lp-chart-line" pathLength="1"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="4.5" class="lp-chart-dot"/></svg>';
+    // Bklit AreaChart island (assets/js/bm-charts.js, loaded on demand below)
+    // replaces this SVG once ready; the SVG stays as the no-JS / load-failure fallback.
+    var payload = {
+      aspectRatio: '3.4 / 1',
+      series: [{ key: 'lp', label: 'LP', color: 'var(--magenta)' }],
+      data: points.map(function (p, i) {
+        var tier = (p.tier || '').charAt(0) + (p.tier || '').slice(1).toLowerCase();
+        return { date: p.ts, lp: scores[i], tip: tier + ' ' + (p.rank || '') + ' - ' + (p.leaguePoints || 0) + ' LP' };
+      })
+    };
+    var attr = JSON.stringify(payload).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    return '<div class="bm-chart-mount" data-bm-area-chart="' + attr + '">' + svg + '</div>';
   }
+
+  // Loads the Bklit chart bundle once, on the first profile that has an LP
+  // curve, then mounts every pending [data-bm-area-chart]. A MutationObserver
+  // covers tab switches / re-renders, which rebuild this markup from scratch.
+  var bmChartsState = 0;
+  function hydrateBmCharts() {
+    if (!document.querySelector('[data-bm-area-chart]:not([data-bm-mounted])')) return;
+    if (window.bmCharts && window.bmCharts.mountAll) { window.bmCharts.mountAll(); return; }
+    if (bmChartsState) return;
+    bmChartsState = 1;
+    var sc = document.createElement('script');
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=__BM_CHARTS_V__';
+    sc.async = true;
+    document.head.appendChild(sc);
+  }
+  new MutationObserver(hydrateBmCharts).observe(document.body, { childList: true, subtree: true });
 
   // Portraits de champion réels (Data Dragon, clé = championName renvoyé
   // tel quel par Match-V5 -- garanti identique à la clé ddragon par Riot,
@@ -2985,23 +3013,49 @@ def build_elo_chart_svg(snapshots: list[dict], regions: list[str], lang: str = "
             continue
         x_labels.append(f'<text x="{x_for(i):.1f}" y="{H - padB + 18}" text-anchor="middle" font-size="10">{short_date(s["date"], lang)}</text>')
 
+    defs = []
     lines = []
-    for region in regions:
+    for r_idx, region in enumerate(regions):
         pts = [(i, s["avgLp"][region]) for i, s in enumerate(snapshots) if s.get("avgLp", {}).get(region) is not None]
         if not pts:
             continue
         color = REGION_COLOR_VAR[region]
         if len(pts) == 1:
             i, v = pts[0]
-            lines.append(f'<circle cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="5" fill="{color}" stroke="var(--bg)" stroke-width="2" />')
+            lines.append(f'<circle class="ws-pulse" cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="5" fill="none" stroke="{color}" stroke-width="1.5" style="--d:{r_idx * 0.15:.2f}s" />')
+            lines.append(f'<circle class="ws-dot" cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="5" fill="{color}" stroke="var(--bg)" stroke-width="2" style="--d:{r_idx * 0.15:.2f}s"><title>{region} · {round(v)} LP · {short_date(snapshots[i]["date"], lang)}</title></circle>')
         else:
             d = " ".join(f'{"M" if idx == 0 else "L"}{x_for(i):.1f},{y_for(v):.1f}' for idx, (i, v) in enumerate(pts))
-            lines.append(f'<path d="{d}" fill="none" stroke="{color}" stroke-width="2.5" />')
+            base_y = padT + plot_h
+            area_d = f'{d} L{x_for(pts[-1][0]):.1f},{base_y:.1f} L{x_for(pts[0][0]):.1f},{base_y:.1f} Z'
+            defs.append(f'<linearGradient id="wsg-{region}" x1="0" y1="0" x2="0" y2="1">'
+                        f'<stop offset="0" stop-color="{color}" stop-opacity="0.30" /><stop offset="1" stop-color="{color}" stop-opacity="0" /></linearGradient>')
+            delay = f'--d:{r_idx * 0.15:.2f}s'
+            lines.append(f'<path class="ws-area" d="{area_d}" fill="url(#wsg-{region})" style="{delay}" />')
+            lines.append(f'<path class="ws-line" pathLength="1" d="{d}" fill="none" stroke="{color}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="{delay}" />')
             for i, v in pts:
-                lines.append(f'<circle cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="3.5" fill="{color}" />')
+                lines.append(f'<circle class="ws-dot" cx="{x_for(i):.1f}" cy="{y_for(v):.1f}" r="3.5" fill="{color}" style="{delay}"><title>{region} · {round(v)} LP · {short_date(snapshots[i]["date"], lang)}</title></circle>')
 
-    return (f'<svg class="ws-chart-svg" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">'
+    return (f'<svg class="ws-chart-svg" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg" role="img">'
+            f'<defs>{"".join(defs)}</defs>'
             + "".join(grid) + "".join(x_labels) + "".join(lines) + "</svg>")
+
+
+def build_area_chart_payload(snapshots: list[dict], regions: list[str]) -> dict | None:
+    """Data for the Bklit AreaChart island (charts-ui/, mounted by
+    assets/js/bm-charts.js) -- same avg-LP snapshots as build_elo_chart_svg,
+    which stays in the page as the no-JS / single-point fallback. Only
+    snapshots where every plotted region has a value are kept, so a series
+    never has to be interpolated. None below 2 usable points."""
+    rows = []
+    for s in snapshots:
+        avg = s.get("avgLp", {})
+        if regions and all(avg.get(r) is not None for r in regions):
+            rows.append({"date": s["date"], **{r: avg[r] for r in regions}})
+    if len(rows) < 2:
+        return None
+    return {"series": [{"key": r, "label": REGION_SHORT.get(r, r), "color": REGION_COLOR_VAR[r]} for r in regions],
+            "data": rows}
 
 
 def build_comp_sparkline(history: list[dict]) -> dict | None:
@@ -3044,7 +3098,7 @@ def build_comp_sparkline(history: list[dict]) -> dict | None:
 
     svg = (f'<svg class="sparkline-svg" viewBox="0 0 {W} {H}" xmlns="http://www.w3.org/2000/svg">'
            f'<path class="sparkline-area" d="{area_d}" />'
-           f'<path class="sparkline-line" d="{line_d}" />'
+           f'<path class="sparkline-line" pathLength="1" d="{line_d}" />'
            f'<circle class="sparkline-dot" cx="{last_x:.1f}" cy="{last_y:.1f}" r="3.5" />'
            f'</svg>')
     return {"svg": svg, "direction": direction}
@@ -6085,7 +6139,7 @@ def main() -> None:
     # of what actually changed, which is what made the deploy-worktree
     # sync/commit slow even for a one-file asset swap (site-audit finding,
     # 2026-09-13).
-    env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()[:10]
+    env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
     # -- needed to safely embed a translated string inside an inline <script>.
     # Must return Markup (safe), not a plain str: with autoescape=True a
@@ -6415,6 +6469,7 @@ def main() -> None:
         render("leaderboard.html", "/leaderboard/", lang, active_nav="leaderboard", regions=lb_regions)
         render("world_stat.html", "/leaderboard/world-stat/", lang, active_nav="leaderboard",
                elo_chart_svg=build_elo_chart_svg(ws_snapshots, ws_regions_present, lang), legend=legend, single_point=len(ws_snapshots) == 1,
+               area_chart_payload=build_area_chart_payload(ws_snapshots, ws_regions_present),
                region_cols=region_cols, comp_cols=comp_cols)
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
@@ -6584,6 +6639,7 @@ def main() -> None:
                ]))
         render("lol_world_stat.html", "/league/leaderboard/world-stat/", lang, active_nav="league", active_sub="lol-leaderboard",
                elo_chart_svg=build_elo_chart_svg(lol_ws_snapshots, lol_ws_regions_present, lang),
+               area_chart_payload=build_area_chart_payload(lol_ws_snapshots, lol_ws_regions_present),
                legend=lol_ws_legend, single_point=len(lol_ws_snapshots) == 1)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
@@ -6827,7 +6883,7 @@ def main() -> None:
   .lang-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .lang-btn { display: block; background: var(--row); border: none; color: var(--text-faint); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; padding: 6px 10px; text-decoration: none; }
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
-  .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
+  .lang-btn[data-active="true"] { background: var(--cyan); color: #100b26; }
   .lang-btn:not([data-active="true"]):hover { color: var(--cream); }
 
   /* Balance-patch buff/nerf columns on the Patch Notes cards. */
@@ -6873,7 +6929,7 @@ def main() -> None:
   .profile-comp-row .profile-comp-name { text-decoration: none; color: inherit; }
   a.profile-comp-name:hover { color: var(--cyan); }
 
-  .metascope-lang-note { padding: 10px 14px; margin-bottom: 14px; background: rgba(5,217,232,0.06); border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; }
+  .metascope-lang-note { padding: 10px 14px; margin-bottom: 14px; background: rgba(240,231,216,0.06); border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; }
   .metascope-insight-list { display: flex; flex-direction: column; gap: 8px; }
   .metascope-insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--row); border: 1px solid var(--border); border-left: 3px solid var(--border); }
   .metascope-insight-row[data-type="good"] { border-left-color: var(--good); }
@@ -6897,7 +6953,7 @@ def main() -> None:
   .metascope-search-form .search-input { flex: 1; min-width: 220px; padding: 10px 14px; }
   .metascope-region-select { background: var(--row); border: 1px solid var(--border); color: var(--cream); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 0 12px; }
   .metascope-search-button { background: var(--magenta); border: none; color: #fff; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: background .12s ease; }
-  .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
+  .metascope-search-button:hover { background: var(--cyan); color: #100b26; }
   .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
   .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }
 
@@ -6938,7 +6994,7 @@ def main() -> None:
   .favorites-promo-hint { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-dim); }
   .favorites-promo-hint svg { width: 14px; height: 14px; fill: var(--gold); flex: none; }
   .favorites-promo-button { align-self: flex-start; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; transition: background .12s ease; }
-  .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
+  .favorites-promo-button:hover { background: var(--cyan); color: #100b26; }
   @media (max-width: 720px) { .favorites-promo { width: 100%; } }
 
   /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker).
@@ -6971,8 +7027,8 @@ def main() -> None:
      couleurs Challenger/Grandmaster/Master (sémantiquement différent). */
   .lol-tier-tag { display: inline-block; min-width: 22px; padding: 3px 7px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-align: center; border: 1px solid; }
   .lol-tier-tag[data-tier="S"] { border-color: var(--gold); color: var(--gold); background: rgba(255,194,60,0.12); }
-  .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1); }
-  .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
+  .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(215,38,56,0.1); }
+  .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(240,231,216,0.1); }
   .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
 
   /* /league/tier-list/<bracket>/ -- a real link per elo bracket (own URL,
@@ -7051,7 +7107,7 @@ def main() -> None:
   .lol-rune-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
   .lol-rune-row:last-child { border-bottom: none; }
   .lol-rune-cell { display: flex; gap: 8px; align-items: flex-start; width: 220px; flex: none; }
-  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #0b0221; flex: none; }
+  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #100b26; flex: none; }
   .lol-rune-cell .lol-rune-name { font-weight: 600; font-size: 12.5px; margin-bottom: 2px; }
   .lol-rune-cell .lol-rune-desc { font-size: 11px; color: var(--text-faint); line-height: 1.4; }
   /* Patch notes League -- une ligne détaillée par champion/objet/rune
@@ -7206,9 +7262,14 @@ def main() -> None:
   .lp-chart-total.warn { color: var(--warn); }
   .lp-chart-svg { display: block; width: 100%; height: 170px; }
   .lp-chart-zero { stroke: var(--border-bright); stroke-width: 1; stroke-dasharray: 4 4; }
-  .lp-chart-area { fill: rgba(5, 217, 232, 0.12); stroke: none; }
+  .lp-chart-area { fill: rgba(240,231,216, 0.12); stroke: none; }
   .lp-chart-line { fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
   .lp-chart-dot { fill: var(--cyan); stroke: var(--bg-2); stroke-width: 2; }
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-chart-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bm-draw 1.4s cubic-bezier(.16,1,.3,1) forwards; }
+    .lp-chart-area { opacity: 0; animation: bm-fade 1s ease-out .5s forwards; }
+    .lp-chart-dot { transform-box: fill-box; transform-origin: center; opacity: 0; animation: bm-pop .5s cubic-bezier(.34,1.56,.64,1) 1.1s forwards; }
+  }
 
   .stats-comms-grid { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center; }
   .stats-comms-msg { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 18px 10px; text-align: center; }
@@ -7227,7 +7288,7 @@ def main() -> None:
   .activity-toggle-slider { width: 34px; height: 18px; flex: none; background: var(--row); border: 1px solid var(--border-bright); border-radius: 20px; position: relative; transition: background .15s ease, border-color .15s ease; }
   .activity-toggle-slider::after { content: ''; position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-faint); transition: transform .15s ease, background .15s ease; }
   .activity-toggle input:checked + .activity-toggle-slider { background: var(--cyan); border-color: var(--cyan); }
-  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #0b0221; }
+  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #100b26; }
   .activity-subtitle { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; }
   .info-hint { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-faint); color: var(--text-faint); font-size: 9px; cursor: help; flex: none; }
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
@@ -7248,7 +7309,7 @@ def main() -> None:
   .hourly-row:last-child { border-bottom: none; }
   .hourly-time { width: 52px; flex: none; font-size: 12px; color: var(--text-dim); }
   .hourly-badge { flex: none; width: 64px; text-align: center; font-size: 11px; font-weight: 700; padding: 4px 6px; color: var(--cream); background: var(--gray, var(--text-faint)); }
-  .hourly-badge.good { background: var(--cyan); color: #0b0221; }
+  .hourly-badge.good { background: var(--cyan); color: #100b26; }
   .hourly-badge.warn { background: var(--warn); }
   .hourly-wr { margin-left: auto; font-size: 12px; color: var(--text-dim); width: 44px; text-align: right; }
 
@@ -7275,7 +7336,7 @@ def main() -> None:
   .match-champ-block { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
   .match-champ-block .champ-portrait { width: 32px; height: 32px; font-size: 11px; }
   .champ-portrait-wrap { position: relative; display: inline-flex; flex: none; }
-  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #0b0221; border: 2px solid var(--bg-2); object-fit: cover; }
+  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #100b26; border: 2px solid var(--bg-2); object-fit: cover; }
   .match-champ-name { font-weight: 600; font-size: 13px; }
   .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
   .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
@@ -7301,12 +7362,12 @@ def main() -> None:
      mise en ligne. */
   .spell-col { display: flex; flex-direction: column; gap: 3px; }
   .spell-icon { width: 22px; height: 22px; border-radius: 3px; border: 1px solid var(--border-bright); object-fit: cover; }
-  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #0b0221; object-fit: cover; }
+  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #100b26; object-fit: cover; }
   .rune-icon.small { width: 16px; height: 16px; margin-left: 3px; }
   .match-summary-strip { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
   .summary-badges { display: flex; gap: 6px; flex-wrap: wrap; }
   .perf-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 4px 9px; background: var(--row); border: 1px solid var(--border-bright); color: var(--text-dim); }
-  .perf-badge.medal { background: var(--gold); color: #0b0221; border-color: var(--gold); }
+  .perf-badge.medal { background: var(--gold); color: #100b26; border-color: var(--gold); }
   .summary-extra { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-faint); margin-left: auto; }
   .summary-extra strong { color: var(--cream); }
   @media (max-width: 640px) { .summary-extra { margin-left: 0; } }
@@ -7382,8 +7443,8 @@ def main() -> None:
         "start_url": "/?source=pwa",
         "id": "/",
         "display": "standalone",
-        "background_color": "#0b0221",
-        "theme_color": "#0b0221",
+        "background_color": "#100b26",
+        "theme_color": "#100b26",
         "icons": [
             {"src": "/assets/img/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
             {"src": "/assets/img/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
@@ -7415,11 +7476,14 @@ def main() -> None:
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
+    # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
+    if (ROOT / "vendor" / "bm-charts.js").exists():
+        shutil.copy(ROOT / "vendor" / "bm-charts.js", DIST / "assets" / "js" / "bm-charts.js")
     (DIST / "assets" / "js" / "champ-icons.js").write_text(CHAMP_ICON_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "glossary-items.js").write_text(GLOSSARY_ITEM_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
-    (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS.replace("__BM_CHARTS_V__", env.globals["css_v"]), encoding="utf-8")
     (DIST / "assets" / "js" / "lol-compare.js").write_text(LOL_COMPARE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-glossary-filters.js").write_text(LOL_GLOSSARY_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-leaderboard.js").write_text(LOL_LEADERBOARD_JS, encoding="utf-8")
