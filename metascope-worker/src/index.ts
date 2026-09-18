@@ -42,17 +42,70 @@ function json(data: unknown, status: number, origin: string): Response {
   });
 }
 
+// Response cache (Cache API, per data center, no KV quota). The Riot dev key
+// allows 100 requests / 2 min for ALL visitors combined, so a repeated lookup
+// must cost 0 Riot calls: a fresh copy is served for `fresh` seconds, and a
+// longer-lived stale copy is served instead of an error when Riot answers
+// 429 / 5xx. Only 200 responses are stored.
+function withTtl(resp: Response, seconds: number): Response {
+  const copy = new Response(resp.body, resp);
+  copy.headers.set("Cache-Control", `public, max-age=${seconds}`);
+  return copy;
+}
+
+async function cached(
+  kind: string, keyParts: string[], fresh: number, stale: number, ctx: ExecutionContext, compute: () => Promise<Response>
+): Promise<Response> {
+  const cache = caches.default;
+  const key = (k: "fresh" | "stale") =>
+    new Request(`https://cache.brokenmeta.internal/tft/${kind}/${k}/${keyParts.map((p) => encodeURIComponent(p.toLowerCase())).join("/")}`);
+  const hit = await cache.match(key("fresh"));
+  if (hit) return hit;
+  try {
+    const resp = await compute();
+    if (resp.status === 200) {
+      ctx.waitUntil(Promise.all([
+        cache.put(key("fresh"), withTtl(resp.clone(), fresh)),
+        cache.put(key("stale"), withTtl(resp.clone(), stale)),
+      ]));
+    }
+    return resp;
+  } catch (e: any) {
+    const transient = e?.status === 429 || (Number.isInteger(e?.status) && e.status >= 500);
+    if (transient) {
+      const old = await cache.match(key("stale"));
+      if (old) return old;
+    }
+    throw e;
+  }
+}
+
 export default {
-  async fetch(request: Request, env: Env): Promise<Response> {
+  async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const origin = env.CORS_ORIGIN;
     if (request.method === "OPTIONS") return new Response(null, { headers: corsHeaders(origin) });
 
     const url = new URL(request.url);
     try {
-      if (url.pathname === "/profile") return await handleProfile(url, env, origin);
-      if (url.pathname === "/analyze") return await handleAnalyze(url, env, origin);
+      if (url.pathname === "/profile") {
+        const region = parseRegion(url.searchParams.get("region"));
+        const riotId = (url.searchParams.get("riotId") || "").trim();
+        const run = () => handleProfile(url, env, origin);
+        return region && riotId.includes("#") ? await cached("profile", [region, riotId], 120, 3600, ctx, run) : await run();
+      }
+      if (url.pathname === "/analyze") {
+        const region = parseRegion(url.searchParams.get("region"));
+        const matchId = url.searchParams.get("matchId");
+        const puuid = url.searchParams.get("puuid");
+        const run = () => handleAnalyze(url, env, origin);
+        // a finished match never changes, so its analysis is cached much longer
+        return region && matchId && puuid ? await cached("analyze", [region, matchId, puuid], 3600, 86400, ctx, run) : await run();
+      }
       return json({ error: "Route inconnue." }, 404, origin);
     } catch (e: any) {
+      if (e?.status === 429) {
+        return json({ error: "Trop de recherches en ce moment (limite de l'API Riot). Réessaie dans une minute.", rateLimited: true, retryAfter: 75 }, 429, origin);
+      }
       const status = e?.status && Number.isInteger(e.status) ? 502 : 500;
       return json({ error: "Erreur interne. Réessaie dans un instant.", detail: String(e?.message || e) }, status, origin);
     }
