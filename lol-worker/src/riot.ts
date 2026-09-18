@@ -99,6 +99,13 @@ export class RiotClient {
     return this.get<RiotLeagueList>(url);
   }
 
+  // Champion-Mastery-V4 top N: one extra call per profile lookup, kept
+  // optional by the caller (a failure here must never break a profile).
+  getTopMasteries(platform: string, puuid: string, count: number) {
+    const url = `https://${platform}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-puuid/${puuid}/top?count=${count}`;
+    return this.get<{ championId: number; championLevel: number; championPoints: number; lastPlayTime: number }[]>(url).then((r) => r || []);
+  }
+
   getLeagueEntriesByPuuid(platform: string, puuid: string) {
     const url = `https://${platform}.api.riotgames.com/lol/league/v4/entries/by-puuid/${puuid}`;
     return this.get<RiotLeagueEntry[]>(url).then((r) => r || []);

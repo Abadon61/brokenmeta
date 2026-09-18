@@ -1769,6 +1769,7 @@ LEAGUE_JS = """
       + buildLoadoutHtml(m)
       + '<div class="match-kda"><div class="match-kda-v mono">' + m.kills + '/' + m.deaths + '/' + m.assists + '</div><div class="match-kda-ratio">' + kdaRatio + ' KDA</div></div>'
       + '<div class="match-cs"><div class="mono">' + m.cs + ' CS</div><div class="match-cs-l">' + csPerMin + '/min</div></div>'
+      + (m.dmgPerMin != null ? '<div class="match-cs match-dpm"><div class="mono">' + fmtInt(m.dmgPerMin) + '</div><div class="match-cs-l">' + esc(I.dpmLabel) + '</div></div>' : '')
       + '<div class="match-meta">' + m.durationMin.toFixed(0) + ' min<br>' + timeAgo(m.startedAt) + '</div>'
       + '<button type="button" class="match-expand-btn" id="matchExpandBtn' + idx + '" aria-expanded="false" aria-label="' + esc(I.viewMatchAria) + '">'
       + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></button>'
@@ -1777,7 +1778,7 @@ LEAGUE_JS = """
       + '</div>';
   }
 
-  function renderScoreboardTeam(players, label, sideClass) {
+  function renderScoreboardTeam(players, label, sideClass, durationMin) {
     return '<div class="scoreboard-team ' + sideClass + '"><div class="scoreboard-team-label">' + label + '</div>'
       + players.map(function (p) {
         var kdaText = p.isSelf ? '' : '<span class="scoreboard-kda mono">' + p.kills + '/' + p.deaths + '/' + p.assists + '</span>';
@@ -1789,6 +1790,7 @@ LEAGUE_JS = """
           + '<span class="scoreboard-name">' + (p.isSelf ? esc(p.champion) + ' ' + I.you : esc(p.name)) + '</span>'
           + kdaText
           + '<span class="scoreboard-cs mono">' + p.cs + ' CS</span>'
+          + (p.dmg != null && durationMin ? '<span class="scoreboard-cs scoreboard-dpm mono">' + fmtInt(p.dmg / durationMin) + ' ' + esc(I.dpmLabel) + '</span>' : '')
           + '<span class="scoreboard-gold mono">' + (p.gold / 1000).toFixed(1) + 'k</span>'
           + '<span class="scoreboard-items">' + itemsHtml + '</span>'
           + '</div>';
@@ -1828,8 +1830,8 @@ LEAGUE_JS = """
       var allies = m.scoreboard.filter(function (p) { return p.team === 'ally'; });
       var enemies = m.scoreboard.filter(function (p) { return p.team === 'enemy'; });
       detail.innerHTML = buildMatchSummary(m) + '<div class="scoreboard-grid">'
-        + renderScoreboardTeam(allies, I.allies, 'ally')
-        + renderScoreboardTeam(enemies, I.enemies, 'enemy')
+        + renderScoreboardTeam(allies, I.allies, 'ally', m.durationMin)
+        + renderScoreboardTeam(enemies, I.enemies, 'enemy', m.durationMin)
         + '</div>';
       detail.dataset.built = '1';
       bindIconFallback(detail);
@@ -1851,14 +1853,16 @@ LEAGUE_JS = """
   function renderChampionsTable(champions) {
     var wrap = document.getElementById('championsTableWrap');
     if (!champions.length) { wrap.innerHTML = '<div class="matchup-empty" style="padding:16px">' + esc(I.noChampionsPlayed) + '</div>'; return; }
+    var hasDpm = champions.some(function (c) { return c.dpm != null; });
     var rows = champions.map(function (c) {
       return '<tr><td><div class="champ-cell"><span class="champ-portrait">' + champPortraitInner(c.champ) + '</span>' + esc(c.champ) + '</div></td>'
         + '<td class="num mono">' + c.games + '</td>'
         + '<td class="num"><span class="' + (c.wr >= 50 ? 'good' : 'warn') + '">' + c.wr + '%</span></td>'
         + '<td class="num mono">' + c.avgKills.toFixed(1) + ' / ' + c.avgDeaths.toFixed(1) + ' / ' + c.avgAssists.toFixed(1) + '</td>'
-        + '<td class="num mono">' + champKda(c) + '</td></tr>';
+        + '<td class="num mono">' + champKda(c) + '</td>'
+        + (hasDpm ? '<td class="num mono">' + (c.dpm != null ? fmtInt(c.dpm) : '-') + '</td>' : '') + '</tr>';
     }).join('');
-    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>' + esc(I.thChampion) + '</th><th class="num">' + esc(I.thGames) + '</th><th class="num">' + esc(I.thWinrate) + '</th><th class="num">' + esc(I.thAvgKda) + '</th><th class="num">' + esc(I.thRatio) + '</th></tr></thead><tbody>' + rows + '</tbody></table></div>';
+    wrap.innerHTML = '<div class="champions-table-scroll"><table class="champions-table"><thead><tr><th>' + esc(I.thChampion) + '</th><th class="num">' + esc(I.thGames) + '</th><th class="num">' + esc(I.thWinrate) + '</th><th class="num">' + esc(I.thAvgKda) + '</th><th class="num">' + esc(I.thRatio) + '</th>' + (hasDpm ? '<th class="num">' + esc(I.thDpm) + '</th>' : '') + '</tr></thead><tbody>' + rows + '</tbody></table></div>';
     bindIconFallback(wrap);
   }
 
@@ -1884,9 +1888,114 @@ LEAGUE_JS = """
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.lpProgressTitle) + '</div>' + inner + '</div></div>';
   }
 
+  function fmtInt(n) {
+    var s = String(Math.round(n)), out = '';
+    for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? String.fromCharCode(160) + out : '');
+    return out;
+  }
+  function kpiTile(label, value, sub, tone) {
+    return '<div class="kpi-tile"><div class="kpi-label">' + esc(label) + '</div>'
+      + '<div class="kpi-value mono' + (tone ? ' ' + tone : '') + '">' + value + '</div>'
+      + (sub ? '<div class="kpi-sub">' + sub + '</div>' : '') + '</div>';
+  }
+  function kpiSection(title, note, tiles) {
+    return '<div class="stats-section"><div class="stats-block-title">' + esc(title)
+      + (note ? ' <span class="profile-section-note">' + esc(note) + '</span>' : '') + '</div>'
+      + '<div class="kpi-grid">' + tiles.join('') + '</div></div>';
+  }
+
+  // Real pings (Match-V5 exposes every ping type; only chat text is missing).
+  function realCommsHtml(q) {
+    var pg = q && q.pings;
+    if (!pg || !q.matches.length || !(pg.perGame > 0)) return null;
+    var types = Object.keys(pg.byType).filter(function (k) { return pg.byType[k] > 0; })
+      .sort(function (a, b) { return pg.byType[b] - pg.byType[a]; }).slice(0, 8);
+    var top = pg.byType[types[0]] || 1;
+    var rows = types.map(function (k) {
+      return '<div class="comms-ping-row"><span class="comms-ping-label">' + esc((I.pingLabels && I.pingLabels[k]) || k) + '</span>'
+        + '<div class="comms-ping-bar-track"><div class="comms-ping-bar-fill" style="width:' + Math.round((pg.byType[k] / top) * 100) + '%"></div></div>'
+        + '<span class="comms-ping-value mono">' + pg.byType[k].toFixed(1) + '</span></div>';
+    }).join('');
+    return '<div class="stats-section"><div class="lp-chart-card">'
+      + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsRealTitle) + '</div>'
+      + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsRealNote).replace('{n}', q.matches.length) + '</p>'
+      + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">' + pg.perGame.toFixed(1) + '</div>'
+      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div></div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
+  }
+
+  function combatSectionHtml(q, rankAverages) {
+    var c = q.combat;
+    if (!c || !q.matches.length) return '';
+    var diff = rankAverages && rankAverages.dmgPerMin ? c.dpm - rankAverages.dmgPerMin : null;
+    var dpmSub = diff === null ? '' : '<span class="' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + Math.round(diff) + '</span> ' + esc(I.kpiVsRank);
+    return kpiSection(I.combatTitle, I.perGameNote, [
+      kpiTile(I.kpiDpm, fmtInt(c.dpm), dpmSub, 'accent'),
+      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin)),
+      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin)),
+      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', '<span class="dim">' + esc(I.perGameUnit) + '</span>'),
+      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%'),
+      kpiTile(I.kpiHeal, fmtInt(c.healPerMin))
+    ]);
+  }
+
+  function visionSectionHtml(q) {
+    if (currentQueue === 'aram' || !q.vision || !q.objectives || !q.matches.length) return '';
+    var v = q.vision, o = q.objectives, per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
+    return kpiSection(I.visionTitle, I.perGameNote, [
+      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), null, 'accent'),
+      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), per),
+      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), per),
+      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), per),
+      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), per),
+      kpiTile(I.kpiPlates, o.plates.toFixed(1), per),
+      kpiTile(I.kpiDragons, o.dragons.toFixed(1), per),
+      kpiTile(I.kpiBarons, o.barons.toFixed(1), per),
+      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), per),
+      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin))
+    ]);
+  }
+
+  function recordsSectionHtml(q) {
+    var r = q.records, f = q.form;
+    if (!r || !q.matches.length) return '';
+    var tiles = [];
+    if (r.bestKda) tiles.push(kpiTile(I.kpiBestKda, r.bestKda.kills + '/' + r.bestKda.deaths + '/' + r.bestKda.assists, esc(r.bestKda.champion) + ' &middot; ' + r.bestKda.kda.toFixed(1) + ' KDA', r.bestKda.win ? 'good' : ''));
+    if (r.mostKills) tiles.push(kpiTile(I.kpiMostKills, r.mostKills.kills, esc(r.mostKills.champion)));
+    if (r.bestDpm) tiles.push(kpiTile(I.kpiBestDpm, fmtInt(r.bestDpm.dpm), esc(r.bestDpm.champion), 'accent'));
+    tiles.push(kpiTile(I.kpiPentas, r.pentas, r.quadras + ' ' + esc(I.quadrasLabel)));
+    tiles.push(kpiTile(I.kpiSpree, r.longestSpree));
+    tiles.push(kpiTile(I.kpiFirstBlood, r.firstBloodPct + '%'));
+    tiles.push(kpiTile(I.kpiSoloKills, r.soloKills));
+    if (f) {
+      tiles.push(kpiTile(f.streak.type === 'win' ? I.kpiStreakWin : I.kpiStreakLoss, f.streak.length, null, f.streak.type === 'win' ? 'good' : 'warn'));
+      if (f.afterLoss) tiles.push(kpiTile(I.kpiAfterLoss, f.afterLoss.wr + '%', f.afterLoss.games + ' ' + esc(I.gamesUnitShort), f.afterLoss.wr >= 50 ? 'good' : 'warn'));
+    }
+    var bucketLabel = { short: I.kpiShort, mid: I.kpiMid, long: I.kpiLong };
+    (q.durationStats || []).forEach(function (b) {
+      tiles.push(kpiTile(bucketLabel[b.bucket], b.wr + '%', b.games + ' ' + esc(I.gamesUnitShort), b.wr >= 50 ? 'good' : 'warn'));
+    });
+    return kpiSection(I.recordsTitle, null, tiles);
+  }
+
+  function masterySectionHtml() {
+    var list = currentData && currentData.mastery;
+    if (!list || !list.length) return '';
+    var top = list[0].points || 1;
+    var rows = list.map(function (m) {
+      return '<div class="mastery-row"><span class="champ-portrait">' + champPortraitInner(m.champ) + '</span>'
+        + '<span class="mastery-name">' + esc(m.champ) + '</span>'
+        + '<span class="mastery-level mono">' + esc(I.masteryLevel) + ' ' + m.level + '</span>'
+        + '<div class="mastery-bar-track"><div class="mastery-bar-fill" style="width:' + Math.round((m.points / top) * 100) + '%"></div></div>'
+        + '<span class="mastery-pts mono">' + fmtInt(m.points) + ' ' + esc(I.masteryPts) + '</span></div>';
+    }).join('');
+    return '<div class="stats-section"><div class="stats-block-title">' + esc(I.masteryTitle) + '</div><div class="mastery-list">' + rows + '</div></div>';
+  }
+
   function devSectionsHtml() {
     var badge = '<div class="league-dev-badge"><span class="dot"></span>' + esc(I.devBadge) + '</div>';
     var perGame = I.lang === 'fr' ? ' / partie' : ' / game';
+    var realComms = realCommsHtml(currentData.queues[currentQueue]);
+    if (realComms) return lpSectionHtml() + realComms;
     return lpSectionHtml()
       + '<div class="stats-section"><div class="lp-chart-card">' + badge
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsTitle) + '</div>'
@@ -1935,6 +2044,30 @@ LEAGUE_JS = """
       compareCard(I.killParticipation, sa.killParticipation, rankAverages.killParticipation, '%', 0),
     ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
 
+    // Radar (Bklit): shape of the profile vs the rank average at a glance.
+    // Each metric is normalised to its own max(you, rank avg) so the axes are
+    // comparable; the exact numbers stay in the four cards below.
+    var radarHtml = '';
+    if (q.matches.length) {
+      var radarMetrics = [
+        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: rankAverages.csPerMin },
+        { key: 'gold', label: '\\u00a0\\u00a0Gold/min', you: sa.goldPerMin, avg: rankAverages.goldPerMin },
+        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: rankAverages.dmgPerMin },
+        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: rankAverages.killParticipation }
+      ];
+      var youVals = {}, avgVals = {};
+      radarMetrics.forEach(function (m) {
+        var top = Math.max(m.you, m.avg) || 1;
+        youVals[m.key] = Math.round((m.you / top) * 100);
+        avgVals[m.key] = Math.round((m.avg / top) * 100);
+      });
+      radarHtml = '<div class="stats-radar" data-bm-chart="' + bmAttr({
+        type: 'radar', size: 320,
+        metrics: radarMetrics.map(function (m) { return { key: m.key, label: m.label }; }),
+        radar: [{ label: I.youLabel, color: 'var(--magenta)', values: youVals }, { label: I.rankAvgLabel, color: 'var(--cream)', values: avgVals }]
+      }) + '"></div>';
+    }
+
     var maxWeekday = Math.max.apply(null, q.weekdayStats.map(function (d) { return d.games; })) || 1;
     var weekdayHtml = q.weekdayStats.map(function (d) {
       var pct = Math.round((d.games / maxWeekday) * 100);
@@ -1961,8 +2094,10 @@ LEAGUE_JS = """
 
     wrap.innerHTML =
       '<div class="stats-section"><div class="stats-block-title">' + esc(I.seasonBestTitle) + ' <span class="profile-section-note">' + esc(I.seasonBestSub) + '</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
+      + masterySectionHtml()
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div><div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + combatSectionHtml(q, rankAverages) + visionSectionHtml(q) + recordsSectionHtml(q)
       + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
       + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart" data-bm-chart="' + bmAttr(weekdayPayload) + '">' + weekdayHtml + '</div>'
       + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
@@ -3889,6 +4024,17 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio",
         "devBadge": "En développement -- en attente de l'API de production Riot",
         "lpProgressTitle": "Progression de LP",
+        "thDpm": "DPM", "dpmLabel": "DPM",
+        "commsRealTitle": "Communication en jeu (pings)",
+        "commsRealNote": "Pings réellement envoyés, moyenne par partie sur tes {n} dernières parties. Riot n'expose pas les messages de chat, uniquement les pings.",
+        "pingsPerGame": "pings / partie",
+        "pingLabels": {"allInPings": "All-in", "assistMePings": "Aide-moi", "basicPings": "Basique", "commandPings": "Commande", "dangerPings": "Danger", "enemyMissingPings": "Ennemi disparu", "enemyVisionPings": "Ennemi repéré", "getBackPings": "Reculez", "holdPings": "Tenir", "needVisionPings": "Besoin de vision", "onMyWayPings": "En chemin", "pushPings": "Poussez", "retreatPings": "Retraite", "visionClearedPings": "Vision nettoyée"},
+        "combatTitle": "Profil de combat", "perGameNote": "Moyennes sur tes parties de cette file.",
+        "kpiDpm": "Dégâts / min (DPM)", "kpiDmgTaken": "Dégâts subis / min", "kpiMitigated": "Dégâts mitigés / min", "kpiCc": "Contrôle infligé", "kpiDead": "Temps passé mort", "kpiHeal": "Soins / min", "kpiVsRank": "vs moyenne du rang",
+        "visionTitle": "Vision & objectifs", "kpiVisionMin": "Vision / min", "kpiWardsPlaced": "Balises posées", "kpiWardsKilled": "Balises détruites", "kpiControlWards": "Balises de contrôle", "kpiTurrets": "Tours", "kpiPlates": "Plaques", "kpiDragons": "Dragons", "kpiBarons": "Barons", "kpiHeralds": "Hérauts", "kpiObjDmg": "Dégâts obj. / min", "perGameUnit": "/ partie",
+        "recordsTitle": "Records & tendances", "kpiBestKda": "Meilleur KDA", "kpiMostKills": "Plus de kills", "kpiBestDpm": "Meilleur DPM", "kpiPentas": "Pentakills", "kpiSpree": "Plus longue série", "kpiFirstBlood": "Premier sang", "kpiSoloKills": "Solo kills",
+        "kpiStreakWin": "Série de victoires", "kpiStreakLoss": "Série de défaites", "kpiAfterLoss": "Winrate après une défaite", "kpiShort": "Parties < 25 min", "kpiMid": "Parties 25-35 min", "kpiLong": "Parties 35 min +", "gamesUnitShort": "parties", "quadrasLabel": "quadras",
+        "masteryTitle": "Maîtrise des champions", "masteryLevel": "Niv.", "masteryPts": "pts",
         "lpProgressNote": "Non classé dans cette file, ou aucun relevé de LP enregistré pour l'instant -- revient plus tard une fois que ce profil aura été recherché en étant classé.",
         "lpTrackingBadge": "Suivi démarré -- 1 seul relevé pour l'instant",
         "lpOnePointNote": "Premier relevé de LP réel enregistré. Reviens après une nouvelle recherche (idéalement après quelques parties) pour voir la courbe se dessiner.",
@@ -3939,6 +4085,17 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Games", "thWinrate": "Winrate", "thAvgKda": "Avg KDA", "thRatio": "Ratio",
         "devBadge": "In development -- pending Riot's production API",
         "lpProgressTitle": "LP progress",
+        "thDpm": "DPM", "dpmLabel": "DPM",
+        "commsRealTitle": "In-game communication (pings)",
+        "commsRealNote": "Pings you actually sent, average per game over your last {n} games. Riot doesn't expose chat messages, only pings.",
+        "pingsPerGame": "pings / game",
+        "pingLabels": {"allInPings": "All-in", "assistMePings": "Assist me", "basicPings": "Basic", "commandPings": "Command", "dangerPings": "Danger", "enemyMissingPings": "Enemy missing", "enemyVisionPings": "Enemy vision", "getBackPings": "Get back", "holdPings": "Hold", "needVisionPings": "Need vision", "onMyWayPings": "On my way", "pushPings": "Push", "retreatPings": "Retreat", "visionClearedPings": "Vision cleared"},
+        "combatTitle": "Combat profile", "perGameNote": "Averages over your games in this queue.",
+        "kpiDpm": "Damage / min (DPM)", "kpiDmgTaken": "Damage taken / min", "kpiMitigated": "Damage mitigated / min", "kpiCc": "Crowd control dealt", "kpiDead": "Time spent dead", "kpiHeal": "Healing / min", "kpiVsRank": "vs rank average",
+        "visionTitle": "Vision & objectives", "kpiVisionMin": "Vision / min", "kpiWardsPlaced": "Wards placed", "kpiWardsKilled": "Wards destroyed", "kpiControlWards": "Control wards", "kpiTurrets": "Turrets", "kpiPlates": "Plates", "kpiDragons": "Dragons", "kpiBarons": "Barons", "kpiHeralds": "Heralds", "kpiObjDmg": "Obj. damage / min", "perGameUnit": "/ game",
+        "recordsTitle": "Records & trends", "kpiBestKda": "Best KDA", "kpiMostKills": "Most kills", "kpiBestDpm": "Best DPM", "kpiPentas": "Pentakills", "kpiSpree": "Longest spree", "kpiFirstBlood": "First blood", "kpiSoloKills": "Solo kills",
+        "kpiStreakWin": "Win streak", "kpiStreakLoss": "Loss streak", "kpiAfterLoss": "Winrate after a loss", "kpiShort": "Games < 25 min", "kpiMid": "Games 25-35 min", "kpiLong": "Games 35 min +", "gamesUnitShort": "games", "quadrasLabel": "quadras",
+        "masteryTitle": "Champion mastery", "masteryLevel": "Lvl", "masteryPts": "pts",
         "lpProgressNote": "Unranked in this queue, or no LP recorded yet -- check back once this profile has been looked up while ranked.",
         "lpTrackingBadge": "Tracking started -- only 1 point so far",
         "lpOnePointNote": "First real LP point recorded. Come back after another lookup (ideally after a few games) to watch the curve take shape.",
@@ -7302,6 +7459,29 @@ def main() -> None:
   .info-hint { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-faint); color: var(--text-faint); font-size: 9px; cursor: help; flex: none; }
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
   .weekday-chart[data-bm-mounted] { display: block; height: auto; }
+  .stats-radar:not([data-bm-mounted]) { display: none; }
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .kpi-tile { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; min-width: 0; }
+  .kpi-label { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
+  .kpi-value { font-size: 20px; font-weight: 700; margin-top: 6px; color: var(--cream); font-variant-numeric: tabular-nums; }
+  .kpi-value.accent { color: var(--magenta); }
+  .kpi-value.good { color: var(--good); }
+  .kpi-value.warn { color: var(--warn); }
+  .kpi-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
+  .kpi-sub .dim { color: var(--text-faint); }
+  .mastery-list { display: flex; flex-direction: column; gap: 8px; }
+  .mastery-row { display: grid; grid-template-columns: 30px minmax(70px, 130px) 56px 1fr 92px; align-items: center; gap: 10px; }
+  .mastery-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .mastery-level, .mastery-pts { font-size: 11px; color: var(--text-dim); }
+  .mastery-pts { text-align: right; }
+  .mastery-bar-track { height: 6px; background: var(--bg-2); border: 1px solid var(--border); }
+  .mastery-bar-fill { height: 100%; background: linear-gradient(90deg, var(--magenta), var(--cream)); }
+  .scoreboard-dpm { width: 56px; text-align: right; font-size: 10px; }
+  .match-dpm { width: 58px; }
+  @media (max-width: 1000px) { .match-dpm { display: none; } }
+  .match-queue { display: none; }
+  @media (prefers-reduced-motion: no-preference) { .mastery-bar-fill { animation: bm-reveal .9s cubic-bezier(.16,1,.3,1) both; } }
+  .stats-radar { display: flex; justify-content: center; margin: 4px 0 18px; }
   .rank-ring-wrap[data-bm-mounted] { width: 112px; height: 96px; margin-left: -16px; }
   @keyframes bm-reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
   @keyframes bm-grow { from { transform: scaleY(0); } to { transform: scaleY(1); } }

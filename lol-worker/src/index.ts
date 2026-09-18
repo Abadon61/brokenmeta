@@ -40,6 +40,13 @@ export interface Env {
 // request cache that might be cold at once (items/spells/perks/rune
 // trees/champion ids), at the cost of a slightly shorter match history.
 const MATCHES_PER_QUEUE = 15;
+
+// Match-V5 exposes every ping type per participant (chat messages are the
+// only communication data Riot does NOT expose).
+const PING_KEYS = [
+  "allInPings", "assistMePings", "basicPings", "commandPings", "dangerPings", "enemyMissingPings", "enemyVisionPings",
+  "getBackPings", "holdPings", "needVisionPings", "onMyWayPings", "pushPings", "retreatPings", "visionClearedPings",
+] as const;
 const WEEKDAY_LABELS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
 function corsHeaders(origin: string): Record<string, string> {
@@ -98,7 +105,7 @@ async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionC
   // de la région, et sert à corriger l'URL de CHAQUE objet de CHAQUE
   // partie plus bas (voir itemData.ts pour pourquoi un id seul ne suffit
   // pas à construire l'URL d'icône).
-  const [summoner, leagueEntries, itemIconMap, spellMap, perkMap, treeMap, activeGame] = await Promise.all([
+  const [summoner, leagueEntries, itemIconMap, spellMap, perkMap, treeMap, activeGame, topMasteries] = await Promise.all([
     client.getSummonerByPuuid(platform, puuid),
     client.getLeagueEntriesByPuuid(platform, puuid),
     getItemIconMap(),
@@ -106,6 +113,7 @@ async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionC
     getPerkMap(),
     getRuneTreeMap(), // every match row's secondary-rune-style icon needs this, not just live games
     client.getActiveGameByPuuid(platform, puuid),
+    client.getTopMasteries(platform, puuid, 5).catch(() => []), // optional: never let it break a profile
   ]);
   const soloEntry = leagueEntries.find((e) => e.queueType === "RANKED_SOLO_5x5") || null;
   const flexEntry = leagueEntries.find((e) => e.queueType === "RANKED_FLEX_SR") || null;
@@ -116,6 +124,13 @@ async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionC
   // close to Cloudflare's per-invocation subrequest ceiling (up to 40
   // match detail fetches), so anything unconditional gets added at real
   // risk of tipping it over -- confirmed live during this rollout.
+  let mastery: { champ: string; level: number; points: number; lastPlayed: number }[] = [];
+  if (topMasteries.length) {
+    const idMap = await getChampionIdMap().catch(() => ({} as Record<number, string>));
+    mastery = topMasteries
+      .map((m) => ({ champ: idMap[m.championId] || "", level: m.championLevel, points: m.championPoints, lastPlayed: m.lastPlayTime }))
+      .filter((m) => m.champ);
+  }
   const liveGame = activeGame
     ? extractLiveGame(activeGame, puuid, await getChampionIdMap(), spellMap, perkMap, treeMap)
     : null;
@@ -157,6 +172,7 @@ async function handleProfile(url: URL, env: Env, origin: string, ctx: ExecutionC
     },
     rankAverages,
     liveGame,
+    mastery,
     lpHistory: { solo: lpHistorySolo, flex: lpHistoryFlex },
     queues: {
       solo: buildQueueBlock(soloMatches, puuid),
@@ -358,7 +374,7 @@ async function fetchMatchesSequential(
   return out;
 }
 
-function extractMatch(
+export function extractMatch(
   match: any, puuid: string, itemIconMap: Record<number, string>,
   spellMap: Record<number, IconRef>, perkMap: Record<number, IconRef>, treeMap: Record<number, IconRef>
 ) {
@@ -388,9 +404,13 @@ function extractMatch(
     name: p.puuid === puuid ? null : (p.riotIdGameName ? `${p.riotIdGameName}#${p.riotIdTagline}` : p.summonerName || "Joueur inconnu"),
     champion: p.championName, role: LANE_TO_ROLE[p.individualPosition] || "mid",
     kills: p.kills, deaths: p.deaths, assists: p.assists,
-    cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0), gold: p.goldEarned || 0,
+    cs: (p.totalMinionsKilled || 0) + (p.neutralMinionsKilled || 0), gold: p.goldEarned || 0, dmg: p.totalDamageDealtToChampions || 0,
     items: [p.item0, p.item1, p.item2, p.item3, p.item4, p.item5, p.item6].map((id: number) => ({ id, iconUrl: itemIconMap[id] || null })),
   }));
+
+  const ch = me.challenges || {};
+  const pings: Record<string, number> = {};
+  for (const k of PING_KEYS) pings[k] = me[k] || 0;
 
   const startedAt = info.gameStartTimestamp || match.info.gameCreation;
   const d = new Date(startedAt);
@@ -404,7 +424,22 @@ function extractMatch(
     kills: me.kills, deaths: me.deaths, assists: me.assists, cs,
     durationMin: Math.round(durationMin * 10) / 10,
     goldPerMin: Math.round((me.goldEarned || 0) / durationMin),
+    dmg: me.totalDamageDealtToChampions || 0,
     dmgPerMin: Math.round((me.totalDamageDealtToChampions || 0) / durationMin),
+    pings,
+    vision: { score: me.visionScore || 0, wardsPlaced: me.wardsPlaced || 0, wardsKilled: me.wardsKilled || 0, controlWards: me.visionWardsBoughtInGame || 0 },
+    objectives: {
+      turrets: me.turretTakedowns || 0, plates: ch.turretPlatesTaken || 0, dragons: ch.dragonTakedowns || 0,
+      barons: ch.baronTakedowns || 0, heralds: ch.riftHeraldTakedowns || 0, objDamage: me.damageDealtToObjectives || 0,
+    },
+    combat: {
+      damageTaken: me.totalDamageTaken || 0, mitigated: me.damageSelfMitigated || 0, ccTime: me.timeCCingOthers || 0,
+      timeDead: me.totalTimeSpentDead || 0, heal: me.totalHeal || 0,
+    },
+    multi: {
+      double: me.doubleKills || 0, triple: me.tripleKills || 0, quadra: me.quadraKills || 0, penta: me.pentaKills || 0,
+      spree: me.largestKillingSpree || 0, firstBlood: !!me.firstBloodKill, soloKills: ch.soloKills || 0,
+    },
     killParticipation: Math.round(((me.kills + me.assists) / teamKills) * 100),
     items: [me.item0, me.item1, me.item2, me.item3, me.item4, me.item5, me.item6].map((id) => ({ id, iconUrl: itemIconMap[id] || null })),
     spells: [me.summoner1Id, me.summoner2Id].map((id) => ({ id, name: spellMap[id]?.name || "?", iconUrl: spellMap[id]?.iconUrl ?? null })),
@@ -417,12 +452,12 @@ function extractMatch(
   };
 }
 
-function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
+export function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
   const roleMap: Record<string, { role: string; games: number; wins: number }> = {};
   const weekday = WEEKDAY_LABELS.map((label, idx) => ({ label, idx, games: 0, wins: 0 }));
   const hourly = Array.from({ length: 24 }, (_, hour) => ({ hour, games: 0, wins: 0 }));
   const teammateMap: Record<string, { riotId: string; games: number; wins: number }> = {};
-  const champMap: Record<string, { champ: string; games: number; wins: number; kills: number; deaths: number; assists: number }> = {};
+  const champMap: Record<string, { champ: string; games: number; wins: number; kills: number; deaths: number; assists: number; dpm: number }> = {};
   let csSum = 0, goldSum = 0, dmgSum = 0, kpSum = 0;
 
   for (const m of matches) {
@@ -442,11 +477,11 @@ function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
       teammateMap[t.puuid].games++;
       if (m.win) teammateMap[t.puuid].wins++;
     }
-    if (!champMap[m.champion]) champMap[m.champion] = { champ: m.champion, games: 0, wins: 0, kills: 0, deaths: 0, assists: 0 };
+    if (!champMap[m.champion]) champMap[m.champion] = { champ: m.champion, games: 0, wins: 0, kills: 0, deaths: 0, assists: 0, dpm: 0 };
     const c = champMap[m.champion];
     c.games++;
     if (m.win) c.wins++;
-    c.kills += m.kills; c.deaths += m.deaths; c.assists += m.assists;
+    c.kills += m.kills; c.deaths += m.deaths; c.assists += m.assists; c.dpm += m.dmgPerMin;
   }
 
   const n = matches.length || 1;
@@ -464,12 +499,73 @@ function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
       champ: c.champ, games: c.games, wr: Math.round((c.wins / c.games) * 100),
       avgKills: Math.round((c.kills / c.games) * 10) / 10, avgDeaths: Math.round((c.deaths / c.games) * 10) / 10, avgAssists: Math.round((c.assists / c.games) * 10) / 10,
       kda: Math.round(((c.kills + c.assists) / Math.max(1, c.deaths)) * 10) / 10,
+      dpm: Math.round(c.dpm / c.games),
     }))
     .sort((a, b) => b.games - a.games);
+
+  const r1 = (x: number) => Math.round(x * 10) / 10;
+  const avg = (f: (m: ExtractedMatch) => number) => matches.reduce((sum, m) => sum + f(m), 0) / n;
+  const total = (f: (m: ExtractedMatch) => number) => matches.reduce((sum, m) => sum + f(m), 0);
+
+  const pingsByType: Record<string, number> = {};
+  for (const k of PING_KEYS) pingsByType[k] = r1(avg((m) => m.pings[k] || 0));
+  const totalMinutes = total((m) => m.durationMin) || 1;
+  const allPings = total((m) => Object.values(m.pings).reduce((a, b) => a + b, 0));
+  const pings = { perGame: r1(allPings / n), perMin: r1(allPings / totalMinutes), byType: pingsByType };
+  const vision = {
+    scorePerMin: r1(avg((m) => m.vision.score / m.durationMin)), wardsPlaced: r1(avg((m) => m.vision.wardsPlaced)),
+    wardsKilled: r1(avg((m) => m.vision.wardsKilled)), controlWards: r1(avg((m) => m.vision.controlWards)),
+  };
+  const objectives = {
+    turrets: r1(avg((m) => m.objectives.turrets)), plates: r1(avg((m) => m.objectives.plates)), dragons: r1(avg((m) => m.objectives.dragons)),
+    barons: r1(avg((m) => m.objectives.barons)), heralds: r1(avg((m) => m.objectives.heralds)),
+    objDamagePerMin: Math.round(avg((m) => m.objectives.objDamage / m.durationMin)),
+  };
+  const combat = {
+    dpm: Math.round(dmgSum / n), damageTakenPerMin: Math.round(avg((m) => m.combat.damageTaken / m.durationMin)),
+    mitigatedPerMin: Math.round(avg((m) => m.combat.mitigated / m.durationMin)), ccTime: r1(avg((m) => m.combat.ccTime)),
+    deadPct: r1(avg((m) => (m.combat.timeDead / (m.durationMin * 60)) * 100)), healPerMin: Math.round(avg((m) => m.combat.heal / m.durationMin)),
+  };
+
+  const kdaOf = (m: ExtractedMatch) => (m.kills + m.assists) / Math.max(1, m.deaths);
+  const pick = (better: (a: ExtractedMatch, b: ExtractedMatch) => boolean) =>
+    matches.reduce<ExtractedMatch | null>((best, m) => (!best || better(m, best) ? m : best), null);
+  const bestKda = pick((a, b) => kdaOf(a) > kdaOf(b));
+  const bestKills = pick((a, b) => a.kills > b.kills);
+  const bestDpm = pick((a, b) => a.dmgPerMin > b.dmgPerMin);
+  const records = matches.length ? {
+    bestKda: bestKda && { champion: bestKda.champion, kills: bestKda.kills, deaths: bestKda.deaths, assists: bestKda.assists, kda: r1(kdaOf(bestKda)), win: bestKda.win },
+    mostKills: bestKills && { champion: bestKills.champion, kills: bestKills.kills, win: bestKills.win },
+    bestDpm: bestDpm && { champion: bestDpm.champion, dpm: bestDpm.dmgPerMin, win: bestDpm.win },
+    pentas: total((m) => m.multi.penta), quadras: total((m) => m.multi.quadra), triples: total((m) => m.multi.triple),
+    longestSpree: Math.max(...matches.map((m) => m.multi.spree)),
+    firstBloodPct: Math.round((total((m) => (m.multi.firstBlood ? 1 : 0)) / n) * 100),
+    soloKills: total((m) => m.multi.soloKills),
+  } : null;
+
+  // matches are newest-first (Match-V5 id order).
+  let streakLen = 0;
+  for (const m of matches) { if (m.win === matches[0].win) streakLen++; else break; }
+  let afterLossGames = 0, afterLossWins = 0;
+  for (let i = 0; i < matches.length - 1; i++) {
+    if (!matches[i + 1].win) { afterLossGames++; if (matches[i].win) afterLossWins++; }
+  }
+  const form = matches.length ? {
+    streak: { type: matches[0].win ? "win" : "loss", length: streakLen },
+    afterLoss: afterLossGames >= 3 ? { games: afterLossGames, wr: Math.round((afterLossWins / afterLossGames) * 100) } : null,
+  } : null;
+  const bucketOf = (m: ExtractedMatch) => (m.durationMin < 25 ? "short" : m.durationMin < 35 ? "mid" : "long");
+  const durationStats = (["short", "mid", "long"] as const)
+    .map((bucket) => {
+      const ms = matches.filter((m) => bucketOf(m) === bucket);
+      return { bucket, games: ms.length, wr: ms.length ? Math.round((ms.filter((m) => m.win).length / ms.length) * 100) : 0 };
+    })
+    .filter((b) => b.games > 0);
 
   return {
     matches: matches.map(({ teammates, ...rest }) => rest),
     roleStats, weekdayStats, hourlyStats, playedWith, champions,
     statsAvg: { csPerMin: csSum / n, goldPerMin: goldSum / n, dmgPerMin: dmgSum / n, killParticipation: kpSum / n },
+    pings, vision, objectives, combat, records, form, durationStats,
   };
 }

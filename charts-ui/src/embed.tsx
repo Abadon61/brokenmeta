@@ -6,6 +6,13 @@ import { BarChart } from "@/components/charts/bar-chart";
 import { BarXAxis } from "@/components/charts/bar-x-axis";
 import { Gauge } from "@/components/charts/gauge";
 import { Grid } from "@/components/charts/grid";
+import { RadarArea } from "@/components/charts/radar-area";
+import { RadarAxis } from "@/components/charts/radar-axis";
+import { RadarChart } from "@/components/charts/radar-chart";
+import { RadarGrid } from "@/components/charts/radar-grid";
+import { RadarLabels } from "@/components/charts/radar-labels";
+import { Ring } from "@/components/charts/ring";
+import { RingChart } from "@/components/charts/ring-chart";
 import { ChartTooltip } from "@/components/charts/tooltip";
 import { XAxis } from "@/components/charts/x-axis";
 import css from "./embed.css?inline";
@@ -13,7 +20,10 @@ import css from "./embed.css?inline";
 type Series = { key: string; label: string; color: string };
 type Row = Record<string, string | number>;
 type Payload = {
-  type?: "area" | "bar" | "gauge";
+  type?: "area" | "bar" | "gauge" | "gauge-linear" | "ring" | "radar";
+  rings?: { label: string; value: number; maxValue: number; color?: string }[];
+  metrics?: { key: string; label: string }[];
+  radar?: { label: string; color?: string; values: Record<string, number> }[];
   series?: Series[];
   data?: Row[];
   aspectRatio?: string;
@@ -86,6 +96,55 @@ function gauge(p: Payload) {
   );
 }
 
+function linearGauge(p: Payload) {
+  return (
+    <Gauge
+      orientation="linear"
+      value={p.value ?? 0}
+      centerValue={p.value ?? 0}
+      suffix={p.suffix}
+      defaultLabel={p.label}
+      activeFill={p.color}
+      inactiveFill="rgba(240,231,216,0.12)"
+      totalNotches={40}
+      minWidth={0}
+      linearHeight={22}
+    />
+  );
+}
+
+function ringChart(p: Payload) {
+  const rings = p.rings ?? [];
+  const size = p.size ?? 150;
+  const first = rings[0];
+  return (
+    <div style={{ position: "relative", width: size, height: size, margin: "0 auto" }}>
+      <RingChart data={rings} size={size} strokeWidth={9} ringGap={5} baseInnerRadius={34}>
+        {rings.map((r, i) => (
+          <Ring key={r.label} index={i} color={r.color} />
+        ))}
+      </RingChart>
+      <div style={{ position: "absolute", inset: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", pointerEvents: "none", lineHeight: 1.15 }}>
+        <div style={{ fontSize: 22, fontWeight: 700, color: "var(--chart-tooltip-foreground)" }}>{first?.value}%</div>
+        <div style={{ fontSize: 10, color: "var(--chart-tooltip-muted)" }}>{first?.label}</div>
+      </div>
+    </div>
+  );
+}
+
+function radarChart(p: Payload) {
+  return (
+    <RadarChart data={p.radar ?? []} metrics={p.metrics ?? []} size={p.size ?? 230} margin={76}>
+      <RadarGrid />
+      <RadarAxis />
+      <RadarLabels />
+      {(p.radar ?? []).map((r, i) => (
+        <RadarArea key={r.label} index={i} color={r.color} />
+      ))}
+    </RadarChart>
+  );
+}
+
 function mount(el: HTMLElement) {
   if (el.dataset.bmMounted) return;
   let p: Payload;
@@ -95,7 +154,7 @@ function mount(el: HTMLElement) {
     return;
   }
   const type = p.type ?? "area";
-  if (type !== "gauge" && (!p.data || p.data.length < (type === "area" ? 2 : 1))) return;
+  if (!["gauge", "gauge-linear", "ring", "radar"].includes(type) && (!p.data || p.data.length < (type === "area" ? 2 : 1))) return;
   el.dataset.bmMounted = "true";
 
   const host = document.createElement("div");
@@ -105,7 +164,10 @@ function mount(el: HTMLElement) {
   style.textContent = css;
   const root = document.createElement("div");
   shadow.append(style, root);
-  createRoot(root).render(type === "gauge" ? gauge(p) : type === "bar" ? barChart(p) : areaChart(p));
+  const views: Record<string, (q: Payload) => React.ReactElement> = {
+    gauge, "gauge-linear": linearGauge, ring: ringChart, radar: radarChart, bar: barChart, area: areaChart,
+  };
+  createRoot(root).render(views[type](p));
   el.replaceChildren(host);
 }
 
