@@ -2,25 +2,28 @@
   @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap');
 
   :root {
-    --bg: #0b0221;
-    --bg-2: #170a3d;
-    --row: #170a3d;
-    --row-hover: #200f52;
-    --border: #3d1f7a;
-    --border-bright: #6b3fc9;
-    --magenta: #ff2d95;
-    --magenta-dim: rgba(255,45,149,0.14);
-    --cyan: #05d9e8;
-    --red: #ff3864;
+    /* Palette de marque (media/code_couleur) : marine #140f2d, rouge #d72638,
+       crème #f0e7d8. Un seul accent (rouge) ; --cyan devient la crème pour
+       les liens/états actifs. Les couleurs de tier/coût restent sémantiques. */
+    --bg: #100b26;
+    --bg-2: #1a1440;
+    --row: #1a1440;
+    --row-hover: #251c58;
+    --border: #2f2760;
+    --border-bright: #4d4192;
+    --magenta: #d72638;
+    --magenta-dim: rgba(215,38,56,0.16);
+    --cyan: #f0e7d8;
+    --red: #ff5a6b;
     --gold: #ffc23c;
     --teal: #2de6c4;
-    --gray: #9a8fc4;
-    --cream: #f3eeff;
-    --text-dim: #b7a9e0;
-    --text-faint: #6f5fa8;
+    --gray: #9a92bd;
+    --cream: #f0e7d8;
+    --text-dim: #bdb4cf;
+    --text-faint: #8a81ab;
     --cost-1: #9aa4af;
     --cost-2: #2de6c4;
-    --cost-3: #05d9e8;
+    --cost-3: #f0e7d8;
     --cost-4: #c76bff;
     --cost-5: #ffc23c;
     --good: #2de6c4;
@@ -40,7 +43,7 @@
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
-  ::selection { background: var(--magenta); color: #0b0221; }
+  ::selection { background: var(--magenta); color: #100b26; }
   a { color: inherit; }
   .nums { font-family: 'Space Mono', monospace; font-variant-numeric: tabular-nums; }
 
@@ -146,7 +149,7 @@
     letter-spacing: 0.05em; padding: 6px 10px;
   }
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
-  .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
+  .lang-btn[data-active="true"] { background: var(--cyan); color: #100b26; }
   .lang-btn:hover:not([data-active="true"]) { color: var(--cream); }
 
   /* Switch entre les jeux gérés par le site -- vit dans le topbar (pas
@@ -179,7 +182,8 @@
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 12px;
-    background: var(--magenta);
+    background: #1a1440;
+    border-bottom: 2px solid var(--magenta);
     position: relative;
   }
   .navbar .title {
@@ -239,15 +243,14 @@
      blending in with the plain text nav-links. */
   .nav-cta-button {
     display: flex; align-items: center; gap: 6px;
-    background: var(--bg); color: var(--cyan); text-decoration: none;
+    background: var(--magenta); color: var(--cream); text-decoration: none;
     font-family: 'Cal Sans', sans-serif; font-size: 12.5px; font-weight: 700;
     letter-spacing: 0.04em; text-transform: uppercase;
     padding: 7px 14px 7px 12px;
-    box-shadow: 0 0 0 1px rgba(11,2,33,0.15);
-    transition: background .12s ease, color .12s ease;
+    transition: background .16s ease, transform .16s ease;
   }
   .nav-cta-button svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.4; flex: none; }
-  .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: #fff; color: var(--cyan); }
+  .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: #ef3448; color: #fff; }
 
   .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   /* Not a link/button -- there's nowhere real to send anyone yet (the
@@ -407,7 +410,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
-  .chip[data-active="true"] { color: #0b0221; border-color: transparent; }
+  .chip[data-active="true"] { color: #100b26; border-color: transparent; }
   /* Region/rank/playstyle chips have no per-value color the way S/A/B/C
      do below -- without an explicit background here, "active" only got a
      dark navy text color with nothing to contrast it against (the row's
@@ -452,7 +455,7 @@
   .rank-option-count { flex: none; font-size: 11px; color: var(--text-faint); }
   .rank-filter-apply {
     margin: 6px 10px 10px; padding: 9px;
-    background: var(--cyan); border: none; color: #0b0221;
+    background: var(--cyan); border: none; color: #100b26;
     font-family: 'Space Mono', monospace; font-weight: 700; font-size: 12px;
     text-transform: uppercase; letter-spacing: 0.05em;
   }
@@ -536,7 +539,7 @@
     font-family: 'Cal Sans', sans-serif;
     font-weight: 700;
     font-size: 24px;
-    color: #0b0221;
+    color: #100b26;
     background: var(--tc);
     position: relative;
   }
@@ -573,7 +576,7 @@
     margin-left: 8px;
     border: 1px solid var(--cyan);
     color: var(--cyan);
-    background: rgba(5,217,232,0.1);
+    background: rgba(240,231,216,0.1);
   }
   .playstyle-tag {
     display: inline-block;
@@ -727,7 +730,7 @@
   #tooltip {
     position: fixed; z-index: 50; pointer-events: none;
     background: var(--bg-2); border: 1px solid var(--border-bright);
-    padding: 10px 12px; box-shadow: 0 0 24px rgba(255,45,149,0.15), 0 10px 24px -10px rgba(0,0,0,0.7);
+    padding: 10px 12px; box-shadow: 0 0 24px rgba(215,38,56,0.15), 0 10px 24px -10px rgba(0,0,0,0.7);
     font-size: 12px; min-width: 165px; opacity: 0; transition: opacity .1s ease;
   }
   #tooltip[data-visible="true"] { opacity: 1; }
@@ -776,14 +779,14 @@
   .error-page { text-align: center; padding: 70px 20px 40px; }
   .error-code {
     font-family: 'Cal Sans', sans-serif; font-size: 96px; font-weight: 700; line-height: 1;
-    color: var(--magenta); text-shadow: 0 0 34px rgba(255,45,149,0.4);
+    color: var(--magenta); text-shadow: 0 0 34px rgba(215,38,56,0.4);
   }
   .error-page .page-h1 { margin-top: 14px; }
   .error-page .page-intro { max-width: 520px; margin: 0 auto; }
   .error-actions { display: flex; align-items: center; justify-content: center; gap: 22px; flex-wrap: wrap; margin-top: 30px; }
   .error-actions .fiche-link { margin-top: 0; }
   .error-cta {
-    background: var(--cyan); color: #0b0221; border: none;
+    background: var(--cyan); color: #100b26; border: none;
     padding: 12px 22px; font-family: 'Space Mono', monospace; font-weight: 700; font-size: 13px;
     text-transform: uppercase; letter-spacing: 0.05em;
   }
@@ -863,7 +866,7 @@
     width: 58px; height: 58px; flex: none;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 28px;
-    color: #0b0221; background: var(--tc);
+    color: #100b26; background: var(--tc);
   }
   .fiche-tier-badge-hm { font-size: 16px; }
   .fiche-title { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 24px; text-transform: uppercase; letter-spacing: 0.01em; }
@@ -936,7 +939,7 @@
   .fiche-matchup-row[data-side="behind"] { border-left: 2px solid var(--warn); }
 
   .augments-note {
-    padding: 14px 16px; background: rgba(255,45,149,0.06); border: 1px dashed var(--border-bright);
+    padding: 14px 16px; background: rgba(215,38,56,0.06); border: 1px dashed var(--border-bright);
     color: var(--text-dim); font-size: 13px; line-height: 1.55;
   }
   .augments-note b { color: var(--cream); }
@@ -1004,7 +1007,7 @@
     width: 28px; height: 28px; flex: none;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 14px;
-    color: #0b0221; background: var(--tc);
+    color: #100b26; background: var(--tc);
   }
   .champ-name-cell { display: flex; align-items: center; gap: 10px; }
   .champ-table-icon { width: 32px; height: 32px; object-fit: cover; border: 1px solid var(--border-bright); flex: none; }
@@ -1015,7 +1018,7 @@
      .champ-items above, just champion portraits instead of item icons. */
   .champ-icon-sm { width: 24px; height: 24px; border: 1px solid var(--border-bright); object-fit: cover; flex: none; }
   .champ-unranked-note {
-    margin-top: 16px; padding: 12px 14px; background: rgba(255,45,149,0.06);
+    margin-top: 16px; padding: 12px 14px; background: rgba(215,38,56,0.06);
     border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; line-height: 1.5;
   }
   .champ-table tr { cursor: pointer; }
@@ -1029,7 +1032,7 @@
     width: 46px; height: 46px; flex: none;
     display: flex; align-items: center; justify-content: center;
     font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 22px;
-    color: #0b0221; background: var(--tc);
+    color: #100b26; background: var(--tc);
   }
   .champ-fiche-name { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; }
   .champ-fiche-ability-name { font-size: 11.5px; color: var(--cyan); font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
@@ -1056,7 +1059,7 @@
   .ccr-tier {
     width: 26px; height: 26px; flex: none;
     display: flex; align-items: center; justify-content: center;
-    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 13px; color: #0b0221;
+    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 13px; color: #100b26;
   }
   .ccr-name { flex: 1; min-width: 0; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ccr-stats { display: flex; gap: 14px; font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text-faint); flex: none; }
@@ -1064,7 +1067,7 @@
 
   /* ---------- Patch notes ---------- */
   .patch-note-banner {
-    padding: 12px 14px; margin-bottom: 22px; background: rgba(5,217,232,0.06);
+    padding: 12px 14px; margin-bottom: 22px; background: rgba(240,231,216,0.06);
     border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; line-height: 1.55;
   }
   .patch-note-banner a { color: var(--cyan); font-weight: 600; }
@@ -1083,7 +1086,7 @@
   .patch-tag {
     display: inline-block; font-size: 9.5px; font-weight: 700; font-family: 'Space Mono', monospace;
     text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; margin-left: 10px;
-    border: 1px solid var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1);
+    border: 1px solid var(--magenta); color: var(--magenta); background: rgba(215,38,56,0.1);
   }
   .patch-date { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text-faint); flex: none; }
   .patch-summary { font-size: 13.5px; line-height: 1.65; color: var(--text-dim); margin: 10px 0 12px; max-width: 680px; }
@@ -1117,7 +1120,7 @@
   }
   .lb-tier-tag[data-tier="CHALLENGER"] { border-color: var(--gold); color: var(--gold); background: rgba(255,194,60,0.12); }
   .lb-tier-tag[data-tier="GRANDMASTER"] { border-color: var(--red); color: var(--red); background: rgba(255,56,100,0.12); }
-  .lb-tier-tag[data-tier="MASTER"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.12); }
+  .lb-tier-tag[data-tier="MASTER"] { border-color: var(--cyan); color: var(--cyan); background: rgba(240,231,216,0.12); }
   .lb-form { display: flex; gap: 3px; }
   .lb-square {
     display: inline-flex; align-items: center; justify-content: center;
@@ -1128,7 +1131,7 @@
   .lb-square.loss { background: var(--warn); color: #2a060d; }
   .lb-square.empty { border: 1px dashed var(--border); color: var(--text-faint); }
   .lb-note {
-    margin-top: 16px; padding: 12px 14px; background: rgba(5,217,232,0.06);
+    margin-top: 16px; padding: 12px 14px; background: rgba(240,231,216,0.06);
     border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; line-height: 1.55;
   }
   .lb-header-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -1474,6 +1477,64 @@
   .item-champ-table td.num.good { color: var(--good); }
   .item-champ-table td.num.warn { color: var(--warn); }
 
+  /* ---------- Design proposal v2 : couche de polish ---------- */
+  ::selection { background: var(--magenta); color: var(--cream); }
+  .wordmark .meta { background: none; -webkit-background-clip: initial; background-clip: initial; color: var(--magenta); }
+  h1, h2, h3, .page-h1 { text-wrap: balance; }
+  .page-intro, p { text-wrap: pretty; }
+  html { scroll-behavior: smooth; }
+
+  /* Grain fixe, sans interaction : casse l'aplat numérique sans coût de scroll. */
+  body::after {
+    content: ''; position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: .05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  /* États : lien nav actif souligné, feedback au clic, focus visible cohérent. */
+  .nav-link { position: relative; transition: color .16s ease; }
+  .nav-link[data-active="true"]::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: var(--magenta);
+  }
+  a:focus-visible, button:focus-visible, summary:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px; }
+  button:active, .nav-cta-button:active, .chip:active { transform: translateY(1px) scale(.98); }
+  .chip, .lol-elo-btn, .game-toggle-btn { transition: background .16s ease, color .16s ease, border-color .16s ease, transform .16s ease; }
+  .chip:hover, .lol-elo-btn:hover { border-color: var(--border-bright); color: var(--cream); }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+
+  /* ---------- Graphiques animés (style Aceternity, SVG/CSS purs) ---------- */
+  @keyframes bm-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+  @keyframes bm-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes bm-pop { from { opacity: 0; transform: scale(.3); } to { opacity: 1; transform: scale(1); } }
+  @keyframes bm-pulse { 0% { opacity: .7; transform: scale(1); } 100% { opacity: 0; transform: scale(3.2); } }
+  @keyframes bm-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ws-line, .sparkline-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bm-draw 1.4s cubic-bezier(.16,1,.3,1) var(--d, 0s) forwards; }
+    .ws-area, .sparkline-area { opacity: 0; animation: bm-fade 1s ease-out calc(var(--d, 0s) + .5s) forwards; }
+    .sparkline-area { animation-name: bm-fade-soft; }
+    @keyframes bm-fade-soft { from { opacity: 0; } to { opacity: .12; } }
+    .ws-dot, .sparkline-dot { transform-box: fill-box; transform-origin: center; opacity: 0; animation: bm-pop .5s cubic-bezier(.34,1.56,.64,1) calc(var(--d, 0s) + 1.1s) forwards; }
+    .sparkline-dot { --d: 0s; }
+    .ws-pulse { transform-box: fill-box; transform-origin: center; animation: bm-pulse 2s ease-out infinite; animation-delay: var(--d, 0s); }
+    .ws-line { filter: drop-shadow(0 0 5px rgba(240,231,216,.22)); }
+    /* Là où le navigateur sait lier l'animation au scroll, le tracé se joue à l'entrée dans l'écran. */
+    @supports (animation-timeline: view()) {
+      .ws-line, .sparkline-line, .ws-area, .sparkline-area, .ws-dot, .sparkline-dot {
+        animation-timeline: view(); animation-range: entry 5% entry 75%; animation-delay: 0s; animation-duration: auto;
+      }
+    }
+    .comp-row { animation: bm-rise .45s cubic-bezier(.16,1,.3,1) both; }
+    .comp-row:nth-child(n+9) { animation: none; }
+  }
+  .ws-dot { transition: r .15s ease; cursor: pointer; }
+  .ws-dot:hover { r: 6; }
+  .comp-row { transition: background .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
+  .comp-row:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
@@ -1500,7 +1561,7 @@
   .lang-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .lang-btn { display: block; background: var(--row); border: none; color: var(--text-faint); font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; letter-spacing: 0.05em; padding: 6px 10px; text-decoration: none; }
   .lang-btn + .lang-btn { border-left: 1px solid var(--border-bright); }
-  .lang-btn[data-active="true"] { background: var(--cyan); color: #0b0221; }
+  .lang-btn[data-active="true"] { background: var(--cyan); color: #100b26; }
   .lang-btn:not([data-active="true"]):hover { color: var(--cream); }
 
   /* Balance-patch buff/nerf columns on the Patch Notes cards. */
@@ -1546,7 +1607,7 @@
   .profile-comp-row .profile-comp-name { text-decoration: none; color: inherit; }
   a.profile-comp-name:hover { color: var(--cyan); }
 
-  .metascope-lang-note { padding: 10px 14px; margin-bottom: 14px; background: rgba(5,217,232,0.06); border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; }
+  .metascope-lang-note { padding: 10px 14px; margin-bottom: 14px; background: rgba(240,231,216,0.06); border: 1px dashed var(--border-bright); color: var(--text-faint); font-size: 12px; }
   .metascope-insight-list { display: flex; flex-direction: column; gap: 8px; }
   .metascope-insight-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; background: var(--row); border: 1px solid var(--border); border-left: 3px solid var(--border); }
   .metascope-insight-row[data-type="good"] { border-left-color: var(--good); }
@@ -1570,7 +1631,7 @@
   .metascope-search-form .search-input { flex: 1; min-width: 220px; padding: 10px 14px; }
   .metascope-region-select { background: var(--row); border: 1px solid var(--border); color: var(--cream); font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; padding: 0 12px; }
   .metascope-search-button { background: var(--magenta); border: none; color: #fff; font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 0 20px; cursor: pointer; transition: background .12s ease; }
-  .metascope-search-button:hover { background: var(--cyan); color: #0b0221; }
+  .metascope-search-button:hover { background: var(--cyan); color: #100b26; }
   .metascope-status { padding: 10px 14px; margin-bottom: 16px; background: var(--row); border: 1px dashed var(--border-bright); color: var(--text-dim); font-size: 12.5px; }
   .metascope-status[data-error="true"] { border-color: var(--warn); color: var(--warn); }
 
@@ -1611,7 +1672,7 @@
   .favorites-promo-hint { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-dim); }
   .favorites-promo-hint svg { width: 14px; height: 14px; fill: var(--gold); flex: none; }
   .favorites-promo-button { align-self: flex-start; background: var(--magenta); color: #fff; font-family: 'Space Mono', monospace; font-size: 11.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 16px; transition: background .12s ease; }
-  .favorites-promo-button:hover { background: var(--cyan); color: #0b0221; }
+  .favorites-promo-button:hover { background: var(--cyan); color: #100b26; }
   @media (max-width: 720px) { .favorites-promo { width: 100%; } }
 
   /* ---------- /league/ -- real Riot LoL profile lookup (lol-worker).
@@ -1644,8 +1705,8 @@
      couleurs Challenger/Grandmaster/Master (sémantiquement différent). */
   .lol-tier-tag { display: inline-block; min-width: 22px; padding: 3px 7px; font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; text-align: center; border: 1px solid; }
   .lol-tier-tag[data-tier="S"] { border-color: var(--gold); color: var(--gold); background: rgba(255,194,60,0.12); }
-  .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(255,45,149,0.1); }
-  .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(5,217,232,0.1); }
+  .lol-tier-tag[data-tier="A"] { border-color: var(--magenta); color: var(--magenta); background: rgba(215,38,56,0.1); }
+  .lol-tier-tag[data-tier="B"] { border-color: var(--cyan); color: var(--cyan); background: rgba(240,231,216,0.1); }
   .lol-tier-tag[data-tier="C"] { border-color: var(--border-bright); color: var(--text-faint); }
 
   /* /league/tier-list/<bracket>/ -- a real link per elo bracket (own URL,
@@ -1724,7 +1785,7 @@
   .lol-rune-row { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
   .lol-rune-row:last-child { border-bottom: none; }
   .lol-rune-cell { display: flex; gap: 8px; align-items: flex-start; width: 220px; flex: none; }
-  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #0b0221; flex: none; }
+  .lol-rune-cell img { width: 32px; height: 32px; border-radius: 50%; background: #100b26; flex: none; }
   .lol-rune-cell .lol-rune-name { font-weight: 600; font-size: 12.5px; margin-bottom: 2px; }
   .lol-rune-cell .lol-rune-desc { font-size: 11px; color: var(--text-faint); line-height: 1.4; }
   /* Patch notes League -- une ligne détaillée par champion/objet/rune
@@ -1879,9 +1940,14 @@
   .lp-chart-total.warn { color: var(--warn); }
   .lp-chart-svg { display: block; width: 100%; height: 170px; }
   .lp-chart-zero { stroke: var(--border-bright); stroke-width: 1; stroke-dasharray: 4 4; }
-  .lp-chart-area { fill: rgba(5, 217, 232, 0.12); stroke: none; }
+  .lp-chart-area { fill: rgba(240,231,216, 0.12); stroke: none; }
   .lp-chart-line { fill: none; stroke: var(--cyan); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
   .lp-chart-dot { fill: var(--cyan); stroke: var(--bg-2); stroke-width: 2; }
+  @media (prefers-reduced-motion: no-preference) {
+    .lp-chart-line { stroke-dasharray: 1; stroke-dashoffset: 1; animation: bm-draw 1.4s cubic-bezier(.16,1,.3,1) forwards; }
+    .lp-chart-area { opacity: 0; animation: bm-fade 1s ease-out .5s forwards; }
+    .lp-chart-dot { transform-box: fill-box; transform-origin: center; opacity: 0; animation: bm-pop .5s cubic-bezier(.34,1.56,.64,1) 1.1s forwards; }
+  }
 
   .stats-comms-grid { display: grid; grid-template-columns: 150px 1fr; gap: 24px; align-items: center; }
   .stats-comms-msg { background: var(--bg-2); border: 1px solid var(--border-bright); padding: 18px 10px; text-align: center; }
@@ -1900,7 +1966,7 @@
   .activity-toggle-slider { width: 34px; height: 18px; flex: none; background: var(--row); border: 1px solid var(--border-bright); border-radius: 20px; position: relative; transition: background .15s ease, border-color .15s ease; }
   .activity-toggle-slider::after { content: ''; position: absolute; top: 1px; left: 1px; width: 14px; height: 14px; border-radius: 50%; background: var(--text-faint); transition: transform .15s ease, background .15s ease; }
   .activity-toggle input:checked + .activity-toggle-slider { background: var(--cyan); border-color: var(--cyan); }
-  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #0b0221; }
+  .activity-toggle input:checked + .activity-toggle-slider::after { transform: translateX(16px); background: #100b26; }
   .activity-subtitle { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--text-dim); margin-bottom: 12px; }
   .info-hint { display: inline-flex; align-items: center; justify-content: center; width: 14px; height: 14px; border-radius: 50%; border: 1px solid var(--text-faint); color: var(--text-faint); font-size: 9px; cursor: help; flex: none; }
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
@@ -1921,7 +1987,7 @@
   .hourly-row:last-child { border-bottom: none; }
   .hourly-time { width: 52px; flex: none; font-size: 12px; color: var(--text-dim); }
   .hourly-badge { flex: none; width: 64px; text-align: center; font-size: 11px; font-weight: 700; padding: 4px 6px; color: var(--cream); background: var(--gray, var(--text-faint)); }
-  .hourly-badge.good { background: var(--cyan); color: #0b0221; }
+  .hourly-badge.good { background: var(--cyan); color: #100b26; }
   .hourly-badge.warn { background: var(--warn); }
   .hourly-wr { margin-left: auto; font-size: 12px; color: var(--text-dim); width: 44px; text-align: right; }
 
@@ -1948,7 +2014,7 @@
   .match-champ-block { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
   .match-champ-block .champ-portrait { width: 32px; height: 32px; font-size: 11px; }
   .champ-portrait-wrap { position: relative; display: inline-flex; flex: none; }
-  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #0b0221; border: 2px solid var(--bg-2); object-fit: cover; }
+  .champ-rune-badge { position: absolute; right: -3px; bottom: -3px; width: 16px; height: 16px; border-radius: 50%; background: #100b26; border: 2px solid var(--bg-2); object-fit: cover; }
   .match-champ-name { font-weight: 600; font-size: 13px; }
   .match-queue { font-size: 10.5px; color: var(--text-faint); margin-top: 1px; }
   .match-loadout { display: flex; align-items: center; gap: 8px; flex: none; }
@@ -1974,12 +2040,12 @@
      mise en ligne. */
   .spell-col { display: flex; flex-direction: column; gap: 3px; }
   .spell-icon { width: 22px; height: 22px; border-radius: 3px; border: 1px solid var(--border-bright); object-fit: cover; }
-  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #0b0221; object-fit: cover; }
+  .rune-icon { width: 22px; height: 22px; border-radius: 50%; background: #100b26; object-fit: cover; }
   .rune-icon.small { width: 16px; height: 16px; margin-left: 3px; }
   .match-summary-strip { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; padding-bottom: 14px; margin-bottom: 14px; border-bottom: 1px solid var(--border); }
   .summary-badges { display: flex; gap: 6px; flex-wrap: wrap; }
   .perf-badge { font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.03em; padding: 4px 9px; background: var(--row); border: 1px solid var(--border-bright); color: var(--text-dim); }
-  .perf-badge.medal { background: var(--gold); color: #0b0221; border-color: var(--gold); }
+  .perf-badge.medal { background: var(--gold); color: #100b26; border-color: var(--gold); }
   .summary-extra { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--text-faint); margin-left: auto; }
   .summary-extra strong { color: var(--cream); }
   @media (max-width: 640px) { .summary-extra { margin-left: 0; } }

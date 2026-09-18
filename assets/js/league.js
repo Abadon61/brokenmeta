@@ -146,10 +146,38 @@
     });
     var lineStr = coords.map(function (c) { return c[0].toFixed(1) + ',' + c[1].toFixed(1); }).join(' ');
     var last = coords[coords.length - 1];
-    return '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="' + (h - padBottom) + '" x2="732" y2="' + (h - padBottom) + '" class="lp-chart-zero"/>'
+    var svg = '<svg viewBox="0 0 740 170" class="lp-chart-svg"><line x1="8" y1="' + (h - padBottom) + '" x2="732" y2="' + (h - padBottom) + '" class="lp-chart-zero"/>'
       + '<polygon points="' + lineStr + ' ' + last[0].toFixed(1) + ',156 ' + coords[0][0].toFixed(1) + ',156" class="lp-chart-area"/>'
-      + '<polyline points="' + lineStr + '" class="lp-chart-line"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="4.5" class="lp-chart-dot"/></svg>';
+      + '<polyline points="' + lineStr + '" class="lp-chart-line" pathLength="1"/><circle cx="' + last[0].toFixed(1) + '" cy="' + last[1].toFixed(1) + '" r="4.5" class="lp-chart-dot"/></svg>';
+    // Bklit AreaChart island (assets/js/bm-charts.js, loaded on demand below)
+    // replaces this SVG once ready; the SVG stays as the no-JS / load-failure fallback.
+    var payload = {
+      aspectRatio: '3.4 / 1',
+      series: [{ key: 'lp', label: 'LP', color: 'var(--magenta)' }],
+      data: points.map(function (p, i) {
+        var tier = (p.tier || '').charAt(0) + (p.tier || '').slice(1).toLowerCase();
+        return { date: p.ts, lp: scores[i], tip: tier + ' ' + (p.rank || '') + ' - ' + (p.leaguePoints || 0) + ' LP' };
+      })
+    };
+    var attr = JSON.stringify(payload).replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+    return '<div class="bm-chart-mount" data-bm-area-chart="' + attr + '">' + svg + '</div>';
   }
+
+  // Loads the Bklit chart bundle once, on the first profile that has an LP
+  // curve, then mounts every pending [data-bm-area-chart]. A MutationObserver
+  // covers tab switches / re-renders, which rebuild this markup from scratch.
+  var bmChartsState = 0;
+  function hydrateBmCharts() {
+    if (!document.querySelector('[data-bm-area-chart]:not([data-bm-mounted])')) return;
+    if (window.bmCharts && window.bmCharts.mountAll) { window.bmCharts.mountAll(); return; }
+    if (bmChartsState) return;
+    bmChartsState = 1;
+    var sc = document.createElement('script');
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=5eef33018d';
+    sc.async = true;
+    document.head.appendChild(sc);
+  }
+  new MutationObserver(hydrateBmCharts).observe(document.body, { childList: true, subtree: true });
 
   // Portraits de champion réels (Data Dragon, clé = championName renvoyé
   // tel quel par Match-V5 -- garanti identique à la clé ddragon par Riot,
