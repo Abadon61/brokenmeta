@@ -35,6 +35,14 @@ MAX_LINES = 5
 FIELD_LIMIT = 1000     # Discord caps an embed field value at 1024 characters
 
 
+MONTHS_FR = ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"]
+
+
+def fr_date(iso: str) -> str:
+    y, m, d = (int(x) for x in iso.split("-"))
+    return f"{d}{'er' if d == 1 else ''} {MONTHS_FR[m - 1]}"
+
+
 def pct(x: float) -> str:
     return f"{x * 100:.1f}%"
 
@@ -67,7 +75,7 @@ def build_embed(d: dict) -> dict | None:
     return {
         "title": "⚔️ League of Legends -- Tendances",
         "url": "https://brokenmeta.gg/league/tendances/",
-        "description": f"Entre les collectes du {d['prev_date']} et du {d['latest_date']} (champions avec au moins 100 parties dans les deux).",
+        "description": f"Entre les collectes du {fr_date(d['prev_date'])} et du {fr_date(d['latest_date'])} (champions avec au moins 100 parties dans les deux).",
         "color": BRAND_COLOR,
         "fields": fields,
         "footer": {"text": "BrokenMeta.gg -- parties classées réelles, aucune donnée inventée"},
