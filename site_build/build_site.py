@@ -1362,16 +1362,26 @@ METASCOPE_JS = """
     window.scrollTo(0, 0);
   }
 
+  function skeletonProfileHtml() {
+    var rows = '';
+    for (var i = 0; i < 6; i++) {
+      rows += '<div class="skel-row"><span class="skel" style="width:30px;height:30px"></span><span class="skel" style="flex:1;height:12px"></span><span class="skel" style="width:70px;height:12px"></span></div>';
+    }
+    return '<div class="skel-stack" aria-hidden="true"><span class="skel" style="width:260px;max-width:100%;height:40px"></span>' + rows + '</div>';
+  }
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
-    results.innerHTML = '';
+    results.innerHTML = skeletonProfileHtml();
     try {
       var data = await fetchJson(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
       setStatus(null);
+      results.innerHTML = '';
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: true});
     } catch (e) {
+      results.innerHTML = '';
       setStatus(e.message || String(e), true);
       if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: false});
     }
@@ -1898,6 +1908,25 @@ LEAGUE_JS = """
     for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? String.fromCharCode(160) + out : '');
     return out;
   }
+  // Measured rank averages (worker: rankExpected). Set at the start of each
+  // stats-tab render; null when unranked / not sampled / ARAM.
+  var currentRankMetrics = null, currentRankInfo = null;
+  function cmpSub(you, key, mode) {
+    var m = currentRankMetrics;
+    if (!m || m[key] == null || !(m[key] > 0)) return '';
+    var pct = ((you - m[key]) / m[key]) * 100;
+    var tone = mode === 'neutral' ? 'dim' : ((mode === 'low' ? pct <= 0 : pct >= 0) ? 'good' : 'warn');
+    return '<span class="' + tone + '">' + (pct >= 0 ? '+' : '') + Math.round(pct) + '%</span> ' + esc(I.kpiVsRank);
+  }
+  function joinSub(a, b) { return [a, b].filter(Boolean).join(' &middot; '); }
+  function rankNoteHtml() {
+    var r = currentRankInfo;
+    if (!r) return '';
+    var txt = r.approximate
+      ? I.rankNoteApprox.replace('{tier}', tierLabel(r.tier)).replace('{used}', tierLabel(r.comparedTo))
+      : I.rankNote.replace('{tier}', tierLabel(r.tier)).replace('{n}', fmtInt(r.sample));
+    return '<p class="profile-section-note" style="display:block;margin:0 0 10px">' + esc(txt) + '</p>';
+  }
   function kpiTile(label, value, sub, tone) {
     return '<div class="kpi-tile"><div class="kpi-label">' + esc(label) + '</div>'
       + '<div class="kpi-value mono' + (tone ? ' ' + tone : '') + '">' + value + '</div>'
@@ -1925,21 +1954,22 @@ LEAGUE_JS = """
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsRealTitle) + '</div>'
       + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsRealNote).replace('{n}', q.matches.length) + '</p>'
       + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">' + pg.perGame.toFixed(1) + '</div>'
-      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div></div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
+      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div>'
+      + (cmpSub(pg.perGame, 'pingsPerGame', 'neutral') ? '<div class="stats-comms-msg-label" style="margin-top:4px">' + cmpSub(pg.perGame, 'pingsPerGame', 'neutral') + '</div>' : '')
+      + '</div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
   }
 
-  function combatSectionHtml(q, rankAverages) {
+  function combatSectionHtml(q) {
     var c = q.combat;
     if (!c || !q.matches.length) return '';
-    var diff = rankAverages && rankAverages.dmgPerMin ? c.dpm - rankAverages.dmgPerMin : null;
-    var dpmSub = diff === null ? '' : '<span class="' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + Math.round(diff) + '</span> ' + esc(I.kpiVsRank);
+    var per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
     return kpiSection(I.combatTitle, I.perGameNote, [
-      kpiTile(I.kpiDpm, fmtInt(c.dpm), dpmSub, 'accent'),
-      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin)),
-      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin)),
-      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', '<span class="dim">' + esc(I.perGameUnit) + '</span>'),
-      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%'),
-      kpiTile(I.kpiHeal, fmtInt(c.healPerMin))
+      kpiTile(I.kpiDpm, fmtInt(c.dpm), cmpSub(c.dpm, 'dpm', 'high'), 'accent'),
+      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin), cmpSub(c.damageTakenPerMin, 'damageTakenPerMin', 'neutral')),
+      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin), cmpSub(c.mitigatedPerMin, 'mitigatedPerMin', 'neutral')),
+      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', joinSub(per, cmpSub(c.ccTime, 'ccTime', 'high'))),
+      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%', cmpSub(c.deadPct, 'deadPct', 'low')),
+      kpiTile(I.kpiHeal, fmtInt(c.healPerMin), cmpSub(c.healPerMin, 'healPerMin', 'neutral'))
     ]);
   }
 
@@ -1947,16 +1977,16 @@ LEAGUE_JS = """
     if (currentQueue === 'aram' || !q.vision || !q.objectives || !q.matches.length) return '';
     var v = q.vision, o = q.objectives, per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
     return kpiSection(I.visionTitle, I.perGameNote, [
-      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), null, 'accent'),
-      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), per),
-      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), per),
-      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), per),
-      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), per),
-      kpiTile(I.kpiPlates, o.plates.toFixed(1), per),
-      kpiTile(I.kpiDragons, o.dragons.toFixed(1), per),
-      kpiTile(I.kpiBarons, o.barons.toFixed(1), per),
-      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), per),
-      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin))
+      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), cmpSub(v.scorePerMin, 'visionPerMin', 'high'), 'accent'),
+      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), joinSub(per, cmpSub(v.wardsPlaced, 'wardsPlaced', 'high'))),
+      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), joinSub(per, cmpSub(v.wardsKilled, 'wardsKilled', 'high'))),
+      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), joinSub(per, cmpSub(v.controlWards, 'controlWards', 'high'))),
+      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), joinSub(per, cmpSub(o.turrets, 'turrets', 'high'))),
+      kpiTile(I.kpiPlates, o.plates.toFixed(1), joinSub(per, cmpSub(o.plates, 'plates', 'high'))),
+      kpiTile(I.kpiDragons, o.dragons.toFixed(1), joinSub(per, cmpSub(o.dragons, 'dragons', 'high'))),
+      kpiTile(I.kpiBarons, o.barons.toFixed(1), joinSub(per, cmpSub(o.barons, 'barons', 'high'))),
+      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), joinSub(per, cmpSub(o.heralds, 'heralds', 'high'))),
+      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin), cmpSub(o.objDamagePerMin, 'objDmgPerMin', 'high'))
     ]);
   }
 
@@ -2042,24 +2072,31 @@ LEAGUE_JS = """
         + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' ' + esc(I.vsAvg) + '</div></div>';
     }
     var sa = q.statsAvg;
-    var compareHtml = q.matches.length ? [
-      compareCard(I.csPerMin, sa.csPerMin, rankAverages.csPerMin, '', 1),
-      compareCard(I.goldPerMin, sa.goldPerMin, rankAverages.goldPerMin, '', 0),
-      compareCard(I.dmgPerMin, sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
-      compareCard(I.killParticipation, sa.killParticipation, rankAverages.killParticipation, '%', 0),
-    ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
+    var rx = q.rankExpected ? q.rankExpected.metrics : null;
+    var ra = rx ? { csPerMin: rx.csPerMin, goldPerMin: rx.goldPerMin, dmgPerMin: rx.dpm, killParticipation: rx.killParticipation } : rankAverages;
+    currentRankInfo = q.rankExpected || null;
+    currentRankMetrics = rx;
+    var compareHtml = !q.matches.length ? '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>'
+      : !ra ? '<div class="matchup-empty">' + esc(I.noRankData) + '</div>'
+      : [
+      compareCard(I.csPerMin, sa.csPerMin, ra.csPerMin, '', 1),
+      compareCard(I.goldPerMin, sa.goldPerMin, ra.goldPerMin, '', 0),
+      compareCard(I.dmgPerMin, sa.dmgPerMin, ra.dmgPerMin, '', 0),
+      compareCard(I.killParticipation, sa.killParticipation, ra.killParticipation, '%', 0),
+    ].join('');
 
     // Radar (Bklit): shape of the profile vs the rank average at a glance.
     // Each metric is normalised to its own max(you, rank avg) so the axes are
     // comparable; the exact numbers stay in the four cards below.
     var radarHtml = '';
-    if (q.matches.length) {
+    if (q.matches.length && ra) {
       var radarMetrics = [
-        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: rankAverages.csPerMin },
-        { key: 'gold', label: '\\u00a0\\u00a0Gold/min', you: sa.goldPerMin, avg: rankAverages.goldPerMin },
-        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: rankAverages.dmgPerMin },
-        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: rankAverages.killParticipation }
+        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: ra.csPerMin },
+        { key: 'gold', label: '\\u00a0\\u00a0Gold/min', you: sa.goldPerMin, avg: ra.goldPerMin },
+        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: ra.dmgPerMin },
+        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: ra.killParticipation }
       ];
+      if (rx && q.vision && currentQueue !== 'aram') radarMetrics.push({ key: 'vision', label: 'Vision/min', you: q.vision.scorePerMin, avg: rx.visionPerMin });
       var youVals = {}, avgVals = {};
       radarMetrics.forEach(function (m) {
         var top = Math.max(m.you, m.avg) || 1;
@@ -2101,8 +2138,8 @@ LEAGUE_JS = """
       '<div class="stats-section"><div class="stats-block-title">' + esc(I.seasonBestTitle) + ' <span class="profile-section-note">' + esc(I.seasonBestSub) + '</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
       + masterySectionHtml()
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
-      + combatSectionHtml(q, rankAverages) + visionSectionHtml(q) + recordsSectionHtml(q)
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + rankNoteHtml() + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + combatSectionHtml(q) + visionSectionHtml(q) + recordsSectionHtml(q)
       + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
       + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart" data-bm-chart="' + bmAttr(weekdayPayload) + '">' + weekdayHtml + '</div>'
       + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
@@ -2289,13 +2326,30 @@ LEAGUE_JS = """
   }
   tickCooldown();
 
+  // Skeleton shaped like the profile card, shown while the worker answers
+  // (2-10 s, longer when Riot is rate-limited).
+  function skeletonProfileHtml() {
+    var rows = '';
+    for (var i = 0; i < 6; i++) {
+      rows += '<div class="skel-row"><span class="skel" style="width:58px;height:14px"></span><span class="skel skel-circle" style="width:38px;height:38px"></span>'
+        + '<span class="skel" style="flex:1;height:12px"></span><span class="skel" style="width:64px;height:12px"></span></div>';
+    }
+    return '<div class="profile-card skel-card" aria-hidden="true">'
+      + '<div class="profile-sidebar"><span class="skel" style="width:120px;height:16px;align-self:flex-start;margin-bottom:14px"></span>'
+      + '<span class="skel skel-circle" style="width:88px;height:88px;margin-bottom:12px"></span>'
+      + '<span class="skel" style="width:110px;height:14px;margin-bottom:8px"></span><span class="skel" style="width:70px;height:12px;margin-bottom:16px"></span>'
+      + '<span class="skel skel-circle" style="width:80px;height:80px"></span></div>'
+      + '<div class="profile-main"><div class="skel-tabs"><span class="skel" style="width:90px;height:28px"></span><span class="skel" style="width:90px;height:28px"></span><span class="skel" style="width:90px;height:28px"></span></div>' + rows + '</div></div>';
+  }
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
-    results.innerHTML = '';
+    results.innerHTML = skeletonProfileHtml();
     try {
       await ddragonReady;
       var data = await fetchJson(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
       setStatus(null);
+      results.innerHTML = '';
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       recordLolRecentSearch(data.riotId, data.region);
@@ -2304,6 +2358,7 @@ LEAGUE_JS = """
       startCooldown(8);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
+      results.innerHTML = '';
       setStatus(e.message || String(e), true);
       if (e && e.rateLimited) startCooldown(e.retryAfter || 75);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: false });
@@ -2362,9 +2417,60 @@ LOL_COMPARE_JS = """
   async function fetchProfile(riotId, region) {
     var res = await fetch(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
     var data = await res.json().catch(function () { return {}; });
-    if (!res.ok) throw new Error((data && data.error) || ('HTTP ' + res.status));
+    if (!res.ok) {
+      var err = new Error((data && data.error) || ('HTTP ' + res.status));
+      err.rateLimited = !!(data && data.rateLimited) || res.status === 429;
+      err.retryAfter = data && data.retryAfter;
+      throw err;
+    }
     return data;
   }
+
+  // Same shared back-off as the profile page (one localStorage key): a
+  // comparison costs TWO profile lookups against the shared Riot dev-key
+  // quota, so a short debounce after success and a long one after a 429.
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var submitLabel = submitBtn ? submitBtn.textContent : '';
+  var COOLDOWN_KEY = 'bmLolCooldownUntil';
+  var cooldownTimer = null;
+  function cooldownLeft() {
+    var until = 0;
+    try { until = Number(localStorage.getItem(COOLDOWN_KEY)) || 0; } catch (e) {}
+    return Math.ceil((until - Date.now()) / 1000);
+  }
+  function tickCooldown() {
+    clearTimeout(cooldownTimer);
+    if (!submitBtn) return;
+    var left = cooldownLeft();
+    if (left > 0) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = (I.cooldownLabel || 'Retry in {s}s').replace('{s}', left);
+      cooldownTimer = setTimeout(tickCooldown, 1000);
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = submitLabel;
+    }
+  }
+  function startCooldown(seconds) {
+    try { localStorage.setItem(COOLDOWN_KEY, String(Date.now() + seconds * 1000)); } catch (e) {}
+    tickCooldown();
+  }
+  tickCooldown();
+
+  // Bklit charts (assets/js/bm-charts.js) load on demand, like on the profile page.
+  var bmChartsState = 0;
+  function bmAttr(payload) { return JSON.stringify(payload).replace(/&/g, '&amp;').replace(/"/g, '&quot;'); }
+  function hydrateBmCharts() {
+    if (!document.querySelector('[data-bm-chart]:not([data-bm-mounted])')) return;
+    if (window.bmCharts && window.bmCharts.mountAll) { window.bmCharts.mountAll(); return; }
+    if (bmChartsState) return;
+    bmChartsState = 1;
+    var sc = document.createElement('script');
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=__BM_CHARTS_V__';
+    sc.async = true;
+    document.head.appendChild(sc);
+  }
+  new MutationObserver(hydrateBmCharts).observe(document.body, { childList: true, subtree: true });
 
   function playerHeaderHtml(data) {
     var primary = data.ranks.solo || data.ranks.flex;
@@ -2388,6 +2494,18 @@ LOL_COMPARE_JS = """
       + '</div>';
   }
 
+  // Left value | label | right value, the better side highlighted.
+  function duelRow(label, aVal, bVal, aText, bText, lowerIsBetter) {
+    var win = aVal === bVal ? 0 : ((lowerIsBetter ? aVal < bVal : aVal > bVal) ? 1 : 2);
+    return '<div class="lol-compare-most-played">'
+      + '<div class="' + (win === 1 ? 'lol-duel-win' : '') + '">' + aText + '</div>'
+      + '<div class="stats-compare-label">' + esc(label) + '</div>'
+      + '<div class="' + (win === 2 ? 'lol-duel-win' : '') + '">' + bText + '</div></div>';
+  }
+  function section(title, inner) {
+    return '<div class="stats-section"><div class="stats-block-title">' + esc(title) + '</div>' + inner + '</div>';
+  }
+
   function soloOrFlex(data) {
     return data.ranks.solo ? data.queues.solo : (data.ranks.flex ? data.queues.flex : data.queues.solo);
   }
@@ -2407,6 +2525,52 @@ LOL_COMPARE_JS = """
       compareCard(I.killParticipation, qa.statsAvg.killParticipation, qb.statsAvg.killParticipation, '%', 0, nameA, nameB),
     ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
 
+    var both = qa.matches.length && qb.matches.length;
+    var sections = '';
+    if (both) {
+      // Radar: each axis normalised to the larger of the two players.
+      var axes = [
+        { key: 'cs', label: 'CS/min', a: qa.statsAvg.csPerMin, b: qb.statsAvg.csPerMin },
+        { key: 'gold', label: '\\u00a0\\u00a0Gold/min', a: qa.statsAvg.goldPerMin, b: qb.statsAvg.goldPerMin },
+        { key: 'dpm', label: 'DPM', a: qa.statsAvg.dmgPerMin, b: qb.statsAvg.dmgPerMin },
+        { key: 'kp', label: 'KP', a: qa.statsAvg.killParticipation, b: qb.statsAvg.killParticipation }
+      ];
+      if (qa.vision && qb.vision) axes.push({ key: 'vision', label: 'Vision/min', a: qa.vision.scorePerMin, b: qb.vision.scorePerMin });
+      var va = {}, vb = {};
+      axes.forEach(function (ax) { var top = Math.max(ax.a, ax.b) || 1; va[ax.key] = Math.round((ax.a / top) * 100); vb[ax.key] = Math.round((ax.b / top) * 100); });
+      sections += '<div class="stats-radar" data-bm-chart="' + bmAttr({
+        type: 'radar', size: 320,
+        metrics: axes.map(function (ax) { return { key: ax.key, label: ax.label }; }),
+        radar: [{ label: nameA, color: 'var(--magenta)', values: va }, { label: nameB, color: 'var(--cream)', values: vb }]
+      }) + '"></div>'
+        + '<div class="lol-compare-legend"><span style="color:var(--magenta)">&#9632; ' + esc(nameA) + '</span><span style="color:var(--cream)">&#9632; ' + esc(nameB) + '</span></div>';
+
+      if (qa.combat && qb.combat) {
+        sections += section(I.combatTitle, '<div class="stats-compare-grid">'
+          + compareCard(I.kpiDmgTaken, qa.combat.damageTakenPerMin, qb.combat.damageTakenPerMin, '', 0, nameA, nameB)
+          + compareCard(I.kpiDead, qa.combat.deadPct, qb.combat.deadPct, '%', 1, nameA, nameB)
+          + compareCard(I.kpiCc, qa.combat.ccTime, qb.combat.ccTime, ' s', 0, nameA, nameB) + '</div>');
+      }
+      if (qa.vision && qb.vision && qa.objectives && qb.objectives) {
+        sections += section(I.visionTitle, '<div class="stats-compare-grid">'
+          + compareCard(I.kpiVisionMin, qa.vision.scorePerMin, qb.vision.scorePerMin, '', 1, nameA, nameB)
+          + compareCard(I.kpiControlWards, qa.vision.controlWards, qb.vision.controlWards, '', 1, nameA, nameB)
+          + compareCard(I.kpiTurrets, qa.objectives.turrets, qb.objectives.turrets, '', 1, nameA, nameB)
+          + compareCard(I.kpiDragons, qa.objectives.dragons, qb.objectives.dragons, '', 1, nameA, nameB) + '</div>');
+      }
+      if (qa.records && qb.records) {
+        var ra = qa.records, rb = qb.records;
+        var rows = '';
+        if (ra.bestKda && rb.bestKda) rows += duelRow(I.kpiBestKda, ra.bestKda.kda, rb.bestKda.kda, ra.bestKda.kills + '/' + ra.bestKda.deaths + '/' + ra.bestKda.assists + ' <span class="mono">' + ra.bestKda.kda.toFixed(1) + '</span>', rb.bestKda.kills + '/' + rb.bestKda.deaths + '/' + rb.bestKda.assists + ' <span class="mono">' + rb.bestKda.kda.toFixed(1) + '</span>');
+        if (ra.bestDpm && rb.bestDpm) rows += duelRow(I.kpiBestDpm, ra.bestDpm.dpm, rb.bestDpm.dpm, '<span class="mono">' + ra.bestDpm.dpm + '</span>', '<span class="mono">' + rb.bestDpm.dpm + '</span>');
+        rows += duelRow(I.kpiSpree, ra.longestSpree, rb.longestSpree, '<span class="mono">' + ra.longestSpree + '</span>', '<span class="mono">' + rb.longestSpree + '</span>');
+        rows += duelRow(I.kpiPentas, ra.pentas, rb.pentas, '<span class="mono">' + ra.pentas + '</span>', '<span class="mono">' + rb.pentas + '</span>');
+        rows += duelRow(I.kpiSoloKills, ra.soloKills, rb.soloKills, '<span class="mono">' + ra.soloKills + '</span>', '<span class="mono">' + rb.soloKills + '</span>');
+        if (qa.pings && qb.pings) rows += duelRow(I.pingsPerGame, qa.pings.perGame, qb.pings.perGame, '<span class="mono">' + qa.pings.perGame.toFixed(1) + '</span>', '<span class="mono">' + qb.pings.perGame.toFixed(1) + '</span>');
+        sections += section(I.recordsTitle, '<div class="lol-duel-list">' + rows + '</div>');
+      }
+    }
+
     var mostPlayedHtml = '<div class="lol-compare-most-played">'
       + '<div>' + (topA ? esc(topA.champ) + ' <span class="mono">' + topA.kda.toFixed(1) + ' KDA</span>' : '') + '</div>'
       + '<div class="stats-compare-label">' + esc(I.mostPlayed) + '</div>'
@@ -2416,7 +2580,8 @@ LOL_COMPARE_JS = """
     results.innerHTML =
       '<div class="lol-compare-headers">' + playerHeaderHtml(dataA) + '<div class="lol-compare-form-vs">' + esc(I.compareVs || 'VS') + '</div>' + playerHeaderHtml(dataB) + '</div>'
       + mostPlayedHtml
-      + '<div class="stats-compare-grid">' + cardsHtml + '</div>';
+      + '<div class="stats-compare-grid">' + cardsHtml + '</div>'
+      + sections;
     results.querySelectorAll('.league-icon-fallback').forEach(function (img) {
       img.addEventListener('error', function () { img.style.visibility = 'hidden'; });
     });
@@ -2424,18 +2589,25 @@ LOL_COMPARE_JS = """
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();
+    if (cooldownLeft() > 0) return;
     var riotIdA = document.getElementById('lolCompareRiotIdA').value.trim();
     var riotIdB = document.getElementById('lolCompareRiotIdB').value.trim();
     var regionA = document.getElementById('lolCompareRegionA').value;
     var regionB = document.getElementById('lolCompareRegionB').value;
     if (!riotIdA || !riotIdB) return;
     setStatus(I.loading, false);
-    results.innerHTML = '';
+    var skelCards = '';
+    for (var i = 0; i < 4; i++) skelCards += '<span class="skel" style="height:96px"></span>';
+    results.innerHTML = '<div class="skel-stack" aria-hidden="true"><div class="skel-duo"><span class="skel" style="height:64px"></span><span class="skel" style="height:64px"></span></div>'
+      + '<span class="skel skel-circle" style="width:200px;height:200px;margin:8px auto"></span><div class="stats-compare-grid">' + skelCards + '</div></div>';
     Promise.all([fetchProfile(riotIdA, regionA), fetchProfile(riotIdB, regionB)]).then(function (r) {
       setStatus(null);
       renderCompare(r[0], r[1]);
+      startCooldown(20);
     }).catch(function (err) {
+      results.innerHTML = '';
       setStatus(err.message || String(err), true);
+      if (err && err.rateLimited) startCooldown(err.retryAfter || 75);
     });
   });
 })();
@@ -2487,20 +2659,35 @@ LOL_LEADERBOARD_JS = """
     tableWrap.hidden = false;
   }
 
+  function skeletonRows() {
+    var out = '';
+    for (var i = 0; i < 12; i++) {
+      out += '<tr class="skel-tr" aria-hidden="true"><td class="num"><span class="skel" style="width:26px;height:12px;margin-left:auto"></span></td>'
+        + '<td><span class="skel" style="width:' + (110 + (i * 37) % 70) + 'px;height:12px"></span></td>'
+        + '<td><span class="skel" style="width:44px;height:16px"></span></td>'
+        + '<td class="num"><span class="skel" style="width:54px;height:12px;margin-left:auto"></span></td>'
+        + '<td class="num"><span class="skel" style="width:80px;height:12px;margin-left:auto"></span></td></tr>';
+    }
+    return out;
+  }
+
   function load(region) {
     currentRegion = region;
     setStatus(I.loading, false);
     tableWrap.hidden = true;
     if (cache[region]) { setStatus(null); render(cache[region]); return; }
+    tbody.innerHTML = skeletonRows();
+    tableWrap.hidden = false;
     fetch(API + '/leaderboard?region=' + region)
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
       .then(function (res) {
         if (!res.ok || res.data.error) throw new Error(res.data.error || 'error');
         cache[region] = res.data.entries;
+        if (region !== currentRegion) return; // a newer region was picked while this one loaded
         setStatus(null);
         render(res.data.entries);
       })
-      .catch(function () { setStatus(I.error, true); });
+      .catch(function () { if (region !== currentRegion) return; tbody.innerHTML = ''; tableWrap.hidden = true; setStatus(I.error, true); });
   }
 
   bar.addEventListener('click', function (e) {
@@ -4066,6 +4253,9 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio",
         "devBadge": "En développement -- en attente de l'API de production Riot",
         "lpProgressTitle": "Progression de LP",
+        "rankNote": "Comparé à la moyenne mesurée des joueurs {tier} de nos parties échantillonnées ({n} joueurs), pour les rôles que tu as réellement joués.",
+        "rankNoteApprox": "Ton rang ({tier}) n'est pas encore échantillonné : comparaison avec {used}, le rang mesuré le plus proche.",
+        "noRankData": "Pas encore de moyenne de rang mesurée pour ton niveau.",
         "cooldownLabel": "Réessaie dans {s} s", "staleNote": "Résultat mis en cache il y a {min} min (limite de l'API Riot atteinte). Réessaie un peu plus tard pour l'actualiser.",
         "thDpm": "DPM", "dpmLabel": "DPM",
         "commsRealTitle": "Communication en jeu (pings)",
@@ -4128,6 +4318,9 @@ LEAGUE_UI_I18N = {
         "thChampion": "Champion", "thGames": "Games", "thWinrate": "Winrate", "thAvgKda": "Avg KDA", "thRatio": "Ratio",
         "devBadge": "In development -- pending Riot's production API",
         "lpProgressTitle": "LP progress",
+        "rankNote": "Compared with the measured average of {tier} players in our sampled games ({n} players), for the roles you actually played.",
+        "rankNoteApprox": "Your rank ({tier}) isn't sampled yet: compared with {used}, the closest measured rank.",
+        "noRankData": "No measured rank average for your level yet.",
         "cooldownLabel": "Retry in {s}s", "staleNote": "Cached result from {min} min ago (Riot API limit reached). Try again a bit later to refresh it.",
         "thDpm": "DPM", "dpmLabel": "DPM",
         "commsRealTitle": "In-game communication (pings)",
@@ -7504,8 +7697,12 @@ def main() -> None:
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
   .weekday-chart[data-bm-mounted] { display: block; height: auto; }
   .stats-radar:not([data-bm-mounted]) { display: none; }
+  .lol-compare-legend { display: flex; justify-content: center; gap: 22px; font-family: 'Space Mono', monospace; font-size: 12px; margin: -6px 0 18px; }
+  .lol-duel-list { display: flex; flex-direction: column; gap: 8px; }
+  .lol-duel-win { color: var(--good); font-weight: 700; }
   .metascope-search-button:disabled { opacity: .55; cursor: not-allowed; }
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  @media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi-value { font-size: 18px; } .mastery-row { grid-template-columns: 30px 1fr 52px 70px; } .mastery-bar-track { display: none; } }
   .kpi-tile { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; min-width: 0; }
   .kpi-label { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
   .kpi-value { font-size: 20px; font-weight: 700; margin-top: 6px; color: var(--cream); font-variant-numeric: tabular-nums; }
@@ -7514,6 +7711,8 @@ def main() -> None:
   .kpi-value.warn { color: var(--warn); }
   .kpi-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
   .kpi-sub .dim { color: var(--text-faint); }
+  .kpi-sub .good { color: var(--good); font-weight: 700; }
+  .kpi-sub .warn { color: var(--warn); font-weight: 700; }
   .mastery-list { display: flex; flex-direction: column; gap: 8px; }
   .mastery-row { display: grid; grid-template-columns: 30px minmax(70px, 130px) 56px 1fr 92px; align-items: center; gap: 10px; }
   .mastery-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -7730,7 +7929,7 @@ def main() -> None:
     (DIST / "assets" / "js" / "gameplan-tabs.js").write_text(GAMEPLAN_TABS_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "metascope.js").write_text(METASCOPE_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "league.js").write_text(LEAGUE_JS.replace("__BM_CHARTS_V__", env.globals["css_v"]), encoding="utf-8")
-    (DIST / "assets" / "js" / "lol-compare.js").write_text(LOL_COMPARE_JS, encoding="utf-8")
+    (DIST / "assets" / "js" / "lol-compare.js").write_text(LOL_COMPARE_JS.replace("__BM_CHARTS_V__", env.globals["css_v"]), encoding="utf-8")
     (DIST / "assets" / "js" / "lol-glossary-filters.js").write_text(LOL_GLOSSARY_FILTER_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "lol-leaderboard.js").write_text(LOL_LEADERBOARD_JS, encoding="utf-8")
     (DIST / "assets" / "js" / "team-builder.js").write_text(TEAM_BUILDER_JS, encoding="utf-8")

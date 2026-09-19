@@ -20,7 +20,8 @@
 //      parallel, to stay under the per-second cap. That makes a lookup
 //      take a few seconds; there is no way around that on a dev key.
 import { RiotClient, REGIONS, QUEUE_SOLO, QUEUE_FLEX, QUEUE_ARAM, RiotLeagueItem, RiotLeagueEntry } from "./riot";
-import { LANE_TO_ROLE, RANK_AVERAGES_BY_TIER, rankEmblemUrl } from "./lolData";
+import { LANE_TO_ROLE, rankEmblemUrl } from "./lolData";
+import { expectedForRoles } from "./rankCompare";
 import { getItemIconMap } from "./itemData";
 import { getChampionIdMap } from "./championData";
 import { getSpellMap, getPerkMap, getRuneTreeMap, IconRef } from "./spellsAndRunes";
@@ -197,8 +198,18 @@ async function handleProfileUncached(url: URL, env: Env, origin: string, ctx: Ex
   const flexMatches = matches.filter((m) => m.queueId === QUEUE_FLEX);
   const aramMatches = matches.filter((m) => m.queueId === QUEUE_ARAM);
 
-  const tierForAverages = (soloEntry?.tier || flexEntry?.tier || "GOLD").toUpperCase();
-  const rankAverages = RANK_AVERAGES_BY_TIER[tierForAverages] || RANK_AVERAGES_BY_TIER.GOLD;
+
+  // Measured rank averages, per role played (see rankCompare.ts). ARAM has no
+  // meaningful role, so it gets none. `rankAverages` keeps the old 4-metric
+  // shape for the current front-end, but is null when nothing is measured
+  // (unranked player, or no collection baked in yet) -- never invented.
+  const soloBlock = buildQueueBlock(soloMatches, puuid, soloEntry?.tier || flexEntry?.tier || null);
+  const flexBlock = buildQueueBlock(flexMatches, puuid, flexEntry?.tier || soloEntry?.tier || null);
+  const aramBlock = buildQueueBlock(aramMatches, puuid, null);
+  const measured = (soloBlock.rankExpected || flexBlock.rankExpected)?.metrics;
+  const rankAverages = measured
+    ? { csPerMin: measured.csPerMin, goldPerMin: measured.goldPerMin, dmgPerMin: measured.dpm, killParticipation: measured.killParticipation }
+    : null;
 
   // Real LP-over-time tracking: Match-V5 only ever gives the CURRENT LP, no
   // history endpoint exists -- so instead of polling Riot on a schedule
@@ -225,9 +236,9 @@ async function handleProfileUncached(url: URL, env: Env, origin: string, ctx: Ex
     mastery,
     lpHistory: { solo: lpHistorySolo, flex: lpHistoryFlex },
     queues: {
-      solo: buildQueueBlock(soloMatches, puuid),
-      flex: buildQueueBlock(flexMatches, puuid),
-      aram: buildQueueBlock(aramMatches, puuid),
+      solo: soloBlock,
+      flex: flexBlock,
+      aram: aramBlock,
     },
   }, 200, origin);
 }
@@ -502,7 +513,7 @@ export function extractMatch(
   };
 }
 
-export function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
+export function buildQueueBlock(matches: ExtractedMatch[], puuid: string, rankTier: string | null = null) {
   const roleMap: Record<string, { role: string; games: number; wins: number }> = {};
   const weekday = WEEKDAY_LABELS.map((label, idx) => ({ label, idx, games: 0, wins: 0 }));
   const hourly = Array.from({ length: 24 }, (_, hour) => ({ hour, games: 0, wins: 0 }));
@@ -617,5 +628,7 @@ export function buildQueueBlock(matches: ExtractedMatch[], puuid: string) {
     roleStats, weekdayStats, hourlyStats, playedWith, champions,
     statsAvg: { csPerMin: csSum / n, goldPerMin: goldSum / n, dmgPerMin: dmgSum / n, killParticipation: kpSum / n },
     pings, vision, objectives, combat, records, form, durationStats,
+    // measured rank averages for the roles this player actually played (null when unranked / not sampled / ARAM)
+    rankExpected: expectedForRoles(rankTier, matches.map((m) => m.role)),
   };
 }
