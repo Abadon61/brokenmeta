@@ -1,0 +1,605 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Karma Support Guide: combos, build, counters | BrokenMeta.gg</title>
+<meta name="description" content="Karma Support guide: combos, build, runes, counters and items by enemy team, measured over 1003 Support games.">
+<link rel="canonical" href="https://brokenmeta.gg/en/league/guide/karma/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/league/guide/karma/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/league/guide/karma/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/league/guide/karma/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Karma Support Guide: combos, build, counters | BrokenMeta.gg">
+<meta property="og:description" content="Karma Support guide: combos, build, runes, counters and items by enemy team, measured over 1003 Support games.">
+<meta property="og:url" content="https://brokenmeta.gg/en/league/guide/karma/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Karma_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Karma Support Guide: combos, build, counters | BrokenMeta.gg">
+<meta name="twitter:description" content="Karma Support guide: combos, build, runes, counters and items by enemy team, measured over 1003 Support games.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Karma_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=f6f19b706b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=f6f19b706b">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=f6f19b706b">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}, {"@type": "ListItem", "position": 3, "name": "Champion guides", "item": "https://brokenmeta.gg/en/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Karma Guide", "item": "https://brokenmeta.gg/en/league/guide/karma/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Karma Guide \u2014 League of Legends", "description": "Karma, the Enlightened One, is a mage and support champion of medium difficulty. Across our 1003 analysed ranked games, Karma is mostly played as Support (100% of its games), with a 45.9% win rate in that role: tier C among Support champions (#34 of 39, ranked by win rate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/league/guide/karma/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Karma_0.jpg", "dateModified": "2026-09-17", "inLanguage": "en"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is the best build for Karma?", "acceptedAnswer": {"@type": "Answer", "text": "The most-played core build is Redemption, Moonstone Renewer, and Echoes of Helia (77 games, 49.4% win rate)."}}, {"@type": "Question", "name": "Who counters Karma?", "acceptedAnswer": {"@type": "Answer", "text": "Karma's toughest matchups as Support are Sona (35.7% win rate over 28 games), Nautilus (37.0% win rate over 46 games), and Lulu (38.6% win rate over 44 games)."}}, {"@type": "Question", "name": "What are Karma's best matchups?", "acceptedAnswer": {"@type": "Answer", "text": "Karma posts its best win rates against Milio (66.7%), Rakan (57.1%), and Lux (56.5%)."}}, {"@type": "Question", "name": "What game length suits Karma best?", "acceptedAnswer": {"@type": "Answer", "text": "Win rate varies with game length: 48.2% in medium-length games (25 to 35 min, 533 games) versus 41.5% in short games (under 25 min)."}}, {"@type": "Question", "name": "Which runes should I play on Karma?", "acceptedAnswer": {"@type": "Answer", "text": "The most-played rune page uses Summon Aery with the Resolve secondary tree (328 games, 47.6% win rate)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/karma/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/guide/karma/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../../league/tendances/" >Trends</a>
+<a class="nav-link" href="../../../../league/changements/" >Tier Changes</a>
+<div class="mobile-nav-group-title">Glossary</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/objets/" >Item</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../../league/comparer/" >Compare</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../../league/tendances/" >Trends</a>
+<a class="nav-link" href="../../../../league/changements/" >Tier Changes</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossary</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../league/glossaire/objets/">Item</a>
+    <a href="../../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../../league/comparer/" >Compare</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Karma.png" alt="Karma" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Support</div>
+    <h1 class="champ-fiche-name">Karma Guide</h1>
+    <div class="champ-fiche-ability-name">the Enlightened One</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Mage</div><div class="perf-badge">Support</div>
+      <div class="perf-badge">Tier C Support</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Guide contents">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Items by enemy team</a>
+  <a href="#contres">Counters</a>
+  <a href="#capacites">Abilities</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Karma, the Enlightened One, is a mage and support champion of medium difficulty. Across our 1003 analysed ranked games, Karma is mostly played as Support (100% of its games), with a 45.9% win rate in that role: tier C among Support champions (#34 of 39, ranked by win rate). Karma&#39;s damage is mostly magic (87%): magic resistance items are therefore effective against this champion. Win rate varies with game length: 48.2% in medium-length games (25 to 35 min, 533 games) versus 41.5% in short games (under 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">Average KDA</div><div class="p-value nums">1.6 / 5.6 / 14.2</div><div class="gd-stat-sub">ratio 2.8</div></div><div class="gd-stat"><div class="p-label">Damage / min</div><div class="p-value nums">357</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">1.1</div></div><div class="gd-stat"><div class="p-label">Gold / min</div><div class="p-value nums">302</div></div><div class="gd-stat"><div class="p-label">Kill participation</div><div class="p-value nums">56%</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">2.79</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Averages measured over 1003 Support games played with Karma, from our ranked Solo/Duo data collection.</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos and how to play</h2>
+<div class="gd-editorial-tag">Written guide · based on the official ability texts</div>
+<p class="page-intro" style="margin-top:0">Karma is a mage-support whose ultimate Mantra empowers her next ability: each one gets a bonus (a cataclysm, a strengthened tether that heals her, a shield extended to nearby allies). Her damaging abilities reduce Mantra&#39;s cooldown, which lets you use it often.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Mantra harassment</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Mantra">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaMantra.png" alt="Mantra" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Inner Flame">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaQ.png" alt="Inner Flame" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Focused Resolve">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaSpiritBind.png" alt="Focused Resolve" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>When:</b> An enemy is within range.</p>
+    <p class="gd-how">Mantra empowers the next ability: Inner Flame also creates a cataclysm that deals damage after a short delay.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">The root</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Mantra">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaMantra.png" alt="Mantra" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Focused Resolve">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaSpiritBind.png" alt="Focused Resolve" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Inner Flame">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaQ.png" alt="Inner Flame" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>When:</b> An enemy can be pinned down.</p>
+    <p class="gd-how">The empowered Focused Resolve heals Karma and extends the root: the tether roots the enemy if it is not broken.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Protection</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Mantra">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaMantra.png" alt="Mantra" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Inspire">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaSolKimShield.png" alt="Inspire" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>When:</b> Your team engages.</p>
+    <p class="gd-how">Inspire gives a shield and movement speed to the ally; with Mantra, the energy spreads and extends Inspire to nearby allied champions.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Laning phase</h3>
+<p class="page-intro" style="margin-top:0">Inner Flame harasses and reduces Mantra&#39;s cooldown by dealing damage. Focused Resolve reveals the enemy, roots them if they do not break the tether, then deals damage again.</p>
+<h3 class="gd-sub">Common mistakes</h3>
+<ul class="gd-list"><li>Using Mantra without knowing which ability to empower.</li><li>Not using your abilities to reduce its cooldown.</li><li>Casting Focused Resolve and letting the tether be broken too easily.</li></ul>
+
+
+
+<h3 class="gd-sub">Riot&#39;s official tips for playing Karma</h3>
+<ul class="gd-list"><li>Gathering Fire rewards aggressive play. Look to land abilities and basic attacks on your opponent to lower Mantra&#39;s cooldown and stay on the offensive.</li><li>When using Focused Resolve, slow your opponents with Inner Flame or speed yourself up with Inspire if you&#39;re having trouble sticking to a target. </li><li>Don&#39;t be too conservative with Mantra. Gathering Fire is strongest in teamfights, making it easy to recharge Mantra multiple times.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes and summoner spells</h2>
+<p class="page-intro" style="margin-top:0">The most-played core build is Redemption, Moonstone Renewer, and Echoes of Helia (77 games, 49.4% win rate).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../../league/glossaire/objets/3107/" title="Redemption"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="36" height="36" loading="lazy"><span>Redemption</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6617/" title="Moonstone Renewer"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Moonstone Renewer</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6620/" title="Echoes of Helia"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="36" height="36" loading="lazy"><span>Echoes of Helia</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>77</b> games · <b class="warn">49.4%</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../../league/glossaire/objets/3222/" title="Mikael&#39;s Blessing"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="36" height="36" loading="lazy"><span>Mikael&#39;s Blessing</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6617/" title="Moonstone Renewer"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Moonstone Renewer</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6620/" title="Echoes of Helia"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="36" height="36" loading="lazy"><span>Echoes of Helia</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>55</b> games · <b class="good">60.0%</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../../league/glossaire/objets/2065/" title="Shurelya&#39;s Battlesong"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2065.png" alt="" width="36" height="36" loading="lazy"><span>Shurelya&#39;s Battlesong</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6617/" title="Moonstone Renewer"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Moonstone Renewer</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../../league/glossaire/objets/6620/" title="Echoes of Helia"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="36" height="36" loading="lazy"><span>Echoes of Helia</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>27</b> games · <b class="good">51.8%</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Summoner spells</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Flash" title="Flash" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHeal.png" alt="Heal" title="Heal" width="28" height="28" loading="lazy">
+    <span>Flash + Heal</span><span class="nums">47.1% · 896 games</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Exhaust" title="Exhaust" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Flash" title="Flash" width="28" height="28" loading="lazy">
+    <span>Exhaust + Flash</span><span class="nums">39.0% · 59 games</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Flash" title="Flash" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Ignite" title="Ignite" width="28" height="28" loading="lazy">
+    <span>Flash + Ignite</span><span class="nums">32.6% · 46 games</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Most-played runes</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/SummonAery/SummonAery.png" alt="Summon Aery" loading="lazy">
+    <span>Summon Aery + Resolve</span><span class="nums">47.6% · 328 games</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" alt="Arcane Comet" loading="lazy">
+    <span>Arcane Comet + Inspiration</span><span class="nums">46.2% · 143 games</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" alt="Arcane Comet" loading="lazy">
+    <span>Arcane Comet + Domination</span><span class="nums">44.4% · 54 games</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Which items to build against the enemy team?</h2>
+<p class="page-intro" style="margin-top:0">We sort every game by the enemy team&#39;s damage. These are Karma&#39;s completed items and their win rate in each situation; &#34;▲&#34; marks an item that does at least 3 points better than its usual win rate.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Mostly magic-damage enemy team</b><span class="nums">49.4% · 269 games</span></div>
+    <div class="gd-vs-rule">At least 50% of their damage is magic</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Moonstone Renewer</span></a>
+        <span class="nums ">48.6%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6620/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="28" height="28" loading="lazy"><span>Echoes of Helia</span></a>
+        <span class="nums good">50.0% ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Mikael&#39;s Blessing</span></a>
+        <span class="nums good">57.8% ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Redemption</span></a>
+        <span class="nums warn">47.0% ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/2065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2065.png" alt="" width="28" height="28" loading="lazy"><span>Shurelya&#39;s Battlesong</span></a>
+        <span class="nums ">50.0%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malignance</span></a>
+        <span class="nums good">55.2% ▲</span></div>
+      
+    </div>
+    <p class="gd-vs-note">The item that stands out most is Mikael&#39;s Blessing: 57.8% win rate, +9 points versus its usual win rate.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Mostly physical-damage enemy team</b><span class="nums">46.8% · 282 games</span></div>
+    <div class="gd-vs-rule">Less than 35% of their damage is magic</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Moonstone Renewer</span></a>
+        <span class="nums ">46.6%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6620/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="28" height="28" loading="lazy"><span>Echoes of Helia</span></a>
+        <span class="nums good">50.6% ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Redemption</span></a>
+        <span class="nums good">63.3% ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Mikael&#39;s Blessing</span></a>
+        <span class="nums ">46.2%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/2065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2065.png" alt="" width="28" height="28" loading="lazy"><span>Shurelya&#39;s Battlesong</span></a>
+        <span class="nums ">46.2%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malignance</span></a>
+        <span class="nums ">54.5%</span></div>
+      
+    </div>
+    <p class="gd-vs-note">The item that stands out most is Redemption: 63.3% win rate, +11 points versus its usual win rate.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Balanced enemy team</b><span class="nums">43.1% · 452 games</span></div>
+    <div class="gd-vs-rule">Mixed physical and magic damage</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Moonstone Renewer</span></a>
+        <span class="nums ">46.3%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/6620/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6620.png" alt="" width="28" height="28" loading="lazy"><span>Echoes of Helia</span></a>
+        <span class="nums warn">42.1% ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Redemption</span></a>
+        <span class="nums ">49.5%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Mikael&#39;s Blessing</span></a>
+        <span class="nums warn">43.6% ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/2065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2065.png" alt="" width="28" height="28" loading="lazy"><span>Shurelya&#39;s Battlesong</span></a>
+        <span class="nums ">47.1%</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malignance</span></a>
+        <span class="nums warn">37.9% ▼</span></div>
+      
+    </div>
+    <p class="gd-vs-note">No item clearly stands out in this situation: the usual build remains the reference.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Counters and matchups</h2>
+
+<h3 class="gd-sub">Who counters Karma as Support</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    
+    <a class="gd-matchup-head" href="../../../../league/guide/sona/" title="Sona guide">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sona.png" alt="" width="36" height="36" loading="lazy"><b>Sona</b>
+      <span class="nums warn">Karma: 35.7%</span><span class="nums gd-dim">28 games</span>
+    </a>
+    <p class="gd-vs-note">Sona has the edge in 64% of the 28 Support duels against Karma. <a href="../../../../league/guide/sona/">See the Sona guide</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    
+    <a class="gd-matchup-head" href="../../../../league/guide/nautilus/" title="Nautilus guide">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nautilus.png" alt="" width="36" height="36" loading="lazy"><b>Nautilus</b>
+      <span class="nums warn">Karma: 37.0%</span><span class="nums gd-dim">46 games</span>
+    </a>
+    <p class="gd-vs-note">Nautilus has the edge in 63% of the 46 Support duels against Karma. <a href="../../../../league/guide/nautilus/">See the Nautilus guide</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    
+    <a class="gd-matchup-head" href="../../../../league/guide/lulu/" title="Lulu guide">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lulu.png" alt="" width="36" height="36" loading="lazy"><b>Lulu</b>
+      <span class="nums warn">Karma: 38.6%</span><span class="nums gd-dim">44 games</span>
+    </a>
+    <p class="gd-vs-note">Lulu has the edge in 61% of the 44 Support duels against Karma. <a href="../../../../league/guide/lulu/">See the Lulu guide</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    
+    <a class="gd-matchup-head" href="../../../../league/guide/leona/" title="Leona guide">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Leona.png" alt="" width="36" height="36" loading="lazy"><b>Leona</b>
+      <span class="nums warn">Karma: 38.9%</span><span class="nums gd-dim">18 games</span>
+    </a>
+    <p class="gd-vs-note">Leona has the edge in 61% of the 18 Support duels against Karma. <a href="../../../../league/guide/leona/">See the Leona guide</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    
+    <a class="gd-matchup-head" href="../../../../league/guide/bard/" title="Bard guide">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Bard.png" alt="" width="36" height="36" loading="lazy"><b>Bard</b>
+      <span class="nums warn">Karma: 40.6%</span><span class="nums gd-dim">32 games</span>
+    </a>
+    <p class="gd-vs-note">Bard has the edge in 59% of the 32 Support duels against Karma. <a href="../../../../league/guide/bard/">See the Bard guide</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Who Karma is strong against</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Milio.png" alt="" width="28" height="28" loading="lazy"><b>Milio</b><span class="nums good">66.7% · 21 games</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Rakan.png" alt="" width="28" height="28" loading="lazy"><b>Rakan</b><span class="nums good">57.1% · 21 games</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lux.png" alt="" width="28" height="28" loading="lazy"><b>Lux</b><span class="nums good">56.5% · 23 games</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Thresh.png" alt="" width="28" height="28" loading="lazy"><b>Thresh</b><span class="nums good">50.0% · 32 games</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Pyke.png" alt="" width="28" height="28" loading="lazy"><b>Pyke</b><span class="nums good">50.0% · 18 games</span></div>
+</div>
+
+
+<h3 class="gd-sub">How to play against Karma</h3>
+<ul class="gd-list"><li>Karma&#39;s passive lowers her Mantra cooldown when she hits enemy champions with abilities and basic attacks. Deny her from getting free hits on you.</li><li>Karma&#39;s Soulflare erupts for bonus damage in the area in which it&#39;s placed. React quickly and escape the circle to avoid taking heavy damage.</li><li>Focused Resolve is a strong disengage tool. Create distance to avoid being rooted and seek to engage afterwards.</li></ul>
+<div class="gd-dim gd-src">Riot&#39;s official tips.</div>
+
+<p class="profile-section-note" style="display:block">Win rates measured over direct same-role duels; only matchups with more than 15 games are listed. <a href="../../../../league/glossaire/champions/karma/contres/">See all of Karma&#39;s matchups</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Abilities</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Karma_Passive.png" alt="Gathering Fire" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passive</span>Gathering Fire</div><div class="lol-ability-desc">Karma's damaging abilities will reduce the cooldown of Mantra.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaQ.png" alt="Inner Flame" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Inner Flame</div><div class="lol-ability-desc">Karma sends forth a ball of spirit energy that explodes and deals damage upon hitting an enemy unit.<br><br>Mantra Bonus: In addition to the explosion, Mantra increases the destructive power of her Inner Flame, creating a cataclysm which deals damage after a short delay.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaSpiritBind.png" alt="Focused Resolve" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Focused Resolve</div><div class="lol-ability-desc">Karma creates a tether between herself and a targeted enemy, dealing damage and revealing them. If the tether is not broken, the enemy will be rooted and damaged again.<br><br>Mantra Bonus: Karma strengthens the link, healing herself and extending the root duration.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaSolKimShield.png" alt="Inspire" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Inspire</div><div class="lol-ability-desc">Karma summons a protective shield that absorbs incoming damage and increases the Move Speed of the protected ally.<br><br>Mantra Bonus: Energy radiates out from her target, strengthening the initial shield and applying Inspire to nearby allied champions.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KarmaMantra.png" alt="Mantra" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Mantra</div><div class="lol-ability-desc">Karma empowers her next ability to do an additional effect. Mantra is available at level 1 and does not require a skill point.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Frequently asked questions</h2>
+<div class="faq-block"><h3 class="gd-sub">What is the best build for Karma?</h3><p class="page-intro" style="margin-top:0">The most-played core build is Redemption, Moonstone Renewer, and Echoes of Helia (77 games, 49.4% win rate).</p></div><div class="faq-block"><h3 class="gd-sub">Who counters Karma?</h3><p class="page-intro" style="margin-top:0">Karma&#39;s toughest matchups as Support are Sona (35.7% win rate over 28 games), Nautilus (37.0% win rate over 46 games), and Lulu (38.6% win rate over 44 games).</p></div><div class="faq-block"><h3 class="gd-sub">What are Karma&#39;s best matchups?</h3><p class="page-intro" style="margin-top:0">Karma posts its best win rates against Milio (66.7%), Rakan (57.1%), and Lux (56.5%).</p></div><div class="faq-block"><h3 class="gd-sub">What game length suits Karma best?</h3><p class="page-intro" style="margin-top:0">Win rate varies with game length: 48.2% in medium-length games (25 to 35 min, 533 games) versus 41.5% in short games (under 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Which runes should I play on Karma?</h3><p class="page-intro" style="margin-top:0">The most-played rune page uses Summon Aery with the Resolve secondary tree (328 games, 47.6% win rate).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../../league/glossaire/champions/karma/">Full Karma page</a> · <a href="../../../../league/tier-list/">League of Legends tier list</a> · <a href="../../../../league/guide/">All champion guides</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../../">Comp List</a>
+      <a href="../../../../champions/">Champion List</a>
+      <a href="../../../../glossaire/">Glossary</a>
+      <a href="../../../../patch-notes/">Patch Notes</a>
+      <a href="../../../../leaderboard/">Leaderboard</a>
+      <a href="../../../../metascope/">Analyze your profile</a>
+      <a href="../../../../team-builder/">Team Builder</a>
+      <a href="../../../../discord/">Discord Alerts</a>
+      <a href="../../../../methodologie/">Methodology</a>
+      <a href="../../../../confidentialite/">Privacy</a>
+      <a href="../../../../cgu/">Terms</a>
+      <a href="../../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg isn&#39;t endorsed by Riot Games and doesn&#39;t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../../";</script>
+<script src="../../../../assets/js/copy-comp.js?v=f6f19b706b" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=f6f19b706b" defer></script>
+<script src="../../../../assets/js/site-search.js?v=f6f19b706b" defer></script>
+<script src="../../../../assets/js/favorites.js?v=f6f19b706b" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
