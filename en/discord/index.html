@@ -30,7 +30,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>BrokenMeta.gg | Get updates on Discord</title>
-<meta name="description" content="Hook up your own Discord server to automatically get BrokenMeta&#39;s next digests (new patches, this week&#39;s biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.">
+<meta name="description" content="Hook up your own Discord server to automatically get BrokenMeta&#39;s next alerts for Teamfight Tactics and League of Legends (new patches, biggest risers and fallers, tier changes, top comps) -- as soon as an alert is published, it lands right in your server. No account, no bot to invite: just a webhook.">
 <link rel="canonical" href="https://brokenmeta.gg/en/discord/">
 <link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/discord/">
 <link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/discord/">
@@ -38,7 +38,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="BrokenMeta.gg">
 <meta property="og:title" content="BrokenMeta.gg | Get updates on Discord">
-<meta property="og:description" content="Hook up your own Discord server to automatically get BrokenMeta&#39;s next digests (new patches, this week&#39;s biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.">
+<meta property="og:description" content="Hook up your own Discord server to automatically get BrokenMeta&#39;s next alerts for Teamfight Tactics and League of Legends (new patches, biggest risers and fallers, tier changes, top comps) -- as soon as an alert is published, it lands right in your server. No account, no bot to invite: just a webhook.">
 <meta property="og:url" content="https://brokenmeta.gg/en/discord/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
@@ -46,8 +46,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=fb03c0e4f1">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=fb03c0e4f1">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=acfa32ce3c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=acfa32ce3c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -57,7 +57,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=fb03c0e4f1">
+<link rel="stylesheet" href="../../assets/css/style.css?v=acfa32ce3c">
 
 </head>
 <body>
@@ -209,7 +209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="page">
 
 <h1 class="page-h1">Get updates on Discord</h1>
-<p class="page-intro">Hook up your own Discord server to automatically get BrokenMeta&#39;s next digests (new patches, this week&#39;s biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.</p>
+<p class="page-intro">Hook up your own Discord server to automatically get BrokenMeta&#39;s next alerts for Teamfight Tactics and League of Legends (new patches, biggest risers and fallers, tier changes, top comps) -- as soon as an alert is published, it lands right in your server. No account, no bot to invite: just a webhook.</p>
 
 <h2 class="fiche-section-title">How to create a Discord webhook</h2>
 <ol class="discord-how-list">
@@ -219,6 +219,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </ol>
 
 <form id="discordForm" class="discord-form">
+  <fieldset class="discord-games">
+    <legend>Which alerts do you want?</legend>
+    <label><input type="checkbox" name="game" value="tft" checked> Teamfight Tactics (top comps, trends, patches)</label>
+    <label><input type="checkbox" name="game" value="lol" checked> League of Legends (champion risers and fallers, tier changes, patches)</label>
+  </fieldset>
   <input type="url" id="discordWebhookUrl" class="search-input" placeholder="https://discord.com/api/webhooks/…" autocomplete="off" required>
   <div class="discord-form-actions">
     <button type="submit" data-action="subscribe" class="metascope-search-button">Subscribe</button>
@@ -226,7 +231,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </form>
 <div id="discordStatus" class="metascope-status" hidden></div>
-<p class="discord-privacy-note">We only store your webhook URL, nothing else (no IP, no cookie, no account). Unsubscribe anytime by pasting the same URL again.</p>
+<p class="discord-privacy-note">We only store your webhook URL and the games you ticked, nothing else (no IP, no cookie, no account). To change your choice, paste the same URL and subscribe again; to leave, paste it and click &#34;Unsubscribe&#34;.</p>
 
 </div>
 <footer>
@@ -258,15 +263,16 @@ window.BM_I18N_DISCORD = {
   errorGeneric: "Something went wrong -- check the URL and try again.",
   successSubscribed: "Done! A welcome message just landed in your Discord channel.",
   successUnsubscribed: "Unsubscribed. You won't get digests on this webhook anymore.",
+  errorNoGame: "Pick at least one game.",
 };
 </script>
-<script src="../../assets/js/discord-notify.js?v=fb03c0e4f1" defer></script>
+<script src="../../assets/js/discord-notify.js?v=acfa32ce3c" defer></script>
 
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=fb03c0e4f1" defer></script>
-<script src="../../assets/js/champ-icons.js?v=fb03c0e4f1" defer></script>
-<script src="../../assets/js/site-search.js?v=fb03c0e4f1" defer></script>
-<script src="../../assets/js/favorites.js?v=fb03c0e4f1" defer></script>
+<script src="../../assets/js/copy-comp.js?v=acfa32ce3c" defer></script>
+<script src="../../assets/js/champ-icons.js?v=acfa32ce3c" defer></script>
+<script src="../../assets/js/site-search.js?v=acfa32ce3c" defer></script>
+<script src="../../assets/js/favorites.js?v=acfa32ce3c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

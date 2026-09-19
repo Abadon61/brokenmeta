@@ -18,6 +18,9 @@
     e.preventDefault();
     var action = (e.submitter && e.submitter.dataset.action) || 'subscribe';
     var webhookUrl = input.value.trim();
+    var games = [];
+    form.querySelectorAll('input[name="game"]').forEach(function (c) { if (c.checked) games.push(c.value); });
+    if (action === 'subscribe' && !games.length) { setStatus(I.errorNoGame, true); return; }
     var buttons = form.querySelectorAll('button');
     buttons.forEach(function (b) { b.disabled = true; });
     setStatus('', false);
@@ -25,7 +28,7 @@
     fetch(API + '/' + action, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ webhookUrl: webhookUrl }),
+      body: JSON.stringify(action === 'subscribe' ? { webhookUrl: webhookUrl, games: games } : { webhookUrl: webhookUrl }),
     })
       .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
       .then(function (r) {
