@@ -187,6 +187,17 @@ def _load_batches() -> None:
             for key in ("teamfight", "strengths", "weaknesses"):
                 if key in extra:
                     fr[key] = extra[key]
+    # English versions (en_*.py define EN = {champion_id: {...same schema as "fr"...}}, incl. any strengths/weaknesses/teamfight)
+    for path in sorted((Path(__file__).parent / "lol_guides_batches").glob("en_*.py")):
+        spec = importlib.util.spec_from_file_location(path.stem, path)
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        for champ, entry in mod.EN.items():
+            fr_combos = EDITORIAL[champ]["fr"]["combos"]
+            assert len(entry["combos"]) == len(fr_combos), f"{champ}: EN has {len(entry['combos'])} combos, FR has {len(fr_combos)}"
+            for cb, fr_cb in zip(entry["combos"], fr_combos):
+                cb.setdefault("keys", fr_cb["keys"])
+            EDITORIAL[champ]["en"] = entry
 
 
 _load_batches()

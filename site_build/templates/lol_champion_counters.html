@@ -10,7 +10,7 @@
   </div>
 </div>
 {% if guide_available %}
-<a class="gd-banner" href="{{ root }}league/guide/{{ d.slug }}/"><b>Guide complet de {{ d.name }}</b><span>Combos, build, contres et objets selon l'équipe adverse →</span></a>
+<a class="gd-banner" href="{{ root }}league/guide/{{ d.slug }}/">{% if lang == 'fr' %}<b>Guide complet de {{ d.name }}</b><span>Combos, build, contres et objets selon l'équipe adverse →</span>{% else %}<b>Full {{ d.name }} guide</b><span>Combos, build, counters and items by enemy team →</span>{% endif %}</a>
 {% endif %}
 <p class="page-intro">{{ t(lang, 'lol_counters_intro', d.name) }}</p>
 

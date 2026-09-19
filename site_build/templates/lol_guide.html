@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% set dd = 'https://ddragon.leagueoflegends.com/cdn/' ~ ddragon_version ~ '/img/' %}
+{% set ui = g.ui %}
 {% block title %}{{ g.seo_title }}{% endblock %}
 {% block description %}{{ g.seo_description }}{% endblock %}
 {% block og_type %}article{% endblock %}
@@ -7,28 +8,28 @@
 {% block og_image_size %}<meta property="og:image:width" content="1215">
 <meta property="og:image:height" content="717">{% endblock %}
 {% macro item_chip(i) %}<a class="gd-item" href="{{ root }}league/glossaire/objets/{{ i.slug }}/" title="{{ i.name }}"><img src="{{ dd }}item/{{ i.icon_file }}" alt="" width="36" height="36" loading="lazy"><span>{{ i.name }}</span></a>{% endmacro %}
-{% macro pct(x) %}{{ (x * 100)|round(1) }} %{% endmacro %}
+{% macro pct(x) %}{{ (x * 100)|round(1) }}{{ ' %' if lang == 'fr' else '%' }}{% endmacro %}
 {% block content %}
 <div class="champ-fiche-header">
   <img class="champ-fiche-icon" src="{{ dd }}champion/{{ g.icon_file }}" alt="{{ g.name }}" width="120" height="120" fetchpriority="high">
   <div class="champ-fiche-info">
-    <div class="fiche-kicker">Guide · {{ g.role_label }}</div>
-    <h1 class="champ-fiche-name">Guide {{ g.name }}</h1>
+    <div class="fiche-kicker">{{ ui.guide }} · {{ g.role_label }}</div>
+    <h1 class="champ-fiche-name">{{ ui.h1 }}</h1>
     <div class="champ-fiche-ability-name">{{ g.title }}</div>
     <div class="champ-fiche-traits">
       {% for cls in g.classes %}<div class="perf-badge">{{ cls }}</div>{% endfor %}
-      {% if g.tier %}<div class="perf-badge">Tier {{ g.tier.tier }} {{ g.role_label }}</div>{% endif %}
+      {% if g.tier %}<div class="perf-badge">{{ ui.tier_badge }}</div>{% endif %}
     </div>
   </div>
 </div>
 
-<nav class="gd-toc" aria-label="Sommaire du guide">
-  {% if g.editorial %}<a href="#combos">Combos</a>{% endif %}
-  <a href="#build">Build</a>
-  {% if g.vs_enemy %}<a href="#adverse">Objets selon l'ennemi</a>{% endif %}
-  {% if g.has_contres %}<a href="#contres">Contres</a>{% endif %}
-  <a href="#capacites">Capacités</a>
-  {% if g.faq %}<a href="#faq">FAQ</a>{% endif %}
+<nav class="gd-toc" aria-label="{{ ui.toc_aria }}">
+  {% if g.editorial %}<a href="#combos">{{ ui.toc_combos }}</a>{% endif %}
+  <a href="#build">{{ ui.toc_build }}</a>
+  {% if g.vs_enemy %}<a href="#adverse">{{ ui.toc_adverse }}</a>{% endif %}
+  {% if g.has_contres %}<a href="#contres">{{ ui.toc_contres }}</a>{% endif %}
+  <a href="#capacites">{{ ui.toc_abilities }}</a>
+  {% if g.faq %}<a href="#faq">{{ ui.toc_faq }}</a>{% endif %}
 </nav>
 
 <p class="page-intro">{{ g.intro }} {{ g.damage }} {{ g.timing }}</p>
@@ -36,19 +37,19 @@
 <div class="gd-stats">
   {% for s in g.stats %}<div class="gd-stat"><div class="p-label">{{ s.label }}</div><div class="p-value nums">{{ s.value }}</div>{% if s.sub %}<div class="gd-stat-sub">{{ s.sub }}</div>{% endif %}</div>{% endfor %}
 </div>
-<p class="profile-section-note" style="display:block">Moyennes mesurées sur {{ g.games }} parties {{ g.role_label }} jouées avec {{ g.name }}, issues de notre collecte (file classée Solo/Duo).</p>
+<p class="profile-section-note" style="display:block">{{ ui.avg_note }}</p>
 
 {% if g.editorial %}
-<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
-<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<h2 class="fiche-section-title" id="combos">{{ ui.combos_title }}</h2>
+<div class="gd-editorial-tag">{{ ui.editorial_tag }}</div>
 <p class="page-intro" style="margin-top:0">{{ g.editorial.playstyle }}</p>
 {% if g.editorial.strengths or g.editorial.weaknesses %}
 <div class="gd-sw">
-  <div class="gd-sw-col"><h3 class="gd-sub">Points forts de {{ g.name }}</h3><ul class="gd-list">{% for s in g.editorial.strengths %}<li>{{ s }}</li>{% endfor %}</ul></div>
-  <div class="gd-sw-col"><h3 class="gd-sub">Points faibles de {{ g.name }}</h3><ul class="gd-list">{% for s in g.editorial.weaknesses %}<li>{{ s }}</li>{% endfor %}</ul></div>
+  <div class="gd-sw-col"><h3 class="gd-sub">{{ ui.strengths }}</h3><ul class="gd-list">{% for s in g.editorial.strengths %}<li>{{ s }}</li>{% endfor %}</ul></div>
+  <div class="gd-sw-col"><h3 class="gd-sub">{{ ui.weaknesses }}</h3><ul class="gd-list">{% for s in g.editorial.weaknesses %}<li>{{ s }}</li>{% endfor %}</ul></div>
 </div>
 {% endif %}
-{% if g.editorial.teamfight %}<h3 class="gd-sub">Rôle en combat d'équipe</h3><p class="page-intro" style="margin-top:0">{{ g.editorial.teamfight }}</p>{% endif %}
+{% if g.editorial.teamfight %}<h3 class="gd-sub">{{ ui.teamfight }}</h3><p class="page-intro" style="margin-top:0">{{ g.editorial.teamfight }}</p>{% endif %}
 <div class="gd-combos">
   {% for cb in g.editorial.combos %}
   <div class="gd-combo">
@@ -62,66 +63,66 @@
         </span>
       {% endfor %}
     </div>
-    <p class="gd-when"><b>Quand :</b> {{ cb.when }}</p>
+    <p class="gd-when"><b>{{ ui.when }}</b> {{ cb.when }}</p>
     <p class="gd-how">{{ cb.how }}</p>
   </div>
   {% endfor %}
 </div>
-<h3 class="gd-sub">Phase de lane</h3>
+<h3 class="gd-sub">{{ ui.laning }}</h3>
 <p class="page-intro" style="margin-top:0">{{ g.editorial.laning }}</p>
-<h3 class="gd-sub">Erreurs fréquentes</h3>
+<h3 class="gd-sub">{{ ui.mistakes }}</h3>
 <ul class="gd-list">{% for m in g.editorial.mistakes %}<li>{{ m }}</li>{% endfor %}</ul>
 {% endif %}
 
 {% if g.ally_tips %}
-<h3 class="gd-sub">Conseils officiels de Riot pour jouer {{ g.name }}</h3>
+<h3 class="gd-sub">{{ ui.riot_play }}</h3>
 <ul class="gd-list">{% for tip in g.ally_tips %}<li>{{ tip }}</li>{% endfor %}</ul>
 {% endif %}
 
-<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<h2 class="fiche-section-title" id="build">{{ ui.build_title }}</h2>
 {% if g.builds_text %}<p class="page-intro" style="margin-top:0">{{ g.builds_text }}</p>{% endif %}
 {% for b in g.core_builds[:3] %}
 <div class="gd-build">
   <div class="gd-build-items">
     {% for i in b['items'] %}{% if not loop.first %}<span class="gd-arrow" aria-hidden="true">+</span>{% endif %}{{ item_chip(i) }}{% endfor %}
   </div>
-  <div class="gd-build-meta nums"><b>{{ b.games }}</b> parties · <b class="{{ 'good' if b.win_rate >= 0.5 else 'warn' }}">{{ pct(b.win_rate) }}</b></div>
+  <div class="gd-build-meta nums"><b>{{ b.games }}</b> {{ ui.games }} · <b class="{{ 'good' if b.win_rate >= 0.5 else 'warn' }}">{{ pct(b.win_rate) }}</b></div>
 </div>
 {% endfor %}
 {% if g.boots %}
-<h3 class="gd-sub">Bottes</h3>
-<div class="gd-row">{% for b in g.boots %}<div class="gd-chipline">{{ item_chip(b) }}<span class="nums">{{ pct(b.win_rate) }} · {{ b.games }} parties</span></div>{% endfor %}</div>
+<h3 class="gd-sub">{{ ui.boots }}</h3>
+<div class="gd-row">{% for b in g.boots %}<div class="gd-chipline">{{ item_chip(b) }}<span class="nums">{{ pct(b.win_rate) }} · {{ b.games }} {{ ui.games }}</span></div>{% endfor %}</div>
 {% endif %}
 {% if g.summoner_spells %}
-<h3 class="gd-sub">Sorts d'invocateur</h3>
+<h3 class="gd-sub">{{ ui.summoners }}</h3>
 <div class="gd-row">
   {% for s in g.summoner_spells %}
   <div class="gd-chipline">
     {% for sp in s.spells %}<img class="gd-spell" src="{{ dd }}spell/{{ sp.icon_file }}" alt="{{ sp.name }}" title="{{ sp.name }}" width="28" height="28" loading="lazy">{% endfor %}
-    <span>{{ s.spells|map(attribute='name')|join(' + ') }}</span><span class="nums">{{ pct(s.win_rate) }} · {{ s.games }} parties</span>
+    <span>{{ s.spells|map(attribute='name')|join(' + ') }}</span><span class="nums">{{ pct(s.win_rate) }} · {{ s.games }} {{ ui.games }}</span>
   </div>
   {% endfor %}
 </div>
 {% endif %}
 {% if g.rune_pages %}
-<h3 class="gd-sub">Runes les plus jouées</h3>
+<h3 class="gd-sub">{{ ui.runes }}</h3>
 <div class="gd-row">
   {% for r in g.rune_pages %}
   <div class="gd-chipline">
     <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/{{ r.keystone_icon }}" alt="{{ r.keystone_name }}" loading="lazy">
-    <span>{{ r.keystone_name }} + {{ r.tree_name }}</span><span class="nums">{{ pct(r.win_rate) }} · {{ r.games }} parties</span>
+    <span>{{ r.keystone_name }} + {{ r.tree_name }}</span><span class="nums">{{ pct(r.win_rate) }} · {{ r.games }} {{ ui.games }}</span>
   </div>
   {% endfor %}
 </div>
 {% endif %}
 
 {% if g.vs_enemy %}
-<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
-<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de {{ g.name }} et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<h2 class="fiche-section-title" id="adverse">{{ ui.adverse_title }}</h2>
+<p class="page-intro" style="margin-top:0">{{ ui.adverse_intro }}</p>
 <div class="gd-vs">
   {% for v in g.vs_enemy %}
   <div class="gd-vs-card">
-    <div class="gd-vs-head"><b>{{ v.title }}</b><span class="nums">{{ pct(v.win_rate) }} · {{ v.games }} parties</span></div>
+    <div class="gd-vs-head"><b>{{ v.title }}</b><span class="nums">{{ pct(v.win_rate) }} · {{ v.games }} {{ ui.games }}</span></div>
     <div class="gd-vs-rule">{{ v.rule|capitalize }}</div>
     <div class="gd-vs-items">
       {% for i in v['items'] %}
@@ -136,40 +137,41 @@
 {% endif %}
 
 {% if g.has_contres %}
-<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+<h2 class="fiche-section-title" id="contres">{{ ui.contres_title }}</h2>
 {% if g.hardest %}
-<h3 class="gd-sub">Qui contre {{ g.name }} {{ 'en ' ~ g.role_label if g.role_label else '' }}</h3>
+<h3 class="gd-sub">{{ ui.who_counters }}</h3>
 <div class="gd-matchups">
   {% for m in g.hardest %}
   <div class="gd-matchup">
-    <a class="gd-matchup-head" href="{{ root }}league/guide/{{ m.slug }}/" title="Guide {{ m.name }}">
+    {% set has_g = m.slug in lol_guide_slugs_by_lang[lang] %}
+    <{{ 'a' if has_g else 'div' }} class="gd-matchup-head"{% if has_g %} href="{{ root }}league/guide/{{ m.slug }}/" title="{{ ui.guide_title_attr|replace(g.name, m.name) }}"{% endif %}>
       <img src="{{ dd }}champion/{{ m.icon_file }}" alt="" width="36" height="36" loading="lazy"><b>{{ m.name }}</b>
-      <span class="nums warn">{{ g.name }} : {{ pct(m.win_rate) }}</span><span class="nums gd-dim">{{ m.games }} parties</span>
-    </a>
-    <p class="gd-vs-note">{{ m.edge }} <a href="{{ root }}league/guide/{{ m.slug }}/">Voir le guide de {{ m.name }}</a>.</p>
+      <span class="nums warn">{{ g.name }}{{ " :" if lang == "fr" else ":" }} {{ pct(m.win_rate) }}</span><span class="nums gd-dim">{{ m.games }} {{ ui.games }}</span>
+    </{{ 'a' if has_g else 'div' }}>
+    <p class="gd-vs-note">{{ m.edge }}{% if has_g %} <a href="{{ root }}league/guide/{{ m.slug }}/">{{ ui.see_guide_of|replace('{enemy}', m.name) }}</a>.{% endif %}</p>
   </div>
   {% endfor %}
 </div>
 {% endif %}
 {% if g.easiest %}
-<h3 class="gd-sub">Contre qui {{ g.name }} est fort</h3>
+<h3 class="gd-sub">{{ ui.strong_vs }}</h3>
 <div class="gd-row">
-  {% for m in g.easiest %}<div class="gd-chipline"><img class="gd-spell round" src="{{ dd }}champion/{{ m.icon_file }}" alt="" width="28" height="28" loading="lazy"><b>{{ m.name }}</b><span class="nums good">{{ pct(m.win_rate) }} · {{ m.games }} parties</span></div>{% endfor %}
+  {% for m in g.easiest %}<div class="gd-chipline"><img class="gd-spell round" src="{{ dd }}champion/{{ m.icon_file }}" alt="" width="28" height="28" loading="lazy"><b>{{ m.name }}</b><span class="nums good">{{ pct(m.win_rate) }} · {{ m.games }} {{ ui.games }}</span></div>{% endfor %}
 </div>
 {% endif %}
 {% if g.enemy_tips %}
-<h3 class="gd-sub">Comment jouer contre {{ g.name }}</h3>
+<h3 class="gd-sub">{{ ui.play_against }}</h3>
 <ul class="gd-list">{% for tip in g.enemy_tips %}<li>{{ tip }}</li>{% endfor %}</ul>
-<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+<div class="gd-dim gd-src">{{ ui.riot_src }}</div>
 {% endif %}
-<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés.{% if has_counters %} <a href="{{ root }}league/glossaire/champions/{{ g.slug }}/contres/">Voir tous les matchups de {{ g.name }}</a>.{% endif %}</p>
+<p class="profile-section-note" style="display:block">{{ ui.matchup_note }}{% if has_counters %} <a href="{{ root }}league/glossaire/champions/{{ g.slug }}/contres/">{{ ui.all_matchups }}</a>.{% endif %}</p>
 {% endif %}
 
-<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<h2 class="fiche-section-title" id="capacites">{{ ui.abilities }}</h2>
 <div class="lol-ability-list">
   <div class="lol-ability-row">
     <img class="lol-ability-icon" src="{{ dd }}passive/{{ g.passive.icon_file }}" alt="{{ g.passive.name }}" loading="lazy">
-    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>{{ g.passive.name }}</div><div class="lol-ability-desc">{{ g.passive.desc|safe }}</div></div>
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">{{ ui.passive }}</span>{{ g.passive.name }}</div><div class="lol-ability-desc">{{ g.passive.desc|safe }}</div></div>
   </div>
   {% for sp in g.spells %}
   <div class="lol-ability-row">
@@ -180,11 +182,11 @@
 </div>
 
 {% if g.faq %}
-<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<h2 class="fiche-section-title" id="faq">{{ ui.faq_title }}</h2>
 {% for f in g.faq %}<div class="faq-block"><h3 class="gd-sub">{{ f.q }}</h3><p class="page-intro" style="margin-top:0">{{ f.a }}</p></div>{% endfor %}
 {% endif %}
 
-<p class="profile-section-note" style="display:block;margin-top:28px"><a href="{{ root }}league/glossaire/champions/{{ g.slug }}/">Fiche complète de {{ g.name }}</a> · <a href="{{ root }}league/tier-list/">Tier list League of Legends</a> · <a href="{{ root }}league/guide/">Tous les guides de champions</a></p>
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="{{ root }}league/glossaire/champions/{{ g.slug }}/">{{ ui.full_sheet }}</a> · <a href="{{ root }}league/tier-list/">{{ ui.tier_list }}</a> · <a href="{{ root }}league/guide/">{{ ui.all_guides }}</a></p>
 {% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>

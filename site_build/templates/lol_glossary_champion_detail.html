@@ -15,7 +15,7 @@
 </div>
 
 {% if guide_available %}
-<a class="gd-banner" href="{{ root }}league/guide/{{ d.slug }}/"><b>Guide complet de {{ d.name }}</b><span>Combos, build, contres et objets selon l'équipe adverse →</span></a>
+<a class="gd-banner" href="{{ root }}league/guide/{{ d.slug }}/">{% if lang == 'fr' %}<b>Guide complet de {{ d.name }}</b><span>Combos, build, contres et objets selon l'équipe adverse →</span>{% else %}<b>Full {{ d.name }} guide</b><span>Combos, build, counters and items by enemy team →</span>{% endif %}</a>
 {% endif %}
 <h2 class="fiche-section-title">{{ t(lang, 'lol_champ_lore_title') }}</h2>
 <p class="page-intro" style="margin-top:0">{{ d.lore }}</p>

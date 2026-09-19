@@ -21,7 +21,7 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
 {% if active_nav == 'league' %}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
-{% if lang == 'fr' %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
+{% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
 <a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
@@ -56,7 +56,7 @@
 {# Le menu rose met en avant les outils du JEU ACTIF. Même structure de
    dropdown que le Glossaire TFT ci-dessous. #}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
-{% if lang == 'fr' %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
+{% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
 <a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
 <details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions', 'lol-glossary-runes') %}data-active="true"{% endif %}>

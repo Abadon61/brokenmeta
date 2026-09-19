@@ -4853,6 +4853,11 @@ def lol_patch_change_view(change: dict, lookup: dict[str, dict]) -> dict:
     }
 
 
+GUIDE_TXT = {
+    "fr": {"hub": "Guides de champions", "guide": "Guide {n}", "hub_name": "Guides des champions League of Legends", "article": "Guide {n} — League of Legends"},
+    "en": {"hub": "Champion guides", "guide": "{n} Guide", "hub_name": "League of Legends champion guides", "article": "{n} Guide — League of Legends"},
+}
+
 LOL_TIER_BUCKETS = [("S", 0.10), ("A", 0.30), ("B", 0.65), ("C", 1.0)]
 
 # Same role glyphs as league.js's ROLE_ICON (client-side, profile page role
@@ -6735,15 +6740,19 @@ def main() -> None:
     lol_rune_by_id = {r["id"]: r for t in lol_rune_trees for slot in t["slots"] for r in slot}
     lol_tree_by_id = {t["id"]: t for t in lol_rune_trees}
     lol_champ_by_slug = {c["slug"]: c for c in lol_champions}
-    lol_spells_by_key = {str(sp["key"]): {"name": sp["name_fr"], "icon_file": sp["icon_file"]} for sp in lol_summoner_spells if sp.get("key")}
+    lol_spells_by_key = {lg: {str(sp["key"]): {"name": sp["name_" + lg], "icon_file": sp["icon_file"]} for sp in lol_summoner_spells if sp.get("key")}
+                         for lg in ("fr", "en")}
     _guide_path = OUT / "lol_champion_guide.json"
     lol_guide_by_champion: dict[str, dict] = {}
     if _guide_path.exists():
         _guide_raw = json.loads(_guide_path.read_text(encoding="utf-8"))
         lol_guide_by_champion = {_canon_lol_id(k): v for k, v in _guide_raw.get("by_champion", {}).items()}
-    lol_guide_slugs: set[str] = {k.lower() for k in lol_guide_by_champion}
-    env.globals["lol_guide_slugs"] = lol_guide_slugs
-    lol_guide_index: list[dict] = []
+    # which guides exist per language: FR = every champion with measured data, EN = those that also have an English editorial
+    lol_guide_slugs_by_lang = {
+        "fr": {c["slug"] for c in lol_champions if c["id"] in lol_guide_by_champion},
+        "en": {c["slug"] for c in lol_champions if c["id"] in lol_guide_by_champion and "en" in (LOL_GUIDE_EDITORIAL.get(c["id"]) or {})},
+    }
+    env.globals["lol_guide_slugs_by_lang"] = lol_guide_slugs_by_lang
 
     # ---- /league/tendances/: biggest real win-rate movers since the
     # previous data refresh, same "need 2+ real snapshots" pattern as TFT's
@@ -6972,7 +6981,7 @@ def main() -> None:
             render("lol_glossary_champion_detail.html", f"/league/glossaire/champions/{c['slug']}/", lang,
                    active_nav="league", active_sub="lol-glossary-champions",
                    ddragon_version=ddragon_version,
-                   d=_lcv, guide_available=(lang == "fr" and c["id"] in lol_guide_by_champion),
+                   d=_lcv, guide_available=(c["slug"] in lol_guide_slugs_by_lang[lang]),
                    breadcrumb_schema=breadcrumb_schema([
                        (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                        ("League of Legends", canonical_for("/league/", lang)),
@@ -7007,7 +7016,7 @@ def main() -> None:
                 render("lol_champion_counters.html", f"/league/glossaire/champions/{c['slug']}/contres/", lang,
                        active_nav="league", active_sub="lol-glossary-champions",
                        ddragon_version=ddragon_version, d=_lcv, faq=_counters_faq,
-                       guide_available=(lang == "fr" and c["id"] in lol_guide_by_champion),
+                       guide_available=(c["slug"] in lol_guide_slugs_by_lang[lang]),
                        breadcrumb_schema=breadcrumb_schema([
                            (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                            ("League of Legends", canonical_for("/league/", lang)),
@@ -7020,62 +7029,70 @@ def main() -> None:
                            "mainEntity": [{"@type": "Question", "name": f["q"],
                                            "acceptedAnswer": {"@type": "Answer", "text": f["a"]}} for f in _counters_faq],
                        } if _counters_faq else None)
-        if lang == "fr":
-            _tier_lookup = {}
-            for _role, _rows in build_lol_tier_list(lol_role_stats_by_champion, lol_champions, "fr").items():
-                for _i, _r in enumerate(_rows):
-                    _tier_lookup[(_r["slug"], _role)] = {"tier": _r.get("tier"), "rank": _i + 1, "of": len(_rows)}
-            for c in lol_champions:
-                if c["id"] not in lol_guide_by_champion:
-                    continue
-                _gd = lol_champion_detail_view(c, "fr", lol_role_stats_by_champion, lol_items_by_champion,
-                                                lol_items_lookup, lol_matchups_by_role, lol_champ_by_id,
-                                                lol_runes_by_champion, lol_rune_by_id, lol_tree_by_id)
-                _gguide = lol_guide_by_champion[c["id"]]
-                _grole = max(_gguide["roles"], key=lambda r: _gguide["roles"][r]["games"])
-                _gmatch = next((m["enemies"] for m in _gd["matchups"] if m["role"] == _grole), [])
-                _gv = build_guide_view(d=_gd, champ=c, guide=_gguide, editorial=(LOL_GUIDE_EDITORIAL.get(c["id"]) or {}).get("fr"),
-                                       items_lookup=lol_items_lookup, spells_by_key=lol_spells_by_key, champ_by_slug=lol_champ_by_slug,
-                                       tier_info=_tier_lookup.get((c["slug"], _grole)), matchups_for_role=_gmatch,
-                                       rune_pages=_gd["rune_pages"])
-                if not _gv:
-                    continue
-                lol_guide_slugs.add(c["slug"])
-                lol_guide_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
-                                        "role_label": _gv["role_label"], "win_rate": _gv["win_rate"], "games": _gv["games"],
-                                        "tier": (_gv["tier"] or {}).get("tier")})
-                _g_url = canonical_for(f"/league/guide/{c['slug']}/", "fr")
-                render("lol_guide.html", f"/league/guide/{c['slug']}/", "fr", active_nav="league", active_sub="lol-guides",
-                       ddragon_version=ddragon_version, g=_gv, no_hreflang=True, guide_slugs=lol_guide_slugs, has_counters=bool(_gd["matchups"]),
-                       alt_canonical=canonical_for(f"/league/glossaire/champions/{c['slug']}/", "en"),
-                       breadcrumb_schema=breadcrumb_schema([
-                           (translate("fr", "breadcrumb_home"), canonical_for("/", "fr")),
-                           ("League of Legends", canonical_for("/league/", "fr")),
-                           ("Guides de champions", canonical_for("/league/guide/", "fr")),
-                           (f"Guide {_gv['name']}", _g_url),
-                       ]),
-                       article_schema={**build_article_schema(f"Guide {_gv['name']} — League of Legends", _g_url,
-                                                            _gv["intro"], image=f"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{_gv['id']}_0.jpg"),
-                                       "dateModified": combined["generated_at"][:10]},
-                       faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
-                                   "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
-                                                  for f in _gv["faq"]]} if _gv["faq"] else None)
-            _hub_url = canonical_for("/league/guide/", "fr")
+        # ---- champion guides (/league/guide/<slug>/): FR for every champion with data, EN for the ones with an English editorial
+        _gt = GUIDE_TXT[lang]
+        _tier_lookup = {}
+        for _role, _rows in build_lol_tier_list(lol_role_stats_by_champion, lol_champions, "fr").items():
+            for _i, _r in enumerate(_rows):
+                _tier_lookup[(_r["slug"], _role)] = {"tier": _r.get("tier"), "rank": _i + 1, "of": len(_rows)}
+        lol_guide_index: list[dict] = []
+        for c in lol_champions:
+            if c["slug"] not in lol_guide_slugs_by_lang[lang]:
+                continue
+            _gd = lol_champion_detail_view(c, lang, lol_role_stats_by_champion, lol_items_by_champion,
+                                            lol_items_lookup, lol_matchups_by_role, lol_champ_by_id,
+                                            lol_runes_by_champion, lol_rune_by_id, lol_tree_by_id)
+            _gguide = lol_guide_by_champion[c["id"]]
+            _grole = max(_gguide["roles"], key=lambda r: _gguide["roles"][r]["games"])
+            _gmatch = next((m["enemies"] for m in _gd["matchups"] if m["role"] == _grole), [])
+            _gv = build_guide_view(lang=lang, d=_gd, champ=c, guide=_gguide, editorial=(LOL_GUIDE_EDITORIAL.get(c["id"]) or {}).get(lang),
+                                   items_lookup=lol_items_lookup, spells_by_key=lol_spells_by_key[lang], champ_by_slug=lol_champ_by_slug,
+                                   tier_info=_tier_lookup.get((c["slug"], _grole)), matchups_for_role=_gmatch,
+                                   rune_pages=_gd["rune_pages"])
+            if not _gv:
+                continue
+            lol_guide_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
+                                    "role_label": _gv["role_label"], "win_rate": _gv["win_rate"], "games": _gv["games"],
+                                    "tier": (_gv["tier"] or {}).get("tier")})
+            _g_url = canonical_for(f"/league/guide/{c['slug']}/", lang)
+            _g_extra = {}
+            if lang == "fr" and c["slug"] not in lol_guide_slugs_by_lang["en"]:
+                # no English twin yet: no hreflang, and the EN toggle falls back to the English champion sheet
+                _g_extra = {"no_hreflang": True, "alt_canonical": canonical_for(f"/league/glossaire/champions/{c['slug']}/", "en")}
+            render("lol_guide.html", f"/league/guide/{c['slug']}/", lang, active_nav="league", active_sub="lol-guides",
+                   ddragon_version=ddragon_version, g=_gv, has_counters=bool(_gd["matchups"]), **_g_extra,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       (_gt["hub"], canonical_for("/league/guide/", lang)),
+                       (_gt["guide"].format(n=_gv["name"]), _g_url),
+                   ]),
+                   article_schema={**build_article_schema(_gt["article"].format(n=_gv["name"]), _g_url,
+                                                        _gv["intro"], image=f"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{_gv['id']}_0.jpg"),
+                                   "dateModified": combined["generated_at"][:10],
+                                   "inLanguage": lang},
+                   faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
+                               "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
+                                              for f in _gv["faq"]]} if _gv["faq"] else None)
+        if lol_guide_index:
             _hub_sorted = sorted(lol_guide_index, key=lambda x: x["name"])
-            render("lol_guides_index.html", "/league/guide/", "fr", active_nav="league", active_sub="lol-guides",
+            _hub_extra = {}
+            if lang == "fr" and not lol_guide_slugs_by_lang["en"]:
+                _hub_extra = {"no_hreflang": True, "alt_canonical": canonical_for("/league/glossaire/champions/", "en")}
+            render("lol_guides_index.html", "/league/guide/", lang, active_nav="league", active_sub="lol-guides",
                    ddragon_version=ddragon_version, guides=_hub_sorted,
                    popular=sorted(lol_guide_index, key=lambda x: -x["games"])[:12],
                    by_role={r: sorted([x for x in lol_guide_index if x["role"] == r], key=lambda x: -x["games"])[:12]
                             for r in ("top", "jungle", "mid", "adc", "support")},
-                   no_hreflang=True, alt_canonical=canonical_for("/league/glossaire/champions/", "en"),
+                   **_hub_extra,
                    breadcrumb_schema=breadcrumb_schema([
-                       (translate("fr", "breadcrumb_home"), canonical_for("/", "fr")),
-                       ("League of Legends", canonical_for("/league/", "fr")),
-                       ("Guides de champions", _hub_url),
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       (_gt["hub"], canonical_for("/league/guide/", lang)),
                    ]),
-                   item_list_schema={"@context": "https://schema.org", "@type": "ItemList", "name": "Guides des champions League of Legends",
-                                     "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": f"Guide {x['name']}",
-                                                          "url": canonical_for(f"/league/guide/{x['slug']}/", "fr")}
+                   item_list_schema={"@context": "https://schema.org", "@type": "ItemList", "name": _gt["hub_name"],
+                                     "itemListElement": [{"@type": "ListItem", "position": i + 1, "name": _gt["guide"].format(n=x["name"]),
+                                                          "url": canonical_for(f"/league/guide/{x['slug']}/", lang)}
                                                          for i, x in enumerate(_hub_sorted)]})
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
