@@ -89,6 +89,32 @@
   <div class="gd-build-meta nums"><b>{{ b.games }}</b> {{ ui.games }} · <b class="{{ 'good' if b.win_rate >= 0.5 else 'warn' }}">{{ pct(b.win_rate) }}</b></div>
 </div>
 {% endfor %}
+{% if g.timeline %}
+{% if g.timeline.skills %}
+<h3 class="gd-sub">{{ ui.skills_title }}</h3>
+{% for so in g.timeline.skills %}
+<div class="gd-skill-block">
+  <div class="gd-skill-head"><b>{{ ui.skills_maxed }} : {{ so.order }}</b><span class="nums gd-dim">{{ pct(so.win_rate) }} · {{ so.games }} {{ ui.games }}</span></div>
+  {% if loop.first %}
+  <div class="gd-skill-scroll"><table class="gd-skill-grid" aria-label="{{ ui.skills_title }}">
+    <thead><tr><th></th>{% for i in range(1, 16) %}<th>{{ i }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for row in so.grid %}<tr><th scope="row">{% if row.icon %}<img src="{{ dd }}spell/{{ row.icon }}" alt="{{ row.key }}" width="24" height="24" loading="lazy">{% endif %}<span>{{ row.key }}</span></th>{% for on in row.cells %}<td{% if on %} class="on"{% endif %}>{{ '●' if on else '' }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+</div>
+{% endfor %}
+<p class="profile-section-note" style="display:block">{{ ui.skills_note|replace('{tl_games}', g.timeline.games|string) }}</p>
+{% endif %}
+{% if g.timeline.start_items %}
+<h3 class="gd-sub">{{ ui.start_title }}</h3>
+<div class="gd-row">{% for e in g.timeline.start_items %}<div class="gd-chipline">{% for i in e['items'] %}{{ item_chip(i) }}{% endfor %}<span class="nums">{{ pct(e.win_rate) }} · {{ e.games }} {{ ui.games }}</span></div>{% endfor %}</div>
+{% endif %}
+{% if g.timeline.item_paths %}
+<h3 class="gd-sub">{{ ui.path_title }}</h3>
+{% for e in g.timeline.item_paths %}<div class="gd-build"><div class="gd-build-items">{% for i in e['items'] %}{% if not loop.first %}<span class="gd-arrow" aria-hidden="true">›</span>{% endif %}{{ item_chip(i) }}{% endfor %}</div><div class="gd-build-meta nums"><b>{{ e.games }}</b> {{ ui.games }} · <b class="{{ 'good' if e.win_rate >= 0.5 else 'warn' }}">{{ pct(e.win_rate) }}</b></div></div>{% endfor %}
+{% endif %}
+{% if g.timeline.lane_text %}<h3 class="gd-sub">{{ ui.lane_title }}</h3><p class="page-intro" style="margin-top:0">{{ g.timeline.lane_text }}</p>{% endif %}
+{% endif %}
 {% if g.boots %}
 <h3 class="gd-sub">{{ ui.boots }}</h3>
 <div class="gd-row">{% for b in g.boots %}<div class="gd-chipline">{{ item_chip(b) }}<span class="nums">{{ pct(b.win_rate) }} · {{ b.games }} {{ ui.games }}</span></div>{% endfor %}</div>

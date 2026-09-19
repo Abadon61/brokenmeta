@@ -128,7 +128,7 @@ def _rune_pages(store: dict) -> list[dict]:
     return pages
 
 
-def build_guide_output(matches: list[dict], core_ids: set[int], boot_ids: set[int]) -> dict:
+def build_guide_output(matches: list[dict], core_ids: set[int], boot_ids: set[int], timeline_stats: dict | None = None) -> dict:
     cells: dict[str, dict[str, dict]] = defaultdict(lambda: defaultdict(_new_cell))
     seen: set[str] = set()
     used = 0
@@ -235,6 +235,8 @@ def build_guide_output(matches: list[dict], core_ids: set[int], boot_ids: set[in
                 "vs_enemy": vs_out,
                 "runes": _rune_pages(c["runes"]),
             }
+            if timeline_stats and (champ, role) in timeline_stats:   # opt-in: needs lol_timeline_run.py
+                out_roles[role]["timeline"] = timeline_stats[(champ, role)]
         if out_roles:
             by_champion[champ] = {"roles": out_roles}
     return {"unique_matches": used, "by_champion": by_champion}

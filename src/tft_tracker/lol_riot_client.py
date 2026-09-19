@@ -111,6 +111,11 @@ class LolRiotClient:
             self._write_cache(match_id, data)
         return data
 
+    def get_timeline(self, regional: str, match_id: str) -> dict | None:
+        """One extra call per match (skill order / item purchases live here). Not cached by this client:
+        lol_timeline.py stores a compact summary instead of the ~300 KB raw payload."""
+        return self._get(f"https://{regional}.api.riotgames.com/lol/match/v5/matches/{match_id}/timeline")
+
     # -- Local disk cache (matches are immutable once played) ---------------
     def _cache_path(self, match_id: str) -> Path:
         return self.cache_dir / f"{match_id}.json"

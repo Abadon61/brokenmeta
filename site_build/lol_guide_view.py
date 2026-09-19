@@ -54,7 +54,12 @@ STR = {
             "guide_title_attr": "Guide {name}",
             "runes_primary": "Arbre principal", "runes_secondary": "Arbre secondaire", "runes_shards": "Fragments",
             "runes_note": "Pour chaque rangée, la rune la plus choisie parmi les parties jouées avec cette page (part des parties entre parenthèses).",
+            "skills_title": "Ordre des compétences", "skills_maxed": "Maximisation", "skills_level": "Niv.",
+            "skills_note": "L'ordre indique quelles compétences atteignent le rang 5 en premier ; la grille montre la montée de niveau la plus jouée avec cet ordre (mesuré sur {tl_games} parties).",
+            "start_title": "Objets de départ", "path_title": "Ordre des premiers objets terminés",
+            "lane_title": "Phase de lane (moyennes)",
         },
+        "lane_text": "À 10 min : {g10} or, {c10} CS, {x10} XP. À 15 min : {g15} or, {c15} CS, {x15} XP.",
         "seo_title": ("{name} {role} : {kw} | BrokenMeta.gg", "{name} : {kw} | BrokenMeta.gg", "{name} : combos et build | BrokenMeta.gg", "{name} | BrokenMeta.gg"),
         "seo_title_prefix": "Guide ",
         "seo_kw": ("combos, build, contres", "combos et build"),
@@ -93,7 +98,12 @@ STR = {
             "guide_title_attr": "{name} guide",
             "runes_primary": "Primary tree", "runes_secondary": "Secondary tree", "runes_shards": "Shards",
             "runes_note": "For each row, the most picked rune among the games played with this page (share of games in brackets).",
+            "skills_title": "Skill order", "skills_maxed": "Max order", "skills_level": "Lvl",
+            "skills_note": "The order shows which abilities reach rank 5 first; the grid shows the most-played level-up sequence with that order (measured over {tl_games} games).",
+            "start_title": "Starting items", "path_title": "First completed items, in order",
+            "lane_title": "Laning phase (averages)",
         },
+        "lane_text": "At 10 min: {g10} gold, {c10} CS, {x10} XP. At 15 min: {g15} gold, {c15} CS, {x15} XP.",
         "seo_title": ("{name} {role} Guide: {kw} | BrokenMeta.gg", "{name} Guide: {kw} | BrokenMeta.gg", "{name} Guide: combos and build | BrokenMeta.gg", "{name} Guide | BrokenMeta.gg"),
         "seo_title_prefix": "",
         "seo_kw": ("combos, build, counters", "combos and build"),
@@ -140,6 +150,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         return None
     main_role, main = max(roles.items(), key=lambda kv: kv[1]["games"])
     name = d["name"]
+    spell_by_key_early = {"Q": d["spells"][0], "W": d["spells"][1], "E": d["spells"][2], "R": d["spells"][3]} if len(d["spells"]) >= 4 else {}
     total_games = sum(r["games"] for r in roles.values())
     role_label = ROLE_LABEL.get(main_role, main_role)
     role_in = S["role_in"]
@@ -255,6 +266,38 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
             if boots:
                 builds_text += f", usually with {boots[0]['name']} ({pct(boots[0]['win_rate'])}% over {boots[0]['games']} games)"
         builds_text += "."
+
+    # ---- skill order / start items / item path (only when lol_timeline_run.py has been run; see lol_timeline.py)
+    timeline = None
+    tl = main.get("timeline")
+    if tl:
+        letters = ("Q", "W", "E", "R")
+        skill_orders = []
+        for row in tl.get("skills", []):
+            lv = row["levels"]
+            skill_orders.append({
+                "order": " > ".join(row["order"].split(">")), "games": row["games"], "win_rate": row["win_rate"],
+                "grid": [{"key": k, "icon": (spell_by_key_early.get(k) or {}).get("icon_file"),
+                          "cells": [i < len(lv) and lv[i] == k for i in range(15)]} for k in letters],
+            })
+
+        def items_of(entries):
+            out = []
+            for e in entries:
+                its = [resolve_item(i, items_lookup, lang) for i in e["items"]]
+                if all(its):
+                    out.append({"items": its, "games": e["games"], "win_rate": e["win_rate"]})
+            return out
+
+        lane = tl.get("lane") or {}
+        lane_text = ""
+        if all(lane.get(k) is not None for k in ("gold_at10", "cs_at10", "xp_at10", "gold_at15", "cs_at15", "xp_at15")):
+            lane_text = S["lane_text"].format(g10=f"{lane['gold_at10']:.0f}", c10=f"{lane['cs_at10']:.0f}", x10=f"{lane['xp_at10']:.0f}",
+                                                    g15=f"{lane['gold_at15']:.0f}", c15=f"{lane['cs_at15']:.0f}", x15=f"{lane['xp_at15']:.0f}")
+        timeline = {"skills": skill_orders, "start_items": items_of(tl.get("start_items", [])), "item_paths": items_of(tl.get("item_paths", [])),
+                    "lane_text": lane_text, "games": tl["games"]}
+        if not (skill_orders or timeline["start_items"] or timeline["item_paths"] or lane_text):
+            timeline = None
 
     # ---- items depending on the enemy team
     vs_enemy = []
@@ -385,7 +428,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         S["seo_desc"][2].format(name=name),
     ) if len(t) <= 155)
 
-    ui = {k: v.format(name=name, role=role_label, role_in=role_in[main_role], games=main["games"], tier=(tier_info or {}).get("tier", ""), enemy="{enemy}")
+    ui = {k: v.format(name=name, role=role_label, role_in=role_in[main_role], games=main["games"], tier=(tier_info or {}).get("tier", ""), enemy="{enemy}", tl_games="{tl_games}")
           for k, v in S["ui"].items()}
     return {
         "lang": lang, "ui": ui, "id": d["id"], "seo_title": seo_title, "seo_description": seo_description,
@@ -398,7 +441,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         "editorial": ed, "ally_tips": ally_tips, "enemy_tips": enemy_tips,
         "passive": d["passive"], "spells": d["spells"],
         "core_builds": core_builds, "boots": boots, "summoner_spells": spells, "builds_text": builds_text,
-        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3], "rune_builds": rune_builds,
+        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3], "rune_builds": rune_builds, "timeline": timeline,
         "vs_enemy": vs_enemy, "hardest": hardest, "easiest": easiest,
         "faq": faq, "has_contres": has_contres,
     }
