@@ -1,0 +1,600 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Yasuo Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Yasuo Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1040 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/yasuo/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Yasuo Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Yasuo Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1040 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/yasuo/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Yasuo Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Yasuo Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1040 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Yasuo", "item": "https://brokenmeta.gg/league/guide/yasuo/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Yasuo \u2014 League of Legends", "description": "Yasuo, Disgraci\u00e9, est un champion de classe combattant et assassin exigeant \u00e0 ma\u00eetriser. Dans nos 1863 parties class\u00e9es analys\u00e9es, Yasuo est jou\u00e9 principalement en Mid (56 % de ses parties), et plus rarement en Top (25 %) et en ADC (19 %), avec 48.9 % de victoires \u00e0 ce poste : tier C parmi les Mid (n\u00b037 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/yasuo/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yasuo_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Yasuo ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Lame d'infini, Danse de la mort et Arc-bouclier immortel (113 parties, 56.6 % de victoires), g\u00e9n\u00e9ralement avec Broyeuses \u00e0 cha\u00eenes (36.7 % sur 79 parties)."}}, {"@type": "Question", "name": "Qui contre Yasuo ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Yasuo en Mid sont Lux (34.8 % de victoires sur 23 parties), Yone (36.7 % de victoires sur 30 parties) et Fizz (37.5 % de victoires sur 16 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Yasuo ?", "acceptedAnswer": {"@type": "Answer", "text": "Yasuo affiche ses meilleurs winrates contre Lissandra (58.8 %), Locke (57.1 %) et Zed (57.1 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Yasuo ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate reste stable quelle que soit la dur\u00e9e de la partie (48.1 % \u00e0 49.6 %) : le choix est fiable \u00e0 toutes les phases du jeu."}}, {"@type": "Question", "name": "Quelles runes jouer avec Yasuo ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Tempo mortel avec l'arbre secondaire Volont\u00e9 (903 parties, 49.9 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/yasuo/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/yasuo/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="Yasuo" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Yasuo</h1>
+    <div class="champ-fiche-ability-name">Disgracié</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Combattant</div><div class="perf-badge">Assassin</div>
+      <div class="perf-badge">Tier C Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Yasuo, Disgracié, est un champion de classe combattant et assassin exigeant à maîtriser. Dans nos 1863 parties classées analysées, Yasuo est joué principalement en Mid (56 % de ses parties), et plus rarement en Top (25 %) et en ADC (19 %), avec 48.9 % de victoires à ce poste : tier C parmi les Mid (n°37 sur 42, classés par winrate). Les dégâts de Yasuo sont surtout physiques (87 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. Le winrate reste stable quelle que soit la durée de la partie (48.1 % à 49.6 %) : le choix est fiable à toutes les phases du jeu.</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">6.4 / 6.8 / 5.2</div><div class="gd-stat-sub">ratio 1.7</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">785</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">8.1</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">442</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">40 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.68</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 1040 parties Mid jouées avec Yasuo, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Yasuo est un combattant de mêlée à mobilité constante. Sa passive lui donne des chances de coup critique accrues et un bouclier qui se remplit en se déplaçant. Il empile Tempête menaçante pour projeter les ennemis dans les airs, ce qui active son ultime, et Mur de vent bloque les projectiles ennemis, une capacité décisive contre les tireurs et les mages.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combo de tornade</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Cercle tranchant">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoE.png" alt="Cercle tranchant" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tempête d&#39;acier">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoQ1Wrapper.png" alt="Tempête d&#39;acier" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tempête d&#39;acier">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoQ1Wrapper.png" alt="Tempête d&#39;acier" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée d&#39;une ruée.</p>
+    <p class="gd-how">Cercle tranchant te rue à travers une cible, Tempête d&#39;acier lancée pendant la ruée donne un coup circulaire ; deux cumuls de Tempête menaçante font ensuite une tornade qui projette la cible.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;ultime après projection</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Tempête d&#39;acier">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoQ1Wrapper.png" alt="Tempête d&#39;acier" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tempête d&#39;acier">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoQ1Wrapper.png" alt="Tempête d&#39;acier" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Dernier soupir">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoR.png" alt="Dernier soupir" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est projeté dans les airs.</p>
+    <p class="gd-how">Dernier soupir ne peut viser qu&#39;un champion déjà projeté : lance-le au moment où la tornade touche, et profite de la pénétration d&#39;armure bonus sur tes coups critiques.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La défense de tireurs</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Mur de vent">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoW.png" alt="Mur de vent" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Les tireurs adverses visent ton équipe.</p>
+    <p class="gd-how">Mur de vent bloque les projectiles ennemis pendant 4 secondes. Place-le entre ton équipe et leurs sources de dégâts à distance, avant qu&#39;ils ne tirent.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Utilise Cercle tranchant sur les sbires pour te rapprocher de l&#39;ennemi, et empile Tempête d&#39;acier pour déclencher la tornade. Garde Mur de vent pour bloquer une compétence importante plutôt que pour la lancer par habitude : son délai de récupération est long.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Utiliser l&#39;ultime sans avoir de cible projetée : il ne peut pas être lancé seul.</li><li>Gaspiller Mur de vent hors des combats importants.</li><li>Ruer sur des sbires qui te placent sous une tour ou dans la ligne de tirs ennemis.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Yasuo</h3>
+<ul class="gd-list"><li>Chargez à travers un sbire pour que Cercle tranchant soit disponible si jamais vous devez pourchasser un ennemi en fuite. Chargez directement votre adversaire et épargnez un sbire pour que ce dernier vous aide à fuir.</li><li>Au niveau 18, la Tempête d&#39;acier de Yasuo atteint sa vitesse d&#39;attaque maximale à +55% (avec l&#39;aide d&#39;objets).</li><li>Dernier soupir peut être lancé sur n&#39;importe quelle cible projetée en l&#39;air, même celles projetées par les alliés de Yasuo.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Danse de la mort et Arc-bouclier immortel (113 parties, 56.6 % de victoires), généralement avec Broyeuses à chaînes (36.7 % sur 79 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>113</b> parties · <b class="good">56.6 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3153/" title="Lame du roi déchu"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="36" height="36" loading="lazy"><span>Lame du roi déchu</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>105</b> parties · <b class="good">59.1 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6672/" title="Tueur de krakens"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="36" height="36" loading="lazy"><span>Tueur de krakens</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>54</b> parties · <b class="good">59.3 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">36.7 % · 79 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3174/" title="Avancée blindée"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3174.png" alt="" width="36" height="36" loading="lazy"><span>Avancée blindée</span></a><span class="nums">51.9 % · 52 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3170/" title="Célérité martiale"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3170.png" alt="" width="36" height="36" loading="lazy"><span>Célérité martiale</span></a><span class="nums">45.5 % · 33 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">47.0 % · 530 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">51.4 % · 414 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">46.2 % · 52 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHaste.png" alt="Fantôme" title="Fantôme" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Fantôme</span><span class="nums">43.5 % · 23 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" alt="Tempo mortel" loading="lazy">
+    <span>Tempo mortel + Volonté</span><span class="nums">49.9 % · 903 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png" alt="Jeu de jambes" loading="lazy">
+    <span>Jeu de jambes + Volonté</span><span class="nums">43.6 % · 101 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png" alt="Poigne de l&#39;immortel" loading="lazy">
+    <span>Poigne de l&#39;immortel + Précision</span><span class="nums">48.9 % · 45 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Yasuo et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">52.2 % · 278 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums good">55.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums good">58.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums good">52.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums good">52.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums good">67.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums ">52.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Danse de la mort : 67.9 % de victoires, soit +10 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">46.8 % · 301 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums ">51.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">50.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums ">46.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums ">45.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums warn">52.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums warn">45.3 % ▼</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">48.2 % · 461 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums ">51.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">49.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums ">46.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">56.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums ">45.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums ">53.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Yasuo en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/lux/" title="Guide Lux">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lux.png" alt="" width="36" height="36" loading="lazy"><b>Lux</b>
+      <span class="nums warn">Yasuo : 34.8 %</span><span class="nums gd-dim">23 parties</span>
+    </a>
+    <p class="gd-vs-note">Lux prend l&#39;avantage dans 65 % des 23 duels Mid contre Yasuo. <a href="../../../league/guide/lux/">Voir le guide de Lux</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/yone/" title="Guide Yone">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="" width="36" height="36" loading="lazy"><b>Yone</b>
+      <span class="nums warn">Yasuo : 36.7 %</span><span class="nums gd-dim">30 parties</span>
+    </a>
+    <p class="gd-vs-note">Yone prend l&#39;avantage dans 63 % des 30 duels Mid contre Yasuo. <a href="../../../league/guide/yone/">Voir le guide de Yone</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/fizz/" title="Guide Fizz">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Fizz.png" alt="" width="36" height="36" loading="lazy"><b>Fizz</b>
+      <span class="nums warn">Yasuo : 37.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Fizz prend l&#39;avantage dans 62 % des 16 duels Mid contre Yasuo. <a href="../../../league/guide/fizz/">Voir le guide de Fizz</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/katarina/" title="Guide Katarina">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Katarina.png" alt="" width="36" height="36" loading="lazy"><b>Katarina</b>
+      <span class="nums warn">Yasuo : 38.1 %</span><span class="nums gd-dim">21 parties</span>
+    </a>
+    <p class="gd-vs-note">Katarina prend l&#39;avantage dans 62 % des 21 duels Mid contre Yasuo. <a href="../../../league/guide/katarina/">Voir le guide de Katarina</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/ahri/" title="Guide Ahri">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="36" height="36" loading="lazy"><b>Ahri</b>
+      <span class="nums warn">Yasuo : 40.0 %</span><span class="nums gd-dim">20 parties</span>
+    </a>
+    <p class="gd-vs-note">Ahri prend l&#39;avantage dans 60 % des 20 duels Mid contre Yasuo. <a href="../../../league/guide/ahri/">Voir le guide de Ahri</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Yasuo est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lissandra.png" alt="" width="28" height="28" loading="lazy"><b>Lissandra</b><span class="nums good">58.8 % · 17 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Locke.png" alt="" width="28" height="28" loading="lazy"><b>Locke</b><span class="nums good">57.1 % · 28 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zed.png" alt="" width="28" height="28" loading="lazy"><b>Zed</b><span class="nums good">57.1 % · 28 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Malzahar.png" alt="" width="28" height="28" loading="lazy"><b>Malzahar</b><span class="nums good">53.3 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="" width="28" height="28" loading="lazy"><b>Viktor</b><span class="nums good">50.0 % · 24 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Yasuo</h3>
+<ul class="gd-list"><li>Tempête d&#39;acier n&#39;est pas très large. Déplacez-vous latéralement pour tenter de l&#39;esquiver. </li><li>Quand Yasuo place deux Tempêtes d&#39;acier d&#39;affilée, la prochaine déclenchera une tornade. Guettez le son qui annonce cet effet et préparez-vous à esquiver.</li><li>Yasuo est moins dangereux après avoir tiré une tornade. Attaquez à ce moment-là.</li><li>Le bouclier de Détermination dure 2 sec. Infliger des dégâts à Yasuo déclenche le bouclier : attaquez quand il disparaît.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/yasuo/contres/">Voir tous les matchups de Yasuo</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Yasuo_Passive.png" alt="Voie du vagabond" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Voie du vagabond</div><div class="lol-ability-desc">Les chances de coup critique de Yasuo sont augmentées. De plus, Yasuo génère un bouclier quand il se déplace. Le bouclier se déclenche quand un champion ou un monstre lui inflige des dégâts.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoQ1Wrapper.png" alt="Tempête d&#39;acier" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Tempête d&#39;acier</div><div class="lol-ability-desc">Donne un coup d'estoc, blessant tous les ennemis sur une ligne.<br><br>À l'impact, octroie un effet Tempête menaçante pendant quelques secondes. Après avoir cumulé 2 effets, Tempête d'acier crée une tornade qui projette <font color='#6655CC'>dans les airs</font>.<br><br>Tempête d'acier est considérée comme une attaque de base et est donc renforcée par les mêmes choses.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoW.png" alt="Mur de vent" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Mur de vent</div><div class="lol-ability-desc">Crée un mur mobile qui bloque tous les projectiles ennemis pendant 4 sec.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoE.png" alt="Cercle tranchant" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Cercle tranchant</div><div class="lol-ability-desc">Yasuo se rue à travers l'ennemi ciblé, infligeant des dégâts magiques. Chaque utilisation augmente les dégâts de la ruée suivante jusqu'à un montant max.<br><br>Ne peut pas être réutilisé sur le même ennemi pendant quelques secondes.<br><br><font color='#99FF99'>Si Tempête d'acier est lancée pendant cette ruée, elle donne un coup circulaire.</font></div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YasuoR.png" alt="Dernier soupir" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Dernier soupir</div><div class="lol-ability-desc">Bondit sur un champion ennemi <factionIonia1>projeté dans les airs</factionIonia1> et lui inflige des dégâts physiques. En outre, tous les ennemis qui étaient <factionIonia1>projetés dans les airs</factionIonia1> dans la zone sont maintenus en l'air. Remplit totalement l'Impulsion mais réinitialise tous les effets cumulés de Tempête menaçante.<br><br>Ensuite, pendant une durée modérée, les coups critiques de Yasuo ont une pénétration du bonus d'armure significativement augmentée.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Yasuo ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Danse de la mort et Arc-bouclier immortel (113 parties, 56.6 % de victoires), généralement avec Broyeuses à chaînes (36.7 % sur 79 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Yasuo ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Yasuo en Mid sont Lux (34.8 % de victoires sur 23 parties), Yone (36.7 % de victoires sur 30 parties) et Fizz (37.5 % de victoires sur 16 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Yasuo ?</h3><p class="page-intro" style="margin-top:0">Yasuo affiche ses meilleurs winrates contre Lissandra (58.8 %), Locke (57.1 %) et Zed (57.1 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Yasuo ?</h3><p class="page-intro" style="margin-top:0">Le winrate reste stable quelle que soit la durée de la partie (48.1 % à 49.6 %) : le choix est fiable à toutes les phases du jeu.</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Yasuo ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Tempo mortel avec l&#39;arbre secondaire Volonté (903 parties, 49.9 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/yasuo/">Fiche complète de Yasuo</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

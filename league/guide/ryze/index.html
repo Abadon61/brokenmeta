@@ -1,0 +1,584 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Ryze Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Ryze Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 641 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/ryze/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Ryze Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Ryze Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 641 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/ryze/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ryze_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Ryze Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Ryze Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 641 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ryze_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Ryze", "item": "https://brokenmeta.gg/league/guide/ryze/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Ryze \u2014 League of Legends", "description": "Ryze, Mage runique, est un champion de classe mage exigeant \u00e0 ma\u00eetriser. Dans nos 776 parties class\u00e9es analys\u00e9es, Ryze est jou\u00e9 principalement en Mid (83 % de ses parties), et plus rarement en Top (17 %), avec 48.5 % de victoires \u00e0 ce poste : tier C parmi les Mid (n\u00b039 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/ryze/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ryze_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Ryze ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Actualisateur, Sablier de Zhonya et B\u00e2ton s\u00e9culaire (66 parties, 56.1 % de victoires), g\u00e9n\u00e9ralement avec Broyeuses \u00e0 cha\u00eenes (47.5 % sur 202 parties)."}}, {"@type": "Question", "name": "Qui contre Ryze ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Ryze en Mid sont Locke (43.8 % de victoires sur 16 parties), Sylas (52.6 % de victoires sur 19 parties) et Viktor (52.9 % de victoires sur 17 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Ryze ?", "acceptedAnswer": {"@type": "Answer", "text": "Ryze affiche ses meilleurs winrates contre Syndra (57.9 %), Yone (53.3 %) et Viktor (52.9 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Ryze ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 50.3 % de victoires dans les parties moyennes (25 \u00e0 35 min, 338 parties) contre 46.2 % dans les parties courtes (moins de 25 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Ryze ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Toucher de feu mortel avec l'arbre secondaire Volont\u00e9 (238 parties, 45.4 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/ryze/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/ryze/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ryze.png" alt="Ryze" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Ryze</h1>
+    <div class="champ-fiche-ability-name">Mage runique</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier C Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Ryze, Mage runique, est un champion de classe mage exigeant à maîtriser. Dans nos 776 parties classées analysées, Ryze est joué principalement en Mid (83 % de ses parties), et plus rarement en Top (17 %), avec 48.5 % de victoires à ce poste : tier C parmi les Mid (n°39 sur 42, classés par winrate). Les dégâts de Ryze sont surtout magiques (94 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate varie avec la durée de la partie : 50.3 % de victoires dans les parties moyennes (25 à 35 min, 338 parties) contre 46.2 % dans les parties courtes (moins de 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">5.6 / 4.9 / 6.5</div><div class="gd-stat-sub">ratio 2.5</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">851</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">8.4</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">434</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">43 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.83</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 641 parties Mid jouées avec Ryze, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Ryze est un mage dont les compétences infligent des dégâts supplémentaires selon son mana supplémentaire. Flux envoûtant marque les cibles ; Court-circuit rebondit sur les ennemis marqués, Prison runique les immobilise, et Portail transdimensionnel transporte tes alliés vers un endroit proche.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combo de base</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Flux envoûtant">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeE.png" alt="Flux envoûtant" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Court-circuit">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeQWrapper.png" alt="Court-circuit" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Prison runique">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeW.png" alt="Prison runique" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Court-circuit">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeQWrapper.png" alt="Court-circuit" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée.</p>
+    <p class="gd-how">Flux envoûtant marque la cible et les ennemis proches, Court-circuit inflige des dégâts supplémentaires sur cible marquée et rebondit, Prison runique l&#39;immobilise au lieu de la ralentir.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La zone</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Flux envoûtant">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeE.png" alt="Flux envoûtant" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Prison runique">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeW.png" alt="Prison runique" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Court-circuit">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeQWrapper.png" alt="Court-circuit" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Plusieurs ennemis sont groupés.</p>
+    <p class="gd-how">Flux marque les ennemis proches de la cible ; Court-circuit rebondit vers eux, et leurs dégâts profitent de la marque.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le portail d&#39;équipe</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Portail transdimensionnel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeR.png" alt="Portail transdimensionnel" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu veux repositionner ton équipe.</p>
+    <p class="gd-how">Portail transdimensionnel ouvre un portail vers un endroit proche : quelques secondes plus tard, tous les alliés près du portail y sont transportés.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Enchaîne les compétences pour charger des runes : deux runes chargées donnent une brève vitesse de déplacement à Court-circuit. Marque avec Flux envoûtant avant d&#39;utiliser tes autres compétences.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Lancer Prison runique sans marque : l&#39;immobilisation dépend de Flux.</li><li>Négliger ton mana : tes dégâts en dépendent.</li><li>Ouvrir le portail sans prévenir ton équipe.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Ryze</h3>
+<ul class="gd-list"><li>Utilisez la propriété passive de Court-circuit pour optimiser vos dégâts ou votre vitesse.</li><li>Le court délai de récupération de Flux envoûtant permet d&#39;appliquer Flux sur de nombreux ennemis.</li><li>Pendant l&#39;activation de Portail transdimensionnel, Ryze peut se déplacer et lancer d&#39;autres sorts sans annuler le portail.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Actualisateur, Sablier de Zhonya et Bâton séculaire (66 parties, 56.1 % de victoires), généralement avec Broyeuses à chaînes (47.5 % sur 202 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2522/" title="Actualisateur"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="36" height="36" loading="lazy"><span>Actualisateur</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6657/" title="Bâton séculaire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="36" height="36" loading="lazy"><span>Bâton séculaire</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>66</b> parties · <b class="good">56.1 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2522/" title="Actualisateur"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="36" height="36" loading="lazy"><span>Actualisateur</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3089/" title="Coiffe de Rabadon"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="36" height="36" loading="lazy"><span>Coiffe de Rabadon</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6657/" title="Bâton séculaire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="36" height="36" loading="lazy"><span>Bâton séculaire</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>46</b> parties · <b class="good">65.2 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2522/" title="Actualisateur"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="36" height="36" loading="lazy"><span>Actualisateur</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3135/" title="Bâton du vide"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="" width="36" height="36" loading="lazy"><span>Bâton du vide</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6657/" title="Bâton séculaire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="36" height="36" loading="lazy"><span>Bâton séculaire</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>21</b> parties · <b class="warn">23.8 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">47.5 % · 202 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3170/" title="Célérité martiale"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3170.png" alt="" width="36" height="36" loading="lazy"><span>Célérité martiale</span></a><span class="nums">48.5 % · 138 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3171/" title="Lucidité pourpre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3171.png" alt="" width="36" height="36" loading="lazy"><span>Lucidité pourpre</span></a><span class="nums">51.7 % · 114 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHaste.png" alt="Fantôme" title="Fantôme" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Fantôme</span><span class="nums">49.5 % · 457 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">44.2 % · 156 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png" alt="Toucher de feu mortel" loading="lazy">
+    <span>Toucher de feu mortel + Volonté</span><span class="nums">45.4 % · 238 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/PhaseRush/StormraidersSurgeRuneIcon2.png" alt="Assaut du maraudeur" loading="lazy">
+    <span>Assaut du maraudeur + Volonté</span><span class="nums">53.2 % · 77 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png" alt="Toucher de feu mortel" loading="lazy">
+    <span>Toucher de feu mortel + Précision</span><span class="nums">43.1 % · 58 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Ryze et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">53.1 % · 162 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6657/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="28" height="28" loading="lazy"><span>Bâton séculaire</span></a>
+        <span class="nums good">52.6 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2522/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="28" height="28" loading="lazy"><span>Actualisateur</span></a>
+        <span class="nums ">55.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums good">69.0 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums warn">52.0 % ▼</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Coiffe de Rabadon : 69.0 % de victoires, soit +5 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">45.9 % · 183 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6657/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="28" height="28" loading="lazy"><span>Bâton séculaire</span></a>
+        <span class="nums ">46.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2522/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="28" height="28" loading="lazy"><span>Actualisateur</span></a>
+        <span class="nums ">56.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums good">58.6 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3110/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3110.png" alt="" width="28" height="28" loading="lazy"><span>Cœur gelé</span></a>
+        <span class="nums ">60.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">76.9 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Sablier de Zhonya : 58.6 % de victoires, soit +3 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">47.6 % · 296 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6657/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6657.png" alt="" width="28" height="28" loading="lazy"><span>Bâton séculaire</span></a>
+        <span class="nums ">48.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2522/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2522.png" alt="" width="28" height="28" loading="lazy"><span>Actualisateur</span></a>
+        <span class="nums ">52.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">55.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3135/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="" width="28" height="28" loading="lazy"><span>Bâton du vide</span></a>
+        <span class="nums ">30.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Ryze en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/locke/" title="Guide Locke">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Locke.png" alt="" width="36" height="36" loading="lazy"><b>Locke</b>
+      <span class="nums warn">Ryze : 43.8 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Locke prend l&#39;avantage dans 56 % des 16 duels Mid contre Ryze. <a href="../../../league/guide/locke/">Voir le guide de Locke</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/sylas/" title="Guide Sylas">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="36" height="36" loading="lazy"><b>Sylas</b>
+      <span class="nums warn">Ryze : 52.6 %</span><span class="nums gd-dim">19 parties</span>
+    </a>
+    <p class="gd-vs-note">Sylas prend l&#39;avantage dans 47 % des 19 duels Mid contre Ryze. <a href="../../../league/guide/sylas/">Voir le guide de Sylas</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/viktor/" title="Guide Viktor">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="" width="36" height="36" loading="lazy"><b>Viktor</b>
+      <span class="nums warn">Ryze : 52.9 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Viktor prend l&#39;avantage dans 47 % des 17 duels Mid contre Ryze. <a href="../../../league/guide/viktor/">Voir le guide de Viktor</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/yone/" title="Guide Yone">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="" width="36" height="36" loading="lazy"><b>Yone</b>
+      <span class="nums warn">Ryze : 53.3 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Yone prend l&#39;avantage dans 47 % des 15 duels Mid contre Ryze. <a href="../../../league/guide/yone/">Voir le guide de Yone</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/syndra/" title="Guide Syndra">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" width="36" height="36" loading="lazy"><b>Syndra</b>
+      <span class="nums warn">Ryze : 57.9 %</span><span class="nums gd-dim">19 parties</span>
+    </a>
+    <p class="gd-vs-note">Syndra prend l&#39;avantage dans 42 % des 19 duels Mid contre Ryze. <a href="../../../league/guide/syndra/">Voir le guide de Syndra</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Ryze est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" width="28" height="28" loading="lazy"><b>Syndra</b><span class="nums good">57.9 % · 19 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="" width="28" height="28" loading="lazy"><b>Yone</b><span class="nums good">53.3 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="" width="28" height="28" loading="lazy"><b>Viktor</b><span class="nums good">52.9 % · 17 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="28" height="28" loading="lazy"><b>Sylas</b><span class="nums good">52.6 % · 19 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Locke.png" alt="" width="28" height="28" loading="lazy"><b>Locke</b><span class="nums good">43.8 % · 16 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Ryze</h3>
+<ul class="gd-list"><li>Ryze est particulièrement dangereux face à des adversaires marqués par Flux.</li><li>Profitez du délai d&#39;activation de Portail transdimensionnel pour décider comment vous occuper de ce qui risque d&#39;en sortir.</li><li>Infliger un contrôle de foule à Ryze pendant l&#39;activation de Portail transdimensionnel annulera le portail.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/ryze/contres/">Voir tous les matchups de Ryze</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Ryze_P.png" alt="Maîtrise des arcanes" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Maîtrise des arcanes</div><div class="lol-ability-desc"><mainText>Les compétences de Ryze infligent des dégâts supplémentaires en fonction de son mana supplémentaire, et son mana max est augmenté d'un pourcentage en fonction de sa puissance.</mainText></div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeQWrapper.png" alt="Court-circuit" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Court-circuit</div><div class="lol-ability-desc">Passivement, les autres compétences de base de Ryze réinitialisent le délai de récupération de Court-circuit et chargent une rune. Lorsque Ryze lance Court-circuit avec deux runes chargées, il gagne un bref bonus en vitesse de déplacement.<br><br>À l'activation, Ryze tire une décharge de pure énergie en ligne droite, infligeant des dégâts au premier ennemi touché. Si la cible est marquée par Flux, Court-circuit inflige des dégâts supplémentaires et rebondit vers les ennemis proches marqués par Flux.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeW.png" alt="Prison runique" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Prison runique</div><div class="lol-ability-desc">Ryze piège une cible dans une prison de runes, lui infligeant des dégâts et ralentissant ses déplacements. Si la cible est marquée par Flux, elle est immobilisée au lieu d'être ralentie.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeE.png" alt="Flux envoûtant" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Flux envoûtant</div><div class="lol-ability-desc">Ryze projette un orbe de pure énergie magique qui blesse une cible et marque les ennemis proches de sa cible. Les compétences de Ryze ont des effets supplémentaires sur les ennemis marqués.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/RyzeR.png" alt="Portail transdimensionnel" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Portail transdimensionnel</div><div class="lol-ability-desc">Passivement, Court-circuit inflige des dégâts supplémentaires aux cibles marquées par Flux.<br><br>À l'incantation, Ryze ouvre un portail menant à un endroit proche. Quelques secondes plus tard, tous les alliés près du portail sont transportés à l'endroit ciblé.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Ryze ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Actualisateur, Sablier de Zhonya et Bâton séculaire (66 parties, 56.1 % de victoires), généralement avec Broyeuses à chaînes (47.5 % sur 202 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Ryze ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Ryze en Mid sont Locke (43.8 % de victoires sur 16 parties), Sylas (52.6 % de victoires sur 19 parties) et Viktor (52.9 % de victoires sur 17 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Ryze ?</h3><p class="page-intro" style="margin-top:0">Ryze affiche ses meilleurs winrates contre Syndra (57.9 %), Yone (53.3 %) et Viktor (52.9 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Ryze ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 50.3 % de victoires dans les parties moyennes (25 à 35 min, 338 parties) contre 46.2 % dans les parties courtes (moins de 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Ryze ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Toucher de feu mortel avec l&#39;arbre secondaire Volonté (238 parties, 45.4 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/ryze/">Fiche complète de Ryze</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

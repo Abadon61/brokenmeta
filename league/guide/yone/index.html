@@ -1,0 +1,630 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Yone Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Yone Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1095 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/yone/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Yone Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Yone Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1095 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/yone/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yone_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Yone Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Yone Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1095 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yone_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Yone", "item": "https://brokenmeta.gg/league/guide/yone/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Yone \u2014 League of Legends", "description": "Yone, Inoubli\u00e9, est un champion de classe combattant et assassin exigeant \u00e0 ma\u00eetriser. Dans nos 2110 parties class\u00e9es analys\u00e9es, Yone est jou\u00e9 principalement en Mid (52 % de ses parties), et plus rarement en Top (44 %), avec 49.8 % de victoires \u00e0 ce poste : tier C parmi les Mid (n\u00b033 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/yone/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Yone_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Yone ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Lame d'infini, Lame du roi d\u00e9chu et Arc-bouclier immortel (245 parties, 53.9 % de victoires), g\u00e9n\u00e9ralement avec Broyeuses \u00e0 cha\u00eenes (58.3 % sur 24 parties)."}}, {"@type": "Question", "name": "Qui contre Yone ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Yone en Mid sont Katarina (37.5 % de victoires sur 16 parties), Viktor (40.0 % de victoires sur 35 parties) et Sylas (42.1 % de victoires sur 19 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Yone ?", "acceptedAnswer": {"@type": "Answer", "text": "Yone affiche ses meilleurs winrates contre Yasuo (63.3 %), Galio (63.2 %) et Ahri (52.6 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Yone ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 53.5 % de victoires dans les parties longues (plus de 35 min, 129 parties) contre 47.7 % dans les parties courtes (moins de 25 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Yone ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Tempo mortel avec l'arbre secondaire Volont\u00e9 (932 parties, 48.9 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/yone/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/yone/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="Yone" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Yone</h1>
+    <div class="champ-fiche-ability-name">Inoublié</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Combattant</div><div class="perf-badge">Assassin</div>
+      <div class="perf-badge">Tier C Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Yone, Inoublié, est un champion de classe combattant et assassin exigeant à maîtriser. Dans nos 2110 parties classées analysées, Yone est joué principalement en Mid (52 % de ses parties), et plus rarement en Top (44 %), avec 49.8 % de victoires à ce poste : tier C parmi les Mid (n°33 sur 42, classés par winrate). Les dégâts de Yone sont surtout physiques (72 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. 13 % de ces dégâts sont bruts et ignorent donc les résistances. Le winrate varie avec la durée de la partie : 53.5 % de victoires dans les parties longues (plus de 35 min, 129 parties) contre 47.7 % dans les parties courtes (moins de 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">6.3 / 6.5 / 5.2</div><div class="gd-stat-sub">ratio 1.8</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">858</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">8.2</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">442</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">39 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.71</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 1095 parties Mid jouées avec Yone, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Yone est un combattant-assassin qui alterne coups physiques et magiques : une attaque sur deux inflige des dégâts magiques, ce qui rend ses dégâts difficiles à contrer avec un seul type de résistance. Il gagne ses parties en empilant Acier mortel pour projeter les ennemis dans les airs, puis en fermant le combat avec Destin scellé, qui rassemble les ennemis touchés. Libération spirituelle est la clé de son jeu : les dégâts infligés sous forme d&#39;esprit sont répétés au retour dans le corps.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;échange en lane</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Fendoir spirituel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneW.png" alt="Fendoir spirituel" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu veux trader sans dépenser Libération spirituelle.</p>
+    <p class="gd-how">Deux Acier mortel rapprochés déclenchent la ruée et la projection ; glisse une attaque entre les deux pour profiter du bonus de sa passive, puis Fendoir spirituel pour le bouclier.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;engagement par l&#39;esprit</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Libération spirituelle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneE.png" alt="Libération spirituelle" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Fendoir spirituel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneW.png" alt="Fendoir spirituel" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Libération spirituelle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneE.png" alt="Libération spirituelle" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée et tu veux maximiser les dégâts répétés.</p>
+    <p class="gd-how">Sors de ton corps avec Libération spirituelle, inflige un maximum de dégâts pendant que tu es en esprit, puis réactive-la : une partie de ces dégâts est répétée. Le combo tient sur sa durée limitée, donc lance-le à portée.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combo de combat d&#39;équipe</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Destin scellé">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneR.png" alt="Destin scellé" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Acier mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Fendoir spirituel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneW.png" alt="Fendoir spirituel" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Plusieurs ennemis sont alignés.</p>
+    <p class="gd-how">Projette une cible avec la tornade, puis Destin scellé te téléporte derrière le dernier champion touché sur la ligne et attire tous les ennemis vers toi. Termine avec Acier mortel et Fendoir spirituel pour profiter du regroupement.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Enchaîne attaques de base et Acier mortel pour empiler l&#39;effet Tempête menaçante ; deux cumuls te permettent de te ruer et de projeter la cible. Fendoir spirituel te donne un bouclier proportionnel au nombre de champions touchés : garde-le pour un échange, pas pour les sbires.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Utiliser Destin scellé sans avoir un allié qui suit : l&#39;ultime te place au cœur de l&#39;équipe adverse.</li><li>Lancer Libération spirituelle sans cible à frapper : les dégâts répétés dépendent de ce que tu infliges pendant l&#39;esprit.</li><li>Gaspiller Fendoir spirituel sur des sbires : son bouclier grandit avec les champions touchés.</li></ul>
+
+
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Lame du roi déchu et Arc-bouclier immortel (245 parties, 53.9 % de victoires), généralement avec Broyeuses à chaînes (58.3 % sur 24 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3153/" title="Lame du roi déchu"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="36" height="36" loading="lazy"><span>Lame du roi déchu</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>245</b> parties · <b class="good">53.9 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>149</b> parties · <b class="good">61.1 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3153/" title="Lame du roi déchu"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="36" height="36" loading="lazy"><span>Lame du roi déchu</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6673/" title="Arc-bouclier immortel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="36" height="36" loading="lazy"><span>Arc-bouclier immortel</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>77</b> parties · <b class="good">57.1 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">58.3 % · 24 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">53.9 % · 412 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">44.4 % · 378 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">50.2 % · 289 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" alt="Tempo mortel" loading="lazy">
+    <span>Tempo mortel + Volonté</span><span class="nums">48.9 % · 932 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/FleetFootwork/FleetFootwork.png" alt="Jeu de jambes" loading="lazy">
+    <span>Jeu de jambes + Volonté</span><span class="nums">47.3 % · 239 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Volonté</span><span class="nums">40.0 % · 20 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Yone et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">50.9 % · 318 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums good">56.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">57.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums ">50.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">58.3 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums good">60.7 % ▲</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Salutations de Dominik : 60.7 % de victoires, soit +10 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">47.9 % · 265 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums warn">49.5 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums ">47.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums warn">51.7 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">55.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums warn">48.3 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums ">45.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">50.0 % · 512 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6673/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6673.png" alt="" width="28" height="28" loading="lazy"><span>Arc-bouclier immortel</span></a>
+        <span class="nums ">53.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3153/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="28" height="28" loading="lazy"><span>Lame du roi déchu</span></a>
+        <span class="nums ">47.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">57.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">58.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3095/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3095.png" alt="" width="28" height="28" loading="lazy"><span>Lame tempête</span></a>
+        <span class="nums good">56.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums warn">46.8 % ▼</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Lame tempête : 56.8 % de victoires, soit +4 points par rapport à son winrate habituel.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Yone en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/katarina/" title="Guide Katarina">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Katarina.png" alt="" width="36" height="36" loading="lazy"><b>Katarina</b>
+      <span class="nums warn">Yone : 37.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Katarina prend l&#39;avantage dans 62 % des 16 duels Mid contre Yone. <a href="../../../league/guide/katarina/">Voir le guide de Katarina</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/viktor/" title="Guide Viktor">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="" width="36" height="36" loading="lazy"><b>Viktor</b>
+      <span class="nums warn">Yone : 40.0 %</span><span class="nums gd-dim">35 parties</span>
+    </a>
+    <p class="gd-vs-note">Viktor prend l&#39;avantage dans 60 % des 35 duels Mid contre Yone. <a href="../../../league/guide/viktor/">Voir le guide de Viktor</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/sylas/" title="Guide Sylas">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="36" height="36" loading="lazy"><b>Sylas</b>
+      <span class="nums warn">Yone : 42.1 %</span><span class="nums gd-dim">19 parties</span>
+    </a>
+    <p class="gd-vs-note">Sylas prend l&#39;avantage dans 58 % des 19 duels Mid contre Yone. <a href="../../../league/guide/sylas/">Voir le guide de Sylas</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/syndra/" title="Guide Syndra">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" width="36" height="36" loading="lazy"><b>Syndra</b>
+      <span class="nums warn">Yone : 45.2 %</span><span class="nums gd-dim">31 parties</span>
+    </a>
+    <p class="gd-vs-note">Syndra prend l&#39;avantage dans 55 % des 31 duels Mid contre Yone. <a href="../../../league/guide/syndra/">Voir le guide de Syndra</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/locke/" title="Guide Locke">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Locke.png" alt="" width="36" height="36" loading="lazy"><b>Locke</b>
+      <span class="nums warn">Yone : 46.2 %</span><span class="nums gd-dim">26 parties</span>
+    </a>
+    <p class="gd-vs-note">Locke prend l&#39;avantage dans 54 % des 26 duels Mid contre Yone. <a href="../../../league/guide/locke/">Voir le guide de Locke</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Yone est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="" width="28" height="28" loading="lazy"><b>Yasuo</b><span class="nums good">63.3 % · 30 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Galio.png" alt="" width="28" height="28" loading="lazy"><b>Galio</b><span class="nums good">63.2 % · 19 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="28" height="28" loading="lazy"><b>Ahri</b><span class="nums good">52.6 % · 38 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Akali.png" alt="" width="28" height="28" loading="lazy"><b>Akali</b><span class="nums good">50.0 % · 24 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/TwistedFate.png" alt="" width="28" height="28" loading="lazy"><b>Twisted Fate</b><span class="nums good">50.0 % · 20 parties</span></div>
+</div>
+
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/yone/contres/">Voir tous les matchups de Yone</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/YonePassive.png" alt="Voie du chasseur" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Voie du chasseur</div><div class="lol-ability-desc">Une attaque de Yone sur deux inflige des dégâts magiques. De plus, ses chances de coup critique sont augmentées.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneQ.png" alt="Acier mortel" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Acier mortel</div><div class="lol-ability-desc">Yone donne un coup d'estoc devant lui, blessant tous les ennemis sur une ligne.<br><br>À l'impact, cela lui octroie un effet Tempête menaçante pendant quelques secondes. À 2 effets cumulés, Acier mortel permet à Yone de se ruer vers l'avant dans une rafale de vent qui <status>projette les ennemis dans les airs</status>.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneW.png" alt="Fendoir spirituel" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Fendoir spirituel</div><div class="lol-ability-desc">Yone frappe devant lui en blessant tous les ennemis dans une zone conique. Yone obtient un bouclier dont les PV augmentent avec le nombre de champions touchés.<br><br>Les délais de récupération et d'incantation de Fendoir spirituel sont réduits par la vitesse d'attaque.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneE.png" alt="Libération spirituelle" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Libération spirituelle</div><div class="lol-ability-desc">L'esprit de Yone quitte son corps et gagne en vitesse de déplacement. Quand cette compétence prend fin, Yone est renvoyé de force dans son corps et une partie des dégâts qu'il a infligés sous forme d'esprit est répétée.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/YoneR.png" alt="Destin scellé" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Destin scellé</div><div class="lol-ability-desc">Yone se téléporte derrière le dernier champion sur une ligne en donnant un coup si puissant qu'il attire vers lui tous les ennemis touchés.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Yone ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Lame du roi déchu et Arc-bouclier immortel (245 parties, 53.9 % de victoires), généralement avec Broyeuses à chaînes (58.3 % sur 24 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Yone ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Yone en Mid sont Katarina (37.5 % de victoires sur 16 parties), Viktor (40.0 % de victoires sur 35 parties) et Sylas (42.1 % de victoires sur 19 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Yone ?</h3><p class="page-intro" style="margin-top:0">Yone affiche ses meilleurs winrates contre Yasuo (63.3 %), Galio (63.2 %) et Ahri (52.6 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Yone ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 53.5 % de victoires dans les parties longues (plus de 35 min, 129 parties) contre 47.7 % dans les parties courtes (moins de 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Yone ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Tempo mortel avec l&#39;arbre secondaire Volonté (932 parties, 48.9 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/yone/">Fiche complète de Yone</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

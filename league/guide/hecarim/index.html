@@ -1,0 +1,601 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Hecarim : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Hecarim Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 858 parties Jungle.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/hecarim/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Hecarim : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Hecarim Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 858 parties Jungle.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/hecarim/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Hecarim_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Hecarim : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Hecarim Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 858 parties Jungle.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Hecarim_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Hecarim", "item": "https://brokenmeta.gg/league/guide/hecarim/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Hecarim \u2014 League of Legends", "description": "Hecarim, Ombre de la guerre, est un champion de classe combattant et tank de difficult\u00e9 moyenne. Dans nos 858 parties class\u00e9es analys\u00e9es, Hecarim est jou\u00e9 principalement en Jungle (100 % de ses parties), avec 49.2 % de victoires \u00e0 ce poste : tier C parmi les Jungle (n\u00b034 sur 48, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/hecarim/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Hecarim_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Hecarim ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Faim insatiable, Lance de Shojin et Danse de la mort (219 parties, 58.9 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Hecarim ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Hecarim en Jungle sont Lee Sin (37.5 % de victoires sur 32 parties), Nidalee (37.5 % de victoires sur 16 parties) et Jarvan IV (38.5 % de victoires sur 26 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Hecarim ?", "acceptedAnswer": {"@type": "Answer", "text": "Hecarim affiche ses meilleurs winrates contre Kha'Zix (75.0 %), Shaco (71.4 %) et Graves (57.1 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Hecarim ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 55.4 % de victoires dans les parties courtes (moins de 25 min, 325 parties) contre 43.0 % dans les parties longues (plus de 35 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Hecarim ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Assaut du maraudeur avec l'arbre secondaire Pr\u00e9cision (406 parties, 48.0 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/hecarim/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/hecarim/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Hecarim.png" alt="Hecarim" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Jungle</div>
+    <h1 class="champ-fiche-name">Guide Hecarim</h1>
+    <div class="champ-fiche-ability-name">Ombre de la guerre</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Combattant</div><div class="perf-badge">Tank</div>
+      <div class="perf-badge">Tier C Jungle</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Hecarim, Ombre de la guerre, est un champion de classe combattant et tank de difficulté moyenne. Dans nos 858 parties classées analysées, Hecarim est joué principalement en Jungle (100 % de ses parties), avec 49.2 % de victoires à ce poste : tier C parmi les Jungle (n°34 sur 48, classés par winrate). Les dégâts de Hecarim sont surtout physiques (82 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. Le winrate varie avec la durée de la partie : 55.4 % de victoires dans les parties courtes (moins de 25 min, 325 parties) contre 43.0 % dans les parties longues (plus de 35 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">7.6 / 5.2 / 8.0</div><div class="gd-stat-sub">ratio 3.0</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">727</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">8.0</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">478</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">54 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.80</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 858 parties Jungle jouées avec Hecarim, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Hecarim est un jungler de vitesse : ses dégâts d&#39;attaque augmentent d&#39;un pourcentage de sa vitesse de déplacement bonus. Carnage augmente ses dégâts et réduit son délai à chaque coup, Charge dévastatrice repousse et inflige des dégâts selon la distance parcourue, et Légion des ombres charge en ligne avant d&#39;effrayer à l&#39;arrivée.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;engagement de charge</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Charge dévastatrice">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRamp.png" alt="Charge dévastatrice" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Carnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRapidSlash.png" alt="Carnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Essence de la peur">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimW.png" alt="Essence de la peur" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est éloigné.</p>
+    <p class="gd-how">Charge dévastatrice augmente ta vitesse et te fait traverser les unités ; ta prochaine attaque repousse et inflige d&#39;autant plus de dégâts que la distance parcourue est grande.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combat d&#39;équipe</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Légion des ombres">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimUlt.png" alt="Légion des ombres" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Carnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRapidSlash.png" alt="Carnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Essence de la peur">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimW.png" alt="Essence de la peur" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Les ennemis sont regroupés.</p>
+    <p class="gd-how">Légion des ombres charge en ligne et effraie les ennemis proches à l&#39;arrivée ; enchaîne avec Carnage et Essence de la peur.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combat prolongé</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Carnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRapidSlash.png" alt="Carnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Carnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRapidSlash.png" alt="Carnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Essence de la peur">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimW.png" alt="Essence de la peur" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu es au corps à corps.</p>
+    <p class="gd-how">Carnage devient plus fort à chaque coup ; Essence de la peur t&#39;apporte armure, résistance magique et des PV.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Carnage blesse les ennemis proches ; s&#39;il en touche au moins un, les suivants deviennent plus rapides et plus forts. Essence de la peur te soigne d&#39;un pourcentage des dégâts subis par les ennemis proches.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Attaquer sans vitesse de déplacement bonus : tes dégâts en dépendent.</li><li>Utiliser Charge dévastatrice à trop courte distance : ses dégâts dépendent de la distance parcourue.</li><li>Lancer l&#39;ultime en oubliant qu&#39;il charge devant toi.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Hecarim</h3>
+<ul class="gd-list"><li>Essence de la peur vous rend des PV lorsque les ennemis proches subissent des dégâts, y compris ceux infligés par les alliés. Lancez-la au cours d&#39;une grande bataille pour maximiser les chances de survie d&#39;Hecarim.</li><li>Charge dévastatrice inflige des dégâts proportionnels à la distance parcourue. Utilisez Légion des ombres ou un sort d&#39;invocateur tel que Fantôme ou Saut éclair pour maximiser les dégâts.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Faim insatiable, Lance de Shojin et Danse de la mort (219 parties, 58.9 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2517/" title="Faim insatiable"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="" width="36" height="36" loading="lazy"><span>Faim insatiable</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3161/" title="Lance de Shojin"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="" width="36" height="36" loading="lazy"><span>Lance de Shojin</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>219</b> parties · <b class="good">58.9 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3071/" title="Couperet noir"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="36" height="36" loading="lazy"><span>Couperet noir</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3161/" title="Lance de Shojin"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="" width="36" height="36" loading="lazy"><span>Lance de Shojin</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>162</b> parties · <b class="good">55.6 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2517/" title="Faim insatiable"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="" width="36" height="36" loading="lazy"><span>Faim insatiable</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3071/" title="Couperet noir"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="36" height="36" loading="lazy"><span>Couperet noir</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>116</b> parties · <b class="good">56.0 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHaste.png" alt="Fantôme" title="Fantôme" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy">
+    <span>Fantôme + Châtiment</span><span class="nums">49.3 % · 848 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/PhaseRush/StormraidersSurgeRuneIcon2.png" alt="Assaut du maraudeur" loading="lazy">
+    <span>Assaut du maraudeur + Précision</span><span class="nums">48.0 % · 406 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Sorcellerie</span><span class="nums">48.5 % · 68 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Hecarim et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">52.2 % · 232 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3161/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="" width="28" height="28" loading="lazy"><span>Lance de Shojin</span></a>
+        <span class="nums good">52.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums good">56.0 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2517/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="" width="28" height="28" loading="lazy"><span>Faim insatiable</span></a>
+        <span class="nums good">58.6 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums good">57.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3156/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="" width="28" height="28" loading="lazy"><span>Gueule de Malmortius</span></a>
+        <span class="nums good">56.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6697/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6697.png" alt="" width="28" height="28" loading="lazy"><span>Orgueil</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Couperet noir : 57.7 % de victoires, soit +7 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">51.6 % · 244 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3161/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="" width="28" height="28" loading="lazy"><span>Lance de Shojin</span></a>
+        <span class="nums ">50.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">51.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2517/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="" width="28" height="28" loading="lazy"><span>Faim insatiable</span></a>
+        <span class="nums ">52.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums ">51.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6696/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6696.png" alt="" width="28" height="28" loading="lazy"><span>Arc axiomatique</span></a>
+        <span class="nums ">45.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3156/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="" width="28" height="28" loading="lazy"><span>Gueule de Malmortius</span></a>
+        <span class="nums ">62.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">45.8 % · 382 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3161/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3161.png" alt="" width="28" height="28" loading="lazy"><span>Lance de Shojin</span></a>
+        <span class="nums ">46.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">51.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums warn">45.3 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2517/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2517.png" alt="" width="28" height="28" loading="lazy"><span>Faim insatiable</span></a>
+        <span class="nums ">53.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3156/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="" width="28" height="28" loading="lazy"><span>Gueule de Malmortius</span></a>
+        <span class="nums warn">44.6 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6697/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6697.png" alt="" width="28" height="28" loading="lazy"><span>Orgueil</span></a>
+        <span class="nums warn">38.7 % ▼</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Hecarim en Jungle</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/leesin/" title="Guide Lee Sin">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="36" height="36" loading="lazy"><b>Lee Sin</b>
+      <span class="nums warn">Hecarim : 37.5 %</span><span class="nums gd-dim">32 parties</span>
+    </a>
+    <p class="gd-vs-note">Lee Sin prend l&#39;avantage dans 62 % des 32 duels Jungle contre Hecarim. <a href="../../../league/guide/leesin/">Voir le guide de Lee Sin</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/nidalee/" title="Guide Nidalee">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nidalee.png" alt="" width="36" height="36" loading="lazy"><b>Nidalee</b>
+      <span class="nums warn">Hecarim : 37.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Nidalee prend l&#39;avantage dans 62 % des 16 duels Jungle contre Hecarim. <a href="../../../league/guide/nidalee/">Voir le guide de Nidalee</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/jarvaniv/" title="Guide Jarvan IV">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/JarvanIV.png" alt="" width="36" height="36" loading="lazy"><b>Jarvan IV</b>
+      <span class="nums warn">Hecarim : 38.5 %</span><span class="nums gd-dim">26 parties</span>
+    </a>
+    <p class="gd-vs-note">Jarvan IV prend l&#39;avantage dans 62 % des 26 duels Jungle contre Hecarim. <a href="../../../league/guide/jarvaniv/">Voir le guide de Jarvan IV</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/talon/" title="Guide Talon">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Talon.png" alt="" width="36" height="36" loading="lazy"><b>Talon</b>
+      <span class="nums warn">Hecarim : 42.1 %</span><span class="nums gd-dim">19 parties</span>
+    </a>
+    <p class="gd-vs-note">Talon prend l&#39;avantage dans 58 % des 19 duels Jungle contre Hecarim. <a href="../../../league/guide/talon/">Voir le guide de Talon</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/viego/" title="Guide Viego">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viego.png" alt="" width="36" height="36" loading="lazy"><b>Viego</b>
+      <span class="nums warn">Hecarim : 45.8 %</span><span class="nums gd-dim">24 parties</span>
+    </a>
+    <p class="gd-vs-note">Viego prend l&#39;avantage dans 54 % des 24 duels Jungle contre Hecarim. <a href="../../../league/guide/viego/">Voir le guide de Viego</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Hecarim est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Khazix.png" alt="" width="28" height="28" loading="lazy"><b>Kha&#39;Zix</b><span class="nums good">75.0 % · 20 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Shaco.png" alt="" width="28" height="28" loading="lazy"><b>Shaco</b><span class="nums good">71.4 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Graves.png" alt="" width="28" height="28" loading="lazy"><b>Graves</b><span class="nums good">57.1 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Qiyana.png" alt="" width="28" height="28" loading="lazy"><b>Qiyana</b><span class="nums good">57.1 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viego.png" alt="" width="28" height="28" loading="lazy"><b>Viego</b><span class="nums good">45.8 % · 24 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Hecarim</h3>
+<ul class="gd-list"><li>Essence de la peur permet à Hecarim de regagner des PV grâce aux ennemis proches, mais il manque de durabilité. Infligez-lui des dégâts en burst.</li><li>L&#39;ultime d&#39;Hecarim effraie les ennemis et les fait fuir. En combat, dispersez-vous pour réduire sa puissance.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/hecarim/contres/">Voir tous les matchups de Hecarim</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Hecarim_Passive.png" alt="Galop" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Galop</div><div class="lol-ability-desc">Les dégâts d'attaque d'Hecarim augmentent d'un montant égal à un pourcentage de sa vitesse de déplacement bonus.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRapidSlash.png" alt="Carnage" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Carnage</div><div class="lol-ability-desc">Hecarim tranche les ennemis proches et leur inflige des dégâts physiques. Si Hecarim blesse au moins un ennemi, il augmente les dégâts et réduit le délai de récupération des Carnages suivants.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimW.png" alt="Essence de la peur" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Essence de la peur</div><div class="lol-ability-desc">Hecarim gagne de l'armure et de la résistance magique. Hecarim inflige des dégâts magiques aux ennemis proches. Il regagne un nombre de PV équivalent à un pourcentage de tous les dégâts subis par ces ennemis.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimRamp.png" alt="Charge dévastatrice" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Charge dévastatrice</div><div class="lol-ability-desc">La vitesse de déplacement d'Hecarim augmente et il peut traverser les unités pendant un court instant. Sa prochaine attaque repousse la cible et inflige des dégâts physiques supplémentaires en fonction de la distance parcourue depuis l'activation de la compétence.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HecarimUlt.png" alt="Légion des ombres" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Légion des ombres</div><div class="lol-ability-desc">Hecarim invoque des cavaliers fantomatiques et charge devant lui, infligeant des dégâts magiques sur une ligne. À la fin de sa charge, Hecarim crée une onde de choc qui effraie les ennemis proches.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Hecarim ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Faim insatiable, Lance de Shojin et Danse de la mort (219 parties, 58.9 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Hecarim ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Hecarim en Jungle sont Lee Sin (37.5 % de victoires sur 32 parties), Nidalee (37.5 % de victoires sur 16 parties) et Jarvan IV (38.5 % de victoires sur 26 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Hecarim ?</h3><p class="page-intro" style="margin-top:0">Hecarim affiche ses meilleurs winrates contre Kha&#39;Zix (75.0 %), Shaco (71.4 %) et Graves (57.1 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Hecarim ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 55.4 % de victoires dans les parties courtes (moins de 25 min, 325 parties) contre 43.0 % dans les parties longues (plus de 35 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Hecarim ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Assaut du maraudeur avec l&#39;arbre secondaire Précision (406 parties, 48.0 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/hecarim/">Fiche complète de Hecarim</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,605 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Shaco Jungle : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Shaco Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 672 parties Jungle.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/shaco/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Shaco Jungle : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Shaco Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 672 parties Jungle.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/shaco/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Shaco Jungle : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Shaco Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 672 parties Jungle.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Shaco", "item": "https://brokenmeta.gg/league/guide/shaco/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Shaco \u2014 League of Legends", "description": "Shaco, Bouffon des t\u00e9n\u00e8bres, est un champion de classe assassin exigeant \u00e0 ma\u00eetriser. Dans nos 776 parties class\u00e9es analys\u00e9es, Shaco est jou\u00e9 principalement en Jungle (87 % de ses parties), et plus rarement en Support (13 %), avec 53.4 % de victoires \u00e0 ce poste : tier A parmi les Jungle (n\u00b07 sur 48, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/shaco/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Shaco_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Shaco ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Torche noire, Mandat imp\u00e9rial et Tourment de Liandry (99 parties, 59.6 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Shaco ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Shaco en Jungle sont Hecarim (28.6 % de victoires sur 21 parties), Nocturne (46.7 % de victoires sur 15 parties) et Viego (58.8 % de victoires sur 17 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Shaco ?", "acceptedAnswer": {"@type": "Answer", "text": "Shaco affiche ses meilleurs winrates contre Lee Sin (69.7 %), Vi (60.0 %) et Ma\u00eetre Yi (60.0 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Shaco ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 61.2 % de victoires dans les parties longues (plus de 35 min, 147 parties) contre 51.2 % dans les parties courtes (moins de 25 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Shaco ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise D\u00e9luge de lames avec l'arbre secondaire Pr\u00e9cision (151 parties, 55.6 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/shaco/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/shaco/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Shaco.png" alt="Shaco" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Jungle</div>
+    <h1 class="champ-fiche-name">Guide Shaco</h1>
+    <div class="champ-fiche-ability-name">Bouffon des ténèbres</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Assassin</div>
+      <div class="perf-badge">Tier A Jungle</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Shaco, Bouffon des ténèbres, est un champion de classe assassin exigeant à maîtriser. Dans nos 776 parties classées analysées, Shaco est joué principalement en Jungle (87 % de ses parties), et plus rarement en Support (13 %), avec 53.4 % de victoires à ce poste : tier A parmi les Jungle (n°7 sur 48, classés par winrate). Les dégâts de Shaco sont mixtes (32 % physiques, 52 % magiques) : empiler un seul type de résistance est moins rentable face à ce champion. 16 % de ces dégâts sont bruts et ignorent donc les résistances. Le winrate varie avec la durée de la partie : 61.2 % de victoires dans les parties longues (plus de 35 min, 147 parties) contre 51.2 % dans les parties courtes (moins de 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">7.9 / 5.5 / 8.6</div><div class="gd-stat-sub">ratio 3.0</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">732</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">6.6</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">443</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">52 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.96</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 672 parties Jungle jouées avec Shaco, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Shaco est un assassin de ruse : Tromperie le rend invisible et le téléporte, et sa première attaque invisible inflige des dégâts supplémentaires, avec un coup critique s&#39;il frappe dans le dos. Boîte surprise effraie, Poison double ralentit et son ultime crée un double qui explose en mini-boîtes.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;assassinat par derrière</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Tromperie">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Deceive.png" alt="Tromperie" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Poison double">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TwoShivPoison.png" alt="Poison double" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Boîte surprise">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JackInTheBox.png" alt="Boîte surprise" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un carry est isolé.</p>
+    <p class="gd-how">Tromperie te rend invisible et te téléporte ; la première attaque est renforcée, critique dans le dos. Poison double ralentit et le poignard lancé inflige des dégâts supplémentaires sous 30 % de PV.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le piège</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Boîte surprise">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JackInTheBox.png" alt="Boîte surprise" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Poison double">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TwoShivPoison.png" alt="Poison double" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi te poursuit.</p>
+    <p class="gd-how">Boîte surprise effraie puis attaque les ennemis proches quand elle est déclenchée ; Poison double ralentit sa poursuite.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le duel avec double</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Hallucination">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HallucinateFull.png" alt="Hallucination" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tromperie">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Deceive.png" alt="Tromperie" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un combat rapproché s&#39;engage.</p>
+    <p class="gd-how">Hallucination crée un double qui attaque (dégâts réduits aux tourelles) ; en mourant il explose, faisant apparaître trois mini-boîtes surprises.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Frappe dans le dos : tes attaques et Poison double infligent plus de dégâts. Pose des boîtes surprises aux endroits stratégiques : elles effraient puis attaquent.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Attaquer de face : tu perds tes bonus de dos.</li><li>Poser des boîtes sans réfléchir à leur visibilité.</li><li>Utiliser Tromperie sans plan pour la suite.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Shaco</h3>
+<ul class="gd-list"><li>Utiliser Tromperie par-dessus le terrain peut vous aider à fuir.</li><li>Essayez d&#39;acheter des objets infligeant des effets à l&#39;impact. Votre clone d&#39;Hallucination en profitera aussi.</li><li>Les dégâts de Traîtrise peuvent profiter des bonus aux coups critiques, comme celui de la Lame d&#39;infini.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Torche noire, Mandat impérial et Tourment de Liandry (99 parties, 59.6 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2503/" title="Torche noire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="36" height="36" loading="lazy"><span>Torche noire</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4005/" title="Mandat impérial"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="36" height="36" loading="lazy"><span>Mandat impérial</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6653/" title="Tourment de Liandry"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="36" height="36" loading="lazy"><span>Tourment de Liandry</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>99</b> parties · <b class="good">59.6 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3137/" title="Fleur de crypte"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3137.png" alt="" width="36" height="36" loading="lazy"><span>Fleur de crypte</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4005/" title="Mandat impérial"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="36" height="36" loading="lazy"><span>Mandat impérial</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6653/" title="Tourment de Liandry"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="36" height="36" loading="lazy"><span>Tourment de Liandry</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>51</b> parties · <b class="good">84.3 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6676/" title="Percepteur"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="36" height="36" loading="lazy"><span>Percepteur</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6699/" title="Cyclosabre voltaïque"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6699.png" alt="" width="36" height="36" loading="lazy"><span>Cyclosabre voltaïque</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>47</b> parties · <b class="warn">46.8 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Châtiment + Embrasement</span><span class="nums">54.3 % · 632 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Châtiment</span><span class="nums">40.0 % · 25 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png" alt="Déluge de lames" loading="lazy">
+    <span>Déluge de lames + Précision</span><span class="nums">55.6 % · 151 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" alt="Comète arcanique" loading="lazy">
+    <span>Comète arcanique + Précision</span><span class="nums">58.9 % · 112 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png" alt="Déluge de lames" loading="lazy">
+    <span>Déluge de lames + Inspiration</span><span class="nums">39.2 % · 74 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Shaco et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">60.9 % · 189 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6653/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="28" height="28" loading="lazy"><span>Tourment de Liandry</span></a>
+        <span class="nums good">69.3 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums good">60.3 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6699/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6699.png" alt="" width="28" height="28" loading="lazy"><span>Cyclosabre voltaïque</span></a>
+        <span class="nums good">59.1 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4005/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="28" height="28" loading="lazy"><span>Mandat impérial</span></a>
+        <span class="nums good">67.2 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums good">57.1 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3142/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3142.png" alt="" width="28" height="28" loading="lazy"><span>Lame spectre de Youmuu</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Tourment de Liandry : 69.3 % de victoires, soit +9 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">52.4 % · 191 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6699/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6699.png" alt="" width="28" height="28" loading="lazy"><span>Cyclosabre voltaïque</span></a>
+        <span class="nums ">51.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6653/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="28" height="28" loading="lazy"><span>Tourment de Liandry</span></a>
+        <span class="nums warn">51.5 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums ">54.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4005/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="28" height="28" loading="lazy"><span>Mandat impérial</span></a>
+        <span class="nums warn">58.5 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6676/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="28" height="28" loading="lazy"><span>Percepteur</span></a>
+        <span class="nums ">51.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3142/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3142.png" alt="" width="28" height="28" loading="lazy"><span>Lame spectre de Youmuu</span></a>
+        <span class="nums ">54.3 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">49.3 % · 292 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6699/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6699.png" alt="" width="28" height="28" loading="lazy"><span>Cyclosabre voltaïque</span></a>
+        <span class="nums warn">49.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6653/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="28" height="28" loading="lazy"><span>Tourment de Liandry</span></a>
+        <span class="nums ">60.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums warn">52.6 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4005/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="28" height="28" loading="lazy"><span>Mandat impérial</span></a>
+        <span class="nums ">60.3 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3142/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3142.png" alt="" width="28" height="28" loading="lazy"><span>Lame spectre de Youmuu</span></a>
+        <span class="nums ">51.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6676/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="28" height="28" loading="lazy"><span>Percepteur</span></a>
+        <span class="nums ">46.7 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Shaco en Jungle</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/hecarim/" title="Guide Hecarim">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Hecarim.png" alt="" width="36" height="36" loading="lazy"><b>Hecarim</b>
+      <span class="nums warn">Shaco : 28.6 %</span><span class="nums gd-dim">21 parties</span>
+    </a>
+    <p class="gd-vs-note">Hecarim prend l&#39;avantage dans 71 % des 21 duels Jungle contre Shaco. <a href="../../../league/guide/hecarim/">Voir le guide de Hecarim</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/nocturne/" title="Guide Nocturne">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nocturne.png" alt="" width="36" height="36" loading="lazy"><b>Nocturne</b>
+      <span class="nums warn">Shaco : 46.7 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Nocturne prend l&#39;avantage dans 53 % des 15 duels Jungle contre Shaco. <a href="../../../league/guide/nocturne/">Voir le guide de Nocturne</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/viego/" title="Guide Viego">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viego.png" alt="" width="36" height="36" loading="lazy"><b>Viego</b>
+      <span class="nums warn">Shaco : 58.8 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Viego prend l&#39;avantage dans 41 % des 17 duels Jungle contre Shaco. <a href="../../../league/guide/viego/">Voir le guide de Viego</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/kayn/" title="Guide Kayn">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kayn.png" alt="" width="36" height="36" loading="lazy"><b>Kayn</b>
+      <span class="nums warn">Shaco : 58.8 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Kayn prend l&#39;avantage dans 41 % des 17 duels Jungle contre Shaco. <a href="../../../league/guide/kayn/">Voir le guide de Kayn</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/vi/" title="Guide Vi">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Vi.png" alt="" width="36" height="36" loading="lazy"><b>Vi</b>
+      <span class="nums warn">Shaco : 60.0 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Vi prend l&#39;avantage dans 40 % des 15 duels Jungle contre Shaco. <a href="../../../league/guide/vi/">Voir le guide de Vi</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Shaco est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="28" height="28" loading="lazy"><b>Lee Sin</b><span class="nums good">69.7 % · 33 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Vi.png" alt="" width="28" height="28" loading="lazy"><b>Vi</b><span class="nums good">60.0 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/MasterYi.png" alt="" width="28" height="28" loading="lazy"><b>Maître Yi</b><span class="nums good">60.0 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viego.png" alt="" width="28" height="28" loading="lazy"><b>Viego</b><span class="nums good">58.8 % · 17 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kayn.png" alt="" width="28" height="28" loading="lazy"><b>Kayn</b><span class="nums good">58.8 % · 17 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Shaco</h3>
+<ul class="gd-list"><li>Si Shaco s&#39;en sort bien en début de partie, vous devriez envisager de poser des Balises camouflées près de ses camps dans la jungle.</li><li>Si Shaco utilise Tromperie pour engager le combat, il ne pourra pas s&#39;en servir pour fuir. Agissez en équipe pour vous concentrer sur lui et le battre rapidement.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/shaco/contres/">Voir tous les matchups de Shaco</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Jester_CarefulStrikes.png" alt="Traîtrise" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Traîtrise</div><div class="lol-ability-desc">Les attaques de base et la compétence Poison double de Shaco infligent des dégâts supplémentaires lorsqu'elles frappent dans le dos d'un ennemi.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Deceive.png" alt="Tromperie" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Tromperie</div><div class="lol-ability-desc">Shaco devient invisible et se téléporte vers la position ciblée.<br><br>Sa première attaque en étant invisible est renforcée : elle inflige des dégâts supplémentaires et, si Shaco frappe dans le dos d'un ennemi, un coup critique.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JackInTheBox.png" alt="Boîte surprise" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Boîte surprise</div><div class="lol-ability-desc">Shaco pose une boîte cachée. Quand elle est déclenchée, elle effraie puis attaque les ennemis proches.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TwoShivPoison.png" alt="Poison double" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Poison double</div><div class="lol-ability-desc">Passivement, Shaco empoisonne les cibles qu'il touche, réduisant leur vitesse de déplacement. Shaco peut lancer son arme pour infliger des dégâts et empoisonner sa cible. Le poignard lancé inflige des dégâts supplémentaires si la cible a moins de 30% de ses PV.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/HallucinateFull.png" alt="Hallucination" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Hallucination</div><div class="lol-ability-desc">Shaco crée un double de lui-même à ses côtés qui peut attaquer les ennemis proches (inflige des dégâts réduits aux tourelles). En mourant, il explose, faisant apparaître trois mini-boîtes surprises et blessant les ennemis à portée.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Shaco ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Torche noire, Mandat impérial et Tourment de Liandry (99 parties, 59.6 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Shaco ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Shaco en Jungle sont Hecarim (28.6 % de victoires sur 21 parties), Nocturne (46.7 % de victoires sur 15 parties) et Viego (58.8 % de victoires sur 17 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Shaco ?</h3><p class="page-intro" style="margin-top:0">Shaco affiche ses meilleurs winrates contre Lee Sin (69.7 %), Vi (60.0 %) et Maître Yi (60.0 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Shaco ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 61.2 % de victoires dans les parties longues (plus de 35 min, 147 parties) contre 51.2 % dans les parties courtes (moins de 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Shaco ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Déluge de lames avec l&#39;arbre secondaire Précision (151 parties, 55.6 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/shaco/">Fiche complète de Shaco</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

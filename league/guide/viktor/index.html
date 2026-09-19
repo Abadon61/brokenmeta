@@ -1,0 +1,612 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Viktor Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Viktor Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1166 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/viktor/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Viktor Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Viktor Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1166 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/viktor/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viktor_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Viktor Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Viktor Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1166 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viktor_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Viktor", "item": "https://brokenmeta.gg/league/guide/viktor/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Viktor \u2014 League of Legends", "description": "Viktor, H\u00e9raut de l'arcane, est un champion de classe mage exigeant \u00e0 ma\u00eetriser. Dans nos 1660 parties class\u00e9es analys\u00e9es, Viktor est jou\u00e9 principalement en Mid (70 % de ses parties), et plus rarement en ADC (27 %), avec 48.9 % de victoires \u00e0 ce poste : tier A parmi les Mid (n\u00b010 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/viktor/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Viktor_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Viktor ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Torche noire, Ceinture-roquette Hextech et Sablier de Zhonya (116 parties, 54.3 % de victoires), g\u00e9n\u00e9ralement avec Chaussures de lanceur de sorts (49.6 % sur 508 parties)."}}, {"@type": "Question", "name": "Qui contre Viktor ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Viktor en Mid sont Twisted Fate (26.9 % de victoires sur 26 parties), Galio (38.1 % de victoires sur 21 parties) et Hwei (40.0 % de victoires sur 20 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Viktor ?", "acceptedAnswer": {"@type": "Answer", "text": "Viktor affiche ses meilleurs winrates contre Sylas (69.0 %), Akali (68.0 %) et Lux (63.2 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Viktor ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate reste stable quelle que soit la dur\u00e9e de la partie (48.1 % \u00e0 49.5 %) : le choix est fiable \u00e0 toutes les phases du jeu."}}, {"@type": "Question", "name": "Quelles runes jouer avec Viktor ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Toucher de feu mortel avec l'arbre secondaire Volont\u00e9 (501 parties, 51.1 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/viktor/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/viktor/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="Viktor" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Viktor</h1>
+    <div class="champ-fiche-ability-name">Héraut de l&#39;arcane</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier A Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Viktor, Héraut de l&#39;arcane, est un champion de classe mage exigeant à maîtriser. Dans nos 1660 parties classées analysées, Viktor est joué principalement en Mid (70 % de ses parties), et plus rarement en ADC (27 %), avec 48.9 % de victoires à ce poste : tier A parmi les Mid (n°10 sur 42, classés par winrate). Les dégâts de Viktor sont surtout magiques (96 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate reste stable quelle que soit la durée de la partie (48.1 % à 49.5 %) : le choix est fiable à toutes les phases du jeu.</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">5.6 / 5.7 / 6.9</div><div class="gd-stat-sub">ratio 2.2</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">963</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">7.8</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">415</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">43 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.72</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 1166 parties Mid jouées avec Viktor, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Viktor est un mage qui devient plus fort au fil de la partie : chaque élimination lui rapporte des fragments Hextech, et tous les 100 fragments il améliore définitivement une compétence. Une fois les quatre compétences de base améliorées, il peut améliorer son ultime. Sa force vient du contrôle de zone : ralentissements, étourdissements sur le Champ gravitationnel et Tempête arcanique qu&#39;il redirige.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le harcèlement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Siphonnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorQ.png" alt="Siphonnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Rayon Hextech">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorE.png" alt="Rayon Hextech" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée du Rayon Hextech.</p>
+    <p class="gd-how">Siphonnage inflige des dégâts, te protège et renforce ton attaque ; enchaîne avec l&#39;attaque renforcée puis Rayon Hextech, qui touche tous les ennemis sur sa ligne.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le contrôle de zone</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Champ gravitationnel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorW.png" alt="Champ gravitationnel" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Rayon Hextech">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorE.png" alt="Rayon Hextech" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Siphonnage">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorQ.png" alt="Siphonnage" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Les ennemis se regroupent autour d&#39;un objectif ou d&#39;une porte de tour.</p>
+    <p class="gd-how">Pose Champ gravitationnel : les ennemis qui y restent trop longtemps sont étourdis. Rayon Hextech et Siphonnage complètent pendant qu&#39;ils tentent de sortir.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;ultime en combat d&#39;équipe</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Champ gravitationnel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorW.png" alt="Champ gravitationnel" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tempête arcanique">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorR.png" alt="Tempête arcanique" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Rayon Hextech">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorE.png" alt="Rayon Hextech" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un combat d&#39;équipe est engagé.</p>
+    <p class="gd-how">Tempête arcanique inflige des dégâts périodiques et interrompt les canalisations ennemies ; tu peux la rediriger pour suivre les cibles. Si un champion meurt après avoir été blessé par elle, elle grandit et dure plus longtemps (version améliorée).</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Siphonnage te donne un bouclier et renforce ta prochaine attaque : utilise-le pour trader en sécurité. Chaque élimination compte double pour toi, car elle te rapproche d&#39;une amélioration : priorise les derniers coups.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Négliger les derniers coups : tes fragments Hextech, donc tes améliorations, dépendent des éliminations.</li><li>Lancer Tempête arcanique sans la rediriger : elle peut suivre les ennemis qui fuient.</li><li>Placer Champ gravitationnel sans piéger de cible : il ne rapporte qu&#39;en gardant les ennemis dans sa zone.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Viktor</h3>
+<ul class="gd-list"><li>Rayon Hextech est un puissant outil pour zoner et poker les ennemis. Utilisez-le avec Champ gravitationnel pour contrôler la position de l&#39;ennemi.</li><li>Assurez-vous de choisir la bonne amélioration au bon moment.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Torche noire, Ceinture-roquette Hextech et Sablier de Zhonya (116 parties, 54.3 % de victoires), généralement avec Chaussures de lanceur de sorts (49.6 % sur 508 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2503/" title="Torche noire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="36" height="36" loading="lazy"><span>Torche noire</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3152/" title="Ceinture-roquette Hextech"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="36" height="36" loading="lazy"><span>Ceinture-roquette Hextech</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>116</b> parties · <b class="good">54.3 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2503/" title="Torche noire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="36" height="36" loading="lazy"><span>Torche noire</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>73</b> parties · <b class="good">53.4 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2503/" title="Torche noire"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="36" height="36" loading="lazy"><span>Torche noire</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>52</b> parties · <b class="good">55.8 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3175/" title="Chaussures de lanceur de sorts"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3175.png" alt="" width="36" height="36" loading="lazy"><span>Chaussures de lanceur de sorts</span></a><span class="nums">49.6 % · 508 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3171/" title="Lucidité pourpre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3171.png" alt="" width="36" height="36" loading="lazy"><span>Lucidité pourpre</span></a><span class="nums">50.8 % · 331 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">45.8 % · 155 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">47.1 % · 889 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHaste.png" alt="Fantôme" title="Fantôme" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Fantôme</span><span class="nums">54.2 % · 203 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">54.5 % · 33 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">60.9 % · 23 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png" alt="Toucher de feu mortel" loading="lazy">
+    <span>Toucher de feu mortel + Volonté</span><span class="nums">51.1 % · 501 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/DeathfireTouch/DEATHFIRE_TOUCH_KEYSTONE.png" alt="Toucher de feu mortel" loading="lazy">
+    <span>Toucher de feu mortel + Précision</span><span class="nums">48.6 % · 286 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/SummonAery/SummonAery.png" alt="Invocation d&#39;Aery" loading="lazy">
+    <span>Invocation d&#39;Aery + Volonté</span><span class="nums">53.3 % · 60 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Viktor et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">50.9 % · 330 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums ">51.3 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">54.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums warn">52.3 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums warn">50.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums good">64.2 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6653/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="28" height="28" loading="lazy"><span>Tourment de Liandry</span></a>
+        <span class="nums good">60.6 % ▲</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Fléau de liche : 64.2 % de victoires, soit +10 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">51.3 % · 296 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums good">52.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums good">62.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">56.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums ">53.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums good">60.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6653/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6653.png" alt="" width="28" height="28" loading="lazy"><span>Tourment de Liandry</span></a>
+        <span class="nums good">55.6 % ▲</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Flamme-ombre : 60.7 % de victoires, soit +8 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">46.3 % · 540 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums warn">45.9 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">53.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">53.3 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums warn">47.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums warn">41.8 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums ">51.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Viktor en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/twistedfate/" title="Guide Twisted Fate">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/TwistedFate.png" alt="" width="36" height="36" loading="lazy"><b>Twisted Fate</b>
+      <span class="nums warn">Viktor : 26.9 %</span><span class="nums gd-dim">26 parties</span>
+    </a>
+    <p class="gd-vs-note">Twisted Fate prend l&#39;avantage dans 73 % des 26 duels Mid contre Viktor. <a href="../../../league/guide/twistedfate/">Voir le guide de Twisted Fate</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/galio/" title="Guide Galio">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Galio.png" alt="" width="36" height="36" loading="lazy"><b>Galio</b>
+      <span class="nums warn">Viktor : 38.1 %</span><span class="nums gd-dim">21 parties</span>
+    </a>
+    <p class="gd-vs-note">Galio prend l&#39;avantage dans 62 % des 21 duels Mid contre Viktor. <a href="../../../league/guide/galio/">Voir le guide de Galio</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/hwei/" title="Guide Hwei">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Hwei.png" alt="" width="36" height="36" loading="lazy"><b>Hwei</b>
+      <span class="nums warn">Viktor : 40.0 %</span><span class="nums gd-dim">20 parties</span>
+    </a>
+    <p class="gd-vs-note">Hwei prend l&#39;avantage dans 60 % des 20 duels Mid contre Viktor. <a href="../../../league/guide/hwei/">Voir le guide de Hwei</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/syndra/" title="Guide Syndra">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" width="36" height="36" loading="lazy"><b>Syndra</b>
+      <span class="nums warn">Viktor : 46.0 %</span><span class="nums gd-dim">37 parties</span>
+    </a>
+    <p class="gd-vs-note">Syndra prend l&#39;avantage dans 54 % des 37 duels Mid contre Viktor. <a href="../../../league/guide/syndra/">Voir le guide de Syndra</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/xerath/" title="Guide Xerath">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Xerath.png" alt="" width="36" height="36" loading="lazy"><b>Xerath</b>
+      <span class="nums warn">Viktor : 47.1 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Xerath prend l&#39;avantage dans 53 % des 17 duels Mid contre Viktor. <a href="../../../league/guide/xerath/">Voir le guide de Xerath</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Viktor est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="28" height="28" loading="lazy"><b>Sylas</b><span class="nums good">69.0 % · 29 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Akali.png" alt="" width="28" height="28" loading="lazy"><b>Akali</b><span class="nums good">68.0 % · 25 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lux.png" alt="" width="28" height="28" loading="lazy"><b>Lux</b><span class="nums good">63.2 % · 19 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="" width="28" height="28" loading="lazy"><b>Yone</b><span class="nums good">60.0 % · 35 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="28" height="28" loading="lazy"><b>Ahri</b><span class="nums good">56.2 % · 32 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Viktor</h3>
+<ul class="gd-list"><li>Soyez prudent si vous laissez Viktor vous approcher. Plus il est proche de son adversaire, plus son contrôle sur le champ de bataille augmente.</li><li>Pour connaître le nombre d&#39;améliorations obtenues par Viktor, regardez la couleur de la lumière sur son bâton (violet, jaune, bleu, rouge).</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/viktor/contres/">Voir tous les matchups de Viktor</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Viktor_Passive.png" alt="Glorieuse évolution" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Glorieuse évolution</div><div class="lol-ability-desc">Viktor gagne des fragments Hextech chaque fois qu'il tue un ennemi. Tous les 100 fragments Hextech, Viktor améliore définitivement une de ses compétences actives. Après avoir amélioré toutes ses compétences de base, il peut récupérer 100 fragments Hextech pour améliorer sa compétence ultime.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorQ.png" alt="Siphonnage" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Siphonnage</div><div class="lol-ability-desc">Viktor inflige des dégâts magiques à une unité ennemie, obtient un bouclier et renforce sa prochaine attaque de base.<br><br>Amélioration : le bouclier de Siphonnage est augmenté de 60% et Viktor gagne de la vitesse de déplacement bonus après le lancement.<br></div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorW.png" alt="Champ gravitationnel" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Champ gravitationnel</div><div class="lol-ability-desc">Viktor crée un champ gravitationnel qui ralentit les ennemis dans son rayon d'action. Les ennemis qui restent trop longtemps dans le champ sont étourdis.<br><br>Amélioration : les compétences de Viktor ralentissent les ennemis touchés.<br></div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorE.png" alt="Rayon Hextech" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Rayon Hextech</div><div class="lol-ability-desc">Viktor utilise son bras biomécanique pour tirer un rayon Hextech en ligne droite, infligeant des dégâts à tous les ennemis sur son passage.<br><br>Amélioration : le rayon Hextech provoque une explosion dans son sillage, infligeant des dégâts magiques.<br></div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/ViktorR.png" alt="Tempête arcanique" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Tempête arcanique</div><div class="lol-ability-desc">Viktor crée une tempête arcanique dans une zone, infligeant des dégâts magiques et interrompant les canalisations ennemies. La tempête inflige périodiquement des dégâts magiques à tous les ennemis proches et peut être redirigée par Viktor.<br><br>Amélioration : la tempête arcanique se déplace 25% plus vite. Quand un champion meurt après qu'elle lui a infligé des dégâts, elle grandit et sa durée est augmentée.<br><br></div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Viktor ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Torche noire, Ceinture-roquette Hextech et Sablier de Zhonya (116 parties, 54.3 % de victoires), généralement avec Chaussures de lanceur de sorts (49.6 % sur 508 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Viktor ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Viktor en Mid sont Twisted Fate (26.9 % de victoires sur 26 parties), Galio (38.1 % de victoires sur 21 parties) et Hwei (40.0 % de victoires sur 20 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Viktor ?</h3><p class="page-intro" style="margin-top:0">Viktor affiche ses meilleurs winrates contre Sylas (69.0 %), Akali (68.0 %) et Lux (63.2 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Viktor ?</h3><p class="page-intro" style="margin-top:0">Le winrate reste stable quelle que soit la durée de la partie (48.1 % à 49.5 %) : le choix est fiable à toutes les phases du jeu.</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Viktor ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Toucher de feu mortel avec l&#39;arbre secondaire Volonté (501 parties, 51.1 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/viktor/">Fiche complète de Viktor</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

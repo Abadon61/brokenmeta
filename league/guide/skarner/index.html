@@ -1,0 +1,536 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Skarner : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Skarner Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 253 parties Jungle.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/skarner/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Skarner : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Skarner Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 253 parties Jungle.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/skarner/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Skarner_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Skarner : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Skarner Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 253 parties Jungle.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Skarner_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Skarner", "item": "https://brokenmeta.gg/league/guide/skarner/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Skarner \u2014 League of Legends", "description": "Skarner, Souverain originel, est un champion de classe tank et combattant de difficult\u00e9 moyenne. Dans nos 294 parties class\u00e9es analys\u00e9es, Skarner est jou\u00e9 principalement en Jungle (86 % de ses parties), et plus rarement en Support (14 %), avec 49.4 % de victoires \u00e0 ce poste : tier C parmi les Jungle (n\u00b044 sur 48, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/skarner/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Skarner_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Skarner ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit D\u00e9sespoir infini, Visage spirituel et C\u0153uracier (25 parties, 56.0 % de victoires)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Skarner ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate reste stable quelle que soit la dur\u00e9e de la partie (47.1 % \u00e0 50.0 %) : le choix est fiable \u00e0 toutes les phases du jeu."}}, {"@type": "Question", "name": "Quelles runes jouer avec Skarner ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Poigne de l'immortel avec l'arbre secondaire Inspiration (109 parties, 43.1 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/skarner/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/skarner/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Skarner.png" alt="Skarner" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Jungle</div>
+    <h1 class="champ-fiche-name">Guide Skarner</h1>
+    <div class="champ-fiche-ability-name">Souverain originel</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Tank</div><div class="perf-badge">Combattant</div>
+      <div class="perf-badge">Tier C Jungle</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Skarner, Souverain originel, est un champion de classe tank et combattant de difficulté moyenne. Dans nos 294 parties classées analysées, Skarner est joué principalement en Jungle (86 % de ses parties), et plus rarement en Support (14 %), avec 49.4 % de victoires à ce poste : tier C parmi les Jungle (n°44 sur 48, classés par winrate). Les dégâts de Skarner sont surtout physiques (64 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. Le winrate reste stable quelle que soit la durée de la partie (47.1 % à 50.0 %) : le choix est fiable à toutes les phases du jeu.</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">5.2 / 4.7 / 10.4</div><div class="gd-stat-sub">ratio 3.3</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">652</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">6.4</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">415</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">55 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.95</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 253 parties Jungle jouées avec Skarner, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Skarner est un jungler-tank de tectonique : ses attaques, Terre brisée, Soulèvement et Empalement appliquent Tectonique, et au maximum les ennemis subissent des dégâts magiques selon leurs PV max. Bastion sismique donne un bouclier et ralentit, Impact d&#39;Ixtal écrase contre un mur, et Empalement neutralise puis traîne les ennemis.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;échange</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Terre brisée/Soulèvement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerQ.png" alt="Terre brisée/Soulèvement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Terre brisée/Soulèvement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerQ.png" alt="Terre brisée/Soulèvement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Bastion sismique">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerW.png" alt="Bastion sismique" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée.</p>
+    <p class="gd-how">Terre brisée renforce tes attaques, Soulèvement lance le rocher, Bastion sismique te donne un bouclier et ralentit par une onde de choc.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;écrasement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Impact d&#39;Ixtal">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerE.png" alt="Impact d&#39;Ixtal" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Terre brisée/Soulèvement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerQ.png" alt="Terre brisée/Soulèvement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est près d&#39;un mur.</p>
+    <p class="gd-how">Impact d&#39;Ixtal charge en traversant les obstacles ; s&#39;il percute un champion, il l&#39;écrase contre le prochain mur, lui infligeant des dégâts et l&#39;étourdissant.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;ultime de capture</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Empalement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerR.png" alt="Empalement" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Impact d&#39;Ixtal">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerE.png" alt="Impact d&#39;Ixtal" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Terre brisée/Soulèvement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerQ.png" alt="Terre brisée/Soulèvement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un carry est visible.</p>
+    <p class="gd-how">Empalement neutralise les champions ennemis frappés par tes queues et te permet de te déplacer en les traînant : place-les dans ton équipe.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Arrache un rocher avec Terre brisée pour renforcer tes attaques, puis lance-le avec Soulèvement. Cumule la Tectonique pour déclencher les dégâts sur PV max.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Traîner les ennemis vers leurs alliés.</li><li>Oublier la Tectonique : elle est ta source de dégâts sur PV max.</li><li>Lancer Impact d&#39;Ixtal sans mur.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Skarner</h3>
+<ul class="gd-list"><li>Les attaques de base de Skarner appliquent Tectonique. Restez au contact de votre cible et réappliquez cet effet pour maximiser vos dégâts.</li><li>Capturer des Flèches cristallines avant d&#39;essayer de prendre un objectif ou de provoquer un combat d&#39;équipes à proximité améliore les performances de Skarner durant ces combats.</li><li>Empalement est extrêmement puissant si vous l&#39;utilisez de manière à placer un ennemi où vos alliés peuvent l&#39;attaquer.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Désespoir infini, Visage spirituel et Cœuracier (25 parties, 56.0 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2502/" title="Désespoir infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="36" height="36" loading="lazy"><span>Désespoir infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3065/" title="Visage spirituel"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="36" height="36" loading="lazy"><span>Visage spirituel</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3084/" title="Cœuracier"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="36" height="36" loading="lazy"><span>Cœuracier</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>25</b> parties · <b class="good">56.0 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2502/" title="Désespoir infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="36" height="36" loading="lazy"><span>Désespoir infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3084/" title="Cœuracier"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="36" height="36" loading="lazy"><span>Cœuracier</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6665/" title="Jak&#39;Sho, le Protéiforme"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6665.png" alt="" width="36" height="36" loading="lazy"><span>Jak&#39;Sho, le Protéiforme</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>16</b> parties · <b class="good">68.8 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/2502/" title="Désespoir infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="36" height="36" loading="lazy"><span>Désespoir infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3084/" title="Cœuracier"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="36" height="36" loading="lazy"><span>Cœuracier</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3143/" title="Présage de Randuin"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3143.png" alt="" width="36" height="36" loading="lazy"><span>Présage de Randuin</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>14</b> parties · <b class="good">64.3 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Châtiment</span><span class="nums">49.0 % · 251 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png" alt="Poigne de l&#39;immortel" loading="lazy">
+    <span>Poigne de l&#39;immortel + Inspiration</span><span class="nums">43.1 % · 109 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/HailOfBlades/HailOfBlades.png" alt="Déluge de lames" loading="lazy">
+    <span>Déluge de lames + Inspiration</span><span class="nums">61.1 % · 18 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Skarner et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">35.8 % · 67 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums warn">37.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2502/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="28" height="28" loading="lazy"><span>Désespoir infini</span></a>
+        <span class="nums warn">40.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2525/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2525.png" alt="" width="28" height="28" loading="lazy"><span>Harnais protoplasmique</span></a>
+        <span class="nums ">41.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="28" height="28" loading="lazy"><span>Visage spirituel</span></a>
+        <span class="nums ">54.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">54.9 % · 71 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2502/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="28" height="28" loading="lazy"><span>Désespoir infini</span></a>
+        <span class="nums good">62.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3143/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3143.png" alt="" width="28" height="28" loading="lazy"><span>Présage de Randuin</span></a>
+        <span class="nums ">56.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2525/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2525.png" alt="" width="28" height="28" loading="lazy"><span>Harnais protoplasmique</span></a>
+        <span class="nums ">60.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="28" height="28" loading="lazy"><span>Visage spirituel</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Désespoir infini : 62.5 % de victoires, soit +6 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">53.9 % · 115 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums good">61.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2502/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2502.png" alt="" width="28" height="28" loading="lazy"><span>Désespoir infini</span></a>
+        <span class="nums good">60.0 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2525/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2525.png" alt="" width="28" height="28" loading="lazy"><span>Harnais protoplasmique</span></a>
+        <span class="nums warn">42.9 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="28" height="28" loading="lazy"><span>Visage spirituel</span></a>
+        <span class="nums good">63.0 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3143/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3143.png" alt="" width="28" height="28" loading="lazy"><span>Présage de Randuin</span></a>
+        <span class="nums ">44.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2524/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2524.png" alt="" width="28" height="28" loading="lazy"><span>Flûtes de Bandle</span></a>
+        <span class="nums ">31.2 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Cœuracier : 61.9 % de victoires, soit +9 points par rapport à son winrate habituel.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+
+
+<h3 class="gd-sub">Comment jouer contre Skarner</h3>
+<ul class="gd-list"><li>Impact d&#39;Ixtal peut être interrompu par un étourdissement, une immobilisation ou une projection dans les airs. Gardez une compétence dotée d&#39;un de ces effets au cas où il viendrait vous ganker !</li><li>Empalement peut être esquivé. Utilisez Saut éclair ou une compétence similaire pour vous mettre hors de portée.</li><li>Les dégâts continus de Skarner peuvent vite avoir raison de vous. Attention à ne pas l&#39;ignorer.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/skarner/contres/">Voir tous les matchups de Skarner</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Skarner_Passive.png" alt="Échos des vibrations" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Échos des vibrations</div><div class="lol-ability-desc">Les attaques de Skarner, Terre brisée, Soulèvement et Empalement appliquent Tectonique. Au maximum d'effets Tectonique cumulés, les ennemis subissent des dégâts magiques selon leurs PV max sur la durée.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerQ.png" alt="Terre brisée/Soulèvement" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Terre brisée/Soulèvement</div><div class="lol-ability-desc">Skarner arrache du sol un rocher qui renforce ses attaques et peut être lancé comme un puissant projectile.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerW.png" alt="Bastion sismique" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Bastion sismique</div><div class="lol-ability-desc">Skarner gagne un bouclier et provoque un séisme dont l'onde de choc blesse et ralentit les ennemis.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerE.png" alt="Impact d&#39;Ixtal" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Impact d&#39;Ixtal</div><div class="lol-ability-desc">Skarner charge vers l'avant en traversant les obstacles. S'il percute un champion ou un grand monstre, il l'écrase contre le prochain mur rencontré pour lui infliger des dégâts et l'étourdir.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SkarnerR.png" alt="Empalement" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Empalement</div><div class="lol-ability-desc">Skarner frappe avec ses queues devant lui pour neutraliser des champions ennemis. Il peut ensuite se déplacer librement en traînant les ennemis ainsi neutralisés.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Skarner ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Désespoir infini, Visage spirituel et Cœuracier (25 parties, 56.0 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Skarner ?</h3><p class="page-intro" style="margin-top:0">Le winrate reste stable quelle que soit la durée de la partie (47.1 % à 50.0 %) : le choix est fiable à toutes les phases du jeu.</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Skarner ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Poigne de l&#39;immortel avec l&#39;arbre secondaire Inspiration (109 parties, 43.1 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/skarner/">Fiche complète de Skarner</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

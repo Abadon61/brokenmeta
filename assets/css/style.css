@@ -1566,6 +1566,72 @@
   .discord-games label { display: flex; align-items: center; gap: 10px; font-size: 13.5px; cursor: pointer; }
   .discord-games input { accent-color: var(--magenta); width: 16px; height: 16px; }
 
+
+  /* ---------- Guides champion (/league/guide/<champion>/) ---------- */
+  .gd-toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; }
+  .gd-toc a { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cream); text-decoration: none; border: 1px solid var(--border-bright); padding: 6px 10px; }
+  .gd-toc a:hover { border-color: var(--magenta); color: var(--gold); }
+  .gd-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; border: 1px solid var(--border-bright); background: var(--border); margin: 6px 0 8px; }
+  .gd-stat { background: var(--bg-2); padding: 12px 14px; }
+  .gd-stat .p-value { font-size: 17px; white-space: nowrap; }
+  .gd-stat-sub { font-size: 11px; color: var(--text-faint); margin-top: 2px; }
+  .gd-editorial-tag { display: inline-block; font-family: 'Space Mono', monospace; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); border: 1px solid var(--gold); padding: 3px 8px; margin-bottom: 12px; }
+  .gd-sub { font-family: 'Cal Sans', sans-serif; font-size: 14px; color: var(--cream); margin: 22px 0 8px; }
+  .gd-combos { display: grid; gap: 12px; margin: 14px 0 6px; }
+  .gd-combo { background: var(--bg-2); border: 1px solid var(--border); padding: 16px 18px; }
+  .gd-combo-name { font-family: 'Cal Sans', sans-serif; font-size: 16px; color: var(--cream); margin-bottom: 10px; }
+  .gd-keys { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .gd-key { position: relative; width: 44px; height: 44px; border: 1px solid var(--border-bright); display: inline-flex; align-items: center; justify-content: center; background: var(--bg); }
+  .gd-key img { width: 100%; height: 100%; display: block; }
+  .gd-key b { position: absolute; right: 0; bottom: 0; font: 700 10px 'Space Mono', monospace; background: var(--magenta); color: #fff; padding: 1px 4px; }
+  .gd-aa { font: 700 12px 'Space Mono', monospace; color: var(--gold); }
+  .gd-arrow { color: var(--text-faint); font-size: 18px; }
+  .gd-when, .gd-how { margin: 0 0 6px; font-size: 14px; line-height: 1.6; color: var(--text-dim); max-width: 75ch; }
+  .gd-when b { color: var(--cream); }
+  .gd-list { margin: 0 0 6px; padding-left: 20px; display: grid; gap: 6px; font-size: 14px; line-height: 1.6; color: var(--text-dim); max-width: 75ch; }
+  .gd-tight { margin-top: 8px; gap: 4px; font-size: 13px; }
+  .gd-dim { color: var(--text-faint); }
+  .gd-src { font-size: 11px; margin-top: 4px; }
+  .gd-build { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; margin-bottom: 8px; }
+  .gd-build-items { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; }
+  .gd-build-meta { font-size: 13px; color: var(--text-dim); }
+  .gd-item { display: inline-flex; align-items: center; gap: 8px; color: var(--cream); text-decoration: none; font-size: 13px; }
+  .gd-item img { width: 36px; height: 36px; border: 1px solid var(--border-bright); }
+  .gd-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  .gd-chipline { display: inline-flex; align-items: center; gap: 8px; flex-wrap: wrap; background: var(--bg-2); border: 1px solid var(--border); padding: 8px 12px; font-size: 13px; }
+  .gd-chipline .nums { color: var(--text-dim); }
+  .gd-spell { width: 28px; height: 28px; border: 1px solid var(--border-bright); }
+  .gd-spell.round { border-radius: 50%; }
+  .gd-vs { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .gd-vs-card { background: var(--bg-2); border: 1px solid var(--border); padding: 14px 16px; display: flex; flex-direction: column; gap: 8px; }
+  .gd-vs-head { display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .gd-vs-head .nums, .gd-vs-rule { font-size: 12px; color: var(--text-faint); }
+  .gd-vs-items { display: grid; gap: 6px; }
+  .gd-vs-item { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 13px; }
+  .gd-vs-item a { display: inline-flex; align-items: center; gap: 8px; color: var(--cream); text-decoration: none; min-width: 0; }
+  .gd-vs-item img { width: 28px; height: 28px; border: 1px solid var(--border-bright); flex: none; }
+  .gd-vs-item span:first-child, .gd-vs-item a span { overflow-wrap: anywhere; }
+  .gd-vs-note { margin: 0; font-size: 13px; line-height: 1.55; color: var(--text-dim); }
+  .gd-matchups { display: grid; gap: 10px; }
+  .gd-matchup { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; }
+  .gd-matchup-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; color: var(--cream); text-decoration: none; }
+  .gd-matchup-head img { width: 36px; height: 36px; border-radius: 50%; }
+  @media (max-width: 640px) {
+    .gd-stats { grid-template-columns: repeat(2, 1fr); }
+    .gd-key { width: 38px; height: 38px; }
+    .gd-combo { padding: 14px; }
+  }
+
+  .gd-banner { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin: 4px 0 10px; padding: 12px 16px; border: 1px solid var(--magenta); background: var(--magenta-dim); color: var(--cream); text-decoration: none; }
+  .gd-banner b { font-family: 'Cal Sans', sans-serif; font-size: 15px; }
+  .gd-banner span { font-size: 13px; color: var(--text-dim); }
+  .gd-banner:hover { border-color: var(--gold); }
+  .gd-rowlink { font-family: 'Space Mono', monospace; font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); text-decoration: none; border: 1px solid var(--border-bright); padding: 3px 8px; white-space: nowrap; }
+  .gd-rowlink:hover { border-color: var(--magenta); color: var(--cream); }
+
+  .gd-sw { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; margin: 6px 0 4px; }
+  @media (max-width: 640px) { .gd-sw { grid-template-columns: 1fr; } }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }

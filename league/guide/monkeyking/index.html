@@ -1,0 +1,621 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Wukong Jungle : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Wukong Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 577 parties Jungle.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/monkeyking/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Wukong Jungle : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Wukong Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 577 parties Jungle.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/monkeyking/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MonkeyKing_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Wukong Jungle : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Wukong Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 577 parties Jungle.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MonkeyKing_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Wukong", "item": "https://brokenmeta.gg/league/guide/monkeyking/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Wukong \u2014 League of Legends", "description": "Wukong, Roi des singes, est un champion de classe combattant et tank plut\u00f4t simple \u00e0 prendre en main. Dans nos 667 parties class\u00e9es analys\u00e9es, Wukong est jou\u00e9 principalement en Jungle (87 % de ses parties), et plus rarement en Top (13 %), avec 52.5 % de victoires \u00e0 ce poste : tier B parmi les Jungle (n\u00b022 sur 48, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/monkeyking/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/MonkeyKing_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Wukong ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Couperet noir, Force de la trinit\u00e9 et Danse de la mort (125 parties, 60.8 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Wukong ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Wukong en Jungle sont Rengar (35.3 % de victoires sur 17 parties), Lee Sin (44.7 % de victoires sur 38 parties) et Graves (53.3 % de victoires sur 15 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Wukong ?", "acceptedAnswer": {"@type": "Answer", "text": "Wukong affiche ses meilleurs winrates contre Nocturne (58.8 %), Graves (53.3 %) et Lee Sin (44.7 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Wukong ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 54.5 % de victoires dans les parties moyennes (25 \u00e0 35 min, 319 parties) contre 44.3 % dans les parties longues (plus de 35 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Wukong ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Conqu\u00e9rant avec l'arbre secondaire Inspiration (295 parties, 52.5 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/monkeyking/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/monkeyking/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/MonkeyKing.png" alt="Wukong" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Jungle</div>
+    <h1 class="champ-fiche-name">Guide Wukong</h1>
+    <div class="champ-fiche-ability-name">Roi des singes</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Combattant</div><div class="perf-badge">Tank</div>
+      <div class="perf-badge">Tier B Jungle</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Wukong, Roi des singes, est un champion de classe combattant et tank plutôt simple à prendre en main. Dans nos 667 parties classées analysées, Wukong est joué principalement en Jungle (87 % de ses parties), et plus rarement en Top (13 %), avec 52.5 % de victoires à ce poste : tier B parmi les Jungle (n°22 sur 48, classés par winrate). Les dégâts de Wukong sont surtout physiques (80 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. Le winrate varie avec la durée de la partie : 54.5 % de victoires dans les parties moyennes (25 à 35 min, 319 parties) contre 44.3 % dans les parties longues (plus de 35 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">6.9 / 5.2 / 7.9</div><div class="gd-stat-sub">ratio 2.9</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">642</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">6.8</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">443</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">49 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">1.02</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 577 parties Jungle jouées avec Wukong, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Wukong est un jungler de combat dont l&#39;armure et la régénération augmentent en combat (effet cumulable). Écrasement réduit l&#39;armure, Guerrier espiègle le rend invisible avec un clone, Nimbus le rue sur une cible avec des images qui attaquent ses voisins, et Cyclone projette les ennemis en l&#39;air.</p>
+
+<div class="gd-sw">
+  <div class="gd-sw-col"><h3 class="gd-sub">Points forts de Wukong</h3><ul class="gd-list"><li>Gagne de l&#39;armure et de la régénération en combat avec des champions ou des monstres.</li><li>Guerrier espiègle le rend invisible et laisse un clone qui attaque à sa place.</li><li>Cyclone augmente sa vitesse de déplacement et projette les ennemis touchés en l&#39;air.</li></ul></div>
+  <div class="gd-sw-col"><h3 class="gd-sub">Points faibles de Wukong</h3><ul class="gd-list"><li>Doit s&#39;approcher : Nimbus est son principal engagement.</li><li>Guerrier espiègle a un délai de récupération long (18 à 22 s).</li><li>Son ultime ne sert que si les ennemis restent à portée du bâton.</li></ul></div>
+</div>
+
+<h3 class="gd-sub">Rôle en combat d'équipe</h3><p class="page-intro" style="margin-top:0">Wukong entre en combat par surprise avec Guerrier espiègle (invisible, clone laissé derrière lui), se rue avec Nimbus sur la cible qu&#39;il a choisie et lance Cyclone pour projeter les ennemis en l&#39;air. Il est particulièrement efficace pour isoler un carry.</p>
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;engagement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Nimbus">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingNimbus.png" alt="Nimbus" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Écrasement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDoubleAttack.png" alt="Écrasement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Guerrier espiègle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDecoy.png" alt="Guerrier espiègle" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée de Nimbus.</p>
+    <p class="gd-how">Nimbus te rue sur l&#39;ennemi en envoyant des images qui attaquent les ennemis proches, Écrasement réduit son armure, Guerrier espiègle te rend invisible avec un clone.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combat d&#39;équipe</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Guerrier espiègle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDecoy.png" alt="Guerrier espiègle" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Cyclone">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingSpinToWin.png" alt="Cyclone" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Écrasement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDoubleAttack.png" alt="Écrasement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Plusieurs ennemis sont groupés.</p>
+    <p class="gd-how">Guerrier espiègle te cache, Cyclone augmente ta vitesse et projette en l&#39;air les ennemis touchés.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La sortie</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Guerrier espiègle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDecoy.png" alt="Guerrier espiègle" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Nimbus">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingNimbus.png" alt="Nimbus" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu es en danger.</p>
+    <p class="gd-how">Guerrier espiègle te rend invisible et te fait te ruer en laissant un clone.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;entrée invisible</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Guerrier espiègle">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDecoy.png" alt="Guerrier espiègle" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Nimbus">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingNimbus.png" alt="Nimbus" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Cyclone">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingSpinToWin.png" alt="Cyclone" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Écrasement">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDoubleAttack.png" alt="Écrasement" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un carry est dans la mêlée adverse.</p>
+    <p class="gd-how">Guerrier espiègle te rend invisible et laisse un clone, Nimbus te rue sur la cible avec des images qui attaquent ses voisins, Cyclone augmente ta vitesse et projette en l&#39;air, Écrasement réduit l&#39;armure.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Écrasement a une portée plus longue et réduit l&#39;armure de la cible : ouvre l&#39;échange avec lui. Ta passive t&#39;apporte de la défense au fil du combat.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Lancer Cyclone sans cible groupée.</li><li>Oublier le clone de Guerrier espiègle.</li><li>Utiliser Nimbus sans plan pour la suite.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Wukong</h3>
+<ul class="gd-list"><li>Leurre et Nimbus fonctionnent bien de concert en permettant de frapper l&#39;ennemi et de vous éloigner avant qu&#39;il ne puisse riposter.</li><li>Essayez d&#39;utiliser Leurre près des herbes hautes pour qu&#39;un ennemi surréagisse quand vous vous déplacez.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Couperet noir, Force de la trinité et Danse de la mort (125 parties, 60.8 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3071/" title="Couperet noir"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="36" height="36" loading="lazy"><span>Couperet noir</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3078/" title="Force de la trinité"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="36" height="36" loading="lazy"><span>Force de la trinité</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>125</b> parties · <b class="good">60.8 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3078/" title="Force de la trinité"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="36" height="36" loading="lazy"><span>Force de la trinité</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6333/" title="Danse de la mort"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="36" height="36" loading="lazy"><span>Danse de la mort</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6610/" title="Ciel éventré"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="" width="36" height="36" loading="lazy"><span>Ciel éventré</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>80</b> parties · <b class="good">60.0 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3071/" title="Couperet noir"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="36" height="36" loading="lazy"><span>Couperet noir</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3078/" title="Force de la trinité"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="36" height="36" loading="lazy"><span>Force de la trinité</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6610/" title="Ciel éventré"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="" width="36" height="36" loading="lazy"><span>Ciel éventré</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>76</b> parties · <b class="good">57.9 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Châtiment</span><span class="nums">52.6 % · 576 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Inspiration</span><span class="nums">52.5 % · 295 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Domination</span><span class="nums">36.5 % · 63 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Volonté</span><span class="nums">53.7 % · 41 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Wukong et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">52.0 % · 171 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3078/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="28" height="28" loading="lazy"><span>Force de la trinité</span></a>
+        <span class="nums ">53.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums ">55.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6610/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="" width="28" height="28" loading="lazy"><span>Ciel éventré</span></a>
+        <span class="nums warn">50.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums good">68.0 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3156/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="" width="28" height="28" loading="lazy"><span>Gueule de Malmortius</span></a>
+        <span class="nums good">61.4 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3026/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3026.png" alt="" width="28" height="28" loading="lazy"><span>Ange gardien</span></a>
+        <span class="nums ">52.6 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Danse de la mort : 68.0 % de victoires, soit +9 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">54.7 % · 150 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3078/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="28" height="28" loading="lazy"><span>Force de la trinité</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums ">54.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums warn">53.7 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6610/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="" width="28" height="28" loading="lazy"><span>Ciel éventré</span></a>
+        <span class="nums good">61.1 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3026/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3026.png" alt="" width="28" height="28" loading="lazy"><span>Ange gardien</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Ciel éventré : 61.1 % de victoires, soit +5 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">51.6 % · 256 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3078/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3078.png" alt="" width="28" height="28" loading="lazy"><span>Force de la trinité</span></a>
+        <span class="nums ">52.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3071/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3071.png" alt="" width="28" height="28" loading="lazy"><span>Couperet noir</span></a>
+        <span class="nums ">53.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6333/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6333.png" alt="" width="28" height="28" loading="lazy"><span>Danse de la mort</span></a>
+        <span class="nums ">57.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6610/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6610.png" alt="" width="28" height="28" loading="lazy"><span>Ciel éventré</span></a>
+        <span class="nums ">57.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3026/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3026.png" alt="" width="28" height="28" loading="lazy"><span>Ange gardien</span></a>
+        <span class="nums good">77.1 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3156/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3156.png" alt="" width="28" height="28" loading="lazy"><span>Gueule de Malmortius</span></a>
+        <span class="nums ">36.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Ange gardien : 77.1 % de victoires, soit +14 points par rapport à son winrate habituel.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Wukong en Jungle</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/rengar/" title="Guide Rengar">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Rengar.png" alt="" width="36" height="36" loading="lazy"><b>Rengar</b>
+      <span class="nums warn">Wukong : 35.3 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Rengar prend l&#39;avantage dans 65 % des 17 duels Jungle contre Wukong. <a href="../../../league/guide/rengar/">Voir le guide de Rengar</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/leesin/" title="Guide Lee Sin">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="36" height="36" loading="lazy"><b>Lee Sin</b>
+      <span class="nums warn">Wukong : 44.7 %</span><span class="nums gd-dim">38 parties</span>
+    </a>
+    <p class="gd-vs-note">Lee Sin prend l&#39;avantage dans 55 % des 38 duels Jungle contre Wukong. <a href="../../../league/guide/leesin/">Voir le guide de Lee Sin</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/graves/" title="Guide Graves">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Graves.png" alt="" width="36" height="36" loading="lazy"><b>Graves</b>
+      <span class="nums warn">Wukong : 53.3 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Graves prend l&#39;avantage dans 47 % des 15 duels Jungle contre Wukong. <a href="../../../league/guide/graves/">Voir le guide de Graves</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/nocturne/" title="Guide Nocturne">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nocturne.png" alt="" width="36" height="36" loading="lazy"><b>Nocturne</b>
+      <span class="nums warn">Wukong : 58.8 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Nocturne prend l&#39;avantage dans 41 % des 17 duels Jungle contre Wukong. <a href="../../../league/guide/nocturne/">Voir le guide de Nocturne</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Wukong est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nocturne.png" alt="" width="28" height="28" loading="lazy"><b>Nocturne</b><span class="nums good">58.8 % · 17 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Graves.png" alt="" width="28" height="28" loading="lazy"><b>Graves</b><span class="nums good">53.3 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="28" height="28" loading="lazy"><b>Lee Sin</b><span class="nums good">44.7 % · 38 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Rengar.png" alt="" width="28" height="28" loading="lazy"><b>Rengar</b><span class="nums good">35.3 % · 17 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Wukong</h3>
+<ul class="gd-list"><li>Wukong utilise souvent Leurre après Nimbus. Essayez de retarder l&#39;utilisation de vos compétences pour être sûr de frapper le vrai Wukong.</li><li>Wukong devient plus résistant quand il est entouré d&#39;ennemis. Essayez de l&#39;isoler pour prendre l&#39;avantage.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/monkeyking/contres/">Voir tous les matchups de Wukong</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/MonkeyKingStoneSkin.png" alt="Peau de pierre" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Peau de pierre</div><div class="lol-ability-desc">Wukong augmente son armure et la régénération de ses PV lorsqu'il est en combat avec des champions ou des monstres (effet cumulable).</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDoubleAttack.png" alt="Écrasement" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Écrasement</div><div class="lol-ability-desc">La prochaine attaque de Wukong a une plus longue portée, inflige des dégâts supplémentaires et réduit l'armure de la cible pendant quelques secondes.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingDecoy.png" alt="Guerrier espiègle" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Guerrier espiègle</div><div class="lol-ability-desc">Wukong devient <font color='#91d7ee'>invisible</font> et se rue dans une direction, laissant derrière lui un clone qui attaquera les ennemis proches.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingNimbus.png" alt="Nimbus" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Nimbus</div><div class="lol-ability-desc">Wukong se rue sur l'ennemi ciblé et envoie des images qui attaquent les ennemis proches de sa cible, infligeant des dégâts à chaque ennemi frappé.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/MonkeyKingSpinToWin.png" alt="Cyclone" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Cyclone</div><div class="lol-ability-desc">Wukong agrandit son bâton et le fait tournoyer, ce qui augmente sa vitesse de déplacement.<br><br>Les ennemis touchés subissent des dégâts et sont projetés en l'air.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Wukong ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Couperet noir, Force de la trinité et Danse de la mort (125 parties, 60.8 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Wukong ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Wukong en Jungle sont Rengar (35.3 % de victoires sur 17 parties), Lee Sin (44.7 % de victoires sur 38 parties) et Graves (53.3 % de victoires sur 15 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Wukong ?</h3><p class="page-intro" style="margin-top:0">Wukong affiche ses meilleurs winrates contre Nocturne (58.8 %), Graves (53.3 %) et Lee Sin (44.7 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Wukong ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 54.5 % de victoires dans les parties moyennes (25 à 35 min, 319 parties) contre 44.3 % dans les parties longues (plus de 35 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Wukong ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Conquérant avec l&#39;arbre secondaire Inspiration (295 parties, 52.5 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/monkeyking/">Fiche complète de Wukong</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

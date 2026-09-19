@@ -1,0 +1,588 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Lissandra Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Lissandra Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 449 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/lissandra/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Lissandra Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Lissandra Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 449 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/lissandra/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lissandra_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Lissandra Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Lissandra Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 449 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lissandra_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Lissandra", "item": "https://brokenmeta.gg/league/guide/lissandra/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Lissandra \u2014 League of Legends", "description": "Lissandra, Sorci\u00e8re de glace, est un champion de classe mage de difficult\u00e9 moyenne. Dans nos 529 parties class\u00e9es analys\u00e9es, Lissandra est jou\u00e9 principalement en Mid (85 % de ses parties), et plus rarement en Top (15 %), avec 51.0 % de victoires \u00e0 ce poste : tier A parmi les Mid (n\u00b011 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/lissandra/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Lissandra_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Lissandra ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Malfaisance, Sablier de Zhonya et Flamme-ombre (74 parties, 58.1 % de victoires), g\u00e9n\u00e9ralement avec Chaussures de lanceur de sorts (54.7 % sur 256 parties)."}}, {"@type": "Question", "name": "Qui contre Lissandra ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Lissandra en Mid sont Ahri (35.3 % de victoires sur 17 parties), Yasuo (41.2 % de victoires sur 17 parties) et Zed (61.1 % de victoires sur 18 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Lissandra ?", "acceptedAnswer": {"@type": "Answer", "text": "Lissandra affiche ses meilleurs winrates contre Akali (66.7 %), Zed (61.1 %) et Yasuo (41.2 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Lissandra ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 57.4 % de victoires dans les parties longues (plus de 35 min, 54 parties) contre 49.7 % dans les parties courtes (moins de 25 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Lissandra ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise \u00c9lectrocution avec l'arbre secondaire Sorcellerie (143 parties, 49.6 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/lissandra/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/lissandra/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lissandra.png" alt="Lissandra" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Lissandra</h1>
+    <div class="champ-fiche-ability-name">Sorcière de glace</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier A Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Lissandra, Sorcière de glace, est un champion de classe mage de difficulté moyenne. Dans nos 529 parties classées analysées, Lissandra est joué principalement en Mid (85 % de ses parties), et plus rarement en Top (15 %), avec 51.0 % de victoires à ce poste : tier A parmi les Mid (n°11 sur 42, classés par winrate). Les dégâts de Lissandra sont surtout magiques (91 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate varie avec la durée de la partie : 57.4 % de victoires dans les parties longues (plus de 35 min, 54 parties) contre 49.7 % dans les parties courtes (moins de 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">6.0 / 6.0 / 8.2</div><div class="gd-stat-sub">ratio 2.4</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">813</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">7.6</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">420</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">45 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.80</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 449 parties Mid jouées avec Lissandra, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Lissandra est une mage de glace et de contrôle : Éclat de glace blesse et ralentit, Cercle de givre immobilise les ennemis proches, Chemin glacial la transporte à sa griffe, et son ultime peut geler un ennemi ou l&#39;immobiliser elle-même pour se soigner. Sa passive transforme les champions morts près d&#39;elle en Serviteurs de glace qui explosent.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;engagement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Chemin glacial">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraE.png" alt="Chemin glacial" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Chemin glacial">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraE.png" alt="Chemin glacial" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Cercle de givre">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraW.png" alt="Cercle de givre" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Éclat de glace">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraQ.png" alt="Éclat de glace" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée de griffe.</p>
+    <p class="gd-how">Chemin glacial lance une griffe et te transporte à elle ; Cercle de givre congèle et immobilise les ennemis proches ; Éclat de glace finit.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le contrôle</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Tombeau polaire">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraR.png" alt="Tombeau polaire" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Cercle de givre">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraW.png" alt="Cercle de givre" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Éclat de glace">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraQ.png" alt="Éclat de glace" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un carry est isolé.</p>
+    <p class="gd-how">Tombeau polaire sur un champion ennemi le congèle et l&#39;étourdit ; de la glace obscure émane de la cible et ralentit les ennemis proches.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La survie</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Tombeau polaire">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraR.png" alt="Tombeau polaire" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu es en danger.</p>
+    <p class="gd-how">Lancé sur toi, Tombeau polaire t&#39;immobilise dans la glace : tu te soignes, deviens impossible à cibler et insensible aux dégâts.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Éclat de glace traverse la cible et blesse les ennemis derrière : lance-le dans l&#39;axe. Chemin glacial te permet de te repositionner : réactive-le pour te téléporter à ta griffe.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Lancer Chemin glacial dans le vide.</li><li>Utiliser l&#39;ultime sur toi trop tôt : tu ne peux pas agir pendant.</li><li>Oublier les Serviteurs de glace : ils ralentissent et explosent.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Lissandra</h3>
+<ul class="gd-list"><li>Vous pouvez lancer votre ultime sur vous-même en appuyant en même temps sur la touche de sort perso et sur celle de l&#39;ultime (Alt+R par défaut).</li><li>Lancer Chemin glacial puis courir dans la direction opposée laisse vos ennemis dans le doute car ils ne savent pas par où vous allez.</li><li>Les compétences de Lissandra ont une portée plus courte que celles d&#39;autres mages. De ce fait, acheter des objets offrant à la fois de la puissance et de la défense, comme Sablier de Zhonya et Voile de la banshee, est un bon moyen de survivre tout en infligeant des dégâts.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Malfaisance, Sablier de Zhonya et Flamme-ombre (74 parties, 58.1 % de victoires), généralement avec Chaussures de lanceur de sorts (54.7 % sur 256 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3118/" title="Malfaisance"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="36" height="36" loading="lazy"><span>Malfaisance</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>74</b> parties · <b class="good">58.1 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3089/" title="Coiffe de Rabadon"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="36" height="36" loading="lazy"><span>Coiffe de Rabadon</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3118/" title="Malfaisance"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="36" height="36" loading="lazy"><span>Malfaisance</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>29</b> parties · <b class="good">58.6 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3089/" title="Coiffe de Rabadon"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="36" height="36" loading="lazy"><span>Coiffe de Rabadon</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3118/" title="Malfaisance"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="36" height="36" loading="lazy"><span>Malfaisance</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>29</b> parties · <b class="good">55.2 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3175/" title="Chaussures de lanceur de sorts"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3175.png" alt="" width="36" height="36" loading="lazy"><span>Chaussures de lanceur de sorts</span></a><span class="nums">54.7 % · 256 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3171/" title="Lucidité pourpre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3171.png" alt="" width="36" height="36" loading="lazy"><span>Lucidité pourpre</span></a><span class="nums">49.2 % · 124 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">46.3 % · 41 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">49.7 % · 332 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">55.7 % · 106 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/Electrocute/Electrocute.png" alt="Électrocution" loading="lazy">
+    <span>Électrocution + Sorcellerie</span><span class="nums">49.6 % · 143 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" alt="Comète arcanique" loading="lazy">
+    <span>Comète arcanique + Domination</span><span class="nums">45.6 % · 92 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/ArcaneComet/ArcaneComet.png" alt="Comète arcanique" loading="lazy">
+    <span>Comète arcanique + Volonté</span><span class="nums">46.4 % · 28 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Lissandra et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">58.5 % · 123 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malfaisance</span></a>
+        <span class="nums good">57.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">53.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums good">58.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums good">61.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">51.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">54.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Torche noire : 61.8 % de victoires, soit +10 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">48.5 % · 138 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malfaisance</span></a>
+        <span class="nums warn">46.8 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">52.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums ">49.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums good">56.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums warn">43.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4005/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4005.png" alt="" width="28" height="28" loading="lazy"><span>Mandat impérial</span></a>
+        <span class="nums ">60.9 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Torche noire : 56.5 % de victoires, soit +4 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">47.9 % · 188 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3118/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3118.png" alt="" width="28" height="28" loading="lazy"><span>Malfaisance</span></a>
+        <span class="nums ">54.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">57.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums warn">46.1 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2503/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2503.png" alt="" width="28" height="28" loading="lazy"><span>Torche noire</span></a>
+        <span class="nums warn">44.1 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums good">54.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums good">52.9 % ▲</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Coiffe de Rabadon : 52.9 % de victoires, soit +6 points par rapport à son winrate habituel.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Lissandra en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/ahri/" title="Guide Ahri">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="36" height="36" loading="lazy"><b>Ahri</b>
+      <span class="nums warn">Lissandra : 35.3 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Ahri prend l&#39;avantage dans 65 % des 17 duels Mid contre Lissandra. <a href="../../../league/guide/ahri/">Voir le guide de Ahri</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/yasuo/" title="Guide Yasuo">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="" width="36" height="36" loading="lazy"><b>Yasuo</b>
+      <span class="nums warn">Lissandra : 41.2 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Yasuo prend l&#39;avantage dans 59 % des 17 duels Mid contre Lissandra. <a href="../../../league/guide/yasuo/">Voir le guide de Yasuo</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/zed/" title="Guide Zed">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zed.png" alt="" width="36" height="36" loading="lazy"><b>Zed</b>
+      <span class="nums warn">Lissandra : 61.1 %</span><span class="nums gd-dim">18 parties</span>
+    </a>
+    <p class="gd-vs-note">Zed prend l&#39;avantage dans 39 % des 18 duels Mid contre Lissandra. <a href="../../../league/guide/zed/">Voir le guide de Zed</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/akali/" title="Guide Akali">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Akali.png" alt="" width="36" height="36" loading="lazy"><b>Akali</b>
+      <span class="nums warn">Lissandra : 66.7 %</span><span class="nums gd-dim">18 parties</span>
+    </a>
+    <p class="gd-vs-note">Akali prend l&#39;avantage dans 33 % des 18 duels Mid contre Lissandra. <a href="../../../league/guide/akali/">Voir le guide de Akali</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Lissandra est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Akali.png" alt="" width="28" height="28" loading="lazy"><b>Akali</b><span class="nums good">66.7 % · 18 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zed.png" alt="" width="28" height="28" loading="lazy"><b>Zed</b><span class="nums good">61.1 % · 18 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="" width="28" height="28" loading="lazy"><b>Yasuo</b><span class="nums good">41.2 % · 17 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="28" height="28" loading="lazy"><b>Ahri</b><span class="nums good">35.3 % · 17 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Lissandra</h3>
+<ul class="gd-list"><li>Le meilleur moyen d&#39;empêcher Lissandra d&#39;avancer avec son Chemin glacial est de l&#39;immobiliser avant qu&#39;elle ne le réactive.</li><li>Le Cercle de givre de Lissandra a un long délai de récupération au départ. Attaquez-la quand il est en cours de récupération.</li><li>L&#39;Éclat de glace de Lissandra ne ralentit que la première unité touchée. Approchez-vous d&#39;elle en restant derrière vos sbires pour éviter d&#39;être ralenti.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/lissandra/contres/">Voir tous les matchups de Lissandra</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Lissandra_Passive.png" alt="Emprise de la Sublimée" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Emprise de la Sublimée</div><div class="lol-ability-desc">Lorsqu'un champion ennemi meurt à proximité de Lissandra, il se transforme en Serviteur de glace. Les Serviteurs de glace ralentissent les ennemis proches et, après un délai, le froid les fait exploser, infligeant des dégâts magiques aux cibles proches.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraQ.png" alt="Éclat de glace" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Éclat de glace</div><div class="lol-ability-desc">Projette une lance de glace qui se brise au contact du premier ennemi touché, lui infligeant des dégâts magiques et réduisant sa vitesse de déplacement. Des éclats traversent la cible, infligeant les mêmes dégâts aux autres ennemis touchés.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraW.png" alt="Cercle de givre" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Cercle de givre</div><div class="lol-ability-desc">Congèle les ennemis proches, leur infligeant des dégâts magiques et les immobilisant.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraE.png" alt="Chemin glacial" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Chemin glacial</div><div class="lol-ability-desc">Lissandra lance une griffe de glace qui inflige des dégâts magiques. Si vous réactivez la compétence, Lissandra est transportée à l'endroit où se situe sa griffe.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/LissandraR.png" alt="Tombeau polaire" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Tombeau polaire</div><div class="lol-ability-desc">Si le sort est lancé sur un champion ennemi, la cible est congelée, ce qui l'étourdit. Si le sort est lancé sur Lissandra, elle s'immobilise dans la glace, ce qui la soigne en plus de la rendre impossible à cibler et insensible aux dégâts. De la glace obscure émane de la cible, infligeant des dégâts magiques aux ennemis et réduisant leur vitesse de déplacement.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Lissandra ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Malfaisance, Sablier de Zhonya et Flamme-ombre (74 parties, 58.1 % de victoires), généralement avec Chaussures de lanceur de sorts (54.7 % sur 256 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Lissandra ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Lissandra en Mid sont Ahri (35.3 % de victoires sur 17 parties), Yasuo (41.2 % de victoires sur 17 parties) et Zed (61.1 % de victoires sur 18 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Lissandra ?</h3><p class="page-intro" style="margin-top:0">Lissandra affiche ses meilleurs winrates contre Akali (66.7 %), Zed (61.1 %) et Yasuo (41.2 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Lissandra ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 57.4 % de victoires dans les parties longues (plus de 35 min, 54 parties) contre 49.7 % dans les parties courtes (moins de 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Lissandra ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Électrocution avec l&#39;arbre secondaire Sorcellerie (143 parties, 49.6 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/lissandra/">Fiche complète de Lissandra</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

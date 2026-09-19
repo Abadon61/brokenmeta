@@ -1,0 +1,602 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Katarina Mid : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Katarina Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 770 parties Mid.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/katarina/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Katarina Mid : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Katarina Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 770 parties Mid.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/katarina/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Katarina_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Katarina Mid : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Katarina Mid : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 770 parties Mid.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Katarina_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Katarina", "item": "https://brokenmeta.gg/league/guide/katarina/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Katarina \u2014 League of Legends", "description": "Katarina, Lame sinistre, est un champion de classe assassin et mage exigeant \u00e0 ma\u00eetriser. Dans nos 885 parties class\u00e9es analys\u00e9es, Katarina est jou\u00e9 principalement en Mid (87 % de ses parties), et plus rarement en ADC (13 %), avec 52.6 % de victoires \u00e0 ce poste : tier S parmi les Mid (n\u00b04 sur 42, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/katarina/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Katarina_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Katarina ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Fl\u00e9au de liche, Sablier de Zhonya et Flamme-ombre (140 parties, 56.4 % de victoires), g\u00e9n\u00e9ralement avec Chaussures de lanceur de sorts (54.6 % sur 452 parties)."}}, {"@type": "Question", "name": "Qui contre Katarina ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Katarina en Mid sont Malzahar (20.0 % de victoires sur 15 parties), Viktor (26.7 % de victoires sur 15 parties) et Vladimir (29.4 % de victoires sur 17 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Katarina ?", "acceptedAnswer": {"@type": "Answer", "text": "Katarina affiche ses meilleurs winrates contre Yone (62.5 %), Yasuo (61.9 %) et Sylas (61.1 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Katarina ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 55.1 % de victoires dans les parties courtes (moins de 25 min, 254 parties) contre 48.8 % dans les parties longues (plus de 35 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Katarina ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise \u00c9lectrocution avec l'arbre secondaire Pr\u00e9cision (207 parties, 53.6 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/katarina/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/katarina/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Katarina.png" alt="Katarina" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Mid</div>
+    <h1 class="champ-fiche-name">Guide Katarina</h1>
+    <div class="champ-fiche-ability-name">Lame sinistre</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Assassin</div><div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier S Mid</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Katarina, Lame sinistre, est un champion de classe assassin et mage exigeant à maîtriser. Dans nos 885 parties classées analysées, Katarina est joué principalement en Mid (87 % de ses parties), et plus rarement en ADC (13 %), avec 52.6 % de victoires à ce poste : tier S parmi les Mid (n°4 sur 42, classés par winrate). Les dégâts de Katarina sont surtout magiques (73 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate varie avec la durée de la partie : 55.1 % de victoires dans les parties courtes (moins de 25 min, 254 parties) contre 48.8 % dans les parties longues (plus de 35 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">10.0 / 6.5 / 5.4</div><div class="gd-stat-sub">ratio 2.4</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">921</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">6.8</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">453</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">48 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.68</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 770 parties Mid jouées avec Katarina, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Katarina est une assassine de burst dont les délais de récupération sont grandement réduits quand un champion qu&#39;elle a blessé récemment meurt. Elle ramasse ses dagues pour blesser tous les ennemis proches, se téléporte avec Shunpo, et son ultime frappe les trois champions ennemis les plus proches pendant sa canalisation.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le combo de base</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Lame rebondissante">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaQ.png" alt="Lame rebondissante" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Shunpo">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaEWrapper.png" alt="Shunpo" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Préparation">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaW.png" alt="Préparation" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée.</p>
+    <p class="gd-how">Lame rebondissante lance une dague, Shunpo te téléporte près de la cible, Préparation lance une dague dans les airs et te donne de la vitesse ; ramasse les dagues pour frapper les ennemis proches.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;ultime en canalisation</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Shunpo">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaEWrapper.png" alt="Shunpo" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Lotus mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaR.png" alt="Lotus mortel" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Plusieurs ennemis sont proches.</p>
+    <p class="gd-how">Lotus mortel projette des couteaux sur les trois champions ennemis les plus proches pendant la canalisation : place-toi avec Shunpo puis lance-le.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La remise à zéro</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Lame rebondissante">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaQ.png" alt="Lame rebondissante" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Shunpo">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaEWrapper.png" alt="Shunpo" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Lotus mortel">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaR.png" alt="Lotus mortel" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un champion blessé va mourir.</p>
+    <p class="gd-how">Quand un champion que tu as blessé meurt, tes délais sont fortement réduits : relance tes compétences pour enchaîner le suivant.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Lame rebondissante rebondit sur les ennemis proches avant de tomber au sol : ramasse ensuite la dague pour infliger des dégâts en zone. Garde Shunpo pour te rapprocher ou fuir.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Lancer l&#39;ultime en étant interrompue : il se canalise.</li><li>Oublier de ramasser les dagues : ta passive en dépend.</li><li>Utiliser Shunpo sans cible ni sortie.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Katarina</h3>
+<ul class="gd-list"><li>Ramasser des dagues réduira grandement le délai de récupération de Shunpo.</li><li>Attendez que l&#39;équipe adverse soit occupée à combattre vos équipiers, puis utilisez Shunpo pour vous téléporter au cœur de la mêlée et faire un massacre avec Lotus mortel.</li><li>Utiliser Shunpo sur un champion allié, une dague ou un sbire peut être utile pour fuir.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Fléau de liche, Sablier de Zhonya et Flamme-ombre (140 parties, 56.4 % de victoires), généralement avec Chaussures de lanceur de sorts (54.6 % sur 452 parties).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>140</b> parties · <b class="good">56.4 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3089/" title="Coiffe de Rabadon"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="36" height="36" loading="lazy"><span>Coiffe de Rabadon</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>108</b> parties · <b class="good">63.0 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3153/" title="Lame du roi déchu"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3153.png" alt="" width="36" height="36" loading="lazy"><span>Lame du roi déchu</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3302/" title="Terminus"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3302.png" alt="" width="36" height="36" loading="lazy"><span>Terminus</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6672/" title="Tueur de krakens"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="36" height="36" loading="lazy"><span>Tueur de krakens</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>82</b> parties · <b class="good">58.5 %</b></div>
+</div>
+
+
+<h3 class="gd-sub">Bottes</h3>
+<div class="gd-row"><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3175/" title="Chaussures de lanceur de sorts"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3175.png" alt="" width="36" height="36" loading="lazy"><span>Chaussures de lanceur de sorts</span></a><span class="nums">54.6 % · 452 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3173/" title="Broyeuses à chaînes"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3173.png" alt="" width="36" height="36" loading="lazy"><span>Broyeuses à chaînes</span></a><span class="nums">47.6 % · 124 parties</span></div><div class="gd-chipline"><a class="gd-item" href="../../../league/glossaire/objets/3168/" title="Voie immortelle"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3168.png" alt="" width="36" height="36" loading="lazy"><span>Voie immortelle</span></a><span class="nums">58.3 % · 84 parties</span></div></div>
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">53.1 % · 708 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerTeleport.png" alt="Téléportation" title="Téléportation" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Téléportation</span><span class="nums">52.5 % · 40 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/Electrocute/Electrocute.png" alt="Électrocution" loading="lazy">
+    <span>Électrocution + Précision</span><span class="nums">53.6 % · 207 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Domination</span><span class="nums">51.1 % · 135 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Volonté</span><span class="nums">52.5 % · 120 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Katarina et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">59.9 % · 222 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums good">62.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums good">62.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums good">61.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums good">61.5 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3302/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3302.png" alt="" width="28" height="28" loading="lazy"><span>Terminus</span></a>
+        <span class="nums good">68.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">61.4 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Tueur de krakens : 61.8 % de victoires, soit +11 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">51.3 % · 222 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums ">52.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums ">54.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums warn">46.3 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums warn">52.8 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3146/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3146.png" alt="" width="28" height="28" loading="lazy"><span>Pistolame Hextech</span></a>
+        <span class="nums warn">52.1 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">58.1 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">48.5 % · 326 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums warn">51.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums warn">50.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6672/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6672.png" alt="" width="28" height="28" loading="lazy"><span>Tueur de krakens</span></a>
+        <span class="nums warn">46.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3302/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3302.png" alt="" width="28" height="28" loading="lazy"><span>Terminus</span></a>
+        <span class="nums warn">54.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">55.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">58.6 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Katarina en Mid</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/malzahar/" title="Guide Malzahar">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Malzahar.png" alt="" width="36" height="36" loading="lazy"><b>Malzahar</b>
+      <span class="nums warn">Katarina : 20.0 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Malzahar prend l&#39;avantage dans 80 % des 15 duels Mid contre Katarina. <a href="../../../league/guide/malzahar/">Voir le guide de Malzahar</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/viktor/" title="Guide Viktor">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Viktor.png" alt="" width="36" height="36" loading="lazy"><b>Viktor</b>
+      <span class="nums warn">Katarina : 26.7 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Viktor prend l&#39;avantage dans 73 % des 15 duels Mid contre Katarina. <a href="../../../league/guide/viktor/">Voir le guide de Viktor</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/vladimir/" title="Guide Vladimir">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Vladimir.png" alt="" width="36" height="36" loading="lazy"><b>Vladimir</b>
+      <span class="nums warn">Katarina : 29.4 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Vladimir prend l&#39;avantage dans 71 % des 17 duels Mid contre Katarina. <a href="../../../league/guide/vladimir/">Voir le guide de Vladimir</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/akali/" title="Guide Akali">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Akali.png" alt="" width="36" height="36" loading="lazy"><b>Akali</b>
+      <span class="nums warn">Katarina : 44.0 %</span><span class="nums gd-dim">25 parties</span>
+    </a>
+    <p class="gd-vs-note">Akali prend l&#39;avantage dans 56 % des 25 duels Mid contre Katarina. <a href="../../../league/guide/akali/">Voir le guide de Akali</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/ekko/" title="Guide Ekko">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ekko.png" alt="" width="36" height="36" loading="lazy"><b>Ekko</b>
+      <span class="nums warn">Katarina : 46.7 %</span><span class="nums gd-dim">15 parties</span>
+    </a>
+    <p class="gd-vs-note">Ekko prend l&#39;avantage dans 53 % des 15 duels Mid contre Katarina. <a href="../../../league/guide/ekko/">Voir le guide de Ekko</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Katarina est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="" width="28" height="28" loading="lazy"><b>Yone</b><span class="nums good">62.5 % · 16 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="" width="28" height="28" loading="lazy"><b>Yasuo</b><span class="nums good">61.9 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="28" height="28" loading="lazy"><b>Sylas</b><span class="nums good">61.1 % · 18 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Locke.png" alt="" width="28" height="28" loading="lazy"><b>Locke</b><span class="nums good">60.0 % · 15 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ahri.png" alt="" width="28" height="28" loading="lazy"><b>Ahri</b><span class="nums good">59.1 % · 22 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Katarina</h3>
+<ul class="gd-list"><li>Les compétences de Katarina infligent des dégâts magiques. Même si elle achète des objets qui augmentent ses dégâts d&#39;attaque, augmentez votre résistance magique pour la contrer.</li><li>Essayez de garder un effet entravant pour quand Katarina utilisera Lotus mortel.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/katarina/contres/">Voir tous les matchups de Katarina</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Katarina_Passive.png" alt="Voracité" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Voracité</div><div class="lol-ability-desc">Les délais de récupération des compétences de Katarina sont grandement réduits quand un champion qu'elle a blessé récemment meurt.<br><br>Si Katarina ramasse une <font color='#FFF673'>dague</font>, elle s'en sert pour frapper tous les ennemis proches, infligeant des dégâts magiques.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaQ.png" alt="Lame rebondissante" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Lame rebondissante</div><div class="lol-ability-desc">Katarina lance une <font color='#FFF673'>dague</font> sur une cible. La dague rebondit ensuite sur les ennemis proches avant de tomber au sol.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaW.png" alt="Préparation" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Préparation</div><div class="lol-ability-desc">Katarina augmente sa vitesse de déplacement et lance une <font color='#FFF673'>dague</font> dans les airs.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaEWrapper.png" alt="Shunpo" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Shunpo</div><div class="lol-ability-desc">Katarina se téléporte près de sa cible. S'il s'agit d'un ennemi, elle le frappe. Sinon, elle frappe l'ennemi le plus proche.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/KatarinaR.png" alt="Lotus mortel" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Lotus mortel</div><div class="lol-ability-desc">Katarina tournoie et projette rapidement des couteaux sur les trois champions ennemis les plus proches, infligeant d'énormes dégâts sur la durée de la canalisation.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Katarina ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Fléau de liche, Sablier de Zhonya et Flamme-ombre (140 parties, 56.4 % de victoires), généralement avec Chaussures de lanceur de sorts (54.6 % sur 452 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Katarina ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Katarina en Mid sont Malzahar (20.0 % de victoires sur 15 parties), Viktor (26.7 % de victoires sur 15 parties) et Vladimir (29.4 % de victoires sur 17 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Katarina ?</h3><p class="page-intro" style="margin-top:0">Katarina affiche ses meilleurs winrates contre Yone (62.5 %), Yasuo (61.9 %) et Sylas (61.1 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Katarina ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 55.1 % de victoires dans les parties courtes (moins de 25 min, 254 parties) contre 48.8 % dans les parties longues (plus de 35 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Katarina ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Électrocution avec l&#39;arbre secondaire Précision (207 parties, 53.6 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/katarina/">Fiche complète de Katarina</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

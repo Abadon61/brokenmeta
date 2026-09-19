@@ -1,0 +1,604 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Tristana ADC : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Tristana ADC : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1331 parties ADC.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/tristana/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Tristana ADC : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Tristana ADC : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1331 parties ADC.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/tristana/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tristana_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Tristana ADC : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Tristana ADC : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 1331 parties ADC.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tristana_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Tristana", "item": "https://brokenmeta.gg/league/guide/tristana/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Tristana \u2014 League of Legends", "description": "Tristana, Canonni\u00e8re yordle, est un champion de classe tireur et assassin de difficult\u00e9 moyenne. Dans nos 1665 parties class\u00e9es analys\u00e9es, Tristana est jou\u00e9 principalement en ADC (80 % de ses parties), et plus rarement en Mid (17 %), avec 50.0 % de victoires \u00e0 ce poste : tier B parmi les ADC (n\u00b020 sur 36, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/tristana/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Tristana_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Tristana ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Lame d'infini, Fl\u00e8ches des Yun Tal et Tremblelame navori (432 parties, 56.7 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Tristana ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Tristana en ADC sont Lucian (29.6 % de victoires sur 27 parties), Kalista (37.5 % de victoires sur 16 parties) et Zeri (41.2 % de victoires sur 17 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Tristana ?", "acceptedAnswer": {"@type": "Answer", "text": "Tristana affiche ses meilleurs winrates contre Corki (69.6 %), Kai'Sa (61.9 %) et Jhin (58.2 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Tristana ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate reste stable quelle que soit la dur\u00e9e de la partie (48.9 % \u00e0 51.3 %) : le choix est fiable \u00e0 toutes les phases du jeu."}}, {"@type": "Question", "name": "Quelles runes jouer avec Tristana ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Tempo mortel avec l'arbre secondaire Inspiration (644 parties, 49.7 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/tristana/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/tristana/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Tristana.png" alt="Tristana" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · ADC</div>
+    <h1 class="champ-fiche-name">Guide Tristana</h1>
+    <div class="champ-fiche-ability-name">Canonnière yordle</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Tireur</div><div class="perf-badge">Assassin</div>
+      <div class="perf-badge">Tier B ADC</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Tristana, Canonnière yordle, est un champion de classe tireur et assassin de difficulté moyenne. Dans nos 1665 parties classées analysées, Tristana est joué principalement en ADC (80 % de ses parties), et plus rarement en Mid (17 %), avec 50.0 % de victoires à ce poste : tier B parmi les ADC (n°20 sur 36, classés par winrate). Les dégâts de Tristana sont surtout physiques (90 %) : l&#39;armure est le meilleur réflexe défensif face à ce champion. Le winrate reste stable quelle que soit la durée de la partie (48.9 % à 51.3 %) : le choix est fiable à toutes les phases du jeu.</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">8.2 / 6.2 / 5.8</div><div class="gd-stat-sub">ratio 2.2</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">856</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">7.8</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">515</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">47 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">0.73</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 1331 parties ADC jouées avec Tristana, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Tristana est une tireuse d&#39;exécution : sa portée d&#39;attaque augmente avec ses niveaux, et Saut roquette lui permet de plonger ou de fuir. Charge explosive place une bombe sur une cible ou explose à chaque élimination, ce qui lui permet d&#39;enchaîner les kills en combat d&#39;équipe. Son ultime repousse la cible et double le rayon de la charge.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;exécution</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Saut roquette">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaW.png" alt="Saut roquette" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Charge explosive">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaE.png" alt="Charge explosive" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tir rapide">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaQ.png" alt="Tir rapide" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est isolé ou affaibli.</p>
+    <p class="gd-how">Saut roquette te rapproche et ralentit, Charge explosive pose une bombe sur la cible, Tir rapide augmente ta vitesse d&#39;attaque pour finir.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;ultime défensif</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Tir à impact">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaR.png" alt="Tir à impact" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi plonge sur toi.</p>
+    <p class="gd-how">Tir à impact inflige des dégâts magiques et repousse la cible ; si elle porte une Charge explosive, le rayon de déflagration est doublé, ce qui blesse aussi ses alliés proches.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;enchaînement de kills</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Charge explosive">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaE.png" alt="Charge explosive" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Tir rapide">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaQ.png" alt="Tir rapide" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un combat d&#39;équipe est engagé.</p>
+    <p class="gd-how">Chaque élimination fait exploser tes projectiles autour de la victime : positionne-toi pour toucher plusieurs ennemis à la fois.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Ta portée augmente avec tes niveaux : joue tôt avec précaution, puis punis à distance dès que tu la dépasses. Garde Saut roquette pour t&#39;échapper ou pour finir, car son délai de récupération est long.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Plonger avec Saut roquette sans avoir de sortie : son délai de récupération est long.</li><li>Utiliser l&#39;ultime en attaque alors qu&#39;il repousse la cible : il sert aussi de défense.</li><li>Oublier que ta portée augmente avec les niveaux : ne joue pas comme au niveau 1.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Tristana</h3>
+<ul class="gd-list"><li>L&#39;arme énorme de Tristana lui permet de tirer de très loin. Profitez-en pour garder les ennemis à distance et les empêcher de vous toucher.</li><li>Utilisez Saut roquette après avoir accumulé les Charges explosives sur un ennemi pour l&#39;achever avec une masse de dégâts.</li><li>Utilisez Tir rapide pour accumuler plus facilement les Charges explosives sur les champions ennemis.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Flèches des Yun Tal et Tremblelame navori (432 parties, 56.7 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3032/" title="Flèches des Yun Tal"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="" width="36" height="36" loading="lazy"><span>Flèches des Yun Tal</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6675/" title="Tremblelame navori"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="" width="36" height="36" loading="lazy"><span>Tremblelame navori</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>432</b> parties · <b class="good">56.7 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3036/" title="Salutations de Dominik"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="36" height="36" loading="lazy"><span>Salutations de Dominik</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6675/" title="Tremblelame navori"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="" width="36" height="36" loading="lazy"><span>Tremblelame navori</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>314</b> parties · <b class="good">60.5 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3031/" title="Lame d&#39;infini"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="36" height="36" loading="lazy"><span>Lame d&#39;infini</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3032/" title="Flèches des Yun Tal"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="" width="36" height="36" loading="lazy"><span>Flèches des Yun Tal</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3036/" title="Salutations de Dominik"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="36" height="36" loading="lazy"><span>Salutations de Dominik</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>252</b> parties · <b class="good">60.7 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerBarrier.png" alt="Barrière" title="Barrière" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Barrière</span><span class="nums">49.9 % · 922 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">51.7 % · 257 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerBoost.png" alt="Purge" title="Purge" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Purge + Saut éclair</span><span class="nums">45.1 % · 133 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" alt="Tempo mortel" loading="lazy">
+    <span>Tempo mortel + Inspiration</span><span class="nums">49.7 % · 644 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" alt="Tempo mortel" loading="lazy">
+    <span>Tempo mortel + Volonté</span><span class="nums">50.5 % · 97 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/LethalTempo/LethalTempoTemp.png" alt="Tempo mortel" loading="lazy">
+    <span>Tempo mortel + Domination</span><span class="nums">41.0 % · 83 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Tristana et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">52.3 % · 369 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">55.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6675/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="" width="28" height="28" loading="lazy"><span>Tremblelame navori</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3032/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="" width="28" height="28" loading="lazy"><span>Flèches des Yun Tal</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums ">60.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2523/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2523.png" alt="" width="28" height="28" loading="lazy"><span>Lunettes Hextech C44</span></a>
+        <span class="nums ">49.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6676/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="28" height="28" loading="lazy"><span>Percepteur</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">49.9 % · 341 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">55.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6675/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="" width="28" height="28" loading="lazy"><span>Tremblelame navori</span></a>
+        <span class="nums ">56.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3032/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="" width="28" height="28" loading="lazy"><span>Flèches des Yun Tal</span></a>
+        <span class="nums ">54.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums warn">56.9 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2523/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2523.png" alt="" width="28" height="28" loading="lazy"><span>Lunettes Hextech C44</span></a>
+        <span class="nums warn">46.4 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6676/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="28" height="28" loading="lazy"><span>Percepteur</span></a>
+        <span class="nums ">54.8 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">48.6 % · 621 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3031/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3031.png" alt="" width="28" height="28" loading="lazy"><span>Lame d&#39;infini</span></a>
+        <span class="nums ">52.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6675/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6675.png" alt="" width="28" height="28" loading="lazy"><span>Tremblelame navori</span></a>
+        <span class="nums ">52.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3032/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3032.png" alt="" width="28" height="28" loading="lazy"><span>Flèches des Yun Tal</span></a>
+        <span class="nums ">48.6 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3036/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3036.png" alt="" width="28" height="28" loading="lazy"><span>Salutations de Dominik</span></a>
+        <span class="nums ">62.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2523/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2523.png" alt="" width="28" height="28" loading="lazy"><span>Lunettes Hextech C44</span></a>
+        <span class="nums ">52.5 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6676/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6676.png" alt="" width="28" height="28" loading="lazy"><span>Percepteur</span></a>
+        <span class="nums ">50.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Tristana en ADC</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/lucian/" title="Guide Lucian">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lucian.png" alt="" width="36" height="36" loading="lazy"><b>Lucian</b>
+      <span class="nums warn">Tristana : 29.6 %</span><span class="nums gd-dim">27 parties</span>
+    </a>
+    <p class="gd-vs-note">Lucian prend l&#39;avantage dans 70 % des 27 duels ADC contre Tristana. <a href="../../../league/guide/lucian/">Voir le guide de Lucian</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/kalista/" title="Guide Kalista">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kalista.png" alt="" width="36" height="36" loading="lazy"><b>Kalista</b>
+      <span class="nums warn">Tristana : 37.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Kalista prend l&#39;avantage dans 62 % des 16 duels ADC contre Tristana. <a href="../../../league/guide/kalista/">Voir le guide de Kalista</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/zeri/" title="Guide Zeri">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zeri.png" alt="" width="36" height="36" loading="lazy"><b>Zeri</b>
+      <span class="nums warn">Tristana : 41.2 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Zeri prend l&#39;avantage dans 59 % des 17 duels ADC contre Tristana. <a href="../../../league/guide/zeri/">Voir le guide de Zeri</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/caitlyn/" title="Guide Caitlyn">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Caitlyn.png" alt="" width="36" height="36" loading="lazy"><b>Caitlyn</b>
+      <span class="nums warn">Tristana : 42.1 %</span><span class="nums gd-dim">38 parties</span>
+    </a>
+    <p class="gd-vs-note">Caitlyn prend l&#39;avantage dans 58 % des 38 duels ADC contre Tristana. <a href="../../../league/guide/caitlyn/">Voir le guide de Caitlyn</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/draven/" title="Guide Draven">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Draven.png" alt="" width="36" height="36" loading="lazy"><b>Draven</b>
+      <span class="nums warn">Tristana : 43.5 %</span><span class="nums gd-dim">23 parties</span>
+    </a>
+    <p class="gd-vs-note">Draven prend l&#39;avantage dans 57 % des 23 duels ADC contre Tristana. <a href="../../../league/guide/draven/">Voir le guide de Draven</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Tristana est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Corki.png" alt="" width="28" height="28" loading="lazy"><b>Corki</b><span class="nums good">69.6 % · 23 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kaisa.png" alt="" width="28" height="28" loading="lazy"><b>Kai&#39;Sa</b><span class="nums good">61.9 % · 63 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Jhin.png" alt="" width="28" height="28" loading="lazy"><b>Jhin</b><span class="nums good">58.2 % · 55 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ezreal.png" alt="" width="28" height="28" loading="lazy"><b>Ezreal</b><span class="nums good">57.9 % · 38 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Xayah.png" alt="" width="28" height="28" loading="lazy"><b>Xayah</b><span class="nums good">56.0 % · 25 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Tristana</h3>
+<ul class="gd-list"><li>Si vous voyez Tristana activer Tir rapide dans un combat, étourdissez-la et reculez jusqu&#39;à la fin de son sort.</li><li>Sur votre voie, restez à distance de vos sbires pour subir moins de dégâts collatéraux de Charge explosive.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/tristana/contres/">Voir tous les matchups de Tristana</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Tristana_Passive.png" alt="Tir de précision" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Tir de précision</div><div class="lol-ability-desc">Augmente la portée d'attaque de Tristana quand elle gagne un niveau.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaQ.png" alt="Tir rapide" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Tir rapide</div><div class="lol-ability-desc">Tristana tire plus rapidement avec son arme ; sa vitesse d'attaque est augmentée temporairement.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaW.png" alt="Saut roquette" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Saut roquette</div><div class="lol-ability-desc">Tristana pointe son arme vers le sol et tire pour se propulser jusqu'à une destination éloignée, infligeant des dégâts aux unités proches et les ralentissant pendant un court instant à l'atterrissage.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaE.png" alt="Charge explosive" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Charge explosive</div><div class="lol-ability-desc">Lorsque Tristana élimine une unité, ses projectiles explosent et infligent des dégâts aux ennemis proches. Peut être activé pour placer sur une cible ennemie une bombe qui explose après un court moment, infligeant des dégâts aux unités proches.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TristanaR.png" alt="Tir à impact" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Tir à impact</div><div class="lol-ability-desc">Tristana charge un énorme boulet de canon dans son arme et tire sur une unité ennemie, ce qui inflige des dégâts magiques et repousse la cible. Si la cible porte une Charge explosive, le rayon de déflagration de la charge est doublé.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Tristana ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Lame d&#39;infini, Flèches des Yun Tal et Tremblelame navori (432 parties, 56.7 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Tristana ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Tristana en ADC sont Lucian (29.6 % de victoires sur 27 parties), Kalista (37.5 % de victoires sur 16 parties) et Zeri (41.2 % de victoires sur 17 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Tristana ?</h3><p class="page-intro" style="margin-top:0">Tristana affiche ses meilleurs winrates contre Corki (69.6 %), Kai&#39;Sa (61.9 %) et Jhin (58.2 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Tristana ?</h3><p class="page-intro" style="margin-top:0">Le winrate reste stable quelle que soit la durée de la partie (48.9 % à 51.3 %) : le choix est fiable à toutes les phases du jeu.</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Tristana ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Tempo mortel avec l&#39;arbre secondaire Inspiration (644 parties, 49.7 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/tristana/">Fiche complète de Tristana</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

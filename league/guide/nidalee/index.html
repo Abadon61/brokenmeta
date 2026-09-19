@@ -1,0 +1,606 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Nidalee : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Nidalee Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 657 parties Jungle.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/nidalee/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Nidalee : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Nidalee Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 657 parties Jungle.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/nidalee/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nidalee_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Nidalee : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Nidalee Jungle : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 657 parties Jungle.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nidalee_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Nidalee", "item": "https://brokenmeta.gg/league/guide/nidalee/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Nidalee \u2014 League of Legends", "description": "Nidalee, Chasseresse bestiale, est un champion de classe assassin et mage exigeant \u00e0 ma\u00eetriser. Dans nos 719 parties class\u00e9es analys\u00e9es, Nidalee est jou\u00e9 principalement en Jungle (91 % de ses parties), avec 53.3 % de victoires \u00e0 ce poste : tier A parmi les Jungle (n\u00b012 sur 48, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/nidalee/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Nidalee_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Nidalee ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit Fl\u00e9au de liche, Ceinture-roquette Hextech et Sablier de Zhonya (158 parties, 51.9 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Nidalee ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Nidalee en Jungle sont Jarvan IV (37.5 % de victoires sur 16 parties), Lee Sin (48.9 % de victoires sur 47 parties) et Qiyana (56.5 % de victoires sur 23 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Nidalee ?", "acceptedAnswer": {"@type": "Answer", "text": "Nidalee affiche ses meilleurs winrates contre Hecarim (62.5 %), Graves (57.1 %) et Qiyana (56.5 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Nidalee ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 54.8 % de victoires dans les parties courtes (moins de 25 min, 279 parties) contre 48.1 % dans les parties longues (plus de 35 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Nidalee ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Moisson noire avec l'arbre secondaire Sorcellerie (178 parties, 52.8 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/nidalee/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/nidalee/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nidalee.png" alt="Nidalee" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Jungle</div>
+    <h1 class="champ-fiche-name">Guide Nidalee</h1>
+    <div class="champ-fiche-ability-name">Chasseresse bestiale</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Assassin</div><div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier A Jungle</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Nidalee, Chasseresse bestiale, est un champion de classe assassin et mage exigeant à maîtriser. Dans nos 719 parties classées analysées, Nidalee est joué principalement en Jungle (91 % de ses parties), avec 53.3 % de victoires à ce poste : tier A parmi les Jungle (n°12 sur 48, classés par winrate). Les dégâts de Nidalee sont surtout magiques (81 %) : les objets de résistance magique sont donc efficaces face à ce champion. 12 % de ces dégâts sont bruts et ignorent donc les résistances. Le winrate varie avec la durée de la partie : 54.8 % de victoires dans les parties courtes (moins de 25 min, 279 parties) contre 48.1 % dans les parties longues (plus de 35 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">7.7 / 4.7 / 8.6</div><div class="gd-stat-sub">ratio 3.5</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">752</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">7.2</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">474</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">58 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">1.12</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 657 parties Jungle jouées avec Nidalee, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Nidalee alterne entre forme humaine (Javelot, Guérilla, Charge primale) et forme de Couguar (Mise à terre, Bond, Taillade). Dans les herbes hautes, sa vitesse de déplacement augmente, et toucher des champions avec Javelot ou Guérilla la met à leur chasse : vision pure et Bond/Mise à terre renforcés.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La chasse</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Javelot / Mise à terre">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JavelinToss.png" alt="Javelot / Mise à terre" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Aspect du Couguar">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/AspectOfTheCougar.png" alt="Aspect du Couguar" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Guérilla / Bond">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Bushwhack.png" alt="Guérilla / Bond" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Javelot / Mise à terre">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JavelinToss.png" alt="Javelot / Mise à terre" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Charge primale / Taillade">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/PrimalSurge.png" alt="Charge primale / Taillade" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Tu as touché avec Javelot ou Guérilla.</p>
+    <p class="gd-how">Après avoir touché avec Javelot, passe en Couguar avec Aspect du Couguar : Bond te fait atterrir en zone (renforcé contre la cible chassée), Mise à terre égorge (plus de dégâts si la cible a perdu des PV), Taillade griffe.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le harcèlement en humaine</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Guérilla / Bond">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Bushwhack.png" alt="Guérilla / Bond" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Javelot / Mise à terre">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JavelinToss.png" alt="Javelot / Mise à terre" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Charge primale / Taillade">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/PrimalSurge.png" alt="Charge primale / Taillade" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée de Javelot.</p>
+    <p class="gd-how">Guérilla marque et révèle, le Javelot inflige plus de dégâts selon la distance, Charge primale soigne les alliés et leur donne de la vitesse d&#39;attaque.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La poursuite</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Aspect du Couguar">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/AspectOfTheCougar.png" alt="Aspect du Couguar" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Guérilla / Bond">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Bushwhack.png" alt="Guérilla / Bond" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Guérilla / Bond">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Bushwhack.png" alt="Guérilla / Bond" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est en fuite.</p>
+    <p class="gd-how">En Couguar, Bond te propulse et blesse en zone à l&#39;atterrissage.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Le Javelot inflige plus de dégâts selon la distance : c&#39;est ta compétence de harcèlement. Guérilla place un piège qui blesse et révèle : utilise-le pour marquer et chasser.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Lancer Javelot à courte portée : il inflige moins de dégâts.</li><li>Changer de forme sans avoir marqué : tu perds la chasse.</li><li>Ignorer les herbes hautes : elles augmentent ta vitesse.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Nidalee</h3>
+<ul class="gd-list"><li>Utilisez les herbes hautes à votre avantage ! Entrer et sortir de ces herbes peut vous rendre bien plus efficace au combat.</li><li>Lors des combats d&#39;équipes, utilisez d&#39;abord Javelot pour harceler l&#39;ennemi, puis passez à la forme du Couguar pour poursuivre les cibles chassées.</li><li>Les pièges de Guérilla infligent des dégâts en fonction des PV actuels de leurs victimes. Lors des sièges, posez-en près de votre seconde ligne avant le début du combat pour aider votre équipe à blesser la première ligne ennemie.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Fléau de liche, Ceinture-roquette Hextech et Sablier de Zhonya (158 parties, 51.9 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3152/" title="Ceinture-roquette Hextech"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="36" height="36" loading="lazy"><span>Ceinture-roquette Hextech</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>158</b> parties · <b class="good">51.9 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/4645/" title="Flamme-ombre"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="36" height="36" loading="lazy"><span>Flamme-ombre</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>75</b> parties · <b class="good">57.3 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3089/" title="Coiffe de Rabadon"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="36" height="36" loading="lazy"><span>Coiffe de Rabadon</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3100/" title="Fléau de liche"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="36" height="36" loading="lazy"><span>Fléau de liche</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3157/" title="Sablier de Zhonya"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="36" height="36" loading="lazy"><span>Sablier de Zhonya</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>61</b> parties · <b class="good">65.6 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerSmite.png" alt="Châtiment" title="Châtiment" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Châtiment</span><span class="nums">53.3 % · 656 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png" alt="Moisson noire" loading="lazy">
+    <span>Moisson noire + Sorcellerie</span><span class="nums">52.8 % · 178 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Precision/Conqueror/Conqueror.png" alt="Conquérant" loading="lazy">
+    <span>Conquérant + Sorcellerie</span><span class="nums">46.2 % · 93 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/DarkHarvest/DarkHarvest.png" alt="Moisson noire" loading="lazy">
+    <span>Moisson noire + Précision</span><span class="nums">58.4 % · 77 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Nidalee et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">57.5 % · 181 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums good">58.1 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">55.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">54.2 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums ">52.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums good">71.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3135/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="" width="28" height="28" loading="lazy"><span>Bâton du vide</span></a>
+        <span class="nums ">66.7 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Coiffe de Rabadon : 71.9 % de victoires, soit +9 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">51.3 % · 187 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums ">52.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums warn">48.5 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">51.3 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums good">66.7 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums warn">53.8 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3135/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="" width="28" height="28" loading="lazy"><span>Bâton du vide</span></a>
+        <span class="nums ">62.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Flamme-ombre : 66.7 % de victoires, soit +11 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">51.9 % · 289 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3100/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3100.png" alt="" width="28" height="28" loading="lazy"><span>Fléau de liche</span></a>
+        <span class="nums ">53.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3152/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3152.png" alt="" width="28" height="28" loading="lazy"><span>Ceinture-roquette Hextech</span></a>
+        <span class="nums ">54.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3157/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3157.png" alt="" width="28" height="28" loading="lazy"><span>Sablier de Zhonya</span></a>
+        <span class="nums ">53.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/4645/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/4645.png" alt="" width="28" height="28" loading="lazy"><span>Flamme-ombre</span></a>
+        <span class="nums warn">50.7 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3089/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3089.png" alt="" width="28" height="28" loading="lazy"><span>Coiffe de Rabadon</span></a>
+        <span class="nums ">61.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3135/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3135.png" alt="" width="28" height="28" loading="lazy"><span>Bâton du vide</span></a>
+        <span class="nums ">65.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Nidalee en Jungle</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/jarvaniv/" title="Guide Jarvan IV">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/JarvanIV.png" alt="" width="36" height="36" loading="lazy"><b>Jarvan IV</b>
+      <span class="nums warn">Nidalee : 37.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Jarvan IV prend l&#39;avantage dans 62 % des 16 duels Jungle contre Nidalee. <a href="../../../league/guide/jarvaniv/">Voir le guide de Jarvan IV</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/leesin/" title="Guide Lee Sin">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="36" height="36" loading="lazy"><b>Lee Sin</b>
+      <span class="nums warn">Nidalee : 48.9 %</span><span class="nums gd-dim">47 parties</span>
+    </a>
+    <p class="gd-vs-note">Lee Sin prend l&#39;avantage dans 51 % des 47 duels Jungle contre Nidalee. <a href="../../../league/guide/leesin/">Voir le guide de Lee Sin</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/qiyana/" title="Guide Qiyana">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Qiyana.png" alt="" width="36" height="36" loading="lazy"><b>Qiyana</b>
+      <span class="nums warn">Nidalee : 56.5 %</span><span class="nums gd-dim">23 parties</span>
+    </a>
+    <p class="gd-vs-note">Qiyana prend l&#39;avantage dans 43 % des 23 duels Jungle contre Nidalee. <a href="../../../league/guide/qiyana/">Voir le guide de Qiyana</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/graves/" title="Guide Graves">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Graves.png" alt="" width="36" height="36" loading="lazy"><b>Graves</b>
+      <span class="nums warn">Nidalee : 57.1 %</span><span class="nums gd-dim">21 parties</span>
+    </a>
+    <p class="gd-vs-note">Graves prend l&#39;avantage dans 43 % des 21 duels Jungle contre Nidalee. <a href="../../../league/guide/graves/">Voir le guide de Graves</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/hecarim/" title="Guide Hecarim">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Hecarim.png" alt="" width="36" height="36" loading="lazy"><b>Hecarim</b>
+      <span class="nums warn">Nidalee : 62.5 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Hecarim prend l&#39;avantage dans 38 % des 16 duels Jungle contre Nidalee. <a href="../../../league/guide/hecarim/">Voir le guide de Hecarim</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Nidalee est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Hecarim.png" alt="" width="28" height="28" loading="lazy"><b>Hecarim</b><span class="nums good">62.5 % · 16 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Graves.png" alt="" width="28" height="28" loading="lazy"><b>Graves</b><span class="nums good">57.1 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Qiyana.png" alt="" width="28" height="28" loading="lazy"><b>Qiyana</b><span class="nums good">56.5 % · 23 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="" width="28" height="28" loading="lazy"><b>Lee Sin</b><span class="nums good">48.9 % · 47 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/JarvanIV.png" alt="" width="28" height="28" loading="lazy"><b>Jarvan IV</b><span class="nums good">37.5 % · 16 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Nidalee</h3>
+<ul class="gd-list"><li>Le debuff de chasse n&#39;est appliqué qu&#39;avec Javelot et Guérilla. Éviter ces compétences empêchera Nidalee d&#39;enchaîner avec plus de dégâts.</li><li>Les dégâts du Javelot augmentent avec la distance. S&#39;il vient de loin, esquivez-le à tout prix.</li><li>La Mise à terre inflige d&#39;énormes dégâts aux cibles chassées, mais Nidalee doit s&#39;approcher pour l&#39;utiliser. Utilisez vos compétences défensives ou contrôles de foule si elle vient pour vous tuer.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/nidalee/contres/">Voir tous les matchups de Nidalee</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Nidalee_Passive.png" alt="Prédateur" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Prédateur</div><div class="lol-ability-desc">Dans les herbes hautes, la vitesse de déplacement de Nidalee augmente de 10% pendant 2 sec. Le bonus passe à 30% si Nidalee va vers des champions ennemis visibles à moins de 1400 unités de distance.<br><br>Quand elle touche des champions ou des monstres avec Javelot ou Guérilla, Nidalee se met à les <font color='#FFF673'>chasser</font> et obtient une <font color='#ee91d7'>vision pure</font> de ces cibles pendant 4 sec. Pendant ce temps, la vitesse de déplacement de Nidalee augmente de 10% (30% vers les cibles <font color='#FFF673'>chassées</font>) et, contre ces cibles, Mise à terre et Bond sont renforcés.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/JavelinToss.png" alt="Javelot / Mise à terre" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Javelot / Mise à terre</div><div class="lol-ability-desc">Dans sa forme humaine, Nidalee lance un javelot qui inflige de plus en plus de dégâts selon la distance parcourue. Sous la forme d'un Couguar, sa prochaine attaque tente d'égorger sa cible, et plus celle-ci a déjà perdu de PV, plus les dégâts sont importants.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/Bushwhack.png" alt="Guérilla / Bond" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Guérilla / Bond</div><div class="lol-ability-desc">Dans sa forme humaine, Nidalee place un piège qui blesse et révèle la cible qui le déclenche. Sous la forme d'un Couguar, elle bondit dans une direction et inflige des dégâts de zone en atterrissant.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/PrimalSurge.png" alt="Charge primale / Taillade" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Charge primale / Taillade</div><div class="lol-ability-desc">Dans sa forme humaine, Nidalee canalise l'esprit du Couguar pour soigner ses alliés et leur conférer temporairement un bonus en vitesse d'attaque. Sous la forme d'un Couguar, elle donne un coup de griffes aux ennemis devant elle.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/AspectOfTheCougar.png" alt="Aspect du Couguar" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Aspect du Couguar</div><div class="lol-ability-desc">Nidalee prend la forme d'un Couguar, ce qui lui confère de nouvelles compétences.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Nidalee ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Fléau de liche, Ceinture-roquette Hextech et Sablier de Zhonya (158 parties, 51.9 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Nidalee ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Nidalee en Jungle sont Jarvan IV (37.5 % de victoires sur 16 parties), Lee Sin (48.9 % de victoires sur 47 parties) et Qiyana (56.5 % de victoires sur 23 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Nidalee ?</h3><p class="page-intro" style="margin-top:0">Nidalee affiche ses meilleurs winrates contre Hecarim (62.5 %), Graves (57.1 %) et Qiyana (56.5 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Nidalee ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 54.8 % de victoires dans les parties courtes (moins de 25 min, 279 parties) contre 48.1 % dans les parties longues (plus de 35 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Nidalee ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Moisson noire avec l&#39;arbre secondaire Sorcellerie (178 parties, 52.8 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/nidalee/">Fiche complète de Nidalee</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

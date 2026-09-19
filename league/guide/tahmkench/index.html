@@ -1,0 +1,541 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Tahm Kench : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Tahm Kench Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 183 parties Support.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/tahmkench/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Tahm Kench : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Tahm Kench Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 183 parties Support.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/tahmkench/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TahmKench_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Tahm Kench : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Tahm Kench Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 183 parties Support.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TahmKench_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Tahm Kench", "item": "https://brokenmeta.gg/league/guide/tahmkench/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Tahm Kench \u2014 League of Legends", "description": "Tahm Kench, Roi des rivi\u00e8res, est un champion de classe tank et support de difficult\u00e9 moyenne. Dans nos 345 parties class\u00e9es analys\u00e9es, Tahm Kench est jou\u00e9 principalement en Support (53 % de ses parties), et plus rarement en Top (47 %), avec 45.4 % de victoires \u00e0 ce poste : tier C parmi les Support (n\u00b037 sur 39, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/tahmkench/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/TahmKench_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Tahm Kench ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 48.5 % de victoires dans les parties moyennes (25 \u00e0 35 min, 103 parties) contre 40.8 % dans les parties courtes (moins de 25 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Tahm Kench ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Poigne de l'immortel avec l'arbre secondaire Pr\u00e9cision (128 parties, 49.2 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/tahmkench/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/tahmkench/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/TahmKench.png" alt="Tahm Kench" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Support</div>
+    <h1 class="champ-fiche-name">Guide Tahm Kench</h1>
+    <div class="champ-fiche-ability-name">Roi des rivières</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Tank</div><div class="perf-badge">Support</div>
+      <div class="perf-badge">Tier C Support</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Tahm Kench, Roi des rivières, est un champion de classe tank et support de difficulté moyenne. Dans nos 345 parties classées analysées, Tahm Kench est joué principalement en Support (53 % de ses parties), et plus rarement en Top (47 %), avec 45.4 % de victoires à ce poste : tier C parmi les Support (n°37 sur 39, classés par winrate). Les dégâts de Tahm Kench sont surtout magiques (74 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate varie avec la durée de la partie : 48.5 % de victoires dans les parties moyennes (25 à 35 min, 103 parties) contre 40.8 % dans les parties courtes (moins de 25 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">3.2 / 6.9 / 11.4</div><div class="gd-stat-sub">ratio 2.1</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">516</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">1.2</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">315</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">49 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">2.37</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 183 parties Support jouées avec Tahm Kench, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Tahm Kench est un support-tank dont les dégâts augmentent avec ses PV totaux. Coup de langue ralentit et applique Goût acquis (à 3 effets, il étourdit et peut être suivi de Dévoration), Plongée abyssale projette, Peau épaisse stocke des dégâts pour un bouclier, et Dévoration avale un champion : dégâts magiques ou bouclier pour un allié.</p>
+
+<div class="gd-sw">
+  <div class="gd-sw-col"><h3 class="gd-sub">Points forts de Tahm Kench</h3><ul class="gd-list"><li>Ses dégâts augmentent avec ses PV totaux, ce qui le rend efficace en tank.</li><li>Coup de langue applique Goût acquis : à 3 effets, il étourdit.</li><li>Dévoration protège un allié en le mettant à l&#39;abri ou avale un ennemi affecté.</li></ul></div>
+  <div class="gd-sw-col"><h3 class="gd-sub">Points faibles de Tahm Kench</h3><ul class="gd-list"><li>Dévoration exige 3 effets de Goût acquis pour un ennemi.</li><li>Peu de dégâts sans PV.</li><li>Peau épaisse ne protège vraiment qu&#39;avec des dégâts stockés à consommer.</li></ul></div>
+</div>
+
+<h3 class="gd-sub">Rôle en combat d'équipe</h3><p class="page-intro" style="margin-top:0">Tahm Kench choisit entre protéger et attaquer : avaler un allié le sort d&#39;un contrôle, avaler un ennemi le sépare de son équipe. Plongée abyssale l&#39;aide à rejoindre la mêlée ou à en sortir.</p>
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;étourdissement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Coup de langue">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchQ.png" alt="Coup de langue" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Coup de langue">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchQ.png" alt="Coup de langue" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Coup de langue">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchQ.png" alt="Coup de langue" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée.</p>
+    <p class="gd-how">Coup de langue applique un effet Goût acquis ; à 3 effets, le champion est étourdi et les effets sont consommés.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">L&#39;engagement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Plongée abyssale">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchW.png" alt="Plongée abyssale" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Coup de langue">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchQ.png" alt="Coup de langue" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Dévoration">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchRWrapper.png" alt="Dévoration" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est éloigné.</p>
+    <p class="gd-how">Plongée abyssale te fait plonger puis réapparaître à l&#39;endroit ciblé, blessant et projetant les ennemis ; Dévoration avale un champion ennemi (3 effets requis).</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">La protection d&#39;un allié</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Dévoration">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchRWrapper.png" alt="Dévoration" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Peau épaisse">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchE.png" alt="Peau épaisse" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un allié est menacé.</p>
+    <p class="gd-how">Dévoration sur un allié lui octroie un bouclier pendant quelques secondes ; Peau épaisse te protège aussi.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le sauvetage d&#39;allié</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Plongée abyssale">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchW.png" alt="Plongée abyssale" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Dévoration">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchRWrapper.png" alt="Dévoration" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Peau épaisse">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchE.png" alt="Peau épaisse" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un allié est ciblé par un engagement.</p>
+    <p class="gd-how">Plongée abyssale te fait rejoindre l&#39;allié, Dévoration lui octroie un bouclier pendant quelques secondes, Peau épaisse convertit tes dégâts stockés en bouclier temporaire.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Applique 3 effets de Goût acquis pour étourdir avec Coup de langue. Peau épaisse : active-la pour convertir les dégâts stockés en bouclier temporaire.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Utiliser Dévoration sur un ennemi sans avoir les 3 effets.</li><li>Ne pas convertir tes dégâts stockés en bouclier.</li><li>Utiliser Plongée abyssale sans direction.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Tahm Kench</h3>
+<ul class="gd-list"><li>Votre fonction la plus importante en tant que support est de protéger les alliés fragiles. Ne perdez pas de vue la portée et le délai de récupération de Dévoration et placez-vous en conséquence !</li><li>Réfléchissez bien avant d&#39;activer Peau épaisse. Il est bon de se servir du bouclier pour encaisser des dégâts, mais les soins peuvent parfois être bien plus utiles.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerDot.png" alt="Embrasement" title="Embrasement" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Embrasement</span><span class="nums">46.7 % · 105 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">38.9 % · 36 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHeal.png" alt="Soins" title="Soins" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Soins</span><span class="nums">41.2 % · 34 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png" alt="Poigne de l&#39;immortel" loading="lazy">
+    <span>Poigne de l&#39;immortel + Précision</span><span class="nums">49.2 % · 128 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png" alt="Poigne de l&#39;immortel" loading="lazy">
+    <span>Poigne de l&#39;immortel + Inspiration</span><span class="nums">46.9 % · 49 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/GraspOfTheUndying/GraspOfTheUndying.png" alt="Poigne de l&#39;immortel" loading="lazy">
+    <span>Poigne de l&#39;immortel + Domination</span><span class="nums">43.6 % · 39 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Tahm Kench et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">59.5 % · 42 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums good">68.8 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="28" height="28" loading="lazy"><span>Visage spirituel</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Cœuracier : 68.8 % de victoires, soit +21 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">46.0 % · 50 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums warn">41.7 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3075/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3075.png" alt="" width="28" height="28" loading="lazy"><span>Cotte épineuse</span></a>
+        <span class="nums ">37.5 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">38.5 % · 91 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3084/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3084.png" alt="" width="28" height="28" loading="lazy"><span>Cœuracier</span></a>
+        <span class="nums warn">41.5 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3065/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3065.png" alt="" width="28" height="28" loading="lazy"><span>Visage spirituel</span></a>
+        <span class="nums ">41.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3190/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="" width="28" height="28" loading="lazy"><span>Médaillon de l&#39;Iron Solari</span></a>
+        <span class="nums ">36.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3075/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3075.png" alt="" width="28" height="28" loading="lazy"><span>Cotte épineuse</span></a>
+        <span class="nums ">52.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2510/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2510.png" alt="" width="28" height="28" loading="lazy"><span>Aube et crépuscule</span></a>
+        <span class="nums ">30.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/2524/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/2524.png" alt="" width="28" height="28" loading="lazy"><span>Flûtes de Bandle</span></a>
+        <span class="nums ">20.0 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+
+
+<h3 class="gd-sub">Comment jouer contre Tahm Kench</h3>
+<ul class="gd-list"><li>Quand Tahm Kench utilise le bouclier de Peau épaisse, il renonce à des soins assez importants. N&#39;oubliez pas qu&#39;il ne cumulera plus de PV gris tant que Peau épaisse est en récupération. Sachez profiter de cette situation !</li><li>Guettez la Plongée abyssale de Tahm Kench ; vous pouvez annuler sa canalisation avec des immobilisations.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/TahmKenchP.png" alt="Goût acquis" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Goût acquis</div><div class="lol-ability-desc">Tahm Kench met tout son poids dans ses attaques, permettant à ses PV totaux d'augmenter ses dégâts. Blesser des champions ennemis leur applique des effets <spellName>Goût acquis</spellName>. À 3 effets cumulés, Tahm Kench peut utiliser <spellName>Dévoration</spellName> sur un champion ennemi.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchQ.png" alt="Coup de langue" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Coup de langue</div><div class="lol-ability-desc">Tahm Kench donne un coup de fouet avec sa langue, blessant et ralentissant la première unité touchée et récupérant des PV s'il touche un champion ennemi.<br><br>Cette compétence applique un effet <spellName>Goût acquis</spellName> sur les champions ennemis. Si le champion portait déjà 3 effets <spellName>Goût acquis</spellName>, il est étourdi et les effets sont consommés.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchW.png" alt="Plongée abyssale" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Plongée abyssale</div><div class="lol-ability-desc">Tahm Kench plonge, puis réapparaît à l'endroit ciblé, blessant et projetant dans les airs tous les ennemis dans la zone.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchE.png" alt="Peau épaisse" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Peau épaisse</div><div class="lol-ability-desc"><passive>Passive :</passive> Tahm Kench stocke un pourcentage des dégâts qu'il subit. En dehors des combats, il récupère des PV équivalents à une partie des dégâts stockés.<br><br><active>Active :</active> Tahm Kench convertit tous les dégâts stockés en bouclier temporaire.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/TahmKenchRWrapper.png" alt="Dévoration" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Dévoration</div><div class="lol-ability-desc">Tahm Kench dévore un champion pendant quelques secondes, lui infligeant des dégâts magiques s'il s'agit d'un ennemi ou lui octroyant un bouclier s'il s'agit d'un allié.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Tahm Kench ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 48.5 % de victoires dans les parties moyennes (25 à 35 min, 103 parties) contre 40.8 % dans les parties courtes (moins de 25 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Tahm Kench ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Poigne de l&#39;immortel avec l&#39;arbre secondaire Précision (128 parties, 49.2 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/tahmkench/">Fiche complète de Tahm Kench</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,587 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Guide Soraka : combos, build, contres | BrokenMeta.gg</title>
+<meta name="description" content="Guide Soraka Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 646 parties Support.">
+<link rel="canonical" href="https://brokenmeta.gg/league/guide/soraka/">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Guide Soraka : combos, build, contres | BrokenMeta.gg">
+<meta property="og:description" content="Guide Soraka Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 646 parties Support.">
+<meta property="og:url" content="https://brokenmeta.gg/league/guide/soraka/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Soraka_0.jpg">
+<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Guide Soraka : combos, build, contres | BrokenMeta.gg">
+<meta name="twitter:description" content="Guide Soraka Support : combos, build, runes, contres et objets selon l&#39;équipe adverse, mesurés sur 646 parties Support.">
+<meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Soraka_0.jpg">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=9dffd3fdd4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=9dffd3fdd4">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=9dffd3fdd4">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Soraka", "item": "https://brokenmeta.gg/league/guide/soraka/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Guide Soraka \u2014 League of Legends", "description": "Soraka, Enfant des \u00e9toiles, est un champion de classe support et mage plut\u00f4t simple \u00e0 prendre en main. Dans nos 646 parties class\u00e9es analys\u00e9es, Soraka est jou\u00e9 principalement en Support (100 % de ses parties), avec 46.1 % de victoires \u00e0 ce poste : tier C parmi les Support (n\u00b032 sur 39, class\u00e9s par winrate).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/league/guide/soraka/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Soraka_0.jpg", "dateModified": "2026-09-17"}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Quel est le meilleur build pour Soraka ?", "acceptedAnswer": {"@type": "Answer", "text": "Le build de base le plus jou\u00e9 r\u00e9unit R\u00e9demption, R\u00e9g\u00e9n\u00e9rateur de pierre de lune et C\u0153ur de l'aube (60 parties, 61.7 % de victoires)."}}, {"@type": "Question", "name": "Qui contre Soraka ?", "acceptedAnswer": {"@type": "Answer", "text": "Les matchups les plus difficiles de Soraka en Support sont Nami (27.8 % de victoires sur 18 parties), Thresh (34.8 % de victoires sur 23 parties) et Lulu (35.5 % de victoires sur 31 parties)."}}, {"@type": "Question", "name": "Quels sont les meilleurs matchups de Soraka ?", "acceptedAnswer": {"@type": "Answer", "text": "Soraka affiche ses meilleurs winrates contre Nautilus (54.5 %), Milio (54.5 %) et Blitzcrank (52.4 %)."}}, {"@type": "Question", "name": "Quelle dur\u00e9e de partie convient le mieux \u00e0 Soraka ?", "acceptedAnswer": {"@type": "Answer", "text": "Le winrate varie avec la dur\u00e9e de la partie : 47.2 % de victoires dans les parties moyennes (25 \u00e0 35 min, 356 parties) contre 43.2 % dans les parties longues (plus de 35 min)."}}, {"@type": "Question", "name": "Quelles runes jouer avec Soraka ?", "acceptedAnswer": {"@type": "Answer", "text": "La page de runes la plus jou\u00e9e utilise Invocation d'Aery avec l'arbre secondaire Volont\u00e9 (314 parties, 46.8 % de victoires)."}}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true">League of Legends</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/guide/soraka/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/glossaire/champions/soraka/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">League of Legends</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" data-active="true">Guides</a>
+<a class="nav-link" href="../../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Objet</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Comparateur de profil</a>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<div class="champ-fiche-header">
+  <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Soraka.png" alt="Soraka" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Guide · Support</div>
+    <h1 class="champ-fiche-name">Guide Soraka</h1>
+    <div class="champ-fiche-ability-name">Enfant des étoiles</div>
+    <div class="champ-fiche-traits">
+      <div class="perf-badge">Support</div><div class="perf-badge">Mage</div>
+      <div class="perf-badge">Tier C Support</div>
+    </div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="Sommaire du guide">
+  <a href="#combos">Combos</a>
+  <a href="#build">Build</a>
+  <a href="#adverse">Objets selon l'ennemi</a>
+  <a href="#contres">Contres</a>
+  <a href="#capacites">Capacités</a>
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">Soraka, Enfant des étoiles, est un champion de classe support et mage plutôt simple à prendre en main. Dans nos 646 parties classées analysées, Soraka est joué principalement en Support (100 % de ses parties), avec 46.1 % de victoires à ce poste : tier C parmi les Support (n°32 sur 39, classés par winrate). Les dégâts de Soraka sont surtout magiques (80 %) : les objets de résistance magique sont donc efficaces face à ce champion. Le winrate varie avec la durée de la partie : 47.2 % de victoires dans les parties moyennes (25 à 35 min, 356 parties) contre 43.2 % dans les parties longues (plus de 35 min).</p>
+
+<div class="gd-stats">
+  <div class="gd-stat"><div class="p-label">KDA moyen</div><div class="p-value nums">1.0 / 5.7 / 15.3</div><div class="gd-stat-sub">ratio 2.8</div></div><div class="gd-stat"><div class="p-label">Dégâts / min</div><div class="p-value nums">203</div></div><div class="gd-stat"><div class="p-label">CS / min</div><div class="p-value nums">0.9</div></div><div class="gd-stat"><div class="p-label">Or / min</div><div class="p-value nums">290</div></div><div class="gd-stat"><div class="p-label">Participation aux kills</div><div class="p-value nums">57 %</div></div><div class="gd-stat"><div class="p-label">Vision / min</div><div class="p-value nums">2.52</div></div>
+</div>
+<p class="profile-section-note" style="display:block">Moyennes mesurées sur 646 parties Support jouées avec Soraka, issues de notre collecte (file classée Solo/Duo).</p>
+
+
+<h2 class="fiche-section-title" id="combos">Combos et façon de jouer</h2>
+<div class="gd-editorial-tag">Guide rédigé · d'après les textes officiels des capacités</div>
+<p class="page-intro" style="margin-top:0">Soraka est une soigneuse : Infusion astrale sacrifie une partie de ses PV pour soigner un allié, Souhait soigne toute l&#39;équipe à distance, et sa passive la fait courir plus vite vers les alliés affaiblis. Appel de l&#39;étoile ralentit et la soigne si elle touche un champion, Équinoxe réduit au silence puis immobilise ceux qui restent.</p>
+
+
+<div class="gd-combos">
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le harcèlement</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Appel de l&#39;étoile">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaQ.png" alt="Appel de l&#39;étoile" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Attaque de base">
+          <span class="gd-aa">AA</span>
+          <b>AA</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Appel de l&#39;étoile">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaQ.png" alt="Appel de l&#39;étoile" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi est à portée.</p>
+    <p class="gd-how">Appel de l&#39;étoile inflige des dégâts magiques, ralentit et te soigne si un champion est touché.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le contrôle</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Équinoxe">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaE.png" alt="Équinoxe" width="44" height="44" loading="lazy">
+          <b>E</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Appel de l&#39;étoile">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaQ.png" alt="Appel de l&#39;étoile" width="44" height="44" loading="lazy">
+          <b>Q</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Un ennemi plonge sur ton carry.</p>
+    <p class="gd-how">Équinoxe crée une zone qui réduit au silence tous les ennemis, puis immobilise ceux qui s&#39;y trouvent encore quand elle disparaît.</p>
+  </div>
+  
+  <div class="gd-combo">
+    <div class="gd-combo-name">Le sauvetage global</div>
+    <div class="gd-keys">
+      
+        
+        <span class="gd-key" title="Infusion astrale">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaW.png" alt="Infusion astrale" width="44" height="44" loading="lazy">
+          <b>W</b>
+        </span>
+      
+        <span class="gd-arrow" aria-hidden="true">›</span>
+        <span class="gd-key" title="Souhait">
+          <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaR.png" alt="Souhait" width="44" height="44" loading="lazy">
+          <b>R</b>
+        </span>
+      
+    </div>
+    <p class="gd-when"><b>Quand :</b> Ton équipe est à bas PV.</p>
+    <p class="gd-how">Infusion astrale soigne un allié en sacrifiant tes PV ; Souhait rend immédiatement des PV à tous les alliés et à toi.</p>
+  </div>
+  
+</div>
+<h3 class="gd-sub">Phase de lane</h3>
+<p class="page-intro" style="margin-top:0">Appel de l&#39;étoile te soigne quand il touche un champion : harcèle avec. Infusion astrale a un court délai mais te coûte des PV : surveille les tiens.</p>
+<h3 class="gd-sub">Erreurs fréquentes</h3>
+<ul class="gd-list"><li>Spammer Infusion astrale à bas PV.</li><li>Lancer l&#39;ultime trop tôt : il soigne au moment de l&#39;utilisation.</li><li>Placer Équinoxe sans que les ennemis y restent.</li></ul>
+
+
+
+<h3 class="gd-sub">Conseils officiels de Riot pour jouer Soraka</h3>
+<ul class="gd-list"><li>Soraka est une alliée puissante en combat, grâce à ses soins considérables qui soutiennent l&#39;équipe.</li><li>Utilisez Souhait pour sauver vos alliés d&#39;une mort imminente, où qu&#39;ils soient sur la carte.</li><li>Équinoxe peut être utilisé pour efficacement garder vos ennemis à distance.</li></ul>
+
+
+<h2 class="fiche-section-title" id="build">Build, runes et sorts d'invocateur</h2>
+<p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Rédemption, Régénérateur de pierre de lune et Cœur de l&#39;aube (60 parties, 61.7 % de victoires).</p>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3107/" title="Rédemption"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="36" height="36" loading="lazy"><span>Rédemption</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6617/" title="Régénérateur de pierre de lune"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Régénérateur de pierre de lune</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6621/" title="Cœur de l&#39;aube"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6621.png" alt="" width="36" height="36" loading="lazy"><span>Cœur de l&#39;aube</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>60</b> parties · <b class="good">61.7 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3107/" title="Rédemption"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="36" height="36" loading="lazy"><span>Rédemption</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3222/" title="Bénédiction de Mikael"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="36" height="36" loading="lazy"><span>Bénédiction de Mikael</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6617/" title="Régénérateur de pierre de lune"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Régénérateur de pierre de lune</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>21</b> parties · <b class="warn">42.9 %</b></div>
+</div>
+
+<div class="gd-build">
+  <div class="gd-build-items">
+    <a class="gd-item" href="../../../league/glossaire/objets/3107/" title="Rédemption"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="36" height="36" loading="lazy"><span>Rédemption</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/3190/" title="Médaillon de l&#39;Iron Solari"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="" width="36" height="36" loading="lazy"><span>Médaillon de l&#39;Iron Solari</span></a><span class="gd-arrow" aria-hidden="true">+</span><a class="gd-item" href="../../../league/glossaire/objets/6617/" title="Régénérateur de pierre de lune"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="36" height="36" loading="lazy"><span>Régénérateur de pierre de lune</span></a>
+  </div>
+  <div class="gd-build-meta nums"><b>19</b> parties · <b class="warn">47.4 %</b></div>
+</div>
+
+
+
+<h3 class="gd-sub">Sorts d'invocateur</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerHeal.png" alt="Soins" title="Soins" width="28" height="28" loading="lazy">
+    <span>Saut éclair + Soins</span><span class="nums">46.8 % · 569 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerExhaust.png" alt="Fatigue" title="Fatigue" width="28" height="28" loading="lazy"><img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SummonerFlash.png" alt="Saut éclair" title="Saut éclair" width="28" height="28" loading="lazy">
+    <span>Fatigue + Saut éclair</span><span class="nums">44.4 % · 63 parties</span>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Runes les plus jouées</h3>
+<div class="gd-row">
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Sorcery/SummonAery/SummonAery.png" alt="Invocation d&#39;Aery" loading="lazy">
+    <span>Invocation d&#39;Aery + Volonté</span><span class="nums">46.8 % · 314 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Guardian/Guardian.png" alt="Gardien" loading="lazy">
+    <span>Gardien + Inspiration</span><span class="nums">54.5 % · 33 parties</span>
+  </div>
+  
+  <div class="gd-chipline">
+    <img class="gd-spell" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Resolve/Guardian/Guardian.png" alt="Gardien" loading="lazy">
+    <span>Gardien + Sorcellerie</span><span class="nums">37.0 % · 27 parties</span>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="adverse">Quels objets prendre selon l'équipe adverse ?</h2>
+<p class="page-intro" style="margin-top:0">Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de Soraka et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.</p>
+<div class="gd-vs">
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout magique</b><span class="nums">47.7 % · 197 parties</span></div>
+    <div class="gd-vs-rule">Au moins 50 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Régénérateur de pierre de lune</span></a>
+        <span class="nums ">48.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Rédemption</span></a>
+        <span class="nums ">48.8 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6621/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6621.png" alt="" width="28" height="28" loading="lazy"><span>Cœur de l&#39;aube</span></a>
+        <span class="nums ">57.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Bénédiction de Mikael</span></a>
+        <span class="nums good">46.4 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3504/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3504.png" alt="" width="28" height="28" loading="lazy"><span>Encensoir ardent</span></a>
+        <span class="nums ">47.1 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3190/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="" width="28" height="28" loading="lazy"><span>Médaillon de l&#39;Iron Solari</span></a>
+        <span class="nums ">53.3 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Bénédiction de Mikael : 46.4 % de victoires, soit +10 points par rapport à son winrate habituel.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse surtout physique</b><span class="nums">44.1 % · 179 parties</span></div>
+    <div class="gd-vs-rule">Moins de 35 % de leurs dégâts sont magiques</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Régénérateur de pierre de lune</span></a>
+        <span class="nums ">45.9 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Rédemption</span></a>
+        <span class="nums warn">45.2 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6621/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6621.png" alt="" width="28" height="28" loading="lazy"><span>Cœur de l&#39;aube</span></a>
+        <span class="nums warn">52.6 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Bénédiction de Mikael</span></a>
+        <span class="nums warn">28.0 % ▼</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3504/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3504.png" alt="" width="28" height="28" loading="lazy"><span>Encensoir ardent</span></a>
+        <span class="nums ">50.0 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3190/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="" width="28" height="28" loading="lazy"><span>Médaillon de l&#39;Iron Solari</span></a>
+        <span class="nums ">36.4 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">Aucun objet ne se démarque nettement dans cette situation : le build habituel reste la référence.</p>
+  </div>
+  
+  <div class="gd-vs-card">
+    <div class="gd-vs-head"><b>Équipe adverse équilibrée</b><span class="nums">46.3 % · 270 parties</span></div>
+    <div class="gd-vs-rule">Dégâts physiques et magiques mélangés</div>
+    <div class="gd-vs-items">
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6617/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6617.png" alt="" width="28" height="28" loading="lazy"><span>Régénérateur de pierre de lune</span></a>
+        <span class="nums ">47.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3107/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3107.png" alt="" width="28" height="28" loading="lazy"><span>Rédemption</span></a>
+        <span class="nums good">52.9 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/6621/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/6621.png" alt="" width="28" height="28" loading="lazy"><span>Cœur de l&#39;aube</span></a>
+        <span class="nums ">59.7 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3222/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3222.png" alt="" width="28" height="28" loading="lazy"><span>Bénédiction de Mikael</span></a>
+        <span class="nums ">34.4 %</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3504/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3504.png" alt="" width="28" height="28" loading="lazy"><span>Encensoir ardent</span></a>
+        <span class="nums good">55.2 % ▲</span></div>
+      
+      <div class="gd-vs-item"><a href="../../../league/glossaire/objets/3190/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/item/3190.png" alt="" width="28" height="28" loading="lazy"><span>Médaillon de l&#39;Iron Solari</span></a>
+        <span class="nums ">53.3 %</span></div>
+      
+    </div>
+    <p class="gd-vs-note">L&#39;objet qui se démarque le plus est Encensoir ardent : 55.2 % de victoires, soit +4 points par rapport à son winrate habituel.</p>
+  </div>
+  
+</div>
+
+
+
+<h2 class="fiche-section-title" id="contres">Contres et matchups</h2>
+
+<h3 class="gd-sub">Qui contre Soraka en Support</h3>
+<div class="gd-matchups">
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/nami/" title="Guide Nami">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nami.png" alt="" width="36" height="36" loading="lazy"><b>Nami</b>
+      <span class="nums warn">Soraka : 27.8 %</span><span class="nums gd-dim">18 parties</span>
+    </a>
+    <p class="gd-vs-note">Nami prend l&#39;avantage dans 72 % des 18 duels Support contre Soraka. <a href="../../../league/guide/nami/">Voir le guide de Nami</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/thresh/" title="Guide Thresh">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Thresh.png" alt="" width="36" height="36" loading="lazy"><b>Thresh</b>
+      <span class="nums warn">Soraka : 34.8 %</span><span class="nums gd-dim">23 parties</span>
+    </a>
+    <p class="gd-vs-note">Thresh prend l&#39;avantage dans 65 % des 23 duels Support contre Soraka. <a href="../../../league/guide/thresh/">Voir le guide de Thresh</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/lulu/" title="Guide Lulu">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lulu.png" alt="" width="36" height="36" loading="lazy"><b>Lulu</b>
+      <span class="nums warn">Soraka : 35.5 %</span><span class="nums gd-dim">31 parties</span>
+    </a>
+    <p class="gd-vs-note">Lulu prend l&#39;avantage dans 65 % des 31 duels Support contre Soraka. <a href="../../../league/guide/lulu/">Voir le guide de Lulu</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/leona/" title="Guide Leona">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Leona.png" alt="" width="36" height="36" loading="lazy"><b>Leona</b>
+      <span class="nums warn">Soraka : 43.8 %</span><span class="nums gd-dim">16 parties</span>
+    </a>
+    <p class="gd-vs-note">Leona prend l&#39;avantage dans 56 % des 16 duels Support contre Soraka. <a href="../../../league/guide/leona/">Voir le guide de Leona</a>.</p>
+  </div>
+  
+  <div class="gd-matchup">
+    <a class="gd-matchup-head" href="../../../league/guide/pyke/" title="Guide Pyke">
+      <img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Pyke.png" alt="" width="36" height="36" loading="lazy"><b>Pyke</b>
+      <span class="nums warn">Soraka : 47.1 %</span><span class="nums gd-dim">17 parties</span>
+    </a>
+    <p class="gd-vs-note">Pyke prend l&#39;avantage dans 53 % des 17 duels Support contre Soraka. <a href="../../../league/guide/pyke/">Voir le guide de Pyke</a>.</p>
+  </div>
+  
+</div>
+
+
+<h3 class="gd-sub">Contre qui Soraka est fort</h3>
+<div class="gd-row">
+  <div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Nautilus.png" alt="" width="28" height="28" loading="lazy"><b>Nautilus</b><span class="nums good">54.5 % · 22 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Milio.png" alt="" width="28" height="28" loading="lazy"><b>Milio</b><span class="nums good">54.5 % · 22 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Blitzcrank.png" alt="" width="28" height="28" loading="lazy"><b>Blitzcrank</b><span class="nums good">52.4 % · 21 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Seraphine.png" alt="" width="28" height="28" loading="lazy"><b>Séraphine</b><span class="nums good">50.0 % · 22 parties</span></div><div class="gd-chipline"><img class="gd-spell round" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Pyke.png" alt="" width="28" height="28" loading="lazy"><b>Pyke</b><span class="nums good">47.1 % · 17 parties</span></div>
+</div>
+
+
+<h3 class="gd-sub">Comment jouer contre Soraka</h3>
+<ul class="gd-list"><li>Attaquez Soraka si elle vient sur la ligne de front pour soigner ses alliés.</li><li>Profitez du long délai de récupération d&#39;Équinoxe si Soraka s&#39;en sert pour vous harceler.</li><li>Il est plus utile de concentrer vos attaques sur Soraka que sur l&#39;allié qu&#39;elle soigne.</li></ul>
+<div class="gd-dim gd-src">Conseils officiels de Riot.</div>
+
+<p class="profile-section-note" style="display:block">Winrates mesurés sur des duels directs de même poste ; seuls les affrontements de plus de 15 parties sont listés. <a href="../../../league/glossaire/champions/soraka/contres/">Voir tous les matchups de Soraka</a>.</p>
+
+
+<h2 class="fiche-section-title" id="capacites">Capacités</h2>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/passive/Soraka_Passive.png" alt="Salut" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Passif</span>Salut</div><div class="lol-ability-desc">Soraka court plus vite en direction des alliés affaiblis à proximité.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaQ.png" alt="Appel de l&#39;étoile" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">Q</span>Appel de l&#39;étoile</div><div class="lol-ability-desc">Une étoile s'abat à l'endroit ciblé, infligeant des dégâts magiques et ralentissant les ennemis. Si un champion ennemi est touché par Appel de l'étoile, Soraka récupère des PV.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaW.png" alt="Infusion astrale" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">W</span>Infusion astrale</div><div class="lol-ability-desc">Soraka sacrifie une partie de ses PV pour soigner un autre champion allié.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaE.png" alt="Équinoxe" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">E</span>Équinoxe</div><div class="lol-ability-desc">Crée une zone qui réduit au silence tous les ennemis s'y trouvant. Quand la zone disparaît, tous les ennemis qui s'y trouvent encore sont immobilisés.</div></div>
+  </div>
+  
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/spell/SorakaR.png" alt="Souhait" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">R</span>Souhait</div><div class="lol-ability-desc">Soraka remplit ses alliés d'espoir, ce qui rend immédiatement des PV à tous les champions alliés et à elle-même.</div></div>
+  </div>
+  
+</div>
+
+
+<h2 class="fiche-section-title" id="faq">Questions fréquentes</h2>
+<div class="faq-block"><h3 class="gd-sub">Quel est le meilleur build pour Soraka ?</h3><p class="page-intro" style="margin-top:0">Le build de base le plus joué réunit Rédemption, Régénérateur de pierre de lune et Cœur de l&#39;aube (60 parties, 61.7 % de victoires).</p></div><div class="faq-block"><h3 class="gd-sub">Qui contre Soraka ?</h3><p class="page-intro" style="margin-top:0">Les matchups les plus difficiles de Soraka en Support sont Nami (27.8 % de victoires sur 18 parties), Thresh (34.8 % de victoires sur 23 parties) et Lulu (35.5 % de victoires sur 31 parties).</p></div><div class="faq-block"><h3 class="gd-sub">Quels sont les meilleurs matchups de Soraka ?</h3><p class="page-intro" style="margin-top:0">Soraka affiche ses meilleurs winrates contre Nautilus (54.5 %), Milio (54.5 %) et Blitzcrank (52.4 %).</p></div><div class="faq-block"><h3 class="gd-sub">Quelle durée de partie convient le mieux à Soraka ?</h3><p class="page-intro" style="margin-top:0">Le winrate varie avec la durée de la partie : 47.2 % de victoires dans les parties moyennes (25 à 35 min, 356 parties) contre 43.2 % dans les parties longues (plus de 35 min).</p></div><div class="faq-block"><h3 class="gd-sub">Quelles runes jouer avec Soraka ?</h3><p class="page-intro" style="margin-top:0">La page de runes la plus jouée utilise Invocation d&#39;Aery avec l&#39;arbre secondaire Volonté (314 parties, 46.8 % de victoires).</p></div>
+
+
+<p class="profile-section-note" style="display:block;margin-top:28px"><a href="../../../league/glossaire/champions/soraka/">Fiche complète de Soraka</a> · <a href="../../../league/tier-list/">Tier list League of Legends</a> · <a href="../../../league/guide/">Tous les guides de champions</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/site-search.js?v=9dffd3fdd4" defer></script>
+<script src="../../../assets/js/favorites.js?v=9dffd3fdd4" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
