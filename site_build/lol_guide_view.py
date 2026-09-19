@@ -12,6 +12,12 @@ what this module hands it (g.ui for labels, g.* for prose).
 from __future__ import annotations
 
 ROLE_LABEL = {"top": "Top", "jungle": "Jungle", "mid": "Mid", "adc": "ADC", "support": "Support"}
+SHARD_NAMES = {   # stat shards are not in Data Dragon's runesReforged: (fr, en)
+    5001: ("Vie évolutive", "Health scaling"), 5005: ("Vitesse d'attaque", "Attack speed"),
+    5007: ("Accélération de compétence", "Ability haste"), 5008: ("Force adaptative", "Adaptive force"),
+    5010: ("Vitesse de déplacement", "Movement speed"), 5011: ("Vie", "Health"),
+    5013: ("Ténacité et résistance aux ralentissements", "Tenacity and slow resist"),
+}
 MIN_MATCHUP_GAMES = 15
 MIN_LIFT_GAMES = 25
 NOTABLE_LIFT = 0.03
@@ -46,6 +52,8 @@ STR = {
             "all_matchups": "Voir tous les matchups de {name}", "abilities": "Capacités", "passive": "Passif", "faq_title": "Questions fréquentes",
             "full_sheet": "Fiche complète de {name}", "tier_list": "Tier list League of Legends", "all_guides": "Tous les guides de champions",
             "guide_title_attr": "Guide {name}",
+            "runes_primary": "Arbre principal", "runes_secondary": "Arbre secondaire", "runes_shards": "Fragments",
+            "runes_note": "Pour chaque rangée, la rune la plus choisie parmi les parties jouées avec cette page (part des parties entre parenthèses).",
         },
         "seo_title": ("{name} {role} : {kw} | BrokenMeta.gg", "{name} : {kw} | BrokenMeta.gg", "{name} : combos et build | BrokenMeta.gg", "{name} | BrokenMeta.gg"),
         "seo_title_prefix": "Guide ",
@@ -83,6 +91,8 @@ STR = {
             "all_matchups": "See all of {name}'s matchups", "abilities": "Abilities", "passive": "Passive", "faq_title": "Frequently asked questions",
             "full_sheet": "Full {name} page", "tier_list": "League of Legends tier list", "all_guides": "All champion guides",
             "guide_title_attr": "{name} guide",
+            "runes_primary": "Primary tree", "runes_secondary": "Secondary tree", "runes_shards": "Shards",
+            "runes_note": "For each row, the most picked rune among the games played with this page (share of games in brackets).",
         },
         "seo_title": ("{name} {role} Guide: {kw} | BrokenMeta.gg", "{name} Guide: {kw} | BrokenMeta.gg", "{name} Guide: combos and build | BrokenMeta.gg", "{name} Guide | BrokenMeta.gg"),
         "seo_title_prefix": "",
@@ -119,7 +129,8 @@ def resolve_item(item_id: int, lookup: dict, lang: str) -> dict | None:
 
 def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial: dict | None, items_lookup: dict,
                      spells_by_key: dict, champ_by_slug: dict, tier_info: dict | None,
-                     matchups_for_role: list[dict], rune_pages: list[dict]) -> dict | None:
+                     matchups_for_role: list[dict], rune_pages: list[dict],
+                     rune_by_id: dict | None = None, tree_by_id: dict | None = None) -> dict | None:
     """d: lol_champion_detail_view(...) output in `lang`. guide: this champion's entry of lol_champion_guide.json.
     tier_info: {"tier", "rank", "of"} or None. matchups_for_role: enemies of the main role (already localized)."""
     S = STR[lang]
@@ -283,6 +294,31 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
     ally_tips = champ.get(f"allytips_{lang}", [])
     has_contres = bool(hardest or easiest or enemy_tips)
 
+    # ---- full rune pages (measured from the cached matches; see lol_guide.py)
+    name_key = "name_fr" if fr else "name_en"
+    rune_builds = []
+    for rp in (main.get("runes") or []) if rune_by_id and tree_by_id else []:
+        ks, pt, st = rune_by_id.get(rp["keystone"]), tree_by_id.get(rp["primary_tree"]), tree_by_id.get(rp["secondary_tree"])
+        if not (ks and pt and st):
+            continue
+
+        def rune_ref(entry):
+            r = rune_by_id.get(entry["id"])
+            return {"name": r[name_key], "icon": r["icon_file"], "share": entry["share"]} if r else None
+
+        rows = [rune_ref(e) for e in rp["primary_rows"]]
+        sec = [rune_ref(e) for e in rp["secondary"]]
+        if not all(rows) or len(sec) < 2 or not all(sec):
+            continue
+        shards = [{"name": SHARD_NAMES[e["id"]][0 if fr else 1], "share": e["share"]} for e in rp["shards"] if e and e["id"] in SHARD_NAMES]
+        rune_builds.append({
+            "keystone": {"name": ks[name_key], "icon": ks["icon_file"]}, "primary_tree": {"name": pt[name_key], "icon": pt["icon_file"]},
+            "secondary_tree": {"name": st[name_key], "icon": st["icon_file"]}, "rows": rows, "secondary": sec, "shards": shards,
+            "games": rp["games"], "win_rate": rp["win_rate"], "keystone_name": ks[name_key], "tree_name": st[name_key],
+        })
+    if rune_builds:
+        rune_pages = rune_builds
+
     # ---- FAQ, only from data we have
     faq = []
     if fr:
@@ -362,7 +398,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         "editorial": ed, "ally_tips": ally_tips, "enemy_tips": enemy_tips,
         "passive": d["passive"], "spells": d["spells"],
         "core_builds": core_builds, "boots": boots, "summoner_spells": spells, "builds_text": builds_text,
-        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3],
+        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3], "rune_builds": rune_builds,
         "vs_enemy": vs_enemy, "hardest": hardest, "easiest": easiest,
         "faq": faq, "has_contres": has_contres,
     }

@@ -1631,3 +1631,15 @@
 
   .gd-sw { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 28px; margin: 6px 0 4px; }
   @media (max-width: 640px) { .gd-sw { grid-template-columns: 1fr; } }
+
+  .gd-runes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 12px; }
+  .gd-rune-card { background: var(--bg-2); border: 1px solid var(--border); padding: 14px 16px; }
+  .gd-rune-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .gd-rune-head img { border-radius: 50%; }
+  .gd-rune-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .gd-rune-title { font: 700 10.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 6px; }
+  .gd-rune-row { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 3px 0; }
+  .gd-rune-row span:nth-of-type(1) { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .gd-rune-row img { flex: none; }
+  .gd-rune-shard { padding-left: 4px; }
+  @media (max-width: 640px) { .gd-rune-cols { grid-template-columns: 1fr; } }

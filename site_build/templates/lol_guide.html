@@ -104,7 +104,30 @@
   {% endfor %}
 </div>
 {% endif %}
-{% if g.rune_pages %}
+{% if g.rune_builds %}
+<h3 class="gd-sub">{{ ui.runes }}</h3>
+<div class="gd-runes">
+  {% for rb in g.rune_builds %}
+  <div class="gd-rune-card">
+    <div class="gd-rune-head">
+      <img src="https://ddragon.leagueoflegends.com/cdn/img/{{ rb.keystone.icon }}" alt="{{ rb.keystone.name }}" width="40" height="40" loading="lazy">
+      <div><b>{{ rb.keystone.name }}</b> + {{ rb.secondary_tree.name }}<div class="gd-dim nums">{{ pct(rb.win_rate) }} · {{ rb.games }} {{ ui.games }}</div></div>
+    </div>
+    <div class="gd-rune-cols">
+      <div><div class="gd-rune-title">{{ ui.runes_primary }} · {{ rb.primary_tree.name }}</div>
+        {% for r in rb.rows %}<div class="gd-rune-row"><img src="https://ddragon.leagueoflegends.com/cdn/img/{{ r.icon }}" alt="" width="28" height="28" loading="lazy"><span>{{ r.name }}</span><span class="nums gd-dim">{{ (r.share * 100)|round|int }}{{ ' %' if lang == 'fr' else '%' }}</span></div>{% endfor %}
+      </div>
+      <div><div class="gd-rune-title">{{ ui.runes_secondary }} · {{ rb.secondary_tree.name }}</div>
+        {% for r in rb.secondary %}<div class="gd-rune-row"><img src="https://ddragon.leagueoflegends.com/cdn/img/{{ r.icon }}" alt="" width="28" height="28" loading="lazy"><span>{{ r.name }}</span><span class="nums gd-dim">{{ (r.share * 100)|round|int }}{{ ' %' if lang == 'fr' else '%' }}</span></div>{% endfor %}
+        <div class="gd-rune-title" style="margin-top:8px">{{ ui.runes_shards }}</div>
+        {% for sh in rb.shards %}<div class="gd-rune-row gd-rune-shard"><span>{{ sh.name }}</span><span class="nums gd-dim">{{ (sh.share * 100)|round|int }}{{ ' %' if lang == 'fr' else '%' }}</span></div>{% endfor %}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<p class="profile-section-note" style="display:block">{{ ui.runes_note }}</p>
+{% elif g.rune_pages %}
 <h3 class="gd-sub">{{ ui.runes }}</h3>
 <div class="gd-row">
   {% for r in g.rune_pages %}

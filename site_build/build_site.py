@@ -7048,7 +7048,7 @@ def main() -> None:
             _gv = build_guide_view(lang=lang, d=_gd, champ=c, guide=_gguide, editorial=(LOL_GUIDE_EDITORIAL.get(c["id"]) or {}).get(lang),
                                    items_lookup=lol_items_lookup, spells_by_key=lol_spells_by_key[lang], champ_by_slug=lol_champ_by_slug,
                                    tier_info=_tier_lookup.get((c["slug"], _grole)), matchups_for_role=_gmatch,
-                                   rune_pages=_gd["rune_pages"])
+                                   rune_pages=_gd["rune_pages"], rune_by_id=lol_rune_by_id, tree_by_id=lol_tree_by_id)
             if not _gv:
                 continue
             lol_guide_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
