@@ -90,7 +90,7 @@ def main():
     patch = load_latest_patch()
     embed = build_embed(patch)
 
-    resp = requests.post(f"{WORKER_URL}/broadcast", json={"secret": secret, "embed": embed}, timeout=30)
+    resp = requests.post(f"{WORKER_URL}/broadcast", json={"secret": secret, "embed": embed, "game": "lol"}, timeout=30)
     resp.raise_for_status()
     result = resp.json()
     print(f"Sent patch {patch['version']} to {result['sent']} subscriber(s), {result['failed']} failed, {result['removed']} removed (dead webhook).")

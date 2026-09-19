@@ -1023,6 +1023,9 @@ DISCORD_NOTIFY_JS = """
     e.preventDefault();
     var action = (e.submitter && e.submitter.dataset.action) || 'subscribe';
     var webhookUrl = input.value.trim();
+    var games = [];
+    form.querySelectorAll('input[name="game"]').forEach(function (c) { if (c.checked) games.push(c.value); });
+    if (action === 'subscribe' && !games.length) { setStatus(I.errorNoGame, true); return; }
     var buttons = form.querySelectorAll('button');
     buttons.forEach(function (b) { b.disabled = true; });
     setStatus('', false);
@@ -1030,7 +1033,7 @@ DISCORD_NOTIFY_JS = """
     fetch(API + '/' + action, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ webhookUrl: webhookUrl }),
+      body: JSON.stringify(action === 'subscribe' ? { webhookUrl: webhookUrl, games: games } : { webhookUrl: webhookUrl }),
     })
       .then(function (res) { return res.json().then(function (data) { return { ok: res.ok, data: data }; }); })
       .then(function (r) {
@@ -3521,7 +3524,11 @@ I18N: dict[str, dict] = {
         "nav_lol_compare": "Comparateur de profil",
         "nav_discord": "Alertes Discord",
         "discord_page_title": "Recevoir les mises à jour sur Discord",
-        "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochains digests BrokenMeta (nouveaux patchs, plus gros riser/faller de la semaine, top comps) -- dès qu'un nouveau digest est publié, il arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
+        "discord_intro": "Branche ton propre serveur Discord pour recevoir automatiquement les prochaines alertes BrokenMeta pour Teamfight Tactics et League of Legends (nouveaux patchs, plus grosses hausses et chutes, changements de tier, top comps) -- dès qu'une alerte est publiée, elle arrive directement chez toi. Aucun compte, aucun bot à inviter : juste un webhook.",
+        "discord_games_label": "Quelles alertes veux-tu recevoir ?",
+        "discord_game_tft": "Teamfight Tactics (top comps, tendances, patchs)",
+        "discord_game_lol": "League of Legends (hausses et chutes de champions, changements de tier, patchs)",
+        "discord_error_no_game": "Choisis au moins un jeu.",
         "discord_how_title": "Comment créer un webhook Discord",
         "discord_how_step1": "Dans Discord, va dans les paramètres du salon où tu veux recevoir les mises à jour.",
         "discord_how_step2": "Intégrations → Webhooks → Nouveau webhook.",
@@ -3533,7 +3540,8 @@ I18N: dict[str, dict] = {
         "discord_success_unsubscribed": "Désabonné. Tu ne recevras plus les digests sur ce webhook.",
         "discord_error_invalid": "Cette URL ne ressemble pas à un webhook Discord valide.",
         "discord_error_generic": "Une erreur est survenue -- vérifie l'URL et réessaie.",
-        "discord_privacy_note": "On stocke uniquement l'URL de ton webhook, rien d'autre (pas d'IP, pas de cookie, pas de compte). Tu peux te désabonner à tout moment en recollant la même URL.",
+        "discord_privacy_note": "On stocke uniquement l'URL de ton webhook et les jeux que tu as cochés, rien d'autre (pas d'IP, pas de cookie, pas de compte). Pour changer ton choix, recolle la même URL et abonne-toi à nouveau ; pour te désabonner, recolle-la et clique sur « Se désabonner ».",
+        "discord_see_alerts": "Recevoir ces alertes sur Discord →",
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Compose librement ta comp TFT Set 18 sur un vrai plateau hexagonal : place tes champions, suis tes synergies de familles en direct, et partage le résultat par lien.",
         "builder_h1": "Team Builder",
@@ -3897,7 +3905,11 @@ I18N: dict[str, dict] = {
         "nav_lol_compare": "Compare",
         "nav_discord": "Discord Alerts",
         "discord_page_title": "Get updates on Discord",
-        "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next digests (new patches, this week's biggest riser/faller, top comps) -- as soon as a new digest is published, it lands right in your server. No account, no bot to invite: just a webhook.",
+        "discord_intro": "Hook up your own Discord server to automatically get BrokenMeta's next alerts for Teamfight Tactics and League of Legends (new patches, biggest risers and fallers, tier changes, top comps) -- as soon as an alert is published, it lands right in your server. No account, no bot to invite: just a webhook.",
+        "discord_games_label": "Which alerts do you want?",
+        "discord_game_tft": "Teamfight Tactics (top comps, trends, patches)",
+        "discord_game_lol": "League of Legends (champion risers and fallers, tier changes, patches)",
+        "discord_error_no_game": "Pick at least one game.",
         "discord_how_title": "How to create a Discord webhook",
         "discord_how_step1": "In Discord, go to the settings of the channel where you want updates.",
         "discord_how_step2": "Integrations → Webhooks → New Webhook.",
@@ -3909,7 +3921,8 @@ I18N: dict[str, dict] = {
         "discord_success_unsubscribed": "Unsubscribed. You won't get digests on this webhook anymore.",
         "discord_error_invalid": "That doesn't look like a valid Discord webhook URL.",
         "discord_error_generic": "Something went wrong -- check the URL and try again.",
-        "discord_privacy_note": "We only store your webhook URL, nothing else (no IP, no cookie, no account). Unsubscribe anytime by pasting the same URL again.",
+        "discord_privacy_note": "We only store your webhook URL and the games you ticked, nothing else (no IP, no cookie, no account). To change your choice, paste the same URL and subscribe again; to leave, paste it and click \"Unsubscribe\".",
+        "discord_see_alerts": "Get these alerts on Discord →",
         "builder_title": "Team Builder — Teamfight Tactics Set 18",
         "builder_desc": "Freely build your TFT Set 18 comp on a real hex board: place champions, track trait synergies live, and share the result with a link.",
         "builder_h1": "Team Builder",
@@ -6834,6 +6847,19 @@ def main() -> None:
         demotions = sorted((c for c in changes if TIER_SORT[c["latest_tier"]] > TIER_SORT[c["prev_tier"]]),
                             key=lambda c: (-c["jump"], c["name"]))
         return promotions, demotions
+
+    # Read by social_content/publish_discord_lol_digest.py (the League Discord
+    # alert): same movers/tier changes the /league/tendances/ and
+    # /league/changements/ pages show, French names, written once per build.
+    _dg_risers, _dg_fallers = build_lol_trend_rows("fr")
+    _dg_up, _dg_down = build_lol_tier_changelog("fr")
+    (OUT / "lol_trends_digest.json").write_text(json.dumps({
+        "prev_date": lol_prev_snap_date, "latest_date": lol_latest_snap_date,
+        "risers": [{k: r[k] for k in ("name", "role_label", "prev_win_rate", "latest_win_rate", "delta")} for r in _dg_risers],
+        "fallers": [{k: r[k] for k in ("name", "role_label", "prev_win_rate", "latest_win_rate", "delta")} for r in _dg_fallers],
+        "promotions": [{k: r[k] for k in ("name", "role_label", "prev_tier", "latest_tier", "jump")} for r in _dg_up],
+        "demotions": [{k: r[k] for k in ("name", "role_label", "prev_tier", "latest_tier", "jump")} for r in _dg_down],
+    }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     _unmatched_patch_names = sorted({c["name_en"] for p in PATCHES_LOL["en"] for c in p["changes"]
                                       if c["name_en"].lower() not in lol_patch_icon_lookup and c["kind"] != "system"})

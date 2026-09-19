@@ -13,6 +13,11 @@
 </ol>
 
 <form id="discordForm" class="discord-form">
+  <fieldset class="discord-games">
+    <legend>{{ t(lang, 'discord_games_label') }}</legend>
+    <label><input type="checkbox" name="game" value="tft" checked> {{ t(lang, 'discord_game_tft') }}</label>
+    <label><input type="checkbox" name="game" value="lol" checked> {{ t(lang, 'discord_game_lol') }}</label>
+  </fieldset>
   <input type="url" id="discordWebhookUrl" class="search-input" placeholder="{{ t(lang, 'discord_form_placeholder') }}" autocomplete="off" required>
   <div class="discord-form-actions">
     <button type="submit" data-action="subscribe" class="metascope-search-button">{{ t(lang, 'discord_subscribe_button') }}</button>
@@ -30,6 +35,7 @@ window.BM_I18N_DISCORD = {
   errorGeneric: {{ t(lang, 'discord_error_generic')|tojson }},
   successSubscribed: {{ t(lang, 'discord_success_subscribed')|tojson }},
   successUnsubscribed: {{ t(lang, 'discord_success_unsubscribed')|tojson }},
+  errorNoGame: {{ t(lang, 'discord_error_no_game')|tojson }},
 };
 </script>
 <script src="{{ root }}assets/js/discord-notify.js?v={{ css_v }}" defer></script>

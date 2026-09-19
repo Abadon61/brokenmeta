@@ -4,12 +4,18 @@
 // public subscriber list anyone can join or leave.
 //
 // Three endpoints:
-//   POST /subscribe   { webhookUrl } -- validated, sent a welcome ping,
-//                       then stored (browser-facing, needs CORS)
+//   POST /subscribe   { webhookUrl, games? } -- validated, sent a welcome ping,
+//                       then stored with the games the subscriber picked
+//                       (["tft"], ["lol"] or both; default both) in the KV
+//                       key's metadata, so /broadcast can filter without an
+//                       extra read per subscriber (browser-facing, needs CORS)
 //   POST /unsubscribe { webhookUrl } -- removed from the list
 //                       (browser-facing, needs CORS)
-//   POST /broadcast    { secret, embed } -- fans the embed out to every
-//                       stored webhook; owner-only (BROADCAST_SECRET),
+//   POST /broadcast    { secret, embed, game? } -- fans the embed out to every
+//                       stored webhook that follows `game` ("tft" | "lol";
+//                       no `game` = everyone; subscribers stored before games
+//                       existed have no metadata and count as following both);
+//                       owner-only (BROADCAST_SECRET),
 //                       called from the site owner's own publish script,
 //                       never from the browser
 //
@@ -21,6 +27,23 @@ export interface Env {
   BROADCAST_SECRET: string;
   CORS_ORIGIN: string;
   WEBHOOKS: KVNamespace;
+}
+
+const GAMES = ["tft", "lol"] as const;
+type Game = (typeof GAMES)[number];
+const GAME_LABEL: Record<Game, string> = { tft: "Teamfight Tactics", lol: "League of Legends" };
+
+// undefined -> both games (the default, and what every pre-existing caller sent);
+// otherwise a non-empty subset of GAMES, deduplicated. null -> invalid.
+function parseGames(raw: unknown): Game[] | null {
+  if (raw === undefined || raw === null) return [...GAMES];
+  if (!Array.isArray(raw) || raw.length === 0) return null;
+  const out: Game[] = [];
+  for (const g of raw) {
+    if (!(GAMES as readonly string[]).includes(g as string)) return null;
+    if (!out.includes(g as Game)) out.push(g as Game);
+  }
+  return out;
 }
 
 const DISCORD_WEBHOOK_RE = /^https:\/\/(discord|discordapp)\.com\/api\/webhooks\/\d+\/[\w-]+$/;
@@ -80,19 +103,24 @@ async function handleSubscribe(request: Request, env: Env, origin: string): Prom
     return json({ error: "URL de webhook Discord invalide." }, 400, origin);
   }
 
+  const games = parseGames(body.games);
+  if (!games) return json({ error: "Choisis au moins un jeu (tft, lol)." }, 400, origin);
+
   // A real ping doubles as validation: a webhook Discord already deleted,
   // or one missing send permission, fails here instead of silently
   // collecting dead subscribers that /broadcast would fail on forever.
   const ping = await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ content: "🎉 Abonné aux mises à jour BrokenMeta.gg ! Tu recevras ici les prochains digests (tendances, patch notes, top comps)." }),
+    body: JSON.stringify({ content: `🎉 Abonné aux mises à jour BrokenMeta.gg (${games.map((g) => GAME_LABEL[g]).join(" + ")}) ! Tu recevras ici les prochaines alertes : tendances, changements de tier et patch notes.` }),
   });
   if (!ping.ok) {
     return json({ error: "Ce webhook n'a pas répondu correctement -- vérifie l'URL." }, 400, origin);
   }
 
-  await env.WEBHOOKS.put(webhookUrl, new Date().toISOString());
+  // Re-subscribing with the same URL overwrites the choice, which is how a
+  // subscriber changes which games they follow.
+  await env.WEBHOOKS.put(webhookUrl, new Date().toISOString(), { metadata: { games } });
   return json({ ok: true }, 200, origin);
 }
 
@@ -127,13 +155,20 @@ async function handleBroadcast(request: Request, env: Env, origin: string): Prom
   if (!embed || typeof embed !== "object") {
     return json({ error: "Il manque 'embed'." }, 400, origin);
   }
+  let game: Game | null = null;
+  if (body.game !== undefined && body.game !== null) {
+    if (!(GAMES as readonly string[]).includes(body.game)) return json({ error: "'game' doit valoir tft ou lol." }, 400, origin);
+    game = body.game as Game;
+  }
 
-  let sent = 0, removed = 0, failed = 0;
+  let sent = 0, removed = 0, failed = 0, skipped = 0;
   let cursor: string | undefined;
   do {
     const page = await env.WEBHOOKS.list({ cursor, limit: 1000 });
-    for (const { name: webhookUrl } of page.keys) {
+    for (const { name: webhookUrl, metadata } of page.keys) {
       if (webhookUrl.startsWith("throttle:")) continue;
+      const follows: string[] = Array.isArray((metadata as any)?.games) ? (metadata as any).games : [...GAMES];
+      if (game && !follows.includes(game)) { skipped++; continue; }
       try {
         const res = await fetch(webhookUrl, {
           method: "POST",
@@ -155,7 +190,7 @@ async function handleBroadcast(request: Request, env: Env, origin: string): Prom
     cursor = page.list_complete ? undefined : page.cursor;
   } while (cursor);
 
-  return json({ sent, removed, failed }, 200, origin);
+  return json({ sent, removed, failed, skipped }, 200, origin);
 }
 
 export default {

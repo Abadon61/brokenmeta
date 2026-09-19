@@ -88,7 +88,7 @@ def main():
     digest = load_digest()
     embed = build_embed(digest)
 
-    resp = requests.post(f"{WORKER_URL}/broadcast", json={"secret": secret, "embed": embed}, timeout=30)
+    resp = requests.post(f"{WORKER_URL}/broadcast", json={"secret": secret, "embed": embed, "game": "tft"}, timeout=30)
     resp.raise_for_status()
     result = resp.json()
     print(f"Sent to {result['sent']} subscriber(s), {result['failed']} failed, {result['removed']} removed (dead webhook).")
