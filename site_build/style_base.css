@@ -1652,3 +1652,41 @@
   .gd-skill-grid tbody th { text-align: left; min-width: 60px; color: var(--cream); }
   .gd-skill-grid tbody th img { vertical-align: middle; margin-right: 6px; }
   .gd-skill-grid td.on { background: var(--magenta-dim); color: var(--gold); }
+
+  /* ---------- Accueil League (/league/) ---------- */
+  .lh-hero { position: relative; overflow: hidden; border: 1px solid var(--border-bright); background: var(--bg-2); margin: 4px 0 26px; }
+  .lh-hero::before { content: ""; position: absolute; inset: 0; background: var(--lh-art, none) no-repeat right 30% / auto 150%; pointer-events: none; }
+  .lh-hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg-2) 0%, var(--bg-2) 34%, rgba(26,20,64,0.55) 62%, rgba(26,20,64,0.05) 100%); pointer-events: none; }
+  .lh-hero-inner { position: relative; z-index: 1; padding: 34px 32px 30px; max-width: 720px; }
+  .lh-title { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: clamp(30px, 5vw, 50px); line-height: 1.05; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 14px; color: var(--cream); text-wrap: balance; }
+  .lh-lede { max-width: 56ch; font-size: 15px; line-height: 1.6; color: var(--text-dim); margin: 0 0 20px; }
+  .lh-form { margin: 0 0 14px; }
+  .lh-patch { display: inline-flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-top: 8px; padding: 7px 12px; border: 1px solid var(--border-bright); background: rgba(16,11,38,0.6); color: var(--cream); text-decoration: none; font-size: 13px; }
+  .lh-patch:hover { border-color: var(--magenta); }
+  .lh-patch-tag { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: #100b26; background: var(--gold); padding: 2px 6px; }
+  .lh-h2 { font-family: 'Cal Sans', sans-serif; font-size: 18px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--cream); margin: 34px 0 6px; }
+  .lh-sub { margin: 0 0 14px; font-size: 13px; color: var(--text-faint); }
+  .lh-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin-top: 14px; }
+  .lh-card { display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 18px; background: var(--bg-2); border: 1px solid var(--border); color: var(--cream); text-decoration: none; transition: border-color .15s ease, transform .15s ease; }
+  .lh-card:hover { border-color: var(--magenta); transform: translateY(-2px); }
+  .lh-card b { font-family: 'Cal Sans', sans-serif; font-size: 18px; letter-spacing: 0.01em; }
+  .lh-card span:last-child { font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .lh-card-k { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gold); }
+  .lh-card-accent { border-color: var(--magenta); background: linear-gradient(135deg, var(--magenta-dim), var(--bg-2) 70%); }
+  .lh-roles { display: grid; grid-template-columns: repeat(auto-fit, minmax(148px, 1fr)); gap: 12px; }
+  .lh-role, .lh-move-col { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; }
+  .lh-role-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; font: 700 11px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--gold); }
+  .lh-role-head svg { flex: none; }
+  .lh-champ { display: flex; align-items: center; gap: 10px; padding: 6px 4px; color: var(--cream); text-decoration: none; font-size: 13px; }
+  .lh-champ:hover { background: var(--row-hover); }
+  .lh-champ img { border-radius: 50%; flex: none; }
+  .lh-champ-name { flex: 1; min-width: 0; overflow-wrap: break-word; word-break: normal; }
+  .lh-moves { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-top: 14px; }
+  .lh-popular { margin-top: 12px; }
+  @media (max-width: 640px) { .lh-hero-inner { padding: 24px 18px 22px; } .lh-hero::before { background-position: center top; background-size: cover; } .lh-hero::after { background: linear-gradient(180deg, rgba(26,20,64,0.85) 0%, var(--bg-2) 92%); } }
+  @media (prefers-reduced-motion: reduce) { .lh-card { transition: none; } .lh-card:hover { transform: none; } }
+  .lh-role-head b.good { color: var(--good); }
+  .lh-role-head b.warn { color: var(--warn); }
+  .lh-role .lh-champ { display: grid; grid-template-columns: 36px 1fr; column-gap: 10px; row-gap: 0; align-items: center; }
+  .lh-role .lh-champ img { grid-row: 1 / 3; }
+  .lh-role .lh-champ .nums { font-size: 12px; }

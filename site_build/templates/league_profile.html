@@ -1,28 +1,80 @@
 {% extends "base.html" %}
-{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}League of Legends — Analyse ton profil{% else %}League of Legends — Analyze your profile{% endif %}{% endblock %}
-{% block description %}{% if lang == 'fr' %}Analyse réelle de ton profil League of Legends : rang, historique de parties, rôles, comparaison à ton rang et activité, via l'API officielle de Riot.{% else %}Real analysis of your League of Legends profile: rank, match history, roles, comparison to your rank and activity, via Riot's official API.{% endif %}{% endblock %}
+{% set fr = lang == 'fr' %}
+{% set dd = 'https://ddragon.leagueoflegends.com/cdn/' ~ ddragon_version ~ '/img/' %}
+{% set guide_ok = lol_guide_slugs_by_lang[lang] %}
+{% block title %}BrokenMeta.gg | {% if fr %}League of Legends — Analyse ton profil{% else %}League of Legends — Analyze your profile{% endif %}{% endblock %}
+{% block description %}{% if fr %}Analyse réelle de ton profil League of Legends : rang, historique de parties, rôles, comparaison à ton rang et activité, via l'API officielle de Riot.{% else %}Real analysis of your League of Legends profile: rank, match history, roles, comparison to your rank and activity, via Riot's official API.{% endif %}{% endblock %}
+{% macro champ_link(c) %}{% if c.slug in lol_guide_slugs_by_lang[lang] %}{{ root }}league/guide/{{ c.slug }}/{% else %}{{ root }}league/glossaire/champions/{{ c.slug }}/{% endif %}{% endmacro %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'nav_league') }}</h1>
-<p class="page-intro">
-  {% if lang == 'fr' %}
-  Section en bêta : le lookup ci-dessous tourne sur une vraie clé API Riot (rang, historique de parties, rôles, activité, progression de LP -- tout est réel). Une seule section reste un exemple illustratif, faute de données exposées par l'API Riot -- elle est clairement marquée.
-  {% else %}
-  Beta section: the lookup below runs on a real Riot API key (rank, match history, roles, activity, LP progress -- all real). Only one section stays an illustrative example, because Riot's API doesn't expose that data -- it's clearly labeled.
-  {% endif %}
-</p>
+<section class="lh-hero"{% if home.hero_champion %} style="--lh-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ home.hero_champion.id }}_0.jpg')"{% endif %}>
+  <div class="lh-hero-inner">
+    <div class="fiche-kicker">League of Legends</div>
+    <h1 class="lh-title">{% if fr %}Analyse ton profil.<br>Maîtrise ton champion.{% else %}Analyze your profile.<br>Master your champion.{% endif %}</h1>
+    <p class="lh-lede">
+      {% if fr %}Rang, historique, dégâts par minute, vision, records et comparaison à ton rang — tout vient de l'API officielle de Riot, rien n'est inventé. Section en bêta.{% else %}Rank, history, damage per minute, vision, records and comparison to your rank — all from Riot's official API, nothing made up. Beta section.{% endif %}
+    </p>
+    <form id="leagueForm" class="metascope-search-form lh-form">
+      <input type="text" id="leagueRiotId" class="search-input" placeholder="{% if fr %}Pseudo#TAG{% else %}Name#TAG{% endif %}" autocomplete="off" required aria-label="{% if fr %}Pseudo et tag Riot{% else %}Riot name and tag{% endif %}">
+      <select id="leagueRegion" class="metascope-region-select" aria-label="{% if fr %}Région{% else %}Region{% endif %}">
+        <option value="EUW">EUW</option>
+        <option value="NA">NA</option>
+        <option value="BR">BR</option>
+        <option value="KR">KR</option>
+      </select>
+      <button type="submit" class="metascope-search-button">{{ t(lang, 'ms_search_button') }}</button>
+    </form>
+    <div id="leagueStatus" class="metascope-status" hidden></div>
+    {% if home.patch %}<a class="lh-patch" href="{{ root }}league/patch-notes/"><span class="lh-patch-tag">{{ 'Dernier patch' if fr else 'Latest patch' }}</span><b>{{ home.patch.title }}</b><span class="gd-dim">{{ home.patch.date }}</span><span aria-hidden="true">→</span></a>{% endif %}
+  </div>
+</section>
 
-<form id="leagueForm" class="metascope-search-form">
-  <input type="text" id="leagueRiotId" class="search-input" placeholder="{% if lang == 'fr' %}Pseudo#TAG{% else %}Name#TAG{% endif %}" autocomplete="off" required>
-  <select id="leagueRegion" class="metascope-region-select">
-    <option value="EUW">EUW</option>
-    <option value="NA">NA</option>
-    <option value="BR">BR</option>
-    <option value="KR">KR</option>
-  </select>
-  <button type="submit" class="metascope-search-button">{{ t(lang, 'ms_search_button') }}</button>
-</form>
-<div id="leagueStatus" class="metascope-status" hidden></div>
 <div id="leagueResults"></div>
+
+<h2 class="lh-h2">{{ 'Tout ce qu\'il faut pour progresser' if fr else 'Everything you need to climb' }}</h2>
+<div class="lh-cards">
+  <a class="lh-card" href="{{ root }}league/tier-list/"><span class="lh-card-k">{{ 'Méta' if fr else 'Meta' }}</span><b>Tier list</b><span>{{ 'Winrate et pick rate réels par champion et par poste, du bas au haut elo.' if fr else 'Real win rate and pick rate per champion and role, from low to high elo.' }}</span></a>
+  {% if guide_ok %}<a class="lh-card lh-card-accent" href="{{ root }}league/guide/"><span class="lh-card-k">{{ 'Nouveau' if fr else 'New' }}</span><b>{{ 'Guides de champions' if fr else 'Champion guides' }}</b><span>{{ guide_ok|length }} {{ 'guides : combos, build, runes, contres et objets selon l\'équipe adverse.' if fr else 'guides: combos, build, runes, counters and items by enemy team.' }}</span></a>{% endif %}
+  <a class="lh-card" href="{{ root }}league/comparer/"><span class="lh-card-k">{{ 'Outil' if fr else 'Tool' }}</span><b>{{ 'Comparateur de profil' if fr else 'Profile comparator' }}</b><span>{{ 'Mets deux joueurs face à face : rang, rôles, dégâts, vision.' if fr else 'Put two players head to head: rank, roles, damage, vision.' }}</span></a>
+  <a class="lh-card" href="{{ root }}league/leaderboard/"><span class="lh-card-k">{{ 'Classement' if fr else 'Ladder' }}</span><b>Leaderboard</b><span>{{ 'Les meilleurs joueurs par région, avec l\'évolution du LP moyen.' if fr else 'Top players by region, with the average LP over time.' }}</span></a>
+  <a class="lh-card" href="{{ root }}league/tendances/"><span class="lh-card-k">{{ 'Méta' if fr else 'Meta' }}</span><b>{{ 'Tendances' if fr else 'Trends' }}</b><span>{{ 'Les champions qui montent et ceux qui chutent depuis la dernière collecte.' if fr else 'Champions rising and falling since the last data refresh.' }}</span></a>
+  <a class="lh-card" href="{{ root }}league/glossaire/champions/"><span class="lh-card-k">{{ 'Encyclopédie' if fr else 'Glossary' }}</span><b>{{ 'Champions, objets, runes' if fr else 'Champions, items, runes' }}</b><span>{{ 'Toutes les capacités, statistiques et recettes du patch en cours.' if fr else 'Every ability, stat and recipe of the current patch.' }}</span></a>
+</div>
+
+{% if home.by_role %}
+<h2 class="lh-h2">{{ 'Les plus forts par poste' if fr else 'Strongest by role' }}</h2>
+<p class="lh-sub">{{ 'Classement par winrate parmi les champions avec au moins 100 parties observées.' if fr else 'Ranked by win rate among champions with at least 100 observed games.' }}</p>
+<div class="lh-roles">
+  {% for r in home.by_role %}
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true">{{ role_icons[r.role]|safe }}</svg><b>{{ r.label }}</b></div>
+    {% for c in r.rows %}
+    <a class="lh-champ" href="{{ champ_link(c) }}"><img src="{{ dd }}champion/{{ c.icon_file }}" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">{{ c.name }}</span><span class="nums {{ 'good' if c.win_rate >= 0.5 else 'warn' }}">{{ (c.win_rate * 100)|round(1) }}{{ ' %' if fr else '%' }}</span></a>
+    {% endfor %}
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if home.risers or home.fallers %}
+<h2 class="lh-h2">{{ 'Ça bouge depuis la dernière collecte' if fr else 'Moving since the last data refresh' }}</h2>
+<div class="lh-moves">
+  {% for title, rows, cls in [('En hausse' if fr else 'Rising', home.risers, 'good'), ('En baisse' if fr else 'Falling', home.fallers, 'warn')] %}
+  {% if rows %}
+  <div class="lh-move-col">
+    <div class="lh-role-head"><b class="{{ cls }}">{{ '▲' if cls == 'good' else '▼' }} {{ title }}</b></div>
+    {% for c in rows %}
+    <a class="lh-champ" href="{{ champ_link(c) }}"><img src="{{ dd }}champion/{{ c.icon_file }}" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">{{ c.name }} <span class="gd-dim">{{ c.role_label }}</span></span><span class="nums {{ cls }}">{{ '+' if cls == 'good' else '−' }}{{ (c.delta * 100)|round(1) }} {{ 'pt' if fr else 'pt' }}</span></a>
+    {% endfor %}
+  </div>
+  {% endif %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if home.popular %}
+<h2 class="lh-h2">{{ 'Les plus joués' if fr else 'Most played' }}</h2>
+<div class="glossary-icon-grid lh-popular">{% for c in home.popular %}<a class="glossary-icon-item" href="{{ champ_link(c) }}" title="{{ c.name }}"><img src="{{ dd }}champion/{{ c.icon_file }}" alt="{{ c.name }}" loading="lazy"><span>{{ c.name }}</span></a>{% endfor %}</div>
+{% endif %}
 {% endblock %}
 {% block extra_body %}
 <script>

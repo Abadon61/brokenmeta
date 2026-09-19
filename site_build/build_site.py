@@ -3681,6 +3681,7 @@ I18N: dict[str, dict] = {
         "changelog_no_history": "Pas encore assez d'historique pour calculer les changements de tier — reviens après le prochain refresh de données.",
         "nav_counters": "Contres",
         "nav_tools": "Outils",
+        "nav_meta": "Méta",
         "counters_title": "Chercheur de contres — Teamfight Tactics Set 18",
         "counters_intro": "Cherche une comp pour voir, sur données réelles de rencontres en jeu, quelles compositions la contrent et lesquelles elle contre.",
         "counters_search_placeholder": "Rechercher une comp…",
@@ -4058,6 +4059,7 @@ I18N: dict[str, dict] = {
         "changelog_no_history": "Not enough history yet to compute tier changes -- check back after the next data refresh.",
         "nav_counters": "Counters",
         "nav_tools": "Tools",
+        "nav_meta": "Meta",
         "counters_title": "Counter Finder — Teamfight Tactics Set 18",
         "counters_intro": "Search any comp to see, from real in-game encounter data, which comps counter it and which ones it beats.",
         "counters_search_placeholder": "Search a comp…",
@@ -6949,7 +6951,24 @@ def main() -> None:
                region_cols=region_cols, comp_cols=comp_cols)
         render("patch_notes.html", "/patch-notes/", lang, active_nav="patchnotes", patches=PATCHES[lang])
         render("metascope.html", "/metascope/", lang, active_nav="metascope")
-        render("league_profile.html", "/league/", lang, active_nav="league", active_sub="lol-profile", league_i18n=LEAGUE_UI_I18N[lang])
+        # ---- /league/ landing: real numbers only (tier list, trend movers, most-played, latest hand-written patch)
+        _home_roles = build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang)
+        _home_risers, _home_fallers = build_lol_trend_rows(lang, top_n=5)
+        _home_games: dict[str, int] = defaultdict(int)
+        for _cid, _info in lol_role_stats_by_champion.items():
+            for _row in _info["roles"].values():
+                _home_games[_cid] += _row["games"]
+        _home_popular = []
+        for _cid in sorted(_home_games, key=lambda k: -_home_games[k])[:10]:
+            _hc = lol_champ_by_id.get(_cid)
+            if _hc:
+                _home_popular.append({"slug": _hc["slug"], "icon_file": _hc["icon_file"], "name": _hc["name_fr"] if lang == "fr" else _hc["name_en"]})
+        _home_by_role = [{"role": _r, "label": _lol_role_label[_r], "rows": _home_roles[_r][:3]} for _r in ("top", "jungle", "mid", "adc", "support") if _home_roles.get(_r)]
+        _hero = lol_champ_by_id.get(next(iter(sorted(_home_games, key=lambda k: -_home_games[k])), ""), None)
+        render("league_profile.html", "/league/", lang, active_nav="league", active_sub="lol-profile", league_i18n=LEAGUE_UI_I18N[lang],
+               ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
+               home={"by_role": _home_by_role, "risers": _home_risers, "fallers": _home_fallers, "popular": _home_popular,
+                     "patch": (PATCHES_LOL[lang] or [None])[0], "hero_champion": {"id": _hero["id"]} if _hero else None})
 
         # ---- Glossaire League of Legends (objets + champions, données
         # réelles Data Dragon -- voir fetch_lol_glossary_data) ----

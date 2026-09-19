@@ -53,12 +53,17 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
 {% endif %}
 {% elif active_nav == 'league' %}
-{# Le menu rose met en avant les outils du JEU ACTIF. Même structure de
-   dropdown que le Glossaire TFT ci-dessous. #}
+{# Menu rose du jeu actif. 5 entrées (au lieu de 9) : Tier list, Guides, puis 3 menus déroulants. #}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 {% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
-<a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
-<a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
+<details class="nav-dropdown" {% if active_sub in ('lol-trends', 'lol-changelog', 'lol-patchnotes') %}data-active="true"{% endif %}>
+  <summary class="nav-link">{{ t(lang, 'nav_meta') }}</summary>
+  <div class="nav-dropdown-menu">
+    <a href="{{ root }}league/tendances/">{{ t(lang, 'nav_lol_trends') }}</a>
+    <a href="{{ root }}league/changements/">{{ t(lang, 'nav_lol_changelog') }}</a>
+    <a href="{{ root }}league/patch-notes/">{{ t(lang, 'nav_patchnotes') }}</a>
+  </div>
+</details>
 <details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions', 'lol-glossary-runes') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_glossary') }}</summary>
   <div class="nav-dropdown-menu">
@@ -67,9 +72,13 @@
     <a href="{{ root }}league/glossaire/runes/">{{ t(lang, 'nav_lol_runes') }}</a>
   </div>
 </details>
-<a class="nav-link" href="{{ root }}league/patch-notes/" {% if active_sub == 'lol-patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
-<a class="nav-link" href="{{ root }}league/leaderboard/" {% if active_sub == 'lol-leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
-<a class="nav-link" href="{{ root }}league/comparer/" {% if active_sub == 'lol-compare' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_compare') }}</a>
+<details class="nav-dropdown" {% if active_sub in ('lol-leaderboard', 'lol-compare') %}data-active="true"{% endif %}>
+  <summary class="nav-link">{{ t(lang, 'nav_tools') }}</summary>
+  <div class="nav-dropdown-menu">
+    <a href="{{ root }}league/leaderboard/">{{ t(lang, 'nav_leaderboard') }}</a>
+    <a href="{{ root }}league/comparer/">{{ t(lang, 'nav_lol_compare') }}</a>
+  </div>
+</details>
 {% else %}
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>
