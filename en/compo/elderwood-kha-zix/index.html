@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenMeta.gg | Elderwood Kha&#39;Zix — TFT Set 18 (Off-Meta)">
 <meta name="twitter:description" content="Elderwood Kha&#39;Zix — Tier HM, TFT Set 18: 4.61 avg placement, 48% top 4 over 119 real games. Composition, items and matchups.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=32b07f3edf">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=32b07f3edf">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=e20e5bb1b8">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=e20e5bb1b8">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=32b07f3edf">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=e20e5bb1b8">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Elderwood Kha'Zix \u2014 Tier HM (TFT Set 18)", "description": "Elderwood Kha'Zix is currently Tier HM on TFT Set 18, with a 4.61 average placement and 48% top 4 rate over 119 real ranked games analyzed.", "datePublished": "2026-09-17", "dateModified": "2026-09-17", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/compo/elderwood-kha-zix/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://brokenmeta.gg/assets/champions/kha-zix.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What tier is Elderwood Kha'Zix on TFT Set 18?", "acceptedAnswer": {"@type": "Answer", "text": "Elderwood Kha'Zix is currently Tier HM on TFT Set 18, with a 4.61 average placement and 48% top 4 rate over 119 real ranked games analyzed."}}]}</script>
@@ -692,11 +692,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>window.BM_CURRENT_COMP = {"key": "Elderwood_Kha'Zix", "slug": "elderwood-kha-zix", "label": "Elderwood Kha'Zix", "tier": "HM", "carrySlug": "kha-zix"};</script>
 
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/site-search.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/favorites.js?v=32b07f3edf" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/site-search.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/favorites.js?v=e20e5bb1b8" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

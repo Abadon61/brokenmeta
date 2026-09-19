@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenMeta.gg | Riftbeast Morgana — TFT Set 18 (Off-Meta)">
 <meta name="twitter:description" content="Riftbeast Morgana — Tier HM, TFT Set 18: 4.70 avg placement, 50% top 4 over 115 real games. Composition, items and matchups.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=32b07f3edf">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=32b07f3edf">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=e20e5bb1b8">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=e20e5bb1b8">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=32b07f3edf">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=e20e5bb1b8">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Riftbeast Morgana \u2014 Tier HM (TFT Set 18)", "description": "Riftbeast Morgana is currently Tier HM on TFT Set 18, with a 4.70 average placement and 50% top 4 rate over 115 real ranked games analyzed.", "datePublished": "2026-09-17", "dateModified": "2026-09-17", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/compo/riftbeast-morgana/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "image": "https://brokenmeta.gg/assets/champions/morgana.png"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What tier is Riftbeast Morgana on TFT Set 18?", "acceptedAnswer": {"@type": "Answer", "text": "Riftbeast Morgana is currently Tier HM on TFT Set 18, with a 4.70 average placement and 50% top 4 rate over 115 real ranked games analyzed."}}]}</script>
@@ -633,11 +633,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <script>window.BM_CURRENT_COMP = {"key": "Riftbeast_Morgana", "slug": "riftbeast-morgana", "label": "Riftbeast Morgana", "tier": "HM", "carrySlug": "morgana"};</script>
 
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/site-search.js?v=32b07f3edf" defer></script>
-<script src="../../../assets/js/favorites.js?v=32b07f3edf" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/site-search.js?v=e20e5bb1b8" defer></script>
+<script src="../../../assets/js/favorites.js?v=e20e5bb1b8" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

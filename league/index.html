@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenMeta.gg | League of Legends — Analyse ton profil">
 <meta name="twitter:description" content="Analyse réelle de ton profil League of Legends : rang, historique de parties, rôles, comparaison à ton rang et activité, via l'API officielle de Riot.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=32b07f3edf">
-<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=32b07f3edf">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=e20e5bb1b8">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=e20e5bb1b8">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=32b07f3edf">
+<link rel="stylesheet" href="../assets/css/style.css?v=e20e5bb1b8">
 
 </head>
 <body>
@@ -149,8 +149,14 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <a class="nav-link" href="../league/tier-list/" >Tier List</a>
 <a class="nav-link" href="../league/guide/" >Guides</a>
-<a class="nav-link" href="../league/tendances/" >Tendances</a>
-<a class="nav-link" href="../league/changements/" >Changements</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Méta</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../league/tendances/">Tendances</a>
+    <a href="../league/changements/">Changements</a>
+    <a href="../league/patch-notes/">Patch Notes</a>
+  </div>
+</details>
 <details class="nav-dropdown" >
   <summary class="nav-link">Glossaire</summary>
   <div class="nav-dropdown-menu">
@@ -159,9 +165,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../league/glossaire/runes/">Runes</a>
   </div>
 </details>
-<a class="nav-link" href="../league/patch-notes/" >Patch Notes</a>
-<a class="nav-link" href="../league/leaderboard/" >Leaderboard</a>
-<a class="nav-link" href="../league/comparer/" >Comparateur de profil</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Outils</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../league/leaderboard/">Leaderboard</a>
+    <a href="../league/comparer/">Comparateur de profil</a>
+  </div>
+</details>
 
 
     </nav>
@@ -177,25 +187,148 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <div class="page">
 
-<h1 class="page-h1">League of Legends</h1>
-<p class="page-intro">
-  
-  Section en bêta : le lookup ci-dessous tourne sur une vraie clé API Riot (rang, historique de parties, rôles, activité, progression de LP -- tout est réel). Une seule section reste un exemple illustratif, faute de données exposées par l'API Riot -- elle est clairement marquée.
-  
-</p>
+<section class="lh-hero" style="--lh-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/LeeSin_0.jpg')">
+  <div class="lh-hero-inner">
+    <div class="fiche-kicker">League of Legends</div>
+    <h1 class="lh-title">Analyse ton profil.<br>Maîtrise ton champion.</h1>
+    <p class="lh-lede">
+      Rang, historique, dégâts par minute, vision, records et comparaison à ton rang — tout vient de l'API officielle de Riot, rien n'est inventé. Section en bêta.
+    </p>
+    <form id="leagueForm" class="metascope-search-form lh-form">
+      <input type="text" id="leagueRiotId" class="search-input" placeholder="Pseudo#TAG" autocomplete="off" required aria-label="Pseudo et tag Riot">
+      <select id="leagueRegion" class="metascope-region-select" aria-label="Région">
+        <option value="EUW">EUW</option>
+        <option value="NA">NA</option>
+        <option value="BR">BR</option>
+        <option value="KR">KR</option>
+      </select>
+      <button type="submit" class="metascope-search-button">Voir mon profil</button>
+    </form>
+    <div id="leagueStatus" class="metascope-status" hidden></div>
+    <a class="lh-patch" href="../league/patch-notes/"><span class="lh-patch-tag">Dernier patch</span><b>Patch 26.18</b><span class="gd-dim">9 septembre 2026</span><span aria-hidden="true">→</span></a>
+  </div>
+</section>
 
-<form id="leagueForm" class="metascope-search-form">
-  <input type="text" id="leagueRiotId" class="search-input" placeholder="Pseudo#TAG" autocomplete="off" required>
-  <select id="leagueRegion" class="metascope-region-select">
-    <option value="EUW">EUW</option>
-    <option value="NA">NA</option>
-    <option value="BR">BR</option>
-    <option value="KR">KR</option>
-  </select>
-  <button type="submit" class="metascope-search-button">Voir mon profil</button>
-</form>
-<div id="leagueStatus" class="metascope-status" hidden></div>
 <div id="leagueResults"></div>
+
+<h2 class="lh-h2">Tout ce qu&#39;il faut pour progresser</h2>
+<div class="lh-cards">
+  <a class="lh-card" href="../league/tier-list/"><span class="lh-card-k">Méta</span><b>Tier list</b><span>Winrate et pick rate réels par champion et par poste, du bas au haut elo.</span></a>
+  <a class="lh-card lh-card-accent" href="../league/guide/"><span class="lh-card-k">Nouveau</span><b>Guides de champions</b><span>173 guides : combos, build, runes, contres et objets selon l&#39;équipe adverse.</span></a>
+  <a class="lh-card" href="../league/comparer/"><span class="lh-card-k">Outil</span><b>Comparateur de profil</b><span>Mets deux joueurs face à face : rang, rôles, dégâts, vision.</span></a>
+  <a class="lh-card" href="../league/leaderboard/"><span class="lh-card-k">Classement</span><b>Leaderboard</b><span>Les meilleurs joueurs par région, avec l&#39;évolution du LP moyen.</span></a>
+  <a class="lh-card" href="../league/tendances/"><span class="lh-card-k">Méta</span><b>Tendances</b><span>Les champions qui montent et ceux qui chutent depuis la dernière collecte.</span></a>
+  <a class="lh-card" href="../league/glossaire/champions/"><span class="lh-card-k">Encyclopédie</span><b>Champions, objets, runes</b><span>Toutes les capacités, statistiques et recettes du patch en cours.</span></a>
+</div>
+
+
+<h2 class="lh-h2">Les plus forts par poste</h2>
+<p class="lh-sub">Classement par winrate parmi les champions avec au moins 100 parties observées.</p>
+<div class="lh-roles">
+  
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M21,14H14v7h7V14Zm5-3V26L11.014,26l-4,4H30V7.016Z"/><polygon fill="#c8aa6e" points="4 4 4.003 28.045 9 23 9 9 23 9 28.045 4.003 4 4"/></svg><b>Top</b></div>
+    
+    <a class="lh-champ" href="../league/guide/urgot/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Urgot.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Urgot</span><span class="nums good">56.7 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/ornn/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ornn.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Ornn</span><span class="nums good">55.8 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/jax/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Jax.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Jax</span><span class="nums good">55.4 %</span></a>
+    
+  </div>
+  
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path fill="#c8aa6e" fill-rule="evenodd" d="M25,3c-2.128,3.3-5.147,6.851-6.966,11.469A42.373,42.373,0,0,1,20,20a27.7,27.7,0,0,1,1-3C21,12.023,22.856,8.277,25,3ZM13,20c-1.488-4.487-4.76-6.966-9-9,3.868,3.136,4.422,7.52,5,12l3.743,3.312C14.215,27.917,16.527,30.451,17,31c4.555-9.445-3.366-20.8-8-28C11.67,9.573,13.717,13.342,13,20Zm8,5a15.271,15.271,0,0,1,0,2l4-4c0.578-4.48,1.132-8.864,5-12C24.712,13.537,22.134,18.854,21,25Z"/></svg><b>Jungle</b></div>
+    
+    <a class="lh-champ" href="../league/guide/reksai/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/RekSai.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Rek&#39;Sai</span><span class="nums good">60.1 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/belveth/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Belveth.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Bel&#39;Veth</span><span class="nums good">55.7 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/khazix/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Khazix.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Kha&#39;Zix</span><span class="nums good">55.7 %</span></a>
+    
+  </div>
+  
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M30,12.968l-4.008,4L26,26H17l-4,4H30ZM16.979,8L21,4H4V20.977L8,17,8,8h8.981Z"/><polygon fill="#c8aa6e" points="25 4 4 25 4 30 9 30 30 9 30 4 25 4"/></svg><b>Mid</b></div>
+    
+    <a class="lh-champ" href="../league/guide/kassadin/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kassadin.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Kassadin</span><span class="nums good">58.5 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/twistedfate/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/TwistedFate.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Twisted Fate</span><span class="nums good">56.0 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/orianna/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Orianna.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Orianna</span><span class="nums good">55.4 %</span></a>
+    
+  </div>
+  
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path opacity="0.5" fill="#785a28" fill-rule="evenodd" d="M13,20h7V13H13v7ZM4,4V26.984l3.955-4L8,8,22.986,8l4-4H4Z"/><polygon fill="#c8aa6e" points="29.997 5.955 25 11 25 25 11 25 5.955 29.997 30 30 29.997 5.955"/></svg><b>ADC</b></div>
+    
+    <a class="lh-champ" href="../league/guide/senna/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Senna.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Senna</span><span class="nums good">57.2 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/kogmaw/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/KogMaw.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Kog&#39;Maw</span><span class="nums good">56.4 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/kalista/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kalista.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Kalista</span><span class="nums good">55.6 %</span></a>
+    
+  </div>
+  
+  <div class="lh-role">
+    <div class="lh-role-head"><svg viewBox="0 0 32 32" width="18" height="18" aria-hidden="true"><path fill="#c8aa6e" fill-rule="evenodd" d="M26,13c3.535,0,8-4,8-4H23l-3,3,2,7,5-2-3-4h2ZM22,5L20.827,3H13.062L12,5l5,6Zm-5,9-1-1L13,28l4,3,4-3L18,13ZM11,9H0s4.465,4,8,4h2L7,17l5,2,2-7Z"/></svg><b>Support</b></div>
+    
+    <a class="lh-champ" href="../league/guide/zyra/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zyra.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Zyra</span><span class="nums good">55.6 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/poppy/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Poppy.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Poppy</span><span class="nums good">55.2 %</span></a>
+    
+    <a class="lh-champ" href="../league/guide/lux/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Lux.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Lux</span><span class="nums good">55.2 %</span></a>
+    
+  </div>
+  
+</div>
+
+
+
+<h2 class="lh-h2">Ça bouge depuis la dernière collecte</h2>
+<div class="lh-moves">
+  
+  
+  <div class="lh-move-col">
+    <div class="lh-role-head"><b class="good">▲ En hausse</b></div>
+    
+    <a class="lh-champ" href="../league/guide/shaco/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Shaco.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Shaco <span class="gd-dim">Jungle</span></span><span class="nums good">+5.7 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/kayle/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kayle.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Kayle <span class="gd-dim">Top</span></span><span class="nums good">+5.5 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/sylas/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Sylas <span class="gd-dim">Support</span></span><span class="nums good">+5.2 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/swain/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Swain.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Swain <span class="gd-dim">Support</span></span><span class="nums good">+5.1 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/chogath/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Chogath.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Cho&#39;Gath <span class="gd-dim">Top</span></span><span class="nums good">+5.1 pt</span></a>
+    
+  </div>
+  
+  
+  
+  <div class="lh-move-col">
+    <div class="lh-role-head"><b class="warn">▼ En baisse</b></div>
+    
+    <a class="lh-champ" href="../league/guide/tristana/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Tristana.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Tristana <span class="gd-dim">Mid</span></span><span class="nums warn">−7.1 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/syndra/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Syndra <span class="gd-dim">ADC</span></span><span class="nums warn">−6.6 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/twitch/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Twitch.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Twitch <span class="gd-dim">ADC</span></span><span class="nums warn">−6.5 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/zac/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zac.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Zac <span class="gd-dim">Jungle</span></span><span class="nums warn">−5.8 pt</span></a>
+    
+    <a class="lh-champ" href="../league/guide/zed/"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Zed.png" alt="" width="36" height="36" loading="lazy"><span class="lh-champ-name">Zed <span class="gd-dim">Jungle</span></span><span class="nums warn">−5.7 pt</span></a>
+    
+  </div>
+  
+  
+</div>
+
+
+
+<h2 class="lh-h2">Les plus joués</h2>
+<div class="glossary-icon-grid lh-popular"><a class="glossary-icon-item" href="../league/guide/leesin/" title="Lee Sin"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/LeeSin.png" alt="Lee Sin" loading="lazy"><span>Lee Sin</span></a><a class="glossary-icon-item" href="../league/guide/sylas/" title="Sylas"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Sylas.png" alt="Sylas" loading="lazy"><span>Sylas</span></a><a class="glossary-icon-item" href="../league/guide/jhin/" title="Jhin"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Jhin.png" alt="Jhin" loading="lazy"><span>Jhin</span></a><a class="glossary-icon-item" href="../league/guide/yone/" title="Yone"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yone.png" alt="Yone" loading="lazy"><span>Yone</span></a><a class="glossary-icon-item" href="../league/guide/kaisa/" title="Kai&#39;Sa"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Kaisa.png" alt="Kai&#39;Sa" loading="lazy"><span>Kai&#39;Sa</span></a><a class="glossary-icon-item" href="../league/guide/ezreal/" title="Ezreal"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Ezreal.png" alt="Ezreal" loading="lazy"><span>Ezreal</span></a><a class="glossary-icon-item" href="../league/guide/yunara/" title="Yunara"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yunara.png" alt="Yunara" loading="lazy"><span>Yunara</span></a><a class="glossary-icon-item" href="../league/guide/yasuo/" title="Yasuo"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Yasuo.png" alt="Yasuo" loading="lazy"><span>Yasuo</span></a><a class="glossary-icon-item" href="../league/guide/caitlyn/" title="Caitlyn"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Caitlyn.png" alt="Caitlyn" loading="lazy"><span>Caitlyn</span></a><a class="glossary-icon-item" href="../league/guide/syndra/" title="Syndra"><img src="https://ddragon.leagueoflegends.com/cdn/16.18.1/img/champion/Syndra.png" alt="Syndra" loading="lazy"><span>Syndra</span></a></div>
+
 
 </div>
 <footer>
@@ -225,13 +358,35 @@ window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
 window.BM_I18N_LEAGUE = {"loading": "Recherche en cours\u2026", "queueSolo": "Class\u00e9 en solo/duo", "queueFlex": "Class\u00e9 flexible", "queueAram": "ARAM", "queueNormalDraft": "Normale (Draft)", "queueNormalBlind": "Normale (Aveugle)", "queueClash": "Clash", "queueCustom": "Partie personnalis\u00e9e", "liveGameLabel": "EN PARTIE", "you": "(toi)", "bot": "(bot)", "win": "Victoire", "loss": "D\u00e9faite", "winAbbr": "V", "lossAbbr": "D", "viewMatchAria": "Voir la partie", "badgeDeathless": "Increvable", "badgeTripleKill": "Triple Kill", "badgeDoubleKill": "Double Kill", "badgeGoodSupport": "Soutien exemplaire", "medalGold": "Or", "medalSilver": "Argent", "medalBronze": "Bronze", "allies": "Alli\u00e9s", "enemies": "Adversaires", "noRecentMatches": "Aucune partie r\u00e9cente dans cette file.", "noChampionsPlayed": "Aucun champion jou\u00e9 dans cette file.", "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio", "devBadge": "En d\u00e9veloppement -- en attente de l'API de production Riot", "lpProgressTitle": "Progression de LP", "rankNote": "Compar\u00e9 \u00e0 la moyenne mesur\u00e9e des joueurs {tier} de nos parties \u00e9chantillonn\u00e9es ({n} joueurs), pour les r\u00f4les que tu as r\u00e9ellement jou\u00e9s.", "rankNoteApprox": "Ton rang ({tier}) n'est pas encore \u00e9chantillonn\u00e9 : comparaison avec {used}, le rang mesur\u00e9 le plus proche.", "noRankData": "Pas encore de moyenne de rang mesur\u00e9e pour ton niveau.", "cooldownLabel": "R\u00e9essaie dans {s} s", "staleNote": "R\u00e9sultat mis en cache il y a {min} min (limite de l'API Riot atteinte). R\u00e9essaie un peu plus tard pour l'actualiser.", "thDpm": "DPM", "dpmLabel": "DPM", "commsRealTitle": "Communication en jeu (pings)", "commsRealNote": "Pings r\u00e9ellement envoy\u00e9s, moyenne par partie sur tes {n} derni\u00e8res parties. Riot n'expose pas les messages de chat, uniquement les pings.", "pingsPerGame": "pings / partie", "pingLabels": {"allInPings": "All-in", "assistMePings": "Aide-moi", "basicPings": "Basique", "commandPings": "Commande", "dangerPings": "Danger", "enemyMissingPings": "Ennemi disparu", "enemyVisionPings": "Ennemi rep\u00e9r\u00e9", "getBackPings": "Reculez", "holdPings": "Tenir", "needVisionPings": "Besoin de vision", "onMyWayPings": "En chemin", "pushPings": "Poussez", "retreatPings": "Retraite", "visionClearedPings": "Vision nettoy\u00e9e"}, "combatTitle": "Profil de combat", "perGameNote": "Moyennes sur tes parties de cette file.", "kpiDpm": "D\u00e9g\u00e2ts / min (DPM)", "kpiDmgTaken": "D\u00e9g\u00e2ts subis / min", "kpiMitigated": "D\u00e9g\u00e2ts mitig\u00e9s / min", "kpiCc": "Contr\u00f4le inflig\u00e9", "kpiDead": "Temps pass\u00e9 mort", "kpiHeal": "Soins / min", "kpiVsRank": "vs moyenne du rang", "visionTitle": "Vision & objectifs", "kpiVisionMin": "Vision / min", "kpiWardsPlaced": "Balises pos\u00e9es", "kpiWardsKilled": "Balises d\u00e9truites", "kpiControlWards": "Balises de contr\u00f4le", "kpiTurrets": "Tours", "kpiPlates": "Plaques", "kpiDragons": "Dragons", "kpiBarons": "Barons", "kpiHeralds": "H\u00e9rauts", "kpiObjDmg": "D\u00e9g\u00e2ts obj. / min", "perGameUnit": "/ partie", "recordsTitle": "Records & tendances", "kpiBestKda": "Meilleur KDA", "kpiMostKills": "Plus de kills", "kpiBestDpm": "Meilleur DPM", "kpiPentas": "Pentakills", "kpiSpree": "Plus longue s\u00e9rie", "kpiFirstBlood": "Premier sang", "kpiSoloKills": "Solo kills", "kpiStreakWin": "S\u00e9rie de victoires", "kpiStreakLoss": "S\u00e9rie de d\u00e9faites", "kpiAfterLoss": "Winrate apr\u00e8s une d\u00e9faite", "kpiShort": "Parties < 25 min", "kpiMid": "Parties 25-35 min", "kpiLong": "Parties 35 min +", "gamesUnitShort": "parties", "quadrasLabel": "quadras", "masteryTitle": "Ma\u00eetrise des champions", "masteryLevel": "Niv.", "masteryPts": "pts", "lpProgressNote": "Non class\u00e9 dans cette file, ou aucun relev\u00e9 de LP enregistr\u00e9 pour l'instant -- revient plus tard une fois que ce profil aura \u00e9t\u00e9 recherch\u00e9 en \u00e9tant class\u00e9.", "lpTrackingBadge": "Suivi d\u00e9marr\u00e9 -- 1 seul relev\u00e9 pour l'instant", "lpOnePointNote": "Premier relev\u00e9 de LP r\u00e9el enregistr\u00e9. Reviens apr\u00e8s une nouvelle recherche (id\u00e9alement apr\u00e8s quelques parties) pour voir la courbe se dessiner.", "lpRealNote": "{n} relev\u00e9s r\u00e9els de LP en {queue}, enregistr\u00e9s \u00e0 chaque recherche de ce profil -- aucune valeur invent\u00e9e.", "commsTitle": "Communication en jeu", "commsNote": "Les pings et les messages de chat ne sont expos\u00e9s par l'API Riot \u00e0 aucun endpoint -- cette section restera un exemple tant que \u00e7a n'aura pas chang\u00e9. Exemple illustratif :", "messagesPerGame": "Messages / partie", "pingOnMyWay": "En chemin", "pingMissing": "Ennemi manquant", "pingDanger": "Attention", "notEnoughSameChamp": "Pas assez de parties sur un m\u00eame champion dans cette file (min. 2).", "noMatchesInQueue": "Aucune partie dans cette file.", "youLabel": "Toi", "rankAvgLabel": "Rang", "csPerMin": "CS / min", "goldPerMin": "Gold / min", "dmgPerMin": "D\u00e9g\u00e2ts / min", "killParticipation": "Participation aux kills", "vsAvg": "vs moyenne", "notEnoughToCompare": "Pas assez de parties pour comparer.", "gamesUnit": "jeux", "partiesUnit": "parties", "notEnoughHourly": "Pas assez de parties pour un historique horaire.", "seasonBestTitle": "Meilleures perfs de la saison", "seasonBestSub": "class\u00e9 par KDA, min. 2 parties", "roleDistTitle": "R\u00e9partition par r\u00f4le", "youVsRankTitle": "Toi vs moyenne du rang", "activityTitle": "Mod\u00e8les d'activit\u00e9", "weekdaysLabel": "En semaine", "hourlyLabel": "Par heure", "noRecentGame": "Aucune partie.", "gamesTogether": "parties ensemble", "unranked": "Non class\u00e9", "seeAllChamps": "Voir tous les champions \u2192", "playedWith": "Jou\u00e9 avec", "recentMatches": "derniers matchs", "tabHistory": "Historique", "tabChampions": "Champions", "tabStats": "Statistiques", "level": "Niveau", "mostPlayed": "Le plus jou\u00e9", "weekdayLabels": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"], "bannedChampionsTitle": "Champions bannis", "noBans": "Aucun ban", "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "j", "favAdd": "Ajouter aux favoris", "favRemove": "Retirer des favoris", "favHint": "Pour suivre ce profil, ajoute-le \u00e0 tes favoris"};
 window.BM_I18N_LEAGUE.lang = "fr";
 </script>
-<script src="../assets/js/league.js?v=32b07f3edf" defer></script>
+<script src="../assets/js/league.js?v=e20e5bb1b8" defer></script>
 
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
 <script>window.BM_ROOT = "../";</script>
-<script src="../assets/js/copy-comp.js?v=32b07f3edf" defer></script>
-<script src="../assets/js/champ-icons.js?v=32b07f3edf" defer></script>
-<script src="../assets/js/site-search.js?v=32b07f3edf" defer></script>
-<script src="../assets/js/favorites.js?v=32b07f3edf" defer></script>
+<script src="../assets/js/copy-comp.js?v=e20e5bb1b8" defer></script>
+<script src="../assets/js/champ-icons.js?v=e20e5bb1b8" defer></script>
+<script src="../assets/js/site-search.js?v=e20e5bb1b8" defer></script>
+<script src="../assets/js/favorites.js?v=e20e5bb1b8" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
