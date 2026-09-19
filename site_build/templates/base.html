@@ -32,19 +32,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <title>{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}</title>
 <meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
 <link rel="canonical" href="{{ canonical }}">
-<link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
+{% if not no_hreflang %}<link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
 <link rel="alternate" hreflang="{{ alt_lang }}" href="{{ alt_canonical }}">
-<link rel="alternate" hreflang="x-default" href="{{ canonical if lang == 'fr' else alt_canonical }}">
-<meta property="og:type" content="website">
+<link rel="alternate" hreflang="x-default" href="{{ canonical if lang == 'fr' else alt_canonical }}">{% endif %}
+<meta property="og:type" content="{% block og_type %}website{% endblock %}">
 <meta property="og:site_name" content="BrokenMeta.gg">
 <meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
 <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
 <meta property="og:url" content="{{ canonical }}">
 <meta property="og:locale" content="{{ 'fr_FR' if lang == 'fr' else 'en_US' }}">
 <meta property="og:image" content="{% block og_image %}{{ BASE_URL }}assets/img/og-image.png{% endblock %}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
+{% block og_image_size %}<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">{% endblock %}
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ self.og_title() }}">
+<meta name="twitter:description" content="{{ self.og_description() }}">
 <meta name="twitter:image" content="{% block twitter_image %}{{ self.og_image() }}{% endblock %}">
 <link rel="icon" type="image/svg+xml" href="{{ root }}favicon.svg?v={{ css_v }}">
 <link rel="icon" type="image/png" sizes="512x512" href="{{ root }}favicon-google.png?v={{ css_v }}">

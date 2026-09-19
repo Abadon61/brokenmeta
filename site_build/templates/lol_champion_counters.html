@@ -9,6 +9,9 @@
     <h1 class="champ-fiche-name">{{ t(lang, 'lol_counters_title', d.name) }}</h1>
   </div>
 </div>
+{% if guide_available %}
+<a class="gd-banner" href="{{ root }}league/guide/{{ d.slug }}/"><b>Guide complet de {{ d.name }}</b><span>Combos, build, contres et objets selon l'équipe adverse →</span></a>
+{% endif %}
 <p class="page-intro">{{ t(lang, 'lol_counters_intro', d.name) }}</p>
 
 {% if d.matchups %}

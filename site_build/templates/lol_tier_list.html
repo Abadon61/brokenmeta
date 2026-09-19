@@ -31,7 +31,7 @@
     {% set rows = by_role.get(role, []) %}
     {% if rows %}
     <div class="champions-table-scroll"><table class="champions-table">
-      <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_tier') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th></tr></thead>
+      <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_tier') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th>{% if lang == 'fr' %}<th></th>{% endif %}</tr></thead>
       <tbody>
         {% for r in rows %}
         <tr>
@@ -43,6 +43,7 @@
           <td class="num mono">{{ (r.pick_rate * 100)|round(1) }}%</td>
           <td class="num"><span class="{{ 'good' if r.win_rate >= 0.5 else 'warn' }}">{{ (r.win_rate * 100)|round(1) }}%</span></td>
           <td class="num mono">{{ r.games }}</td>
+          {% if lang == 'fr' %}<td>{% if r.slug in lol_guide_slugs %}<a class="gd-rowlink" href="{{ root }}league/guide/{{ r.slug }}/" title="Guide {{ r.name }}" aria-label="Guide {{ r.name }}">Guide</a>{% endif %}</td>{% endif %}
         </tr>
         {% endfor %}
       </tbody>

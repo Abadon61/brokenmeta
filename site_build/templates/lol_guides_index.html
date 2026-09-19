@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% set dd = 'https://ddragon.leagueoflegends.com/cdn/' ~ ddragon_version ~ '/img/' %}
+{% block title %}Guides des champions League of Legends | BrokenMeta.gg{% endblock %}
+{% block description %}{{ guides|length }} guides de champions League of Legends : combos, builds, runes, contres et objets selon l'équipe adverse, calculés sur des parties classées réelles.{% endblock %}
+{% macro tile(x) %}<a class="glossary-icon-item" href="{{ root }}league/guide/{{ x.slug }}/" title="Guide {{ x.name }}"><img src="{{ dd }}champion/{{ x.icon_file }}" alt="{{ x.name }}" loading="lazy"><span>{{ x.name }}</span></a>{% endmacro %}
+{% block content %}
+<h1 class="page-h1">Guides des champions League of Legends</h1>
+<p class="page-intro">Chaque guide réunit ce dont un joueur a besoin pour progresser avec un champion : ses combos expliqués, le build et les runes les plus joués, les objets qui marchent le mieux selon les dégâts de l'équipe adverse, et les matchups les plus difficiles ou les plus favorables. Les chiffres viennent de parties classées Solo/Duo réellement jouées ; les combos sont rédigés à partir des descriptions officielles des capacités.</p>
+
+<h2 class="fiche-section-title">Les plus joués</h2>
+<div class="glossary-icon-grid">{% for x in popular %}{{ tile(x) }}{% endfor %}</div>
+
+{% for role, label in [('top','Top'),('jungle','Jungle'),('mid','Mid'),('adc','ADC'),('support','Support')] %}
+{% if by_role[role] %}
+<h2 class="fiche-section-title">Guides {{ label }}</h2>
+<div class="glossary-icon-grid">{% for x in by_role[role] %}{{ tile(x) }}{% endfor %}</div>
+{% endif %}
+{% endfor %}
+
+<h2 class="fiche-section-title">Tous les guides (A → Z)</h2>
+<div class="glossary-icon-grid">{% for x in guides %}{{ tile(x) }}{% endfor %}</div>
+<p class="profile-section-note" style="display:block;margin-top:20px">Voir aussi la <a href="{{ root }}league/tier-list/">tier list</a> et le <a href="{{ root }}league/glossaire/champions/">glossaire des champions</a>.</p>
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ item_list_schema|tojson }}</script>
+{% endblock %}
