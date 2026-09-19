@@ -8,15 +8,18 @@ Run by hand after a League collection and a site rebuild (the whole pipeline
 stays manual -- see the project's notes on the Riot dev key's 24h TTL):
     py lol_run.py                                  # collect
     py site_build/build_site.py                    # writes data/output/lol_trends_digest.json
-    py social_content/publish_discord_lol_digest.py [--dry-run]
+    py social_content/publish_discord_lol_digest.py [--dry-run | --test-webhook URL]
 
 Requires DISCORD_BROADCAST_SECRET in .env, matching the secret set with
     npx wrangler secret put BROADCAST_SECRET
 in discord-notify-worker/. --dry-run prints the embed and sends nothing.
+--test-webhook URL posts the embed to that ONE Discord webhook only (your own
+test channel) instead of broadcasting to every subscriber -- no secret needed.
 """
 import argparse
 import json
 import os
+import re
 import sys
 from pathlib import Path
 
@@ -74,6 +77,7 @@ def build_embed(d: dict) -> dict | None:
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry-run", action="store_true", help="print the embed, send nothing")
+    ap.add_argument("--test-webhook", metavar="URL", help="send the embed to this single Discord webhook only, not to subscribers")
     args = ap.parse_args()
     try:
         sys.stdout.reconfigure(encoding="utf-8")  # Windows consoles default to cp1252 and choke on the emojis
@@ -91,6 +95,14 @@ def main():
 
     if args.dry_run:
         print(json.dumps(embed, ensure_ascii=False, indent=2))
+        return
+
+    if args.test_webhook:
+        if not re.fullmatch(r"https://(discord|discordapp)\.com/api/webhooks/\d+/[\w-]+", args.test_webhook.strip()):
+            raise SystemExit("--test-webhook must be a Discord webhook URL (https://discord.com/api/webhooks/<id>/<token>).")
+        r = requests.post(args.test_webhook.strip(), json={"embeds": [embed]}, timeout=30)
+        r.raise_for_status()
+        print("Test message sent to your webhook only (no subscriber was contacted).")
         return
 
     secret = os.environ.get("DISCORD_BROADCAST_SECRET")
