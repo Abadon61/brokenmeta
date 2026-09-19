@@ -175,16 +175,26 @@
     window.scrollTo(0, 0);
   }
 
+  function skeletonProfileHtml() {
+    var rows = '';
+    for (var i = 0; i < 6; i++) {
+      rows += '<div class="skel-row"><span class="skel" style="width:30px;height:30px"></span><span class="skel" style="flex:1;height:12px"></span><span class="skel" style="width:70px;height:12px"></span></div>';
+    }
+    return '<div class="skel-stack" aria-hidden="true"><span class="skel" style="width:260px;max-width:100%;height:40px"></span>' + rows + '</div>';
+  }
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
-    results.innerHTML = '';
+    results.innerHTML = skeletonProfileHtml();
     try {
       var data = await fetchJson(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
       setStatus(null);
+      results.innerHTML = '';
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: true});
     } catch (e) {
+      results.innerHTML = '';
       setStatus(e.message || String(e), true);
       if (window.gtag) gtag('event', 'metascope_lookup', {region: region, success: false});
     }

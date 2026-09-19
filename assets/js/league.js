@@ -175,7 +175,7 @@
     if (bmChartsState) return;
     bmChartsState = 1;
     var sc = document.createElement('script');
-    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=2f99fb756d';
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=a016c69703';
     sc.async = true;
     document.head.appendChild(sc);
   }
@@ -463,6 +463,25 @@
     for (var i = s.length; i > 0; i -= 3) out = s.slice(Math.max(0, i - 3), i) + (out ? String.fromCharCode(160) + out : '');
     return out;
   }
+  // Measured rank averages (worker: rankExpected). Set at the start of each
+  // stats-tab render; null when unranked / not sampled / ARAM.
+  var currentRankMetrics = null, currentRankInfo = null;
+  function cmpSub(you, key, mode) {
+    var m = currentRankMetrics;
+    if (!m || m[key] == null || !(m[key] > 0)) return '';
+    var pct = ((you - m[key]) / m[key]) * 100;
+    var tone = mode === 'neutral' ? 'dim' : ((mode === 'low' ? pct <= 0 : pct >= 0) ? 'good' : 'warn');
+    return '<span class="' + tone + '">' + (pct >= 0 ? '+' : '') + Math.round(pct) + '%</span> ' + esc(I.kpiVsRank);
+  }
+  function joinSub(a, b) { return [a, b].filter(Boolean).join(' &middot; '); }
+  function rankNoteHtml() {
+    var r = currentRankInfo;
+    if (!r) return '';
+    var txt = r.approximate
+      ? I.rankNoteApprox.replace('{tier}', tierLabel(r.tier)).replace('{used}', tierLabel(r.comparedTo))
+      : I.rankNote.replace('{tier}', tierLabel(r.tier)).replace('{n}', fmtInt(r.sample));
+    return '<p class="profile-section-note" style="display:block;margin:0 0 10px">' + esc(txt) + '</p>';
+  }
   function kpiTile(label, value, sub, tone) {
     return '<div class="kpi-tile"><div class="kpi-label">' + esc(label) + '</div>'
       + '<div class="kpi-value mono' + (tone ? ' ' + tone : '') + '">' + value + '</div>'
@@ -490,21 +509,22 @@
       + '<div class="stats-block-title" style="margin-bottom:8px">' + esc(I.commsRealTitle) + '</div>'
       + '<p class="profile-section-note" style="display:block;margin-bottom:10px">' + esc(I.commsRealNote).replace('{n}', q.matches.length) + '</p>'
       + '<div class="stats-comms-grid"><div class="stats-comms-msg"><div class="stats-comms-msg-value mono">' + pg.perGame.toFixed(1) + '</div>'
-      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div></div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
+      + '<div class="stats-comms-msg-label">' + esc(I.pingsPerGame) + '</div>'
+      + (cmpSub(pg.perGame, 'pingsPerGame', 'neutral') ? '<div class="stats-comms-msg-label" style="margin-top:4px">' + cmpSub(pg.perGame, 'pingsPerGame', 'neutral') + '</div>' : '')
+      + '</div><div class="comms-ping-list">' + rows + '</div></div></div></div>';
   }
 
-  function combatSectionHtml(q, rankAverages) {
+  function combatSectionHtml(q) {
     var c = q.combat;
     if (!c || !q.matches.length) return '';
-    var diff = rankAverages && rankAverages.dmgPerMin ? c.dpm - rankAverages.dmgPerMin : null;
-    var dpmSub = diff === null ? '' : '<span class="' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + Math.round(diff) + '</span> ' + esc(I.kpiVsRank);
+    var per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
     return kpiSection(I.combatTitle, I.perGameNote, [
-      kpiTile(I.kpiDpm, fmtInt(c.dpm), dpmSub, 'accent'),
-      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin)),
-      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin)),
-      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', '<span class="dim">' + esc(I.perGameUnit) + '</span>'),
-      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%'),
-      kpiTile(I.kpiHeal, fmtInt(c.healPerMin))
+      kpiTile(I.kpiDpm, fmtInt(c.dpm), cmpSub(c.dpm, 'dpm', 'high'), 'accent'),
+      kpiTile(I.kpiDmgTaken, fmtInt(c.damageTakenPerMin), cmpSub(c.damageTakenPerMin, 'damageTakenPerMin', 'neutral')),
+      kpiTile(I.kpiMitigated, fmtInt(c.mitigatedPerMin), cmpSub(c.mitigatedPerMin, 'mitigatedPerMin', 'neutral')),
+      kpiTile(I.kpiCc, c.ccTime.toFixed(0) + ' s', joinSub(per, cmpSub(c.ccTime, 'ccTime', 'high'))),
+      kpiTile(I.kpiDead, c.deadPct.toFixed(1) + '%', cmpSub(c.deadPct, 'deadPct', 'low')),
+      kpiTile(I.kpiHeal, fmtInt(c.healPerMin), cmpSub(c.healPerMin, 'healPerMin', 'neutral'))
     ]);
   }
 
@@ -512,16 +532,16 @@
     if (currentQueue === 'aram' || !q.vision || !q.objectives || !q.matches.length) return '';
     var v = q.vision, o = q.objectives, per = '<span class="dim">' + esc(I.perGameUnit) + '</span>';
     return kpiSection(I.visionTitle, I.perGameNote, [
-      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), null, 'accent'),
-      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), per),
-      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), per),
-      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), per),
-      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), per),
-      kpiTile(I.kpiPlates, o.plates.toFixed(1), per),
-      kpiTile(I.kpiDragons, o.dragons.toFixed(1), per),
-      kpiTile(I.kpiBarons, o.barons.toFixed(1), per),
-      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), per),
-      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin))
+      kpiTile(I.kpiVisionMin, v.scorePerMin.toFixed(1), cmpSub(v.scorePerMin, 'visionPerMin', 'high'), 'accent'),
+      kpiTile(I.kpiWardsPlaced, v.wardsPlaced.toFixed(1), joinSub(per, cmpSub(v.wardsPlaced, 'wardsPlaced', 'high'))),
+      kpiTile(I.kpiWardsKilled, v.wardsKilled.toFixed(1), joinSub(per, cmpSub(v.wardsKilled, 'wardsKilled', 'high'))),
+      kpiTile(I.kpiControlWards, v.controlWards.toFixed(1), joinSub(per, cmpSub(v.controlWards, 'controlWards', 'high'))),
+      kpiTile(I.kpiTurrets, o.turrets.toFixed(1), joinSub(per, cmpSub(o.turrets, 'turrets', 'high'))),
+      kpiTile(I.kpiPlates, o.plates.toFixed(1), joinSub(per, cmpSub(o.plates, 'plates', 'high'))),
+      kpiTile(I.kpiDragons, o.dragons.toFixed(1), joinSub(per, cmpSub(o.dragons, 'dragons', 'high'))),
+      kpiTile(I.kpiBarons, o.barons.toFixed(1), joinSub(per, cmpSub(o.barons, 'barons', 'high'))),
+      kpiTile(I.kpiHeralds, o.heralds.toFixed(1), joinSub(per, cmpSub(o.heralds, 'heralds', 'high'))),
+      kpiTile(I.kpiObjDmg, fmtInt(o.objDamagePerMin), cmpSub(o.objDamagePerMin, 'objDmgPerMin', 'high'))
     ]);
   }
 
@@ -607,24 +627,31 @@
         + '<div class="stats-compare-diff ' + (diff >= 0 ? 'good' : 'warn') + '">' + (diff >= 0 ? '+' : '') + diff.toFixed(decimals) + unit + ' ' + esc(I.vsAvg) + '</div></div>';
     }
     var sa = q.statsAvg;
-    var compareHtml = q.matches.length ? [
-      compareCard(I.csPerMin, sa.csPerMin, rankAverages.csPerMin, '', 1),
-      compareCard(I.goldPerMin, sa.goldPerMin, rankAverages.goldPerMin, '', 0),
-      compareCard(I.dmgPerMin, sa.dmgPerMin, rankAverages.dmgPerMin, '', 0),
-      compareCard(I.killParticipation, sa.killParticipation, rankAverages.killParticipation, '%', 0),
-    ].join('') : '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>';
+    var rx = q.rankExpected ? q.rankExpected.metrics : null;
+    var ra = rx ? { csPerMin: rx.csPerMin, goldPerMin: rx.goldPerMin, dmgPerMin: rx.dpm, killParticipation: rx.killParticipation } : rankAverages;
+    currentRankInfo = q.rankExpected || null;
+    currentRankMetrics = rx;
+    var compareHtml = !q.matches.length ? '<div class="matchup-empty">' + esc(I.notEnoughToCompare) + '</div>'
+      : !ra ? '<div class="matchup-empty">' + esc(I.noRankData) + '</div>'
+      : [
+      compareCard(I.csPerMin, sa.csPerMin, ra.csPerMin, '', 1),
+      compareCard(I.goldPerMin, sa.goldPerMin, ra.goldPerMin, '', 0),
+      compareCard(I.dmgPerMin, sa.dmgPerMin, ra.dmgPerMin, '', 0),
+      compareCard(I.killParticipation, sa.killParticipation, ra.killParticipation, '%', 0),
+    ].join('');
 
     // Radar (Bklit): shape of the profile vs the rank average at a glance.
     // Each metric is normalised to its own max(you, rank avg) so the axes are
     // comparable; the exact numbers stay in the four cards below.
     var radarHtml = '';
-    if (q.matches.length) {
+    if (q.matches.length && ra) {
       var radarMetrics = [
-        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: rankAverages.csPerMin },
-        { key: 'gold', label: '\u00a0\u00a0Gold/min', you: sa.goldPerMin, avg: rankAverages.goldPerMin },
-        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: rankAverages.dmgPerMin },
-        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: rankAverages.killParticipation }
+        { key: 'cs', label: 'CS/min', you: sa.csPerMin, avg: ra.csPerMin },
+        { key: 'gold', label: '\u00a0\u00a0Gold/min', you: sa.goldPerMin, avg: ra.goldPerMin },
+        { key: 'dmg', label: 'Dmg/min', you: sa.dmgPerMin, avg: ra.dmgPerMin },
+        { key: 'kp', label: 'KP', you: sa.killParticipation, avg: ra.killParticipation }
       ];
+      if (rx && q.vision && currentQueue !== 'aram') radarMetrics.push({ key: 'vision', label: 'Vision/min', you: q.vision.scorePerMin, avg: rx.visionPerMin });
       var youVals = {}, avgVals = {};
       radarMetrics.forEach(function (m) {
         var top = Math.max(m.you, m.avg) || 1;
@@ -666,8 +693,8 @@
       '<div class="stats-section"><div class="stats-block-title">' + esc(I.seasonBestTitle) + ' <span class="profile-section-note">' + esc(I.seasonBestSub) + '</span></div><div class="stats-top-champs">' + topChampsHtml + '</div></div>'
       + masterySectionHtml()
       + '<div class="stats-section"><div class="stats-block-title">' + esc(I.roleDistTitle) + ' <span class="profile-section-note">' + q.matches.length + ' ' + esc(I.partiesUnit) + '</span></div><div class="role-stats-list">' + roleHtml + '</div></div>'
-      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
-      + combatSectionHtml(q, rankAverages) + visionSectionHtml(q) + recordsSectionHtml(q)
+      + '<div class="stats-section"><div class="stats-block-title">' + esc(I.youVsRankTitle) + '</div>' + rankNoteHtml() + radarHtml + '<div class="stats-compare-grid">' + compareHtml + '</div></div>'
+      + combatSectionHtml(q) + visionSectionHtml(q) + recordsSectionHtml(q)
       + '<div class="stats-section"><div class="stats-block-title-row"><div class="stats-block-title" style="margin-bottom:0">' + esc(I.activityTitle) + '</div></div>'
       + '<div class="activity-subtitle">' + esc(I.weekdaysLabel) + '</div><div class="weekday-chart" data-bm-chart="' + bmAttr(weekdayPayload) + '">' + weekdayHtml + '</div>'
       + '<div class="activity-subtitle" style="margin-top:18px">' + esc(I.hourlyLabel) + '</div><div class="hourly-list">' + hourlyHtml + '</div></div>'
@@ -854,13 +881,30 @@
   }
   tickCooldown();
 
+  // Skeleton shaped like the profile card, shown while the worker answers
+  // (2-10 s, longer when Riot is rate-limited).
+  function skeletonProfileHtml() {
+    var rows = '';
+    for (var i = 0; i < 6; i++) {
+      rows += '<div class="skel-row"><span class="skel" style="width:58px;height:14px"></span><span class="skel skel-circle" style="width:38px;height:38px"></span>'
+        + '<span class="skel" style="flex:1;height:12px"></span><span class="skel" style="width:64px;height:12px"></span></div>';
+    }
+    return '<div class="profile-card skel-card" aria-hidden="true">'
+      + '<div class="profile-sidebar"><span class="skel" style="width:120px;height:16px;align-self:flex-start;margin-bottom:14px"></span>'
+      + '<span class="skel skel-circle" style="width:88px;height:88px;margin-bottom:12px"></span>'
+      + '<span class="skel" style="width:110px;height:14px;margin-bottom:8px"></span><span class="skel" style="width:70px;height:12px;margin-bottom:16px"></span>'
+      + '<span class="skel skel-circle" style="width:80px;height:80px"></span></div>'
+      + '<div class="profile-main"><div class="skel-tabs"><span class="skel" style="width:90px;height:28px"></span><span class="skel" style="width:90px;height:28px"></span><span class="skel" style="width:90px;height:28px"></span></div>' + rows + '</div></div>';
+  }
+
   async function runProfile(riotId, region) {
     setStatus(I.loading, false);
-    results.innerHTML = '';
+    results.innerHTML = skeletonProfileHtml();
     try {
       await ddragonReady;
       var data = await fetchJson(API + '/profile?riotId=' + encodeURIComponent(riotId) + '&region=' + encodeURIComponent(region));
       setStatus(null);
+      results.innerHTML = '';
       setUrl({ riotId: riotId, region: region });
       renderProfile(data);
       recordLolRecentSearch(data.riotId, data.region);
@@ -869,6 +913,7 @@
       startCooldown(8);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: true });
     } catch (e) {
+      results.innerHTML = '';
       setStatus(e.message || String(e), true);
       if (e && e.rateLimited) startCooldown(e.retryAfter || 75);
       if (window.gtag) gtag('event', 'league_lookup', { region: region, success: false });

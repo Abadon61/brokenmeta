@@ -39,20 +39,35 @@
     tableWrap.hidden = false;
   }
 
+  function skeletonRows() {
+    var out = '';
+    for (var i = 0; i < 12; i++) {
+      out += '<tr class="skel-tr" aria-hidden="true"><td class="num"><span class="skel" style="width:26px;height:12px;margin-left:auto"></span></td>'
+        + '<td><span class="skel" style="width:' + (110 + (i * 37) % 70) + 'px;height:12px"></span></td>'
+        + '<td><span class="skel" style="width:44px;height:16px"></span></td>'
+        + '<td class="num"><span class="skel" style="width:54px;height:12px;margin-left:auto"></span></td>'
+        + '<td class="num"><span class="skel" style="width:80px;height:12px;margin-left:auto"></span></td></tr>';
+    }
+    return out;
+  }
+
   function load(region) {
     currentRegion = region;
     setStatus(I.loading, false);
     tableWrap.hidden = true;
     if (cache[region]) { setStatus(null); render(cache[region]); return; }
+    tbody.innerHTML = skeletonRows();
+    tableWrap.hidden = false;
     fetch(API + '/leaderboard?region=' + region)
       .then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); })
       .then(function (res) {
         if (!res.ok || res.data.error) throw new Error(res.data.error || 'error');
         cache[region] = res.data.entries;
+        if (region !== currentRegion) return; // a newer region was picked while this one loaded
         setStatus(null);
         render(res.data.entries);
       })
-      .catch(function () { setStatus(I.error, true); });
+      .catch(function () { if (region !== currentRegion) return; tbody.innerHTML = ''; tableWrap.hidden = true; setStatus(I.error, true); });
   }
 
   bar.addEventListener('click', function (e) {

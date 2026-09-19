@@ -1447,7 +1447,8 @@
   .augment-tier-title[data-tier="Silver"] { color: #c7cbd1; }
   .augment-tier-title[data-tier="Gold"] { color: var(--gold); }
   .augment-tier-title[data-tier="Prismatic"] { color: #7ee8e0; }
-  .augment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; }
+  .augment-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr)); gap: 10px; }
+  .augment-card > div { min-width: 0; overflow-wrap: anywhere; }
   .augment-card { display: flex; gap: 12px; padding: 12px 14px; background: var(--row); border: 1px solid var(--border); }
   .augment-card img { width: 40px; height: 40px; flex: none; object-fit: cover; border: 1px solid var(--border-bright); }
   .augment-card-name { font-weight: 700; color: var(--cream); font-size: 13px; margin-bottom: 3px; }
@@ -1534,6 +1535,30 @@
   .ws-dot:hover { r: 6; }
   .comp-row { transition: background .16s ease, border-color .16s ease, transform .16s ease, box-shadow .16s ease; }
   .comp-row:hover { transform: translateY(-1px); box-shadow: 0 8px 22px rgba(0,0,0,.35); }
+
+  /* ---------- Mobile : débordements corrigés (fiches de comp, fiche champion LoL, profil joueur TFT) ---------- */
+  @media (max-width: 560px) {
+    .bonus-stats { flex: 0 1 auto; flex-wrap: wrap; gap: 4px 12px; }
+    .pill-row, .champ-fiche-stats.pill-row, .player-stats.pill-row { flex-wrap: wrap; flex: 0 1 auto; max-width: 100%; margin-left: 0; }
+    .pill { min-width: 0; flex: 1 1 54px; padding: 4px 8px; }
+    .metascope-layout { align-items: stretch; }
+    .metascope-main { width: 100%; }
+    .profile-comp-row { flex-wrap: wrap; }
+    .profile-comp-name { flex-basis: 100%; white-space: normal; }
+  }
+
+
+  /* ---------- Squelettes de chargement ---------- */
+  @keyframes bm-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .skel { display: block; border: 1px solid var(--border); background: linear-gradient(90deg, var(--row) 0%, var(--row-hover) 45%, var(--row) 90%); background-size: 200% 100%; }
+  .skel-circle { border-radius: 50%; }
+  @media (prefers-reduced-motion: no-preference) { .skel { animation: bm-shimmer 1.6s linear infinite; } }
+  .skel-stack { display: flex; flex-direction: column; gap: 12px; margin-top: 4px; }
+  .skel-duo { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .skel-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+  .skel-tabs { display: flex; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .skel-card .profile-main { flex: 1; min-width: 0; }
+  .skel-tr td { padding: 12px 16px; border-bottom: 1px solid var(--border); }
 
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
@@ -1972,8 +1997,12 @@
   .weekday-chart { display: flex; align-items: flex-end; gap: 10px; height: 170px; padding-top: 6px; }
   .weekday-chart[data-bm-mounted] { display: block; height: auto; }
   .stats-radar:not([data-bm-mounted]) { display: none; }
+  .lol-compare-legend { display: flex; justify-content: center; gap: 22px; font-family: 'Space Mono', monospace; font-size: 12px; margin: -6px 0 18px; }
+  .lol-duel-list { display: flex; flex-direction: column; gap: 8px; }
+  .lol-duel-win { color: var(--good); font-weight: 700; }
   .metascope-search-button:disabled { opacity: .55; cursor: not-allowed; }
   .kpi-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  @media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .kpi-value { font-size: 18px; } .mastery-row { grid-template-columns: 30px 1fr 52px 70px; } .mastery-bar-track { display: none; } }
   .kpi-tile { background: var(--bg-2); border: 1px solid var(--border); padding: 12px 14px; min-width: 0; }
   .kpi-label { font-family: 'Space Mono', monospace; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
   .kpi-value { font-size: 20px; font-weight: 700; margin-top: 6px; color: var(--cream); font-variant-numeric: tabular-nums; }
@@ -1982,6 +2011,8 @@
   .kpi-value.warn { color: var(--warn); }
   .kpi-sub { font-size: 11px; color: var(--text-dim); margin-top: 3px; }
   .kpi-sub .dim { color: var(--text-faint); }
+  .kpi-sub .good { color: var(--good); font-weight: 700; }
+  .kpi-sub .warn { color: var(--warn); font-weight: 700; }
   .mastery-list { display: flex; flex-direction: column; gap: 8px; }
   .mastery-row { display: grid; grid-template-columns: 30px minmax(70px, 130px) 56px 1fr 92px; align-items: center; gap: 10px; }
   .mastery-name { font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
