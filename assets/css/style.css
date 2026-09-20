@@ -1761,6 +1761,23 @@
 
 
 
+  /* ---------- Shared list-page header (.ph) ---------- */
+  .ph { position: relative; isolation: isolate; overflow: hidden; margin: 4px 0 20px; padding: 24px 26px 22px; border: 1px solid var(--border-bright); background: radial-gradient(120% 160% at 0% 0%, var(--magenta-dim), var(--bg-2) 62%); }
+  .ph::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: #8a6cff; opacity: 0.25; -webkit-mask-image: linear-gradient(100deg, transparent 40%, #000 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0V16.17M28 16.17L56 32.33V64.67L28 80.83L0 64.67V32.33ZM28 80.83V97' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E"); mask-image: linear-gradient(100deg, transparent 40%, #000 100%), url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cpath d='M28 0V16.17M28 16.17L56 32.33V64.67L28 80.83L0 64.67V32.33ZM28 80.83V97' fill='none' stroke='%23000' stroke-width='1'/%3E%3C/svg%3E"); -webkit-mask-size: 100% 100%, 56px 97px; mask-size: 100% 100%, 56px 97px; -webkit-mask-composite: source-in; mask-composite: intersect; }
+  .ph-title { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: clamp(24px, 3.2vw, 34px); line-height: 1.1; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; color: var(--cream); text-wrap: balance; }
+  .ph-lede { max-width: 64ch; font-size: 14px; line-height: 1.6; color: var(--text-dim); margin: 0 0 16px; }
+  .ph-stats { display: flex; gap: 8px 26px; flex-wrap: wrap; margin-top: 4px; }
+  .ph-stats div { display: flex; flex-direction: column; gap: 3px; }
+  .ph-stats b { font-family: 'Cal Sans', sans-serif; font-size: 24px; color: var(--gold); line-height: 1; }
+  .ph-stats span { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); }
+  .ph-action { display: inline-block; margin-top: 14px; font-size: 13px; color: var(--cyan); text-decoration: none; }
+  .ph-action:hover { color: var(--cream); }
+  @media (max-width: 640px) { .ph { padding: 18px 16px 16px; } }
+
+  /* ---------- Tier tables: tier-coloured left edge, same chip as the comp rows ---------- */
+  .champ-table tbody td:first-child { box-shadow: inset 3px 0 0 var(--tc); padding-left: 14px; }
+  .champ-tier-badge { width: 30px; height: 30px; font-size: 16px; }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
