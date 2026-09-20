@@ -295,8 +295,8 @@
 
 {# Shared page header for the TFT list pages: kicker, title (the page's real h1), optional intro, real-number stats
    [(value, label), ...] and an optional (href, label) action link. Same visual family as the homepage hero, no artwork. #}
-{% macro page_hero(kicker, title, intro=None, stats=None, action=None) %}
-<section class="ph">
+{% macro page_hero(kicker, title, intro=None, stats=None, action=None, art=None) %}
+<section class="ph"{% if art %} style="--ph-art: url('{{ art }}')"{% endif %}>
   <div class="ph-text">
     <div class="fiche-kicker">{{ kicker }}</div>
     <h1 class="ph-title">{{ title }}</h1>

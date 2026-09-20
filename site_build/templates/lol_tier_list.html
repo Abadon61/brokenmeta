@@ -6,7 +6,7 @@
 {% set fr = lang == 'fr' %}
 {% set ns = namespace(n=0, best=none) %}
 {% for role in ['top', 'jungle', 'mid', 'adc', 'support'] %}{% for r in by_role.get(role, []) %}{% set ns.n = ns.n + 1 %}{% if r.games >= 100 and (ns.best is none or r.win_rate > ns.best.win_rate) %}{% set ns.best = r %}{% endif %}{% endfor %}{% endfor %}
-{{ m.page_hero('League of Legends', page_title_override or t(lang, 'lol_tier_list_title'), page_desc_override or t(lang, 'lol_tier_list_intro'), [(ns.n, 'champions classés par poste' if fr else 'ranked champion-role pairs')] + ([(ns.best.name ~ ' · ' ~ (ns.best.win_rate * 100)|round(1) ~ '%', 'meilleur winrate (100 parties min.)' if fr else 'best win rate (100+ games)')] if ns.best else [])) }}
+{{ m.page_hero('League of Legends', page_title_override or t(lang, 'lol_tier_list_title'), page_desc_override or t(lang, 'lol_tier_list_intro'), [(ns.n, 'champions classés par poste' if fr else 'ranked champion-role pairs')] + ([(ns.best.name ~ ' · ' ~ (ns.best.win_rate * 100)|round(1) ~ '%', 'meilleur winrate (100 parties min.)' if fr else 'best win rate (100+ games)')] if ns.best else []), none, ('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/' ~ ns.best.icon_file|replace('.png', '') ~ '_0.jpg') if ns.best else none) }}
 
 {% if elo_bracket_links %}
 <div class="lol-elo-switcher">
@@ -33,6 +33,21 @@
   <div class="lol-role-tab-panel" data-role="{{ role }}">
     {% set rows = by_role.get(role, []) %}
     {% if rows %}
+    <div class="lt-cards">
+      {% for r in rows[:3] %}
+      {% set has_guide = r.slug in lol_guide_slugs_by_lang[lang] %}
+      <a class="lt-card" data-tier="{{ r.tier }}" href="{{ root }}league/{{ 'guide' if has_guide else 'glossaire/champions' }}/{{ r.slug }}/" style="--lt-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ r.icon_file|replace('.png', '') }}_0.jpg')">
+        <span class="lt-top"><span class="lt-rank">#{{ loop.index }}</span><span class="lol-tier-tag" data-tier="{{ r.tier }}">{{ r.tier }}</span></span>
+        <span class="lt-name">{{ r.name }}</span>
+        <span class="lt-stats">
+          <span><em>{{ t(lang, 'th_winrate') }}</em><b class="nums {{ 'good' if r.win_rate >= 0.5 else 'warn' }}">{{ (r.win_rate * 100)|round(1) }}%</b></span>
+          <span><em>{{ t(lang, 'th_pickrate') }}</em><b class="nums">{{ (r.pick_rate * 100)|round(1) }}%</b></span>
+          <span><em>{{ t(lang, 'th_games') }}</em><b class="nums">{{ r.games }}</b></span>
+        </span>
+        <span class="lt-go">{{ ('Voir le guide' if fr else 'View the guide') if has_guide else ('Voir la fiche' if fr else 'View the page') }} →</span>
+      </a>
+      {% endfor %}
+    </div>
     <div class="champions-table-scroll"><table class="champions-table">
       <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_tier') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th>{% if lol_guide_slugs_by_lang[lang] %}<th></th>{% endif %}</tr></thead>
       <tbody>
