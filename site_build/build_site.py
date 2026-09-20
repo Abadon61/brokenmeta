@@ -4808,6 +4808,18 @@ def breadcrumb_schema(crumbs: list[tuple[str, str]]) -> dict:
     }
 
 
+# Short, readable labels for the League breadcrumb levels (real pages only: there is no /league/glossaire/ page,
+# so each glossary section is its own level).
+LOL_CRUMB_LABEL = {
+    "fr": {"items": "Glossaire des objets", "champions": "Glossaire des champions", "runes": "Glossaire des runes",
+           "tier": "Tier List", "trends": "Tendances", "changes": "Changements de tier", "patch": "Patch Notes",
+           "leaderboard": "Leaderboard", "compare": "Comparateur de profils", "worldstat": "World Stat"},
+    "en": {"items": "Item glossary", "champions": "Champion glossary", "runes": "Rune glossary",
+           "tier": "Tier list", "trends": "Trends", "changes": "Tier changes", "patch": "Patch notes",
+           "leaderboard": "Leaderboard", "compare": "Profile comparison", "worldstat": "World Stat"},
+}
+
+
 def build_article_schema(headline: str, url: str, description: str, image: str | None = None) -> dict:
     """schema.org Article for a real content page (champion/item sheet) --
     same shape comp.html's own article_schema dict already uses, factored
@@ -6627,6 +6639,13 @@ def main() -> None:
         u = lang_url(url_path, lang)
         return BASE_URL if u == "/" else BASE_URL + u.strip("/") + "/"
 
+    def lol_breadcrumbs(lang: str, *levels: tuple[str, str]) -> dict:
+        """Home > League of Legends > (label key, path)... -- every path is a real page on the site."""
+        crumbs = [(translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                  ("League of Legends", canonical_for("/league/", lang))]
+        crumbs += [(LOL_CRUMB_LABEL[lang][key], canonical_for(path, lang)) for key, path in levels]
+        return breadcrumb_schema(crumbs)
+
     def render(template_name: str, url_path: str, lang: str, **ctx) -> None:
         tpl = env.get_template(template_name)
         other = "en" if lang == "fr" else "fr"
@@ -6966,6 +6985,7 @@ def main() -> None:
         _home_by_role = [{"role": _r, "label": _lol_role_label[_r], "rows": _home_roles[_r][:3]} for _r in ("top", "jungle", "mid", "adc", "support") if _home_roles.get(_r)]
         _hero = lol_champ_by_id.get(next(iter(sorted(_home_games, key=lambda k: -_home_games[k])), ""), None)
         render("league_profile.html", "/league/", lang, active_nav="league", active_sub="lol-profile", league_i18n=LEAGUE_UI_I18N[lang],
+               breadcrumb_schema=lol_breadcrumbs(lang),
                ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
                home={"by_role": _home_by_role, "risers": _home_risers, "fallers": _home_fallers, "popular": _home_popular,
                      "patch": (PATCHES_LOL[lang] or [None])[0], "hero_champion": {"id": _hero["id"]} if _hero else None})
@@ -6973,6 +6993,7 @@ def main() -> None:
         # ---- Glossaire League of Legends (objets + champions, données
         # réelles Data Dragon -- voir fetch_lol_glossary_data) ----
         render("lol_glossary_items.html", "/league/glossaire/objets/", lang, active_nav="league", active_sub="lol-glossary-items",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("items", "/league/glossaire/objets/")),
                ddragon_version=ddragon_version, items=[localize_lol_item(it, lang) for it in lol_items])
         for it in lol_items:
             _lit = lol_item_detail_view(it, lang, lol_items_lookup)
@@ -6983,13 +7004,14 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([
                        (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                        ("League of Legends", canonical_for("/league/", lang)),
-                       (translate(lang, "nav_lol_items"), canonical_for("/league/glossaire/objets/", lang)),
+                       (LOL_CRUMB_LABEL[lang]["items"], canonical_for("/league/glossaire/objets/", lang)),
                        (_lit["name"], _lit_url),
                    ]),
                    article_schema=build_article_schema(f"{_lit['name']} — League of Legends", _lit_url,
                                                   translate(lang, "lol_item_detail_desc", _lit["name"]),
                                                   image=f"https://ddragon.leagueoflegends.com/cdn/{ddragon_version}/img/item/{_lit['icon_file']}"))
         render("lol_glossary_champions.html", "/league/glossaire/champions/", lang, active_nav="league", active_sub="lol-glossary-champions",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("champions", "/league/glossaire/champions/")),
                ddragon_version=ddragon_version, champions=[localize_lol_champion(c, lang) for c in lol_champions],
                class_options=list(LOL_CLASS_LABEL["fr" if lang == "fr" else "en"].items()))
         for c in lol_champions:
@@ -7004,7 +7026,7 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([
                        (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                        ("League of Legends", canonical_for("/league/", lang)),
-                       (translate(lang, "nav_lol_champions"), canonical_for("/league/glossaire/champions/", lang)),
+                       (LOL_CRUMB_LABEL[lang]["champions"], canonical_for("/league/glossaire/champions/", lang)),
                        (_lcv["name"], _lcv_url),
                    ]),
                    article_schema=build_article_schema(f"{_lcv['name']} — League of Legends", _lcv_url,
@@ -7039,7 +7061,7 @@ def main() -> None:
                        breadcrumb_schema=breadcrumb_schema([
                            (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                            ("League of Legends", canonical_for("/league/", lang)),
-                           (translate(lang, "nav_lol_champions"), canonical_for("/league/glossaire/champions/", lang)),
+                           (LOL_CRUMB_LABEL[lang]["champions"], canonical_for("/league/glossaire/champions/", lang)),
                            (_lcv["name"], _lcv_url),
                            (translate(lang, "lol_champ_matchups_title"), _counters_url),
                        ]),
@@ -7115,13 +7137,17 @@ def main() -> None:
                                                          for i, x in enumerate(_hub_sorted)]})
         _lol_trees, _lol_spells = localize_lol_runes_page(lol_rune_trees, lol_summoner_spells, lang)
         render("lol_glossary_runes.html", "/league/glossaire/runes/", lang, active_nav="league", active_sub="lol-glossary-runes",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("runes", "/league/glossaire/runes/")),
                ddragon_version=ddragon_version, trees=_lol_trees, summoner_spells=_lol_spells)
         render("lol_patch_notes.html", "/league/patch-notes/", lang, active_nav="league", active_sub="lol-patchnotes",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("patch", "/league/patch-notes/")),
                ddragon_version=ddragon_version,
                patches=[{**p, "changes": [lol_patch_change_view(c, lol_patch_icon_lookup) for c in p["changes"]]}
                         for p in PATCHES_LOL[lang]])
-        render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard")
+        render("lol_leaderboard.html", "/league/leaderboard/", lang, active_nav="league", active_sub="lol-leaderboard",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("leaderboard", "/league/leaderboard/")))
         render("lol_compare.html", "/league/comparer/", lang, active_nav="league", active_sub="lol-compare",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("compare", "/league/comparer/")),
                league_i18n=LEAGUE_UI_I18N[lang])
         _lol_by_role = build_lol_tier_list(lol_role_stats_by_champion, lol_champions, lang)
         # Structured data (schema.org ItemList) for the Top role's ranking --
@@ -7147,7 +7173,7 @@ def main() -> None:
                breadcrumb_schema=breadcrumb_schema([
                    (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                    ("League of Legends", canonical_for("/league/", lang)),
-                   (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
+                   (LOL_CRUMB_LABEL[lang]["tier"], canonical_for("/league/tier-list/", lang)),
                ]))
         for _bracket in LOL_ELO_BRACKETS:
             _bracket_raw = (lol_role_stats_by_bracket.get(_bracket) or {}).get("by_champion", {})
@@ -7175,7 +7201,7 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([
                        (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                        ("League of Legends", canonical_for("/league/", lang)),
-                       (translate(lang, "lol_tier_list_title"), canonical_for("/league/tier-list/", lang)),
+                       (LOL_CRUMB_LABEL[lang]["tier"], canonical_for("/league/tier-list/", lang)),
                        (_bracket_label, _bracket_url),
                    ]))
         _lol_risers, _lol_fallers = build_lol_trend_rows(lang)
@@ -7186,7 +7212,7 @@ def main() -> None:
                breadcrumb_schema=breadcrumb_schema([
                    (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                    ("League of Legends", canonical_for("/league/", lang)),
-                   (translate(lang, "lol_trends_title"), canonical_for("/league/tendances/", lang)),
+                   (LOL_CRUMB_LABEL[lang]["trends"], canonical_for("/league/tendances/", lang)),
                ]))
         _lol_promotions, _lol_demotions = build_lol_tier_changelog(lang)
         render("lol_tier_changelog.html", "/league/changements/", lang, active_nav="league", active_sub="lol-changelog",
@@ -7196,9 +7222,10 @@ def main() -> None:
                breadcrumb_schema=breadcrumb_schema([
                    (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                    ("League of Legends", canonical_for("/league/", lang)),
-                   (translate(lang, "lol_changelog_title"), canonical_for("/league/changements/", lang)),
+                   (LOL_CRUMB_LABEL[lang]["changes"], canonical_for("/league/changements/", lang)),
                ]))
         render("lol_world_stat.html", "/league/leaderboard/world-stat/", lang, active_nav="league", active_sub="lol-leaderboard",
+               breadcrumb_schema=lol_breadcrumbs(lang, ("leaderboard", "/league/leaderboard/"), ("worldstat", "/league/leaderboard/world-stat/")),
                elo_chart_svg=build_elo_chart_svg(lol_ws_snapshots, lol_ws_regions_present, lang),
                area_chart_payload=build_area_chart_payload(lol_ws_snapshots, lol_ws_regions_present),
                legend=lol_ws_legend, single_point=len(lol_ws_snapshots) == 1)

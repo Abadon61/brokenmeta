@@ -2,6 +2,7 @@
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_glossary_runes_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_glossary_runes_desc') }}{% endblock %}
 {% import "macros.html" as m %}
+{% block extra_head %}{% if breadcrumb_schema %}<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>{% endif %}{% endblock %}
 {% block content %}
 {% set fr = lang == 'fr' %}
 {{ m.page_hero(('Glossaire · League of Legends' if fr else 'Glossary · League of Legends'), t(lang, 'lol_glossary_runes_title'), t(lang, 'lol_glossary_runes_intro'), [(trees|length, 'arbres de runes' if fr else 'rune trees')]) }}

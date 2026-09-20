@@ -5,6 +5,7 @@
 {% block title %}BrokenMeta.gg | {% if fr %}League of Legends — Analyse ton profil{% else %}League of Legends — Analyze your profile{% endif %}{% endblock %}
 {% block description %}{% if fr %}Analyse réelle de ton profil League of Legends : rang, historique de parties, rôles, comparaison à ton rang et activité, via l'API officielle de Riot.{% else %}Real analysis of your League of Legends profile: rank, match history, roles, comparison to your rank and activity, via Riot's official API.{% endif %}{% endblock %}
 {% macro champ_link(c) %}{% if c.slug in lol_guide_slugs_by_lang[lang] %}{{ root }}league/guide/{{ c.slug }}/{% else %}{{ root }}league/glossaire/champions/{{ c.slug }}/{% endif %}{% endmacro %}
+{% block extra_head %}{% if breadcrumb_schema %}<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>{% endif %}{% endblock %}
 {% block content %}
 <section class="lh-hero"{% if home.hero_champion %} style="--lh-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ home.hero_champion.id }}_0.jpg')"{% endif %}>
   <div class="lh-hero-inner">

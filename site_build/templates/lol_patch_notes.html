@@ -2,6 +2,7 @@
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_patch_notes_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_patch_notes_desc', patches[0].version) }}{% endblock %}
 {% import "macros.html" as m %}
+{% block extra_head %}{% if breadcrumb_schema %}<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>{% endif %}{% endblock %}
 {% block content %}
 {% set fr = lang == 'fr' %}
 {{ m.page_hero('League of Legends', t(lang, 'lol_patch_notes_title'), t(lang, 'lol_patch_last_updated', patches[0].version, patches[0].date), [(patches[0].version, 'dernier patch' if fr else 'latest patch'), (patches|length, 'patchs résumés' if fr else 'patches summarised')]) }}

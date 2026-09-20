@@ -2,6 +2,7 @@
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_worldstat_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_worldstat_desc') }}{% endblock %}
 {% import "macros.html" as m %}
+{% block extra_head %}{% if breadcrumb_schema %}<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>{% endif %}{% endblock %}
 {% block content %}
 <a class="back-link" href="{{ root }}league/leaderboard/">{{ t(lang, 'back_to_lol_leaderboard') }}</a>
 

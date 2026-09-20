@@ -123,6 +123,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 <div class="page">
+{% if breadcrumb_schema and active_nav == 'league' %}
+<nav class="crumbs" aria-label="{{ 'Fil d\'Ariane' if lang == 'fr' else 'Breadcrumb' }}"><ol>
+{% for c in breadcrumb_schema.itemListElement %}<li>{% if loop.last %}<span aria-current="page">{{ c.name }}</span>{% else %}<a href="{{ c.item|replace('https://brokenmeta.gg/', root) }}">{{ c.name }}</a>{% endif %}</li>{% endfor %}
+</ol></nav>
+{% endif %}
 {% block content %}{% endblock %}
 </div>
 <footer>
