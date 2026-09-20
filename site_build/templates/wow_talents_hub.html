@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ wt.hub_title }}{% endblock %}
+{% block description %}{{ wt.hub_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+{% if wt_fixture %}<meta name="robots" content="noindex,nofollow">{% endif %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% if wt_fixture %}<p class="wt-fixture" data-marker="WOW-TALENTS-FIXTURE">{{ wt.fixture }}</p>{% endif %}
+{{ m.page_hero(wt.kicker, wt.hub_h1, wt.hub_intro, [(wt_classes|length, wt.classes_count)]) }}
+<h2 class="fiche-section-title">{{ wt.rules_h2 }}</h2>
+<ul class="gd-list">{% for r in wt.rules %}<li>{{ r }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ wt.classes_h2 }}</h2>
+<div class="lh-cards">
+  {% for c in wt_classes %}
+  <a class="lh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/"><span class="lh-card-k">{{ wt.talents_kicker }}</span><b>{{ c.name[lang] }}</b><span>{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span></a>
+  {% endfor %}
+</div>
+<h2 class="fiche-section-title">{{ wt.sources }}</h2>
+<p class="wow-note">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a></p>
+{% endblock %}

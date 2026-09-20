@@ -21,6 +21,7 @@ SOURCES = {
                  "https://www.icy-veins.com/wow-forever/news/warcraft-forever-releases-november-4-beta-starts-september-17/"),
     "pcgamer": ("PC Gamer — World of Warcraft: Forever beta launch times",
                 "https://www.pcgamer.com/games/world-of-warcraft/world-of-warcraft-forever-beta-launch-times-how-to-sign-up-and-play-blizzards-twist-on-wow-classic/"),
+    "icy_talents": ("Icy Veins — WoW Forever Talent Calculator", "https://www.icy-veins.com/wow-forever/talent-calculator"),
     "official": ("Blizzard — World of Warcraft: Forever (official page)", "http://worldofwarcraft.blizzard.com/en-us/forever"),
 }
 

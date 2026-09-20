@@ -41,6 +41,7 @@ from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E4
 from lol_guide_view import build_guide_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
+import wow_talents  # noqa: E402
 
 
 OUT = PROJECT / "data" / "output"
@@ -6583,7 +6584,12 @@ def main() -> None:
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
     env.globals["SET_LABEL"] = SET_LABEL
-    env.globals["wow_nav"] = wow_content.NAV
+    # Talent calculator: pages exist only when real class data is in data/wow_talents/ (or WOW_TALENTS_FIXTURE=1 for a local test).
+    wt_classes, wt_fixture = wow_talents.load()
+    _wnav = list(wow_content.NAV)
+    if wt_classes:
+        _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Talents", "Talents"))
+    env.globals["wow_nav"] = _wnav
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -7251,6 +7257,30 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
                    faq_schema=_wfaq)
+        if wt_classes:
+            _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
+            _rules_src = wow_content.SOURCES["icy_talents"]
+            _tbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang)),
+                      ("Talents", canonical_for("/wow-forever/talents/", lang))]
+            assert len(_wt["hub_title"]) <= 60 and len(_wt["hub_desc"]) <= 155
+            render("wow_talents_hub.html", "/wow-forever/talents/", lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
+                   wt_classes=wt_classes, rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
+                   breadcrumb_schema=breadcrumb_schema(_tbase))
+            for _c in wt_classes:
+                _cname = _c["name"][lang]
+                _specs = ", ".join(s["name"][lang] for s in _c["specs"][:-1]) + (" / " if lang == "en" else " et ") + _c["specs"][-1]["name"][lang]
+                _title = _wt["class_title"].format(name=_cname)
+                _desc = _wt["class_desc"].format(name=_cname, specs=_specs)
+                if len(_desc) > 155:  # long spec names: fall back to the version without them
+                    _desc = _wt["class_desc_short"].format(name=_cname)
+                assert len(_title) <= 60 and len(_desc) <= 155, (_title, len(_title), len(_desc))
+                _cpath = f"/wow-forever/talents/{_c['id']}/"
+                _json = json.dumps(wow_talents.payload(_c, lang), ensure_ascii=False).replace("</", "<\\/")
+                render("wow_talents_class.html", _cpath, lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
+                       wt_class=_c, wt_json=_json, wt_title=_title, wt_desc=_desc, wt_h1=_wt["class_h1"].format(name=_cname),
+                       wt_intro=_wt["class_intro"].format(specs=_specs), wt_n_talents=sum(len(s["talents"]) for s in _c["specs"]),
+                       rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)
@@ -8130,6 +8160,8 @@ def main() -> None:
 
     (DIST / "assets" / "js").mkdir(parents=True, exist_ok=True)
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
+    if wt_classes:
+        shutil.copy(ROOT / "js" / "wow-talents.js", DIST / "assets" / "js" / "wow-talents.js")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():
@@ -8322,6 +8354,8 @@ def main() -> None:
         # profile-page exclusion (2026-09-09): the EN half was silently
         # excluded, the FR half silently wasn't.
         if "player" not in p.relative_to(DIST).parts
+        # test-only talent pages (WOW_TALENTS_FIXTURE=1) never belong in a sitemap
+        and not (wt_fixture and "talents" in p.relative_to(DIST).parts and "wow-forever" in p.relative_to(DIST).parts)
     )
     sitemap = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">']
     sitemap += [f"  <url><loc>{u}</loc></url>" for u in urls]
