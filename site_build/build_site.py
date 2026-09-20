@@ -6590,6 +6590,7 @@ def main() -> None:
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Talents", "Talents"))
     env.globals["wow_nav"] = _wnav
+    env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
