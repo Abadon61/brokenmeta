@@ -89,6 +89,11 @@
   <div class="gd-build-meta nums"><b>{{ b.games }}</b> {{ ui.games }} · <b class="{{ 'good' if b.win_rate >= 0.5 else 'warn' }}">{{ pct(b.win_rate) }}</b></div>
 </div>
 {% endfor %}
+{% if g.top_items %}
+<h3 class="gd-sub">{{ ui.top_items_title }}</h3>
+<p class="profile-section-note" style="display:block">{{ ui.top_items_note }}</p>
+<div class="gd-row">{% for i in g.top_items %}<div class="gd-chipline">{{ item_chip(i) }}<span class="nums">{{ pct(i.share) }} {{ ui.share }} · {{ pct(i.win_rate) }}</span></div>{% endfor %}</div>
+{% endif %}
 {% if g.timeline %}
 {% if g.timeline.skills %}
 <h3 class="gd-sub">{{ ui.skills_title }}</h3>

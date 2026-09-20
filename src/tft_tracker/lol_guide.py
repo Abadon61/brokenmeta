@@ -232,6 +232,9 @@ def build_guide_output(matches: list[dict], core_ids: set[int], boot_ids: set[in
                           for it, (n, w) in sorted(c["boots"].items(), key=lambda kv: -kv[1][0]) if n >= MIN_BOOT_GAMES][:3],
                 "core_builds": [{"items": list(trio), "games": n, "win_rate": rate(w, n)}
                                 for trio, (n, w) in sorted(c["core"].items(), key=lambda kv: -kv[1][0]) if n >= MIN_CORE_GAMES][:5],
+                # most-built finished items, for champions whose builds are too varied for any 3-item core to repeat
+                "top_items": [{"item_id": it, "games": n, "win_rate": rate(w, n)}
+                              for it, (n, w) in sorted(c["items"].items(), key=lambda kv: -kv[1][0]) if n >= MIN_CORE_GAMES][:6],
                 "vs_enemy": vs_out,
                 "runes": _rune_pages(c["runes"]),
             }

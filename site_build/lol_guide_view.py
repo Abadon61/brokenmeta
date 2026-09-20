@@ -42,7 +42,9 @@ STR = {
             "combos_title": "Combos et façon de jouer", "editorial_tag": "Guide rédigé · d'après les textes officiels des capacités",
             "strengths": "Points forts de {name}", "weaknesses": "Points faibles de {name}", "teamfight": "Rôle en combat d'équipe",
             "when": "Quand :", "laning": "Phase de lane", "mistakes": "Erreurs fréquentes", "riot_play": "Conseils officiels de Riot pour jouer {name}",
-            "build_title": "Build, runes et sorts d'invocateur", "games": "parties", "boots": "Bottes", "summoners": "Sorts d'invocateur",
+            "build_title": "Build, runes et sorts d'invocateur", "top_items_title": "Objets les plus construits",
+            "top_items_note": "Les choix d'objets varient trop pour qu'un build de base se répète : voici les objets terminés les plus souvent présents en fin de partie, avec la part des parties où ils sont achetés.",
+            "share": "des parties", "games": "parties", "boots": "Bottes", "summoners": "Sorts d'invocateur",
             "runes": "Runes les plus jouées",
             "adverse_title": "Quels objets prendre selon l'équipe adverse ?",
             "adverse_intro": "Nous classons chaque partie selon les dégâts de l'équipe ennemie. Voici les objets terminés de {name} et leur winrate dans chaque situation ; « ▲ » signale un objet qui fait au moins 3 points de mieux que son winrate habituel.",
@@ -86,7 +88,9 @@ STR = {
             "combos_title": "Combos and how to play", "editorial_tag": "Written guide · based on the official ability texts",
             "strengths": "{name}'s strengths", "weaknesses": "{name}'s weaknesses", "teamfight": "Role in team fights",
             "when": "When:", "laning": "Laning phase", "mistakes": "Common mistakes", "riot_play": "Riot's official tips for playing {name}",
-            "build_title": "Build, runes and summoner spells", "games": "games", "boots": "Boots", "summoners": "Summoner spells",
+            "build_title": "Build, runes and summoner spells", "top_items_title": "Most-built items",
+            "top_items_note": "Item choices vary too much for a single core build to repeat: these are the finished items most often owned at the end of the game, with the share of games in which they are bought.",
+            "share": "of games", "games": "games", "boots": "Boots", "summoners": "Summoner spells",
             "runes": "Most-played runes",
             "adverse_title": "Which items to build against the enemy team?",
             "adverse_intro": "We sort every game by the enemy team's damage. These are {name}'s completed items and their win rate in each situation; \"▲\" marks an item that does at least 3 points better than its usual win rate.",
@@ -247,6 +251,13 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         its = [resolve_item(i, items_lookup, lang) for i in b["items"]]
         if all(its):
             core_builds.append({"items": its, "games": b["games"], "win_rate": b["win_rate"]})
+    top_items = []
+    if not core_builds:
+        for x in main.get("top_items", []):
+            it = resolve_item(x["item_id"], items_lookup, lang)
+            if it:
+                top_items.append({**it, "games": x["games"], "win_rate": x["win_rate"], "share": x["games"] / main["games"]})
+        top_items = top_items[:6]
     boots = [{**x, **(resolve_item(x["item_id"], items_lookup, lang) or {})} for x in main["boots"] if resolve_item(x["item_id"], items_lookup, lang)]
     spells = []
     for s in main["spells"]:
@@ -266,6 +277,12 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
             if boots:
                 builds_text += f", usually with {boots[0]['name']} ({pct(boots[0]['win_rate'])}% over {boots[0]['games']} games)"
         builds_text += "."
+    elif len(top_items) >= 3:
+        names = join_list([i["name"] for i in top_items[:3]], lang)
+        if fr:
+            builds_text = f"Les builds varient beaucoup ; les objets terminés les plus construits sont {names} (achetés dans {pct(top_items[0]['share'])} % des parties pour le premier)."
+        else:
+            builds_text = f"Builds vary a lot; the most-built finished items are {names} (the first is bought in {pct(top_items[0]['share'])}% of games)."
 
     # ---- skill order / start items / item path (only when lol_timeline_run.py has been run; see lol_timeline.py)
     timeline = None
@@ -365,7 +382,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
     # ---- FAQ, only from data we have
     faq = []
     if fr:
-        if core_builds:
+        if builds_text:
             faq.append({"q": f"Quel est le meilleur build pour {name} ?", "a": builds_text})
         if hardest:
             faq.append({"q": f"Qui contre {name} ?",
@@ -382,7 +399,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
                         "a": f"La page de runes la plus jouée utilise {rp['keystone_name']} avec l'arbre secondaire {rp['tree_name']} "
                              f"({rp['games']} parties, {pct(rp['win_rate'])} % de victoires)."})
     else:
-        if core_builds:
+        if builds_text:
             faq.append({"q": f"What is the best build for {name}?", "a": builds_text})
         if hardest:
             faq.append({"q": f"Who counters {name}?",
@@ -441,7 +458,7 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         "editorial": ed, "ally_tips": ally_tips, "enemy_tips": enemy_tips,
         "passive": d["passive"], "spells": d["spells"],
         "core_builds": core_builds, "boots": boots, "summoner_spells": spells, "builds_text": builds_text,
-        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3], "rune_builds": rune_builds, "timeline": timeline,
+        "best_items": d["best_items"][:8], "rune_pages": rune_pages[:3], "rune_builds": rune_builds, "timeline": timeline, "top_items": top_items,
         "vs_enemy": vs_enemy, "hardest": hardest, "easiest": easiest,
         "faq": faq, "has_contres": has_contres,
     }
