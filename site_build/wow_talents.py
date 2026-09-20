@@ -28,7 +28,8 @@ Class file schema (one file per class):
         "icon": "path/or/url"}                                 # optional, none until we have permitted images
      ]}
   ],
-  "source": {"label": "...", "url": "..."}    # optional: where the data comes from (shown on the page)
+  "source": {"label": "...", "url": "..."},   # optional: where the data comes from (shown on the page)
+  "icons_source": {"label": "...", "url": "..."}   # optional: where the "icon" images are served from (credited on the page)
 }
 Without "gates" a talent in row r falls back to the generic rule below. Importer output always carries explicit gates.
 

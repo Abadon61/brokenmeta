@@ -36,13 +36,18 @@ STAGING_DIR = ROOT / "data" / "wow_talents_staging"
 FINAL_DIR = ROOT / "data" / "wow_talents"
 UA = "brokenmeta.gg talent importer (independent fan site)"
 PAUSE = 1.5
+# Talent icons: the client tables give an icon FILE ID; its name comes from ManifestInterfaceData. The images themselves are NOT
+# stored here -- the pages point at Wowhead's public image network (same convention as the other calculators). Whether Blizzard's
+# icon art may be shown is the site owner's decision; `--icons none` builds the data without any icon (initials are shown instead).
+ICON_BASE = "https://wow.zamimg.com/images/wow/icons/large/"
+ICON_SOURCE = {"label": "Icons: Wowhead image network", "url": "https://www.wowhead.com/"}
 LOCALES = {"en": None, "fr": "frFR"}
 ROWS, COLS = 7, 4
 
 # tables read once (language independent) and tables read per language
 PLAIN = ["TraitTree", "TraitNode", "TraitNodeEntry", "TraitNodeXTraitNodeEntry", "TraitDefinition", "TraitDefinitionEffectPoints",
          "TraitEdge", "TraitNodeGroupXTraitNode", "TraitNodeGroupXTraitCond", "TraitCond", "TraitCurrency", "TraitCurrencySource",
-         "TraitTreeXTraitCurrency", "SpellEffect", "SpellMisc", "SpellDuration", "SpellAuraOptions", "SpellRadius", "Curve", "CurvePoint"]
+         "TraitTreeXTraitCurrency", "ManifestInterfaceData", "SpellEffect", "SpellMisc", "SpellDuration", "SpellAuraOptions", "SpellRadius", "Curve", "CurvePoint"]
 LOCALIZED = ["ChrClasses", "TalentTab", "SpellName", "Spell"]
 
 
@@ -348,7 +353,7 @@ def slug(s: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", s.lower()).strip("-")
 
 
-def build(T: Tables, out_dir: Path) -> dict:
+def build(T: Tables, out_dir: Path, icons: bool = True) -> dict:
     rep: dict = {"build": T.build, "warnings": [], "classes": {}, "unresolved": collections.Counter(), "texts": 0, "texts_ok": 0}
     warn = rep["warnings"].append
     sp = Spells(T)
@@ -388,6 +393,10 @@ def build(T: Tables, out_dir: Path) -> dict:
     by_tree = collections.defaultdict(list)
     for n in T.TraitNode:
         by_tree[n["TraitTreeID"]].append(n)
+    icon_names = {r["ID"]: r["FileName"].rsplit(".", 1)[0].lower() for r in T.ManifestInterfaceData if r["FilePath"].lower().startswith("interface\\icons")}
+    icon_of_spell = {}
+    for r in T.SpellMisc:
+        icon_of_spell.setdefault(r["SpellID"], r.get("SpellIconFileDataID", "0"))
 
     def clusters(xs):
         xs = sorted(xs)
@@ -525,6 +534,11 @@ def build(T: Tables, out_dir: Path) -> dict:
                 item = {"id": f"n{nid}", "name": name, "row": row, "col": col, "max_rank": mr, "desc": desc}
                 if any("…" in x for lang in LOCALES for x in desc[lang]):
                     item["incomplete"] = True
+                icon = icon_names.get(icon_of_spell.get(sid, "0")) if icons else None
+                if icon:
+                    item["icon"] = ICON_BASE + icon + ".jpg"
+                elif icons:
+                    rep.setdefault("no_icon", []).append(f"{cslug}/{name['en']}")
                 # gates
                 gates = set()
                 for g in node_groups.get(nid, ()):
@@ -573,6 +587,8 @@ def build(T: Tables, out_dir: Path) -> dict:
         cls_json = {"id": cslug, "name": {lang: class_names[lang][cid] for lang in LOCALES}, "specs": specs_json,
                     "source": {"label": f"WoW: Forever beta client data, build {T.build} (tables via wago.tools)", "url": "https://wago.tools/"},
                     "meta": {"build": T.build, "generated": dt.date.today().isoformat(), "assumptions": assumptions}}
+        if icons:
+            cls_json["icons_source"] = ICON_SOURCE
         if out_dir:
             (out_dir / f"{cslug}.json").write_text(json.dumps(cls_json, ensure_ascii=False, indent=1), encoding="utf-8")
         rep["classes"][cslug] = {"specs": [(s["name"]["en"], len(s["talents"])) for s in specs_json],
@@ -597,6 +613,7 @@ def report(rep: dict) -> None:
     if rep["problems_by_token"]:
         print("unresolved tokens (top):", rep["problems_by_token"].most_common(12))
     print("ignored trees (id, nodes, clusters):", rep["ignored_trees"])
+    print("talents without an icon:", rep.get("no_icon", []) or "none")
     for line in rep.get("offgrid", []):
         print("OFF-GRID:", line)
     if rep["missing_classes"]:
@@ -609,6 +626,7 @@ def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--build", help="client build (default: newest wow_classic_beta build)")
     ap.add_argument("--refresh", action="store_true", help="download the tables again")
+    ap.add_argument("--icons", choices=["wowhead", "none"], default="wowhead", help="talent icons: point at Wowhead's image network, or none")
     ap.add_argument("--publish", action="store_true", help="copy the staging files to data/wow_talents/ (refuses if anything is unresolved)")
     ap.add_argument("--allow-unresolved", action="store_true", help="with --publish: publish even if some texts are unresolved")
     args = ap.parse_args()
@@ -634,7 +652,7 @@ def main() -> None:
     build_id = args.build or latest_beta_build()
     print(f"build {build_id}: reading tables (cache: {RAW_DIR / build_id})")
     T = Tables(build_id, args.refresh)
-    rep = build(T, STAGING_DIR)
+    rep = build(T, STAGING_DIR, icons=(args.icons == "wowhead"))
     report(rep)
     print(f"\nwritten to {STAGING_DIR} (staging: not used by the site build unless WOW_TALENTS_PREVIEW=1)")
 

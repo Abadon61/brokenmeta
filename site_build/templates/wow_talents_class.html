@@ -15,7 +15,7 @@
 <script id="wowTalentData" type="application/json">{{ wt_json|safe }}</script>
 <noscript><p class="wow-note">JavaScript is required for the calculator.</p></noscript>
 <h2 class="fiche-section-title">{{ wt.sources }}</h2>
-<p class="wow-note">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a>{% if wt_class.source %} · <a href="{{ wt_class.source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.source.label }}</a>{% endif %}</p>
+<p class="wow-note">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a>{% if wt_class.source %} · <a href="{{ wt_class.source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.source.label }}</a>{% endif %}{% if wt_class.icons_source %} · <a href="{{ wt_class.icons_source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.icons_source.label }}</a>{% endif %}</p>
 {% endblock %}
 {% block extra_body %}
 <script src="{{ root }}assets/js/wow-talents.js?v={{ css_v }}" defer></script>

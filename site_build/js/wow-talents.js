@@ -116,8 +116,11 @@
     s.order.forEach(function (t) {
       var b = el('button', 'wt-node'); b.type = 'button';
       b.style.gridRow = String(t.row); b.style.gridColumn = String(t.col + 1);
-      if (t.icon) { var img = el('img', 'wt-icon'); img.src = t.icon; img.alt = ''; b.appendChild(img); }
-      else b.appendChild(el('span', 'wt-mark', initials(t.name)));
+      if (t.icon) {
+        var img = el('img', 'wt-icon'); img.src = t.icon; img.alt = ''; img.width = 56; img.height = 56; img.loading = 'lazy';
+        img.addEventListener('error', function () { img.replaceWith(el('span', 'wt-mark', initials(t.name))); });   /* broken image: fall back to initials */
+        b.appendChild(img);
+      } else b.appendChild(el('span', 'wt-mark', initials(t.name)));
       var badge = el('i', 'wt-rank', '0/' + t.max_rank); b.appendChild(badge);
       b.addEventListener('click', function (e) { if (e.shiftKey || removeMode) remove(t); else add(t); showTip(t, b); });
       b.addEventListener('contextmenu', function (e) { e.preventDefault(); remove(t); showTip(t, b); });
