@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'discord_page_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'discord_intro') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'discord_page_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'discord_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero('Teamfight Tactics · League of Legends', t(lang, 'discord_page_title'), t(lang, 'discord_intro')) }}
 
 <h2 class="fiche-section-title">{{ t(lang, 'discord_how_title') }}</h2>
 <ol class="discord-how-list">

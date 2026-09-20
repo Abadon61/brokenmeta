@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'glossary_champions_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'glossary_champions_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'glossary_champions_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'glossary_champions_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero(('Glossaire · Teamfight Tactics Set 18' if fr else 'Glossary · Teamfight Tactics Set 18'), t(lang, 'glossary_champions_title'), t(lang, 'glossary_champions_intro'),
+   [(champions|length, 'champions' if fr else 'champions')]) }}
 <div class="glossary-icon-grid">
   {% for c in champions %}
   <a class="glossary-icon-item" href="{{ root }}champions/{{ c.slug }}/">

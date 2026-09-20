@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}{{ t(lang, 'favorites_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'favorites_intro') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'nav_favorites') }}</h1>
-<p class="page-intro">{{ t(lang, 'favorites_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero('Teamfight Tactics · League of Legends', t(lang, 'nav_favorites'), t(lang, 'favorites_intro')) }}
 <div id="favoritesList" class="favorites-list"
      data-empty-text="{{ t(lang, 'favorites_empty') }}"
      data-add-title="{{ t(lang, 'fav_add_title') }}"

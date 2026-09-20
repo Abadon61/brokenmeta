@@ -1,9 +1,14 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tier List Combos d'Objets — TFT Set 18{% else %}Item Combo Tier List — TFT Set 18{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Les meilleures combinaisons de 3 objets Teamfight Tactics Set 18, tous champions confondus, classées S/A/B/C par placement moyen réel.{% else %}The best 3-item combos in Teamfight Tactics Set 18, across every champion, ranked S/A/B/C by real average placement.{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'combos_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'combos_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{% set max_pc = (combos|map(attribute='play_count')|max) if combos else 0 %}
+{% set pool = combos|selectattr('play_count', 'ge', max_pc * 0.1)|list %}
+{% set best = (pool|sort(attribute='avg_placement')|first) if pool else none %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'combos_title'), t(lang, 'combos_intro'),
+   [(combos|length, 'combos classés' if fr else 'ranked combos')] + ([('%.2f'|format(best.avg_placement), 'meilleur placement moyen' if fr else 'best average placement')] if best else [])) }}
 <div class="champ-table-wrap">
   <table class="champ-table">
     <thead><tr>

@@ -8,9 +8,11 @@
 {% endmacro %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18 (dernier : {{ patches[0].version }}), avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches (latest: {{ patches[0].version }}), with links to the full official articles.{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}</h1>
-<p class="page-intro">{{ t(lang, 'patch_last_updated', patches[0].version, patches[0].date) }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'patch_notes_title_dynamic', patches[0].version), t(lang, 'patch_last_updated', patches[0].version, patches[0].date),
+   [(patches[0].version, 'dernier patch' if fr else 'latest patch'), (patches|length, 'patchs résumés' if fr else 'patches summarised')]) }}
 <div class="patch-note-banner">{{ t(lang, 'patch_banner')|safe }}</div>
 <div class="patch-list">
   {% for p in patches %}
