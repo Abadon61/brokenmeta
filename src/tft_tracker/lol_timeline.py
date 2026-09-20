@@ -150,6 +150,8 @@ def aggregate_timelines(summaries: list[dict]) -> dict[tuple[str, str], dict]:
                 counts[letter] += 1
                 if counts[letter] == 5:
                     order.append(letter)
+            if len(order) == 2:  # the third basic ability is the one left over (its rank 5 just comes after level 15)
+                order += [x for x in "QWE" if x not in order]
             if len(order) >= 2:
                 groups[">".join(order)].append(p)
         skill_rows = []
@@ -165,9 +167,13 @@ def aggregate_timelines(summaries: list[dict]) -> dict[tuple[str, str], dict]:
         start = Counter(tuple(p["start"]) for p in parts if p["start"])
         out["start_items"] = [{"items": list(items), "games": n, "win_rate": _rate(sum(p["win"] for p in parts if tuple(p["start"]) == items), n)}
                               for items, n in start.most_common(3) if n >= MIN_TL_GAMES]
-        paths = Counter(tuple(p["core"][:3]) for p in parts if len(p["core"]) >= 3)
-        out["item_paths"] = [{"items": list(items), "games": n, "win_rate": _rate(sum(p["win"] for p in parts if tuple(p["core"][:3]) == items), n)}
-                             for items, n in paths.most_common(3) if n >= MIN_TL_GAMES]
+        out["item_paths"] = []
+        for depth in (3, 2):  # builds vary a lot: fall back to the first two items when no 3-item sequence is common enough
+            paths = Counter(tuple(p["core"][:depth]) for p in parts if len(p["core"]) >= depth)
+            out["item_paths"] = [{"items": list(items), "games": n, "win_rate": _rate(sum(p["win"] for p in parts if tuple(p["core"][:depth]) == items), n)}
+                                 for items, n in paths.most_common(3) if n >= MIN_TL_GAMES]
+            if out["item_paths"]:
+                break
 
         def avg(field: str, sub: str) -> float | None:
             vals = [p[field][sub] for p in parts if p.get(field) and p[field].get(sub) is not None]
