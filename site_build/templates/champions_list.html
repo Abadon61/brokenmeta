@@ -1,8 +1,18 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Liste des champions — TFT Set 18{% else %}Champion list — TFT Set 18{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Tous les champions Teamfight Tactics Set 18 classés S/A/B/C par taux de top 4 réel, avec taux de pick, placement moyen et meilleurs objets.{% else %}Every Teamfight Tactics Set 18 champion ranked S/A/B/C by real top 4 rate, with pick rate, avg placement and best items.{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'champions_title') }}</h1>
+{% set fr = lang == 'fr' %}
+{% set ranked = champions|selectattr('tier', 'in', ['S', 'A', 'B', 'C'])|list %}
+{# best average placement only among champions picked in at least 5% of games #}
+{% set pool = ranked|selectattr('pick_rate', 'ge', 0.05)|list %}
+{% set best = (pool|sort(attribute='avg_placement')|first) if pool else none %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'champions_title'),
+   'Tous les champions classés S/A/B/C par taux de top 4 réel, avec taux de pick, placement moyen et objets les plus joués.' if fr else 'Every champion ranked S/A/B/C by real top 4 rate, with pick rate, average placement and most-played items.',
+   [(champions|length, 'champions' if fr else 'champions'),
+    (ranked|selectattr('tier', 'equalto', 'S')|list|length, 'en tier S' if fr else 'in S tier')]
+   + ([(best.name ~ ' · ' ~ '%.2f'|format(best.avg_placement), 'meilleur placement moyen' if fr else 'best average placement')] if best else [])) }}
 <div class="champ-table-wrap">
   <table class="champ-table">
     <thead><tr>

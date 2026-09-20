@@ -292,3 +292,17 @@
 </div>
 {% endif %}
 {% endmacro %}
+
+{# Shared page header for the TFT list pages: kicker, title (the page's real h1), optional intro, real-number stats
+   [(value, label), ...] and an optional (href, label) action link. Same visual family as the homepage hero, no artwork. #}
+{% macro page_hero(kicker, title, intro=None, stats=None, action=None) %}
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">{{ kicker }}</div>
+    <h1 class="ph-title">{{ title }}</h1>
+    {% if intro %}<p class="ph-lede">{{ intro }}</p>{% endif %}
+    {% if stats %}<div class="ph-stats">{% for v, l in stats %}<div><b class="nums">{{ v }}</b><span>{{ l }}</span></div>{% endfor %}</div>{% endif %}
+    {% if action %}<a class="ph-action" href="{{ action[0] }}">{{ action[1] }}</a>{% endif %}
+  </div>
+</section>
+{% endmacro %}

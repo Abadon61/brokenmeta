@@ -1,9 +1,18 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tier List Objets — TFT Set 18{% else %}Item Tier List — TFT Set 18{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Tous les objets finis Teamfight Tactics Set 18 classés S/A/B/C par placement moyen réel, avec taux de sélection, winrate et meilleurs champions.{% else %}Every finished Teamfight Tactics Set 18 item ranked S/A/B/C by real average placement, with pick rate, win rate and best champions.{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'items_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'items_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{% set ranked = items|selectattr('tier', 'in', ['S', 'A', 'B', 'C'])|list %}
+{# the best average placement only among items played enough to mean something (>= 10% of the most-played item's games) #}
+{% set max_pc = (ranked|map(attribute='play_count')|max) if ranked else 0 %}
+{% set pool = ranked|selectattr('play_count', 'ge', max_pc * 0.1)|list %}
+{% set best = (pool|sort(attribute='avg_placement')|first) if pool else none %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'items_title'), t(lang, 'items_intro'),
+   [(items|length, 'objets classés' if fr else 'ranked items'),
+    (ranked|selectattr('tier', 'equalto', 'S')|list|length, 'en tier S' if fr else 'in S tier')]
+   + ([(best.name ~ ' · ' ~ '%.2f'|format(best.avg_placement), 'meilleur placement moyen' if fr else 'best average placement')] if best else [])) }}
 <div class="champ-table-wrap">
   <table class="champ-table">
     <thead><tr>

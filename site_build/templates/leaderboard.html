@@ -1,11 +1,15 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | Leaderboard — TFT Set 18{% endblock %}
 {% block description %}{% if lang == 'fr' %}Classement réel Challenger/Grandmaster/Master par région (EUW, NA, BR, KR) sur Teamfight Tactics Set 18, via l'API League-v1 de Riot.{% else %}Real Challenger/Grandmaster/Master standings by region (EUW, NA, BR, KR) on Teamfight Tactics Set 18, via Riot's League-v1 API.{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<div class="lb-header-row">
-  <h1 class="page-h1" style="margin:0">{{ t(lang, 'leaderboard_title') }}</h1>
-  <a class="fiche-link" href="{{ root }}leaderboard/world-stat/" style="margin-top:0">{{ t(lang, 'see_worldstat') }}</a>
-</div>
+{% set fr = lang == 'fr' %}
+{% set ns = namespace(players=0, top=0, top_name='') %}
+{% for region in regions %}{% for p in region.rows %}{% set ns.players = ns.players + 1 %}{% if p.lp > ns.top %}{% set ns.top = p.lp %}{% set ns.top_name = p.riot_id %}{% endif %}{% endfor %}{% endfor %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'leaderboard_title'),
+   'Classement réel Challenger, Grandmaster et Master par région, via l\'API officielle de Riot.' if fr else 'Real Challenger, Grandmaster and Master standings by region, via Riot\'s official API.',
+   [(regions|length, 'régions' if fr else 'regions'), (ns.players, 'joueurs classés' if fr else 'ranked players'), (ns.top ~ ' LP', 'plus haut LP' if fr else 'highest LP')],
+   (root ~ 'leaderboard/world-stat/', t(lang, 'see_worldstat'))) }}
 {% for region in regions %}
 <h2 class="fiche-section-title">{{ region.name }}</h2>
 <div class="lb-table-wrap">
