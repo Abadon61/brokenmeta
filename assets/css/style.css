@@ -1829,6 +1829,93 @@
   .ph::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; background: var(--ph-art, none) no-repeat right 18% / cover; opacity: 0.5; -webkit-mask-image: linear-gradient(90deg, transparent 38%, #000 100%); mask-image: linear-gradient(90deg, transparent 38%, #000 100%); }
   @media (max-width: 640px) { .ph::after { opacity: 0.22; } }
 
+  /* ---------- World of Warcraft: Forever section ---------- */
+  .wow-count { margin: 0 0 22px; padding: 18px 22px; border: 1px solid var(--border-bright); background: var(--bg-2); }
+  .wow-count-k { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.07em; color: var(--gold); margin-bottom: 10px; }
+  .wow-count-grid { display: flex; gap: 10px 28px; flex-wrap: wrap; }
+  .wow-count-grid div { display: flex; flex-direction: column; gap: 4px; min-width: 64px; }
+  .wow-count-grid b { font-family: 'Cal Sans', sans-serif; font-size: 40px; line-height: 1; color: var(--cream); }
+  .wow-count-grid span { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); }
+  .wow-count-line { margin-top: 12px; font-size: 13px; color: var(--text-dim); }
+  .wow-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin: 6px 0 16px; }
+  .wow-facts > div { padding: 12px 14px; border: 1px solid var(--border); background: var(--bg-2); }
+  .wow-facts dt { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-faint); margin-bottom: 4px; }
+  .wow-facts dd { margin: 0; font-size: 15px; color: var(--cream); line-height: 1.4; }
+  .wow-table-wrap { overflow-x: auto; margin: 8px 0 12px; }
+  .wow-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .wow-table th { text-align: left; font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); padding: 8px 12px; border-bottom: 1px solid var(--border-bright); }
+  .wow-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.45; }
+  .wow-table td[data-first] { color: var(--cream); font-weight: 700; }
+  .wow-table tr:hover td { background: var(--row-hover); }
+  .wow-note { margin: 8px 0 14px; padding: 10px 14px; border-left: 3px solid var(--gold); background: rgba(255,194,60,0.07); font-size: 13px; line-height: 1.55; color: var(--text-dim); }
+  .wow-faq { display: flex; flex-direction: column; gap: 8px; margin: 8px 0 8px; }
+  .wow-faq-item { border: 1px solid var(--border); background: var(--bg-2); }
+  .wow-faq-item summary { cursor: pointer; padding: 12px 16px; font-weight: 700; color: var(--cream); }
+  .wow-faq-item[open] { border-color: var(--border-bright); }
+  .wow-faq-item p { margin: 0; padding: 0 16px 14px; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
+  .wow-sources a { color: var(--cyan); }
+  @media (max-width: 640px) { .wow-count-grid b { font-size: 30px; } .wow-count { padding: 14px 16px; } }
+  @media (max-width: 640px) { .wow-count-grid { gap: 10px 14px; } .wow-count-grid div { min-width: 0; } .wow-count-grid b { font-size: 26px; } }
+
+  /* ---------- WoW: Forever talent calculator (.wt) ---------- */
+  .wt-fixture { margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--red); background: rgba(255,56,100,0.12); color: var(--cream); font: 700 12px 'Space Mono', monospace; letter-spacing: 0.04em; }
+  .wt { position: relative; margin: 6px 0 26px; }
+  .wt-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; padding: 12px 16px; border: 1px solid var(--border-bright); background: var(--bg-2); margin-bottom: 12px; }
+  .wt-stat { font: 700 12px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--cream); }
+  .wt-actions { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .wt-btn { font: 700 11px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 8px 12px; border: 1px solid var(--border-bright); background: transparent; color: var(--cream); cursor: pointer; }
+  .wt-btn:hover, .wt-btn:focus-visible { border-color: var(--magenta); }
+  .wt-btn-main { background: var(--red); border-color: var(--red); color: #fff; }
+  .wt-btn-on { background: var(--magenta-dim); border-color: var(--magenta); }
+  .wt-notice { margin: 0 0 10px; padding: 9px 12px; border-left: 3px solid var(--red); background: rgba(255,56,100,0.1); font-size: 13px; }
+  .wt-hint { margin: 10px 0 0; font-size: 12.5px; color: var(--text-faint); }
+  .wt-trees { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .wt-tree { border: 1px solid var(--border-bright); background: radial-gradient(120% 90% at 0% 0%, var(--magenta-dim), var(--bg-2) 60%); padding: 12px 12px 14px; min-width: 0; }
+  .wt-tree-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .wt-tree-title { margin: 0; font-family: 'Cal Sans', sans-serif; font-size: 17px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream); flex: 1; min-width: 0; overflow-wrap: anywhere; }
+  .wt-tree-count { font: 700 11px 'Space Mono', monospace; color: var(--gold); }
+  .wt-tree-reset { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; background: none; border: none; color: var(--text-faint); cursor: pointer; padding: 2px 4px; }
+  .wt-tree-reset:hover { color: var(--cream); }
+  .wt-grid { display: grid; grid-template-columns: 26px repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(7, auto); gap: 8px 6px; justify-items: center; }
+  .wt-row-label { align-self: center; justify-self: start; font: 700 10px 'Space Mono', monospace; color: var(--text-faint); }
+  .wt-row-label[data-open="false"] { opacity: 0.45; }
+  .wt-node { position: relative; width: 100%; max-width: 58px; aspect-ratio: 1; padding: 0; border: 2px solid var(--border-bright); background: var(--bg); color: var(--text-faint); cursor: pointer; display: flex; align-items: center; justify-content: center; }
+  .wt-mark { font: 700 14px 'Space Mono', monospace; letter-spacing: 0.03em; }
+  .wt-icon { width: 100%; height: 100%; object-fit: cover; }
+  .wt-rank { position: absolute; right: -6px; bottom: -8px; min-width: 26px; padding: 1px 4px; font: normal 700 10px 'Space Mono', monospace; background: var(--bg-2); border: 1px solid var(--border-bright); color: var(--text-dim); text-align: center; }
+  .wt-node[data-state="locked"] { opacity: 0.4; cursor: not-allowed; }
+  .wt-node[data-state="available"] { border-color: var(--cyan); color: var(--cream); }
+  .wt-node[data-state="active"] { border-color: var(--magenta); background: var(--magenta-dim); color: var(--cream); }
+  .wt-node[data-state="active"] .wt-rank { border-color: var(--magenta); color: var(--cream); }
+  .wt-node[data-state="maxed"] { border-color: var(--gold); background: rgba(255,194,60,0.12); color: var(--gold); }
+  .wt-node[data-state="maxed"] .wt-rank { border-color: var(--gold); color: var(--gold); }
+  .wt-node:hover, .wt-node:focus-visible { outline: 2px solid var(--cream); outline-offset: 1px; }
+  .wt-tip { position: fixed; z-index: 50; width: 280px; max-width: calc(100vw - 16px); padding: 12px 14px; border: 1px solid var(--border-bright); background: var(--bg-2); box-shadow: 0 10px 28px rgba(0,0,0,.5); pointer-events: none; }
+  .wt-tip[hidden] { display: none; }
+  .wt-tip-name { display: block; font-family: 'Cal Sans', sans-serif; font-size: 16px; color: var(--cream); }
+  .wt-tip-rank { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; color: var(--gold); margin: 2px 0 6px; }
+  .wt-tip-desc { margin: 0 0 6px; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .wt-tip-next { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; color: var(--text-faint); }
+  .wt-tip-req { margin: 4px 0 0; font-size: 12.5px; color: var(--red); }
+  @media (max-width: 900px) { .wt-trees { grid-template-columns: 1fr; } .wt-node { max-width: 64px; } }
+  @media (prefers-reduced-motion: reduce) { .wt-node { transition: none; } }
+
+  .wt-tip-note { margin: 4px 0 0; font-size: 12px; color: var(--gold); }
+
+  .wt-node .wt-icon { display: block; width: 100%; height: 100%; }
+  .wt-node[data-state="locked"] .wt-icon { filter: grayscale(1) brightness(.7); }
+  .wt-node[data-state="maxed"] .wt-icon { filter: saturate(1.15); }
+
+  /* prerequisite arrows (SVG layer under the talents) */
+  .wt-grid { position: relative; }
+  .wt-arrows { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; overflow: visible; }
+  .wt-node { z-index: 1; }
+  .wt-arrow { fill: none; stroke: var(--border-bright); stroke-width: 3; stroke-linejoin: round; }
+  .wt-arrow-any { stroke-dasharray: 6 4; }
+  .wt-arrowhead { fill: var(--border-bright); }
+  .wt-arrow[data-met="true"] { stroke: var(--gold); }
+  .wt-arrowhead[data-met="true"] { fill: var(--gold); }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }

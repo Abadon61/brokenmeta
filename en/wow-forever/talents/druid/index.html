@@ -1,0 +1,261 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Druid talents WoW: Forever: calculator</title>
+<meta name="description" content="Druid talent calculator for WoW: Forever: Balance, Feral Combat / Restoration trees, 51 points, build shareable by link.">
+<link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/talents/druid/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/talents/druid/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/talents/druid/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/talents/druid/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Druid talents WoW: Forever: calculator">
+<meta property="og:description" content="Druid talent calculator for WoW: Forever: Balance, Feral Combat / Restoration trees, 51 points, build shareable by link.">
+<meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/talents/druid/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Druid talents WoW: Forever: calculator">
+<meta name="twitter:description" content="Druid talent calculator for WoW: Forever: Balance, Feral Combat / Restoration trees, 51 points, build shareable by link.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=29748ca6f9">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=29748ca6f9">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=29748ca6f9">
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Talents", "item": "https://brokenmeta.gg/en/wow-forever/talents/"}, {"@type": "ListItem", "position": 4, "name": "Druid", "item": "https://brokenmeta.gg/en/wow-forever/talents/druid/"}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../../league/">League of Legends</a>
+    <a class="game-toggle-btn" href="../../../../wow-forever/" data-active="true">WoW: Forever</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/talents/druid/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/talents/druid/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/" >League of Legends</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/" data-active="true">World of Warcraft: Forever</a>
+
+<a class="nav-link" href="../../../../wow-forever/" >Overview</a>
+<a class="nav-link" href="../../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link" href="../../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link" href="../../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link" href="../../../../wow-forever/classes/" >Classes &amp; races</a>
+<a class="nav-link" href="../../../../wow-forever/talents/" data-active="true">Talents</a>
+<a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">World of Warcraft: Forever</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<a class="nav-link" href="../../../../wow-forever/" >Overview</a>
+<a class="nav-link" href="../../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link" href="../../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link" href="../../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link" href="../../../../wow-forever/classes/" >Classes &amp; races</a>
+<a class="nav-link" href="../../../../wow-forever/talents/" data-active="true">Talents</a>
+<a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../../en/">Home</a></li><li><a href="../../../../en/wow-forever/">World of Warcraft: Forever</a></li><li><a href="../../../../en/wow-forever/talents/">Talents</a></li><li><span aria-current="page">Druid</span></li>
+</ol></nav>
+
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">World of Warcraft: Forever · Talents</div>
+    <h1 class="ph-title">Druid talents: WoW: Forever calculator</h1>
+    <p class="ph-lede">Spend your 51 points across the Balance, Feral Combat / Restoration trees. The share link encodes your build: send it as is.</p>
+    <div class="ph-stats"><div><b class="nums">3</b><span>specializations</span></div><div><b class="nums">51</b><span>talents</span></div></div>
+    
+  </div>
+</section>
+
+<p><a class="fiche-link" href="../../../../wow-forever/talents/">← All classes</a></p>
+<div id="wowTalents" class="wt"></div>
+<script id="wowTalentData" type="application/json">{"rev": "48f11e", "rules": {"total_points": 51, "rows": 7, "cols": 4, "points_per_row": 5, "first_level": 10, "specs_per_class": 3}, "ui": {"points": "Points: {n} / {max}", "pointsLeft": "Left: {n}", "level": "Required level: {n}", "levelNone": "Required level: —", "reset": "Reset all", "resetTree": "Reset", "share": "Copy link", "copied": "Link copied!", "removeMode": "Remove mode", "removeModeOn": "Remove mode on", "rankOf": "Rank {r} of {max}", "nextRank": "Next rank", "needPoints": "Requires {n} points in rows 1 to {rows} of \"{tree}\" (currently {have}).", "needTalent": "Requires \"{name}\" at rank {r}.", "needAny": "Requires one of these talents: {names}.", "treePoints": "{n} pts", "hint": "Click to add a point, right-click or Shift + click to remove one. On a phone, turn on remove mode.", "linkOld": "This link was made with older talent data and cannot be loaded.", "linkBad": "This build link is not valid.", "incomplete": "Some values of this talent depend on your stats or cannot be determined reliably from the game data: they are shown as \"…\"."}, "lang": "en", "specs": [{"id": "balance", "name": "Balance", "talents": [{"id": "n104923", "name": "Improved Wrath", "row": 1, "col": 2, "max_rank": 5, "desc": ["Reduces the cast time of your Wrath spell by 0.1 sec and its Mana cost by 10%.", "Reduces the cast time of your Wrath spell by 0.2 sec and its Mana cost by 20%.", "Reduces the cast time of your Wrath spell by 0.3 sec and its Mana cost by 30%.", "Reduces the cast time of your Wrath spell by 0.4 sec and its Mana cost by 40%.", "Reduces the cast time of your Wrath spell by 0.5 sec and its Mana cost by 50%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg"}, {"id": "n104924", "name": "Genesis", "row": 1, "col": 3, "max_rank": 5, "desc": ["Increases the periodic damage and healing done by your spells and abilities by 1%.", "Increases the periodic damage and healing done by your spells and abilities by 2%.", "Increases the periodic damage and healing done by your spells and abilities by 3%.", "Increases the periodic damage and healing done by your spells and abilities by 4%.", "Increases the periodic damage and healing done by your spells and abilities by 5%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg"}, {"id": "n104925", "name": "Moonglow", "row": 2, "col": 1, "max_rank": 3, "desc": ["Reduces the Mana cost of your damaging spells by 8%.", "Reduces the Mana cost of your damaging spells by 17%.", "Reduces the Mana cost of your damaging spells by 25%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg"}, {"id": "n104931", "name": "Improved Moonfire", "row": 2, "col": 2, "max_rank": 2, "desc": ["Increases the damage and critical strike chance of your Moonfire spell by 5%.", "Increases the damage and critical strike chance of your Moonfire spell by 10%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg"}, {"id": "n104927", "name": "Nature's Majesty", "row": 2, "col": 3, "max_rank": 2, "desc": ["Increases your critical strike chance with spells and melee attacks by 2%.", "Increases your critical strike chance with spells and melee attacks by 4%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg"}, {"id": "n104929", "name": "Nature's Reach", "row": 2, "col": 4, "max_rank": 2, "desc": ["Increases the range of your offensive Balance spells by 10% and improves your chance to hit by 2%.", "Increases the range of your offensive Balance spells by 20% and improves your chance to hit by 4%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg"}, {"id": "n104926", "name": "Improved Entangling Roots", "row": 3, "col": 1, "max_rank": 3, "desc": ["Increases the damage done by your Entangling Roots spell by 25%, and its victims can take up to 25% more damage without interrupting the effect.", "Increases the damage done by your Entangling Roots spell by 50%, and its victims can take up to 50% more damage without interrupting the effect.", "Increases the damage done by your Entangling Roots spell by 75%, and its victims can take up to 75% more damage without interrupting the effect."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg"}, {"id": "n104928", "name": "Nature's Splendor", "row": 3, "col": 3, "max_rank": 1, "desc": ["Increases the duration of your Moonfire and Rejuvenation spells by 3 sec, your Regrowth spell by 6 sec, and your Insect Swarm spell by 2 sec."], "requires": [{"id": "n104927", "rank": 2}], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg"}, {"id": "n104930", "name": "Insect Swarm", "row": 4, "col": 1, "max_rank": 1, "desc": ["The enemy target is swarmed by insects, decreasing their chance to hit with attacks by 2% and causing 48 Nature damage over 12 sec."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg"}, {"id": "n104932", "name": "Vengeance", "row": 4, "col": 2, "max_rank": 5, "desc": ["Increases the critical strike damage bonus of your Arcane and Nature spells by 20%.", "Increases the critical strike damage bonus of your Arcane and Nature spells by 40%.", "Increases the critical strike damage bonus of your Arcane and Nature spells by 60%.", "Increases the critical strike damage bonus of your Arcane and Nature spells by 80%.", "Increases the critical strike damage bonus of your Arcane and Nature spells by 100%."], "requires": [{"id": "n104931", "rank": 2}], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg"}, {"id": "n104933", "name": "Improved Starfire", "row": 4, "col": 3, "max_rank": 5, "desc": ["Reduces the cast time of Starfire by 0.1 sec and Starfire has a 3% chance to stun its target for 3 sec.", "Reduces the cast time of Starfire by 0.2 sec and Starfire has a 6% chance to stun its target for 3 sec.", "Reduces the cast time of Starfire by 0.3 sec and Starfire has a 9% chance to stun its target for 3 sec.", "Reduces the cast time of Starfire by 0.4 sec and Starfire has a 12% chance to stun its target for 3 sec.", "Reduces the cast time of Starfire by 0.5 sec and Starfire has a 15% chance to stun its target for 3 sec."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg"}, {"id": "n110844", "name": "Overgrowth", "row": 5, "col": 1, "max_rank": 2, "desc": ["Increases the maximum number of targets you may have affected by Entangling Roots by 1.", "Increases the maximum number of targets you may have affected by Entangling Roots by 2."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_15.jpg"}, {"id": "n104934", "name": "Nature's Grace", "row": 5, "col": 2, "max_rank": 1, "desc": ["All non-periodic spell criticals grace you with a blessing of nature, increasing your spellcasting speed and reducing your global cooldown by 10% for 3 sec."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg"}, {"id": "n104935", "name": "Eclipse", "row": 5, "col": 3, "max_rank": 3, "desc": ["Your Wrath spell reduces the cast time of your next 2 Starfire spells by -0.17 sec. Stores up to 4 charges. Lasts 15 sec.", "Your Wrath spell reduces the cast time of your next 2 Starfire spells by -0.33 sec. Stores up to 4 charges. Lasts 15 sec.", "Your Wrath spell reduces the cast time of your next 2 Starfire spells by -0.50 sec. Stores up to 4 charges. Lasts 15 sec."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg"}, {"id": "n104936", "name": "Moonfury", "row": 6, "col": 2, "max_rank": 5, "desc": ["Increases the damage done by your Arcane and Nature spells by 2%.", "Increases the damage done by your Arcane and Nature spells by 4%.", "Increases the damage done by your Arcane and Nature spells by 6%.", "Increases the damage done by your Arcane and Nature spells by 8%.", "Increases the damage done by your Arcane and Nature spells by 10%."], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg"}, {"id": "n104937", "name": "Moonkin Form", "row": 7, "col": 2, "max_rank": 1, "desc": ["Transforms the Druid into Moonkin Form. While in this form, the armor contribution from items is increased by 360%, Omen of Clarity gains 100% increased chance to trigger, and all party members within 45 yards have their critical strike chance increased by 3%, exclusive with Leader of the Pack. The Moonkin cannot cast healing spells while shapeshifted. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."], "gates": [{"through_row": 7, "points": 30}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg"}]}, {"id": "feral-combat", "name": "Feral Combat", "talents": [{"id": "n104938", "name": "Ferocity", "row": 1, "col": 2, "max_rank": 5, "desc": ["Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 1 Rage or Energy.", "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 2 Rage or Energy.", "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 3 Rage or Energy.", "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 4 Rage or Energy.", "Reduces the cost of your Maul, Mangle, Swipe, Claw, and Rake abilities by 5 Rage or Energy."], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_hyena.jpg"}, {"id": "n104939", "name": "Heart of the Wild", "row": 1, "col": 3, "max_rank": 5, "desc": ["Increases your Intellect by 2%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 4% and while in Cat Form your Strength is increased by 2%.", "Increases your Intellect by 4%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 8% and while in Cat Form your Strength is increased by 4%.", "Increases your Intellect by 6%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 12% and while in Cat Form your Strength is increased by 6%.", "Increases your Intellect by 8%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 16% and while in Cat Form your Strength is increased by 8%.", "Increases your Intellect by 10%. In addition, while in Bear Form or Dire Bear Form your Stamina is increased by 20% and while in Cat Form your Strength is increased by 10%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg"}, {"id": "n104943", "name": "Feral Swiftness", "row": 2, "col": 1, "max_rank": 2, "desc": ["Increases your movement speed while in Cat Form by 15%, and increases your chance to Dodge by 2%.", "Increases your movement speed while in Cat Form by 30%, and increases your chance to Dodge by 4%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg"}, {"id": "n104940", "name": "Feral Instinct", "row": 2, "col": 2, "max_rank": 3, "desc": ["Increases damage done by your Swipe ability by 10% and reduces the chance enemies have to detect you while Prowling as if you were 1 level higher.", "Increases damage done by your Swipe ability by 20% and reduces the chance enemies have to detect you while Prowling as if you were 2 levels higher.", "Increases damage done by your Swipe ability by 30% and reduces the chance enemies have to detect you while Prowling as if you were 3 levels higher."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg"}, {"id": "n104941", "name": "Brutal Impact", "row": 2, "col": 3, "max_rank": 2, "desc": ["Increases the stun duration of your Bash and Pounce abilities by 0.5 sec and reduces the cooldown of Bash by -15 sec.", "Increases the stun duration of your Bash and Pounce abilities by 1 sec and reduces the cooldown of Bash by -30 sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_bash.jpg"}, {"id": "n104942", "name": "Thick Hide", "row": 2, "col": 4, "max_rank": 3, "desc": ["While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain 1 additional base Armor per level and another 0.67 base Armor for each point of defense skill beyond five times your level. This amount can be further increased by multipliers from those forms.", "While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain 2 additional base Armor per level and another 1.33 base Armor for each point of defense skill beyond five times your level. This amount can be further increased by multipliers from those forms.", "While in Bear Form, Cat Form, Dire Bear Form, or Moonkin Form, you gain 3 additional base Armor per level and another 2.00 base Armor for each point of defense skill beyond five times your level. This amount can be further increased by multipliers from those forms."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_bear_03.jpg"}, {"id": "n104948", "name": "Savage Fury", "row": 3, "col": 2, "max_rank": 2, "desc": ["Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by 5%.", "Increases the damage caused by your Claw, Rake, Shred, Maul, and Swipe abilities by 10%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg"}, {"id": "n104944", "name": "Feral Charge", "row": 3, "col": 3, "max_rank": 1, "desc": ["Requires Bear Form, Dire Bear Form Charge an enemy, immobilizing them and interrupting any spell they are casting for 4 sec. Leap behind an enemy."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_bear.jpg"}, {"id": "n104946", "name": "Sharpened Claws", "row": 3, "col": 4, "max_rank": 2, "desc": ["Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by 3%.", "Increases your critical strike chance while in Bear Form, Dire Bear Form, or Cat Form by 6%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg"}, {"id": "n104945", "name": "Shredding Attacks", "row": 4, "col": 1, "max_rank": 3, "desc": ["Reduces the Energy cost of your Shred ability by 6 and reduces the Rage cost of your Lacerate ability by -1.", "Reduces the Energy cost of your Shred ability by 12 and reduces the Rage cost of your Lacerate ability by -2.", "Reduces the Energy cost of your Shred ability by 18 and reduces the Rage cost of your Lacerate ability by -3."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg"}, {"id": "n104949", "name": "Mangle", "row": 4, "col": 2, "max_rank": 1, "desc": ["Mangle the target for 100% normal damage plus 26."], "requires": [{"id": "n104948", "rank": 2}], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_mangle2.jpg"}, {"id": "n104952", "name": "Predatory Strikes", "row": 4, "col": 3, "max_rank": 3, "desc": ["Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by 50% of your level.", "Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by 100% of your level.", "Increases your melee Attack Power in Cat Form, Bear Form, and Dire Bear Form by 150% of your level."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_cat.jpg"}, {"id": "n104947", "name": "Primal Fury", "row": 4, "col": 4, "max_rank": 2, "desc": ["Gives you a 50% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a 50% chance to add an additional Combo Point.", "Gives you a 100% chance to gain an additional 5 Rage any time you get a critical strike while in Bear Form or Dire Bear Form. In addition, your non-periodic critical strikes from Cat Form abilities that generate Combo Points have a 100% chance to add an additional Combo Point."], "requires": [{"id": "n104946", "rank": 2}], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_racial_cannibalize.jpg"}, {"id": "n104950", "name": "Predatory Instincts", "row": 5, "col": 1, "max_rank": 2, "desc": ["Increases the critical strike damage bonus of your melee abilities by 10%.", "Increases the critical strike damage bonus of your melee abilities by 20%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_predatoryinstincts.jpg"}, {"id": "n104955", "name": "Leader of the Pack", "row": 5, "col": 2, "max_rank": 1, "desc": ["While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the critical strike chance of all party members within 45 yards by 3%, exclusive with Moonkin Aura."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_unyeildingstamina.jpg"}, {"id": "n104951", "name": "King of the Jungle", "row": 5, "col": 4, "max_rank": 3, "desc": ["Tiger's Fury now instantly grants you 20 Energy.", "Tiger's Fury now instantly grants you 40 Energy.", "Tiger's Fury now instantly grants you 60 Energy."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_kingofthejungle.jpg"}, {"id": "n104954", "name": "Natural Reaction", "row": 6, "col": 1, "max_rank": 5, "desc": ["Increases your dodge chance by 1%, and gives you a 20% chance to gain 5 Rage each time you dodge.", "Increases your dodge chance by 2%, and gives you a 40% chance to gain 5 Rage each time you dodge.", "Increases your dodge chance by 3%, and gives you a 60% chance to gain 5 Rage each time you dodge.", "Increases your dodge chance by 4%, and gives you a 80% chance to gain 5 Rage each time you dodge.", "Increases your dodge chance by 5%, and gives you a 100% chance to gain 5 Rage each time you dodge."], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg"}, {"id": "n104953", "name": "Rend and Tear", "row": 6, "col": 3, "max_rank": 5, "desc": ["Increases damage done by your melee abilities on Bleeding targets by 2%.", "Increases damage done by your melee abilities on Bleeding targets by 4%.", "Increases damage done by your melee abilities on Bleeding targets by 6%.", "Increases damage done by your melee abilities on Bleeding targets by 8%.", "Increases damage done by your melee abilities on Bleeding targets by 10%."], "requires": [{"id": "n104952", "rank": 3}], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_primalagression.jpg"}, {"id": "n104956", "name": "Berserk", "row": 7, "col": 2, "max_rank": 1, "desc": ["Requires Cat Form, Bear Form, Dire Bear Form Causes your Mangle ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 sec."], "requires": [{"id": "n104955", "rank": 1}], "gates": [{"through_row": 7, "points": 30}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg"}]}, {"id": "restoration", "name": "Restoration", "talents": [{"id": "n104957", "name": "Nature's Focus", "row": 1, "col": 2, "max_rank": 5, "desc": ["Gives you a 14% chance to avoid interruption caused by damage while casting Arcane and Nature spells.", "Gives you a 28% chance to avoid interruption caused by damage while casting Arcane and Nature spells.", "Gives you a 42% chance to avoid interruption caused by damage while casting Arcane and Nature spells.", "Gives you a 56% chance to avoid interruption caused by damage while casting Arcane and Nature spells.", "Gives you a 70% chance to avoid interruption caused by damage while casting Arcane and Nature spells."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavegreater.jpg"}, {"id": "n104958", "name": "Furor", "row": 1, "col": 3, "max_rank": 5, "desc": ["Gives you a 20% chance to gain 10 Rage when you shapeshift into Bear Form or Dire Bear Form. When you shift into Cat Form, you will regain 20% of the Energy you had when you were last in Cat Form, plus 2 Energy for each second you spent not in Bear Form, Cat Form, or Dire Bear Form, up to a maximum of 20 Energy.", "Gives you a 40% chance to gain 10 Rage when you shapeshift into Bear Form or Dire Bear Form. When you shift into Cat Form, you will regain 40% of the Energy you had when you were last in Cat Form, plus 4 Energy for each second you spent not in Bear Form, Cat Form, or Dire Bear Form, up to a maximum of 40 Energy.", "Gives you a 60% chance to gain 10 Rage when you shapeshift into Bear Form or Dire Bear Form. When you shift into Cat Form, you will regain 60% of the Energy you had when you were last in Cat Form, plus 6 Energy for each second you spent not in Bear Form, Cat Form, or Dire Bear Form, up to a maximum of 60 Energy.", "Gives you a 80% chance to gain 10 Rage when you shapeshift into Bear Form or Dire Bear Form. When you shift into Cat Form, you will regain 80% of the Energy you had when you were last in Cat Form, plus 8 Energy for each second you spent not in Bear Form, Cat Form, or Dire Bear Form, up to a maximum of 80 Energy.", "Gives you a 100% chance to gain 10 Rage when you shapeshift into Bear Form or Dire Bear Form. When you shift into Cat Form, you will regain 100% of the Energy you had when you were last in Cat Form, plus 10 Energy for each second you spent not in Bear Form, Cat Form, or Dire Bear Form, up to a maximum of 100 Energy."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg"}, {"id": "n104922", "name": "Naturalist", "row": 2, "col": 1, "max_rank": 5, "desc": ["Reduces the cast time of your Healing Touch spell by 0.1 sec and increases all damage you deal by 1%.", "Reduces the cast time of your Healing Touch spell by 0.2 sec and increases all damage you deal by 2%.", "Reduces the cast time of your Healing Touch spell by 0.3 sec and increases all damage you deal by 3%.", "Reduces the cast time of your Healing Touch spell by 0.4 sec and increases all damage you deal by 4%.", "Reduces the cast time of your Healing Touch spell by 0.5 sec and increases all damage you deal by 5%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg"}, {"id": "n104920", "name": "Subtlety", "row": 2, "col": 2, "max_rank": 3, "desc": ["Reduces the threat generated by your Nature and Arcane spells by 10%.", "Reduces the threat generated by your Nature and Arcane spells by 20%.", "Reduces the threat generated by your Nature and Arcane spells by 30%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_eyeoftheowl.jpg"}, {"id": "n104919", "name": "Natural Shapeshifter", "row": 2, "col": 3, "max_rank": 3, "desc": ["Reduces the mana cost of all shapeshifting by 10%.", "Reduces the mana cost of all shapeshifting by 20%.", "Reduces the mana cost of all shapeshifting by 30%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg"}, {"id": "n104917", "name": "Reflection", "row": 3, "col": 2, "max_rank": 3, "desc": ["Allows 17% of your Mana regeneration to continue while casting.", "Allows 33% of your Mana regeneration to continue while casting.", "Allows 50% of your Mana regeneration to continue while casting."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg"}, {"id": "n104916", "name": "Gift of Nature", "row": 3, "col": 3, "max_rank": 5, "desc": ["Increases the effect of all your healing spells by 2%.", "Increases the effect of all your healing spells by 4%.", "Increases the effect of all your healing spells by 6%.", "Increases the effect of all your healing spells by 8%.", "Increases the effect of all your healing spells by 10%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_protectionformnature.jpg"}, {"id": "n104918", "name": "Gift of the Earthmother", "row": 3, "col": 4, "max_rank": 1, "desc": ["Reduces the global cooldown by -0.5 seconds on your Rejuvenation, Swiftmend, and Wild Growth spells."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg"}, {"id": "n104915", "name": "Tranquil Spirit", "row": 4, "col": 2, "max_rank": 5, "desc": ["Reduces the mana cost of your Healing Touch and Tranquility spells by 2%.", "Reduces the mana cost of your Healing Touch and Tranquility spells by 4%.", "Reduces the mana cost of your Healing Touch and Tranquility spells by 6%.", "Reduces the mana cost of your Healing Touch and Tranquility spells by 8%.", "Reduces the mana cost of your Healing Touch and Tranquility spells by 10%."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_elunesgrace.jpg"}, {"id": "n104914", "name": "Improved Rejuvenation", "row": 4, "col": 3, "max_rank": 3, "desc": ["Increases the effect of your Rejuvenation spell by 5%.", "Increases the effect of your Rejuvenation spell by 10%.", "Increases the effect of your Rejuvenation spell by 15%."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg"}, {"id": "n104912", "name": "Swiftmend", "row": 4, "col": 4, "max_rank": 1, "desc": ["Instantly heals a target with an active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of one of those spells."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_relics_idolofrejuvenation.jpg"}, {"id": "n104921", "name": "Nature's Swiftness", "row": 5, "col": 1, "max_rank": 1, "desc": ["When activated, your next Nature spell becomes an instant cast spell."], "requires": [{"id": "n104922", "rank": 5}], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg"}, {"id": "n104911", "name": "Living Spirit", "row": 5, "col": 2, "max_rank": 3, "desc": ["Increases your Spirit by 5%.", "Increases your Spirit by 10%.", "Increases your Spirit by 15%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_giftofthewaterspirit.jpg"}, {"id": "n104909", "name": "Improved Tranquility", "row": 5, "col": 4, "max_rank": 2, "desc": ["Reduces threat caused by Tranquility by 50% and its cooldown by 30%.", "Reduces threat caused by Tranquility by 100% and its cooldown by 60%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg"}, {"id": "n104913", "name": "Improved Regrowth", "row": 6, "col": 3, "max_rank": 5, "desc": ["Increases the critical effect chance of your Regrowth spell by 10%.", "Increases the critical effect chance of your Regrowth spell by 20%.", "Increases the critical effect chance of your Regrowth spell by 30%.", "Increases the critical effect chance of your Regrowth spell by 40%.", "Increases the critical effect chance of your Regrowth spell by 50%."], "requires": [{"id": "n104914", "rank": 3}], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_resistnature.jpg"}, {"id": "n104910", "name": "Wild Growth", "row": 7, "col": 2, "max_rank": 1, "desc": ["Heals the target and their party for 280 over 7 sec. Party members must be within … yards of target. The amount healed is applied quickly at first, and slows down as Wild Growth reaches its full duration."], "requires": [{"id": "n104911", "rank": 3}], "gates": [{"through_row": 7, "points": 30}], "incomplete": true, "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_druid_flourish.jpg"}]}]}</script>
+<noscript><p class="wow-note">JavaScript is required for the calculator.</p></noscript>
+<h2 class="fiche-section-title">Sources and rules</h2>
+<p class="wow-note">Rules (51 points, seven rows, a row unlocked every 5 points): <a href="https://www.icy-veins.com/wow-forever/talent-calculator" rel="noopener nofollow" target="_blank">Icy Veins — WoW Forever Talent Calculator</a> · <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.69913 (tables via wago.tools)</a> · <a href="https://www.wowhead.com/" rel="noopener nofollow" target="_blank">Icons: Wowhead image network</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../../">Comp List</a>
+      <a href="../../../../champions/">Champion List</a>
+      <a href="../../../../glossaire/">Glossary</a>
+      <a href="../../../../patch-notes/">Patch Notes</a>
+      <a href="../../../../leaderboard/">Leaderboard</a>
+      <a href="../../../../metascope/">Analyze your profile</a>
+      <a href="../../../../team-builder/">Team Builder</a>
+      <a href="../../../../discord/">Discord Alerts</a>
+      <a href="../../../../methodologie/">Methodology</a>
+      <a href="../../../../confidentialite/">Privacy</a>
+      <a href="../../../../cgu/">Terms</a>
+      <a href="../../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">World of Warcraft, Warcraft and Blizzard Entertainment are trademarks of Blizzard Entertainment, Inc. BrokenMeta.gg is an independent site: it is not affiliated with, endorsed or sponsored by Blizzard.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script src="../../../../assets/js/wow-talents.js?v=29748ca6f9" defer></script>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../../";</script>
+<script src="../../../../assets/js/copy-comp.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/site-search.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/favorites.js?v=29748ca6f9" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

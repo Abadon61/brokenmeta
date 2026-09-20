@@ -1,0 +1,261 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Mage talents WoW: Forever: calculator</title>
+<meta name="description" content="Mage talent calculator for WoW: Forever: Arcane, Fire / Frost trees, 51 points, build shareable by link.">
+<link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/talents/mage/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/talents/mage/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/talents/mage/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/talents/mage/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Mage talents WoW: Forever: calculator">
+<meta property="og:description" content="Mage talent calculator for WoW: Forever: Arcane, Fire / Frost trees, 51 points, build shareable by link.">
+<meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/talents/mage/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Mage talents WoW: Forever: calculator">
+<meta name="twitter:description" content="Mage talent calculator for WoW: Forever: Arcane, Fire / Frost trees, 51 points, build shareable by link.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=29748ca6f9">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=29748ca6f9">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=29748ca6f9">
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Talents", "item": "https://brokenmeta.gg/en/wow-forever/talents/"}, {"@type": "ListItem", "position": 4, "name": "Mage", "item": "https://brokenmeta.gg/en/wow-forever/talents/mage/"}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../../league/">League of Legends</a>
+    <a class="game-toggle-btn" href="../../../../wow-forever/" data-active="true">WoW: Forever</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/talents/mage/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/talents/mage/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/" >League of Legends</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/" data-active="true">World of Warcraft: Forever</a>
+
+<a class="nav-link" href="../../../../wow-forever/" >Overview</a>
+<a class="nav-link" href="../../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link" href="../../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link" href="../../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link" href="../../../../wow-forever/classes/" >Classes &amp; races</a>
+<a class="nav-link" href="../../../../wow-forever/talents/" data-active="true">Talents</a>
+<a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">World of Warcraft: Forever</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<a class="nav-link" href="../../../../wow-forever/" >Overview</a>
+<a class="nav-link" href="../../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link" href="../../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link" href="../../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link" href="../../../../wow-forever/classes/" >Classes &amp; races</a>
+<a class="nav-link" href="../../../../wow-forever/talents/" data-active="true">Talents</a>
+<a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../../en/">Home</a></li><li><a href="../../../../en/wow-forever/">World of Warcraft: Forever</a></li><li><a href="../../../../en/wow-forever/talents/">Talents</a></li><li><span aria-current="page">Mage</span></li>
+</ol></nav>
+
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">World of Warcraft: Forever · Talents</div>
+    <h1 class="ph-title">Mage talents: WoW: Forever calculator</h1>
+    <p class="ph-lede">Spend your 51 points across the Arcane, Fire / Frost trees. The share link encodes your build: send it as is.</p>
+    <div class="ph-stats"><div><b class="nums">3</b><span>specializations</span></div><div><b class="nums">54</b><span>talents</span></div></div>
+    
+  </div>
+</section>
+
+<p><a class="fiche-link" href="../../../../wow-forever/talents/">← All classes</a></p>
+<div id="wowTalents" class="wt"></div>
+<script id="wowTalentData" type="application/json">{"rev": "703a30", "rules": {"total_points": 51, "rows": 7, "cols": 4, "points_per_row": 5, "first_level": 10, "specs_per_class": 3}, "ui": {"points": "Points: {n} / {max}", "pointsLeft": "Left: {n}", "level": "Required level: {n}", "levelNone": "Required level: —", "reset": "Reset all", "resetTree": "Reset", "share": "Copy link", "copied": "Link copied!", "removeMode": "Remove mode", "removeModeOn": "Remove mode on", "rankOf": "Rank {r} of {max}", "nextRank": "Next rank", "needPoints": "Requires {n} points in rows 1 to {rows} of \"{tree}\" (currently {have}).", "needTalent": "Requires \"{name}\" at rank {r}.", "needAny": "Requires one of these talents: {names}.", "treePoints": "{n} pts", "hint": "Click to add a point, right-click or Shift + click to remove one. On a phone, turn on remove mode.", "linkOld": "This link was made with older talent data and cannot be loaded.", "linkBad": "This build link is not valid.", "incomplete": "Some values of this talent depend on your stats or cannot be determined reliably from the game data: they are shown as \"…\"."}, "lang": "en", "specs": [{"id": "arcane", "name": "Arcane", "talents": [{"id": "n105815", "name": "Wand Specialization", "row": 1, "col": 1, "max_rank": 2, "desc": ["Increases your damage with Wands by 13%.", "Increases your damage with Wands by 25%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_wand_01.jpg"}, {"id": "n105814", "name": "Arcane Focus", "row": 1, "col": 2, "max_rank": 5, "desc": ["Improves your chance to hit with Arcane spells by 1%.", "Improves your chance to hit with Arcane spells by 2%.", "Improves your chance to hit with Arcane spells by 3%.", "Improves your chance to hit with Arcane spells by 4%.", "Improves your chance to hit with Arcane spells by 5%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg"}, {"id": "n105813", "name": "Improved Channeling", "row": 1, "col": 3, "max_rank": 5, "desc": ["Gives you a 20% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 14% chance while casting Arcane Blast.", "Gives you a 40% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 28% chance while casting Arcane Blast.", "Gives you a 60% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 42% chance while casting Arcane Blast.", "Gives you a 80% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 56% chance while casting Arcane Blast.", "Gives you a 100% chance to avoid interruption caused by damage while channeling Arcane Missiles and a 70% chance while casting Arcane Blast."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg"}, {"id": "n105812", "name": "Arcane Subtlety", "row": 2, "col": 1, "max_rank": 2, "desc": ["Reduces your target's resistance to all your spells by 8 and reduces the threat caused by your Arcane spells by 15%.", "Reduces your target's resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_dispelmagic.jpg"}, {"id": "n105811", "name": "Magic Absorption", "row": 2, "col": 2, "max_rank": 2, "desc": ["Increases all your resistances by 5 and causes all spells you fully resist to restore 1% of your total mana. Cannot trigger more often than 1 time per sec.", "Increases all your resistances by 10 and causes all spells you fully resist to restore 2% of your total mana. Cannot trigger more often than 1 time per sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_astralrecalgroup.jpg"}, {"id": "n105810", "name": "Arcane Concentration", "row": 2, "col": 3, "max_rank": 5, "desc": ["Gives you a 2% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.", "Gives you a 4% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.", "Gives you a 6% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.", "Gives you a 8% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.", "Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg"}, {"id": "n105809", "name": "Arcane Resilience", "row": 2, "col": 4, "max_rank": 2, "desc": ["Increases your Armor by an amount equal to 25% of your Intellect.", "Increases your Armor by an amount equal to 50% of your Intellect."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcaneresilience.jpg"}, {"id": "n105808", "name": "Arcane Geometry", "row": 3, "col": 1, "max_rank": 2, "desc": ["Increases the range of your Arcane spells by 3 yards.", "Increases the range of your Arcane spells by 6 yards."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/inv_ability_mage_radiantspark.jpg"}, {"id": "n105807", "name": "Arcane Impact", "row": 3, "col": 2, "max_rank": 3, "desc": ["Increases the critical strike chance of your Arcane spells by 2%.", "Increases the critical strike chance of your Arcane spells by 4%.", "Increases the critical strike chance of your Arcane spells by 6%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg"}, {"id": "n105806", "name": "Arcane Blast", "row": 3, "col": 4, "max_rank": 1, "desc": ["Blasts the target with energy, dealing 54 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by 10% and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 8 sec or until any other damage spell is cast."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg"}, {"id": "n105805", "name": "Arcane Shielding", "row": 4, "col": 1, "max_rank": 2, "desc": ["Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by 17% and increases the resistances granted by your Mage Armor spell by 25%.", "Decreases the Mana lost per point of damage taken when your Mana Shield spell is active by 33% and increases the resistances granted by your Mage Armor spell by 50%."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_detectlesserinvisibility.jpg"}, {"id": "n105804", "name": "Improved Counterspell", "row": 4, "col": 2, "max_rank": 2, "desc": ["Your Counterspell also Silences the target for 2 sec.", "Your Counterspell also Silences the target for 4 sec."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_iceshock.jpg"}, {"id": "n105803", "name": "Arcane Meditation", "row": 4, "col": 3, "max_rank": 3, "desc": ["Allows 17% of your Mana regeneration to continue while casting.", "Allows 33% of your Mana regeneration to continue while casting.", "Allows 50% of your Mana regeneration to continue while casting."], "requires": [{"id": "n105810", "rank": 5}], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_siphonmana.jpg"}, {"id": "n105802", "name": "Missile Barrage", "row": 4, "col": 4, "max_rank": 1, "desc": ["Gives your Arcane Blast spell a 40% chance, and your Fireball, Frostbolt, and Frostfire Bolt spells a 20% chance to reduce the channeled duration of your next Arcane Missiles spell by 50%, reduce the Mana cost by 100%, and missiles fire every 0.5 sec."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_missilebarrage.jpg"}, {"id": "n105801", "name": "Presence of Mind", "row": 5, "col": 2, "max_rank": 1, "desc": ["When activated, your next Mage spell with a casting time less than 10 sec becomes an instant cast spell."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg"}, {"id": "n105800", "name": "Arcane Mind", "row": 5, "col": 3, "max_rank": 5, "desc": ["Increases your Intellect by 2% and increases the critical strike damage bonus of your Arcane spells by 20%.", "Increases your Intellect by 4% and increases the critical strike damage bonus of your Arcane spells by 40%.", "Increases your Intellect by 6% and increases the critical strike damage bonus of your Arcane spells by 60%.", "Increases your Intellect by 8% and increases the critical strike damage bonus of your Arcane spells by 80%.", "Increases your Intellect by 10% and increases the critical strike damage bonus of your Arcane spells by 100%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_charm.jpg"}, {"id": "n105799", "name": "Arcane Instability", "row": 6, "col": 3, "max_rank": 3, "desc": ["Increases the damage done by your spells by 1% and your critical strike chance by 1%.", "Increases the damage done by your spells by 2% and your critical strike chance by 2%.", "Increases the damage done by your spells by 3% and your critical strike chance by 3%."], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_teleport.jpg"}, {"id": "n105798", "name": "Arcane Power", "row": 7, "col": 2, "max_rank": 1, "desc": ["For the next 15 sec, your spells deal 30% more damage while costing 30% more mana to cast."], "requires": [{"id": "n105801", "rank": 1}], "gates": [{"through_row": 7, "points": 30}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightning.jpg"}]}, {"id": "fire", "name": "Fire", "talents": [{"id": "n105797", "name": "Wake of Fire", "row": 1, "col": 1, "max_rank": 2, "desc": ["Reduces the cooldown of your Fire Blast spell by -1 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 20 sec by 25%.", "Reduces the cooldown of your Fire Blast spell by -2 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 20 sec by 50%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_lavaspawn.jpg"}, {"id": "n105796", "name": "Incineration", "row": 1, "col": 2, "max_rank": 3, "desc": ["Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 2%.", "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 4%.", "Increases the critical strike chance of your Fire Blast, Ice Lance, Arcane Blast, and Scorch spells by 6%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flameshock.jpg"}, {"id": "n105795", "name": "Improved Fireball", "row": 1, "col": 3, "max_rank": 5, "desc": ["Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.1 sec.", "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.2 sec.", "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.3 sec.", "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.4 sec.", "Reduces the casting time of your Fireball and Frostfire Bolt spells by 0.5 sec."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flamebolt.jpg"}, {"id": "n105794", "name": "Ignite", "row": 2, "col": 1, "max_rank": 5, "desc": ["Your critical strikes from Fire damage spells cause the target to burn for an additional 8% of your spell's damage over 4 sec.", "Your critical strikes from Fire damage spells cause the target to burn for an additional 16% of your spell's damage over 4 sec.", "Your critical strikes from Fire damage spells cause the target to burn for an additional 24% of your spell's damage over 4 sec.", "Your critical strikes from Fire damage spells cause the target to burn for an additional 32% of your spell's damage over 4 sec.", "Your critical strikes from Fire damage spells cause the target to burn for an additional 40% of your spell's damage over 4 sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_incinerate.jpg"}, {"id": "n105793", "name": "Flame Throwing", "row": 2, "col": 2, "max_rank": 2, "desc": ["Increases the range of your Fire spells by 3 yards.", "Increases the range of your Fire spells by 6 yards."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_flare.jpg"}, {"id": "n105792", "name": "Impact", "row": 2, "col": 3, "max_rank": 3, "desc": ["Gives your Fire spells a 3% chance to stun the target for 2 sec.", "Gives your Fire spells a 7% chance to stun the target for 2 sec.", "Gives your Fire spells a 10% chance to stun the target for 2 sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_meteorstorm.jpg"}, {"id": "n105789", "name": "Burning Soul", "row": 3, "col": 1, "max_rank": 3, "desc": ["Gives your Fire spells a 23% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 10%.", "Gives your Fire spells a 47% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 20%.", "Gives your Fire spells a 70% chance to not lose casting time when you take damage and reduces the threat caused by your Fire spells by 30%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg"}, {"id": "n105791", "name": "Improved Flamestrike", "row": 3, "col": 2, "max_rank": 3, "desc": ["Increases the critical strike chance of your Flamestrike spell by 5%.", "Increases the critical strike chance of your Flamestrike spell by 10%.", "Increases the critical strike chance of your Flamestrike spell by 15%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_selfdestruct.jpg"}, {"id": "n105790", "name": "Pyroblast", "row": 3, "col": 3, "max_rank": 1, "desc": ["Hurls an immense fiery boulder that causes 110 Fire damage and an additional 44 Fire damage over 12 sec."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg"}, {"id": "n105788", "name": "Improved Scorch", "row": 4, "col": 1, "max_rank": 3, "desc": ["Your Scorch spell has a 33% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.", "Your Scorch spell has a 67% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.", "Your Scorch spell has a 100% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg"}, {"id": "n105787", "name": "Improved Fire Ward", "row": 4, "col": 2, "max_rank": 2, "desc": ["Causes your Fire Ward to have a 10% chance to reflect Fire spells while active.", "Causes your Fire Ward to have a 20% chance to reflect Fire spells while active."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_firearmor.jpg"}, {"id": "n105786", "name": "Hot Streak", "row": 4, "col": 3, "max_rank": 1, "desc": ["Your non-periodic critical strikes with Fireball, Frostfire Bolt, Fire Blast, and Scorch grant Hot Streak for 15 sec. Hot Streak reduces the cast time of Pyroblast by 25%, stacking up to 3 times."], "requires": [{"id": "n105790", "rank": 1}], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_hotstreak.jpg"}, {"id": "n105785", "name": "Master of Elements", "row": 4, "col": 4, "max_rank": 3, "desc": ["Your Fire and Frost critical strikes will refund 10% of their base mana cost.", "Your Fire and Frost critical strikes will refund 20% of their base mana cost.", "Your Fire and Frost critical strikes will refund 30% of their base mana cost."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_masterofelements.jpg"}, {"id": "n105784", "name": "Critical Mass", "row": 5, "col": 2, "max_rank": 3, "desc": ["Increases the critical strike chance of your Fire spells by 2%.", "Increases the critical strike chance of your Fire spells by 4%.", "Increases the critical strike chance of your Fire spells by 6%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispheal.jpg"}, {"id": "n105783", "name": "Blast Wave", "row": 5, "col": 3, "max_rank": 1, "desc": ["A wave of flame radiates outward from the caster, damaging all enemies caught within the blast for 163 Fire damage, and Dazing them for 50% reduced movement speed for 6 sec."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_holy_excorcism_02.jpg"}, {"id": "n105782", "name": "Fire Power", "row": 6, "col": 3, "max_rank": 5, "desc": ["Increases the damage done by your Fire spells by 2%.", "Increases the damage done by your Fire spells by 4%.", "Increases the damage done by your Fire spells by 6%.", "Increases the damage done by your Fire spells by 8%.", "Increases the damage done by your Fire spells by 10%."], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg"}, {"id": "n105781", "name": "Combustion", "row": 7, "col": 2, "max_rank": 1, "desc": ["When activated, this spell causes each of your Fire damage spell hits to increase your critical strike chance with Fire damage spells by 10%. This effect lasts until you have caused 4 non-periodic critical strikes with Fire spells."], "requires": [{"id": "n105784", "rank": 3}], "gates": [{"through_row": 7, "points": 30}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg"}]}, {"id": "frost", "name": "Frost", "talents": [{"id": "n105780", "name": "Frost Warding", "row": 1, "col": 1, "max_rank": 2, "desc": ["Increases the Armor and resistance given by your Frost Armor and Ice Armor spells by 15%. In addition, gives your Frost Ward a 10% chance to reflect Frost spells and effects while active.", "Increases the Armor and resistance given by your Frost Armor and Ice Armor spells by 30%. In addition, gives your Frost Ward a 20% chance to reflect Frost spells and effects while active."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg"}, {"id": "n105779", "name": "Improved Frostbolt", "row": 1, "col": 2, "max_rank": 5, "desc": ["Reduces the casting time of your Frostbolt spell by 0.1 sec.", "Reduces the casting time of your Frostbolt spell by 0.2 sec.", "Reduces the casting time of your Frostbolt spell by 0.3 sec.", "Reduces the casting time of your Frostbolt spell by 0.4 sec.", "Reduces the casting time of your Frostbolt spell by 0.5 sec."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt02.jpg"}, {"id": "n105778", "name": "Elemental Precision", "row": 1, "col": 3, "max_rank": 5, "desc": ["Improves your chance to hit with Frost and Fire spells by 1%.", "Improves your chance to hit with Frost and Fire spells by 2%.", "Improves your chance to hit with Frost and Fire spells by 3%.", "Improves your chance to hit with Frost and Fire spells by 4%.", "Improves your chance to hit with Frost and Fire spells by 5%."], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_magicdamage.jpg"}, {"id": "n105777", "name": "Ice Shards", "row": 2, "col": 1, "max_rank": 5, "desc": ["Increases the critical strike damage bonus of your Frost spells by 20%.", "Increases the critical strike damage bonus of your Frost spells by 40%.", "Increases the critical strike damage bonus of your Frost spells by 60%.", "Increases the critical strike damage bonus of your Frost spells by 80%.", "Increases the critical strike damage bonus of your Frost spells by 100%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_iceshard.jpg"}, {"id": "n105776", "name": "Permafrost", "row": 2, "col": 2, "max_rank": 3, "desc": ["Increases the duration of your Chill effects by 11% and reduces the target's speed by an additional 3%.", "Increases the duration of your Chill effects by 22% and reduces the target's speed by an additional 7%.", "Increases the duration of your Chill effects by 33% and reduces the target's speed by an additional 10%."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_wisp.jpg"}, {"id": "n105775", "name": "Improved Frost Nova", "row": 2, "col": 3, "max_rank": 2, "desc": ["Reduces the cooldown of your Frost Nova spell by 2 sec.", "Reduces the cooldown of your Frost Nova spell by 4 sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_freezingbreath.jpg"}, {"id": "n105774", "name": "Frostbite", "row": 2, "col": 4, "max_rank": 3, "desc": ["Gives your Chill effects a 5% chance to Freeze the target for 5 sec.", "Gives your Chill effects a 10% chance to Freeze the target for 5 sec.", "Gives your Chill effects a 15% chance to Freeze the target for 5 sec."], "gates": [{"through_row": 1, "points": 5}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostarmor.jpg"}, {"id": "n105773", "name": "Piercing Ice", "row": 3, "col": 1, "max_rank": 3, "desc": ["Increases the damage done by your Frost spells by 2%.", "Increases the damage done by your Frost spells by 4%.", "Increases the damage done by your Frost spells by 6%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostbolt.jpg"}, {"id": "n105772", "name": "Frost Channeling", "row": 3, "col": 2, "max_rank": 3, "desc": ["Reduces the mana cost of your Frost spells by 5% and reduces the threat caused by your Frost spells by 10%.", "Reduces the mana cost of your Frost spells by 10% and reduces the threat caused by your Frost spells by 20%.", "Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg"}, {"id": "n105767", "name": "Ice Lance", "row": 3, "col": 3, "max_rank": 1, "desc": ["Deals 28 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostblast.jpg"}, {"id": "n105771", "name": "Improved Blizzard", "row": 3, "col": 4, "max_rank": 3, "desc": ["Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 15% for 1.5 sec.", "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 25% for 1.5 sec.", "Adds a Chill effect to your Blizzard spell. This effect lowers the target's movement speed by 40% for 1.5 sec."], "gates": [{"through_row": 2, "points": 10}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_icestorm.jpg"}, {"id": "n105770", "name": "Arctic Reach", "row": 4, "col": 1, "max_rank": 2, "desc": ["Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 10%.", "Increases the range of your Frostbolt and Blizzard spells and the radius of your Frost Nova and Cone of Cold spells by 20%."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_shadow_darkritual.jpg"}, {"id": "n105769", "name": "Ice Block", "row": 4, "col": 2, "max_rank": 1, "desc": ["You become encased in a block of ice, protecting you from all physical attacks and spells for 10 sec, but during that time you cannot attack, move, or cast spells."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frost.jpg"}, {"id": "n105768", "name": "Shatter", "row": 4, "col": 4, "max_rank": 3, "desc": ["Increases the critical strike chance of all your spells against Frozen targets by 17%.", "Increases the critical strike chance of all your spells against Frozen targets by 33%.", "Increases the critical strike chance of all your spells against Frozen targets by 50%."], "gates": [{"through_row": 3, "points": 15}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostshock.jpg"}, {"id": "n105765", "name": "Improved Cone of Cold", "row": 5, "col": 1, "max_rank": 3, "desc": ["Increases the damage dealt by your Cone of Cold spell by 12%.", "Increases the damage dealt by your Cone of Cold spell by 23%.", "Increases the damage dealt by your Cone of Cold spell by 35%."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_glacier.jpg"}, {"id": "n105766", "name": "Cold Snap", "row": 5, "col": 2, "max_rank": 1, "desc": ["Finishes the remaining cooldown on all your other Frost spells."], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg"}, {"id": "n105764", "name": "Fingers of Frost", "row": 5, "col": 3, "max_rank": 2, "desc": ["Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 1 spell cast as if the target were Frozen. Lasts 15 sec.", "Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec."], "requires": [{"id": "n105767", "rank": 1}], "gates": [{"through_row": 4, "points": 20}], "icon": "https://wow.zamimg.com/images/wow/icons/large/ability_mage_wintersgrasp.jpg"}, {"id": "n105763", "name": "Winter's Chill", "row": 6, "col": 3, "max_rank": 5, "desc": ["Gives your Frost damage spells a 20% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 1 times.", "Gives your Frost damage spells a 40% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 2 times.", "Gives your Frost damage spells a 60% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 3 times.", "Gives your Frost damage spells a 80% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 4 times.", "Gives your Frost damage spells a 100% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 5 times."], "gates": [{"through_row": 5, "points": 25}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_frost_chillingblast.jpg"}, {"id": "n105762", "name": "Ice Barrier", "row": 7, "col": 2, "max_rank": 1, "desc": ["Instantly shields you, absorbing 431 damage. Lasts 1 min. While the shield holds, your spellcasts will not be interrupted or delayed from taking damage."], "requires": [{"id": "n105766", "rank": 1}], "gates": [{"through_row": 7, "points": 30}], "icon": "https://wow.zamimg.com/images/wow/icons/large/spell_ice_lament.jpg"}]}]}</script>
+<noscript><p class="wow-note">JavaScript is required for the calculator.</p></noscript>
+<h2 class="fiche-section-title">Sources and rules</h2>
+<p class="wow-note">Rules (51 points, seven rows, a row unlocked every 5 points): <a href="https://www.icy-veins.com/wow-forever/talent-calculator" rel="noopener nofollow" target="_blank">Icy Veins — WoW Forever Talent Calculator</a> · <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.69913 (tables via wago.tools)</a> · <a href="https://www.wowhead.com/" rel="noopener nofollow" target="_blank">Icons: Wowhead image network</a></p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../../">Comp List</a>
+      <a href="../../../../champions/">Champion List</a>
+      <a href="../../../../glossaire/">Glossary</a>
+      <a href="../../../../patch-notes/">Patch Notes</a>
+      <a href="../../../../leaderboard/">Leaderboard</a>
+      <a href="../../../../metascope/">Analyze your profile</a>
+      <a href="../../../../team-builder/">Team Builder</a>
+      <a href="../../../../discord/">Discord Alerts</a>
+      <a href="../../../../methodologie/">Methodology</a>
+      <a href="../../../../confidentialite/">Privacy</a>
+      <a href="../../../../cgu/">Terms</a>
+      <a href="../../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">World of Warcraft, Warcraft and Blizzard Entertainment are trademarks of Blizzard Entertainment, Inc. BrokenMeta.gg is an independent site: it is not affiliated with, endorsed or sponsored by Blizzard.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script src="../../../../assets/js/wow-talents.js?v=29748ca6f9" defer></script>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../../";</script>
+<script src="../../../../assets/js/copy-comp.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/site-search.js?v=29748ca6f9" defer></script>
+<script src="../../../../assets/js/favorites.js?v=29748ca6f9" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
