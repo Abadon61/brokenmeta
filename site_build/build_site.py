@@ -6586,11 +6586,13 @@ def main() -> None:
     env.globals["SET_LABEL"] = SET_LABEL
     # Talent calculator: pages exist only when real class data is in data/wow_talents/ (or WOW_TALENTS_FIXTURE=1 for a local test).
     wt_classes, wt_fixture = wow_talents.load()
+    _races_file = Path(__file__).resolve().parent.parent / "data" / "wow_races.json"
+    wow_races = json.loads(_races_file.read_text(encoding="utf-8"))["races"] if _races_file.exists() else []
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
     env.globals["wow_nav"] = _wnav
-    env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions"]      # pages grouped under the "Bêta : Forever" menu, in this order
+    env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -7263,7 +7265,7 @@ def main() -> None:
                 _wfaq = {"@context": "https://schema.org", "@type": "FAQPage",
                          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
             render("wow_page.html", _wpath, lang, active_nav="wow", active_sub="wow-" + (_wslug or "index"),
-                   page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug == "" else []),
+                   page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),

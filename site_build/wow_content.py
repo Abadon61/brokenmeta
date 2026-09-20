@@ -22,6 +22,7 @@ SOURCES = {
     "pcgamer": ("PC Gamer — World of Warcraft: Forever beta launch times",
                 "https://www.pcgamer.com/games/world-of-warcraft/world-of-warcraft-forever-beta-launch-times-how-to-sign-up-and-play-blizzards-twist-on-wow-classic/"),
     "icy_talents": ("Icy Veins — WoW Forever Talent Calculator", "https://www.icy-veins.com/wow-forever/talent-calculator"),
+    "betaclient": ("WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools", "https://wago.tools/"),
     "official": ("Blizzard — World of Warcraft: Forever (official page)", "http://worldofwarcraft.blizzard.com/en-us/forever"),
 }
 
@@ -228,28 +229,27 @@ PAGES_FR = {
         "sources": ["blizz_pre", "blizz_beta", "pcgamer"],
     },
     "classes": {
-        "title": "Classes et races de WoW: Forever : combinaisons",
-        "description": "Les neuf classes, les races et la nouvelle race Skyborne de WoW: Forever, avec les nouvelles combinaisons race-classe annoncées et leurs sources.",
+        "title": "Classes et races de WoW: Forever : icônes et factions",
+        "description": "Les neuf classes et les races de WoW: Forever avec leurs icônes : Alliance, Horde et les Skyborne, deux versions selon la faction. Sources citées.",
         "kicker": "World of Warcraft: Forever · Classes et races",
         "h1": "Classes et races de WoW: Forever",
-        "intro": "Voici ce que l'on sait des classes et des races de World of Warcraft: Forever. Blizzard n'a pas encore détaillé les classes une par une : cette page s'en tient à ce qui est sourcé.",
+        "intro": "Les neuf classes et les races jouables de World of Warcraft: Forever, avec leurs icônes. Chaque classe renvoie vers son calculateur de talents.",
         "sections": [
-            {"h2": "Les classes", "blocks": [
-                {"type": "p", "text": "Selon la Warcraft Wiki (source communautaire), le jeu compte neuf classes : Druide, Chasseur, Mage, Paladin, Prêtre, Voleur, Chaman, Démoniste et Guerrier. Les talents des classes sont rééquilibrés pour que davantage de choix soient viables (même source)."},
-                {"type": "note", "text": "Icy Veins ne mentionne que « des combinaisons race-classe supplémentaires » sans nommer les classes. Aucune source officielle consultée ne détaille les classes une à une : nous n'écrivons donc pas de guide de spécialisation à ce stade."},
+            {"h2": "Les neuf classes", "blocks": [
+                {"type": "p", "text": "Le client de la bêta contient neuf classes : Druide, Chasseur, Mage, Paladin, Prêtre, Voleur, Chaman, Démoniste et Guerrier (données du client de la bêta, confirmées par la Warcraft Wiki). Les talents des classes sont rééquilibrés pour que davantage de choix soient viables (Warcraft Wiki)."},
+                {"type": "classcards"},
+                {"type": "note", "text": "Aucune source officielle ne détaille les classes une à une : nous n'écrivons donc pas de guide de spécialisation à ce stade. Le calculateur de talents, lui, affiche les arbres réels de chaque classe, lus dans les données de la bêta."},
             ]},
-            {"h2": "Les races", "blocks": [
-                {"type": "list", "items": [
-                    "Les races d'origine de WoW : Humain, Nain, Elfe de la nuit et Gnome pour l'Alliance ; Orc, Mort-vivant (Réprouvé), Tauren et Troll pour la Horde (Warcraft Wiki).",
-                    "Une nouvelle race, les Skyborne, accessible avec les packs Skyborne (Blizzard, Wikipedia). Leur zone de départ est Zephras Isle.",
-                ]},
-                {"type": "note", "text": "La Warcraft Wiki ne dit pas clairement à quelle faction appartiennent les Skyborne, et Blizzard ne le précise pas dans les annonces consultées : nous ne l'affirmons donc pas."},
+            {"h2": "Les races jouables", "blocks": [
+                {"type": "p", "text": "Le client de la bêta liste les huit races d'origine de WoW et les Skyborne, la nouvelle race annoncée par Blizzard, qui accompagne les packs Skyborne. Les Skyborne existent en deux versions, une par faction."},
+                {"type": "racecards"},
+                {"type": "note", "text": "La faction et le nom complet des deux versions des Skyborne viennent des données du client de la bêta (version 1.60.1.69913), et non d'une annonce de Blizzard : ils pourront changer d'ici la sortie."},
             ]},
             {"h2": "Les nouvelles combinaisons race-classe", "blocks": [
                 {"type": "p", "text": "Wikipedia cite des Paladins Réprouvés et des Chamans Nains, deux combinaisons absentes du jeu d'origine. La Warcraft Wiki en liste davantage, mais sa liste mélange des combinaisons déjà présentes dans WoW Classic : nous ne la reprenons pas tant qu'elle n'est pas confirmée."},
             ]},
         ],
-        "sources": ["wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
+        "sources": ["betaclient", "wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
     },
     "progression": {
         "title": "Progression 1-60 dans WoW: Forever : donjons et zones",
@@ -502,28 +502,27 @@ PAGES_EN = {
         "sources": ["blizz_pre", "blizz_beta", "pcgamer"],
     },
     "classes": {
-        "title": "WoW: Forever classes and races: combinations",
-        "description": "The nine classes, the races and the new Skyborne race in WoW: Forever, with the announced new race-class combinations and their sources.",
+        "title": "WoW: Forever classes and races: icons and factions",
+        "description": "The nine classes and the races of WoW: Forever with their icons: Alliance, Horde and the Skyborne, two versions by faction. Sources cited.",
         "kicker": "World of Warcraft: Forever · Classes & races",
         "h1": "WoW: Forever classes and races",
-        "intro": "Here is what is known about the classes and races of World of Warcraft: Forever. Blizzard has not yet detailed the classes one by one: this page sticks to what is sourced.",
+        "intro": "The nine classes and the playable races of World of Warcraft: Forever, with their icons. Each class links to its talent calculator.",
         "sections": [
-            {"h2": "The classes", "blocks": [
-                {"type": "p", "text": "According to the Warcraft Wiki (a community source), the game has nine classes: Druid, Hunter, Mage, Paladin, Priest, Rogue, Shaman, Warlock and Warrior. Class talents are rebalanced so that more choices are viable (same source)."},
-                {"type": "note", "text": "Icy Veins only mentions \"additional race/class combinations\" without naming classes. No official source we consulted details the classes one by one, so we are not writing specialization guides at this stage."},
+            {"h2": "The nine classes", "blocks": [
+                {"type": "p", "text": "The beta client contains nine classes: Druid, Hunter, Mage, Paladin, Priest, Rogue, Shaman, Warlock and Warrior (beta client data, matched by the Warcraft Wiki). Class talents are rebalanced so that more choices are viable (Warcraft Wiki)."},
+                {"type": "classcards"},
+                {"type": "note", "text": "No official source details the classes one by one, so we are not writing specialization guides at this stage. The talent calculator, however, shows each class's real trees, read from the beta data."},
             ]},
-            {"h2": "The races", "blocks": [
-                {"type": "list", "items": [
-                    "The original WoW races: Human, Dwarf, Night Elf and Gnome for the Alliance; Orc, Undead (Forsaken), Tauren and Troll for the Horde (Warcraft Wiki).",
-                    "A new race, the Skyborne, available with the Skyborne packs (Blizzard, Wikipedia). Their starting zone is Zephras Isle.",
-                ]},
-                {"type": "note", "text": "The Warcraft Wiki does not clearly say which faction the Skyborne belong to, and Blizzard does not specify it in the announcements we consulted: we do not claim it."},
+            {"h2": "The playable races", "blocks": [
+                {"type": "p", "text": "The beta client lists the eight original WoW races and the Skyborne, the new race announced by Blizzard that comes with the Skyborne packs. The Skyborne exist in two versions, one per faction."},
+                {"type": "racecards"},
+                {"type": "note", "text": "The faction and full name of the two Skyborne versions come from the beta client data (build 1.60.1.69913), not from a Blizzard announcement: they may change before launch."},
             ]},
             {"h2": "New race-class combinations", "blocks": [
                 {"type": "p", "text": "Wikipedia cites Forsaken Paladins and Dwarf Shamans, two combinations absent from the original game. The Warcraft Wiki lists more, but its list mixes in combinations already present in WoW Classic, so we are not repeating it until it is confirmed."},
             ]},
         ],
-        "sources": ["wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
+        "sources": ["betaclient", "wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
     },
     "progression": {
         "title": "Leveling 1-60 in WoW: Forever: dungeons and zones",
@@ -596,12 +595,12 @@ UI = {
            "countdown": "Sortie dans", "days": "jours", "hours": "heures", "minutes": "minutes", "seconds": "secondes", "live": "Le jeu est sorti !",
            "launch_line": "Lancement le 4 novembre 2026, 15 h (heure du Pacifique) — minuit à Paris",
            "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever", "beta_cta": "Accéder à la bêta",
-           "cta_calc": "Calculateur de talents", "pick_class": "Choisir sa classe", "talents_n": "talents", "specs_word": "Spécialisations"},
+           "cta_calc": "Calculateur de talents", "pick_class": "Choisir sa classe", "talents_n": "talents", "specs_word": "Spécialisations", "new_race": "Nouvelle race"},
     "en": {"sources": "Sources", "sources_note": "Information checked on September 20, 2026. Points that only come from a community wiki or a single source are flagged in the text.",
            "countdown": "Launch in", "days": "days", "hours": "hours", "minutes": "minutes", "seconds": "seconds", "live": "The game is out!",
            "launch_line": "Launching November 4, 2026, 3:00 p.m. Pacific time — midnight in Paris",
            "breadcrumb_home": "Home", "section": "World of Warcraft: Forever", "beta_cta": "Get beta access",
-           "cta_calc": "Talent calculator", "pick_class": "Pick a class", "talents_n": "talents", "specs_word": "Specializations"},
+           "cta_calc": "Talent calculator", "pick_class": "Pick a class", "talents_n": "talents", "specs_word": "Specializations", "new_race": "New race"},
 }
 
 
@@ -616,5 +615,5 @@ def check() -> None:
                 assert key in SOURCES, key
             for sec in p["sections"]:
                 for b in sec["blocks"]:
-                    assert b["type"] in {"p", "list", "table", "facts", "note", "cards"}, b["type"]
+                    assert b["type"] in {"p", "list", "table", "facts", "note", "cards", "classcards", "racecards"}, b["type"]
     assert len(PAGES["fr"]["faq"]["faq"]) == len(PAGES["en"]["faq"]["faq"])

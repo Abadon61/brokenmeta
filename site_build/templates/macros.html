@@ -60,7 +60,7 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
 {% endif %}
 {% elif active_nav == 'wow' %}
-<details class="nav-dropdown" {% if active_sub in ('wow-index', 'wow-beta', 'wow-sortie', 'wow-editions') %}data-active="true"{% endif %}>
+<details class="nav-dropdown" {% if active_sub in ('wow-index', 'wow-beta', 'wow-sortie', 'wow-editions', 'wow-classes') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ 'Bêta : Forever' if lang == 'fr' else 'Beta: Forever' }}</summary>
   <div class="nav-dropdown-menu">
     {% for want in wow_beta_group %}{% for slug, fr_label, en_label in wow_nav if slug == want %}<a href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}">{{ fr_label if lang == 'fr' else en_label }}</a>

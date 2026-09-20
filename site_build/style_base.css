@@ -1945,3 +1945,16 @@
   .wh-count .wow-count-grid div { min-width: 0; }
   .wh-count .wow-count-grid b { font-size: clamp(30px, 3.4vw, 50px); }
   @media (max-width: 860px) { .wh-count .wow-count-grid b { font-size: clamp(34px, 9vw, 52px); } }
+
+  /* ---------- WoW: Forever races (Classes et races page) ---------- */
+  .wr-faction { margin: 18px 0 8px; font: 700 12px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.08em; }
+  .wr-faction[data-faction="alliance"] { color: #5aa2ff; }
+  .wr-faction[data-faction="horde"] { color: #ff5a5a; }
+  .wr-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .wr-card { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border: 1px solid var(--border); border-left: 4px solid var(--border-bright); background: var(--bg-2); min-width: 0; }
+  .wr-card[data-faction="alliance"] { border-left-color: #5aa2ff; }
+  .wr-card[data-faction="horde"] { border-left-color: #ff5a5a; }
+  .wr-icon { flex: none; width: 52px; height: 52px; border: 2px solid var(--border-bright); object-fit: cover; }
+  .wr-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+  .wr-body b { font-family: 'Cal Sans', sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--cream); overflow-wrap: anywhere; }
+  .wr-new { align-self: flex-start; font: 700 9.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; color: #100b26; background: var(--gold); }

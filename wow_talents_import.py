@@ -49,7 +49,9 @@ ROWS, COLS = 7, 4
 PLAIN = ["TraitTree", "TraitNode", "TraitNodeEntry", "TraitNodeXTraitNodeEntry", "TraitDefinition", "TraitDefinitionEffectPoints",
          "TraitEdge", "TraitNodeGroupXTraitNode", "TraitNodeGroupXTraitCond", "TraitCond", "TraitCurrency", "TraitCurrencySource",
          "TraitTreeXTraitCurrency", "ManifestInterfaceData", "SpellEffect", "SpellMisc", "SpellDuration", "SpellAuraOptions", "SpellRadius", "Curve", "CurvePoint"]
-LOCALIZED = ["ChrClasses", "TalentTab", "SpellName", "Spell"]
+LOCALIZED = ["ChrClasses", "ChrRaces", "TalentTab", "SpellName", "Spell"]
+RACES_FILE = ROOT / "data" / "wow_races.json"
+ORIGINAL_RACE_IDS = ["1", "2", "3", "4", "5", "6", "7", "8"]       # Human Orc Dwarf Night Elf Undead Tauren Gnome Troll (the eight original races)
 
 
 # ------------------------------------------------------------------------------------------------------- download
@@ -661,6 +663,29 @@ def build(T: Tables, out_dir: Path, icons: bool = True) -> dict:
     return rep
 
 
+def build_races(T: Tables, icons: bool) -> dict:
+    # Playable races of the Forever client: the eight original ones + the Skyborne (stored as one entry per faction).
+    en = {r["ID"]: r for r in T.loc["en"]["ChrRaces"]}
+    fr = {r["ID"]: r for r in T.loc["fr"]["ChrRaces"]}
+    ids = ORIGINAL_RACE_IDS + sorted(i for i, r in en.items() if r["ClientFileString"] == "Skyborne")
+    races = []
+    for rid in ids:
+        r = en[rid]
+        faction = "alliance" if r["Alliance"] == "0" else "horde"      # ChrRaces.Alliance: 0 = Alliance, 1 = Horde
+        key = r["ClientFileString"].lower()
+        item = {"key": "undead" if key == "scourge" else key, "name": {"en": r["Name_lang"], "fr": fr[rid]["Name_lang"]}, "faction": faction,
+                "new": r["ClientFileString"] == "Skyborne"}
+        if icons:
+            item["icon"] = f"{ICON_BASE}race_{key}_male.jpg"           # naming convention of the image network (checked to exist)
+        races.append(item)
+    races.sort(key=lambda x: (0 if x["faction"] == "alliance" else 1, x["new"]))
+    out = {"build": T.build, "generated": dt.date.today().isoformat(), "races": races}
+    if icons:
+        out["icons_source"] = ICON_SOURCE
+    RACES_FILE.write_text(json.dumps(out, ensure_ascii=False, indent=1), encoding="utf-8")
+    return out
+
+
 def report(rep: dict) -> None:
     print(f"\n=== WoW: Forever talent import, build {rep['build']}")
     print("rules read from the data:", rep.get("rules_from_data"))
@@ -714,6 +739,8 @@ def main() -> None:
     T = Tables(build_id, args.refresh)
     rep = build(T, STAGING_DIR, icons=(args.icons == "wowhead"))
     report(rep)
+    races = build_races(T, icons=(args.icons == "wowhead"))
+    print("races:", [(r["name"]["en"], r["faction"]) for r in races["races"]], "->", RACES_FILE)
     print(f"\nwritten to {STAGING_DIR} (staging: not used by the site build unless WOW_TALENTS_PREVIEW=1)")
 
 

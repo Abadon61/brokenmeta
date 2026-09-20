@@ -57,6 +57,9 @@
 {% elif b.type == 'note' %}<p class="wow-note">{{ b.text }}</p>
 {% elif b.type == 'list' %}<ul class="gd-list">{% for it in b['items'] %}<li>{{ it }}</li>{% endfor %}</ul>
 {% elif b.type == 'facts' %}<dl class="wow-facts">{% for label, value in b['items'] %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}</dl>
+{% elif b.type == 'classcards' %}{% if wt_classes %}<div class="wh-cards">{% for c in wt_classes %}<a class="wh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">{% if c.icon %}<img class="wh-card-icon" src="{{ c.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}<span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ wow_ui.cta_calc }} →</span></span></a>{% endfor %}</div>{% endif %}
+{% elif b.type == 'racecards' %}{% if wow_races %}{% for fac, fac_label in (('alliance', 'Alliance'), ('horde', 'Horde')) %}<h3 class="wr-faction" data-faction="{{ fac }}">{{ fac_label }}</h3>
+<div class="wr-cards">{% for r in wow_races if r.faction == fac %}<div class="wr-card" data-faction="{{ fac }}">{% if r.icon %}<img class="wr-icon" src="{{ r.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}<span class="wr-body"><b>{{ r.name[lang] }}</b>{% if r.new %}<span class="wr-new">{{ wow_ui.new_race }}</span>{% endif %}</span></div>{% endfor %}</div>{% endfor %}{% endif %}
 {% elif b.type == 'cards' %}<div class="lh-cards">{% for slug, name, desc in b['items'] %}<a class="lh-card" href="{{ root }}wow-forever/{{ slug }}/"><span class="lh-card-k">World of Warcraft: Forever</span><b>{{ name }}</b><span>{{ desc }}</span></a>{% endfor %}</div>
 {% elif b.type == 'table' %}
 <div class="wow-table-wrap"><table class="wow-table">
