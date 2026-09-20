@@ -31,9 +31,16 @@
   }
   function specSpent(si) { return spentIn(si, 99); }
   function total() { var n = 0; all.forEach(function (t) { n += rank(t); }); return n; }
-  function needed(t) { return (t.row - 1) * rules.points_per_row; }
-  function rowOk(t) { return spentIn(t._spec, t.row) >= needed(t); }
-  function reqOk(t) { return !t.requires || rank(byId[t.requires.id]) >= t.requires.rank; }
+  /* gates: explicit per-talent list {through_row, points} (read from the game data); default = (row-1)*N points in the rows below */
+  function gatesOf(t) { return t.gates && t.gates.length ? t.gates : (t.row > 1 ? [{ through_row: t.row - 1, points: (t.row - 1) * rules.points_per_row }] : []); }
+  function gateOk(t) { return gatesOf(t).every(function (g) { return spentIn(t._spec, g.through_row + 1) >= g.points; }); }
+  function rowOk(t) { return gateOk(t); }
+  function asList(v) { return !v ? [] : (Array.isArray(v) ? v : [v]); }
+  function reqMet(q) { return rank(byId[q.id]) >= q.rank; }
+  function reqOk(t) {
+    var all = asList(t.requires), any = asList(t.requires_any);
+    return all.every(reqMet) && (!any.length || any.some(reqMet));
+  }
   function canAdd(t) { return total() < rules.total_points && rank(t) < t.max_rank && rowOk(t) && reqOk(t); }
   function valid() { return all.every(function (t) { return rank(t) === 0 || (rowOk(t) && reqOk(t)); }); }
   function canRemove(t) {
@@ -137,8 +144,16 @@
       box.appendChild(el('div', 'wt-tip-next', ui.nextRank));
       box.appendChild(el('p', 'wt-tip-desc', t.desc[r]));
     }
-    if (!rowOk(t)) box.appendChild(el('p', 'wt-tip-req', fmt(ui.needPoints, { n: needed(t), have: spentIn(t._spec, t.row), tree: specs[t._spec].name })));
-    if (!reqOk(t)) box.appendChild(el('p', 'wt-tip-req', fmt(ui.needTalent, { name: byId[t.requires.id].name, r: t.requires.rank })));
+    if (t.incomplete) box.appendChild(el('p', 'wt-tip-note', ui.incomplete));
+    gatesOf(t).forEach(function (g) {
+      var have = spentIn(t._spec, g.through_row + 1);
+      if (have < g.points) box.appendChild(el('p', 'wt-tip-req', fmt(ui.needPoints, { n: g.points, rows: g.through_row, have: have, tree: specs[t._spec].name })));
+    });
+    if (!reqOk(t)) {
+      var all = asList(t.requires).filter(function (q) { return !reqMet(q); }), any = asList(t.requires_any);
+      all.forEach(function (q) { box.appendChild(el('p', 'wt-tip-req', fmt(ui.needTalent, { name: byId[q.id].name, r: q.rank }))); });
+      if (any.length && !any.some(reqMet)) box.appendChild(el('p', 'wt-tip-req', fmt(ui.needAny, { names: any.map(function (q) { return byId[q.id].name; }).join(' / ') })));
+    }
     return box;
   }
   function showTip(t, anchor) {
@@ -167,7 +182,11 @@
     });
     specs.forEach(function (s, si) {
       treeEls[si].count.textContent = fmt(ui.treePoints, { n: specSpent(si) });
-      for (var r = 2; r <= rules.rows; r++) treeEls[si].rowLabels[r].setAttribute('data-open', spentIn(si, r) >= (r - 1) * rules.points_per_row ? 'true' : 'false');
+      for (var r = 2; r <= rules.rows; r++) {
+        var inRow = specs[si].talents.filter(function (x) { return x.row === r; });
+        var open = inRow.length ? inRow.some(gateOk) : spentIn(si, r) >= (r - 1) * rules.points_per_row;
+        treeEls[si].rowLabels[r].setAttribute('data-open', open ? 'true' : 'false');
+      }
     });
     if (tipTalent && !tip.hidden) tip.replaceChildren(tipHtml(tipTalent));
   }

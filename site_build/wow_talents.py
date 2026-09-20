@@ -22,16 +22,20 @@ Class file schema (one file per class):
         "col": 1,                              # 1..RULES["cols"]
         "max_rank": 5,                         # 1..9
         "desc": {"fr": ["text rank 1", "..."], "en": [...]},   # one text per rank
-        "requires": {"id": "other-talent", "rank": 3},         # optional: prerequisite talent
+        "gates": [{"through_row": 2, "points": 10}],           # optional: needs >= points spent in rows 1..through_row of this spec
+        "requires": [{"id": "other-talent", "rank": 3}],       # optional: ALL of these prerequisite talents (a lone dict is accepted too)
+        "requires_any": [{"id": "x", "rank": 1}],              # optional: AT LEAST ONE of these
         "icon": "path/or/url"}                                 # optional, none until we have permitted images
      ]}
-  ]
+  ],
+  "source": {"label": "...", "url": "..."}    # optional: where the data comes from (shown on the page)
 }
+Without "gates" a talent in row r falls back to the generic rule below. Importer output always carries explicit gates.
 
-Rules modelled (from the sources cited on /wow-forever/): 51 points to spend across the three trees, seven rows, the
-next row unlocks for every 5 points invested. Two modelling choices to CONFIRM against the game once real data is in:
-  * a talent in row r needs (r-1)*5 points spent in the rows strictly BELOW it in the same tree;
-  * the level needed for N points spent is first_level - 1 + N (first point at level 10).
+Rules modelled: 51 points to spend across the three trees, seven rows, the next row unlocks for every 5 points invested.
+Fallback when a talent has no explicit "gates": row r needs (r-1)*5 points spent in the rows strictly below it (same spec).
+The level needed for N points spent is first_level - 1 + N (first point at level 10). wow_talents_import.py READS the real
+gates, the point cap and the level schedule from the game tables and reports any difference with these defaults.
 """
 from __future__ import annotations
 
@@ -45,10 +49,15 @@ RULES = {"total_points": 51, "rows": 7, "cols": 4, "points_per_row": 5, "first_l
 HERE = Path(__file__).parent
 DATA_DIR = HERE.parent / "data" / "wow_talents"
 FIXTURE_DIR = HERE / "wow_talents_fixture"
+STAGING_DIR = HERE.parent / "data" / "wow_talents_staging"
 FIXTURE_MARKER = "WOW-TALENTS-FIXTURE"
 
 # Display order of the nine classes (ids must match the file ids).
 CLASS_ORDER = ["druid", "hunter", "mage", "paladin", "priest", "rogue", "shaman", "warlock", "warrior"]
+
+
+def _as_list(v) -> list:
+    return [] if not v else (v if isinstance(v, list) else [v])
 
 
 def _check_text(obj, where: str) -> None:
@@ -91,13 +100,16 @@ def validate(cls: dict, source: str = "") -> None:
                 if not (isinstance(d, list) and len(d) == t["max_rank"] and all(isinstance(x, str) and x.strip() for x in d)):
                     raise ValueError(f"{tw}: desc.{lang} must list exactly {t['max_rank']} non-empty rank texts")
     for tid, t in all_talents.items():
-        req = t.get("requires")
-        if req:
-            target = all_talents.get(req.get("id"))
-            if not target or target["_spec"] != t["_spec"]:
-                raise ValueError(f"{where}/{tid}: 'requires' must point to a talent of the same spec")
-            if not (isinstance(req.get("rank"), int) and 1 <= req["rank"] <= target["max_rank"]) or target["row"] >= t["row"]:
-                raise ValueError(f"{where}/{tid}: invalid prerequisite rank or row order")
+        for key in ("requires", "requires_any"):
+            for req in _as_list(t.get(key)):
+                target = all_talents.get(req.get("id"))
+                if not target or target["_spec"] != t["_spec"]:
+                    raise ValueError(f"{where}/{tid}: '{key}' must point to a talent of the same spec")
+                if not (isinstance(req.get("rank"), int) and 1 <= req["rank"] <= target["max_rank"]) or target["row"] > t["row"] or target["id"] == tid:
+                    raise ValueError(f"{where}/{tid}: invalid prerequisite rank or row order in '{key}'")
+        for g in t.get("gates") or []:
+            if not (isinstance(g.get("through_row"), int) and 1 <= g["through_row"] <= RULES["rows"] and isinstance(g.get("points"), int) and g["points"] > 0):
+                raise ValueError(f"{where}/{tid}: invalid gate {g!r}")
 
 
 def revision(cls: dict) -> str:
@@ -109,8 +121,9 @@ def revision(cls: dict) -> str:
 def load() -> tuple[list[dict], bool]:
     """(classes in display order, is_fixture). Empty list = no calculator pages."""
     real = sorted(DATA_DIR.glob("*.json")) if DATA_DIR.is_dir() else []
-    use_fixture = not real and os.environ.get("WOW_TALENTS_FIXTURE") == "1"
-    files = real or (sorted(FIXTURE_DIR.glob("*.json")) if use_fixture else [])
+    preview = not real and os.environ.get("WOW_TALENTS_PREVIEW") == "1"          # importer output, not approved for publication
+    use_fixture = not real and (preview or os.environ.get("WOW_TALENTS_FIXTURE") == "1")
+    files = real or (sorted(STAGING_DIR.glob("*.json")) if preview else sorted(FIXTURE_DIR.glob("*.json")) if use_fixture else [])
     classes = []
     for f in files:
         cls = json.loads(f.read_text(encoding="utf-8"))
@@ -120,7 +133,7 @@ def load() -> tuple[list[dict], bool]:
     order = {cid: i for i, cid in enumerate(CLASS_ORDER)}
     classes.sort(key=lambda c: order.get(c["id"], 99))
     if use_fixture:
-        print("!! WOW_TALENTS_FIXTURE=1: talent pages are built from FAKE test data -- do NOT deploy this build.")
+        print("!! talent pages are built from TEST or UNAPPROVED PREVIEW data (WOW_TALENTS_FIXTURE / WOW_TALENTS_PREVIEW) -- do NOT deploy this build.")
     return classes, use_fixture
 
 
@@ -130,21 +143,23 @@ UI = {
         "points": "Points : {n} / {max}", "pointsLeft": "Restants : {n}", "level": "Niveau requis : {n}", "levelNone": "Niveau requis : —",
         "reset": "Tout réinitialiser", "resetTree": "Réinitialiser", "share": "Copier le lien", "copied": "Lien copié !",
         "removeMode": "Mode retrait", "removeModeOn": "Mode retrait activé", "rankOf": "Rang {r} sur {max}", "nextRank": "Rang suivant",
-        "needPoints": "Nécessite {n} points dans les rangées précédentes de « {tree} » (actuellement {have}).",
-        "needTalent": "Nécessite « {name} » au rang {r}.", "treePoints": "{n} pts",
+        "needPoints": "Nécessite {n} points dans les rangées 1 à {rows} de « {tree} » (actuellement {have}).",
+        "needTalent": "Nécessite « {name} » au rang {r}.", "needAny": "Nécessite l'un de ces talents : {names}.", "treePoints": "{n} pts",
         "hint": "Clic pour ajouter un point, clic droit ou Maj + clic pour en retirer. Sur téléphone, activez le mode retrait.",
         "linkOld": "Ce lien a été créé avec d'anciennes données de talents : il ne peut pas être chargé.",
         "linkBad": "Ce lien de build n'est pas valide.",
+        "incomplete": "Certaines valeurs de ce talent n'ont pas pu être calculées (affichées « … »).",
     },
     "en": {
         "points": "Points: {n} / {max}", "pointsLeft": "Left: {n}", "level": "Required level: {n}", "levelNone": "Required level: —",
         "reset": "Reset all", "resetTree": "Reset", "share": "Copy link", "copied": "Link copied!",
         "removeMode": "Remove mode", "removeModeOn": "Remove mode on", "rankOf": "Rank {r} of {max}", "nextRank": "Next rank",
-        "needPoints": "Requires {n} points in the previous rows of \"{tree}\" (currently {have}).",
-        "needTalent": "Requires \"{name}\" at rank {r}.", "treePoints": "{n} pts",
+        "needPoints": "Requires {n} points in rows 1 to {rows} of \"{tree}\" (currently {have}).",
+        "needTalent": "Requires \"{name}\" at rank {r}.", "needAny": "Requires one of these talents: {names}.", "treePoints": "{n} pts",
         "hint": "Click to add a point, right-click or Shift + click to remove one. On a phone, turn on remove mode.",
         "linkOld": "This link was made with older talent data and cannot be loaded.",
         "linkBad": "This build link is not valid.",
+        "incomplete": "Some values of this talent could not be computed (shown as \"…\").",
     },
 }
 
@@ -168,7 +183,7 @@ TXT = {
         "specs": "spécialisations", "talents": "talents", "back": "Toutes les classes", "classes_count": "classes", "talents_kicker": "Talents",
         "sources": "Sources et règles", "rules_src": "Règles (51 points, sept rangées, une rangée débloquée tous les 5 points) : ",
         "data_pending": "Le calculateur sera disponible quand les données de talents du jeu seront publiées.",
-        "fixture": "DONNÉES DE TEST : cette page utilise de faux talents et ne doit pas être publiée.",
+        "fixture": "PRÉVISUALISATION : cette page utilise des données de test ou non validées et ne doit pas être publiée.",
     },
     "en": {
         "kicker": "World of Warcraft: Forever · Talents",
@@ -189,7 +204,7 @@ TXT = {
         "specs": "specializations", "talents": "talents", "back": "All classes", "classes_count": "classes", "talents_kicker": "Talents",
         "sources": "Sources and rules", "rules_src": "Rules (51 points, seven rows, a row unlocked every 5 points): ",
         "data_pending": "The calculator will be available once the game's talent data is published.",
-        "fixture": "TEST DATA: this page uses fake talents and must not be published.",
+        "fixture": "PREVIEW: this page uses test or unapproved data and must not be published.",
     },
 }
 
@@ -202,7 +217,13 @@ def payload(cls: dict, lang: str) -> dict:
         for t in s["talents"]:
             item = {"id": t["id"], "name": t["name"][lang], "row": t["row"], "col": t["col"], "max_rank": t["max_rank"], "desc": t["desc"][lang]}
             if t.get("requires"):
-                item["requires"] = t["requires"]
+                item["requires"] = _as_list(t["requires"])
+            if t.get("requires_any"):
+                item["requires_any"] = t["requires_any"]
+            if t.get("gates"):
+                item["gates"] = t["gates"]
+            if t.get("incomplete"):
+                item["incomplete"] = True
             if t.get("icon"):
                 item["icon"] = t["icon"]
             talents.append(item)
