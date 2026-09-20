@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'builder_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'builder_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'builder_h1') }}</h1>
-<p class="page-intro">{{ t(lang, 'builder_intro') }}</p>
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'builder_h1'), t(lang, 'builder_intro')) }}
 
 <div class="builder-layout">
   <div class="builder-main">

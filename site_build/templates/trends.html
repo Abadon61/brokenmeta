@@ -3,9 +3,11 @@
 {% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Tendances — TFT Set 18{% else %}Trends — TFT Set 18{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Les plus fortes progressions et chutes de placement moyen depuis le dernier calcul de la tier list TFT Set 18, comp par comp, sur données réelles.{% else %}The biggest average-placement gains and drops since the last TFT Set 18 tier list refresh, comp by comp, on real data.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'trends_title') }}</h1>
+{% set fr = lang == 'fr' %}
 {% if has_data %}
-<p class="page-intro">{{ t(lang, 'trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'trends_title'), t(lang, 'trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)),
+   [(risers|length, 'comps en hausse' if fr else 'rising comps'), (fallers|length, 'comps en baisse' if fr else 'falling comps')]
+   + ([('▲ ' ~ '%.2f'|format(risers[0].delta), ('plus forte hausse · ' if fr else 'biggest rise · ') ~ risers[0].display_label)] if risers else [])) }}
 
 <div class="trends-grid">
   <div>
@@ -42,6 +44,6 @@
   </div>
 </div>
 {% else %}
-<p class="page-intro">{{ t(lang, 'trends_no_history') }}</p>
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'trends_title'), t(lang, 'trends_no_history')) }}
 {% endif %}
 {% endblock %}

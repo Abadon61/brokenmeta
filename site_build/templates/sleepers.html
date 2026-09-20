@@ -3,8 +3,9 @@
 {% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Pépites cachées — TFT Set 18{% else %}Sleeper Picks — TFT Set 18{% endif %}{% endblock %}
 {% block description %}{% if lang == 'fr' %}Les champions et compos TFT Set 18 les plus performants malgré un faible taux de sélection — de vraies pépites que peu de joueurs exploitent, sur données réelles.{% else %}The best-performing TFT Set 18 champions and comps despite a low pick/play rate — real hidden gems few players use, from real data.{% endif %}{% endblock %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'sleepers_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'sleepers_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero('Teamfight Tactics · Set 18', t(lang, 'sleepers_title'), t(lang, 'sleepers_intro'),
+   [(sleeper_champions|length, 'champions sous-cotés' if fr else 'sleeper champions'), (sleeper_comps|length, 'compos sous-cotées' if fr else 'sleeper comps')]) }}
 
 <h2 class="fiche-section-title">{{ t(lang, 'sleepers_champions_title') }}</h2>
 <div class="champ-table-wrap">
