@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_glossary_runes_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_glossary_runes_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_glossary_runes_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'lol_glossary_runes_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero(('Glossaire · League of Legends' if fr else 'Glossary · League of Legends'), t(lang, 'lol_glossary_runes_title'), t(lang, 'lol_glossary_runes_intro'), [(trees|length, 'arbres de runes' if fr else 'rune trees')]) }}
 
 {% for tree in trees %}
 <div class="lol-rune-tree">

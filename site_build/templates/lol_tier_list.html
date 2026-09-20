@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ page_title_override or t(lang, 'lol_tier_list_title') }}{% endblock %}
 {% block description %}{{ page_desc_override or t(lang, 'lol_tier_list_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ page_title_override or t(lang, 'lol_tier_list_title') }}</h1>
-<p class="page-intro">{{ page_desc_override or t(lang, 'lol_tier_list_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{% set ns = namespace(n=0, best=none) %}
+{% for role in ['top', 'jungle', 'mid', 'adc', 'support'] %}{% for r in by_role.get(role, []) %}{% set ns.n = ns.n + 1 %}{% if r.games >= 100 and (ns.best is none or r.win_rate > ns.best.win_rate) %}{% set ns.best = r %}{% endif %}{% endfor %}{% endfor %}
+{{ m.page_hero('League of Legends', page_title_override or t(lang, 'lol_tier_list_title'), page_desc_override or t(lang, 'lol_tier_list_intro'), [(ns.n, 'champions classés par poste' if fr else 'ranked champion-role pairs')] + ([(ns.best.name ~ ' · ' ~ (ns.best.win_rate * 100)|round(1) ~ '%', 'meilleur winrate (100 parties min.)' if fr else 'best win rate (100+ games)')] if ns.best else [])) }}
 
 {% if elo_bracket_links %}
 <div class="lol-elo-switcher">
@@ -34,7 +37,7 @@
       <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_champion') }}</th><th class="num">{{ t(lang, 'th_tier') }}</th><th class="num">{{ t(lang, 'th_pickrate') }}</th><th class="num">{{ t(lang, 'th_winrate') }}</th><th class="num">{{ t(lang, 'th_games') }}</th>{% if lol_guide_slugs_by_lang[lang] %}<th></th>{% endif %}</tr></thead>
       <tbody>
         {% for r in rows %}
-        <tr>
+        <tr data-tier="{{ r.tier }}">
           <td class="num mono">#{{ loop.index }}</td>
           <td><div class="champ-cell"><a href="{{ root }}league/glossaire/champions/{{ r.slug }}/" style="display:flex;align-items:center;gap:8px;color:inherit;text-decoration:none">
             <span class="champ-portrait"><img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ r.icon_file }}" alt="{{ r.name }}" loading="lazy"></span>{{ r.name }}

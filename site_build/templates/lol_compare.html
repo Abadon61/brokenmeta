@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_compare_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_compare_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'nav_lol_compare') }}</h1>
-<p class="page-intro">{{ t(lang, 'lol_compare_intro') }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'nav_lol_compare'), t(lang, 'lol_compare_intro')) }}
 
 <form id="lolCompareForm" class="lol-compare-form">
   <div class="lol-compare-form-side">

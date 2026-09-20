@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_changelog_title') }}{% endblock %}
 {% block description %}{% if has_data %}{{ t(lang, 'lol_changelog_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}{% else %}{{ t(lang, 'lol_changelog_no_history') }}{% endif %}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_changelog_title') }}</h1>
+{% set fr = lang == 'fr' %}
 {% if has_data %}
-<p class="page-intro">{{ t(lang, 'lol_changelog_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'lol_changelog_title'), t(lang, 'lol_changelog_intro', short_date(prev_date, lang), short_date(latest_date, lang)), [(promotions|length, 'promotions de tier' if fr else 'tier promotions'), (demotions|length, 'rétrogradations' if fr else 'demotions')]) }}
 
 <div class="trends-grid">
   <div>
@@ -40,7 +41,7 @@
 </div>
 <p style="margin-top:22px"><a class="fiche-link" href="{{ root }}discord/">{{ t(lang, 'discord_see_alerts') }}</a></p>
 {% else %}
-<p class="page-intro">{{ t(lang, 'lol_changelog_no_history') }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'lol_changelog_title'), t(lang, 'lol_changelog_no_history')) }}
 {% endif %}
 {% endblock %}
 {% block extra_head %}

@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_glossary_items_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_glossary_items_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_glossary_items_title') }}</h1>
-<p class="page-intro">{{ t(lang, 'lol_glossary_items_intro') }}</p>
+{% set fr = lang == 'fr' %}
+{{ m.page_hero(('Glossaire · League of Legends' if fr else 'Glossary · League of Legends'), t(lang, 'lol_glossary_items_title'), t(lang, 'lol_glossary_items_intro'), [(items|length, 'objets' if fr else 'items')]) }}
 
 <div class="search-row">
   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>

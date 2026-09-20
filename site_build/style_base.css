@@ -1777,3 +1777,10 @@
   /* ---------- Tier tables: tier-coloured left edge, same chip as the comp rows ---------- */
   .champ-table tbody td:first-child { box-shadow: inset 3px 0 0 var(--tc); padding-left: 14px; }
   .champ-tier-badge { width: 30px; height: 30px; font-size: 16px; }
+
+  /* League tier list: tier-coloured left edge on each row, same idea as the TFT tables */
+  .champions-table tbody tr[data-tier="S"] { --tc: var(--gold); }
+  .champions-table tbody tr[data-tier="A"] { --tc: var(--magenta); }
+  .champions-table tbody tr[data-tier="B"] { --tc: var(--cyan); }
+  .champions-table tbody tr[data-tier="C"] { --tc: var(--text-faint); }
+  .champions-table tbody tr[data-tier] td:first-child { box-shadow: inset 3px 0 0 var(--tc); padding-left: 18px; }

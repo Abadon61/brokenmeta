@@ -1,10 +1,11 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_trends_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_trends_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<h1 class="page-h1">{{ t(lang, 'lol_trends_title') }}</h1>
+{% set fr = lang == 'fr' %}
 {% if has_data %}
-<p class="page-intro">{{ t(lang, 'lol_trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)) }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'lol_trends_title'), t(lang, 'lol_trends_intro', short_date(prev_date, lang), short_date(latest_date, lang)), [(risers|length, 'champions en hausse' if fr else 'rising champions'), (fallers|length, 'champions en baisse' if fr else 'falling champions')] + ([(risers[0].name ~ ' · ▲ ' ~ (risers[0].delta * 100)|round(1) ~ '%', 'plus forte hausse' if fr else 'biggest rise')] if risers else [])) }}
 
 <div class="trends-grid">
   <div>
@@ -42,7 +43,7 @@
 </div>
 <p style="margin-top:22px"><a class="fiche-link" href="{{ root }}discord/">{{ t(lang, 'discord_see_alerts') }}</a></p>
 {% else %}
-<p class="page-intro">{{ t(lang, 'lol_trends_no_history') }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'lol_trends_title'), t(lang, 'lol_trends_no_history')) }}
 {% endif %}
 {% endblock %}
 {% block extra_head %}

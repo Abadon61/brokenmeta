@@ -1,12 +1,9 @@
 {% extends "base.html" %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'lol_leaderboard_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_leaderboard_desc') }}{% endblock %}
+{% import "macros.html" as m %}
 {% block content %}
-<div class="lb-header-row">
-  <h1 class="page-h1" style="margin:0">{{ t(lang, 'lol_leaderboard_title') }}</h1>
-  <a class="fiche-link" href="{{ root }}league/leaderboard/world-stat/" style="margin-top:0">{{ t(lang, 'lol_see_worldstat') }}</a>
-</div>
-<p class="page-intro">{{ t(lang, 'lol_leaderboard_intro') }}</p>
+{{ m.page_hero('League of Legends', t(lang, 'lol_leaderboard_title'), t(lang, 'lol_leaderboard_intro'), none, (root ~ 'league/leaderboard/world-stat/', t(lang, 'lol_see_worldstat'))) }}
 
 <div class="tier-filters" id="lolLbRegionBar">
   <button class="chip" data-region="EUW" data-active="true">EUW</button>
