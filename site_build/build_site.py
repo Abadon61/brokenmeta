@@ -40,6 +40,7 @@ from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E4
 
 from lol_guide_view import build_guide_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
+import wow_content  # noqa: E402
 
 
 OUT = PROJECT / "data" / "output"
@@ -6582,6 +6583,7 @@ def main() -> None:
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
     env.globals["SET_LABEL"] = SET_LABEL
+    env.globals["wow_nav"] = wow_content.NAV
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -7229,6 +7231,26 @@ def main() -> None:
                elo_chart_svg=build_elo_chart_svg(lol_ws_snapshots, lol_ws_regions_present, lang),
                area_chart_payload=build_area_chart_payload(lol_ws_snapshots, lol_ws_regions_present),
                legend=lol_ws_legend, single_point=len(lol_ws_snapshots) == 1)
+        # ---- World of Warcraft: Forever (/wow-forever/): sourced information pages, see wow_content.py ----
+        wow_content.check()
+        _wow_ui = wow_content.UI[lang]
+        for _wslug, _wfr, _wen in wow_content.NAV:
+            _wp = wow_content.PAGES[lang][_wslug]
+            _wpath = "/wow-forever/" + (_wslug + "/" if _wslug else "")
+            _wurl = canonical_for(_wpath, lang)
+            _wcrumbs = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
+            if _wslug:
+                _wcrumbs.append((_wfr if lang == "fr" else _wen, _wurl))
+            _wfaq = None
+            if _wp.get("faq"):
+                _wfaq = {"@context": "https://schema.org", "@type": "FAQPage",
+                         "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
+            render("wow_page.html", _wpath, lang, active_nav="wow", active_sub="wow-" + (_wslug or "index"),
+                   page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC,
+                   wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
+                   breadcrumb_schema=breadcrumb_schema(_wcrumbs),
+                   article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
+                   faq_schema=_wfaq)
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)

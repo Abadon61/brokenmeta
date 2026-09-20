@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% set fr = lang == 'fr' %}
+{% block title %}{{ page.title }}{% endblock %}
+{% block description %}{{ page.description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
+{% endblock %}
+{% block content %}
+{{ m.page_hero(page.kicker, page.h1, page.intro) }}
+
+{% if wow_slug == '' %}
+<section class="wow-count" id="wowCount" data-launch="{{ wow_launch }}" aria-live="off">
+  <div class="wow-count-k">{{ wow_ui.countdown }}</div>
+  <div class="wow-count-grid" id="wowCountGrid">
+    <div><b class="nums" data-unit="d">--</b><span>{{ wow_ui.days }}</span></div>
+    <div><b class="nums" data-unit="h">--</b><span>{{ wow_ui.hours }}</span></div>
+    <div><b class="nums" data-unit="m">--</b><span>{{ wow_ui.minutes }}</span></div>
+    <div><b class="nums" data-unit="s">--</b><span>{{ wow_ui.seconds }}</span></div>
+  </div>
+  <div class="wow-count-line">{{ wow_ui.launch_line }}</div>
+</section>
+{% endif %}
+
+{% for sec in page.sections %}
+<h2 class="fiche-section-title">{{ sec.h2 }}</h2>
+{% for b in sec.blocks %}
+{% if b.type == 'p' %}<p class="page-intro" style="margin-top:0">{{ b.text }}</p>
+{% elif b.type == 'note' %}<p class="wow-note">{{ b.text }}</p>
+{% elif b.type == 'list' %}<ul class="gd-list">{% for it in b['items'] %}<li>{{ it }}</li>{% endfor %}</ul>
+{% elif b.type == 'facts' %}<dl class="wow-facts">{% for label, value in b['items'] %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}</dl>
+{% elif b.type == 'cards' %}<div class="lh-cards">{% for slug, name, desc in b['items'] %}<a class="lh-card" href="{{ root }}wow-forever/{{ slug }}/"><span class="lh-card-k">World of Warcraft: Forever</span><b>{{ name }}</b><span>{{ desc }}</span></a>{% endfor %}</div>
+{% elif b.type == 'table' %}
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr>{% for h in b.head %}<th>{{ h }}</th>{% endfor %}</tr></thead>
+  <tbody>{% for row in b.rows %}<tr>{% for cell in row %}<td{% if loop.first %} data-first{% endif %}>{{ cell }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+{% endfor %}
+{% endfor %}
+
+{% if page.faq %}
+<div class="wow-faq">
+{% for q, a in page.faq %}
+<details class="wow-faq-item"{% if loop.first %} open{% endif %}><summary>{{ q }}</summary><p>{{ a }}</p></details>
+{% endfor %}
+</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ wow_ui.sources }}</h2>
+<p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
+<ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul>
+
+{% if wow_slug == '' %}
+<script>
+(function () {
+  var box = document.getElementById('wowCount'); if (!box) return;
+  var target = Date.parse(box.getAttribute('data-launch'));
+  var cells = {};
+  ['d', 'h', 'm', 's'].forEach(function (u) { cells[u] = box.querySelector('[data-unit="' + u + '"]'); });
+  function pad(n) { return n < 10 ? '0' + n : String(n); }
+  function tick() {
+    var left = Math.max(0, target - Date.now());
+    if (left === 0) { box.querySelector('.wow-count-k').textContent = {{ wow_ui.live|tojson }}; box.querySelector('#wowCountGrid').hidden = true; return; }
+    var s = Math.floor(left / 1000);
+    cells.d.textContent = Math.floor(s / 86400);
+    cells.h.textContent = pad(Math.floor(s % 86400 / 3600));
+    cells.m.textContent = pad(Math.floor(s % 3600 / 60));
+    cells.s.textContent = pad(s % 60);
+    setTimeout(tick, 1000);
+  }
+  tick();
+})();
+</script>
+{% endif %}
+{% endblock %}

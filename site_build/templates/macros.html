@@ -17,9 +17,13 @@
    d'outils ci-dessous (voir le vrai game-toggle du topbar en desktop,
    dans base.html, pour la même logique). #}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_games') }}</div>
-<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav != 'league' %}data-active="true"{% endif %}>Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav not in ('league', 'wow') %}data-active="true"{% endif %}>Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
-{% if active_nav == 'league' %}
+<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/" {% if active_nav == 'wow' %}data-active="true"{% endif %}>World of Warcraft: Forever</a>
+{% if active_nav == 'wow' %}
+{% for slug, fr_label, en_label in wow_nav %}<a class="nav-link" href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>
+{% endfor %}
+{% elif active_nav == 'league' %}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 {% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
@@ -52,6 +56,9 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/augments/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_augments') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}glossaire/objets/" {% if active_nav == 'glossary' %}data-active="true"{% endif %}>{{ t(lang, 'nav_glossary_items') }}</a>
 {% endif %}
+{% elif active_nav == 'wow' %}
+{% for slug, fr_label, en_label in wow_nav %}<a class="nav-link" href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>
+{% endfor %}
 {% elif active_nav == 'league' %}
 {# Menu rose du jeu actif. 5 entrées (au lieu de 9) : Tier list, Guides, puis 3 menus déroulants. #}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
@@ -119,7 +126,12 @@
    game-specific, since "Analyse ton profil" already points at MetaScope
    (TFT) and "Overlay TFT" obviously doesn't apply to League. #}
 {% macro nav_cta(lang, root, active_nav, active_sub=None) %}
-{% if active_nav == 'league' %}
+{% if active_nav == 'wow' %}
+<a class="nav-cta-button" href="{{ root }}wow-forever/beta/" {% if active_sub == 'wow-beta' %}data-active="true"{% endif %}>
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  {{ 'Accéder à la bêta' if lang == 'fr' else 'Get beta access' }}
+</a>
+{% elif active_nav == 'league' %}
 <a class="nav-cta-button" href="{{ root }}league/" {% if active_sub == 'lol-profile' %}data-active="true"{% endif %}>
   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
   {{ t(lang, 'ms_search_button') }}
