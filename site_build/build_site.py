@@ -6588,7 +6588,7 @@ def main() -> None:
     wt_classes, wt_fixture = wow_talents.load()
     _wnav = list(wow_content.NAV)
     if wt_classes:
-        _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Talents", "Talents"))
+        _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["trait_label"] = trait_label
@@ -7272,7 +7272,7 @@ def main() -> None:
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
             _rules_src = wow_content.SOURCES["icy_talents"]
             _tbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang)),
-                      ("Talents", canonical_for("/wow-forever/talents/", lang))]
+                      ("Calculateur de talents" if lang == "fr" else "Talent calculator", canonical_for("/wow-forever/talents/", lang))]
             assert len(_wt["hub_title"]) <= 60 and len(_wt["hub_desc"]) <= 155
             render("wow_talents_hub.html", "/wow-forever/talents/", lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
                    wt_classes=wt_classes, rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
