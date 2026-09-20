@@ -10,7 +10,7 @@
 {% macro item_chip(i) %}<a class="gd-item" href="{{ root }}league/glossaire/objets/{{ i.slug }}/" title="{{ i.name }}"><img src="{{ dd }}item/{{ i.icon_file }}" alt="" width="36" height="36" loading="lazy"><span>{{ i.name }}</span></a>{% endmacro %}
 {% macro pct(x) %}{{ (x * 100)|round(1) }}{{ ' %' if lang == 'fr' else '%' }}{% endmacro %}
 {% block content %}
-<div class="champ-fiche-header">
+<div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ g.id }}_0.jpg')">
   <img class="champ-fiche-icon" src="{{ dd }}champion/{{ g.icon_file }}" alt="{{ g.name }}" width="120" height="120" fetchpriority="high">
   <div class="champ-fiche-info">
     <div class="fiche-kicker">{{ ui.guide }} · {{ g.role_label }}</div>

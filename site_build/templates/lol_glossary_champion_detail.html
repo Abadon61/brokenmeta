@@ -2,7 +2,7 @@
 {% block title %}BrokenMeta.gg | {{ d.name }} — {{ t(lang, 'lol_glossary_champions_title') }}{% endblock %}
 {% block description %}{{ t(lang, 'lol_champ_detail_desc', d.name, d.title) }}{% endblock %}
 {% block content %}
-<div class="champ-fiche-header">
+<div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ d.icon_file|replace('.png', '') }}_0.jpg')">
   <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ d.icon_file }}" alt="{{ d.name }}">
   <div class="champ-fiche-info">
     <div class="fiche-kicker">{{ t(lang, 'nav_lol_champions') }}</div>
