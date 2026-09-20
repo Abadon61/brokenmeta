@@ -595,11 +595,13 @@ UI = {
     "fr": {"sources": "Sources", "sources_note": "Informations vérifiées le 20 septembre 2026. Les points qui ne viennent que d'un wiki communautaire ou d'une seule source sont signalés dans le texte.",
            "countdown": "Sortie dans", "days": "jours", "hours": "heures", "minutes": "minutes", "seconds": "secondes", "live": "Le jeu est sorti !",
            "launch_line": "Lancement le 4 novembre 2026, 15 h (heure du Pacifique) — minuit à Paris",
-           "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever", "beta_cta": "Accéder à la bêta"},
+           "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever", "beta_cta": "Accéder à la bêta",
+           "cta_calc": "Calculateur de talents", "pick_class": "Choisir sa classe", "talents_n": "talents", "specs_word": "Spécialisations"},
     "en": {"sources": "Sources", "sources_note": "Information checked on September 20, 2026. Points that only come from a community wiki or a single source are flagged in the text.",
            "countdown": "Launch in", "days": "days", "hours": "hours", "minutes": "minutes", "seconds": "seconds", "live": "The game is out!",
            "launch_line": "Launching November 4, 2026, 3:00 p.m. Pacific time — midnight in Paris",
-           "breadcrumb_home": "Home", "section": "World of Warcraft: Forever", "beta_cta": "Get beta access"},
+           "breadcrumb_home": "Home", "section": "World of Warcraft: Forever", "beta_cta": "Get beta access",
+           "cta_calc": "Talent calculator", "pick_class": "Pick a class", "talents_n": "talents", "specs_word": "Specializations"},
 }
 
 

@@ -7263,7 +7263,7 @@ def main() -> None:
                 _wfaq = {"@context": "https://schema.org", "@type": "FAQPage",
                          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
             render("wow_page.html", _wpath, lang, active_nav="wow", active_sub="wow-" + (_wslug or "index"),
-                   page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC,
+                   page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),

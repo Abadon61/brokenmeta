@@ -9,11 +9,8 @@
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
 {% endblock %}
-{% block content %}
-{{ m.page_hero(page.kicker, page.h1, page.intro) }}
-
-{% if wow_slug == '' %}
-<section class="wow-count" id="wowCount" data-launch="{{ wow_launch }}" aria-live="off">
+{% macro countdown(extra_class='') %}
+<section class="wow-count {{ extra_class }}" id="wowCount" data-launch="{{ wow_launch }}" aria-live="off">
   <div class="wow-count-k">{{ wow_ui.countdown }}</div>
   <div class="wow-count-grid" id="wowCountGrid">
     <div><b class="nums" data-unit="d">--</b><span>{{ wow_ui.days }}</span></div>
@@ -23,6 +20,34 @@
   </div>
   <div class="wow-count-line">{{ wow_ui.launch_line }}</div>
 </section>
+{% endmacro %}
+{% block content %}
+{% if wow_slug == '' and wt_classes %}
+<section class="ph wh-hero">
+  <div class="wh-main">
+    <div class="fiche-kicker">{{ page.kicker }}</div>
+    <h1 class="ph-title">{{ page.h1 }}</h1>
+    <p class="ph-lede">{{ page.intro }}</p>
+    <div class="wh-cta">
+      <a class="wh-btn" href="{{ root }}wow-forever/talents/">{{ wow_ui.cta_calc }} <span aria-hidden="true">→</span></a>
+      <div class="wh-icons">{% for c in wt_classes %}<a href="{{ root }}wow-forever/talents/{{ c.id }}/" title="{{ c.name[lang] }}" style="--cc: {{ c.color or '#8a6cff' }}">{% if c.icon %}<img src="{{ c.icon }}" alt="{{ c.name[lang] }}" width="36" height="36" loading="lazy">{% else %}<span>{{ c.name[lang][:2] }}</span>{% endif %}</a>{% endfor %}</div>
+    </div>
+  </div>
+  {{ countdown('wh-count') }}
+</section>
+<h2 class="lh-h2">{{ wow_ui.pick_class }}</h2>
+<div class="wh-cards">
+  {% for c in wt_classes %}
+  <a class="wh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">
+    {% if c.icon %}<img class="wh-card-icon" src="{{ c.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ c.specs|map(attribute='talents')|map('length')|sum }} {{ wow_ui.talents_n }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+{% else %}
+{{ m.page_hero(page.kicker, page.h1, page.intro) }}
+
+{% if wow_slug == '' %}{{ countdown() }}{% endif %}
 {% endif %}
 
 {% for sec in page.sections %}

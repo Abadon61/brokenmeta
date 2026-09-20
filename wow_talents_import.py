@@ -640,8 +640,12 @@ def build(T: Tables, out_dir: Path, icons: bool = True) -> dict:
         cls_json = {"id": cslug, "name": {lang: class_names[lang][cid] for lang in LOCALES}, "specs": specs_json,
                     "source": {"label": f"WoW: Forever beta client data, build {T.build} (tables via wago.tools)", "url": "https://wago.tools/"},
                     "meta": {"build": T.build, "generated": dt.date.today().isoformat(), "assumptions": assumptions}}
+        cls_json["color"] = "#%02x%02x%02x" % (int(cls_row["ClassColorR"]), int(cls_row["ClassColorG"]), int(cls_row["ClassColorB"]))
         if icons:
             cls_json["icons_source"] = ICON_SOURCE
+            class_icon = icon_names.get(cls_row["IconFileDataID"])
+            if class_icon:
+                cls_json["icon"] = ICON_BASE + class_icon + ".jpg"
         if out_dir:
             (out_dir / f"{cslug}.json").write_text(json.dumps(cls_json, ensure_ascii=False, indent=1), encoding="utf-8")
         rep["classes"][cslug] = {"specs": [(s["name"]["en"], len(s["talents"])) for s in specs_json],
