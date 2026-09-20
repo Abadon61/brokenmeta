@@ -21,6 +21,7 @@ import ast
 import collections
 import csv
 import datetime as dt
+import difflib
 import json
 import operator
 import re
@@ -172,9 +173,11 @@ PROC_CD = re.compile(r"\$proccooldown")
 
 
 class Renderer:
-    def __init__(self, sp: Spells, names: dict[str, str], lang: str):
+    def __init__(self, sp: Spells, names: dict[str, str], lang: str, descs: dict[str, str] | None = None):
         self.sp, self.names, self.lang = sp, names, lang
+        self.descs = descs or {}
         self.problems: list[str] = []
+        self.heuristics: list[str] = []
 
     def _value(self, letter: str, sid: str, idx: int, overrides: dict, decimals=None, numeric=False):
         """Returns a float, or None when it cannot be computed."""
@@ -198,7 +201,9 @@ class Renderer:
         if L == "x":
             return None if not e else float(e["EffectChainTargets"] or 0)
         if L == "a":
-            return None if not e else self.sp.radius.get(e["EffectRadiusIndex_0"])
+            if not e:
+                return None
+            return self.sp.radius.get(e["EffectRadiusIndex_0"])       # index 0 only: index 1 disagreed with Wowhead (Wild Growth 43.5 vs 15 yd)
         if L == "u":
             a = self.sp.aura.get(sid)
             return None if not a else float(a.get("CumulativeAura", 0)) or None
@@ -216,7 +221,39 @@ class Renderer:
             return None if d is None else d / 1000
         return None
 
-    def render(self, template: str, sid: str, overrides: dict) -> tuple[str, bool]:
+    STATS = {"rap": ("puissance d'attaque à distance", "ranged attack power"), "ap": ("puissance d'attaque", "attack power"),
+             "sp": ("puissance des sorts", "spell power")}
+
+    def _stat_scaled(self, expr: str, sid: str, overrides: dict) -> str | None:
+        """${a + ($rap*(b/100))} -> 'a + b% of your ranged attack power' (only when exactly one stat and the formula is linear in it)."""
+        stats = set(re.findall(r"\$(rap|ap|sp)(?![A-Za-z])", expr))
+        if len(stats) != 1:
+            return None
+        stat = stats.pop()
+
+        def value_with(x: float):
+            def sub(mm):
+                v = self._value(mm.group(2), mm.group(1) or sid, int(mm.group(3) or 1), overrides)
+                if v is None:
+                    raise ValueError
+                return repr(v)
+            e2 = re.sub(r"\$" + stat + r"(?![A-Za-z])", repr(x), expr)
+            return safe_eval(SIMPLE.sub(sub, e2))
+        try:
+            f0, f1, f2 = value_with(0.0), value_with(1.0), value_with(2.0)
+        except Exception:      # noqa: BLE001
+            return None
+        if abs((f2 - f1) - (f1 - f0)) > 1e-9 or f1 - f0 <= 0:
+            return None
+        pct = (f1 - f0) * 100
+        name = self.STATS[stat][0 if self.lang == "fr" else 1]
+        pct_txt = f"{fmt_num(pct, None, self.lang)} %" if self.lang == "fr" else f"{fmt_num(pct, None, self.lang)}%"
+        of = f"de votre {name}" if self.lang == "fr" else f"of your {name}"
+        if abs(f0) < 1e-9:
+            return f"{pct_txt} {of}"
+        return f"{fmt_num(f0, None, self.lang)} (+ {pct_txt} {of})"
+
+    def render(self, template: str, sid: str, overrides: dict, depth: int = 0) -> tuple[str, bool]:
         text = template.replace("\r\n", " ").replace("\n", " ")
         text = re.sub(r"\|[cC][0-9a-fA-F]{8}|\|[rR]", "", text)
         ok = True
@@ -303,9 +340,14 @@ class Renderer:
                     last_num = value
                     out.append(fmt_num(value, decimals, self.lang))
                 except Exception:      # noqa: BLE001
-                    ok = False
-                    self.problems.append(text[i:j + 1])
-                    out.append("…")
+                    scaled = self._stat_scaled(expr, sid, overrides)
+                    if scaled:
+                        out.append(scaled)
+                        last_num = None
+                    else:
+                        ok = False
+                        self.problems.append(text[i:j + 1])
+                        out.append("…")
                 i = j + 1 + (len(dm.group(0)) if dm else 0)
                 continue
             pm = re.match(r"\$[lL]([^:;]*):([^;]*);", text[i:])           # $lsingular:plural;
@@ -313,6 +355,13 @@ class Renderer:
                 singular, plural = pm.group(1), pm.group(2)
                 out.append(singular if last_num is not None and abs(last_num) <= 1 else plural)
                 i += pm.end()
+                continue
+            tm = re.match(r"\$@spell(?:tooltip|desc)(\d+)", text[i:])
+            if tm and depth < 3 and tm.group(1) in self.descs:
+                sub_text, sub_ok = self.render(self.descs[tm.group(1)], tm.group(1), {}, depth + 1)
+                ok = ok and sub_ok
+                out.append(sub_text)
+                i += tm.end()
                 continue
             nm = re.match(r"\$@spellname(\d+)", text[i:])
             if nm and nm.group(1) in self.names:
@@ -332,8 +381,12 @@ class Renderer:
                         end += 1
                     branches.append(text[pos + 1:end])
                     pos = end + 1
-                if len(branches) == 2 and branches[0].strip() == branches[1].strip() and "$" not in branches[0]:
+                same = len(branches) == 2 and "$" not in branches[0] + branches[1]
+                if same and branches[0].strip() == branches[1].strip():
                     out.append(branches[0].strip())          # both outcomes read the same: the condition does not matter
+                elif same and difflib.SequenceMatcher(None, branches[0].strip(), branches[1].strip()).ratio() >= 0.95:
+                    out.append(branches[1].strip())          # differ only by a typo in the game text: keep the second reading
+                    self.heuristics.append(f"conditional branches differ by a typo, second used: {branches[0].strip()[:40]!r} / {branches[1].strip()[:40]!r}")
                 else:
                     ok = False
                     self.problems.append(head)
@@ -472,7 +525,7 @@ def build(T: Tables, out_dir: Path, icons: bool = True) -> dict:
         for old in out_dir.glob("*.json"):
             old.unlink()
 
-    renderers = {lang: Renderer(sp, spell_names[lang], lang) for lang in LOCALES}
+    renderers = {lang: Renderer(sp, spell_names[lang], lang, spell_desc[lang]) for lang in LOCALES}
     assumptions = ["A prerequisite arrow requires the source talent at its MAXIMUM rank (Classic behaviour); the client tables only store the link."]
     for cid, tid in sorted(class_trees.items(), key=lambda kv: int(kv[0])):
         cls_row = next(c for c in T.loc["en"]["ChrClasses"] if c["ID"] == cid)
@@ -599,6 +652,7 @@ def build(T: Tables, out_dir: Path, icons: bool = True) -> dict:
                                  "prereq_talents": sum(1 for s in specs_json for t in s["talents"] if t.get("requires") or t.get("requires_any")),
                                  "any_of": sum(1 for s in specs_json for t in s["talents"] if t.get("requires_any"))}
     rep["problems_by_token"] = collections.Counter(p for r in renderers.values() for p in r.problems)
+    rep["heuristics"] = sorted({h for r in renderers.values() for h in r.heuristics})
     rep["missing_classes"] = sorted({c["Filename"].lower() for c in T.loc["en"]["ChrClasses"]} - set(rep["classes"]))
     return rep
 
@@ -616,6 +670,8 @@ def report(rep: dict) -> None:
     print("talents without an icon:", rep.get("no_icon", []) or "none")
     for line in rep.get("offgrid", []):
         print("OFF-GRID:", line)
+    if rep.get("heuristics"):
+        print("HEURISTICS used:", rep["heuristics"])
     if rep["missing_classes"]:
         print("classes without a calculator tree:", rep["missing_classes"])
     for w in rep["warnings"]:

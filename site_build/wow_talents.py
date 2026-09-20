@@ -149,7 +149,7 @@ UI = {
         "hint": "Clic pour ajouter un point, clic droit ou Maj + clic pour en retirer. Sur téléphone, activez le mode retrait.",
         "linkOld": "Ce lien a été créé avec d'anciennes données de talents : il ne peut pas être chargé.",
         "linkBad": "Ce lien de build n'est pas valide.",
-        "incomplete": "Certaines valeurs de ce talent n'ont pas pu être calculées (affichées « … »).",
+        "incomplete": "Certaines valeurs de ce talent dépendent de vos statistiques ou ne peuvent pas être déterminées de façon fiable à partir des données du jeu : elles sont affichées « … ».",
     },
     "en": {
         "points": "Points: {n} / {max}", "pointsLeft": "Left: {n}", "level": "Required level: {n}", "levelNone": "Required level: —",
@@ -160,7 +160,7 @@ UI = {
         "hint": "Click to add a point, right-click or Shift + click to remove one. On a phone, turn on remove mode.",
         "linkOld": "This link was made with older talent data and cannot be loaded.",
         "linkBad": "This build link is not valid.",
-        "incomplete": "Some values of this talent could not be computed (shown as \"…\").",
+        "incomplete": "Some values of this talent depend on your stats or cannot be determined reliably from the game data: they are shown as \"…\".",
     },
 }
 

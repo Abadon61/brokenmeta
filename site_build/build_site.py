@@ -7242,6 +7242,16 @@ def main() -> None:
         _wow_ui = wow_content.UI[lang]
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
+            if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
+                import copy
+                _wp = copy.deepcopy(_wp)
+                _card = ("talents", "Calculateur de talents", "Répartissez vos 51 points dans les arbres de chaque classe et partagez votre build.") if lang == "fr" \
+                    else ("talents", "Talent calculator", "Spend your 51 points in each class's trees and share your build.")
+                for _sec in _wp["sections"]:
+                    for _b in _sec["blocks"]:
+                        if _b["type"] == "cards":
+                            _b["items"] = list(_b["items"])
+                            _b["items"].insert(4, _card)
             _wpath = "/wow-forever/" + (_wslug + "/" if _wslug else "")
             _wurl = canonical_for(_wpath, lang)
             _wcrumbs = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
