@@ -1916,6 +1916,36 @@
   .wt-arrow[data-met="true"] { stroke: var(--gold); }
   .wt-arrowhead[data-met="true"] { fill: var(--gold); }
 
+  /* ---------- WoW: Forever home (hero with countdown + calculator button + class cards) ---------- */
+  .wh-hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 24px; align-items: stretch; padding: 30px 30px 28px; }
+  .wh-hero .ph-title { font-size: clamp(28px, 3.8vw, 42px); }
+  .wh-main { display: flex; flex-direction: column; min-width: 0; }
+  .wh-cta { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; margin-top: auto; padding-top: 6px; }
+  .wh-btn { display: inline-flex; align-items: center; gap: 10px; padding: 13px 20px; background: var(--red); color: #fff; font: 700 13px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; text-decoration: none; border: 1px solid var(--red); transition: transform .15s ease, filter .15s ease; }
+  .wh-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+  .wh-icons { display: flex; flex-wrap: wrap; gap: 8px; }
+  .wh-icons a { display: block; width: 40px; height: 40px; border: 2px solid var(--cc, var(--border-bright)); background: var(--bg); transition: transform .15s ease; }
+  .wh-icons a:hover { transform: translateY(-2px); }
+  .wh-icons img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wh-icons span { display: flex; align-items: center; justify-content: center; height: 100%; font: 700 12px 'Space Mono', monospace; color: var(--cream); }
+  .wow-count.wh-count { margin: 0; display: flex; flex-direction: column; justify-content: center; padding: 22px 24px; background: rgba(16,11,38,0.72); }
+  .wh-count .wow-count-grid { gap: 12px 26px; }
+  .wh-count .wow-count-grid b { font-size: clamp(38px, 5vw, 60px); }
+  .wh-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; margin: 14px 0 6px; }
+  .wh-card { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--border); border-left: 4px solid var(--cc, var(--border-bright)); background: var(--bg-2); color: var(--cream); text-decoration: none; transition: border-color .15s ease, transform .15s ease; min-width: 0; }
+  .wh-card:hover { border-color: var(--cc, var(--magenta)); transform: translateY(-2px); }
+  .wh-card-icon { flex: none; width: 56px; height: 56px; border: 2px solid var(--cc, var(--border-bright)); object-fit: cover; }
+  .wh-card-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+  .wh-card-body b { font-family: 'Cal Sans', sans-serif; font-size: 19px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--cc, var(--cream)); }
+  .wh-card-specs { font-size: 12.5px; color: var(--text-dim); overflow-wrap: anywhere; }
+  .wh-card-n { font: 700 10.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); }
+  @media (max-width: 860px) { .wh-hero { grid-template-columns: 1fr; padding: 22px 18px; } }
+  @media (prefers-reduced-motion: reduce) { .wh-btn, .wh-icons a, .wh-card { transition: none; } .wh-btn:hover, .wh-icons a:hover, .wh-card:hover { transform: none; } }
+  .wh-count .wow-count-grid { flex-wrap: nowrap; gap: 8px 18px; }
+  .wh-count .wow-count-grid div { min-width: 0; }
+  .wh-count .wow-count-grid b { font-size: clamp(30px, 3.4vw, 50px); }
+  @media (max-width: 860px) { .wh-count .wow-count-grid b { font-size: clamp(34px, 9vw, 52px); } }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
