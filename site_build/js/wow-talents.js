@@ -98,6 +98,7 @@
     return (w.length > 1 ? w[0][0] + w[1][0] : name.slice(0, 2)).toUpperCase();
   }
 
+  var SVG_NS = 'http://www.w3.org/2000/svg';
   var nodeEls = {}, treeEls = [];
   specs.forEach(function (s, si) {
     var tree = el('section', 'wt-tree'); tree.setAttribute('aria-label', s.name);
@@ -108,6 +109,9 @@
     head.appendChild(title); head.appendChild(count); head.appendChild(reset);
     var grid = el('div', 'wt-grid');
     var rowLabels = [];
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('class', 'wt-arrows'); svg.setAttribute('aria-hidden', 'true');
+    grid.appendChild(svg);
     for (var r = 1; r <= rules.rows; r++) {
       var lab = el('div', 'wt-row-label', r > 1 ? String((r - 1) * rules.points_per_row) : '');
       lab.style.gridRow = String(r); lab.style.gridColumn = '1';
@@ -133,8 +137,51 @@
       nodeEls[t.id] = { btn: b, badge: badge };
     });
     tree.appendChild(head); tree.appendChild(grid); trees.appendChild(tree);
-    treeEls.push({ count: count, rowLabels: rowLabels });
+    treeEls.push({ count: count, rowLabels: rowLabels, grid: grid, svg: svg, arrows: [] });
   });
+
+  /* ---------------------------------------------------------------- prerequisite arrows */
+  function svgEl(tag, attrs) { var n = document.createElementNS(SVG_NS, tag); for (var k in attrs) n.setAttribute(k, attrs[k]); return n; }
+  function box(t) { var b = nodeEls[t.id].btn; return { x: b.offsetLeft, y: b.offsetTop, w: b.offsetWidth, h: b.offsetHeight }; }
+  function layoutArrows() {
+    treeEls.forEach(function (te, si) {
+      var svg = te.svg;
+      svg.textContent = ''; te.arrows = [];
+      svg.setAttribute('width', te.grid.clientWidth); svg.setAttribute('height', te.grid.clientHeight);
+      svg.setAttribute('viewBox', '0 0 ' + te.grid.clientWidth + ' ' + te.grid.clientHeight);
+      specs[si].talents.forEach(function (t) {
+        var links = asList(t.requires).map(function (q) { return { q: q, any: false }; }).concat(asList(t.requires_any).map(function (q) { return { q: q, any: true }; }));
+        links.forEach(function (lk) {
+          var s = box(byId[lk.q.id]), d = box(t), pts, tip;
+          var sameRow = byId[lk.q.id].row === t.row, gap = 6;
+          if (sameRow) {                                           /* horizontal: side to side */
+            var sy = s.y + s.h / 2, right = d.x > s.x;
+            var x1 = right ? s.x + s.w : s.x, x2 = right ? d.x : d.x + d.w;
+            pts = 'M' + x1 + ',' + sy + ' L' + x2 + ',' + sy;
+            tip = right ? [[x2, sy], [x2 - 8, sy - 5], [x2 - 8, sy + 5]] : [[x2, sy], [x2 + 8, sy - 5], [x2 + 8, sy + 5]];
+          } else {
+            var cx1 = s.x + s.w / 2, cx2 = d.x + d.w / 2, y1 = s.y + s.h, y2 = d.y;
+            if (Math.abs(cx1 - cx2) < 2) pts = 'M' + cx1 + ',' + y1 + ' L' + cx2 + ',' + y2;
+            else { var my = y2 - gap; pts = 'M' + cx1 + ',' + y1 + ' L' + cx1 + ',' + my + ' L' + cx2 + ',' + my + ' L' + cx2 + ',' + y2; }
+            tip = [[cx2, y2], [cx2 - 5, y2 - 8], [cx2 + 5, y2 - 8]];
+          }
+          var path = svgEl('path', { d: pts, 'class': 'wt-arrow' + (lk.any ? ' wt-arrow-any' : '') });
+          var head = svgEl('polygon', { points: tip.map(function (p) { return p.join(','); }).join(' '), 'class': 'wt-arrowhead' });
+          svg.appendChild(path); svg.appendChild(head);
+          te.arrows.push({ q: lk.q, path: path, head: head });
+        });
+      });
+    });
+    updateArrows();
+  }
+  function updateArrows() {
+    treeEls.forEach(function (te) {
+      te.arrows.forEach(function (a) {
+        var met = reqMet(a.q) ? 'true' : 'false';
+        a.path.setAttribute('data-met', met); a.head.setAttribute('data-met', met);
+      });
+    });
+  }
 
   /* ---------------------------------------------------------------- tooltip */
   function tipHtml(t) {
@@ -192,6 +239,7 @@
       }
     });
     if (tipTalent && !tip.hidden) tip.replaceChildren(tipHtml(tipTalent));
+    updateArrows();
   }
   function changed() {
     update();
@@ -212,6 +260,11 @@
     if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, function () { window.prompt(ui.share, url); });
     else window.prompt(ui.share, url);
   });
+
+  layoutArrows();
+  window.addEventListener('resize', layoutArrows);
+  window.addEventListener('load', layoutArrows);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(layoutArrows); treeEls.forEach(function (te) { ro.observe(te.grid); }); }
 
   var loaded = decode(location.hash);
   if (loaded === 'rev' || loaded === 'bad') { notice.textContent = loaded === 'rev' ? ui.linkOld : ui.linkBad; notice.hidden = false; }

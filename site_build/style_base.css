@@ -1905,3 +1905,13 @@
   .wt-node .wt-icon { display: block; width: 100%; height: 100%; }
   .wt-node[data-state="locked"] .wt-icon { filter: grayscale(1) brightness(.7); }
   .wt-node[data-state="maxed"] .wt-icon { filter: saturate(1.15); }
+
+  /* prerequisite arrows (SVG layer under the talents) */
+  .wt-grid { position: relative; }
+  .wt-arrows { position: absolute; left: 0; top: 0; z-index: 0; pointer-events: none; overflow: visible; }
+  .wt-node { z-index: 1; }
+  .wt-arrow { fill: none; stroke: var(--border-bright); stroke-width: 3; stroke-linejoin: round; }
+  .wt-arrow-any { stroke-dasharray: 6 4; }
+  .wt-arrowhead { fill: var(--border-bright); }
+  .wt-arrow[data-met="true"] { stroke: var(--gold); }
+  .wt-arrowhead[data-met="true"] { fill: var(--gold); }
