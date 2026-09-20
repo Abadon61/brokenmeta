@@ -3,6 +3,68 @@
 {% block title %}{{ page_title }}{% endblock %}
 {% block description %}{{ page_description }}{% endblock %}
 {% block content %}
+{% set fr = lang == 'fr' %}
+{% if hero %}
+{% set top = hero.top[0] %}
+<section class="th-hero" id="thHero"{% if hero.art %} style="--th-art: url('{{ hero.art }}')"{% endif %}>
+  <div class="th-hero-text">
+    <div class="fiche-kicker">Teamfight Tactics · Set 18</div>
+    <h1 class="th-title">{{ h1 }}</h1>
+    <p class="th-lede">{{ intro }}</p>
+    <div class="th-stats">
+      <div><b class="nums">{{ hero.n_comps }}</b><span>{{ 'compos analysées' if fr else 'comps analysed' }}</span></div>
+      <div><b class="nums">{{ hero.matches }}</b><span>{{ 'parties réelles' if fr else 'real games' }}</span></div>
+      <div><b class="nums">{{ hero.n_s }}</b><span>{{ 'en tier S' if fr else 'in S tier' }}</span></div>
+    </div>
+    <a class="th-fav" href="{{ root }}favoris/">{{ star_svg|safe }} {{ t(lang, 'favorites_promo_hint') }} →</a>
+  </div>
+  <a class="th-spot" href="{{ root }}compo/{{ top.slug }}/">
+    <span class="th-spot-k">{{ 'Meilleure comp du moment' if fr else 'Best comp right now' }}</span>
+    <span class="th-spot-head">
+      {% if top.carry_slug %}<img src="{{ root }}assets/champions/{{ top.carry_slug }}.png" alt="{{ top.carry }}" width="64" height="64">{% endif %}
+      <span><b class="th-spot-name">{{ top.display_label }}</b><span class="th-spot-tier">Tier {{ top.tier }}</span></span>
+    </span>
+    <span class="th-spot-stats">
+      <span><em>{{ t(lang, 'placement_label') }}</em><b class="nums">{{ '%.2f'|format(top.avg_placement) }}</b></span>
+      <span><em>{{ t(lang, 'top4_label') }}</em><b class="nums">{{ top.top4_pct }}</b></span>
+      <span><em>{{ t(lang, 'contest_label') }}</em><b class="nums">{{ top.contestation_index|round|int }}</b></span>
+    </span>
+    {{ m.units_row(top.core_units_display, root) }}
+  </a>
+</section>
+<div class="th-runners">
+  {% for c in hero.top[1:] %}
+  <a class="th-runner" href="{{ root }}compo/{{ c.slug }}/">
+    {% if c.carry_slug %}<img src="{{ root }}assets/champions/{{ c.carry_slug }}.png" alt="" width="40" height="40">{% endif %}
+    <span><b>{{ c.display_label }}</b><em class="nums">{{ '%.2f'|format(c.avg_placement) }} · Top 4 {{ c.top4_pct }}</em></span>
+    <span class="th-runner-tier">{{ c.tier }}</span>
+  </a>
+  {% endfor %}
+</div>
+<section class="th-search">
+  <div class="th-search-head"><b>{{ t(lang, 'nav_metascope') }}</b><span>{{ 'Ton rang, tes habitudes de jeu et le détail de tes dernières parties TFT.' if fr else 'Your rank, playstyle habits and a breakdown of your latest TFT games.' }}</span></div>
+  <form id="metascopeForm" class="metascope-search-form th-search-form">
+    <input type="text" id="metascopeRiotId" class="search-input" placeholder="{{ t(lang, 'ms_riotid_placeholder') }}" autocomplete="off" required aria-label="{{ t(lang, 'ms_riotid_placeholder') }}">
+    <select id="metascopeRegion" class="metascope-region-select" aria-label="{{ 'Région' if fr else 'Region' }}">
+      <option value="EUW">EUW</option>
+      <option value="NA">NA</option>
+      <option value="BR">BR</option>
+      <option value="KR">KR</option>
+    </select>
+    <button type="submit" class="metascope-search-button">{{ t(lang, 'ms_search_button') }}</button>
+  </form>
+  <div id="metascopeStatus" class="metascope-status" hidden></div>
+</section>
+<div id="metascopeResults"></div>
+<h2 class="lh-h2">{{ 'Aller plus loin' if fr else 'Go further' }}</h2>
+<div class="lh-cards th-cards">
+  <a class="lh-card lh-card-accent" href="{{ root }}team-builder/"><span class="lh-card-k">{{ 'Outil' if fr else 'Tool' }}</span><b>Team Builder</b><span>{{ 'Compose ta board et exporte le code pour le jeu.' if fr else 'Build your board and export the in-game code.' }}</span></a>
+  <a class="lh-card" href="{{ root }}tendances/"><span class="lh-card-k">{{ 'Méta' if fr else 'Meta' }}</span><b>{{ t(lang, 'nav_trends') }}</b><span>{{ 'Les compos qui montent et celles qui chutent.' if fr else 'Comps rising and falling.' }}</span></a>
+  <a class="lh-card" href="{{ root }}contres/"><span class="lh-card-k">{{ 'Méta' if fr else 'Meta' }}</span><b>{{ t(lang, 'nav_counters') }}</b><span>{{ 'Que jouer contre la compo adverse.' if fr else 'What to play against the enemy comp.' }}</span></a>
+  <a class="lh-card" href="{{ root }}pepites-cachees/"><span class="lh-card-k">{{ 'Astuce' if fr else 'Tip' }}</span><b>{{ t(lang, 'nav_sleepers') }}</b><span>{{ 'Des compos performantes, encore peu jouées.' if fr else 'Strong comps that few players run.' }}</span></a>
+</div>
+<h2 class="lh-h2">{{ 'Toutes les compos, par tier' if fr else 'All comps, by tier' }}</h2>
+{% else %}
 <div class="page-header-with-promo">
   <div>
     <h1 class="page-h1">{{ h1 }}</h1>
@@ -13,6 +75,7 @@
     <a class="favorites-promo-button" href="{{ root }}favoris/">{{ t(lang, 'favorites_promo_button') }}</a>
   </div>
 </div>
+{% endif %}
 
 {{ m.scope_filter_bar(region_chips, rank_chips, lang, rank_filter_data) }}
 {{ m.search_bar(lang) }}
@@ -57,6 +120,40 @@
 {% endif %}
 {% endblock %}
 {% block extra_body %}
+{% if hero %}
+<script>
+window.BM_METASCOPE_API = "https://metascope-worker.brokenmeta.workers.dev";
+window.BM_I18N_MS = {
+  loading: {{ t(lang, 'ms_loading')|tojson }},
+  backButton: {{ t(lang, 'ms_back_button')|tojson }},
+  statsTitle: {{ t(lang, 'ms_stats_title')|tojson }},
+  habitsTitle: {{ t(lang, 'ms_habits_title')|tojson }},
+  rerollLover: {{ t(lang, 'ms_reroll_lover')|tojson }},
+  topPlayed: {{ t(lang, 'ms_top_played')|tojson }},
+  noHabits: {{ t(lang, 'ms_no_habits')|tojson }},
+  last10GamesTitle: {{ t(lang, 'last10_games_title')|tojson }},
+  analyzeHint: {{ t(lang, 'ms_analyze_hint')|tojson }},
+  analyzeButton: {{ t(lang, 'ms_analyze_button')|tojson }},
+  noRecentGames: {{ t(lang, 'no_recent_games')|tojson }},
+  placementLabel: {{ t(lang, 'placement_label')|tojson }},
+  recordLabel: {{ t(lang, 'record_label')|tojson }},
+  winrateLabel: {{ t(lang, 'winrate_label')|tojson }},
+  winrateUnavailable: {{ t(lang, 'ms_winrate_unavailable')|tojson }},
+  yourBoardTitle: {{ t(lang, 'ms_your_board_title')|tojson }},
+  insightsTitle: {{ t(lang, 'ms_insights_title')|tojson }},
+  insightsFrOnly: {{ t(lang, 'ms_insights_fr_only')|tojson }},
+  noInsights: {{ t(lang, 'ms_no_insights')|tojson }},
+  lobbyTitle: {{ t(lang, 'ms_lobby_title')|tojson }},
+  counterTag: {{ t(lang, 'ms_counter_tag')|tojson }},
+  noLobby: {{ t(lang, 'ms_no_lobby')|tojson }},
+  levelLabel: {{ t(lang, 'ms_level_label')|tojson }},
+  goldLeftLabel: {{ t(lang, 'ms_gold_left_label')|tojson }},
+  hotStreakTitle: {{ t(lang, 'hot_streak_title')|tojson }},
+  lang: {{ lang|tojson }}
+};
+</script>
+<script src="{{ root }}assets/js/metascope.js?v={{ css_v }}" defer></script>
+{% endif %}
 <script>window.BM_I18N_EMPTY_SEARCH = {{ t(lang, 'empty_no_comp_search', '__Q__')|tojson }};</script>
 <script src="{{ root }}assets/js/list-filters.js?v={{ css_v }}" defer></script>
 {% if interactive_rank_filter %}

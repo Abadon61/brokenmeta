@@ -7363,6 +7363,9 @@ def main() -> None:
                    tier_groups=tier_groups, region_chips=region_chips, rank_chips=rank_chips,
                    tier_href=lambda t, _root=root_path: _root + f"tier/{t.lower()}/",
                    item_list_schema=item_list_schema, faq=faq,
+                   hero=({"top": rows[:3], "art": (info_by_name.get(rows[0].get("carry") or "", {}) or {}).get("splash"), "n_comps": len(rows), "n_s": sum(1 for c in rows if c["tier"] == "S"),
+                          "matches": f"{total_matches:,}" if _lang == "en" else f"{total_matches:,}".replace(",", " ")}
+                         if kind == "all" and rows else None),
                    interactive_rank_filter=(kind == "all"),
                    rank_filter_data=(rank_filter_data if kind == "all" else None),
                    rank_filter_preview_cap=HOMEPAGE_PREVIEW_PER_TIER)

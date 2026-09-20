@@ -137,7 +137,7 @@
 {% endif %}
 {% endmacro %}
 
-{% macro pill(label, value, level=None) %}<div class="pill"><div class="p-label">{{ label }}</div><div class="p-value nums"{% if level %} data-level="{{ level }}"{% endif %}>{{ value }}</div></div>{% endmacro %}
+{% macro pill(label, value, level=None, bar=None) %}<div class="pill"{% if level %} data-level="{{ level }}"{% endif %}><div class="p-label">{{ label }}</div><div class="p-value nums"{% if level %} data-level="{{ level }}"{% endif %}>{{ value }}</div>{% if bar is not none %}<div class="p-bar" aria-hidden="true"><i style="width:{{ ([[bar, 0]|max, 1]|min * 100)|round(1) }}%"></i></div>{% endif %}</div>{% endmacro %}
 
 {# "Copy comp for the in-game Team Planner" -- see build_site.py's
    team_planner_code() for the byte-layout caveat. The code is baked into
@@ -189,9 +189,9 @@
         <div class="row-name">{{ c.display_label }}{% if c.playstyle_tag %}<span class="playstyle-tag">{{ c.playstyle_tag }}</span>{% endif %}{% if c.trend %}<span class="trend-badge trend-{{ c.trend.state }}">{{ c.trend.arrow }} {{ '%.2f'|format(c.trend.delta) }}</span>{% endif %}</div>
       </div>
       <div class="pill-row">
-        {{ pill(t(lang, 'placement_label'), '%.2f'|format(c.avg_placement)) }}
-        {{ pill(t(lang, 'top4_label'), c.top4_pct) }}
-        {{ pill(t(lang, 'contest_label'), c.contestation_index|round|int, c.contestation_level) }}
+        {{ pill(t(lang, 'placement_label'), '%.2f'|format(c.avg_placement), None, (8 - c.avg_placement) / 7) }}
+        {{ pill(t(lang, 'top4_label'), c.top4_pct, None, (c.top4_pct|string|replace('%', '')|replace(',', '.')|replace(' ', '')|float(0)) / 100) }}
+        {{ pill(t(lang, 'contest_label'), c.contestation_index|round|int, c.contestation_level, c.contestation_index / 100) }}
       </div>
     </div>
     {% if preview_hidden %}
