@@ -9,6 +9,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from markupsafe import Markup
+
 ROOT = Path(__file__).resolve().parent.parent
 ROLES_FILE = ROOT / "data" / "wow_guides" / "roles.json"
 CONTENT_FILE = ROOT / "data" / "wow_guides" / "content.json"
@@ -51,6 +53,39 @@ def spec_facts(spec: dict) -> dict:
             "single": [t for t in sorted(ts, key=lambda t: (t["row"], t["col"])) if t["max_rank"] == 1], "rows": rows}
 
 
+# geometry of the static talent tree (SVG units; the CSS scales everything with one variable)
+TW, TH, GX, GY, ICON, RW = 44, 44, 8, 8, 40, 34
+
+
+def _as_list(v):
+    return v if isinstance(v, list) else ([v] if v else [])
+
+
+def _tree_svg(sp: dict, flags: dict) -> Markup:
+    """Background of a tree: tier rail (tier number + points needed), prerequisite links between talents."""
+    rows = max(t["row"] for t in sp["talents"])
+    w, h = RW + GX + 4 * TW + 3 * GX, rows * TH + (rows - 1) * GY      # the grid gap sits between the tier rail and column 1
+    pos = {t["id"]: (RW + GX + (t["col"] - 1) * (TW + GX) + TW / 2, (t["row"] - 1) * (TH + GY) + ICON / 2) for t in sp["talents"]}
+    parts = [f'<svg class="wg-svg" viewBox="0 0 {w} {h}" aria-hidden="true" focusable="false">']
+    for r in range(1, rows + 1):
+        need = max([g["points"] for t in sp["talents"] if t["row"] == r for g in (t.get("gates") or [])] or [0])
+        y = (r - 1) * (TH + GY) + ICON / 2
+        parts.append(f'<text class="wg-rail-t" x="{RW - 8}" y="{y - 1:.0f}" text-anchor="end">{r}</text>')
+        parts.append(f'<text class="wg-rail-p" x="{RW - 8}" y="{y + 9:.0f}" text-anchor="end">{need}</text>')
+    for t in sp["talents"]:
+        for key in ("requires", "requires_any"):
+            for req in _as_list(t.get(key)):
+                src = req["id"] if isinstance(req, dict) else req
+                if src not in pos:
+                    continue
+                (x1, y1), (x2, y2) = pos[src], pos[t["id"]]
+                hot = " is-hot" if (src in flags and t["id"] in flags) else ""
+                dash = " is-any" if key == "requires_any" else ""
+                parts.append(f'<line class="wg-link{hot}{dash}" x1="{x1:.0f}" y1="{y1 + ICON / 2 - 2:.0f}" x2="{x2:.0f}" y2="{y2 - ICON / 2 + 2:.0f}"/>')
+    parts.append("</svg>")
+    return Markup("".join(parts))
+
+
 def template_tree(cls: dict, spec: dict, build: dict) -> dict:
     """Static, read-only trees with the recommended talents flagged. A build may use talents of several trees of the class
     (e.g. a Holy Priest guide names Discipline and Shadow talents): one tree is returned per spec that holds at least one, the guide's own spec first."""
@@ -58,18 +93,15 @@ def template_tree(cls: dict, spec: dict, build: dict) -> dict:
     where = {t["id"]: (sp, t) for sp in cls["specs"] for t in sp["talents"]}
     missing = [i for i in flags if i not in where]
     assert not missing, f"template talents not found in class {cls['id']}: {missing}"
-    used = {where[i][0]["id"] for i in flags}
-    order = [spec["id"]] + [sp["id"] for sp in cls["specs"] if sp["id"] != spec["id"]]
+    order = [spec["id"]] + [sp["id"] for sp in cls["specs"] if sp["id"] != spec["id"]]      # all three trees, the guide's own first
     trees = []
     for sid in order:
-        if sid != spec["id"] and sid not in used:
-            continue
         sp = next(x for x in cls["specs"] if x["id"] == sid)
         cells = []
         for t in sorted(sp["talents"], key=lambda t: (t["row"], t["col"])):
             f = flags.get(t["id"])
-            cells.append({"t": t, "mark": None if not f else ("option" if f.get("option") else "reco")})
-        trees.append({"spec": sp, "cells": cells, "rows": max(t["row"] for t in sp["talents"])})
+            cells.append({"t": t, "mark": None if not f else ("option" if f.get("option") else "reco"), "points": (f or {}).get("points")})
+        trees.append({"spec": sp, "cells": cells, "rows": max(t["row"] for t in sp["talents"]), "svg": _tree_svg(sp, flags), "own": sid == spec["id"]})
     items = []
     for f in build["talents"]:
         sp, t = where[f["id"]]
@@ -110,8 +142,8 @@ TXT = {
         "others_h2": "Les autres spécialisations du {cls}", "sources": "Sources", "src_role": "Rôle : ", "src_data": "Talents : ",
         "note": "Cette page ne donne ni rotation ni priorité de sorts : le client ne les fournit pas et nous ne les inventons pas. Les données changeront avec la sortie du jeu le 4 novembre 2026.",
         "rank_word": "rang", "ranks_word": "rangs",
-        "tpl_h2": "Le template de talents (niveau {level})", "tpl_p": "Les talents que le guide Icy Veins recommande au niveau {level}, repérés dans l'arbre. Quand le guide indique un nombre de points, il est précisé ; sinon seuls les talents sont cités. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.",
-        "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier", "pts_word": "pts", "tree_word": "Arbre",
+        "tpl_h2": "Le template de talents (niveau {level})", "tpl_p": "Les trois arbres de la classe, avec les talents que le guide Icy Veins recommande au niveau {level} en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l'arbre pour y accéder. Quand le guide indique un nombre de points, il est précisé ; sinon seuls les talents sont cités. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.",
+        "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier", "pts_word": "pts", "tree_word": "Arbre", "tree_own": "ce guide",
         "stats_h2": "Priorité de stats", "stats_p": "Dans l'ordre d'importance, d'après Icy Veins.", "stats_spec": "Ordre présenté comme spéculatif par Icy Veins.",
         "cons_h2": "Consommables", "cons_p": "Ce que le guide Icy Veins cite pour cette spécialisation.", "prof_h2": "Métiers conseillés",
         "gear_h2": "Équipement, enchantements et objets de donjon", "gear_p": "Aucune source ne publie encore de liste d'équipement (BiS), d'enchantements ni d'objets de donjon pour cette spécialisation : les guides Icy Veins de Forever se limitent pour l'instant au niveau 20 et ne les détaillent pas. Cette section sera remplie quand une source les publiera, sans invention de notre part.",
@@ -166,8 +198,8 @@ TXT = {
         "others_h2": "Other {cls} specializations", "sources": "Sources", "src_role": "Role: ", "src_data": "Talents: ",
         "note": "This page gives no rotation or spell priority: the client does not provide them and we do not invent them. The data will change when the game launches on November 4, 2026.",
         "rank_word": "rank", "ranks_word": "ranks",
-        "tpl_h2": "Talent template (level {level})", "tpl_p": "The talents the Icy Veins guide recommends at level {level}, marked in the tree. Point counts are shown when the guide states them; otherwise only the talents are named. This section is fixed: it does not move and does not depend on the calculator.",
-        "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier", "pts_word": "pts", "tree_word": "Tree",
+        "tpl_h2": "Talent template (level {level})", "tpl_p": "The class's three trees, with the talents the Icy Veins guide recommends at level {level} in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it. Point counts are shown when the guide states them; otherwise only the talents are named. This section is fixed: it does not move and does not depend on the calculator.",
+        "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier", "pts_word": "pts", "tree_word": "Tree", "tree_own": "this guide",
         "stats_h2": "Stat priority", "stats_p": "In order of importance, according to Icy Veins.", "stats_spec": "Order presented as speculative by Icy Veins.",
         "cons_h2": "Consumables", "cons_p": "What the Icy Veins guide lists for this specialization.", "prof_h2": "Suggested professions",
         "gear_h2": "Gear, enchants and dungeon items", "gear_p": "No source publishes a best-in-slot list, enchants or dungeon items for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. This section will be filled when a source publishes them, with nothing invented on our side.",

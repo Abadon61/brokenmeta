@@ -32,16 +32,20 @@
 <p class="page-intro" style="margin-top:0">{{ tx.tpl_p.format(level=content.build.level) }}</p>
 {% if content.build.note %}<p class="wow-note">{{ content.build.note[lang] }}</p>{% endif %}
 <div class="wg-legend"><span class="wg-key is-reco"></span>{{ tx.tpl_reco }} <span class="wg-key is-option"></span>{{ tx.tpl_option }}</div>
-{% for tr in tpl.trees %}{% if tpl.trees|length > 1 %}<h3 class="wg-tree-title">{{ tx.tree_word }} : {{ tr.spec.name[lang] }}</h3>{% endif %}
-<div class="wg-tree" style="--rows: {{ tr.rows }}">
-  {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col }}" title="{{ c.t.name[lang] }}">
-    {% if c.t.icon %}<img src="{{ c.t.icon }}" alt="" width="36" height="36" loading="lazy">{% endif %}
-    <span class="wg-cell-name">{{ c.t.name[lang] }}</span><span class="wg-cell-n nums">×{{ c.t.max_rank }}</span></div>{% endfor %}
+<div class="wg-trees">
+{% for tr in tpl.trees %}<div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">{{ tr.spec.name[lang] }}{% if tr.own %} <span class="wg-own">{{ tx.tree_own }}</span>{% endif %}</h3>
+  <div class="wg-tree" style="--rows: {{ tr.rows }}">
+    {{ tr.svg }}
+    {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col + 1 }}" title="{{ c.t.name[lang] }} — {{ c.t.max_rank }} {{ tx.rank_word if c.t.max_rank == 1 else tx.ranks_word }}">
+      <span class="wg-ico">{% if c.t.icon %}<img src="{{ c.t.icon }}" alt="{{ c.t.name[lang] }}" width="40" height="40" loading="lazy">{% endif %}<span class="wg-badge nums">{% if c.points %}{{ c.points }}/{{ c.t.max_rank }}{% else %}{{ c.t.max_rank }}{% endif %}</span></span></div>{% endfor %}
+  </div>
 </div>{% endfor %}
+</div>
 <div class="wg-talents">{% for i in tpl['items'] %}
   <div class="wg-talent{{ ' is-option' if i.option else '' }}">
     {% if i.t.icon %}<img class="wg-talent-icon" src="{{ i.t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
-    <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{% if tpl.trees|length > 1 %}{{ i.tree[lang] }} · {% endif %}{{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · Icy Veins : {{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
+    <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ i.tree[lang] }} · {{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · Icy Veins : {{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
     <p>{{ i.why[lang] }}</p></div>
   </div>{% endfor %}
 </div>
