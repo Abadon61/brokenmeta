@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ tx.p_hub_title }}{% endblock %}
+{% block description %}{{ tx.p_hub_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.p_kicker, tx.p_hub_h1, tx.p_hub_intro) }}
+<h2 class="fiche-section-title">{{ tx.professions }}</h2>
+<div class="wh-cards">
+  {% for p in profs %}
+  <a class="wh-card" href="{{ root }}wow-forever/professions/{{ p.id }}/">
+    {% if p.icon %}<img class="wh-card-icon" src="{{ p.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="wh-card-body"><b>{{ p.name[lang] }}</b><span class="wh-card-specs">1 → {{ p.cap }}</span><span class="wh-card-n nums">{{ p.totals.crafts }} · {{ p.totals.all_copper|wow_money(lang) }} →</span></span>
+  </a>
+  {% endfor %}
+</div>
+<p class="wow-note">{{ tx.note }}</p>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ tx.hub_title }}{% endblock %}
+{% block description %}{{ tx.hub_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.kicker, tx.hub_h1, tx.hub_intro) }}
+<h2 class="fiche-section-title">{{ tx.specs_word }}</h2>
+<div class="wh-cards">
+  {% for c in wt_classes %}
+  {% set has = c.id in guide_ids %}
+  <{{ 'a' if has else 'div' }} class="wh-card{{ '' if has else ' is-soon' }}"{% if has %} href="{{ root }}wow-forever/guides/{{ c.id }}/"{% endif %} style="--cc: {{ c.color or '#8a6cff' }}">
+    {% if c.icon %}<img class="wh-card-icon" src="{{ c.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ tx.open_class if has else tx.soon }}{% if has %} →{% endif %}</span></span>
+  </{{ 'a' if has else 'div' }}>
+  {% endfor %}
+</div>
+<p class="wow-note">{{ tx.note }}</p>
+{% endblock %}

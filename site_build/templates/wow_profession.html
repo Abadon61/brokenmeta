@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% macro get(a) %}{% if a.type == 'trainer' %}{{ tx.get_trainer.format(cost=a.cost|wow_money(lang)) }}{% elif a.type == 'vendor' %}{% if a.npc %}<a href="https://www.wowhead.com/forever/npc={{ a.npc_id }}" rel="noopener nofollow" target="_blank">{{ tx.get_vendor.format(npc=a.npc, cost=a.cost|wow_money(lang)) }}</a>{% else %}{{ tx.get_vendor_many.format(cost=a.cost|wow_money(lang)) }}{% endif %}{% elif a.type == 'start' %}{{ tx.get_start }}{% else %}{{ tx.get_other }}{% if a.kinds %} ({% for k in a.kinds %}{{ tx.kinds[k] }}{{ ', ' if not loop.last }}{% endfor %}){% endif %}{% endif %}{% endmacro %}
+{% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {{ g.name[lang] }}</span>{% endfor %}</span>{% endmacro %}
+{% macro colors(cs) %}<span class="pf-colors nums"><span class="pf-c pf-o">{{ cs[0] or '–' }}</span><span class="pf-c pf-y">{{ cs[1] }}</span><span class="pf-c pf-g">{{ cs[2] }}</span><span class="pf-c pf-x">{{ cs[3] }}</span></span>{% endmacro %}
+{% block content %}
+{% set T = prof.totals %}
+{{ m.page_hero(tx.p_kicker, g_h1, g_intro) }}
+
+<h2 class="fiche-section-title">{{ tx.sum_h2 }}</h2>
+<dl class="wow-facts">
+  <div><dt>{{ tx.s_total }}</dt><dd class="nums">{{ T.all_copper|wow_money(lang) }}</dd></div>
+  <div><dt>{{ tx.s_reag }}</dt><dd class="nums">{{ T.reagents_copper|wow_money(lang) }}</dd></div>
+  <div><dt>{{ tx.s_plans }}</dt><dd class="nums">{{ T.recipes_copper|wow_money(lang) }}</dd></div>
+  <div><dt>{{ tx.s_ranks }}</dt><dd class="nums">{{ T.ranks_copper|wow_money(lang) }}</dd></div>
+  <div><dt>{{ tx.s_crafts }}</dt><dd class="nums">{{ T.crafts }}</dd></div>
+  <div><dt>{{ tx.s_vendor }}</dt><dd class="nums">{{ T.vendor_copper|wow_money(lang) }}</dd></div>
+  <div><dt>{{ tx.s_farm }}</dt><dd class="nums">{{ T.farm_copper|wow_money(lang) }}</dd></div>
+</dl>
+
+<h2 class="fiche-section-title">{{ tx.route_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.route_p.format(n=prof.route|length) }}</p>
+<div class="wow-table-wrap"><table class="wow-table pf-route">
+  <thead><tr><th>{{ tx.c_skill }}</th><th>{{ tx.c_recipe }}</th><th>{{ tx.c_crafts }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.c_cost }}</th><th>{{ tx.c_get }}</th></tr></thead>
+  <tbody>{% for s in prof.route %}
+  <tr>
+    <td data-first class="nums">{{ s['from'] }} → {{ s.to }}</td>
+    <td><a href="https://www.wowhead.com/forever/spell={{ s.recipe }}" rel="noopener nofollow" target="_blank">{% if s.creates and s.creates.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ s.creates.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ s.name[lang] }}</a></td>
+    <td class="nums">{{ s.crafts }}</td>
+    <td>{{ reag_list(s.reagents) }}</td>
+    <td class="nums">{{ s.step_cost|wow_money(lang) }}</td>
+    <td>{{ get(s.acquire) }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+
+<h2 class="fiche-section-title">{{ tx.shop_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.shop_p }}</p>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_unit }}</th><th>{{ tx.m_total }}</th><th>{{ tx.m_kind }}</th></tr></thead>
+  <tbody>{% for i in prof.materials %}
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a></td>
+    <td class="nums">{{ i.count }}</td>
+    <td class="nums">{{ i.price.copper|wow_money(lang) }}</td>
+    <td class="nums">{{ (i.count * i.price.copper)|wow_money(lang) }}</td>
+    <td>{{ tx.kind_vendor if i.price.kind == 'vendor' else tx.kind_farm }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+
+<h2 class="fiche-section-title">{{ tx.ranks_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.ranks_p }}</p>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr><th>{{ tx.r_rank }}</th><th>{{ tx.r_cap }}</th><th>{{ tx.r_at }}</th><th>{{ tx.r_cost }}</th></tr></thead>
+  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{{ r.cost|wow_money(lang) }}</td></tr>{% endfor %}</tbody>
+</table></div>
+
+<h2 class="fiche-section-title">{{ tx.how_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>
+
+<h2 class="fiche-section-title">{{ tx.limits_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.limits %}<li>{{ h }}</li>{% endfor %}</ul>
+
+<h2 class="fiche-section-title">{{ tx.all_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.all_p.format(name=prof.name[lang]) }}</p>
+<details class="wow-faq-item"><summary>{{ tx.all_h2 }} ({{ prof.recipes|length }})</summary>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr><th>{{ tx.a_recipe }}</th><th>{{ tx.a_colors }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.a_get }}</th></tr></thead>
+  <tbody>{% for r in prof.recipes %}
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/spell={{ r.id }}" rel="noopener nofollow" target="_blank">{{ r.name[lang] }}</a></td>
+    <td>{{ colors(r.colors) }}</td>
+    <td>{{ reag_list(r.reagents) }}</td>
+    <td>{{ get(r.acquire) }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+</details>
+
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li><a href="{{ prof.sources.wowhead }}" rel="noopener nofollow" target="_blank">{{ tx.sources_wh.format(name=prof.name.en) }}</a></li>
+  <li><a href="{{ prof.sources.client }}" rel="noopener nofollow" target="_blank">{{ tx.sources_client.format(build=prof.build) }}</a></li>
+</ul>
+{% endblock %}

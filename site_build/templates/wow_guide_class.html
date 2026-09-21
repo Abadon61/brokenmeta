@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
+<h2 class="fiche-section-title">{{ tx.specs_word }}</h2>
+<div class="wh-cards" style="--cc: {{ cls.color or '#8a6cff' }}">
+  {% for s in cls.specs %}
+  <a class="wh-card" href="{{ root }}wow-forever/guides/{{ cls.id }}/{{ s.id }}/" style="--cc: {{ cls.color or '#8a6cff' }}">
+    {% if cls.icon %}<img class="wh-card-icon" src="{{ cls.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="wh-card-body"><b>{{ s.name[lang] }}</b><span class="wh-card-specs">{{ roles[s.id].role[lang] }}</span><span class="wh-card-n nums">{{ s.talents|length }} {{ wow_ui.talents_n }} →</span></span>
+  </a>
+  {% endfor %}
+</div>
+<p class="wow-note">{{ tx.note }}</p>
+<p><a class="wh-btn" href="{{ root }}wow-forever/talents/{{ cls.id }}/">{{ tx.cta.format(cls=cls.name[lang]) }} <span aria-hidden="true">→</span></a></p>
+{% endblock %}

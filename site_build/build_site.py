@@ -42,6 +42,7 @@ from lol_guide_view import build_guide_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
+import wow_guides  # noqa: E402
 
 
 OUT = PROJECT / "data" / "output"
@@ -6588,6 +6589,10 @@ def main() -> None:
     wt_classes, wt_fixture = wow_talents.load()
     _races_file = Path(__file__).resolve().parent.parent / "data" / "wow_races.json"
     wow_races = json.loads(_races_file.read_text(encoding="utf-8"))["races"] if _races_file.exists() else []
+    wow_guide_list = wow_guides.load_guides(wt_classes)          # classes whose 3 specializations all have a sourced role
+    wow_profs = wow_guides.load_professions()
+    env.globals["wow_guides_nav"] = wow_guide_list
+    env.globals["wow_profs_nav"] = wow_profs
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
@@ -6622,6 +6627,7 @@ def main() -> None:
     # un-decoded inside <script> text (it's not parsed as HTML there),
     # corrupting the string instead of just being redundant.
     env.filters["tojson"] = lambda v: Markup(json.dumps(v))
+    env.filters["wow_money"] = lambda v, lg="fr": wow_guides.money(v, lg)
     # The attribute-context counterpart: a plain str (NOT Markup), so
     # autoescape=True DOES quote-escape it -- the opposite need from
     # tojson above, since this goes inside data-x="{{ ... }}" rather than
@@ -7294,6 +7300,51 @@ def main() -> None:
                        wt_intro=_wt["class_intro"].format(specs=_specs), wt_n_talents=sum(len(s["talents"]) for s in _c["specs"]),
                        rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))
+        if wt_classes and (wow_guide_list or wow_profs):
+            _gx = wow_guides.TXT[lang]
+            _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
+            _bcls = {g["cls"]["id"]: g for g in wow_guide_list}
+            _guides_crumb = _gbase + [(_gx["guides"], canonical_for("/wow-forever/guides/", lang))]
+            render("wow_guides_hub.html", "/wow-forever/guides/", lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui,
+                   wt_classes=wt_classes, guide_ids=list(_bcls), breadcrumb_schema=breadcrumb_schema(_guides_crumb))
+            for _g in wow_guide_list:
+                _cls, _roles = _g["cls"], _g["roles"]
+                _cn = _cls["name"][lang]
+                _sp = ", ".join(s["name"][lang] for s in _cls["specs"][:-1]) + (" / " if lang == "en" else " et ") + _cls["specs"][-1]["name"][lang]
+                _cpath = f"/wow-forever/guides/{_cls['id']}/"
+                _ct, _cd = _gx["class_title"].format(name=_cn), _gx["class_desc"].format(name=_cn, specs=_sp)
+                assert len(_ct) <= 60 and len(_cd) <= 155, (_ct, len(_ct), len(_cd))
+                _ch1, _ci = _gx["class_h1"].format(name=_cn), _gx["class_intro"].format(name=_cn, specs=_sp)
+                _ccrumb = _guides_crumb + [(_cn, canonical_for(_cpath, lang))]
+                render("wow_guide_class.html", _cpath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, roles=_roles,
+                       g_title=_ct, g_desc=_cd, g_h1=_ch1, g_intro=_ci, breadcrumb_schema=breadcrumb_schema(_ccrumb),
+                       article_schema=build_article_schema(_ch1, canonical_for(_cpath, lang), _cd))
+                for _s in _cls["specs"]:
+                    _spath = f"/wow-forever/guides/{_cls['id']}/{_s['id']}/"
+                    _role = _roles[_s["id"]]
+                    _sn = _s["name"][lang]
+                    _st = _gx["spec_title"].format(cls=_cn, spec=_sn)
+                    _sd = _gx["spec_desc"].format(cls=_cn, spec=_sn, role=_role["role"][lang])
+                    assert len(_st) <= 60 and len(_sd) <= 155, (_st, len(_st), len(_sd))
+                    _sh1 = _gx["spec_h1"].format(cls=_cn, spec=_sn)
+                    _si = _gx["spec_intro"].format(cls=_cn, spec=_sn, role=_role["role"][lang], build=_cls["meta"]["build"])
+                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
+                           role=_role, roles=_roles, facts=wow_guides.spec_facts(_s), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
+                           breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
+                           article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
+            _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
+            render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
+                   breadcrumb_schema=breadcrumb_schema(_pcrumb))
+            for _p in wow_profs:
+                _ppath = f"/wow-forever/professions/{_p['id']}/"
+                _pn = _p["name"][lang]
+                _pt, _pd = _gx["p_title"].format(name=_pn), _gx["p_desc"].format(name=_pn)
+                assert len(_pt) <= 60 and len(_pd) <= 155, (_pt, len(_pt), len(_pd))
+                _ph1 = _gx["p_h1"].format(name=_pn)
+                _pi = _gx["p_intro"].format(crafts=_p["totals"]["crafts"], total=wow_guides.money(_p["totals"]["all_copper"], lang))
+                render("wow_profession.html", _ppath, lang, active_nav="wow", active_sub="wow-professions", tx=_gx, prof=_p, g_title=_pt, g_desc=_pd,
+                       g_h1=_ph1, g_intro=_pi, breadcrumb_schema=breadcrumb_schema(_pcrumb + [(_pn, canonical_for(_ppath, lang))]),
+                       article_schema=build_article_schema(_ph1, canonical_for(_ppath, lang), _pd))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
         render("confidentialite.html", "/confidentialite/", lang, active_nav=None)
         render("cgu.html", "/cgu/", lang, active_nav=None)

@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% macro talent_card(t) %}
+<div class="wg-talent">
+  {% if t.icon %}<img class="wg-talent-icon" src="{{ t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
+  <div><b>{{ t.name[lang] }}</b> <span class="wg-rank nums">{{ tx.row_word }} {{ t.row }} · {{ t.max_rank }} {{ tx.rank_word if t.max_rank == 1 else tx.ranks_word }}</span>
+  <p>{{ t.desc[lang][-1] if t.desc[lang] else '' }}</p></div>
+</div>
+{% endmacro %}
+{% block content %}
+{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
+
+<h2 class="fiche-section-title">{{ tx.facts_h2 }}</h2>
+<dl class="wow-facts">
+  <div><dt>{{ tx.f_class }}</dt><dd>{{ cls.name[lang] }}</dd></div>
+  <div><dt>{{ tx.f_role }}</dt><dd>{{ role.role[lang] }}</dd></div>
+  <div><dt>{{ tx.f_talents }}</dt><dd class="nums">{{ facts.count }}</dd></div>
+  <div><dt>{{ tx.f_points }}</dt><dd class="nums">{{ facts.points }}</dd></div>
+  <div><dt>{{ tx.f_top }}</dt><dd class="nums">{{ facts.top_row }}</dd></div>
+  <div><dt>{{ tx.f_need }}</dt><dd class="nums">{{ facts.top_need }}</dd></div>
+</dl>
+
+<h2 class="fiche-section-title">{{ tx.top_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.top_p.format(need=facts.top_need) }}</p>
+<div class="wg-talents">{% for t in facts.top_talents %}{{ talent_card(t) }}{% endfor %}</div>
+
+{% set singles = facts.single|rejectattr('row', 'equalto', facts.top_row)|list %}
+{% if singles %}
+<h2 class="fiche-section-title">{{ tx.single_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.single_p }}</p>
+<div class="wg-talents">{% for t in singles %}{{ talent_card(t) }}{% endfor %}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ tx.tree_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.tree_p }}</p>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr><th>{{ tx.row_word }}</th><th>{{ tx.tree_h2 }}</th></tr></thead>
+  <tbody>{% for r in facts.rows %}<tr><td data-first class="nums">{{ r.row }}</td><td>{% for t in r.talents %}{{ t.name[lang] }} <span class="nums">({{ t.max_rank }})</span>{{ ' · ' if not loop.last }}{% endfor %}</td></tr>{% endfor %}</tbody>
+</table></div>
+
+<p><a class="wh-btn" href="{{ root }}wow-forever/talents/{{ cls.id }}/">{{ tx.cta.format(cls=cls.name[lang]) }} <span aria-hidden="true">→</span></a></p>
+<p class="wow-note">{{ tx.cta_p }}</p>
+
+<h2 class="fiche-section-title">{{ tx.others_h2.format(cls=cls.name[lang]) }}</h2>
+<div class="wh-cards">
+  {% for s in cls.specs if s.id != spec.id %}
+  <a class="wh-card" href="{{ root }}wow-forever/guides/{{ cls.id }}/{{ s.id }}/" style="--cc: {{ cls.color or '#8a6cff' }}">
+    {% if cls.icon %}<img class="wh-card-icon" src="{{ cls.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <span class="wh-card-body"><b>{{ s.name[lang] }}</b><span class="wh-card-specs">{{ roles[s.id].role[lang] }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+
+<p class="wow-note">{{ tx.note }}</p>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.src_role }}<a href="{{ role.url }}" rel="noopener nofollow" target="_blank">Icy Veins — {{ spec.name.en }} {{ cls.name.en }}</a></li>
+  <li>{{ tx.src_data }}<a href="{{ cls.source.url }}" rel="noopener nofollow" target="_blank">{{ cls.source.label }}</a></li>
+</ul>
+{% endblock %}
