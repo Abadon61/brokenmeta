@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ tx.dg_title_hub }}{% endblock %}
+{% block description %}{{ tx.dg_desc_hub }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.dg_kicker, tx.dg_h1_hub, tx.dg_intro_hub) }}
+<div class="wh-cards">
+  {% for d in dd.dungeons %}
+  <a class="wh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
+    <span class="wh-card-body"><b>{{ d.name[lang] }}</b><span class="wh-card-specs">{{ tx.dg_levels }} {{ d.levels }}</span><span class="wh-card-n nums">{{ d['items']|length }} {{ tx.dg_items_n }} →</span></span>
+  </a>
+  {% endfor %}
+</div>
+<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.dg_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+  <li>{{ tx.dg_src2 }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">{{ wow_ui_sources_client }}</a></li>
+</ul>
+{% endblock %}

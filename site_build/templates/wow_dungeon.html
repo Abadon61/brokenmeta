@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% import "wow_dungeon_macros.html" as dm %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.dg_kicker, g_h1, g_intro) }}
+<div class="dg-filter">
+  <label for="dgSpec">{{ tx.dg_filter }}</label>
+  <select id="dgSpec"><option value="">{{ tx.dg_all }}</option>
+    {% for c in wt_classes %}<optgroup label="{{ c.name[lang] }}">{% for sp in c.specs if (c.id ~ '/' ~ sp.id) in spec_keys %}<option value="{{ c.id }}/{{ sp.id }}">{{ sp.name[lang] }}</option>{% endfor %}</optgroup>{% endfor %}
+  </select>
+</div>
+<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable" data-t1="{{ tx.dg_t1 }}" data-t2="{{ tx.dg_t2 }}" data-from="{{ tx.dg_from_lvl }}">
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th><th class="dg-imp" hidden>{{ tx.dg_imp }}</th></tr></thead>
+  <tbody>{% for it in items %}
+  <tr data-id="{{ it.id }}" data-i="{{ loop.index0 }}">
+    <td data-first>{{ dd.slots[it.slot|string][lang] }}</td>
+    <td>{{ dm.item_link(it, lang) }}</td>
+    <td>{{ it.type[lang] }}</td>
+    <td class="nums">{{ it.req or '–' }}</td>
+    <td>{{ dm.stats_text(it, tx) }}</td>
+    <td>{% if it.kind == 'quest' %}{{ tx.dg_quest }}{% else %}{{ it.src|join(', ') }}{% endif %}</td>
+    <td class="dg-imp" hidden></td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
+<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.dg_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+</ul>
+<script id="dgRel" type="application/json">{{ rel_json|safe }}</script>
+<script src="{{ root }}assets/js/wow-dungeons.js?v={{ css_v }}" defer></script>
+{% endblock %}

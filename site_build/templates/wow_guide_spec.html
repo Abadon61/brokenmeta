@@ -67,6 +67,17 @@
 <p class="wow-note">{{ tx.gear_p }}</p>
 <p class="wow-note">{{ tx.updated.format(date=content.updated) }}</p>
 {% endif %}
+{% if dd and dd_top %}{% import "wow_dungeon_macros.html" as dm %}
+<h2 class="fiche-section-title">{{ tx.dg_guide_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.dg_guide_p }}</p>
+<div class="wow-table-wrap"><table class="wow-table dg-table dg-top">
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th></tr></thead>
+  <tbody>{% for e in dd_top %}
+  <tr><td data-first>{{ dd.slots[e.item.slot|string][lang] }}</td><td>{{ dm.item_link(e.item, lang) }}</td><td>{{ dm.stats_text(e.item, tx) }}</td>
+      <td><a href="{{ root }}wow-forever/dungeons/{{ e.dungeon.id }}/#spec={{ spec_key }}">{{ e.dungeon.name[lang] }}</a></td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="wow-note">{% for d in dd.dungeons %}<a href="{{ root }}wow-forever/dungeons/{{ d.id }}/#spec={{ spec_key }}">{{ d.name[lang] }}</a>{{ ' · ' if not loop.last }}{% endfor %}</p>
+{% elif dd %}<p class="wow-note">{{ tx.dg_guide_none }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.top_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.top_p.format(need=facts.top_need) }}</p>

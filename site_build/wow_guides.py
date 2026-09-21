@@ -15,6 +15,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ROLES_FILE = ROOT / "data" / "wow_guides" / "roles.json"
 CONTENT_FILE = ROOT / "data" / "wow_guides" / "content.json"
 PROF_DIR = ROOT / "data" / "wow_professions"
+DUNGEON_FILE = ROOT / "data" / "wow_dungeons" / "dungeons.json"
 
 
 def load_guides(wt_classes: list[dict]) -> list[dict]:
@@ -35,6 +36,36 @@ def load_professions() -> list[dict]:
     if not PROF_DIR.exists():
         return []
     return sorted((json.loads(p.read_text(encoding="utf-8")) for p in PROF_DIR.glob("*.json")), key=lambda d: d.get("order", 99))
+
+
+def load_dungeons() -> dict | None:
+    return json.loads(DUNGEON_FILE.read_text(encoding="utf-8")) if DUNGEON_FILE.exists() else None
+
+
+def dungeon_rel(dungeon: dict) -> dict:
+    """{item id: {spec key: [sort keys]}} for the filter script of a dungeon page."""
+    return {str(i["id"]): i["rel"] for i in dungeon["items"] if i["rel"]}
+
+
+def top_items(dd: dict, spec_key: str, n: int = 10) -> list[dict]:
+    """The n most important dungeon items for a specialization, best first (one entry per item, dungeon attached)."""
+    rows = []
+    for d in dd["dungeons"]:
+        for it in d["items"]:
+            r = it["rel"].get(spec_key)
+            if r:
+                rows.append((r[:5], it, d))
+    rows.sort(key=lambda x: (x[0], x[1]["id"]))
+    out, seen_slots = [], {}
+    for r, it, d in rows:
+        slot = 20 if it["slot"] == 5 else it["slot"]
+        if seen_slots.get(slot, 0) >= 1:                 # at most one entry per slot: a shortlist, not the full list
+            continue
+        seen_slots[slot] = 1
+        out.append({"item": it, "dungeon": d, "tier": r[0]})
+        if len(out) >= n:
+            break
+    return out
 
 
 def spec_facts(spec: dict) -> dict:
@@ -146,7 +177,7 @@ TXT = {
         "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier", "pts_word": "pts", "tree_word": "Arbre", "tree_own": "ce guide",
         "stats_h2": "Priorité de stats", "stats_p": "Dans l'ordre d'importance, d'après Icy Veins.", "stats_spec": "Ordre présenté comme spéculatif par Icy Veins.",
         "cons_h2": "Consommables", "cons_p": "Ce que le guide Icy Veins cite pour cette spécialisation.", "prof_h2": "Métiers conseillés",
-        "gear_h2": "Équipement, enchantements et objets de donjon", "gear_p": "Aucune source ne publie encore de liste d'équipement (BiS), d'enchantements ni d'objets de donjon pour cette spécialisation : les guides Icy Veins de Forever se limitent pour l'instant au niveau 20 et ne les détaillent pas. Cette section sera remplie quand une source les publiera, sans invention de notre part.",
+        "gear_h2": "Équipement complet et enchantements", "gear_p": "Aucune source ne publie encore de liste d'équipement (BiS) ni d'enchantements pour cette spécialisation : les guides Icy Veins de Forever se limitent pour l'instant au niveau 20 et ne les détaillent pas. Les objets de donjon ci-dessous sont classés par règle, d'après la priorité de stats, et ne constituent pas une liste BiS. Cette section sera remplie quand une source les publiera, sans invention de notre part.",
         "updated": "Guide Icy Veins daté du {date}, lu le 21 septembre 2026.",
         "p_hub_title": "Guides de métiers WoW: Forever : monter au max", "p_hub_desc": "Guides de métiers de WoW: Forever : parcours de 1 à 300 au moindre coût, liste de courses, recettes et plans.",
         "p_hub_h1": "Guides de métiers de WoW: Forever", "p_hub_intro": "Pour chaque métier : la suite de recettes la moins chère pour monter de 1 à 300, la liste de courses complète, l'origine de chaque plan et la table de toutes les recettes.",
@@ -187,6 +218,25 @@ TXT = {
         "limit_disenchant": "Les matériaux d'enchantement (poussières, essences, éclats) viennent du désenchantement d'objets : leur valeur de revente dans les tables est symbolique, donc le parcours ne peut pas en tenir compte fidèlement.",
         "sources_wh": "Wowhead — base de données Forever : {name}", "sources_client": "Tables du client bêta (build {build}), publiées par wago.tools",
         "prof_soon": "Guide à venir", "name_col": "Nom",
+        "stat_names": {"str": "Force", "agi": "Agilité", "int": "Intelligence", "spi": "Esprit", "sta": "Endurance", "splpwr": "Puissance des sorts", "spldmg": "Dégâts des sorts",
+                       "atkpwr": "Puissance d'attaque", "manargn": "Mp5", "critstrkrtng": "Coup critique", "hastertng": "Hâte", "hitrtng": "Toucher", "defrtng": "Défense", "armor": "Armure"},
+        "dg_title_hub": "Objets de donjon WoW: Forever par spécialisation", "dg_desc_hub": "Les objets de chaque donjon de WoW: Forever, filtrés par classe et spécialisation d'après leur priorité de stats.",
+        "dg_h1_hub": "Objets de donjon de WoW: Forever", "dg_intro_hub": "Le butin de chaque donjon, avec les vraies stats de Forever. Choisissez votre spécialisation pour ne garder que les objets utiles et les classer par importance, d'après la priorité de stats de son guide.",
+        "dg_kicker": "World of Warcraft: Forever · Donjons", "dg_levels": "Niveaux", "dg_items_n": "objets", "dg_title": "{name} WoW: Forever : objets et butin", "dg_desc": "Butin de {name} dans WoW: Forever : objets équipables avec leurs stats, à filtrer par classe et spécialisation.",
+        "dg_h1": "{name} : butin par spécialisation", "dg_intro": "Les objets équipables de {name} ({levels}), avec leurs stats dans Forever. Sélectionnez une spécialisation pour ne voir que les objets utiles, classés par importance.",
+        "dg_filter": "Filtrer par spécialisation", "dg_all": "Tous les objets", "dg_class": "Classe", "dg_spec": "Spécialisation", "dg_none": "Aucun objet utile pour cette spécialisation dans ce donjon.",
+        "dg_slot": "Emplacement", "dg_item": "Objet", "dg_type": "Type", "dg_req": "Niveau requis", "dg_stats": "Stats", "dg_from": "Butin", "dg_quest": "Récompense de quête", "dg_imp": "Importance",
+        "dg_t1": "Prioritaire", "dg_t2": "Utile", "dg_from_lvl": "à partir du niveau {n}",
+        "dg_method_h2": "Comment les objets sont classés", "dg_method": [
+            "Un objet n'est proposé que si la classe peut l'équiper (types d'armure et d'arme lus dans les tables du client bêta) et s'il donne au moins l'une des quatre stats prioritaires de la spécialisation.",
+            "Prioritaire : la meilleure stat de l'objet est la 1re ou la 2e de la priorité. Utile : la 3e ou la 4e. À importance égale, on classe par meilleure priorité, nombre de stats utiles, qualité puis valeur de la stat.",
+            "La priorité de stats vient du guide Icy Veins de la spécialisation (niveau 20). Les entrées « niveau d'objet » ne permettent pas de départager les objets et sont ignorées. Ce n'est pas une liste BiS : aucune source n'en publie encore.",
+            "La puissance de soins est associée à la puissance des sorts : les données ne montrent pas de stat de soins séparée.",
+            "Les noms d'objets sont en anglais : leur traduction française n'est pas dans les données récupérées.",
+        ],
+        "dg_src": "Butin et stats des objets : ", "dg_src2": "Types d'armure et d'arme par classe : ",
+        "dg_guide_h2": "Objets de donjon intéressants", "dg_guide_p": "Une présélection : le meilleur objet de chaque emplacement parmi les donjons connus, d'après la priorité de stats de cette spécialisation. Ouvrez un donjon pour voir tous ses objets filtrés.",
+        "dg_guide_none": "Aucun objet de donjon utile trouvé pour cette spécialisation dans les donjons déjà répertoriés.", "dg_open": "Voir {name} filtré",
     },
     "en": {
         "guides": "Class guides", "professions": "Professions", "kicker": "World of Warcraft: Forever · Class guide",
@@ -210,7 +260,7 @@ TXT = {
         "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier", "pts_word": "pts", "tree_word": "Tree", "tree_own": "this guide",
         "stats_h2": "Stat priority", "stats_p": "In order of importance, according to Icy Veins.", "stats_spec": "Order presented as speculative by Icy Veins.",
         "cons_h2": "Consumables", "cons_p": "What the Icy Veins guide lists for this specialization.", "prof_h2": "Suggested professions",
-        "gear_h2": "Gear, enchants and dungeon items", "gear_p": "No source publishes a best-in-slot list, enchants or dungeon items for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. This section will be filled when a source publishes them, with nothing invented on our side.",
+        "gear_h2": "Full gear and enchants", "gear_p": "No source publishes a best-in-slot list or enchants for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. The dungeon items below are ranked by rule from the stat priority and are not a best-in-slot list. This section will be filled when a source publishes them, with nothing invented on our side.",
         "updated": "Icy Veins guide dated {date}, read on September 21, 2026.",
         "p_hub_title": "WoW: Forever profession guides: level fast", "p_hub_desc": "WoW: Forever profession guides: the cheapest 1-300 route, a full shopping list, recipes and plans.",
         "p_hub_h1": "WoW: Forever profession guides", "p_hub_intro": "For each profession: the cheapest recipe sequence from 1 to 300, the full shopping list, where each plan comes from and a table of every recipe.",
@@ -251,5 +301,24 @@ TXT = {
         "limit_disenchant": "Enchanting materials (dusts, essences, shards) come from disenchanting items: their vendor value in the tables is a token amount, so the route cannot account for them faithfully.",
         "sources_wh": "Wowhead — Forever database: {name}", "sources_client": "Beta client tables (build {build}), published by wago.tools",
         "prof_soon": "Guide coming soon", "name_col": "Name",
+        "stat_names": {"str": "Strength", "agi": "Agility", "int": "Intellect", "spi": "Spirit", "sta": "Stamina", "splpwr": "Spell Power", "spldmg": "Spell damage",
+                       "atkpwr": "Attack Power", "manargn": "Mp5", "critstrkrtng": "Critical Strike", "hastertng": "Haste", "hitrtng": "Hit", "defrtng": "Defense", "armor": "Armor"},
+        "dg_title_hub": "WoW: Forever dungeon items by specialization", "dg_desc_hub": "The items of every WoW: Forever dungeon, filtered by class and specialization according to their stat priority.",
+        "dg_h1_hub": "WoW: Forever dungeon items", "dg_intro_hub": "The loot of every dungeon, with the real Forever stats. Pick your specialization to keep only the useful items and rank them by importance, from its guide's stat priority.",
+        "dg_kicker": "World of Warcraft: Forever · Dungeons", "dg_levels": "Levels", "dg_items_n": "items", "dg_title": "{name} WoW: Forever: items and loot", "dg_desc": "{name} loot in WoW: Forever: equippable items with their stats, filterable by class and specialization.",
+        "dg_h1": "{name}: loot by specialization", "dg_intro": "The equippable items of {name} ({levels}), with their stats in Forever. Select a specialization to see only the useful items, ranked by importance.",
+        "dg_filter": "Filter by specialization", "dg_all": "All items", "dg_class": "Class", "dg_spec": "Specialization", "dg_none": "No useful item for this specialization in this dungeon.",
+        "dg_slot": "Slot", "dg_item": "Item", "dg_type": "Type", "dg_req": "Required level", "dg_stats": "Stats", "dg_from": "Drops from", "dg_quest": "Quest reward", "dg_imp": "Importance",
+        "dg_t1": "Top priority", "dg_t2": "Useful", "dg_from_lvl": "from level {n}",
+        "dg_method_h2": "How items are ranked", "dg_method": [
+            "An item is only offered if the class can equip it (armor and weapon types read from the beta client tables) and if it gives at least one of the specialization's four top-priority stats.",
+            "Top priority: the item's best stat is the 1st or 2nd of the priority. Useful: the 3rd or 4th. Within the same importance, items are ranked by best priority, number of useful stats, quality, then the stat's value.",
+            "The stat priority comes from the specialization's Icy Veins guide (level 20). \"Item level\" entries cannot tell items apart and are ignored. This is not a best-in-slot list: no source publishes one yet.",
+            "Healing power is matched with spell power: the data shows no separate healing stat.",
+            "Item names are in English: their French translation is not in the data we retrieved.",
+        ],
+        "dg_src": "Loot and item stats: ", "dg_src2": "Armor and weapon types per class: ",
+        "dg_guide_h2": "Interesting dungeon items", "dg_guide_p": "A shortlist: the best item for each slot across the known dungeons, from this specialization's stat priority. Open a dungeon to see all its items filtered.",
+        "dg_guide_none": "No useful dungeon item found for this specialization in the dungeons listed so far.", "dg_open": "See {name} filtered",
     },
 }

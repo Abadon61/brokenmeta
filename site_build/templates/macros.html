@@ -31,6 +31,10 @@
 {% if wow_profs_nav %}<div class="mobile-nav-group-title">{{ 'Métiers' if lang == 'fr' else 'Professions' }}</div>
 {% for p in wow_profs_nav %}<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/professions/{{ p.id }}/" {% if active_sub == 'wow-professions' %}data-active="true"{% endif %}>{{ p.name[lang] }}</a>
 {% endfor %}{% endif %}
+{% if wow_dungeons_nav %}<div class="mobile-nav-group-title">{{ 'Donjons' if lang == 'fr' else 'Dungeons' }}</div>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/dungeons/" {% if active_sub == 'wow-dungeons' %}data-active="true"{% endif %}>{{ 'Tous les donjons' if lang == 'fr' else 'All dungeons' }}</a>
+{% for d in wow_dungeons_nav %}<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">{{ d.name[lang] }}</a>
+{% endfor %}{% endif %}
 {% for slug, fr_label, en_label in wow_nav if slug not in wow_beta_group %}<a class="nav-link" href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>
 {% endfor %}
 {% elif active_nav == 'league' %}
@@ -89,6 +93,13 @@
   <div class="nav-dropdown-menu">
     <a href="{{ root }}wow-forever/professions/">{{ 'Tous les métiers' if lang == 'fr' else 'All professions' }}</a>
     {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{{ p.name[lang] }}</a>{% endfor %}
+  </div>
+</details>{% endif %}
+{% if wow_dungeons_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-dungeons' %}data-active="true"{% endif %}>
+  <summary class="nav-link">{{ 'Donjons' if lang == 'fr' else 'Dungeons' }}</summary>
+  <div class="nav-dropdown-menu">
+    <a href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if lang == 'fr' else 'All dungeons' }}</a>
+    {% for d in wow_dungeons_nav %}<a href="{{ root }}wow-forever/dungeons/{{ d.id }}/">{{ d.name[lang] }}</a>{% endfor %}
   </div>
 </details>{% endif %}
 {% for slug, fr_label, en_label in wow_nav if slug not in wow_beta_group %}<a class="nav-link" href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>

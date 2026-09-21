@@ -6593,6 +6593,8 @@ def main() -> None:
     wow_profs = wow_guides.load_professions()
     env.globals["wow_guides_nav"] = wow_guide_list
     env.globals["wow_profs_nav"] = wow_profs
+    wow_dungeons = wow_guides.load_dungeons()
+    env.globals["wow_dungeons_nav"] = wow_dungeons["dungeons"] if wow_dungeons else []
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
@@ -7332,9 +7334,27 @@ def main() -> None:
                     _si = _gx["spec_intro"].format(cls=_cn, spec=_sn, role=_role["role"][lang], build=_cls["meta"]["build"])
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
-                           content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
+                           content=_g["content"].get(_s["id"]), dd=wow_dungeons, dd_top=(wow_guides.top_items(wow_dungeons, _cls["id"] + "/" + _s["id"]) if wow_dungeons else None), spec_key=_cls["id"] + "/" + _s["id"], tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
                            breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
+            if wow_dungeons:
+                _dcrumb = _gbase + [("Donjons" if lang == "fr" else "Dungeons", canonical_for("/wow-forever/dungeons/", lang))]
+                render("wow_dungeons_hub.html", "/wow-forever/dungeons/", lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
+                       wow_ui_sources_client=_gx["sources_client"].format(build=wow_dungeons["build"]), breadcrumb_schema=breadcrumb_schema(_dcrumb))
+                _spec_keys = [s_["key"] for s_ in wow_dungeons["specs"]]
+                for _d in wow_dungeons["dungeons"]:
+                    _dpath = f"/wow-forever/dungeons/{_d['id']}/"
+                    _dn = _d["name"][lang]
+                    _dt, _dd_ = _gx["dg_title"].format(name=_dn), _gx["dg_desc"].format(name=_dn)
+                    assert len(_dt) <= 60 and len(_dd_) <= 155, (_dt, len(_dt), len(_dd_))
+                    _dh1, _di = _gx["dg_h1"].format(name=_dn), _gx["dg_intro"].format(name=_dn, levels=_d["levels"])
+                    _dorder = {sl: i for i, sl in enumerate(wow_dungeons["slot_order"])}
+                    _ditems = sorted(_d["items"], key=lambda i: (_dorder.get(i["slot"], 99), i["name"]))
+                    _rel = json.dumps(wow_guides.dungeon_rel(_d), separators=(",", ":")).replace("</", "<\\/")
+                    render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons, wt_classes=wt_classes, spec_keys=_spec_keys,
+                           items=_ditems, rel_json=_rel, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
+                           breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_dn, canonical_for(_dpath, lang))]),
+                           article_schema=build_article_schema(_dh1, canonical_for(_dpath, lang), _dd_))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))
@@ -8233,6 +8253,8 @@ def main() -> None:
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     if wt_classes:
         shutil.copy(ROOT / "js" / "wow-talents.js", DIST / "assets" / "js" / "wow-talents.js")
+        if (ROOT / "js" / "wow-dungeons.js").exists():
+            shutil.copy(ROOT / "js" / "wow-dungeons.js", DIST / "assets" / "js" / "wow-dungeons.js")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():
