@@ -11,6 +11,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 ROLES_FILE = ROOT / "data" / "wow_guides" / "roles.json"
+CONTENT_FILE = ROOT / "data" / "wow_guides" / "content.json"
 PROF_DIR = ROOT / "data" / "wow_professions"
 
 
@@ -19,11 +20,12 @@ def load_guides(wt_classes: list[dict]) -> list[dict]:
     if not ROLES_FILE.exists():
         return []
     roles = json.loads(ROLES_FILE.read_text(encoding="utf-8"))
+    content = json.loads(CONTENT_FILE.read_text(encoding="utf-8")) if CONTENT_FILE.exists() else {}
     out = []
     for c in wt_classes:
         r = roles.get(c["id"])
         if r and all(s["id"] in r for s in c["specs"]):
-            out.append({"cls": c, "roles": r})
+            out.append({"cls": c, "roles": r, "content": content.get(c["id"], {})})
     return out
 
 
@@ -47,6 +49,23 @@ def spec_facts(spec: dict) -> dict:
         rows.append({"row": r, "talents": sorted([t for t in ts if t["row"] == r], key=lambda t: t["col"])})
     return {"count": len(ts), "points": sum(t["max_rank"] for t in ts), "top_row": top, "top_talents": top_talents, "top_need": need,
             "single": [t for t in sorted(ts, key=lambda t: (t["row"], t["col"])) if t["max_rank"] == 1], "rows": rows}
+
+
+def template_tree(spec: dict, build: dict) -> dict:
+    """Static, read-only view of a spec's tree with the recommended talents flagged: {'cells': [...], 'items': [...]}."""
+    flags = {t["id"]: t for t in build["talents"]}
+    known = {t["id"] for t in spec["talents"]}
+    missing = [i for i in flags if i not in known]
+    assert not missing, f"template talents not in the tree of {spec['id']}: {missing}"
+    cells, items = [], []
+    for t in sorted(spec["talents"], key=lambda t: (t["row"], t["col"])):
+        f = flags.get(t["id"])
+        cells.append({"t": t, "mark": None if not f else ("option" if f.get("option") else "reco")})
+        if f:
+            items.append({"t": t, "why": f["why"], "option": bool(f.get("option"))})
+    order = list(flags)
+    items.sort(key=lambda i: order.index(i["t"]["id"]))
+    return {"cells": cells, "items": items, "rows": max(t["row"] for t in spec["talents"])}
 
 
 def money(copper: int, lang: str) -> str:
@@ -81,6 +100,12 @@ TXT = {
         "others_h2": "Les autres spécialisations du {cls}", "sources": "Sources", "src_role": "Rôle : ", "src_data": "Talents : ",
         "note": "Cette page ne donne ni rotation ni priorité de sorts : le client ne les fournit pas et nous ne les inventons pas. Les données changeront avec la sortie du jeu le 4 novembre 2026.",
         "rank_word": "rang", "ranks_word": "rangs",
+        "tpl_h2": "Le template de talents (niveau {level})", "tpl_p": "Les talents que le guide Icy Veins recommande au niveau {level}, repérés dans l'arbre. Le guide ne donne pas de répartition de points : seuls les talents sont indiqués. Cette section est figée, elle ne bouge pas et ne dépend pas du calculateur.",
+        "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier",
+        "stats_h2": "Priorité de stats", "stats_p": "Dans l'ordre d'importance, d'après Icy Veins.", "stats_spec": "Ordre présenté comme spéculatif par Icy Veins.",
+        "cons_h2": "Consommables", "cons_p": "Ce que le guide Icy Veins cite pour cette spécialisation.", "prof_h2": "Métiers conseillés",
+        "gear_h2": "Équipement, enchantements et objets de donjon", "gear_p": "Aucune source ne publie encore de liste d'équipement (BiS), d'enchantements ni d'objets de donjon pour cette spécialisation : les guides Icy Veins de Forever se limitent pour l'instant au niveau 20 et ne les détaillent pas. Cette section sera remplie quand une source les publiera, sans invention de notre part.",
+        "updated": "Guide Icy Veins daté du {date}, lu le 21 septembre 2026.",
         "p_hub_title": "Guides de métiers WoW: Forever : monter au max", "p_hub_desc": "Guides de métiers de WoW: Forever : parcours de 1 à 300 au moindre coût, liste de courses, recettes et plans.",
         "p_hub_h1": "Guides de métiers de WoW: Forever", "p_hub_intro": "Pour chaque métier : la suite de recettes la moins chère pour monter de 1 à 300, la liste de courses complète, l'origine de chaque plan et la table de toutes les recettes.",
         "p_kicker": "World of Warcraft: Forever · Métier",
@@ -130,6 +155,12 @@ TXT = {
         "others_h2": "Other {cls} specializations", "sources": "Sources", "src_role": "Role: ", "src_data": "Talents: ",
         "note": "This page gives no rotation or spell priority: the client does not provide them and we do not invent them. The data will change when the game launches on November 4, 2026.",
         "rank_word": "rank", "ranks_word": "ranks",
+        "tpl_h2": "Talent template (level {level})", "tpl_p": "The talents the Icy Veins guide recommends at level {level}, marked in the tree. The guide gives no point allocation: only the talents are listed. This section is fixed: it does not move and does not depend on the calculator.",
+        "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier",
+        "stats_h2": "Stat priority", "stats_p": "In order of importance, according to Icy Veins.", "stats_spec": "Order presented as speculative by Icy Veins.",
+        "cons_h2": "Consumables", "cons_p": "What the Icy Veins guide lists for this specialization.", "prof_h2": "Suggested professions",
+        "gear_h2": "Gear, enchants and dungeon items", "gear_p": "No source publishes a best-in-slot list, enchants or dungeon items for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. This section will be filled when a source publishes them, with nothing invented on our side.",
+        "updated": "Icy Veins guide dated {date}, read on September 21, 2026.",
         "p_hub_title": "WoW: Forever profession guides: level fast", "p_hub_desc": "WoW: Forever profession guides: the cheapest 1-300 route, a full shopping list, recipes and plans.",
         "p_hub_h1": "WoW: Forever profession guides", "p_hub_intro": "For each profession: the cheapest recipe sequence from 1 to 300, the full shopping list, where each plan comes from and a table of every recipe.",
         "p_kicker": "World of Warcraft: Forever · Profession",

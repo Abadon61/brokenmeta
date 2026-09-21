@@ -27,6 +27,40 @@
   <div><dt>{{ tx.f_need }}</dt><dd class="nums">{{ facts.top_need }}</dd></div>
 </dl>
 
+{% if content %}
+<h2 class="fiche-section-title">{{ tx.tpl_h2.format(level=content.build.level) }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.tpl_p.format(level=content.build.level) }}</p>
+{% if content.build.note %}<p class="wow-note">{{ content.build.note[lang] }}</p>{% endif %}
+<div class="wg-legend"><span class="wg-key is-reco"></span>{{ tx.tpl_reco }} <span class="wg-key is-option"></span>{{ tx.tpl_option }}</div>
+<div class="wg-tree" style="--rows: {{ tpl.rows }}">
+  {% for c in tpl.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col }}" title="{{ c.t.name[lang] }}">
+    {% if c.t.icon %}<img src="{{ c.t.icon }}" alt="" width="36" height="36" loading="lazy">{% endif %}
+    <span class="wg-cell-name">{{ c.t.name[lang] }}</span><span class="wg-cell-n nums">×{{ c.t.max_rank }}</span></div>{% endfor %}
+</div>
+<div class="wg-talents">{% for i in tpl['items'] %}
+  <div class="wg-talent{{ ' is-option' if i.option else '' }}">
+    {% if i.t.icon %}<img class="wg-talent-icon" src="{{ i.t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
+    <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
+    <p>{{ i.why[lang] }}</p></div>
+  </div>{% endfor %}
+</div>
+
+<h2 class="fiche-section-title">{{ tx.stats_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.stats_p }}{% if content.stats.speculative %} {{ tx.stats_spec }}{% endif %}</p>
+{% if content.stats.note %}<p class="wow-note">{{ content.stats.note[lang] }}</p>{% endif %}
+<ol class="wg-stats">{% for st in content.stats.order %}<li>{{ st[lang] }}</li>{% endfor %}</ol>
+
+<h2 class="fiche-section-title">{{ tx.cons_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.cons_p }}</p>
+<ul class="gd-list">{% for c in content.consumables %}<li>{% if c.id %}<a href="https://www.wowhead.com/forever/item={{ c.id }}" rel="noopener nofollow" target="_blank">{{ c.name[lang] }}</a>{% else %}{{ c.name[lang] }}{% endif %}{% if c.note %} — {{ c.note[lang] }}{% endif %}</li>{% endfor %}</ul>
+{% if content.professions %}<h2 class="fiche-section-title">{{ tx.prof_h2 }}</h2>
+<ul class="gd-list">{% for pr in content.professions %}<li>{{ pr[lang] }}</li>{% endfor %}</ul>{% endif %}
+
+<h2 class="fiche-section-title">{{ tx.gear_h2 }}</h2>
+<p class="wow-note">{{ tx.gear_p }}</p>
+<p class="wow-note">{{ tx.updated.format(date=content.updated) }}</p>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ tx.top_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.top_p.format(need=facts.top_need) }}</p>
 <div class="wg-talents">{% for t in facts.top_talents %}{{ talent_card(t) }}{% endfor %}</div>
