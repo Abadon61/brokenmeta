@@ -1987,6 +1987,29 @@
   .pf-route td { vertical-align: top; }
   @media (prefers-reduced-motion: reduce) { .nav-sub > summary::after { transition: none; } }
 
+  /* ---------- WoW guides: static talent template ---------- */
+  .wg-legend { display: flex; align-items: center; gap: 8px; font: 700 11px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-dim); margin: 6px 0 10px; }
+  .wg-key { width: 12px; height: 12px; border: 2px solid var(--border-bright); margin-left: 8px; }
+  .wg-key.is-reco { border-color: var(--cyan); background: rgba(80,220,255,0.25); }
+  .wg-key.is-option { border-color: #f3d94a; background: rgba(243,217,74,0.2); }
+  .wg-tree { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: repeat(var(--rows), auto); gap: 8px; max-width: 640px; padding: 12px; border: 1px solid var(--border); background: var(--bg-2); }
+  .wg-cell { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 6px 4px; text-align: center; border: 1px solid var(--border); background: var(--bg); opacity: 0.55; min-width: 0; }
+  .wg-cell img { width: 36px; height: 36px; border: 2px solid var(--border-bright); filter: grayscale(0.8); }
+  .wg-cell-name { font-size: 10.5px; line-height: 1.2; color: var(--text-dim); overflow-wrap: anywhere; }
+  .wg-cell-n { font: 700 10px 'Space Mono', monospace; color: var(--text-faint); }
+  .wg-cell.is-reco, .wg-cell.is-option { opacity: 1; }
+  .wg-cell.is-reco { border-color: var(--cyan); background: rgba(80,220,255,0.12); }
+  .wg-cell.is-option { border-color: #f3d94a; background: rgba(243,217,74,0.1); }
+  .wg-cell.is-reco img, .wg-cell.is-option img { filter: none; }
+  .wg-cell.is-reco .wg-cell-name, .wg-cell.is-option .wg-cell-name { color: var(--cream); }
+  .wg-talent.is-option { border-left: 3px solid #f3d94a; }
+  .wg-stats { margin: 8px 0 6px; padding-left: 24px; display: grid; gap: 4px; color: var(--cream); }
+  .wg-stats li::marker { font-family: 'Space Mono', monospace; color: var(--text-faint); }
+  @media (max-width: 520px) { .wg-tree { gap: 5px; padding: 8px; } .wg-cell img { width: 28px; height: 28px; } .wg-cell-name { font-size: 9px; } }
+
+  .wg-tree-title { margin: 16px 0 6px; font-family: 'Cal Sans', sans-serif; font-size: 15px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--cream); }
+  .wg-tree + .wg-tree-title { margin-top: 20px; }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
