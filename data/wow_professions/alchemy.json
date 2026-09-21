@@ -6,55 +6,40 @@
  },
  "icon": "https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg",
  "cap": 300,
+ "order": 1,
  "build": "1.60.1.69913",
  "ranks": [
   {
    "name": "Apprentice",
    "cap": 75,
    "learn_at": 1,
-   "cost": 10
+   "cost": 10,
+   "cap_from_client": true,
+   "trainer": true
   },
   {
-   "name": "Apprentice",
-   "cap": 75,
+   "name": "Journeyman",
+   "cap": 150,
    "learn_at": 50,
-   "cost": 0
-  },
-  {
-   "name": "Journeyman",
-   "cap": 150,
-   "learn_at": 125,
-   "cost": 500
-  },
-  {
-   "name": "Journeyman",
-   "cap": 150,
-   "learn_at": 200,
-   "cost": 0
+   "cost": 500,
+   "cap_from_client": true,
+   "trainer": true
   },
   {
    "name": "Expert",
    "cap": 225,
    "learn_at": 125,
-   "cost": 5000
-  },
-  {
-   "name": "Expert",
-   "cap": 225,
-   "learn_at": 1,
-   "cost": 0
+   "cost": 5000,
+   "cap_from_client": true,
+   "trainer": true
   },
   {
    "name": "Artisan",
    "cap": 300,
    "learn_at": 200,
-   "cost": 45000
-  },
-  {
-   "name": "Artisan",
-   "cap": 300,
-   "learn_at": 1,
-   "cost": 0
+   "cost": 45000,
+   "cap_from_client": true,
+   "trainer": true
   }
  ],
  "route": [
@@ -62,6 +47,8 @@
    "from": 1,
    "to": 55,
    "crafts": 54,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 7183,
    "name": {
     "en": "Elixir of Minor Defense",
@@ -134,6 +121,8 @@
    "from": 55,
    "to": 60,
    "crafts": 5,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 2331,
    "name": {
     "en": "Minor Mana Potion",
@@ -206,6 +195,8 @@
    "from": 60,
    "to": 90,
    "crafts": 30,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 6617,
    "name": {
     "en": "Rage Potion",
@@ -281,45 +272,47 @@
    "from": 90,
    "to": 100,
    "crafts": 10,
-   "recipe": 3171,
+   "yellow_points": 0,
+   "green_points": 0,
+   "recipe": 7179,
    "name": {
-    "en": "Elixir of Wisdom",
-    "fr": "Elixir de Sagesse"
+    "en": "Draught of Water Breathing",
+    "fr": "Breuvage de respiration aquatique"
    },
    "creates": {
-    "id": 3383,
+    "id": 5996,
     "count": 1,
     "name": {
-     "en": "Elixir of Wisdom",
-     "fr": "Elixir de Sagesse"
+     "en": "Draught of Water Breathing",
+     "fr": "Breuvage de respiration aquatique"
     },
-    "icon": "inv_potion_06"
+    "icon": "inv_potion_17"
    },
    "reagents": [
     {
-     "id": 785,
+     "id": 3820,
      "count": 1,
      "name": {
-      "en": "Mageroyal",
-      "fr": "Mage royal"
+      "en": "Stranglekelp",
+      "fr": "Etouffante"
      },
-     "icon": "inv_jewelry_talisman_03",
+     "icon": "inv_misc_herb_11",
      "price": {
-      "copper": 80,
-      "kind": "vendor"
+      "copper": 100,
+      "kind": "farm"
      }
     },
     {
-     "id": 2450,
+     "id": 6370,
      "count": 2,
      "name": {
-      "en": "Briarthorn",
-      "fr": "Eglantine"
+      "en": "Blackmouth Oil",
+      "fr": "Huile de bouche-noire"
      },
-     "icon": "inv_misc_root_01",
+     "icon": "inv_drink_12",
      "price": {
-      "copper": 25,
-      "kind": "farm"
+      "copper": 10,
+      "kind": "craft"
      }
     },
     {
@@ -336,11 +329,11 @@
      }
     }
    ],
-   "unit_cost": 150,
-   "step_cost": 1500,
+   "unit_cost": 140,
+   "step_cost": 1400,
    "acquire": {
     "type": "trainer",
-    "cost": 500
+    "cost": 450
    },
    "colors": [
     90,
@@ -353,34 +346,23 @@
    "from": 100,
    "to": 130,
    "crafts": 30,
-   "recipe": 7255,
+   "yellow_points": 0,
+   "green_points": 0,
+   "recipe": 7841,
    "name": {
-    "en": "Holy Protection Potion",
-    "fr": "Potion de protection contre le Sacré"
+    "en": "Swim Speed Potion",
+    "fr": "Potion de Nage rapide"
    },
    "creates": {
-    "id": 6051,
+    "id": 6372,
     "count": 1,
     "name": {
-     "en": "Holy Protection Potion",
-     "fr": "Potion de protection contre le Sacré"
+     "en": "Swim Speed Potion",
+     "fr": "Potion de Nage rapide"
     },
-    "icon": "inv_potion_09"
+    "icon": "inv_potion_13"
    },
    "reagents": [
-    {
-     "id": 2453,
-     "count": 1,
-     "name": {
-      "en": "Bruiseweed",
-      "fr": "Doulourante"
-     },
-     "icon": "inv_misc_herb_01",
-     "price": {
-      "copper": 100,
-      "kind": "vendor"
-     }
-    },
     {
      "id": 2452,
      "count": 1,
@@ -395,6 +377,19 @@
      }
     },
     {
+     "id": 6370,
+     "count": 1,
+     "name": {
+      "en": "Blackmouth Oil",
+      "fr": "Huile de bouche-noire"
+     },
+     "icon": "inv_drink_12",
+     "price": {
+      "copper": 10,
+      "kind": "craft"
+     }
+    },
+    {
      "id": 3371,
      "count": 1,
      "name": {
@@ -408,14 +403,11 @@
      }
     }
    ],
-   "unit_cost": 135,
-   "step_cost": 4050,
+   "unit_cost": 45,
+   "step_cost": 1350,
    "acquire": {
-    "type": "vendor",
-    "npc": null,
-    "npc_id": null,
-    "item_id": 6053,
-    "cost": 800
+    "type": "trainer",
+    "cost": 1000
    },
    "colors": [
     100,
@@ -428,6 +420,8 @@
    "from": 130,
    "to": 150,
    "crafts": 20,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 7837,
    "name": {
     "en": "Fire Oil",
@@ -485,98 +479,38 @@
   },
   {
    "from": 150,
-   "to": 160,
-   "crafts": 10,
-   "recipe": 7256,
-   "name": {
-    "en": "Shadow Protection Potion",
-    "fr": "Potion de protection contre l'Ombre"
-   },
-   "creates": {
-    "id": 6048,
-    "count": 1,
-    "name": {
-     "en": "Shadow Protection Potion",
-     "fr": "Potion de protection contre l'Ombre"
-    },
-    "icon": "inv_potion_44"
-   },
-   "reagents": [
-    {
-     "id": 3369,
-     "count": 1,
-     "name": {
-      "en": "Grave Moss",
-      "fr": "Tombeline"
-     },
-     "icon": "inv_misc_dust_02",
-     "price": {
-      "copper": 25,
-      "kind": "farm"
-     }
-    },
-    {
-     "id": 3356,
-     "count": 1,
-     "name": {
-      "en": "Kingsblood",
-      "fr": "Sang-royal"
-     },
-     "icon": "inv_misc_herb_03",
-     "price": {
-      "copper": 120,
-      "kind": "vendor"
-     }
-    },
-    {
-     "id": 3372,
-     "count": 1,
-     "name": {
-      "en": "Leaded Vial",
-      "fr": "Fiole plombée"
-     },
-     "icon": "inv_potion_85",
-     "price": {
-      "copper": 200,
-      "kind": "vendor"
-     }
-    }
-   ],
-   "unit_cost": 345,
-   "step_cost": 3450,
-   "acquire": {
-    "type": "vendor",
-    "npc": null,
-    "npc_id": null,
-    "item_id": 6054,
-    "cost": 900
-   },
-   "colors": [
-    135,
-    160,
-    180,
-    200
-   ]
-  },
-  {
-   "from": 160,
    "to": 175,
-   "crafts": 15,
-   "recipe": 3452,
+   "crafts": 25,
+   "yellow_points": 0,
+   "green_points": 0,
+   "recipe": 6624,
    "name": {
-    "en": "Mana Potion",
-    "fr": "Potion de mana"
+    "en": "Free Action Potion",
+    "fr": "Potion de libre action"
    },
    "creates": {
-    "id": 3827,
+    "id": 5634,
     "count": 1,
     "name": {
-     "en": "Mana Potion",
-     "fr": "Potion de mana"
+     "en": "Free Action Potion",
+     "fr": "Potion de libre action"
     },
-    "icon": "inv_potion_72"
+    "icon": "inv_potion_04"
    },
    "reagents": [
+    {
+     "id": 6370,
+     "count": 2,
+     "name": {
+      "en": "Blackmouth Oil",
+      "fr": "Huile de bouche-noire"
+     },
+     "icon": "inv_drink_12",
+     "price": {
+      "copper": 10,
+      "kind": "craft"
+     }
+    },
     {
      "id": 3820,
      "count": 1,
@@ -591,19 +525,6 @@
      }
     },
     {
-     "id": 3356,
-     "count": 1,
-     "name": {
-      "en": "Kingsblood",
-      "fr": "Sang-royal"
-     },
-     "icon": "inv_misc_herb_03",
-     "price": {
-      "copper": 120,
-      "kind": "vendor"
-     }
-    },
-    {
      "id": 3372,
      "count": 1,
      "name": {
@@ -617,62 +538,67 @@
      }
     }
    ],
-   "unit_cost": 420,
-   "step_cost": 6300,
+   "unit_cost": 320,
+   "step_cost": 8000,
    "acquire": {
-    "type": "trainer",
-    "cost": 5000
+    "type": "vendor",
+    "npc": null,
+    "npc_id": null,
+    "item_id": 5642,
+    "cost": 1800
    },
    "colors": [
-    160,
-    180,
-    200,
-    220
+    150,
+    175,
+    195,
+    215
    ]
   },
   {
    "from": 175,
-   "to": 195,
-   "crafts": 20,
-   "recipe": 6618,
+   "to": 210,
+   "crafts": 35,
+   "yellow_points": 0,
+   "green_points": 0,
+   "recipe": 7257,
    "name": {
-    "en": "Great Rage Potion",
-    "fr": "Potion de Grande rage"
+    "en": "Fire Protection Potion",
+    "fr": "Potion de protection contre le Feu"
    },
    "creates": {
-    "id": 5633,
+    "id": 6049,
     "count": 1,
     "name": {
-     "en": "Great Rage Potion",
-     "fr": "Potion de Grande rage"
+     "en": "Fire Protection Potion",
+     "fr": "Potion de protection contre le Feu"
     },
-    "icon": "inv_potion_21"
+    "icon": "inv_potion_16"
    },
    "reagents": [
     {
-     "id": 5637,
+     "id": 4402,
      "count": 1,
      "name": {
-      "en": "Large Fang",
-      "fr": "Grand croc"
+      "en": "Small Flame Sac",
+      "fr": "Petit sac de flammes"
      },
-     "icon": "inv_misc_bone_08",
+     "icon": "inv_misc_organ_06",
      "price": {
-      "copper": 75,
+      "copper": 250,
       "kind": "farm"
      }
     },
     {
-     "id": 3356,
+     "id": 6371,
      "count": 1,
      "name": {
-      "en": "Kingsblood",
-      "fr": "Sang-royal"
+      "en": "Fire Oil",
+      "fr": "Huile de feu"
      },
-     "icon": "inv_misc_herb_03",
+     "icon": "inv_potion_38",
      "price": {
-      "copper": 120,
-      "kind": "vendor"
+      "copper": 12,
+      "kind": "craft"
      }
     },
     {
@@ -689,101 +615,28 @@
      }
     }
    ],
-   "unit_cost": 395,
-   "step_cost": 7900,
+   "unit_cost": 462,
+   "step_cost": 16170,
    "acquire": {
     "type": "vendor",
     "npc": null,
     "npc_id": null,
-    "item_id": 5643,
-    "cost": 2000
+    "item_id": 6055,
+    "cost": 1500
    },
    "colors": [
-    175,
-    195,
-    215,
-    235
+    165,
+    210,
+    230,
+    250
    ]
   },
   {
-   "from": 195,
-   "to": 205,
-   "crafts": 10,
-   "recipe": 7258,
-   "name": {
-    "en": "Frost Protection Potion",
-    "fr": "Potion de protection contre le Givre"
-   },
-   "creates": {
-    "id": 6050,
-    "count": 1,
-    "name": {
-     "en": "Frost Protection Potion",
-     "fr": "Potion de protection contre le Givre"
-    },
-    "icon": "inv_potion_13"
-   },
-   "reagents": [
-    {
-     "id": 3819,
-     "count": 1,
-     "name": {
-      "en": "Wintersbite",
-      "fr": "Hivernale"
-     },
-     "icon": "inv_misc_flower_03",
-     "price": {
-      "copper": 100,
-      "kind": "farm"
-     }
-    },
-    {
-     "id": 3821,
-     "count": 1,
-     "name": {
-      "en": "Goldthorn",
-      "fr": "Dorépine"
-     },
-     "icon": "inv_misc_herb_15",
-     "price": {
-      "copper": 150,
-      "kind": "farm"
-     }
-    },
-    {
-     "id": 3372,
-     "count": 1,
-     "name": {
-      "en": "Leaded Vial",
-      "fr": "Fiole plombée"
-     },
-     "icon": "inv_potion_85",
-     "price": {
-      "copper": 200,
-      "kind": "vendor"
-     }
-    }
-   ],
-   "unit_cost": 450,
-   "step_cost": 4500,
-   "acquire": {
-    "type": "vendor",
-    "npc": null,
-    "npc_id": null,
-    "item_id": 6056,
-    "cost": 2000
-   },
-   "colors": [
-    190,
-    205,
-    225,
-    245
-   ]
-  },
-  {
-   "from": 205,
+   "from": 210,
    "to": 220,
-   "crafts": 15,
+   "crafts": 10,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 12609,
    "name": {
     "en": "Catseye Draught",
@@ -840,7 +693,7 @@
     }
    ],
    "unit_cost": 475,
-   "step_cost": 7125,
+   "step_cost": 4750,
    "acquire": {
     "type": "trainer",
     "cost": 7200
@@ -856,6 +709,8 @@
    "from": 220,
    "to": 230,
    "crafts": 10,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 22808,
    "name": {
     "en": "Draught of Greater Water Breathing",
@@ -928,6 +783,8 @@
    "from": 230,
    "to": 245,
    "crafts": 15,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 11460,
    "name": {
     "en": "Draught of Detect Undead",
@@ -987,6 +844,8 @@
    "from": 245,
    "to": 255,
    "crafts": 10,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 11467,
    "name": {
     "en": "Elixir of Greater Agility",
@@ -1059,6 +918,8 @@
    "from": 255,
    "to": 260,
    "crafts": 5,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 11477,
    "name": {
     "en": "Potion of Demonslaying",
@@ -1134,6 +995,8 @@
    "from": 260,
    "to": 275,
    "crafts": 15,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 17553,
    "name": {
     "en": "Superior Mana Potion",
@@ -1209,6 +1072,8 @@
    "from": 275,
    "to": 290,
    "crafts": 15,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 24365,
    "name": {
     "en": "Mageblood Elixir",
@@ -1284,6 +1149,8 @@
    "from": 290,
    "to": 300,
    "crafts": 10,
+   "yellow_points": 0,
+   "green_points": 0,
    "recipe": 24368,
    "name": {
     "en": "Major Troll's Blood Elixir",
@@ -1424,6 +1291,19 @@
    }
   },
   {
+   "id": 4402,
+   "name": {
+    "en": "Small Flame Sac",
+    "fr": "Petit sac de flammes"
+   },
+   "icon": "inv_misc_organ_06",
+   "count": 35,
+   "price": {
+    "copper": 250,
+    "kind": "farm"
+   }
+  },
+  {
    "id": 8845,
    "name": {
     "en": "Ghost Mushroom",
@@ -1463,32 +1343,6 @@
    }
   },
   {
-   "id": 3356,
-   "name": {
-    "en": "Kingsblood",
-    "fr": "Sang-royal"
-   },
-   "icon": "inv_misc_herb_03",
-   "count": 45,
-   "price": {
-    "copper": 120,
-    "kind": "vendor"
-   }
-  },
-  {
-   "id": 3821,
-   "name": {
-    "en": "Goldthorn",
-    "fr": "Dorépine"
-   },
-   "icon": "inv_misc_herb_15",
-   "count": 35,
-   "price": {
-    "copper": 150,
-    "kind": "farm"
-   }
-  },
-  {
    "id": 7972,
    "name": {
     "en": "Ichor of Undeath",
@@ -1502,16 +1356,29 @@
    }
   },
   {
-   "id": 2453,
+   "id": 3820,
    "name": {
-    "en": "Bruiseweed",
-    "fr": "Doulourante"
+    "en": "Stranglekelp",
+    "fr": "Etouffante"
    },
-   "icon": "inv_misc_herb_01",
-   "count": 30,
+   "icon": "inv_misc_herb_11",
+   "count": 35,
    "price": {
     "copper": 100,
-    "kind": "vendor"
+    "kind": "farm"
+   }
+  },
+  {
+   "id": 3821,
+   "name": {
+    "en": "Goldthorn",
+    "fr": "Dorépine"
+   },
+   "icon": "inv_misc_herb_15",
+   "count": 20,
+   "price": {
+    "copper": 150,
+    "kind": "farm"
    }
   },
   {
@@ -1567,45 +1434,6 @@
    }
   },
   {
-   "id": 3818,
-   "name": {
-    "en": "Fadeleaf",
-    "fr": "Pâlerette"
-   },
-   "icon": "inv_misc_herb_12",
-   "count": 15,
-   "price": {
-    "copper": 125,
-    "kind": "farm"
-   }
-  },
-  {
-   "id": 3820,
-   "name": {
-    "en": "Stranglekelp",
-    "fr": "Etouffante"
-   },
-   "icon": "inv_misc_herb_11",
-   "count": 15,
-   "price": {
-    "copper": 100,
-    "kind": "farm"
-   }
-  },
-  {
-   "id": 5637,
-   "name": {
-    "en": "Large Fang",
-    "fr": "Grand croc"
-   },
-   "icon": "inv_misc_bone_08",
-   "count": 20,
-   "price": {
-    "copper": 75,
-    "kind": "farm"
-   }
-  },
-  {
    "id": 8836,
    "name": {
     "en": "Arthas' Tears",
@@ -1632,41 +1460,41 @@
    }
   },
   {
+   "id": 3818,
+   "name": {
+    "en": "Fadeleaf",
+    "fr": "Pâlerette"
+   },
+   "icon": "inv_misc_herb_12",
+   "count": 10,
+   "price": {
+    "copper": 125,
+    "kind": "farm"
+   }
+  },
+  {
+   "id": 6370,
+   "name": {
+    "en": "Blackmouth Oil",
+    "fr": "Huile de bouche-noire"
+   },
+   "icon": "inv_drink_12",
+   "count": 100,
+   "price": {
+    "copper": 10,
+    "kind": "craft"
+   }
+  },
+  {
    "id": 2450,
    "name": {
     "en": "Briarthorn",
     "fr": "Eglantine"
    },
    "icon": "inv_misc_root_01",
-   "count": 50,
+   "count": 30,
    "price": {
     "copper": 25,
-    "kind": "farm"
-   }
-  },
-  {
-   "id": 785,
-   "name": {
-    "en": "Mageroyal",
-    "fr": "Mage royal"
-   },
-   "icon": "inv_jewelry_talisman_03",
-   "count": 15,
-   "price": {
-    "copper": 80,
-    "kind": "vendor"
-   }
-  },
-  {
-   "id": 3819,
-   "name": {
-    "en": "Wintersbite",
-    "fr": "Hivernale"
-   },
-   "icon": "inv_misc_flower_03",
-   "count": 10,
-   "price": {
-    "copper": 100,
     "kind": "farm"
    }
   },
@@ -1684,16 +1512,29 @@
    }
   },
   {
-   "id": 3369,
+   "id": 6371,
    "name": {
-    "en": "Grave Moss",
-    "fr": "Tombeline"
+    "en": "Fire Oil",
+    "fr": "Huile de feu"
    },
-   "icon": "inv_misc_dust_02",
-   "count": 10,
+   "icon": "inv_potion_38",
+   "count": 35,
    "price": {
-    "copper": 25,
-    "kind": "farm"
+    "copper": 12,
+    "kind": "craft"
+   }
+  },
+  {
+   "id": 785,
+   "name": {
+    "en": "Mageroyal",
+    "fr": "Mage royal"
+   },
+   "icon": "inv_jewelry_talisman_03",
+   "count": 5,
+   "price": {
+    "copper": 80,
+    "kind": "vendor"
    }
   },
   {
@@ -1711,13 +1552,19 @@
   }
  ],
  "totals": {
-  "reagents_copper": 311800,
-  "recipes_copper": 165900,
+  "reagents_copper": 308645,
+  "recipes_copper": 159450,
   "ranks_copper": 50510,
-  "all_copper": 528210,
+  "all_copper": 518605,
   "crafts": 299,
-  "vendor_copper": 259600,
-  "farm_copper": 52200
+  "yellow_points": 0,
+  "green_points": 0,
+  "unknown_plans": 0,
+  "vendor_copper": 250400,
+  "farm_copper": 56825,
+  "craft_copper": 1420,
+  "disenchant_copper": 0,
+  "has_disenchant": false
  },
  "recipes": [
   {
@@ -3442,7 +3289,10 @@
       "fr": "Huile de bouche-noire"
      },
      "icon": "inv_drink_12",
-     "price": null
+     "price": {
+      "copper": 10,
+      "kind": "craft"
+     }
     },
     {
      "id": 3371,
@@ -3458,7 +3308,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 140,
    "acquire": {
     "type": "trainer",
     "cost": 450
@@ -3537,7 +3387,7 @@
      "icon": "inv_enchant_dustsoul",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     }
    ],
@@ -3582,10 +3432,7 @@
       "fr": "Poisson déviant"
      },
      "icon": "inv_misc_monsterhead_01",
-     "price": {
-      "copper": 4,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 2449,
@@ -3614,7 +3461,7 @@
      }
     }
    ],
-   "unit_cost": 104,
+   "unit_cost": null,
    "acquire": {
     "type": "other",
     "kinds": [
@@ -4145,7 +3992,10 @@
       "fr": "Huile de bouche-noire"
      },
      "icon": "inv_drink_12",
-     "price": null
+     "price": {
+      "copper": 10,
+      "kind": "craft"
+     }
     },
     {
      "id": 3371,
@@ -4161,7 +4011,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 45,
    "acquire": {
     "type": "trainer",
     "cost": 1000
@@ -5013,7 +4863,10 @@
       "fr": "Huile de feu"
      },
      "icon": "inv_potion_38",
-     "price": null
+     "price": {
+      "copper": 12,
+      "kind": "craft"
+     }
     },
     {
      "id": 3356,
@@ -5042,7 +4895,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 344,
    "acquire": {
     "type": "trainer",
     "cost": 3000
@@ -5498,7 +5351,10 @@
       "fr": "Huile de bouche-noire"
      },
      "icon": "inv_drink_12",
-     "price": null
+     "price": {
+      "copper": 10,
+      "kind": "craft"
+     }
     },
     {
      "id": 3820,
@@ -5527,7 +5383,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 320,
    "acquire": {
     "type": "vendor",
     "npc": null,
@@ -5778,7 +5634,10 @@
       "fr": "Huile de feu"
      },
      "icon": "inv_potion_38",
-     "price": null
+     "price": {
+      "copper": 12,
+      "kind": "craft"
+     }
     },
     {
      "id": 3372,
@@ -5794,7 +5653,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 462,
    "acquire": {
     "type": "vendor",
     "npc": null,
@@ -7733,10 +7592,7 @@
       "fr": "Rhum explosif"
      },
      "icon": "inv_drink_01",
-     "price": {
-      "copper": 400,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 3372,
@@ -7752,7 +7608,7 @@
      }
     }
    ],
-   "unit_cost": 850,
+   "unit_cost": null,
    "acquire": {
     "type": "other",
     "kinds": []
@@ -8149,10 +8005,7 @@
       "fr": "Potion de régénération mineure"
      },
      "icon": "inv_potion_02",
-     "price": {
-      "copper": 15,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 215430,
@@ -9607,7 +9460,10 @@
       "fr": "Huile de feu"
      },
      "icon": "inv_potion_38",
-     "price": null
+     "price": {
+      "copper": 12,
+      "kind": "craft"
+     }
     },
     {
      "id": 4625,
@@ -9636,7 +9492,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 3286,
    "acquire": {
     "type": "other",
     "kinds": [
@@ -9724,8 +9580,8 @@
      "id": 221021,
      "count": 10,
      "name": {
-      "en": "#221021",
-      "fr": "#221021"
+      "en": "Item #221021",
+      "fr": "Objet #221021"
      },
      "icon": null,
      "price": null
@@ -9734,8 +9590,8 @@
      "id": 220688,
      "count": 1,
      "name": {
-      "en": "#220688",
-      "fr": "#220688"
+      "en": "Item #220688",
+      "fr": "Objet #220688"
      },
      "icon": null,
      "price": null
@@ -9780,8 +9636,8 @@
      "id": 221021,
      "count": 10,
      "name": {
-      "en": "#221021",
-      "fr": "#221021"
+      "en": "Item #221021",
+      "fr": "Objet #221021"
      },
      "icon": null,
      "price": null
@@ -9790,8 +9646,8 @@
      "id": 220688,
      "count": 1,
      "name": {
-      "en": "#220688",
-      "fr": "#220688"
+      "en": "Item #220688",
+      "fr": "Objet #220688"
      },
      "icon": null,
      "price": null
@@ -9836,8 +9692,8 @@
      "id": 221021,
      "count": 5,
      "name": {
-      "en": "#221021",
-      "fr": "#221021"
+      "en": "Item #221021",
+      "fr": "Objet #221021"
      },
      "icon": null,
      "price": null
@@ -9859,8 +9715,8 @@
      "id": 221312,
      "count": 5,
      "name": {
-      "en": "#221312",
-      "fr": "#221312"
+      "en": "Item #221312",
+      "fr": "Objet #221312"
      },
      "icon": null,
      "price": null
@@ -10382,7 +10238,10 @@
       "fr": "Huile de pierre-écaille"
      },
      "icon": "inv_potion_68",
-     "price": null
+     "price": {
+      "copper": 125,
+      "kind": "craft"
+     }
     },
     {
      "id": 8838,
@@ -10411,7 +10270,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 2810,
    "acquire": {
     "type": "other",
     "kinds": [
@@ -11056,7 +10915,10 @@
       "fr": "Barre de thorium lourd"
      },
      "icon": "item_elementiumbar",
-     "price": null
+     "price": {
+      "copper": 2500,
+      "kind": "craft"
+     }
     },
     {
      "id": 248819,
@@ -11072,7 +10934,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 5500,
    "acquire": {
     "type": "other",
     "kinds": []
@@ -11658,7 +11520,10 @@
       "fr": "Huile de pierre-écaille"
      },
      "icon": "inv_potion_68",
-     "price": null
+     "price": {
+      "copper": 125,
+      "kind": "craft"
+     }
     },
     {
      "id": 10620,
@@ -11687,7 +11552,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 3125,
    "acquire": {
     "type": "other",
     "kinds": [
@@ -12467,7 +12332,7 @@
      "icon": "inv_enchant_dustdream",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     },
     {
@@ -12753,10 +12618,7 @@
       "fr": "Huile des ténèbres"
      },
      "icon": "inv_potion_23",
-     "price": {
-      "copper": 150,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 13463,
@@ -12785,7 +12647,7 @@
      }
     }
    ],
-   "unit_cost": 3050,
+   "unit_cost": null,
    "acquire": {
     "type": "other",
     "kinds": [
@@ -13483,7 +13345,10 @@
       "fr": "Huile de pierre-écaille"
      },
      "icon": "inv_potion_68",
-     "price": null
+     "price": {
+      "copper": 125,
+      "kind": "craft"
+     }
     },
     {
      "id": 13465,
@@ -13525,7 +13390,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 8750,
    "acquire": {
     "type": "vendor",
     "npc": "Pix Xizzix",
@@ -13665,7 +13530,10 @@
       "fr": "Huile de pierre-écaille"
      },
      "icon": "inv_potion_68",
-     "price": null
+     "price": {
+      "copper": 125,
+      "kind": "craft"
+     }
     },
     {
      "id": 13468,
@@ -13694,7 +13562,7 @@
      }
     }
    ],
-   "unit_cost": null,
+   "unit_cost": 34750,
    "acquire": {
     "type": "vendor",
     "npc": null,
@@ -13953,8 +13821,8 @@
      "id": 234011,
      "count": 1,
      "name": {
-      "en": "#234011",
-      "fr": "#234011"
+      "en": "Item #234011",
+      "fr": "Objet #234011"
      },
      "icon": null,
      "price": null
@@ -14025,8 +13893,8 @@
      "id": 234011,
      "count": 1,
      "name": {
-      "en": "#234011",
-      "fr": "#234011"
+      "en": "Item #234011",
+      "fr": "Objet #234011"
      },
      "icon": null,
      "price": null
@@ -14097,8 +13965,8 @@
      "id": 234011,
      "count": 1,
      "name": {
-      "en": "#234011",
-      "fr": "#234011"
+      "en": "Item #234011",
+      "fr": "Objet #234011"
      },
      "icon": null,
      "price": null
@@ -14169,8 +14037,8 @@
      "id": 234011,
      "count": 1,
      "name": {
-      "en": "#234011",
-      "fr": "#234011"
+      "en": "Item #234011",
+      "fr": "Objet #234011"
      },
      "icon": null,
      "price": null
@@ -14221,15 +14089,15 @@
      "icon": "inv_enchant_essenceeternallarge",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     },
     {
      "id": 234011,
      "count": 1,
      "name": {
-      "en": "#234011",
-      "fr": "#234011"
+      "en": "Item #234011",
+      "fr": "Objet #234011"
      },
      "icon": null,
      "price": null
@@ -14242,10 +14110,7 @@
       "fr": "Flacon de pouvoir suprême"
      },
      "icon": "inv_potion_41",
-     "price": {
-      "copper": 5000,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 8925,
@@ -14293,15 +14158,15 @@
      "icon": "inv_enchant_essenceeternallarge",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     },
     {
      "id": 234010,
      "count": 1,
      "name": {
-      "en": "#234010",
-      "fr": "#234010"
+      "en": "Item #234010",
+      "fr": "Objet #234010"
      },
      "icon": null,
      "price": null
@@ -14314,10 +14179,7 @@
       "fr": "Flacon de résistance chromatique"
      },
      "icon": "inv_potion_48",
-     "price": {
-      "copper": 5000,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 8925,
@@ -14365,7 +14227,7 @@
      "icon": "inv_enchant_essenceeternallarge",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     },
     {
@@ -14389,10 +14251,7 @@
       "fr": "Flacon de sagesse distillée"
      },
      "icon": "inv_potion_97",
-     "price": {
-      "copper": 5000,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 8925,
@@ -14408,7 +14267,7 @@
      }
     }
    ],
-   "unit_cost": 7516,
+   "unit_cost": null,
    "acquire": {
     "type": "other",
     "kinds": []
@@ -14440,15 +14299,15 @@
      "icon": "inv_enchant_essenceeternallarge",
      "price": {
       "copper": 1,
-      "kind": "farm"
+      "kind": "disenchant"
      }
     },
     {
      "id": 234006,
      "count": 1,
      "name": {
-      "en": "#234006",
-      "fr": "#234006"
+      "en": "Item #234006",
+      "fr": "Objet #234006"
      },
      "icon": null,
      "price": null
@@ -14461,10 +14320,7 @@
       "fr": "Flacon des Titans"
      },
      "icon": "inv_potion_62",
-     "price": {
-      "copper": 5000,
-      "kind": "farm"
-     }
+     "price": null
     },
     {
      "id": 8925,
@@ -14901,7 +14757,7 @@
   }
  ],
  "method": {
-  "orange_only": true,
+  "orange_first": true,
   "farm_valued_at": "vendor sell price",
   "start_recipes_assumed": [
    7183,

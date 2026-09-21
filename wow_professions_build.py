@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import csv
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -27,11 +28,19 @@ RAW = P / "data" / "wow_talents_raw" / BUILD
 WH = P / "data" / "wow_wowhead_raw"
 OUT = P / "data" / "wow_professions"
 ICON_BASE = "https://wow.zamimg.com/images/wow/icons/large/"
-CAP = 300
+CAP = 300      # default; each profession's real cap is read from its rank spells
 RANK_CAP = {"Apprentice": 75, "Journeyman": 150, "Expert": 225, "Artisan": 300}     # read from the rank spells' descriptions in the client
 
+# id = URL slug; wh_key = prefix of the raw Wowhead files; wh_path = where the recipe list lives on Wowhead
 PROFESSIONS = {
-    "alchemy": {"skill_line": "171", "name": {"en": "Alchemy", "fr": "Alchimie"}, "wh_key": "alchemy"},
+    "alchemy":        {"order": 1, "skill_line": "171", "name": {"en": "Alchemy", "fr": "Alchimie"}, "wh_key": "alchemy", "wh_path": "professions/alchemy"},
+    "blacksmithing":  {"order": 2, "skill_line": "164", "name": {"en": "Blacksmithing", "fr": "Forge"}, "wh_key": "blacksmithing", "wh_path": "professions/blacksmithing"},
+    "enchanting":     {"order": 3, "skill_line": "333", "name": {"en": "Enchanting", "fr": "Enchantement"}, "wh_key": "enchanting", "wh_path": "professions/enchanting"},
+    "engineering":    {"order": 4, "skill_line": "202", "name": {"en": "Engineering", "fr": "Ingénierie"}, "wh_key": "engineering", "wh_path": "professions/engineering"},
+    "leatherworking": {"order": 5, "skill_line": "165", "name": {"en": "Leatherworking", "fr": "Travail du cuir"}, "wh_key": "leatherworking", "wh_path": "professions/leatherworking"},
+    "tailoring":      {"order": 6, "skill_line": "197", "name": {"en": "Tailoring", "fr": "Couture"}, "wh_key": "tailoring", "wh_path": "professions/tailoring"},
+    "cooking":        {"order": 7, "skill_line": "185", "name": {"en": "Cooking", "fr": "Cuisine"}, "wh_key": "cooking", "wh_path": "secondary-skills/cooking"},
+    "first-aid":      {"order": 8, "skill_line": "129", "name": {"en": "First Aid", "fr": "Secourisme"}, "wh_key": "firstaid", "wh_path": "secondary-skills/first-aid"},
 }
 
 
@@ -43,7 +52,8 @@ def read_csv(name: str):
 def main(prof: str = "alchemy") -> None:
     cfg = PROFESSIONS[prof]
     spells = json.loads((WH / f"{cfg['wh_key']}_spells.json").read_text(encoding="utf-8"))
-    plans = json.loads((WH / f"{cfg['wh_key']}_recipe_items.json").read_text(encoding="utf-8"))
+    plans_file = WH / f"{cfg['wh_key']}_recipe_items.json"
+    plans = json.loads(plans_file.read_text(encoding="utf-8")) if plans_file.exists() else []
     tradegoods = {r[0]: r for r in json.loads((WH / "tradegoods.json").read_text(encoding="utf-8"))}
 
     # ---- client tables
@@ -59,36 +69,48 @@ def main(prof: str = "alchemy") -> None:
 
     def item_name(iid: int) -> dict:
         it = items.get(iid)
-        return {"en": it["en"], "fr": it.get("fr") or it["en"]} if it else {"en": f"#{iid}", "fr": f"#{iid}"}
+        return {"en": it["en"], "fr": it.get("fr") or it["en"]} if it else {"en": f"Item #{iid}", "fr": f"Objet #{iid}"}     # newer beta items are missing from the client table
 
     # ---- reagent pricing
+    unknown_items: set[int] = set()
+
     def price_of(iid: int):
         it = items.get(iid)
         if not it:
             return None
-        src = (tradegoods.get(iid) or [0, 0, None])[2] or []
+        row = tradegoods.get(iid)
+        if row is None:
+            unknown_items.add(iid)           # not a trade good on Wowhead: source unknown, so no reliable price
+            return None
+        src = row[2] or []
         if 5 in src and it["buy"] > 0:
             return {"copper": it["buy"], "kind": "vendor"}
-        if 1 in src and 2 not in src and 17 not in src and 16 not in src:
-            return None                      # crafted intermediate: no reliable price
-        if it["sell"] > 0:
-            return {"copper": it["sell"], "kind": "farm"}
-        return None
+        if it["sell"] <= 0:
+            return None
+        if 15 in src and not ({16, 17, 19} & set(src)):
+            return {"copper": it["sell"], "kind": "disenchant"}  # from disenchanting: the vendor value in the tables is a token amount
+        if 1 in src and not ({2, 16, 17, 19} & set(src)):
+            return {"copper": it["sell"], "kind": "craft"}      # made by another craft: resale value as a floor
+        return {"copper": it["sell"], "kind": "farm"}
 
     sl = next((r for r in read_csv("SkillLine.csv") if r["ID"] == cfg["skill_line"]), None)
     prof_icon = icons.get(sl["SpellIconFileID"]) if sl else None
     prof_icon = (ICON_BASE + prof_icon + ".jpg") if prof_icon else None
 
-    # ---- ranks
+    # ---- ranks: the trainer's rank spells (cost > 0); the cap is read from the spell text of the beta client
+    import re
+    spell_desc = {r["ID"]: r["Description_lang"] for r in read_csv("Spell.csv")}
     ranks = []
-    for s in spells:
-        if s[8] in RANK_CAP:
-            ranks.append({"name": s[8], "cap": RANK_CAP[s[8]], "learn_at": s[2] if s[2] < 9000 else 1, "cost": s[7]})
+    LEARN_AT = {"Apprentice": 1, "Journeyman": 50, "Expert": 125, "Artisan": 200}
+    for s_ in spells:
+        rname = (s_[8] or "").strip()
+        if rname in RANK_CAP and not any(r["name"] == rname for r in ranks):
+            m = re.search(r"skill of (\d+)", spell_desc.get(str(s_[0]), ""))
+            ranks.append({"name": rname, "cap": int(m.group(1)) if m else RANK_CAP[rname], "learn_at": s_[2] if s_[2] < 9000 else LEARN_AT[rname],
+                          "cost": s_[7], "cap_from_client": bool(m), "trainer": bool(s_[7])})
     ranks.sort(key=lambda r: r["cap"])
-    ranks[0]["learn_at"] = 1
-    ranks[1]["learn_at"] = 50
-    ranks[2]["learn_at"] = 125
-    ranks[3]["learn_at"] = 200
+    assert len(ranks) == 4, (prof, ranks)
+    cap_total = ranks[-1]["cap"]
 
     # ---- plans (recipe items) matched to the spell they teach by name ("Recipe: X" -> X)
     plan_by_spell_name: dict[str, list] = {}
@@ -150,74 +172,98 @@ def main(prof: str = "alchemy") -> None:
         })
     recipes.sort(key=lambda r: (r["learn_at"], r["name"]["en"]))
 
-    # ---- dynamic programming: best[s] = cheapest cost to be at skill s having started from 1
+    # ---- dynamic programming over skill 1 -> cap. One recipe covers a stretch [a, b) of skill points.
+    #   orange points are guaranteed; yellow points are not (a lower bound of crafts is used) and carry a penalty so they are only
+    #   used to bridge stretches no orange recipe covers. A recipe whose plan cannot be bought (drop, quest...) is a last resort:
+    #   it carries a huge penalty, its price is unknown and it is flagged on the page.
     # transmutations are left out: whether they carry a cooldown in Forever is not shown by the data, and a route repeats a recipe many times
-    usable = [r for r in recipes if r["unit_cost"] is not None and r["fixed"] is not None and r["colors"][0] > 0 and not r["name"]["en"].startswith("Transmute")]
+    YELLOW_PENALTY, GREEN_PENALTY, UNKNOWN_PLAN_PENALTY = 10 ** 6, 3 * 10 ** 6, 10 ** 10
+    usable = []
+    for r in recipes:
+        if r["unit_cost"] is None or r["name"]["en"].startswith("Transmute"):
+            continue
+        if r["fixed"] is not None:
+            usable.append((r, r["fixed"]))
+        elif r["acquire"]["type"] == "other":
+            usable.append((r, UNKNOWN_PLAN_PENALTY))
     INF = float("inf")
-    best = [INF] * (CAP + 1)
-    back = [None] * (CAP + 1)
+    best = [INF] * (cap_total + 1)
+    back = [None] * (cap_total + 1)
     best[1] = 0
-    for b in range(2, CAP + 1):
-        for r in usable:
-            o, y = r["colors"][0], r["colors"][1]
-            lo = max(r["learn_at"], o)
-            if b > y:                     # skill points are gained while skill < yellow start
+    for b in range(2, cap_total + 1):
+        for r, fixed in usable:
+            o, y, g, gr = r["colors"]
+            if b > gr:
                 continue
-            for a in range(max(lo, 1), b):
+            first = max(r["learn_at"], o if o > 0 else y, 1)         # first skill at which this recipe still gives points
+            for a in range(first, b):
                 if best[a] == INF:
                     continue
-                c = best[a] + r["fixed"] + (b - a) * r["unit_cost"]
+                yellow_pts = max(0, min(b, g) - max(a, y))
+                green_pts = max(0, min(b, gr) - max(a, g))
+                c = best[a] + fixed + (b - a) * r["unit_cost"] + yellow_pts * YELLOW_PENALTY + green_pts * GREEN_PENALTY
                 if c < best[b]:
                     best[b] = c
-                    back[b] = (a, r)
+                    back[b] = (a, r, fixed)
     steps = []
     gaps = []
-    if best[CAP] == INF:
-        # report the farthest reachable skill and where the chain breaks
-        reach = max(i for i in range(1, CAP + 1) if best[i] < INF)
+    if best[cap_total] == INF:
+        reach = max(i for i in range(1, cap_total + 1) if best[i] < INF)
         gaps.append({"reachable_to": reach})
         end = reach
     else:
-        end = CAP
+        end = cap_total
     b = end
     while b > 1:
-        a, r = back[b]
-        steps.append((a, b, r))
+        a, r, fixed = back[b]
+        steps.append((a, b, r, fixed))
         b = a
     steps.reverse()
 
     route = []
     mats: dict[int, dict] = {}
     plan_cost = 0
-    for a, b, r in steps:
+    unknown_plans = 0
+    for a, b, r, fixed in steps:
         n = b - a
+        _o, y, g, gr = r["colors"]
+        yellow_pts = max(0, min(b, g) - max(a, y))
+        green_pts = max(0, min(b, gr) - max(a, g))
         for g in r["reagents"]:
             m = mats.setdefault(g["id"], {"id": g["id"], "name": g["name"], "icon": g["icon"], "count": 0, "price": g["price"]})
             m["count"] += g["count"] * n
-        plan_cost += r["fixed"]
-        route.append({"from": a, "to": b, "crafts": n, "recipe": r["id"], "name": r["name"], "creates": r["creates"], "reagents": r["reagents"],
+        if fixed >= UNKNOWN_PLAN_PENALTY:
+            unknown_plans += 1
+        else:
+            plan_cost += fixed
+        route.append({"from": a, "to": b, "crafts": n, "yellow_points": yellow_pts, "green_points": green_pts, "recipe": r["id"], "name": r["name"], "creates": r["creates"], "reagents": r["reagents"],
                       "unit_cost": r["unit_cost"], "step_cost": n * r["unit_cost"], "acquire": r["acquire"], "colors": r["colors"]})
     materials = sorted(mats.values(), key=lambda m: -(m["count"] * m["price"]["copper"]))
     rank_cost = sum(rk["cost"] for rk in ranks)
     reagent_cost = sum(s["step_cost"] for s in route)
     totals = {"reagents_copper": reagent_cost, "recipes_copper": plan_cost, "ranks_copper": rank_cost,
               "all_copper": reagent_cost + plan_cost + rank_cost, "crafts": sum(s["crafts"] for s in route),
+              "yellow_points": sum(s["yellow_points"] for s in route), "green_points": sum(s["green_points"] for s in route), "unknown_plans": unknown_plans,
               "vendor_copper": sum(m["count"] * m["price"]["copper"] for m in materials if m["price"]["kind"] == "vendor"),
-              "farm_copper": sum(m["count"] * m["price"]["copper"] for m in materials if m["price"]["kind"] == "farm")}
+              "farm_copper": sum(m["count"] * m["price"]["copper"] for m in materials if m["price"]["kind"] == "farm"),
+              "craft_copper": sum(m["count"] * m["price"]["copper"] for m in materials if m["price"]["kind"] == "craft"),
+              "disenchant_copper": sum(m["count"] * m["price"]["copper"] for m in materials if m["price"]["kind"] == "disenchant"),
+              "has_disenchant": any(m["price"]["kind"] == "disenchant" for m in materials)}
 
     data = {
-        "id": prof, "name": cfg["name"], "icon": prof_icon, "cap": CAP, "build": BUILD, "ranks": ranks, "route": route, "gaps": gaps, "materials": materials,
+        "id": prof, "name": cfg["name"], "icon": prof_icon, "cap": cap_total, "order": cfg["order"], "build": BUILD, "ranks": ranks, "route": route, "gaps": gaps, "materials": materials,
         "totals": totals, "recipes": recipes,
-        "method": {"orange_only": True, "farm_valued_at": "vendor sell price", "start_recipes_assumed": [r["id"] for r in recipes if r["acquire"]["type"] == "start"]},
-        "sources": {"wowhead": "https://www.wowhead.com/forever/spells/professions/" + cfg["wh_key"], "client": "https://wago.tools/"},
+        "method": {"orange_first": True, "farm_valued_at": "vendor sell price", "start_recipes_assumed": [r["id"] for r in recipes if r["acquire"]["type"] == "start"]},
+        "sources": {"wowhead": "https://www.wowhead.com/forever/spells/" + cfg["wh_path"], "client": "https://wago.tools/"},
     }
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / f"{prof}.json").write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
-    print(prof, "recipes", len(recipes), "usable", len(usable), "route steps", len(route), "reach", end, "gaps", gaps)
+    print(prof, "cap", cap_total, "recipes", len(recipes), "usable", len(usable), "route steps", len(route), "reach", end, "gaps", gaps, "| yellow pts", totals["yellow_points"], "green pts", totals["green_points"], "| unknown plans", unknown_plans, "| unpriced reagent items:", len(unknown_items))
     print("totals copper:", totals)
     for s in route:
         print(f"  {s['from']:>3}->{s['to']:>3} x{s['crafts']:<3} {s['name']['en']:<34} unit {s['unit_cost']:>6}  {s['acquire']['type']} {s['acquire'].get('cost')}")
 
 
 if __name__ == "__main__":
-    main(*(sys.argv[1:] or ["alchemy"]))
+    for name in (sys.argv[1:] or list(PROFESSIONS)):
+        main(name)

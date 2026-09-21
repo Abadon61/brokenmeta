@@ -8,7 +8,7 @@
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% macro get(a) %}{% if a.type == 'trainer' %}{{ tx.get_trainer.format(cost=a.cost|wow_money(lang)) }}{% elif a.type == 'vendor' %}{% if a.npc %}<a href="https://www.wowhead.com/forever/npc={{ a.npc_id }}" rel="noopener nofollow" target="_blank">{{ tx.get_vendor.format(npc=a.npc, cost=a.cost|wow_money(lang)) }}</a>{% else %}{{ tx.get_vendor_many.format(cost=a.cost|wow_money(lang)) }}{% endif %}{% elif a.type == 'start' %}{{ tx.get_start }}{% else %}{{ tx.get_other }}{% if a.kinds %} ({% for k in a.kinds %}{{ tx.kinds[k] }}{{ ', ' if not loop.last }}{% endfor %}){% endif %}{% endif %}{% endmacro %}
-{% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {{ g.name[lang] }}</span>{% endfor %}</span>{% endmacro %}
+{% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {% if g.name.en.startswith('Item #') %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name[lang] }}</a>{% else %}{{ g.name[lang] }}{% endif %}</span>{% endfor %}</span>{% endmacro %}
 {% macro colors(cs) %}<span class="pf-colors nums"><span class="pf-c pf-o">{{ cs[0] or '–' }}</span><span class="pf-c pf-y">{{ cs[1] }}</span><span class="pf-c pf-g">{{ cs[2] }}</span><span class="pf-c pf-x">{{ cs[3] }}</span></span>{% endmacro %}
 {% block content %}
 {% set T = prof.totals %}
@@ -21,6 +21,8 @@
   <div><dt>{{ tx.s_plans }}</dt><dd class="nums">{{ T.recipes_copper|wow_money(lang) }}</dd></div>
   <div><dt>{{ tx.s_ranks }}</dt><dd class="nums">{{ T.ranks_copper|wow_money(lang) }}</dd></div>
   <div><dt>{{ tx.s_crafts }}</dt><dd class="nums">{{ T.crafts }}</dd></div>
+  {% if T.yellow_points or T.green_points %}<div><dt>{{ tx.s_risky }}</dt><dd class="nums">{{ T.yellow_points + T.green_points }}</dd></div>{% endif %}
+  {% if T.unknown_plans %}<div><dt>{{ tx.s_unknown }}</dt><dd class="nums">{{ T.unknown_plans }}</dd></div>{% endif %}
   <div><dt>{{ tx.s_vendor }}</dt><dd class="nums">{{ T.vendor_copper|wow_money(lang) }}</dd></div>
   <div><dt>{{ tx.s_farm }}</dt><dd class="nums">{{ T.farm_copper|wow_money(lang) }}</dd></div>
 </dl>
@@ -33,12 +35,13 @@
   <tr>
     <td data-first class="nums">{{ s['from'] }} → {{ s.to }}</td>
     <td><a href="https://www.wowhead.com/forever/spell={{ s.recipe }}" rel="noopener nofollow" target="_blank">{% if s.creates and s.creates.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ s.creates.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ s.name[lang] }}</a></td>
-    <td class="nums">{{ s.crafts }}</td>
+    <td class="nums">{{ s.crafts }}{% if s.yellow_points or s.green_points %}<span class="pf-risk" title="{{ tx.risk_note }}">*</span>{% endif %}</td>
     <td>{{ reag_list(s.reagents) }}</td>
     <td class="nums">{{ s.step_cost|wow_money(lang) }}</td>
     <td>{{ get(s.acquire) }}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
+{% if T.yellow_points or T.green_points %}<p class="wow-note">{{ tx.risk_note }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.shop_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.shop_p }}</p>
@@ -50,7 +53,7 @@
     <td class="nums">{{ i.count }}</td>
     <td class="nums">{{ i.price.copper|wow_money(lang) }}</td>
     <td class="nums">{{ (i.count * i.price.copper)|wow_money(lang) }}</td>
-    <td>{{ tx.kind_vendor if i.price.kind == 'vendor' else tx.kind_farm }}</td>
+    <td>{{ tx.kinds_price[i.price.kind] }}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
 
@@ -58,14 +61,14 @@
 <p class="page-intro" style="margin-top:0">{{ tx.ranks_p }}</p>
 <div class="wow-table-wrap"><table class="wow-table">
   <thead><tr><th>{{ tx.r_rank }}</th><th>{{ tx.r_cap }}</th><th>{{ tx.r_at }}</th><th>{{ tx.r_cost }}</th></tr></thead>
-  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{{ r.cost|wow_money(lang) }}</td></tr>{% endfor %}</tbody>
+  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</td></tr>{% endfor %}</tbody>
 </table></div>
 
 <h2 class="fiche-section-title">{{ tx.how_h2 }}</h2>
 <ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.limits_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.limits %}<li>{{ h }}</li>{% endfor %}</ul>
+<ul class="gd-list">{% for h in tx.limits %}<li>{{ h }}</li>{% endfor %}{% if T.has_disenchant %}<li>{{ tx.limit_disenchant }}</li>{% endif %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.all_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.all_p.format(name=prof.name[lang]) }}</p>
