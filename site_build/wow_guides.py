@@ -51,21 +51,30 @@ def spec_facts(spec: dict) -> dict:
             "single": [t for t in sorted(ts, key=lambda t: (t["row"], t["col"])) if t["max_rank"] == 1], "rows": rows}
 
 
-def template_tree(spec: dict, build: dict) -> dict:
-    """Static, read-only view of a spec's tree with the recommended talents flagged: {'cells': [...], 'items': [...]}."""
+def template_tree(cls: dict, spec: dict, build: dict) -> dict:
+    """Static, read-only trees with the recommended talents flagged. A build may use talents of several trees of the class
+    (e.g. a Holy Priest guide names Discipline and Shadow talents): one tree is returned per spec that holds at least one, the guide's own spec first."""
     flags = {t["id"]: t for t in build["talents"]}
-    known = {t["id"] for t in spec["talents"]}
-    missing = [i for i in flags if i not in known]
-    assert not missing, f"template talents not in the tree of {spec['id']}: {missing}"
-    cells, items = [], []
-    for t in sorted(spec["talents"], key=lambda t: (t["row"], t["col"])):
-        f = flags.get(t["id"])
-        cells.append({"t": t, "mark": None if not f else ("option" if f.get("option") else "reco")})
-        if f:
-            items.append({"t": t, "why": f["why"], "option": bool(f.get("option"))})
-    order = list(flags)
-    items.sort(key=lambda i: order.index(i["t"]["id"]))
-    return {"cells": cells, "items": items, "rows": max(t["row"] for t in spec["talents"])}
+    where = {t["id"]: (sp, t) for sp in cls["specs"] for t in sp["talents"]}
+    missing = [i for i in flags if i not in where]
+    assert not missing, f"template talents not found in class {cls['id']}: {missing}"
+    used = {where[i][0]["id"] for i in flags}
+    order = [spec["id"]] + [sp["id"] for sp in cls["specs"] if sp["id"] != spec["id"]]
+    trees = []
+    for sid in order:
+        if sid != spec["id"] and sid not in used:
+            continue
+        sp = next(x for x in cls["specs"] if x["id"] == sid)
+        cells = []
+        for t in sorted(sp["talents"], key=lambda t: (t["row"], t["col"])):
+            f = flags.get(t["id"])
+            cells.append({"t": t, "mark": None if not f else ("option" if f.get("option") else "reco")})
+        trees.append({"spec": sp, "cells": cells, "rows": max(t["row"] for t in sp["talents"])})
+    items = []
+    for f in build["talents"]:
+        sp, t = where[f["id"]]
+        items.append({"t": t, "why": f["why"], "option": bool(f.get("option")), "points": f.get("points"), "tree": sp["name"]})
+    return {"trees": trees, "items": items}
 
 
 def money(copper: int, lang: str) -> str:
@@ -91,6 +100,7 @@ TXT = {
         "class_title": "Guides {name} WoW: Forever : spécialisations", "class_desc": "Guides {name} de WoW: Forever : {specs}. Rôle, talents clés et arbre complet de chaque spécialisation.",
         "class_h1": "Guides {name} de WoW: Forever", "class_intro": "Les trois spécialisations du {name} dans WoW: Forever : {specs}. Choisissez une spécialisation pour voir son rôle, ses talents clés et son arbre complet.",
         "spec_title": "{cls} {spec} WoW: Forever : guide et talents", "spec_desc": "Guide {cls} {spec} de WoW: Forever : {role}, talents du dernier palier et arbre complet, lus dans les données du client bêta.",
+        "spec_desc_short": "Guide {cls} {spec} de WoW: Forever : {role}, talents et arbre complet.",
         "spec_h1": "{cls} {spec} : guide de spécialisation", "spec_intro": "{spec} est la spécialisation « {role} » du {cls} dans WoW: Forever. Cette page résume son arbre de talents tel qu'il figure dans le client bêta (build {build}) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.",
         "facts_h2": "En bref", "f_class": "Classe", "f_role": "Rôle", "f_talents": "Talents dans l'arbre", "f_points": "Points maximum dans l'arbre", "f_top": "Palier le plus haut", "f_need": "Points nécessaires pour le dernier palier", "f_build": "Données",
         "top_h2": "Les talents du dernier palier", "top_p": "Ce sont les talents les plus profonds de l'arbre : ils demandent d'avoir déjà investi {need} points dans la spécialisation. Textes officiels du jeu, au rang maximum.",
@@ -100,8 +110,8 @@ TXT = {
         "others_h2": "Les autres spécialisations du {cls}", "sources": "Sources", "src_role": "Rôle : ", "src_data": "Talents : ",
         "note": "Cette page ne donne ni rotation ni priorité de sorts : le client ne les fournit pas et nous ne les inventons pas. Les données changeront avec la sortie du jeu le 4 novembre 2026.",
         "rank_word": "rang", "ranks_word": "rangs",
-        "tpl_h2": "Le template de talents (niveau {level})", "tpl_p": "Les talents que le guide Icy Veins recommande au niveau {level}, repérés dans l'arbre. Le guide ne donne pas de répartition de points : seuls les talents sont indiqués. Cette section est figée, elle ne bouge pas et ne dépend pas du calculateur.",
-        "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier",
+        "tpl_h2": "Le template de talents (niveau {level})", "tpl_p": "Les talents que le guide Icy Veins recommande au niveau {level}, repérés dans l'arbre. Quand le guide indique un nombre de points, il est précisé ; sinon seuls les talents sont cités. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.",
+        "tpl_reco": "Recommandé", "tpl_option": "Au choix", "tpl_tier": "Palier", "pts_word": "pts", "tree_word": "Arbre",
         "stats_h2": "Priorité de stats", "stats_p": "Dans l'ordre d'importance, d'après Icy Veins.", "stats_spec": "Ordre présenté comme spéculatif par Icy Veins.",
         "cons_h2": "Consommables", "cons_p": "Ce que le guide Icy Veins cite pour cette spécialisation.", "prof_h2": "Métiers conseillés",
         "gear_h2": "Équipement, enchantements et objets de donjon", "gear_p": "Aucune source ne publie encore de liste d'équipement (BiS), d'enchantements ni d'objets de donjon pour cette spécialisation : les guides Icy Veins de Forever se limitent pour l'instant au niveau 20 et ne les détaillent pas. Cette section sera remplie quand une source les publiera, sans invention de notre part.",
@@ -146,6 +156,7 @@ TXT = {
         "class_title": "{name} guides WoW: Forever: specializations", "class_desc": "WoW: Forever {name} guides: {specs}. Role, key talents and the full tree of each specialization.",
         "class_h1": "WoW: Forever {name} guides", "class_intro": "The three {name} specializations in WoW: Forever: {specs}. Pick one to see its role, key talents and full tree.",
         "spec_title": "{spec} {cls} WoW: Forever: guide and talents", "spec_desc": "WoW: Forever {spec} {cls} guide: {role}, last-tier talents and the full tree, read from the beta client data.",
+        "spec_desc_short": "WoW: Forever {spec} {cls} guide: {role}, talents and the full tree.",
         "spec_h1": "{spec} {cls}: specialization guide", "spec_intro": "{spec} is the {role} specialization of the {cls} in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build {build}); the role is the one stated by the Icy Veins guide for the specialization.",
         "facts_h2": "At a glance", "f_class": "Class", "f_role": "Role", "f_talents": "Talents in the tree", "f_points": "Maximum points in the tree", "f_top": "Highest tier", "f_need": "Points needed for the last tier", "f_build": "Data",
         "top_h2": "The last-tier talents", "top_p": "These are the deepest talents in the tree: they require {need} points already spent in the specialization. Official game text, at maximum rank.",
@@ -155,8 +166,8 @@ TXT = {
         "others_h2": "Other {cls} specializations", "sources": "Sources", "src_role": "Role: ", "src_data": "Talents: ",
         "note": "This page gives no rotation or spell priority: the client does not provide them and we do not invent them. The data will change when the game launches on November 4, 2026.",
         "rank_word": "rank", "ranks_word": "ranks",
-        "tpl_h2": "Talent template (level {level})", "tpl_p": "The talents the Icy Veins guide recommends at level {level}, marked in the tree. The guide gives no point allocation: only the talents are listed. This section is fixed: it does not move and does not depend on the calculator.",
-        "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier",
+        "tpl_h2": "Talent template (level {level})", "tpl_p": "The talents the Icy Veins guide recommends at level {level}, marked in the tree. Point counts are shown when the guide states them; otherwise only the talents are named. This section is fixed: it does not move and does not depend on the calculator.",
+        "tpl_reco": "Recommended", "tpl_option": "Optional", "tpl_tier": "Tier", "pts_word": "pts", "tree_word": "Tree",
         "stats_h2": "Stat priority", "stats_p": "In order of importance, according to Icy Veins.", "stats_spec": "Order presented as speculative by Icy Veins.",
         "cons_h2": "Consumables", "cons_p": "What the Icy Veins guide lists for this specialization.", "prof_h2": "Suggested professions",
         "gear_h2": "Gear, enchants and dungeon items", "gear_p": "No source publishes a best-in-slot list, enchants or dungeon items for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. This section will be filled when a source publishes them, with nothing invented on our side.",

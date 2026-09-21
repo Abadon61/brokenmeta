@@ -7325,12 +7325,14 @@ def main() -> None:
                     _sn = _s["name"][lang]
                     _st = _gx["spec_title"].format(cls=_cn, spec=_sn)
                     _sd = _gx["spec_desc"].format(cls=_cn, spec=_sn, role=_role["role"][lang])
+                    if len(_sd) > 155:          # long class/spec/role names: fall back to the shorter wording
+                        _sd = _gx["spec_desc_short"].format(cls=_cn, spec=_sn, role=_role["role"][lang])
                     assert len(_st) <= 60 and len(_sd) <= 155, (_st, len(_st), len(_sd))
                     _sh1 = _gx["spec_h1"].format(cls=_cn, spec=_sn)
                     _si = _gx["spec_intro"].format(cls=_cn, spec=_sn, role=_role["role"][lang], build=_cls["meta"]["build"])
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
-                           content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
+                           content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
                            breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
