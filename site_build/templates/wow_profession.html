@@ -16,28 +16,22 @@
 
 <h2 class="fiche-section-title">{{ tx.sum_h2 }}</h2>
 <dl class="wow-facts">
-  <div><dt>{{ tx.s_total }}</dt><dd class="nums">{{ T.all_copper|wow_money(lang) }}</dd></div>
-  <div><dt>{{ tx.s_reag }}</dt><dd class="nums">{{ T.reagents_copper|wow_money(lang) }}</dd></div>
-  <div><dt>{{ tx.s_plans }}</dt><dd class="nums">{{ T.recipes_copper|wow_money(lang) }}</dd></div>
-  <div><dt>{{ tx.s_ranks }}</dt><dd class="nums">{{ T.ranks_copper|wow_money(lang) }}</dd></div>
   <div><dt>{{ tx.s_crafts }}</dt><dd class="nums">{{ T.crafts }}</dd></div>
+  <div><dt>{{ tx.s_cost }}</dt><dd>{{ tx.s_cost_wait }}</dd></div>
   {% if T.yellow_points or T.green_points %}<div><dt>{{ tx.s_risky }}</dt><dd class="nums">{{ T.yellow_points + T.green_points }}</dd></div>{% endif %}
   {% if T.unknown_plans %}<div><dt>{{ tx.s_unknown }}</dt><dd class="nums">{{ T.unknown_plans }}</dd></div>{% endif %}
-  <div><dt>{{ tx.s_vendor }}</dt><dd class="nums">{{ T.vendor_copper|wow_money(lang) }}</dd></div>
-  <div><dt>{{ tx.s_farm }}</dt><dd class="nums">{{ T.farm_copper|wow_money(lang) }}</dd></div>
 </dl>
 
 <h2 class="fiche-section-title">{{ tx.route_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.route_p.format(n=prof.route|length) }}</p>
 <div class="wow-table-wrap"><table class="wow-table pf-route">
-  <thead><tr><th>{{ tx.c_skill }}</th><th>{{ tx.c_recipe }}</th><th>{{ tx.c_crafts }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.c_cost }}</th><th>{{ tx.c_get }}</th></tr></thead>
+  <thead><tr><th>{{ tx.c_skill }}</th><th>{{ tx.c_recipe }}</th><th>{{ tx.c_crafts }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.c_get }}</th></tr></thead>
   <tbody>{% for s in prof.route %}
   <tr>
     <td data-first class="nums">{{ s['from'] }} → {{ s.to }}</td>
     <td><a href="https://www.wowhead.com/forever/spell={{ s.recipe }}" rel="noopener nofollow" target="_blank">{% if s.creates and s.creates.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ s.creates.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ s.name[lang] }}</a></td>
     <td class="nums">{{ s.crafts }}{% if s.yellow_points or s.green_points %}<span class="pf-risk" title="{{ tx.risk_note }}">*</span>{% endif %}</td>
     <td>{{ reag_list(s.reagents) }}</td>
-    <td class="nums">{{ s.step_cost|wow_money(lang) }}</td>
     <td>{{ get(s.acquire) }}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
@@ -46,14 +40,13 @@
 <h2 class="fiche-section-title">{{ tx.shop_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.shop_p }}</p>
 <div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_unit }}</th><th>{{ tx.m_total }}</th><th>{{ tx.m_kind }}</th></tr></thead>
+  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th>{{ tx.m_vprice }}</th></tr></thead>
   <tbody>{% for i in prof.materials %}
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a></td>
     <td class="nums">{{ i.count }}</td>
-    <td class="nums">{{ i.price.copper|wow_money(lang) }}</td>
-    <td class="nums">{{ (i.count * i.price.copper)|wow_money(lang) }}</td>
     <td>{{ tx.kinds_price[i.price.kind] }}</td>
+    <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
 

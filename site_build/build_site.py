@@ -7347,7 +7347,7 @@ def main() -> None:
                 assert len(_pt) <= 60 and len(_pd) <= 155, (_pt, len(_pt), len(_pd))
                 _ph1 = _gx["p_h1"].format(name=_pn)
                 _risky = _p["totals"]["yellow_points"] + _p["totals"]["green_points"]
-                _pi = _gx["p_intro"].format(crafts=_p["totals"]["crafts"], total=wow_guides.money(_p["totals"]["all_copper"], lang), cap=_p["cap"],
+                _pi = _gx["p_intro"].format(crafts=_p["totals"]["crafts"], cap=_p["cap"],
                                             risk=(_gx["risk_some"].format(n=_risky) if _risky else _gx["risk_none"]))
                 render("wow_profession.html", _ppath, lang, active_nav="wow", active_sub="wow-professions", tx=_gx, prof=_p, g_title=_pt, g_desc=_pd,
                        g_h1=_ph1, g_intro=_pi, breadcrumb_schema=breadcrumb_schema(_pcrumb + [(_pn, canonical_for(_ppath, lang))]),

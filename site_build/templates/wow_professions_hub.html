@@ -13,7 +13,7 @@
   {% for p in profs %}
   <a class="wh-card" href="{{ root }}wow-forever/professions/{{ p.id }}/">
     {% if p.icon %}<img class="wh-card-icon" src="{{ p.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
-    <span class="wh-card-body"><b>{{ p.name[lang] }}</b><span class="wh-card-specs">1 → {{ p.cap }}</span><span class="wh-card-n nums">{{ p.totals.crafts }} · {{ p.totals.all_copper|wow_money(lang) }} →</span></span>
+    <span class="wh-card-body"><b>{{ p.name[lang] }}</b><span class="wh-card-specs">1 → {{ p.cap }}</span><span class="wh-card-n nums">{{ p.totals.crafts }} →</span></span>
   </a>
   {% endfor %}
 </div>
