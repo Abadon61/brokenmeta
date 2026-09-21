@@ -1959,6 +1959,34 @@
   .wr-body b { font-family: 'Cal Sans', sans-serif; font-size: 16px; text-transform: uppercase; letter-spacing: 0.01em; color: var(--cream); overflow-wrap: anywhere; }
   .wr-new { align-self: flex-start; font: 700 9.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 6px; color: #100b26; background: var(--gold); }
 
+  /* ---------- WoW: class guides + profession guides ---------- */
+  .nav-dropdown-menu .nav-sub { border-bottom: 1px solid var(--border); }
+  .nav-dropdown-menu .nav-sub:last-child { border-bottom: none; }
+  .nav-sub > summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 16px; font-family: 'Cal Sans', sans-serif; font-size: 12.5px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-faint); white-space: nowrap; }
+  .nav-sub > summary::-webkit-details-marker { display: none; }
+  .nav-sub > summary::after { content: ''; width: 6px; height: 6px; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-2px); transition: transform .15s ease; }
+  .nav-sub[open] > summary { color: var(--cream); }
+  .nav-sub[open] > summary::after { transform: rotate(-135deg) translateY(-2px); }
+  .nav-sub > summary:hover { color: var(--cream); background: var(--row-hover); }
+  .nav-dropdown-menu .nav-sub a { display: block; padding: 9px 16px 9px 30px; border-bottom: none; background: rgba(255,255,255,0.02); }
+  .wh-card.is-soon { opacity: 0.55; cursor: default; }
+  .wh-card.is-soon:hover { transform: none; border-color: var(--border); }
+  .wg-talents { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin: 10px 0 6px; }
+  .wg-talent { display: flex; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); background: var(--bg-2); min-width: 0; }
+  .wg-talent-icon { flex: none; width: 44px; height: 44px; border: 2px solid var(--border-bright); object-fit: cover; }
+  .wg-talent b { font-family: 'Cal Sans', sans-serif; font-size: 16px; color: var(--cream); }
+  .wg-talent p { margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--text-dim); overflow-wrap: anywhere; }
+  .wg-rank { display: block; font: 700 10.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-faint); margin-top: 2px; }
+  .pf-icon { width: 24px; height: 24px; vertical-align: middle; margin-right: 8px; border: 1px solid var(--border-bright); }
+  .pf-reagents { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+  .pf-reag { display: inline-flex; align-items: center; gap: 5px; white-space: nowrap; font-size: 12.5px; }
+  .pf-reag img { width: 20px; height: 20px; border: 1px solid var(--border-bright); }
+  .pf-colors { display: inline-flex; gap: 4px; }
+  .pf-c { min-width: 34px; padding: 2px 6px; text-align: center; font: 700 12px 'Space Mono', monospace; color: #14102a; }
+  .pf-o { background: #ff8a3d; } .pf-y { background: #f3d94a; } .pf-g { background: #6fcf6f; } .pf-x { background: #9a9ab0; }
+  .pf-route td { vertical-align: top; }
+  @media (prefers-reduced-motion: reduce) { .nav-sub > summary::after { transition: none; } }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }

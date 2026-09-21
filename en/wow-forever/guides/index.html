@@ -1,0 +1,344 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>WoW: Forever class guides by specialization</title>
+<meta name="description" content="WoW: Forever guides for every class and specialization: role, key talents and the full tree, read from the beta client data.">
+<link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/guides/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/guides/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/guides/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/guides/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="WoW: Forever class guides by specialization">
+<meta property="og:description" content="WoW: Forever guides for every class and specialization: role, key talents and the full tree, read from the beta client data.">
+<meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/guides/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="WoW: Forever class guides by specialization">
+<meta name="twitter:description" content="WoW: Forever guides for every class and specialization: role, key talents and the full tree, read from the beta client data.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=afacc3433f">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=afacc3433f">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=afacc3433f">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Class guides", "item": "https://brokenmeta.gg/en/wow-forever/guides/"}]}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/">League of Legends</a>
+    <a class="game-toggle-btn" href="../../../wow-forever/" data-active="true">WoW: Forever</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/guides/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/guides/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" >League of Legends</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/" data-active="true">World of Warcraft: Forever</a>
+
+<div class="mobile-nav-group-title">Beta: Forever</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/" >Overview</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/classes/" >Classes &amp; races</a>
+
+<div class="mobile-nav-group-title">Class guides</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/" data-active="true">All classes</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/elemental/">Shaman · Elemental</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/enhancement/">Shaman · Enhancement</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/restoration/">Shaman · Restoration</a>
+
+<div class="mobile-nav-group-title">Professions</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/alchemy/" >Alchemy</a>
+
+<a class="nav-link" href="../../../wow-forever/talents/" >Talent calculator</a>
+<a class="nav-link" href="../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">World of Warcraft: Forever</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">Beta: Forever</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/">Overview</a>
+    <a href="../../../wow-forever/beta/">Beta</a>
+    <a href="../../../wow-forever/sortie/">Release</a>
+    <a href="../../../wow-forever/editions/">Editions &amp; prices</a>
+    <a href="../../../wow-forever/classes/">Classes &amp; races</a>
+    
+  </div>
+</details>
+<details class="nav-dropdown" data-active="true">
+  <summary class="nav-link">Class guides</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/guides/">All classes</a>
+    <details class="nav-sub"><summary>Shaman</summary>
+      <a href="../../../wow-forever/guides/shaman/">Overview</a>
+      <a href="../../../wow-forever/guides/shaman/elemental/">Elemental</a><a href="../../../wow-forever/guides/shaman/enhancement/">Enhancement</a><a href="../../../wow-forever/guides/shaman/restoration/">Restoration</a>
+    </details>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Professions</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/professions/">All professions</a>
+    <a href="../../../wow-forever/professions/alchemy/">Alchemy</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../wow-forever/talents/" >Talent calculator</a>
+<a class="nav-link" href="../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../en/">Home</a></li><li><a href="../../../en/wow-forever/">World of Warcraft: Forever</a></li><li><span aria-current="page">Class guides</span></li>
+</ol></nav>
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
+    <h1 class="ph-title">WoW: Forever class guides</h1>
+    <p class="ph-lede">One guide per specialization: its role, the talents that shape the tree and the full tier-by-tier breakdown, read from the beta client tables. Every page links to the talent calculator.</p>
+    
+    
+  </div>
+</section>
+
+<h2 class="fiche-section-title">Specializations</h2>
+<div class="wh-cards">
+  
+  
+  <div class="wh-card is-soon" style="--cc: #ff7c0a">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Druid</b><span class="wh-card-specs">Balance · Feral Combat · Restoration</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #aad372">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Hunter</b><span class="wh-card-specs">Beast Mastery · Marksmanship · Survival</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #3fc7eb">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Mage</b><span class="wh-card-specs">Arcane · Fire · Frost</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #f48cba">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_paladin.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Paladin</b><span class="wh-card-specs">Holy · Protection · Retribution</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #ffffff">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_priest.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Priest</b><span class="wh-card-specs">Discipline · Holy · Shadow</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #fff468">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Rogue</b><span class="wh-card-specs">Assassination · Combat · Subtlety</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <a class="wh-card" href="../../../wow-forever/guides/shaman/" style="--cc: #0070dd">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_shaman.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Shaman</b><span class="wh-card-specs">Elemental · Enhancement · Restoration</span><span class="wh-card-n nums">View class →</span></span>
+  </a>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #8788ee">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Warlock</b><span class="wh-card-specs">Affliction · Demonology · Destruction</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+  
+  <div class="wh-card is-soon" style="--cc: #c69b6d">
+    <img class="wh-card-icon" src="https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Warrior</b><span class="wh-card-specs">Arms · Fury · Protection</span><span class="wh-card-n nums">Guide coming soon</span></span>
+  </div>
+  
+</div>
+<p class="wow-note">This page gives no rotation or spell priority: the client does not provide them and we do not invent them. The data will change when the game launches on November 4, 2026.</p>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Comp List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossary</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyze your profile</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Discord Alerts</a>
+      <a href="../../../methodologie/">Methodology</a>
+      <a href="../../../confidentialite/">Privacy</a>
+      <a href="../../../cgu/">Terms</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-17 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer"></p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=afacc3433f" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=afacc3433f" defer></script>
+<script src="../../../assets/js/site-search.js?v=afacc3433f" defer></script>
+<script src="../../../assets/js/favorites.js?v=afacc3433f" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
