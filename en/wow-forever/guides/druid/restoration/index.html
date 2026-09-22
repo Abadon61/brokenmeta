@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Restoration Druid WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=88e4bfd697">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=88e4bfd697">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=e95ea3b0e2">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=e95ea3b0e2">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=88e4bfd697">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=e95ea3b0e2">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Class guides", "item": "https://brokenmeta.gg/en/wow-forever/guides/"}, {"@type": "ListItem", "position": 4, "name": "Druid", "item": "https://brokenmeta.gg/en/wow-forever/guides/druid/"}, {"@type": "ListItem", "position": 5, "name": "Restoration", "item": "https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Restoration Druid: specialization guide", "description": "WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
@@ -177,6 +184,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
 <a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a>
 <a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
 
 <a class="nav-link" href="../../../../../wow-forever/talents/" >Talent calculator</a>
 <a class="nav-link" href="../../../../../wow-forever/progression/" >Leveling 1-60</a>
@@ -259,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <summary class="nav-link">Dungeons</summary>
   <div class="nav-dropdown-menu">
     <a href="../../../../../wow-forever/dungeons/">All dungeons</a>
-    <a href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+    <a href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a><a href="../../../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a><a href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a><a href="../../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a><a href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a><a href="../../../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a><a href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a><a href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a><a href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a><a href="../../../../../wow-forever/dungeons/scholomance/">Scholomance</a><a href="../../../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a><a href="../../../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
   </div>
 </details>
 <a class="nav-link" href="../../../../../wow-forever/talents/" >Talent calculator</a>
@@ -416,37 +434,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Skinning + Leatherworking (to craft your own gear)</li></ul>
 
 <h2 class="fiche-section-title">Full gear and enchants</h2>
-<p class="wow-note">No source publishes a best-in-slot list or enchants for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. The dungeon items below are ranked by rule from the stat priority and are not a best-in-slot list. This section will be filled when a source publishes them, with nothing invented on our side.</p>
+<p class="wow-note">No source publishes a best-in-slot list or enchants for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. The dungeon pages let you browse loot by item type and stats, with no per-specialization ranking: it&#39;s up to you to pick what matters for your class.</p>
 <p class="wow-note">Icy Veins guide dated 2026-09-18, read on September 21, 2026.</p>
-
-
-<h2 class="fiche-section-title">Interesting dungeon items</h2>
-<p class="page-intro" style="margin-top:0">A shortlist: the best item for each slot across the known dungeons, from this specialization&#39;s stat priority. Open a dungeon to see all its items filtered.</p>
-<div class="wow-table-wrap"><table class="wow-table dg-table dg-top">
-  <thead><tr><th>Slot</th><th>Item</th><th>Stats</th><th>Drops from</th></tr></thead>
-  <tbody>
-  <tr><td data-first>Waist</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6392" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_belt_10.jpg" alt="" width="28" height="28" loading="lazy">Belt of Arugal</a></td><td>+2 Agility · +3 Intellect · +5 Spirit · +9 Spell Power · +26 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/shadowfang-keep/#spec=druid/restoration">Shadowfang Keep</a></td></tr>
-  <tr><td data-first>Feet</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9454" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_05.jpg" alt="" width="28" height="28" loading="lazy">Acidic Walkers</a></td><td>+8 Intellect · +4 Spirit · +5 Spell Power · +34 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/gnomeregan/#spec=druid/restoration">Gnomeregan</a></td></tr>
-  <tr><td data-first>Two-hand</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9604" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_mace_04.jpg" alt="" width="28" height="28" loading="lazy">Mechanic&#39;s Pipehammer</a></td><td>+5 Intellect · +19 Spell Power · 26.78 DPS (2.8 s)</td>
-      <td><a href="../../../../../wow-forever/dungeons/gnomeregan/#spec=druid/restoration">Gnomeregan</a></td></tr>
-  <tr><td data-first>Legs</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6903" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_pants_02.jpg" alt="" width="28" height="28" loading="lazy">Gaze Dreamer Pants</a></td><td>+9 Spirit · +12 Spell Power · +40 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/blackfathom-deeps/#spec=druid/restoration">Blackfathom Deeps</a></td></tr>
-  <tr><td data-first>Shoulders</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=7684" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_05.jpg" alt="" width="28" height="28" loading="lazy">Bloodmage Mantle</a></td><td>+9 Intellect · +9 Spell Power · +38 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/scarlet-monastery/#spec=druid/restoration">Scarlet Monastery</a></td></tr>
-  <tr><td data-first>Hands</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9609" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_27.jpg" alt="" width="28" height="28" loading="lazy">Shilly Mitts</a></td><td>+9 Spirit · +7 Spell Power · +31 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/gnomeregan/#spec=druid/restoration">Gnomeregan</a></td></tr>
-  <tr><td data-first>Neck</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=23169" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_jewelry_necklace_03.jpg" alt="" width="28" height="28" loading="lazy">Scorn&#39;s Icy Choker</a></td><td>+6 Intellect · +5 Stamina · +7 Spell Power</td>
-      <td><a href="../../../../../wow-forever/dungeons/scarlet-monastery/#spec=druid/restoration">Scarlet Monastery</a></td></tr>
-  <tr><td data-first>Chest</td><td><a class="dg-q2" href="https://www.wowhead.com/forever/item=2034" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_04.jpg" alt="" width="28" height="28" loading="lazy">Scholarly Robes</a></td><td>+8 Spirit · +2 Spell Power · +39 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/blackfathom-deeps/#spec=druid/restoration">Blackfathom Deeps</a></td></tr>
-  <tr><td data-first>Held in off-hand</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_orb_02.jpg" alt="" width="28" height="28" loading="lazy">Orb of the Forgotten Seer</a></td><td>+14 Spell Power</td>
-      <td><a href="../../../../../wow-forever/dungeons/scarlet-monastery/#spec=druid/restoration">Scarlet Monastery</a></td></tr>
-  <tr><td data-first>Wrists</td><td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9448" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_bandage_09.jpg" alt="" width="28" height="28" loading="lazy">Spidertank Oilrag</a></td><td>+9 Spell Power · +3 Mp5 · +22 Armor</td>
-      <td><a href="../../../../../wow-forever/dungeons/gnomeregan/#spec=druid/restoration">Gnomeregan</a></td></tr></tbody>
-</table></div>
-<p class="wow-note"><a href="../../../../../wow-forever/dungeons/ragefire-chasm/#spec=druid/restoration">Ragefire Chasm</a> · <a href="../../../../../wow-forever/dungeons/deadmines/#spec=druid/restoration">Deadmines</a> · <a href="../../../../../wow-forever/dungeons/wailing-caverns/#spec=druid/restoration">Wailing Caverns</a> · <a href="../../../../../wow-forever/dungeons/shadowfang-keep/#spec=druid/restoration">Shadowfang Keep</a> · <a href="../../../../../wow-forever/dungeons/blackfathom-deeps/#spec=druid/restoration">Blackfathom Deeps</a> · <a href="../../../../../wow-forever/dungeons/stockade/#spec=druid/restoration">Stormwind Stockade</a> · <a href="../../../../../wow-forever/dungeons/gnomeregan/#spec=druid/restoration">Gnomeregan</a> · <a href="../../../../../wow-forever/dungeons/scarlet-monastery/#spec=druid/restoration">Scarlet Monastery</a> · <a href="../../../../../wow-forever/dungeons/razorfen-kraul/#spec=druid/restoration">Razorfen Kraul</a></p>
 
 
 <h2 class="fiche-section-title">The last-tier talents</h2>
@@ -562,10 +551,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=88e4bfd697" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=88e4bfd697" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=88e4bfd697" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=88e4bfd697" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=e95ea3b0e2" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=e95ea3b0e2" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=e95ea3b0e2" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=e95ea3b0e2" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

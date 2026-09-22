@@ -30,7 +30,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <title>Cavernes des Lamentations WoW: Forever : objets et butin</title>
-<meta name="description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, à filtrer par classe et spécialisation.">
+<meta name="description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, filtrables par type et par stats.">
 <link rel="canonical" href="https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/">
 <link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/">
 <link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/dungeons/wailing-caverns/">
@@ -38,7 +38,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="BrokenMeta.gg">
 <meta property="og:title" content="Cavernes des Lamentations WoW: Forever : objets et butin">
-<meta property="og:description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, à filtrer par classe et spécialisation.">
+<meta property="og:description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, filtrables par type et par stats.">
 <meta property="og:url" content="https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
@@ -46,10 +46,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Cavernes des Lamentations WoW: Forever : objets et butin">
-<meta name="twitter:description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, à filtrer par classe et spécialisation.">
+<meta name="twitter:description" content="Butin de Cavernes des Lamentations dans WoW: Forever : objets équipables avec leurs stats, filtrables par type et par stats.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=88e4bfd697">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=88e4bfd697">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=e95ea3b0e2">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=e95ea3b0e2">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,10 +59,17 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=88e4bfd697">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=e95ea3b0e2">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Donjons", "item": "https://brokenmeta.gg/wow-forever/dungeons/"}, {"@type": "ListItem", "position": 4, "name": "Cavernes des Lamentations", "item": "https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/"}]}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cavernes des Lamentations : butin par sp\u00e9cialisation", "description": "Butin de Cavernes des Lamentations dans WoW: Forever : objets \u00e9quipables avec leurs stats, \u00e0 filtrer par classe et sp\u00e9cialisation.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Cavernes des Lamentations : objets et stats", "description": "Butin de Cavernes des Lamentations dans WoW: Forever : objets \u00e9quipables avec leurs stats, filtrables par type et par stats.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/wow-forever/dungeons/wailing-caverns/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
 
 </head>
 <body>
@@ -177,6 +184,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scarlet-monastery/">Monastère écarlate</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-kraul/">Kraal de Tranchebauge</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-downs/">Souilles de Tranchebauge</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/sunken-temple/">Temple englouti</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackrock-depths/">Profondeurs de Blackrock</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/dire-maul/">Hache-tripes</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruines de Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/hall-of-thanes/">La salle des Thanes</a>
 
 <a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
@@ -259,7 +277,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <summary class="nav-link">Donjons</summary>
   <div class="nav-dropdown-menu">
     <a href="../../../wow-forever/dungeons/">Tous les donjons</a>
-    <a href="../../../wow-forever/dungeons/ragefire-chasm/">Gouffre de Ragefeu</a><a href="../../../wow-forever/dungeons/deadmines/">Mortemines</a><a href="../../../wow-forever/dungeons/wailing-caverns/">Cavernes des Lamentations</a><a href="../../../wow-forever/dungeons/shadowfang-keep/">Donjon d&#39;Ombrecroc</a><a href="../../../wow-forever/dungeons/blackfathom-deeps/">Profondeurs de Brassenoire</a><a href="../../../wow-forever/dungeons/stockade/">Prison de Stormwind</a><a href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../wow-forever/dungeons/scarlet-monastery/">Monastère écarlate</a><a href="../../../wow-forever/dungeons/razorfen-kraul/">Kraal de Tranchebauge</a>
+    <a href="../../../wow-forever/dungeons/ragefire-chasm/">Gouffre de Ragefeu</a><a href="../../../wow-forever/dungeons/deadmines/">Mortemines</a><a href="../../../wow-forever/dungeons/wailing-caverns/">Cavernes des Lamentations</a><a href="../../../wow-forever/dungeons/shadowfang-keep/">Donjon d&#39;Ombrecroc</a><a href="../../../wow-forever/dungeons/blackfathom-deeps/">Profondeurs de Brassenoire</a><a href="../../../wow-forever/dungeons/stockade/">Prison de Stormwind</a><a href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../wow-forever/dungeons/scarlet-monastery/">Monastère écarlate</a><a href="../../../wow-forever/dungeons/razorfen-kraul/">Kraal de Tranchebauge</a><a href="../../../wow-forever/dungeons/razorfen-downs/">Souilles de Tranchebauge</a><a href="../../../wow-forever/dungeons/uldaman/">Uldaman</a><a href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a><a href="../../../wow-forever/dungeons/maraudon/">Maraudon</a><a href="../../../wow-forever/dungeons/sunken-temple/">Temple englouti</a><a href="../../../wow-forever/dungeons/blackrock-depths/">Profondeurs de Blackrock</a><a href="../../../wow-forever/dungeons/dire-maul/">Hache-tripes</a><a href="../../../wow-forever/dungeons/stratholme/">Stratholme</a><a href="../../../wow-forever/dungeons/scholomance/">Scholomance</a><a href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruines de Lordaeron</a><a href="../../../wow-forever/dungeons/hall-of-thanes/">La salle des Thanes</a>
   </div>
 </details>
 <a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
@@ -290,329 +308,352 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="ph">
   <div class="ph-text">
     <div class="fiche-kicker">World of Warcraft: Forever · Donjons</div>
-    <h1 class="ph-title">Cavernes des Lamentations : butin par spécialisation</h1>
-    <p class="ph-lede">Les objets équipables de Cavernes des Lamentations (17-27), avec leurs stats dans Forever. Sélectionnez une spécialisation pour ne voir que les objets utiles, classés par importance.</p>
+    <h1 class="ph-title">Cavernes des Lamentations : objets et stats</h1>
+    <p class="ph-lede">Les objets équipables de Cavernes des Lamentations (17-27), avec leurs stats réelles dans Forever. Filtrez par type d&#39;objet, stat principale et stats secondaires.</p>
     
     
   </div>
 </section>
 
-<div class="dg-filter">
-  <label for="dgSpec">Filtrer par spécialisation</label>
-  <select id="dgSpec"><option value="">Tous les objets</option>
-    <optgroup label="Druide"><option value="druid/balance">Equilibre</option><option value="druid/feral-combat">Combat farouche</option><option value="druid/restoration">Restauration</option></optgroup><optgroup label="Chasseur"><option value="hunter/beast-mastery">Maîtrise des bêtes</option><option value="hunter/marksmanship">Précision</option><option value="hunter/survival">Survie</option></optgroup><optgroup label="Mage"><option value="mage/arcane">Arcanes</option><option value="mage/fire">Feu</option><option value="mage/frost">Givre</option></optgroup><optgroup label="Paladin"><option value="paladin/holy">Sacré</option><option value="paladin/protection">Protection</option><option value="paladin/retribution">Vindicte</option></optgroup><optgroup label="Prêtre"><option value="priest/discipline">Discipline</option><option value="priest/holy">Sacré</option><option value="priest/shadow">Ombre</option></optgroup><optgroup label="Voleur"><option value="rogue/assassination">Assassinat</option><option value="rogue/combat">Combat</option><option value="rogue/subtlety">Finesse</option></optgroup><optgroup label="Chaman"><option value="shaman/elemental">Elémentaire</option><option value="shaman/enhancement">Amélioration</option><option value="shaman/restoration">Restauration</option></optgroup><optgroup label="Démoniste"><option value="warlock/affliction">Affliction</option><option value="warlock/demonology">Démonologie</option><option value="warlock/destruction">Destruction</option></optgroup><optgroup label="Guerrier"><option value="warrior/arms">Armes</option><option value="warrior/fury">Fureur</option><option value="warrior/protection">Protection</option></optgroup>
-  </select>
+
+
+<div class="dg-filters" id="dgFilters">
+  <fieldset class="dg-facet">
+    <legend>Type d&#39;objet</legend>
+    
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Leather">Cuir</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Cloth">Tissu</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Mail">Mailles</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Staves">Bâtons</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Two-Handed Maces">Masses à deux mains</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Maces">Masse</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Daggers">Dagues</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Swords">Epées</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Shield">Bouclier</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Wands">Baguettes</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Bows">Arcs</label>
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>Stat principale</legend>
+    <label class="dg-check"><input type="checkbox" data-facet="primary" value="str">Force</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="agi">Agilité</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="int">Intelligence</label>
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>Stats secondaires (l&#39;objet doit avoir toutes celles cochées)</legend>
+    <label class="dg-check"><input type="checkbox" data-facet="secondary" value="sta">Endurance</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spi">Esprit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="armor">Armure</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="critstrkrtng">Coup critique</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hastertng">Hâte</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hitrtng">Toucher</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="defrtng">Défense</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="manargn">Mp5</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="atkpwr">Puissance d&#39;attaque</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="splpwr">Puissance des sorts</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spldmg">Dégâts des sorts</label>
+  </fieldset>
+  <button type="button" id="dgReset" class="dg-reset">Réinitialiser</button>
 </div>
-<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable" data-t1="Prioritaire" data-t2="Utile" data-from="à partir du niveau {n}">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Type</th><th>Niveau requis</th><th>Stats</th><th>Butin</th><th class="dg-imp" hidden>Importance</th></tr></thead>
+<p class="wow-note nums" id="dgCount"></p>
+<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
+  <thead><tr><th>Emplacement</th><th>Objet</th><th>Type</th><th>Niveau requis</th><th>Stats</th><th>Butin</th></tr></thead>
   <tbody>
-  <tr data-id="5404" data-i="0">
+  <tr data-type="Leather" data-stats='{"agi": 5, "armor": 68}'>
     <td data-first>Épaules</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=5404" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_08.jpg" alt="" width="28" height="28" loading="lazy">Serpent&#39;s Shoulders</a></td>
     <td>Cuir</td>
     <td class="nums">18</td>
     <td>+5 Agilité · +68 Armure</td>
     <td>Lady Anacondra</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6461" data-i="1">
+  <tr data-type="Cloth" data-stats='{"armor": 32, "manargn": 3}'>
     <td data-first>Épaules</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6461" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_05.jpg" alt="" width="28" height="28" loading="lazy">Slime-encrusted Pads</a></td>
     <td>Tissu</td>
     <td class="nums">20</td>
     <td>+3 Mp5 · +32 Armure</td>
     <td>Mutanus the Devourer</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6632" data-i="2">
+  <tr data-type="" data-stats='{"armor": 19, "splpwr": 3, "sta": 5}'>
     <td data-first>Dos</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6632" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_cape_02.jpg" alt="" width="28" height="28" loading="lazy">Feyscale Cloak</a></td>
     <td></td>
     <td class="nums">16</td>
     <td>+5 Endurance · +3 Puissance des sorts · +19 Armure</td>
     <td>Deviate Faerie Dragon</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6449" data-i="3">
+  <tr data-type="" data-stats='{"agi": 6, "armor": 20, "spi": 2}'>
     <td data-first>Dos</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6449" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_15.jpg" alt="" width="28" height="28" loading="lazy">Glowing Lizardscale Cloak</a></td>
     <td></td>
     <td class="nums">18</td>
     <td>+6 Agilité · +2 Esprit · +20 Armure</td>
     <td>Skum</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6629" data-i="4">
+  <tr data-type="" data-stats='{"armor": 20, "sta": 6}'>
     <td data-first>Dos</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6629" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_cape_17.jpg" alt="" width="28" height="28" loading="lazy">Sporid Cape</a></td>
     <td></td>
     <td class="nums">17</td>
     <td>+6 Endurance · +20 Armure</td>
     <td>Verdan the Everliving</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6473" data-i="5">
+  <tr data-type="Leather" data-stats='{"armor": 91, "spi": 7, "sta": 4, "str": 6}'>
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6473" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shirt_16.jpg" alt="" width="28" height="28" loading="lazy">Armor of the Fang</a></td>
     <td>Cuir</td>
     <td class="nums">18</td>
     <td>+6 Force · +7 Esprit · +4 Endurance · +91 Armure</td>
     <td>Lord Pythas</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6627" data-i="6">
+  <tr data-type="Mail" data-stats='{"armor": 194, "sta": 4, "str": 10}'>
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6627" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_plate08.jpg" alt="" width="28" height="28" loading="lazy">Mutant Scale Breastplate</a></td>
     <td>Mailles</td>
     <td class="nums">18</td>
     <td>+10 Force · +4 Endurance · +194 Armure</td>
     <td>Mutanus the Devourer</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6465" data-i="7">
+  <tr data-type="Cloth" data-stats='{"armor": 40, "spi": 10, "spldmg": 3, "str": 3}'>
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6465" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_36.jpg" alt="" width="28" height="28" loading="lazy">Robe of the Moccasin</a></td>
     <td>Tissu</td>
     <td class="nums">17</td>
     <td>+3 Force · +10 Esprit · +3 Dégâts des sorts · +40 Armure</td>
     <td>Lord Cobrahn</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="10919" data-i="8">
+  <tr data-type="Cloth" data-stats='{"armor": 21, "splpwr": 4}'>
     <td data-first>Mains</td>
     <td><a class="dg-q2" href="https://www.wowhead.com/forever/item=10919" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_06.jpg" alt="" width="28" height="28" loading="lazy">Apothecary Gloves</a></td>
     <td>Tissu</td>
     <td class="nums">15</td>
     <td>+4 Puissance des sorts · +21 Armure</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6481" data-i="9">
+  <tr data-type="Mail" data-stats='{"agi": 3, "armor": 122, "int": 4, "str": 5}'>
     <td data-first>Mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6481" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_05.jpg" alt="" width="28" height="28" loading="lazy">Dagmire Gauntlets</a></td>
     <td>Mailles</td>
     <td class="nums">15</td>
     <td>+5 Force · +3 Agilité · +4 Intelligence · +122 Armure</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="10413" data-i="10">
+  <tr data-type="Leather" data-stats='{"agi": 6, "armor": 52, "str": 4}'>
     <td data-first>Mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10413" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_18.jpg" alt="" width="28" height="28" loading="lazy">Gloves of the Fang</a></td>
     <td>Cuir</td>
     <td class="nums">14</td>
     <td>+4 Force · +6 Agilité · +52 Armure</td>
     <td>Druid of the Fang</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="270008" data-i="11">
+  <tr data-type="Leather" data-stats='{"agi": 4, "armor": 48, "sta": 1}'>
     <td data-first>Mains</td>
     <td><a class="dg-q2" href="https://www.wowhead.com/forever/item=270008" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_15.jpg" alt="" width="28" height="28" loading="lazy">Heat Resistant Mitts</a></td>
     <td>Cuir</td>
     <td class="nums">14</td>
     <td>+4 Agilité · +1 Endurance · +48 Armure</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="5970" data-i="12">
+  <tr data-type="Cloth" data-stats='{"agi": 6, "armor": 25, "splpwr": 7}'>
     <td data-first>Mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=5970" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_19.jpg" alt="" width="28" height="28" loading="lazy">Serpent Gloves</a></td>
     <td>Tissu</td>
     <td class="nums">18</td>
     <td>+6 Agilité · +7 Puissance des sorts · +25 Armure</td>
     <td>Lord Serpentis</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="10412" data-i="13">
+  <tr data-type="Leather" data-stats='{"agi": 3, "armor": 49, "sta": 5}'>
     <td data-first>Taille</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10412" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_belt_30.jpg" alt="" width="28" height="28" loading="lazy">Belt of the Fang</a></td>
     <td>Cuir</td>
     <td class="nums">16</td>
     <td>+3 Agilité · +5 Endurance · +49 Armure</td>
     <td>Lady Anacondra</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6460" data-i="14">
+  <tr data-type="Mail" data-stats='{"agi": 3, "armor": 107, "str": 7}'>
     <td data-first>Taille</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6460" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_belt_03.jpg" alt="" width="28" height="28" loading="lazy">Cobrahn&#39;s Grasp</a></td>
     <td>Mailles</td>
     <td class="nums">17</td>
     <td>+7 Force · +3 Agilité · +107 Armure</td>
     <td>Lord Cobrahn</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="10410" data-i="15">
+  <tr data-type="Leather" data-stats='{"agi": 9, "armor": 78, "sta": 4, "str": 5}'>
     <td data-first>Jambes</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10410" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_pants_11.jpg" alt="" width="28" height="28" loading="lazy">Leggings of the Fang</a></td>
     <td>Cuir</td>
     <td class="nums">17</td>
     <td>+5 Force · +9 Agilité · +4 Endurance · +78 Armure</td>
     <td>Lord Cobrahn</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6480" data-i="16">
+  <tr data-type="Leather" data-stats='{"agi": 4, "armor": 75, "spi": 5, "sta": 7}'>
     <td data-first>Jambes</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6480" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_pants_02.jpg" alt="" width="28" height="28" loading="lazy">Slick Deviate Leggings</a></td>
     <td>Cuir</td>
     <td class="nums">13</td>
     <td>+4 Agilité · +5 Esprit · +7 Endurance · +75 Armure</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="10411" data-i="17">
+  <tr data-type="Leather" data-stats='{"agi": 6, "armor": 61, "sta": 6}'>
     <td data-first>Pieds</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10411" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_04.jpg" alt="" width="28" height="28" loading="lazy">Footpads of the Fang</a></td>
     <td>Cuir</td>
     <td class="nums">17</td>
     <td>+6 Agilité · +6 Endurance · +61 Armure</td>
     <td>Lord Serpentis</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="270009" data-i="18">
+  <tr data-type="Mail" data-stats='{"armor": 115, "sta": 2, "str": 4}'>
     <td data-first>Pieds</td>
     <td><a class="dg-q2" href="https://www.wowhead.com/forever/item=270009" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_01.jpg" alt="" width="28" height="28" loading="lazy">Safety Boots</a></td>
     <td>Mailles</td>
     <td class="nums">14</td>
     <td>+4 Force · +2 Endurance · +115 Armure</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6459" data-i="19">
+  <tr data-type="Mail" data-stats='{"armor": 134, "sta": 7}'>
     <td data-first>Pieds</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6459" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_01.jpg" alt="" width="28" height="28" loading="lazy">Savage Trodders</a></td>
     <td>Mailles</td>
     <td class="nums">18</td>
     <td>+7 Endurance · +134 Armure</td>
     <td>Lord Serpentis</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6463" data-i="20">
+  <tr data-type="" data-stats='{"spi": 5, "sta": 3}'>
     <td data-first>Doigt</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6463" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_jewelry_ring_15.jpg" alt="" width="28" height="28" loading="lazy">Deep Fathom Ring</a></td>
     <td></td>
     <td class="nums">19</td>
     <td>+5 Esprit · +3 Endurance</td>
     <td>Mutanus the Devourer</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6505" data-i="21">
+  <tr data-type="Staves" data-stats='{"agi": 7, "dps": 20.43, "speed": 2.9, "spi": 7, "sta": 7}'>
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6505" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_04.jpg" alt="" width="28" height="28" loading="lazy">Crescent Staff</a></td>
     <td>Bâtons</td>
     <td class="nums">10</td>
     <td>+7 Agilité · +7 Esprit · +7 Endurance · 20.43 DPS (2.9 s)</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="270018" data-i="22">
+  <tr data-type="Two-Handed Maces" data-stats='{"dps": 20.55, "speed": 3.4, "sta": 7, "str": 10}'>
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=270018" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_hammer_15.jpg" alt="" width="28" height="28" loading="lazy">Hammerbone</a></td>
     <td>Masses à deux mains</td>
     <td class="nums">10</td>
     <td>+10 Force · +7 Endurance · 20.55 DPS (3.4 s)</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6631" data-i="23">
+  <tr data-type="Staves" data-stats='{"dps": 19.82, "natres": 9, "speed": 2.9, "spi": 5, "sta": 2}'>
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6631" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_25.jpg" alt="" width="28" height="28" loading="lazy">Living Root</a></td>
     <td>Bâtons</td>
     <td class="nums">18</td>
     <td>+5 Esprit · +2 Endurance · 19.82 DPS (2.9 s)</td>
     <td>Verdan the Everliving</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6472" data-i="24">
+  <tr data-type="Maces" data-stats='{"dps": 15.69, "speed": 2.8}'>
     <td data-first>Une main</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6472" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_wand_10.jpg" alt="" width="28" height="28" loading="lazy">Stinging Viper</a></td>
     <td>Masse</td>
     <td class="nums">19</td>
     <td>15.69 DPS (2.8 s)</td>
     <td>Lord Pythas</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6448" data-i="25">
+  <tr data-type="Daggers" data-stats='{"agi": 3, "dps": 14.11, "speed": 1.8, "str": 3}'>
     <td data-first>Une main</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6448" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_shortblade_10.jpg" alt="" width="28" height="28" loading="lazy">Tail Spike</a></td>
     <td>Dagues</td>
     <td class="nums">17</td>
     <td>+3 Force · +3 Agilité · 14.11 DPS (1.8 s)</td>
     <td>Skum</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6504" data-i="26">
+  <tr data-type="Swords" data-stats='{"agi": 5, "dps": 15.74, "speed": 2.2, "sta": 2}'>
     <td data-first>Main droite</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6504" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_16.jpg" alt="" width="28" height="28" loading="lazy">Wingblade</a></td>
     <td>Epées</td>
     <td class="nums">10</td>
     <td>+5 Agilité · +2 Endurance · 15.74 DPS (2.2 s)</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="13245" data-i="27">
+  <tr data-type="Shield" data-stats='{"armor": 528, "defrtng": 5}'>
     <td data-first>Bouclier</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=13245" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_18.jpg" alt="" width="28" height="28" loading="lazy">Kresh&#39;s Back</a></td>
     <td>Bouclier</td>
     <td class="nums">18</td>
     <td>+5 Défense · +528 Armure</td>
     <td>Kresh</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6630" data-i="28">
+  <tr data-type="Shield" data-stats='{"armor": 547, "natres": 5, "splpwr": 5}'>
     <td data-first>Bouclier</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6630" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_10.jpg" alt="" width="28" height="28" loading="lazy">Seedcloud Buckler</a></td>
     <td>Bouclier</td>
     <td class="nums">19</td>
     <td>+5 Puissance des sorts · +547 Armure</td>
     <td>Verdan the Everliving</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6447" data-i="29">
+  <tr data-type="Shield" data-stats='{"armor": 490, "manargn": 2}'>
     <td data-first>Bouclier</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6447" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_21.jpg" alt="" width="28" height="28" loading="lazy">Worn Turtle Shell Shield</a></td>
     <td>Bouclier</td>
     <td class="nums">16</td>
     <td>+2 Mp5 · +490 Armure</td>
     <td>Kresh</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="5243" data-i="30">
+  <tr data-type="Wands" data-stats='{"dps": 15.33, "speed": 1.7}'>
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=5243" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_wand_11.jpg" alt="" width="28" height="28" loading="lazy">Firebelcher</a></td>
     <td>Baguettes</td>
     <td class="nums">18</td>
     <td>15.33 DPS (1.7 s)</td>
     <td>Deviate Faerie Dragon</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="8071" data-i="31">
+  <tr data-type="Wands" data-stats='{"dps": 15.33, "speed": 1.7, "splpwr": 5}'>
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=8071" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_02.jpg" alt="" width="28" height="28" loading="lazy">Sizzle Stick</a></td>
     <td>Baguettes</td>
     <td class="nums">15</td>
     <td>+5 Puissance des sorts · 15.33 DPS (1.7 s)</td>
     <td>Récompense de quête</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr>
-  <tr data-id="6469" data-i="32">
+  <tr data-type="Bows" data-stats='{"dps": 20.5, "rgddps": 20.5, "speed": 2.4}'>
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=6469" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_bow_10.jpg" alt="" width="28" height="28" loading="lazy">Venomstrike</a></td>
     <td>Arcs</td>
     <td class="nums">19</td>
     <td>20.5 DPS (2.4 s)</td>
     <td>Lord Serpentis</td>
-    <td class="dg-imp" hidden></td>
+    
   </tr></tbody>
 </table></div>
-<p class="wow-note" id="dgNone" hidden>Aucun objet utile pour cette spécialisation dans ce donjon.</p>
-<h2 class="fiche-section-title">Comment les objets sont classés</h2>
-<ul class="gd-list"><li>Un objet n&#39;est proposé que si la classe peut l&#39;équiper (types d&#39;armure et d&#39;arme lus dans les tables du client bêta) et s&#39;il donne au moins l&#39;une des quatre stats prioritaires de la spécialisation.</li><li>Prioritaire : la meilleure stat de l&#39;objet est la 1re ou la 2e de la priorité. Utile : la 3e ou la 4e. À importance égale, on classe par meilleure priorité, nombre de stats utiles, qualité puis valeur de la stat.</li><li>La priorité de stats vient du guide Icy Veins de la spécialisation (niveau 20). Les entrées « niveau d&#39;objet » ne permettent pas de départager les objets et sont ignorées. Ce n&#39;est pas une liste BiS : aucune source n&#39;en publie encore.</li><li>La puissance de soins est associée à la puissance des sorts : les données ne montrent pas de stat de soins séparée.</li><li>Les noms d&#39;objets sont en anglais : leur traduction française n&#39;est pas dans les données récupérées.</li></ul>
+<p class="wow-note" id="dgNone" hidden>Aucun objet ne correspond aux filtres choisis.</p>
+<h2 class="fiche-section-title">Comment utiliser cette page</h2>
+<ul class="gd-list"><li>Cette page ne classe pas les objets par classe ni par spécialisation : elle affiche les stats réelles de chaque objet, lues dans les données de Forever, et vous laisse choisir ce qui compte pour vous.</li><li>Cochez le ou les types d&#39;objets qui correspondent à ce que votre classe peut équiper (par exemple Mailles), une stat principale (Force, Agilité ou Intelligence) et les stats secondaires recherchées.</li><li>Un classement automatique par spécialisation donnerait une fausse impression de précision : il ignore les bonus de set, les effets des trinkets, la vitesse des armes et le poids réel de chaque stat, qui varient d&#39;une spécialisation à l&#39;autre et ne sont pas dans les données publiques.</li><li>Les noms d&#39;objets sont en anglais : leur traduction française n&#39;est pas dans les données récupérées.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
 <ul class="gd-list wow-sources">
   <li>Butin et stats des objets : <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops and quest rewards)</a></li>
 </ul>
-<script id="dgRel" type="application/json">{"5404":{"hunter/beast-mastery":[2,2,-1,-3,-5,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-5,0,"Agility"],"hunter/survival":[2,2,-1,-3,-5,0,"Agility"],"rogue/assassination":[2,2,-1,-3,-5,0,"Agility"],"rogue/combat":[2,2,-1,-3,-5,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-5,0,"Agility"],"warrior/protection":[2,2,-1,-3,-68,0,"Armor"]},"5970":{"druid/balance":[1,0,-1,-3,-7,0,"Spell Power"],"druid/restoration":[1,0,-1,-3,-7,0,"Healing Power"],"hunter/beast-mastery":[2,2,-1,-3,-6,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-6,0,"Agility"],"hunter/survival":[2,2,-1,-3,-6,0,"Agility"],"mage/arcane":[1,1,-1,-3,-7,0,"Spell Power"],"mage/fire":[1,1,-1,-3,-7,0,"Spell Power"],"paladin/holy":[1,0,-1,-3,-7,0,"Healing Power"],"priest/discipline":[1,0,-1,-3,-7,0,"Healing Power"],"priest/holy":[1,0,-1,-3,-7,0,"Healing Power"],"priest/shadow":[1,0,-1,-3,-7,0,"Spell Power"],"rogue/assassination":[2,2,-1,-3,-6,0,"Agility"],"rogue/combat":[2,2,-1,-3,-6,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-6,0,"Agility"],"shaman/elemental":[1,0,-1,-3,-7,0,"Spell Power"],"shaman/restoration":[1,0,-1,-3,-7,0,"Healing Power"],"warlock/affliction":[1,0,-1,-3,-7,0,"Spell Power"],"warlock/demonology":[1,0,-1,-3,-7,0,"Spell Power"],"warlock/destruction":[1,0,-1,-3,-7,0,"Spell Power"],"warrior/protection":[2,2,-1,-3,-25,0,"Armor"]},"6447":{"paladin/holy":[2,2,-1,-3,-2,0,"Mp5"],"warrior/protection":[2,2,-1,-3,-490,0,"Armor"]},"6448":{"druid/feral-combat":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"hunter/beast-mastery":[2,2,-1,-3,-3,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-3,0,"Agility"],"hunter/survival":[2,2,-1,-3,-3,0,"Agility"],"rogue/assassination":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"rogue/combat":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"rogue/subtlety":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"shaman/enhancement":[2,3,-1,-3,-3,0,"Strength"],"warrior/arms":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"warrior/fury":[1,0,-2,-3,-14.11,0,"Weapon Damage"],"warrior/protection":[1,0,-1,-3,-14.11,0,"Weapon Damage"]},"6449":{"druid/restoration":[2,2,-1,-3,-2,0,"Spirit"],"hunter/beast-mastery":[2,2,-1,-3,-6,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-6,0,"Agility"],"hunter/survival":[2,2,-1,-3,-6,0,"Agility"],"mage/arcane":[2,2,-1,-3,-2,0,"Spirit"],"mage/fire":[2,3,-1,-3,-2,0,"Spirit"],"mage/frost":[2,3,-1,-3,-2,0,"Spirit"],"priest/discipline":[2,2,-1,-3,-2,0,"Spirit"],"priest/holy":[2,2,-1,-3,-2,0,"Spirit"],"rogue/assassination":[2,2,-1,-3,-6,0,"Agility"],"rogue/combat":[2,2,-1,-3,-6,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-6,0,"Agility"],"warrior/protection":[2,2,-1,-3,-20,0,"Armor"]},"6459":{"paladin/protection":[2,2,-1,-3,-7,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-7,0,"Stamina"],"warrior/protection":[2,2,-2,-3,-134,0,"Armor"]},"6460":{"hunter/beast-mastery":[2,2,-1,-3,-3,40,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-3,40,"Agility"],"hunter/survival":[2,2,-1,-3,-3,40,"Agility"],"paladin/protection":[2,3,-1,-3,-7,0,"Strength"],"shaman/enhancement":[2,3,-1,-3,-7,40,"Strength"],"warrior/arms":[2,3,-1,-3,-7,0,"Strength"],"warrior/fury":[2,3,-1,-3,-7,0,"Strength"],"warrior/protection":[2,2,-1,-3,-107,0,"Armor"]},"6461":{"paladin/holy":[2,2,-1,-3,-3,0,"Mp5"],"priest/discipline":[1,1,-1,-3,-3,0,"Mp5"],"priest/holy":[1,1,-1,-3,-3,0,"Mp5"],"warrior/protection":[2,2,-1,-3,-32,0,"Armor"]},"6463":{"druid/restoration":[2,2,-1,-3,-5,0,"Spirit"],"mage/arcane":[2,2,-1,-3,-5,0,"Spirit"],"mage/fire":[2,3,-1,-3,-5,0,"Spirit"],"mage/frost":[2,3,-1,-3,-5,0,"Spirit"],"paladin/protection":[2,2,-1,-3,-3,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-3,0,"Stamina"],"priest/discipline":[2,2,-1,-3,-5,0,"Spirit"],"priest/holy":[2,2,-1,-3,-5,0,"Spirit"],"warrior/protection":[2,3,-1,-3,-3,0,"Stamina"]},"6465":{"druid/balance":[1,0,-1,-3,-3,0,"Spell Power"],"druid/feral-combat":[2,3,-1,-3,-3,0,"Strength"],"druid/restoration":[2,2,-1,-3,-10,0,"Spirit"],"mage/arcane":[1,1,-2,-3,-3,0,"Spell Power"],"mage/fire":[1,1,-2,-3,-3,0,"Spell Power"],"mage/frost":[2,3,-1,-3,-10,0,"Spirit"],"paladin/protection":[2,3,-1,-3,-3,0,"Strength"],"priest/discipline":[2,2,-1,-3,-10,0,"Spirit"],"priest/holy":[2,2,-1,-3,-10,0,"Spirit"],"priest/shadow":[1,0,-1,-3,-3,0,"Spell Power"],"shaman/elemental":[1,0,-1,-3,-3,0,"Spell Power"],"shaman/enhancement":[2,3,-1,-3,-3,0,"Strength"],"warlock/affliction":[1,0,-1,-3,-3,0,"Spell Power"],"warlock/demonology":[1,0,-1,-3,-3,0,"Spell Power"],"warlock/destruction":[1,0,-1,-3,-3,0,"Spell Power"],"warrior/arms":[2,3,-1,-3,-3,0,"Strength"],"warrior/fury":[2,3,-1,-3,-3,0,"Strength"],"warrior/protection":[2,2,-1,-3,-40,0,"Armor"]},"6469":{"hunter/beast-mastery":[1,0,-1,-3,-20.5,0,"Ranged Weapon Damage"],"hunter/marksmanship":[1,0,-1,-3,-20.5,0,"Ranged Weapon Damage"],"hunter/survival":[1,0,-1,-3,-20.5,0,"Ranged Weapon Damage"]},"6472":{"druid/feral-combat":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"paladin/protection":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"paladin/retribution":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"rogue/assassination":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"rogue/combat":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"rogue/subtlety":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"warrior/arms":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"warrior/fury":[1,0,-1,-3,-15.69,0,"Weapon Damage"],"warrior/protection":[1,0,-1,-3,-15.69,0,"Weapon Damage"]},"6473":{"druid/feral-combat":[2,3,-1,-3,-6,0,"Strength"],"druid/restoration":[2,2,-1,-3,-7,0,"Spirit"],"paladin/protection":[2,2,-2,-3,-4,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-4,0,"Stamina"],"shaman/enhancement":[2,3,-1,-3,-6,0,"Strength"],"warrior/arms":[2,3,-1,-3,-6,0,"Strength"],"warrior/fury":[2,3,-1,-3,-6,0,"Strength"],"warrior/protection":[2,2,-2,-3,-91,0,"Armor"]},"6627":{"paladin/protection":[2,2,-2,-3,-4,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-4,0,"Stamina"],"shaman/enhancement":[2,3,-1,-3,-10,40,"Strength"],"warrior/arms":[2,3,-1,-3,-10,0,"Strength"],"warrior/fury":[2,3,-1,-3,-10,0,"Strength"],"warrior/protection":[2,2,-2,-3,-194,0,"Armor"]},"6629":{"paladin/protection":[2,2,-1,-3,-6,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-6,0,"Stamina"],"warrior/protection":[2,2,-2,-3,-20,0,"Armor"]},"6630":{"paladin/holy":[1,0,-1,-3,-5,0,"Healing Power"],"shaman/elemental":[1,0,-1,-3,-5,0,"Spell Power"],"shaman/restoration":[1,0,-1,-3,-5,0,"Healing Power"],"warrior/protection":[2,2,-1,-3,-547,0,"Armor"]},"6631":{"druid/feral-combat":[1,0,-1,-3,-19.82,0,"Weapon Damage"],"druid/restoration":[2,2,-1,-3,-5,0,"Spirit"],"mage/arcane":[2,2,-1,-3,-5,0,"Spirit"],"mage/fire":[2,3,-1,-3,-5,0,"Spirit"],"mage/frost":[2,3,-1,-3,-5,0,"Spirit"],"priest/discipline":[2,2,-1,-3,-5,0,"Spirit"],"priest/holy":[2,2,-1,-3,-5,0,"Spirit"],"warrior/arms":[1,0,-1,-3,-19.82,0,"Weapon Damage"],"warrior/fury":[1,0,-1,-3,-19.82,0,"Weapon Damage"],"warrior/protection":[1,0,-2,-3,-19.82,0,"Weapon Damage"]},"6632":{"druid/balance":[1,0,-1,-3,-3,0,"Spell Power"],"druid/restoration":[1,0,-1,-3,-3,0,"Healing Power"],"mage/arcane":[1,1,-1,-3,-3,0,"Spell Power"],"mage/fire":[1,1,-1,-3,-3,0,"Spell Power"],"paladin/holy":[1,0,-1,-3,-3,0,"Healing Power"],"paladin/protection":[2,2,-1,-3,-5,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-5,0,"Stamina"],"priest/discipline":[1,0,-1,-3,-3,0,"Healing Power"],"priest/holy":[1,0,-1,-3,-3,0,"Healing Power"],"priest/shadow":[1,0,-1,-3,-3,0,"Spell Power"],"shaman/elemental":[1,0,-1,-3,-3,0,"Spell Power"],"shaman/restoration":[1,0,-1,-3,-3,0,"Healing Power"],"warlock/affliction":[1,0,-1,-3,-3,0,"Spell Power"],"warlock/demonology":[1,0,-1,-3,-3,0,"Spell Power"],"warlock/destruction":[1,0,-1,-3,-3,0,"Spell Power"],"warrior/protection":[2,2,-2,-3,-19,0,"Armor"]},"10410":{"druid/feral-combat":[2,3,-1,-3,-5,0,"Strength"],"hunter/beast-mastery":[2,2,-1,-3,-9,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-9,0,"Agility"],"hunter/survival":[2,2,-1,-3,-9,0,"Agility"],"paladin/protection":[2,2,-2,-3,-4,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-4,0,"Stamina"],"rogue/assassination":[2,2,-1,-3,-9,0,"Agility"],"rogue/combat":[2,2,-1,-3,-9,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-9,0,"Agility"],"shaman/enhancement":[2,3,-1,-3,-5,0,"Strength"],"warrior/arms":[2,3,-1,-3,-5,0,"Strength"],"warrior/fury":[2,3,-1,-3,-5,0,"Strength"],"warrior/protection":[2,2,-2,-3,-78,0,"Armor"]},"10411":{"hunter/beast-mastery":[2,2,-1,-3,-6,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-6,0,"Agility"],"hunter/survival":[2,2,-1,-3,-6,0,"Agility"],"paladin/protection":[2,2,-1,-3,-6,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-6,0,"Stamina"],"rogue/assassination":[2,2,-1,-3,-6,0,"Agility"],"rogue/combat":[2,2,-1,-3,-6,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-6,0,"Agility"],"warrior/protection":[2,2,-2,-3,-61,0,"Armor"]},"10412":{"hunter/beast-mastery":[2,2,-1,-3,-3,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-3,0,"Agility"],"hunter/survival":[2,2,-1,-3,-3,0,"Agility"],"paladin/protection":[2,2,-1,-3,-5,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-5,0,"Stamina"],"rogue/assassination":[2,2,-1,-3,-3,0,"Agility"],"rogue/combat":[2,2,-1,-3,-3,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-3,0,"Agility"],"warrior/protection":[2,2,-2,-3,-49,0,"Armor"]},"10413":{"druid/feral-combat":[2,3,-1,-3,-4,0,"Strength"],"hunter/beast-mastery":[2,2,-1,-3,-6,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-6,0,"Agility"],"hunter/survival":[2,2,-1,-3,-6,0,"Agility"],"paladin/protection":[2,3,-1,-3,-4,0,"Strength"],"rogue/assassination":[2,2,-1,-3,-6,0,"Agility"],"rogue/combat":[2,2,-1,-3,-6,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-6,0,"Agility"],"shaman/enhancement":[2,3,-1,-3,-4,0,"Strength"],"warrior/arms":[2,3,-1,-3,-4,0,"Strength"],"warrior/fury":[2,3,-1,-3,-4,0,"Strength"],"warrior/protection":[2,2,-1,-3,-52,0,"Armor"]},"13245":{"warrior/protection":[2,2,-1,-3,-528,0,"Armor"]},"6505":{"druid/feral-combat":[1,0,-1,-3,-20.43,0,"Weapon Damage"],"druid/restoration":[2,2,-1,-3,-7,0,"Spirit"],"hunter/beast-mastery":[2,2,-1,-3,-7,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-7,0,"Agility"],"hunter/survival":[2,2,-1,-3,-7,0,"Agility"],"mage/arcane":[2,2,-1,-3,-7,0,"Spirit"],"mage/fire":[2,3,-1,-3,-7,0,"Spirit"],"mage/frost":[2,3,-1,-3,-7,0,"Spirit"],"priest/discipline":[2,2,-1,-3,-7,0,"Spirit"],"priest/holy":[2,2,-1,-3,-7,0,"Spirit"],"warrior/arms":[1,0,-1,-3,-20.43,0,"Weapon Damage"],"warrior/fury":[1,0,-1,-3,-20.43,0,"Weapon Damage"],"warrior/protection":[1,0,-2,-3,-20.43,0,"Weapon Damage"]},"6481":{"hunter/beast-mastery":[2,2,-1,-3,-3,40,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-3,40,"Agility"],"hunter/survival":[2,2,-1,-3,-3,40,"Agility"],"paladin/holy":[1,1,-1,-3,-4,0,"Intellect"],"paladin/protection":[2,3,-1,-3,-5,0,"Strength"],"shaman/enhancement":[2,3,-1,-3,-5,40,"Strength"],"shaman/restoration":[2,3,-1,-3,-4,40,"Intellect"],"warrior/arms":[2,3,-1,-3,-5,0,"Strength"],"warrior/fury":[2,3,-1,-3,-5,0,"Strength"],"warrior/protection":[2,2,-1,-3,-122,0,"Armor"]},"270018":{"druid/feral-combat":[1,0,-2,-3,-20.55,0,"Weapon Damage"],"paladin/protection":[1,0,-3,-3,-20.55,0,"Weapon Damage"],"paladin/retribution":[1,0,-2,-3,-20.55,0,"Weapon Damage"],"shaman/enhancement":[2,3,-1,-3,-10,0,"Strength"],"warrior/arms":[1,0,-2,-3,-20.55,0,"Weapon Damage"],"warrior/fury":[1,0,-2,-3,-20.55,0,"Weapon Damage"],"warrior/protection":[1,0,-2,-3,-20.55,0,"Weapon Damage"]},"8071":{"mage/arcane":[1,1,-1,-3,-5,0,"Spell Power"],"mage/fire":[1,1,-1,-3,-5,0,"Spell Power"],"priest/discipline":[1,0,-1,-3,-5,0,"Healing Power"],"priest/holy":[1,0,-1,-3,-5,0,"Healing Power"],"priest/shadow":[1,0,-1,-3,-5,0,"Spell Power"],"warlock/affliction":[1,0,-1,-3,-5,0,"Spell Power"],"warlock/demonology":[1,0,-1,-3,-5,0,"Spell Power"],"warlock/destruction":[1,0,-1,-3,-5,0,"Spell Power"]},"6480":{"druid/restoration":[2,2,-1,-3,-5,0,"Spirit"],"hunter/beast-mastery":[2,2,-1,-3,-4,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-4,0,"Agility"],"hunter/survival":[2,2,-1,-3,-4,0,"Agility"],"paladin/protection":[2,2,-1,-3,-7,0,"Stamina"],"paladin/retribution":[2,3,-1,-3,-7,0,"Stamina"],"rogue/assassination":[2,2,-1,-3,-4,0,"Agility"],"rogue/combat":[2,2,-1,-3,-4,0,"Agility"],"rogue/subtlety":[2,3,-1,-3,-4,0,"Agility"],"warrior/protection":[2,2,-2,-3,-75,0,"Armor"]},"6504":{"hunter/beast-mastery":[2,2,-1,-3,-5,0,"Agility"],"hunter/marksmanship":[2,2,-1,-3,-5,0,"Agility"],"hunter/survival":[2,2,-1,-3,-5,0,"Agility"],"paladin/protection":[1,0,-2,-3,-15.74,0,"Weapon Damage"],"paladin/retribution":[1,0,-2,-3,-15.74,0,"Weapon Damage"],"rogue/assassination":[1,0,-2,-3,-15.74,0,"Weapon Damage"],"rogue/combat":[1,0,-2,-3,-15.74,0,"Weapon Damage"],"rogue/subtlety":[1,0,-2,-3,-15.74,0,"Weapon Damage"],"warrior/arms":[1,0,-1,-3,-15.74,0,"Weapon Damage"],"warrior/fury":[1,0,-1,-3,-15.74,0,"Weapon Damage"],"warrior/protection":[1,0,-2,-3,-15.74,0,"Weapon Damage"]},"10919":{"druid/balance":[1,0,-1,-2,-4,0,"Spell Power"],"druid/restoration":[1,0,-1,-2,-4,0,"Healing Power"],"mage/arcane":[1,1,-1,-2,-4,0,"Spell Power"],"mage/fire":[1,1,-1,-2,-4,0,"Spell Power"],"paladin/holy":[1,0,-1,-2,-4,0,"Healing Power"],"priest/discipline":[1,0,-1,-2,-4,0,"Healing Power"],"priest/holy":[1,0,-1,-2,-4,0,"Healing Power"],"priest/shadow":[1,0,-1,-2,-4,0,"Spell Power"],"shaman/elemental":[1,0,-1,-2,-4,0,"Spell Power"],"shaman/restoration":[1,0,-1,-2,-4,0,"Healing Power"],"warlock/affliction":[1,0,-1,-2,-4,0,"Spell Power"],"warlock/demonology":[1,0,-1,-2,-4,0,"Spell Power"],"warlock/destruction":[1,0,-1,-2,-4,0,"Spell Power"],"warrior/protection":[2,2,-1,-2,-21,0,"Armor"]},"270008":{"hunter/beast-mastery":[2,2,-1,-2,-4,0,"Agility"],"hunter/marksmanship":[2,2,-1,-2,-4,0,"Agility"],"hunter/survival":[2,2,-1,-2,-4,0,"Agility"],"paladin/protection":[2,2,-1,-2,-1,0,"Stamina"],"paladin/retribution":[2,3,-1,-2,-1,0,"Stamina"],"rogue/assassination":[2,2,-1,-2,-4,0,"Agility"],"rogue/combat":[2,2,-1,-2,-4,0,"Agility"],"rogue/subtlety":[2,3,-1,-2,-4,0,"Agility"],"warrior/protection":[2,2,-2,-2,-48,0,"Armor"]},"270009":{"paladin/protection":[2,2,-2,-2,-2,0,"Stamina"],"paladin/retribution":[2,3,-1,-2,-2,0,"Stamina"],"shaman/enhancement":[2,3,-1,-2,-4,40,"Strength"],"warrior/arms":[2,3,-1,-2,-4,0,"Strength"],"warrior/fury":[2,3,-1,-2,-4,0,"Strength"],"warrior/protection":[2,2,-2,-2,-115,0,"Armor"]}}</script>
-<script src="../../../assets/js/wow-dungeons.js?v=88e4bfd697" defer></script>
+<script>window.dgCountTpl = "{shown} objet(s) affich\u00e9(s) sur {total}";</script>
+<script src="../../../assets/js/wow-dungeons.js?v=e95ea3b0e2" defer></script>
 
 </div>
 <footer>
@@ -660,10 +701,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/site-search.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/favorites.js?v=88e4bfd697" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/site-search.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/favorites.js?v=e95ea3b0e2" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

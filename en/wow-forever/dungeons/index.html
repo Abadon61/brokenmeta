@@ -29,27 +29,27 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      opens a second, separate connection for the real font request. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>WoW: Forever dungeon items by specialization</title>
-<meta name="description" content="The items of every WoW: Forever dungeon, filtered by class and specialization according to their stat priority.">
+<title>WoW: Forever dungeon items: type and stats</title>
+<meta name="description" content="The loot of every WoW: Forever dungeon, filterable by item type, primary stat and secondary stats.">
 <link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/dungeons/">
 <link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/dungeons/">
 <link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/dungeons/">
 <link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/dungeons/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="BrokenMeta.gg">
-<meta property="og:title" content="WoW: Forever dungeon items by specialization">
-<meta property="og:description" content="The items of every WoW: Forever dungeon, filtered by class and specialization according to their stat priority.">
+<meta property="og:title" content="WoW: Forever dungeon items: type and stats">
+<meta property="og:description" content="The loot of every WoW: Forever dungeon, filterable by item type, primary stat and secondary stats.">
 <meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/dungeons/">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="WoW: Forever dungeon items by specialization">
-<meta name="twitter:description" content="The items of every WoW: Forever dungeon, filtered by class and specialization according to their stat priority.">
+<meta name="twitter:title" content="WoW: Forever dungeon items: type and stats">
+<meta name="twitter:description" content="The loot of every WoW: Forever dungeon, filterable by item type, primary stat and secondary stats.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=88e4bfd697">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=88e4bfd697">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=e95ea3b0e2">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=e95ea3b0e2">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=88e4bfd697">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=e95ea3b0e2">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Dungeons", "item": "https://brokenmeta.gg/en/wow-forever/dungeons/"}]}</script>
 
@@ -176,6 +183,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
 
 <a class="nav-link" href="../../../wow-forever/talents/" >Talent calculator</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Leveling 1-60</a>
@@ -258,7 +276,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <summary class="nav-link">Dungeons</summary>
   <div class="nav-dropdown-menu">
     <a href="../../../wow-forever/dungeons/">All dungeons</a>
-    <a href="../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+    <a href="../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a><a href="../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a><a href="../../../wow-forever/dungeons/uldaman/">Uldaman</a><a href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a><a href="../../../wow-forever/dungeons/maraudon/">Maraudon</a><a href="../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a><a href="../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a><a href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a><a href="../../../wow-forever/dungeons/stratholme/">Stratholme</a><a href="../../../wow-forever/dungeons/scholomance/">Scholomance</a><a href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a><a href="../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
   </div>
 </details>
 <a class="nav-link" href="../../../wow-forever/talents/" >Talent calculator</a>
@@ -290,13 +308,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="ph-text">
     <div class="fiche-kicker">World of Warcraft: Forever · Dungeons</div>
     <h1 class="ph-title">WoW: Forever dungeon items</h1>
-    <p class="ph-lede">The loot of every dungeon, with the real Forever stats. Pick your specialization to keep only the useful items and rank them by importance, from its guide&#39;s stat priority.</p>
+    <p class="ph-lede">The loot of every dungeon, with the real Forever stats. Filter by item type and stats to find what matters for your class: the site does not guess what is good for your specialization.</p>
     
     
   </div>
 </section>
 
 <div class="wh-cards">
+  <a class="wh-card" href="../../../wow-forever/dungeons/tous-les-objets/" style="--cc: var(--cyan)">
+    <span class="wh-card-body"><b>All dungeon items</b><span class="wh-card-n nums">453 items, all dungeons →</span></span>
+  </a>
   
   <a class="wh-card" href="../../../wow-forever/dungeons/ragefire-chasm/">
     <span class="wh-card-body"><b>Ragefire Chasm</b><span class="wh-card-specs">Levels 15-25</span><span class="wh-card-n nums">12 items →</span></span>
@@ -334,13 +355,57 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span class="wh-card-body"><b>Razorfen Kraul</b><span class="wh-card-specs">Levels 32-42</span><span class="wh-card-n nums">26 items →</span></span>
   </a>
   
+  <a class="wh-card" href="../../../wow-forever/dungeons/razorfen-downs/">
+    <span class="wh-card-body"><b>Razorfen Downs</b><span class="wh-card-specs">Levels 37-47</span><span class="wh-card-n nums">12 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/uldaman/">
+    <span class="wh-card-body"><b>Uldaman</b><span class="wh-card-specs">Levels 42-52</span><span class="wh-card-n nums">11 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/zulfarrak/">
+    <span class="wh-card-body"><b>Zul&#39;Farrak</b><span class="wh-card-specs">Levels 46-56</span><span class="wh-card-n nums">18 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/maraudon/">
+    <span class="wh-card-body"><b>Maraudon</b><span class="wh-card-specs">Levels 42-52</span><span class="wh-card-n nums">27 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/sunken-temple/">
+    <span class="wh-card-body"><b>Sunken Temple</b><span class="wh-card-specs">Levels 50-60</span><span class="wh-card-n nums">3 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/blackrock-depths/">
+    <span class="wh-card-body"><b>Blackrock Depths</b><span class="wh-card-specs">Levels 52-60</span><span class="wh-card-n nums">38 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/dire-maul/">
+    <span class="wh-card-body"><b>Dire Maul</b><span class="wh-card-specs">Levels 44-54</span><span class="wh-card-n nums">2 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/stratholme/">
+    <span class="wh-card-body"><b>Stratholme</b><span class="wh-card-specs">Levels 48-58</span><span class="wh-card-n nums">30 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/scholomance/">
+    <span class="wh-card-body"><b>Scholomance</b><span class="wh-card-specs">Levels 55-60</span><span class="wh-card-n nums">24 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/ruins-of-lordaeron/">
+    <span class="wh-card-body"><b>Ruins of Lordaeron</b><span class="wh-card-n nums">11 items →</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../wow-forever/dungeons/hall-of-thanes/">
+    <span class="wh-card-body"><b>The Hall of Thanes</b><span class="wh-card-n nums">9 items →</span></span>
+  </a>
+  
 </div>
-<h2 class="fiche-section-title">How items are ranked</h2>
-<ul class="gd-list"><li>An item is only offered if the class can equip it (armor and weapon types read from the beta client tables) and if it gives at least one of the specialization&#39;s four top-priority stats.</li><li>Top priority: the item&#39;s best stat is the 1st or 2nd of the priority. Useful: the 3rd or 4th. Within the same importance, items are ranked by best priority, number of useful stats, quality, then the stat&#39;s value.</li><li>The stat priority comes from the specialization&#39;s Icy Veins guide (level 20). &#34;Item level&#34; entries cannot tell items apart and are ignored. This is not a best-in-slot list: no source publishes one yet.</li><li>Healing power is matched with spell power: the data shows no separate healing stat.</li><li>Item names are in English: their French translation is not in the data we retrieved.</li></ul>
+<h2 class="fiche-section-title">How to use this page</h2>
+<ul class="gd-list"><li>This page does not rank items by class or specialization: it shows each item&#39;s real stats, read from the Forever data, and lets you pick what matters to you.</li><li>Check the item type(s) your class can equip (e.g. Mail), a primary stat (Strength, Agility or Intellect), and the secondary stats you&#39;re after.</li><li>An automatic per-specialization ranking would give a false sense of precision: it ignores set bonuses, trinket effects, weapon speed, and the real weight of each stat, which vary by specialization and aren&#39;t in the public data.</li><li>Item names are in English: their French translation is not in the data we retrieved.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
 <ul class="gd-list wow-sources">
   <li>Loot and item stats: <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops and quest rewards)</a></li>
-  <li>Armor and weapon types per class: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">Beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
+  <li>Armor and weapon types: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">Beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
 </ul>
 
 </div>
@@ -389,10 +454,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/site-search.js?v=88e4bfd697" defer></script>
-<script src="../../../assets/js/favorites.js?v=88e4bfd697" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/site-search.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/favorites.js?v=e95ea3b0e2" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
