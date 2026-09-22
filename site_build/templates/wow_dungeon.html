@@ -15,24 +15,32 @@
 <div class="dg-filters" id="dgFilters">
   <fieldset class="dg-facet">
     <legend>{{ tx.dg_filter_type }}</legend>
-    {% for tkey in ns.types %}{% set tlabel = (items|selectattr('type.en', 'equalto', tkey)|first).type[lang] %}
-    <label class="dg-check"><input type="checkbox" data-facet="type" value="{{ tkey }}">{{ tlabel }}</label>{% endfor %}
+    <div class="dg-facet-grid">{% for tkey in ns.types %}{% set tlabel = (items|selectattr('type.en', 'equalto', tkey)|first).type[lang] %}
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="{{ tkey }}">{{ tlabel }}</label>{% endfor %}</div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>{{ tx.dg_filter_primary }}</legend>
-    {% for k in dd.primary_stats %}<label class="dg-check"><input type="checkbox" data-facet="primary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}
+    <div class="dg-facet-grid">{% for k in dd.primary_stats %}<label class="dg-check"><input type="checkbox" data-facet="primary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>{{ tx.dg_filter_secondary }}</legend>
-    {% for k in dd.secondary_stats %}<label class="dg-check"><input type="checkbox" data-facet="secondary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}
+    <div class="dg-facet-grid">{% for k in dd.secondary_stats %}<label class="dg-check"><input type="checkbox" data-facet="secondary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
+  </fieldset>
+  <fieldset class="dg-facet dg-facet-level">
+    <legend>{{ tx.dg_filter_level }}</legend>
+    <div class="dg-level-range">
+      <input type="number" id="dgLevelMin" min="0" placeholder="{{ tx.dg_level_min }}">
+      <span>–</span>
+      <input type="number" id="dgLevelMax" min="0" placeholder="{{ tx.dg_level_max }}">
+    </div>
   </fieldset>
   <button type="button" id="dgReset" class="dg-reset">{{ tx.dg_reset }}</button>
 </div>
 <p class="wow-note nums" id="dgCount"></p>
 <div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
-  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th>{% if all_dungeons %}<th>{{ tx.dg_dungeon }}</th>{% endif %}</tr></thead>
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th id="dgSortReq" class="dg-sortable" tabindex="0" role="button">{{ tx.dg_req }}<span class="dg-sort-arrow" aria-hidden="true"></span></th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th>{% if all_dungeons %}<th>{{ tx.dg_dungeon }}</th>{% endif %}</tr></thead>
   <tbody>{% for it in items %}
-  <tr data-type="{{ it.type.en }}" data-stats='{{ it.st|tojson }}'>
+  <tr data-type="{{ it.type.en }}" data-stats='{{ it.st|tojson }}' data-req="{{ it.req or 0 }}">
     <td data-first>{{ dd.slots[it.slot|string][lang] }}</td>
     <td>{{ dm.item_link(it, lang) }}</td>
     <td>{{ it.type[lang] }}</td>
