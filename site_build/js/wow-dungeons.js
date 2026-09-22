@@ -1,59 +1,61 @@
 (function () {
   'use strict';
+  var sel = document.getElementById('dgSpec');
   var table = document.getElementById('dgTable');
-  var filters = document.getElementById('dgFilters');
-  if (!table || !filters) return;
-  var rows = Array.prototype.slice.call(table.querySelectorAll('tbody tr'));
-  var stats = rows.map(function (r) { try { return JSON.parse(r.getAttribute('data-stats') || '{}'); } catch (e) { return {}; } });
+  if (!sel || !table) return;
+  var rel = {};
+  try { rel = JSON.parse(document.getElementById('dgRel').textContent); } catch (e) { return; }
+  var tbody = table.querySelector('tbody');
+  var rows = Array.prototype.slice.call(tbody.querySelectorAll('tr'));
+  var impCells = table.querySelectorAll('.dg-imp');
   var none = document.getElementById('dgNone');
-  var count = document.getElementById('dgCount');
-  var reset = document.getElementById('dgReset');
 
-  function checked(facet) {
-    return Array.prototype.slice.call(filters.querySelectorAll('input[data-facet="' + facet + '"]:checked')).map(function (i) { return i.value; });
+  function cmp(a, b) {
+    for (var i = 0; i < 5; i++) { if (a[i] !== b[i]) return a[i] - b[i]; }
+    return 0;
   }
 
-  function apply() {
-    var types = checked('type'), primary = checked('primary'), secondary = checked('secondary');
-    var shown = 0;
-    rows.forEach(function (r, i) {
-      var st = stats[i];
-      var typeOk = types.length === 0 || types.indexOf(r.getAttribute('data-type')) !== -1;
-      var primaryOk = primary.length === 0 || primary.some(function (k) { return st[k] > 0; });
-      var secondaryOk = secondary.every(function (k) { return st[k] > 0; });
-      var ok = typeOk && primaryOk && secondaryOk;
-      r.hidden = !ok;
-      if (ok) shown++;
-    });
-    none.hidden = shown > 0;
-    count.textContent = (window.dgCountTpl || '{shown}/{total}').replace('{shown}', shown).replace('{total}', rows.length);
-    if (window.history && history.replaceState) {
-      var parts = [];
-      if (types.length) parts.push('type=' + types.join(','));
-      if (primary.length) parts.push('primary=' + primary.join(','));
-      if (secondary.length) parts.push('secondary=' + secondary.join(','));
-      history.replaceState(null, '', parts.length ? '#' + parts.join('&') : location.pathname + location.search);
+  function apply(spec) {
+    var i;
+    for (i = 0; i < impCells.length; i++) impCells[i].hidden = !spec;
+    if (!spec) {
+      rows.sort(function (a, b) { return a.getAttribute('data-i') - b.getAttribute('data-i'); });
+      rows.forEach(function (r) { r.hidden = false; tbody.appendChild(r); r.lastElementChild.textContent = ''; });
+      none.hidden = true;
+      return;
     }
-  }
-
-  filters.addEventListener('change', apply);
-  reset.addEventListener('click', function () {
-    filters.querySelectorAll('input[type="checkbox"]').forEach(function (i) { i.checked = false; });
-    apply();
-  });
-
-  // restore from the URL hash, e.g. #type=Mail&primary=agi&secondary=critstrkrtng,hastertng
-  var hash = (location.hash || '').replace(/^#/, '');
-  if (hash) {
-    hash.split('&').forEach(function (part) {
-      var eq = part.indexOf('=');
-      if (eq < 0) return;
-      var facet = part.slice(0, eq), values = decodeURIComponent(part.slice(eq + 1)).split(',');
-      values.forEach(function (v) {
-        var box = filters.querySelector('input[data-facet="' + facet + '"][value="' + v + '"]');
-        if (box) box.checked = true;
-      });
+    var list = [];
+    rows.forEach(function (r) {
+      var e = (rel[r.getAttribute('data-id')] || {})[spec];
+      if (e) list.push([r, e]); else r.hidden = true;
     });
+    list.sort(function (a, b) { return cmp(a[1], b[1]); });
+    list.forEach(function (p) {
+      var r = p[0], e = p[1];
+      r.hidden = false;
+      tbody.appendChild(r);
+      var txt = e[0] === 1 ? table.getAttribute('data-t1') : table.getAttribute('data-t2');
+      if (e[5] > 0) txt += ' (' + table.getAttribute('data-from').replace('{n}', e[5]) + ')';
+      r.lastElementChild.textContent = txt;
+      r.lastElementChild.className = 'dg-imp dg-t' + e[0];
+    });
+    none.hidden = list.length > 0;
   }
-  apply();
+
+  function fromHash() {
+    var m = /^#spec=([a-z\-]+\/[a-z\-]+)$/.exec(location.hash || '');
+    return m ? m[1] : '';
+  }
+
+  sel.addEventListener('change', function () {
+    var v = sel.value;
+    if (window.history && history.replaceState) history.replaceState(null, '', v ? '#spec=' + v : location.pathname + location.search);
+    apply(v);
+  });
+  var start = fromHash();
+  if (start) {
+    var ok = false;
+    for (var i = 0; i < sel.options.length; i++) if (sel.options[i].value === start) ok = true;
+    if (ok) { sel.value = start; apply(start); }
+  }
 })();
