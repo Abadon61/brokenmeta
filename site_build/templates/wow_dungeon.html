@@ -10,23 +10,35 @@
 {% endblock %}
 {% block content %}
 {{ m.page_hero(tx.dg_kicker, g_h1, g_intro) }}
-<div class="dg-filter">
-  <label for="dgSpec">{{ tx.dg_filter }}</label>
-  <select id="dgSpec"><option value="">{{ tx.dg_all }}</option>
-    {% for c in wt_classes %}<optgroup label="{{ c.name[lang] }}">{% for sp in c.specs if (c.id ~ '/' ~ sp.id) in spec_keys %}<option value="{{ c.id }}/{{ sp.id }}">{{ sp.name[lang] }}</option>{% endfor %}</optgroup>{% endfor %}
-  </select>
+{% set ns = namespace(types=[]) %}
+{% for it in items %}{% if it.type.en and it.type.en not in ns.types %}{% set ns.types = ns.types + [it.type.en] %}{% endif %}{% endfor %}
+<div class="dg-filters" id="dgFilters">
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_type }}</legend>
+    {% for tkey in ns.types %}{% set tlabel = (items|selectattr('type.en', 'equalto', tkey)|first).type[lang] %}
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="{{ tkey }}">{{ tlabel }}</label>{% endfor %}
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_primary }}</legend>
+    {% for k in dd.primary_stats %}<label class="dg-check"><input type="checkbox" data-facet="primary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_secondary }}</legend>
+    {% for k in dd.secondary_stats %}<label class="dg-check"><input type="checkbox" data-facet="secondary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}
+  </fieldset>
+  <button type="button" id="dgReset" class="dg-reset">{{ tx.dg_reset }}</button>
 </div>
-<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable" data-t1="{{ tx.dg_t1 }}" data-t2="{{ tx.dg_t2 }}" data-from="{{ tx.dg_from_lvl }}">
-  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th><th class="dg-imp" hidden>{{ tx.dg_imp }}</th></tr></thead>
+<p class="wow-note nums" id="dgCount"></p>
+<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th></tr></thead>
   <tbody>{% for it in items %}
-  <tr data-id="{{ it.id }}" data-i="{{ loop.index0 }}">
+  <tr data-type="{{ it.type.en }}" data-stats='{{ it.st|tojson }}'>
     <td data-first>{{ dd.slots[it.slot|string][lang] }}</td>
     <td>{{ dm.item_link(it, lang) }}</td>
     <td>{{ it.type[lang] }}</td>
     <td class="nums">{{ it.req or '–' }}</td>
     <td>{{ dm.stats_text(it, tx) }}</td>
     <td>{% if it.kind == 'quest' %}{{ tx.dg_quest }}{% else %}{{ it.src|join(', ') }}{% endif %}</td>
-    <td class="dg-imp" hidden></td>
   </tr>{% endfor %}</tbody>
 </table></div>
 <p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
@@ -36,6 +48,6 @@
 <ul class="gd-list wow-sources">
   <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
 </ul>
-<script id="dgRel" type="application/json">{{ rel_json|safe }}</script>
+<script>window.dgCountTpl = {{ tx.dg_count|tojson }};</script>
 <script src="{{ root }}assets/js/wow-dungeons.js?v={{ css_v }}" defer></script>
 {% endblock %}
