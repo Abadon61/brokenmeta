@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Maraudon WoW: Forever : objets et butin">
 <meta name="twitter:description" content="Butin de Maraudon dans WoW: Forever : objets équipables avec leurs stats, filtrables par type et par stats.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=e95ea3b0e2">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=e95ea3b0e2">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=50d6cc9919">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=50d6cc9919">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=e95ea3b0e2">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=50d6cc9919">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -320,7 +320,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="dg-filters" id="dgFilters">
   <fieldset class="dg-facet">
     <legend>Type d&#39;objet</legend>
-    
+    <div class="dg-facet-grid">
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Cloth">Tissu</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Leather">Cuir</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Plate Mail">Armure en plaques</label>
@@ -334,23 +334,31 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Fist Weapons">Armes de pugilat</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Guns">Armes à feu</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Wands">Baguettes</label>
-    <label class="dg-check"><input type="checkbox" data-facet="type" value="Bows">Arcs</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Bows">Arcs</label></div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>Stat principale</legend>
-    <label class="dg-check"><input type="checkbox" data-facet="primary" value="str">Force</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="agi">Agilité</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="int">Intelligence</label>
+    <div class="dg-facet-grid"><label class="dg-check"><input type="checkbox" data-facet="primary" value="str">Force</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="agi">Agilité</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="int">Intelligence</label></div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>Stats secondaires (l&#39;objet doit avoir toutes celles cochées)</legend>
-    <label class="dg-check"><input type="checkbox" data-facet="secondary" value="sta">Endurance</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spi">Esprit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="armor">Armure</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="critstrkrtng">Coup critique</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hastertng">Hâte</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hitrtng">Toucher</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="defrtng">Défense</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="manargn">Mp5</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="atkpwr">Puissance d&#39;attaque</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="splpwr">Puissance des sorts</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spldmg">Dégâts des sorts</label>
+    <div class="dg-facet-grid"><label class="dg-check"><input type="checkbox" data-facet="secondary" value="sta">Endurance</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spi">Esprit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="armor">Armure</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="critstrkrtng">Coup critique</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hastertng">Hâte</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hitrtng">Toucher</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="defrtng">Défense</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="manargn">Mp5</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="atkpwr">Puissance d&#39;attaque</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="splpwr">Puissance des sorts</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spldmg">Dégâts des sorts</label></div>
+  </fieldset>
+  <fieldset class="dg-facet dg-facet-level">
+    <legend>Niveau requis</legend>
+    <div class="dg-level-range">
+      <input type="number" id="dgLevelMin" min="0" placeholder="Min">
+      <span>–</span>
+      <input type="number" id="dgLevelMax" min="0" placeholder="Max">
+    </div>
   </fieldset>
   <button type="button" id="dgReset" class="dg-reset">Réinitialiser</button>
 </div>
 <p class="wow-note nums" id="dgCount"></p>
 <div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Type</th><th>Niveau requis</th><th>Stats</th><th>Butin</th></tr></thead>
+  <thead><tr><th>Emplacement</th><th>Objet</th><th>Type</th><th id="dgSortReq" class="dg-sortable" tabindex="0" role="button">Niveau requis<span class="dg-sort-arrow" aria-hidden="true"></span></th><th>Stats</th><th>Butin</th></tr></thead>
   <tbody>
-  <tr data-type="Cloth" data-stats='{"armor": 63, "critstrkrtng": 14, "int": 19, "spi": 10, "sta": 10}'>
+  <tr data-type="Cloth" data-stats='{"armor": 63, "critstrkrtng": 14, "int": 19, "spi": 10, "sta": 10}' data-req="49">
     <td data-first>Tête</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17715" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_crown_01.jpg" alt="" width="28" height="28" loading="lazy">Eye of Theradras</a></td>
     <td>Tissu</td>
@@ -359,7 +367,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Princess Theradras</td>
     
   </tr>
-  <tr data-type="Leather" data-stats='{"armor": 122, "int": 15, "spi": 8, "splpwr": 23, "sta": 7}'>
+  <tr data-type="Leather" data-stats='{"armor": 122, "int": 15, "spi": 8, "splpwr": 23, "sta": 7}' data-req="47">
     <td data-first>Tête</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17740" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_helmet_12.jpg" alt="" width="28" height="28" loading="lazy">Soothsayer&#39;s Headdress</a></td>
     <td>Cuir</td>
@@ -368,7 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Celebras the Cursed</td>
     
   </tr>
-  <tr data-type="Leather" data-stats='{"agi": 15, "armor": 117, "sta": 21}'>
+  <tr data-type="Leather" data-stats='{"agi": 15, "armor": 117, "sta": 21}' data-req="41">
     <td data-first>Tête</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17776" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_helmet_35.jpg" alt="" width="28" height="28" loading="lazy">Sprightring Helm</a></td>
     <td>Cuir</td>
@@ -377,7 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Plate Mail" data-stats='{"armor": 389, "sta": 18, "str": 7}'>
+  <tr data-type="Plate Mail" data-stats='{"armor": 389, "sta": 18, "str": 7}' data-req="41">
     <td data-first>Épaules</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17779" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_23.jpg" alt="" width="28" height="28" loading="lazy">Hulkstone Pauldrons</a></td>
     <td>Armure en plaques</td>
@@ -386,7 +394,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 57, "int": 18, "splpwr": 13}'>
+  <tr data-type="Cloth" data-stats='{"armor": 57, "int": 18, "splpwr": 13}' data-req="48">
     <td data-first>Épaules</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17732" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_05.jpg" alt="" width="28" height="28" loading="lazy">Rotgrip Mantle</a></td>
     <td>Tissu</td>
@@ -395,7 +403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Rotgrip</td>
     
   </tr>
-  <tr data-type="" data-stats='{"armor": 37, "natres": 10, "sta": 12}'>
+  <tr data-type="" data-stats='{"armor": 37, "natres": 10, "sta": 12}' data-req="47">
     <td data-first>Dos</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17739" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_cape_17.jpg" alt="" width="28" height="28" loading="lazy">Grovekeeper&#39;s Drape</a></td>
     <td></td>
@@ -404,7 +412,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Celebras the Cursed</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 70, "int": 20, "splpwr": 19}'>
+  <tr data-type="Cloth" data-stats='{"armor": 70, "int": 20, "splpwr": 19}' data-req="41">
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17775" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_49.jpg" alt="" width="28" height="28" loading="lazy">Acumen Robes</a></td>
     <td>Tissu</td>
@@ -413,7 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 73, "manargn": 8}'>
+  <tr data-type="Cloth" data-stats='{"armor": 73, "manargn": 8}' data-req="46">
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17741" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_15.jpg" alt="" width="28" height="28" loading="lazy">Nature&#39;s Embrace</a></td>
     <td>Tissu</td>
@@ -422,7 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Meshlok the Harvester</td>
     
   </tr>
-  <tr data-type="Mail" data-stats='{"armor": 295, "atkpwr": 28, "int": 14, "sta": 14}'>
+  <tr data-type="Mail" data-stats='{"armor": 295, "atkpwr": 28, "int": 14, "sta": 14}' data-req="41">
     <td data-first>Torse</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17777" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_chain_07.jpg" alt="" width="28" height="28" loading="lazy">Relentless Chain</a></td>
     <td>Mailles</td>
@@ -431,7 +439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Mail" data-stats='{"armor": 141, "atkpwr": 28, "int": 5, "sta": 6}'>
+  <tr data-type="Mail" data-stats='{"armor": 141, "atkpwr": 28, "int": 5, "sta": 6}' data-req="49">
     <td data-first>Poignets</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17714" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_bracer_14.jpg" alt="" width="28" height="28" loading="lazy">Bracers of the Stone Princess</a></td>
     <td>Mailles</td>
@@ -440,7 +448,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Princess Theradras</td>
     
   </tr>
-  <tr data-type="Plate Mail" data-stats='{"armor": 324, "manargn": 5, "sta": 7, "str": 12}'>
+  <tr data-type="Plate Mail" data-stats='{"armor": 324, "manargn": 5, "sta": 7, "str": 12}' data-req="41">
     <td data-first>Mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17770" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_30.jpg" alt="" width="28" height="28" loading="lazy">Branchclaw Gauntlets</a></td>
     <td>Armure en plaques</td>
@@ -449,7 +457,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Leather" data-stats='{"agi": 15, "armor": 81, "int": 12}'>
+  <tr data-type="Leather" data-stats='{"agi": 15, "armor": 81, "int": 12}' data-req="41">
     <td data-first>Taille</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17778" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_belt_25.jpg" alt="" width="28" height="28" loading="lazy">Sagebrush Girdle</a></td>
     <td>Cuir</td>
@@ -458,7 +466,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 40, "int": 10, "shares": 10, "splpwr": 14, "sta": 7}'>
+  <tr data-type="Cloth" data-stats='{"armor": 40, "int": 10, "shares": 10, "splpwr": 14, "sta": 7}' data-req="45">
     <td data-first>Taille</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17755" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_belt_24.jpg" alt="" width="28" height="28" loading="lazy">Satyrmane Sash</a></td>
     <td>Tissu</td>
@@ -467,7 +475,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Lord Vyletongue</td>
     
   </tr>
-  <tr data-type="Leather" data-stats='{"agi": 20, "armor": 105, "natres": 6, "sta": 5}'>
+  <tr data-type="Leather" data-stats='{"agi": 20, "armor": 105, "natres": 6, "sta": 5}' data-req="48">
     <td data-first>Pieds</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17728" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_05.jpg" alt="" width="28" height="28" loading="lazy">Albino Crocscale Boots</a></td>
     <td>Cuir</td>
@@ -476,7 +484,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Rotgrip</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 50, "int": 9, "natres": 12, "spi": 10, "spldmg": 6}'>
+  <tr data-type="Cloth" data-stats='{"armor": 50, "int": 9, "natres": 12, "spi": 10, "spldmg": 6}' data-req="46">
     <td data-first>Pieds</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17748" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_05.jpg" alt="" width="28" height="28" loading="lazy">Vinerot Sandals</a></td>
     <td>Tissu</td>
@@ -485,7 +493,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Razorlash</td>
     
   </tr>
-  <tr data-type="" data-stats='{"atkpwr": 20, "hitrtng": 10, "sta": 6}'>
+  <tr data-type="" data-stats='{"atkpwr": 20, "hitrtng": 10, "sta": 6}' data-req="49">
     <td data-first>Doigt</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_jewelry_ring_17.jpg" alt="" width="28" height="28" loading="lazy">Blackstone Ring</a></td>
     <td></td>
@@ -494,7 +502,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Princess Theradras</td>
     
   </tr>
-  <tr data-type="Two-Handed Axes" data-stats='{"dps": 45.84, "speed": 3.2}'>
+  <tr data-type="Two-Handed Axes" data-stats='{"dps": 45.84, "speed": 3.2}' data-req="48">
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17730" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_04.jpg" alt="" width="28" height="28" loading="lazy">Gatorbite Axe</a></td>
     <td>Haches à deux mains</td>
@@ -503,7 +511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Rotgrip</td>
     
   </tr>
-  <tr data-type="Two-Handed Maces" data-stats='{"dps": 46.6, "speed": 3.4}'>
+  <tr data-type="Two-Handed Maces" data-stats='{"dps": 46.6, "speed": 3.4}' data-req="49">
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17766" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_hammer_10.jpg" alt="" width="28" height="28" loading="lazy">Princess Theradras&#39; Scepter</a></td>
     <td>Masses à deux mains</td>
@@ -512,7 +520,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Princess Theradras</td>
     
   </tr>
-  <tr data-type="Staves" data-stats='{"dps": 34.17, "manargn": 11, "speed": 3.8}'>
+  <tr data-type="Staves" data-stats='{"dps": 34.17, "manargn": 11, "speed": 3.8}' data-req="45">
     <td data-first>Deux mains</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17743" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_goldfeathered_01.jpg" alt="" width="28" height="28" loading="lazy">Resurgence Rod</a></td>
     <td>Bâtons</td>
@@ -521,7 +529,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Swords" data-stats='{"dps": 35.31, "speed": 2.7}'>
+  <tr data-type="Swords" data-stats='{"dps": 35.31, "speed": 2.7}' data-req="45">
     <td data-first>Une main</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17705" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_36.jpg" alt="" width="28" height="28" loading="lazy">Thrash Blade</a></td>
     <td>Epées</td>
@@ -530,7 +538,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Récompense de quête</td>
     
   </tr>
-  <tr data-type="Daggers" data-stats='{"dps": 24, "int": 11, "manargn": 2, "speed": 1.6}'>
+  <tr data-type="Daggers" data-stats='{"dps": 24, "int": 11, "manargn": 2, "speed": 1.6}' data-req="49">
     <td data-first>Main droite</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17710" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_shortblade_14.jpg" alt="" width="28" height="28" loading="lazy">Charstone Dirk</a></td>
     <td>Dagues</td>
@@ -539,7 +547,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Princess Theradras</td>
     
   </tr>
-  <tr data-type="Maces" data-stats='{"dps": 35.4, "speed": 1.8}'>
+  <tr data-type="Maces" data-stats='{"dps": 35.4, "speed": 1.8}' data-req="48">
     <td data-first>Main droite</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17943" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_hammer_17.jpg" alt="" width="28" height="28" loading="lazy">Fist of Stone</a></td>
     <td>Masse</td>
@@ -548,7 +556,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Landslide</td>
     
   </tr>
-  <tr data-type="Swords" data-stats='{"critstrkrtng": 14, "dps": 23.46, "speed": 2.2}'>
+  <tr data-type="Swords" data-stats='{"critstrkrtng": 14, "dps": 23.46, "speed": 2.2}' data-req="48">
     <td data-first>Main droite</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17719" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_14.jpg" alt="" width="28" height="28" loading="lazy">Inventor&#39;s Focal Sword</a></td>
     <td>Epées</td>
@@ -557,7 +565,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Tinkerer Gizlock</td>
     
   </tr>
-  <tr data-type="Fist Weapons" data-stats='{"dps": 34.64, "speed": 1.8}'>
+  <tr data-type="Fist Weapons" data-stats='{"dps": 34.64, "speed": 1.8}' data-req="47">
     <td data-first>Main gauche</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17738" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="" width="28" height="28" loading="lazy">Claw of Celebras</a></td>
     <td>Armes de pugilat</td>
@@ -566,7 +574,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Celebras the Cursed</td>
     
   </tr>
-  <tr data-type="Guns" data-stats='{"arcres": 5, "dps": 45.85, "rgddps": 45.85, "speed": 2.5}'>
+  <tr data-type="Guns" data-stats='{"arcres": 5, "dps": 45.85, "rgddps": 45.85, "speed": 2.5}' data-req="48">
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17717" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_05.jpg" alt="" width="28" height="28" loading="lazy">Megashot Rifle</a></td>
     <td>Armes à feu</td>
@@ -575,7 +583,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Tinkerer Gizlock</td>
     
   </tr>
-  <tr data-type="Wands" data-stats='{"dps": 34.11, "natres": 5, "speed": 1.6, "splpwr": 5, "sta": 5}'>
+  <tr data-type="Wands" data-stats='{"dps": 34.11, "natres": 5, "speed": 1.6, "splpwr": 5, "sta": 5}' data-req="46">
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17745" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_wand_04.jpg" alt="" width="28" height="28" loading="lazy">Noxious Shooter</a></td>
     <td>Baguettes</td>
@@ -584,7 +592,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Noxxion</td>
     
   </tr>
-  <tr data-type="Bows" data-stats='{"dps": 45.87, "rgddps": 45.87, "speed": 2.8}'>
+  <tr data-type="Bows" data-stats='{"dps": 45.87, "rgddps": 45.87, "speed": 2.8}' data-req="45">
     <td data-first>Distance</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=17753" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_bow_03.jpg" alt="" width="28" height="28" loading="lazy">Verdant Keeper&#39;s Aim</a></td>
     <td>Arcs</td>
@@ -602,7 +610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Butin et stats des objets : <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops and quest rewards)</a></li>
 </ul>
 <script>window.dgCountTpl = "{shown} objet(s) affich\u00e9(s) sur {total}";</script>
-<script src="../../../assets/js/wow-dungeons.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/wow-dungeons.js?v=50d6cc9919" defer></script>
 
 </div>
 <footer>
@@ -650,10 +658,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=e95ea3b0e2" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=e95ea3b0e2" defer></script>
-<script src="../../../assets/js/site-search.js?v=e95ea3b0e2" defer></script>
-<script src="../../../assets/js/favorites.js?v=e95ea3b0e2" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=50d6cc9919" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=50d6cc9919" defer></script>
+<script src="../../../assets/js/site-search.js?v=50d6cc9919" defer></script>
+<script src="../../../assets/js/favorites.js?v=50d6cc9919" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

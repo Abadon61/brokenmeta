@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Uldaman WoW: Forever: items and loot">
 <meta name="twitter:description" content="Uldaman loot in WoW: Forever: equippable items with their stats, filterable by type and stats.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=e95ea3b0e2">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=e95ea3b0e2">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=50d6cc9919">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=50d6cc9919">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=e95ea3b0e2">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=50d6cc9919">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -320,28 +320,36 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="dg-filters" id="dgFilters">
   <fieldset class="dg-facet">
     <legend>Item type</legend>
-    
+    <div class="dg-facet-grid">
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Leather">Leather</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Mail">Mail</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Cloth">Cloth</label>
     <label class="dg-check"><input type="checkbox" data-facet="type" value="Polearms">Polearms</label>
-    <label class="dg-check"><input type="checkbox" data-facet="type" value="Shield">Shield</label>
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="Shield">Shield</label></div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>Primary stat</legend>
-    <label class="dg-check"><input type="checkbox" data-facet="primary" value="str">Strength</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="agi">Agility</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="int">Intellect</label>
+    <div class="dg-facet-grid"><label class="dg-check"><input type="checkbox" data-facet="primary" value="str">Strength</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="agi">Agility</label><label class="dg-check"><input type="checkbox" data-facet="primary" value="int">Intellect</label></div>
   </fieldset>
   <fieldset class="dg-facet">
     <legend>Secondary stats (the item must have all checked ones)</legend>
-    <label class="dg-check"><input type="checkbox" data-facet="secondary" value="sta">Stamina</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spi">Spirit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="armor">Armor</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="critstrkrtng">Critical Strike</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hastertng">Haste</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hitrtng">Hit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="defrtng">Defense</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="manargn">Mp5</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="atkpwr">Attack Power</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="splpwr">Spell Power</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spldmg">Spell damage</label>
+    <div class="dg-facet-grid"><label class="dg-check"><input type="checkbox" data-facet="secondary" value="sta">Stamina</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spi">Spirit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="armor">Armor</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="critstrkrtng">Critical Strike</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hastertng">Haste</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="hitrtng">Hit</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="defrtng">Defense</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="manargn">Mp5</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="atkpwr">Attack Power</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="splpwr">Spell Power</label><label class="dg-check"><input type="checkbox" data-facet="secondary" value="spldmg">Spell damage</label></div>
+  </fieldset>
+  <fieldset class="dg-facet dg-facet-level">
+    <legend>Required level</legend>
+    <div class="dg-level-range">
+      <input type="number" id="dgLevelMin" min="0" placeholder="Min">
+      <span>–</span>
+      <input type="number" id="dgLevelMax" min="0" placeholder="Max">
+    </div>
   </fieldset>
   <button type="button" id="dgReset" class="dg-reset">Reset</button>
 </div>
 <p class="wow-note nums" id="dgCount"></p>
 <div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
-  <thead><tr><th>Slot</th><th>Item</th><th>Type</th><th>Required level</th><th>Stats</th><th>Drops from</th></tr></thead>
+  <thead><tr><th>Slot</th><th>Item</th><th>Type</th><th id="dgSortReq" class="dg-sortable" tabindex="0" role="button">Required level<span class="dg-sort-arrow" aria-hidden="true"></span></th><th>Stats</th><th>Drops from</th></tr></thead>
   <tbody>
-  <tr data-type="Leather" data-stats='{"armor": 95}'>
+  <tr data-type="Leather" data-stats='{"armor": 95}' data-req="37">
     <td data-first>Shoulders</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9389" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_25.jpg" alt="" width="28" height="28" loading="lazy">Revelosh&#39;s Spaulders</a></td>
     <td>Leather</td>
@@ -350,7 +358,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Revelosh</td>
     
   </tr>
-  <tr data-type="Mail" data-stats='{"armor": 209, "int": 13, "spi": 6, "splpwr": 12, "str": 3}'>
+  <tr data-type="Mail" data-stats='{"armor": 209, "int": 13, "spi": 6, "splpwr": 12, "str": 3}' data-req="41">
     <td data-first>Shoulders</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9411" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shoulder_02.jpg" alt="" width="28" height="28" loading="lazy">Rockshard Pauldrons</a></td>
     <td>Mail</td>
@@ -359,7 +367,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Ancient Stone Keeper</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 61, "spi": 25, "spldmg": 8}'>
+  <tr data-type="Cloth" data-stats='{"armor": 61, "spi": 25, "spldmg": 8}' data-req="30">
     <td data-first>Chest</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=4746" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_chest_cloth_19.jpg" alt="" width="28" height="28" loading="lazy">Doomsayer&#39;s Robe</a></td>
     <td>Cloth</td>
@@ -368,7 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Quest reward</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 68, "int": 5, "spi": 14, "spldmg": 10, "sta": 10}'>
+  <tr data-type="Cloth" data-stats='{"armor": 68, "int": 5, "spi": 14, "spldmg": 10, "sta": 10}' data-req="42">
     <td data-first>Chest</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9415" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shirt_05.jpg" alt="" width="28" height="28" loading="lazy">Grimlok&#39;s Tribal Vestments</a></td>
     <td>Cloth</td>
@@ -377,7 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Grimlok</td>
     
   </tr>
-  <tr data-type="Mail" data-stats='{"agi": 7, "armor": 107, "spi": 5, "sta": 8}'>
+  <tr data-type="Mail" data-stats='{"agi": 7, "armor": 107, "spi": 5, "sta": 8}' data-req="30">
     <td data-first>Wrists</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10358" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_bracer_04.jpg" alt="" width="28" height="28" loading="lazy">Duracin Bracers</a></td>
     <td>Mail</td>
@@ -386,7 +394,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Quest reward</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 38}'>
+  <tr data-type="Cloth" data-stats='{"armor": 38}' data-req="37">
     <td data-first>Hands</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9390" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gauntlets_17.jpg" alt="" width="28" height="28" loading="lazy">Revelosh&#39;s Gloves</a></td>
     <td>Cloth</td>
@@ -395,7 +403,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Revelosh</td>
     
   </tr>
-  <tr data-type="Leather" data-stats='{"agi": 18, "armor": 122, "spi": 17}'>
+  <tr data-type="Leather" data-stats='{"agi": 18, "armor": 122, "spi": 17}' data-req="42">
     <td data-first>Legs</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9414" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_pants_06.jpg" alt="" width="28" height="28" loading="lazy">Oilskin Leggings</a></td>
     <td>Leather</td>
@@ -404,7 +412,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Grimlok</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 53, "int": 8, "spi": 12, "spldmg": 7, "sta": 9}'>
+  <tr data-type="Cloth" data-stats='{"armor": 53, "int": 8, "spi": 12, "spldmg": 7, "sta": 9}' data-req="37">
     <td data-first>Legs</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9407" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_pants_01.jpg" alt="" width="28" height="28" loading="lazy">Stoneweaver Leggings</a></td>
     <td>Cloth</td>
@@ -413,7 +421,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Ironaya</td>
     
   </tr>
-  <tr data-type="Cloth" data-stats='{"armor": 38, "spi": 13, "spldmg": 5}'>
+  <tr data-type="Cloth" data-stats='{"armor": 38, "spi": 13, "spldmg": 5}' data-req="30">
     <td data-first>Feet</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=10359" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_boots_07.jpg" alt="" width="28" height="28" loading="lazy">Everlast Boots</a></td>
     <td>Cloth</td>
@@ -422,7 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Quest reward</td>
     
   </tr>
-  <tr data-type="Polearms" data-stats='{"agi": 15, "dps": 41.11, "speed": 2.7, "sta": 15, "str": 10}'>
+  <tr data-type="Polearms" data-stats='{"agi": 15, "dps": 41.11, "speed": 2.7, "sta": 15, "str": 10}' data-req="42">
     <td data-first>Two-hand</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9416" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_spear_08.jpg" alt="" width="28" height="28" loading="lazy">Grimlok&#39;s Charge</a></td>
     <td>Polearms</td>
@@ -431,7 +439,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td>Grimlok</td>
     
   </tr>
-  <tr data-type="Shield" data-stats='{"armor": 814, "spldmg": 5, "sta": 6}'>
+  <tr data-type="Shield" data-stats='{"armor": 814, "spldmg": 5, "sta": 6}' data-req="30">
     <td data-first>Shield</td>
     <td><a class="dg-q3" href="https://www.wowhead.com/forever/item=9522" rel="noopener nofollow" target="_blank"><img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_10.jpg" alt="" width="28" height="28" loading="lazy">Energized Stone Circle</a></td>
     <td>Shield</td>
@@ -449,7 +457,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Loot and item stats: <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops and quest rewards)</a></li>
 </ul>
 <script>window.dgCountTpl = "{shown} item(s) shown out of {total}";</script>
-<script src="../../../../assets/js/wow-dungeons.js?v=e95ea3b0e2" defer></script>
+<script src="../../../../assets/js/wow-dungeons.js?v=50d6cc9919" defer></script>
 
 </div>
 <footer>
@@ -497,10 +505,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=e95ea3b0e2" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=e95ea3b0e2" defer></script>
-<script src="../../../../assets/js/site-search.js?v=e95ea3b0e2" defer></script>
-<script src="../../../../assets/js/favorites.js?v=e95ea3b0e2" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=50d6cc9919" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=50d6cc9919" defer></script>
+<script src="../../../../assets/js/site-search.js?v=50d6cc9919" defer></script>
+<script src="../../../../assets/js/favorites.js?v=50d6cc9919" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
