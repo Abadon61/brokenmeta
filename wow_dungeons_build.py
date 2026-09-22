@@ -12,6 +12,9 @@ Importance of an item for a specialization (rule, documented on the pages):
   * an item is EXCLUDED for a dungeon with a known level range if the class cannot equip its armor/weapon type until a level
     above that dungeon's top level (e.g. mail is unusable before level 40 for Hunter/Shaman: it is pointless to recommend a
     mail piece from a level 15-25 dungeon, since the player will have long outleveled that dungeon by level 40)
+  * a body-armor item is EXCLUDED if a higher-armor-value type (cloth < leather < mail < plate, confirmed from the item data)
+    is already wearable by the class at the level the item itself could be worn: a character always equips the armor type
+    giving the most armor, so once mail is available an Enhancement Shaman never picks leather over it again
   * tier 1 = its best matching stat is priority 1 or 2, tier 2 = priority 3 or 4; inside a tier: better priority, more matching stats,
     higher quality, higher value of the matching stat
   * "item level" entries of a priority list cannot tell items apart, so they are skipped
@@ -99,6 +102,17 @@ def main():
             return (m is not None), (m or 0)
         return False, 0
 
+    ARMOR_RANK = {1: 1, 2: 2, 3: 3, 4: 4}          # cloth < leather < mail < plate: same item level, more armor, confirmed in the item data
+
+    def best_armor_rank(class_id: str, level: int) -> int:
+        """The highest-armor-value body armor type (cloth/leather/mail/plate) this class can already wear at `level` (0 if none)."""
+        best = 0
+        for sc, rank in ARMOR_RANK.items():
+            m = min_level(class_id, ARMOR_SKILL[sc])
+            if m is not None and level >= m:
+                best = max(best, rank)
+        return best
+
     def type_label(it):
         sk = WEAPON_SKILL.get(it["sc"]) if it["c"] == 2 else ARMOR_SKILL.get(it["sc"]) if it["c"] == 4 else None
         if sk:
@@ -156,6 +170,10 @@ def main():
                     continue
                 if dungeon_max is not None and from_lvl > dungeon_max:
                     continue                # e.g. mail (from level 40) recommended from a level 15-25 dungeon: the player will have outleveled it long before they can wear it
+                if it["c"] == 4 and it["sc"] in ARMOR_RANK:
+                    eff_level = max(it["req"], from_lvl)       # the level at which the class could actually equip this exact item
+                    if ARMOR_RANK[it["sc"]] < best_armor_rank(sp["class"], eff_level):
+                        continue            # a higher-armor-value type (e.g. mail over leather) is already wearable by then: they would equip that instead
                 best = None
                 matched = []
                 prio = [s_ for s_ in sp["order"] if STAT_KEYS.get(s_)]           # skip the "item level" entries
