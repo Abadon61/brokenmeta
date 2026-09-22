@@ -2044,6 +2044,7 @@
   .dg-sortable { cursor: pointer; user-select: none; white-space: nowrap; }
   .dg-sortable:hover { color: var(--cyan); }
   .dg-sortable:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
-  .dg-sort-arrow::after { content: ''; margin-left: 3px; }
-  .dg-sortable.is-asc .dg-sort-arrow::after { content: '\25B2'; }
-  .dg-sortable.is-desc .dg-sort-arrow::after { content: '\25BC'; }
+  .dg-sort-arrow::after { content: '\21C5'; margin-left: 5px; font-size: 0.8em; opacity: 0.45; }
+  .dg-sortable:hover .dg-sort-arrow::after { opacity: 0.85; }
+  .dg-sortable.is-asc .dg-sort-arrow::after { content: '\25B2'; opacity: 1; color: var(--cyan); }
+  .dg-sortable.is-desc .dg-sort-arrow::after { content: '\25BC'; opacity: 1; color: var(--cyan); }
