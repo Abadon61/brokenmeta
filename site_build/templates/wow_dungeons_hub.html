@@ -11,7 +11,7 @@
 <div class="wh-cards">
   {% for d in dd.dungeons %}
   <a class="wh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
-    <span class="wh-card-body"><b>{{ d.name[lang] }}</b><span class="wh-card-specs">{{ tx.dg_levels }} {{ d.levels }}</span><span class="wh-card-n nums">{{ d['items']|length }} {{ tx.dg_items_n }} →</span></span>
+    <span class="wh-card-body"><b>{{ d.name[lang] }}</b>{% if d.levels %}<span class="wh-card-specs">{{ tx.dg_levels }} {{ d.levels }}</span>{% endif %}<span class="wh-card-n nums">{{ d['items']|length }} {{ tx.dg_items_n }} →</span></span>
   </a>
   {% endfor %}
 </div>

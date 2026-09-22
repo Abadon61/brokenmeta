@@ -9,6 +9,9 @@ Inputs (nothing is invented):
 Importance of an item for a specialization (rule, documented on the pages):
   * the item must be usable by the class (armor / weapon proficiency from the client tables) and give at least one of the
     specialization's four highest-priority stats
+  * an item is EXCLUDED for a dungeon with a known level range if the class cannot equip its armor/weapon type until a level
+    above that dungeon's top level (e.g. mail is unusable before level 40 for Hunter/Shaman: it is pointless to recommend a
+    mail piece from a level 15-25 dungeon, since the player will have long outleveled that dungeon by level 40)
   * tier 1 = its best matching stat is priority 1 or 2, tier 2 = priority 3 or 4; inside a tier: better priority, more matching stats,
     higher quality, higher value of the matching stat
   * "item level" entries of a priority list cannot tell items apart, so they are skipped
@@ -26,14 +29,18 @@ RAW = P / "data" / "wow_talents_raw" / BUILD
 WH = P / "data" / "wow_wowhead_raw"
 OUT = P / "data" / "wow_dungeons"
 
-# zone id -> (client map name, level range shown by Wowhead)
+# zone id -> (client map name, level range shown by Wowhead; "" = no range listed, e.g. a Forever-specific zone)
 DUNGEONS = {
     2437: ("Ragefire Chasm", "15-25"), 1581: ("Deadmines", "15-25"), 718: ("Wailing Caverns", "17-27"), 209: ("Shadowfang Keep", "22-30"),
     719: ("Blackfathom Deeps", "22-32"), 717: ("Stormwind Stockade", "22-32"), 721: ("Gnomeregan", "26-36"), 796: ("Scarlet Monastery", "26-45"),
-    491: ("Razorfen Kraul", "32-42"),
+    491: ("Razorfen Kraul", "32-42"), 722: ("Razorfen Downs", "37-47"), 1337: ("Uldaman", "42-52"), 1176: ("Zul'Farrak", "46-56"),
+    2100: ("Maraudon", "42-52"), 1477: ("Sunken Temple", "50-60"), 1584: ("Blackrock Depths", "52-60"), 2557: ("Dire Maul", "44-54"),
+    2017: ("Stratholme", "48-58"), 2057: ("Scholomance", "55-60"), 16611: ("Ruins of Lordaeron", ""), 16919: ("The Hall of Thanes", ""),
 }
 SLUG = {2437: "ragefire-chasm", 1581: "deadmines", 718: "wailing-caverns", 209: "shadowfang-keep", 719: "blackfathom-deeps", 717: "stockade",
-        721: "gnomeregan", 796: "scarlet-monastery", 491: "razorfen-kraul"}
+        721: "gnomeregan", 796: "scarlet-monastery", 491: "razorfen-kraul", 722: "razorfen-downs", 1337: "uldaman", 1176: "zulfarrak",
+        2100: "maraudon", 1477: "sunken-temple", 1584: "blackrock-depths", 2557: "dire-maul", 2017: "stratholme", 2057: "scholomance",
+        16611: "ruins-of-lordaeron", 16919: "hall-of-thanes"}
 
 CLASS_BIT = {"warrior": 1, "paladin": 2, "hunter": 4, "rogue": 8, "priest": 16, "shaman": 64, "mage": 128, "warlock": 256, "druid": 1024}
 ARMOR_SKILL = {1: 415, 2: 414, 3: 413, 4: 293, 6: 433}                                    # cloth, leather, mail, plate, shield
@@ -133,6 +140,7 @@ def main():
         if not f.exists():
             continue
         d = json.loads(f.read_text(encoding="utf-8"))
+        dungeon_max = int(levels.split("-")[-1]) if levels else None      # e.g. "15-25" -> 25; "" (no listed range) -> no filtering
         items = []
         for it in d["items"]:
             if it["slot"] not in SLOTS or it["c"] not in (2, 4) or it["q"] < 2:
@@ -146,6 +154,8 @@ def main():
                 ok, from_lvl = usable(sp["class"], {**it, "st": st})
                 if not ok:
                     continue
+                if dungeon_max is not None and from_lvl > dungeon_max:
+                    continue                # e.g. mail (from level 40) recommended from a level 15-25 dungeon: the player will have outleveled it long before they can wear it
                 best = None
                 matched = []
                 prio = [s_ for s_ in sp["order"] if STAT_KEYS.get(s_)]           # skip the "item level" entries

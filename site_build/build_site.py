@@ -7347,7 +7347,8 @@ def main() -> None:
                     _dn = _d["name"][lang]
                     _dt, _dd_ = _gx["dg_title"].format(name=_dn), _gx["dg_desc"].format(name=_dn)
                     assert len(_dt) <= 60 and len(_dd_) <= 155, (_dt, len(_dt), len(_dd_))
-                    _dh1, _di = _gx["dg_h1"].format(name=_dn), _gx["dg_intro"].format(name=_dn, levels=_d["levels"])
+                    _dh1 = _gx["dg_h1"].format(name=_dn)
+                    _di = _gx["dg_intro"].format(name=_dn, levels=_d["levels"]) if _d["levels"] else _gx["dg_intro_nolvl"].format(name=_dn)
                     _dorder = {sl: i for i, sl in enumerate(wow_dungeons["slot_order"])}
                     _ditems = sorted(_d["items"], key=lambda i: (_dorder.get(i["slot"], 99), i["name"]))
                     _rel = json.dumps(wow_guides.dungeon_rel(_d), separators=(",", ":")).replace("</", "<\\/")
