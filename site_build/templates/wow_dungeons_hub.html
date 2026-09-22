@@ -9,6 +9,9 @@
 {% block content %}
 {{ m.page_hero(tx.dg_kicker, tx.dg_h1_hub, tx.dg_intro_hub) }}
 <div class="wh-cards">
+  <a class="wh-card" href="{{ root }}wow-forever/dungeons/tous-les-objets/" style="--cc: var(--cyan)">
+    <span class="wh-card-body"><b>{{ tx.dg_all_card }}</b><span class="wh-card-n nums">{{ dd.dungeons|map(attribute='items')|map('length')|sum }} {{ tx.dg_all_card_n }} →</span></span>
+  </a>
   {% for d in dd.dungeons %}
   <a class="wh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
     <span class="wh-card-body"><b>{{ d.name[lang] }}</b>{% if d.levels %}<span class="wh-card-specs">{{ tx.dg_levels }} {{ d.levels }}</span>{% endif %}<span class="wh-card-n nums">{{ d['items']|length }} {{ tx.dg_items_n }} →</span></span>

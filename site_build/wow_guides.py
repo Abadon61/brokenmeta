@@ -200,7 +200,10 @@ TXT = {
         "dg_h1": "{name} : objets et stats", "dg_intro": "Les objets équipables de {name} ({levels}), avec leurs stats réelles dans Forever. Filtrez par type d'objet, stat principale et stats secondaires.", "dg_intro_nolvl": "Les objets équipables de {name}, avec leurs stats réelles dans Forever. Filtrez par type d'objet, stat principale et stats secondaires.",
         "dg_filter_type": "Type d'objet", "dg_filter_primary": "Stat principale", "dg_filter_secondary": "Stats secondaires (l'objet doit avoir toutes celles cochées)",
         "dg_reset": "Réinitialiser", "dg_none": "Aucun objet ne correspond aux filtres choisis.", "dg_count": "{shown} objet(s) affiché(s) sur {total}",
-        "dg_slot": "Emplacement", "dg_item": "Objet", "dg_type": "Type", "dg_req": "Niveau requis", "dg_stats": "Stats", "dg_from": "Butin", "dg_quest": "Récompense de quête",
+        "dg_slot": "Emplacement", "dg_item": "Objet", "dg_type": "Type", "dg_req": "Niveau requis", "dg_stats": "Stats", "dg_from": "Butin", "dg_quest": "Récompense de quête", "dg_dungeon": "Donjon",
+        "dg_all_title": "Tous les objets des donjons WoW: Forever", "dg_all_desc": "Tous les objets équipables des donjons de WoW: Forever réunis sur une page, filtrables par type d'objet, stat principale et stats secondaires.",
+        "dg_all_h1": "Tous les objets des donjons", "dg_all_intro": "Le butin des {n} donjons répertoriés, réuni sur une seule page. Filtrez par type d'objet, stat principale et stats secondaires ; chaque objet indique le donjon d'où il vient.",
+        "dg_all_card": "Tous les objets des donjons", "dg_all_card_n": "objets, tous donjons",
         "dg_method_h2": "Comment utiliser cette page", "dg_method": [
             "Cette page ne classe pas les objets par classe ni par spécialisation : elle affiche les stats réelles de chaque objet, lues dans les données de Forever, et vous laisse choisir ce qui compte pour vous.",
             "Cochez le ou les types d'objets qui correspondent à ce que votre classe peut équiper (par exemple Mailles), une stat principale (Force, Agilité ou Intelligence) et les stats secondaires recherchées.",
@@ -280,7 +283,10 @@ TXT = {
         "dg_h1": "{name}: items and stats", "dg_intro": "The equippable items of {name} ({levels}), with their real stats in Forever. Filter by item type, primary stat and secondary stats.", "dg_intro_nolvl": "The equippable items of {name}, with their real stats in Forever. Filter by item type, primary stat and secondary stats.",
         "dg_filter_type": "Item type", "dg_filter_primary": "Primary stat", "dg_filter_secondary": "Secondary stats (the item must have all checked ones)",
         "dg_reset": "Reset", "dg_none": "No item matches the chosen filters.", "dg_count": "{shown} item(s) shown out of {total}",
-        "dg_slot": "Slot", "dg_item": "Item", "dg_type": "Type", "dg_req": "Required level", "dg_stats": "Stats", "dg_from": "Drops from", "dg_quest": "Quest reward",
+        "dg_slot": "Slot", "dg_item": "Item", "dg_type": "Type", "dg_req": "Required level", "dg_stats": "Stats", "dg_from": "Drops from", "dg_quest": "Quest reward", "dg_dungeon": "Dungeon",
+        "dg_all_title": "All WoW: Forever dungeon items", "dg_all_desc": "Every equippable WoW: Forever dungeon item on one page, filterable by item type, primary stat and secondary stats.",
+        "dg_all_h1": "All dungeon items", "dg_all_intro": "The loot of the {n} dungeons catalogued so far, on one page. Filter by item type, primary stat and secondary stats; each item names the dungeon it comes from.",
+        "dg_all_card": "All dungeon items", "dg_all_card_n": "items, all dungeons",
         "dg_method_h2": "How to use this page", "dg_method": [
             "This page does not rank items by class or specialization: it shows each item's real stats, read from the Forever data, and lets you pick what matters to you.",
             "Check the item type(s) your class can equip (e.g. Mail), a primary stat (Strength, Agility or Intellect), and the secondary stats you're after.",

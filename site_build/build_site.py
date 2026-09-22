@@ -7354,6 +7354,18 @@ def main() -> None:
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
                            breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_dn, canonical_for(_dpath, lang))]),
                            article_schema=build_article_schema(_dh1, canonical_for(_dpath, lang), _dd_))
+                # one page with every dungeon's loot combined, same filter, plus a "which dungeon" column
+                _allpath = "/wow-forever/dungeons/tous-les-objets/"
+                _allitems = sorted(
+                    [dict(it, dungeon={"id": _d2["id"], "name": _d2["name"]}) for _d2 in wow_dungeons["dungeons"] for it in _d2["items"]],
+                    key=lambda i: (_dorder.get(i["slot"], 99), i["name"]))
+                assert len(_gx["dg_all_title"]) <= 60 and len(_gx["dg_all_desc"]) <= 155
+                _allh1 = _gx["dg_all_h1"]
+                _alli = _gx["dg_all_intro"].format(n=len(wow_dungeons["dungeons"]))
+                render("wow_dungeon.html", _allpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
+                       items=_allitems, all_dungeons=True, g_title=_gx["dg_all_title"], g_desc=_gx["dg_all_desc"], g_h1=_allh1, g_intro=_alli,
+                       breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_gx["dg_all_card"], canonical_for(_allpath, lang))]),
+                       article_schema=build_article_schema(_allh1, canonical_for(_allpath, lang), _gx["dg_all_desc"]))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))

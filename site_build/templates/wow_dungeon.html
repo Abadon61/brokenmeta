@@ -30,7 +30,7 @@
 </div>
 <p class="wow-note nums" id="dgCount"></p>
 <div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
-  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th></tr></thead>
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th>{{ tx.dg_req }}</th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th>{% if all_dungeons %}<th>{{ tx.dg_dungeon }}</th>{% endif %}</tr></thead>
   <tbody>{% for it in items %}
   <tr data-type="{{ it.type.en }}" data-stats='{{ it.st|tojson }}'>
     <td data-first>{{ dd.slots[it.slot|string][lang] }}</td>
@@ -39,6 +39,7 @@
     <td class="nums">{{ it.req or '–' }}</td>
     <td>{{ dm.stats_text(it, tx) }}</td>
     <td>{% if it.kind == 'quest' %}{{ tx.dg_quest }}{% else %}{{ it.src|join(', ') }}{% endif %}</td>
+    {% if all_dungeons %}<td><a href="{{ root }}wow-forever/dungeons/{{ it.dungeon.id }}/">{{ it.dungeon.name[lang] }}</a></td>{% endif %}
   </tr>{% endfor %}</tbody>
 </table></div>
 <p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
