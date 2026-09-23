@@ -1,15 +1,28 @@
 (function () {
   'use strict';
-  // Minimal event-driven combat simulator (Fury Warrior, single target, Bloodthirst + Whirlwind only --
-  // no Heroic Strike/Rage economy, no procs, no DoTs yet). Modeled on SimulationCraft's own architecture
-  // (an event queue, an action-priority check at every free moment, per-swing hit/crit RNG rolls, averaged
-  // over many independent iterations) but written from scratch for WoW: Forever's real, much smaller Fury
-  // kit -- see /wow-forever/theorycraft/ for the real spell values and their sources.
-  // GCD = 1.5s, Bloodthirst CD = 6s, Whirlwind CD = 10s: all read from WoW: Forever's own Wowhead tooltips.
+  // Minimal event-driven combat simulator (Fury Warrior, single target): Bloodthirst, Whirlwind and
+  // Heroic Strike on a real Rage economy -- still no procs, no DoTs, no dual-wield split (one swing
+  // timer for a single weapon, not separate main/off hand). Modeled on SimulationCraft's own
+  // architecture (event queue, priority check at every free moment, per-swing hit/crit RNG, averaged
+  // over many iterations) but written from scratch for Forever's real, much smaller Fury kit --
+  // see /wow-forever/theorycraft/ for the spell/rage values and their sources.
   var GCD = 1.5, BT_CD = 6, WW_CD = 10;
   var BT_AP_COEFF = 0.35, BT_SP_COEFF = 1.00;
+  // Rage costs and Heroic Strike's flat bonus damage: real values read from WoW: Forever's own
+  // Wowhead spell tooltips (max rank, level 60) -- spell=23894, spell=1680, spell=25286.
+  var BT_RAGE_COST = 30, WW_RAGE_COST = 25, HS_RAGE_COST = 15, HS_BONUS_DMG = 157;
+  var RAGE_CAP = 100;
+  // Rage generation: the real WoW classic-era formula (not Forever-specific -- rage generation isn't
+  // shown in any tooltip, unlike Crit/Hit rating -- but every other confirmed Forever Warrior mechanic
+  // points to a classic-style kit, so this is the best-sourced approximation available, not an invented
+  // number). Special attacks (Bloodthirst, Whirlwind) generate no Rage; only landed weapon swings do:
+  // R = 15*damage / (4*c) + f*weaponSpeed/2, capped at 15*damage/c, c = rage conversion value at level 60.
+  var RAGE_CONVERSION_L60 = 230.6;
+  var HIT_FACTOR_NORMAL = 3.5, HIT_FACTOR_CRIT = 7.0; // main-hand values
+  // Priority heuristic (a rotation choice, not a game rule): only dump Rage into Heroic Strike once
+  // above this threshold, so it never delays Bloodthirst or Whirlwind.
+  var HS_QUEUE_THRESHOLD = 50;
 
-  var ids = ['tcAP', 'tcSP', 'tcHit', 'tcCrit', 'tcWpnDmg', 'tcWpnSpeed'];
   var runBtn = document.getElementById('simRun');
   var fightLenInput = document.getElementById('simFightLen');
   var iterInput = document.getElementById('simIterations');
@@ -21,16 +34,24 @@
     return isFinite(v) ? v : 0;
   }
 
-  // One simulated fight: returns total damage dealt over fightLen seconds.
+  // One simulated fight: returns total damage dealt over fightLen seconds plus cast counts.
   function simulateOnce(p) {
     var events = [{ time: p.weaponSpeed, type: 'swing' }, { time: 0, type: 'decision' }];
-    var btReady = 0, wwReady = 0, gcdReady = 0;
-    var dmg = 0, btCasts = 0, wwCasts = 0, swings = 0;
+    var btReady = 0, wwReady = 0, gcdReady = 0, nextSwingAt = p.weaponSpeed;
+    var rage = 0, hsQueued = false;
+    var dmg = 0, btCasts = 0, wwCasts = 0, hsCasts = 0, swings = 0;
 
-    function roll(t) {
+    function roll() {
       // 0 = miss, 1 = normal hit, 2 = critical hit (200% damage, standard WoW mechanic)
       if (Math.random() >= p.hitFrac) return 0;
       return Math.random() < p.critFrac ? 2 : 1;
+    }
+
+    function gainRage(dealt, isCrit) {
+      var f = isCrit ? HIT_FACTOR_CRIT : HIT_FACTOR_NORMAL;
+      var raw = (15 * dealt) / (4 * RAGE_CONVERSION_L60) + (f * p.weaponSpeed) / 2;
+      var cap = (15 * dealt) / RAGE_CONVERSION_L60;
+      return Math.min(raw, cap);
     }
 
     while (events.length) {
@@ -39,28 +60,49 @@
       var t = ev.time;
       if (t > p.fightLen) continue;
       if (ev.type === 'swing') {
-        var m = roll(t);
-        if (m) dmg += (p.wpnDmg + p.AP / 14) * m;
+        var empowered = hsQueued; // Heroic Strike was queued: it converts this next swing
+        var m = roll();
+        var swingDmg = 0;
+        if (m) {
+          swingDmg = (p.wpnDmg + p.AP / 14 + (empowered ? HS_BONUS_DMG : 0)) * m;
+          dmg += swingDmg;
+        }
+        if (empowered) {
+          // Simplification: full Rage cost is charged whether the swing hits or misses (the real
+          // "Discount Power On Miss" partial refund isn't modeled).
+          hsQueued = false;
+          rage = Math.max(0, rage - HS_RAGE_COST);
+          hsCasts++;
+        }
+        if (m) rage = Math.min(RAGE_CAP, rage + gainRage(swingDmg, m === 2));
+        if (!hsQueued && rage >= HS_QUEUE_THRESHOLD) hsQueued = true;
         swings++;
-        events.push({ time: t + p.weaponSpeed, type: 'swing' });
+        nextSwingAt = t + p.weaponSpeed;
+        events.push({ time: nextSwingAt, type: 'swing' });
       } else { // decision point: can we cast something?
         if (t < gcdReady) { events.push({ time: gcdReady, type: 'decision' }); continue; }
-        if (t >= btReady) {
-          var mb = roll(t);
+        if (rage >= BT_RAGE_COST && t >= btReady) {
+          var mb = roll();
           if (mb) dmg += (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb;
-          btReady = t + BT_CD; gcdReady = t + GCD; btCasts++;
+          rage -= BT_RAGE_COST; btReady = t + BT_CD; gcdReady = t + GCD; btCasts++;
           events.push({ time: gcdReady, type: 'decision' });
-        } else if (t >= wwReady) {
-          var mw = roll(t);
+        } else if (rage >= WW_RAGE_COST && t >= wwReady) {
+          var mw = roll();
           if (mw) dmg += (p.wpnDmg + p.AP / 14) * mw;
-          wwReady = t + WW_CD; gcdReady = t + GCD; wwCasts++;
+          rage -= WW_RAGE_COST; wwReady = t + WW_CD; gcdReady = t + GCD; wwCasts++;
           events.push({ time: gcdReady, type: 'decision' });
         } else {
-          events.push({ time: Math.min(btReady, wwReady), type: 'decision' });
+          // On cooldown, or Rage-starved: retry once a cooldown is up, but never schedule a retry
+          // in the past -- when Rage-starved with both off cooldown, wait for the next swing instead
+          // (that's the only thing that can generate more Rage), which keeps simulated time moving.
+          var retry = Math.min(btReady, wwReady);
+          if (retry <= t) retry = nextSwingAt > t ? nextSwingAt : t + 0.01;
+          events.push({ time: retry, type: 'decision' });
         }
+        if (!hsQueued && rage >= HS_QUEUE_THRESHOLD) hsQueued = true;
       }
     }
-    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, swings: swings };
+    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, hsCasts: hsCasts, swings: swings };
   }
 
   function run() {
@@ -73,11 +115,11 @@
     };
     var iterations = Math.max(1, Math.min(20000, parseInt(iterInput.value, 10) || 2000));
     var dpsSamples = [];
-    var totalBt = 0, totalWw = 0, totalSwings = 0;
+    var totalBt = 0, totalWw = 0, totalHs = 0, totalSwings = 0;
     for (var i = 0; i < iterations; i++) {
       var r = simulateOnce(p);
       dpsSamples.push(r.dmg / p.fightLen);
-      totalBt += r.btCasts; totalWw += r.wwCasts; totalSwings += r.swings;
+      totalBt += r.btCasts; totalWw += r.wwCasts; totalHs += r.hsCasts; totalSwings += r.swings;
     }
     var mean = dpsSamples.reduce(function (a, b) { return a + b; }, 0) / iterations;
     var variance = dpsSamples.reduce(function (a, b) { return a + (b - mean) * (b - mean); }, 0) / iterations;
@@ -88,7 +130,8 @@
     document.getElementById('simDps').textContent = fmt(mean);
     document.getElementById('simCi').textContent = '± ' + fmt(1.96 * stderr) + ' (95%)';
     document.getElementById('simCasts').textContent =
-      (totalBt / iterations).toFixed(1) + ' / ' + (totalWw / iterations).toFixed(1) + ' / ' + (totalSwings / iterations).toFixed(1);
+      (totalBt / iterations).toFixed(1) + ' / ' + (totalWw / iterations).toFixed(1) + ' / ' +
+      (totalHs / iterations).toFixed(1) + ' / ' + (totalSwings / iterations).toFixed(1);
     document.getElementById('simResults').hidden = false;
   }
 
