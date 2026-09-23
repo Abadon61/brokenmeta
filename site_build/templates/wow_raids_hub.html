@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ tx.rd_title_hub }}{% endblock %}
+{% block description %}{{ tx.rd_desc_hub }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.rd_kicker, tx.rd_h1_hub, tx.rd_intro_hub) }}
+<div class="wh-cards">
+  {% for r in dd.raids %}
+  <a class="wh-card" href="{{ root }}wow-forever/raids/{{ r.id }}/">
+    <span class="wh-card-body"><b>{{ r.name[lang] }}</b><span class="wh-card-specs">{{ r.bosses|length }} {{ tx.rd_bosses_n }}</span><span class="wh-card-n nums">{{ r['items']|length }} {{ tx.dg_items_n }} →</span></span>
+  </a>
+  {% endfor %}
+</div>
+<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.rd_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+</ul>
+{% endblock %}

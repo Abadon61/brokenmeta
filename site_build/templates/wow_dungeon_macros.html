@@ -5,3 +5,5 @@
 {%- if it.st.get('dps') %}{% set ns.parts = ns.parts + [it.st['dps'] ~ ' DPS' ~ (' (' ~ it.st['speed'] ~ ' s)' if it.st.get('speed') else '')] %}{% endif -%}
 {{ ns.parts|join(' · ') }}{% endmacro %}
 {% macro item_link(it, lang) %}<a class="dg-q{{ it.q }}" href="https://www.wowhead.com/forever/item={{ it.id }}" rel="noopener nofollow" target="_blank">{% if it.icon %}<img class="dg-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ it.icon }}.jpg" alt="" width="28" height="28" loading="lazy">{% endif %}{{ it.name }}</a>{% endmacro %}
+{% macro npc_link(name, id) %}{% if id %}<a href="https://www.wowhead.com/forever/npc={{ id }}" rel="noopener nofollow" target="_blank">{{ name }}</a>{% else %}{{ name }}{% endif %}{% endmacro %}
+{% macro spell_link(sp) %}<a class="rd-spell" href="https://www.wowhead.com/forever/spell={{ sp.id }}" rel="noopener nofollow" target="_blank">{{ sp.name }}</a>{% endmacro %}

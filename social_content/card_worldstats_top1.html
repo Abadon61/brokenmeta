@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>World Stats — Top 1 mondial</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .rows { display: flex; flex-direction: column; gap: 22px; }
+  .row-card {
+    display: flex; align-items: stretch; background: rgba(23,10,61,0.55);
+    border: 1px solid var(--border);
+  }
+  .row-card.standout { background: rgba(255,194,60,0.08); }
+  .region-badge { width: 96px; flex: none; display: flex; align-items: center; justify-content: center;
+    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 26px; color: #0b0221; }
+  .row-card[data-region="KR"] { --tc: #2de6c4; }
+  .row-card[data-region="EUW"] { --tc: #ff2d95; }
+  .row-card[data-region="NA"] { --tc: #05d9e8; }
+  .row-card[data-region="BR"] { --tc: #ffc23c; }
+  .region-badge { background: var(--tc); }
+  .row-body { flex: 1; min-width: 0; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .player-name { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 30px; text-transform: uppercase; }
+  .player-record { font-family: 'Space Mono', monospace; font-size: 17px; color: var(--text-faint); margin-top: 6px; }
+  .lp-block { text-align: right; flex: none; }
+  .lp-val { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 42px; color: var(--cyan); }
+  .lp-label { font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-faint); }
+  .callout { font-size: 27px; color: var(--text-dim); margin-top: 40px; line-height: 1.45; max-width: 940px; }
+  .callout strong { color: var(--cream); }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-worldstats-top1-mondial">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">World Stats</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">TOP 1 MONDIAL</div>
+  </div>
+  <div class="subtitle">Le <strong>meilleur joueur</strong> de chaque région, classé par LP.</div>
+
+  <div class="content">
+    <div class="rows">
+      <div class="row-card frame standout" data-region="BR" style="--tc: #ffc23c;">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="region-badge">BR</div>
+        <div class="row-body">
+          <div>
+            <div class="player-name">ego illusions</div>
+            <div class="player-record">172V — 55D</div>
+          </div>
+          <div class="lp-block"><div class="lp-val">1656</div><div class="lp-label">LP</div></div>
+        </div>
+      </div>
+      <div class="row-card frame" data-region="KR" style="--tc: #2de6c4;">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="region-badge">KR</div>
+        <div class="row-body">
+          <div>
+            <div class="player-name">jjames</div>
+            <div class="player-record">186V — 85D</div>
+          </div>
+          <div class="lp-block"><div class="lp-val">1597</div><div class="lp-label">LP</div></div>
+        </div>
+      </div>
+      <div class="row-card frame" data-region="EUW" style="--tc: #ff2d95;">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="region-badge">EUW</div>
+        <div class="row-body">
+          <div>
+            <div class="player-name">Skipaeus</div>
+            <div class="player-record">183V — 100D</div>
+          </div>
+          <div class="lp-block"><div class="lp-val">1450</div><div class="lp-label">LP</div></div>
+        </div>
+      </div>
+      <div class="row-card frame" data-region="NA" style="--tc: #05d9e8;">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="region-badge">NA</div>
+        <div class="row-body">
+          <div>
+            <div class="player-name">YBY1</div>
+            <div class="player-record">165V — 70D</div>
+          </div>
+          <div class="lp-block"><div class="lp-val">1400</div><div class="lp-label">LP</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">Twist : le Brésil a <strong>le meilleur joueur individuel au monde</strong> — mais aussi le <strong>top 100 le plus faible en moyenne</strong> de toutes les régions. Un joueur d'exception, un serveur qui ne suit pas derrière.</div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

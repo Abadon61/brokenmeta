@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% import "wow_dungeon_macros.html" as dm %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.rd_kicker, g_h1, g_intro) }}
+
+{% if raid.info.screenshots %}
+<h2 class="fiche-section-title">{{ tx.rd_gallery_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.rd_gallery_p }}</p>
+<div class="rd-gallery">
+  {% for sid in raid.info.screenshots %}
+  <a class="rd-shot" href="https://wow.zamimg.com/uploads/screenshots/normal/{{ sid }}.jpg" rel="noopener nofollow" target="_blank">
+    <img src="https://wow.zamimg.com/uploads/screenshots/normal/{{ sid }}.jpg" alt="{{ raid.name[lang] }}" loading="lazy">
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if raid.info.level %}
+<h2 class="fiche-section-title">{{ tx.rd_access_h2 }}</h2>
+<div class="rd-facts">
+  <div class="rd-fact"><span>{{ tx.rd_level }}</span><b>{{ raid.info.level }}</b></div>
+  <div class="rd-fact"><span>{{ tx.rd_players }}</span><b>{{ raid.info.players }}</b></div>
+  <div class="rd-fact"><span>{{ tx.rd_territory }}</span><b>{{ raid.info.territory[lang] }}</b></div>
+  <div class="rd-fact"><span>{{ tx.rd_location }}</span><b>{{ raid.info.location[lang] }}</b></div>
+  <div class="rd-fact"><span>{{ tx.rd_patch }}</span><b>{{ raid.info.patch }}</b></div>
+  <div class="rd-fact rd-fact-wide"><span>{{ tx.rd_attunement }}</span>
+    {% if raid.info.attunement %}<b><a href="https://www.wowhead.com/forever/quest={{ raid.info.attunement.questid }}" rel="noopener nofollow" target="_blank">{{ raid.info.attunement.quest }}</a> ({{ tx.rd_attunement_lvl.format(lvl=raid.info.attunement.reqlevel) }})</b>
+    {% else %}<b>{{ tx.rd_no_attunement }}</b>{% endif %}
+  </div>
+</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ tx.rd_bosses_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.rd_bosses_p }}</p>
+<div class="rd-bosses">
+  {% for b in raid.bosses %}
+  <div class="rd-boss">
+    <b class="rd-boss-name">{{ dm.npc_link(b.name[lang], b.npc) }}</b>
+    {% if b.type and b.type.en %}<span class="rd-boss-type">{{ tx.rd_boss_type }} : {{ b.type[lang] }}</span>{% endif %}
+    {% if b.abilities %}<div class="rd-boss-abilities">{{ tx.rd_boss_abilities }} :
+      {% for sp in b.abilities %}{{ dm.spell_link(sp) }}{% if not loop.last %}<span class="rd-sep">·</span>{% endif %}{% endfor %}
+    </div>{% else %}<p class="rd-boss-none">{{ tx.rd_boss_no_abilities }}</p>{% endif %}
+    {% if b.drops %}<div class="rd-boss-drops">{% for it in b.drops %}{{ dm.item_link(it, lang) }}{% endfor %}</div>
+    {% else %}<p class="rd-boss-none">{{ tx.rd_boss_none }}</p>{% endif %}
+  </div>
+  {% endfor %}
+</div>
+<p class="wow-note">{{ tx.rd_attribution_note }}</p>
+
+<h2 class="fiche-section-title">{{ tx.rd_all_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.rd_all_p }}</p>
+{% set ns = namespace(types=[]) %}
+{% for it in items %}{% if it.type.en and it.type.en not in ns.types %}{% set ns.types = ns.types + [it.type.en] %}{% endif %}{% endfor %}
+<div class="dg-filters" id="dgFilters">
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_type }}</legend>
+    <div class="dg-facet-grid">{% for tkey in ns.types %}{% set tlabel = (items|selectattr('type.en', 'equalto', tkey)|first).type[lang] %}
+    <label class="dg-check"><input type="checkbox" data-facet="type" value="{{ tkey }}">{{ tlabel }}</label>{% endfor %}</div>
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_primary }}</legend>
+    <div class="dg-facet-grid">{% for k in dd.primary_stats %}<label class="dg-check"><input type="checkbox" data-facet="primary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
+  </fieldset>
+  <fieldset class="dg-facet">
+    <legend>{{ tx.dg_filter_secondary }}</legend>
+    <div class="dg-facet-grid">{% for k in dd.secondary_stats %}<label class="dg-check"><input type="checkbox" data-facet="secondary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
+  </fieldset>
+  <fieldset class="dg-facet dg-facet-level">
+    <legend>{{ tx.dg_filter_level }}</legend>
+    <div class="dg-level-range">
+      <input type="number" id="dgLevelMin" min="0" placeholder="{{ tx.dg_level_min }}">
+      <span>–</span>
+      <input type="number" id="dgLevelMax" min="0" placeholder="{{ tx.dg_level_max }}">
+    </div>
+  </fieldset>
+  <button type="button" id="dgReset" class="dg-reset">{{ tx.dg_reset }}</button>
+</div>
+<p class="wow-note nums" id="dgCount"></p>
+<div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
+  <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th id="dgSortReq" class="dg-sortable" tabindex="0" role="button">{{ tx.dg_req }}<span class="dg-sort-arrow" aria-hidden="true"></span></th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th></tr></thead>
+  <tbody>{% for it in items %}
+  <tr data-type="{{ it.type.en }}" data-stats='{{ it.st|tojson }}' data-req="{{ it.req or 0 }}">
+    <td data-first>{{ dd.slots[it.slot|string][lang] }}</td>
+    <td>{{ dm.item_link(it, lang) }}</td>
+    <td>{{ it.type[lang] }}</td>
+    <td class="nums">{{ it.req or '–' }}</td>
+    <td>{{ dm.stats_text(it, tx) }}</td>
+    <td>{% if it.kind == 'quest' %}{{ tx.dg_quest }}{% elif it.src %}{{ it.src|join(', ') }}{% else %}{{ tx.rd_unattributed }}{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
+
+<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.rd_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+</ul>
+<script>window.dgCountTpl = {{ tx.dg_count|tojson }};</script>
+<script src="{{ root }}assets/js/wow-dungeons.js?v={{ css_v }}" defer></script>
+{% endblock %}

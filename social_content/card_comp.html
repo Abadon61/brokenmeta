@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Comp Spotlight — Executioner Soraka</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .comp-top { display: flex; flex-direction: column; align-items: center; text-align: center; }
+  .tier-chip {
+    width: 64px; height: 64px; display: flex; align-items: center; justify-content: center;
+    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 30px; color: #0b0221;
+    background: #ff3864; margin-bottom: 24px;
+  }
+  .portrait-frame-comp { width: 260px; height: 260px; }
+  .chip.portrait-comp { width: 260px; height: 260px; border-radius: 10px; border-width: 5px; }
+  .comp-name { font-family: 'Cal Sans', sans-serif; font-size: 54px; text-transform: uppercase; margin-top: 26px; }
+  .traits-row { display: flex; gap: 16px; margin-top: 22px; }
+  .trait-pill {
+    display: flex; align-items: center; gap: 10px; background: rgba(5,217,232,0.08);
+    border: 2px solid var(--border-bright); border-radius: 999px; padding: 9px 22px 9px 9px;
+  }
+  .trait-pill img { width: 34px; height: 34px; }
+  .trait-pill span { font-family: 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.06em; font-size: 16px; color: var(--text-dim); }
+  .lead-text { font-size: 28px; color: var(--text-dim); margin-top: 34px; line-height: 1.4; max-width: 950px; }
+  .stats-row { display: flex; justify-content: center; gap: 0; margin-top: 48px; }
+  .stats-row .stat-tile { width: 260px; border-left: 1px solid var(--border); }
+  .stats-row .stat-tile:first-child { border-left: none; }
+  .stats-row .stat-tile .num { font-size: 62px; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-comp-executioner-soraka">
+  <div class="corner tl xl"></div>
+  <div class="corner tr xl"></div>
+  <div class="corner bl xl"></div>
+  <div class="corner br xl"></div>
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+    </div>
+    <div class="pill">Patch 18.2</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">LA COMP DU MOMENT</div>
+  </div>
+  <div class="subtitle">Une des rares compos à la fois <strong>très jouée</strong> et <strong>très forte</strong> ce patch.</div>
+
+  <div class="content">
+    <div class="comp-top">
+      <div class="tier-chip">S</div>
+      <div class="portrait-frame-comp frame" style="--tc: #c76bff;">
+        <div class="corner tl lg"></div>
+        <div class="corner tr lg"></div>
+        <div class="corner bl lg"></div>
+        <div class="corner br lg"></div>
+        <div class="chip portrait-comp cost-4"><img src="https://brokenmeta.gg/assets/champions/soraka.png" alt="Soraka" crossorigin="anonymous"></div>
+      </div>
+      <div class="comp-name">Executioner Soraka</div>
+      <div class="traits-row">
+        <div class="trait-pill"><img src="https://brokenmeta.gg/assets/traits/executioner.png" alt="" crossorigin="anonymous"><span>Executioner</span></div>
+        <div class="trait-pill"><img src="https://brokenmeta.gg/assets/traits/summoner.png" alt="" crossorigin="anonymous"><span>Summoner</span></div>
+        <div class="trait-pill"><img src="https://brokenmeta.gg/assets/traits/flora-fatalis.png" alt="" crossorigin="anonymous"><span>Flora Fatalis</span></div>
+      </div>
+      <div class="lead-text">Avec un indice de contestation de 98,7 — l'une des comps les plus disputées du patch — elle reste malgré tout tier S. Tout le monde se bat pour les mêmes unités, et ça vaut le coup.</div>
+      <div class="stats-row">
+        <div class="stat-tile"><div class="num good">3,73</div><div class="label">Placement moy.</div></div>
+        <div class="stat-tile"><div class="num good">65,8%</div><div class="label">Top 4</div></div>
+        <div class="stat-tile"><div class="num">98,7</div><div class="label">Contest</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

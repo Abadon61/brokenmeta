@@ -16,6 +16,7 @@ ROLES_FILE = ROOT / "data" / "wow_guides" / "roles.json"
 CONTENT_FILE = ROOT / "data" / "wow_guides" / "content.json"
 PROF_DIR = ROOT / "data" / "wow_professions"
 DUNGEON_FILE = ROOT / "data" / "wow_dungeons" / "dungeons.json"
+RAID_FILE = ROOT / "data" / "wow_raids" / "raids.json"
 
 
 def load_guides(wt_classes: list[dict]) -> list[dict]:
@@ -40,6 +41,10 @@ def load_professions() -> list[dict]:
 
 def load_dungeons() -> dict | None:
     return json.loads(DUNGEON_FILE.read_text(encoding="utf-8")) if DUNGEON_FILE.exists() else None
+
+
+def load_raids() -> dict | None:
+    return json.loads(RAID_FILE.read_text(encoding="utf-8")) if RAID_FILE.exists() else None
 
 
 def spec_facts(spec: dict) -> dict:
@@ -212,6 +217,26 @@ TXT = {
             "Les noms d'objets sont en anglais : leur traduction française n'est pas dans les données récupérées.",
         ],
         "dg_src": "Butin et stats des objets : ", "dg_src2": "Types d'armure et d'arme : ",
+        "rd_kicker": "World of Warcraft: Forever · Raids", "rd_title_hub": "Raids WoW: Forever : boss et butin", "rd_desc_hub": "Le butin et les boss de chaque raid de WoW: Forever, avec le même filtre par type et par stats que les donjons.",
+        "rd_h1_hub": "Raids de WoW: Forever", "rd_intro_hub": "Le butin et les boss de chaque raid répertorié. Ce contenu de fin de partie n'a probablement pas encore été terminé en bêta : l'attribution du butin par boss reste souvent incomplète chez Wowhead.",
+        "rd_bosses_n": "boss", "rd_title": "{name} WoW: Forever : boss et butin", "rd_desc": "Boss et butin de {name} dans WoW: Forever, filtrables par type d'objet et par stats.",
+        "rd_h1": "{name} : boss et butin", "rd_intro": "Les boss de {name} et leur butin confirmé, plus l'ensemble des objets du raid filtrables par type et par stats.",
+        "rd_gallery_h2": "Le lieu", "rd_gallery_p": "Captures d'écran réelles du raid, prises en jeu.",
+        "rd_access_h2": "Accès", "rd_level": "Niveau requis", "rd_players": "Joueurs", "rd_territory": "Territoire", "rd_location": "Emplacement",
+        "rd_patch": "Ajouté en patch", "rd_attunement": "Quête d'accès", "rd_attunement_lvl": "dès le niveau {lvl}", "rd_no_attunement": "Aucune quête d'accès connue : le raid s'ouvre à l'entrée.",
+        "rd_bosses_h2": "Les boss", "rd_bosses_p": "La liste et l'ordre des boss viennent de la fiche du raid sur Wowhead (le classement « boss », une valeur distincte des simples ennemis d'élite, n'existe que pour les raids). Le butin affiché sous chaque boss est celui que Wowhead attribue nommément à ce boss.",
+        "rd_boss_none": "Aucun objet attribué nommément à ce boss dans les données actuelles.",
+        "rd_boss_type": "Type", "rd_boss_abilities": "Capacités connues", "rd_boss_no_abilities": "Aucune capacité recensée pour le moment dans les données récupérées.",
+        "rd_attribution_note": "Ce raid est du contenu de niveau 60 : il n'a probablement pas encore été terminé pendant cette bêta de bas niveau, donc l'attribution du butin par boss reste incomplète chez Wowhead. Le reste du butin du raid est listé plus bas, filtrable comme pour un donjon.",
+        "rd_all_h2": "Tout le butin du raid", "rd_all_p": "Tous les objets équipables du raid, y compris ceux sans boss d'origine confirmé, avec leurs vraies stats dans Forever.",
+        "rd_unattributed": "Boss non confirmé",
+        "rd_method": [
+            "Un boss est une créature classée « boss » par Wowhead (une catégorie distincte des ennemis d'élite ordinaires), et non une créature nommée au hasard.",
+            "L'ordre des boss et leurs capacités connues viennent de la fiche de chaque boss sur Wowhead (données du jeu réel : ce raid existe depuis WoW Classic et partage la même zone et les mêmes créatures que Forever).",
+            "Le butin d'un boss est celui que Wowhead lui attribue nommément. Beaucoup d'objets de raid n'ont pas encore cette attribution dans les données de la bêta.",
+            "Comme pour les donjons, cette page ne classe pas les objets par classe ni par spécialisation et ne propose ni carte ni stratégie détaillée : aucune source fiable ne les documente pour Forever.",
+            "Les noms d'objets, de capacités et de la quête d'accès sont en anglais : leur traduction française n'est pas dans les données récupérées.",
+        ],
     },
     "en": {
         "guides": "Class guides", "professions": "Professions", "kicker": "World of Warcraft: Forever · Class guide",
@@ -296,5 +321,25 @@ TXT = {
             "Item names are in English: their French translation is not in the data we retrieved.",
         ],
         "dg_src": "Loot and item stats: ", "dg_src2": "Armor and weapon types: ",
+        "rd_kicker": "World of Warcraft: Forever · Raids", "rd_title_hub": "WoW: Forever raids: bosses and loot", "rd_desc_hub": "The loot and bosses of every WoW: Forever raid, with the same type/stat filter as dungeons.",
+        "rd_h1_hub": "WoW: Forever raids", "rd_intro_hub": "The loot and bosses of every raid catalogued so far. This end-game content has likely not really been cleared during the beta yet: Wowhead's boss-by-boss loot attribution is often still incomplete.",
+        "rd_bosses_n": "bosses", "rd_title": "{name} WoW: Forever: bosses and loot", "rd_desc": "{name} bosses and loot in WoW: Forever, filterable by item type and stats.",
+        "rd_h1": "{name}: bosses and loot", "rd_intro": "The bosses of {name} and their confirmed loot, plus every raid item filterable by type and stats.",
+        "rd_gallery_h2": "The place", "rd_gallery_p": "Real in-game screenshots of the raid.",
+        "rd_access_h2": "Access", "rd_level": "Required level", "rd_players": "Players", "rd_territory": "Territory", "rd_location": "Location",
+        "rd_patch": "Added in patch", "rd_attunement": "Attunement quest", "rd_attunement_lvl": "from level {lvl}", "rd_no_attunement": "No known attunement quest: the raid is open at the entrance.",
+        "rd_bosses_h2": "The bosses", "rd_bosses_p": "The boss list and order come from the raid's own Wowhead page (the \"boss\" classification, distinct from ordinary elite enemies, only exists for raids). The loot shown under each boss is what Wowhead names as coming from that boss.",
+        "rd_boss_none": "No item is named as coming from this boss in the current data.",
+        "rd_boss_type": "Type", "rd_boss_abilities": "Known abilities", "rd_boss_no_abilities": "No ability recorded yet in the data we retrieved.",
+        "rd_attribution_note": "This raid is level-60 content: it has likely not really been cleared during this low-level beta, so boss-by-boss loot attribution stays incomplete on Wowhead. The rest of the raid's loot is listed below, filterable like a dungeon.",
+        "rd_all_h2": "All raid loot", "rd_all_p": "Every equippable item of the raid, including those with no confirmed boss source, with their real Forever stats.",
+        "rd_unattributed": "Boss not confirmed",
+        "rd_method": [
+            "A boss is a creature Wowhead itself classifies as a boss (a category distinct from ordinary elite enemies), not just any named creature.",
+            "Boss order and known abilities come from each boss's own Wowhead page (real game data: this raid has existed since WoW Classic and shares the same zone and creatures with Forever).",
+            "A boss's loot is whatever Wowhead names as coming from it. Many raid items don't have that attribution yet in the beta data.",
+            "Like the dungeon pages, this page does not rank items by class or specialization and offers no map or detailed strategy: no reliable source documents them for Forever.",
+            "Item names, ability names and the attunement quest are in English: their French translation is not in the data we retrieved.",
+        ],
     },
 }

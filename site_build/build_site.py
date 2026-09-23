@@ -6595,6 +6595,8 @@ def main() -> None:
     env.globals["wow_profs_nav"] = wow_profs
     wow_dungeons = wow_guides.load_dungeons()
     env.globals["wow_dungeons_nav"] = wow_dungeons["dungeons"] if wow_dungeons else []
+    wow_raids = wow_guides.load_raids()
+    env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
@@ -7366,6 +7368,23 @@ def main() -> None:
                        items=_allitems, all_dungeons=True, g_title=_gx["dg_all_title"], g_desc=_gx["dg_all_desc"], g_h1=_allh1, g_intro=_alli,
                        breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_gx["dg_all_card"], canonical_for(_allpath, lang))]),
                        article_schema=build_article_schema(_allh1, canonical_for(_allpath, lang), _gx["dg_all_desc"]))
+            if wow_raids:
+                _rcrumb = _gbase + [(_gx["rd_kicker"].split(" · ")[-1], canonical_for("/wow-forever/raids/", lang))]
+                render("wow_raids_hub.html", "/wow-forever/raids/", lang, active_nav="wow", active_sub="wow-raids", tx=_gx, dd=wow_raids,
+                       breadcrumb_schema=breadcrumb_schema(_rcrumb))
+                _rorder = {sl: i for i, sl in enumerate(wow_raids["slot_order"])}
+                for _r in wow_raids["raids"]:
+                    _rpath = f"/wow-forever/raids/{_r['id']}/"
+                    _rn = _r["name"][lang]
+                    _rt, _rd_ = _gx["rd_title"].format(name=_rn), _gx["rd_desc"].format(name=_rn)
+                    assert len(_rt) <= 60 and len(_rd_) <= 155, (_rt, len(_rt), len(_rd_))
+                    _rh1 = _gx["rd_h1"].format(name=_rn)
+                    _ri = _gx["rd_intro"].format(name=_rn)
+                    _ritems = sorted(_r["items"], key=lambda i: (_rorder.get(i["slot"], 99), i["name"]))
+                    render("wow_raid.html", _rpath, lang, active_nav="wow", active_sub="wow-raids", tx=_gx, dd=wow_raids, raid=_r, items=_ritems,
+                           g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri,
+                           breadcrumb_schema=breadcrumb_schema(_rcrumb + [(_rn, canonical_for(_rpath, lang))]),
+                           article_schema=build_article_schema(_rh1, canonical_for(_rpath, lang), _rd_))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))
