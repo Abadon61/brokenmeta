@@ -7,6 +7,12 @@
   var WW_CD = 10;
   var AP_PER_STR = 2;          // Warrior melee Attack Power per point of Strength
   var CRIT_PCT_PER_AGI = 1 / 20; // 1% critical strike per 20 Agility (Warrior)
+  // Rating -> percent at level 60, read directly off real WoW: Forever item tooltips (Wowhead shows the exact
+  // conversion in parentheses, e.g. "+28 Critical Strike (2.00% @ L60)"), cross-checked on 2 items each:
+  // Ragefury Eyepatch (item=11735, +28 -> 2.00%) and Illusionary Rod (item=7713, +14 -> 1.00%) for crit;
+  // Blackstone Ring (item=17713, +10 -> 1.00%) and Magister's Leggings (item=16687, +9 -> 0.90%) for hit.
+  var CRIT_RATING_PER_PCT = 14;
+  var HIT_RATING_PER_PCT = 10;
 
   var ids = ['tcAP', 'tcAgi', 'tcSP', 'tcHit', 'tcCrit', 'tcWpnDmg', 'tcWpnSpeed'];
   var inputs = {};
@@ -55,6 +61,10 @@
     document.getElementById('tcWAp').textContent = '+' + fmt(dDpsPerAp);
     document.getElementById('tcWHit').textContent = '+' + fmt(dDpsPerHitPct);
     document.getElementById('tcWCrit').textContent = '+' + fmt(dDpsPerCritPct);
+    var wCritRating = document.getElementById('tcWCritRating');
+    var wHitRating = document.getElementById('tcWHitRating');
+    if (wCritRating) wCritRating.textContent = '+' + fmt(dDpsPerCritPct / CRIT_RATING_PER_PCT);
+    if (wHitRating) wHitRating.textContent = '+' + fmt(dDpsPerHitPct / HIT_RATING_PER_PCT);
   }
 
   ids.forEach(function (id) { inputs[id].addEventListener('input', compute); });
