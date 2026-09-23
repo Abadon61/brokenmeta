@@ -2,7 +2,8 @@
   'use strict';
   // Minimal event-driven combat simulator (Fury Warrior, single target): Bloodthirst, Whirlwind,
   // Heroic Strike and Death Wish on a real Rage economy, real dual-wielding, real Fury-tree procs
-  // (Flurry, Unbridled Wrath, Raging Blows, Boundless Rage) plus generic user-supplied
+  // (Flurry, Unbridled Wrath, Raging Blows, Boundless Rage), a real attack table (Dodge and Glancing
+  // Blows against a level-63 raid boss, white swings only) plus generic user-supplied
   // weapon-proc/bleed slots.
   // Modeled on SimulationCraft's own architecture (event queue, priority check at every free moment,
   // per-swing hit/crit RNG, averaged over many iterations) but written from scratch for Forever's
@@ -65,6 +66,24 @@
   // Priority heuristic (a rotation choice, not a game rule): only dump Rage into Heroic Strike once
   // above this threshold, so it never delays Bloodthirst or Whirlwind.
   var HS_QUEUE_THRESHOLD = 50;
+  // Full attack table for white (normal swing) damage against a level-63 raid boss, using the
+  // original vanilla-era (patch 1.12) formulas -- consistent with every other Forever mechanic
+  // sourced this far, which all match that same pre-Burning-Crusade foundation rather than a later
+  // revision. Dodge = 5% + (bossDefense - attackerSkill)*0.1%, with skill capped at 300 (a level 60's
+  // trainable max): 5% + (315-300)*0.1% = 6.5%. Glancing Blow chance = 10% + (bossDefense -
+  // attackerSkill)*2%: 10% + 15*2% = 40% (this is the original, pre-patch-2.1 formula; a later
+  // revision lowered it to a flat 24%, but 1.12-era mechanics fit Forever's kit everywhere else, so
+  // that's the value used here). Glancing Blow damage, at exactly 300 weapon skill with no
+  // skill-boosting gear (a disclosed assumption): 70% of normal damage (the pre-patch-2.0.1 formula,
+  // where the exact percentage still depended on weapon skill; a later revision fixed it at 65% and
+  // capped it, but again, 1.12-era fits everything else confirmed so far). Both only apply to white
+  // (normal swing) damage, never to special attacks (Bloodthirst, Whirlwind, Heroic Strike): Dodge
+  // could plausibly still apply to special attacks too, but the community's own attack-table research
+  // explicitly flags this as unresolved for "yellow" attacks, so it's deliberately left unmodeled there
+  // rather than guessed. Parry and Block are assumed to be 0%, matching the standard raiding assumption
+  // of attacking from behind (a real, sourced positioning rule: attacking from behind removes Parry and
+  // Block from the table; Dodge is unaffected by position).
+  var DODGE_CHANCE_VS_BOSS = 0.065, GLANCE_CHANCE_VS_BOSS = 0.40, GLANCE_DAMAGE_MULT = 0.70;
 
   var runBtn = document.getElementById('simRun');
   var fightLenInput = document.getElementById('simFightLen');
@@ -108,9 +127,12 @@
     // Applies Death Wish's +20% Physical damage buff (if active at time t) to a damage instance.
     function addDmg(t, amount) { dmg += amount * (t <= dwActiveUntil ? DW_MULT : 1); }
 
-    function roll(hitFrac) {
-      // 0 = miss, 1 = normal hit, 2 = critical hit (200% damage, standard WoW mechanic)
+    function roll(hitFrac, allowGlance) {
+      // Returns a damage multiplier: 0 = miss or dodge, GLANCE_DAMAGE_MULT = glancing blow (white
+      // swings only), 1 = normal hit, 2 = critical hit (200% damage, standard WoW mechanic).
       if (Math.random() >= hitFrac) return 0;
+      if (Math.random() < DODGE_CHANCE_VS_BOSS) return 0;
+      if (allowGlance && Math.random() < GLANCE_CHANCE_VS_BOSS) return GLANCE_DAMAGE_MULT;
       return Math.random() < p.critFrac ? 2 : 1;
     }
 
@@ -161,7 +183,11 @@
       if (t > p.fightLen) continue;
       if (ev.type === 'mh_swing') {
         var empowered = hsQueued; // Heroic Strike requires the main hand: it only converts an MH swing
-        var m = roll(mhWhiteHit);
+        // Heroic Strike is a special ("yellow") attack, not a boosted white swing: it uses the target's
+        // plain hit chance with no dual-wield miss penalty and can never glance (source: Vanilla WoW
+        // Wiki attack-table page -- "yellow-damage attacks do not incur the +19% miss penalty for
+        // dual-wielding, nor can they be Glancing Blows").
+        var m = empowered ? roll(p.hitFrac, false) : roll(mhWhiteHit, true);
         var swingDmg = 0;
         if (m) {
           swingDmg = (p.wpnDmg + p.AP / 14 + (empowered ? HS_BONUS_DMG : 0)) * m;
@@ -184,7 +210,7 @@
         nextMhAt = t + p.weaponSpeed * mhSpeedMult;
         events.push({ time: nextMhAt, type: 'mh_swing' });
       } else if (ev.type === 'oh_swing') {
-        var mo = roll(ohWhiteHit);
+        var mo = roll(ohWhiteHit, true);
         var ohDmg = 0;
         if (mo) {
           ohDmg = (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mo;
@@ -213,17 +239,17 @@
           rage -= DW_RAGE_COST; dwReady = t + DW_CD; gcdReady = t + GCD; dwActiveUntil = t + DW_DURATION; dwCasts++;
           events.push({ time: gcdReady, type: 'decision' });
         } else if (rage >= BT_RAGE_COST && t >= btReady) {
-          var mb = roll(p.hitFrac);
+          var mb = roll(p.hitFrac, false);
           if (mb) { addDmg(t, (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb); onMeleeWeaponDamage(); if (mb === 2) onCrit(t); }
           rage -= BT_RAGE_COST; btReady = t + BT_CD; gcdReady = t + GCD; btCasts++;
           events.push({ time: gcdReady, type: 'decision' });
         } else if (rage >= WW_RAGE_COST && t >= wwReady) {
           // Whirlwind hits with the off-hand too only with the Raging Blows talent (real WoW: Forever
           // talent tree data -- NOT automatic from dual-wielding alone, unlike generic classic WoW).
-          var mw = roll(p.hitFrac);
+          var mw = roll(p.hitFrac, false);
           if (mw) { addDmg(t, (p.wpnDmg + p.AP / 14) * mw); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mw === 2) onCrit(t); }
           if (dualWield && p.ragingBlows) {
-            var mwOh = roll(p.hitFrac);
+            var mwOh = roll(p.hitFrac, false);
             if (mwOh) { addDmg(t, (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mwOh); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mwOh === 2) onCrit(t); }
           }
           rage -= WW_RAGE_COST; wwReady = t + WW_CD; gcdReady = t + GCD; wwCasts++;
