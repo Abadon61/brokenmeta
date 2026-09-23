@@ -6604,7 +6604,11 @@ def main() -> None:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
     if wow_dungeons or wow_raids:
         _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Optimisation de personnage", "Character optimizer"))
-    _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("theorycraft", "Theorycraft DPS", "DPS theorycraft"))
+    # Theorycraft nav entry temporarily removed (2026-09-23): the level-60 DPS simulator is being rebuilt
+    # around level 20 (the beta's real level cap, with real Icy Veins-sourced rotations) instead of a
+    # speculative level-60 kit built before any level-60 content or community consensus existed. Re-add
+    # once the level-20 rebuild ships. The page/JS/data files are left in place, just unlinked.
+    # _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("theorycraft", "Theorycraft DPS", "DPS theorycraft"))
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["trait_label"] = trait_label
@@ -7496,18 +7500,20 @@ def main() -> None:
                        g_title=_gx["op_title"], g_desc=_gx["op_desc"], g_h1=_gx["op_h1"], g_intro=_gx["op_intro"],
                        breadcrumb_schema=breadcrumb_schema(_ocrumb),
                        article_schema=build_article_schema(_gx["op_h1"], canonical_for(_oppath, lang), _gx["op_desc"]))
-            # Theorycraft: real per-cast ability values (Forever's own Wowhead tooltips, spell IDs cited in the
-            # template) plus real race/class stat-conversion rates (RankedBoost, already used by the optimizer)
-            # combine into closed-form marginal stat weights -- no event/RNG simulation, no invented rotation
-            # numbers. Fury Warrior is the only spec for now (Icy Veins has no Forever level-60 guide yet to
-            # cross-check others against); the page says so.
-            _tcpath = "/wow-forever/theorycraft/"
-            _tccrumb = _gbase + [(_gx["tc_kicker"].split(" · ")[-1], canonical_for(_tcpath, lang))]
-            assert len(_gx["tc_title"]) <= 60 and len(_gx["tc_desc"]) <= 155
-            render("wow_theorycraft.html", _tcpath, lang, active_nav="wow", active_sub="wow-theorycraft", tx=_gx,
-                   g_title=_gx["tc_title"], g_desc=_gx["tc_desc"], g_h1=_gx["tc_h1"], g_intro=_gx["tc_intro"],
-                   breadcrumb_schema=breadcrumb_schema(_tccrumb),
-                   article_schema=build_article_schema(_gx["tc_h1"], canonical_for(_tcpath, lang), _gx["tc_desc"]))
+            # Theorycraft page temporarily removed from the build (2026-09-23, user request): it modeled a
+            # speculative level-60 Fury Warrior kit (Bloodthirst/Whirlwind/Heroic Strike, none of which exist
+            # at the beta's actual level-20 cap) with rotation-priority assumptions that testing later showed
+            # were wrong in places (e.g. the Heroic Strike Rage threshold). Being rebuilt around level 20,
+            # where Icy Veins already publishes real, community-sourced rotations per spec that can be used
+            # as an actual DPS ranking across specs instead of one speculative Fury-only tool. Template/JS/
+            # guide text left in place for reference; re-enable this block once the rebuild ships.
+            # _tcpath = "/wow-forever/theorycraft/"
+            # _tccrumb = _gbase + [(_gx["tc_kicker"].split(" · ")[-1], canonical_for(_tcpath, lang))]
+            # assert len(_gx["tc_title"]) <= 60 and len(_gx["tc_desc"]) <= 155
+            # render("wow_theorycraft.html", _tcpath, lang, active_nav="wow", active_sub="wow-theorycraft", tx=_gx,
+            #        g_title=_gx["tc_title"], g_desc=_gx["tc_desc"], g_h1=_gx["tc_h1"], g_intro=_gx["tc_intro"],
+            #        breadcrumb_schema=breadcrumb_schema(_tccrumb),
+            #        article_schema=build_article_schema(_gx["tc_h1"], canonical_for(_tcpath, lang), _gx["tc_desc"]))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))
