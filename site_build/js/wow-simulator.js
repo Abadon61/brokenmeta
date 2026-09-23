@@ -64,9 +64,15 @@
   // Applied to every damage source in this simulator, since everything it currently models (weapon
   // swings, Bloodthirst, Whirlwind, Heroic Strike, and the generic proc/bleed slots) is Physical school.
   var DW_RAGE_COST = 10, DW_CD = 180, DW_DURATION = 30, DW_MULT = 1.20;
-  // Priority heuristic (a rotation choice, not a game rule): only dump Rage into Heroic Strike once
-  // above this threshold, so it never delays Bloodthirst or Whirlwind.
-  var HS_QUEUE_THRESHOLD = 50;
+  // Priority heuristic (a rotation choice, not a game rule): queue Heroic Strike as soon as it's
+  // affordable at all. This threshold was originally set higher (50) on the untested assumption that
+  // Heroic Strike should only fire on truly "spare" Rage above Bloodthirst/Whirlwind's needs -- but
+  // testing every threshold from 15 to 50 directly in this simulator showed DPS falls off monotonically
+  // as the threshold rises (from ~190 DPS at 15 down to ~127 at 50, at default stats): Heroic Strike's
+  // damage per Rage point is higher than Whirlwind's in a pure single-target fight, so spending Rage on
+  // it as early as possible beats saving Rage for Whirlwind. Kept at HS's own cost (never lower, so it
+  // isn't queued before it can even be afforded).
+  var HS_QUEUE_THRESHOLD = 15;
   // Full attack table for white (normal swing) damage against a level-63 raid boss, using the
   // original vanilla-era (patch 1.12) formulas -- consistent with every other Forever mechanic
   // sourced this far, which all match that same pre-Burning-Crusade foundation rather than a later
