@@ -1,11 +1,11 @@
 (function () {
   'use strict';
   // Minimal event-driven combat simulator (Fury Warrior, single target): Bloodthirst, Whirlwind and
-  // Heroic Strike on a real Rage economy, now with real dual-wielding (independent main-hand and
-  // off-hand swing timers) -- still no procs, no DoTs. Modeled on SimulationCraft's own architecture
-  // (event queue, priority check at every free moment, per-swing hit/crit RNG, averaged over many
-  // iterations) but written from scratch for Forever's real, much smaller Fury kit -- see
-  // /wow-forever/theorycraft/ for the spell/rage/dual-wield values and their sources.
+  // Heroic Strike on a real Rage economy, real dual-wielding, and now two real Fury-tree procs (Flurry,
+  // Unbridled Wrath) plus generic user-supplied weapon-proc/bleed slots. Modeled on SimulationCraft's
+  // own architecture (event queue, priority check at every free moment, per-swing hit/crit RNG, averaged
+  // over many iterations) but written from scratch for Forever's real, much smaller Fury kit -- see
+  // /wow-forever/theorycraft/ for the spell/rage/dual-wield/talent values and their sources.
   var GCD = 1.5, BT_CD = 6, WW_CD = 10;
   var BT_AP_COEFF = 0.35, BT_SP_COEFF = 1.00;
   // Rage costs and Heroic Strike's flat bonus damage: real values read from WoW: Forever's own
@@ -29,6 +29,19 @@
   var OH_DAMAGE_BASE = 0.5;
   var DUAL_WIELD_MISS_PENALTY = 0.19;
   var DWS_OH_DMG_PER_RANK = 0.05, DWS_OH_RAGE_PER_RANK = 0.20, DWS_OH_HIT_PER_RANK = 0.02;
+  // Flurry (real Fury talent, Forever's own beta client data, 5 ranks): +5%/rank melee attack speed for
+  // the next 3 swings after ANY melee critical strike (auto-attack or special ability -- confirmed on
+  // WoW Classic's own Wowhead tooltip: "after dealing a melee critical strike", no restriction stated).
+  // The speed bonus itself only ever speeds up normal swings (special abilities run on fixed cooldowns,
+  // unaffected by attack speed); charges are consumed by a swing regardless of hit/miss, and a fresh
+  // crit always resets the count back to a full 3, not additive. A charge window not fully spent within
+  // 15 seconds expires. Simplification: the bonus applies starting from the NEXT scheduled swing after
+  // the triggering crit, not by retroactively compressing a swing timer already in flight.
+  var FLURRY_BONUS_PER_RANK = 0.05, FLURRY_CHARGES = 3, FLURRY_EXPIRE_SEC = 15;
+  // Unbridled Wrath (real Fury talent, Forever's own beta client data, 5 ranks): +12%/rank chance to
+  // generate 1 additional Rage (2 for two-handed weapons -- not modeled, this tool is dual-wield-only)
+  // whenever you deal melee damage with a weapon.
+  var UNBRIDLED_WRATH_CHANCE_PER_RANK = 0.12;
   // Priority heuristic (a rotation choice, not a game rule): only dump Rage into Heroic Strike once
   // above this threshold, so it never delays Bloodthirst or Whirlwind.
   var HS_QUEUE_THRESHOLD = 50;
@@ -54,13 +67,17 @@
     var ohMissPenalty = Math.max(0, DUAL_WIELD_MISS_PENALTY - DWS_OH_HIT_PER_RANK * dwsRank);
     var mhWhiteHit = Math.max(0, p.hitFrac - mhMissPenalty);
     var ohWhiteHit = Math.max(0, p.hitFrac - ohMissPenalty);
+    var flurryBonus = FLURRY_BONUS_PER_RANK * Math.max(0, Math.min(5, p.flurryRank));
+    var unbridledChance = UNBRIDLED_WRATH_CHANCE_PER_RANK * Math.max(0, Math.min(5, p.unbridledRank));
 
     var events = [{ time: p.weaponSpeed, type: 'mh_swing' }, { time: 0, type: 'decision' }];
     var nextMhAt = p.weaponSpeed, nextOhAt = Infinity;
     if (dualWield) { events.push({ time: p.ohWeaponSpeed, type: 'oh_swing' }); nextOhAt = p.ohWeaponSpeed; }
     var btReady = 0, wwReady = 0, gcdReady = 0;
     var rage = 0, hsQueued = false;
-    var dmg = 0, btCasts = 0, wwCasts = 0, hsCasts = 0, swings = 0;
+    var flurryCharges = 0, flurryExpireAt = -1;
+    var bleedEndsAt = -1, bleedActive = false;
+    var dmg = 0, btCasts = 0, wwCasts = 0, hsCasts = 0, swings = 0, procDmg = 0, bleedDmg = 0;
 
     function roll(hitFrac) {
       // 0 = miss, 1 = normal hit, 2 = critical hit (200% damage, standard WoW mechanic)
@@ -81,6 +98,33 @@
       if (!hsQueued && rage >= HS_QUEUE_THRESHOLD) hsQueued = true;
     }
 
+    function onCrit(t) {
+      if (flurryBonus > 0) { flurryCharges = FLURRY_CHARGES; flurryExpireAt = t + FLURRY_EXPIRE_SEC; }
+    }
+
+    // Consumes one Flurry charge (if any is active) and returns the speed multiplier to apply when
+    // scheduling this hand's NEXT swing.
+    function consumeFlurrySpeedMult(t) {
+      if (flurryCharges > 0 && t <= flurryExpireAt) { flurryCharges--; return 1 / (1 + flurryBonus); }
+      return 1;
+    }
+
+    function onMeleeWeaponDamage() {
+      if (unbridledChance > 0 && Math.random() < unbridledChance) rage = Math.min(RAGE_CAP, rage + 1);
+    }
+
+    // Generic weapon proc ("chance on hit": a flat bonus hit, no separate crit roll) and generic bleed
+    // (a refreshable, non-stacking DoT): both use real-world values the user enters from their own gear,
+    // since we don't have per-item proc data catalogued for Forever yet. Fires on any landed weapon
+    // damage, main or off hand, Bloodthirst or Whirlwind alike -- a simplification disclosed on the page.
+    function onLandedWeaponHit(t) {
+      if (p.procChance > 0 && Math.random() < p.procChance) { dmg += p.procDmg; procDmg += p.procDmg; }
+      if (p.bleedChance > 0 && Math.random() < p.bleedChance) {
+        bleedEndsAt = t + p.bleedDuration;
+        if (!bleedActive) { bleedActive = true; events.push({ time: t + p.bleedInterval, type: 'bleed_tick' }); }
+      }
+    }
+
     while (events.length) {
       events.sort(function (a, b) { return a.time - b.time; });
       var ev = events.shift();
@@ -93,6 +137,8 @@
         if (m) {
           swingDmg = (p.wpnDmg + p.AP / 14 + (empowered ? HS_BONUS_DMG : 0)) * m;
           dmg += swingDmg;
+          onMeleeWeaponDamage();
+          onLandedWeaponHit(t);
         }
         if (empowered) {
           // Simplification: full Rage cost is charged whether the swing hits or misses (the real
@@ -102,9 +148,11 @@
           hsCasts++;
         }
         if (m) rage = Math.min(RAGE_CAP, rage + gainRage(swingDmg, m === 2, false));
+        var mhSpeedMult = consumeFlurrySpeedMult(t);
+        if (m === 2) onCrit(t);
         checkHsQueue();
         swings++;
-        nextMhAt = t + p.weaponSpeed;
+        nextMhAt = t + p.weaponSpeed * mhSpeedMult;
         events.push({ time: nextMhAt, type: 'mh_swing' });
       } else if (ev.type === 'oh_swing') {
         var mo = roll(ohWhiteHit);
@@ -113,26 +161,38 @@
           ohDmg = (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mo;
           dmg += ohDmg;
           rage = Math.min(RAGE_CAP, rage + gainRage(ohDmg, mo === 2, true));
+          onMeleeWeaponDamage();
+          onLandedWeaponHit(t);
         }
+        var ohSpeedMult = consumeFlurrySpeedMult(t);
+        if (mo === 2) onCrit(t);
         checkHsQueue();
         swings++;
-        nextOhAt = t + p.ohWeaponSpeed;
+        nextOhAt = t + p.ohWeaponSpeed * ohSpeedMult;
         events.push({ time: nextOhAt, type: 'oh_swing' });
+      } else if (ev.type === 'bleed_tick') {
+        if (t <= bleedEndsAt) {
+          dmg += p.bleedTick; bleedDmg += p.bleedTick;
+          events.push({ time: t + p.bleedInterval, type: 'bleed_tick' });
+        } else {
+          bleedActive = false;
+        }
       } else { // decision point: can we cast something?
         if (t < gcdReady) { events.push({ time: gcdReady, type: 'decision' }); continue; }
         if (rage >= BT_RAGE_COST && t >= btReady) {
           var mb = roll(p.hitFrac);
-          if (mb) dmg += (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb;
+          if (mb) { dmg += (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb; onMeleeWeaponDamage(); if (mb === 2) onCrit(t); }
           rage -= BT_RAGE_COST; btReady = t + BT_CD; gcdReady = t + GCD; btCasts++;
           events.push({ time: gcdReady, type: 'decision' });
         } else if (rage >= WW_RAGE_COST && t >= wwReady) {
           // Whirlwind hits with both weapons when dual-wielding (real classic mechanic), each its own
-          // roll; neither contributes Rage (special attacks generate none).
+          // roll; neither contributes Rage (special attacks generate none), but each can still crit
+          // (triggering Flurry) and can still proc a generic weapon effect.
           var mw = roll(p.hitFrac);
-          if (mw) dmg += (p.wpnDmg + p.AP / 14) * mw;
+          if (mw) { dmg += (p.wpnDmg + p.AP / 14) * mw; onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mw === 2) onCrit(t); }
           if (dualWield) {
             var mwOh = roll(p.hitFrac);
-            if (mwOh) dmg += (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mwOh;
+            if (mwOh) { dmg += (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mwOh; onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mwOh === 2) onCrit(t); }
           }
           rage -= WW_RAGE_COST; wwReady = t + WW_CD; gcdReady = t + GCD; wwCasts++;
           events.push({ time: gcdReady, type: 'decision' });
@@ -147,7 +207,7 @@
         checkHsQueue();
       }
     }
-    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, hsCasts: hsCasts, swings: swings };
+    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, hsCasts: hsCasts, swings: swings, procDmg: procDmg, bleedDmg: bleedDmg };
   }
 
   function run() {
@@ -157,7 +217,10 @@
       critFrac: Math.max(0, num('tcCrit')) / 100,
       wpnDmg: num('tcWpnDmg'), weaponSpeed: Math.max(0.1, num('tcWpnSpeed')),
       ohWpnDmg: Math.max(0, num('tcOhDmg')), ohWeaponSpeed: Math.max(0.1, num('tcOhSpeed')),
-      dwsRank: num('tcDws'),
+      dwsRank: num('tcDws'), flurryRank: num('tcFlurry'), unbridledRank: num('tcUnbridled'),
+      procChance: Math.max(0, num('tcProcChance')) / 100, procDmg: Math.max(0, num('tcProcDmg')),
+      bleedChance: Math.max(0, num('tcBleedChance')) / 100, bleedTick: Math.max(0, num('tcBleedTick')),
+      bleedInterval: Math.max(0.5, num('tcBleedInterval') || 3), bleedDuration: Math.max(0, num('tcBleedDuration')),
       fightLen: Math.max(10, parseFloat(fightLenInput.value) || 300),
     };
     var iterations = Math.max(1, Math.min(20000, parseInt(iterInput.value, 10) || 2000));
