@@ -2,7 +2,8 @@
   'use strict';
   // Minimal event-driven combat simulator (Fury Warrior, single target): Bloodthirst, Whirlwind,
   // Heroic Strike and Death Wish on a real Rage economy, real dual-wielding, real Fury-tree procs
-  // (Flurry, Unbridled Wrath, Raging Blows) plus generic user-supplied weapon-proc/bleed slots.
+  // (Flurry, Unbridled Wrath, Raging Blows, Boundless Rage) plus generic user-supplied
+  // weapon-proc/bleed slots.
   // Modeled on SimulationCraft's own architecture (event queue, priority check at every free moment,
   // per-swing hit/crit RNG, averaged over many iterations) but written from scratch for Forever's
   // real, much smaller Fury kit -- see /wow-forever/theorycraft/ for the exact values and sources.
@@ -19,7 +20,11 @@
   // Wowhead spell tooltips (max rank, level 60) -- spell=23894, spell=1680, spell=25286. Heroic Strike
   // requires the main-hand weapon (its own tooltip flag), so it only ever empowers a main-hand swing.
   var BT_RAGE_COST = 30, WW_RAGE_COST = 25, HS_RAGE_COST = 15, HS_BONUS_DMG = 157;
-  var RAGE_CAP = 100;
+  var RAGE_CAP_BASE = 100;
+  // Boundless Rage (real Fury talent, "Rage infinie" in FR, Forever's own beta client data, 3 ranks):
+  // +10 max Rage per rank, up to +30 at rank 3. Raises the Rage cap itself, reducing how much
+  // regeneration gets wasted once the pool is full.
+  var BOUNDLESS_RAGE_PER_RANK = 10;
   // Rage generation: the real WoW classic-era formula (not Forever-specific -- rage generation isn't
   // shown in any tooltip, unlike Crit/Hit rating -- but every other confirmed Forever Warrior mechanic
   // points to a classic-style kit, so this is the best-sourced approximation available, not an invented
@@ -89,6 +94,7 @@
     var ohWhiteHit = Math.max(0, p.hitFrac - ohMissPenalty);
     var flurryBonus = FLURRY_BONUS_PER_RANK * Math.max(0, Math.min(5, p.flurryRank));
     var unbridledChance = UNBRIDLED_WRATH_CHANCE_PER_RANK * Math.max(0, Math.min(5, p.unbridledRank));
+    var rageCap = RAGE_CAP_BASE + BOUNDLESS_RAGE_PER_RANK * Math.max(0, Math.min(3, p.boundlessRank));
 
     var events = [{ time: p.weaponSpeed, type: 'mh_swing' }, { time: 0, type: 'decision' }];
     var nextMhAt = p.weaponSpeed, nextOhAt = Infinity;
@@ -133,7 +139,7 @@
     }
 
     function onMeleeWeaponDamage() {
-      if (unbridledChance > 0 && Math.random() < unbridledChance) rage = Math.min(RAGE_CAP, rage + 1);
+      if (unbridledChance > 0 && Math.random() < unbridledChance) rage = Math.min(rageCap, rage + 1);
     }
 
     // Generic weapon proc ("chance on hit": a flat bonus hit, no separate crit roll) and generic bleed
@@ -170,7 +176,7 @@
           rage = Math.max(0, rage - HS_RAGE_COST);
           hsCasts++;
         }
-        if (m) rage = Math.min(RAGE_CAP, rage + gainRage(swingDmg, m === 2, false));
+        if (m) rage = Math.min(rageCap, rage + gainRage(swingDmg, m === 2, false));
         var mhSpeedMult = consumeFlurrySpeedMult(t);
         if (m === 2) onCrit(t);
         checkHsQueue();
@@ -183,7 +189,7 @@
         if (mo) {
           ohDmg = (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mo;
           addDmg(t, ohDmg);
-          rage = Math.min(RAGE_CAP, rage + gainRage(ohDmg, mo === 2, true));
+          rage = Math.min(rageCap, rage + gainRage(ohDmg, mo === 2, true));
           onMeleeWeaponDamage();
           onLandedWeaponHit(t);
         }
@@ -244,6 +250,7 @@
       wpnDmg: num('tcWpnDmg'), weaponSpeed: Math.max(0.1, num('tcWpnSpeed')),
       ohWpnDmg: Math.max(0, num('tcOhDmg')), ohWeaponSpeed: Math.max(0.1, num('tcOhSpeed')),
       dwsRank: num('tcDws'), flurryRank: num('tcFlurry'), unbridledRank: num('tcUnbridled'),
+      boundlessRank: num('tcBoundlessRage'),
       ragingBlows: bool('tcRagingBlows'), useDeathWish: bool('tcDeathWish'),
       procChance: Math.max(0, num('tcProcChance')) / 100, procDmg: Math.max(0, num('tcProcDmg')),
       bleedChance: Math.max(0, num('tcBleedChance')) / 100, bleedTick: Math.max(0, num('tcBleedTick')),
