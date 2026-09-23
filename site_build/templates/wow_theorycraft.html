@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.tc_kicker, g_h1, g_intro) }}
+
+<div class="tc-spec-tabs">
+  <span class="tc-spec-tab is-active">{{ tx.tc_spec_fury }}</span>
+</div>
+<p class="wow-note">{{ tx.tc_only_spec_note }}</p>
+
+<div class="tc-layout">
+  <div class="tc-inputs">
+    <h2 class="fiche-section-title">{{ tx.tc_inputs_h2 }}</h2>
+    <div class="tc-field"><label for="tcAP">{{ tx.tc_input_ap }}</label><input type="number" id="tcAP" min="0" value="500"></div>
+    <div class="tc-field"><label for="tcAgi">{{ tx.tc_input_agi }}</label><input type="number" id="tcAgi" min="0" value="150"></div>
+    <div class="tc-field"><label for="tcSP">{{ tx.tc_input_sp }}</label><input type="number" id="tcSP" min="0" value="0"></div>
+    <div class="tc-field"><label for="tcHit">{{ tx.tc_input_hit }}</label><input type="number" id="tcHit" min="0" max="100" step="0.1" value="94"></div>
+    <div class="tc-field"><label for="tcCrit">{{ tx.tc_input_crit }}</label><input type="number" id="tcCrit" min="0" max="100" step="0.1" value="30"></div>
+    <div class="tc-field"><label for="tcWpnDmg">{{ tx.tc_input_weapon_dmg }}</label><input type="number" id="tcWpnDmg" min="0" step="0.1" value="90"></div>
+    <div class="tc-field"><label for="tcWpnSpeed">{{ tx.tc_input_weapon_speed }}</label><input type="number" id="tcWpnSpeed" min="0.1" step="0.1" value="2.8"></div>
+  </div>
+
+  <div class="tc-outputs">
+    <h2 class="fiche-section-title">{{ tx.tc_calc_h2 }}</h2>
+    <div class="tc-dps-breakdown" id="tcBreakdown">
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_white }}</span><span class="nums" id="tcWhiteDps"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_bt }}</span><span class="nums" id="tcBtDps"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_ww }}</span><span class="nums" id="tcWwDps"></span></div>
+      <div class="tc-dps-row tc-dps-total"><span>{{ tx.tc_calc_total }}</span><span class="nums" id="tcTotalDps"></span></div>
+    </div>
+
+    <h2 class="fiche-section-title">{{ tx.tc_weights_h2 }}</h2>
+    <div class="tc-weights" id="tcWeights">
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_str }}</span><span class="nums" id="tcWStr"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_agi }}</span><span class="nums" id="tcWAgi"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_ap }}</span><span class="nums" id="tcWAp"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_hit }}</span><span class="nums" id="tcWHit"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_crit }}</span><span class="nums" id="tcWCrit"></span></div>
+    </div>
+  </div>
+</div>
+
+<h2 class="fiche-section-title">{{ tx.tc_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.tc_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.tc_src_spells }}<a href="https://www.wowhead.com/forever/spell=23894" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>{{ tx.tc_src_stats }}<a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
+</ul>
+<script src="{{ root }}assets/js/wow-theorycraft.js?v={{ css_v }}" defer></script>
+{% endblock %}

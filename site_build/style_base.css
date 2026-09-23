@@ -2191,3 +2191,24 @@
     .op-paperdoll .grid-weapons { flex-direction: column; }
     .op-picker { position: static; top: auto; }
   }
+
+  /* ---------- WoW: DPS theorycraft ---------- */
+  .tc-spec-tabs { display: flex; gap: 8px; margin: 16px 0 8px; }
+  .tc-spec-tab { padding: 6px 14px; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-faint); }
+  .tc-spec-tab.is-active { border-color: var(--red); color: var(--cream); }
+  .tc-layout { display: grid; grid-template-columns: minmax(220px, 320px) 1fr; gap: 24px; margin: 18px 0; }
+  .tc-inputs { display: flex; flex-direction: column; gap: 10px; }
+  .tc-field { display: flex; flex-direction: column; gap: 4px; }
+  .tc-field label { font-size: 12px; color: var(--text-faint); }
+  .tc-field input { background: var(--bg-2); border: 1px solid var(--border); color: var(--cream); padding: 7px 10px; font: inherit; }
+  .tc-field input:focus { outline: none; border-color: var(--cyan); }
+  .tc-outputs { display: flex; flex-direction: column; gap: 18px; }
+  .tc-dps-breakdown, .tc-weights { border: 1px solid var(--border); background: var(--bg-2); }
+  .tc-dps-row, .tc-weight-row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 14px; border-bottom: 1px solid var(--border); font-size: 13.5px; }
+  .tc-dps-row:last-child, .tc-weight-row:last-child { border-bottom: none; }
+  .tc-dps-total { font-family: 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream); border-top: 2px solid var(--red); }
+  .tc-dps-total span:last-child { color: var(--red); font-size: 16px; }
+
+  @media (max-width: 760px) {
+    .tc-layout { grid-template-columns: 1fr; }
+  }
