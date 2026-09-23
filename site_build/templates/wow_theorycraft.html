@@ -59,6 +59,8 @@
     <p class="wow-note">{{ tx.tc_input_oh_note }}</p>
     <div class="tc-field"><label for="tcFlurry">{{ tx.tc_input_flurry }}</label><input type="number" id="tcFlurry" min="0" max="5" step="1" value="5"></div>
     <div class="tc-field"><label for="tcUnbridled">{{ tx.tc_input_unbridled }}</label><input type="number" id="tcUnbridled" min="0" max="5" step="1" value="5"></div>
+    <div class="tc-field"><label class="dg-check"><input type="checkbox" id="tcRagingBlows" checked>{{ tx.tc_input_raging_blows }}</label></div>
+    <div class="tc-field"><label class="dg-check"><input type="checkbox" id="tcDeathWish" checked>{{ tx.tc_input_death_wish }}</label></div>
     <h3 class="fiche-section-title" style="margin-top:1em">{{ tx.tc_proc_h3 }}</h3>
     <p class="wow-note">{{ tx.tc_proc_note }}</p>
     <div class="tc-field"><label for="tcProcChance">{{ tx.tc_input_proc_chance }}</label><input type="number" id="tcProcChance" min="0" max="100" step="0.1" value="0"></div>
@@ -76,6 +78,7 @@
       <div class="tc-dps-row tc-dps-total"><span>{{ tx.sim_dps }}</span><span class="nums" id="simDps"></span></div>
       <div class="tc-dps-row"><span>{{ tx.sim_ci }}</span><span class="nums" id="simCi"></span></div>
       <div class="tc-dps-row"><span>{{ tx.sim_casts }}</span><span class="nums" id="simCasts"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dw_uptime }}</span><span class="nums" id="simDwUptime"></span></div>
     </div>
   </div>
 </div>
@@ -92,6 +95,7 @@
   <li>{{ tx.sim_src_dw }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Dual_wield" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Dual wield</a></li>
   <li>{{ tx.sim_src_dws }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
   <li>{{ tx.sim_src_flurry }}<a href="https://www.wowhead.com/classic/spell=12974/flurry" rel="noopener nofollow" target="_blank">Wowhead — Flurry (Classic)</a></li>
+  <li>{{ tx.sim_src_deathwish }}<a href="https://www.wowhead.com/forever/spell=12328" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
 </ul>
 <script src="{{ root }}assets/js/wow-theorycraft.js?v={{ css_v }}" defer></script>
 {% endblock %}
