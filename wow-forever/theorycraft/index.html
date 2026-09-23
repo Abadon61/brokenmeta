@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Poids de stats DPS WoW: Forever">
 <meta name="twitter:description" content="Guerrier Fureur : le DPS gagné par point de Force, d&#39;Agilité ou de Puissance d&#39;attaque, calculé à partir des vraies valeurs de sorts de Forever.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=5e63b4a1cf">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=5e63b4a1cf">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=8194c1320e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=8194c1320e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=5e63b4a1cf">
+<link rel="stylesheet" href="../../assets/css/style.css?v=8194c1320e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -370,6 +370,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<h2 class="fiche-section-title">Simulation (version minimale)</h2>
+<p class="page-intro" style="margin-top:0">Un vrai moteur à événements plutôt qu&#39;une formule : rejoue le combat coup par coup, avec un tirage aléatoire de touché/critique à chaque attaque, et fait la moyenne sur plusieurs milliers de combats simulés. Utilise les mêmes statistiques que le calculateur ci-dessus.</p>
+<div class="tc-layout">
+  <div class="tc-inputs">
+    <div class="tc-field"><label for="simFightLen">Durée du combat (secondes)</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
+    <div class="tc-field"><label for="simIterations">Nombre de combats simulés</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
+    <button type="button" id="simRun" class="dg-reset">Lancer la simulation</button>
+  </div>
+  <div class="tc-outputs">
+    <div class="tc-dps-breakdown" id="simResults" hidden>
+      <div class="tc-dps-row tc-dps-total"><span>DPS simulé (moyenne)</span><span class="nums" id="simDps"></span></div>
+      <div class="tc-dps-row"><span>Intervalle de confiance</span><span class="nums" id="simCi"></span></div>
+      <div class="tc-dps-row"><span>Bloodthirst / Whirlwind / Coups normaux par combat</span><span class="nums" id="simCasts"></span></div>
+    </div>
+  </div>
+</div>
+<ul class="gd-list"><li>Cette simulation ne modélise que Bloodthirst et Whirlwind, utilisés dès que possible (temps de recharge + temps de recharge global de 1,5 seconde, la vraie valeur de Forever). Comme pour le calculateur ci-dessus, Heroic Strike n&#39;est pas inclus.</li><li>Contrairement au calculateur par formule, chaque coup ici tire réellement un jet de touché puis de critique au hasard : le DPS affiché est une vraie moyenne statistique, pas un calcul déterministe. Il devrait être très proche du total estimé plus haut — c&#39;est volontaire, ça sert à vérifier que les deux méthodes sont cohérentes entre elles.</li><li>Aucun proc, aucun DoT, aucun saignement : ce sont les prochaines briques à ajouter pour se rapprocher d&#39;un vrai moteur façon SimulationCraft.</li></ul>
+<script src="../../assets/js/wow-simulator.js?v=8194c1320e" defer></script>
+
 <h2 class="fiche-section-title">Comment c&#39;est calculé, et ce qui manque</h2>
 <ul class="gd-list"><li>Bloodthirst inflige 35% de votre Puissance d&#39;attaque plus 100% de votre Puissance des sorts, sur 6 secondes de recharge ; Whirlwind inflige 100% des dégâts d&#39;arme normalisés, sur 10 secondes de recharge. Ces deux valeurs viennent directement des vraies infobulles Wowhead de WoW: Forever (sorts de rang maximum, niveau 60), pas d&#39;une estimation.</li><li>Le calcul suppose que Bloodthirst et Whirlwind sont utilisés dès que possible et que la cible est touchée en continu (pas de déplacement, pas de temps mort). C&#39;est un scénario de référence, pas une moyenne de combat réel.</li><li>Heroic Strike n&#39;est volontairement pas inclus : son utilisation dépend de l&#39;excédent de rage disponible, qui demande un vrai calcul de génération de rage seconde par seconde. Ce n&#39;est pas encore modélisé ici.</li><li>La Cote de critique (14 = 1% à niveau 60) et la Cote de toucher (10 = 1%) viennent directement des infobulles d&#39;objets réels de WoW: Forever, qui affichent l&#39;équivalence en pourcentage entre parenthèses. La Cote de hâte n&#39;a pas encore de poids affiché : aucun objet catalogué n&#39;en porte pour l&#39;instant, donc son taux de conversion n&#39;est pas encore vérifié.</li><li>Un coup critique inflige 200% des dégâts normaux (mécanique standard de World of Warcraft).</li><li>Ce n&#39;est pas une simulation d&#39;événements comme SimulationCraft : pas de variance aléatoire, pas de procs, une seule valeur de sortie par jeu de statistiques.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
@@ -377,7 +396,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Valeurs des sorts (Bloodthirst, Whirlwind) : <a href="https://www.wowhead.com/forever/spell=23894" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
   <li>Conversions de stats (Force → Puissance d&#39;attaque, Agilité → Critique) : <a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
 </ul>
-<script src="../../assets/js/wow-theorycraft.js?v=5e63b4a1cf" defer></script>
+<script src="../../assets/js/wow-theorycraft.js?v=8194c1320e" defer></script>
 
 </div>
 <footer>
@@ -425,10 +444,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=5e63b4a1cf" defer></script>
-<script src="../../assets/js/champ-icons.js?v=5e63b4a1cf" defer></script>
-<script src="../../assets/js/site-search.js?v=5e63b4a1cf" defer></script>
-<script src="../../assets/js/favorites.js?v=5e63b4a1cf" defer></script>
+<script src="../../assets/js/copy-comp.js?v=8194c1320e" defer></script>
+<script src="../../assets/js/champ-icons.js?v=8194c1320e" defer></script>
+<script src="../../assets/js/site-search.js?v=8194c1320e" defer></script>
+<script src="../../assets/js/favorites.js?v=8194c1320e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

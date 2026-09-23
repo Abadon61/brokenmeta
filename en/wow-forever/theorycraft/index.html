@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever DPS stat weights">
 <meta name="twitter:description" content="Fury Warrior stat-weight calculator: how much DPS a point of Strength, Agility or Attack Power is worth, from WoW: Forever&#39;s real spell values.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=5e63b4a1cf">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=5e63b4a1cf">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=8194c1320e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=8194c1320e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=5e63b4a1cf">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=8194c1320e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -370,6 +370,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+<h2 class="fiche-section-title">Simulation (minimal version)</h2>
+<p class="page-intro" style="margin-top:0">A real event-driven engine instead of a formula: replays the fight swing by swing, rolling a real hit/crit chance on every attack, and averages the result over thousands of simulated fights. Uses the same stats as the calculator above.</p>
+<div class="tc-layout">
+  <div class="tc-inputs">
+    <div class="tc-field"><label for="simFightLen">Fight length (seconds)</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
+    <div class="tc-field"><label for="simIterations">Simulated fights</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
+    <button type="button" id="simRun" class="dg-reset">Run simulation</button>
+  </div>
+  <div class="tc-outputs">
+    <div class="tc-dps-breakdown" id="simResults" hidden>
+      <div class="tc-dps-row tc-dps-total"><span>Simulated DPS (average)</span><span class="nums" id="simDps"></span></div>
+      <div class="tc-dps-row"><span>Confidence interval</span><span class="nums" id="simCi"></span></div>
+      <div class="tc-dps-row"><span>Bloodthirst / Whirlwind / normal hits per fight</span><span class="nums" id="simCasts"></span></div>
+    </div>
+  </div>
+</div>
+<ul class="gd-list"><li>This simulation only models Bloodthirst and Whirlwind, used as soon as they&#39;re available (cooldown plus the real 1.5-second global cooldown from WoW: Forever). Like the calculator above, Heroic Strike isn&#39;t included.</li><li>Unlike the formula-based calculator, every hit here actually rolls a real hit chance and then a crit chance: the DPS shown is a genuine statistical average, not a deterministic calculation. It should land very close to the estimated total above — that&#39;s intentional, it&#39;s a check that the two methods agree with each other.</li><li>No procs, no DoTs, no bleeds yet: those are the next pieces to add to get closer to a real SimulationCraft-style engine.</li></ul>
+<script src="../../../assets/js/wow-simulator.js?v=8194c1320e" defer></script>
+
 <h2 class="fiche-section-title">How this is calculated, and what&#39;s missing</h2>
 <ul class="gd-list"><li>Bloodthirst deals 35% of your Attack Power plus 100% of your Spell Power, on a 6-second cooldown; Whirlwind deals 100% of normalized weapon damage, on a 10-second cooldown. Both values come directly from WoW: Forever&#39;s real Wowhead tooltips (max-rank spells, level 60), not an estimate.</li><li>The calculation assumes Bloodthirst and Whirlwind are used as soon as they&#39;re available and the target is hit continuously (no movement, no downtime). It&#39;s a reference scenario, not a real-combat average.</li><li>Heroic Strike is deliberately not included: how often you can use it depends on leftover Rage, which needs a real second-by-second Rage-generation model. That isn&#39;t modeled here yet.</li><li>Critical Strike Rating (14 = 1% at level 60) and Hit Rating (10 = 1%) come directly from real WoW: Forever item tooltips, which show the percentage equivalent in parentheses. Haste Rating doesn&#39;t have a weight shown yet: no catalogued item carries any yet, so its conversion rate isn&#39;t verified.</li><li>A critical strike deals 200% of normal damage (standard World of Warcraft mechanic).</li><li>This is not an event-based simulation like SimulationCraft: no random variance, no procs, one output value per set of stats.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
@@ -377,7 +396,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Spell values (Bloodthirst, Whirlwind): <a href="https://www.wowhead.com/forever/spell=23894" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
   <li>Stat conversions (Strength → Attack Power, Agility → Critical Strike): <a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
 </ul>
-<script src="../../../assets/js/wow-theorycraft.js?v=5e63b4a1cf" defer></script>
+<script src="../../../assets/js/wow-theorycraft.js?v=8194c1320e" defer></script>
 
 </div>
 <footer>
@@ -425,10 +444,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=5e63b4a1cf" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=5e63b4a1cf" defer></script>
-<script src="../../../assets/js/site-search.js?v=5e63b4a1cf" defer></script>
-<script src="../../../assets/js/favorites.js?v=5e63b4a1cf" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=8194c1320e" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=8194c1320e" defer></script>
+<script src="../../../assets/js/site-search.js?v=8194c1320e" defer></script>
+<script src="../../../assets/js/favorites.js?v=8194c1320e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
