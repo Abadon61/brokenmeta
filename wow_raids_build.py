@@ -84,10 +84,11 @@ CREATURE_TYPE_FR = {"Humanoid": "Humanoïde", "Beast": "Bête", "Elemental": "É
 ARMOR_SKILL = {1: 415, 2: 414, 3: 413, 4: 293, 6: 433}
 WEAPON_SKILL = {0: 44, 1: 172, 2: 45, 3: 46, 4: 54, 5: 160, 6: 229, 7: 43, 8: 55, 10: 136, 13: 473, 15: 173, 16: 176, 18: 226, 19: 228}
 SLOTS = {1: ("Head", "Tête"), 2: ("Neck", "Cou"), 3: ("Shoulders", "Épaules"), 5: ("Chest", "Torse"), 6: ("Waist", "Taille"), 7: ("Legs", "Jambes"),
-         8: ("Feet", "Pieds"), 9: ("Wrists", "Poignets"), 10: ("Hands", "Mains"), 11: ("Finger", "Doigt"), 13: ("One-hand", "Une main"), 14: ("Shield", "Bouclier"),
+         8: ("Feet", "Pieds"), 9: ("Wrists", "Poignets"), 10: ("Hands", "Mains"), 11: ("Finger", "Doigt"), 12: ("Trinket", "Bijou"),
+         13: ("One-hand", "Une main"), 14: ("Shield", "Bouclier"),
          15: ("Ranged", "Distance"), 16: ("Back", "Dos"), 17: ("Two-hand", "Deux mains"), 20: ("Chest", "Torse"), 21: ("Main hand", "Main droite"),
          22: ("Off hand", "Main gauche"), 23: ("Held in off-hand", "Tenu en main gauche"), 25: ("Thrown", "Armes de jet"), 26: ("Ranged", "Distance")}
-SLOT_ORDER = [1, 2, 3, 16, 5, 20, 9, 10, 6, 7, 8, 11, 17, 13, 21, 22, 14, 23, 15, 26, 25]
+SLOT_ORDER = [1, 2, 3, 16, 5, 20, 9, 10, 6, 7, 8, 11, 12, 17, 13, 21, 22, 14, 23, 15, 26, 25]
 KEEP_STATS = ["str", "agi", "int", "spi", "sta", "splpwr", "spldmg", "atkpwr", "manargn", "critstrkrtng", "hastertng", "hitrtng", "defrtng", "armor", "dps", "speed",
               "firres", "frores", "natres", "arcres", "shares", "rgddps"]
 PRIMARY_STATS = ["str", "agi", "int"]
@@ -146,7 +147,7 @@ def main():
             if it["slot"] not in SLOTS or it["c"] not in (2, 4) or it["q"] < 2:
                 continue
             st = {k: v for k, v in it["st"].items() if k in KEEP_STATS}
-            if not st:
+            if not st and it["slot"] != 12:      # trinkets often carry an on-use effect instead of flat stats -- still real gear, just not filterable by stat
                 continue
             row = {"id": it["id"], "name": it["name"], "q": it["q"], "slot": it["slot"], "type": type_label(it), "req": it["req"], "lvl": it["lvl"],
                    "icon": it["icon"], "st": st, "src": it["src"][:3], "kind": it["kind"]}

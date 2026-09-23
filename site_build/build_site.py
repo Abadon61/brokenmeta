@@ -6588,7 +6588,9 @@ def main() -> None:
     # Talent calculator: pages exist only when real class data is in data/wow_talents/ (or WOW_TALENTS_FIXTURE=1 for a local test).
     wt_classes, wt_fixture = wow_talents.load()
     _races_file = Path(__file__).resolve().parent.parent / "data" / "wow_races.json"
-    wow_races = json.loads(_races_file.read_text(encoding="utf-8"))["races"] if _races_file.exists() else []
+    _races_data = json.loads(_races_file.read_text(encoding="utf-8")) if _races_file.exists() else {}
+    wow_races = _races_data.get("races", [])
+    wow_races_source = _races_data.get("icons_source", {"label": "", "url": ""})
     wow_guide_list = wow_guides.load_guides(wt_classes)          # classes whose 3 specializations all have a sourced role
     wow_profs = wow_guides.load_professions()
     env.globals["wow_guides_nav"] = wow_guide_list
@@ -6600,6 +6602,8 @@ def main() -> None:
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
+    if wow_dungeons or wow_raids:
+        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Optimisation de personnage", "Character optimizer"))
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["trait_label"] = trait_label
@@ -7385,6 +7389,112 @@ def main() -> None:
                            g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri,
                            breadcrumb_schema=breadcrumb_schema(_rcrumb + [(_rn, canonical_for(_rpath, lang))]),
                            article_schema=build_article_schema(_rh1, canonical_for(_rpath, lang), _rd_))
+            if wow_dungeons or wow_raids:
+                # Character optimizer: every dungeon + raid item merged by id (an item earning sources from several
+                # places keeps them all), grouped onto a WoW-Armory-style paperdoll -- no per-class/spec ranking,
+                # same plain filter as the dungeon/raid pages. The raw item "slot" codes distinguish weapon
+                # sub-types (one-hand/two-hand/main hand, off hand/shield/held-in-off-hand, ranged/thrown) that a
+                # real character sheet shows as a single Main Hand / Off Hand / Ranged slot, and the client
+                # separately codes plain Chest vs. robe-Chest (5 vs 20) as the same equip slot -- OP_PAPERDOLL
+                # collapses both down to the slots an actual paperdoll has, in armory layout order.
+                OP_PAPERDOLL = [
+                    ("head", "grid-head", {1}, {"en": "Head", "fr": "Tête"}),
+                    ("neck", "grid-neck", {2}, {"en": "Neck", "fr": "Cou"}),
+                    ("shoulders", "grid-shoulders", {3}, {"en": "Shoulders", "fr": "Épaules"}),
+                    ("back", "grid-back", {16}, {"en": "Back", "fr": "Dos"}),
+                    ("chest", "grid-chest", {5, 20}, {"en": "Chest", "fr": "Torse"}),
+                    ("wrists", "grid-wrists", {9}, {"en": "Wrists", "fr": "Poignets"}),
+                    ("hands", "grid-hands", {10}, {"en": "Hands", "fr": "Mains"}),
+                    ("waist", "grid-waist", {6}, {"en": "Waist", "fr": "Taille"}),
+                    ("legs", "grid-legs", {7}, {"en": "Legs", "fr": "Jambes"}),
+                    ("feet", "grid-feet", {8}, {"en": "Feet", "fr": "Pieds"}),
+                    # A character really has 2 ring slots and 2 trinket slots, both interchangeable -- the item data
+                    # only has one raw slot code for each (11, 12), so both visual slots pull from the same real pool.
+                    ("finger1", "grid-finger1", {11}, {"en": "Finger 1", "fr": "Doigt 1"}),
+                    ("finger2", "grid-finger2", {11}, {"en": "Finger 2", "fr": "Doigt 2"}),
+                    ("trinket1", "grid-trinket1", {12}, {"en": "Trinket 1", "fr": "Bijou 1"}),
+                    ("trinket2", "grid-trinket2", {12}, {"en": "Trinket 2", "fr": "Bijou 2"}),
+                    ("mainhand", "grid-mainhand", {13, 17, 21}, {"en": "Main Hand", "fr": "Main droite"}),
+                    ("offhand", "grid-offhand", {14, 22, 23}, {"en": "Off Hand", "fr": "Main gauche"}),
+                    ("ranged", "grid-ranged", {15, 25, 26}, {"en": "Ranged", "fr": "Distance"}),
+                ]
+                _op_keys_of = {}
+                for _key, _, _codes, _ in OP_PAPERDOLL:
+                    for _code in _codes:
+                        _op_keys_of.setdefault(_code, []).append(_key)
+                _op_items = {}
+                if wow_dungeons:
+                    for _d3 in wow_dungeons["dungeons"]:
+                        for it in _d3["items"]:
+                            _op_items.setdefault(it["id"], dict(it, sources=[]))["sources"].append(
+                                {"kind": "dungeon", "name": _d3["name"], "dungeon_id": _d3["id"]})
+                if wow_raids:
+                    for _r3 in wow_raids["raids"]:
+                        _boss_by_item = {_it2["id"]: _b["name"] for _b in _r3["bosses"] for _it2 in _b["drops"]}
+                        for it in _r3["items"]:
+                            _op_items.setdefault(it["id"], dict(it, sources=[]))["sources"].append(
+                                {"kind": "raid", "name": _r3["name"], "raid_id": _r3["id"], "boss": _boss_by_item.get(it["id"])})
+                _op_by_slot = {}
+                for it in _op_items.values():
+                    for _op_key in _op_keys_of.get(it["slot"], []):
+                        _op_by_slot.setdefault(_op_key, []).append(it)
+                for _slot_items in _op_by_slot.values():
+                    _slot_items.sort(key=lambda i: i["name"])
+                _op_slots = [{"key": key, "grid": grid, "label": label, "gear": _op_by_slot.get(key, [])}
+                             for key, grid, _, label in OP_PAPERDOLL]
+                # Item data for the interactive picker is shipped once as a static JSON asset (same file serves
+                # both /  and /en/) and fetched client-side -- the same pattern as champions.json for the TFT
+                # builder -- since the build tool now renders one item at a time into whichever slot is clicked,
+                # instead of a server-rendered list per slot.
+                (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
+                # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
+                # character creation actually works, not a per-race-and-class combined lookup). Read by hand from
+                # https://rankedboost.com/world-of-warcraft/classic-stats/ (user-provided source). No growth-per-level
+                # curve exists in our data, so this is explicitly labelled "level 1" wherever it's shown, never blended
+                # silently into level-60 gear stats. The new Forever-only "Skyborne" race has no published values yet.
+                OP_RACE_BASE_STATS = {
+                    "human": {"str": 20, "agi": 20, "sta": 20, "int": 20, "spi": 21},
+                    "dwarf": {"str": 22, "agi": 16, "sta": 23, "int": 19, "spi": 19},
+                    "nightelf": {"str": 17, "agi": 25, "sta": 19, "int": 20, "spi": 20},
+                    "gnome": {"str": 15, "agi": 23, "sta": 19, "int": 24, "spi": 20},
+                    "orc": {"str": 23, "agi": 17, "sta": 22, "int": 17, "spi": 23},
+                    "undead": {"str": 19, "agi": 18, "sta": 21, "int": 18, "spi": 25},
+                    "tauren": {"str": 25, "agi": 15, "sta": 22, "int": 15, "spi": 22},
+                    "troll": {"str": 21, "agi": 22, "sta": 21, "int": 16, "spi": 21},
+                }
+                OP_CLASS_BONUS_STATS = {
+                    "warrior": {"str": 3, "agi": 0, "sta": 2, "int": 0, "spi": 0},
+                    "paladin": {"str": 2, "agi": 0, "sta": 2, "int": 0, "spi": 1},
+                    "shaman": {"str": 1, "agi": 0, "sta": 1, "int": 1, "spi": 1},
+                    "warlock": {"str": 0, "agi": 0, "sta": 1, "int": 2, "spi": 2},
+                    "hunter": {"str": 0, "agi": 3, "sta": 1, "int": 0, "spi": 1},
+                    "druid": {"str": 1, "agi": 0, "sta": 0, "int": 2, "spi": 2},
+                    "mage": {"str": 0, "agi": 0, "sta": 0, "int": 3, "spi": 2},
+                    "rogue": {"str": 1, "agi": 3, "sta": 1, "int": 0, "spi": 0},
+                    "priest": {"str": 0, "agi": 0, "sta": 0, "int": 2, "spi": 3},
+                }
+                OP_STATS_SOURCE = {"label": "RankedBoost — WoW Classic Stats", "url": "https://rankedboost.com/world-of-warcraft/classic-stats/"}
+                _op_json = {
+                    "slots": [{"key": s["key"], "label": s["label"], "gear": s["gear"]} for s in _op_slots],
+                    "primary_stats": (wow_dungeons or wow_raids)["primary_stats"],
+                    "secondary_stats": (wow_dungeons or wow_raids)["secondary_stats"],
+                    "stat_names": {"en": wow_guides.TXT["en"]["stat_names"], "fr": wow_guides.TXT["fr"]["stat_names"]},
+                    "races": wow_races,
+                    "classes": [{"id": c["id"], "name": c["name"], "icon": c.get("icon")} for c in wt_classes],
+                    "race_base_stats": OP_RACE_BASE_STATS,
+                    "class_bonus_stats": OP_CLASS_BONUS_STATS,
+                }
+                (DIST / "assets" / "data" / "wow-optimizer.json").write_text(
+                    json.dumps(_op_json, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+                _oppath = "/wow-forever/optimisation/"
+                _ocrumb = _gbase + [(_gx["op_kicker"].split(" · ")[-1], canonical_for(_oppath, lang))]
+                assert len(_gx["op_title"]) <= 60 and len(_gx["op_desc"]) <= 155
+                render("wow_optimizer.html", _oppath, lang, active_nav="wow", active_sub="wow-optimisation", tx=_gx, dd=(wow_dungeons or wow_raids),
+                       op_slots=_op_slots, total_items=len(_op_items), races=wow_races, races_source=wow_races_source,
+                       classes=wt_classes, stats_source=OP_STATS_SOURCE,
+                       g_title=_gx["op_title"], g_desc=_gx["op_desc"], g_h1=_gx["op_h1"], g_intro=_gx["op_intro"],
+                       breadcrumb_schema=breadcrumb_schema(_ocrumb),
+                       article_schema=build_article_schema(_gx["op_h1"], canonical_for(_oppath, lang), _gx["op_desc"]))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))
@@ -8283,8 +8393,10 @@ def main() -> None:
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     if wt_classes:
         shutil.copy(ROOT / "js" / "wow-talents.js", DIST / "assets" / "js" / "wow-talents.js")
-        if (ROOT / "js" / "wow-dungeons.js").exists():
-            shutil.copy(ROOT / "js" / "wow-dungeons.js", DIST / "assets" / "js" / "wow-dungeons.js")
+    if (ROOT / "js" / "wow-dungeons.js").exists():
+        shutil.copy(ROOT / "js" / "wow-dungeons.js", DIST / "assets" / "js" / "wow-dungeons.js")
+    if (ROOT / "js" / "wow-optimizer.js").exists():
+        shutil.copy(ROOT / "js" / "wow-optimizer.js", DIST / "assets" / "js" / "wow-optimizer.js")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():

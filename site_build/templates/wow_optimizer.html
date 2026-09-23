@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.op_kicker, g_h1, g_intro) }}
+{% set all_gear = op_slots|map(attribute='gear')|sum(start=[]) %}
+{% set ns = namespace(types=[]) %}
+{% for it in all_gear %}{% if it.type.en and it.type.en not in ns.types %}{% set ns.types = ns.types + [it.type.en] %}{% endif %}{% endfor %}
+
+<div class="op-toolbar">
+  <button type="button" id="opReset" class="dg-reset">{{ tx.op_reset_build }}</button>
+  <button type="button" id="opShare" class="dg-reset">{{ tx.op_share }}</button>
+  <span id="opShareStatus" class="metascope-status" hidden></span>
+  <span class="wow-note nums op-completion" id="opCompletion"></span>
+</div>
+
+<div class="op-paperdoll" id="opAvatar">
+  <div class="op-silhouette">
+    <button type="button" class="op-identity-slot" id="opRaceSlot">
+      <img class="op-race-icon" alt="" hidden>
+      <span class="op-race-placeholder">{{ tx.op_choose_race }}</span>
+      <span class="op-race-name"></span>
+    </button>
+    <button type="button" class="op-identity-slot" id="opClassSlot">
+      <img class="op-class-icon" alt="" hidden>
+      <span class="op-class-placeholder">{{ tx.op_choose_class }}</span>
+      <span class="op-class-name"></span>
+    </button>
+  </div>
+  {% for slot in op_slots if slot.key not in ('mainhand', 'offhand', 'ranged') %}
+  <button type="button" class="op-slot {{ slot.grid }} {{ 'op-row-right' if slot.key in ('hands','waist','legs','feet','finger1','finger2','trinket1','trinket2') else 'op-row-left' }}" data-slot="{{ slot.key }}" data-label="{{ slot.label[lang] }}">
+    <span class="op-slot-icon"><img class="op-item-icon" alt="" hidden><span class="op-slot-icon-empty"></span></span>
+    <span class="op-slot-text">
+      <span class="op-slot-itemname" hidden></span>
+      <span class="op-slot-ilvl" hidden></span>
+      <span class="op-slot-placeholder">{{ slot.label[lang] }}</span>
+    </span>
+  </button>
+  {% endfor %}
+  <div class="grid-weapons">
+    {% for slot in op_slots if slot.key in ('mainhand', 'offhand', 'ranged') %}
+    <button type="button" class="op-weapon-slot" data-slot="{{ slot.key }}" data-label="{{ slot.label[lang] }}">
+      <span class="op-slot-icon"><img class="op-item-icon" alt="" hidden><span class="op-slot-icon-empty"></span></span>
+      <span class="op-slot-text">
+        <span class="op-slot-itemname" hidden></span>
+        <span class="op-slot-ilvl" hidden></span>
+        <span class="op-slot-placeholder">{{ slot.label[lang] }}</span>
+      </span>
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="op-picker op-race-picker" id="opRacePicker" hidden>
+  <div class="op-picker-head">
+    <span>{{ tx.op_choose_race }}</span>
+    <button type="button" id="opRacePickerClose" class="op-picker-close" aria-label="{{ tx.op_close }}">×</button>
+  </div>
+  <div class="op-race-faction">
+    <div class="op-race-faction-title">{{ tx.op_alliance }}</div>
+    <div class="op-race-grid">
+      {% for r in races if r.faction == 'alliance' %}
+      <button type="button" class="op-race-option" data-race="{{ r.faction }}-{{ r.key }}" data-racekey="{{ r.key }}" data-name="{{ r.name[lang] }}" data-icon="{{ r.icon }}">
+        <img src="{{ r.icon }}" alt="" loading="lazy"><span>{{ r.name[lang] }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <div class="op-race-faction">
+    <div class="op-race-faction-title">{{ tx.op_horde }}</div>
+    <div class="op-race-grid">
+      {% for r in races if r.faction == 'horde' %}
+      <button type="button" class="op-race-option" data-race="{{ r.faction }}-{{ r.key }}" data-racekey="{{ r.key }}" data-name="{{ r.name[lang] }}" data-icon="{{ r.icon }}">
+        <img src="{{ r.icon }}" alt="" loading="lazy"><span>{{ r.name[lang] }}</span>
+      </button>
+      {% endfor %}
+    </div>
+  </div>
+  <button type="button" id="opRaceRemove" class="dg-reset" hidden>{{ tx.op_remove_race }}</button>
+</div>
+
+<div class="op-picker op-race-picker" id="opClassPicker" hidden>
+  <div class="op-picker-head">
+    <span>{{ tx.op_choose_class }}</span>
+    <button type="button" id="opClassPickerClose" class="op-picker-close" aria-label="{{ tx.op_close }}">×</button>
+  </div>
+  <div class="op-race-grid">
+    {% for c in classes %}
+    <button type="button" class="op-race-option" data-class="{{ c.id }}" data-name="{{ c.name[lang] }}" data-icon="{{ c.icon }}">
+      <img src="{{ c.icon }}" alt="" loading="lazy"><span>{{ c.name[lang] }}</span>
+    </button>
+    {% endfor %}
+  </div>
+  <button type="button" id="opClassRemove" class="dg-reset" hidden>{{ tx.op_remove_class }}</button>
+</div>
+
+<div class="op-summary" id="opSummary">
+  <div class="op-summary-title">{{ tx.op_summary_h2 }}</div>
+  <p class="op-summary-empty" id="opSummaryEmpty">{{ tx.op_summary_empty }}</p>
+  <p class="wow-note nums" id="opSummaryIlvl" hidden></p>
+  <div class="op-summary-stats" id="opSummaryStats" hidden></div>
+  <p class="wow-note" id="opSummaryNote" hidden>{{ tx.op_level1_note }}</p>
+</div>
+
+<div class="op-picker" id="opPicker" hidden>
+  <div class="op-picker-head">
+    <span id="opPickerTitle"></span>
+    <button type="button" id="opPickerClose" class="op-picker-close" aria-label="{{ tx.op_close }}">×</button>
+  </div>
+  <div class="search-row">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+    <input type="search" id="opPickerSearch" class="search-input" placeholder="{{ tx.op_search_placeholder }}" autocomplete="off">
+  </div>
+  <div class="dg-filters" id="opFilters">
+    <fieldset class="dg-facet">
+      <legend>{{ tx.dg_filter_type }}</legend>
+      <div class="dg-facet-grid">{% for tkey in ns.types %}{% set tlabel = (all_gear|selectattr('type.en', 'equalto', tkey)|first).type[lang] %}
+      <label class="dg-check"><input type="checkbox" data-facet="type" value="{{ tkey }}">{{ tlabel }}</label>{% endfor %}</div>
+    </fieldset>
+    <fieldset class="dg-facet">
+      <legend>{{ tx.dg_filter_primary }}</legend>
+      <div class="dg-facet-grid">{% for k in dd.primary_stats %}<label class="dg-check"><input type="checkbox" data-facet="primary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
+    </fieldset>
+    <fieldset class="dg-facet">
+      <legend>{{ tx.dg_filter_secondary }}</legend>
+      <div class="dg-facet-grid">{% for k in dd.secondary_stats %}<label class="dg-check"><input type="checkbox" data-facet="secondary" value="{{ k }}">{{ tx.stat_names[k] }}</label>{% endfor %}</div>
+    </fieldset>
+  </div>
+  <div class="op-picker-toolbar">
+    <span class="wow-note nums" id="opPickerCount"></span>
+    <div class="op-picker-sort">
+      <label for="opPickerSort">{{ tx.op_sort_by }}</label>
+      <select id="opPickerSort">
+        <option value="name">{{ tx.op_sort_name }}</option>
+        <option value="ilvl">{{ tx.op_sort_ilvl }}</option>
+      </select>
+    </div>
+    <button type="button" id="opPickerRemove" class="dg-reset" hidden>{{ tx.op_remove_item }}</button>
+  </div>
+  <div class="op-picker-list" id="opPickerList"></div>
+  <p class="op-slot-none" id="opPickerNone" hidden>{{ tx.op_slot_none }}</p>
+</div>
+
+<h2 class="fiche-section-title">{{ tx.op_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.op_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+<ul class="gd-list wow-sources">
+  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+  <li>{{ tx.op_race_credit }}<a href="{{ races_source.url }}" rel="noopener nofollow" target="_blank">{{ races_source.label }}</a></li>
+  <li>{{ tx.op_stats_credit }}<a href="{{ stats_source.url }}" rel="noopener nofollow" target="_blank">{{ stats_source.label }}</a></li>
+</ul>
+<script>
+window.OP_I18N = {
+  sourceDungeon: {{ tx.op_source_dungeon|tojson }},
+  sourceRaid: {{ tx.op_source_raid|tojson }},
+  sourceRaidBoss: {{ tx.op_source_raid_boss|tojson }},
+  itemLevel: {{ tx.op_item_level|tojson }},
+  chooseFor: {{ tx.op_choose_for|tojson }},
+  pickerCount: {{ tx.op_picker_count|tojson }},
+  shareCopied: {{ tx.op_share_copied|tojson }},
+  summaryEmpty: {{ tx.op_summary_empty|tojson }},
+  completion: {{ tx.op_completion|tojson }},
+  avgIlvl: {{ tx.op_avg_ilvl|tojson }},
+  upgradeBadge: {{ tx.op_upgrade_badge|tojson }},
+  currentBadge: {{ tx.op_current_badge|tojson }},
+  vsCurrent: {{ tx.op_vs_current|tojson }},
+  totalSlots: {{ op_slots|length }},
+  lang: {{ lang|tojson }}
+};
+</script>
+<script src="{{ root }}assets/js/wow-optimizer.js?v={{ css_v }}" defer></script>
+{% endblock %}
