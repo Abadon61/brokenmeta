@@ -2073,6 +2073,125 @@
   .rd-boss-drops { display: flex; flex-direction: column; gap: 6px; }
   .rd-boss-none { margin: 0; font-size: 13px; color: var(--text-faint); font-style: italic; }
 
+  /* ---------- WoW: character optimizer (armory-style paperdoll) ---------- */
+  .op-paperdoll {
+    display: grid; margin: 18px 0 6px; gap: 10px 22px; justify-content: center;
+    grid-template-columns: minmax(180px, 240px) 280px minmax(180px, 240px);
+    grid-template-areas:
+      "grid-head      silhouette grid-hands"
+      "grid-neck      silhouette grid-waist"
+      "grid-shoulders silhouette grid-legs"
+      "grid-back      silhouette grid-feet"
+      "grid-chest     silhouette grid-finger1"
+      "grid-wrists    silhouette grid-finger2"
+      ".              silhouette grid-trinket1"
+      ".              silhouette grid-trinket2"
+      "grid-weapons   grid-weapons grid-weapons";
+  }
+  .op-paperdoll .grid-head { grid-area: grid-head; } .op-paperdoll .grid-neck { grid-area: grid-neck; }
+  .op-paperdoll .grid-shoulders { grid-area: grid-shoulders; } .op-paperdoll .grid-back { grid-area: grid-back; }
+  .op-paperdoll .grid-chest { grid-area: grid-chest; } .op-paperdoll .grid-wrists { grid-area: grid-wrists; }
+  .op-paperdoll .grid-hands { grid-area: grid-hands; } .op-paperdoll .grid-waist { grid-area: grid-waist; }
+  .op-paperdoll .grid-legs { grid-area: grid-legs; } .op-paperdoll .grid-feet { grid-area: grid-feet; }
+  .op-paperdoll .grid-finger1 { grid-area: grid-finger1; } .op-paperdoll .grid-finger2 { grid-area: grid-finger2; }
+  .op-paperdoll .grid-trinket1 { grid-area: grid-trinket1; } .op-paperdoll .grid-trinket2 { grid-area: grid-trinket2; }
+  .op-paperdoll .grid-weapons { grid-area: grid-weapons; display: flex; gap: 14px; flex-wrap: wrap; justify-content: center; background: none; border: none; padding: 4px 0 0; }
+  .op-weapon-slot { flex: 1 1 220px; max-width: 280px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); background: var(--bg-2); }
+
+  /* Identity slots (race, class): take the silhouette's place at the center of the paperdoll, stacked. Empty,
+     each is a dashed placeholder button; chosen, it shows that race/class's own real icon and name, and reopens
+     its picker to change it. */
+  .op-silhouette { grid-area: silhouette; display: flex; flex-direction: column; gap: 12px; width: 100%; align-self: stretch; }
+  .op-identity-slot {
+    flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; min-height: 114px; padding: 16px;
+    background: var(--bg-2); border: 1px dashed var(--border); cursor: pointer; color: inherit; font: inherit;
+  }
+  .op-identity-slot:hover, .op-identity-slot:focus-visible, .op-identity-slot.is-active { border-color: var(--cyan); background: rgba(255, 255, 255, 0.04); }
+  .op-race-icon, .op-class-icon { width: 72px; height: 72px; border: 1px solid var(--border); }
+  .op-race-icon[hidden], .op-class-icon[hidden] { display: none; }
+  .op-race-placeholder, .op-class-placeholder { font-size: 13px; color: var(--text-faint); font-style: italic; text-align: center; }
+  .op-race-placeholder[hidden], .op-class-placeholder[hidden] { display: none; }
+  .op-race-name, .op-class-name { font-family: 'Cal Sans', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--cream); text-align: center; }
+  .op-race-name:empty, .op-class-name:empty { display: none; }
+
+  .op-race-picker { max-width: 640px; margin-left: auto; margin-right: auto; }
+  .op-race-faction { margin-top: 12px; }
+  .op-race-faction-title { font-family: 'Cal Sans', sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--text-faint); margin-bottom: 8px; }
+  .op-race-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+  .op-race-option { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 8px; background: var(--bg-2); border: 1px solid var(--border); cursor: pointer; color: inherit; font: inherit; }
+  .op-race-option:hover, .op-race-option:focus-visible { border-color: var(--cyan); }
+  .op-race-option img { width: 48px; height: 48px; border: 1px solid var(--border); }
+  .op-race-option span { font-size: 11px; text-align: center; line-height: 1.25; }
+
+  .op-slot { display: flex; align-items: center; gap: 10px; width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border); padding: 7px 4px; cursor: pointer; text-align: left; font: inherit; color: inherit; }
+  .op-slot:hover, .op-slot:focus-visible, .op-slot.is-active { background: rgba(255, 255, 255, 0.04); }
+  .op-slot[hidden] { display: none; }
+  .op-row-right { flex-direction: row-reverse; text-align: right; }
+  .op-slot-icon { position: relative; flex: none; width: 34px; height: 34px; }
+  .op-item-icon { width: 34px; height: 34px; border: 1px solid var(--border); display: block; }
+  .op-item-icon[hidden] { display: none; }
+  .op-slot-icon-empty { display: block; width: 34px; height: 34px; border: 1px dashed var(--border); opacity: 0.5; }
+  .op-slot-icon-empty[hidden] { display: none; }
+  .op-slot-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .op-row-right .op-slot-text { align-items: flex-end; }
+  .op-slot-itemname { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%; }
+  .op-slot-itemname[hidden] { display: none; }
+  .op-slot-ilvl { font-size: 10.5px; color: var(--text-faint); }
+  .op-slot-ilvl[hidden] { display: none; }
+  .op-slot-placeholder { font-size: 11.5px; color: var(--text-faint); font-style: italic; }
+  .op-slot-placeholder[hidden] { display: none; }
+
+  .op-weapon-slot { display: flex; align-items: center; gap: 10px; flex: 1 1 220px; max-width: 280px; padding: 10px 14px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); background: var(--bg-2); cursor: pointer; text-align: left; font: inherit; color: inherit; }
+  .op-weapon-slot:hover, .op-weapon-slot:focus-visible, .op-weapon-slot.is-active { border-left-color: var(--red); }
+  .op-weapon-slot .op-slot-icon { width: 34px; height: 34px; }
+  .op-weapon-slot .op-slot-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+
+  .op-toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 14px 0; }
+  .op-completion { margin-left: auto; }
+
+  .op-summary { margin: 16px 0; padding: 14px 16px; border: 1px solid var(--border); border-left: 3px solid var(--red); background: var(--bg-2); }
+  .op-summary-title { margin-bottom: 8px; font-family: 'Cal Sans', sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--cream); }
+  .op-summary-empty { margin: 0; font-size: 12.5px; color: var(--text-faint); font-style: italic; }
+  .op-summary-empty[hidden] { display: none; }
+  #opSummaryIlvl { margin: 0 0 8px; }
+  #opSummaryIlvl[hidden] { display: none; }
+  .op-summary-stats { display: flex; flex-wrap: wrap; gap: 5px 18px; font-size: 13px; }
+  .op-summary-stats[hidden] { display: none; }
+
+  .op-picker { position: sticky; top: 66px; z-index: 5; margin: 16px 0; padding: 14px 16px; border: 1px solid var(--cyan); background: var(--bg-2); box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35); }
+  .op-picker[hidden] { display: none; }
+  .op-picker-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; font-family: 'Cal Sans', sans-serif; font-size: 14px; text-transform: uppercase; letter-spacing: 0.03em; color: var(--cream); }
+  .op-picker-close { background: none; border: none; color: var(--text-faint); font-size: 22px; line-height: 1; cursor: pointer; padding: 0 4px; }
+  .op-picker-close:hover { color: var(--cream); }
+  .op-picker-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin: 8px 0 4px; }
+  .op-picker-sort { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-faint); }
+  .op-picker-sort select { background: var(--bg); color: var(--cream); border: 1px solid var(--border); font: inherit; padding: 3px 6px; }
+  .op-picker-list { display: flex; flex-direction: column; gap: 1px; max-height: 340px; overflow-y: auto; margin-top: 6px; border-top: 1px solid var(--border); }
+  .op-picker-row { display: flex; align-items: center; gap: 10px; padding: 6px 6px; border-bottom: 1px solid var(--border); text-decoration: none; color: inherit; background: none; border-left: none; border-right: none; border-top: none; width: 100%; cursor: pointer; text-align: left; font: inherit; }
+  .op-picker-row:hover, .op-picker-row:focus-visible { background: rgba(255, 255, 255, 0.05); }
+  .op-picker-row img { width: 30px; height: 30px; border: 1px solid var(--border); flex: none; }
+  .op-picker-row-text { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+  .op-badge { display: inline-block; margin-left: 6px; padding: 1px 6px; font-size: 9.5px; text-transform: uppercase; letter-spacing: 0.03em; border-radius: 2px; vertical-align: middle; }
+  .op-badge-upgrade { background: rgba(30, 255, 0, 0.15); color: #7dff5c; border: 1px solid rgba(125, 255, 92, 0.4); }
+  .op-badge-current { background: rgba(255, 255, 255, 0.08); color: var(--text-faint); border: 1px solid var(--border); }
+  .op-picker-row-diff { font-size: 10.5px; margin-top: 1px; }
+  .op-diff-pos { color: #7dff5c; }
+  .op-diff-neg { color: #ff6c6c; }
+  .op-picker-row-name { font-size: 12.5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .op-picker-row-meta { font-size: 10.5px; color: var(--text-faint); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .op-slot-none { margin: 8px 0 0; font-size: 12.5px; color: var(--text-faint); font-style: italic; }
+  .op-slot-none[hidden] { display: none; }
+
+  @media (max-width: 860px) {
+    .op-paperdoll { grid-template-columns: 1fr; grid-template-areas: none; }
+    .op-paperdoll > * { grid-area: auto !important; }
+    .op-silhouette { flex-direction: row; min-height: 0; }
+    .op-paperdoll .grid-weapons { flex-direction: column; }
+    .op-picker { position: static; top: auto; }
+  }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
