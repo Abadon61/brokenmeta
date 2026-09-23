@@ -3,8 +3,9 @@
   // Minimal event-driven combat simulator (Fury Warrior, single target): Bloodthirst, Whirlwind,
   // Heroic Strike and Death Wish on a real Rage economy, real dual-wielding, real Fury-tree procs
   // (Flurry, Unbridled Wrath, Raging Blows, Boundless Rage), a real attack table (Dodge and Glancing
-  // Blows against a level-63 raid boss, white swings only) plus generic user-supplied
-  // weapon-proc/bleed slots.
+  // Blows against a level-63 raid boss, white swings only), generic user-supplied weapon-proc/bleed
+  // slots, and a per-source damage breakdown (white swings, Heroic Strike, Bloodthirst, Whirlwind,
+  // proc, bleed) so the result reads like a real report instead of a single number.
   // Modeled on SimulationCraft's own architecture (event queue, priority check at every free moment,
   // per-swing hit/crit RNG, averaged over many iterations) but written from scratch for Forever's
   // real, much smaller Fury kit -- see /wow-forever/theorycraft/ for the exact values and sources.
@@ -123,9 +124,15 @@
     var flurryCharges = 0, flurryExpireAt = -1;
     var bleedEndsAt = -1, bleedActive = false;
     var dmg = 0, btCasts = 0, wwCasts = 0, hsCasts = 0, dwCasts = 0, swings = 0;
+    var dmgBy = { white: 0, hs: 0, bt: 0, ww: 0, proc: 0, bleed: 0 };
 
-    // Applies Death Wish's +20% Physical damage buff (if active at time t) to a damage instance.
-    function addDmg(t, amount) { dmg += amount * (t <= dwActiveUntil ? DW_MULT : 1); }
+    // Applies Death Wish's +20% Physical damage buff (if active at time t) to a damage instance, and
+    // tracks it under the given source category for the results breakdown.
+    function addDmg(t, amount, category) {
+      var final = amount * (t <= dwActiveUntil ? DW_MULT : 1);
+      dmg += final;
+      dmgBy[category] += final;
+    }
 
     function roll(hitFrac, allowGlance) {
       // Returns a damage multiplier: 0 = miss or dodge, GLANCE_DAMAGE_MULT = glancing blow (white
@@ -169,7 +176,7 @@
     // since we don't have per-item proc data catalogued for Forever yet. Fires on any landed weapon
     // damage, main or off hand, Bloodthirst or Whirlwind alike -- a simplification disclosed on the page.
     function onLandedWeaponHit(t) {
-      if (p.procChance > 0 && Math.random() < p.procChance) addDmg(t, p.procDmg);
+      if (p.procChance > 0 && Math.random() < p.procChance) addDmg(t, p.procDmg, 'proc');
       if (p.bleedChance > 0 && Math.random() < p.bleedChance) {
         bleedEndsAt = t + p.bleedDuration;
         if (!bleedActive) { bleedActive = true; events.push({ time: t + p.bleedInterval, type: 'bleed_tick' }); }
@@ -191,7 +198,7 @@
         var swingDmg = 0;
         if (m) {
           swingDmg = (p.wpnDmg + p.AP / 14 + (empowered ? HS_BONUS_DMG : 0)) * m;
-          addDmg(t, swingDmg);
+          addDmg(t, swingDmg, empowered ? 'hs' : 'white');
           onMeleeWeaponDamage();
           onLandedWeaponHit(t);
         }
@@ -214,7 +221,7 @@
         var ohDmg = 0;
         if (mo) {
           ohDmg = (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mo;
-          addDmg(t, ohDmg);
+          addDmg(t, ohDmg, 'white');
           rage = Math.min(rageCap, rage + gainRage(ohDmg, mo === 2, true));
           onMeleeWeaponDamage();
           onLandedWeaponHit(t);
@@ -227,7 +234,7 @@
         events.push({ time: nextOhAt, type: 'oh_swing' });
       } else if (ev.type === 'bleed_tick') {
         if (t <= bleedEndsAt) {
-          addDmg(t, p.bleedTick);
+          addDmg(t, p.bleedTick, 'bleed');
           events.push({ time: t + p.bleedInterval, type: 'bleed_tick' });
         } else {
           bleedActive = false;
@@ -240,17 +247,17 @@
           events.push({ time: gcdReady, type: 'decision' });
         } else if (rage >= BT_RAGE_COST && t >= btReady) {
           var mb = roll(p.hitFrac, false);
-          if (mb) { addDmg(t, (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb); onMeleeWeaponDamage(); if (mb === 2) onCrit(t); }
+          if (mb) { addDmg(t, (BT_AP_COEFF * p.AP + BT_SP_COEFF * p.SP) * mb, 'bt'); onMeleeWeaponDamage(); if (mb === 2) onCrit(t); }
           rage -= BT_RAGE_COST; btReady = t + BT_CD; gcdReady = t + GCD; btCasts++;
           events.push({ time: gcdReady, type: 'decision' });
         } else if (rage >= WW_RAGE_COST && t >= wwReady) {
           // Whirlwind hits with the off-hand too only with the Raging Blows talent (real WoW: Forever
           // talent tree data -- NOT automatic from dual-wielding alone, unlike generic classic WoW).
           var mw = roll(p.hitFrac, false);
-          if (mw) { addDmg(t, (p.wpnDmg + p.AP / 14) * mw); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mw === 2) onCrit(t); }
+          if (mw) { addDmg(t, (p.wpnDmg + p.AP / 14) * mw, 'ww'); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mw === 2) onCrit(t); }
           if (dualWield && p.ragingBlows) {
             var mwOh = roll(p.hitFrac, false);
-            if (mwOh) { addDmg(t, (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mwOh); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mwOh === 2) onCrit(t); }
+            if (mwOh) { addDmg(t, (p.ohWpnDmg + p.AP / 14) * ohDmgMult * mwOh, 'ww'); onMeleeWeaponDamage(); onLandedWeaponHit(t); if (mwOh === 2) onCrit(t); }
           }
           rage -= WW_RAGE_COST; wwReady = t + WW_CD; gcdReady = t + GCD; wwCasts++;
           events.push({ time: gcdReady, type: 'decision' });
@@ -265,7 +272,7 @@
         checkHsQueue();
       }
     }
-    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, hsCasts: hsCasts, dwCasts: dwCasts, swings: swings };
+    return { dmg: dmg, btCasts: btCasts, wwCasts: wwCasts, hsCasts: hsCasts, dwCasts: dwCasts, swings: swings, dmgBy: dmgBy };
   }
 
   function run() {
@@ -286,10 +293,12 @@
     var iterations = Math.max(1, Math.min(20000, parseInt(iterInput.value, 10) || 2000));
     var dpsSamples = [];
     var totalBt = 0, totalWw = 0, totalHs = 0, totalDw = 0, totalSwings = 0;
+    var totalDmgBy = { white: 0, hs: 0, bt: 0, ww: 0, proc: 0, bleed: 0 };
     for (var i = 0; i < iterations; i++) {
       var r = simulateOnce(p);
       dpsSamples.push(r.dmg / p.fightLen);
       totalBt += r.btCasts; totalWw += r.wwCasts; totalHs += r.hsCasts; totalDw += r.dwCasts; totalSwings += r.swings;
+      for (var cat in totalDmgBy) totalDmgBy[cat] += r.dmgBy[cat];
     }
     var mean = dpsSamples.reduce(function (a, b) { return a + b; }, 0) / iterations;
     var variance = dpsSamples.reduce(function (a, b) { return a + (b - mean) * (b - mean); }, 0) / iterations;
@@ -305,7 +314,20 @@
     var dwUptimePct = 100 * Math.min(1, (totalDw * DW_DURATION) / (iterations * p.fightLen));
     var dwRow = document.getElementById('simDwUptime');
     if (dwRow) dwRow.textContent = (totalDw / iterations).toFixed(2) + ' (' + fmt(dwUptimePct) + '%)';
+
+    var totalDmgAll = 0;
+    for (var catKey in totalDmgBy) totalDmgAll += totalDmgBy[catKey];
+    var breakdownIds = { white: 'simDmgWhite', hs: 'simDmgHs', bt: 'simDmgBt', ww: 'simDmgWw', proc: 'simDmgProc', bleed: 'simDmgBleed' };
+    for (var bk in breakdownIds) {
+      var bEl = document.getElementById(breakdownIds[bk]);
+      if (!bEl) continue;
+      var bDps = totalDmgBy[bk] / (iterations * p.fightLen);
+      var bPct = totalDmgAll > 0 ? (100 * totalDmgBy[bk] / totalDmgAll) : 0;
+      bEl.textContent = fmt(bDps) + ' (' + fmt(bPct) + '%)';
+    }
     document.getElementById('simResults').hidden = false;
+    document.getElementById('simBreakdownTitle').hidden = false;
+    document.getElementById('simBreakdown').hidden = false;
   }
 
   runBtn.addEventListener('click', run);
