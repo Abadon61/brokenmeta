@@ -81,6 +81,15 @@
       <div class="tc-dps-row"><span>{{ tx.sim_casts }}</span><span class="nums" id="simCasts"></span></div>
       <div class="tc-dps-row"><span>{{ tx.sim_dw_uptime }}</span><span class="nums" id="simDwUptime"></span></div>
     </div>
+    <h3 class="fiche-section-title" style="margin-top:1em" id="simBreakdownTitle" hidden>{{ tx.sim_breakdown_h3 }}</h3>
+    <div class="tc-dps-breakdown" id="simBreakdown" hidden>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_white }}</span><span class="nums" id="simDmgWhite"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_hs }}</span><span class="nums" id="simDmgHs"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_bt }}</span><span class="nums" id="simDmgBt"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_ww }}</span><span class="nums" id="simDmgWw"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_proc }}</span><span class="nums" id="simDmgProc"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_dmg_bleed }}</span><span class="nums" id="simDmgBleed"></span></div>
+    </div>
   </div>
 </div>
 <ul class="gd-list">{% for h in tx.sim_method %}<li>{{ h }}</li>{% endfor %}</ul>
