@@ -53,6 +53,10 @@
 <p class="page-intro" style="margin-top:0">{{ tx.sim_intro }}</p>
 <div class="tc-layout">
   <div class="tc-inputs">
+    <div class="tc-field"><label for="tcOhDmg">{{ tx.tc_input_oh_dmg }}</label><input type="number" id="tcOhDmg" min="0" step="0.1" value="70"></div>
+    <div class="tc-field"><label for="tcOhSpeed">{{ tx.tc_input_oh_speed }}</label><input type="number" id="tcOhSpeed" min="0.1" step="0.1" value="1.8"></div>
+    <div class="tc-field"><label for="tcDws">{{ tx.tc_input_dws }}</label><input type="number" id="tcDws" min="0" max="5" step="1" value="5"></div>
+    <p class="wow-note">{{ tx.tc_input_oh_note }}</p>
     <div class="tc-field"><label for="simFightLen">{{ tx.sim_fight_len }}</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
     <div class="tc-field"><label for="simIterations">{{ tx.sim_iterations }}</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
     <button type="button" id="simRun" class="dg-reset">{{ tx.sim_run }}</button>
@@ -75,6 +79,8 @@
   <li>{{ tx.tc_src_spells }}<a href="https://www.wowhead.com/forever/spell=23894" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
   <li>{{ tx.tc_src_stats }}<a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
   <li>{{ tx.sim_src_rage }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Rage" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Rage</a></li>
+  <li>{{ tx.sim_src_dw }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Dual_wield" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Dual wield</a></li>
+  <li>{{ tx.sim_src_dws }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
 </ul>
 <script src="{{ root }}assets/js/wow-theorycraft.js?v={{ css_v }}" defer></script>
 {% endblock %}
