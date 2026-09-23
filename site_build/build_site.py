@@ -8412,6 +8412,8 @@ def main() -> None:
         shutil.copy(ROOT / "js" / "wow-optimizer.js", DIST / "assets" / "js" / "wow-optimizer.js")
     if (ROOT / "js" / "wow-theorycraft.js").exists():
         shutil.copy(ROOT / "js" / "wow-theorycraft.js", DIST / "assets" / "js" / "wow-theorycraft.js")
+    if (ROOT / "js" / "wow-simulator.js").exists():
+        shutil.copy(ROOT / "js" / "wow-simulator.js", DIST / "assets" / "js" / "wow-simulator.js")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():

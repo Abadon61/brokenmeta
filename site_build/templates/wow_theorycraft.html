@@ -49,6 +49,25 @@
   </div>
 </div>
 
+<h2 class="fiche-section-title">{{ tx.sim_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.sim_intro }}</p>
+<div class="tc-layout">
+  <div class="tc-inputs">
+    <div class="tc-field"><label for="simFightLen">{{ tx.sim_fight_len }}</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
+    <div class="tc-field"><label for="simIterations">{{ tx.sim_iterations }}</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
+    <button type="button" id="simRun" class="dg-reset">{{ tx.sim_run }}</button>
+  </div>
+  <div class="tc-outputs">
+    <div class="tc-dps-breakdown" id="simResults" hidden>
+      <div class="tc-dps-row tc-dps-total"><span>{{ tx.sim_dps }}</span><span class="nums" id="simDps"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_ci }}</span><span class="nums" id="simCi"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.sim_casts }}</span><span class="nums" id="simCasts"></span></div>
+    </div>
+  </div>
+</div>
+<ul class="gd-list">{% for h in tx.sim_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<script src="{{ root }}assets/js/wow-simulator.js?v={{ css_v }}" defer></script>
+
 <h2 class="fiche-section-title">{{ tx.tc_method_h2 }}</h2>
 <ul class="gd-list">{% for h in tx.tc_method %}<li>{{ h }}</li>{% endfor %}</ul>
 <h2 class="fiche-section-title">{{ tx.sources }}</h2>

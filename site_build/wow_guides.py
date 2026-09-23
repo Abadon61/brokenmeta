@@ -291,6 +291,15 @@ TXT = {
             "Ce n'est pas une simulation d'événements comme SimulationCraft : pas de variance aléatoire, pas de procs, une seule valeur de sortie par jeu de statistiques.",
         ],
         "tc_src_spells": "Valeurs des sorts (Bloodthirst, Whirlwind) : ", "tc_src_stats": "Conversions de stats (Force → Puissance d'attaque, Agilité → Critique) : ",
+        "sim_h2": "Simulation (version minimale)",
+        "sim_intro": "Un vrai moteur à événements plutôt qu'une formule : rejoue le combat coup par coup, avec un tirage aléatoire de touché/critique à chaque attaque, et fait la moyenne sur plusieurs milliers de combats simulés. Utilise les mêmes statistiques que le calculateur ci-dessus.",
+        "sim_fight_len": "Durée du combat (secondes)", "sim_iterations": "Nombre de combats simulés", "sim_run": "Lancer la simulation",
+        "sim_dps": "DPS simulé (moyenne)", "sim_ci": "Intervalle de confiance", "sim_casts": "Bloodthirst / Whirlwind / Coups normaux par combat",
+        "sim_method": [
+            "Cette simulation ne modélise que Bloodthirst et Whirlwind, utilisés dès que possible (temps de recharge + temps de recharge global de 1,5 seconde, la vraie valeur de Forever). Comme pour le calculateur ci-dessus, Heroic Strike n'est pas inclus.",
+            "Contrairement au calculateur par formule, chaque coup ici tire réellement un jet de touché puis de critique au hasard : le DPS affiché est une vraie moyenne statistique, pas un calcul déterministe. Il devrait être très proche du total estimé plus haut — c'est volontaire, ça sert à vérifier que les deux méthodes sont cohérentes entre elles.",
+            "Aucun proc, aucun DoT, aucun saignement : ce sont les prochaines briques à ajouter pour se rapprocher d'un vrai moteur façon SimulationCraft.",
+        ],
     },
     "en": {
         "guides": "Class guides", "professions": "Professions", "kicker": "World of Warcraft: Forever · Class guide",
@@ -449,5 +458,14 @@ TXT = {
             "This is not an event-based simulation like SimulationCraft: no random variance, no procs, one output value per set of stats.",
         ],
         "tc_src_spells": "Spell values (Bloodthirst, Whirlwind): ", "tc_src_stats": "Stat conversions (Strength → Attack Power, Agility → Critical Strike): ",
+        "sim_h2": "Simulation (minimal version)",
+        "sim_intro": "A real event-driven engine instead of a formula: replays the fight swing by swing, rolling a real hit/crit chance on every attack, and averages the result over thousands of simulated fights. Uses the same stats as the calculator above.",
+        "sim_fight_len": "Fight length (seconds)", "sim_iterations": "Simulated fights", "sim_run": "Run simulation",
+        "sim_dps": "Simulated DPS (average)", "sim_ci": "Confidence interval", "sim_casts": "Bloodthirst / Whirlwind / normal hits per fight",
+        "sim_method": [
+            "This simulation only models Bloodthirst and Whirlwind, used as soon as they're available (cooldown plus the real 1.5-second global cooldown from WoW: Forever). Like the calculator above, Heroic Strike isn't included.",
+            "Unlike the formula-based calculator, every hit here actually rolls a real hit chance and then a crit chance: the DPS shown is a genuine statistical average, not a deterministic calculation. It should land very close to the estimated total above — that's intentional, it's a check that the two methods agree with each other.",
+            "No procs, no DoTs, no bleeds yet: those are the next pieces to add to get closer to a real SimulationCraft-style engine.",
+        ],
     },
 }
