@@ -1,0 +1,70 @@
+{
+  "class": "warlock",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Affliction single-target rotation pieces reachable in an 11-point level-20 build, like the other class passes.",
+  "gaps": [
+    "Bane of Agony (a real DoT explicitly named in the rotation, applied only \"if the enemy will survive long enough\"), Life Tap (the class's core Health-to-Mana mechanic, central to the whole build's talent picks), Drain Life, Drain Soul, curses (Curse of Recklessness/Curse of the Elements, dungeon/group-situational), and the demon pet's own damage are all named in the real rotation but not looked up.",
+    "Shadow Bolt (the class's other classic signature spell) is explicitly named in the guide as WORSE than wanding at level 20 (\"currently deals less damage for the time spent casting while also costing Mana and generating additional threat\") -- a real, sourced reason it's deliberately excluded from the level-20 rotation, not an oversight.",
+    "Demon pet damage is entirely unsourced, the same real gap already flagged for Hunter's pet -- likely a meaningful fraction of total real DPS.",
+    "\"talents.demonology\" and \"talents.destruction\" are empty placeholders -- the real level-20 build spends all 11 points in Affliction."
+  ],
+  "abilities": [
+    {
+      "id": "warlock_corruption",
+      "wowhead_spell_id": 6222,
+      "wowhead_talent_id": "n105924",
+      "name": { "en": "Corruption", "fr": "Corruption" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": "at least 4 (next found rank requires level 54)",
+      "min_level": 14,
+      "resource_cost": { "mana": 55 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "2 sec (Improved Corruption, talented in the real build, makes this instant per its own tooltip description -- not re-verified on Corruption's own tooltip this pass)",
+      "school": "shadow",
+      "mechanic": null,
+      "flags": ["periodic_can_crit", "dispel_type_magic"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (next found rank, id 11672, requires level 54 -- there may be an untested rank in between). Real single-target priority (Icy Veins): apply after Immolate, one of the two \"always up\" DoTs alongside it.",
+      "source_url": "https://www.wowhead.com/forever/spell=6222/corruption",
+      "effects": [
+        { "kind": "periodic_damage", "total_damage": 65, "duration_sec": 15, "tick_interval_sec": 3, "damage_per_tick": 14, "sp_coeff": 0.20, "can_crit": true }
+      ]
+    },
+    {
+      "id": "warlock_immolate",
+      "wowhead_spell_id": 1094,
+      "name": { "en": "Immolate", "fr": "Immolation" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 20,
+      "resource_cost": { "mana": 90 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "2 sec",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["periodic_can_crit", "dispel_type_magic"],
+      "notes": "Exactly the level-20 cap. Real single-target priority (Icy Veins): the first DoT applied, before Corruption.",
+      "source_url": "https://www.wowhead.com/forever/spell=1094/immolate",
+      "effects": [
+        { "kind": "direct_damage", "flat": 38, "sp_coeff": 0.20 },
+        { "kind": "periodic_damage", "total_damage": 60, "duration_sec": 15, "tick_interval_sec": 3, "damage_per_tick": 13, "sp_coeff": 0.13, "can_crit": true }
+      ]
+    }
+  ],
+  "talents": {
+    "affliction": [
+      { "id": "warlock_improved_life_tap", "wowhead_talent_id": "n105921", "name": { "en": "Improved Life Tap", "fr": "Connexion améliorée" }, "row": 1, "col": 1, "max_rank_total": 2, "effect_per_rank": "+10%/rank Mana gained from Life Tap (per Icy Veins' text: \"+20% at 2/2\")", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2 -- sustain-relevant, not a direct damage talent, but DPS-relevant since Life Tap is the primary Mana-sustain tool while leveling." },
+      { "id": "warlock_suppression", "wowhead_talent_id": "n105925", "name": { "en": "Suppression", "fr": "Suppression" }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": "+Hit chance per rank, plus reduced threat generation (per Icy Veins' text; exact per-rank amount not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/5." },
+      { "id": "warlock_improved_corruption", "wowhead_talent_id": "n105924", "name": { "en": "Improved Corruption", "fr": "Corruption améliorée" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": "warlock_corruption", "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (full rank): makes Corruption instant cast and +10% damage, per Icy Veins' text -- called \"one of Affliction's most important early talents\"." },
+      { "id": "warlock_soul_harvesting", "wowhead_talent_id": "n105922", "name": { "en": "Soul Harvesting", "fr": "Moisson d'âme" }, "row": 2, "col": 2, "max_rank_total": 2, "effect_per_rank": "+25%/rank Mana regeneration on a killing blow while channeling Drain Soul (+50% at 2/2, per Icy Veins' text)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes only 1/2 -- explicitly called the build's one optional/flexible point by Icy Veins, similar in spirit to Fury Warrior's Boundless Rage or Balance Druid's last Improved Moonfire point." }
+    ],
+    "demonology": [],
+    "destruction": []
+  }
+}
