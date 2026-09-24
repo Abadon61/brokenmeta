@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
+
+<h2 class="fiche-section-title">{{ tx.abilities_h2 }}</h2>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr>
+    <th>{{ tx.col_name }}</th><th>{{ tx.col_level }}</th><th>{{ tx.col_cost }}</th>
+    <th>{{ tx.col_cooldown }}</th><th>{{ tx.col_cast }}</th><th>{{ tx.col_effect }}</th><th>{{ tx.col_source }}</th>
+  </tr></thead>
+  <tbody>{% for a in abilities %}
+  <tr>
+    <td data-first><b>{{ a.name[lang] or a.name.en }}</b></td>
+    <td class="nums">{{ a.min_level }}</td>
+    <td class="nums">{{ a.cost_text or tx.no_cost }}</td>
+    <td class="nums">{{ (a.cooldown_sec ~ 's') if a.cooldown_sec else tx.no_cooldown }}</td>
+    <td>{{ a.cast_time if a.cast_time != 'instant' else tx.instant }}</td>
+    <td>{% for eff in a.effects_text %}{{ eff }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
+    <td><a href="{{ a.source_url }}" rel="noopener nofollow" target="_blank">{{ tx.source_wowhead }}</a></td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+
+{% if talents %}
+<h2 class="fiche-section-title">{{ tx.talents_h2 }}</h2>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr>
+    <th>{{ tx.col_name }}</th><th>{{ tx.col_tree }}</th><th>{{ tx.col_maxrank }}</th>
+    <th>{{ tx.talent_effect }}</th><th>{{ tx.talent_dps }}</th>
+  </tr></thead>
+  <tbody>{% for t in talents %}
+  <tr>
+    <td data-first><b>{{ t.name[lang] or t.name.en }}</b></td>
+    <td>{{ tree_names.get(t.tree, t.tree) }}</td>
+    <td class="nums">{{ t.max_rank_total }}</td>
+    <td>{{ t.effect_per_rank or '—' }}</td>
+    <td>{% if t.dps_relevant == true %}{{ tx.dps_yes }}{% elif t.dps_relevant == false %}{{ tx.dps_no }}{% else %}{{ tx.dps_unknown }}{% endif %}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+
+{% if gaps %}
+<h2 class="fiche-section-title">{{ tx.gaps_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.gaps_intro }}</p>
+<ul class="gd-list">{% for g in gaps %}<li>{{ g }}</li>{% endfor %}</ul>
+{% endif %}
+
+<p class="wow-note">{{ tx.seealso_optimizer }}</p>
+<p><a href="{{ root }}wow-forever/glossaire/">← {{ tx.back_to_hub }}</a></p>
+{% endblock %}

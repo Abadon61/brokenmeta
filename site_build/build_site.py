@@ -43,6 +43,7 @@ from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
 import wow_guides  # noqa: E402
+import wow_spells  # noqa: E402
 
 
 OUT = PROJECT / "data" / "output"
@@ -6599,9 +6600,12 @@ def main() -> None:
     env.globals["wow_dungeons_nav"] = wow_dungeons["dungeons"] if wow_dungeons else []
     wow_raids = wow_guides.load_raids()
     env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
+    wow_spell_classes = wow_spells.load_all()   # {class_id: parsed json} for every data/wow_spells/<id>.json present
     _wnav = list(wow_content.NAV)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
+    if wow_spell_classes:
+        _wnav.insert([s for s, _, _ in _wnav].index("talents" if wt_classes else "classes") + 1, ("glossaire", "Glossaire des sorts", "Spell glossary"))
     if wow_dungeons or wow_raids:
         _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Optimisation de personnage", "Character optimizer"))
     # Theorycraft nav entry temporarily removed (2026-09-23): the level-60 DPS simulator is being rebuilt
@@ -7313,6 +7317,34 @@ def main() -> None:
                        wt_intro=_wt["class_intro"].format(specs=_specs), wt_n_talents=sum(len(s["talents"]) for s in _c["specs"]),
                        rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))
+        if wow_spell_classes:
+            _gsx = wow_spells.TXT[lang]
+            _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang)),
+                      ("Glossaire des sorts" if lang == "fr" else "Spell glossary", canonical_for("/wow-forever/glossaire/", lang))]
+            assert len(_gsx["hub_title"]) <= 60 and len(_gsx["hub_desc"]) <= 155
+            render("wow_glossary_hub.html", "/wow-forever/glossaire/", lang, active_nav="wow", active_sub="wow-glossaire", tx=_gsx,
+                   wt_classes=wt_classes, glossary_ids=list(wow_spell_classes.keys()), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                   breadcrumb_schema=breadcrumb_schema(_gbase))
+            for _gc in wt_classes:
+                _gcid = _gc["id"]
+                if _gcid not in wow_spell_classes:
+                    continue
+                _gdata = wow_spell_classes[_gcid]
+                _gcname = _gc["name"][lang]
+                _gtitle = _gsx["class_title"].format(name=_gcname)
+                _gdesc = _gsx["class_desc"].format(name=_gcname)
+                _gh1 = _gsx["class_h1"].format(name=_gcname)
+                assert len(_gtitle) <= 60 and len(_gdesc) <= 155, (_gtitle, len(_gtitle), len(_gdesc))
+                _gpath = f"/wow-forever/glossaire/{_gcid}/"
+                _gurl = canonical_for(_gpath, lang)
+                _gtree_names = {s["id"]: s["name"][lang] for s in _gc["specs"]}
+                render("wow_glossary_class.html", _gpath, lang, active_nav="wow", active_sub="wow-glossaire", tx=_gsx,
+                       g_title=_gtitle, g_desc=_gdesc, g_h1=_gh1, g_intro=_gsx["class_intro"].format(name=_gcname),
+                       abilities=[wow_spells.ability_view(a) for a in _gdata.get("abilities", [])],
+                       talents=wow_spells.talents_view(_gdata.get("talents", {})),
+                       tree_names=_gtree_names, gaps=_gdata.get("gaps", []), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_gcname, _gurl)]),
+                       article_schema=build_article_schema(_gh1, _gurl, _gdesc))
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]

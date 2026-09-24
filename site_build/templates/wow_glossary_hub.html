@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ tx.hub_title }}{% endblock %}
+{% block description %}{{ tx.hub_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.kicker, tx.hub_h1, tx.hub_intro) }}
+<div class="lh-cards">
+  {% for c in wt_classes %}{% if c.id in glossary_ids %}
+  <a class="lh-card" href="{{ root }}wow-forever/glossaire/{{ c.id }}/"><span class="lh-card-k">{{ tx.kicker.split(' · ')[-1] }}</span><b>{{ c.name[lang] }}</b></a>
+  {% endif %}{% endfor %}
+</div>
+{% endblock %}
