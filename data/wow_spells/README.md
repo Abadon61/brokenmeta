@@ -49,7 +49,7 @@ goes in the top-level `gaps` array, not a guessed placeholder.
 | `cast_time` | string | `"instant"`, `"on next melee swing"`, or a cast time description. |
 | `school` | string | `"physical"`, `"fire"`, etc. |
 | `mechanic` | string \| null | e.g. `"bleeding"`, matching the tooltip's own "Mechanic" field. |
-| `effect` | object | See **effect kinds** below. |
+| `effects` | object[] | **Always an array**, even for a single effect — found necessary validating the schema on Fire Mage: Fireball and Pyroblast each deal one direct hit *and* apply their own DoT in the same cast, which doesn't fit a single `effect` object. See **effect kinds** below. |
 | `flags` | string[] | Free-form but reuse existing ones across classes where the mechanic is the same (e.g. `"no_dual_wield_miss_penalty"`, `"no_glancing_blow"`, `"discount_power_on_miss"`). |
 | `notes` | string | Anything a simulator author needs to know that isn't captured structurally — assumptions, ambiguities, cross-era discrepancies. |
 | `source_url` | string | Direct link to the tooltip this was read from. |
@@ -58,8 +58,8 @@ goes in the top-level `gaps` array, not a guessed placeholder.
 
 Fixed vocabulary — add a new one here (not an ad hoc string) if a class needs something not listed:
 
-- `direct_damage` — one instant hit. Fields: any of `ap_coeff`, `sp_coeff`, `flat`, `weapon_pct`.
-- `periodic_damage` — a DoT/bleed. Fields: `total_damage`, `duration_sec`, `tick_interval_sec`, `damage_per_tick`, `can_crit` (bool — check the tooltip's own flags, don't assume).
+- `direct_damage` — one instant or cast-time hit. Fields: any of `ap_coeff`, `sp_coeff`, `flat`, `weapon_pct`, `dmg_range` (`[low, high]` if the tooltip shows a range rather than one number). `sp_coeff` should come from the tooltip's own shown "SP mod: X" value when present — real, precise, don't derive it yourself.
+- `periodic_damage` — a DoT/bleed, standalone (e.g. Rend) or attached to a direct-damage spell (e.g. Fireball's built-in burn — put both a `direct_damage` and a `periodic_damage` entry in that ability's `effects` array). Fields: `total_damage`, `duration_sec`, `tick_interval_sec`, `damage_per_tick`, `sp_coeff` if shown, `can_crit` (bool — check the tooltip's own flags, don't assume).
 - `normalized_weapon_damage` — hits for weapon damage, optionally to multiple targets. Fields: `pct`, `max_targets`, optional `flat` bonus.
 - `flat_bonus_on_next_swing` — e.g. Heroic Strike. Fields: `flat`.
 - `self_buff` / `party_buff` — a buff, not damage. Fields: whatever stats it changes, `duration_sec`, `radius_yd` if relevant.

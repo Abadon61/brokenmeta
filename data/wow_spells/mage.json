@@ -1,0 +1,107 @@
+{
+  "class": "mage",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file is a schema-validation pass on a second class (Fire spec), not yet a complete glossary the way Warrior's is.",
+  "gaps": [
+    "Only the Fire tree's single-target rotation pieces are covered (Fireball, Fire Blast, Pyroblast, Wake of Fire, Ignite, Improved Fireball). Utility/defensive/AoE spells named in Icy Veins' guide (Frostbolt, Polymorph, Counterspell, Frost Nova, Blast Wave, Arcane Explosion, Flamestrike, Scorch, Improved Scorch, armors, wards) are not looked up.",
+    "\"talents.arcane\" and \"talents.frost\" are empty placeholders -- the real level-20 build spends 0 points in either, but a Fire Mage could in principle spend leftover points there at a higher level.",
+    "Frostfire Bolt (replaces Fireball at level 40) not looked up -- out of scope for a level-20 model anyway.",
+    "Wand damage: Icy Veins repeatedly says wand damage is very strong at low levels and should be used over spells when mana-inefficient -- not sourced, and not modeled by anything in this project yet.",
+    "No real armor-mitigation-equivalent needed here (casters ignore armor), but spell resistance / partial resists on Fire damage against resistant targets isn't sourced either."
+  ],
+  "abilities": [
+    {
+      "id": "mage_fireball",
+      "wowhead_spell_id": 3140,
+      "name": { "en": "Fireball", "fr": "Boule de feu" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 4,
+      "max_rank_total": 12,
+      "min_level": 18,
+      "resource_cost": { "mana": 95 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "3 sec",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["periodic_can_crit"],
+      "notes": "Rank 4 is the max rank trainable by level 20 (Rank 5 requires level 24). Real Forever design: Fireball has a built-in DoT component (not the case in original vanilla WoW) -- two effects in one cast, which is why this glossary's \"effects\" field is an array, not a single object (found while validating the schema on this class).",
+      "source_url": "https://www.wowhead.com/forever/spell=3140/fireball",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [67, 90], "sp_coeff": 0.857 },
+        { "kind": "periodic_damage", "total_damage": 12, "duration_sec": 8, "tick_interval_sec": 2, "damage_per_tick": 3, "can_crit": true }
+      ]
+    },
+    {
+      "id": "mage_fire_blast",
+      "wowhead_spell_id": 2137,
+      "name": { "en": "Fire Blast", "fr": "Éclat de feu" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 2,
+      "max_rank_total": 7,
+      "min_level": 14,
+      "resource_cost": { "mana": 75 },
+      "cooldown_sec": 8,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "fire",
+      "mechanic": null,
+      "flags": [],
+      "notes": "Rank 2 is the max rank trainable by level 20 (Rank 3 requires level 22). Base cooldown is 8s; Wake of Fire (talented) reduces this to 6s.",
+      "source_url": "https://www.wowhead.com/forever/spell=2137/fire-blast",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [57, 69], "sp_coeff": 0.429 }
+      ]
+    },
+    {
+      "id": "mage_pyroblast",
+      "wowhead_spell_id": 11366,
+      "wowhead_talent_id": "n105790",
+      "name": { "en": "Pyroblast", "fr": "Pyroclase" },
+      "category": "talent_capstone",
+      "trees": ["fire"],
+      "rank": "max",
+      "max_rank_total": 1,
+      "min_level": 20,
+      "resource_cost": { "mana": 125 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "6 sec",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["periodic_can_crit"],
+      "notes": "Icy Veins' level-20 guide uses this as the Single-Target Rotation opener (Fireball before level 20, when Pyroblast isn't trained yet).",
+      "source_url": "https://www.wowhead.com/forever/spell=11366/pyroblast",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [101, 131] },
+        { "kind": "periodic_damage", "total_damage": 44, "duration_sec": 12, "tick_interval_sec": 3, "damage_per_tick": 12, "sp_coeff": 0.15, "can_crit": true }
+      ]
+    }
+  ],
+  "talents": {
+    "fire": [
+      { "id": "mage_wake_of_fire", "wowhead_talent_id": "n105797", "name": { "en": "Wake of Fire", "fr": "Sillage de feu" }, "row": 1, "col": 1, "max_rank_total": 2, "effect_per_rank": "Reduces Fire Blast cooldown by 1 sec/rank (2s at max); killing a non-trivial enemy grants +25%/rank crit chance (50% at max) to your next Fire Blast within 20 sec", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2. The kill-triggered crit bonus is OUT OF SCOPE for a sustained single-target simulator (same reasoning as Victory Rush for Warrior -- no kills happen in one continuous fight); the -2s Fire Blast cooldown is a plain passive and stays in scope." },
+      { "id": "mage_incineration", "wowhead_talent_id": "n105796", "name": { "en": "Incineration", "fr": "Incinération" }, "row": 1, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": null, "notes": "Not looked up yet." },
+      { "id": "mage_improved_fireball", "wowhead_talent_id": "n105795", "name": { "en": "Improved Fireball", "fr": "Boule de feu améliorée" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": "-0.2 sec Fireball/Frostfire Bolt cast time per rank (-1 sec at max rank, per the tooltip's own description text; the raw per-rank trait values shown, -100/-200ms, imply a smaller total and weren't fully reconciled -- description text used as authoritative per this project's standing rule)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (first points invested, per Icy Veins)." },
+      { "id": "mage_ignite", "wowhead_talent_id": "n105794", "name": { "en": "Ignite", "fr": "Combustion" }, "row": 2, "col": 1, "max_rank_total": 5, "effect_per_rank": "Fire spell crits cause the target to burn for +8%/rank of that spell's damage over 4 sec (24% at rank 3, 40% at max rank 5)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/5 (24% of crit damage as a 4-sec DoT)." },
+      { "id": "mage_flame_throwing", "wowhead_talent_id": "n105793", "name": { "en": "Flame Throwing", "fr": "Lancer de flammes" }, "row": 2, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Range increase, not looked up in detail -- no DPS contribution expected." },
+      { "id": "mage_impact", "wowhead_talent_id": "n105792", "name": { "en": "Impact", "fr": "Impact" }, "row": 2, "col": 3, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": null, "notes": "Not looked up yet." },
+      { "id": "mage_burning_soul", "wowhead_talent_id": "n105789", "name": { "en": "Burning Soul", "fr": "Âme ardente" }, "row": 3, "col": 1, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Historically a pushback-resistance/threat talent in other WoW versions, not confirmed for Forever -- not looked up." },
+      { "id": "mage_improved_flamestrike", "wowhead_talent_id": "n105791", "name": { "en": "Improved Flamestrike", "fr": "Frappe de feu améliorée" }, "row": 3, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Buffs an AoE spell, off-topic for single-target -- not looked up." },
+      { "id": "mage_pyroblast_talent", "wowhead_talent_id": "n105790", "name": { "en": "Pyroblast", "fr": "Pyroclase" }, "row": 3, "col": 3, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": "mage_pyroblast", "dps_relevant": true },
+      { "id": "mage_improved_scorch", "wowhead_talent_id": "n105788", "name": { "en": "Improved Scorch", "fr": "Ignition améliorée" }, "row": 4, "col": 1, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Icy Veins' guide says this applies a Fire-damage-taken debuff on the target that needs upkeep -- real DPS-relevant mechanic, not looked up yet (needs Scorch itself sourced too, which isn't in this pass)." },
+      { "id": "mage_improved_fire_ward", "wowhead_talent_id": "n105787", "name": { "en": "Improved Fire Ward", "fr": "Bouclier de feu amélioré" }, "row": 4, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false },
+      { "id": "mage_hot_streak", "wowhead_talent_id": "n105786", "name": { "en": "Hot Streak", "fr": "Séquence explosive" }, "row": 4, "col": 3, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Named as a core Fire identity mechanic in the guide's flavor text (keeping Ignite/Pyroblast \"relatively consistent\"), but not reachable at 11 points (real level-20 build doesn't take it) -- not looked up in this pass." },
+      { "id": "mage_master_of_elements", "wowhead_talent_id": "n105785", "name": { "en": "Master of Elements", "fr": "Maître des éléments" }, "row": 4, "col": 4, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Historically a mana-cost-refund-on-crit talent in other WoW versions -- not confirmed for Forever, not looked up." },
+      { "id": "mage_critical_mass", "wowhead_talent_id": "n105784", "name": { "en": "Critical Mass", "fr": "Masse critique" }, "row": 5, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
+      { "id": "mage_blast_wave", "wowhead_talent_id": "n105783", "name": { "en": "Blast Wave", "fr": "Onde de choc" }, "row": 5, "col": 3, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "AoE spell, off-topic for single-target." },
+      { "id": "mage_fire_power", "wowhead_talent_id": "n105782", "name": { "en": "Fire Power", "fr": "Empreinte du feu" }, "row": 6, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
+      { "id": "mage_combustion", "wowhead_talent_id": "n105781", "name": { "en": "Combustion", "fr": "Combustion" }, "row": 7, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Named as Fire's one real damage cooldown in the guide's flavor text, but not reachable at 11 points -- not looked up in this pass." }
+    ],
+    "arcane": [],
+    "frost": []
+  }
+}
