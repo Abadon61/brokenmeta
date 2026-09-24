@@ -1,0 +1,68 @@
+{
+  "class": "shaman",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Enhancement single-target rotation pieces reachable in an 11-point level-20 build, like the other class passes.",
+  "gaps": [
+    "Real, explicit source caveat: Icy Veins' own guide says the level-20 Enhancement toolkit is too limited to show the spec's real playstyle yet (\"the full playstyle isn't really on display yet until we see more of the Beta open up\") -- this class's real level-20 kit is genuinely thinner than every other class catalogued so far, not an artifact of under-research this pass.",
+    "None of Stormstrike, Flurry, Maelstrom Weapon or Windfury Weapon (Enhancement's real signature abilities in other WoW versions) are reachable at 11 points and none are named in the real level-20 rotation text -- not looked up.",
+    "Lightning Shield, Flametongue Weapon (group alternative to Rockbiter), Frost Shock, Fire Nova, totems (Searing/Strength of Earth/Stoneskin/Healing Stream) named in the real rotation but not looked up.",
+    "\"talents.elemental\" and \"talents.restoration\" are empty placeholders. Note: the guide also flags a real alternative build spending points in Restoration (Mindfulness + Water Shield) for better early Mana sustain, at the cost of blocking a deeper Enhancement path later -- not sourced here."
+  ],
+  "abilities": [
+    {
+      "id": "shaman_earth_shock",
+      "wowhead_spell_id": 8045,
+      "name": { "en": "Earth Shock", "fr": "Choc tellurique" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 7,
+      "min_level": 14,
+      "resource_cost": { "mana": 85 },
+      "cooldown_sec": 6,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "nature",
+      "mechanic": null,
+      "flags": ["high_threat"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 24). Also interrupts spellcasting and locks out that school for 2 sec -- a secondary utility effect alongside the damage. Real single-target priority (Icy Veins): cast when solo (Frost Shock is the group alternative, to avoid pulling threat).",
+      "source_url": "https://www.wowhead.com/forever/spell=8045/earth-shock",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [52, 55], "sp_coeff": 0.386 }
+      ]
+    },
+    {
+      "id": "shaman_rockbiter_weapon",
+      "wowhead_spell_id": 8019,
+      "name": { "en": "Rockbiter Weapon", "fr": "Frappe des roches" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 16,
+      "resource_cost": { "mana": 50 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "nature",
+      "mechanic": null,
+      "flags": ["requires_melee_weapon", "held_item_only"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 24). A 60-minute weapon-imbue buff (+118 melee Attack Power), not a rotational damage ability -- more like a long-duration maintenance buff (comparable in role to Warrior's Battle Shout) than a spell recast on cooldown. Real single-target priority (Icy Veins): use when solo; Flametongue Weapon is the group alternative (not sourced).",
+      "source_url": "https://www.wowhead.com/forever/spell=8019/rockbiter-weapon",
+      "effects": [
+        { "kind": "self_buff", "attack_power": 118, "duration_sec": 3600 }
+      ]
+    }
+  ],
+  "talents": {
+    "enhancement": [
+      { "id": "shaman_thundering_strikes", "wowhead_talent_id": "n104753", "name": { "en": "Thundering Strikes", "fr": "Frappe foudroyante" }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (\"bulk Critical Strike\", per Icy Veins; exact per-rank amount not looked up)." },
+      { "id": "shaman_mental_dexterity", "wowhead_talent_id": "n104755", "name": { "en": "Mental Dexterity", "fr": "Dextérité mentale" }, "row": 2, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3 (\"enables Intellect as a key stat\", per Icy Veins -- likely converts some Intellect into Attack Power or similar; exact effect not looked up)." },
+      { "id": "shaman_improved_ghost_wolf", "wowhead_talent_id": "n104752", "name": { "en": "Improved Ghost Wolf", "fr": "Loup fantôme amélioré" }, "row": 2, "col": 3, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 2/2, but explicitly a mobility/utility pick with \"no throughput\" per Icy Veins' own text -- taken for its non-combat value, not DPS." },
+      { "id": "shaman_shamanistic_focus", "wowhead_talent_id": "n104749", "name": { "en": "Shamanistic Focus", "fr": "Focalisation chamanique" }, "row": 3, "col": 3, "max_rank_total": 1, "effect_per_rank": "Reduces the Mana cost of Shocks (e.g. Earth Shock) after a critical strike, per Icy Veins' text", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1, described as \"the goal early\" pick to sustain Shock usage on a limited Mana pool." }
+    ],
+    "elemental": [],
+    "restoration": []
+  }
+}
