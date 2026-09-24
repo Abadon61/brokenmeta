@@ -1,0 +1,70 @@
+{
+  "class": "druid",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file covers only the Balance single-target rotation pieces reachable in an 11-point level-20 build, like the Mage/Rogue/Priest passes.",
+  "gaps": [
+    "Starfire, Insect Swarm, Moonkin Form and the full Feral/Restoration trees not looked up.",
+    "Talents' exact numeric effects not looked up (only names/point allocation confirmed from the real build): Improved Wrath (cast time + Mana cost reduction, per Icy Veins' text), Moonglow, Nature's Reach (hit chance + range, per Icy Veins' text), Improved Moonfire.",
+    "Real level-20 build note: the guide explicitly frames the last point (Improved Moonfire, taken as 1/2 rather than maxed) as \"extremely flexible\" -- i.e. not a firmly fixed pick the way the other 10 points are. Worth remembering this build is slightly softer at the margin than Warrior/Mage/Rogue/Priest's fully-determined 11-point builds."
+  ],
+  "abilities": [
+    {
+      "id": "druid_wrath",
+      "wowhead_spell_id": 5178,
+      "wowhead_talent_id": "n104923",
+      "name": { "en": "Wrath", "fr": "Colère" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 9,
+      "min_level": 14,
+      "resource_cost": { "mana": 40 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "2 sec",
+      "school": "nature",
+      "mechanic": null,
+      "flags": [],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 22). Real single-target priority (Icy Veins): filler damage once Moonfire is already active on the target.",
+      "source_url": "https://www.wowhead.com/forever/spell=5178/wrath",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [21, 25], "sp_coeff": 0.571 }
+      ]
+    },
+    {
+      "id": "druid_moonfire",
+      "wowhead_spell_id": 8925,
+      "wowhead_talent_id": "n104931",
+      "name": { "en": "Moonfire", "fr": "Éclat lunaire" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 10,
+      "min_level": 16,
+      "resource_cost": { "mana": 75 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "arcane",
+      "mechanic": null,
+      "flags": ["periodic_can_crit", "dispel_type_magic", "dot_stacking_rule"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 22). Real, sourced Arcane school (not Nature) despite being a \"lunar fire\" spell -- don't assume school from flavor. The tooltip's own \"DoT Stacking Rule\" flag is a direct, explicit confirmation of this schema's general non-stacking-on-refresh rule (see README.md), not just an inference. Real single-target priority (Icy Veins): keep this active on the target at all times, ahead of Wrath.",
+      "source_url": "https://www.wowhead.com/forever/spell=8925/moonfire",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [25, 29], "sp_coeff": 0.15 },
+        { "kind": "periodic_damage", "total_damage": 36, "duration_sec": 12, "tick_interval_sec": 3, "damage_per_tick": 10, "sp_coeff": 0.13, "can_crit": true }
+      ]
+    }
+  ],
+  "talents": {
+    "balance": [
+      { "id": "druid_improved_wrath", "wowhead_talent_id": "n104923", "name": { "en": "Improved Wrath", "fr": "Colère améliorée" }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": "druid_wrath", "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (reduces Wrath's cast time and Mana cost, per Icy Veins' text; exact per-rank amounts not looked up). Picked over Nature's Focus (Restoration, pushback resistance) as the guide's stated first choice." },
+      { "id": "druid_moonglow", "wowhead_talent_id": "n104925", "name": { "en": "Moonglow", "fr": "Lueur de la lune" }, "row": 2, "col": 1, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3 (\"reduces the amount of time you'll spend not casting spells\", per Icy Veins -- likely a Mana-cost reduction; exact effect not looked up)." },
+      { "id": "druid_natures_reach", "wowhead_talent_id": "n104929", "name": { "en": "Nature's Reach", "fr": "Allonge de la Nature" }, "row": 2, "col": 4, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2 (reduces spell miss chance and increases range, per Icy Veins' text; exact per-rank amounts not looked up)." },
+      { "id": "druid_improved_moonfire", "wowhead_talent_id": "n104931", "name": { "en": "Improved Moonfire", "fr": "Eclat lunaire amélioré" }, "row": 2, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": "druid_moonfire", "dps_relevant": true, "notes": "Real level-20 build takes only 1/2 -- explicitly called \"extremely flexible\" by Icy Veins, the softest pick in this build (unlike every other class's fully-determined 11 points found so far)." }
+    ],
+    "feral": [],
+    "restoration": []
+  }
+}
