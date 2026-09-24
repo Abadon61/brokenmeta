@@ -1,0 +1,130 @@
+{
+  "class": "rogue",
+  "resource_system": "energy",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file is a schema-validation pass on a third class (Combat spec), not yet a complete glossary the way Warrior's is.",
+  "gaps": [
+    "Only the Combat single-target rotation pieces are covered (Sinister Strike, Backstab, Eviscerate, Slice and Dice). Ambush (stealth opener), Instant Poison (weapon buff named in the real rotation), Gouge, Kick, Sprint, and all Assassination/Subtlety trees are not looked up.",
+    "French names for Backstab, Eviscerate and Slice and Dice were NOT found from a reliable source this pass (only Sinister Strike's real FR name, \"Attaque pernicieuse\", is confirmed, via data/wow_talents/rogue.json's own Improved Sinister Strike entry) -- left in English with a note rather than guessed.",
+    "Eviscerate's Attack-Power scaling coefficient: the tooltip states the ability's damage \"increased by Attack Power\" but the exact coefficient wasn't visible in the effect breakdown captured this pass (unlike e.g. Mage spells, which show an explicit \"SP mod: X\").",
+    "\"talents.assassination\" and \"talents.subtlety\" are empty placeholders -- the real level-20 Combat build spends 0 points in either.",
+    "Combat's own Dual Wield Specialization (n105740, Combat tree) wasn't cross-checked against Warrior's for whether Rogue's version has the same real values -- don't assume they match."
+  ],
+  "abilities": [
+    {
+      "id": "rogue_sinister_strike",
+      "wowhead_spell_id": 1758,
+      "wowhead_talent_id": "n105741",
+      "name": { "en": "Sinister Strike", "fr": "Attaque pernicieuse" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 14,
+      "resource_cost": { "energy": 45 },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": null,
+      "flags": ["requires_main_hand_weapon", "discount_power_on_miss", "initiates_combat"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 22). Real finding validating the schema on this class: Rogue's own GCD is 1 second, not the 1.5 seconds already confirmed for Warrior and Mage -- the schema already supports this correctly (gcd_sec is per-ability, not a hardcoded constant), this is the first real confirmation it differs by class.",
+      "source_url": "https://www.wowhead.com/forever/spell=1758/sinister-strike",
+      "effects": [
+        { "kind": "normalized_weapon_damage", "pct": 1.00, "flat": 10 },
+        { "kind": "resource_generation", "resource": "combo_points", "immediate": 1 }
+      ]
+    },
+    {
+      "id": "rogue_backstab",
+      "wowhead_spell_id": 2590,
+      "name": { "en": "Backstab", "fr": null },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 9,
+      "min_level": 20,
+      "resource_cost": { "energy": 60 },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": null,
+      "flags": ["requires_dagger_main_hand", "must_be_behind_target"],
+      "notes": "Rank 3 is exactly the level-20 cap. Real single-target priority (Icy Veins) uses this over Sinister Strike whenever positioned behind the target -- higher combo-point-per-Energy value (60 Energy/1 CP vs Sinister Strike's 45 Energy/1 CP) is offset by the higher direct damage, not by CP generation rate.",
+      "source_url": "https://www.wowhead.com/forever/spell=2590/backstab",
+      "effects": [
+        { "kind": "normalized_weapon_damage", "pct": 1.50, "flat": 32 },
+        { "kind": "resource_generation", "resource": "combo_points", "immediate": 1 }
+      ]
+    },
+    {
+      "id": "rogue_eviscerate",
+      "wowhead_spell_id": 6761,
+      "wowhead_talent_id": "n105708",
+      "name": { "en": "Eviscerate", "fr": null },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 9,
+      "min_level": 16,
+      "resource_cost": { "energy": 35, "combo_points": "1 to 5" },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": null,
+      "flags": ["requires_melee_weapon", "finishing_move"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 24). Real per-combo-point damage table from the tooltip, not derived: 1 CP 25-39, 2 CP 44-58, 3 CP 63-77, 4 CP 82-96, 5 CP 101-115 (a clean +19 per point pattern, but the table itself is the sourced value, not the pattern). Also scales with Attack Power per the tooltip's own text; exact coefficient not captured this pass (see gaps).",
+      "source_url": "https://www.wowhead.com/forever/spell=6761/eviscerate",
+      "effects": [
+        { "kind": "combo_point_scaling", "resource": "combo_points", "table": { "1": [25, 39], "2": [44, 58], "3": [63, 77], "4": [82, 96], "5": [101, 115] } }
+      ]
+    },
+    {
+      "id": "rogue_slice_and_dice",
+      "wowhead_spell_id": 5171,
+      "name": { "en": "Slice and Dice", "fr": null },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 2,
+      "min_level": 10,
+      "resource_cost": { "energy": 25, "combo_points": "1 to 5" },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": null,
+      "flags": ["finishing_move"],
+      "notes": "Rank 1 is the max rank trainable by level 20 (Rank 2 requires level 42). A flat +20% melee attack speed buff whose DURATION scales with combo points spent (a genuinely linear real formula, unlike Eviscerate's damage table): 1 CP=9s, 2 CP=12s, 3 CP=15s, 4 CP=18s, 5 CP=21s (base 6 + 3×CP). Per this schema's non-stacking rule, recasting while active replaces the remaining duration, it does not add to it.",
+      "source_url": "https://www.wowhead.com/forever/spell=5171/slice-and-dice",
+      "effects": [
+        { "kind": "combo_point_scaling", "resource": "combo_points", "base": 6, "per_point": 3, "applies_to": "duration_sec", "buff_effect": "+20% melee attack speed" }
+      ]
+    }
+  ],
+  "talents": {
+    "combat": [
+      { "id": "rogue_improved_sinister_strike", "wowhead_talent_id": "n105741", "name": { "en": "Improved Sinister Strike", "fr": "Attaque pernicieuse améliorée" }, "row": 1, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": "rogue_sinister_strike", "dps_relevant": true, "notes": "Real level-20 build takes 2/2 (reduces Sinister Strike's Energy cost, per Icy Veins' guide text; exact per-rank reduction not looked up)." },
+      { "id": "rogue_improved_eviscerate", "wowhead_talent_id": "n105708", "name": { "en": "Improved Eviscerate", "fr": "Éviscération améliorée" }, "row": 1, "col": 1, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": "rogue_eviscerate", "dps_relevant": true, "notes": "Real level-20 build takes 3/3 (increases Eviscerate damage, per Icy Veins' guide text; exact per-rank amount not looked up)." },
+      { "id": "rogue_puncturing_wounds", "wowhead_talent_id": "n105719", "name": { "en": "Puncturing Wounds", "fr": "Blessures transperçantes" }, "row": 2, "col": 1, "max_rank_total": 3, "effect_per_rank": "Increases Backstab critical strike chance and gives a chance to generate an extra combo point (per Icy Veins' guide text; exact per-rank values not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3." },
+      { "id": "rogue_precision", "wowhead_talent_id": "n105737", "name": { "en": "Precision", "fr": "Précision" }, "row": 2, "col": 3, "max_rank_total": 3, "effect_per_rank": "+1% hit chance per rank (consistent with every other class' identically-named hit-chance talent found so far)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3." },
+      { "id": "rogue_lightning_reflexes", "wowhead_talent_id": "n113398", "name": { "en": "Lightning Reflexes", "fr": "Réflexes-éclairs" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Historically a Dodge-chance talent in other WoW versions -- defensive, not looked up." },
+      { "id": "rogue_deflection", "wowhead_talent_id": "n105738", "name": { "en": "Deflection", "fr": "Déviation" }, "row": 2, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Icy Veins' guide explicitly says the level-20 build ignores Dodge/Parry talents -- defensive, not looked up." },
+      { "id": "rogue_endurance", "wowhead_talent_id": "n105736", "name": { "en": "Endurance", "fr": "Endurcissement" }, "row": 3, "col": 1, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false },
+      { "id": "rogue_riposte", "wowhead_talent_id": "n105735", "name": { "en": "Riposte", "fr": "Riposte" }, "row": 3, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Historically a parry-punish attack -- defensive/situational, not looked up." },
+      { "id": "rogue_improved_sprint", "wowhead_talent_id": "n105732", "name": { "en": "Improved Sprint", "fr": "Sprint amélioré" }, "row": 3, "col": 4, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false },
+      { "id": "rogue_improved_kick", "wowhead_talent_id": "n105733", "name": { "en": "Improved Kick", "fr": "Coup de pied amélioré" }, "row": 4, "col": 1, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Buffs an interrupt, not a damage ability." },
+      { "id": "rogue_flawless_execution", "wowhead_talent_id": "n108100", "name": { "en": "Flawless Execution", "fr": "Exécution parfaite" }, "row": 4, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": null, "notes": "Not looked up yet." },
+      { "id": "rogue_dual_wield_spec", "wowhead_talent_id": "n105740", "name": { "en": "Dual Wield Specialization", "fr": "Spécialisation Ambidextrie" }, "row": 4, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass. Do not assume it matches Warrior's own version's real values (see gaps)." },
+      { "id": "rogue_blade_flurry", "wowhead_talent_id": "n105728", "name": { "en": "Blade Flurry", "fr": "Déluge de lames" }, "row": 5, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
+      { "id": "rogue_hack_and_slash", "wowhead_talent_id": "n105727", "name": { "en": "Hack and Slash", "fr": "Taillader et trancher" }, "row": 5, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
+      { "id": "rogue_weapon_expertise", "wowhead_talent_id": "n105726", "name": { "en": "Weapon Expertise", "fr": "Expertise en armes" }, "row": 6, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
+      { "id": "rogue_aggression", "wowhead_talent_id": "n105730", "name": { "en": "Aggression", "fr": "Agressivité" }, "row": 6, "col": 3, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Shown as \"Related\" on Eviscerate's own tooltip -- likely modifies it directly. Not reachable at 11 points, not looked up in this pass." },
+      { "id": "rogue_adrenaline_rush", "wowhead_talent_id": "n105724", "name": { "en": "Adrenaline Rush", "fr": "Poussée d'adrénaline" }, "row": 7, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Likely Combat's capstone damage cooldown (row 7, mirrors Warrior's Bloodthirst/Mage's Combustion position) -- not reachable at 11 points, not looked up in this pass." }
+    ],
+    "assassination": [],
+    "subtlety": []
+  }
+}

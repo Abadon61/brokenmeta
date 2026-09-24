@@ -67,6 +67,11 @@ Fixed vocabulary — add a new one here (not an ad hoc string) if a class needs 
 - `resource_generation` — e.g. Bloodrage. Fields: `immediate`, `over_time`, `over_time_duration_sec`.
 - `heal` / `periodic_heal` — for healing specs, mirrors `direct_damage` / `periodic_damage`.
 - `proc_trigger` — grants a chance-based buff/effect on some condition; describe the condition and result in `notes` until a common shape emerges from real use.
+- `combo_point_scaling` — a finisher whose effect depends on how many combo points (or an equivalent secondary resource) are spent, found validating the schema on Rogue. Fields: `resource` (e.g. `"combo_points"`), and either `table` (an object keyed `"1"`..`"5"` when the tooltip gives exact per-count values, e.g. Eviscerate's real damage at each combo point count — prefer this over reverse-engineering a formula) or, only when the tooltip states one explicitly, `base` + `per_point` for a genuinely linear stat like a buff's duration (e.g. Slice and Dice: `duration_sec = base + per_point × combo_points`).
+
+### Non-stacking effects (buffs, debuffs, DoTs)
+
+**Default rule, confirmed by the user from real gameplay knowledge: re-applying a buff/debuff/DoT from a *different cast of the same ability* refreshes it — the new application replaces the old one outright, it does not stack or add.** This is the default for every `self_buff`, `party_buff`, `target_debuff_stacking` (within one "stack slot" — `max_stacks` governs genuinely-cumulative stacks like Sunder Armor, not repeated casts beyond that cap) and `periodic_damage` entry unless a `stacks: true`-style field says otherwise. A simulator should refresh-not-stack by default; only add explicit stacking logic where a tooltip clearly says multiple instances coexist.
 
 ## Talent entry (`talents.<tree>[]`)
 
