@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Simulateur DPS Guerrier Fureur niveau 20">
 <meta name="twitter:description" content="Guerrier Fureur niveau 20 : simulateur de DPS à événements sur le vrai kit du plafond actuel de la bêta (Déchirure, Surpuissance), pas le kit niveau 60.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=0b12f27092">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=0b12f27092">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=82e101f1fb">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=82e101f1fb">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=0b12f27092">
+<link rel="stylesheet" href="../../assets/css/style.css?v=82e101f1fb">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -338,12 +338,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <p class="wow-note">Seule spécialisation disponible pour l&#39;instant. Icy Veins n&#39;a publié qu&#39;un guide niveau 20 par classe pour WoW: Forever ; les autres spécialisations suivront au fur et à mesure qu&#39;elles seront glossées (voir le glossaire des sorts).</p>
 
-<h2 class="fiche-section-title">Simulateur</h2>
-<p class="page-intro" style="margin-top:0">Un vrai moteur à événements plutôt qu&#39;une formule : rejoue le combat coup par coup, avec un tirage aléatoire de touché/critique à chaque attaque, et fait la moyenne sur plusieurs milliers de combats simulés.</p>
+<div class="tc-spec-tabs" role="tablist">
+  <span class="tc-spec-tab is-active" role="tab" aria-selected="true">Poids de stats</span>
+</div>
+
 <div class="tc-layout">
   <div class="tc-inputs">
-    <h3 class="fiche-section-title" style="margin-top:0">Vos statistiques</h3>
+    <h2 class="fiche-section-title" style="margin-top:0">Vos statistiques</h2>
     <div class="tc-field"><label for="tcAP">Puissance d&#39;attaque totale</label><input type="number" id="tcAP" min="0" value="200"></div>
+    <div class="tc-field"><label for="tcAgi">Agilité totale</label><input type="number" id="tcAgi" min="0" value="80"></div>
     <div class="tc-field"><label for="tcSP">Puissance des sorts totale</label><input type="number" id="tcSP" min="0" value="0"></div>
     <div class="tc-field"><label for="tcHit">Chance de toucher (%)</label><input type="number" id="tcHit" min="0" max="100" step="0.1" value="90"></div>
     <div class="tc-field"><label for="tcCrit">Chance de coup critique (%)</label><input type="number" id="tcCrit" min="0" max="100" step="0.1" value="15"></div>
@@ -352,61 +355,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="tc-field"><label for="tcOhDmg">Dégâts moyens de l&#39;arme de main gauche (par coup)</label><input type="number" id="tcOhDmg" min="0" step="0.1" value="22"></div>
     <div class="tc-field"><label for="tcOhSpeed">Vitesse de l&#39;arme de main gauche (secondes)</label><input type="number" id="tcOhSpeed" min="0.1" step="0.1" value="1.8"></div>
     <p class="wow-note">Mettez les dégâts de main gauche à 0 pour simuler une seule arme, sans double maniement.</p>
-
-    <h3 class="fiche-section-title">Rang de Spécialisation Ambidextrie (0-5) / Rang de Rafale (0-5) / Rang de Colère déchaînée (0-5)</h3>
-    <div class="tc-field"><label for="tcDws">Rang de Spécialisation Ambidextrie (0-5)</label><input type="number" id="tcDws" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcFlurry">Rang de Rafale (0-5)</label><input type="number" id="tcFlurry" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcUnbridled">Rang de Colère déchaînée (0-5)</label><input type="number" id="tcUnbridled" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcCruelty">Rang de Cruauté (0-5, +1% critique par rang)</label><input type="number" id="tcCruelty" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcPrecision">Rang de Précision (0-3, +1% de toucher par rang)</label><input type="number" id="tcPrecision" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBoundlessRage">Rang de Rage infinie (0-3, +10 Rage max par rang)</label><input type="number" id="tcBoundlessRage" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label class="dg-check"><input type="checkbox" id="tcBloodrage" checked>Utiliser Rage sanguinaire dès que disponible</label></div>
-
-    <h3 class="fiche-section-title">Effets d&#39;objet génériques (optionnel)</h3>
-    <p class="wow-note">Aucun objet précis de WoW: Forever n&#39;est encore confirmé meilleur-en-son-genre pour cette spécialisation : ces champs restent à 0 par défaut. Si votre arme a un vrai effet « chance au toucher » ou applique un saignement, entrez ses vraies valeurs (infobulle de l&#39;objet) ici plutôt que d&#39;utiliser un exemple inventé.</p>
-    <div class="tc-field"><label for="tcProcChance">Chance de proc à chaque coup d&#39;arme touché (%)</label><input type="number" id="tcProcChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcProcDmg">Dégâts moyens du proc (fixe, par déclenchement)</label><input type="number" id="tcProcDmg" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedChance">Chance d&#39;appliquer un saignement par coup touché (%)</label><input type="number" id="tcBleedChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedTick">Dégâts du saignement par tic</label><input type="number" id="tcBleedTick" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedInterval">Intervalle entre les tics (secondes)</label><input type="number" id="tcBleedInterval" min="0.5" step="0.5" value="3"></div>
-    <div class="tc-field"><label for="tcBleedDuration">Durée du saignement (secondes)</label><input type="number" id="tcBleedDuration" min="0" step="1" value="0"></div>
-
-    <div class="tc-field"><label for="simFightLen">Durée du combat (secondes)</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
-    <div class="tc-field"><label for="simIterations">Nombre de combats simulés</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
-    <button type="button" id="simRun" class="dg-reset">Lancer la simulation</button>
   </div>
+
   <div class="tc-outputs">
-    <div class="tc-dps-breakdown" id="simResults" hidden>
-      <div class="tc-dps-row tc-dps-total"><span>DPS simulé (moyenne)</span><span class="nums" id="simDps"></span></div>
-      <div class="tc-dps-row"><span>Intervalle de confiance</span><span class="nums" id="simCi"></span></div>
-      <div class="tc-dps-row"><span>Déchirure / Surpuissance / Rage sanguinaire / Coups normaux par combat</span><span class="nums" id="simCasts"></span></div>
-      <div class="tc-dps-row"><span>Déchirure : % du temps actif sur la cible</span><span class="nums" id="simRendUptime"></span></div>
+    <h2 class="fiche-section-title" style="margin-top:0">DPS estimé (une cible, en continu)</h2>
+    <div class="tc-dps-breakdown" id="tcBreakdown">
+      <div class="tc-dps-row"><span>Attaques normales</span><span class="nums" id="tcWhiteDps"></span></div>
+      <div class="tc-dps-row"><span>Déchirure (entretenue)</span><span class="nums" id="tcRendDps"></span></div>
+      <div class="tc-dps-row"><span>Surpuissance (taux estimé)</span><span class="nums" id="tcOpDps"></span></div>
+      <div class="tc-dps-row tc-dps-total"><span>Total estimé</span><span class="nums" id="tcTotalDps"></span></div>
     </div>
-    <h3 class="fiche-section-title" style="margin-top:1em" id="simBreakdownTitle" hidden>Répartition des dégâts par source</h3>
-    <div class="tc-dps-breakdown" id="simBreakdown" hidden>
-      <div class="tc-dps-row"><span>Coups d&#39;arme normaux</span><span class="nums" id="simDmgWhite"></span></div>
-      <div class="tc-dps-row"><span>Déchirure</span><span class="nums" id="simDmgRend"></span></div>
-      <div class="tc-dps-row"><span>Surpuissance</span><span class="nums" id="simDmgOp"></span></div>
-      <div class="tc-dps-row"><span>Proc d&#39;arme générique</span><span class="nums" id="simDmgProc"></span></div>
-      <div class="tc-dps-row"><span>Saignement générique</span><span class="nums" id="simDmgBleed"></span></div>
+
+    <h2 class="fiche-section-title">Poids de stats (DPS gagné par point)</h2>
+    <div class="tc-weights" id="tcWeights">
+      <div class="tc-weight-row"><span>+1 Force</span><span class="nums" id="tcWStr"></span></div>
+      <div class="tc-weight-row"><span>+1 Agilité</span><span class="nums" id="tcWAgi"></span></div>
+      <div class="tc-weight-row"><span>+1 Puissance d&#39;attaque</span><span class="nums" id="tcWAp"></span></div>
+      <div class="tc-weight-row"><span>+1% de chance de toucher</span><span class="nums" id="tcWHit"></span></div>
+      <div class="tc-weight-row"><span>+1% de critique</span><span class="nums" id="tcWCrit"></span></div>
+      <div class="tc-weight-row"><span>+1 Cote de critique</span><span class="nums" id="tcWCritRating"></span></div>
+      <div class="tc-weight-row"><span>+1 Cote de toucher</span><span class="nums" id="tcWHitRating"></span></div>
     </div>
   </div>
 </div>
-<script src="../../assets/js/wow-warrior-sim.js?v=0b12f27092" defer></script>
+<script src="../../assets/js/wow-warrior-weights.js?v=82e101f1fb" defer></script>
 
 <h2 class="fiche-section-title">Comment c&#39;est calculé, et ce qui manque</h2>
-<ul class="gd-list"><li>Ce simulateur modélise le vrai kit Fureur du niveau 20 (le plafond actuel de la bêta), pas celui du niveau 60 : Bloodthirst (niveau 60), Whirlwind (niveau 36) et Heroic Strike (rang max niveau 60) sont retirés, puisqu&#39;aucun des trois n&#39;est réellement entraînable à ce niveau. Le kit modélisé ici vient de data/wow_spells/warrior.json, sourcé depuis les vraies infobulles Wowhead de WoW: Forever : Déchirure (rang 3, exactement le plafond niveau 20, 45 dégâts sur 15s en 5 tics de 9, peut critiquer par tic), Surpuissance (5 Rage, 5 secondes de recharge, 100% des dégâts d&#39;arme + 5) et Rage sanguinaire (60 secondes de recharge, +20 Rage au total).</li><li>Priorité de rotation modélisée : Surpuissance dès qu&#39;elle est disponible (la cible vient d&#39;esquiver un de vos coups normaux), sinon maintenir Déchirure (rafraîchie sans jamais s&#39;additionner à elle-même — un nouveau lancer remplace la durée restante, ne s&#39;y ajoute pas), sinon attendre. Au niveau 20, il n&#39;existe aucune vraie capacité de « dépense » de Rage supplémentaire : Heroic Strike est explicitement déconseillé par le guide Icy Veins niveau 20 lui-même (trop coûteux en Rage à ce stade) et n&#39;est de toute façon pas trainable avant 60. La Rage s&#39;accumule donc souvent jusqu&#39;à son plafond entre deux Surpuissance/Déchirure : c&#39;est un vrai résultat de ce niveau, pas un bug du simulateur.</li><li>Surpuissance n&#39;est utilisable que dans les 5 secondes suivant une esquive de la cible contre l&#39;un de vos coups d&#39;arme normaux (mécanique réelle du WoW classique, Vanilla WoW Wiki — Overpower) ; elle ne peut elle-même être ni esquivée, ni parée, ni bloquée (vraie mention sur son infobulle Wowhead), mais peut toujours être ratée.</li><li>La génération de Rage utilise la vraie formule du WoW classique historique (R = 15 × dégâts / (4 × c) + f × vitesse d&#39;arme / 2, plafonnée à 15 × dégâts / c) : seuls les coups d&#39;arme normaux qui touchent en génèrent, jamais Déchirure ou Surpuissance. La valeur de conversion de Rage « c » dépend du niveau du personnage (c ≈ 0,0091 × niveau² + 3,226 × niveau + 4,265, une formule communautaire qui retombe exactement sur la valeur connue de 230,6 au niveau 60) : ce simulateur utilise donc c ≈ 72,4 pour le niveau 20, pas la constante de niveau 60 utilisée par erreur dans une version précédente de cet outil — à ce niveau, un même montant de dégâts génère proportionnellement plus de Rage qu&#39;au niveau 60.</li><li>Le double maniement d&#39;armes est modélisé avec deux armes indépendantes (main droite et main gauche), chacune avec son propre timer de coup et sa propre génération de Rage. Mécaniques réelles du WoW classique : l&#39;arme de main gauche inflige 50% de ses dégâts habituels, et le double maniement ajoute une pénalité de 19% de chance de rater sur les coups normaux des deux armes ; cette pénalité ne s&#39;applique ni à Déchirure ni à Surpuissance, qui sont des attaques spéciales. D&#39;après les notes du glossaire, le double maniement lui-même ne devient disponible qu&#39;exactement au niveau 20.</li><li>Spécialisation Ambidextrie (talent réel de l&#39;arbre Fureur, 5 rangs) réduit ce malus : chaque rang donne +5% de dégâts de main gauche, +20% de génération de Rage de main gauche et +2% de chance de toucher de main gauche.</li><li>Cruauté (5 rangs, +1% critique par rang) et Précision (3 rangs, +1% de toucher par rang) s&#39;ajoutent directement à vos pourcentages de critique/toucher saisis ci-dessus. Rafale (5 rangs) donne +5% de vitesse d&#39;attaque par rang sur vos 3 prochains coups après un coup critique au corps à corps (auto-attaque, Déchirure ou Surpuissance), les charges expirant après 15 secondes ; simplification disclosée : les tics de Déchirure qui critiquent ne déclenchent pas Rafale ici, un tic de DoT n&#39;étant généralement pas traité comme un « coup critique au corps à corps » dans les mécaniques classiques. Colère déchaînée (5 rangs) donne +12% de chance par rang de générer 1 Rage supplémentaire sur un coup d&#39;arme normal touché.</li><li>Rage infinie (3 rangs) augmente votre réserve maximale de Rage de 10/20/30. Avec seulement 11 points disponibles au niveau 20 au total, tous les rangs affichés ici ne sont pas forcément atteignables simultanément dans un seul arbre : ces champs restent un bac à sable pour comparer des rangs, pas une reconstitution garantie d&#39;un build exact à 11 points.</li><li>Rage sanguinaire (60 secondes de recharge, sans temps de recharge global) ajoute 10 Rage immédiatement puis 10 de plus sur 10 secondes, pour un coût réel de 20% des points de vie maximum du personnage — ce coût en vie n&#39;est pas modélisé ici (aucun dégât subi n&#39;est simulé), donc la case suppose implicitement que ce coût est toujours soutenable.</li><li>Vos coups d&#39;arme normaux utilisent une vraie table de résolution des attaques : en plus de rater, ils peuvent être esquivés (5%, sans dégâts, et c&#39;est ce qui ouvre la fenêtre de Surpuissance) ou partiellement ratés en coup indirect (« Glancing Blow », 10% de chance, 70% des dégâts habituels). Contrairement à une version précédente de cet outil qui modélisait un boss de raid niveau 63, ces pourcentages sont maintenant les valeurs de base du WoW classique à différentiel de compétence nul, un choix plus honnête pour une cible de niveau proche du personnage plutôt qu&#39;un boss de fin de jeu ; ni l&#39;esquive ni le coup indirect ne s&#39;appliquent à Déchirure ou Surpuissance, qui utilisent une table de résolution distincte (« attaques jaunes »). La parade et le blocage sont supposés à 0%.</li><li>Les champs « effets d&#39;objet génériques » couvrent un vrai proc « chance au toucher » et un vrai saignement (DoT à tics, non cumulable : un nouveau déclenchement rafraîchit sa durée plutôt que de s&#39;ajouter). Comme aucun objet précis n&#39;est confirmé meilleur-en-son-genre pour Forever à ce niveau, ils restent à 0 par défaut.</li><li>Cet outil ne couvre pas tout le sort-book du Guerrier, seulement une rotation Fureur soutenue mono-cible au niveau 20. Volontairement laissés de côté, avec leur raison réelle (voir le glossaire des sorts pour le détail) : Charge (utilisable une seule fois en début de combat, hors combat uniquement), Fragmentation d&#39;armure (aucune formule de mitigation d&#39;armure encore sourcée), Ruée victorieuse (ne se déclenche qu&#39;après un kill, jamais en combat continu), Cri démoralisant (réduit la Puissance d&#39;attaque de la CIBLE, sans effet sur les dégâts du joueur), et Cri de bataille (buff de longue durée à faible entretien : ajoutez ses +12 Puissance d&#39;attaque directement à votre statistique ci-dessus plutôt que de le faire lancer par le simulateur).</li><li>La répartition des dégâts par source montre le DPS et la part (%) de chaque source réellement modélisée : coups normaux (main droite + main gauche), Déchirure, Surpuissance, et vos éventuels proc/saignement génériques.</li><li>Chaque coup ici tire réellement un jet de touché puis de critique au hasard : le DPS affiché est une vraie moyenne statistique, pas un calcul déterministe.</li></ul>
+<ul class="gd-list"><li>Ce calcul par formule utilise le vrai kit niveau 20 (Déchirure, Surpuissance), pas Bloodthirst/Whirlwind du niveau 60 : Déchirure inflige 45 dégâts sur 15 secondes (rang 3, le plafond niveau 20), Surpuissance inflige 100% des dégâts d&#39;arme + 5 fixe. Ces valeurs viennent directement des vraies infobulles Wowhead de WoW: Forever, pas d&#39;une estimation.</li><li>Déchirure est supposée entretenue en continu (100% de temps actif) : une approximation raisonnable puisqu&#39;elle ne coûte que 10 Rage et se rafraîchit sans jamais s&#39;additionner à elle-même.</li><li>Surpuissance ne peut être lancée que dans les 5 secondes suivant une esquive de la cible contre l&#39;un de vos coups normaux : son taux d&#39;utilisation est donc estimé à partir de votre chance d&#39;esquive supposée (5%, une cible de niveau proche) multipliée par votre nombre de coups normaux par seconde, plafonné par sa propre recharge de 5 secondes. C&#39;est une approximation en régime permanent, pas un calcul exact seconde par seconde.</li><li>La Cote de critique (14 = 1% à niveau 60) et la Cote de toucher (10 = 1%) viennent directement des infobulles d&#39;objets réels de WoW: Forever, qui affichent l&#39;équivalence en pourcentage entre parenthèses.</li><li>Un coup critique inflige 200% des dégâts normaux (mécanique standard de World of Warcraft).</li><li>Ce calcul par formule ignore volontairement les talents à effet aléatoire (Rafale, Colère déchaînée) et Rage sanguinaire : c&#39;est un ordre de grandeur rapide, pas une simulation complète.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
 <ul class="gd-list wow-sources">
-  <li>Coût, dégâts et durée de Déchirure (WoW: Forever) : <a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>Valeurs des sorts (Déchirure, Surpuissance) : <a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>Conversions de stats (Force → Puissance d&#39;attaque, Agilité → Critique) : <a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
   <li>Coût, recharge et fenêtre d&#39;utilisation de Surpuissance après une esquive (WoW classique) : <a href="https://vanilla-wow-archive.fandom.com/wiki/Overpower" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Overpower</a></li>
-  <li>Coût, recharge et effet de Rage sanguinaire (WoW: Forever) : <a href="https://www.wowhead.com/forever/spell=2687" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
-  <li>Formule de génération de Rage et sa constante dépendante du niveau (WoW classique) : <a href="https://vanilla-wow-archive.fandom.com/wiki/Rage" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Rage</a></li>
-  <li>Dégâts et pénalité de toucher du double maniement (WoW classique) : <a href="https://vanilla-wow-archive.fandom.com/wiki/Dual_wield" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Dual wield</a></li>
-  <li>Rangs de Spécialisation Ambidextrie, Rafale, Colère déchaînée, Cruauté, Précision et Rage infinie (WoW: Forever) : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
-  <li>Mécanique de Rafale : charges, expiration (WoW Classic) : <a href="https://www.wowhead.com/classic/spell=12974/flurry" rel="noopener nofollow" target="_blank">Wowhead — Flurry (Classic)</a></li>
-  <li>Table de résolution des attaques, attaques spéciales (WoW classique) : <a href="https://vanilla-wow-archive.fandom.com/wiki/Attack_table" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Attack table</a></li>
-  <li>Chance et réduction de dégâts des coups indirects (WoW classique) : <a href="https://vanilla-wow-archive.fandom.com/wiki/Glancing_blow" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Glancing blow</a></li>
 </ul>
 
 </div>
@@ -455,10 +435,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=0b12f27092" defer></script>
-<script src="../../assets/js/champ-icons.js?v=0b12f27092" defer></script>
-<script src="../../assets/js/site-search.js?v=0b12f27092" defer></script>
-<script src="../../assets/js/favorites.js?v=0b12f27092" defer></script>
+<script src="../../assets/js/copy-comp.js?v=82e101f1fb" defer></script>
+<script src="../../assets/js/champ-icons.js?v=82e101f1fb" defer></script>
+<script src="../../assets/js/site-search.js?v=82e101f1fb" defer></script>
+<script src="../../assets/js/favorites.js?v=82e101f1fb" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

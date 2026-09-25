@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Level 20 Fury Warrior DPS simulator">
 <meta name="twitter:description" content="Level 20 Fury Warrior: event-driven DPS simulator built on the real kit at the beta&#39;s current cap (Rend, Overpower), not the level-60 kit.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=0b12f27092">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=0b12f27092">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=82e101f1fb">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=82e101f1fb">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=0b12f27092">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=82e101f1fb">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -338,12 +338,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <p class="wow-note">Only specialization available for now. Icy Veins has only published a level-20 guide per class for WoW: Forever so far; other specializations will follow as they get glossed (see the spell glossary).</p>
 
-<h2 class="fiche-section-title">Simulator</h2>
-<p class="page-intro" style="margin-top:0">A real event-driven engine instead of a formula: replays the fight swing by swing, rolling a real hit/crit chance on every attack, and averages the result over thousands of simulated fights.</p>
+<div class="tc-spec-tabs" role="tablist">
+  <span class="tc-spec-tab is-active" role="tab" aria-selected="true">Stat weights</span>
+</div>
+
 <div class="tc-layout">
   <div class="tc-inputs">
-    <h3 class="fiche-section-title" style="margin-top:0">Your stats</h3>
+    <h2 class="fiche-section-title" style="margin-top:0">Your stats</h2>
     <div class="tc-field"><label for="tcAP">Total Attack Power</label><input type="number" id="tcAP" min="0" value="200"></div>
+    <div class="tc-field"><label for="tcAgi">Total Agility</label><input type="number" id="tcAgi" min="0" value="80"></div>
     <div class="tc-field"><label for="tcSP">Total Spell Power</label><input type="number" id="tcSP" min="0" value="0"></div>
     <div class="tc-field"><label for="tcHit">Hit chance (%)</label><input type="number" id="tcHit" min="0" max="100" step="0.1" value="90"></div>
     <div class="tc-field"><label for="tcCrit">Critical strike chance (%)</label><input type="number" id="tcCrit" min="0" max="100" step="0.1" value="15"></div>
@@ -352,61 +355,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div class="tc-field"><label for="tcOhDmg">Off-hand weapon average damage (per hit)</label><input type="number" id="tcOhDmg" min="0" step="0.1" value="22"></div>
     <div class="tc-field"><label for="tcOhSpeed">Off-hand weapon speed (seconds)</label><input type="number" id="tcOhSpeed" min="0.1" step="0.1" value="1.8"></div>
     <p class="wow-note">Set off-hand damage to 0 to simulate a single weapon, with no dual-wielding.</p>
-
-    <h3 class="fiche-section-title">Dual Wield Specialization rank (0-5) / Flurry rank (0-5) / Unbridled Wrath rank (0-5)</h3>
-    <div class="tc-field"><label for="tcDws">Dual Wield Specialization rank (0-5)</label><input type="number" id="tcDws" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcFlurry">Flurry rank (0-5)</label><input type="number" id="tcFlurry" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcUnbridled">Unbridled Wrath rank (0-5)</label><input type="number" id="tcUnbridled" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcCruelty">Cruelty rank (0-5, +1% crit per rank)</label><input type="number" id="tcCruelty" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcPrecision">Precision rank (0-3, +1% hit per rank)</label><input type="number" id="tcPrecision" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBoundlessRage">Boundless Rage rank (0-3, +10 max Rage per rank)</label><input type="number" id="tcBoundlessRage" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label class="dg-check"><input type="checkbox" id="tcBloodrage" checked>Use Bloodrage as soon as it&#39;s available</label></div>
-
-    <h3 class="fiche-section-title">Generic item effects (optional)</h3>
-    <p class="wow-note">No specific WoW: Forever item is confirmed best-in-slot for this spec yet, so these fields default to 0. If your weapon has a real &#34;chance on hit&#34; effect or applies a bleed, enter its real values (from the item&#39;s own tooltip) here instead of using a made-up example.</p>
-    <div class="tc-field"><label for="tcProcChance">Proc chance on each landed weapon hit (%)</label><input type="number" id="tcProcChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcProcDmg">Average proc damage (flat, per trigger)</label><input type="number" id="tcProcDmg" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedChance">Chance to apply a bleed per landed hit (%)</label><input type="number" id="tcBleedChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedTick">Bleed damage per tick</label><input type="number" id="tcBleedTick" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedInterval">Time between ticks (seconds)</label><input type="number" id="tcBleedInterval" min="0.5" step="0.5" value="3"></div>
-    <div class="tc-field"><label for="tcBleedDuration">Bleed duration (seconds)</label><input type="number" id="tcBleedDuration" min="0" step="1" value="0"></div>
-
-    <div class="tc-field"><label for="simFightLen">Fight length (seconds)</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
-    <div class="tc-field"><label for="simIterations">Simulated fights</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
-    <button type="button" id="simRun" class="dg-reset">Run simulation</button>
   </div>
+
   <div class="tc-outputs">
-    <div class="tc-dps-breakdown" id="simResults" hidden>
-      <div class="tc-dps-row tc-dps-total"><span>Simulated DPS (average)</span><span class="nums" id="simDps"></span></div>
-      <div class="tc-dps-row"><span>Confidence interval</span><span class="nums" id="simCi"></span></div>
-      <div class="tc-dps-row"><span>Rend / Overpower / Bloodrage / normal hits per fight</span><span class="nums" id="simCasts"></span></div>
-      <div class="tc-dps-row"><span>Rend: % uptime on target</span><span class="nums" id="simRendUptime"></span></div>
+    <h2 class="fiche-section-title" style="margin-top:0">Estimated DPS (single target, sustained)</h2>
+    <div class="tc-dps-breakdown" id="tcBreakdown">
+      <div class="tc-dps-row"><span>Normal attacks</span><span class="nums" id="tcWhiteDps"></span></div>
+      <div class="tc-dps-row"><span>Rend (maintained)</span><span class="nums" id="tcRendDps"></span></div>
+      <div class="tc-dps-row"><span>Overpower (estimated rate)</span><span class="nums" id="tcOpDps"></span></div>
+      <div class="tc-dps-row tc-dps-total"><span>Estimated total</span><span class="nums" id="tcTotalDps"></span></div>
     </div>
-    <h3 class="fiche-section-title" style="margin-top:1em" id="simBreakdownTitle" hidden>Damage breakdown by source</h3>
-    <div class="tc-dps-breakdown" id="simBreakdown" hidden>
-      <div class="tc-dps-row"><span>Normal weapon swings</span><span class="nums" id="simDmgWhite"></span></div>
-      <div class="tc-dps-row"><span>Rend</span><span class="nums" id="simDmgRend"></span></div>
-      <div class="tc-dps-row"><span>Overpower</span><span class="nums" id="simDmgOp"></span></div>
-      <div class="tc-dps-row"><span>Generic weapon proc</span><span class="nums" id="simDmgProc"></span></div>
-      <div class="tc-dps-row"><span>Generic bleed</span><span class="nums" id="simDmgBleed"></span></div>
+
+    <h2 class="fiche-section-title">Stat weights (DPS gained per point)</h2>
+    <div class="tc-weights" id="tcWeights">
+      <div class="tc-weight-row"><span>+1 Strength</span><span class="nums" id="tcWStr"></span></div>
+      <div class="tc-weight-row"><span>+1 Agility</span><span class="nums" id="tcWAgi"></span></div>
+      <div class="tc-weight-row"><span>+1 Attack Power</span><span class="nums" id="tcWAp"></span></div>
+      <div class="tc-weight-row"><span>+1% hit chance</span><span class="nums" id="tcWHit"></span></div>
+      <div class="tc-weight-row"><span>+1% critical strike</span><span class="nums" id="tcWCrit"></span></div>
+      <div class="tc-weight-row"><span>+1 Critical Strike Rating</span><span class="nums" id="tcWCritRating"></span></div>
+      <div class="tc-weight-row"><span>+1 Hit Rating</span><span class="nums" id="tcWHitRating"></span></div>
     </div>
   </div>
 </div>
-<script src="../../../assets/js/wow-warrior-sim.js?v=0b12f27092" defer></script>
+<script src="../../../assets/js/wow-warrior-weights.js?v=82e101f1fb" defer></script>
 
 <h2 class="fiche-section-title">How this is calculated, and what&#39;s missing</h2>
-<ul class="gd-list"><li>This simulator models the real level-20 Fury kit (the beta&#39;s current cap), not the level-60 one: Bloodthirst (level 60), Whirlwind (level 36) and Heroic Strike (max rank, level 60) are removed, since none of the three is actually trainable at this level. The kit modeled here comes from data/wow_spells/warrior.json, sourced from WoW: Forever&#39;s real Wowhead tooltips: Rend (rank 3, exactly the level-20 cap, 45 damage over 15s in 5 ticks of 9, can crit per tick), Overpower (5 Rage, 5-second cooldown, 100% weapon damage + 5) and Bloodrage (60-second cooldown, +20 Rage total).</li><li>Modeled rotation priority: Overpower whenever it&#39;s available (the target just dodged one of your normal swings), otherwise maintain Rend (refreshed outright rather than stacking — a new cast replaces the remaining duration, never adds to it), otherwise wait. At level 20 there&#39;s no real extra Rage &#34;spender&#34;: Heroic Strike is explicitly discouraged by the level-20 Icy Veins guide itself (too Rage-inefficient at this stage) and isn&#39;t trainable before 60 anyway. Rage therefore often sits at its cap between Overpower/Rend casts: that&#39;s a genuine finding about this level, not a simulator bug.</li><li>Overpower is only usable within 5 seconds of the target dodging one of your normal weapon swings (real WoW classic mechanic, Vanilla WoW Wiki — Overpower); it can never itself be dodged, parried or blocked (a real flag on its own Wowhead tooltip), but it can still miss.</li><li>Rage generation uses the real historical WoW classic formula (R = 15 × damage / (4 × c) + f × weapon speed / 2, capped at 15 × damage / c): only landed normal weapon swings generate Rage, never Rend or Overpower. The Rage conversion value &#34;c&#34; depends on character level (c ≈ 0.0091 × level² + 3.226 × level + 4.265, a community-derived formula that lands exactly on the known level-60 value of 230.6): this simulator therefore uses c ≈ 72.4 for level 20, not the level-60 constant an earlier version of this tool used by mistake — at this level, the same amount of damage generates proportionally more Rage than it would at level 60.</li><li>Dual-wielding is modeled with two independent weapons (main hand and off hand), each with its own swing timer and its own Rage generation. Real classic-WoW mechanics: the off-hand weapon deals 50% of its usual damage, and dual-wielding adds a 19% miss-chance penalty to both weapons&#39; normal swings; this penalty doesn&#39;t apply to Rend or Overpower, which are special attacks. Per the glossary&#39;s own notes, dual-wielding itself only becomes available exactly at level 20.</li><li>Dual Wield Specialization (a real Fury-tree talent, 5 ranks) reduces that penalty: each rank gives +5% off-hand damage, +20% off-hand Rage generation and +2% off-hand hit chance.</li><li>Cruelty (5 ranks, +1% crit per rank) and Precision (3 ranks, +1% hit per rank) add directly to the crit/hit percentages you enter above. Flurry (5 ranks) gives +5% attack speed per rank for your next 3 swings after a melee critical strike (auto-attack, Rend or Overpower), with charges expiring after 15 seconds; disclosed simplification: a critical Rend tick doesn&#39;t trigger Flurry here, since a DoT tick generally isn&#39;t treated as a &#34;melee critical strike&#34; under classic-era mechanics. Unbridled Wrath (5 ranks) gives +12% chance per rank to generate 1 extra Rage on a landed normal weapon swing.</li><li>Boundless Rage (3 ranks) raises your maximum Rage pool by 10/20/30. With only 11 points available at level 20 in total, every rank shown here isn&#39;t necessarily reachable at the same time in a single tree: these fields stay a sandbox for comparing ranks, not a guaranteed reconstruction of one exact 11-point build.</li><li>Bloodrage (60-second cooldown, no global cooldown) adds 10 Rage immediately plus 10 more over 10 seconds, for a real cost of 20% of the character&#39;s maximum health — that health cost isn&#39;t modeled here (no incoming damage is simulated), so the checkbox implicitly assumes that cost is always affordable.</li><li>Your normal weapon swings use a real attack-resolution table: on top of missing, they can be Dodged (5%, no damage, and this is what opens the Overpower window) or land as a Glancing Blow (10% chance, 70% of normal damage). Unlike an earlier version of this tool, which modeled a level-63 raid boss, these are now the classic-WoW base values at zero skill differential — a more honest choice for a target close to the character&#39;s own level rather than an end-game boss; neither Dodge nor Glancing applies to Rend or Overpower, which use a separate &#34;yellow attack&#34; resolution table. Parry and Block are assumed to be 0%.</li><li>The &#34;generic item effects&#34; fields cover a real &#34;chance on hit&#34; proc and a real bleed (a ticking DoT, non-stacking: a new trigger refreshes its duration rather than adding a second one). Since no specific item is confirmed best-in-slot for Forever at this level yet, they default to 0.</li><li>This tool doesn&#39;t cover the Warrior&#39;s whole spellbook, only a sustained single-target Fury rotation at level 20. Deliberately left out, with the real reason (see the spell glossary for detail): Charge (usable once, out of combat only, at the very start of a fight), Sunder Armor (no sourced armor-mitigation formula yet), Victory Rush (only triggers after a kill, never in a continuous fight), Demoralizing Shout (reduces the TARGET&#39;s Attack Power, no effect on the player&#39;s own damage), and Battle Shout (a long, low-maintenance buff: add its +12 Attack Power directly to your stat above instead of having the simulator cast it).</li><li>The damage breakdown by source shows the DPS and share (%) of each source actually modeled: normal swings (main hand + off hand), Rend, Overpower, and your generic proc/bleed if enabled.</li><li>Every hit here actually rolls a real hit chance and then a crit chance: the DPS shown is a genuine statistical average, not a deterministic calculation.</li></ul>
+<ul class="gd-list"><li>This formula-based calculation uses the real level-20 kit (Rend, Overpower), not level-60&#39;s Bloodthirst/Whirlwind: Rend deals 45 damage over 15 seconds (rank 3, the level-20 cap), Overpower deals 100% weapon damage + 5 flat. Both values come directly from WoW: Forever&#39;s real Wowhead tooltips, not an estimate.</li><li>Rend is assumed maintained continuously (100% uptime): a reasonable approximation since it only costs 10 Rage and refreshes outright, never stacking.</li><li>Overpower can only be cast within 5 seconds of the target dodging one of your normal swings: its usage rate is therefore estimated from your assumed Dodge chance (5%, a target close to your own level) times your normal-hit rate per second, capped by its own 5-second cooldown. This is a steady-state approximation, not an exact second-by-second calculation.</li><li>Critical Strike Rating (14 = 1% at level 60) and Hit Rating (10 = 1%) come directly from real WoW: Forever item tooltips, which show the percentage equivalent in parentheses.</li><li>A critical strike deals 200% of normal damage (standard World of Warcraft mechanic).</li><li>This formula-based calculation deliberately ignores randomly-triggered talents (Flurry, Unbridled Wrath) and Bloodrage: it&#39;s a quick order-of-magnitude estimate, not a full simulation.</li></ul>
 <h2 class="fiche-section-title">Sources</h2>
 <ul class="gd-list wow-sources">
-  <li>Rend&#39;s cost, damage and duration (WoW: Forever): <a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>Spell values (Rend, Overpower): <a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>Stat conversions (Strength → Attack Power, Agility → Critical Strike): <a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
   <li>Overpower&#39;s cost, cooldown and post-dodge usage window (WoW classic): <a href="https://vanilla-wow-archive.fandom.com/wiki/Overpower" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Overpower</a></li>
-  <li>Bloodrage&#39;s cost, cooldown and effect (WoW: Forever): <a href="https://www.wowhead.com/forever/spell=2687" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
-  <li>Rage-generation formula and its level-dependent constant (WoW classic): <a href="https://vanilla-wow-archive.fandom.com/wiki/Rage" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Rage</a></li>
-  <li>Dual-wield damage and miss-chance penalty (WoW classic): <a href="https://vanilla-wow-archive.fandom.com/wiki/Dual_wield" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Dual wield</a></li>
-  <li>Dual Wield Specialization, Flurry, Unbridled Wrath, Cruelty, Precision and Boundless Rage ranks (WoW: Forever): <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
-  <li>Flurry mechanics: charges, expiry (WoW Classic): <a href="https://www.wowhead.com/classic/spell=12974/flurry" rel="noopener nofollow" target="_blank">Wowhead — Flurry (Classic)</a></li>
-  <li>Attack resolution table, special attacks (WoW classic): <a href="https://vanilla-wow-archive.fandom.com/wiki/Attack_table" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Attack table</a></li>
-  <li>Glancing Blow chance and damage reduction (WoW classic): <a href="https://vanilla-wow-archive.fandom.com/wiki/Glancing_blow" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Glancing blow</a></li>
 </ul>
 
 </div>
@@ -455,10 +435,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=0b12f27092" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=0b12f27092" defer></script>
-<script src="../../../assets/js/site-search.js?v=0b12f27092" defer></script>
-<script src="../../../assets/js/favorites.js?v=0b12f27092" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=82e101f1fb" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=82e101f1fb" defer></script>
+<script src="../../../assets/js/site-search.js?v=82e101f1fb" defer></script>
+<script src="../../../assets/js/favorites.js?v=82e101f1fb" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
