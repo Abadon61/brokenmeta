@@ -1,9 +1,11 @@
 """Internal, generic level-20 DPS simulator driven by data/wow_spells/<class>.json.
 
-NOT wired into the public site (2026-09-25, user request): built to eventually feed a
-cross-spec DPS ranking (a la WarcraftLogs), not to be shown as a public interactive tool.
-Run directly: `py site_build/wow_dps_sim.py` (from the project root) prints a DPS ranking
-across every class that has a glossary file.
+The engine and its interactive sliders stay internal-only (2026-09-25, user request: no public
+Monte-Carlo sandbox), but `build_ranking()` below feeds its AGGREGATE numbers into the public
+cross-spec DPS ranking on /wow-forever/ (build_site.py imports this module directly at build
+time -- no server, no API, just a Python function call baked into the static HTML). Run this
+file directly (`py site_build/wow_dps_sim.py`, from the project root) to print the same ranking
+as plain text for local debugging.
 
 Reuses the same architecture already validated for the Fury Warrior engine
 (site_build/js/wow-warrior-sim.js) -- event queue, per-swing hit/crit RNG, non-stacking
@@ -28,6 +30,7 @@ not fully talented character sheets.
 """
 import argparse
 import heapq
+import json
 import random
 
 import wow_spells
@@ -679,6 +682,70 @@ def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):
     dps = total / iterations / fight_len
     breakdown = {k: v / iterations / fight_len for k, v in dmg_by_total.items()}
     return dps, breakdown
+
+
+# Maps each ROTATIONS key to the real spec id used by data/wow_talents/<class>.json's own
+# "specs" array and by data/wow_guides/roles.json (both already sourced from Icy Veins/the
+# beta client, independent of this file) -- lets build_ranking() below join this engine's
+# output onto the site's existing real spec names, icons and guide URLs. Not a 1:1 string
+# transform: Druid's Feral tree covers both the cat-DPS and bear-tank builds under a single
+# real spec id ("feral-combat"), and Hunter/Druid spec ids use hyphens this file's own keys
+# don't.
+SPEC_ID_MAP = {
+    "warrior_fury": "fury", "warrior_arms": "arms", "warrior_protection": "protection",
+    "rogue_combat": "combat", "rogue_assassination": "assassination", "rogue_subtlety": "subtlety",
+    "paladin_retribution": "retribution", "paladin_protection": "protection",
+    "shaman_enhancement": "enhancement", "shaman_elemental": "elemental",
+    "mage_fire": "fire", "mage_arcane": "arcane", "mage_frost": "frost",
+    "priest_shadow": "shadow",
+    "druid_balance": "balance", "druid_feral": "feral-combat", "druid_feral_tank": "feral-combat",
+    "warlock_affliction": "affliction", "warlock_demonology": "demonology", "warlock_destruction": "destruction",
+    "hunter_marksmanship": "marksmanship", "hunter_beast_mastery": "beast-mastery", "hunter_survival": "survival",
+}
+
+
+def build_ranking(wt_classes, lang, iterations=300, fight_len=300.0):
+    """Runs every spec in ROTATIONS and returns a list of dicts ready for the public ranking
+    template, sorted by simulated DPS descending. wt_classes is wow_talents.load()'s class list
+    (real class name/icon/color + per-spec real names); data/wow_guides/roles.json supplies each
+    spec's real Icy Veins role label and guide URL, both already sourced independently of this
+    engine."""
+    roles_path = wow_spells.ROOT / "data" / "wow_guides" / "roles.json"
+    roles = json.loads(roles_path.read_text(encoding="utf-8")) if roles_path.exists() else {}
+    classes_by_id = {c["id"]: c for c in wt_classes}
+    rows = []
+    for spec_id, profile in ROTATIONS.items():
+        result = run_class(spec_id, iterations, fight_len)
+        if result is None:
+            continue
+        dps, breakdown = result
+        class_id = profile.get("glossary", spec_id)
+        wt_spec_id = SPEC_ID_MAP.get(spec_id)
+        cls = classes_by_id.get(class_id)
+        spec_name = wt_spec_id
+        if cls:
+            for s in cls.get("specs", []):
+                if s["id"] == wt_spec_id:
+                    spec_name = s["name"][lang]
+                    break
+        role_entry = roles.get(class_id, {}).get(wt_spec_id, {})
+        rows.append({
+            "spec_id": spec_id,
+            "class_id": class_id,
+            "class_name": cls["name"][lang] if cls else class_id,
+            "class_icon": cls.get("icon") if cls else None,
+            "class_color": cls.get("color") if cls else None,
+            "spec_name": spec_name,
+            "role": profile.get("role", "dps"),
+            "dps": dps,
+            "breakdown": breakdown,
+            # The site's own real per-spec guide page (already built from this same roles.json +
+            # wt_classes data) -- link there rather than off-site, since it exists for every spec here.
+            "guide_path": f"wow-forever/guides/{class_id}/{wt_spec_id}/" if wt_spec_id else None,
+            "icy_veins_url": role_entry.get("url"),
+        })
+    rows.sort(key=lambda r: r["dps"], reverse=True)
+    return rows
 
 
 def main():

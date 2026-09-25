@@ -35,6 +35,24 @@
   </div>
   {{ countdown('wh-count') }}
 </section>
+{% if wow_ranking %}
+<h2 class="lh-h2">{{ wow_ui.ranking_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>
+<div class="wow-rank-list">
+  {% set max_dps = wow_ranking[0].dps %}
+  {% for r in wow_ranking %}
+  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}">
+    {% if r.class_icon %}<img class="wow-rank-icon" src="{{ r.class_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b>{% if r.role == 'tank' %}<span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span>{% endif %}</span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_dps)|round(1) }}%"></span></span>
+    </span>
+    <span class="wow-rank-dps nums">{{ '%.1f'|format(r.dps) }}<span>{{ wow_ui.ranking_dps_unit }}</span></span>
+  </a>
+  {% endfor %}
+</div>
+<p class="wow-note">{{ wow_ui.ranking_note }}</p>
+{% endif %}
 <h2 class="lh-h2">{{ wow_ui.pick_class }}</h2>
 <div class="wh-cards">
   {% for c in wt_classes %}

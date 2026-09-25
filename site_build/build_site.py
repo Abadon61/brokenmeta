@@ -44,6 +44,7 @@ import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
 import wow_guides  # noqa: E402
 import wow_spells  # noqa: E402
+import wow_dps_sim  # noqa: E402
 
 
 OUT = PROJECT / "data" / "output"
@@ -7265,6 +7266,10 @@ def main() -> None:
         # ---- World of Warcraft: Forever (/wow-forever/): sourced information pages, see wow_content.py ----
         wow_content.check()
         _wow_ui = wow_content.UI[lang]
+        # Cross-spec DPS ranking (data/wow_dps_sim.py's own generic engine, real spell-glossary
+        # formulas): computed once per language since spec/class names are localized, sits at the
+        # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
+        _wow_ranking = wow_dps_sim.build_ranking(wt_classes, lang, iterations=200, fight_len=300.0) if wt_classes else []
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
@@ -7288,6 +7293,7 @@ def main() -> None:
                          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
             render("wow_page.html", _wpath, lang, active_nav="wow", active_sub="wow-" + (_wslug or "index"),
                    page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
+                   wow_ranking=(_wow_ranking if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
