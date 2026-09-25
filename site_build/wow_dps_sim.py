@@ -130,6 +130,8 @@ class Sim:
         self.dodge_window_until = -1.0
         self.active_seal = None
         self.swing_speed_mult = 1.0
+        self.pending_swing_bonus = 0.0
+        self.pending_swing_bonus_tag = None
         self.dmg_by = {}
         self.total_dmg = 0.0
 
@@ -193,9 +195,22 @@ class Sim:
                 if "table" in eff:
                     dmg, _ = resolve_combo_point_table(eff, cp, crit_frac)
                     self.add_dmg(dmg, aid)
+                elif "dot_table" in eff:
+                    total = eff["dot_table"][str(cp)]
+                    interval = eff.get("tick_interval_sec", 2)
+                    duration = eff.get("duration_sec", 12)
+                    ticks = round(duration / interval)
+                    per_tick = total / ticks
+                    was_active = t <= self.dot_ends.get(aid, -1.0)
+                    self.dot_ends[aid] = t + duration
+                    if not was_active:
+                        self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick})
                 elif "base" in eff:
                     self.buff_ends[aid] = t + eff["base"] + eff["per_point"] * cp
                     self.swing_speed_mult = SND_HASTE_MULT
+            elif kind == "flat_bonus_on_next_swing":
+                self.pending_swing_bonus += eff.get("flat", 0)
+                self.pending_swing_bonus_tag = aid
             elif kind == "self_buff":
                 self.buff_ends[aid] = t + eff.get("duration_sec", 0)
             # party_buff / heal / proc_trigger: not relevant to a solo DPS total, or handled
@@ -237,9 +252,15 @@ class Sim:
                 for eff in seal.get("effects", []):
                     if eff.get("kind") == "self_buff" and "per_swing_bonus_dmg_range" in eff:
                         base += random.uniform(*eff["per_swing_bonus_dmg_range"])
+            tag = "white"
+            if not is_oh and self.pending_swing_bonus > 0:
+                base += self.pending_swing_bonus
+                tag = self.pending_swing_bonus_tag or "white"
+                self.pending_swing_bonus = 0.0
+                self.pending_swing_bonus_tag = None
             mult = GLANCE_DAMAGE_MULT if is_glance else (2.0 if is_crit else 1.0)
             dmg = base * mult
-            self.add_dmg(dmg, "white")
+            self.add_dmg(dmg, tag)
             if self.profile["resource"] == "rage":
                 self.gain_rage(dmg, is_crit, is_oh)
         speed = wpn["speed"] / self.swing_speed_mult
@@ -271,6 +292,12 @@ class Sim:
             return self.combo_points < 5
         if kind == "finisher_damage":
             return self.combo_points >= 5
+        if kind == "finisher_dot":
+            # Real, sourced Feral Druid threshold (Wowhead's own level-20 guide): Rip at 4+
+            # combo points if the target will live at least ~6s, not a full 5 like Eviscerate.
+            return self.combo_points >= 4
+        if kind == "swing_enhancer":
+            return self.pending_swing_bonus == 0
         if kind == "finisher_buff":
             # Requires a full 5 combo points too (not "whatever's banked"): with only Backstab
             # as a builder, CP income is slow enough that a looser threshold made this refresh
@@ -302,17 +329,22 @@ class Sim:
         if kind == "once":
             self.once_used.add(aid)
         self.pay_cost(aid)
-        hit = roll(self.stats["hit"])
-        cp_used = self.combo_points if kind in ("finisher_damage", "finisher_buff") else None
-        if hit:
-            if kind == "judgement_release":
-                self.handle_judgement(aid, t)
-            else:
-                self.apply_effects(aid, t, combo_points_used=cp_used)
-            if kind == "maintain_buff":
-                self.active_seal = aid
-        if kind in ("finisher_damage", "finisher_buff"):
-            self.combo_points = 0
+        if kind == "swing_enhancer":
+            # No separate hit roll: the enhancement isn't independently resisted, the swing it
+            # attaches to (with its own hit/dodge/glance roll) determines whether it lands.
+            self.apply_effects(aid, t)
+        else:
+            hit = roll(self.stats["hit"])
+            cp_used = self.combo_points if kind in ("finisher_damage", "finisher_buff", "finisher_dot") else None
+            if hit:
+                if kind == "judgement_release":
+                    self.handle_judgement(aid, t)
+                else:
+                    self.apply_effects(aid, t, combo_points_used=cp_used)
+                if kind == "maintain_buff":
+                    self.active_seal = aid
+            if kind in ("finisher_damage", "finisher_buff", "finisher_dot"):
+                self.combo_points = 0
         lock = self.lockout(aid)
         if lock > 0:
             self.gcd_ready = t + lock
@@ -535,6 +567,27 @@ ROTATIONS = {
         "rotation": [
             {"ability": "druid_moonfire", "kind": "maintain_dot"},  # notes: "keep this active on the target at all times, ahead of Wrath"
             {"ability": "druid_wrath", "kind": "filler"},
+        ],
+    },
+    "druid_feral": {
+        "glossary": "druid", "resource": "energy", "role": "dps",
+        # Cat Form DPS build. Real, sourced finding: the level-20 kit is genuinely thin (Wowhead's
+        # own guide: "only having two damage abilities in Claw and Rip"). Single weapon (fist
+        # weapons/daggers in Cat Form don't dual-wield).
+        "weapons": [{"dmg": 20, "speed": 1.0}],
+        "rotation": [
+            {"ability": "druid_rip", "kind": "finisher_dot"},   # Wowhead's own threshold: 4+ combo points
+            {"ability": "druid_claw", "kind": "builder"},
+        ],
+    },
+    "druid_feral_tank": {
+        "glossary": "druid", "resource": "rage", "role": "tank",
+        # Bear Form tank build -- same Feral Combat talents as the Cat DPS build (Icy Veins: "the
+        # only spec that buffs both Tanking and DPS"). Real sourced rotation: Maul as the single-
+        # target Rage dump (Enrage's own numbers weren't found this pass, see druid.json gaps).
+        "weapons": [{"dmg": 22, "speed": 2.5}],
+        "rotation": [
+            {"ability": "druid_maul", "kind": "swing_enhancer"},
         ],
     },
     "warlock_affliction": {
