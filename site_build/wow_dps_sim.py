@@ -416,6 +416,11 @@ ROTATIONS = {
         "weapons": [{"dmg": 18, "speed": 2.6}],
         "rotation": [],
     },
+    # All 3 Rogue specs share the exact same real sustained single-target core rotation per
+    # their own guides (build combo points with Backstab/Sinister Strike, spend at 5 CP on
+    # Eviscerate/Slice and Dice) -- their real differences are talents, a one-time stealth
+    # opener (Ambush) and poisons, none of which this engine models yet (see rogue.json's own
+    # gaps). All three therefore intentionally produce the same simulated number right now.
     "rogue_combat": {
         "glossary": "rogue", "resource": "energy", "role": "dps",
         "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
@@ -423,6 +428,26 @@ ROTATIONS = {
             {"ability": "rogue_eviscerate", "kind": "finisher_damage"},     # dumped at 5 combo points
             {"ability": "rogue_slice_and_dice", "kind": "finisher_buff"},   # re-applied only once it's fully dropped, using whatever CP is banked
             {"ability": "rogue_backstab", "kind": "builder"},               # notes: "priority (Icy Veins) uses this over Sinister Strike"
+            {"ability": "rogue_sinister_strike", "kind": "builder"},
+        ],
+    },
+    "rogue_assassination": {
+        "glossary": "rogue", "resource": "energy", "role": "dps",
+        "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
+        "rotation": [
+            {"ability": "rogue_eviscerate", "kind": "finisher_damage"},
+            {"ability": "rogue_slice_and_dice", "kind": "finisher_buff"},
+            {"ability": "rogue_backstab", "kind": "builder"},
+            {"ability": "rogue_sinister_strike", "kind": "builder"},
+        ],
+    },
+    "rogue_subtlety": {
+        "glossary": "rogue", "resource": "energy", "role": "dps",
+        "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
+        "rotation": [
+            {"ability": "rogue_eviscerate", "kind": "finisher_damage"},
+            {"ability": "rogue_slice_and_dice", "kind": "finisher_buff"},
+            {"ability": "rogue_backstab", "kind": "builder"},
             {"ability": "rogue_sinister_strike", "kind": "builder"},
         ],
     },
