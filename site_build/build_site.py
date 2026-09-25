@@ -8449,8 +8449,12 @@ def main() -> None:
         shutil.copy(ROOT / "js" / "wow-theorycraft.js", DIST / "assets" / "js" / "wow-theorycraft.js")
     if (ROOT / "js" / "wow-simulator.js").exists():
         shutil.copy(ROOT / "js" / "wow-simulator.js", DIST / "assets" / "js" / "wow-simulator.js")
-    if (ROOT / "js" / "wow-warrior-sim.js").exists():
-        shutil.copy(ROOT / "js" / "wow-warrior-sim.js", DIST / "assets" / "js" / "wow-warrior-sim.js")
+    # wow-warrior-sim.js (the full Monte Carlo engine) is deliberately NOT published: kept as an
+    # internal-only tool (2026-09-25, user request) to later generate a cross-spec DPS ranking rather
+    # than exposed as a public interactive sandbox. The public page only ships the quick analytical
+    # stat-weight calculator (wow-warrior-weights.js).
+    if (ROOT / "js" / "wow-warrior-weights.js").exists():
+        shutil.copy(ROOT / "js" / "wow-warrior-weights.js", DIST / "assets" / "js" / "wow-warrior-weights.js")
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():

@@ -15,12 +15,15 @@
 </div>
 <p class="wow-note">{{ tx.tc_only_spec_note }}</p>
 
-<h2 class="fiche-section-title">{{ tx.sim_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.sim_intro }}</p>
+<div class="tc-spec-tabs" role="tablist">
+  <span class="tc-spec-tab is-active" role="tab" aria-selected="true">{{ tx.tabs_weights }}</span>
+</div>
+
 <div class="tc-layout">
   <div class="tc-inputs">
-    <h3 class="fiche-section-title" style="margin-top:0">{{ tx.tc_inputs_h2 }}</h3>
+    <h2 class="fiche-section-title" style="margin-top:0">{{ tx.tc_inputs_h2 }}</h2>
     <div class="tc-field"><label for="tcAP">{{ tx.tc_input_ap }}</label><input type="number" id="tcAP" min="0" value="200"></div>
+    <div class="tc-field"><label for="tcAgi">{{ tx.tc_input_agi }}</label><input type="number" id="tcAgi" min="0" value="80"></div>
     <div class="tc-field"><label for="tcSP">{{ tx.tc_input_sp }}</label><input type="number" id="tcSP" min="0" value="0"></div>
     <div class="tc-field"><label for="tcHit">{{ tx.tc_input_hit }}</label><input type="number" id="tcHit" min="0" max="100" step="0.1" value="90"></div>
     <div class="tc-field"><label for="tcCrit">{{ tx.tc_input_crit }}</label><input type="number" id="tcCrit" min="0" max="100" step="0.1" value="15"></div>
@@ -29,60 +32,37 @@
     <div class="tc-field"><label for="tcOhDmg">{{ tx.tc_input_oh_dmg }}</label><input type="number" id="tcOhDmg" min="0" step="0.1" value="22"></div>
     <div class="tc-field"><label for="tcOhSpeed">{{ tx.tc_input_oh_speed }}</label><input type="number" id="tcOhSpeed" min="0.1" step="0.1" value="1.8"></div>
     <p class="wow-note">{{ tx.tc_input_oh_note }}</p>
-
-    <h3 class="fiche-section-title">{{ tx.tc_input_dws }} / {{ tx.tc_input_flurry }} / {{ tx.tc_input_unbridled }}</h3>
-    <div class="tc-field"><label for="tcDws">{{ tx.tc_input_dws }}</label><input type="number" id="tcDws" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcFlurry">{{ tx.tc_input_flurry }}</label><input type="number" id="tcFlurry" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcUnbridled">{{ tx.tc_input_unbridled }}</label><input type="number" id="tcUnbridled" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcCruelty">{{ tx.tc_input_cruelty }}</label><input type="number" id="tcCruelty" min="0" max="5" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcPrecision">{{ tx.tc_input_precision }}</label><input type="number" id="tcPrecision" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBoundlessRage">{{ tx.tc_input_boundless }}</label><input type="number" id="tcBoundlessRage" min="0" max="3" step="1" value="0"></div>
-    <div class="tc-field"><label class="dg-check"><input type="checkbox" id="tcBloodrage" checked>{{ tx.tc_input_bloodrage }}</label></div>
-
-    <h3 class="fiche-section-title">{{ tx.tc_proc_h3 }}</h3>
-    <p class="wow-note">{{ tx.tc_proc_note }}</p>
-    <div class="tc-field"><label for="tcProcChance">{{ tx.tc_input_proc_chance }}</label><input type="number" id="tcProcChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcProcDmg">{{ tx.tc_input_proc_dmg }}</label><input type="number" id="tcProcDmg" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedChance">{{ tx.tc_input_bleed_chance }}</label><input type="number" id="tcBleedChance" min="0" max="100" step="0.1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedTick">{{ tx.tc_input_bleed_tick }}</label><input type="number" id="tcBleedTick" min="0" step="1" value="0"></div>
-    <div class="tc-field"><label for="tcBleedInterval">{{ tx.tc_input_bleed_interval }}</label><input type="number" id="tcBleedInterval" min="0.5" step="0.5" value="3"></div>
-    <div class="tc-field"><label for="tcBleedDuration">{{ tx.tc_input_bleed_duration }}</label><input type="number" id="tcBleedDuration" min="0" step="1" value="0"></div>
-
-    <div class="tc-field"><label for="simFightLen">{{ tx.sim_fight_len }}</label><input type="number" id="simFightLen" min="10" step="10" value="300"></div>
-    <div class="tc-field"><label for="simIterations">{{ tx.sim_iterations }}</label><input type="number" id="simIterations" min="1" max="20000" step="100" value="2000"></div>
-    <button type="button" id="simRun" class="dg-reset">{{ tx.sim_run }}</button>
   </div>
+
   <div class="tc-outputs">
-    <div class="tc-dps-breakdown" id="simResults" hidden>
-      <div class="tc-dps-row tc-dps-total"><span>{{ tx.sim_dps }}</span><span class="nums" id="simDps"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_ci }}</span><span class="nums" id="simCi"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_casts }}</span><span class="nums" id="simCasts"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_rend_uptime }}</span><span class="nums" id="simRendUptime"></span></div>
+    <h2 class="fiche-section-title" style="margin-top:0">{{ tx.tc_calc_h2 }}</h2>
+    <div class="tc-dps-breakdown" id="tcBreakdown">
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_white }}</span><span class="nums" id="tcWhiteDps"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_rend }}</span><span class="nums" id="tcRendDps"></span></div>
+      <div class="tc-dps-row"><span>{{ tx.tc_calc_op }}</span><span class="nums" id="tcOpDps"></span></div>
+      <div class="tc-dps-row tc-dps-total"><span>{{ tx.tc_calc_total }}</span><span class="nums" id="tcTotalDps"></span></div>
     </div>
-    <h3 class="fiche-section-title" style="margin-top:1em" id="simBreakdownTitle" hidden>{{ tx.sim_breakdown_h3 }}</h3>
-    <div class="tc-dps-breakdown" id="simBreakdown" hidden>
-      <div class="tc-dps-row"><span>{{ tx.sim_dmg_white }}</span><span class="nums" id="simDmgWhite"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_dmg_rend }}</span><span class="nums" id="simDmgRend"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_dmg_op }}</span><span class="nums" id="simDmgOp"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_dmg_proc }}</span><span class="nums" id="simDmgProc"></span></div>
-      <div class="tc-dps-row"><span>{{ tx.sim_dmg_bleed }}</span><span class="nums" id="simDmgBleed"></span></div>
+
+    <h2 class="fiche-section-title">{{ tx.tc_weights_h2 }}</h2>
+    <div class="tc-weights" id="tcWeights">
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_str }}</span><span class="nums" id="tcWStr"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_agi }}</span><span class="nums" id="tcWAgi"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_ap }}</span><span class="nums" id="tcWAp"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_hit }}</span><span class="nums" id="tcWHit"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_crit }}</span><span class="nums" id="tcWCrit"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_crit_rating }}</span><span class="nums" id="tcWCritRating"></span></div>
+      <div class="tc-weight-row"><span>{{ tx.tc_weight_hit_rating }}</span><span class="nums" id="tcWHitRating"></span></div>
     </div>
   </div>
 </div>
-<script src="{{ root }}assets/js/wow-warrior-sim.js?v={{ css_v }}" defer></script>
+<script src="{{ root }}assets/js/wow-warrior-weights.js?v={{ css_v }}" defer></script>
 
-<h2 class="fiche-section-title">{{ tx.sim_method_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.sim_method %}<li>{{ h }}</li>{% endfor %}</ul>
+<h2 class="fiche-section-title">{{ tx.tc_method_h2 }}</h2>
+<ul class="gd-list">{% for h in tx.tc_method %}<li>{{ h }}</li>{% endfor %}</ul>
 <h2 class="fiche-section-title">{{ tx.sources }}</h2>
 <ul class="gd-list wow-sources">
-  <li>{{ tx.sim_src_rend }}<a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>{{ tx.tc_src_spells }}<a href="https://www.wowhead.com/forever/spell=6547" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
+  <li>{{ tx.tc_src_stats }}<a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
   <li>{{ tx.sim_src_overpower }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Overpower" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Overpower</a></li>
-  <li>{{ tx.sim_src_bloodrage }}<a href="https://www.wowhead.com/forever/spell=2687" rel="noopener nofollow" target="_blank">Wowhead — Forever spell data</a></li>
-  <li>{{ tx.sim_src_rage }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Rage" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Rage</a></li>
-  <li>{{ tx.sim_src_dw }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Dual_wield" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Dual wield</a></li>
-  <li>{{ tx.sim_src_dws }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
-  <li>{{ tx.sim_src_flurry }}<a href="https://www.wowhead.com/classic/spell=12974/flurry" rel="noopener nofollow" target="_blank">Wowhead — Flurry (Classic)</a></li>
-  <li>{{ tx.sim_src_atktable }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Attack_table" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Attack table</a></li>
-  <li>{{ tx.sim_src_glance }}<a href="https://vanilla-wow-archive.fandom.com/wiki/Glancing_blow" rel="noopener nofollow" target="_blank">Vanilla WoW Wiki — Glancing blow</a></li>
 </ul>
 {% endblock %}
