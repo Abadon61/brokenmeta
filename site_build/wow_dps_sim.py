@@ -598,6 +598,27 @@ ROTATIONS = {
             {"ability": "warlock_corruption", "kind": "maintain_dot"},
         ],
     },
+    # Real, sourced finding: Demonology's own level-20 rotation uses the exact same two DoTs as
+    # Affliction (its real difference is talents/demon damage, neither modeled generically here),
+    # so it intentionally produces the same number. Destruction's own guide names Shadow Bolt as
+    # its primary filler, unlike Affliction -- a genuine per-spec difference, not a duplicate.
+    "warlock_demonology": {
+        "glossary": "warlock", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "warlock_immolate", "kind": "maintain_dot"},
+            {"ability": "warlock_corruption", "kind": "maintain_dot"},
+        ],
+    },
+    "warlock_destruction": {
+        "glossary": "warlock", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "warlock_immolate", "kind": "maintain_dot"},
+            {"ability": "warlock_corruption", "kind": "maintain_dot"},
+            {"ability": "warlock_shadow_bolt", "kind": "filler"},  # notes: "primary direct-damage filler" (Destruction only)
+        ],
+    },
     "hunter_marksmanship": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [],  # Auto Shot itself isn't sourced (see the docstring) -- excluded, not zeroed by accident

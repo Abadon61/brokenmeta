@@ -5,9 +5,11 @@
   "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Affliction single-target rotation pieces reachable in an 11-point level-20 build, like the other class passes.",
   "gaps": [
     "Bane of Agony (a real DoT explicitly named in the rotation, applied only \"if the enemy will survive long enough\"), Life Tap (the class's core Health-to-Mana mechanic, central to the whole build's talent picks), Drain Life, Drain Soul, curses (Curse of Recklessness/Curse of the Elements, dungeon/group-situational), and the demon pet's own damage are all named in the real rotation but not looked up.",
-    "Shadow Bolt (the class's other classic signature spell) is explicitly named in the guide as WORSE than wanding at level 20 (\"currently deals less damage for the time spent casting while also costing Mana and generating additional threat\") -- a real, sourced reason it's deliberately excluded from the level-20 rotation, not an oversight.",
-    "Demon pet damage is entirely unsourced, the same real gap already flagged for Hunter's pet -- likely a meaningful fraction of total real DPS.",
-    "\"talents.demonology\" and \"talents.destruction\" are empty placeholders -- the real level-20 build spends all 11 points in Affliction."
+    "For Affliction specifically, Shadow Bolt is explicitly named in the guide as WORSE than wanding at level 20 (\"currently deals less damage for the time spent casting while also costing Mana and generating additional threat\") -- a real, sourced reason it's deliberately excluded from Affliction's own rotation, not an oversight. Destruction's own guide names it as a real primary filler instead (see below) -- this is a genuine per-spec difference, not a contradiction.",
+    "Demon pet damage is entirely unsourced, the same real gap already flagged for Hunter's pet -- likely a meaningful fraction of total real DPS for all 3 specs.",
+    "Bane of Agony, Life Tap, Drain Life, Drain Soul, curses (Curse of Recklessness/Curse of the Elements, dungeon/group-situational) are named in all 3 specs' real rotations but not looked up.",
+    "Demonology (2026-09-25): real, sourced finding -- its level-20 rotation uses the exact same two DoTs as Affliction (Immolate + Corruption maintained), just with different talents (Unholy Power/Demonic Energies instead of the rest of Affliction's tree) and a much bigger reliance on demon damage (unsourced). Produces the same simulated number as Affliction here, a disclosed limitation.",
+    "Destruction (2026-09-25): real, sourced finding -- unlike Affliction, Destruction's own guide names Shadow Bolt as its primary direct-damage filler (now sourced below, Rank 1/level 1 -- the real level-20-trainable rank wasn't pinned down this pass, a disclosed conservative approximation). Also names Searing Pain (faster cast, higher threat) and Shadowburn (the build's 1-point capstone, an instant Soul-Shard finisher) as real tools, neither sourced this pass."
   ],
   "abilities": [
     {
@@ -55,6 +57,28 @@
         { "kind": "direct_damage", "flat": 38, "sp_coeff": 0.20 },
         { "kind": "periodic_damage", "total_damage": 60, "duration_sec": 15, "tick_interval_sec": 3, "damage_per_tick": 13, "sp_coeff": 0.13, "can_crit": true }
       ]
+    },
+    {
+      "id": "warlock_shadow_bolt",
+      "wowhead_spell_id": 686,
+      "name": { "en": "Shadow Bolt", "fr": "Trait de l'ombre" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": "at least 12 (real level-20 rank not individually confirmed this pass, see gaps)",
+      "min_level": 1,
+      "resource_cost": { "mana": 25 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "1.7 sec",
+      "school": "shadow",
+      "mechanic": null,
+      "flags": [],
+      "notes": "Real single-target priority (Destruction only, per Icy Veins): the primary direct-damage filler, cast after Immolate/Corruption are up. Explicitly NOT part of Affliction's own rotation (see the class-level gaps note -- Affliction's own guide calls it worse than wanding at this level). Rank 1's own confirmed tooltip used (level 1); the real level-20-trainable rank is higher (a Rank 12 exists at level 60) but wasn't pinned down to a specific id this pass -- disclosed conservative approximation.",
+      "source_url": "https://www.wowhead.com/forever/spell=686/shadow-bolt",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [12, 16], "sp_coeff": 0.486 }
+      ]
     }
   ],
   "talents": {
@@ -64,7 +88,15 @@
       { "id": "warlock_improved_corruption", "wowhead_talent_id": "n105924", "name": { "en": "Improved Corruption", "fr": "Corruption améliorée" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": "warlock_corruption", "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (full rank): makes Corruption instant cast and +10% damage, per Icy Veins' text -- called \"one of Affliction's most important early talents\"." },
       { "id": "warlock_soul_harvesting", "wowhead_talent_id": "n105922", "name": { "en": "Soul Harvesting", "fr": "Moisson d'âme" }, "row": 2, "col": 2, "max_rank_total": 2, "effect_per_rank": "+25%/rank Mana regeneration on a killing blow while channeling Drain Soul (+50% at 2/2, per Icy Veins' text)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes only 1/2 -- explicitly called the build's one optional/flexible point by Icy Veins, similar in spirit to Fury Warrior's Boundless Rage or Balance Druid's last Improved Moonfire point." }
     ],
-    "demonology": [],
-    "destruction": []
+    "demonology": [
+      { "id": "warlock_unholy_power", "wowhead_talent_id": "n105906", "name": { "en": "Unholy Power", "fr": null }, "row": 1, "col": 4, "max_rank_total": 5, "effect_per_rank": "+2%/rank damage dealt by your demon (Imp/Voidwalker/Succubus/Incubus/Felhunter)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 -- the single biggest lever on demon damage, which is otherwise entirely unsourced (see gaps)." },
+      { "id": "warlock_demonic_energies", "wowhead_talent_id": "n105899", "name": { "en": "Demonic Energies", "fr": null }, "row": 2, "col": 4, "max_rank_total": 2, "effect_per_rank": "Your spell damage heals your demon for 8%/rank of the damage dealt; Life Tap also restores 50% of its Mana gain to your demon", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 1/2 -- a pet-sustain talent, not a direct damage one." }
+    ],
+    "destruction": [
+      { "id": "warlock_destructive_reach", "wowhead_talent_id": "n105881", "name": { "en": "Destructive Reach", "fr": null }, "row": 1, "col": 1, "max_rank_total": 2, "effect_per_rank": "+10%/rank range on damaging spells", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 2/2 -- leveling comfort (more time to cast before a mob reaches you), not a damage increase per Icy Veins' own text." },
+      { "id": "warlock_bane", "wowhead_talent_id": "n105888", "name": { "en": "Bane", "fr": null }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": "-0.1 sec/rank cast time on Shadow Bolt and Immolate (-0.5 sec at max rank)", "see_ability_id": "warlock_shadow_bolt", "dps_relevant": true, "notes": "Real level-20 build takes 5/5 -- directly speeds up the build's two main casts." },
+      { "id": "warlock_cataclysm", "wowhead_talent_id": "n105887", "name": { "en": "Cataclysm", "fr": null }, "row": 2, "col": 2, "max_rank_total": 3, "effect_per_rank": "-3%/rank Mana cost of Destruction spells", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3 -- a Mana-sustain talent for a spec that hard-casts often, not a direct damage one." },
+      { "id": "warlock_shadowburn", "wowhead_talent_id": "n105884", "name": { "en": "Shadowburn", "fr": null }, "row": 3, "col": 3, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1, the build's final point. Grants the Shadowburn ability itself (instant, 15s cooldown, costs a Soul Shard, refunds one on a kill within 8s) -- a real finishing tool, not sourced as its own ability entry this pass (gap)." }
+    ]
   }
 }
