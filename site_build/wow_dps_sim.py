@@ -619,11 +619,34 @@ ROTATIONS = {
             {"ability": "warlock_shadow_bolt", "kind": "filler"},  # notes: "primary direct-damage filler" (Destruction only)
         ],
     },
+    # Real, sourced finding: all 3 Hunter specs converge on the exact same real level-20 ranged
+    # rotation (Serpent Sting > Aimed Shot on cooldown > Auto Shot > Arcane Shot filler) --
+    # Survival's own guide states outright "regardless of what talents you choose, this is the
+    # optimal choice" at level 20. Spec choice is about talents/pet, not the rotation, so all 3
+    # intentionally produce the same simulated number here.
     "hunter_marksmanship": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [],  # Auto Shot itself isn't sourced (see the docstring) -- excluded, not zeroed by accident
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},  # notes: "cast once the pet has engaged, before Aimed Shot"
+            {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
+            {"ability": "hunter_arcane_shot", "kind": "on_cooldown"},
+        ],
+    },
+    "hunter_beast_mastery": {
+        "glossary": "hunter", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
+            {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
+            {"ability": "hunter_arcane_shot", "kind": "on_cooldown"},
+        ],
+    },
+    "hunter_survival": {
+        "glossary": "hunter", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
             {"ability": "hunter_arcane_shot", "kind": "on_cooldown"},
         ],
