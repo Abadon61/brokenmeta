@@ -2,10 +2,43 @@
   "_sourcing_notes": "Aggregate level-20 BIS character stats per class/spec, captured 2026-09-26 from foreverchanges.pro/fr/bis/<class>[/<spec>] -- a community-maintained WoW Forever BIS gear aggregator (already cross-referenced against Icy Veins' own Level 20 Gear sections and real Wowhead Forever item tooltips for Warrior, which matched closely). Each page equips the site's own top-ranked item per slot (their 'PvE' list, or '/tank' for the 3 tank specs, or '/balance' for Balance Druid) on a level-20 character of the race the site picked (shown in 'race'), and shows the resulting totals directly -- no manual item-by-item summing needed. For most classes the site adds real Classic-era level-20 base stats (no gear) on top of the item bonuses to produce the 'stats' totals below. Two exceptions: Shaman's default race (Dwarf) could not play Shaman in Classic ('Classic n'avait pas de Chaman Nain'), so the site could only show gear-only deltas (marked with '_gear_delta_only': true) -- for those, base stats were added manually using an Orc Shaman (a real Classic-legal Shaman race) base-stat table that is NOT independently verified against a primary source (it was supplied by the user from a Gemini/AI conversation, not from a cited Wowhead/Blizzard reference); this is the one genuinely weak link in the chain and should be replaced if a better source turns up. Conversion ratios needed to turn Strength/Agility into final melee Attack Power / Crit% for the sim (2 AP per Str for Warrior/Paladin/Shaman/Druid, 1 AP per Str for Rogue/Hunter, 1%% crit per 20 Agi for Warrior/Paladin/Shaman/Druid, 1%% per 29 Agi for Rogue, 1%% per 53 Agi for Hunter, spell crit per Int varies 54-60.6 by class) come from a real, verified, cited source: https://www.wowhead.com/classic/guide/classic-wow-stats-and-attributes-overview (checked live 2026-09-26; also independently confirms the sim's existing AP/14=DPS formula and 19%% dual-wield hit penalty are already correct). None of this is wired into wow_dps_sim.py yet.",
   "conversion_ratios_source": "https://www.wowhead.com/classic/guide/classic-wow-stats-and-attributes-overview",
   "conversion_ratios": {
-    "ap_per_str": {"warrior": 2, "paladin": 2, "shaman": 2, "druid": 2, "rogue": 1, "hunter": 1, "mage": 0, "priest": 0, "warlock": 0},
-    "ap_per_agi_melee": {"druid_cat": 1, "hunter": 1, "rogue": 1},
-    "crit_pct_per_agi": {"warrior": 20, "paladin": 20, "shaman": 20, "druid": 20, "rogue": 29, "hunter": 53},
-    "spell_crit_pct_per_int": {"warlock": 60.6, "druid": 60, "shaman": 59.5, "mage": 59.5, "priest": 59.2, "paladin": 54},
+    "ap_per_str": {
+      "warrior": 2,
+      "paladin": 2,
+      "shaman": 2,
+      "druid": 2,
+      "rogue": 1,
+      "hunter": 1,
+      "mage": 0,
+      "priest": 0,
+      "warlock": 0
+    },
+    "ap_per_agi_melee": {
+      "druid_cat": 1,
+      "hunter": 1,
+      "rogue": 1
+    },
+    "ap_per_agi_ranged": {
+      "hunter": 2,
+      "rogue": 1,
+      "warrior": 1
+    },
+    "crit_pct_per_agi": {
+      "warrior": 20,
+      "paladin": 20,
+      "shaman": 20,
+      "druid": 20,
+      "rogue": 29,
+      "hunter": 53
+    },
+    "spell_crit_pct_per_int": {
+      "warlock": 60.6,
+      "druid": 60,
+      "shaman": 59.5,
+      "mage": 59.5,
+      "priest": 59.2,
+      "paladin": 54
+    },
     "dps_per_ap": 14,
     "dual_wield_hit_penalty_pct": 19,
     "note": "ap_per_agi_melee only applies to Feral (Cat Form) Druid, Hunter and Rogue -- other classes get 0 melee AP from Agility (Warrior/Paladin/Shaman get ranged AP from Agi instead, not modeled here since none of their DPS specs are ranged)."
@@ -14,33 +47,467 @@
     "_source": "UNVERIFIED against a primary citation -- user-supplied from a Gemini/AI conversation, not from a cited Wowhead/Blizzard/Elitist-Jerks page I could open myself. Partially cross-validated: the Agi-per-crit and Int-per-crit RATIOS quoted alongside these base values (29 Agi/Rogue, 53 Agi/Hunter, 20 Agi/others, 59.5-60.6 Int/casters) exactly match the independently-verified conversion_ratios above, which gives some confidence, but the flat base %% values themselves are not independently confirmed.",
     "base_hit_pct": 0,
     "base_hit_note": "0%% base Hit for every class, no exceptions -- Hit is purely additive from gear/talents/skills, nothing innate.",
-    "base_melee_crit_pct": {"hunter": 0, "rogue": 0, "warrior": 0, "paladin": 0, "shaman": 0, "druid": 0.96, "priest": 0, "mage": 0, "warlock": 0},
-    "base_spell_crit_pct": {"mage": 0.91, "warlock": 1.701, "priest": 1.24, "paladin": 0, "shaman": 2.20, "druid": 1.85},
+    "base_melee_crit_pct": {
+      "hunter": 0,
+      "rogue": 0,
+      "warrior": 0,
+      "paladin": 0,
+      "shaman": 0,
+      "druid": 0.96,
+      "priest": 0,
+      "mage": 0,
+      "warlock": 0
+    },
+    "base_spell_crit_pct": {
+      "mage": 0.91,
+      "warlock": 1.701,
+      "priest": 1.24,
+      "paladin": 0,
+      "shaman": 2.2,
+      "druid": 1.85
+    },
     "note": "Rogue/Hunter/Warrior/Paladin/Shaman start at exactly 0%% melee crit with no Agility -- all of their crit comes from the Agi pool. Druid has a small 0.96%% innate melee crit floor. Spell crit bases vary 0-2.2%% by class before Intellect is added."
   },
   "specs": {
-    "warrior_fury": {"foreverchanges_url": "/fr/bis/warrior", "race": "Human", "gear_delta_only": false, "stats": {"str": 160, "agi": 50, "sta": 94, "int": 35, "spirit": 30}, "flat_ap": 34, "flat_sp": 4, "hp": 959, "armor": 1146, "note": "Shared list with Arms per Icy Veins; site's weapon pick is a 2H (matches Arms more than Fury dual-wield -- Fury would want 2 one-handers instead, not separately sourced)"},
-    "warrior_arms": {"foreverchanges_url": "/fr/bis/warrior", "race": "Human", "gear_delta_only": false, "stats": {"str": 160, "agi": 50, "sta": 94, "int": 35, "spirit": 30}, "flat_ap": 34, "flat_sp": 4, "hp": 959, "armor": 1146},
-    "warrior_protection": {"foreverchanges_url": "/fr/bis/warrior/tank", "race": "Human", "gear_delta_only": false, "stats": {"str": 81, "agi": 59, "sta": 165, "int": 26, "spirit": 31}, "flat_ap": 12, "flat_weapon_dmg": 3, "defense": 11, "hp": 1669, "armor": 2036},
-    "hunter_marksmanship": {"foreverchanges_url": "/fr/bis/hunter", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 37, "agi": 166, "sta": 75, "int": 44, "spirit": 43}, "flat_ap": 26, "flat_sp": 4, "hp": 777, "mana": 831, "armor": 895},
-    "hunter_beast_mastery": {"foreverchanges_url": "/fr/bis/hunter", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 37, "agi": 166, "sta": 75, "int": 44, "spirit": 43}, "flat_ap": 26, "flat_sp": 4, "hp": 777, "mana": 831, "armor": 895},
-    "hunter_survival": {"foreverchanges_url": "/fr/bis/hunter", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 37, "agi": 166, "sta": 75, "int": 44, "spirit": 43}, "flat_ap": 26, "flat_sp": 4, "hp": 777, "mana": 831, "armor": 895},
-    "mage_fire": {"foreverchanges_url": "/fr/bis/mage", "race": "Human", "gear_delta_only": false, "stats": {"str": 29, "agi": 26, "sta": 68, "int": 101, "spirit": 69}, "flat_sp": 73, "school_sp": {"fire": 6, "frost": 51}, "hp": 747, "mana": 1666, "armor": 396, "note": "Site's generic Mage PvE list leans Frost-itemized (+51 frost vs +6 fire); Fire/Arcane specs would ideally want their own school-matched list, not separately sourced"},
-    "mage_arcane": {"foreverchanges_url": "/fr/bis/mage", "race": "Human", "gear_delta_only": false, "stats": {"str": 29, "agi": 26, "sta": 68, "int": 101, "spirit": 69}, "flat_sp": 73, "school_sp": {"fire": 6, "frost": 51}, "hp": 747, "mana": 1666, "armor": 396},
-    "mage_frost": {"foreverchanges_url": "/fr/bis/mage", "race": "Human", "gear_delta_only": false, "stats": {"str": 29, "agi": 26, "sta": 68, "int": 101, "spirit": 69}, "flat_sp": 73, "school_sp": {"fire": 6, "frost": 51}, "hp": 747, "mana": 1666, "armor": 396},
-    "rogue_combat": {"foreverchanges_url": "/fr/bis/rogue", "race": "Human", "gear_delta_only": false, "stats": {"str": 54, "agi": 146, "sta": 83, "int": 26, "spirit": 33}, "flat_ap": 34, "flat_weapon_dmg": 6, "flat_hit_pct": 4, "flat_crit_pct": 14, "hp": 883, "armor": 848},
-    "rogue_assassination": {"foreverchanges_url": "/fr/bis/rogue", "race": "Human", "gear_delta_only": false, "stats": {"str": 54, "agi": 146, "sta": 83, "int": 26, "spirit": 33}, "flat_ap": 34, "flat_weapon_dmg": 6, "flat_hit_pct": 4, "flat_crit_pct": 14, "hp": 883, "armor": 848},
-    "rogue_subtlety": {"foreverchanges_url": "/fr/bis/rogue", "race": "Human", "gear_delta_only": false, "stats": {"str": 54, "agi": 146, "sta": 83, "int": 26, "spirit": 33}, "flat_ap": 34, "flat_weapon_dmg": 6, "flat_hit_pct": 4, "flat_crit_pct": 14, "hp": 883, "armor": 848},
-    "priest_shadow": {"foreverchanges_url": "/fr/bis/priest", "race": "Dwarf", "gear_delta_only": false, "stats": {"str": 28, "agi": 23, "sta": 83, "int": 101, "spirit": 61}, "flat_sp": 43, "school_sp": {"shadow": 77}, "hp": 887, "mana": 1672, "armor": 393},
-    "warlock_affliction": {"foreverchanges_url": "/fr/bis/warlock", "race": "Gnome", "gear_delta_only": false, "stats": {"str": 28, "agi": 32, "sta": 86, "int": 104, "spirit": 59}, "flat_sp": 44, "school_sp": {"fire": 34, "shadow": 84}, "hp": 884, "mana": 1663, "armor": 409},
-    "warlock_demonology": {"foreverchanges_url": "/fr/bis/warlock", "race": "Gnome", "gear_delta_only": false, "stats": {"str": 28, "agi": 32, "sta": 86, "int": 104, "spirit": 59}, "flat_sp": 44, "school_sp": {"fire": 34, "shadow": 84}, "hp": 884, "mana": 1663, "armor": 409},
-    "warlock_destruction": {"foreverchanges_url": "/fr/bis/warlock", "race": "Gnome", "gear_delta_only": false, "stats": {"str": 28, "agi": 32, "sta": 86, "int": 104, "spirit": 59}, "flat_sp": 44, "school_sp": {"fire": 34, "shadow": 84}, "hp": 884, "mana": 1663, "armor": 409},
-    "paladin_retribution": {"foreverchanges_url": "/fr/bis/paladin", "race": "Human", "gear_delta_only": false, "stats": {"str": 125, "agi": 49, "sta": 118, "int": 40, "spirit": 50}, "flat_ap": 36, "flat_sp": 4, "hp": 1191, "mana": 732, "armor": 1041},
-    "paladin_protection": {"foreverchanges_url": "/fr/bis/paladin/tank", "race": "Human", "gear_delta_only": false, "stats": {"str": 57, "agi": 31, "sta": 144, "int": 38, "spirit": 46}, "flat_ap": 8, "flat_sp": 90, "defense": 10, "hp": 1451, "mana": 702, "armor": 1853},
-    "druid_feral": {"foreverchanges_url": "/fr/bis/druid", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 57, "agi": 130, "sta": 86, "int": 43, "spirit": 46}, "flat_ap": 36, "flat_sp": 4, "hp": 923, "mana": 719, "armor": 826},
-    "druid_feral_tank": {"foreverchanges_url": "/fr/bis/druid/tank", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 51, "agi": 73, "sta": 133, "int": 51, "spirit": 47}, "flat_ap": 18, "flat_sp": 4, "defense": 5, "hp": 1393, "mana": 839, "armor": 884},
-    "druid_balance": {"foreverchanges_url": "/fr/bis/druid/balance", "race": "Night Elf", "gear_delta_only": false, "stats": {"str": 36, "agi": 37, "sta": 82, "int": 89, "spirit": 65}, "flat_sp": 103, "school_sp": {"arcane": 9}, "hp": 883, "mana": 1409, "armor": 605},
-    "shaman_elemental": {"foreverchanges_url": "/fr/bis/shaman", "race": "Dwarf (site) -> Orc used for base stats instead", "gear_delta_only": true, "gear_deltas": {"str": 7, "agi": 2, "sta": 47, "int": 52, "spirit": 19}, "flat_sp": 114, "school_sp_delta": {"spell_dmg": 4, "healing": 11}, "armor_delta": 537, "base_stats_source": "UNVERIFIED -- user-supplied, originated from a Gemini/AI conversation, not a cited primary source. Orc racial modifiers applied to a 'Human baseline' level-20 Shaman table: base Str36 Agi26 Sta37 Int38 Spirit41, Orc racial +3 STR -3 AGI +2 STA -3 INT -2 SPI -> Orc Shaman base Str39 Agi23 Sta39 Int35 Spirit39.", "stats": {"str": 46, "agi": 25, "sta": 86, "int": 87, "spirit": 58}, "note": "stats = base (Orc, unverified) + gear_deltas. Replace base_stats with a verified source if one turns up."},
-    "shaman_enhancement": {"foreverchanges_url": "/fr/bis/shaman/enhancement", "race": "Dwarf (site) -> Orc used for base stats instead", "gear_delta_only": true, "gear_deltas": {"str": 74, "agi": 44, "sta": 54, "int": 2, "spirit": 10}, "flat_ap": 36, "flat_sp": 4, "armor_delta": 565, "base_stats_source": "UNVERIFIED, see shaman_elemental note. Orc Shaman base Str39 Agi23 Sta39 Int35 Spirit39.", "stats": {"str": 113, "agi": 67, "sta": 93, "int": 37, "spirit": 49}, "note": "stats = base (Orc, unverified) + gear_deltas."}
+    "warrior_fury": {
+      "foreverchanges_url": "/fr/bis/warrior",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 160,
+        "agi": 50,
+        "sta": 94,
+        "int": 35,
+        "spirit": 30
+      },
+      "flat_ap": 34,
+      "flat_sp": 4,
+      "hp": 959,
+      "armor": 1146,
+      "note": "Shared list with Arms per Icy Veins; site's weapon pick is a 2H (matches Arms more than Fury dual-wield -- Fury would want 2 one-handers instead, not separately sourced)"
+    },
+    "warrior_arms": {
+      "foreverchanges_url": "/fr/bis/warrior",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 160,
+        "agi": 50,
+        "sta": 94,
+        "int": 35,
+        "spirit": 30
+      },
+      "flat_ap": 34,
+      "flat_sp": 4,
+      "hp": 959,
+      "armor": 1146
+    },
+    "warrior_protection": {
+      "foreverchanges_url": "/fr/bis/warrior/tank",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 81,
+        "agi": 59,
+        "sta": 165,
+        "int": 26,
+        "spirit": 31
+      },
+      "flat_ap": 12,
+      "flat_weapon_dmg": 3,
+      "defense": 11,
+      "hp": 1669,
+      "armor": 2036
+    },
+    "hunter_marksmanship": {
+      "foreverchanges_url": "/fr/bis/hunter",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 37,
+        "agi": 166,
+        "sta": 75,
+        "int": 44,
+        "spirit": 43
+      },
+      "flat_ap": 26,
+      "flat_sp": 4,
+      "hp": 777,
+      "mana": 831,
+      "armor": 895
+    },
+    "hunter_beast_mastery": {
+      "foreverchanges_url": "/fr/bis/hunter",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 37,
+        "agi": 166,
+        "sta": 75,
+        "int": 44,
+        "spirit": 43
+      },
+      "flat_ap": 26,
+      "flat_sp": 4,
+      "hp": 777,
+      "mana": 831,
+      "armor": 895
+    },
+    "hunter_survival": {
+      "foreverchanges_url": "/fr/bis/hunter",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 37,
+        "agi": 166,
+        "sta": 75,
+        "int": 44,
+        "spirit": 43
+      },
+      "flat_ap": 26,
+      "flat_sp": 4,
+      "hp": 777,
+      "mana": 831,
+      "armor": 895
+    },
+    "mage_fire": {
+      "foreverchanges_url": "/fr/bis/mage",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 29,
+        "agi": 26,
+        "sta": 68,
+        "int": 101,
+        "spirit": 69
+      },
+      "flat_sp": 73,
+      "school_sp": {
+        "fire": 6,
+        "frost": 51
+      },
+      "hp": 747,
+      "mana": 1666,
+      "armor": 396,
+      "note": "Site's generic Mage PvE list leans Frost-itemized (+51 frost vs +6 fire); Fire/Arcane specs would ideally want their own school-matched list, not separately sourced",
+      "generic_spell_dmg": 4
+    },
+    "mage_arcane": {
+      "foreverchanges_url": "/fr/bis/mage",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 29,
+        "agi": 26,
+        "sta": 68,
+        "int": 101,
+        "spirit": 69
+      },
+      "flat_sp": 73,
+      "school_sp": {
+        "fire": 6,
+        "frost": 51
+      },
+      "hp": 747,
+      "mana": 1666,
+      "armor": 396,
+      "generic_spell_dmg": 4
+    },
+    "mage_frost": {
+      "foreverchanges_url": "/fr/bis/mage",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 29,
+        "agi": 26,
+        "sta": 68,
+        "int": 101,
+        "spirit": 69
+      },
+      "flat_sp": 73,
+      "school_sp": {
+        "fire": 6,
+        "frost": 51
+      },
+      "hp": 747,
+      "mana": 1666,
+      "armor": 396,
+      "generic_spell_dmg": 4
+    },
+    "rogue_combat": {
+      "foreverchanges_url": "/fr/bis/rogue",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 54,
+        "agi": 146,
+        "sta": 83,
+        "int": 26,
+        "spirit": 33
+      },
+      "flat_ap": 34,
+      "flat_weapon_dmg": 6,
+      "flat_hit_pct": 4,
+      "flat_crit_pct": 14,
+      "hp": 883,
+      "armor": 848
+    },
+    "rogue_assassination": {
+      "foreverchanges_url": "/fr/bis/rogue",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 54,
+        "agi": 146,
+        "sta": 83,
+        "int": 26,
+        "spirit": 33
+      },
+      "flat_ap": 34,
+      "flat_weapon_dmg": 6,
+      "flat_hit_pct": 4,
+      "flat_crit_pct": 14,
+      "hp": 883,
+      "armor": 848
+    },
+    "rogue_subtlety": {
+      "foreverchanges_url": "/fr/bis/rogue",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 54,
+        "agi": 146,
+        "sta": 83,
+        "int": 26,
+        "spirit": 33
+      },
+      "flat_ap": 34,
+      "flat_weapon_dmg": 6,
+      "flat_hit_pct": 4,
+      "flat_crit_pct": 14,
+      "hp": 883,
+      "armor": 848
+    },
+    "priest_shadow": {
+      "foreverchanges_url": "/fr/bis/priest",
+      "race": "Dwarf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 28,
+        "agi": 23,
+        "sta": 83,
+        "int": 101,
+        "spirit": 61
+      },
+      "flat_sp": 43,
+      "school_sp": {
+        "shadow": 77
+      },
+      "hp": 887,
+      "mana": 1672,
+      "armor": 393
+    },
+    "warlock_affliction": {
+      "foreverchanges_url": "/fr/bis/warlock",
+      "race": "Gnome",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 28,
+        "agi": 32,
+        "sta": 86,
+        "int": 104,
+        "spirit": 59
+      },
+      "flat_sp": 44,
+      "school_sp": {
+        "fire": 34,
+        "shadow": 84
+      },
+      "hp": 884,
+      "mana": 1663,
+      "armor": 409
+    },
+    "warlock_demonology": {
+      "foreverchanges_url": "/fr/bis/warlock",
+      "race": "Gnome",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 28,
+        "agi": 32,
+        "sta": 86,
+        "int": 104,
+        "spirit": 59
+      },
+      "flat_sp": 44,
+      "school_sp": {
+        "fire": 34,
+        "shadow": 84
+      },
+      "hp": 884,
+      "mana": 1663,
+      "armor": 409
+    },
+    "warlock_destruction": {
+      "foreverchanges_url": "/fr/bis/warlock",
+      "race": "Gnome",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 28,
+        "agi": 32,
+        "sta": 86,
+        "int": 104,
+        "spirit": 59
+      },
+      "flat_sp": 44,
+      "school_sp": {
+        "fire": 34,
+        "shadow": 84
+      },
+      "hp": 884,
+      "mana": 1663,
+      "armor": 409
+    },
+    "paladin_retribution": {
+      "foreverchanges_url": "/fr/bis/paladin",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 125,
+        "agi": 49,
+        "sta": 118,
+        "int": 40,
+        "spirit": 50
+      },
+      "flat_ap": 36,
+      "flat_sp": 4,
+      "hp": 1191,
+      "mana": 732,
+      "armor": 1041
+    },
+    "paladin_protection": {
+      "foreverchanges_url": "/fr/bis/paladin/tank",
+      "race": "Human",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 57,
+        "agi": 31,
+        "sta": 144,
+        "int": 38,
+        "spirit": 46
+      },
+      "flat_ap": 8,
+      "flat_sp": 90,
+      "defense": 10,
+      "hp": 1451,
+      "mana": 702,
+      "armor": 1853
+    },
+    "druid_feral": {
+      "foreverchanges_url": "/fr/bis/druid",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 57,
+        "agi": 130,
+        "sta": 86,
+        "int": 43,
+        "spirit": 46
+      },
+      "flat_ap": 36,
+      "flat_sp": 4,
+      "hp": 923,
+      "mana": 719,
+      "armor": 826
+    },
+    "druid_feral_tank": {
+      "foreverchanges_url": "/fr/bis/druid/tank",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 51,
+        "agi": 73,
+        "sta": 133,
+        "int": 51,
+        "spirit": 47
+      },
+      "flat_ap": 18,
+      "flat_sp": 4,
+      "defense": 5,
+      "hp": 1393,
+      "mana": 839,
+      "armor": 884
+    },
+    "druid_balance": {
+      "foreverchanges_url": "/fr/bis/druid/balance",
+      "race": "Night Elf",
+      "gear_delta_only": false,
+      "stats": {
+        "str": 36,
+        "agi": 37,
+        "sta": 82,
+        "int": 89,
+        "spirit": 65
+      },
+      "flat_sp": 103,
+      "school_sp": {
+        "arcane": 9
+      },
+      "hp": 883,
+      "mana": 1409,
+      "armor": 605,
+      "generic_spell_dmg": 4
+    },
+    "shaman_elemental": {
+      "foreverchanges_url": "/fr/bis/shaman",
+      "race": "Dwarf (site) -> Orc used for base stats instead",
+      "gear_delta_only": true,
+      "gear_deltas": {
+        "str": 7,
+        "agi": 2,
+        "sta": 47,
+        "int": 52,
+        "spirit": 19
+      },
+      "flat_sp": 114,
+      "school_sp_delta": {
+        "spell_dmg": 4,
+        "healing": 11
+      },
+      "armor_delta": 537,
+      "base_stats_source": "UNVERIFIED -- user-supplied, originated from a Gemini/AI conversation, not a cited primary source. Orc racial modifiers applied to a 'Human baseline' level-20 Shaman table: base Str36 Agi26 Sta37 Int38 Spirit41, Orc racial +3 STR -3 AGI +2 STA -3 INT -2 SPI -> Orc Shaman base Str39 Agi23 Sta39 Int35 Spirit39.",
+      "stats": {
+        "str": 46,
+        "agi": 25,
+        "sta": 86,
+        "int": 87,
+        "spirit": 58
+      },
+      "note": "stats = base (Orc, unverified) + gear_deltas. Replace base_stats with a verified source if one turns up.",
+      "generic_spell_dmg": 4
+    },
+    "shaman_enhancement": {
+      "foreverchanges_url": "/fr/bis/shaman/enhancement",
+      "race": "Dwarf (site) -> Orc used for base stats instead",
+      "gear_delta_only": true,
+      "gear_deltas": {
+        "str": 74,
+        "agi": 44,
+        "sta": 54,
+        "int": 2,
+        "spirit": 10
+      },
+      "flat_ap": 36,
+      "flat_sp": 4,
+      "armor_delta": 565,
+      "base_stats_source": "UNVERIFIED, see shaman_elemental note. Orc Shaman base Str39 Agi23 Sta39 Int35 Spirit39.",
+      "stats": {
+        "str": 113,
+        "agi": 67,
+        "sta": 93,
+        "int": 37,
+        "spirit": 49
+      },
+      "note": "stats = base (Orc, unverified) + gear_deltas."
+    }
   }
 }

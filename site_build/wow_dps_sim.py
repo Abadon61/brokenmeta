@@ -27,6 +27,15 @@ and the extra talent-rank sliders the bespoke Warrior tool exposes (Cruelty, Pre
 Flurry, Unbridled Wrath, Dual Wield Specialization, Boundless Rage) -- those aren't sourced
 for the other 8 classes yet, so this generic pass compares base rotations on equal stats,
 not fully talented character sheets.
+
+2026-09-26: stats are now real level-20 BiS gear, not an illustrative placeholder. Each
+spec's {ap, sp, hit, crit} comes from bis_stats_for_spec(), which converts the raw Str/Agi/
+Int/flat-AP/flat-SP totals in data/wow_items/bis_level20_stats.json (sourced from
+foreverchanges.pro's BIS lists, cross-checked against Icy Veins/Wowhead for Warrior) through
+the real Classic Str->AP / Agi->Crit% / Int->SpellCrit% ratios and base Crit/Hit values also
+cited in that file (from Wowhead's own Classic "Stats and Attributes" guide). One weak link
+stays disclosed there: Shaman's base character stats (no gear) aren't independently verified
+against a primary source. DEFAULT_STATS below is now just a never-should-fire fallback.
 """
 import argparse
 import heapq
@@ -656,11 +665,81 @@ ROTATIONS = {
     },
 }
 
-# Illustrative placeholder stats, identical across every class so the ranking compares
-# rotations on equal footing -- NOT real level-20 gear (no sourced level-20 stat baseline
-# exists yet for any class). Spell Power stays 0 for the melee/hybrid classes, since none of
-# their sourced abilities have an sp_coeff that would use it meaningfully at this stat level.
+# Fallback only -- used if a spec has no entry in data/wow_items/bis_level20_stats.json.
+# Every spec in ROTATIONS has real BIS data now (see bis_stats_for_spec below), so this
+# should never actually fire, but stays as a safety net rather than a crash.
 DEFAULT_STATS = {"ap": 150, "sp": 90, "hit": 0.90, "crit": 0.15}
+
+_BIS_DATA = None
+
+
+def _load_bis_data():
+    global _BIS_DATA
+    if _BIS_DATA is None:
+        path = wow_spells.ROOT / "data" / "wow_items" / "bis_level20_stats.json"
+        _BIS_DATA = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return _BIS_DATA
+
+
+# Per-spec metadata the raw bis_level20_stats.json doesn't itself encode: which crit formula
+# applies (physical, off Agility -- vs spell, off Intellect), which Agility->AP coefficient to
+# use (None for classes with no Agi->AP conversion, "melee" for Rogue/Feral Druid, "ranged" for
+# Hunter, whose real damage-relevant AP comes from the 2-per-Agi ranged coefficient, not the
+# 1-per-Agi melee one), and which damage school's extra Spell Power (if any was itemized on the
+# BIS list) actually matters for that spec's own nukes.
+SPEC_STAT_PROFILE = {
+    "warrior_fury": {"crit": "physical"}, "warrior_arms": {"crit": "physical"}, "warrior_protection": {"crit": "physical"},
+    "rogue_combat": {"crit": "physical", "agi_ap": "melee"}, "rogue_assassination": {"crit": "physical", "agi_ap": "melee"}, "rogue_subtlety": {"crit": "physical", "agi_ap": "melee"},
+    "paladin_retribution": {"crit": "physical"}, "paladin_protection": {"crit": "physical"},
+    "shaman_enhancement": {"crit": "physical"}, "shaman_elemental": {"crit": "spell"},
+    "mage_fire": {"crit": "spell", "school": "fire"}, "mage_arcane": {"crit": "spell", "school": "arcane"}, "mage_frost": {"crit": "spell", "school": "frost"},
+    "priest_shadow": {"crit": "spell", "school": "shadow"},
+    "druid_balance": {"crit": "spell", "school": "arcane"}, "druid_feral": {"crit": "physical", "agi_ap": "melee"}, "druid_feral_tank": {"crit": "physical", "agi_ap": "melee"},
+    "warlock_affliction": {"crit": "spell", "school": "shadow"}, "warlock_demonology": {"crit": "spell", "school": "shadow"}, "warlock_destruction": {"crit": "spell", "school": "shadow"},
+    "hunter_marksmanship": {"crit": "physical", "agi_ap": "ranged"}, "hunter_beast_mastery": {"crit": "physical", "agi_ap": "ranged"}, "hunter_survival": {"crit": "physical", "agi_ap": "ranged"},
+}
+
+
+def bis_stats_for_spec(spec_id):
+    """Turns the raw sourced gear stats (Str/Agi/Int + flat AP/SP/Crit/Hit from
+    data/wow_items/bis_level20_stats.json) into the {ap, sp, hit, crit} shape run_class()
+    needs, using the real Classic conversion ratios and base Crit/Hit values cited in that
+    same file. Returns None if the spec isn't in the BIS data (shouldn't happen -- all 23 are)."""
+    profile = ROTATIONS.get(spec_id)
+    if not profile:
+        return None
+    bis = _load_bis_data()
+    spec_bis = bis.get("specs", {}).get(spec_id)
+    if not spec_bis:
+        return None
+    class_id = profile.get("glossary", spec_id)
+    ratios = bis["conversion_ratios"]
+    base_ch = bis["base_crit_hit"]
+    meta = SPEC_STAT_PROFILE.get(spec_id, {})
+    s = spec_bis["stats"]
+    str_, agi, int_ = s.get("str", 0), s.get("agi", 0), s.get("int", 0)
+
+    ap = spec_bis.get("flat_ap", 0) + str_ * ratios["ap_per_str"].get(class_id, 0)
+    agi_ap_mode = meta.get("agi_ap")
+    if agi_ap_mode == "ranged":
+        ap += agi * ratios["ap_per_agi_ranged"].get(class_id, 0)
+    elif agi_ap_mode == "melee":
+        ap += agi * ratios["ap_per_agi_melee"].get(class_id, 0)
+
+    sp = spec_bis.get("flat_sp", 0) + spec_bis.get("generic_spell_dmg", 0) + spec_bis.get("school_sp", {}).get(meta.get("school"), 0)
+
+    if meta.get("crit") == "spell":
+        base_crit = base_ch["base_spell_crit_pct"].get(class_id, 0)
+        stat_crit = int_ / ratios["spell_crit_pct_per_int"].get(class_id, 99999)
+        base_hit_pct = 97  # equal-level spell miss baseline, Wowhead Classic "Stats and Attributes" guide
+    else:
+        base_crit = base_ch["base_melee_crit_pct"].get(class_id, 0)
+        stat_crit = agi / ratios["crit_pct_per_agi"].get(class_id, 99999)
+        base_hit_pct = 95  # equal-level melee/ranged miss baseline, same source
+    crit_pct = base_crit + stat_crit + spec_bis.get("flat_crit_pct", 0)
+    hit_pct = base_hit_pct + spec_bis.get("flat_hit_pct", 0)
+
+    return {"ap": round(ap, 1), "sp": round(sp, 1), "hit": round(hit_pct / 100.0, 4), "crit": round(crit_pct / 100.0, 4)}
 
 
 def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):
@@ -670,7 +749,7 @@ def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):
     glossary = wow_spells.load_class(profile.get("glossary", cls_id))
     if not glossary:
         return None
-    stats = stats or DEFAULT_STATS
+    stats = stats or bis_stats_for_spec(cls_id) or DEFAULT_STATS
     total = 0.0
     dmg_by_total = {}
     for _ in range(iterations):
@@ -729,8 +808,11 @@ def build_ranking(wt_classes, lang, iterations=300, fight_len=300.0):
                     spec_name = s["name"][lang]
                     break
         role_entry = roles.get(class_id, {}).get(wt_spec_id, {})
+        bis_gear = _load_bis_data().get("specs", {}).get(spec_id, {})
         rows.append({
             "spec_id": spec_id,
+            "bis_gear": bis_gear,
+            "bis_final_stats": bis_stats_for_spec(spec_id),
             "class_id": class_id,
             "class_name": cls["name"][lang] if cls else class_id,
             "class_icon": cls.get("icon") if cls else None,
@@ -768,7 +850,7 @@ def main():
 
     results.sort(key=lambda r: r[2], reverse=True)
     max_dps = results[0][2] if results else 1.0
-    print(f"\nLevel 20 DPS ranking ({args.iterations} fights x {args.fight_len:.0f}s, illustrative stats: {DEFAULT_STATS})\n")
+    print(f"\nLevel 20 DPS ranking ({args.iterations} fights x {args.fight_len:.0f}s, real level-20 BiS gear per spec)\n")
     for spec_id, role, dps, breakdown in results:
         bar = "#" * max(1, round(40 * dps / max_dps))
         tag = f"[{role}]" if role != "dps" else ""
