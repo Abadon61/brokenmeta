@@ -596,7 +596,7 @@ UI = {
            "launch_line": "Lancement le 4 novembre 2026, 15 h (heure du Pacifique) — minuit à Paris",
            "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever", "beta_cta": "Accéder à la bêta",
            "cta_calc": "Calculateur de talents", "pick_class": "Choisir sa classe", "talents_n": "talents", "specs_word": "Spécialisations", "new_race": "Nouvelle race",
-           "ranking_h2": "Classement DPS niveau 20", "ranking_intro": "Chaque rotation mono-cible réellement disponible au niveau 20 (le plafond actuel de la bêta), simulée coup par coup à partir des vraies formules de dégâts du glossaire des sorts — pas une estimation à la main.",
+           "ranking_h2": "Classement DPS niveau 20", "ranking_intro": "Fonctionnalité en cours de développement. Chaque rotation mono-cible réellement disponible au niveau 20 (le plafond actuel de la bêta), simulée coup par coup à partir des vraies formules de dégâts du glossaire des sorts — pas une estimation à la main.",
            "ranking_note": "Toutes les spécialisations partagent les mêmes statistiques d'exemple (elles ne reflètent pas encore un vrai stuff niveau 20 optimisé), donc ce classement compare les rotations entre elles, pas encore \"le vrai\" meilleur DPS avec du vrai équipement. Les rôles Tank sont inclus pour comparaison mais ne sont pas construits pour le DPS.",
            "ranking_tank_tag": "Tank", "ranking_dps_unit": "DPS simulé"},
     "en": {"sources": "Sources", "sources_note": "Information checked on September 20, 2026. Points that only come from a community wiki or a single source are flagged in the text.",
@@ -604,7 +604,7 @@ UI = {
            "launch_line": "Launching November 4, 2026, 3:00 p.m. Pacific time — midnight in Paris",
            "breadcrumb_home": "Home", "section": "World of Warcraft: Forever", "beta_cta": "Get beta access",
            "cta_calc": "Talent calculator", "pick_class": "Pick a class", "talents_n": "talents", "specs_word": "Specializations", "new_race": "New race",
-           "ranking_h2": "Level 20 DPS ranking", "ranking_intro": "Every single-target rotation actually available at level 20 (the beta's current cap), simulated swing by swing from the spell glossary's real damage formulas — not a hand-waved estimate.",
+           "ranking_h2": "Level 20 DPS ranking", "ranking_intro": "Feature under active development. Every single-target rotation actually available at level 20 (the beta's current cap), simulated swing by swing from the spell glossary's real damage formulas — not a hand-waved estimate.",
            "ranking_note": "Every spec shares the same example stats (not yet real optimized level-20 gear), so this ranking compares rotations against each other, not \"the\" real best DPS with real gear yet. Tank roles are included for comparison but aren't built for damage.",
            "ranking_tank_tag": "Tank", "ranking_dps_unit": "Simulated DPS"},
 }
