@@ -403,6 +403,19 @@ ROTATIONS = {
             {"ability": "warrior_slam", "kind": "filler"},   # notes: "Slam right after an auto-attack"
         ],
     },
+    "warrior_protection": {
+        "glossary": "warrior", "resource": "rage", "role": "tank",
+        # Real, sourced finding: Protection's own single-target priority (Icy Veins) does NOT
+        # include Rend or Overpower at all (Overpower needs Battle Stance, which the guide says
+        # Protection only visits briefly to Charge in). The two abilities it DOES name -- Revenge
+        # (procs off the player successfully Block/Dodge/Parry-ing an incoming attack) and Sunder
+        # Armor (no direct-damage effect of its own) -- aren't simulable here: this engine has no
+        # incoming-damage/attack-table-against-the-player model, so a defensive proc can't fire.
+        # Left as auto-attack only with a smaller one-handed weapon (paired with a shield, no
+        # off-hand) -- an honestly low number, consistent with a tank not being built for damage.
+        "weapons": [{"dmg": 18, "speed": 2.6}],
+        "rotation": [],
+    },
     "rogue_combat": {
         "glossary": "rogue", "resource": "energy", "role": "dps",
         "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
