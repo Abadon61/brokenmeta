@@ -378,16 +378,33 @@ class Sim:
 # deliberately excluded (pets, wands, mana regen, utility buffs, extra talent sliders).
 
 ROTATIONS = {
-    "warrior": {
+    "warrior_fury": {
+        "glossary": "warrior",  # multiple specs can share one class glossary file
         "resource": "rage",
+        "role": "dps",
         "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
         "rotation": [
             {"ability": "warrior_overpower", "kind": "dodge_proc"},       # notes: "usable for a few seconds after the CURRENT target dodges"
             {"ability": "warrior_rend", "kind": "maintain_dot"},          # notes: real bleed, "Periodic Can Crit"
         ],
     },
-    "rogue": {
-        "resource": "energy",
+    "warrior_arms": {
+        "glossary": "warrior",
+        "resource": "rage",
+        "role": "dps",
+        # Real, sourced finding: Icy Veins' Arms guide spends its 11 points identically to Fury
+        # (all in the Fury tree -- Arms' own deeper talents aren't reachable at level 20). The
+        # two real differences are the weapon (Arms uses one two-handed weapon, no off-hand) and
+        # Slam, which only Arms' own rotation text includes (see warrior_slam's notes).
+        "weapons": [{"dmg": 42, "speed": 3.3}],
+        "rotation": [
+            {"ability": "warrior_overpower", "kind": "dodge_proc"},
+            {"ability": "warrior_rend", "kind": "maintain_dot"},
+            {"ability": "warrior_slam", "kind": "filler"},   # notes: "Slam right after an auto-attack"
+        ],
+    },
+    "rogue_combat": {
+        "glossary": "rogue", "resource": "energy", "role": "dps",
         "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
         "rotation": [
             {"ability": "rogue_eviscerate", "kind": "finisher_damage"},     # dumped at 5 combo points
@@ -396,8 +413,8 @@ ROTATIONS = {
             {"ability": "rogue_sinister_strike", "kind": "builder"},
         ],
     },
-    "paladin": {
-        "resource": "mana",
+    "paladin_retribution": {
+        "glossary": "paladin", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 30, "speed": 2.9}],
         "seal_ability": "paladin_seal_of_righteousness",
         "rotation": [
@@ -406,15 +423,15 @@ ROTATIONS = {
             {"ability": "paladin_judgement", "kind": "judgement_release"},
         ],
     },
-    "shaman": {
-        "resource": "mana",
+    "shaman_enhancement": {
+        "glossary": "shaman", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 28, "speed": 2.6}],
         "rotation": [
             {"ability": "shaman_earth_shock", "kind": "on_cooldown"},  # the only rotational damage spell this glossary sources
         ],
     },
-    "mage": {
-        "resource": "mana",
+    "mage_fire": {
+        "glossary": "mage", "resource": "mana", "role": "dps",
         "weapons": [],
         "rotation": [
             {"ability": "mage_pyroblast", "kind": "once"},        # notes: "Single-Target Rotation opener"
@@ -422,8 +439,8 @@ ROTATIONS = {
             {"ability": "mage_fireball", "kind": "filler"},
         ],
     },
-    "priest": {
-        "resource": "mana",
+    "priest_shadow": {
+        "glossary": "priest", "resource": "mana", "role": "dps",
         "weapons": [],
         "rotation": [
             {"ability": "priest_mind_blast", "kind": "on_cooldown"},          # notes: cast right after the opener, before SW:P
@@ -431,24 +448,24 @@ ROTATIONS = {
             {"ability": "priest_smite", "kind": "filler"},                    # real Holy-school opener/filler at level 20
         ],
     },
-    "druid": {
-        "resource": "mana",
+    "druid_balance": {
+        "glossary": "druid", "resource": "mana", "role": "dps",
         "weapons": [],
         "rotation": [
             {"ability": "druid_moonfire", "kind": "maintain_dot"},  # notes: "keep this active on the target at all times, ahead of Wrath"
             {"ability": "druid_wrath", "kind": "filler"},
         ],
     },
-    "warlock": {
-        "resource": "mana",
+    "warlock_affliction": {
+        "glossary": "warlock", "resource": "mana", "role": "dps",
         "weapons": [],
         "rotation": [
             {"ability": "warlock_immolate", "kind": "maintain_dot"},   # notes: "the first DoT applied, before Corruption"
             {"ability": "warlock_corruption", "kind": "maintain_dot"},
         ],
     },
-    "hunter": {
-        "resource": "mana",
+    "hunter_marksmanship": {
+        "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [],  # Auto Shot itself isn't sourced (see the docstring) -- excluded, not zeroed by accident
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},  # notes: "cast once the pet has engaged, before Aimed Shot"
@@ -466,9 +483,11 @@ DEFAULT_STATS = {"ap": 150, "sp": 90, "hit": 0.90, "crit": 0.15}
 
 
 def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):
-    glossary = wow_spells.load_class(cls_id)
     profile = ROTATIONS.get(cls_id)
-    if not glossary or not profile:
+    if not profile:
+        return None
+    glossary = wow_spells.load_class(profile.get("glossary", cls_id))
+    if not glossary:
         return None
     stats = stats or DEFAULT_STATS
     total = 0.0
@@ -488,27 +507,29 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--iterations", type=int, default=300)
     parser.add_argument("--fight-len", type=float, default=300.0)
-    parser.add_argument("--class", dest="cls", default=None, help="Run one class only (e.g. warrior)")
+    parser.add_argument("--class", dest="cls", default=None, help="Run one spec only (e.g. warrior_fury)")
     args = parser.parse_args()
 
-    classes = [args.cls] if args.cls else list(ROTATIONS.keys())
+    specs = [args.cls] if args.cls else list(ROTATIONS.keys())
     results = []
-    for cls_id in classes:
-        r = run_class(cls_id, args.iterations, args.fight_len)
+    for spec_id in specs:
+        r = run_class(spec_id, args.iterations, args.fight_len)
         if r is None:
-            print(f"{cls_id}: no glossary/rotation profile found, skipped")
+            print(f"{spec_id}: no glossary/rotation profile found, skipped")
             continue
         dps, breakdown = r
-        results.append((cls_id, dps, breakdown))
+        role = ROTATIONS[spec_id].get("role", "dps")
+        results.append((spec_id, role, dps, breakdown))
 
-    results.sort(key=lambda r: r[1], reverse=True)
-    max_dps = results[0][1] if results else 1.0
+    results.sort(key=lambda r: r[2], reverse=True)
+    max_dps = results[0][2] if results else 1.0
     print(f"\nLevel 20 DPS ranking ({args.iterations} fights x {args.fight_len:.0f}s, illustrative stats: {DEFAULT_STATS})\n")
-    for cls_id, dps, breakdown in results:
+    for spec_id, role, dps, breakdown in results:
         bar = "#" * max(1, round(40 * dps / max_dps))
-        print(f"{cls_id:10s} {dps:6.2f} DPS  {bar}")
+        tag = f"[{role}]" if role != "dps" else ""
+        print(f"{spec_id:22s} {tag:6s} {dps:6.2f} DPS  {bar}")
         for src, src_dps in sorted(breakdown.items(), key=lambda kv: -kv[1]):
-            print(f"           {src:28s} {src_dps:6.2f} ({100*src_dps/dps:4.1f}%)")
+            print(f"                              {src:28s} {src_dps:6.2f} ({100*src_dps/dps:4.1f}%)")
         print()
 
 
