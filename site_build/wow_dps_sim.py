@@ -461,6 +461,19 @@ ROTATIONS = {
             {"ability": "paladin_judgement", "kind": "judgement_release"},
         ],
     },
+    "paladin_protection": {
+        "glossary": "paladin", "resource": "mana", "role": "tank",
+        # Real, sourced priority: Consecration on cooldown > Seal of Fury > Judgement (taunts,
+        # no own damage) > Holy Strike. Seal of Fury's own real damage numbers weren't found this
+        # pass (see paladin.json's gaps), so it's omitted rather than invented -- Judgement then
+        # has nothing to release and contributes no simulated damage, same as any spec with no
+        # damage-dealing Seal active. Single one-handed weapon + shield, no off-hand.
+        "weapons": [{"dmg": 18, "speed": 2.6}],
+        "rotation": [
+            {"ability": "paladin_consecration", "kind": "maintain_dot"},
+            {"ability": "paladin_holy_strike", "kind": "on_cooldown"},
+        ],
+    },
     "shaman_enhancement": {
         "glossary": "shaman", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 28, "speed": 2.6}],
