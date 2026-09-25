@@ -477,6 +477,24 @@ ROTATIONS = {
             {"ability": "mage_fireball", "kind": "filler"},
         ],
     },
+    # Real, sourced finding: neither Arcane's nor Frost's own headline level-20 rotation is
+    # actually usable at level 20 (Missile Barrage needs level 24; Ice Lance needs level 28
+    # despite the guide's own talents already investing toward it) -- see mage.json's gaps.
+    # Both specs' real castable kit reduces to Frostbolt (a shared base spell, not tree-locked).
+    "mage_arcane": {
+        "glossary": "mage", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "mage_frostbolt", "kind": "filler"},
+        ],
+    },
+    "mage_frost": {
+        "glossary": "mage", "resource": "mana", "role": "dps",
+        "weapons": [],
+        "rotation": [
+            {"ability": "mage_frostbolt", "kind": "filler"},
+        ],
+    },
     "priest_shadow": {
         "glossary": "priest", "resource": "mana", "role": "dps",
         "weapons": [],

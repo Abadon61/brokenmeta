@@ -5,10 +5,11 @@
   "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file is a schema-validation pass on a second class (Fire spec), not yet a complete glossary the way Warrior's is.",
   "gaps": [
     "Only the Fire tree's single-target rotation pieces are covered (Fireball, Fire Blast, Pyroblast, Wake of Fire, Ignite, Improved Fireball). Utility/defensive/AoE spells named in Icy Veins' guide (Frostbolt, Polymorph, Counterspell, Frost Nova, Blast Wave, Arcane Explosion, Flamestrike, Scorch, Improved Scorch, armors, wards) are not looked up.",
-    "\"talents.arcane\" and \"talents.frost\" are empty placeholders -- the real level-20 build spends 0 points in either, but a Fire Mage could in principle spend leftover points there at a higher level.",
     "Frostfire Bolt (replaces Fireball at level 40) not looked up -- out of scope for a level-20 model anyway.",
     "Wand damage: Icy Veins repeatedly says wand damage is very strong at low levels and should be used over spells when mana-inefficient -- not sourced, and not modeled by anything in this project yet.",
-    "No real armor-mitigation-equivalent needed here (casters ignore armor), but spell resistance / partial resists on Fire damage against resistant targets isn't sourced either."
+    "No real armor-mitigation-equivalent needed here (casters ignore armor), but spell resistance / partial resists on Fire damage against resistant targets isn't sourced either.",
+    "Real, sourced finding (2026-09-25): Arcane and Frost's own level-20 guides both describe a rotation that ISN'T actually usable yet at the beta's level-20 cap. Arcane's whole single-target priority depends on Missile Barrage, which its own guide text says \"will only be available from Level 24 on\" -- mentioned early so players learn the concept, not because it's usable at 20. Frost's headline single-target spell, Ice Lance (wowhead_spell_id 400640), requires character level 28 (confirmed on its own tooltip) despite the guide already investing all 11 points toward it (Frostbite/Ice Shards exist specifically to buff it) -- the level-20 payoff is entirely in Frostbolt's chill uptime and future-proofing, not a distinct level-20 nuke. Both specs' real, actually-castable level-20 damage kit therefore reduces to Frostbolt (shared with every Mage spec, not Fire-tree-exclusive) plus unsourced wand damage -- a real limitation of the level-20 cap, not a gap in this research pass.",
+    "Frostbolt (below) uses Rank 3's real tooltip (Requires level 14, confirmed via Wowhead's own trainer list). Community rank-ladder data (wow-forever.gg) confirms a Rank 4 exists at exactly the level-20 cap, but its own individual tooltip wasn't re-fetched this pass -- Rank 3's real, sourced values are used as a close, disclosed approximation rather than guessing Rank 4's numbers."
   ],
   "abilities": [
     {
@@ -79,6 +80,28 @@
         { "kind": "direct_damage", "dmg_range": [101, 131] },
         { "kind": "periodic_damage", "total_damage": 44, "duration_sec": 12, "tick_interval_sec": 3, "damage_per_tick": 12, "sp_coeff": 0.15, "can_crit": true }
       ]
+    },
+    {
+      "id": "mage_frostbolt",
+      "wowhead_spell_id": 837,
+      "name": { "en": "Frostbolt", "fr": null },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": "at least 4 (a Rank 4 exists at the level-20 cap per community rank-ladder data, not individually re-verified -- see gaps)",
+      "min_level": 14,
+      "resource_cost": { "mana": 50 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "2.2 sec",
+      "school": "frost",
+      "mechanic": "slowed",
+      "flags": ["dispel_type_magic"],
+      "notes": "A base Mage spell available to every spec, not Fire/Frost/Arcane-tree-exclusive -- both the Arcane and Frost level-20 guides name it as their real castable filler. Also applies a 6-sec, 39% movement-slow debuff (not modeled as damage). Real Rank 4 is the level-20 cap (wow-forever.gg's rank ladder); Rank 3's own confirmed tooltip (Requires level 14) is used here as a disclosed close approximation -- see gaps.",
+      "source_url": "https://www.wowhead.com/forever/spell=837/frostbolt",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [47, 52], "sp_coeff": 0.597 }
+      ]
     }
   ],
   "talents": {
@@ -101,7 +124,17 @@
       { "id": "mage_fire_power", "wowhead_talent_id": "n105782", "name": { "en": "Fire Power", "fr": "Empreinte du feu" }, "row": 6, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Not reachable at 11 points -- not looked up in this pass." },
       { "id": "mage_combustion", "wowhead_talent_id": "n105781", "name": { "en": "Combustion", "fr": "Combustion" }, "row": 7, "col": 2, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Named as Fire's one real damage cooldown in the guide's flavor text, but not reachable at 11 points -- not looked up in this pass." }
     ],
-    "arcane": [],
-    "frost": []
+    "arcane": [
+      { "id": "mage_wand_specialization", "wowhead_talent_id": "n105815", "name": { "en": "Wand Specialization", "fr": null }, "row": 1, "col": 1, "max_rank_total": 2, "effect_per_rank": "Increases wand damage per rank (exact amount not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2 -- taken first, since wand damage is real but unsourced here (see gaps)." },
+      { "id": "mage_arcane_focus", "wowhead_talent_id": "n105814", "name": { "en": "Arcane Focus", "fr": null }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": "+2%/rank hit chance with Arcane spells (per Icy Veins' text)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/5." },
+      { "id": "mage_arcane_subtlety", "wowhead_talent_id": "n105812", "name": { "en": "Arcane Subtlety", "fr": null }, "row": 2, "col": 1, "max_rank_total": 2, "effect_per_rank": "-15%/rank threat from Arcane spells; -7.5 target spell resistance per rank (\"Spell Penetration\")", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2 -- taken for the spell-resistance reduction, per Icy Veins' own text." },
+      { "id": "mage_arcane_concentration", "wowhead_talent_id": "n105810", "name": { "en": "Arcane Concentration", "fr": null }, "row": 2, "col": 3, "max_rank_total": 5, "effect_per_rank": "Chance per rank for a spell cast to not consume a reagent/be free (per Icy Veins' text; exact mechanic not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/5 -- a Mana-sustain talent, not a direct damage one, per Icy Veins' own framing." },
+      { "id": "mage_arcane_blast", "wowhead_talent_id": "n105806", "name": { "en": "Arcane Blast", "fr": null }, "row": 3, "col": 4, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1 (the last point). Grants the Arcane Blast ability itself, but its real synergy (Missile Barrage) requires level 24 -- see the class-level gaps note. Not sourced as its own ability entry this pass." }
+    ],
+    "frost": [
+      { "id": "mage_elemental_precision", "wowhead_talent_id": "n105778", "name": { "en": "Elemental Precision", "fr": null }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": "+2%/rank hit chance with Frost/Fire/Arcane spells (per Icy Veins' text)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 -- taken first (\"any missed spell will greatly reduce your DPS\", per Icy Veins)." },
+      { "id": "mage_frostbite", "wowhead_talent_id": "n105774", "name": { "en": "Frostbite", "fr": null }, "row": 2, "col": 4, "max_rank_total": 3, "effect_per_rank": "Chance per rank for Frost damage to Freeze the target briefly (per Icy Veins' text; exact chance not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3 -- sets up Ice Lance's frozen-target bonus, though Ice Lance itself isn't reachable until level 28 (see the class-level gaps note)." },
+      { "id": "mage_ice_shards", "wowhead_talent_id": "n105777", "name": { "en": "Ice Shards", "fr": null }, "row": 2, "col": 1, "max_rank_total": 5, "effect_per_rank": "+ critical strike damage bonus on Frost spells per rank (per Icy Veins' text; exact amount not looked up)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/5 (the exact split against Elemental Precision/Frostbite in the source's own point-by-point prose was ambiguous; 5+3+3=11 is the only combination matching both the confirmed named talents and the real 11-point total)." }
+    ]
   }
 }
