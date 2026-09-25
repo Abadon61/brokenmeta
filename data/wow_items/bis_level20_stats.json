@@ -10,6 +10,14 @@
     "dual_wield_hit_penalty_pct": 19,
     "note": "ap_per_agi_melee only applies to Feral (Cat Form) Druid, Hunter and Rogue -- other classes get 0 melee AP from Agility (Warrior/Paladin/Shaman get ranged AP from Agi instead, not modeled here since none of their DPS specs are ranged)."
   },
+  "base_crit_hit": {
+    "_source": "UNVERIFIED against a primary citation -- user-supplied from a Gemini/AI conversation, not from a cited Wowhead/Blizzard/Elitist-Jerks page I could open myself. Partially cross-validated: the Agi-per-crit and Int-per-crit RATIOS quoted alongside these base values (29 Agi/Rogue, 53 Agi/Hunter, 20 Agi/others, 59.5-60.6 Int/casters) exactly match the independently-verified conversion_ratios above, which gives some confidence, but the flat base %% values themselves are not independently confirmed.",
+    "base_hit_pct": 0,
+    "base_hit_note": "0%% base Hit for every class, no exceptions -- Hit is purely additive from gear/talents/skills, nothing innate.",
+    "base_melee_crit_pct": {"hunter": 0, "rogue": 0, "warrior": 0, "paladin": 0, "shaman": 0, "druid": 0.96, "priest": 0, "mage": 0, "warlock": 0},
+    "base_spell_crit_pct": {"mage": 0.91, "warlock": 1.701, "priest": 1.24, "paladin": 0, "shaman": 2.20, "druid": 1.85},
+    "note": "Rogue/Hunter/Warrior/Paladin/Shaman start at exactly 0%% melee crit with no Agility -- all of their crit comes from the Agi pool. Druid has a small 0.96%% innate melee crit floor. Spell crit bases vary 0-2.2%% by class before Intellect is added."
+  },
   "specs": {
     "warrior_fury": {"foreverchanges_url": "/fr/bis/warrior", "race": "Human", "gear_delta_only": false, "stats": {"str": 160, "agi": 50, "sta": 94, "int": 35, "spirit": 30}, "flat_ap": 34, "flat_sp": 4, "hp": 959, "armor": 1146, "note": "Shared list with Arms per Icy Veins; site's weapon pick is a 2H (matches Arms more than Fury dual-wield -- Fury would want 2 one-handers instead, not separately sourced)"},
     "warrior_arms": {"foreverchanges_url": "/fr/bis/warrior", "race": "Human", "gear_delta_only": false, "stats": {"str": 160, "agi": 50, "sta": 94, "int": 35, "spirit": 30}, "flat_ap": 34, "flat_sp": 4, "hp": 959, "armor": 1146},
