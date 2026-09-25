@@ -64,7 +64,36 @@
 <ul class="gd-list">{% for pr in content.professions %}<li>{{ pr[lang] }}</li>{% endfor %}</ul>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.gear_h2 }}</h2>
+{% if bis_gear %}
+<p class="page-intro" style="margin-top:0">{{ tx.gear_bis_p }}</p>
+<div class="wg-gear-grid">
+  {% for it in bis_gear %}
+  <div class="wg-gear-item">
+    {% if it.icon %}<img class="wg-gear-icon" src="{{ it.icon }}" alt="" width="48" height="48" loading="lazy">{% endif %}
+    <div class="wg-gear-body">
+      <span class="wg-gear-slot">{{ tx.slot_labels[it.slot] }}</span>
+      <b>{{ it.name }}</b>
+      {% if it.stat %}<span class="wg-gear-stat">{{ it.stat }}</span>{% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% if bis_stats %}
+<h3 class="wg-gear-stats-h3">{{ tx.gear_bis_stats_h3 }}</h3>
+<dl class="wow-facts">
+  {% for k, label in (('str','Force'),('agi','Agilité'),('sta','Endurance'),('int','Intelligence'),('spirit','Esprit')) %}
+  {% if bis_stats.stats[k] %}<div><dt>{{ label }}</dt><dd class="nums">{{ bis_stats.stats[k] }}</dd></div>{% endif %}
+  {% endfor %}
+  {% if bis_stats.flat_ap %}<div><dt>AP</dt><dd class="nums">+{{ bis_stats.flat_ap }}</dd></div>{% endif %}
+  {% if bis_stats.flat_sp %}<div><dt>SP</dt><dd class="nums">+{{ bis_stats.flat_sp }}</dd></div>{% endif %}
+  {% if bis_stats.hp %}<div><dt>PV</dt><dd class="nums">{{ bis_stats.hp }}</dd></div>{% endif %}
+  {% if bis_stats.armor %}<div><dt>Armure</dt><dd class="nums">{{ bis_stats.armor }}</dd></div>{% endif %}
+</dl>
+{% endif %}
+<p class="wow-note">{{ tx.gear_bis_note }} <a href="{{ bis_credit_url }}" rel="noopener nofollow" target="_blank">ForeverChanges.pro</a>.</p>
+{% else %}
 <p class="wow-note">{{ tx.gear_p }}</p>
+{% endif %}
 <p class="wow-note">{{ tx.updated.format(date=content.updated) }}</p>
 {% endif %}
 

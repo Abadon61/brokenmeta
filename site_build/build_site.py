@@ -7270,6 +7270,18 @@ def main() -> None:
         # formulas): computed once per language since spec/class names are localized, sits at the
         # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
         _wow_ranking = wow_dps_sim.build_ranking(wt_classes, lang, iterations=200, fight_len=300.0) if wt_classes else []
+        # Per-slot BIS gear (data/wow_items/bis_gear_by_slot.json) keyed by our own ROTATIONS spec
+        # id -- build a (class_id, wt_spec_id) -> that key lookup so each spec's own guide page can
+        # show exactly the gear its DPS ranking number assumes. Healer specs (not in ROTATIONS)
+        # simply have no entry, so their guide page renders without a gear section.
+        _bis_gear_data = json.loads((wow_spells.ROOT / "data" / "wow_items" / "bis_gear_by_slot.json").read_text(encoding="utf-8"))
+        _bis_stats_data = json.loads((wow_spells.ROOT / "data" / "wow_items" / "bis_level20_stats.json").read_text(encoding="utf-8"))
+        _bis_lookup = {}
+        for _bspec_id, _bprofile in wow_dps_sim.ROTATIONS.items():
+            _bclass_id = _bprofile.get("glossary", _bspec_id)
+            _bwt_spec_id = wow_dps_sim.SPEC_ID_MAP.get(_bspec_id)
+            if _bwt_spec_id:
+                _bis_lookup[(_bclass_id, _bwt_spec_id)] = _bspec_id
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
@@ -7380,9 +7392,13 @@ def main() -> None:
                     assert len(_st) <= 60 and len(_sd) <= 155, (_st, len(_st), len(_sd))
                     _sh1 = _gx["spec_h1"].format(cls=_cn, spec=_sn)
                     _si = _gx["spec_intro"].format(cls=_cn, spec=_sn, role=_role["role"][lang], build=_cls["meta"]["build"])
+                    _bspec_id = _bis_lookup.get((_cls["id"], _s["id"]))
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
+                           bis_gear=(_bis_gear_data["specs"].get(_bspec_id) if _bspec_id else None),
+                           bis_credit_url=_bis_gear_data["credit_url_by_class"].get(_cls["id"]),
+                           bis_stats=(_bis_stats_data["specs"].get(_bspec_id) if _bspec_id else None),
                            breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
             if wow_dungeons:
