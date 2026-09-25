@@ -468,6 +468,18 @@ ROTATIONS = {
             {"ability": "shaman_earth_shock", "kind": "on_cooldown"},  # the only rotational damage spell this glossary sources
         ],
     },
+    "shaman_elemental": {
+        "glossary": "shaman", "resource": "mana", "role": "dps",
+        # Real, sourced finding: Elemental's own headline talents (Lava Burst, Elemental
+        # Alacrity) aren't reachable at level 20 -- the guide calls them "a preview of sorts for
+        # what is to come." The real usable rotation is just Lightning Bolt + maintained Flame
+        # Shock. Pure caster, no auto-attack weapon.
+        "weapons": [],
+        "rotation": [
+            {"ability": "shaman_flame_shock", "kind": "maintain_dot"},  # notes: applied right after the Lightning Bolt pull
+            {"ability": "shaman_lightning_bolt", "kind": "filler"},
+        ],
+    },
     "mage_fire": {
         "glossary": "mage", "resource": "mana", "role": "dps",
         "weapons": [],
