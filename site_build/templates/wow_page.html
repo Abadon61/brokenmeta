@@ -41,7 +41,7 @@
 <div class="wow-rank-list">
   {% set max_dps = wow_ranking[0].dps %}
   {% for r in wow_ranking %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}">
+  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
     {% if r.class_icon %}<img class="wow-rank-icon" src="{{ r.class_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b>{% if r.role == 'tank' %}<span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span>{% endif %}</span>
