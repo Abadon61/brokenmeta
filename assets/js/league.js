@@ -175,7 +175,7 @@
     if (bmChartsState) return;
     bmChartsState = 1;
     var sc = document.createElement('script');
-    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=82e101f1fb';
+    sc.src = (window.BM_ROOT || '/') + 'assets/js/bm-charts.js?v=793f012451';
     sc.async = true;
     document.head.appendChild(sc);
   }

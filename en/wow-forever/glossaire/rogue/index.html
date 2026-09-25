@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever Rogue spell glossary">
 <meta name="twitter:description" content="Real Rogue spell costs, damage and cooldowns in WoW: Forever, sourced from Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=82e101f1fb">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=82e101f1fb">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=793f012451">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=793f012451">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=82e101f1fb">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=793f012451">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -387,6 +387,34 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </tr></thead>
   <tbody>
   <tr>
+    <td data-first><b>Remorseless Attacks</b></td>
+    <td>Assassination</td>
+    <td class="nums">2</td>
+    <td>+50%/rank critical strike chance to your next Sinister Strike/Mutilate/Backstab/Ambush/Ghostly Strike after killing an enemy that yields honor/experience</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Malice</b></td>
+    <td>Assassination</td>
+    <td class="nums">5</td>
+    <td>+1% critical strike chance per rank</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Ruthlessness</b></td>
+    <td>Assassination</td>
+    <td class="nums">3</td>
+    <td>+20%/rank chance for a finishing move to add an extra combo point on the target</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Relentless Strikes</b></td>
+    <td>Assassination</td>
+    <td class="nums">1</td>
+    <td>Finishing moves have a chance to restore Energy (per point spent, per Icy Veins&#39; text; exact chance not looked up)</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
     <td data-first><b>Improved Eviscerate</b></td>
     <td>Combat</td>
     <td class="nums">3</td>
@@ -504,6 +532,41 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <td class="nums">1</td>
     <td>—</td>
     <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Camouflage</b></td>
+    <td>Subtlety</td>
+    <td class="nums">5</td>
+    <td>Reduced Stealth detection range and increased movement speed while stealthed, per rank</td>
+    <td>No</td>
+  </tr>
+  <tr>
+    <td data-first><b>Opportunity</b></td>
+    <td>Subtlety</td>
+    <td class="nums">2</td>
+    <td>+ Ambush/Backstab damage per rank (exact amount not looked up)</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Setup</b></td>
+    <td>Subtlety</td>
+    <td class="nums">3</td>
+    <td>Chance per rank to gain a combo point when one of your attacks is Dodged (per Icy Veins&#39; text: &#34;extra Combo Points... especially during Evasion&#34;)</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Improved Ambush</b></td>
+    <td>Subtlety</td>
+    <td class="nums">3</td>
+    <td>+ Ambush damage per rank (exact amount not looked up)</td>
+    <td>Yes</td>
+  </tr>
+  <tr>
+    <td data-first><b>Ghostly Strike</b></td>
+    <td>Subtlety</td>
+    <td class="nums">1</td>
+    <td>—</td>
+    <td>Yes</td>
   </tr></tbody>
 </table></div>
 
@@ -511,7 +574,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">What&#39;s still missing</h2>
 <p class="page-intro" style="margin-top:0">This class isn&#39;t complete yet: here&#39;s precisely what hasn&#39;t been sourced yet, rather than leaving it silent.</p>
-<ul class="gd-list"><li>Only the Combat single-target rotation pieces are covered (Sinister Strike, Backstab, Eviscerate, Slice and Dice). Ambush (stealth opener), Instant Poison (weapon buff named in the real rotation), Gouge, Kick, Sprint, and all Assassination/Subtlety trees are not looked up.</li><li>French names for Backstab, Eviscerate and Slice and Dice were NOT found from a reliable source this pass (only Sinister Strike&#39;s real FR name, &#34;Attaque pernicieuse&#34;, is confirmed, via data/wow_talents/rogue.json&#39;s own Improved Sinister Strike entry) -- left in English with a note rather than guessed.</li><li>Eviscerate&#39;s Attack-Power scaling coefficient: the tooltip states the ability&#39;s damage &#34;increased by Attack Power&#34; but the exact coefficient wasn&#39;t visible in the effect breakdown captured this pass (unlike e.g. Mage spells, which show an explicit &#34;SP mod: X&#34;).</li><li>&#34;talents.assassination&#34; and &#34;talents.subtlety&#34; are empty placeholders -- the real level-20 Combat build spends 0 points in either.</li><li>Combat&#39;s own Dual Wield Specialization (n105740, Combat tree) wasn&#39;t cross-checked against Warrior&#39;s for whether Rogue&#39;s version has the same real values -- don&#39;t assume they match.</li></ul>
+<ul class="gd-list"><li>Only the Combat single-target rotation pieces are covered (Sinister Strike, Backstab, Eviscerate, Slice and Dice). Ambush (stealth opener), Instant Poison (weapon buff named in the real rotation), Gouge, Kick, Sprint, and all Assassination/Subtlety trees are not looked up.</li><li>French names for Backstab, Eviscerate and Slice and Dice were NOT found from a reliable source this pass (only Sinister Strike&#39;s real FR name, &#34;Attaque pernicieuse&#34;, is confirmed, via data/wow_talents/rogue.json&#39;s own Improved Sinister Strike entry) -- left in English with a note rather than guessed.</li><li>Eviscerate&#39;s Attack-Power scaling coefficient: the tooltip states the ability&#39;s damage &#34;increased by Attack Power&#34; but the exact coefficient wasn&#39;t visible in the effect breakdown captured this pass (unlike e.g. Mage spells, which show an explicit &#34;SP mod: X&#34;).</li><li>Combat&#39;s own Dual Wield Specialization (n105740, Combat tree) wasn&#39;t cross-checked against Warrior&#39;s for whether Rogue&#39;s version has the same real values -- don&#39;t assume they match.</li><li>Real, sourced finding (2026-09-25): Assassination and Subtlety&#39;s own level-20 guides describe the SAME sustained single-target core rotation as Combat -- build combo points with Backstab (behind target) or Sinister Strike, spend at 5 combo points on Eviscerate or Slice and Dice. Each spec&#39;s real differences are its talents (now catalogued below), a one-time stealth opener (Ambush, Subtlety/Assassination), and poisons (Instant Poison, all three specs -- still unsourced). None of those are modeled by this project&#39;s simulator yet, so all three specs currently produce the same simulated number: a real, disclosed limitation, not a mistake. Ghostly Strike (Subtlety&#39;s own granted ability, a non-positional Backstab alternative) is real but its own cost/cooldown/damage aren&#39;t sourced yet.</li></ul>
 
 
 <p class="wow-note">See also: the DPS simulator and character optimizer use this same data.</p>
@@ -563,10 +626,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=82e101f1fb" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=82e101f1fb" defer></script>
-<script src="../../../../assets/js/site-search.js?v=82e101f1fb" defer></script>
-<script src="../../../../assets/js/favorites.js?v=82e101f1fb" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=793f012451" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=793f012451" defer></script>
+<script src="../../../../assets/js/site-search.js?v=793f012451" defer></script>
+<script src="../../../../assets/js/favorites.js?v=793f012451" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
