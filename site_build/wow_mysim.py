@@ -114,16 +114,21 @@ def character_stats(data, spec_id):
     return stats, weapons, warnings
 
 
-def run(spec_id, stats, weapons, iterations, fight_len):
+def sim_level(data):
+    """The character's level, clamped to what the simulator supports (spell ranks 1-60)."""
+    return max(1, min(sim.MAX_LEVEL, int(num(data, "level", SIM_LEVEL))))
+
+
+def run(spec_id, stats, weapons, iterations, fight_len, level=SIM_LEVEL):
     """Seeded fights (seed = fight index) so two runs compare the same luck, not noise."""
     profile = copy.deepcopy(sim.ROTATIONS[spec_id])
     if weapons is not None:
         profile["weapons"] = weapons
-    glossary = sim.wow_spells.load_class(profile.get("glossary", spec_id))
+    glossary = sim.load_glossary(profile.get("glossary", spec_id), level)
     total, by = 0.0, {}
     for i in range(iterations):
         random.seed(i)
-        dmg, dmg_by = sim.Sim(spec_id, profile, glossary, stats, fight_len).run()
+        dmg, dmg_by = sim.Sim(spec_id, profile, glossary, stats, fight_len, level).run()
         total += dmg
         for k, v in dmg_by.items():
             by[k] = by.get(k, 0.0) + v
@@ -149,16 +154,18 @@ def simulate(text, spec_id=None, lang="fr", iterations=300, fight_len=300.0):
         if spec_id not in specs:
             spec_id = specs[0]
         stats, weapons, warnings = character_stats(data, spec_id)
-        glossary = sim.wow_spells.load_class(sim.ROTATIONS[spec_id].get("glossary", spec_id))
-        dps, by = run(spec_id, stats, weapons, iterations, fight_len)
+        level = sim_level(data)
+        glossary = sim.load_glossary(sim.ROTATIONS[spec_id].get("glossary", spec_id), level)
+        dps, by = run(spec_id, stats, weapons, iterations, fight_len, level)
+        # The BiS reference is a level-20 gear set: only compared at level 20.
         bis_stats = sim.bis_stats_for_spec(spec_id) or sim.DEFAULT_STATS
-        bis_dps, _ = run(spec_id, bis_stats, None, iterations, fight_len)
+        bis_dps = run(spec_id, bis_stats, None, iterations, fight_len)[0] if level == SIM_LEVEL else None
         breakdown = sorted(({"name": label(glossary, k, lang), "dps": round(v, 2)} for k, v in by.items() if v > 0),
                            key=lambda r: -r["dps"])
         return json.dumps({
             "ok": True, "spec": spec_id, "specs": specs, "role": sim.ROTATIONS[spec_id].get("role", "dps"),
             "addon": data.get("addon", ""), "class": data["class"], "level": int(num(data, "level", SIM_LEVEL)), "race": data.get("race", ""),
-            "dps": round(dps, 2), "bis_dps": round(bis_dps, 2), "breakdown": breakdown,
+            "dps": round(dps, 2), "bis_dps": round(bis_dps, 2) if bis_dps is not None else None, "breakdown": breakdown,
             "stats": stats, "bis_stats": bis_stats, "weapons": weapons,
             "bis_weapons": sim.ROTATIONS[spec_id].get("weapons", []),
             "warnings": warnings, "iterations": iterations, "fight_len": fight_len,
@@ -305,11 +312,11 @@ def personal(text, spec_id=None, lang="fr", progress=None, iterations=300, fight
         if spec_id not in specs:
             spec_id = specs[0]
         stats, weapons, warnings = character_stats(data, spec_id)
-        dps, w = wow_weights.stat_weights(spec_id, stats, weapons or None, iterations, fight_len, progress)
+        dps, w = wow_weights.stat_weights(spec_id, stats, weapons or None, iterations, fight_len, progress, sim_level(data))
         gear, has_worn = top_gear(data, spec_id, w, lang)
         meta = sim.SPEC_STAT_PROFILE.get(spec_id, {})
         return json.dumps({
-            "ok": True, "spec": spec_id, "weights": w, "dps": round(dps, 2), "warnings": warnings,
+            "ok": True, "spec": spec_id, "level": sim_level(data), "weights": w, "dps": round(dps, 2), "warnings": warnings,
             "caster": meta.get("crit") == "spell", "ranged": meta.get("agi_ap") == "ranged",
             "top": gear, "has_worn_stats": has_worn, "iterations": iterations, "fight_len": fight_len,
         })

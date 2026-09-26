@@ -5009,7 +5009,8 @@ def wowsim_manifest():
     files = [ROOT / "wow_mysim.py", ROOT / "wow_dps_sim.py", ROOT / "wow_spells.py", ROOT / "wow_weights.py",
              PROJECT / "data" / "wow_dungeons" / "dungeons.json", PROJECT / "data" / "wow_items" / "proficiency.json",
              PROJECT / "data" / "wow_items" / "bis_level20_stats.json",
-             *sorted((PROJECT / "data" / "wow_spells").glob("*.json"))]
+             *sorted((PROJECT / "data" / "wow_spells").glob("*.json")),
+             *sorted((PROJECT / "data" / "wow_spells_ranks").glob("*.json"))]
     body = json.dumps({"files": [{"path": f.relative_to(PROJECT).as_posix(),
                                   "hash": hashlib.sha256(f.read_bytes()).hexdigest()[:10]} for f in files]},
                       separators=(",", ":"))

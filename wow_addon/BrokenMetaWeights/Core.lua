@@ -11,10 +11,11 @@ local L = ns.Localize("core", {
   spec_set = "spécialisation : %s",
   spec_auto = "détection automatique (arbre de talents le plus rempli).",
   spec_unknown = "spécialisation inconnue : %s. Liste : /bmw list",
-  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw probe",
+  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw probe",
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
+  import_ok = "tes poids personnels sont importés : ils remplacent les poids génériques pour ce personnage.", import_bad = "ce texte n'est pas un export de poids BrokenMeta (il commence par BMW-W1).", import_class = "ces poids sont pour une autre classe que ce personnage.", import_cleared = "retour aux poids génériques (niveau 20).",
   loot_drop = "Butin de donjon : %s (%s)", loot_quest = "Récompense de quête : %s",
   welcome = {
     "merci d'avoir installé l'addon ! Clique sur le bouton à l'épée autour de la minicarte (ou tape /bmw) pour ouvrir le hub.",
@@ -31,10 +32,11 @@ local L = ns.Localize("core", {
   spec_set = "spec: %s",
   spec_auto = "automatic detection (talent tree with the most points).",
   spec_unknown = "unknown spec: %s. List: /bmw list",
-  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw probe",
+  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw probe",
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
+  import_ok = "your personal weights are imported: they replace the generic weights for this character.", import_bad = "this text isn't a BrokenMeta weights export (it starts with BMW-W1).", import_class = "these weights are for another class than this character.", import_cleared = "back to the generic (level 20) weights.",
   loot_drop = "Dungeon loot: %s (%s)", loot_quest = "Quest reward: %s",
   welcome = {
     "thanks for installing the addon! Click the sword button around the minimap (or type /bmw) to open the hub.",
@@ -293,10 +295,49 @@ end
 
 -- Simulated DPS a stat table is worth for the current spec. Keys: str agi int ap rap sp,
 -- critR/hitR (ratings, generic or _phys/_spell), critP/hitP (percent), wdps (weapon DPS).
+-- Personal weights imported from the site ("Simulate my character", computed at the player's real
+-- level and gear) replace the generic level-20 BiS weights for that character and spec.
+local WEIGHT_KEYS = { "str", "agi", "int", "ap", "sp", "crit", "hit", "wdps_mh", "wdps_oh", "wdps_r" }
+
+function ns.ActiveWeights(spec)
+  local custom = BrokenMetaWeightsDB and BrokenMetaWeightsDB.custom and BrokenMetaWeightsDB.custom[charKey]
+  if custom and custom.spec == spec then return custom.w, custom end
+  return ns.WEIGHTS[spec] and ns.WEIGHTS[spec].w, nil
+end
+
+-- "BMW-W1;spec=shaman_enhancement;level=34;date=2026-09-26;str=0.139;..." -> true | false, error key
+function ns.ImportWeights(text)
+  text = (text or ""):gsub("%s", "")
+  if text:sub(1, 6) ~= "BMW-W1" then return false, "import_bad" end
+  local f = {}
+  for k, v in text:gmatch("([%w_]+)=([^;]+)") do f[k] = v end
+  local spec = f.spec
+  if not spec or not ns.WEIGHTS[spec] or ns.WEIGHTS[spec].class ~= playerClass then return false, "import_class" end
+  local w = {}
+  for _, k in ipairs(WEIGHT_KEYS) do
+    local v = tonumber(f[k] or "0")
+    if not v or v < 0 or v > 100 then return false, "import_bad" end
+    w[k] = v
+  end
+  BrokenMetaWeightsDB.custom = BrokenMetaWeightsDB.custom or {}
+  BrokenMetaWeightsDB.custom[charKey] = { spec = spec, level = tonumber(f.level), date = f.date, w = w }
+  BrokenMetaWeightsDB.chars[charKey] = spec
+  currentSpec = spec
+  wipe(scoreCache)
+  if ns.OnDataChanged then ns.OnDataChanged() end
+  return true
+end
+
+function ns.ClearImportedWeights()
+  if BrokenMetaWeightsDB.custom then BrokenMetaWeightsDB.custom[charKey] = nil end
+  wipe(scoreCache)
+  if ns.OnDataChanged then ns.OnDataChanged() end
+end
+
 local function scoreStats(st, equipLoc)
   if not currentSpec or not st then return nil end
   local s = ns.WEIGHTS[currentSpec]
-  local w = s.w
+  local w = ns.ActiveWeights(currentSpec)
   local own = s.caster and "spell" or "phys"
   local critR = (st.critR or 0) + (st["critR_" .. own] or 0)
   local hitR = (st.hitR or 0) + (st["hitR_" .. own] or 0)
@@ -485,6 +526,13 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     if arg == "on" or arg == "off" then BrokenMetaWeightsDB.share = (arg == "on") end
     say(L.share_state .. (BrokenMetaWeightsDB.share and "|cff40ff40ON|r" or "off"))
     if ns.OnDataChanged then ns.OnDataChanged() end
+  elseif cmd == "import" then
+    if arg == "clear" then
+      ns.ClearImportedWeights()
+      say(L.import_cleared)
+    elseif ns.ShowImportDialog then
+      ns.ShowImportDialog()
+    end
   elseif cmd == "copy" and ns.ShowShareCopy then
     ns.ShowShareCopy()
   elseif cmd == "ah" and ns.StartAuctionScan then

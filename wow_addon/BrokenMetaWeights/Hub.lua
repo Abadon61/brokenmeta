@@ -21,7 +21,8 @@ local T = ns.Localize("hub", {
   data_h = "Données pour brokenmeta.gg",
   data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, clique sur « Copier pour le site », puis colle le texte sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
-  snap = "Enregistrer maintenant", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
+  snap = "Enregistrer maintenant",
+  w_generic = "génériques niv. 20", w_custom = "tes poids (niv. %d, %s)", w_hint_level = "Tu n'es pas niveau 20 : calcule tes poids à ton niveau sur brokenmeta.gg (Simuler mon personnage), puis importe-les.", import_btn = "Importer mes poids", reset_btn = "Poids génériques", import_do = "Importer", import_title = "Importer mes poids de stats", import_hint = "Colle ici (Ctrl+V) le texte « BMW-W1… » copié sur brokenmeta.gg (Simuler mon personnage > Calculer mes poids > Copier pour l'addon), puis clique sur Importer.", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
   copy_title = "Données à coller sur brokenmeta.gg",
   copy_hint = "Le texte est déjà sélectionné : Ctrl+C, puis colle-le sur brokenmeta.gg/wow-forever/partager-mes-donnees/ (case « Coller le texte de l'addon »).",
   copy_off = "Active d'abord le partage (bouton Partage), le texte ne sort de l'addon que si tu le choisis.",
@@ -42,6 +43,7 @@ local T = ns.Localize("hub", {
     { "minimap", "/bmw minimap", "Affiche ou masque le bouton de la minicarte." },
     { "share", "/bmw share on|off", "Active ou coupe le partage des données avec brokenmeta.gg." },
     { "ah", "/bmw ah", "Scanne l'hôtel des ventes (il doit être ouvert)." },
+    { "import", "/bmw import", "Importe tes poids personnels calculés sur brokenmeta.gg (/bmw import clear pour revenir aux poids génériques)." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -71,7 +73,8 @@ local T = ns.Localize("hub", {
   data_h = "Data for brokenmeta.gg",
   data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, click \"Copy for the site\", then paste the text on brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Sharing: ON", share_off = "Sharing: off",
-  snap = "Record now", scan = "Scan the auction house", copy = "Copy for the site",
+  snap = "Record now",
+  w_generic = "generic lvl 20", w_custom = "your weights (lvl %d, %s)", w_hint_level = "You're not level 20: compute your weights at your level on brokenmeta.gg (Simulate my character), then import them.", import_btn = "Import my weights", reset_btn = "Generic weights", import_do = "Import", import_title = "Import my stat weights", import_hint = "Paste here (Ctrl+V) the 'BMW-W1...' text copied on brokenmeta.gg (Simulate my character > Compute my weights > Copy for the addon), then click Import.", scan = "Scan the auction house", copy = "Copy for the site",
   copy_title = "Data to paste on brokenmeta.gg",
   copy_hint = "The text is already selected: Ctrl+C, then paste it on brokenmeta.gg/wow-forever/partager-mes-donnees/ (\"Paste the addon text\" box).",
   copy_off = "Turn sharing on first (Sharing button): the text only leaves the addon if you choose so.",
@@ -92,6 +95,7 @@ local T = ns.Localize("hub", {
     { "minimap", "/bmw minimap", "Shows or hides the minimap button." },
     { "share", "/bmw share on|off", "Turns data sharing with brokenmeta.gg on or off." },
     { "ah", "/bmw ah", "Scans the auction house (it must be open)." },
+    { "import", "/bmw import", "Imports your personal weights computed on brokenmeta.gg (/bmw import clear to go back to generic weights)." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -254,6 +258,17 @@ end
 
 rows(pChar, 26, -30, 15, true)
 
+local importBtn = CreateFrame("Button", nil, pChar, "UIPanelButtonTemplate")
+importBtn:SetSize(180, 22)
+importBtn:SetPoint("BOTTOMLEFT", 4, 4)
+importBtn:SetText(T.import_btn)
+importBtn:SetScript("OnClick", function() if ns.ShowImportDialog then ns.ShowImportDialog() end end)
+local resetBtn = CreateFrame("Button", nil, pChar, "UIPanelButtonTemplate")
+resetBtn:SetSize(180, 22)
+resetBtn:SetPoint("LEFT", importBtn, "RIGHT", 8, 0)
+resetBtn:SetText(T.reset_btn)
+resetBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("import clear") end)
+
 refreshers[1] = function()
   local spec = ns.GetSpec()
   if not spec then
@@ -262,10 +277,12 @@ refreshers[1] = function()
     return
   end
   specText:SetText(T.spec .. " : |cffffffff" .. ns.specName(spec) .. "|r")
-  local w = ns.WEIGHTS[spec].w
+  local w, custom = ns.ActiveWeights(spec)
   local rp = ns.GetRatingPerPct()
   local i = 1
-  setRow(pChar, i, "|cffffd100" .. T.weights .. "|r"); i = i + 1
+  setRow(pChar, i, "|cffffd100" .. T.weights .. "|r", custom
+    and string.format("|cff40ff40" .. T.w_custom .. "|r", custom.level or 0, custom.date or "?")
+    or ("|cff888888" .. T.w_generic .. "|r")); i = i + 1
   setRow(pChar, i, string.format(IS_FR and "Force %.3f · Agilité %.3f · Intelligence %.3f"
     or "Strength %.3f · Agility %.3f · Intellect %.3f", w.str, w.agi, w.int)); i = i + 1
   setRow(pChar, i, string.format(IS_FR and "Puiss. d'attaque %.3f · Puiss. des sorts %.3f" or "Attack power %.3f · Spell power %.3f", w.ap, w.sp)); i = i + 1
@@ -293,6 +310,9 @@ refreshers[1] = function()
       link and string.format("%.2f", v) or "", { icon = icon, dim = dim, slot = link and s[1] or nil }); i = i + 1
   end
   setRow(pChar, i, "|cffffd100" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
+  if not custom and (UnitLevel("player") or 20) ~= 20 then
+    setRow(pChar, i, "|cffff9900" .. T.w_hint_level .. "|r"); i = i + 1
+  end
   clearRows(pChar, i)
 end
 
@@ -545,7 +565,7 @@ cmdHint:SetJustifyH("LEFT")
 cmdHint:SetText(T.cmd_hint)
 local cmdDesc = {}
 for i, c in ipairs(T.cmds) do
-  local y = -22 - (i - 1) * 38
+  local y = -22 - (i - 1) * 35
   local name = pCmd:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   name:SetPoint("TOPLEFT", 4, y)
   name:SetText("|cff4fd1c5" .. c[2] .. "|r")
@@ -676,7 +696,25 @@ copyBox:SetScript("OnEscapePressed", function() copyFrame:Hide() end)
 copyScroll:SetScrollChild(copyBox)
 
 -- Any text to copy (share data, site links): a game addon cannot open a browser.
+local importOk = CreateFrame("Button", nil, copyFrame, "UIPanelButtonTemplate")
+importOk:SetSize(140, 22)
+importOk:SetPoint("BOTTOMRIGHT", -30, 16)
+importOk:SetText(T.import_do)
+importOk:Hide()
+importOk:SetScript("OnClick", function()
+  local ok, err = ns.ImportWeights(copyBox:GetText())
+  ns.say(ok and ns.L.import_ok or ns.L[err])
+  if ok then copyFrame:Hide() end
+end)
+copyFrame:HookScript("OnHide", function() importOk:Hide() end)
+
+function ns.ShowImportDialog()
+  ns.ShowCopyText(T.import_title, T.import_hint, "")
+  importOk:Show()
+end
+
 function ns.ShowCopyText(title, hint, text)
+  importOk:Hide()
   copyFrame.title:SetText(title)
   copyHint:SetText(hint)
   copyBox:SetText(text)

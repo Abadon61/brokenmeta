@@ -81,6 +81,12 @@
         var norm = w[ref] > 0 ? w[x[0]] / w[ref] : 0;
         return '<tr><th scope="row">' + esc(T[x[1]]) + '</th><td class="nums">' + fmt(w[x[0]], 3) + '</td><td class="nums">' + (w[ref] > 0 ? fmt(norm, 2) : '—') + '</td></tr>';
       }).join('') + '</tbody></table></div>';
+    var today = new Date().toISOString().slice(0, 10);
+    var code = 'BMW-W1;spec=' + r.spec + ';level=' + r.level + ';date=' + today + ';' +
+      WEIGHT_ROWS.map(function (x) { return x[0] + '=' + (w[x[0]] || 0); }).join(';');
+    html += '<h3 class="ms-sub-h">' + esc(T.pw_addon_h) + '</h3><p>' + esc(T.pw_addon_p) + '</p>' +
+      '<div class="ms-actions"><input type="text" id="msWeightsCode" class="sh-code-input ms-code-wide" readonly value="' + esc(code) + '">' +
+      '<button type="button" id="msWeightsCopy" class="ms-btn">' + esc(T.pw_copy) + '</button></div>';
     html += '<h2 class="fiche-section-title">' + esc(T.tg_h2) + '</h2><p class="page-intro" style="margin-top:0">' + esc(T.tg_intro) + '</p>';
     if (!r.has_worn_stats) html += '<p class="wow-note">' + esc(T.tg_no_worn) + '</p>';
     if (!r.top.length) {
@@ -96,6 +102,13 @@
     }
     html += '<p class="wow-note">' + esc(T.pw_method.replace('{n}', r.iterations).replace('{s}', Math.round(r.fight_len))) + '</p>';
     document.getElementById('msPersonal').innerHTML = html;
+    document.getElementById('msWeightsCopy').addEventListener('click', function () {
+      var field = document.getElementById('msWeightsCode');
+      field.select();
+      var done = function () { this.textContent = T.pw_copied; }.bind(this);
+      if (navigator.clipboard) navigator.clipboard.writeText(field.value).then(done, function () { document.execCommand('copy'); done(); });
+      else { document.execCommand('copy'); done(); }
+    });
   }
 
   function run(spec) {
@@ -153,8 +166,9 @@
     specSel.parentNode.hidden = r.specs.length < 2;
 
     var s = SPECS[r.spec] || {};
-    var diff = r.bis_dps ? (r.dps / r.bis_dps - 1) * 100 : 0;
-    var max = Math.max(r.dps, r.bis_dps) || 1;
+    var hasBis = r.bis_dps != null;
+    var diff = hasBis && r.bis_dps ? (r.dps / r.bis_dps - 1) * 100 : 0;
+    var max = Math.max(r.dps, r.bis_dps || 0) || 1;
     var bmax = r.breakdown.length ? r.breakdown[0].dps : 1;
     var latest = root.getAttribute('data-addon');
     var dlLink = document.querySelector('.ms-dl');
@@ -173,8 +187,8 @@
       warn +
       '<div class="ms-compare">' +
         '<div class="ms-bar-row"><span>' + esc(T.you) + '</span><span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width:' + (100 * r.dps / max).toFixed(1) + '%;--rc:var(--cyan)"></span></span><span class="nums ms-big">' + fmt(r.dps, 1) + ' DPS</span></div>' +
-        '<div class="ms-bar-row"><span>' + esc(T.bis) + '</span><span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width:' + (100 * r.bis_dps / max).toFixed(1) + '%"></span></span><span class="nums">' + fmt(r.bis_dps, 1) + ' DPS</span></div>' +
-        '<p class="ms-diff ' + (diff >= 0 ? 'is-up' : 'is-down') + '">' + esc(diff >= 0 ? T.diff_up : T.diff_down).replace('{pct}', fmt(Math.abs(diff), 1)) + '</p>' +
+        (hasBis ? '<div class="ms-bar-row"><span>' + esc(T.bis) + '</span><span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width:' + (100 * r.bis_dps / max).toFixed(1) + '%"></span></span><span class="nums">' + fmt(r.bis_dps, 1) + ' DPS</span></div>' +
+        '<p class="ms-diff ' + (diff >= 0 ? 'is-up' : 'is-down') + '">' + esc(diff >= 0 ? T.diff_up : T.diff_down).replace('{pct}', fmt(Math.abs(diff), 1)) + '</p>' : '') +
       '</div>' +
       '<h2 class="fiche-section-title">' + esc(T.breakdown_h2) + '</h2>' +
       '<div class="tc-dps-breakdown">' + r.breakdown.map(function (b) {

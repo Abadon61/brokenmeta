@@ -131,6 +131,29 @@ class AuctionTests(unittest.TestCase):
         self.assertIn("open the auction house first", g.chat[len(g.chat)])
 
 
+class ImportWeightsTests(unittest.TestCase):
+    CODE = "BMW-W1;spec=warrior_arms;level=34;date=2026-09-26;str=0.5;agi=0.1;int=0;ap=0.25;sp=0;crit=0.4;hit=0.6;wdps_mh=1.2;wdps_oh=0;wdps_r=0"
+
+    def test_import_replaces_generic_weights_and_clear_restores(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        before = g.NS.scoreStats(g.LUA_EVAL("{str = 10}"), "INVTYPE_CHEST")
+        ok = g.NS.ImportWeights(self.CODE)
+        self.assertTrue(ok)
+        self.assertEqual(g.NS.GetSpec(), "warrior_arms")
+        self.assertAlmostEqual(g.NS.scoreStats(g.LUA_EVAL("{str = 10}"), "INVTYPE_CHEST"), 5.0)
+        g.SlashCmdList.BROKENMETAWEIGHTS("import clear")
+        self.assertNotAlmostEqual(g.NS.scoreStats(g.LUA_EVAL("{str = 10}"), "INVTYPE_CHEST"), 5.0)
+        self.assertIsNotNone(before)
+
+    def test_import_rejects_other_class_and_garbage(self):
+        _, _, _, g = run("enUS", "MAGE", [0, 0, 12], ITEMS, {}, [])
+        ok, err = g.NS.ImportWeights(self.CODE)
+        self.assertFalse(ok)
+        self.assertEqual(err, "import_class")
+        ok, err = g.NS.ImportWeights("hello")
+        self.assertEqual(err, "import_bad")
+
+
 class VersionTests(unittest.TestCase):
     def test_update_notice_only_for_newer(self):
         _, _, _, g = run("enUS", "MAGE", [0, 0, 0], ITEMS, {}, [])
