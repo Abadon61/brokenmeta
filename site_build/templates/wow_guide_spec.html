@@ -84,11 +84,14 @@
 <p class="page-intro" style="margin-top:0">{{ tx.gear_bis_p }}</p>
 <div class="wg-gear-grid">
   {% for it in bis_gear %}
+  {% set item_url = "https://www.wowhead.com/forever/item=" ~ it.wowhead_item_id if it.wowhead_item_id else none %}
   <div class="wg-gear-item">
+    {% if item_url %}<a href="{{ item_url }}" rel="noopener nofollow" target="_blank">{% endif %}
     {% if it.icon %}<img class="wg-gear-icon" src="{{ it.icon }}" alt="" width="48" height="48" loading="lazy">{% endif %}
+    {% if item_url %}</a>{% endif %}
     <div class="wg-gear-body">
       <span class="wg-gear-slot">{{ tx.slot_labels[it.slot] }}</span>
-      <b>{{ it.name }}</b>
+      {% if item_url %}<a href="{{ item_url }}" rel="noopener nofollow" target="_blank"><b>{{ it.name }}</b></a>{% else %}<b>{{ it.name }}</b>{% endif %}
       {% if it.stat %}<span class="wg-gear-stat">{{ it.stat }}</span>{% endif %}
     </div>
   </div>
