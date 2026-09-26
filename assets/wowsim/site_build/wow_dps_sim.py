@@ -49,6 +49,16 @@ import re
 import wow_spells
 
 DODGE_CHANCE = 0.05          # same-level-target baseline -- see wow-warrior-sim.js for the citation
+# Critical strike multipliers, WoW Classic rules (Wowhead "Stats and Attributes for WoW Classic":
+# "A critical spell hit deals 150% of a spell's normal damage"; melee/ranged crits deal 200%).
+# Fixed 2026-09-26: every crit used to deal 200%, overrating casters. Forever's own spell crit
+# multiplier is not published yet: the addon can measure it from the combat log later.
+CRIT_MULT_PHYSICAL = 2.0
+CRIT_MULT_SPELL = 1.5
+# Equal-level spell hit: 96% base and a 99% cap (1% of spells always miss), same Wowhead guide:
+# "you need a total of 3% Spell Hit Chance to not miss". Was 97% with a 100% cap before 2026-09-26.
+SPELL_HIT_BASE_PCT = 96
+SPELL_HIT_CAP = 0.99
 GLANCE_CHANCE = 0.10
 GLANCE_DAMAGE_MULT = 0.70
 OVERPOWER_WINDOW = 5.0        # Vanilla WoW Wiki -- Overpower: usable within 5s of a target Dodge
@@ -114,17 +124,17 @@ def parse_cast_time(raw):
 
 # ---- generic effect resolution (reads straight off each ability's effects[]) --------------
 
-def resolve_direct_damage(effect, ap, sp, crit_frac):
+def resolve_direct_damage(effect, ap, sp, crit_frac, crit_mult=CRIT_MULT_PHYSICAL):
     if "dmg_range" in effect:
         base = random.uniform(*effect["dmg_range"])
     else:
         base = effect.get("flat", 0)
     base += ap * effect.get("ap_coeff", 0) + sp * effect.get("sp_coeff", 0)
     is_crit = roll(crit_frac)
-    return base * (2.0 if is_crit else 1.0), is_crit
+    return base * (crit_mult if is_crit else 1.0), is_crit
 
 
-def resolve_normalized_weapon_damage(effect, avg_hit, sp, crit_frac):
+def resolve_normalized_weapon_damage(effect, avg_hit, sp, crit_frac, crit_mult=CRIT_MULT_PHYSICAL):
     """avg_hit is one full white-swing's worth of damage (weapon + AP/14 x speed), consistent with
     how the Warrior engine already treats Sinister-Strike-like "100% weapon dmg" abilities."""
     base = avg_hit * effect.get("pct", 1.0) + effect.get("flat", 0)
@@ -132,7 +142,7 @@ def resolve_normalized_weapon_damage(effect, avg_hit, sp, crit_frac):
         base += random.uniform(*effect["dmg_range"])
     base += sp * effect.get("sp_coeff", 0)
     is_crit = roll(crit_frac)
-    return base * (2.0 if is_crit else 1.0), is_crit
+    return base * (crit_mult if is_crit else 1.0), is_crit
 
 
 def resolve_periodic_setup(effect, sp):
@@ -238,20 +248,26 @@ class Sim:
         cast_time = override if override is not None else parse_cast_time(ab.get("cast_time"))
         return max(cast_time, ab.get("gcd_sec", 1.5) or 0)
 
+    def crit_mult(self, aid):
+        """200% for physical abilities, 150% for spells (any non-physical school)."""
+        school = self.abilities.get(aid, {}).get("school", "physical")
+        return CRIT_MULT_PHYSICAL if school in (None, "physical") else CRIT_MULT_SPELL
+
     def apply_effects(self, aid, t, combo_points_used=None):
         ab = self.abilities[aid]
         sp, crit_frac = self.stats["sp"], self.stats["crit"]
+        cmult = self.crit_mult(aid)
         dmg_mult = self.talent_mod(aid).get("damage_mult", 1.0)
         for eff in ab.get("effects", []):
             kind = eff["kind"]
             if kind == "direct_damage":
-                dmg, _ = resolve_direct_damage(eff, self.stats["ap"], sp, crit_frac)
+                dmg, _ = resolve_direct_damage(eff, self.stats["ap"], sp, crit_frac, cmult)
                 self.add_dmg(dmg * dmg_mult, aid)
             elif kind == "normalized_weapon_damage":
-                dmg, _ = resolve_normalized_weapon_damage(eff, self.avg_hit(0), sp, crit_frac)
+                dmg, _ = resolve_normalized_weapon_damage(eff, self.avg_hit(0), sp, crit_frac, cmult)
                 self.add_dmg(dmg * dmg_mult, aid)
             elif kind == "periodic_damage":
-                duration, interval, per_tick, _ = resolve_periodic_setup(eff, sp)
+                duration, interval, per_tick, can_crit = resolve_periodic_setup(eff, sp)
                 per_tick *= dmg_mult
                 self.dot_ends[aid] = t + duration
                 # Every (re)application starts a fresh epoch and always (re)schedules its own tick
@@ -266,7 +282,8 @@ class Sim:
                 # application exists, regardless of exact timing.
                 self.dot_epoch[aid] = self.dot_epoch.get(aid, 0) + 1
                 epoch = self.dot_epoch[aid]
-                self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick, "epoch": epoch})
+                self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick, "epoch": epoch,
+                                                     "can_crit": can_crit, "crit_mult": cmult})
                 if self.trace is not None:
                     name = self.abilities.get(aid, {}).get("name", {}).get("fr") or aid
                     self.trace.append(f"{self._now:6.2f}s  {name:28s} posé (DoT, {duration:.0f}s)")
@@ -308,7 +325,7 @@ class Sim:
             return
         for eff in seal.get("effects", []):
             if eff.get("kind") == "proc_trigger" and "dmg_range" in eff:
-                dmg, _ = resolve_direct_damage(eff, self.stats["ap"], self.stats["sp"], self.stats["crit"])
+                dmg, _ = resolve_direct_damage(eff, self.stats["ap"], self.stats["sp"], self.stats["crit"], self.crit_mult(aid))
                 self.add_dmg(dmg, aid)
 
     def do_swing(self, t, idx):
@@ -480,8 +497,10 @@ class Sim:
                 # application (see apply_effects' periodic_damage branch) silently stops here
                 # instead of continuing to fire in parallel with the new one.
                 if data.get("epoch") == self.dot_epoch.get(aid) and t <= self.dot_ends.get(aid, -1.0):
-                    is_crit = roll(self.stats["crit"])
-                    self.add_dmg(data["per_tick"] * (2.0 if is_crit else 1.0), aid, is_tick=True)
+                    # Only ticks whose tooltip says "Periodic Can Crit" can crit (fixed 2026-09-26:
+                    # every tick used to roll a crit regardless of the flag).
+                    is_crit = data.get("can_crit", False) and roll(self.stats["crit"])
+                    self.add_dmg(data["per_tick"] * (data.get("crit_mult", CRIT_MULT_PHYSICAL) if is_crit else 1.0), aid, is_tick=True)
                     self.push(t + data["interval"], "dot_tick", data)
             else:  # decision point
                 if t < self.gcd_ready:
@@ -926,12 +945,14 @@ def stats_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_cr
 
     if meta.get("crit") == "spell":
         base_crit = base_ch["base_spell_crit_pct"].get(class_id, 0)
-        base_hit_pct = 97  # equal-level spell miss baseline, Wowhead Classic "Stats and Attributes" guide
+        base_hit_pct = SPELL_HIT_BASE_PCT  # see SPELL_HIT_BASE_PCT / SPELL_HIT_CAP at the top
     else:
         base_crit = base_ch["base_melee_crit_pct"].get(class_id, 0)
         base_hit_pct = 95  # equal-level melee/ranged miss baseline, same source
     crit_pct = base_crit + deltas["crit_pct"]
     hit_pct = base_hit_pct + deltas["hit_pct"]
+    if meta.get("crit") == "spell":
+        hit_pct = min(hit_pct, SPELL_HIT_CAP * 100)
 
     return {"ap": round(deltas["ap"], 1), "sp": round(deltas["sp"], 1), "hit": round(hit_pct / 100.0, 4), "crit": round(crit_pct / 100.0, 4)}
 
