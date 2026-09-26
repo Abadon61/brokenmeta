@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Engineering WoW: Forever: 1 to 300 on the cheap">
 <meta name="twitter:description" content="WoW: Forever Engineering guide: the cheapest 1-300 route, shopping list, where the plans come from and every recipe.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=637802783c">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=637802783c">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=5312d2f55f">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=5312d2f55f">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=637802783c">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=5312d2f55f">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -337,7 +337,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="ph-text">
     <div class="fiche-kicker">World of Warcraft: Forever · Profession</div>
     <h1 class="ph-title">Engineering: 1 to 300 at the lowest cost</h1>
-    <p class="ph-lede">The route below goes from 1 to 300 in at least 299 crafts. It is computed from the recipes, reagents and prices of the Wowhead Forever database and the beta client tables. The gold cost of the reagents is not shown: it will depend on auction house prices, which do not exist in the beta yet. 10 of these points come from yellow or green recipes, which do not guarantee a gain: you will probably need more crafts than the minimum shown.</p>
+    <p class="ph-lede">The route below goes from 1 to 300 in at least 299 crafts. It is computed from the recipes, reagents and prices of the Wowhead Forever database and the beta client tables. Gold costs use the auction house prices players share through the BrokenMeta addon. 10 of these points come from yellow or green recipes, which do not guarantee a gain: you will probably need more crafts than the minimum shown.</p>
     
     
   </div>
@@ -347,7 +347,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Summary</h2>
 <dl class="wow-facts">
   <div><dt>Crafts to make</dt><dd class="nums">299</dd></div>
-  <div><dt>Gold cost of reagents</dt><dd>Coming (auction house prices)</dd></div>
+  <div><dt>Estimated total cost (reagents, plans, ranks)</dt><dd><span class="nums">≈ 217 g 15 s 82 c</span><br><small>5 reagent(s) with no known price, not counted</small></dd></div>
+  
   <div><dt>Non-guaranteed points</dt><dd class="nums">10</dd></div>
   
 </dl>
@@ -515,245 +516,326 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="wow-note">* Step with non-guaranteed points (yellow or green recipe): the number of crafts is a minimum.</p>
 
 <h2 class="fiche-section-title">The full shopping list</h2>
-<p class="page-intro" style="margin-top:0">Every reagent of the route, most expensive first.</p>
+<p class="page-intro" style="margin-top:0">Every reagent of the route, most expensive first, with its auction house price when known.</p>
+<p class="wow-note">Auction house prices from Classic Beta PvP (Horde), scanned 2026-09-26, shared by players through the BrokenMeta addon. Only one realm so far, and beta prices move a lot: this is a ballpark, not a quote. <a href="../../../../wow-forever/partager-mes-donnees/">Share your prices to refine them →</a></p>
 <div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>Reagent</th><th>Quantity</th><th>Source</th><th>Vendor price</th></tr></thead>
+  <thead><tr><th>Reagent</th><th>Quantity</th><th>Source</th><th>Vendor price</th><th>AH price (unit)</th><th>Cost</th></tr></thead>
   <tbody>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=12359" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_07.jpg" alt="" width="24" height="24" loading="lazy">Thorium Bar</a></td>
-    <td class="nums">150</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3860" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_06.jpg" alt="" width="24" height="24" loading="lazy">Mithril Bar</a></td>
-    <td class="nums">205</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4304" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_08.jpg" alt="" width="24" height="24" loading="lazy">Thick Leather</a></td>
-    <td class="nums">40</td>
-    <td>Vendor</td>
-    <td class="nums">12 s</td>
-  </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=7909" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_crystal_02.jpg" alt="" width="24" height="24" loading="lazy">Aquamarine</a></td>
     <td class="nums">40</td>
     <td>Gather</td>
     <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=10559" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_musket_01.jpg" alt="" width="24" height="24" loading="lazy">Mithril Tube</a></td>
-    <td class="nums">40</td>
-    <td>Craft</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4371" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_pipe_01.jpg" alt="" width="24" height="24" loading="lazy">Bronze Tube</a></td>
-    <td class="nums">35</td>
-    <td>Vendor</td>
-    <td class="nums">8 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=6037" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_08.jpg" alt="" width="24" height="24" loading="lazy">Truesilver Bar</a></td>
-    <td class="nums">20</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=12360" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_stonetablet_05.jpg" alt="" width="24" height="24" loading="lazy">Arcanite Bar</a></td>
-    <td class="nums">5</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4382" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_bronzeframework_01.jpg" alt="" width="24" height="24" loading="lazy">Bronze Framework</a></td>
-    <td class="nums">10</td>
-    <td>Vendor</td>
-    <td class="nums">24 s</td>
+    <td class="nums">1 g 2 s 91 c<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">26 listed ⚠</small></td>
+    <td class="nums">41 g 16 s 40 c</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=3864" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_opal_02.jpg" alt="" width="24" height="24" loading="lazy">Citrine</a></td>
     <td class="nums">25</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">1 g 47 s 99 c<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">21 listed ⚠</small></td>
+    <td class="nums">36 g 99 s 75 c</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=10561" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_mithrilcasing_01.jpg" alt="" width="24" height="24" loading="lazy">Mithril Casing</a></td>
-    <td class="nums">20</td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=3860" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_06.jpg" alt="" width="24" height="24" loading="lazy">Mithril Bar</a></td>
+    <td class="nums">205</td>
     <td>Gather</td>
     <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=7972" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_slime_01.jpg" alt="" width="24" height="24" loading="lazy">Ichor of Undeath</a></td>
-    <td class="nums">40</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=1529" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_stone_01.jpg" alt="" width="24" height="24" loading="lazy">Jade</a></td>
-    <td class="nums">20</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=818" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_opal_03.jpg" alt="" width="24" height="24" loading="lazy">Tigerseye</a></td>
-    <td class="nums">130</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=14227" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_web.jpg" alt="" width="24" height="24" loading="lazy">Ironweb Spider Silk</a></td>
-    <td class="nums">5</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=10560" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_battery_01.jpg" alt="" width="24" height="24" loading="lazy">Unstable Trigger</a></td>
-    <td class="nums">10</td>
-    <td>Craft</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=12808" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadetruesight.jpg" alt="" width="24" height="24" loading="lazy">Essence of Undeath</a></td>
-    <td class="nums">10</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=9060" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_musket_01.jpg" alt="" width="24" height="24" loading="lazy">Inlaid Mithril Cylinder</a></td>
-    <td class="nums">10</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
+    <td class="nums">15 s 50 c<br><small class="pf-listed" >408 listed</small></td>
+    <td class="nums">31 g 77 s 50 c</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=7068" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg" alt="" width="24" height="24" loading="lazy">Elemental Fire</a></td>
     <td class="nums">20</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">78 s 98 c<br><small class="pf-listed" >21 listed</small></td>
+    <td class="nums">15 g 79 s 60 c</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=14047" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_purplefire_01.jpg" alt="" width="24" height="24" loading="lazy">Runecloth</a></td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=6037" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_08.jpg" alt="" width="24" height="24" loading="lazy">Truesilver Bar</a></td>
     <td class="nums">20</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">68 s<br><small class="pf-listed" >87 listed</small></td>
+    <td class="nums">13 g 60 s</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4375" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_02.jpg" alt="" width="24" height="24" loading="lazy">Whirring Bronze Gizmo</a></td>
-    <td class="nums">60</td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=9060" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_musket_01.jpg" alt="" width="24" height="24" loading="lazy">Inlaid Mithril Cylinder</a></td>
+    <td class="nums">10</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">1 g 16 s<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">1 listed ⚠</small></td>
+    <td class="nums">11 g 60 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=10560" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_battery_01.jpg" alt="" width="24" height="24" loading="lazy">Unstable Trigger</a></td>
+    <td class="nums">10</td>
     <td>Craft</td>
     <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2841" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_bronze.jpg" alt="" width="24" height="24" loading="lazy">Bronze Bar</a></td>
-    <td class="nums">125</td>
-    <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">10 g 93 s 80 c<br><small>crafting cost (cheaper than the AH)</small></td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2319" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_05.jpg" alt="" width="24" height="24" loading="lazy">Medium Leather</a></td>
-    <td class="nums">30</td>
-    <td>Vendor</td>
-    <td class="nums">2 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=1206" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_emerald_02.jpg" alt="" width="24" height="24" loading="lazy">Moss Agate</a></td>
-    <td class="nums">15</td>
-    <td>Gather</td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=10559" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_musket_01.jpg" alt="" width="24" height="24" loading="lazy">Mithril Tube</a></td>
+    <td class="nums">40</td>
+    <td>Craft</td>
     <td class="nums">—</td>
+    <td class="nums">14 s<br><small class="pf-listed" >75 listed</small></td>
+    <td class="nums">5 g 60 s</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4377" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dust_06.jpg" alt="" width="24" height="24" loading="lazy">Heavy Blasting Powder</a></td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=10561" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_mithrilcasing_01.jpg" alt="" width="24" height="24" loading="lazy">Mithril Casing</a></td>
     <td class="nums">20</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">26 s<br><small class="pf-listed" >56 listed</small></td>
+    <td class="nums">5 g 20 s</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2842" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_01.jpg" alt="" width="24" height="24" loading="lazy">Silver Bar</a></td>
-    <td class="nums">15</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=774" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_emerald_03.jpg" alt="" width="24" height="24" loading="lazy">Malachite</a></td>
-    <td class="nums">100</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2840" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_02.jpg" alt="" width="24" height="24" loading="lazy">Copper Bar</a></td>
-    <td class="nums">140</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2318" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_03.jpg" alt="" width="24" height="24" loading="lazy">Light Leather</a></td>
-    <td class="nums">90</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4304" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_08.jpg" alt="" width="24" height="24" loading="lazy">Thick Leather</a></td>
+    <td class="nums">40</td>
+    <td>Vendor</td>
+    <td class="nums">12 s</td>
+    <td class="nums">65 s<br><small class="pf-listed" >13 listed</small></td>
+    <td class="nums">4 g 80 s</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=4338" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_mageweave_01.jpg" alt="" width="24" height="24" loading="lazy">Mageweave Cloth</a></td>
     <td class="nums">5</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">87 s<br><small class="pf-listed" >23 listed</small></td>
+    <td class="nums">4 g 35 s</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=10505" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_powder_black.jpg" alt="" width="24" height="24" loading="lazy">Solid Blasting Powder</a></td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2841" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_bronze.jpg" alt="" width="24" height="24" loading="lazy">Bronze Bar</a></td>
+    <td class="nums">125</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">2 s 58 c<br><small class="pf-listed" >5313 listed</small></td>
+    <td class="nums">3 g 22 s 50 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4375" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_02.jpg" alt="" width="24" height="24" loading="lazy">Whirring Bronze Gizmo</a></td>
+    <td class="nums">60</td>
+    <td>Craft</td>
+    <td class="nums">—</td>
+    <td class="nums">3 s 97 c<br><small class="pf-listed" >271 listed</small></td>
+    <td class="nums">2 g 38 s 20 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4377" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dust_06.jpg" alt="" width="24" height="24" loading="lazy">Heavy Blasting Powder</a></td>
+    <td class="nums">20</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">11 s 50 c<br><small class="pf-listed" >188 listed</small></td>
+    <td class="nums">2 g 30 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2840" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_02.jpg" alt="" width="24" height="24" loading="lazy">Copper Bar</a></td>
+    <td class="nums">140</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">1 s 45 c<br><small class="pf-listed" >1968 listed</small></td>
+    <td class="nums">2 g 3 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2842" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_01.jpg" alt="" width="24" height="24" loading="lazy">Silver Bar</a></td>
+    <td class="nums">15</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">11 s<br><small class="pf-listed" >252 listed</small></td>
+    <td class="nums">1 g 65 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=1529" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_stone_01.jpg" alt="" width="24" height="24" loading="lazy">Jade</a></td>
+    <td class="nums">20</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">7 s<br><small class="pf-listed" >312 listed</small></td>
+    <td class="nums">1 g 40 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4371" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_pipe_01.jpg" alt="" width="24" height="24" loading="lazy">Bronze Tube</a></td>
+    <td class="nums">35</td>
+    <td>Vendor</td>
+    <td class="nums">8 s</td>
+    <td class="nums">3 s 88 c<br><small class="pf-listed" >204 listed</small></td>
+    <td class="nums">1 g 35 s 80 c<br><small>cheaper at the AH</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=818" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_opal_03.jpg" alt="" width="24" height="24" loading="lazy">Tigerseye</a></td>
+    <td class="nums">130</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">1 s<br><small class="pf-listed" >705 listed</small></td>
+    <td class="nums">1 g 30 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=14227" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_web.jpg" alt="" width="24" height="24" loading="lazy">Ironweb Spider Silk</a></td>
     <td class="nums">5</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">25 s<br><small class="pf-listed" >58 listed</small></td>
+    <td class="nums">1 g 25 s</td>
   </tr>
   <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=814" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_drink_07.jpg" alt="" width="24" height="24" loading="lazy">Flask of Oil</a></td>
-    <td class="nums">40</td>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2318" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_03.jpg" alt="" width="24" height="24" loading="lazy">Light Leather</a></td>
+    <td class="nums">90</td>
     <td>Gather</td>
     <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=7912" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_stone_10.jpg" alt="" width="24" height="24" loading="lazy">Solid Stone</a></td>
-    <td class="nums">10</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2589" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_linen_01.jpg" alt="" width="24" height="24" loading="lazy">Linen Cloth</a></td>
-    <td class="nums">75</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
+    <td class="nums">1 s 25 c<br><small class="pf-listed" >5893 listed</small></td>
+    <td class="nums">1 g 12 s 50 c</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=4359" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gear_06.jpg" alt="" width="24" height="24" loading="lazy">Handful of Copper Bolts</a></td>
     <td class="nums">75</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">1 s 50 c<br><small class="pf-listed" >164 listed</small></td>
+    <td class="nums">1 g 12 s 50 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4382" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_gizmo_bronzeframework_01.jpg" alt="" width="24" height="24" loading="lazy">Bronze Framework</a></td>
+    <td class="nums">10</td>
+    <td>Vendor</td>
+    <td class="nums">24 s</td>
+    <td class="nums">7 s 80 c<br><small class="pf-listed" >175 listed</small></td>
+    <td class="nums">78 s<br><small>cheaper at the AH</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=1206" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_emerald_02.jpg" alt="" width="24" height="24" loading="lazy">Moss Agate</a></td>
+    <td class="nums">15</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">4 s 7 c<br><small class="pf-listed" >272 listed</small></td>
+    <td class="nums">61 s 5 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2319" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_05.jpg" alt="" width="24" height="24" loading="lazy">Medium Leather</a></td>
+    <td class="nums">30</td>
+    <td>Vendor</td>
+    <td class="nums">2 s</td>
+    <td class="nums">2 s 15 c<br><small class="pf-listed" >3102 listed</small></td>
+    <td class="nums">60 s</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=2592" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_wool_01.jpg" alt="" width="24" height="24" loading="lazy">Wool Cloth</a></td>
     <td class="nums">20</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">3 s<br><small class="pf-listed" >4883 listed</small></td>
+    <td class="nums">60 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=10505" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_powder_black.jpg" alt="" width="24" height="24" loading="lazy">Solid Blasting Powder</a></td>
+    <td class="nums">5</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">7 s 79 c<br><small class="pf-listed" >125 listed</small></td>
+    <td class="nums">38 s 95 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=7912" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_stone_10.jpg" alt="" width="24" height="24" loading="lazy">Solid Stone</a></td>
+    <td class="nums">10</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">3 s 44 c<br><small class="pf-listed" >778 listed</small></td>
+    <td class="nums">34 s 40 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=2589" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_linen_01.jpg" alt="" width="24" height="24" loading="lazy">Linen Cloth</a></td>
+    <td class="nums">75</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">21 c<br><small class="pf-listed" >5295 listed</small></td>
+    <td class="nums">15 s 75 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=774" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_emerald_03.jpg" alt="" width="24" height="24" loading="lazy">Malachite</a></td>
+    <td class="nums">100</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">14 c<br><small class="pf-listed" >978 listed</small></td>
+    <td class="nums">14 s</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=814" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_drink_07.jpg" alt="" width="24" height="24" loading="lazy">Flask of Oil</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">25 c<br><small class="pf-listed" >340 listed</small></td>
+    <td class="nums">10 s</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=2880" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_ammo_gunpowder_02.jpg" alt="" width="24" height="24" loading="lazy">Weak Flux</a></td>
     <td class="nums">5</td>
     <td>Vendor</td>
     <td class="nums">1 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=4357" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dust_01.jpg" alt="" width="24" height="24" loading="lazy">Rough Blasting Powder</a></td>
-    <td class="nums">20</td>
-    <td>Vendor</td>
-    <td class="nums">16 c</td>
+    <td class="nums">1 s 69 c<br><small class="pf-listed" >67 listed</small></td>
+    <td class="nums">5 s</td>
   </tr>
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item=2835" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_stone_06.jpg" alt="" width="24" height="24" loading="lazy">Rough Stone</a></td>
     <td class="nums">19</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums">8 c<br><small class="pf-listed" >4203 listed</small></td>
+    <td class="nums">1 s 52 c</td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=4357" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_dust_01.jpg" alt="" width="24" height="24" loading="lazy">Rough Blasting Powder</a></td>
+    <td class="nums">20</td>
+    <td>Vendor</td>
+    <td class="nums">16 c</td>
+    <td class="nums">4 c<br><small class="pf-listed" >2353 listed</small></td>
+    <td class="nums">80 c<br><small>cheaper at the AH</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=12359" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ingot_07.jpg" alt="" width="24" height="24" loading="lazy">Thorium Bar</a></td>
+    <td class="nums">150</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">—</td>
+    <td class="nums"><small>unknown price</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=12360" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_stonetablet_05.jpg" alt="" width="24" height="24" loading="lazy">Arcanite Bar</a></td>
+    <td class="nums">5</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">—</td>
+    <td class="nums"><small>unknown price</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=7972" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_slime_01.jpg" alt="" width="24" height="24" loading="lazy">Ichor of Undeath</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">—</td>
+    <td class="nums"><small>unknown price</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=12808" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadetruesight.jpg" alt="" width="24" height="24" loading="lazy">Essence of Undeath</a></td>
+    <td class="nums">10</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">—</td>
+    <td class="nums"><small>unknown price</small></td>
+  </tr>
+  <tr>
+    <td data-first><a href="https://www.wowhead.com/forever/item=14047" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_purplefire_01.jpg" alt="" width="24" height="24" loading="lazy">Runecloth</a></td>
+    <td class="nums">20</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums">—</td>
+    <td class="nums"><small>unknown price</small></td>
   </tr></tbody>
+  <tfoot><tr><th colspan="5">Total of reagents with a known price</th><th class="nums">204 g 76 s 2 c</th></tr></tfoot>
 </table></div>
+<p class="wow-note">⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.</p>
 
 <h2 class="fiche-section-title">Profession ranks at the trainer</h2>
 <p class="page-intro" style="margin-top:0">Each rank raises the skill cap. Descriptions come from the beta client.</p>
@@ -766,7 +848,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Recipes shown in orange at your skill level are preferred: an orange recipe gives a skill point on every craft. Yellow or green recipes are only used to bridge a stretch that no orange recipe covers, and are marked with an asterisk.</li><li>A recipe is usable if a trainer teaches it or if its plan is sold by a vendor; the plan&#39;s price is added once. A plan that drops or comes from a quest is only kept as a last resort, marked &#39;plan to find&#39;.</li><li>To pick the cheapest sequence, a reagent sold by a vendor is counted at its purchase price, and one you gather, craft or disenchant at its vendor resale value: this is a provisional yardstick, since the beta has no auction house prices. These amounts are not shown.</li><li>Recipes with a reagent that has no reliable price (quest items, items missing from the trade goods list) are left out, and so are transmutes, whose possible cooldown in Forever is not shown in the data.</li><li>A shortest-path calculation from 1 to the cap then picks the cheapest sequence, paying for each recipe once.</li></ul>
 
 <h2 class="fiche-section-title">What the data does not say</h2>
-<ul class="gd-list"><li>No auction house prices exist in the beta yet: the sequence of recipes is chosen with a provisional yardstick and no gold cost is shown. It will be recomputed with real prices.</li><li>The number of crafts is a minimum: points from yellow or green recipes are not guaranteed, and the data does not give the chance of a gain.</li><li>Tools required by some recipes (hammer, enchanter&#39;s rod, etc.) are not counted in the cost.</li><li>Starting recipes with no source listed are counted as known from the start, to confirm in beta.</li><li>Values may change with the final game on November 4, 2026.</li></ul>
+<ul class="gd-list"><li>Prices come from a single auction house scan (one realm, one faction) shared by a player: they can be very different on your realm, and the beta has few sellers. The recipe sequence is not recomputed with these prices yet.</li><li>The number of crafts is a minimum: points from yellow or green recipes are not guaranteed, and the data does not give the chance of a gain.</li><li>Tools required by some recipes (hammer, enchanter&#39;s rod, etc.) are not counted in the cost.</li><li>Starting recipes with no source listed are counted as known from the start, to confirm in beta.</li><li>Values may change with the final game on November 4, 2026.</li><li>Reagents with no known price are left out of the total: the real cost is higher.</li></ul>
 
 <h2 class="fiche-section-title">Every recipe</h2>
 <p class="page-intro" style="margin-top:0">All Engineering recipes with their colour thresholds (orange, yellow, green, grey), reagents and origin. Plans that drop, come from quests or fishing are not in the route because there is no reliable way to get them.</p>
@@ -2431,10 +2513,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=637802783c" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=637802783c" defer></script>
-<script src="../../../../assets/js/site-search.js?v=637802783c" defer></script>
-<script src="../../../../assets/js/favorites.js?v=637802783c" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=5312d2f55f" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=5312d2f55f" defer></script>
+<script src="../../../../assets/js/site-search.js?v=5312d2f55f" defer></script>
+<script src="../../../../assets/js/favorites.js?v=5312d2f55f" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
