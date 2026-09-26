@@ -164,7 +164,7 @@ class Sim:
         self.total_dmg += amount
         self.dmg_by[tag] = self.dmg_by.get(tag, 0.0) + amount
         if self.trace is not None:
-            label = self.abilities.get(tag, {}).get("name", {}).get("fr", tag) if tag not in ("white",) else "Attaque de base"
+            label = (self.abilities.get(tag, {}).get("name", {}).get("fr") or tag) if tag not in ("white",) else "Attaque de base"
             self.trace.append(f"{self._now:6.2f}s  {label:28s} {amount:5.1f} dégâts")
 
     def avg_hit(self, idx=0):
@@ -214,7 +214,7 @@ class Sim:
                 if not was_active:
                     self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick})
                     if self.trace is not None:
-                        name = self.abilities.get(aid, {}).get("name", {}).get("fr", aid)
+                        name = self.abilities.get(aid, {}).get("name", {}).get("fr") or aid
                         self.trace.append(f"{self._now:6.2f}s  {name:28s} posé (DoT, {duration:.0f}s)")
             elif kind == "resource_generation" and eff.get("resource") == "combo_points":
                 self.combo_points = min(5, self.combo_points + eff.get("immediate", 0))
