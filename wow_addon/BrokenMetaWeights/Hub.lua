@@ -9,7 +9,11 @@ local T = IS_FR and {
   data_h = "Données pour brokenmeta.gg",
   data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, /reload, puis dépose le fichier sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
-  snap = "Enregistrer maintenant", scan = "Scanner l'hôtel des ventes",
+  snap = "Enregistrer maintenant", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
+  copy_title = "Données à coller sur brokenmeta.gg",
+  copy_hint = "Le texte est déjà sélectionné : Ctrl+C, puis colle-le sur brokenmeta.gg/wow-forever/partager-mes-donnees/ (case « Coller le texte de l'addon »).",
+  copy_off = "Active d'abord le partage (bouton Partage), le texte ne sort de l'addon que si tu le choisis.",
+  copy_empty = "Aucune donnée pour l'instant : joue un peu ou scanne l'hôtel des ventes.",
   scan_hint = "Ouvre l'hôtel des ventes (parle à un commissaire-priseur) pour activer le scan.",
   meas = "Mesures enregistrées", meas_detail = "%d (feuille de perso %d · familier %d · cotes %d)",
   ah_h = "Hôtel des ventes", ah_none = "Aucun scan. Ouvre l'hôtel des ventes et clique sur « BrokenMeta : scanner les prix ».",
@@ -43,7 +47,11 @@ local T = IS_FR and {
   data_h = "Data for brokenmeta.gg",
   data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, /reload, then drop the file on brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Sharing: ON", share_off = "Sharing: off",
-  snap = "Record now", scan = "Scan the auction house",
+  snap = "Record now", scan = "Scan the auction house", copy = "Copy for the site",
+  copy_title = "Data to paste on brokenmeta.gg",
+  copy_hint = "The text is already selected: Ctrl+C, then paste it on brokenmeta.gg/wow-forever/partager-mes-donnees/ (\"Paste the addon text\" box).",
+  copy_off = "Turn sharing on first (Sharing button): the text only leaves the addon if you choose so.",
+  copy_empty = "No data yet: play a bit or scan the auction house.",
   scan_hint = "Open the auction house (talk to an auctioneer) to enable the scan.",
   meas = "Recorded measurements", meas_detail = "%d (character sheet %d · pet %d · ratings %d)",
   ah_h = "Auction house", ah_none = "No scan yet. Open the auction house and click \"BrokenMeta: scan prices\".",
@@ -472,16 +480,21 @@ dataIntro:SetJustifyH("LEFT")
 dataIntro:SetText(T.data_intro)
 
 local shareBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
-shareBtn:SetSize(180, 22)
+shareBtn:SetSize(150, 22)
 shareBtn:SetPoint("TOPLEFT", 4, -96)
 shareBtn:SetScript("OnClick", function()
   SlashCmdList.BROKENMETAWEIGHTS(BrokenMetaWeightsDB.share and "share off" or "share on")
 end)
 local snapBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
-snapBtn:SetSize(180, 22)
-snapBtn:SetPoint("LEFT", shareBtn, "RIGHT", 10, 0)
+snapBtn:SetSize(150, 22)
+snapBtn:SetPoint("LEFT", shareBtn, "RIGHT", 8, 0)
 snapBtn:SetText(T.snap)
 snapBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("snap") end)
+local copyBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+copyBtn:SetSize(150, 22)
+copyBtn:SetPoint("LEFT", snapBtn, "RIGHT", 8, 0)
+copyBtn:SetText(T.copy)
+copyBtn:SetScript("OnClick", function() if ns.ShowShareCopy then ns.ShowShareCopy() end end)
 
 rows(pData, 10, -130, 18)
 for _, row in ipairs(pData.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
@@ -520,6 +533,50 @@ refreshers[5] = function()
     setRow(pData, i, "|cff888888" .. T.ah_none .. "|r"); i = i + 1
   end
   clearRows(pData, i)
+end
+
+---------------------------------------------------------------------------------------------
+-- Copy dialog: the share string, pre-selected for Ctrl+C
+---------------------------------------------------------------------------------------------
+local copyFrame = CreateFrame("Frame", "BrokenMetaShareCopy", UIParent, "BasicFrameTemplateWithInset")
+copyFrame:SetSize(520, 300)
+copyFrame:SetPoint("CENTER", 0, 60)
+copyFrame:SetFrameStrata("DIALOG")
+copyFrame:SetMovable(true)
+copyFrame:EnableMouse(true)
+copyFrame:RegisterForDrag("LeftButton")
+copyFrame:SetScript("OnDragStart", copyFrame.StartMoving)
+copyFrame:SetScript("OnDragStop", copyFrame.StopMovingOrSizing)
+copyFrame:Hide()
+tinsert(UISpecialFrames, "BrokenMetaShareCopy")
+copyFrame.title = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+copyFrame.title:SetPoint("TOP", 0, -5)
+copyFrame.title:SetText(T.copy_title)
+local copyHint = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+copyHint:SetPoint("TOPLEFT", 14, -32)
+copyHint:SetWidth(490)
+copyHint:SetJustifyH("LEFT")
+local copyScroll = CreateFrame("ScrollFrame", "BrokenMetaShareCopyScroll", copyFrame, "UIPanelScrollFrameTemplate")
+copyScroll:SetPoint("TOPLEFT", 14, -70)
+copyScroll:SetPoint("BOTTOMRIGHT", -32, 14)
+local copyBox = CreateFrame("EditBox", nil, copyScroll)
+copyBox:SetMultiLine(true)
+copyBox:SetAutoFocus(false)
+copyBox:SetMaxLetters(0)
+copyBox:SetFontObject(ChatFontNormal)
+copyBox:SetWidth(460)
+copyBox:SetScript("OnEscapePressed", function() copyFrame:Hide() end)
+copyScroll:SetScrollChild(copyBox)
+
+function ns.ShowShareCopy()
+  if not BrokenMetaWeightsDB.share then return ns.say(T.copy_off) end
+  local text, nMeas, nScans = ns.BuildShareString()
+  if nMeas == 0 and nScans == 0 then return ns.say(T.copy_empty) end
+  copyHint:SetText(T.copy_hint)
+  copyBox:SetText(text)
+  copyFrame:Show()
+  copyBox:SetFocus()
+  copyBox:HighlightText()
 end
 
 ---------------------------------------------------------------------------------------------

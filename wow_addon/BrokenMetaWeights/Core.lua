@@ -390,6 +390,8 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     if arg == "on" or arg == "off" then BrokenMetaWeightsDB.share = (arg == "on") end
     say(L.share_state .. (BrokenMetaWeightsDB.share and "|cff40ff40ON|r" or "off"))
     if ns.OnDataChanged then ns.OnDataChanged() end
+  elseif cmd == "copy" and ns.ShowShareCopy then
+    ns.ShowShareCopy()
   elseif cmd == "ah" and ns.StartAuctionScan then
     ns.StartAuctionScan()
   elseif cmd == "snap" and ns.SnapshotAll then

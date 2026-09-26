@@ -23,6 +23,10 @@
     <span>{{ tx.sh_drop }}</span>
     <input type="file" id="shFile" accept=".lua,text/plain">
   </label>
+  <div class="tc-field">
+    <label for="shPaste">{{ tx.sh_paste_label }}</label>
+    <textarea id="shPaste" class="ms-export" rows="4" spellcheck="false" autocomplete="off" placeholder="BMD1 addon=..."></textarea>
+  </div>
   <section id="shPreview" hidden></section>
   <label class="sh-consent"><input type="checkbox" id="shConsent"> {{ tx.sh_consent|safe }}</label>
   <div class="ms-actions">

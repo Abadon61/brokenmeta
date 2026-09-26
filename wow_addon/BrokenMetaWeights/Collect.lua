@@ -117,6 +117,50 @@ local function snapRatings()
   return store(rec)
 end
 
+-- Text version of BrokenMetaWeightsDB.data to copy-paste on the site's "share my data" page
+-- (same content the page extracts from the SavedVariables file). One record per line:
+--   BMD1 addon=..;client=..
+--   M k=stats;class=SHAMAN;level=6;agi=19;...        one measurement
+--   A t=..;realm=..;faction=..;mode=..;listings=..   one auction scan...
+--   P itemID,unit,qty,auctions;itemID,...            ...and its prices
+-- Values are percent-encoded for ";=,% " and newlines. "|" never appears: WoW edit boxes treat it
+-- as an escape character, so it is encoded too.
+local function enc(v)
+  return (tostring(v):gsub("[%%;=,|\n\r ]", function(c) return string.format("%%%02X", c:byte()) end))
+end
+
+local function fields(t, skip)
+  local keys = {}
+  for k, v in pairs(t) do
+    if not (skip and skip[k]) and (type(v) == "number" or type(v) == "string" or type(v) == "boolean") then
+      keys[#keys + 1] = k
+    end
+  end
+  table.sort(keys)
+  local parts = {}
+  for _, k in ipairs(keys) do parts[#parts + 1] = enc(k) .. "=" .. enc(t[k]) end
+  return table.concat(parts, ";")
+end
+
+function ns.BuildShareString()
+  local d = ns.Data()
+  local lines = { "BMD1 " .. fields({ addon = d.addon or "", client = d.client or "" }) }
+  for _, m in ipairs(d.meas) do lines[#lines + 1] = "M " .. fields(m) end
+  for _, scan in ipairs(d.ah) do
+    lines[#lines + 1] = "A " .. fields(scan, { prices = true })
+    local items = {}
+    for itemID in pairs(scan.prices) do items[#items + 1] = itemID end
+    table.sort(items)
+    local parts = {}
+    for _, itemID in ipairs(items) do
+      local p = scan.prices[itemID]
+      parts[#parts + 1] = itemID .. "," .. p[1] .. "," .. p[2] .. "," .. p[3]
+    end
+    lines[#lines + 1] = "P " .. table.concat(parts, ";")
+  end
+  return table.concat(lines, "\n"), #d.meas, #d.ah
+end
+
 function ns.SnapshotAll()
   local n = 0
   for _, fn in ipairs({ snapStats, snapPet, snapRatings }) do
