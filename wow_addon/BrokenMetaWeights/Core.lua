@@ -11,9 +11,11 @@ local L = IS_FR and {
   spec_set = "spécialisation : %s",
   spec_auto = "détection automatique (arbre de talents le plus rempli).",
   spec_unknown = "spécialisation inconnue : %s. Liste : /bmw list",
-  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw probe",
+  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw probe",
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
+  share_state = "partage des données avec brokenmeta.gg : ",
+  snap_done = "%d nouvelle(s) mesure(s) enregistrée(s).",
 } or {
   header = "BrokenMeta",
   vs_equipped = "vs equipped",
@@ -22,9 +24,11 @@ local L = IS_FR and {
   spec_set = "spec: %s",
   spec_auto = "automatic detection (talent tree with the most points).",
   spec_unknown = "unknown spec: %s. List: /bmw list",
-  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw probe",
+  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw probe",
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
+  share_state = "data sharing with brokenmeta.gg: ",
+  snap_done = "%d new measurement(s) recorded.",
 }
 
 local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff4fd1c5BrokenMeta|r " .. msg) end
@@ -376,12 +380,21 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     -- Which talent/spec APIs this client exposes (Forever mixes Classic data with the modern UI).
     for _, name in ipairs({ "GetNumTalentTabs", "GetTalentTabInfo", "GetTalentInfo", "C_ClassTalents",
         "C_Traits", "C_SpecializationInfo", "GetSpecialization", "GetCombatRatingBonusForCombatRatingValue",
-        "GetCombatRatingBonus", "C_Container", "C_Item" }) do
+        "GetCombatRatingBonus", "C_Container", "C_Item", "C_AuctionHouse", "QueryAuctionItems",
+        "GetAuctionItemInfo", "GetManaRegen", "UnitCreatureFamily" }) do
       say(string.format("  %s: %s", name, _G[name] and type(_G[name]) or "|cffff5050nil|r"))
     end
     local _, perTab = readTalents()
+    if C_AuctionHouse then say("  C_AuctionHouse.ReplicateItems: " .. type(C_AuctionHouse.ReplicateItems)) end
+    say("  auction scan mode: " .. tostring(ns.AuctionMode and ns.AuctionMode()))
     say("  points per tree: " .. (perTab and table.concat(perTab, " / ") or "nil")
       .. " -> tree " .. tostring(talentTabWithMostPoints()))
+  elseif cmd == "share" then
+    if arg == "on" or arg == "off" then BrokenMetaWeightsDB.share = (arg == "on") end
+    say(L.share_state .. (BrokenMetaWeightsDB.share and "|cff40ff40ON|r" or "off"))
+    if ns.OnDataChanged then ns.OnDataChanged() end
+  elseif cmd == "snap" and ns.SnapshotAll then
+    say(string.format(L.snap_done, ns.SnapshotAll()))
   elseif cmd == "minimap" and ns.ToggleMinimap then
     ns.ToggleMinimap()
   elseif cmd == "export" and ns.ShowExport then

@@ -1,0 +1,15 @@
+{
+  "name": "wow-worker",
+  "version": "1.0.0",
+  "private": true,
+  "description": "WoW: Forever data backend for BrokenMeta.gg: receives the measurements and auction prices players choose to share from the BrokenMeta addon (anonymous, consent-based, deletable with a code) and serves the aggregates the site is built from. Cloudflare Worker + D1.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^5.20260905.1",
+    "typescript": "^5.6.0",
+    "wrangler": "^4.0.0"
+  }
+}

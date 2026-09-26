@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.sh_kicker, g_h1, g_intro) }}
+
+<h2 class="fiche-section-title">{{ tx.sh_why_h2 }}</h2>
+<ul class="ms-limits">
+  {% for item in tx.sh_why %}<li>{{ item }}</li>{% endfor %}
+</ul>
+
+<h2 class="fiche-section-title">{{ tx.ms_how_h2 }}</h2>
+<ol class="ms-steps">
+  {% for step in tx.sh_steps %}<li>{{ step|safe }}</li>{% endfor %}
+</ol>
+
+<div id="shApp">
+  <label id="shDrop" class="sh-drop" for="shFile">
+    <span>{{ tx.sh_drop }}</span>
+    <input type="file" id="shFile" accept=".lua,text/plain">
+  </label>
+  <section id="shPreview" hidden></section>
+  <label class="sh-consent"><input type="checkbox" id="shConsent"> {{ tx.sh_consent|safe }}</label>
+  <div class="ms-actions">
+    <button type="button" id="shSend" class="ms-btn" disabled>{{ tx.sh_send }}</button>
+    <span id="shStatus" class="ms-status" role="status" aria-live="polite"></span>
+  </div>
+  <section id="shResult" class="ms-result" hidden></section>
+
+  <h2 class="fiche-section-title">{{ tx.sh_delete_h2 }}</h2>
+  <p>{{ tx.sh_delete_p }}</p>
+  <div class="ms-actions">
+    <input type="text" id="shDeleteCode" class="sh-code-input" placeholder="0123456789abcdef0123456789abcdef" maxlength="32" autocomplete="off" spellcheck="false">
+    <button type="button" id="shDelete" class="ms-btn">{{ tx.sh_delete_btn }}</button>
+    <span id="shDeleteStatus" class="ms-status" role="status" aria-live="polite"></span>
+  </div>
+</div>
+
+<p class="wow-note">{{ tx.sh_privacy|safe }}</p>
+
+<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+<script type="application/json" id="shI18n">{{ tx.sh_js|tojson }}</script>
+<script src="{{ root }}assets/js/wow-share.js?v={{ css_v }}" defer></script>
+{% endblock %}

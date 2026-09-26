@@ -1,0 +1,26 @@
+name = "wow-worker"
+main = "src/index.ts"
+compatibility_date = "2025-09-01"
+
+# Receives the data players choose to share from the BrokenMeta WoW addon (via the
+# /wow-forever/partager-mes-donnees/ page) and serves the aggregates the site is built from.
+#
+# One-time setup (run from this folder):
+#   npm install
+#   npx wrangler d1 create wow-data            -> paste the printed database_id below
+#   npx wrangler d1 execute wow-data --remote --file=schema.sql
+#   npx wrangler secret put IP_SALT            -> any long random string (hashes IPs for rate limiting)
+#   npx wrangler secret put ADMIN_TOKEN        -> any long random string (raw export for sim calibration)
+#   npx wrangler deploy
+# Secrets are never written in this file (it goes to git).
+[vars]
+CORS_ORIGIN = "https://brokenmeta.gg"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "wow-data"
+database_id = "REPLACE_WITH_ID_FROM_wrangler_d1_create"
+
+# Daily purge of uploads older than 24 months (retention stated on /confidentialite/).
+[triggers]
+crons = ["17 3 * * *"]

@@ -5,7 +5,15 @@ local IS_FR = ns.IS_FR
 
 local T = IS_FR and {
   title = "BrokenMeta · Hub DPS",
-  tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes",
+  tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
+  data_h = "Données pour brokenmeta.gg",
+  data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, /reload, puis dépose le fichier sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
+  share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
+  snap = "Enregistrer maintenant",
+  meas = "Mesures enregistrées", meas_detail = "%d (feuille de perso %d · familier %d · cotes %d)",
+  ah_h = "Hôtel des ventes", ah_none = "Aucun scan. Ouvre l'hôtel des ventes et clique sur « BrokenMeta : scanner les prix ».",
+  ah_last = "Dernier scan : %s · %s (%s) · %d annonces · %d objets", ah_mode = "Mode de scan du client : %s",
+  ah_count = "Scans conservés : %d",
   run = "Lancer", cmd_hint = "Commandes à taper dans le chat (ou clique sur Lancer).",
   cmds = {
     { "", "/bmw", "Ouvre ou ferme cette fenêtre." },
@@ -15,6 +23,7 @@ local T = IS_FR and {
     { nil, "/bmw spec <id>", "Force une spé, ex. /bmw spec %s" },
     { "auto", "/bmw auto", "Revient à la détection automatique par tes talents." },
     { "minimap", "/bmw minimap", "Affiche ou masque le bouton de la minicarte." },
+    { "share", "/bmw share on|off", "Active ou coupe le partage des données avec brokenmeta.gg." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -28,7 +37,15 @@ local T = IS_FR and {
   rating = "cote",
 } or {
   title = "BrokenMeta · DPS Hub",
-  tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands",
+  tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
+  data_h = "Data for brokenmeta.gg",
+  data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, /reload, then drop the file on brokenmeta.gg/wow-forever/partager-mes-donnees/",
+  share_on = "Sharing: ON", share_off = "Sharing: off",
+  snap = "Record now",
+  meas = "Recorded measurements", meas_detail = "%d (character sheet %d · pet %d · ratings %d)",
+  ah_h = "Auction house", ah_none = "No scan yet. Open the auction house and click \"BrokenMeta: scan prices\".",
+  ah_last = "Last scan: %s · %s (%s) · %d listings · %d items", ah_mode = "Client scan mode: %s",
+  ah_count = "Scans kept: %d",
   run = "Run", cmd_hint = "Commands to type in chat (or click Run).",
   cmds = {
     { "", "/bmw", "Opens or closes this window." },
@@ -38,6 +55,7 @@ local T = IS_FR and {
     { nil, "/bmw spec <id>", "Forces a spec, e.g. /bmw spec %s" },
     { "auto", "/bmw auto", "Back to automatic detection from your talents." },
     { "minimap", "/bmw minimap", "Shows or hides the minimap button." },
+    { "share", "/bmw share on|off", "Turns data sharing with brokenmeta.gg on or off." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -62,7 +80,7 @@ local function slotLabel(key) return _G[key] or key end
 ---------------------------------------------------------------------------------------------
 -- Frame
 ---------------------------------------------------------------------------------------------
-local W, H = 440, 520
+local W, H = 500, 540
 local hub = CreateFrame("Frame", "BrokenMetaHub", UIParent, "BasicFrameTemplateWithInset")
 hub:SetSize(W, H)
 hub:SetPoint("CENTER")
@@ -101,10 +119,10 @@ local function showPage(i)
   if refreshers[i] then refreshers[i]() end
 end
 
-for i, label in ipairs({ T.tab_char, T.tab_up, T.tab_export, T.tab_cmd }) do
+for i, label in ipairs({ T.tab_char, T.tab_up, T.tab_export, T.tab_cmd, T.tab_data }) do
   local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
-  b:SetSize(100, 22)
-  b:SetPoint("TOPLEFT", 12 + (i - 1) * 104, -30)
+  b:SetSize(92, 22)
+  b:SetPoint("TOPLEFT", 12 + (i - 1) * 95, -30)
   b:SetText(label)
   b:SetScript("OnClick", function() showPage(i) end)
   tabs[i] = b
@@ -408,7 +426,7 @@ cmdHint:SetJustifyH("LEFT")
 cmdHint:SetText(T.cmd_hint)
 local cmdDesc = {}
 for i, c in ipairs(T.cmds) do
-  local y = -26 - (i - 1) * 46
+  local y = -24 - (i - 1) * 42
   local name = pCmd:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   name:SetPoint("TOPLEFT", 4, y)
   name:SetText("|cff4fd1c5" .. c[2] .. "|r")
@@ -434,6 +452,55 @@ refreshers[4] = function()
       cmdDesc[i]:SetText(c[3]:format(ids[1] or "warrior_fury") .. "\n|cff888888" .. table.concat(ids, ", ") .. "|r")
     end
   end
+end
+
+---------------------------------------------------------------------------------------------
+-- Page 5: Data (what is collected for the site, sharing switch)
+---------------------------------------------------------------------------------------------
+local pData = newPage()
+local dataTitle = pData:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+dataTitle:SetPoint("TOPLEFT", 4, -2)
+dataTitle:SetText(T.data_h)
+local dataIntro = pData:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+dataIntro:SetPoint("TOPLEFT", 4, -22)
+dataIntro:SetWidth(W - 40)
+dataIntro:SetJustifyH("LEFT")
+dataIntro:SetText(T.data_intro)
+
+local shareBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+shareBtn:SetSize(180, 22)
+shareBtn:SetPoint("TOPLEFT", 4, -96)
+shareBtn:SetScript("OnClick", function()
+  SlashCmdList.BROKENMETAWEIGHTS(BrokenMetaWeightsDB.share and "share off" or "share on")
+end)
+local snapBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+snapBtn:SetSize(180, 22)
+snapBtn:SetPoint("LEFT", shareBtn, "RIGHT", 10, 0)
+snapBtn:SetText(T.snap)
+snapBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("snap") end)
+
+rows(pData, 10, -130, 18)
+
+refreshers[5] = function()
+  shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff40ff40" .. T.share_on .. "|r") or T.share_off)
+  local d = ns.Data()
+  local n = { stats = 0, pet = 0, rating = 0 }
+  for _, r in ipairs(d.meas) do n[r.k] = (n[r.k] or 0) + 1 end
+  local i = 1
+  setRow(pData, i, "|cffffd100" .. T.meas .. "|r", string.format(T.meas_detail, #d.meas, n.stats, n.pet, n.rating)); i = i + 2
+  setRow(pData, i, "|cffffd100" .. T.ah_h .. "|r"); i = i + 1
+  setRow(pData, i, string.format(T.ah_mode, tostring(ns.AuctionMode and ns.AuctionMode() or "-"))); i = i + 1
+  local last = d.ah[#d.ah]
+  if last then
+    local distinct = 0
+    for _ in pairs(last.prices) do distinct = distinct + 1 end
+    setRow(pData, i, string.format(T.ah_last, date("%d/%m %H:%M", last.t), last.realm or "?", last.faction or "?",
+      last.listings or 0, distinct)); i = i + 1
+    setRow(pData, i, string.format(T.ah_count, #d.ah)); i = i + 1
+  else
+    setRow(pData, i, "|cff888888" .. T.ah_none .. "|r"); i = i + 1
+  end
+  clearRows(pData, i)
 end
 
 ---------------------------------------------------------------------------------------------

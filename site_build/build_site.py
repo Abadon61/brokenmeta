@@ -6727,7 +6727,10 @@ def main() -> None:
         # Search Console (2026-09-26): many pages rank on page 1 but get almost no clicks, and
         # "BrokenMeta.gg | " in front pushed the words people actually type past Google's
         # truncation. Keyword first, brand last, brand dropped when it would not fit in 60 chars.
-        title = " ".join(str(title).split())
+        # self.title() arrives as already-escaped Markup: unescape it first, or the plain str
+        # returned below gets escaped a second time (Kha'Zix -> "Kha&amp;#39;Zix" in <title>).
+        title = title.unescape() if isinstance(title, Markup) else str(title)
+        title = " ".join(title.split())
         if title.startswith("BrokenMeta.gg | "):
             title = title[len("BrokenMeta.gg | "):]
             if len(title) + len(" | BrokenMeta.gg") <= 60:
@@ -7713,6 +7716,13 @@ def main() -> None:
                        g_title=_gx["ms_title"], g_desc=_gx["ms_desc"], g_h1=_gx["ms_h1"], g_intro=_gx["ms_intro"],
                        breadcrumb_schema=breadcrumb_schema(_mscrumb),
                        article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
+            # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
+            # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
+            _shpath = "/wow-forever/partager-mes-donnees/"
+            assert len(_gx["sh_title"]) <= 60 and len(_gx["sh_desc"]) <= 155
+            render("wow_share.html", _shpath, lang, active_nav="wow", active_sub="wow-partager-mes-donnees", tx=_gx,
+                   g_title=_gx["sh_title"], g_desc=_gx["sh_desc"], g_h1=_gx["sh_h1"], g_intro=_gx["sh_intro"],
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["sh_h1"], canonical_for(_shpath, lang))]))
             _pcrumb = _gbase + [(_gx["professions"], canonical_for("/wow-forever/professions/", lang))]
             render("wow_professions_hub.html", "/wow-forever/professions/", lang, active_nav="wow", active_sub="wow-professions", tx=_gx, profs=wow_profs,
                    breadcrumb_schema=breadcrumb_schema(_pcrumb))
@@ -8629,7 +8639,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"

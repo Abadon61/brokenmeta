@@ -2290,6 +2290,13 @@
   .ms-stats th[scope="row"], .ms-stats thead th:first-child { text-align: left; font-weight: normal; color: var(--text-dim); }
   .ms-stats thead th { color: var(--text-faint); font-weight: normal; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
   .ms-limits { padding-left: 22px; line-height: 1.7; color: var(--text-dim); }
+  .sh-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 120px; margin: 12px 0; padding: 18px; border: 2px dashed var(--border); background: var(--bg-2); color: var(--text-dim); text-align: center; cursor: pointer; }
+  .sh-drop.is-over, .sh-drop:hover { border-color: var(--cyan); color: var(--cream); }
+  .sh-drop input { font-size: 12px; color: var(--text-faint); }
+  .sh-consent { display: flex; gap: 10px; align-items: flex-start; margin: 12px 0; font-size: 13.5px; line-height: 1.5; color: var(--text-dim); }
+  .sh-consent input { margin-top: 3px; }
+  .sh-code { display: inline-block; padding: 6px 10px; background: var(--bg-2); border: 1px solid var(--cyan); color: var(--cream); font-size: 14px; user-select: all; }
+  .sh-code-input { min-width: 290px; background: var(--bg-2); border: 1px solid var(--border); color: var(--cream); padding: 8px 10px; font: 13px ui-monospace, Consolas, monospace; }
   @media (max-width: 560px) {
     .ms-bar-row, .ms-src { grid-template-columns: 1fr auto; }
     .ms-bar-row .wow-rank-bar-wrap, .ms-src .wow-rank-bar-wrap { grid-column: 1 / -1; grid-row: 2; }
