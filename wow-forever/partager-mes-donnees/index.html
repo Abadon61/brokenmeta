@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">Comment faire</h2>
 <ol class="ms-steps">
-  <li>En jeu, activez le partage : <code>/bmw share on</code> (ou onglet Données du hub), puis déconnectez-vous ou tapez <code>/reload</code> pour que le jeu écrive le fichier.</li><li>Retrouvez le fichier <code>BrokenMetaWeights.lua</code> dans <code>World of Warcraft\_classic_beta_\WTF\Account\&lt;votre compte&gt;\SavedVariables\</code>.</li><li>Déposez-le ci-dessous, vérifiez l'aperçu, cochez la case de consentement et envoyez.</li>
+  <li>En jeu, activez le partage : <code>/bmw share on</code> (ou onglet Data du hub).</li><li>Le plus simple : onglet Data du hub > « Copier pour le site », Ctrl+C, puis collez le texte ci-dessous. Sinon, après un <code>/reload</code>, déposez le fichier <code>BrokenMetaWeights.lua</code> de <code>World of Warcraft\_classic_beta_\WTF\Account\&lt;votre compte&gt;\SavedVariables\</code>.</li><li>Vérifiez l'aperçu, cochez la case de consentement et envoyez.</li>
 </ol>
 
 <div id="shApp">
@@ -357,6 +357,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span>Glissez BrokenMetaWeights.lua ici, ou cliquez pour le choisir</span>
     <input type="file" id="shFile" accept=".lua,text/plain">
   </label>
+  <div class="tc-field">
+    <label for="shPaste">… ou collez le texte de l&#39;addon (onglet Data du hub &gt; « Copier pour le site », puis Ctrl+C)</label>
+    <textarea id="shPaste" class="ms-export" rows="4" spellcheck="false" autocomplete="off" placeholder="BMD1 addon=..."></textarea>
+  </div>
   <section id="shPreview" hidden></section>
   <label class="sh-consent"><input type="checkbox" id="shConsent"> J'accepte que ces données anonymes (mesures en jeu et prix, royaume et faction compris) soient enregistrées par BrokenMeta.gg pour les usages décrits ci-dessus, conformément à la <a href="../../confidentialite/#addon-wow">politique de confidentialité</a>.</label>
   <div class="ms-actions">

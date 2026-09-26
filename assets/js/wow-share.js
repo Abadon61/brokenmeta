@@ -115,6 +115,38 @@
     return out;
   }
 
+  // Text copied from the addon (Data tab > "Copy for the site"), see ns.BuildShareString in
+  // Collect.lua. Returns the same shape as the SavedVariables table so load() handles both.
+  function parseShareText(text) {
+    function dec(v) { try { return decodeURIComponent(v); } catch (e) { return v; } }
+    function val(v) { v = dec(v); return /^-?\d+(\.\d+)?$/.test(v) ? Number(v) : v; }
+    function fields(str) {
+      var o = {};
+      (str || '').split(';').forEach(function (kv) {
+        var i = kv.indexOf('=');
+        if (i > 0) o[dec(kv.slice(0, i))] = val(kv.slice(i + 1));
+      });
+      return o;
+    }
+    var lines = text.replace(/\r/g, '').split('\n').map(function (l) { return l.trim(); }).filter(Boolean);
+    if (!lines.length || lines[0].slice(0, 4) !== 'BMD1') return null;
+    var head = fields(lines[0].slice(5));
+    var data = { addon: head.addon, client: head.client, meas: [], ah: [] }, scan = null;
+    lines.slice(1).forEach(function (l) {
+      var tag = l.slice(0, 2), rest = l.slice(2);
+      if (tag === 'M ') data.meas.push(fields(rest));
+      else if (tag === 'A ') { scan = fields(rest); scan.prices = {}; data.ah.push(scan); }
+      else if (tag === 'P ' && scan) {
+        rest.split(';').forEach(function (e) {
+          var n = e.split(',').map(Number);
+          if (n.length === 4 && n.every(isFinite)) scan.prices[n[0]] = [n[1], n[2], n[3]];
+        });
+      }
+    });
+    // The addon only produces this text when sharing is on.
+    return { BrokenMetaWeightsDB: { share: true, data: data, chars: {} } };
+  }
+
   function asArray(v) { return Array.isArray(v) ? v : (v && typeof v === 'object' ? Object.values(v) : []); }
 
   function load(text) {
@@ -122,7 +154,10 @@
     sendBtn.disabled = true;
     result.hidden = true;
     var db;
-    try { db = parseSavedVariables(text).BrokenMetaWeightsDB; } catch (e) { console.error(e); db = null; }
+    try {
+      var trimmed = text.replace(/^\s+/, '');
+      db = (trimmed.slice(0, 4) === 'BMD1' ? parseShareText(trimmed) : parseSavedVariables(text)).BrokenMetaWeightsDB;
+    } catch (e) { console.error(e); db = null; }
     if (!db || typeof db !== 'object') { preview.hidden = true; return say(T.err_file, true); }
     var data = db.data && typeof db.data === 'object' ? db.data : null;
     var meas = data ? asArray(data.meas) : [];
@@ -179,6 +214,12 @@
   }
 
   fileInput.addEventListener('change', function () { readFile(fileInput.files[0]); });
+  var pasteTimer = null;
+  $('shPaste').addEventListener('input', function () {
+    clearTimeout(pasteTimer);
+    var v = this.value;
+    pasteTimer = setTimeout(function () { if (v.trim()) load(v); }, 250);
+  });
   ['dragenter', 'dragover'].forEach(function (ev) {
     drop.addEventListener(ev, function (e) { e.preventDefault(); drop.classList.add('is-over'); });
   });

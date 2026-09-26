@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">How it works</h2>
 <ol class="ms-steps">
-  <li>In game, turn sharing on: <code>/bmw share on</code> (or the hub's Data tab), then log out or type <code>/reload</code> so the game writes the file.</li><li>Find <code>BrokenMetaWeights.lua</code> in <code>World of Warcraft\_classic_beta_\WTF\Account\&lt;your account&gt;\SavedVariables\</code>.</li><li>Drop it below, check the preview, tick the consent box and send.</li>
+  <li>In game, turn sharing on: <code>/bmw share on</code> (or the hub's Data tab).</li><li>Easiest: hub Data tab > "Copy for the site", Ctrl+C, then paste the text below. Otherwise, after a <code>/reload</code>, drop the <code>BrokenMetaWeights.lua</code> file from <code>World of Warcraft\_classic_beta_\WTF\Account\&lt;your account&gt;\SavedVariables\</code>.</li><li>Check the preview, tick the consent box and send.</li>
 </ol>
 
 <div id="shApp">
@@ -357,6 +357,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span>Drop BrokenMetaWeights.lua here, or click to choose it</span>
     <input type="file" id="shFile" accept=".lua,text/plain">
   </label>
+  <div class="tc-field">
+    <label for="shPaste">… or paste the addon text (hub Data tab &gt; &#34;Copy for the site&#34;, then Ctrl+C)</label>
+    <textarea id="shPaste" class="ms-export" rows="4" spellcheck="false" autocomplete="off" placeholder="BMD1 addon=..."></textarea>
+  </div>
   <section id="shPreview" hidden></section>
   <label class="sh-consent"><input type="checkbox" id="shConsent"> I agree that this anonymous data (in-game measurements and prices, including realm and faction) is stored by BrokenMeta.gg for the uses described above, under the <a href="../../confidentialite/#addon-wow">privacy policy</a>.</label>
   <div class="ms-actions">
