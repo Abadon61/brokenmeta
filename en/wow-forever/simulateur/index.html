@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Level 20 Fury Warrior DPS simulator">
 <meta name="twitter:description" content="Level 20 Fury Warrior: event-driven DPS simulator built on the real kit at the beta&#39;s current cap (Rend, Overpower), not the level-60 kit.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=940b396954">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=940b396954">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=940b396954">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -378,7 +378,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </div>
-<script src="../../../assets/js/wow-warrior-weights.js?v=940b396954" defer></script>
+<script src="../../../assets/js/wow-warrior-weights.js?v=af4ff9681b" defer></script>
 
 <h2 class="fiche-section-title">How this is calculated, and what&#39;s missing</h2>
 <ul class="gd-list"><li>This formula-based calculation uses the real level-20 kit (Rend, Overpower), not level-60&#39;s Bloodthirst/Whirlwind: Rend deals 45 damage over 15 seconds (rank 3, the level-20 cap), Overpower deals 100% weapon damage + 5 flat. Both values come directly from WoW: Forever&#39;s real Wowhead tooltips, not an estimate.</li><li>Rend is assumed maintained continuously (100% uptime): a reasonable approximation since it only costs 10 Rage and refreshes outright, never stacking.</li><li>Overpower can only be cast within 5 seconds of the target dodging one of your normal swings: its usage rate is therefore estimated from your assumed Dodge chance (5%, a target close to your own level) times your normal-hit rate per second, capped by its own 5-second cooldown. This is a steady-state approximation, not an exact second-by-second calculation.</li><li>Critical Strike Rating (14 = 1% at level 60) and Hit Rating (10 = 1%) come directly from real WoW: Forever item tooltips, which show the percentage equivalent in parentheses.</li><li>A critical strike deals 200% of normal damage (standard World of Warcraft mechanic).</li><li>This formula-based calculation deliberately ignores randomly-triggered talents (Flurry, Unbridled Wrath) and Bloodrage: it&#39;s a quick order-of-magnitude estimate, not a full simulation.</li></ul>
@@ -435,10 +435,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=940b396954" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=940b396954" defer></script>
-<script src="../../../assets/js/site-search.js?v=940b396954" defer></script>
-<script src="../../../assets/js/favorites.js?v=940b396954" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
