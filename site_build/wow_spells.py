@@ -49,6 +49,7 @@ TXT = {
         "source_wowhead": "Infobulle Wowhead",
         "back_to_hub": "Retour au glossaire",
         "seealso_optimizer": "Voir aussi : le simulateur de DPS et l'optimiseur de personnage utilisent ces mêmes données.",
+        "talents_no_tooltip_note": "Les noms de talents ci-dessus ne sont pas encore cliquables : leurs identifiants internes (extraits des données client de la bêta) ne correspondent pas à un vrai identifiant de sort Wowhead vérifié, donc aucune infobulle n'est affichée plutôt que de pointer vers une mauvaise page.",
     },
     "en": {
         "kicker": "World of Warcraft: Forever · Glossary",
@@ -72,6 +73,7 @@ TXT = {
         "source_wowhead": "Wowhead tooltip",
         "back_to_hub": "Back to glossary",
         "seealso_optimizer": "See also: the DPS simulator and character optimizer use this same data.",
+        "talents_no_tooltip_note": "Talent names above aren't clickable yet: their internal IDs (pulled from the beta's own client data) don't match a verified real Wowhead spell ID, so no tooltip is shown rather than risk linking to the wrong page.",
     },
 }
 
