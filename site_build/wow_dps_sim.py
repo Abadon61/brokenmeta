@@ -174,6 +174,9 @@ class Sim:
         return weapons[idx]["dmg"] + self.stats["ap"] / 14
 
     def off_cooldown(self, aid, t):
+        group = self.abilities[aid].get("cooldown_group")
+        if group and t < self.cooldowns.get(f"group:{group}", 0):
+            return False
         return t >= self.cooldowns.get(aid, 0)
 
     def has_resource(self, aid):
@@ -380,6 +383,9 @@ class Sim:
         cd = self.abilities[aid].get("cooldown_sec")
         if cd:
             self.cooldowns[aid] = t + cd
+            group = self.abilities[aid].get("cooldown_group")
+            if group:
+                self.cooldowns[f"group:{group}"] = t + cd
 
     def run(self):
         weapons = self.profile.get("weapons", [])
@@ -539,8 +545,18 @@ ROTATIONS = {
     "shaman_enhancement": {
         "glossary": "shaman", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 28, "speed": 2.6}],
+        # Real-game correction (2026-09-26, user-flagged): a Shaman's spellbook isn't restricted
+        # to whichever tree got the talent points -- min_level 10 and untalented ("trees": [])
+        # per shaman_flame_shock's own glossary entry, so it's just as real and castable for
+        # Enhancement as for Elemental. Icy Veins' own Enhancement guide doesn't mention it (its
+        # priority text is Earth Shock-only), but the ability itself is sourced and legitimately
+        # available, so it's included per real class mechanics rather than left out. Still missing
+        # (real gaps, not sourced in this glossary yet): Searing Totem (a totem that deals its own
+        # periodic damage) and Strength of Earth Totem (the stat-buff totem the user describes
+        # dropping at pull) -- both need fresh Wowhead/Icy Veins sourcing before they can be added.
         "rotation": [
-            {"ability": "shaman_earth_shock", "kind": "on_cooldown"},  # the only rotational damage spell this glossary sources
+            {"ability": "shaman_flame_shock", "kind": "maintain_dot"},
+            {"ability": "shaman_earth_shock", "kind": "on_cooldown"},
         ],
     },
     "shaman_elemental": {
