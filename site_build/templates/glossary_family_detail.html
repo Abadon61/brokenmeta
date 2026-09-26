@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "macros.html" as m %}
-{% block title %}BrokenMeta.gg | {{ trait_label(f.name, lang) }} — {{ t(lang, 'glossary_families_title') }}{% endblock %}
+{% block title %}BrokenMeta.gg | {% if lang == 'fr' %}Compo {{ trait_label(f.name, lang) }} TFT Set 18 : champions et compos{% else %}{{ trait_label(f.name, lang) }} TFT Set 18: comps and champions{% endif %}{% endblock %}
 {% block description %}{{ t(lang, 'family_detail_desc', trait_label(f.name, lang)) }}{% endblock %}
 {% block content %}
 <div class="family-fiche-header">

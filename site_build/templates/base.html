@@ -29,7 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      opens a second, separate connection for the real font request. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}</title>
+<title>{{ self.title()|seo_title }}</title>{% if false %}{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}{% endif %}
 <meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
 <link rel="canonical" href="{{ canonical }}">
 {% if not no_hreflang %}<link rel="alternate" hreflang="{{ lang }}" href="{{ canonical }}">
@@ -37,7 +37,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="alternate" hreflang="x-default" href="{{ canonical if lang == 'fr' else alt_canonical }}">{% endif %}
 <meta property="og:type" content="{% block og_type %}website{% endblock %}">
 <meta property="og:site_name" content="BrokenMeta.gg">
-<meta property="og:title" content="{% block og_title %}{{ self.title() }}{% endblock %}">
+<meta property="og:title" content="{% block og_title %}{{ self.title()|seo_title }}{% endblock %}">
 <meta property="og:description" content="{% block og_description %}{{ self.description() }}{% endblock %}">
 <meta property="og:url" content="{{ canonical }}">
 <meta property="og:locale" content="{{ 'fr_FR' if lang == 'fr' else 'en_US' }}">
