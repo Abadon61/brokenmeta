@@ -18,7 +18,7 @@
   </tr></thead>
   <tbody>{% for a in abilities %}
   <tr>
-    <td data-first><b>{{ a.name[lang] or a.name.en }}</b></td>
+    <td data-first><b><a href="{{ a.source_url }}" rel="noopener nofollow" target="_blank">{{ a.name[lang] or a.name.en }}</a></b></td>
     <td class="nums">{{ a.min_level }}</td>
     <td class="nums">{{ a.cost_text or tx.no_cost }}</td>
     <td class="nums">{{ (a.cooldown_sec ~ 's') if a.cooldown_sec else tx.no_cooldown }}</td>
@@ -44,6 +44,7 @@
     <td>{% if t.dps_relevant == true %}{{ tx.dps_yes }}{% elif t.dps_relevant == false %}{{ tx.dps_no }}{% else %}{{ tx.dps_unknown }}{% endif %}</td>
   </tr>{% endfor %}</tbody>
 </table></div>
+<p class="wow-note">{{ tx.talents_no_tooltip_note }}</p>
 {% endif %}
 
 {% if gaps %}

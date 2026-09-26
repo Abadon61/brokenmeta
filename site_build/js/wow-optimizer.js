@@ -59,6 +59,22 @@
     return 'https://wow.zamimg.com/images/wow/icons/large/' + it.icon + '.jpg';
   }
 
+  function wowheadItemLink(it, innerHtml) {
+    // href="#" + onclick="return false" (Wowhead's own documented "Custom URLs" pattern,
+    // wowhead.com/tooltips) blocks the page-jump but still lets the click bubble up to
+    // whatever ancestor button/row handles the actual pick/equip action. tabindex="-1" keeps
+    // it out of the tab order (the ancestor button/row is already the real, single focus stop).
+    return '<a href="https://www.wowhead.com/forever/item=' + it.id + '" onclick="return false" tabindex="-1">' + innerHtml + '</a>';
+  }
+
+  function refreshWowheadTooltips() {
+    // 2026-09-26 (user-flagged: tooltips missing on some WoW: Forever pages): this page's item
+    // names are rendered client-side after a fetch, but Wowhead's tooltips.js (loaded in
+    // base.html's <head>) only scans the DOM once on its own init -- links added afterwards need
+    // this explicit refreshLinks() call (its own public, documented API) or they never get wired.
+    if (window.WH && WH.Tooltips && WH.Tooltips.refreshLinks) WH.Tooltips.refreshLinks(true);
+  }
+
   function updateSlotVisual(slotKey) {
     var btn = avatar.querySelector('[data-slot="' + slotKey + '"]');
     if (!btn) return;
@@ -72,17 +88,19 @@
       img.src = iconUrl(it);
       img.hidden = false;
       empty.hidden = true;
-      nameEl.textContent = it.name;
+      nameEl.innerHTML = wowheadItemLink(it, it.name);
       nameEl.className = 'op-slot-itemname dg-q' + it.q;
       nameEl.hidden = false;
       ilvlEl.textContent = (I.itemLevel || 'ilvl {lvl}').replace('{lvl}', it.lvl || it.req || '?');
       ilvlEl.hidden = false;
       placeholder.hidden = true;
       btn.title = it.name + ' — ' + sourceText(it);
+      refreshWowheadTooltips();
     } else {
       img.hidden = true;
       empty.hidden = false;
       nameEl.hidden = true;
+      nameEl.innerHTML = '';
       ilvlEl.hidden = true;
       placeholder.hidden = false;
       btn.title = '';
@@ -325,7 +343,7 @@
       }
       row.innerHTML = '<img src="' + iconUrl(it) + '" alt="" loading="lazy">' +
         '<span class="op-picker-row-text">' +
-        '<span class="op-picker-row-name dg-q' + it.q + '">' + it.name + badge + '</span>' +
+        '<span class="op-picker-row-name dg-q' + it.q + '">' + wowheadItemLink(it, it.name) + badge + '</span>' +
         '<span class="op-picker-row-meta">' + statsText(it) + ' — ' + sourceText(it) + '</span>' +
         diffHtml +
         '</span>';
@@ -338,6 +356,7 @@
       });
       pickerList.appendChild(row);
     });
+    refreshWowheadTooltips();
   }
 
   function openPicker(slotKey) {
