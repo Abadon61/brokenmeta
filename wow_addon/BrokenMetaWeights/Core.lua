@@ -11,7 +11,7 @@ local L = IS_FR and {
   spec_set = "spécialisation : %s",
   spec_auto = "détection automatique (arbre de talents le plus rempli).",
   spec_unknown = "spécialisation inconnue : %s. Liste : /bmw list",
-  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw probe",
+  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw probe",
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
@@ -24,7 +24,7 @@ local L = IS_FR and {
   spec_set = "spec: %s",
   spec_auto = "automatic detection (talent tree with the most points).",
   spec_unknown = "unknown spec: %s. List: /bmw list",
-  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw probe",
+  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw probe",
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
@@ -138,10 +138,9 @@ end
 ---------------------------------------------------------------------------------------------
 -- Rating -> percentage conversion
 ---------------------------------------------------------------------------------------------
--- Forever items carry Crit/Hit as ratings. Preferred source: the client itself (exact at any
--- level). Fallback: 14 crit rating / 10 hit rating per 1% at level 60 -- read on Forever's own
--- item tooltips -- scaled down for lower levels with the Burning Crusade formula (level-8)/52,
--- which is an ASSUMPTION for Forever, not a confirmed value.
+-- Forever items carry Crit/Hit as ratings. Preferred source: the client itself. Fallback: 14 crit
+-- rating / 10 hit rating per 1% -- read on Forever's item tooltips at level 60 AND measured in game
+-- at level 6 by the addon itself (2026-09-26): Forever does not scale ratings with level.
 local CR = {
   hit_melee = CR_HIT_MELEE or 6, hit_ranged = CR_HIT_RANGED or 7, hit_spell = CR_HIT_SPELL or 8,
   crit_melee = CR_CRIT_MELEE or 9, crit_ranged = CR_CRIT_RANGED or 10, crit_spell = CR_CRIT_SPELL or 11,
@@ -159,9 +158,7 @@ local function computeRatingPerPct(kind, cr)
     local ok2, pct = pcall(GetCombatRatingBonus, cr)
     if ok1 and ok2 and rating and pct and rating > 0 and pct > 0 then return rating / pct, false end
   end
-  local level = UnitLevel("player") or 60
-  local scale = math.max(1, level - 8) / 52
-  return L60[kind] * math.min(1, scale), true
+  return L60[kind], true
 end
 
 local function refreshRatings()
@@ -393,6 +390,8 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     if arg == "on" or arg == "off" then BrokenMetaWeightsDB.share = (arg == "on") end
     say(L.share_state .. (BrokenMetaWeightsDB.share and "|cff40ff40ON|r" or "off"))
     if ns.OnDataChanged then ns.OnDataChanged() end
+  elseif cmd == "ah" and ns.StartAuctionScan then
+    ns.StartAuctionScan()
   elseif cmd == "snap" and ns.SnapshotAll then
     say(string.format(L.snap_done, ns.SnapshotAll()))
   elseif cmd == "minimap" and ns.ToggleMinimap then

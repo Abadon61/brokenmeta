@@ -235,7 +235,10 @@ L('''function()
   AuctionFrame = CreateFrame("Frame", "AuctionFrame")
 end''')()
 print("mode:", g.NS.AuctionMode())
-g.NS.ShowAuctionButton(); g.BrokenMetaAuctionScanButton.scripts.OnClick(); g.flush()
+for f in L("function() return frames end")().values():
+    if f.events and f.events["AUCTION_HOUSE_SHOW"]:
+        f.scripts.OnEvent(f, "AUCTION_HOUSE_SHOW")
+g.flush(); g.BrokenMetaAuctionScanButton.scripts.OnClick(); g.flush()
 d = g.NS.Data(); s = d.ah[len(d.ah)]
 print("getAll flag:", L('function() return QARGS[7] end')(), "prices:", {k: list(v.values()) for k, v in s.prices.items()})
 print("==== share + data tab")
@@ -245,3 +248,15 @@ g.SlashCmdList.BROKENMETAWEIGHTS("")
 L('function(label) for _, f in ipairs(frames) do if rawget(f, "text") == label and f.scripts.OnClick then f.scripts.OnClick() end end end')("Data")
 for t in L('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t and (t:find("scan") or t:find("measure") or t:find("Scan")) then o[#o+1] = t end end return o end')().values():
     print("UI:", t)
+print("==== scan refused when auction house closed + /bmw ah")
+for f in L("function() return frames end")().values():
+    if f.events and f.events["AUCTION_HOUSE_CLOSED"]:
+        f.scripts.OnEvent(f, "AUCTION_HOUSE_CLOSED")
+g.SlashCmdList.BROKENMETAWEIGHTS("ah"); print(g.chat[len(g.chat)])
+for f in L("function() return frames end")().values():
+    if f.events and f.events["AUCTION_HOUSE_SHOW"]:
+        f.scripts.OnEvent(f, "AUCTION_HOUSE_SHOW")
+g.flush()
+n = len(g.NS.Data().ah)
+g.SlashCmdList.BROKENMETAWEIGHTS("ah"); g.flush()
+print("scans before/after /bmw ah:", n, len(g.NS.Data().ah), "| button shown:", g.BrokenMetaAuctionScanButton.shown)

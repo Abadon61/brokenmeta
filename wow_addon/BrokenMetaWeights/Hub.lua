@@ -9,7 +9,8 @@ local T = IS_FR and {
   data_h = "Données pour brokenmeta.gg",
   data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, /reload, puis dépose le fichier sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
-  snap = "Enregistrer maintenant",
+  snap = "Enregistrer maintenant", scan = "Scanner l'hôtel des ventes",
+  scan_hint = "Ouvre l'hôtel des ventes (parle à un commissaire-priseur) pour activer le scan.",
   meas = "Mesures enregistrées", meas_detail = "%d (feuille de perso %d · familier %d · cotes %d)",
   ah_h = "Hôtel des ventes", ah_none = "Aucun scan. Ouvre l'hôtel des ventes et clique sur « BrokenMeta : scanner les prix ».",
   ah_last = "Dernier scan : %s · %s (%s) · %d annonces · %d objets", ah_mode = "Mode de scan du client : %s",
@@ -24,6 +25,7 @@ local T = IS_FR and {
     { "auto", "/bmw auto", "Revient à la détection automatique par tes talents." },
     { "minimap", "/bmw minimap", "Affiche ou masque le bouton de la minicarte." },
     { "share", "/bmw share on|off", "Active ou coupe le partage des données avec brokenmeta.gg." },
+    { "ah", "/bmw ah", "Scanne l'hôtel des ventes (il doit être ouvert)." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -41,7 +43,8 @@ local T = IS_FR and {
   data_h = "Data for brokenmeta.gg",
   data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, /reload, then drop the file on brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Sharing: ON", share_off = "Sharing: off",
-  snap = "Record now",
+  snap = "Record now", scan = "Scan the auction house",
+  scan_hint = "Open the auction house (talk to an auctioneer) to enable the scan.",
   meas = "Recorded measurements", meas_detail = "%d (character sheet %d · pet %d · ratings %d)",
   ah_h = "Auction house", ah_none = "No scan yet. Open the auction house and click \"BrokenMeta: scan prices\".",
   ah_last = "Last scan: %s · %s (%s) · %d listings · %d items", ah_mode = "Client scan mode: %s",
@@ -56,6 +59,7 @@ local T = IS_FR and {
     { "auto", "/bmw auto", "Back to automatic detection from your talents." },
     { "minimap", "/bmw minimap", "Shows or hides the minimap button." },
     { "share", "/bmw share on|off", "Turns data sharing with brokenmeta.gg on or off." },
+    { "ah", "/bmw ah", "Scans the auction house (it must be open)." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -426,7 +430,7 @@ cmdHint:SetJustifyH("LEFT")
 cmdHint:SetText(T.cmd_hint)
 local cmdDesc = {}
 for i, c in ipairs(T.cmds) do
-  local y = -24 - (i - 1) * 42
+  local y = -22 - (i - 1) * 38
   local name = pCmd:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
   name:SetPoint("TOPLEFT", 4, y)
   name:SetText("|cff4fd1c5" .. c[2] .. "|r")
@@ -480,9 +484,24 @@ snapBtn:SetText(T.snap)
 snapBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("snap") end)
 
 rows(pData, 10, -130, 18)
+for _, row in ipairs(pData.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
+
+-- A click here counts as the hardware event full scans require, same as the auction window button.
+local scanBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+scanBtn:SetSize(370, 22)
+scanBtn:SetPoint("TOPLEFT", 4, -330)
+scanBtn:SetText(T.scan)
+scanBtn:SetScript("OnClick", function() if ns.StartAuctionScan then ns.StartAuctionScan() end end)
+local scanHint = pData:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+scanHint:SetPoint("TOPLEFT", scanBtn, "BOTTOMLEFT", 0, -6)
+scanHint:SetWidth(W - 40)
+scanHint:SetJustifyH("LEFT")
 
 refreshers[5] = function()
   shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff40ff40" .. T.share_on .. "|r") or T.share_off)
+  local open = ns.IsAuctionOpen and ns.IsAuctionOpen()
+  if open then scanBtn:Enable() else scanBtn:Disable() end
+  scanHint:SetText(open and "" or ("|cff888888" .. T.scan_hint .. "|r"))
   local d = ns.Data()
   local n = { stats = 0, pet = 0, rating = 0 }
   for _, r in ipairs(d.meas) do n[r.k] = (n[r.k] or 0) + 1 end

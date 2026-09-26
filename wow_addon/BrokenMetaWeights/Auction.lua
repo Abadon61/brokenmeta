@@ -15,12 +15,14 @@ local T = IS_FR and {
   wait = "le jeu n'autorise un scan complet que toutes les 15 minutes environ. Réessaie plus tard.",
   noapi = "aucune fonction de scan de l'hôtel des ventes n'est disponible dans ce client.",
   empty = "le scan n'a renvoyé aucune annonce.",
+  closed = "ouvre d'abord l'hôtel des ventes (parle à un commissaire-priseur), puis relance le scan.",
 } or {
   button = "BrokenMeta: scan prices", scanning = "Scanning… %d / %d",
   done = "auction house scan done: %d listings, %d distinct items.",
   wait = "the game only allows a full scan about every 15 minutes. Try again later.",
   noapi = "no auction house scan function is available in this client.",
   empty = "the scan returned no listings.",
+  closed = "open the auction house first (talk to an auctioneer), then start the scan again.",
 }
 
 local function mode()
@@ -30,7 +32,7 @@ local function mode()
 end
 ns.AuctionMode = mode
 
-local btn, scanning = nil, false
+local btn, scanning, ahOpen = nil, false, false
 local events = CreateFrame("Frame")
 
 local function finish(prices, listings)
@@ -81,10 +83,15 @@ end
 
 events:SetScript("OnEvent", function(_, event)
   if event == "AUCTION_HOUSE_SHOW" then
+    ahOpen = true
     -- The auction frame is load-on-demand: let Blizzard's own handler create it first.
     C_Timer.After(0, ns.ShowAuctionButton)
+    C_Timer.After(0.5, ns.ShowAuctionButton)
+    if ns.OnDataChanged then ns.OnDataChanged() end
   elseif event == "AUCTION_HOUSE_CLOSED" then
+    ahOpen = false
     if btn then btn:Hide() end
+    if ns.OnDataChanged then ns.OnDataChanged() end
     if scanning then finish({}, 0) end
   elseif event == "REPLICATE_ITEM_LIST_UPDATE" and scanning then
     events:UnregisterEvent("REPLICATE_ITEM_LIST_UPDATE")
@@ -108,8 +115,11 @@ events:RegisterEvent("AUCTION_HOUSE_SHOW")
 events:RegisterEvent("AUCTION_HOUSE_CLOSED")
 
 -- Must run from a click (hardware event): full-scan APIs refuse otherwise.
+function ns.IsAuctionOpen() return ahOpen end
+
 function ns.StartAuctionScan()
   if scanning then return end
+  if not ahOpen then return ns.say(T.closed) end
   local m = mode()
   if m == "replicate" then
     scanning = true
@@ -127,19 +137,24 @@ function ns.StartAuctionScan()
   if btn then btn:Disable(); btn:SetText(string.format(T.scanning, 0, 0)) end
 end
 
+-- Parented to UIParent and anchored just under the auction window: inside Forever's (modern)
+-- auction frame the first version was hidden behind its own layers (0.5.1 fix, seen in game).
 function ns.ShowAuctionButton()
-  local parent = AuctionHouseFrame or AuctionFrame
-  if not parent then return end
+  if not ahOpen then return end
+  local anchor = AuctionHouseFrame or AuctionFrame
+  if not anchor then return end
   if not btn then
-    btn = CreateFrame("Button", "BrokenMetaAuctionScanButton", parent, "UIPanelButtonTemplate")
-    btn:SetSize(220, 22)
-    btn:SetPoint("TOPRIGHT", parent, "TOPRIGHT", -30, -2)
+    btn = CreateFrame("Button", "BrokenMetaAuctionScanButton", UIParent, "UIPanelButtonTemplate")
+    btn:SetSize(240, 24)
+    btn:SetFrameStrata("DIALOG")
     btn:SetScript("OnClick", ns.StartAuctionScan)
     local icon = btn:CreateTexture(nil, "ARTWORK")
     icon:SetSize(16, 16)
     icon:SetPoint("LEFT", 6, 0)
     icon:SetTexture(ns.ICON)
   end
+  btn:ClearAllPoints()
+  btn:SetPoint("TOPRIGHT", anchor, "BOTTOMRIGHT", 0, -4)
   if not scanning then btn:SetText(T.button); btn:Enable() end
   btn:Show()
 end
