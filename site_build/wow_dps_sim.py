@@ -41,6 +41,7 @@ import argparse
 import heapq
 import json
 import random
+import re
 
 import wow_spells
 
@@ -68,14 +69,18 @@ def roll(chance):
 
 
 def parse_cast_time(raw):
-    """"instant" -> 0.0, "3 sec" -> 3.0. Anything else (e.g. Heroic Strike's "on next melee
-    swing", unused by any class modeled here) -> 0.0, since no glossary ability used here
-    needs it."""
+    """"instant" -> 0.0, "3 sec" -> 3.0, "2 sec (Improved Corruption, ...)" -> 2.0 -- matches a
+    leading number+sec even when the field also carries descriptive caveat text (real bug found
+    2026-09-26: the old raw.endswith(" sec") check silently read Corruption's caveat-laden
+    cast_time as 0.0 instead of 2.0, since the full string doesn't end in " sec"). Anything else
+    (e.g. Heroic Strike's "on next melee swing", unused by any class modeled here) -> 0.0, since
+    no glossary ability used here needs it."""
     if not raw or raw == "instant":
         return 0.0
-    if raw.endswith(" sec"):
+    m = re.match(r"([\d.]+)\s*sec\b", raw)
+    if m:
         try:
-            return float(raw.split(" ")[0])
+            return float(m.group(1))
         except ValueError:
             return 0.0
     return 0.0
@@ -146,6 +151,8 @@ class Sim:
         self.pending_swing_bonus_tag = None
         self.dmg_by = {}
         self.total_dmg = 0.0
+        self.trace = None  # set to [] before run() to record a play-by-play (see trace_rotation())
+        self._now = 0.0
 
     def push(self, time, kind, data=None):
         if time > self.fight_len:
@@ -156,6 +163,9 @@ class Sim:
     def add_dmg(self, amount, tag):
         self.total_dmg += amount
         self.dmg_by[tag] = self.dmg_by.get(tag, 0.0) + amount
+        if self.trace is not None:
+            label = self.abilities.get(tag, {}).get("name", {}).get("fr", tag) if tag not in ("white",) else "Attaque de base"
+            self.trace.append(f"{self._now:6.2f}s  {label:28s} {amount:5.1f} dégâts")
 
     def avg_hit(self, idx=0):
         weapons = self.profile.get("weapons", [])
@@ -200,6 +210,9 @@ class Sim:
                 self.dot_ends[aid] = t + duration
                 if not was_active:
                     self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick})
+                    if self.trace is not None:
+                        name = self.abilities.get(aid, {}).get("name", {}).get("fr", aid)
+                        self.trace.append(f"{self._now:6.2f}s  {name:28s} posé (DoT, {duration:.0f}s)")
             elif kind == "resource_generation" and eff.get("resource") == "combo_points":
                 self.combo_points = min(5, self.combo_points + eff.get("immediate", 0))
             elif kind == "combo_point_scaling":
@@ -249,9 +262,13 @@ class Sim:
         hit_frac = self.stats["hit"] - (0.19 if len(weapons) > 1 else 0.0)
         roll_val = random.random()
         if roll_val >= hit_frac:
+            if self.trace is not None:
+                self.trace.append(f"{t:6.2f}s  {'OH ' if is_oh else 'MH '} attaque de base -- raté")
             pass  # miss
         elif roll(DODGE_CHANCE):
             self.dodge_window_until = t + OVERPOWER_WINDOW
+            if self.trace is not None:
+                self.trace.append(f"{t:6.2f}s  {'OH ' if is_oh else 'MH '} attaque de base -- esquivée")
         else:
             is_glance = roll(GLANCE_CHANCE)
             is_crit = (not is_glance) and roll(self.stats["crit"])
@@ -377,6 +394,7 @@ class Sim:
             if self.profile["resource"] == "energy":
                 self.gain_energy(t - last_t)
             last_t = t
+            self._now = t
             if kind == "swing":
                 self.do_swing(t, data["idx"])
             elif kind == "dot_tick":
@@ -740,6 +758,24 @@ def bis_stats_for_spec(spec_id):
     hit_pct = base_hit_pct + spec_bis.get("flat_hit_pct", 0)
 
     return {"ap": round(ap, 1), "sp": round(sp, 1), "hit": round(hit_pct / 100.0, 4), "crit": round(crit_pct / 100.0, 4)}
+
+
+def trace_rotation(spec_id, seconds=30.0, stats=None):
+    """Runs ONE simulated fight for spec_id with play-by-play tracing on, truncated to the first
+    `seconds` of the fight, and returns the list of trace lines (timestamp, ability, damage/miss/
+    dodge). For manually eyeballing that the rotation is actually firing what's expected -- not
+    used by the site itself."""
+    profile = ROTATIONS.get(spec_id)
+    if not profile:
+        return None
+    glossary = wow_spells.load_class(profile.get("glossary", spec_id))
+    if not glossary:
+        return None
+    stats = stats or bis_stats_for_spec(spec_id) or DEFAULT_STATS
+    sim = Sim(spec_id, profile, glossary, stats, seconds)
+    sim.trace = []
+    sim.run()
+    return sim.trace
 
 
 def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):

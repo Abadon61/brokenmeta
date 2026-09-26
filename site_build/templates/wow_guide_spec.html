@@ -50,6 +50,22 @@
   </div>{% endfor %}
 </div>
 
+{% if rotation_steps %}
+<h2 class="fiche-section-title">{{ tx.rotation_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ tx.rotation_p }}</p>
+<ol class="wg-rotation">
+  {% for step in rotation_steps %}
+  <li class="wg-rotation-step">
+    <span class="wg-rotation-n nums">{{ loop.index }}</span>
+    <div class="wg-rotation-body">
+      {% if step.wowhead_spell_id %}<a href="https://www.wowhead.com/forever/spell={{ step.wowhead_spell_id }}" rel="noopener nofollow" target="_blank"><b>{{ step.name }}</b></a>{% else %}<b>{{ step.name }}</b>{% endif %}
+      <span class="wg-rotation-kind">{{ tx.kind_labels[step.kind] }}</span>
+    </div>
+  </li>
+  {% endfor %}
+</ol>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ tx.stats_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.stats_p }}{% if content.stats.speculative %} {{ tx.stats_spec }}{% endif %}</p>
 {% if content.stats.note %}<p class="wow-note">{{ content.stats.note[lang] }}</p>{% endif %}
@@ -128,7 +144,7 @@
   {% endfor %}
 </div>
 
-<p class="wow-note">{{ tx.note }}</p>
+<p class="wow-note">{{ tx.note_with_rotation if rotation_steps else tx.note }}</p>
 <h2 class="fiche-section-title">{{ tx.sources }}</h2>
 <ul class="gd-list wow-sources">
   <li>{{ tx.src_role }}<a href="{{ role.url }}" rel="noopener nofollow" target="_blank">Icy Veins — {{ spec.name.en }} {{ cls.name.en }}</a></li>

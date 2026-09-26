@@ -7393,7 +7393,22 @@ def main() -> None:
                     _sh1 = _gx["spec_h1"].format(cls=_cn, spec=_sn)
                     _si = _gx["spec_intro"].format(cls=_cn, spec=_sn, role=_role["role"][lang], build=_cls["meta"]["build"])
                     _bspec_id = _bis_lookup.get((_cls["id"], _s["id"]))
+                    _rotation_steps = None
+                    if _bspec_id:
+                        _rprofile = wow_dps_sim.ROTATIONS.get(_bspec_id, {})
+                        _rglossary = wow_spells.load_class(_rprofile.get("glossary", _bspec_id))
+                        _rabilities = {a["id"]: a for a in (_rglossary or {}).get("abilities", [])}
+                        _rotation_steps = []
+                        for _rstep in _rprofile.get("rotation", []):
+                            _ra = _rabilities.get(_rstep["ability"])
+                            if not _ra:
+                                continue
+                            _rotation_steps.append({
+                                "name": _ra["name"][lang], "wowhead_spell_id": _ra.get("wowhead_spell_id"),
+                                "kind": _rstep["kind"],
+                            })
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
+                           rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
                            bis_gear=(_bis_gear_data["specs"].get(_bspec_id) if _bspec_id else None),
