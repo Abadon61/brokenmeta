@@ -68,6 +68,7 @@
   </div>
   {% endfor %}
 </div>
+<p class="profile-section-note" style="display:block"><a href="{{ root }}league/combos/{{ g.slug }}/">{{ ('Tous les combos de ' ~ g.name ~ ', avec les temps de recharge de chaque sort →') if lang == 'fr' else ('All ' ~ g.name ~ ' combos, with every ability cooldown →') }}</a></p>
 <h3 class="gd-sub">{{ ui.laning }}</h3>
 <p class="page-intro" style="margin-top:0">{{ g.editorial.laning }}</p>
 <h3 class="gd-sub">{{ ui.mistakes }}</h3>

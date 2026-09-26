@@ -350,8 +350,11 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
     else:
         hardest = [{**m, "edge": f"{m['name']} has the edge in {pct(1 - m['win_rate'], 0)}% of the {m['games']} {role_label} duels against {name}."} for m in hardest]
     easiest = [dict(m) for m in easiest]
-    enemy_tips = champ.get(f"enemytips_{lang}", [])
-    ally_tips = champ.get(f"allytips_{lang}", [])
+    # Data Dragon sometimes ships the champion's lore as its only "tip" (Naafiri, 16.19): drop
+    # any tip that is a slice of the lore/blurb so a story paragraph never shows up as advice.
+    _lore = champ.get(f"lore_{lang}", "") + " " + champ.get(f"blurb_{lang}", "")
+    enemy_tips = [t for t in champ.get(f"enemytips_{lang}", []) if t[:80] not in _lore]
+    ally_tips = [t for t in champ.get(f"allytips_{lang}", []) if t[:80] not in _lore]
     has_contres = bool(hardest or easiest or enemy_tips)
 
     # ---- full rune pages (measured from the cached matches; see lol_guide.py)
@@ -462,3 +465,53 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
         "vs_enemy": vs_enemy, "hardest": hardest, "easiest": easiest,
         "faq": faq, "has_contres": has_contres,
     }
+
+
+def build_combo_view(g: dict, lang: str) -> dict | None:
+    """Extra bits for /league/combos/<champion>/, built on top of a guide view `g`.
+
+    Search Console (2026-09-26): '<champion> combo' is the League query family the guides
+    already rank for (positions 6-10 over ~170 distinct queries) but the snippet says
+    "Guide", so almost nobody clicks. This page answers that query directly: the written
+    combos first, then each ability's cooldown / cost / range and the measured skill order.
+    Every sentence comes from the guide view (editorial combos, Data Dragon, timelines)."""
+    ed = g.get("editorial")
+    if not ed or not ed.get("combos"):
+        return None
+    fr = lang == "fr"
+    name = g["name"]
+    keys = ["Q", "W", "E", "R"]
+    abilities = [{"key": keys[i], **sp} for i, sp in enumerate(g["spells"][:4])]
+    first = ed["combos"][0]
+    seq = " › ".join(k["key"] for k in first["seq"])
+    n = len(ed["combos"])
+    ttl = (f"BrokenMeta.gg | Combos {name} LoL : enchaînements et temps de recharge",
+           f"BrokenMeta.gg | Combos {name} LoL : enchaînements",
+           f"BrokenMeta.gg | Combos {name}") if fr else (
+           f"BrokenMeta.gg | {name} Combos: key order, cooldowns and tips",
+           f"BrokenMeta.gg | {name} Combos: key order and cooldowns",
+           f"BrokenMeta.gg | {name} Combos")
+    title = next(t for t in ttl if len(t) - len("BrokenMeta.gg | ") <= 60 or t is ttl[-1])
+    dsc = (f"Combos {name} sur League of Legends : {n} enchaînements expliqués (le principal : {seq}), quand les lancer, "
+           f"et le temps de recharge, le coût et la portée de chaque sort.",
+           f"Combos {name} sur League of Legends : {n} enchaînements expliqués, et le temps de recharge et le coût de chaque sort.") if fr else (
+           f"{name} combos in League of Legends: {n} combos explained (main one: {seq}), when to use them, "
+           f"plus every ability's cooldown, cost and range.",
+           f"{name} combos in League of Legends: {n} combos explained, plus every ability's cooldown and cost.")
+    description = next((d for d in dsc if len(d) <= 155), dsc[-1][:155])
+
+    faq = []
+    faq.append({"q": f"Quel est le combo principal de {name} ?" if fr else f"What is {name}'s main combo?",
+                "a": (f"{first['name']} : {seq}. " if fr else f"{first['name']}: {seq}. ") + f"{first['when']} {first['how']}"})
+    so = ((g.get("timeline") or {}).get("skills") or [None])[0]
+    if so:
+        wr = f"{so['win_rate'] * 100:.1f}"
+        faq.append({"q": f"Quelle compétence monter en premier sur {name} ?" if fr else f"Which ability should I max first on {name}?",
+                    "a": (f"L'ordre de montée le plus joué est {so['order']} ({so['games']} parties, {wr.replace('.', ',')} % de victoires)."
+                          if fr else f"The most-played max order is {so['order']} ({so['games']} games, {wr}% win rate).")})
+    ult = abilities[3] if len(abilities) == 4 else None
+    if ult and ult.get("cooldown") and ult["cooldown"] != "0":
+        faq.append({"q": f"Quel est le temps de recharge de l'ultime de {name} ?" if fr else f"What is the cooldown of {name}'s ultimate?",
+                    "a": (f"{ult['name']} a un temps de recharge de {ult['cooldown']} secondes selon son rang."
+                          if fr else f"{ult['name']} has a {ult['cooldown']} second cooldown depending on its rank.")})
+    return {"seo_title": title, "seo_description": description, "abilities": abilities, "faq": faq, "main_seq": seq, "n": n}

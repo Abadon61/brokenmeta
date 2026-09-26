@@ -38,7 +38,7 @@ from tft_tracker.champion_images import (  # noqa: E402
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
 from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
-from lol_guide_view import build_guide_view  # noqa: E402
+from lol_guide_view import build_guide_view, build_combo_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
@@ -7160,6 +7160,7 @@ def main() -> None:
             for _i, _r in enumerate(_rows):
                 _tier_lookup[(_r["slug"], _role)] = {"tier": _r.get("tier"), "rank": _i + 1, "of": len(_rows)}
         lol_guide_index: list[dict] = []
+        lol_combo_index: list[dict] = []
         for c in lol_champions:
             if c["slug"] not in lol_guide_slugs_by_lang[lang]:
                 continue
@@ -7198,6 +7199,41 @@ def main() -> None:
                    faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
                                               for f in _gv["faq"]]} if _gv["faq"] else None)
+            # ---- combo page (/league/combos/<slug>/): see build_combo_view for why it exists
+            _cv = build_combo_view(_gv, lang)
+            if _cv:
+                _c_url = canonical_for(f"/league/combos/{c['slug']}/", lang)
+                _c_h1 = f"Combos {_gv['name']}" if lang == "fr" else f"{_gv['name']} combos"
+                lol_combo_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
+                                        "games": _gv["games"], "main_seq": _cv["main_seq"]})
+                render("lol_combos.html", f"/league/combos/{c['slug']}/", lang, active_nav="league", active_sub="lol-combos",
+                       ddragon_version=ddragon_version, g=_gv, cv=_cv, **_g_extra,
+                       breadcrumb_schema=breadcrumb_schema([
+                           (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                           ("League of Legends", canonical_for("/league/", lang)),
+                           ("Combos", canonical_for("/league/combos/", lang)),
+                           (_c_h1, _c_url),
+                       ]),
+                       article_schema={**build_article_schema(_c_h1, _c_url, _cv["seo_description"],
+                                                            image=f"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{_gv['id']}_0.jpg"),
+                                       "dateModified": combined["generated_at"][:10], "inLanguage": lang},
+                       faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
+                                   "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
+                                                  for f in _cv["faq"]]})
+        if lol_combo_index:
+            _chub_extra = {}
+            if lang == "fr" and not lol_guide_slugs_by_lang["en"]:
+                _chub_extra = {"no_hreflang": True, "alt_canonical": canonical_for("/league/glossaire/champions/", "en")}
+            render("lol_combos_index.html", "/league/combos/", lang, active_nav="league", active_sub="lol-combos",
+                   ddragon_version=ddragon_version, combos=sorted(lol_combo_index, key=lambda x: x["name"]),
+                   by_role={r: sorted([x for x in lol_combo_index if x["role"] == r], key=lambda x: -x["games"])[:12]
+                            for r in ("top", "jungle", "mid", "adc", "support")},
+                   **_chub_extra,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       ("Combos", canonical_for("/league/combos/", lang)),
+                   ]))
         if lol_guide_index:
             _hub_sorted = sorted(lol_guide_index, key=lambda x: x["name"])
             _hub_extra = {}
