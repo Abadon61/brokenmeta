@@ -23,23 +23,23 @@ WEAPON_STEP = 2.0  # weapon DPS
 KEYS = ("str", "agi", "int", "ap", "sp", "crit", "hit", "wdps_mh", "wdps_oh", "wdps_r")
 
 
-def mean_dps(spec_id, profile, glossary, stats, iterations, fight_len):
+def mean_dps(spec_id, profile, glossary, stats, iterations, fight_len, level=sim.DEFAULT_LEVEL):
     total = 0.0
     for i in range(iterations):
         random.seed(i)
-        dmg, _ = sim.Sim(spec_id, profile, glossary, stats, fight_len).run()
+        dmg, _ = sim.Sim(spec_id, profile, glossary, stats, fight_len, level).run()
         total += dmg
     return total / iterations / fight_len
 
 
-def stat_weights(spec_id, stats, weapons=None, iterations=800, fight_len=300.0, progress=None):
+def stat_weights(spec_id, stats, weapons=None, iterations=800, fight_len=300.0, progress=None, level=sim.DEFAULT_LEVEL):
     """Returns (dps_at_stats, {stat: DPS per point}). crit/hit are per percentage point, wdps_*
     per point of weapon DPS. `weapons` overrides the spec profile's weapons (the player's own);
     `progress(done, total)` is called after each simulated batch."""
     profile = copy.deepcopy(sim.ROTATIONS[spec_id])
     if weapons is not None:
         profile["weapons"] = copy.deepcopy(weapons)
-    glossary = sim.wow_spells.load_class(profile.get("glossary", spec_id))
+    glossary = sim.load_glossary(profile.get("glossary", spec_id), level)
     meta = sim.SPEC_STAT_PROFILE.get(spec_id, {})
     caster = meta.get("crit") == "spell"
     ranged = meta.get("agi_ap") == "ranged"
@@ -49,7 +49,7 @@ def stat_weights(spec_id, stats, weapons=None, iterations=800, fight_len=300.0, 
     done = [0]
 
     def run(st, prof=profile):
-        value = mean_dps(spec_id, prof, glossary, st, iterations, fight_len)
+        value = mean_dps(spec_id, prof, glossary, st, iterations, fight_len, level)
         done[0] += 1
         if progress:
             progress(done[0], total_runs)

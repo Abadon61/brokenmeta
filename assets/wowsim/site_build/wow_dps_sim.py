@@ -41,6 +41,7 @@ stays disclosed there: Shaman's base character stats (no gear) aren't independen
 against a primary source. DEFAULT_STATS below is now just a never-should-fire fallback.
 """
 import argparse
+import copy
 import heapq
 import json
 import random
@@ -98,6 +99,102 @@ def rage_conversion_value(level):
 
 
 RAGE_CONVERSION_L20 = rage_conversion_value(20)
+DEFAULT_LEVEL = 20
+MAX_LEVEL = 60
+
+# ---- spell ranks by character level (2026-09-26) ------------------------------------------
+# data/wow_spells_ranks/<class>.json (wow_spell_ranks_build.py, from the beta client tables) holds
+# every rank of every glossary ability. load_glossary(class_id, level) returns the glossary with
+# each ability set to the best rank learned by that level and its numbers recomputed with the
+# client formula; abilities not learned yet are flagged "unavailable" (skipped by the rotation).
+# Limits: abilities first learned AFTER level 20 (Whirlwind, Mortal Strike...) are not in the
+# glossary/rotations yet -- no sourced Forever rotation exists above the beta's level-20 cap.
+# Paladin seals/judgements (self_buff / proc_trigger effects) keep their glossary numbers.
+RANKS_DIR = wow_spells.ROOT / "data" / "wow_spells_ranks"
+_RANKS = {}
+POWER_SCALE = {"rage": 10, "energy": 1, "mana": 1}  # the client stores Rage in tenths
+
+
+def _load_ranks(class_id):
+    if class_id not in _RANKS:
+        path = RANKS_DIR / f"{class_id}.json"
+        _RANKS[class_id] = json.loads(path.read_text(encoding="utf-8"))["abilities"] if path.exists() else {}
+    return _RANKS[class_id]
+
+
+def _points(eff, rank, level):
+    top = min(level, rank["max_level"]) if rank["max_level"] else level
+    return eff["base"] + eff["per_level"] * max(0, top - rank["spell_level"])
+
+
+def _client_effect(rank, *effect_codes, aura=None, per_resource=False):
+    for e in rank["effects"]:
+        if e["effect"] in effect_codes and (aura is None or e["aura"] == aura) and bool(e["per_resource"]) == per_resource:
+            return e
+    return None
+
+
+def _apply_rank(ab, rank, level):
+    for eff in ab.get("effects", []):
+        kind = eff["kind"]
+        if kind == "direct_damage":
+            c = _client_effect(rank, 2)
+            if c:
+                p, half = _points(c, rank, level), c["base"] * c["variance"] / 2
+                if "dmg_range" in eff:
+                    eff["dmg_range"] = [round(p - half, 1), round(p + half, 1)]
+                else:
+                    eff["flat"] = round(p, 1)
+                if c["sp_coeff"]:
+                    eff["sp_coeff"] = c["sp_coeff"]
+        elif kind == "periodic_damage":
+            c = _client_effect(rank, 6, aura=3)
+            if c and c["period_ms"] and rank["duration_ms"] > 0:
+                per_tick = _points(c, rank, level)
+                ticks = round(rank["duration_ms"] / c["period_ms"])
+                eff.update(damage_per_tick=round(per_tick, 1), total_damage=round(per_tick * ticks, 1),
+                           duration_sec=rank["duration_ms"] / 1000, tick_interval_sec=c["period_ms"] / 1000)
+                if c["sp_coeff"]:
+                    eff["sp_coeff"] = c["sp_coeff"]
+        elif kind in ("normalized_weapon_damage", "flat_bonus_on_next_swing"):
+            c = _client_effect(rank, 121, 58, 17)
+            if c:
+                eff["flat"] = round(_points(c, rank, level), 1)
+        elif kind == "combo_point_scaling":
+            c = _client_effect(rank, 2, per_resource=True)
+            if c:
+                p, half = _points(c, rank, level), c["base"] * c["variance"] / 2
+                eff["table"] = {str(n): [round(p + c["per_resource"] * n - half, 1), round(p + c["per_resource"] * n + half, 1)]
+                                for n in range(1, 6)}
+    cost = rank.get("cost") or {}
+    res = cost.get("type")
+    if res in POWER_SCALE and res in ab.get("resource_cost", {}):
+        ab["resource_cost"][res] = cost["amount"] / POWER_SCALE[res]
+    if rank.get("cast_ms") and parse_cast_time(ab.get("cast_time")) > 0:
+        ab["cast_time"] = f"{rank['cast_ms'] / 1000:g} sec"
+    if rank.get("cooldown_ms") and ab.get("cooldown_sec"):
+        ab["cooldown_sec"] = rank["cooldown_ms"] / 1000
+    ab["rank_spell_id"] = rank["spell_id"]
+
+
+def load_glossary(class_id, level=DEFAULT_LEVEL):
+    """The class glossary with every ability at its best rank for `level` (see the comment above)."""
+    glossary = wow_spells.load_class(class_id)
+    if not glossary:
+        return glossary
+    glossary = copy.deepcopy(glossary)
+    level = max(1, min(MAX_LEVEL, int(level or DEFAULT_LEVEL)))
+    ranks = _load_ranks(class_id)
+    for ab in glossary.get("abilities", []):
+        chain = ranks.get(ab["id"])
+        if not chain:
+            continue
+        known = [r for r in chain if r["level"] <= level]
+        if not known:
+            ab["unavailable"] = True
+            continue
+        _apply_rank(ab, known[-1], level)
+    return glossary
 
 
 def roll(chance):
@@ -164,8 +261,9 @@ def resolve_combo_point_table(effect, cp, crit_frac):
 
 
 class Sim:
-    def __init__(self, cls_id, profile, glossary, stats, fight_len):
+    def __init__(self, cls_id, profile, glossary, stats, fight_len, level=DEFAULT_LEVEL):
         self.cls_id = cls_id
+        self.rage_conversion = rage_conversion_value(level)
         self.profile = profile
         self.abilities = {a["id"]: a for a in glossary.get("abilities", [])}
         self.stats = stats
@@ -371,8 +469,8 @@ class Sim:
     def gain_rage(self, dealt, is_crit, is_oh):
         f = (HIT_FACTOR_OH if is_oh else HIT_FACTOR_MH)["crit" if is_crit else "normal"]
         speed = self.profile["weapons"][1 if is_oh else 0]["speed"]
-        raw = (15 * dealt) / (4 * RAGE_CONVERSION_L20) + (f * speed) / 2
-        cap = (15 * dealt) / RAGE_CONVERSION_L20
+        raw = (15 * dealt) / (4 * self.rage_conversion) + (f * speed) / 2
+        cap = (15 * dealt) / self.rage_conversion
         self.resource = min(self.resource_cap, self.resource + min(raw, cap))
 
     def gain_energy(self, dt):
@@ -386,6 +484,8 @@ class Sim:
         it's affordable sooner -- that's a real rotation-priority choice, not a resource-
         starvation fallback, and collapsing the two produced a real bug caught while
         building this engine (Backstab never fired; see git history for the fix)."""
+        if self.abilities.get(aid, {}).get("unavailable"):
+            return False  # not learned yet at this character level (load_glossary)
         if not self.off_cooldown(aid, t):
             return False
         if kind == "once":
@@ -983,7 +1083,7 @@ def trace_rotation(spec_id, seconds=30.0, stats=None):
     profile = ROTATIONS.get(spec_id)
     if not profile:
         return None
-    glossary = wow_spells.load_class(profile.get("glossary", spec_id))
+    glossary = load_glossary(profile.get("glossary", spec_id))
     if not glossary:
         return None
     stats = stats or bis_stats_for_spec(spec_id) or DEFAULT_STATS
@@ -993,21 +1093,21 @@ def trace_rotation(spec_id, seconds=30.0, stats=None):
     return sim.trace
 
 
-def run_class(cls_id, iterations=300, fight_len=300.0, stats=None, profile_override=None):
+def run_class(cls_id, iterations=300, fight_len=300.0, stats=None, profile_override=None, level=DEFAULT_LEVEL):
     """profile_override lets a caller (wow_bis_optimizer.py) substitute a different "weapons"
     list -- e.g. the real weapon(s) its own search picked -- without touching ROTATIONS itself;
     everything else about the spec (rotation, resource, talent_mods) stays as sourced."""
     profile = profile_override or ROTATIONS.get(cls_id)
     if not profile:
         return None
-    glossary = wow_spells.load_class(profile.get("glossary", cls_id))
+    glossary = load_glossary(profile.get("glossary", cls_id), level)
     if not glossary:
         return None
     stats = stats or bis_stats_for_spec(cls_id) or DEFAULT_STATS
     total = 0.0
     dmg_by_total = {}
     for _ in range(iterations):
-        sim = Sim(cls_id, profile, glossary, stats, fight_len)
+        sim = Sim(cls_id, profile, glossary, stats, fight_len, level)
         dmg, dmg_by = sim.run()
         total += dmg
         for k, v in dmg_by.items():
