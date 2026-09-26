@@ -17,8 +17,8 @@ below (ROTATIONS), because it's real game knowledge that isn't part of the gloss
 priority note (in that class's own data/wow_spells/<class>.json) that justifies it.
 
 Deliberately not modeled, matching what each class's own glossary already discloses as a
-gap: pet damage (Hunter, Warlock), Hunter's Auto Shot itself (no sourced ranged-weapon
-damage), wand damage (Mage/Priest/Warlock), Mana regeneration or depletion (no sourced
+gap: Warlock pet damage (Imp/Voidwalker -- no sourced formula found yet, unlike Hunter's
+pet below), wand damage (Mage/Priest/Warlock), Mana regeneration or depletion (no sourced
 regen rate for any class -- Mana is treated as unconstrained: this measures "is the
 rotation's damage output," not "for how long it can be sustained"), long-duration
 low-maintenance self-buffs that aren't really part of the active rotation (Battle Shout,
@@ -27,6 +27,9 @@ and the extra talent-rank sliders the bespoke Warrior tool exposes (Cruelty, Pre
 Flurry, Unbridled Wrath, Dual Wield Specialization, Boundless Rage) -- those aren't sourced
 for the other 8 classes yet, so this generic pass compares base rotations on equal stats,
 not fully talented character sheets.
+
+2026-09-26: Hunter's own Auto Shot and pet are now both modeled (see the pet ratio constant's
+comment further down for the pet's sourcing and its disclosed Classic-approximation caveats).
 
 2026-09-26: stats are now real level-20 BiS gear, not an illustrative placeholder. Each
 spec's {ap, sp, hit, crit} comes from bis_stats_for_spec(), which converts the raw Str/Agi/
@@ -54,6 +57,29 @@ ENERGY_REGEN_PER_SEC = 10.0   # Vanilla WoW Wiki -- Energy: fixed 10/sec, not le
 SND_HASTE_MULT = 1.20         # Slice and Dice's own sourced "+20% melee attack speed" (rogue.json)
 HIT_FACTOR_MH = {"normal": 3.5, "crit": 7.0}
 HIT_FACTOR_OH = {"normal": 1.75, "crit": 3.5}
+
+# Hunter pet auto-attack, added 2026-09-26 (user request: "integrer le dps de son pet"). WoW
+# Forever's own Icy Veins guides (Beast Mastery/Marksmanship/Survival) confirm pets scale with
+# the hunter's stats and inherit hit/crit, but give NO exact formula or base pet stats -- and
+# explicitly call out that pet mechanics changed from Classic ("pets no longer have an inherent
+# damage buff or reduction based on type", "pet now has scaling with your stats like in LATER
+# versions of WoW"), so the real Classic numbers below are a disclosed, labeled APPROXIMATION,
+# not a confirmed Forever value (per-user decision, since no primary Forever source exists yet):
+#   - pet melee AP = 22% of the hunter's own ranged AP (wow-petopia.com/classic_lk/stats_scaling.php,
+#     a long-standing Classic pet reference; corroborated by community Classic AP-formula pages)
+#   - pet inherits the hunter's own hit and crit chance (same Petopia page, and directly stated in
+#     Forever's own Icy Veins BM guide: "pets also inherit your critical strike chance")
+#   - pet base attack speed = 2.0s (Petopia's Classic/BC pet-attack-speed pages; BC Classic
+#     normalized every pet family to 2.0s -- Forever's own bug tracker suggests some pets may
+#     currently have per-family speeds again, but no normalized replacement value is given, so
+#     2.0s stays the best-available baseline)
+# NOT modeled (undisclosed in every source checked, so left at zero rather than guessed): the
+# pet's own base Strength/Agility-derived AP and its own base weapon damage -- real pets have
+# stats of their own on top of the inherited 22%, so this UNDER-counts true pet DPS. Uptime is
+# idealized at 100% (pet attacking from t=0 for the whole fight), matching how the rest of this
+# engine already treats buffs/DoTs, though a real pet can die, get out of range, or be re-summoned.
+PET_AP_RATIO_OF_HUNTER_RANGED_AP = 0.22
+PET_ATTACK_SPEED_SEC = 2.0
 
 
 def rage_conversion_value(level):
@@ -410,10 +436,25 @@ class Sim:
             if group:
                 self.cooldowns[f"group:{group}"] = t + cd
 
+    def do_pet_swing(self, t):
+        """See PET_AP_RATIO_OF_HUNTER_RANGED_AP's comment for the sourcing/approximation this
+        relies on. Independent of the hunter's own weapon-swing/dual-wield machinery: a pet has
+        its own attack table (own hit/crit rolls, though drawn from the SAME sourced-inherited
+        chances) and isn't subject to the hunter's own dual-wield hit penalty."""
+        is_crit = False
+        if roll(self.stats["hit"]):
+            is_crit = roll(self.stats["crit"])
+            pet_ap = self.stats["ap"] * PET_AP_RATIO_OF_HUNTER_RANGED_AP
+            dmg = (pet_ap / 14) * PET_ATTACK_SPEED_SEC * (2.0 if is_crit else 1.0)
+            self.add_dmg(dmg, "hunter_pet")
+        self.push(t + PET_ATTACK_SPEED_SEC, "pet_swing")
+
     def run(self):
         weapons = self.profile.get("weapons", [])
         for i, wpn in enumerate(weapons):
             self.push(wpn["speed"], "swing", {"idx": i})
+        if self.profile.get("pet"):
+            self.push(0.0, "pet_swing")
         self.push(0.0, "decision")
         last_t = 0.0
         while self.events:
@@ -426,6 +467,8 @@ class Sim:
             self._now = t
             if kind == "swing":
                 self.do_swing(t, data["idx"])
+            elif kind == "pet_swing":
+                self.do_pet_swing(t)
             elif kind == "dot_tick":
                 aid = data["aid"]
                 # Only the CURRENT epoch's chain keeps ticking -- a chain from a superseded
@@ -757,6 +800,7 @@ ROTATIONS = {
     "hunter_marksmanship": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 29, "speed": 2.40}],
+        "pet": True,  # see PET_AP_RATIO_OF_HUNTER_RANGED_AP's comment above for sourcing/caveats
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},  # notes: "cast once the pet has engaged, before Aimed Shot"
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
@@ -766,6 +810,7 @@ ROTATIONS = {
     "hunter_beast_mastery": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 29, "speed": 2.40}],
+        "pet": True,
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
@@ -775,6 +820,7 @@ ROTATIONS = {
     "hunter_survival": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
         "weapons": [{"dmg": 29, "speed": 2.40}],
+        "pet": True,
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},

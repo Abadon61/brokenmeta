@@ -193,6 +193,31 @@ class TestNoOverlappingDotChains(unittest.TestCase):
                     )
 
 
+class TestHunterPetDamage(unittest.TestCase):
+    """Regression test for the Hunter pet DPS feature (2026-09-26, user request): every Hunter
+    spec's profile has pet=True, so its simulated breakdown must carry a real, positive
+    "hunter_pet" contribution -- and that contribution must independently match the sourced
+    formula (22% of the hunter's own ranged AP -> pet AP -> AP/14 * 2.0s swing, see
+    PET_AP_RATIO_OF_HUNTER_RANGED_AP's comment in wow_dps_sim.py), within RNG slack, so a future
+    refactor can't silently zero it out (as happened to Auto Shot before tonight) or double it."""
+
+    def test_all_hunter_specs_have_pet_damage(self):
+        for spec_id, profile in w.ROTATIONS.items():
+            if not profile.get("pet"):
+                continue
+            with self.subTest(spec=spec_id):
+                stats = w.bis_stats_for_spec(spec_id)
+                dps, breakdown = w.run_class(spec_id, iterations=200, fight_len=300.0)
+                pet_dps = breakdown.get("hunter_pet", 0.0)
+                self.assertGreater(pet_dps, 0.0, f"{spec_id}: no pet damage recorded despite pet=True")
+                pet_ap = stats["ap"] * w.PET_AP_RATIO_OF_HUNTER_RANGED_AP
+                avg_hit = (pet_ap / 14) * w.PET_ATTACK_SPEED_SEC * (1 + stats["crit"])
+                expected_dps = (avg_hit / w.PET_ATTACK_SPEED_SEC) * stats["hit"]
+                self.assertAlmostEqual(pet_dps, expected_dps, delta=expected_dps * 0.15,
+                                       msg=f"{spec_id}: pet DPS {pet_dps:.2f} strayed from the "
+                                           f"formula's expected {expected_dps:.2f}")
+
+
 class TestBuildRankingShape(unittest.TestCase):
     """build_ranking() must return exactly one row per ROTATIONS entry, sorted descending by DPS,
     each with the fields the homepage template and guide pages actually read."""
