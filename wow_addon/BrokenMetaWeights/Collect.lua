@@ -71,6 +71,10 @@ local function snapStats()
   local base, pos, neg = safe(UnitAttackPower, "player")
   local rbase, rpos, rneg = safe(UnitRangedAttackPower, "player")
   local regenBase, regenCast = safe(GetManaRegen)
+  -- Defense and weapon skill rise while leveling and move crit/dodge/block by ~0.04% per point:
+  -- recorded so the site can separate that from Agility (seen in the first real uploads).
+  local defBase, defMod = safe(UnitDefense, "player")
+  local mhSkill, mhMod, ohSkill, ohMod = safe(UnitAttackBothHands, "player")
   local spellCrit = 0
   for school = 2, 7 do spellCrit = math.max(spellCrit, safe(GetSpellCritChance, school) or 0) end
   return store({
@@ -80,6 +84,9 @@ local function snapStats()
     crit_melee = round(safe(GetCritChance)), crit_ranged = round(safe(GetRangedCritChance)), crit_spell = round(spellCrit),
     dodge = round(safe(GetDodgeChance)), parry = round(safe(GetParryChance)), block = round(safe(GetBlockChance)),
     regen_base = round(regenBase, 3), regen_cast = round(regenCast, 3), mana_max = safe(UnitPowerMax, "player", 0),
+    def_skill = defBase and (defBase + (defMod or 0)) or nil,
+    wpn_skill_mh = mhSkill and (mhSkill + (mhMod or 0)) or nil,
+    wpn_skill_oh = (ohSkill and ohSkill > 0) and (ohSkill + (ohMod or 0)) or nil,
     buffs = buffCount(), talents = talentString(), spec = ns.GetSpec and ns.GetSpec() or nil,
   })
 end
@@ -180,8 +187,9 @@ local function schedule(delay)
 end
 
 local f = CreateFrame("Frame")
+-- No snapshot after every fight any more (0.6): it only produced near-duplicates.
 for _, ev in ipairs({ "PLAYER_LOGIN", "PLAYER_LEVEL_UP", "PLAYER_EQUIPMENT_CHANGED", "UNIT_PET",
-    "TRAIT_CONFIG_UPDATED", "PLAYER_REGEN_ENABLED" }) do
+    "TRAIT_CONFIG_UPDATED" }) do
   pcall(f.RegisterEvent, f, ev)
 end
 f:SetScript("OnEvent", function(_, event, unit)

@@ -3,7 +3,7 @@
 local ADDON, ns = ...
 
 local IS_FR = GetLocale() == "frFR"
-local L = IS_FR and {
+local L = ns.Localize("core", {
   header = "BrokenMeta",
   vs_equipped = "vs équipé",
   same = "équipé",
@@ -15,8 +15,15 @@ local L = IS_FR and {
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
+  loot_drop = "Butin de donjon : %s (%s)", loot_quest = "Récompense de quête : %s",
+  welcome = {
+    "merci d'avoir installé l'addon ! Clique sur le bouton à l'épée autour de la minicarte (ou tape /bmw) pour ouvrir le hub.",
+    "Survole un objet : sa valeur en DPS pour ta spé s'affiche dans l'infobulle. Guides et simulateur : brokenmeta.gg",
+  },
+  update_available = "une nouvelle version de l'addon existe (%s, tu as la %s) : télécharge-la sur brokenmeta.gg (page WoW: Forever).",
+  cant_wear = "ta classe ne peut pas le porter", wear_at = "portable au niveau %d",
   snap_done = "%d nouvelle(s) mesure(s) enregistrée(s).",
-} or {
+}, {
   header = "BrokenMeta",
   vs_equipped = "vs equipped",
   same = "equipped",
@@ -28,8 +35,15 @@ local L = IS_FR and {
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
+  loot_drop = "Dungeon loot: %s (%s)", loot_quest = "Quest reward: %s",
+  welcome = {
+    "thanks for installing the addon! Click the sword button around the minimap (or type /bmw) to open the hub.",
+    "Hover an item: its DPS value for your spec shows in the tooltip. Guides and simulator: brokenmeta.gg",
+  },
+  update_available = "a newer version of the addon exists (%s, you have %s): download it on brokenmeta.gg (WoW: Forever page).",
+  cant_wear = "your class can't wear it", wear_at = "wearable at level %d",
   snap_done = "%d new measurement(s) recorded.",
-}
+})
 
 local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff4fd1c5BrokenMeta|r " .. msg) end
 
@@ -188,6 +202,7 @@ local STAT_KEYS = {
   ITEM_MOD_CRIT_RANGED_RATING_SHORT = "critR_phys", ITEM_MOD_CRIT_SPELL_RATING_SHORT = "critR_spell",
   ITEM_MOD_HIT_RATING_SHORT = "hitR", ITEM_MOD_HIT_MELEE_RATING_SHORT = "hitR_phys",
   ITEM_MOD_HIT_RANGED_RATING_SHORT = "hitR_phys", ITEM_MOD_HIT_SPELL_RATING_SHORT = "hitR_spell",
+  ITEM_MOD_DAMAGE_PER_SECOND_SHORT = "wdps",
 }
 
 -- Classic-style "Equip:" lines that GetItemStats doesn't report. Matched on keywords (EN + FR)
@@ -249,34 +264,91 @@ local function itemStats(link)
     if line then
       line = lower(line)
       if line:find(EQUIP, 1, true) == 1 then parseEquipLine(line, text) end
+      if not out.wdps and has(line, "per second", "par seconde") then
+        local n = line:match("%(([%d%.,]+)")
+        if n then text.wdps = tonumber((n:gsub(",", "."))) end
+      end
     end
   end
   for k, v in pairs(text) do
     local family = (k:match("^crit") and "crit") or (k:match("^hit") and "hit") or (k == "rap" and "ap") or k
+    if k == "wdps" then family = "wdps_text" end
     if not fromApi[family] then out[k] = (out[k] or 0) + v end
   end
   return out
 end
 
 -- Simulated DPS this item's stats are worth for the current spec (linear stat weights).
-local function score(link)
-  if not currentSpec or not link then return nil end
-  local cached = scoreCache[link]
-  if cached then return cached end
+local RANGED_LOCS = { INVTYPE_RANGED = true, INVTYPE_RANGEDRIGHT = true, INVTYPE_THROWN = true }
+local MAIN_LOCS = { INVTYPE_WEAPON = true, INVTYPE_WEAPONMAINHAND = true, INVTYPE_2HWEAPON = true }
+
+-- Weapon DPS only counts for the weapon the simulator actually swings for this spec: ranged for
+-- Hunters (Auto Shot), main hand / off hand for melee specs, nothing for casters.
+local function weaponWeight(w, equipLoc)
+  if RANGED_LOCS[equipLoc] then return w.wdps_r or 0 end
+  if equipLoc == "INVTYPE_WEAPONOFFHAND" then return w.wdps_oh or 0 end
+  if MAIN_LOCS[equipLoc] then return w.wdps_mh or 0 end
+  return 0
+end
+
+-- Simulated DPS a stat table is worth for the current spec. Keys: str agi int ap rap sp,
+-- critR/hitR (ratings, generic or _phys/_spell), critP/hitP (percent), wdps (weapon DPS).
+local function scoreStats(st, equipLoc)
+  if not currentSpec or not st then return nil end
   local s = ns.WEIGHTS[currentSpec]
   local w = s.w
-  local st = itemStats(link)
   local own = s.caster and "spell" or "phys"
   local critR = (st.critR or 0) + (st["critR_" .. own] or 0)
   local hitR = (st.hitR or 0) + (st["hitR_" .. own] or 0)
   local critP = (st["critP_" .. own] or 0) + critR / ratingPerPct.crit
   local hitP = (st["hitP_" .. own] or 0) + hitR / ratingPerPct.hit
   local ap = (st.ap or 0) + (s.ranged and (st.rap or 0) or 0)
-  local total = (st.str or 0) * w.str + (st.agi or 0) * w.agi + (st.int or 0) * w.int
+  return (st.str or 0) * w.str + (st.agi or 0) * w.agi + (st.int or 0) * w.int
     + ap * w.ap + (st.sp or 0) * w.sp + critP * w.crit + hitP * w.hit
+    + (st.wdps or 0) * weaponWeight(w, equipLoc)
+end
+
+local function score(link)
+  if not currentSpec or not link then return nil end
+  local cached = scoreCache[link]
+  if cached then return cached end
+  local total = scoreStats(itemStats(link), select(9, GetItemInfo(link)))
   scoreCache[link] = total
   return total
 end
+
+---------------------------------------------------------------------------------------------
+-- Can the player wear it? (armor/weapon type + level, from the beta client's own tables)
+---------------------------------------------------------------------------------------------
+local SUBCLASS_TYPES = {
+  [4] = { [1] = "Cloth", [2] = "Leather", [3] = "Mail", [4] = "Plate Mail", [6] = "Shield" },
+  [2] = { [0] = "Axes", [1] = "Two-Handed Axes", [2] = "Bows", [3] = "Guns", [4] = "Maces",
+    [5] = "Two-Handed Maces", [6] = "Polearms", [7] = "Swords", [8] = "Two-Handed Swords",
+    [10] = "Staves", [13] = "Fist Weapons", [15] = "Daggers", [16] = "Thrown", [18] = "Crossbows", [19] = "Wands" },
+}
+local KNOWN_TYPES = {}
+for _, map in pairs(SUBCLASS_TYPES) do for _, t in pairs(map) do KNOWN_TYPES[t] = true end end
+
+-- Returns canWear, levelNeeded. Types outside the table (rings, necks, trinkets) are always fine.
+function ns.CanWearType(typeKey)
+  if not typeKey or not KNOWN_TYPES[typeKey] or not ns.PROFICIENCY then return true, 0 end
+  local p = ns.PROFICIENCY[playerClass]
+  if not p then return true, 0 end
+  local need = p[typeKey]
+  if need == nil then return false, nil end
+  return (UnitLevel("player") or 1) >= need, need
+end
+
+function ns.CanWearLink(link)
+  local classID, subID = select(12, GetItemInfo(link))
+  local map = SUBCLASS_TYPES[classID]
+  return ns.CanWearType(map and map[subID])
+end
+
+-- Dungeon loot index (Data.lua): item id -> loot record.
+local LOOT_BY_ID = {}
+for _, it in ipairs(ns.LOOT or {}) do LOOT_BY_ID[it.id] = it end
+ns.LOOT_BY_ID = LOOT_BY_ID
 
 ---------------------------------------------------------------------------------------------
 -- Comparison with equipped gear
@@ -310,23 +382,46 @@ end
 ---------------------------------------------------------------------------------------------
 -- Tooltip
 ---------------------------------------------------------------------------------------------
+local function lootLine(link)
+  local id = tonumber(link:match("item:(%d+)"))
+  local it = id and LOOT_BY_ID[id]
+  if not it then return nil end
+  local dg = ns.DUNGEONS and ns.DUNGEONS[it.d]
+  local dname = dg and (dg.name[IS_FR and "frFR" or "enUS"] or dg.name.enUS) or "?"
+  if it.quest then return string.format(L.loot_quest, dname) end
+  return string.format(L.loot_drop, dname, it.src or "?")
+end
+
 local function onTooltipItem(tt)
   if tt == scanTip or not currentSpec or not tt.GetItem then return end
   local _, link = tt:GetItem()
   local equipLoc = link and select(9, GetItemInfo(link))
   if not equipLoc or equipLoc == "" then return end
+  local added = false
   local v = score(link)
-  if not v or v <= 0 then return end
-  local line = string.format("%s · %s : |cffffffff~%.2f DPS|r", L.header, specName(currentSpec), v)
-  local d, same = deltaVsEquipped(link, v)
-  if same then
-    line = line .. "  |cff888888(" .. L.same .. ")|r"
-  elseif d then
-    local color = d > 0.005 and "|cff40ff40+" or (d < -0.005 and "|cffff5050" or "|cffcccccc")
-    line = line .. string.format("  %s%.2f|r %s", color, d, L.vs_equipped)
+  if v and v > 0 then
+    local line = string.format("%s · %s : |cffffffff~%.2f DPS|r", L.header, specName(currentSpec), v)
+    local canWear, need = ns.CanWearLink(link)
+    if not canWear then
+      line = line .. "  |cffff5050(" .. (need and string.format(L.wear_at, need) or L.cant_wear) .. ")|r"
+    else
+      local d, same = deltaVsEquipped(link, v)
+      if same then
+        line = line .. "  |cff888888(" .. L.same .. ")|r"
+      elseif d then
+        local color = d > 0.005 and "|cff40ff40+" or (d < -0.005 and "|cffff5050" or "|cffcccccc")
+        line = line .. string.format("  %s%.2f|r %s", color, d, L.vs_equipped)
+      end
+    end
+    tt:AddLine(line, 0.31, 0.82, 0.77)
+    added = true
   end
-  tt:AddLine(line, 0.31, 0.82, 0.77)
-  tt:Show()
+  local src = lootLine(link)
+  if src then
+    tt:AddLine("|cff888888" .. src .. "|r")
+    added = true
+  end
+  if added then tt:Show() end
 end
 
 if TooltipDataProcessor and Enum and Enum.TooltipDataType and Enum.TooltipDataType.Item then
@@ -440,7 +535,7 @@ end)
 ---------------------------------------------------------------------------------------------
 ns.L, ns.IS_FR, ns.say = L, IS_FR, say
 ns.SLOTS = SLOTS
-ns.score, ns.deltaVsEquipped, ns.itemStats = score, deltaVsEquipped, itemStats
+ns.score, ns.deltaVsEquipped, ns.itemStats, ns.scoreStats = score, deltaVsEquipped, itemStats, scoreStats
 ns.classSpecs, ns.specName = classSpecs, specName
 ns.GetItemInfo = GetItemInfo
 function ns.GetSpec() return currentSpec end

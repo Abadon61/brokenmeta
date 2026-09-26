@@ -3,11 +3,23 @@
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
-local T = IS_FR and {
+local T = ns.Localize("hub", {
   title = "BrokenMeta · Hub DPS",
   tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
+  tab_guide = "Guide",
+  up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
+  up_best = "Donjon le plus rentable : %s (%d amélioration(s), +%.2f DPS)", up_level = "niv. %d",
+  no_dungeon = "Aucune amélioration trouvée dans les donjons pour ton niveau.",
+  guide_h = "Guide de ta spécialisation", guide_follow = "Tu suis %d des %d talents conseillés par le guide (modèle niveau %d).",
+  guide_nobuild = "Le guide complet de ta spécialisation (talents, priorité de stats, consommables, métiers) est sur brokenmeta.gg.",
+  guide_more = "Talents détaillés, priorité de stats, consommables et métiers : tout est dans le guide sur brokenmeta.gg.",
+  guide_copy = "Copier le lien du guide", prof_h = "Tes métiers",
+  prof_next = "%s %d/%d : prochaine recette %s (%d-%d), environ %d fois",
+  prof_done = "%s %d/%d : itinéraire terminé", prof_none = "Aucun de tes métiers n'a encore de guide sur le site.",
+  prof_copy = "Lien du guide", link_title = "Lien brokenmeta.gg",
+  link_hint = "Le lien est déjà sélectionné : Ctrl+C, puis colle-le dans ton navigateur.",
   data_h = "Données pour brokenmeta.gg",
-  data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, /reload, puis dépose le fichier sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
+  data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, clique sur « Copier pour le site », puis colle le texte sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
   snap = "Enregistrer maintenant", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
   copy_title = "Données à coller sur brokenmeta.gg",
@@ -35,17 +47,29 @@ local T = IS_FR and {
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
   gear = "Équipement porté", total = "Total des stats de l'équipement",
   empty = "vide", no_upgrade = "Aucune amélioration dans tes sacs.",
-  up_hint = "Objets de tes sacs qui valent plus que l'équipé pour ta spé. Vérifie que tu peux les porter (type d'armure).",
+  up_hint = "Objets de tes sacs et des donjons qui valent plus que ton équipement pour ta spé. Seuls les objets que ta classe peut porter sont listés.",
   export_hint = "Ctrl+C pour copier, puis colle sur brokenmeta.gg. Contient : classe, spé, niveau, race, talents, équipement (ID d'objets), stats de la feuille de personnage. Ni nom ni royaume.",
   approx = "conversion approximative",
-  weapon_note = "Le DPS de l'arme n'est pas encore compté.",
+  wdps_line = "DPS d'arme (par point) : main droite %.3f · main gauche %.3f · distance %.3f",
   no_spec = "Aucune spécialisation DPS simulée pour ta classe.",
   rating = "cote",
-} or {
+}, {
   title = "BrokenMeta · DPS Hub",
   tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
+  tab_guide = "Guide",
+  up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
+  up_best = "Most rewarding dungeon: %s (%d upgrade(s), +%.2f DPS)", up_level = "lvl %d",
+  no_dungeon = "No dungeon upgrade found for your level.",
+  guide_h = "Your specialization guide", guide_follow = "You follow %d of the %d talents the guide recommends (level %d template).",
+  guide_nobuild = "Your specialization's full guide (talents, stat priority, consumables, professions) is on brokenmeta.gg.",
+  guide_more = "Detailed talents, stat priority, consumables and professions: it's all in the guide on brokenmeta.gg.",
+  guide_copy = "Copy the guide link", prof_h = "Your professions",
+  prof_next = "%s %d/%d: next recipe %s (%d-%d), about %d crafts",
+  prof_done = "%s %d/%d: route completed", prof_none = "None of your professions has a guide on the site yet.",
+  prof_copy = "Guide link", link_title = "brokenmeta.gg link",
+  link_hint = "The link is already selected: Ctrl+C, then paste it in your browser.",
   data_h = "Data for brokenmeta.gg",
-  data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, /reload, then drop the file on brokenmeta.gg/wow-forever/partager-mes-donnees/",
+  data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, click \"Copy for the site\", then paste the text on brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Sharing: ON", share_off = "Sharing: off",
   snap = "Record now", scan = "Scan the auction house", copy = "Copy for the site",
   copy_title = "Data to paste on brokenmeta.gg",
@@ -73,13 +97,13 @@ local T = IS_FR and {
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
   gear = "Equipped gear", total = "Gear stats total",
   empty = "empty", no_upgrade = "No upgrade in your bags.",
-  up_hint = "Bag items worth more than what you wear for your spec. Check that you can wear them (armor type).",
+  up_hint = "Items from your bags and from dungeons worth more than your gear for your spec. Only items your class can wear are listed.",
   export_hint = "Ctrl+C to copy, then paste on brokenmeta.gg. Contains: class, spec, level, race, talents, gear (item IDs), character sheet stats. No name, no realm.",
   approx = "approximate conversion",
-  weapon_note = "Weapon DPS is not counted yet.",
+  wdps_line = "Weapon DPS (per point): main hand %.3f · off hand %.3f · ranged %.3f",
   no_spec = "No simulated DPS spec for your class.",
   rating = "rating",
-}
+})
 
 local SLOT_ORDER = {
   { 1, "HEADSLOT" }, { 2, "NECKSLOT" }, { 3, "SHOULDERSLOT" }, { 15, "BACKSLOT" }, { 5, "CHESTSLOT" },
@@ -92,7 +116,7 @@ local function slotLabel(key) return _G[key] or key end
 ---------------------------------------------------------------------------------------------
 -- Frame
 ---------------------------------------------------------------------------------------------
-local W, H = 500, 540
+local W, H = 590, 560
 local hub = CreateFrame("Frame", "BrokenMetaHub", UIParent, "BasicFrameTemplateWithInset")
 hub:SetSize(W, H)
 hub:SetPoint("CENTER")
@@ -131,13 +155,15 @@ local function showPage(i)
   if refreshers[i] then refreshers[i]() end
 end
 
-for i, label in ipairs({ T.tab_char, T.tab_up, T.tab_export, T.tab_cmd, T.tab_data }) do
+-- Tab buttons in display order; each opens the page created with that index below.
+for pos, def in ipairs({ { T.tab_char, 1 }, { T.tab_up, 2 }, { T.tab_guide, 6 }, { T.tab_data, 5 },
+    { T.tab_export, 3 }, { T.tab_cmd, 4 } }) do
   local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
-  b:SetSize(92, 22)
-  b:SetPoint("TOPLEFT", 12 + (i - 1) * 95, -30)
-  b:SetText(label)
-  b:SetScript("OnClick", function() showPage(i) end)
-  tabs[i] = b
+  b:SetSize(91, 22)
+  b:SetPoint("TOPLEFT", 12 + (pos - 1) * 94, -30)
+  b:SetText(def[1])
+  b:SetScript("OnClick", function() showPage(def[2]) end)
+  tabs[def[2]] = b
 end
 
 -- Reusable rows: optional item icon, left/right text, and a hover area that shows the item's
@@ -247,6 +273,9 @@ refreshers[1] = function()
     or "Crit 1%% %.3f (%.1f %s) · Hit 1%% %.3f (%.1f %s)",
     w.crit, rp.crit, T.rating, w.hit, rp.hit, T.rating),
     rp.crit_approx and ("|cff888888" .. T.approx .. "|r") or nil); i = i + 1
+  if (w.wdps_mh or 0) + (w.wdps_oh or 0) + (w.wdps_r or 0) > 0 then
+    setRow(pChar, i, string.format(T.wdps_line, w.wdps_mh or 0, w.wdps_oh or 0, w.wdps_r or 0)); i = i + 1
+  end
   i = i + 1
   setRow(pChar, i, "|cffffd100" .. T.gear .. "|r", "|cffffd100DPS|r"); i = i + 1
   local total = 0
@@ -264,7 +293,6 @@ refreshers[1] = function()
       link and string.format("%.2f", v) or "", { icon = icon, dim = dim, slot = link and s[1] or nil }); i = i + 1
   end
   setRow(pChar, i, "|cffffd100" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
-  setRow(pChar, i, "|cff888888" .. T.weapon_note .. "|r"); i = i + 1
   clearRows(pChar, i)
 end
 
@@ -277,20 +305,72 @@ upHint:SetPoint("TOPLEFT", 4, -2)
 upHint:SetPoint("TOPRIGHT", -4, -2)
 upHint:SetJustifyH("LEFT")
 upHint:SetText(T.up_hint)
-rows(pUp, 22, -40, 17, true)
+rows(pUp, 24, -40, 17, true)
 
 local Container = C_Container or {}
 local GetNumSlots = Container.GetContainerNumSlots or GetContainerNumSlots
 local GetBagLink = Container.GetContainerItemLink or GetContainerItemLink
 
+local QUALITY = { [2] = "1eff00", [3] = "0070dd", [4] = "a335ee", [5] = "ff8000" }
+local function lootLink(it)
+  local name = select(1, ns.GetItemInfo(it.id)) or it.n
+  return "|cff" .. (QUALITY[it.q] or "ffffff") .. "|Hitem:" .. it.id .. "::::::::|h[" .. name .. "]|h|r"
+end
+
+-- Best dungeon item per equipment slot that beats what is worn (wearable by the class, required
+-- level at most 3 above the player's), plus the dungeon whose best items add up to the most DPS.
+local function dungeonUpgrades()
+  local level = UnitLevel("player") or 1
+  local best = {}
+  for _, it in ipairs(ns.LOOT or {}) do
+    local slots = it.slot and ns.SLOTS[it.slot]
+    if slots and (it.req or 0) <= level + 3 and ns.CanWearType(it.t) then
+      local v = ns.scoreStats(it.st, it.slot) or 0
+      if v > 0 then
+        local worst
+        for _, slot in ipairs(slots) do
+          local eq = GetInventoryItemLink("player", slot)
+          local ev = eq and ns.score(eq) or 0
+          if not worst or ev < worst then worst = ev end
+        end
+        local gain = v - (worst or 0)
+        if gain > 0.005 and (not best[it.slot] or gain > best[it.slot].gain) then
+          best[it.slot] = { it = it, gain = gain }
+        end
+      end
+    end
+  end
+  local list, perDungeon = {}, {}
+  for _, b in pairs(best) do
+    list[#list + 1] = b
+    local pd = perDungeon[b.it.d] or { n = 0, gain = 0 }
+    pd.n, pd.gain = pd.n + 1, pd.gain + b.gain
+    perDungeon[b.it.d] = pd
+  end
+  table.sort(list, function(x, y) return x.gain > y.gain end)
+  local top
+  for d, pd in pairs(perDungeon) do
+    if not top or pd.gain > top.gain then top = { d = d, n = pd.n, gain = pd.gain } end
+  end
+  return list, top
+end
+
+local function dungeonName(i)
+  local dg = ns.DUNGEONS and ns.DUNGEONS[i]
+  if not dg then return "?" end
+  return (dg.name[IS_FR and "frFR" or "enUS"] or dg.name.enUS) .. (dg.levels ~= "" and (" (" .. dg.levels .. ")") or "")
+end
+
 refreshers[2] = function()
   local found = {}
   if ns.GetSpec() and GetNumSlots and GetBagLink then
+    local level = UnitLevel("player") or 1
     for bag = 0, (NUM_BAG_SLOTS or 4) do
       for slot = 1, (GetNumSlots(bag) or 0) do
         local link = GetBagLink(bag, slot)
         local loc = link and select(9, ns.GetItemInfo(link))
-        if loc and ns.SLOTS[loc] then
+        local minLevel = link and select(5, ns.GetItemInfo(link)) or 0
+        if loc and ns.SLOTS[loc] and minLevel <= level and ns.CanWearLink(link) then
           local v = ns.score(link)
           local d = v and ns.deltaVsEquipped(link, v)
           if d and d > 0.005 then found[#found + 1] = { link = link, d = d } end
@@ -299,19 +379,33 @@ refreshers[2] = function()
     end
   end
   table.sort(found, function(a, b) return a.d > b.d end)
+  local i = 1
+  setRow(pUp, i, "|cffffd100" .. T.up_bags .. "|r"); i = i + 1
   if #found == 0 then
-    setRow(pUp, 1, "|cff888888" .. T.no_upgrade .. "|r")
-    clearRows(pUp, 2)
-    return
+    setRow(pUp, i, "|cff888888" .. T.no_upgrade .. "|r"); i = i + 1
   end
-  for i = 1, #pUp.rows do
-    local f = found[i]
-    if f then
-      setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link })
-    else
-      setRow(pUp, i)
-    end
+  for k = 1, math.min(#found, 6) do
+    local f = found[k]
+    setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link }); i = i + 1
   end
+  i = i + 1
+  setRow(pUp, i, "|cffffd100" .. T.up_dungeons .. "|r"); i = i + 1
+  local list, top = dungeonUpgrades()
+  if top then
+    setRow(pUp, i, string.format(T.up_best, dungeonName(top.d), top.n, top.gain)); i = i + 1
+  else
+    setRow(pUp, i, "|cff888888" .. T.no_dungeon .. "|r"); i = i + 1
+  end
+  local level = UnitLevel("player") or 1
+  for _, b in ipairs(list) do
+    if i > #pUp.rows then break end
+    local it = b.it
+    local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
+    local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
+    setRow(pUp, i, lootLink(it) .. "  |cff888888" .. dungeonName(it.d) .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
+      { icon = icon, link = "item:" .. it.id }); i = i + 1
+  end
+  clearRows(pUp, i)
 end
 
 ---------------------------------------------------------------------------------------------
@@ -568,15 +662,133 @@ copyBox:SetWidth(460)
 copyBox:SetScript("OnEscapePressed", function() copyFrame:Hide() end)
 copyScroll:SetScrollChild(copyBox)
 
-function ns.ShowShareCopy()
-  if not BrokenMetaWeightsDB.share then return ns.say(T.copy_off) end
-  local text, nMeas, nScans = ns.BuildShareString()
-  if nMeas == 0 and nScans == 0 then return ns.say(T.copy_empty) end
-  copyHint:SetText(T.copy_hint)
+-- Any text to copy (share data, site links): a game addon cannot open a browser.
+function ns.ShowCopyText(title, hint, text)
+  copyFrame.title:SetText(title)
+  copyHint:SetText(hint)
   copyBox:SetText(text)
   copyFrame:Show()
   copyBox:SetFocus()
   copyBox:HighlightText()
+end
+
+-- Site URL in the player's language (French pages for frFR, English pages otherwise), tagged so
+-- Google Analytics shows the traffic the addon brings.
+function ns.SiteURL(path, campaign)
+  local prefix = GetLocale() == "frFR" and "" or "en/"
+  return "https://brokenmeta.gg/" .. prefix .. path .. "?utm_source=addon&utm_medium=ingame&utm_campaign=" .. campaign
+end
+
+function ns.ShowShareCopy()
+  if not BrokenMetaWeightsDB.share then return ns.say(T.copy_off) end
+  local text, nMeas, nScans = ns.BuildShareString()
+  if nMeas == 0 and nScans == 0 then return ns.say(T.copy_empty) end
+  ns.ShowCopyText(T.copy_title, T.copy_hint, text)
+end
+
+---------------------------------------------------------------------------------------------
+-- Page 6: Guide (teaser + links to the site; the full guide stays on brokenmeta.gg)
+---------------------------------------------------------------------------------------------
+local pGuide = newPage()
+local gTitle = pGuide:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+gTitle:SetPoint("TOPLEFT", 4, -2)
+gTitle:SetText(T.guide_h)
+local gText = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+gText:SetPoint("TOPLEFT", 4, -24)
+gText:SetWidth(W - 40)
+gText:SetJustifyH("LEFT")
+local gMore = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+gMore:SetPoint("TOPLEFT", gText, "BOTTOMLEFT", 0, -8)
+gMore:SetWidth(W - 40)
+gMore:SetJustifyH("LEFT")
+local gBtn = CreateFrame("Button", nil, pGuide, "UIPanelButtonTemplate")
+gBtn:SetSize(220, 24)
+gBtn:SetPoint("TOPLEFT", gMore, "BOTTOMLEFT", 0, -10)
+gBtn:SetText(T.guide_copy)
+local pTitle = pGuide:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+pTitle:SetPoint("TOPLEFT", 4, -190)
+pTitle:SetText(T.prof_h)
+local profRows = {}
+for k = 1, 4 do
+  local fs = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  fs:SetPoint("TOPLEFT", 4, -190 - k * 34)
+  fs:SetWidth(W - 160)
+  fs:SetJustifyH("LEFT")
+  local b = CreateFrame("Button", nil, pGuide, "UIPanelButtonTemplate")
+  b:SetSize(120, 22)
+  b:SetPoint("TOPRIGHT", -4, -186 - k * 34)
+  b:SetText(T.prof_copy)
+  profRows[k] = { fs = fs, btn = b }
+end
+
+-- Learned professions as { line = skillLineID, rank, max }: modern API first, Classic fallback
+-- (matched on the localized name against the site's profession names).
+local function learnedProfessions()
+  local out = {}
+  if GetProfessions and GetProfessionInfo then
+    for _, idx in ipairs({ GetProfessions() }) do
+      local ok, _, _, rank, max, _, _, line = pcall(GetProfessionInfo, idx)
+      if ok and line then out[#out + 1] = { line = line, rank = rank or 0, max = max or 0 } end
+    end
+  elseif GetNumSkillLines and GetSkillLineInfo then
+    for i = 1, GetNumSkillLines() do
+      local name, header, _, rank, _, _, max = GetSkillLineInfo(i)
+      if name and not header then
+        for line, p in pairs(ns.PROFESSIONS or {}) do
+          if p.name.frFR == name or p.name.enUS == name then out[#out + 1] = { line = line, rank = rank or 0, max = max or 0 } end
+        end
+      end
+    end
+  end
+  return out
+end
+
+refreshers[6] = function()
+  local spec = ns.GetSpec()
+  local tb = spec and ns.TALENT_BUILDS and ns.TALENT_BUILDS[spec]
+  local ranks = ns.readTalents and select(1, ns.readTalents())
+  if spec and tb and #tb.core > 0 and ranks then
+    local have = 0
+    for _, node in ipairs(tb.core) do if (ranks[node] or 0) > 0 then have = have + 1 end end
+    gText:SetText("|cffffffff" .. ns.specName(spec) .. "|r : " .. string.format(T.guide_follow, have, #tb.core, tb.level or 20))
+    gMore:SetText(T.guide_more)
+  else
+    gText:SetText(spec and ("|cffffffff" .. ns.specName(spec) .. "|r") or "")
+    gMore:SetText(T.guide_nobuild)
+  end
+  gBtn:SetShown(tb ~= nil)
+  gBtn:SetScript("OnClick", function()
+    if tb then ns.ShowCopyText(T.link_title, T.link_hint, ns.SiteURL(tb.guide, "guide")) end
+  end)
+
+  local profs, k = learnedProfessions(), 0
+  for _, pr in ipairs(profs) do
+    local route = ns.PROFESSIONS and ns.PROFESSIONS[pr.line]
+    if route and k < #profRows then
+      k = k + 1
+      local pname = route.name[IS_FR and "frFR" or "enUS"] or route.name.enUS
+      local text = string.format(T.prof_done, pname, pr.rank, pr.max)
+      for _, st in ipairs(route.steps) do
+        if pr.rank < st.t then
+          local left = st.c
+          if pr.rank > st.f then left = math.ceil(st.c * (st.t - pr.rank) / math.max(1, st.t - st.f)) end
+          text = string.format(T.prof_next, pname, pr.rank, pr.max, st.name[IS_FR and "frFR" or "enUS"] or st.name.enUS, st.f, st.t, left)
+          break
+        end
+      end
+      profRows[k].fs:SetText(text)
+      profRows[k].btn:Show()
+      profRows[k].btn:SetScript("OnClick", function()
+        ns.ShowCopyText(T.link_title, T.link_hint, ns.SiteURL("wow-forever/professions/" .. route.id .. "/", "profession"))
+      end)
+    end
+  end
+  if k == 0 then
+    profRows[1].fs:SetText("|cff888888" .. T.prof_none .. "|r")
+    profRows[1].btn:Hide()
+    k = 1
+  end
+  for j = k + 1, #profRows do profRows[j].fs:SetText(""); profRows[j].btn:Hide() end
 end
 
 ---------------------------------------------------------------------------------------------

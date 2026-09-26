@@ -11,7 +11,11 @@ go through the sim's own bis_stats_for_spec() conversion, so the addon's weights
 with whatever conversion ratios the site's simulator uses. Direct stats (AP, SP, Crit %, Hit %)
 are perturbed on the final {ap, sp, crit, hit} sheet.
 
-Usage: py -3.11 wow_addon_build.py [--iterations 400] [--fight-len 300]
+Also writes wow_addon/BrokenMetaWeights/Data.lua (no simulation needed, `--data-only`): dungeon
+loot with stats, class armor/weapon proficiency, recommended talent builds and profession routes,
+all from the site's own data files.
+
+Usage: py -3.11 wow_addon_build.py [--iterations 400] [--fight-len 300] [--data-only]
 """
 import argparse
 import copy
@@ -26,14 +30,16 @@ sys.path.insert(0, str(ROOT / "site_build"))
 import wow_dps_sim as sim  # noqa: E402
 
 OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Weights.lua"
+DATA_OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Data.lua"
+WEAPON_STEP = 2.0  # +2 weapon DPS (dmg per swing += 2 x speed)
 
 # Step sizes: large enough to rise above the residual noise, small enough to stay linear.
 RAW_STEPS = {"str": 20, "agi": 20, "int": 30}
 SHEET_STEPS = {"ap": 40, "sp": 40, "crit": 0.03, "hit": 0.02}
 
 
-def mean_dps(spec_id, stats, iterations, fight_len):
-    profile = sim.ROTATIONS[spec_id]
+def mean_dps(spec_id, stats, iterations, fight_len, profile=None):
+    profile = profile or sim.ROTATIONS[spec_id]
     glossary = sim.wow_spells.load_class(profile.get("glossary", spec_id))
     total = 0.0
     for i in range(iterations):
@@ -75,6 +81,15 @@ def weights_for(spec_id, iterations, fight_len):
     for stat, step in RAW_STEPS.items():
         s = sheet_with_raw(spec_id, stat, step)
         w[stat] = 0.0 if s == base else (mean_dps(spec_id, s, iterations, fight_len) - base_dps) / step
+    # Weapon DPS: +WEAPON_STEP DPS on each simulated weapon. Hunters' only simulated weapon is the
+    # ranged one (Auto Shot), so their weight goes to ranged slots; melee specs get main/off hand.
+    ranged = sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("agi_ap") == "ranged"
+    w.update(wdps_mh=0.0, wdps_oh=0.0, wdps_r=0.0)
+    for idx, wpn in enumerate(sim.ROTATIONS[spec_id].get("weapons", [])):
+        prof = copy.deepcopy(sim.ROTATIONS[spec_id])
+        prof["weapons"][idx]["dmg"] += WEAPON_STEP * wpn["speed"]
+        gain = (mean_dps(spec_id, base, iterations, fight_len, prof) - base_dps) / WEAPON_STEP
+        w["wdps_r" if ranged else ("wdps_oh" if wpn.get("offhand") else "wdps_mh")] = gain
     # Negative values are pure noise on stats the rotation barely uses; clamp them.
     w = {k: max(0.0, round(v, 4)) for k, v in w.items()}
     return base_dps, base, w
@@ -109,7 +124,7 @@ def lua_table(rows):
         cls = prof.get("glossary", spec_id)
         tab, names = talent_specs(cls)[sim.SPEC_ID_MAP[spec_id]]
         caster = "true" if sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("crit") == "spell" else "false"
-        stats = ", ".join(f"{k} = {w[k]}" for k in ("str", "agi", "int", "ap", "sp", "crit", "hit"))
+        stats = ", ".join(f"{k} = {w[k]}" for k in ("str", "agi", "int", "ap", "sp", "crit", "hit", "wdps_mh", "wdps_oh", "wdps_r"))
         ranged = "true" if sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("agi_ap") == "ranged" else "false"
         lines.append(
             f'  {spec_id} = {{ class = "{cls.upper()}", spec = "{sim.SPEC_ID_MAP.get(spec_id, spec_id)}", '
@@ -120,11 +135,118 @@ def lua_table(rows):
     return "\n".join(lines)
 
 
+# ------------------------------------------------------------------------------------ Data.lua
+DUNGEON_SLOTS = {1: "INVTYPE_HEAD", 2: "INVTYPE_NECK", 3: "INVTYPE_SHOULDER", 5: "INVTYPE_CHEST", 20: "INVTYPE_ROBE",
+                 6: "INVTYPE_WAIST", 7: "INVTYPE_LEGS", 8: "INVTYPE_FEET", 9: "INVTYPE_WRIST", 10: "INVTYPE_HAND",
+                 11: "INVTYPE_FINGER", 12: "INVTYPE_TRINKET", 13: "INVTYPE_WEAPON", 14: "INVTYPE_SHIELD",
+                 15: "INVTYPE_RANGED", 16: "INVTYPE_CLOAK", 17: "INVTYPE_2HWEAPON", 21: "INVTYPE_WEAPONMAINHAND",
+                 22: "INVTYPE_WEAPONOFFHAND", 23: "INVTYPE_HOLDABLE", 25: "INVTYPE_THROWN", 26: "INVTYPE_RANGEDRIGHT"}
+PROF_SKILL_LINES = {"alchemy": 171, "blacksmithing": 164, "enchanting": 333, "engineering": 202,
+                    "leatherworking": 165, "tailoring": 197, "cooking": 185, "first-aid": 129}
+
+
+def lua(v):
+    """Python value -> Lua literal (dicts with str keys become records, lists become arrays)."""
+    if v is None:
+        return "nil"
+    if isinstance(v, bool):
+        return "true" if v else "false"
+    if isinstance(v, (int, float)):
+        return repr(round(v, 4)) if isinstance(v, float) else str(v)
+    if isinstance(v, str):
+        return lua_str(v)
+    if isinstance(v, list):
+        return "{" + ", ".join(lua(x) for x in v) + "}"
+    if isinstance(v, dict):
+        parts = []
+        for k, x in v.items():
+            key = k if isinstance(k, str) and k.isidentifier() else f"[{lua(k)}]"
+            parts.append(f"{key} = {lua(x)}")
+        return "{" + ", ".join(parts) + "}"
+    raise TypeError(type(v))
+
+
+def loot_data():
+    d = json.loads((ROOT / "data" / "wow_dungeons" / "dungeons.json").read_text(encoding="utf-8"))
+    dungeons, loot = [], []
+    for i, dg in enumerate(d["dungeons"], 1):
+        dungeons.append({"id": dg["id"], "name": {"frFR": dg["name"]["fr"], "enUS": dg["name"]["en"]}, "levels": dg["levels"]})
+        for it in dg["items"]:
+            st = it["st"]
+            stats = {k: v for k, v in {
+                "str": st.get("str"), "agi": st.get("agi"), "int": st.get("int"), "ap": st.get("atkpwr"),
+                "sp": (st.get("splpwr") or 0) + (st.get("spldmg") or 0) or None,
+                "critR": st.get("critstrkrtng"), "hitR": st.get("hitrtng"),
+                "wdps": st.get("rgddps") or st.get("dps"),
+            }.items() if v}
+            loot.append({"id": it["id"], "d": i, "slot": DUNGEON_SLOTS.get(it["slot"]), "t": it["type"]["en"] or None,
+                         "req": it.get("req", 0), "q": it.get("q", 2), "n": it["name"],
+                         "src": (it.get("src") or [None])[0], "quest": it.get("kind") == "quest", "st": stats})
+    return dungeons, loot
+
+
+def talent_builds():
+    """Recommended talent nodes per spec (Icy Veins level-20 templates, data/wow_guides/content.json)
+    and the site guide path. Only node ids: the addon shows how many the player follows and links
+    to the guide for the details (user decision: keep the full guide on the site, 2026-09-26)."""
+    content = json.loads((ROOT / "data" / "wow_guides" / "content.json").read_text(encoding="utf-8"))
+    out = {}
+    for spec_id, prof in sim.ROTATIONS.items():
+        cls, spec = prof.get("glossary", spec_id), sim.SPEC_ID_MAP.get(spec_id)
+        build = content.get(cls, {}).get(spec, {}).get("build") or {}
+        out[spec_id] = {
+            "guide": f"wow-forever/guides/{cls}/{spec}/",
+            "level": build.get("level"),
+            "core": [int(t["id"].lstrip("n")) for t in build.get("talents", []) if not t.get("option")],
+            "optional": [int(t["id"].lstrip("n")) for t in build.get("talents", []) if t.get("option")],
+        }
+    return out
+
+
+def profession_routes():
+    out = {}
+    for f in sorted((ROOT / "data" / "wow_professions").glob("*.json")):
+        p = json.loads(f.read_text(encoding="utf-8"))
+        line = PROF_SKILL_LINES.get(p["id"])
+        if not line:
+            continue
+        out[line] = {"id": p["id"], "name": {"frFR": p["name"]["fr"], "enUS": p["name"]["en"]}, "cap": p["cap"], "steps": [
+            {"f": s["from"], "t": s["to"], "c": s["crafts"], "recipe": s["recipe"],
+             "name": {"frFR": s["name"]["fr"], "enUS": s["name"]["en"]},
+             "reag": [{"id": g["id"], "n": g["count"], "name": {"frFR": g["name"]["fr"], "enUS": g["name"]["en"]}}
+                      for g in s["reagents"]]}
+            for s in p["route"]]}
+    return out
+
+
+def write_data_lua():
+    dungeons, loot = loot_data()
+    prof = json.loads((ROOT / "data" / "wow_items" / "proficiency.json").read_text(encoding="utf-8"))["classes"]
+    nl = chr(10)
+    parts = [
+        "-- GENERATED by wow_addon_build.py (--data-only) from the site's data files -- do not edit by hand.",
+        f"-- {date.today().isoformat()}. Sources: data/wow_dungeons, data/wow_items/proficiency.json (beta client",
+        "-- tables), data/wow_guides/content.json (Icy Veins level-20 talent templates), data/wow_professions.",
+        "local _, ns = ...",
+        "ns.DUNGEONS = {" + nl + ("," + nl).join("  " + lua(x) for x in dungeons) + nl + "}",
+        "ns.LOOT = {" + nl + ("," + nl).join("  " + lua(x) for x in loot) + nl + "}",
+        "ns.PROFICIENCY = " + lua(prof),
+        "ns.TALENT_BUILDS = {" + nl + ("," + nl).join(f"  {k} = {lua(v)}" for k, v in talent_builds().items()) + nl + "}",
+        "ns.PROFESSIONS = {" + nl + ("," + nl).join(f"  [{k}] = {lua(v)}" for k, v in profession_routes().items()) + nl + "}",
+    ]
+    DATA_OUT.write_text(nl.join(parts) + nl, encoding="utf-8")
+    print(f"wrote {DATA_OUT.relative_to(ROOT)} ({len(loot)} loot items, {len(dungeons)} dungeons)")
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("--iterations", type=int, default=400)
     parser.add_argument("--fight-len", type=float, default=300.0)
+    parser.add_argument("--data-only", action="store_true", help="only rewrite Data.lua (no simulation)")
     args = parser.parse_args()
+    write_data_lua()
+    if args.data_only:
+        return
 
     rows = {}
     for spec_id in sim.ROTATIONS:

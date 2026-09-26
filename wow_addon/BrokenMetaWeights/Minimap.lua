@@ -5,19 +5,19 @@ local IS_FR = ns.IS_FR
 local ICON = "Interface\\AddOns\\BrokenMetaWeights\\Media\\icon"
 ns.ICON = ICON
 
-local TIP = IS_FR and {
+local TIP = ns.Localize("minimap", {
   left = "|cffffffffClic gauche|r : ouvrir le hub",
   right = "|cffffffffClic droit|r : export pour brokenmeta.gg",
   drag = "|cffffffffGlisser|r : déplacer le bouton",
   hidden = "bouton de la minicarte masqué. /bmw minimap pour le réafficher.",
   shown = "bouton de la minicarte affiché.",
-} or {
+}, {
   left = "|cffffffffLeft click|r: open the hub",
   right = "|cffffffffRight click|r: export for brokenmeta.gg",
   drag = "|cffffffffDrag|r: move the button",
   hidden = "minimap button hidden. /bmw minimap to show it again.",
   shown = "minimap button shown.",
-}
+})
 
 local btn = CreateFrame("Button", "BrokenMetaMinimapButton", Minimap)
 btn:SetSize(31, 31)

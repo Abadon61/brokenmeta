@@ -46,6 +46,7 @@ const FIELDS: Record<string, Record<string, Rule>> = {
     ...COMMON, race: STR(24), str: STAT, agi: STAT, sta: STAT, int: STAT, spi: STAT, ap: NUM(0, 20000), rap: NUM(0, 20000),
     crit_melee: PCT, crit_ranged: PCT, crit_spell: PCT, dodge: PCT, parry: PCT, block: PCT,
     regen_base: NUM(0, 1000), regen_cast: NUM(0, 1000), mana_max: NUM(0, 100000), talents: STR(16), spec: STR(32),
+    def_skill: NUM(0, 1000), wpn_skill_mh: NUM(0, 1000), wpn_skill_oh: NUM(0, 1000),
   },
   pet: {
     ...COMMON, pet_level: NUM(1, 80), family: STR(32), pet_str: STAT, pet_agi: STAT, pet_sta: STAT, pet_int: STAT, pet_spi: STAT,
