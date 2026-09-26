@@ -430,10 +430,33 @@ class Sim:
         return self.total_dmg, self.dmg_by
 
     def _next_wakeup(self, t):
+        """Earliest time anything the priority list cares about could newly become valid: the
+        next auto-attack swing, any ability/cooldown-group clearing, or any maintained DoT/buff
+        crossing its own refresh threshold (dot_ends/buff_ends minus that ability's own lockout,
+        matching rule_condition's maintain_dot/maintain_buff check). Real bug found 2026-09-26
+        (user-flagged): this used to only look at the next swing (or a blind t+0.5 poll for
+        casters with no weapon), so when nothing was scheduled to swing before a cooldown-group
+        actually cleared, idle time silently overshot past the real availability moment -- e.g.
+        Enhancement Shaman's Earth Shock/Flame Shock alternation drifting to ~7.8s gaps instead
+        of the real 6s Shock-cooldown cadence."""
+        candidates = []
         next_swing = min(self._next_swing_times(), default=None)
         if next_swing and next_swing > t:
-            return next_swing
-        return t + 0.5
+            candidates.append(next_swing)
+        for cd_time in self.cooldowns.values():
+            if cd_time > t:
+                candidates.append(cd_time)
+        for aid, end in self.dot_ends.items():
+            if aid in self.abilities:
+                wake = end - self.lockout(aid)
+                if wake > t:
+                    candidates.append(wake)
+        for aid, end in self.buff_ends.items():
+            if aid in self.abilities:
+                wake = end - self.lockout(aid)
+                if wake > t:
+                    candidates.append(wake)
+        return min(candidates) if candidates else t + 0.5
 
     def _next_swing_times(self):
         return [time for (time, _, kind, _) in self.events if kind == "swing"]
@@ -550,11 +573,15 @@ ROTATIONS = {
         # per shaman_flame_shock's own glossary entry, so it's just as real and castable for
         # Enhancement as for Elemental. Icy Veins' own Enhancement guide doesn't mention it (its
         # priority text is Earth Shock-only), but the ability itself is sourced and legitimately
-        # available, so it's included per real class mechanics rather than left out. Still missing
-        # (real gaps, not sourced in this glossary yet): Searing Totem (a totem that deals its own
-        # periodic damage) and Strength of Earth Totem (the stat-buff totem the user describes
-        # dropping at pull) -- both need fresh Wowhead/Icy Veins sourcing before they can be added.
+        # available, so it's included per real class mechanics rather than left out. Searing Totem
+        # (also user-flagged) is sourced now too -- a real, independent damage source (doesn't
+        # share the Shock cooldown group), dropped once and left ticking for its 30s duration.
+        # Still missing (real gap, not sourced in this glossary yet): Strength of Earth Totem (the
+        # stat-buff totem the user describes dropping at pull) -- a pure stat buff with no damage
+        # of its own, so it wouldn't show up as a DPS line even once sourced; needs fresh Wowhead
+        # data before it can be folded into the BIS stat calc instead.
         "rotation": [
+            {"ability": "shaman_searing_totem", "kind": "maintain_dot"},
             {"ability": "shaman_flame_shock", "kind": "maintain_dot"},
             {"ability": "shaman_earth_shock", "kind": "on_cooldown"},
         ],

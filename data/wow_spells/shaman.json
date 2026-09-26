@@ -6,7 +6,7 @@
   "gaps": [
     "Real, explicit source caveat: Icy Veins' own guide says the level-20 Enhancement toolkit is too limited to show the spec's real playstyle yet (\"the full playstyle isn't really on display yet until we see more of the Beta open up\") -- this class's real level-20 kit is genuinely thinner than every other class catalogued so far, not an artifact of under-research this pass.",
     "None of Stormstrike, Flurry, Maelstrom Weapon or Windfury Weapon (Enhancement's real signature abilities in other WoW versions) are reachable at 11 points and none are named in the real level-20 rotation text -- not looked up.",
-    "Lightning Shield, Flametongue Weapon (group alternative to Rockbiter), Frost Shock, Fire Nova, totems (Searing/Strength of Earth/Stoneskin/Healing Stream) named in the real rotation but not looked up.",
+    "Lightning Shield, Flametongue Weapon (group alternative to Rockbiter), Frost Shock, Fire Nova, and the Strength of Earth/Stoneskin/Healing Stream totems named in the real rotation but not looked up. Searing Totem IS now sourced (2026-09-26, user-flagged) and in Enhancement's rotation -- see its own entry for the one still-approximate value (attack interval, not shown on its own tooltip).",
     "\"talents.restoration\" is an empty placeholder. Note: the guide also flags a real alternative build spending points in Restoration (Mindfulness + Water Shield) for better early Mana sustain, at the cost of blocking a deeper Enhancement path later -- not sourced here.",
     "Elemental (2026-09-25): real, explicit source caveat -- Icy Veins' own guide says Elemental's best talents (Lava Burst, Elemental Alacrity) \"are none of these abilities... available at Level 20\", describing them as \"a preview of sorts for what is to come.\" The real usable level-20 rotation is just Lightning Bolt (filler) + Flame Shock (maintained DoT). Both abilities below use their real Rank 1 tooltips (level 1 and level 10 respectively) rather than whatever higher rank is actually trainable by 20 -- a disclosed conservative approximation, not the exact level-20 numbers, after this pass's searches for the exact intermediate rank IDs didn't turn up a clean result in reasonable time. Fire Nova (3+ target tool) and Earth Shock (already sourced above, used more as an interrupt/utility per Elemental's own guide than a core rotation piece) are real but not part of Elemental's own single-target priority text."
   ],
@@ -100,6 +100,28 @@
       "effects": [
         { "kind": "direct_damage", "flat": 24, "sp_coeff": 0.214 },
         { "kind": "periodic_damage", "total_damage": 28, "duration_sec": 12, "tick_interval_sec": 3, "damage_per_tick": 7, "sp_coeff": 0.10, "can_crit": true }
+      ]
+    },
+    {
+      "id": "shaman_searing_totem",
+      "wowhead_spell_id": 3599,
+      "name": { "en": "Searing Totem", "fr": "Totem incendiaire" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 4,
+      "min_level": 10,
+      "resource_cost": { "mana": 25 },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["totem", "summon"],
+      "notes": "User-flagged (2026-09-26): untalented (\"trees\": []) and trainable at level 10, so available regardless of spec -- next rank is level 30, so Rank 1 is the real level-20 cap, no intermediate rank exists. Real tooltip: 'Summons a Searing Totem with 5 health at your feet for 30 sec that repeatedly attacks an enemy within 20 yards for 9 to 11 Fire damage.' Modeled here as a periodic_damage effect attributed to the caster (the engine has no separate pet/totem damage-source model, same simplification already disclosed for Hunter/Warlock pets) -- midpoint of the 9-11 range used per tick. The totem's own attack INTERVAL isn't shown on its spell tooltip (it's the summoned unit's own attack speed, not a caster cast time); 2 seconds is the commonly-cited Classic-era value across community sources (Wowpedia, classic theorycrafting), not independently confirmed on a Wowhead tooltip -- disclosed approximation, not a real per-tick sourced number like the rest of this file. No Spell Power scaling: real Searing Totem is a flat-damage totem in Classic-style itemization, never SP-scaled.",
+      "source_url": "https://www.wowhead.com/forever/spell=3599/searing-totem",
+      "effects": [
+        { "kind": "periodic_damage", "total_damage": 150, "duration_sec": 30, "tick_interval_sec": 2, "damage_per_tick": 10, "sp_coeff": 0, "can_crit": true }
       ]
     }
   ],
