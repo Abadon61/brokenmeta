@@ -125,7 +125,7 @@ def resolve_direct_damage(effect, ap, sp, crit_frac):
 
 
 def resolve_normalized_weapon_damage(effect, avg_hit, sp, crit_frac):
-    """avg_hit is one full white-swing's worth of damage (weapon + AP/14), consistent with
+    """avg_hit is one full white-swing's worth of damage (weapon + AP/14 x speed), consistent with
     how the Warrior engine already treats Sinister-Strike-like "100% weapon dmg" abilities."""
     base = avg_hit * effect.get("pct", 1.0) + effect.get("flat", 0)
     if "dmg_range" in effect:
@@ -199,7 +199,12 @@ class Sim:
         weapons = self.profile.get("weapons", [])
         if not weapons:
             return 0.0
-        return weapons[idx]["dmg"] + self.stats["ap"] / 14
+        # Attack Power adds AP/14 damage per second of the weapon's own (base) speed to each hit.
+        # Fixed 2026-09-26: this used to add a flat AP/14 per hit regardless of speed, which
+        # undervalued AP (and Strength) by a factor of ~2.5-3.3 for every melee/ranged spec.
+        # Classic-era special attacks use the weapon's real speed (no TBC-style normalization).
+        wpn = weapons[idx]
+        return wpn["dmg"] + self.stats["ap"] / 14 * wpn["speed"]
 
     def off_cooldown(self, aid, t):
         group = self.abilities[aid].get("cooldown_group")
@@ -323,7 +328,7 @@ class Sim:
         else:
             is_glance = roll(GLANCE_CHANCE)
             is_crit = (not is_glance) and roll(self.stats["crit"])
-            base = wpn["dmg"] + self.stats["ap"] / 14
+            base = wpn["dmg"] + self.stats["ap"] / 14 * wpn["speed"]  # see avg_hit()
             if is_oh:
                 base *= 0.5
             seal_id = self.profile.get("seal_ability")
@@ -893,7 +898,10 @@ def bis_stats_for_spec(spec_id):
     if agi_ap_mode == "ranged":
         ap += agi * ratios["ap_per_agi_ranged"].get(class_id, 0)
     elif agi_ap_mode == "melee":
-        ap += agi * ratios["ap_per_agi_melee"].get(class_id, 0)
+        # Druids only get melee AP from Agility in Cat Form, stored under its own "druid_cat" key
+        # (fixed 2026-09-26: looking it up as "druid" silently gave Feral 0 AP per Agility).
+        agi_key = "druid_cat" if spec_id == "druid_feral" else class_id
+        ap += agi * ratios["ap_per_agi_melee"].get(agi_key, 0)
 
     sp = spec_bis.get("flat_sp", 0) + spec_bis.get("generic_spell_dmg", 0) + spec_bis.get("school_sp", {}).get(meta.get("school"), 0)
 

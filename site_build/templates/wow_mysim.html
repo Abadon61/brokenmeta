@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.ms_kicker, g_h1, g_intro) }}
+
+<h2 class="fiche-section-title">{{ tx.ms_how_h2 }}</h2>
+<ol class="ms-steps">
+  {% for step in tx.ms_steps %}<li>{{ step|safe }}{% if loop.first and addon_version %}
+    <a class="ms-dl" href="{{ root }}assets/downloads/BrokenMeta-{{ addon_version }}.zip" download>{{ tx.ms_download.format(v=addon_version) }}</a>{% endif %}</li>{% endfor %}
+</ol>
+
+<div id="msApp" data-base="{{ root }}assets/wowsim/" data-lang="{{ lang }}" data-manifest="{{ ms_manifest_hash }}" data-addon="{{ addon_version or '' }}"
+     data-worker="{{ root }}assets/js/wow-mysim-worker.js?v={{ css_v }}">
+  <div class="tc-field">
+    <label for="msExport">{{ tx.ms_paste_label }}</label>
+    <textarea id="msExport" class="ms-export" rows="8" spellcheck="false" autocomplete="off"
+              placeholder="format=BMW1&#10;class=...&#10;spec=...&#10;..."></textarea>
+  </div>
+  <div class="ms-actions">
+    <button type="button" id="msRun" class="ms-btn">{{ tx.ms_run }}</button>
+    <label class="ms-spec-pick" hidden>{{ tx.ms_spec_label }} <select id="msSpec"></select></label>
+    <span id="msStatus" class="ms-status" role="status" aria-live="polite"></span>
+  </div>
+  <p class="wow-note">{{ tx.ms_privacy }}</p>
+  <section id="msResult" class="ms-result" hidden></section>
+</div>
+
+<script type="application/json" id="msI18n">{{ ms_i18n|tojson }}</script>
+<script type="application/json" id="msSpecs">{{ ms_specs|tojson }}</script>
+<script src="{{ root }}assets/js/wow-mysim.js?v={{ css_v }}" defer></script>
+
+<h2 class="fiche-section-title">{{ tx.ms_limits_h2 }}</h2>
+<ul class="ms-limits">
+  {% for item in tx.ms_limits %}<li>{{ item }}</li>{% endfor %}
+</ul>
+{% endblock %}

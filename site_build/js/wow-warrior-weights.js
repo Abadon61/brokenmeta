@@ -39,8 +39,9 @@
     var ohSwingsPerSec = dualWield ? 1 / ohSpeed : 0;
     var totalSwingsPerSec = mhSwingsPerSec + ohSwingsPerSec;
 
-    var whiteMhBase = (wpnDmg + AP / 14) * mhSwingsPerSec;
-    var whiteOhBase = dualWield ? (ohDmg + AP / 14) * 0.5 * ohSwingsPerSec : 0;
+    // AP adds AP/14 damage per second of weapon speed to each hit (fixed 2026-09-26: was a flat AP/14).
+    var whiteMhBase = (wpnDmg + AP / 14 * wpnSpeed) * mhSwingsPerSec;
+    var whiteOhBase = dualWield ? (ohDmg + AP / 14 * ohSpeed) * 0.5 * ohSwingsPerSec : 0;
     var whiteBase = whiteMhBase + whiteOhBase;
     var whiteDps = whiteBase * hitFrac * critMult;
 
@@ -52,7 +53,7 @@
     // Overpower: usable only within 5s of a target Dodge against a normal swing, capped by its own
     // 5s cooldown -- steady-state rate estimate, not the exact per-swing timing the real simulator uses.
     var opRatePerSec = Math.min(1 / OVERPOWER_CD, DODGE_CHANCE * totalSwingsPerSec);
-    var opBase = (wpnDmg + AP / 14 + OVERPOWER_FLAT) * opRatePerSec;
+    var opBase = (wpnDmg + AP / 14 * wpnSpeed + OVERPOWER_FLAT) * opRatePerSec;
     var opDps = opBase * hitFrac * critMult;
 
     var totalDps = whiteDps + rendDps + opDps;
@@ -63,7 +64,7 @@
     document.getElementById('tcTotalDps').textContent = fmt(totalDps);
 
     var baseSum = whiteBase + rendBase + opBase;
-    var dDpsPerAp = hitFrac * critMult * (mhSwingsPerSec / 14 + (dualWield ? (0.5 * ohSwingsPerSec / 14) : 0) + opRatePerSec / 14);
+    var dDpsPerAp = hitFrac * critMult * (mhSwingsPerSec * wpnSpeed / 14 + (dualWield ? (0.5 * ohSwingsPerSec * ohSpeed / 14) : 0) + opRatePerSec * wpnSpeed / 14);
     var dDpsPerStr = AP_PER_STR * dDpsPerAp;
     var dDpsPerCritPct = baseSum * hitFrac * 0.01;
     var dDpsPerAgi = dDpsPerCritPct * CRIT_PCT_PER_AGI;

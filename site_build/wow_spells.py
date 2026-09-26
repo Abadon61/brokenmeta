@@ -48,7 +48,7 @@ TXT = {
         "no_cooldown": "Aucune", "no_cost": "Aucun", "instant": "Instantané",
         "source_wowhead": "Infobulle Wowhead",
         "back_to_hub": "Retour au glossaire",
-        "seealso_optimizer": "Voir aussi : le simulateur de DPS et l'optimiseur de personnage utilisent ces mêmes données.",
+        "seealso_optimizer": "Voir aussi : le simulateur de DPS et l'Item builder utilisent ces mêmes données.",
     },
     "en": {
         "kicker": "World of Warcraft: Forever · Glossary",
@@ -71,7 +71,7 @@ TXT = {
         "no_cooldown": "None", "no_cost": "None", "instant": "Instant",
         "source_wowhead": "Wowhead tooltip",
         "back_to_hub": "Back to glossary",
-        "seealso_optimizer": "See also: the DPS simulator and character optimizer use this same data.",
+        "seealso_optimizer": "See also: the DPS simulator and the Item builder use this same data.",
     },
 }
 
