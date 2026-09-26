@@ -742,9 +742,21 @@ ROTATIONS = {
     # Survival's own guide states outright "regardless of what talents you choose, this is the
     # optimal choice" at level 20. Spec choice is about talents/pet, not the rotation, so all 3
     # intentionally produce the same simulated number here.
+    #
+    # 2026-09-26 (user-flagged): Auto Shot is now modeled -- real BIS ranged weapon (Venomstrike,
+    # data/wow_items/bis_gear_by_slot.json, Wowhead item=6469: 20-38 dmg, 2.40s speed, midpoint 29
+    # used) reused as this profile's "weapons" entry. self.stats["ap"] is already the Hunter's
+    # RANGED Attack Power (SPEC_STAT_PROFILE sets agi_ap="ranged"), so the existing melee-swing
+    # machinery (avg_hit/do_swing) correctly doubles as the ranged auto-attack here -- no new
+    # engine code needed, just real weapon data. This also fixes a second, previously-unnoticed
+    # gap: Aimed Shot is a normalized_weapon_damage ability (100% weapon dmg + 20 flat) that was
+    # silently scoring ZERO on its weapon-damage component this whole time, since avg_hit()
+    # returns 0.0 with an empty weapons list -- it was only ever dealing its +20 flat bonus.
+    # Venomstrike's own "Chance on hit: Venom Shot for 23-33 Nature damage" proc isn't modeled
+    # (same class of omission as other on-hit procs already disclosed elsewhere).
     "hunter_marksmanship": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
-        "weapons": [],  # Auto Shot itself isn't sourced (see the docstring) -- excluded, not zeroed by accident
+        "weapons": [{"dmg": 29, "speed": 2.40}],
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},  # notes: "cast once the pet has engaged, before Aimed Shot"
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
@@ -753,7 +765,7 @@ ROTATIONS = {
     },
     "hunter_beast_mastery": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
-        "weapons": [],
+        "weapons": [{"dmg": 29, "speed": 2.40}],
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
@@ -762,7 +774,7 @@ ROTATIONS = {
     },
     "hunter_survival": {
         "glossary": "hunter", "resource": "mana", "role": "dps",
-        "weapons": [],
+        "weapons": [{"dmg": 29, "speed": 2.40}],
         "rotation": [
             {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
             {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
@@ -825,8 +837,13 @@ def bis_stats_for_spec(spec_id):
     s = spec_bis["stats"]
     str_, agi, int_ = s.get("str", 0), s.get("agi", 0), s.get("int", 0)
 
-    ap = spec_bis.get("flat_ap", 0) + str_ * ratios["ap_per_str"].get(class_id, 0)
     agi_ap_mode = meta.get("agi_ap")
+    # Real Classic mechanic: a Hunter's RANGED Attack Power pool (used for Auto Shot/Aimed Shot,
+    # this sim's only Hunter abilities) is base + 2*Agi ONLY -- it does not include a Strength
+    # component the way melee AP does. Skipping the str_*ap_per_str term for agi_ap=="ranged"
+    # specs (2026-09-26, found while wiring Auto Shot) avoids silently inflating ranged AP with a
+    # melee-only conversion that real Hunters don't get on their ranged attacks.
+    ap = spec_bis.get("flat_ap", 0) if agi_ap_mode == "ranged" else spec_bis.get("flat_ap", 0) + str_ * ratios["ap_per_str"].get(class_id, 0)
     if agi_ap_mode == "ranged":
         ap += agi * ratios["ap_per_agi_ranged"].get(class_id, 0)
     elif agi_ap_mode == "melee":
