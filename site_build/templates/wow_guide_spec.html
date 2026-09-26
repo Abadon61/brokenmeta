@@ -92,7 +92,8 @@
     <div class="wg-gear-body">
       <span class="wg-gear-slot">{{ tx.slot_labels[it.slot] }}</span>
       {% if item_url %}<a href="{{ item_url }}" rel="noopener nofollow" target="_blank"><b>{{ it.name }}</b></a>{% else %}<b>{{ it.name }}</b>{% endif %}
-      {% if it.stat %}<span class="wg-gear-stat">{{ it.stat }}</span>{% endif %}
+      {% if it.stat_text %}<span class="wg-gear-stat">{{ it.stat_text }}</span>{% endif %}
+      <span class="wg-gear-source">{% if it.source == "foreverchanges" %}<a href="{{ bis_credit_url }}" rel="noopener nofollow" target="_blank">{{ tx.gear_bis_fallback_source }}</a>{% else %}{{ tx.dg_from }} : {{ it.source[lang] }}{% endif %}</span>
     </div>
   </div>
   {% endfor %}
@@ -109,7 +110,8 @@
   {% if bis_stats.armor %}<div><dt>Armure</dt><dd class="nums">{{ bis_stats.armor }}</dd></div>{% endif %}
 </dl>
 {% endif %}
-<p class="wow-note">{{ tx.gear_bis_note }} <a href="{{ bis_credit_url }}" rel="noopener nofollow" target="_blank">ForeverChanges.pro</a>.</p>
+{% if bis_dps %}<p class="wow-note nums">{{ tx.gear_bis_dps.format(dps=("%.1f"|format(bis_dps))) }}</p>{% endif %}
+<p class="wow-note">{{ tx.gear_bis_methodology }}</p>
 {% else %}
 <p class="wow-note">{{ tx.gear_p }}</p>
 {% endif %}

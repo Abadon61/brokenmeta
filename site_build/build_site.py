@@ -45,6 +45,37 @@ import wow_talents  # noqa: E402
 import wow_guides  # noqa: E402
 import wow_spells  # noqa: E402
 import wow_dps_sim  # noqa: E402
+import wow_bis_optimizer  # noqa: E402
+
+# Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
+# character creation actually works, not a per-race-and-class combined lookup). Read by hand from
+# https://rankedboost.com/world-of-warcraft/classic-stats/ (user-provided source). No growth-per-level
+# curve exists in our data, so this is explicitly labelled "level 1" wherever it's shown, never blended
+# silently into level-60 gear stats. The new Forever-only "Skyborne" race has no published values yet.
+# Module-level (not per-language-loop-local) since both the character optimizer page and
+# wow_bis_optimizer.py's own engine-driven BIS pass (2026-09-26) need this same static table.
+OP_RACE_BASE_STATS = {
+    "human": {"str": 20, "agi": 20, "sta": 20, "int": 20, "spi": 21},
+    "dwarf": {"str": 22, "agi": 16, "sta": 23, "int": 19, "spi": 19},
+    "nightelf": {"str": 17, "agi": 25, "sta": 19, "int": 20, "spi": 20},
+    "gnome": {"str": 15, "agi": 23, "sta": 19, "int": 24, "spi": 20},
+    "orc": {"str": 23, "agi": 17, "sta": 22, "int": 17, "spi": 23},
+    "undead": {"str": 19, "agi": 18, "sta": 21, "int": 18, "spi": 25},
+    "tauren": {"str": 25, "agi": 15, "sta": 22, "int": 15, "spi": 22},
+    "troll": {"str": 21, "agi": 22, "sta": 21, "int": 16, "spi": 21},
+}
+OP_CLASS_BONUS_STATS = {
+    "warrior": {"str": 3, "agi": 0, "sta": 2, "int": 0, "spi": 0},
+    "paladin": {"str": 2, "agi": 0, "sta": 2, "int": 0, "spi": 1},
+    "shaman": {"str": 1, "agi": 0, "sta": 1, "int": 1, "spi": 1},
+    "warlock": {"str": 0, "agi": 0, "sta": 1, "int": 2, "spi": 2},
+    "hunter": {"str": 0, "agi": 3, "sta": 1, "int": 0, "spi": 1},
+    "druid": {"str": 1, "agi": 0, "sta": 0, "int": 2, "spi": 2},
+    "mage": {"str": 0, "agi": 0, "sta": 0, "int": 3, "spi": 2},
+    "rogue": {"str": 1, "agi": 3, "sta": 1, "int": 0, "spi": 0},
+    "priest": {"str": 0, "agi": 0, "sta": 0, "int": 2, "spi": 3},
+}
+OP_STATS_SOURCE = {"label": "RankedBoost — WoW Classic Stats", "url": "https://rankedboost.com/world-of-warcraft/classic-stats/"}
 
 
 OUT = PROJECT / "data" / "output"
@@ -7275,13 +7306,23 @@ def main() -> None:
         # show exactly the gear its DPS ranking number assumes. Healer specs (not in ROTATIONS)
         # simply have no entry, so their guide page renders without a gear section.
         _bis_gear_data = json.loads((wow_spells.ROOT / "data" / "wow_items" / "bis_gear_by_slot.json").read_text(encoding="utf-8"))
-        _bis_stats_data = json.loads((wow_spells.ROOT / "data" / "wow_items" / "bis_level20_stats.json").read_text(encoding="utf-8"))
         _bis_lookup = {}
         for _bspec_id, _bprofile in wow_dps_sim.ROTATIONS.items():
             _bclass_id = _bprofile.get("glossary", _bspec_id)
             _bwt_spec_id = wow_dps_sim.SPEC_ID_MAP.get(_bspec_id)
             if _bwt_spec_id:
                 _bis_lookup[(_bclass_id, _bwt_spec_id)] = _bspec_id
+        # Our own engine-driven BIS optimizer (2026-09-26, "point 4": use wow_dps_sim.py's own
+        # engine against real dungeon loot instead of trusting foreverchanges.pro's external item
+        # picks wholesale -- see wow_bis_optimizer.py's own docstring for the full methodology and
+        # its two disclosed limitations: dungeon-loot-only candidate pool, level-1 base stats).
+        # bis_gear_by_slot.json's picks are kept only as the per-slot fallback for Head/Neck/
+        # Trinket, which have zero real dungeon-drop candidates at req<=20 in our own data.
+        _bis_optimized = {}
+        for _bspec_id in wow_dps_sim.ROTATIONS:
+            _bis_optimized[_bspec_id] = wow_bis_optimizer.optimize_spec(
+                _bspec_id, OP_RACE_BASE_STATS, OP_CLASS_BONUS_STATS,
+                _bis_gear_data["specs"].get(_bspec_id, []), wow_guides.TXT[lang]["stat_names"])
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
@@ -7411,9 +7452,10 @@ def main() -> None:
                            rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
-                           bis_gear=(_bis_gear_data["specs"].get(_bspec_id) if _bspec_id else None),
+                           bis_gear=(_bis_optimized.get(_bspec_id, (None, None, None))[0] if _bspec_id else None),
+                           bis_stats=(_bis_optimized.get(_bspec_id, (None, None, None))[1] if _bspec_id else None),
+                           bis_dps=(_bis_optimized.get(_bspec_id, (None, None, None))[2] if _bspec_id else None),
                            bis_credit_url=_bis_gear_data["credit_url_by_class"].get(_cls["id"]),
-                           bis_stats=(_bis_stats_data["specs"].get(_bspec_id) if _bspec_id else None),
                            breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
             if wow_dungeons:
@@ -7520,33 +7562,8 @@ def main() -> None:
                 # builder -- since the build tool now renders one item at a time into whichever slot is clicked,
                 # instead of a server-rendered list per slot.
                 (DIST / "assets" / "data").mkdir(parents=True, exist_ok=True)
-                # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
-                # character creation actually works, not a per-race-and-class combined lookup). Read by hand from
-                # https://rankedboost.com/world-of-warcraft/classic-stats/ (user-provided source). No growth-per-level
-                # curve exists in our data, so this is explicitly labelled "level 1" wherever it's shown, never blended
-                # silently into level-60 gear stats. The new Forever-only "Skyborne" race has no published values yet.
-                OP_RACE_BASE_STATS = {
-                    "human": {"str": 20, "agi": 20, "sta": 20, "int": 20, "spi": 21},
-                    "dwarf": {"str": 22, "agi": 16, "sta": 23, "int": 19, "spi": 19},
-                    "nightelf": {"str": 17, "agi": 25, "sta": 19, "int": 20, "spi": 20},
-                    "gnome": {"str": 15, "agi": 23, "sta": 19, "int": 24, "spi": 20},
-                    "orc": {"str": 23, "agi": 17, "sta": 22, "int": 17, "spi": 23},
-                    "undead": {"str": 19, "agi": 18, "sta": 21, "int": 18, "spi": 25},
-                    "tauren": {"str": 25, "agi": 15, "sta": 22, "int": 15, "spi": 22},
-                    "troll": {"str": 21, "agi": 22, "sta": 21, "int": 16, "spi": 21},
-                }
-                OP_CLASS_BONUS_STATS = {
-                    "warrior": {"str": 3, "agi": 0, "sta": 2, "int": 0, "spi": 0},
-                    "paladin": {"str": 2, "agi": 0, "sta": 2, "int": 0, "spi": 1},
-                    "shaman": {"str": 1, "agi": 0, "sta": 1, "int": 1, "spi": 1},
-                    "warlock": {"str": 0, "agi": 0, "sta": 1, "int": 2, "spi": 2},
-                    "hunter": {"str": 0, "agi": 3, "sta": 1, "int": 0, "spi": 1},
-                    "druid": {"str": 1, "agi": 0, "sta": 0, "int": 2, "spi": 2},
-                    "mage": {"str": 0, "agi": 0, "sta": 0, "int": 3, "spi": 2},
-                    "rogue": {"str": 1, "agi": 3, "sta": 1, "int": 0, "spi": 0},
-                    "priest": {"str": 0, "agi": 0, "sta": 0, "int": 2, "spi": 3},
-                }
-                OP_STATS_SOURCE = {"label": "RankedBoost — WoW Classic Stats", "url": "https://rankedboost.com/world-of-warcraft/classic-stats/"}
+                # OP_RACE_BASE_STATS / OP_CLASS_BONUS_STATS / OP_STATS_SOURCE are module-level now
+                # (also used by wow_bis_optimizer.py's engine-driven BIS pass, computed above).
                 _op_json = {
                     "slots": [{"key": s["key"], "label": s["label"], "gear": s["gear"]} for s in _op_slots],
                     "primary_stats": (wow_dungeons or wow_raids)["primary_stats"],

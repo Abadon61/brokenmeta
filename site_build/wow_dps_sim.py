@@ -864,24 +864,20 @@ SPEC_STAT_PROFILE = {
 }
 
 
-def bis_stats_for_spec(spec_id):
-    """Turns the raw sourced gear stats (Str/Agi/Int + flat AP/SP/Crit/Hit from
-    data/wow_items/bis_level20_stats.json) into the {ap, sp, hit, crit} shape run_class()
-    needs, using the real Classic conversion ratios and base Crit/Hit values cited in that
-    same file. Returns None if the spec isn't in the BIS data (shouldn't happen -- all 23 are)."""
+def stat_deltas_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_crit_pct=0, flat_hit_pct=0):
+    """The MARGINAL {ap, sp, crit_pct, hit_pct} contribution of a raw stat block -- no base
+    character constants (base melee/spell crit%, base hit%) added. Used to convert either one
+    item's own stats (wow_bis_optimizer.py, 2026-09-26) or a full aggregate's stats
+    (stats_from_raw below) into DPS-relevant terms with the same real Classic conversion ratios
+    (data/wow_items/bis_level20_stats.json). Returns None if spec_id/class_id isn't in the
+    conversion tables."""
     profile = ROTATIONS.get(spec_id)
     if not profile:
         return None
     bis = _load_bis_data()
-    spec_bis = bis.get("specs", {}).get(spec_id)
-    if not spec_bis:
-        return None
     class_id = profile.get("glossary", spec_id)
     ratios = bis["conversion_ratios"]
-    base_ch = bis["base_crit_hit"]
     meta = SPEC_STAT_PROFILE.get(spec_id, {})
-    s = spec_bis["stats"]
-    str_, agi, int_ = s.get("str", 0), s.get("agi", 0), s.get("int", 0)
 
     agi_ap_mode = meta.get("agi_ap")
     # Real Classic mechanic: a Hunter's RANGED Attack Power pool (used for Auto Shot/Aimed Shot,
@@ -889,26 +885,65 @@ def bis_stats_for_spec(spec_id):
     # component the way melee AP does. Skipping the str_*ap_per_str term for agi_ap=="ranged"
     # specs (2026-09-26, found while wiring Auto Shot) avoids silently inflating ranged AP with a
     # melee-only conversion that real Hunters don't get on their ranged attacks.
-    ap = spec_bis.get("flat_ap", 0) if agi_ap_mode == "ranged" else spec_bis.get("flat_ap", 0) + str_ * ratios["ap_per_str"].get(class_id, 0)
+    ap = flat_ap if agi_ap_mode == "ranged" else flat_ap + str_ * ratios["ap_per_str"].get(class_id, 0)
     if agi_ap_mode == "ranged":
         ap += agi * ratios["ap_per_agi_ranged"].get(class_id, 0)
     elif agi_ap_mode == "melee":
         ap += agi * ratios["ap_per_agi_melee"].get(class_id, 0)
 
-    sp = spec_bis.get("flat_sp", 0) + spec_bis.get("generic_spell_dmg", 0) + spec_bis.get("school_sp", {}).get(meta.get("school"), 0)
+    if meta.get("crit") == "spell":
+        crit_pct = int_ / ratios["spell_crit_pct_per_int"].get(class_id, 99999) + flat_crit_pct
+    else:
+        crit_pct = agi / ratios["crit_pct_per_agi"].get(class_id, 99999) + flat_crit_pct
+
+    return {"ap": ap, "sp": flat_sp, "crit_pct": crit_pct, "hit_pct": flat_hit_pct}
+
+
+def stats_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_crit_pct=0, flat_hit_pct=0):
+    """Turns a raw Str/Agi/Int + flat AP/SP/Crit/Hit stat block into the {ap, sp, hit, crit}
+    shape run_class() needs: stat_deltas_from_raw()'s marginal contribution PLUS this spec's
+    base (no-gear) Crit%/Hit% constants, also cited in data/wow_items/bis_level20_stats.json.
+    This is the shared math bis_stats_for_spec() (the aggregate BIS path) and
+    wow_bis_optimizer.py (2026-09-26, the engine-driven BIS optimizer's final-loadout path) both
+    call, so the two can never drift apart. Returns None if spec_id/class_id isn't in the
+    conversion tables."""
+    profile = ROTATIONS.get(spec_id)
+    if not profile:
+        return None
+    bis = _load_bis_data()
+    class_id = profile.get("glossary", spec_id)
+    base_ch = bis["base_crit_hit"]
+    meta = SPEC_STAT_PROFILE.get(spec_id, {})
+    deltas = stat_deltas_from_raw(spec_id, str_, agi, int_, flat_ap, flat_sp, flat_crit_pct, flat_hit_pct)
 
     if meta.get("crit") == "spell":
         base_crit = base_ch["base_spell_crit_pct"].get(class_id, 0)
-        stat_crit = int_ / ratios["spell_crit_pct_per_int"].get(class_id, 99999)
         base_hit_pct = 97  # equal-level spell miss baseline, Wowhead Classic "Stats and Attributes" guide
     else:
         base_crit = base_ch["base_melee_crit_pct"].get(class_id, 0)
-        stat_crit = agi / ratios["crit_pct_per_agi"].get(class_id, 99999)
         base_hit_pct = 95  # equal-level melee/ranged miss baseline, same source
-    crit_pct = base_crit + stat_crit + spec_bis.get("flat_crit_pct", 0)
-    hit_pct = base_hit_pct + spec_bis.get("flat_hit_pct", 0)
+    crit_pct = base_crit + deltas["crit_pct"]
+    hit_pct = base_hit_pct + deltas["hit_pct"]
 
-    return {"ap": round(ap, 1), "sp": round(sp, 1), "hit": round(hit_pct / 100.0, 4), "crit": round(crit_pct / 100.0, 4)}
+    return {"ap": round(deltas["ap"], 1), "sp": round(deltas["sp"], 1), "hit": round(hit_pct / 100.0, 4), "crit": round(crit_pct / 100.0, 4)}
+
+
+def bis_stats_for_spec(spec_id):
+    """Turns the raw sourced gear stats (Str/Agi/Int + flat AP/SP/Crit/Hit from
+    data/wow_items/bis_level20_stats.json) into the {ap, sp, hit, crit} shape run_class()
+    needs. Returns None if the spec isn't in the BIS data (shouldn't happen -- all 23 are)."""
+    bis = _load_bis_data()
+    spec_bis = bis.get("specs", {}).get(spec_id)
+    if not spec_bis:
+        return None
+    meta = SPEC_STAT_PROFILE.get(spec_id, {})
+    s = spec_bis["stats"]
+    sp = spec_bis.get("flat_sp", 0) + spec_bis.get("generic_spell_dmg", 0) + spec_bis.get("school_sp", {}).get(meta.get("school"), 0)
+    return stats_from_raw(
+        spec_id, str_=s.get("str", 0), agi=s.get("agi", 0), int_=s.get("int", 0),
+        flat_ap=spec_bis.get("flat_ap", 0), flat_sp=sp,
+        flat_crit_pct=spec_bis.get("flat_crit_pct", 0), flat_hit_pct=spec_bis.get("flat_hit_pct", 0),
+    )
 
 
 def trace_rotation(spec_id, seconds=30.0, stats=None):
@@ -929,8 +964,11 @@ def trace_rotation(spec_id, seconds=30.0, stats=None):
     return sim.trace
 
 
-def run_class(cls_id, iterations=300, fight_len=300.0, stats=None):
-    profile = ROTATIONS.get(cls_id)
+def run_class(cls_id, iterations=300, fight_len=300.0, stats=None, profile_override=None):
+    """profile_override lets a caller (wow_bis_optimizer.py) substitute a different "weapons"
+    list -- e.g. the real weapon(s) its own search picked -- without touching ROTATIONS itself;
+    everything else about the spec (rotation, resource, talent_mods) stays as sourced."""
+    profile = profile_override or ROTATIONS.get(cls_id)
     if not profile:
         return None
     glossary = wow_spells.load_class(profile.get("glossary", cls_id))
