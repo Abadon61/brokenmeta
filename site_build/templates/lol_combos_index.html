@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% set dd = 'https://ddragon.leagueoflegends.com/cdn/' ~ ddragon_version ~ '/img/' %}
+{% set fr = lang == 'fr' %}
+{% block title %}{{ 'BrokenMeta.gg | Combos LoL : les enchaînements de chaque champion' if fr else 'BrokenMeta.gg | LoL Combos: every champion combo explained' }}{% endblock %}
+{% block description %}{% if fr %}Les combos de {{ combos|length }} champions League of Legends expliqués touche par touche, avec le temps de recharge, le coût et la portée de chaque sort.{% else %}Combos for {{ combos|length }} League of Legends champions explained key by key, with every ability's cooldown, cost and range.{% endif %}{% endblock %}
+{% macro tile(x) %}<a class="glossary-icon-item" href="{{ root }}league/combos/{{ x.slug }}/" title="{{ 'Combos ' ~ x.name if fr else x.name ~ ' combos' }} ({{ x.main_seq }})"><img src="{{ dd }}champion/{{ x.icon_file }}" alt="{{ x.name }}" loading="lazy"><span>{{ x.name }}</span></a>{% endmacro %}
+{% import "macros.html" as m %}
+{% block content %}
+{% set hub_intro %}{% if fr %}Pour chaque champion : ses combos dans l'ordre des touches, quand les lancer et ce que fait chaque sort, puis les temps de recharge qui disent quand le combo revient. Les combos sont rédigés à partir des descriptions officielles des capacités ; l'ordre de montée des sorts est mesuré sur des parties classées Solo/Duo.{% else %}For each champion: its combos in key order, when to cast them and what each ability does, then the cooldowns that tell you when the combo is back. The combos are written from the official ability descriptions; the skill max order is measured over ranked Solo/Duo games.{% endif %}{% endset %}
+{{ m.page_hero('League of Legends', 'Combos des champions League of Legends' if fr else 'League of Legends champion combos', hub_intro, [(combos|length, 'champions' if fr else 'champions')]) }}
+
+{% for role, label in [('top','Top'),('jungle','Jungle'),('mid','Mid'),('adc','ADC'),('support','Support')] %}
+{% if by_role[role] %}
+<h2 class="fiche-section-title">{{ 'Combos ' ~ label if fr else label ~ ' combos' }}</h2>
+<div class="glossary-icon-grid">{% for x in by_role[role] %}{{ tile(x) }}{% endfor %}</div>
+{% endif %}
+{% endfor %}
+
+<h2 class="fiche-section-title">{{ 'Tous les champions (A → Z)' if fr else 'All champions (A → Z)' }}</h2>
+<div class="glossary-icon-grid">{% for x in combos %}{{ tile(x) }}{% endfor %}</div>
+<p class="profile-section-note" style="display:block;margin-top:20px">{% if fr %}Voir aussi les <a href="{{ root }}league/guide/">guides des champions</a> (build, runes, contres) et la <a href="{{ root }}league/tier-list/">tier list</a>.{% else %}See also the <a href="{{ root }}league/guide/">champion guides</a> (build, runes, counters) and the <a href="{{ root }}league/tier-list/">tier list</a>.{% endif %}</p>
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}

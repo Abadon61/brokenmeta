@@ -7,7 +7,7 @@
 </li>
 {% endmacro %}
 {% block title %}BrokenMeta.gg | {{ t(lang, 'patch_notes_title_dynamic', patches[0].version) }}{% endblock %}
-{% block description %}{% if lang == 'fr' %}Résumé des derniers patchs Teamfight Tactics Set 18 (dernier : {{ patches[0].version }}), avec liens vers les articles officiels complets.{% else %}Summary of the latest Teamfight Tactics Set 18 patches (latest: {{ patches[0].version }}), with links to the full official articles.{% endif %}{% endblock %}
+{% block description %}{% if lang == 'fr' %}Patch TFT {{ patches[0].version }} : buffs, nerfs et changements du Set 18 résumés champion par champion, plus les patchs précédents et les notes officielles.{% else %}TFT patch {{ patches[0].version }} notes: every Set 18 buff, nerf and change summarized champion by champion, plus previous patches and the official notes.{% endif %}{% endblock %}
 {% import "macros.html" as m %}
 {% block content %}
 {% set fr = lang == 'fr' %}

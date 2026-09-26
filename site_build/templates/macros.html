@@ -47,6 +47,7 @@
 {% elif active_nav == 'league' %}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 {% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
+{% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/combos/" {% if active_sub == 'lol-combos' %}data-active="true"{% endif %}>Combos</a>{% endif %}
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
 <a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
@@ -129,6 +130,7 @@
 {# Menu rose du jeu actif. 5 entrées (au lieu de 9) : Tier list, Guides, puis 3 menus déroulants. #}
 <a class="nav-link" href="{{ root }}league/tier-list/" {% if active_sub == 'lol-tier-list' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_tier_list') }}</a>
 {% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/guide/" {% if active_sub == 'lol-guides' %}data-active="true"{% endif %}>Guides</a>{% endif %}
+{% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/combos/" {% if active_sub == 'lol-combos' %}data-active="true"{% endif %}>Combos</a>{% endif %}
 <details class="nav-dropdown" {% if active_sub in ('lol-trends', 'lol-changelog', 'lol-patchnotes') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_meta') }}</summary>
   <div class="nav-dropdown-menu">

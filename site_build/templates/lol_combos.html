@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% set dd = 'https://ddragon.leagueoflegends.com/cdn/' ~ ddragon_version ~ '/img/' %}
+{% set ui = g.ui %}
+{% set fr = lang == 'fr' %}
+{% block title %}{{ cv.seo_title }}{% endblock %}
+{% block description %}{{ cv.seo_description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block og_image %}https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ g.id }}_0.jpg{% endblock %}
+{% block og_image_size %}<meta property="og:image:width" content="1215">
+<meta property="og:image:height" content="717">{% endblock %}
+{% macro pct(x) %}{{ (x * 100)|round(1) }}{{ ' %' if fr else '%' }}{% endmacro %}
+{% block content %}
+<div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ g.id }}_0.jpg')">
+  <img class="champ-fiche-icon" src="{{ dd }}champion/{{ g.icon_file }}" alt="{{ g.name }}" width="120" height="120" fetchpriority="high">
+  <div class="champ-fiche-info">
+    <div class="fiche-kicker">Combos · {{ g.role_label }}</div>
+    <h1 class="champ-fiche-name">{{ 'Combos ' ~ g.name if fr else g.name ~ ' combos' }}</h1>
+    <div class="champ-fiche-ability-name">{{ g.title }}</div>
+  </div>
+</div>
+
+<nav class="gd-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  <a href="#combos">Combos</a>
+  <a href="#recharges">{{ 'Temps de recharge' if fr else 'Cooldowns' }}</a>
+  {% if g.timeline and g.timeline.skills %}<a href="#ordre">{{ 'Ordre des sorts' if fr else 'Skill order' }}</a>{% endif %}
+  {% if g.enemy_tips %}<a href="#contrer">{{ 'Contrer' if fr else 'Countering' }}</a>{% endif %}
+  <a href="#faq">FAQ</a>
+</nav>
+
+<p class="page-intro">{% if fr %}{{ cv.n }} combos de {{ g.name }} expliqués touche par touche : dans quel ordre lancer les sorts, quand les utiliser et ce que fait chaque étape. Le combo principal est <b>{{ cv.main_seq }}</b>. Plus bas : le temps de recharge, le coût et la portée de chaque sort, et l'ordre de montée des compétences mesuré sur des parties classées.{% else %}{{ cv.n }} {{ g.name }} combos explained key by key: in which order to cast the abilities, when to use them and what each step does. The main combo is <b>{{ cv.main_seq }}</b>. Further down: every ability's cooldown, cost and range, and the skill max order measured over ranked games.{% endif %}</p>
+
+<h2 class="fiche-section-title" id="combos">{{ 'Les combos de ' ~ g.name if fr else g.name ~ ' combos' }}</h2>
+<div class="gd-editorial-tag">{{ ui.editorial_tag }}</div>
+<div class="gd-combos">
+  {% for cb in g.editorial.combos %}
+  <div class="gd-combo">
+    <h3 class="gd-combo-name">{{ cb.name }}</h3>
+    <div class="gd-keys">
+      {% for k in cb.seq %}
+        {% if not loop.first %}<span class="gd-arrow" aria-hidden="true">›</span>{% endif %}
+        <span class="gd-key" title="{{ k.name }}">
+          {% if k.icon %}<img src="{{ dd }}spell/{{ k.icon }}" alt="{{ k.name }}" width="44" height="44" loading="lazy">{% else %}<span class="gd-aa">AA</span>{% endif %}
+          <b>{{ k.key }}</b>
+        </span>
+      {% endfor %}
+    </div>
+    <p class="gd-when"><b>{{ ui.when }}</b> {{ cb.when }}</p>
+    <p class="gd-how">{{ cb.how }}</p>
+  </div>
+  {% endfor %}
+</div>
+{% if g.editorial.teamfight %}<h3 class="gd-sub">{{ ui.teamfight }}</h3><p class="page-intro" style="margin-top:0">{{ g.editorial.teamfight }}</p>{% endif %}
+{% if g.editorial.mistakes %}<h3 class="gd-sub">{{ ui.mistakes }}</h3>
+<ul class="gd-list">{% for m in g.editorial.mistakes %}<li>{{ m }}</li>{% endfor %}</ul>{% endif %}
+
+<h2 class="fiche-section-title" id="recharges">{{ 'Temps de recharge, coûts et portées' if fr else 'Cooldowns, costs and ranges' }}</h2>
+<p class="page-intro" style="margin-top:0">{% if fr %}Un combo ne se relance qu'une fois ses sorts rechargés : ces valeurs (rang 1 à rang max, en secondes) disent combien de temps attendre entre deux enchaînements. Source : Data Dragon {{ ddragon_version }}.{% else %}A combo only comes back once its abilities are off cooldown: these values (rank 1 to max rank, in seconds) tell how long to wait between two combos. Source: Data Dragon {{ ddragon_version }}.{% endif %}</p>
+<div class="gd-skill-scroll"><table class="gd-cd-table">
+  <thead><tr><th scope="col">{{ 'Sort' if fr else 'Ability' }}</th><th scope="col">{{ 'Recharge (s)' if fr else 'Cooldown (s)' }}</th><th scope="col">{{ 'Coût' if fr else 'Cost' }}</th><th scope="col">{{ 'Portée' if fr else 'Range' }}</th></tr></thead>
+  <tbody>{% for a in cv.abilities %}<tr>
+    <th scope="row"><img src="{{ dd }}spell/{{ a.icon_file }}" alt="" width="28" height="28" loading="lazy"><span><b>{{ a.key }}</b> · {{ a.name }}</span></th>
+    <td class="nums">{{ a.cooldown or '—' }}</td>
+    <td class="nums">{% if a.cost and a.cost != '0' %}{{ a.cost }} {{ a.cost_type|trim }}{% else %}—{% endif %}</td>
+    <td class="nums">{{ a.range if a.range and a.range != '25000' else '—' }}</td>
+  </tr>{% endfor %}</tbody>
+</table></div>
+<details class="gd-details"><summary>{{ 'Description officielle des sorts' if fr else 'Official ability descriptions' }}</summary>
+<div class="lol-ability-list">
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="{{ dd }}passive/{{ g.passive.icon_file }}" alt="{{ g.passive.name }}" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">{{ ui.passive }}</span>{{ g.passive.name }}</div><div class="lol-ability-desc">{{ g.passive.desc|safe }}</div></div>
+  </div>
+  {% for a in cv.abilities %}
+  <div class="lol-ability-row">
+    <img class="lol-ability-icon" src="{{ dd }}spell/{{ a.icon_file }}" alt="{{ a.name }}" loading="lazy">
+    <div class="lol-ability-body"><div class="lol-ability-name"><span class="lol-ability-key">{{ a.key }}</span>{{ a.name }}</div><div class="lol-ability-desc">{{ a.desc|safe }}</div></div>
+  </div>
+  {% endfor %}
+</div></details>
+
+{% if g.timeline and g.timeline.skills %}
+<h2 class="fiche-section-title" id="ordre">{{ 'Ordre de montée des compétences' if fr else 'Skill order' }}</h2>
+{% for so in g.timeline.skills[:2] %}
+<div class="gd-skill-block">
+  <div class="gd-skill-head"><b>{{ ui.skills_maxed }}{{ ' :' if fr else ':' }} {{ so.order }}</b><span class="nums gd-dim">{{ pct(so.win_rate) }} · {{ so.games }} {{ ui.games }}</span></div>
+  <div class="gd-skill-scroll"><table class="gd-skill-grid" aria-label="{{ ui.skills_title }}">
+    <thead><tr><th></th>{% for i in range(1, 16) %}<th scope="col">{{ i }}</th>{% endfor %}</tr></thead>
+    <tbody>{% for row in so.grid %}<tr><th scope="row">{% if row.icon %}<img src="{{ dd }}spell/{{ row.icon }}" alt="{{ row.key }}" width="24" height="24" loading="lazy">{% endif %}<span>{{ row.key }}</span></th>{% for on in row.cells %}<td{% if on %} class="on"{% endif %}>{{ '●' if on else '' }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+  </table></div>
+</div>
+{% endfor %}
+<p class="profile-section-note" style="display:block">{{ ui.skills_note|replace('{tl_games}', g.timeline.games|string) }}</p>
+{% endif %}
+
+{% if g.ally_tips %}
+<h2 class="fiche-section-title">{{ 'Conseils officiels de Riot pour jouer ' ~ g.name if fr else "Riot's official tips for playing " ~ g.name }}</h2>
+<ul class="gd-list">{% for tip in g.ally_tips %}<li>{{ tip }}</li>{% endfor %}</ul>
+{% endif %}
+{% if g.enemy_tips %}
+<h2 class="fiche-section-title" id="contrer">{{ 'Comment éviter les combos de ' ~ g.name if fr else 'How to play around ' ~ g.name ~ "'s combos" }}</h2>
+<ul class="gd-list">{% for tip in g.enemy_tips %}<li>{{ tip }}</li>{% endfor %}</ul>
+{% endif %}
+
+<h2 class="fiche-section-title" id="faq">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</h2>
+{% for f in cv.faq %}<div class="faq-block"><h3 class="gd-sub">{{ f.q }}</h3><p class="page-intro" style="margin-top:0">{{ f.a }}</p></div>{% endfor %}
+
+<p class="profile-section-note" style="display:block;margin-top:28px">{% if fr %}Build, runes et contres : <a href="{{ root }}league/guide/{{ g.slug }}/">guide complet de {{ g.name }}</a> · <a href="{{ root }}league/combos/">combos de tous les champions</a> · <a href="{{ root }}league/tier-list/">tier list</a>{% else %}Build, runes and counters: <a href="{{ root }}league/guide/{{ g.slug }}/">full {{ g.name }} guide</a> · <a href="{{ root }}league/combos/">every champion's combos</a> · <a href="{{ root }}league/tier-list/">tier list</a>{% endif %}</p>
+{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}

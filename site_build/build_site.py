@@ -39,7 +39,7 @@ from tft_tracker.champion_images import (  # noqa: E402
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
 from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
-from lol_guide_view import build_guide_view  # noqa: E402
+from lol_guide_view import build_guide_view, build_combo_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
@@ -95,6 +95,12 @@ SET_MUTATOR = "TFTSet18"
 # Tactics Set 18". Same string in FR and EN -- real players use it unchanged
 # in both languages. Bump this (and SET_MUTATOR) together when Set 19 ships.
 SET_LABEL = "TFT Set 18"
+# the short names players search with ("sfk loot table wow forever"), shown in dungeon snippets
+DUNGEON_ABBR = {"ragefire-chasm": "RFC", "deadmines": "VC", "wailing-caverns": "WC", "shadowfang-keep": "SFK",
+                "blackfathom-deeps": "BFD", "stockade": "Stocks", "gnomeregan": "Gnomer", "scarlet-monastery": "SM",
+                "razorfen-kraul": "RFK", "razorfen-downs": "RFD", "uldaman": "Ulda", "zulfarrak": "ZF",
+                "maraudon": "Mara", "sunken-temple": "ST", "blackrock-depths": "BRD", "dire-maul": "DM",
+                "stratholme": "Strat", "scholomance": "Scholo"}
 BASE_URL = "https://brokenmeta.gg/"
 
 # PWA service worker, served from DIST root so its scope covers the whole
@@ -3798,7 +3804,7 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Compos les plus jouées par le top 10",
         "not_enough_recent_top10": "Pas assez de parties récentes chez le top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
-        "patch_notes_title_dynamic": lambda v: f"Patch Notes TFT Set 18 — Dernier patch : {v}",
+        "patch_notes_title_dynamic": lambda v: f"Patch TFT {v} : notes de patch Set 18 résumées",
         "patch_last_updated": lambda v, d: f"Dernier patch couvert : {v} ({d}).",
         "patch_banner": 'Riot ne publie pas les patch notes TFT via une API — seulement en articles sur son site officiel, et pas toujours pour les petits correctifs d\'équilibrage entre deux patchs. Voici une sélection résumée à la main des derniers patchs ; chaque carte renvoie vers l\'article complet, sur <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> quand Riot en a publié un, sinon vers une source communautaire de référence.',
         "patch_word": "Patch", "read_full_article": "Lire l'article complet →",
@@ -3899,7 +3905,7 @@ I18N: dict[str, dict] = {
         "lol_search_item_placeholder": "Rechercher un objet…",
         "lol_filter_all_classes": "Toutes les classes",
         "lol_glossary_empty": "Aucun résultat.",
-        "lol_patch_notes_title": "Patch Notes — League of Legends",
+        "lol_patch_notes_title": "Patch notes LoL : résumé des derniers patchs League of Legends",
         "lol_patch_notes_desc": lambda v: f"Résumé des derniers patchs League of Legends (dernier : {v}), avec liens vers les articles officiels complets.",
         "lol_patch_last_updated": lambda v, d: f"Dernière mise à jour : patch {v} ({d}).",
         "lol_patch_banner": 'Riot ne publie pas les patch notes League of Legends via une API -- uniquement sous forme d\'articles sur son site officiel. Voici un résumé de synthèse (nos mots, pas une reprise du texte de Riot) des derniers patchs ; chaque carte renvoie vers l\'article complet sur <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
@@ -4171,7 +4177,7 @@ I18N: dict[str, dict] = {
         "worldstat_topcomps_title": "Most played comps by the top 10",
         "not_enough_recent_top10": "Not enough recent games from the top 10.",
         "patch_notes_title": "Patch Notes — Teamfight Tactics Set 18",
-        "patch_notes_title_dynamic": lambda v: f"Patch Notes TFT Set 18 — Latest patch: {v}",
+        "patch_notes_title_dynamic": lambda v: f"TFT Patch Notes {v}: Set 18 changes summarized",
         "patch_last_updated": lambda v, d: f"Latest patch covered: {v} ({d}).",
         "patch_banner": 'Riot doesn\'t publish TFT patch notes through an API — only as articles on its official site, and not always for smaller mid-patch balance hotfixes. Here\'s a hand-written summary of the latest patches; each card links to the full article, on <a href="https://teamfighttactics.leagueoflegends.com/en-us/news/" target="_blank" rel="noopener">teamfighttactics.leagueoflegends.com</a> when Riot published one, otherwise to a reliable community source.',
         "patch_word": "Patch", "read_full_article": "Read full article →",
@@ -4271,7 +4277,7 @@ I18N: dict[str, dict] = {
         "lol_search_item_placeholder": "Search an item…",
         "lol_filter_all_classes": "All classes",
         "lol_glossary_empty": "No results.",
-        "lol_patch_notes_title": "Patch Notes — League of Legends",
+        "lol_patch_notes_title": "LoL Patch Notes: latest League of Legends patches summarized",
         "lol_patch_notes_desc": lambda v: f"Summary of the latest League of Legends patches (latest: {v}), with links to the full official articles.",
         "lol_patch_last_updated": lambda v, d: f"Last updated: patch {v} ({d}).",
         "lol_patch_banner": 'Riot doesn\'t publish League of Legends patch notes through an API -- only as articles on its official site. Here\'s a summary (our own words, not lifted from Riot\'s copy) of the latest patches; each card links to the full article on <a href="https://www.leagueoflegends.com/en-us/news/tags/patch-notes/" target="_blank" rel="noopener">leagueoflegends.com</a>.',
@@ -6717,6 +6723,18 @@ def main() -> None:
     # entities back before JSON.parse ever sees the string.
     env.filters["tojson_attr"] = lambda v: json.dumps(v)
 
+    def seo_title(title):
+        # Search Console (2026-09-26): many pages rank on page 1 but get almost no clicks, and
+        # "BrokenMeta.gg | " in front pushed the words people actually type past Google's
+        # truncation. Keyword first, brand last, brand dropped when it would not fit in 60 chars.
+        title = " ".join(str(title).split())
+        if title.startswith("BrokenMeta.gg | "):
+            title = title[len("BrokenMeta.gg | "):]
+            if len(title) + len(" | BrokenMeta.gg") <= 60:
+                title += " | BrokenMeta.gg"
+        return title
+    env.filters["seo_title"] = seo_title
+
     LANGS = ["fr", "en"]
 
     def lang_url(url_path: str, lang: str) -> str:
@@ -7175,6 +7193,7 @@ def main() -> None:
             for _i, _r in enumerate(_rows):
                 _tier_lookup[(_r["slug"], _role)] = {"tier": _r.get("tier"), "rank": _i + 1, "of": len(_rows)}
         lol_guide_index: list[dict] = []
+        lol_combo_index: list[dict] = []
         for c in lol_champions:
             if c["slug"] not in lol_guide_slugs_by_lang[lang]:
                 continue
@@ -7213,6 +7232,41 @@ def main() -> None:
                    faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
                                               for f in _gv["faq"]]} if _gv["faq"] else None)
+            # ---- combo page (/league/combos/<slug>/): see build_combo_view for why it exists
+            _cv = build_combo_view(_gv, lang)
+            if _cv:
+                _c_url = canonical_for(f"/league/combos/{c['slug']}/", lang)
+                _c_h1 = f"Combos {_gv['name']}" if lang == "fr" else f"{_gv['name']} combos"
+                lol_combo_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
+                                        "games": _gv["games"], "main_seq": _cv["main_seq"]})
+                render("lol_combos.html", f"/league/combos/{c['slug']}/", lang, active_nav="league", active_sub="lol-combos",
+                       ddragon_version=ddragon_version, g=_gv, cv=_cv, **_g_extra,
+                       breadcrumb_schema=breadcrumb_schema([
+                           (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                           ("League of Legends", canonical_for("/league/", lang)),
+                           ("Combos", canonical_for("/league/combos/", lang)),
+                           (_c_h1, _c_url),
+                       ]),
+                       article_schema={**build_article_schema(_c_h1, _c_url, _cv["seo_description"],
+                                                            image=f"https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{_gv['id']}_0.jpg"),
+                                       "dateModified": combined["generated_at"][:10], "inLanguage": lang},
+                       faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
+                                   "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
+                                                  for f in _cv["faq"]]})
+        if lol_combo_index:
+            _chub_extra = {}
+            if lang == "fr" and not lol_guide_slugs_by_lang["en"]:
+                _chub_extra = {"no_hreflang": True, "alt_canonical": canonical_for("/league/glossaire/champions/", "en")}
+            render("lol_combos_index.html", "/league/combos/", lang, active_nav="league", active_sub="lol-combos",
+                   ddragon_version=ddragon_version, combos=sorted(lol_combo_index, key=lambda x: x["name"]),
+                   by_role={r: sorted([x for x in lol_combo_index if x["role"] == r], key=lambda x: -x["games"])[:12]
+                            for r in ("top", "jungle", "mid", "adc", "support")},
+                   **_chub_extra,
+                   breadcrumb_schema=breadcrumb_schema([
+                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       ("League of Legends", canonical_for("/league/", lang)),
+                       ("Combos", canonical_for("/league/combos/", lang)),
+                   ]))
         if lol_guide_index:
             _hub_sorted = sorted(lol_guide_index, key=lambda x: x["name"])
             _hub_extra = {}
@@ -7498,7 +7552,16 @@ def main() -> None:
                 for _d in wow_dungeons["dungeons"]:
                     _dpath = f"/wow-forever/dungeons/{_d['id']}/"
                     _dn = _d["name"][lang]
-                    _dt, _dd_ = _gx["dg_title"].format(name=_dn), _gx["dg_desc"].format(name=_dn)
+                    # Search Console (2026-09-26): these pages sit around position 8-9 for
+                    # "<dungeon> loot table wow forever" with ~0.3% CTR, so the snippet names
+                    # the query words, the item count, the usual abbreviation and top bosses.
+                    # Each key is a list of variants, longest first; the first that fits wins.
+                    _bcount = Counter(b for it in _d["items"] for b in (it.get("src") or []) if it.get("kind") == "drop")
+                    _abbr = DUNGEON_ABBR.get(_d["id"])
+                    _dfmt = dict(name=_dn, n=len(_d["items"]), abbr=f" ({_abbr})" if _abbr else "",
+                                 bosses=", ".join(b for b, _ in _bcount.most_common(3)))
+                    _dt = next(v.format(**_dfmt) for v in _gx["dg_title"] if len(v.format(**_dfmt)) <= 60 or v is _gx["dg_title"][-1])
+                    _dd_ = next(v.format(**_dfmt) for v in _gx["dg_desc"] if len(v.format(**_dfmt)) <= 155 or v is _gx["dg_desc"][-1])
                     assert len(_dt) <= 60 and len(_dd_) <= 155, (_dt, len(_dt), len(_dd_))
                     _dh1 = _gx["dg_h1"].format(name=_dn)
                     _di = _gx["dg_intro"].format(name=_dn, levels=_d["levels"]) if _d["levels"] else _gx["dg_intro_nolvl"].format(name=_dn)
