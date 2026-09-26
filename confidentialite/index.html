@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Politique de confidentialité | BrokenMeta.gg">
 <meta name="twitter:description" content="Quelles données BrokenMeta.gg collecte, pourquoi, et comment les exercer -- Google Analytics, l&#39;API Riot Games, MetaScope.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=bd5ebfe58b">
-<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=bd5ebfe58b">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=e2001be531">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=e2001be531">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=bd5ebfe58b">
+<link rel="stylesheet" href="../assets/css/style.css?v=e2001be531">
 
 
 </head>
@@ -235,16 +235,32 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Stockage local (localStorage)</h2>
 <p>Ton choix de langue (FR/EN) est mémorisé dans le stockage local de ton navigateur pour ne pas te le redemander à chaque visite. Cette information reste uniquement sur ton appareil et n'est jamais transmise à nos serveurs.</p>
 
+<h2 class="fiche-section-title" id="addon-wow">Addon World of Warcraft BrokenMeta et partage de données</h2>
+<p>L'addon BrokenMeta pour WoW: Forever fonctionne dans ton jeu, sur ton ordinateur. Il enregistre localement, dans son fichier de sauvegarde, des mesures de ta feuille de personnage et les prix de l'hôtel des ventes que tu choisis de scanner. <strong>Rien ne quitte ton ordinateur</strong> tant que tu n'actives pas le partage (<code>/bmw share on</code>) <strong>et</strong> que tu n'envoies pas toi-même ce fichier depuis la page <a href="../wow-forever/partager-mes-donnees/">Partager mes données</a>.</p>
+<ul>
+  <li><strong>Responsable du traitement</strong> : l'éditeur de BrokenMeta.gg (voir « Qui exploite ce site » et « Contact »).</li>
+  <li><strong>Finalités</strong> : améliorer le simulateur DPS et les pondérations d'objets avec les vraies valeurs du jeu (critique, régénération de mana, esquive, stats des familiers, conversion des cotes par niveau) ; afficher des prix d'hôtel des ventes dans les guides de métiers ; publier des statistiques agrégées.</li>
+  <li><strong>Base légale</strong> : ton consentement (article 6.1.a du RGPD), donné en activant le partage dans l'addon puis en cochant la case de consentement avant chaque envoi. Tu peux le retirer à tout moment en supprimant tes envois (voir « Tes droits » ci-dessous) ; le retrait ne remet pas en cause les envois faits auparavant.</li>
+  <li><strong>Données envoyées</strong> : version de l'addon et du jeu ; pour chaque mesure, la classe, la race, le niveau, les caractéristiques et pourcentages affichés par le jeu, la répartition des points de talents et le nombre de buffs actifs ; pour chaque scan de l'hôtel des ventes, le royaume, la faction, la date, et par objet le prix unitaire le plus bas, la quantité et le nombre d'annonces.</li>
+  <li><strong>Données jamais envoyées</strong> : noms de personnages, nom de compte, noms des vendeurs de l'hôtel des ventes, réglages de l'addon. Le fichier est lu dans ton navigateur, qui n'extrait que les données ci-dessus.</li>
+  <li><strong>Adresse IP</strong> : elle n'est pas enregistrée. Pour limiter les abus, le service en calcule une empreinte chiffrée (hachage salé, non réversible en pratique), conservée au plus 24 heures.</li>
+  <li><strong>Destinataires</strong> : BrokenMeta.gg uniquement. Les données sont hébergées par notre sous-traitant Cloudflare (Workers et base de données D1). Seuls des résultats agrégés sont publiés sur le site (prix, statistiques), jamais un envoi individuel.</li>
+  <li><strong>Transfert hors de l'Union européenne</strong> : Cloudflare, Inc. est établie aux États-Unis ; le transfert est encadré par le cadre de protection des données UE–États-Unis (Data Privacy Framework) auquel Cloudflare adhère, et par les clauses contractuelles types de la Commission européenne prévues dans son accord de traitement des données.</li>
+  <li><strong>Durée de conservation</strong> : 24 mois après l'envoi, puis suppression automatique. Les statistiques agrégées publiées, qui ne se rapportent à aucun envoi individuel, peuvent être conservées au-delà.</li>
+  <li><strong>Tes droits</strong> : comme aucun nom ni compte n'est collecté, nous ne pouvons pas relier un envoi à une personne. Chaque envoi te donne donc un <strong>code de suppression</strong> : il te permet d'effacer cet envoi toi-même, immédiatement et définitivement, sur la page <a href="../wow-forever/partager-mes-donnees/">Partager mes données</a>, ou en nous l'écrivant (voir « Contact ») pour exercer tes droits d'accès, d'effacement ou d'opposition. Tu peux aussi adresser une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</li>
+  <li><strong>Simulation de personnage</strong> : la page <a href="../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a> calcule tout dans ton navigateur ; l'export que tu y colles n'est envoyé à aucun serveur.</li>
+</ul>
+
 <h2 class="fiche-section-title">Sous-traitants et services tiers</h2>
 <ul>
   <li><strong>Hostinger</strong> -- hébergement du site.</li>
-  <li><strong>Cloudflare</strong> -- exécution du service MetaScope (Workers).</li>
+  <li><strong>Cloudflare</strong> -- exécution des services MetaScope et WoW (Workers), stockage des données partagées depuis l'addon (D1).</li>
   <li><strong>Google</strong> -- Analytics, Tag Manager, polices Google Fonts.</li>
   <li><strong>Riot Games</strong> -- source des données de jeu (API officielle).</li>
 </ul>
 
 <h2 class="fiche-section-title">Durée de conservation</h2>
-<p>Les données d'audience (Google Analytics) sont conservées selon la configuration standard de Google Analytics. Les recherches MetaScope ne sont pas conservées (voir plus haut). Le site ne fait fonctionner aucune base de données de comptes ou de profils utilisateurs.</p>
+<p>Les données d'audience (Google Analytics) sont conservées selon la configuration standard de Google Analytics. Les recherches MetaScope ne sont pas conservées (voir plus haut). Le site ne fait fonctionner aucune base de données de comptes ou de profils utilisateurs. Les données partagées depuis l'addon WoW sont conservées 24 mois (voir la section dédiée).</p>
 
 <h2 class="fiche-section-title">Tes droits</h2>
 <p>Si tu es dans l'Union européenne, le Règlement général sur la protection des données (RGPD) te donne le droit d'accéder à tes données, de les rectifier, de les faire effacer, de t'opposer à leur traitement, et de les récupérer (portabilité). Pour l'exercer, contacte-nous (voir ci-dessous) ou adresse une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
@@ -307,10 +323,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../";</script>
-<script src="../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
-<script src="../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
-<script src="../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
-<script src="../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
+<script src="../assets/js/copy-comp.js?v=e2001be531" defer></script>
+<script src="../assets/js/champ-icons.js?v=e2001be531" defer></script>
+<script src="../assets/js/site-search.js?v=e2001be531" defer></script>
+<script src="../assets/js/favorites.js?v=e2001be531" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
