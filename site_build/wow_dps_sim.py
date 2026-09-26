@@ -160,12 +160,13 @@ class Sim:
         self.seq += 1
         heapq.heappush(self.events, (time, self.seq, kind, data))
 
-    def add_dmg(self, amount, tag):
+    def add_dmg(self, amount, tag, is_tick=False):
         self.total_dmg += amount
         self.dmg_by[tag] = self.dmg_by.get(tag, 0.0) + amount
         if self.trace is not None:
             label = (self.abilities.get(tag, {}).get("name", {}).get("fr") or tag) if tag not in ("white",) else "Attaque de base"
-            self.trace.append(f"{self._now:6.2f}s  {label:28s} {amount:5.1f} dégâts")
+            marker = "  (tick)" if is_tick else ""
+            self.trace.append(f"{self._now:6.2f}s  {label:28s} {amount:5.1f} dégâts{marker}")
 
     def avg_hit(self, idx=0):
         weapons = self.profile.get("weapons", [])
@@ -407,7 +408,7 @@ class Sim:
                 aid = data["aid"]
                 if t <= self.dot_ends.get(aid, -1.0):
                     is_crit = roll(self.stats["crit"])
-                    self.add_dmg(data["per_tick"] * (2.0 if is_crit else 1.0), aid)
+                    self.add_dmg(data["per_tick"] * (2.0 if is_crit else 1.0), aid, is_tick=True)
                     self.push(t + data["interval"], "dot_tick", data)
             else:  # decision point
                 if t < self.gcd_ready:
