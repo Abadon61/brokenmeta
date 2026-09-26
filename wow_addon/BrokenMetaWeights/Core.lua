@@ -16,6 +16,7 @@ local L = ns.Localize("core", {
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
   import_ok = "tes poids personnels sont importés : ils remplacent les poids génériques pour ce personnage.", import_bad = "ce texte n'est pas un export de poids BrokenMeta (il commence par BMW-W1).", import_class = "ces poids sont pour une autre classe que ce personnage.", import_cleared = "retour aux poids génériques (niveau 20).",
+  refresh_weights = "tes poids personnels datent du niveau %d : refais-les sur brokenmeta.gg (Simuler mon personnage), à faire tous les %d niveaux.",
   loot_drop = "Butin de donjon : %s (%s)", loot_quest = "Récompense de quête : %s",
   welcome = {
     "merci d'avoir installé l'addon ! Clique sur le bouton à l'épée autour de la minicarte (ou tape /bmw) pour ouvrir le hub.",
@@ -37,6 +38,7 @@ local L = ns.Localize("core", {
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
   import_ok = "your personal weights are imported: they replace the generic weights for this character.", import_bad = "this text isn't a BrokenMeta weights export (it starts with BMW-W1).", import_class = "these weights are for another class than this character.", import_cleared = "back to the generic (level 20) weights.",
+  refresh_weights = "your personal weights are from level %d: redo them on brokenmeta.gg (Simulate my character), every %d levels.",
   loot_drop = "Dungeon loot: %s (%s)", loot_quest = "Quest reward: %s",
   welcome = {
     "thanks for installing the addon! Click the sword button around the minimap (or type /bmw) to open the hub.",
@@ -328,6 +330,16 @@ function ns.ImportWeights(text)
   return true
 end
 
+-- Imported weights are refreshed every REFRESH_LEVELS levels (stats and spell ranks change as the
+-- character levels up). Returns the imported level when they are that old, else nil.
+ns.REFRESH_LEVELS = 5
+function ns.ImportedWeightsStale()
+  local custom = BrokenMetaWeightsDB and BrokenMetaWeightsDB.custom and BrokenMetaWeightsDB.custom[charKey]
+  if not custom or not custom.level then return nil end
+  if (UnitLevel("player") or 0) - custom.level >= ns.REFRESH_LEVELS then return custom.level end
+  return nil
+end
+
 function ns.ClearImportedWeights()
   if BrokenMetaWeightsDB.custom then BrokenMetaWeightsDB.custom[charKey] = nil end
   wipe(scoreCache)
@@ -566,6 +578,18 @@ f:SetScript("OnEvent", function(_, event)
     BrokenMetaWeightsDB = BrokenMetaWeightsDB or {}
     BrokenMetaWeightsDB.chars = BrokenMetaWeightsDB.chars or {}
     setSpec(detectSpec())
+    refreshRatings()
+    C_Timer.After(10, function()
+      local old = ns.ImportedWeightsStale()
+      if old then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
+    end)
+  elseif event == "PLAYER_LEVEL_UP" then
+    if not BrokenMetaWeightsDB.chars[charKey] then setSpec(detectSpec()) end
+    -- UnitLevel is updated just after the event fires.
+    C_Timer.After(1, function()
+      local old = ns.ImportedWeightsStale()
+      if old then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
+    end)
     refreshRatings()
   elseif event == "PLAYER_EQUIPMENT_CHANGED" then
     refreshRatings() -- equipped rating changes can refine the rating->% measurement

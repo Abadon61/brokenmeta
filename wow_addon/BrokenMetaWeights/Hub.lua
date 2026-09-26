@@ -22,7 +22,7 @@ local T = ns.Localize("hub", {
   data_intro = "L'addon enregistre ce que le jeu affiche réellement (critique, régénération de mana, familier, conversion des cotes) et les prix de l'hôtel des ventes que tu scannes. Tout reste sur ton ordinateur : rien n'est envoyé tant que le partage est désactivé. Aucun nom de personnage n'est collecté ; les prix gardent le royaume et la faction. Pour partager : active le partage, clique sur « Copier pour le site », puis colle le texte sur brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Partage : ACTIVÉ", share_off = "Partage : désactivé",
   snap = "Enregistrer maintenant",
-  w_generic = "génériques niv. 20", w_custom = "tes poids (niv. %d, %s)", w_hint_level = "Tu n'es pas niveau 20 : calcule tes poids à ton niveau sur brokenmeta.gg (Simuler mon personnage), puis importe-les.", import_btn = "Importer mes poids", reset_btn = "Poids génériques", import_do = "Importer", import_title = "Importer mes poids de stats", import_hint = "Colle ici (Ctrl+V) le texte « BMW-W1… » copié sur brokenmeta.gg (Simuler mon personnage > Calculer mes poids > Copier pour l'addon), puis clique sur Importer.", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
+  w_generic = "génériques niv. 20", w_custom = "tes poids (niv. %d, %s)", w_hint_level = "Tu n'es pas niveau 20 : calcule tes poids à ton niveau sur brokenmeta.gg (Simuler mon personnage), puis importe-les. À refaire tous les 5 niveaux.", w_hint_refresh = "Tes poids datent du niveau %d : refais-les sur brokenmeta.gg (tous les %d niveaux).", import_btn = "Importer mes poids", reset_btn = "Poids génériques", import_do = "Importer", import_title = "Importer mes poids de stats", import_hint = "Colle ici (Ctrl+V) le texte « BMW-W1… » copié sur brokenmeta.gg (Simuler mon personnage > Calculer mes poids > Copier pour l'addon), puis clique sur Importer.", scan = "Scanner l'hôtel des ventes", copy = "Copier pour le site",
   copy_title = "Données à coller sur brokenmeta.gg",
   copy_hint = "Le texte est déjà sélectionné : Ctrl+C, puis colle-le sur brokenmeta.gg/wow-forever/partager-mes-donnees/ (case « Coller le texte de l'addon »).",
   copy_off = "Active d'abord le partage (bouton Partage), le texte ne sort de l'addon que si tu le choisis.",
@@ -74,7 +74,7 @@ local T = ns.Localize("hub", {
   data_intro = "The addon records what the game really reports (crit, mana regen, pet, rating conversion) and the auction prices you scan. Everything stays on your computer: nothing is sent while sharing is off. No character name is collected; prices keep the realm and faction. To share: turn sharing on, click \"Copy for the site\", then paste the text on brokenmeta.gg/wow-forever/partager-mes-donnees/",
   share_on = "Sharing: ON", share_off = "Sharing: off",
   snap = "Record now",
-  w_generic = "generic lvl 20", w_custom = "your weights (lvl %d, %s)", w_hint_level = "You're not level 20: compute your weights at your level on brokenmeta.gg (Simulate my character), then import them.", import_btn = "Import my weights", reset_btn = "Generic weights", import_do = "Import", import_title = "Import my stat weights", import_hint = "Paste here (Ctrl+V) the 'BMW-W1...' text copied on brokenmeta.gg (Simulate my character > Compute my weights > Copy for the addon), then click Import.", scan = "Scan the auction house", copy = "Copy for the site",
+  w_generic = "generic lvl 20", w_custom = "your weights (lvl %d, %s)", w_hint_level = "You're not level 20: compute your weights at your level on brokenmeta.gg (Simulate my character), then import them. Redo it every 5 levels.", w_hint_refresh = "Your weights are from level %d: redo them on brokenmeta.gg (every %d levels).", import_btn = "Import my weights", reset_btn = "Generic weights", import_do = "Import", import_title = "Import my stat weights", import_hint = "Paste here (Ctrl+V) the 'BMW-W1...' text copied on brokenmeta.gg (Simulate my character > Compute my weights > Copy for the addon), then click Import.", scan = "Scan the auction house", copy = "Copy for the site",
   copy_title = "Data to paste on brokenmeta.gg",
   copy_hint = "The text is already selected: Ctrl+C, then paste it on brokenmeta.gg/wow-forever/partager-mes-donnees/ (\"Paste the addon text\" box).",
   copy_off = "Turn sharing on first (Sharing button): the text only leaves the addon if you choose so.",
@@ -312,6 +312,8 @@ refreshers[1] = function()
   setRow(pChar, i, "|cffffd100" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
   if not custom and (UnitLevel("player") or 20) ~= 20 then
     setRow(pChar, i, "|cffff9900" .. T.w_hint_level .. "|r"); i = i + 1
+  elseif custom and ns.ImportedWeightsStale() then
+    setRow(pChar, i, "|cffff9900" .. string.format(T.w_hint_refresh, custom.level, ns.REFRESH_LEVELS) .. "|r"); i = i + 1
   end
   clearRows(pChar, i)
 end

@@ -145,6 +145,16 @@ class ImportWeightsTests(unittest.TestCase):
         self.assertNotAlmostEqual(g.NS.scoreStats(g.LUA_EVAL("{str = 10}"), "INVTYPE_CHEST"), 5.0)
         self.assertIsNotNone(before)
 
+    def test_refresh_reminder_after_five_levels(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        g.NS.ImportWeights(self.CODE.replace("level=34", "level=20"))
+        self.assertIsNone(g.NS.ImportedWeightsStale(), "same level: not stale")
+        g.NS.ImportWeights(self.CODE.replace("level=34", "level=15"))
+        self.assertEqual(g.NS.ImportedWeightsStale(), 15, "5 levels behind (mock player is 20): stale")
+        g.LUA_EVAL('function() for _, f in ipairs(frames) do if f.events and f.events.PLAYER_LEVEL_UP then f.scripts.OnEvent(f, "PLAYER_LEVEL_UP") end end end')()
+        g.flush()
+        self.assertIn("redo them on brokenmeta.gg", g.chat[len(g.chat)])
+
     def test_import_rejects_other_class_and_garbage(self):
         _, _, _, g = run("enUS", "MAGE", [0, 0, 12], ITEMS, {}, [])
         ok, err = g.NS.ImportWeights(self.CODE)
