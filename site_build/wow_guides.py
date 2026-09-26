@@ -624,7 +624,7 @@ _MYSIM = {
         "ms_download": "Télécharger l'addon BrokenMeta {v} (.zip)",
         "ms_run": "Simuler",
         "ms_spec_label": "Spécialisation :",
-        "ms_privacy": "La simulation tourne entièrement dans votre navigateur : l'export n'est envoyé à aucun serveur. Il ne contient ni nom de personnage ni royaume. Le premier lancement télécharge le moteur Python (environ 11 Mo), les suivants sont immédiats. Pour aider à améliorer le simulateur, vous pouvez partager anonymement les mesures de l'addon depuis la page Partager mes données.",
+        "ms_privacy": "La simulation tourne entièrement dans votre navigateur : l'export n'est envoyé à aucun serveur. Il ne contient ni nom de personnage ni royaume. Le premier lancement télécharge le moteur Python (environ 11 Mo), les suivants sont immédiats. Pour aider à améliorer le simulateur, vous pouvez partager anonymement les mesures de l'addon :",
         "ms_limits_h2": "Ce que la simulation ne prend pas encore en compte",
         "ms_limits": [
             "Seul le niveau 20 (plafond actuel de la bêta) est calibré : au-delà, les rotations et les rangs de sorts ne correspondent plus.",
@@ -671,7 +671,7 @@ _MYSIM = {
         "ms_download": "Download the BrokenMeta addon {v} (.zip)",
         "ms_run": "Simulate",
         "ms_spec_label": "Specialization:",
-        "ms_privacy": "The simulation runs entirely in your browser: the export is never sent to any server. It contains no character name and no realm. The first run downloads the Python engine (about 11 MB); later runs are instant. To help improve the simulator, you can anonymously share the addon's measurements from the Share my data page.",
+        "ms_privacy": "The simulation runs entirely in your browser: the export is never sent to any server. It contains no character name and no realm. The first run downloads the Python engine (about 11 MB); later runs are instant. To help improve the simulator, you can anonymously share the addon's measurements:",
         "ms_limits_h2": "What the simulation does not model yet",
         "ms_limits": [
             "Only level 20 (the beta's current cap) is calibrated: above it, rotations and spell ranks no longer match.",

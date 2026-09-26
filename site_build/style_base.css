@@ -2290,6 +2290,19 @@
   .ms-stats th[scope="row"], .ms-stats thead th:first-child { text-align: left; font-weight: normal; color: var(--text-dim); }
   .ms-stats thead th { color: var(--text-faint); font-weight: normal; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
   .ms-limits { padding-left: 22px; line-height: 1.7; color: var(--text-dim); }
+  .wh-share { display: flex; align-items: center; gap: 16px; margin: 18px 0 8px; padding: 16px 20px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); background: var(--bg-2); }
+  .wh-share img { flex: none; border-radius: 50%; }
+  .wh-share-text { flex: 1; min-width: 0; }
+  .wh-share-hook { margin: 0 0 4px; font-family: 'Cal Sans', sans-serif; font-size: 17px; color: var(--cream); }
+  .wh-share-sub { margin: 0; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .wh-share-actions { flex: none; display: flex; flex-direction: column; gap: 8px; }
+  .wh-share-actions .wh-btn { justify-content: center; text-align: center; }
+  .wh-btn-ghost { background: transparent !important; border: 1px solid var(--cyan); color: var(--cyan) !important; }
+  .wh-btn-ghost:hover { color: var(--cream) !important; border-color: var(--cream); }
+  @media (max-width: 640px) {
+    .wh-share { flex-direction: column; align-items: flex-start; }
+    .wh-share-actions { width: 100%; }
+  }
   .sh-drop { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; min-height: 120px; margin: 12px 0; padding: 18px; border: 2px dashed var(--border); background: var(--bg-2); color: var(--text-dim); text-align: center; cursor: pointer; }
   .sh-drop.is-over, .sh-drop:hover { border-color: var(--cyan); color: var(--cream); }
   .sh-drop input { font-size: 12px; color: var(--text-faint); }

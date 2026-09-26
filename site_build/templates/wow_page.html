@@ -35,6 +35,17 @@
   </div>
   {{ countdown('wh-count') }}
 </section>
+<aside class="wh-share">
+  <img src="{{ root }}assets/img/icon-192.png" alt="" width="48" height="48" loading="lazy">
+  <div class="wh-share-text">
+    <p class="wh-share-hook">{{ wow_ui.share_hook }}</p>
+    <p class="wh-share-sub">{{ wow_ui.share_sub }}</p>
+  </div>
+  <div class="wh-share-actions">
+    {% if addon_version %}<a class="wh-btn" href="{{ root }}assets/downloads/BrokenMeta-{{ addon_version }}.zip" download>{{ wow_ui.addon_cta.format(v=addon_version) }} <span aria-hidden="true">↓</span></a>{% endif %}
+    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/partager-mes-donnees/">{{ wow_ui.share_cta }} <span aria-hidden="true">→</span></a>
+  </div>
+</aside>
 {% if wow_ranking %}
 <h2 class="lh-h2">{{ wow_ui.ranking_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>
