@@ -5006,7 +5006,8 @@ def wowsim_manifest():
     (its cache-buster), plus a hash of the whole manifest. The page carries that manifest hash in
     its own HTML -- always fetched from the network -- because the site's service worker serves
     every other asset cache-first: without it, a returning visitor kept an old simulator."""
-    files = [ROOT / "wow_mysim.py", ROOT / "wow_dps_sim.py", ROOT / "wow_spells.py",
+    files = [ROOT / "wow_mysim.py", ROOT / "wow_dps_sim.py", ROOT / "wow_spells.py", ROOT / "wow_weights.py",
+             PROJECT / "data" / "wow_dungeons" / "dungeons.json", PROJECT / "data" / "wow_items" / "proficiency.json",
              PROJECT / "data" / "wow_items" / "bis_level20_stats.json",
              *sorted((PROJECT / "data" / "wow_spells").glob("*.json"))]
     body = json.dumps({"files": [{"path": f.relative_to(PROJECT).as_posix(),
@@ -6680,8 +6681,8 @@ def main() -> None:
         _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Item builder", "Item builder"))
     # Rebuilt 2026-09-25 around the real level-20 kit (data/wow_spells/warrior.json) instead of the
     # speculative level-60 one removed 2026-09-23 -- see wow_warrior_sim.html / wow-warrior-sim.js.
-    if "warrior" in wow_spell_classes:
-        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("simulateur", "Simulateur DPS", "DPS simulator"))
+    # The manual-input Fury calculator (/wow-forever/simulateur/) was replaced 2026-09-26 by the
+    # export-based page below (personal stat weights + Top gear); its URL redirects there (.htaccess).
     # "Simulate my character" (2026-09-26): paste the BrokenMeta addon export, simulated in the
     # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
     if wow_spell_classes:
@@ -7694,18 +7695,6 @@ def main() -> None:
                        g_title=_gx["op_title"], g_desc=_gx["op_desc"], g_h1=_gx["op_h1"], g_intro=_gx["op_intro"],
                        breadcrumb_schema=breadcrumb_schema(_ocrumb),
                        article_schema=build_article_schema(_gx["op_h1"], canonical_for(_oppath, lang), _gx["op_desc"]))
-            # Rebuilt 2026-09-25 around the real level-20 Fury Warrior kit (data/wow_spells/warrior.json)
-            # instead of the speculative level-60 one (Bloodthirst/Whirlwind/Heroic Strike, none of which
-            # exist at the beta's actual level-20 cap) removed 2026-09-23. See wow_warrior_sim.html /
-            # wow-warrior-sim.js for the new engine (Rend, Overpower, Bloodrage).
-            if "warrior" in wow_spell_classes:
-                _tcpath = "/wow-forever/simulateur/"
-                _tccrumb = _gbase + [(_gx["tc_kicker"].split(" · ")[-1], canonical_for(_tcpath, lang))]
-                assert len(_gx["tc_title"]) <= 60 and len(_gx["tc_desc"]) <= 155
-                render("wow_warrior_sim.html", _tcpath, lang, active_nav="wow", active_sub="wow-simulateur", tx=_gx,
-                       g_title=_gx["tc_title"], g_desc=_gx["tc_desc"], g_h1=_gx["tc_h1"], g_intro=_gx["tc_intro"],
-                       breadcrumb_schema=breadcrumb_schema(_tccrumb),
-                       article_schema=build_article_schema(_gx["tc_h1"], canonical_for(_tcpath, lang), _gx["tc_desc"]))
             if wow_spell_classes and wt_classes:
                 _mspath = "/wow-forever/simuler-mon-personnage/"
                 _mscrumb = _gbase + [(_gx["ms_h1"], canonical_for(_mspath, lang))]
@@ -8639,12 +8628,8 @@ def main() -> None:
         shutil.copy(ROOT / "js" / "wow-theorycraft.js", DIST / "assets" / "js" / "wow-theorycraft.js")
     if (ROOT / "js" / "wow-simulator.js").exists():
         shutil.copy(ROOT / "js" / "wow-simulator.js", DIST / "assets" / "js" / "wow-simulator.js")
-    # wow-warrior-sim.js (the full Monte Carlo engine) is deliberately NOT published: kept as an
-    # internal-only tool (2026-09-25, user request) to later generate a cross-spec DPS ranking rather
-    # than exposed as a public interactive sandbox. The public page only ships the quick analytical
-    # stat-weight calculator (wow-warrior-weights.js).
-    if (ROOT / "js" / "wow-warrior-weights.js").exists():
-        shutil.copy(ROOT / "js" / "wow-warrior-weights.js", DIST / "assets" / "js" / "wow-warrior-weights.js")
+    # wow-warrior-sim.js (the old Fury-only Monte Carlo engine) is not published. The manual-input
+    # calculator page that used wow-warrior-weights.js was removed 2026-09-26 (see the redirect).
     # "Simulate my character": the page's scripts, plus the Python engine and the data it reads,
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
@@ -8799,6 +8784,10 @@ def main() -> None:
     # refresh a few times a day is never stale for more than 5 minutes.
     (DIST / ".htaccess").write_text(
         "ErrorDocument 404 /404.html\n"
+        "\n"
+        "# Old manual-input DPS calculator, replaced 2026-09-26 by the export-based simulation page.\n"
+        "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
+        "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
         "\n"
         "<IfModule mod_expires.c>\n"
         "  ExpiresActive On\n"

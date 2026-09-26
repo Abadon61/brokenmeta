@@ -50,8 +50,15 @@ self.onmessage = async function (e) {
     pyodide.globals.set('_bm_text', m.text);
     pyodide.globals.set('_bm_spec', m.spec || null);
     pyodide.globals.set('_bm_lang', m.lang);
-    var out = pyodide.runPython('wow_mysim.simulate(_bm_text, _bm_spec, _bm_lang)');
-    post('result', { result: JSON.parse(out) });
+    var out;
+    if (m.action === 'personal') {
+      // Personal stat weights + Top gear: ~10 simulation batches, progress reported after each.
+      pyodide.globals.set('_bm_progress', function (done, total) { post('progress', { done: done, total: total }); });
+      out = pyodide.runPython('wow_mysim.personal(_bm_text, _bm_spec, _bm_lang, _bm_progress)');
+    } else {
+      out = pyodide.runPython('wow_mysim.simulate(_bm_text, _bm_spec, _bm_lang)');
+    }
+    post('result', { action: m.action || 'sim', result: JSON.parse(out) });
   } catch (err) {
     post('error', { message: String(err && err.message || err) });
   }

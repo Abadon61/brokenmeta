@@ -510,8 +510,21 @@ local function buildExport()
     if istr then
       local parts = { strsplit(":", istr) }
       add("slot" .. s[1], (parts[2] or "") .. ":" .. (parts[3] or "") .. ":" .. (parts[8] or ""))
+      -- The item's own stats and slot type, so the site can compare dungeon items with it
+      -- ("Top gear"): st16=str:10,agi:5,wdps:12.4 / loc16=INVTYPE_2HWEAPON.
+      local st, list = ns.itemStats(link), {}
+      for k, v in pairs(st) do
+        if type(v) == "number" and v ~= 0 then list[#list + 1] = k .. ":" .. num(v) end
+      end
+      table.sort(list)
+      add("st" .. s[1], table.concat(list, ","))
+      add("loc" .. s[1], select(9, ns.GetItemInfo(link)) or "")
     end
   end
+  -- Rating needed for 1% crit / hit on this client, to turn item ratings into percentages.
+  local rp = ns.GetRatingPerPct()
+  add("rating_crit", num(rp.crit))
+  add("rating_hit", num(rp.hit))
   return table.concat(out, "\n")
 end
 ns.BuildExport = buildExport

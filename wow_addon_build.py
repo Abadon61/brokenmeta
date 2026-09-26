@@ -4,23 +4,18 @@ For every spec in site_build/wow_dps_sim.py's ROTATIONS, measures how much simul
 extra point of each stat adds on top of that spec's real level-20 BiS gear, then writes the
 result as a Lua table to wow_addon/BrokenMetaWeights/Weights.lua.
 
-Method: finite differences with common random numbers -- the baseline and every perturbed run
-replay the SAME seeded fights, so the tiny DPS gain from +20 Strength isn't drowned in
-fight-to-fight RNG noise. Primary stats (Str/Agi/Int) are perturbed on the raw gear totals and
-go through the sim's own bis_stats_for_spec() conversion, so the addon's weights always agree
-with whatever conversion ratios the site's simulator uses. Direct stats (AP, SP, Crit %, Hit %)
-are perturbed on the final {ap, sp, crit, hit} sheet.
+Method: site_build/wow_weights.py (shared with the site's "Simulate my character" page):
+common random numbers, central differences, Str/Agi/Int derived exactly from the sim's own
+conversions. See that module's docstring.
 
 Also writes wow_addon/BrokenMetaWeights/Data.lua (no simulation needed, `--data-only`): dungeon
 loot with stats, class armor/weapon proficiency, recommended talent builds and profession routes,
 all from the site's own data files.
 
-Usage: py -3.11 wow_addon_build.py [--iterations 400] [--fight-len 300] [--data-only]
+Usage: py -3.11 wow_addon_build.py [--iterations 800] [--fight-len 300] [--data-only]
 """
 import argparse
-import copy
 import json
-import random
 import sys
 from datetime import date
 from pathlib import Path
@@ -28,71 +23,18 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT / "site_build"))
 import wow_dps_sim as sim  # noqa: E402
+import wow_weights  # noqa: E402
 
 OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Weights.lua"
 DATA_OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Data.lua"
-WEAPON_STEP = 2.0  # +2 weapon DPS (dmg per swing += 2 x speed)
-
-# Step sizes: large enough to rise above the residual noise, small enough to stay linear.
-RAW_STEPS = {"str": 20, "agi": 20, "int": 30}
-SHEET_STEPS = {"ap": 40, "sp": 40, "crit": 0.03, "hit": 0.02}
-
-
-def mean_dps(spec_id, stats, iterations, fight_len, profile=None):
-    profile = profile or sim.ROTATIONS[spec_id]
-    glossary = sim.wow_spells.load_class(profile.get("glossary", spec_id))
-    total = 0.0
-    for i in range(iterations):
-        random.seed(i)
-        dmg, _ = sim.Sim(spec_id, profile, glossary, stats, fight_len).run()
-        total += dmg
-    return total / iterations / fight_len
-
-
-def sheet_with_raw(spec_id, stat, delta):
-    """bis_stats_for_spec() after adding `delta` to one raw gear stat (Str/Agi/Int)."""
-    data = sim._load_bis_data()
-    saved = copy.deepcopy(data["specs"][spec_id])
-    try:
-        data["specs"][spec_id]["stats"][stat] = data["specs"][spec_id]["stats"].get(stat, 0) + delta
-        return sim.bis_stats_for_spec(spec_id)
-    finally:
-        data["specs"][spec_id] = saved
-
 
 def weights_for(spec_id, iterations, fight_len):
+    """Level-20 BiS sheet weights through the shared wow_weights module (same code as the site)."""
     base = sim.bis_stats_for_spec(spec_id)
     if base is None:
         return None
-    base_dps = mean_dps(spec_id, base, iterations, fight_len)
-    w = {}
-    for stat, step in SHEET_STEPS.items():
-        s = dict(base)
-        s[stat] = s[stat] + step
-        if stat == "hit":
-            s[stat] = min(1.0, s[stat])
-            step = s[stat] - base[stat]
-            if step <= 0:
-                w[stat] = 0.0
-                continue
-        gain = (mean_dps(spec_id, s, iterations, fight_len) - base_dps) / step
-        # crit/hit are fractions in the sim; the addon wants DPS per 1 percentage point.
-        w[stat] = gain / 100 if stat in ("crit", "hit") else gain
-    for stat, step in RAW_STEPS.items():
-        s = sheet_with_raw(spec_id, stat, step)
-        w[stat] = 0.0 if s == base else (mean_dps(spec_id, s, iterations, fight_len) - base_dps) / step
-    # Weapon DPS: +WEAPON_STEP DPS on each simulated weapon. Hunters' only simulated weapon is the
-    # ranged one (Auto Shot), so their weight goes to ranged slots; melee specs get main/off hand.
-    ranged = sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("agi_ap") == "ranged"
-    w.update(wdps_mh=0.0, wdps_oh=0.0, wdps_r=0.0)
-    for idx, wpn in enumerate(sim.ROTATIONS[spec_id].get("weapons", [])):
-        prof = copy.deepcopy(sim.ROTATIONS[spec_id])
-        prof["weapons"][idx]["dmg"] += WEAPON_STEP * wpn["speed"]
-        gain = (mean_dps(spec_id, base, iterations, fight_len, prof) - base_dps) / WEAPON_STEP
-        w["wdps_r" if ranged else ("wdps_oh" if wpn.get("offhand") else "wdps_mh")] = gain
-    # Negative values are pure noise on stats the rotation barely uses; clamp them.
-    w = {k: max(0.0, round(v, 4)) for k, v in w.items()}
-    return base_dps, base, w
+    dps, w = wow_weights.stat_weights(spec_id, base, None, iterations, fight_len)
+    return dps, base, w
 
 
 def talent_specs(cls):
@@ -240,7 +182,7 @@ def write_data_lua():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--iterations", type=int, default=400)
+    parser.add_argument("--iterations", type=int, default=800)
     parser.add_argument("--fight-len", type=float, default=300.0)
     parser.add_argument("--data-only", action="store_true", help="only rewrite Data.lua (no simulation)")
     args = parser.parse_args()
