@@ -1,0 +1,342 @@
+{
+  "class": "druid",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file covers only the Balance single-target rotation pieces reachable in an 11-point level-20 build, like the Mage/Rogue/Priest passes.",
+  "gaps": [
+    "Starfire, Insect Swarm, Moonkin Form and the full Feral/Restoration trees not looked up.",
+    "Talents' exact numeric effects not looked up (only names/point allocation confirmed from the real build): Improved Wrath (cast time + Mana cost reduction, per Icy Veins' text), Moonglow, Nature's Reach (hit chance + range, per Icy Veins' text), Improved Moonfire.",
+    "Real level-20 build note: the guide explicitly frames the last point (Improved Moonfire, taken as 1/2 rather than maxed) as \"extremely flexible\" -- i.e. not a firmly fixed pick the way the other 10 points are. Worth remembering this build is slightly softer at the margin than Warrior/Mage/Rogue/Priest's fully-determined 11-point builds.",
+    "Note on \"resource_system\" above: it's \"mana\" for Balance specifically. Feral (added 2026-09-25, see talents.feral and the Claw/Rip/Maul abilities below) uses Energy in Cat Form and Rage in Bear Form -- this project's schema declares one resource per file, so each Feral ability's own real resource_cost key (energy/rage) is what actually matters, not this top-level field.",
+    "Feral (2026-09-25): real, sourced finding -- Wowhead's own \"Level 20 Feral Druid DPS\" guide calls the level-20 kit \"fairly lackluster... only having two damage abilities in Claw and Rip\", confirming Icy Veins' own simpler framing. Cat Form's real rotation: Claw (builder) until 4+ combo points on a target expected to live >=6s, then Rip (finisher) -- this exact 4-CP threshold (not 5) is Wowhead's own guide text, more precise than Icy Veins' generic \"5 combo points\". Bear Form's real rotation only sources Maul (a next-swing damage enhancer, real classic mechanic) -- Enrage (Rage generator) and Swipe (AoE) are real but not sourced this pass (Enrage's own numbers weren't pinned down; Swipe is an AoE tool, out of scope for single-target). Growl (taunt) and Demoralizing Roar are real Bear tools with no simulated-damage relevance."
+  ],
+  "abilities": [
+    {
+      "id": "druid_wrath",
+      "wowhead_spell_id": 5178,
+      "wowhead_talent_id": "n104923",
+      "name": {
+        "en": "Wrath",
+        "fr": "Colère"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 9,
+      "min_level": 14,
+      "resource_cost": {
+        "mana": 40
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "2 sec",
+      "school": "nature",
+      "mechanic": null,
+      "flags": [],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 22). Real single-target priority (Icy Veins): filler damage once Moonfire is already active on the target.",
+      "source_url": "https://www.wowhead.com/forever/spell=5178/wrath",
+      "effects": [
+        {
+          "kind": "direct_damage",
+          "dmg_range": [
+            21,
+            25
+          ],
+          "sp_coeff": 0.571
+        }
+      ]
+    },
+    {
+      "id": "druid_moonfire",
+      "wowhead_spell_id": 8925,
+      "wowhead_talent_id": "n104931",
+      "name": {
+        "en": "Moonfire",
+        "fr": "Éclat lunaire"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 10,
+      "min_level": 16,
+      "resource_cost": {
+        "mana": 75
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "arcane",
+      "mechanic": null,
+      "flags": [
+        "periodic_can_crit",
+        "dispel_type_magic",
+        "dot_stacking_rule"
+      ],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 22). Real, sourced Arcane school (not Nature) despite being a \"lunar fire\" spell -- don't assume school from flavor. The tooltip's own \"DoT Stacking Rule\" flag is a direct, explicit confirmation of this schema's general non-stacking-on-refresh rule (see README.md), not just an inference. Real single-target priority (Icy Veins): keep this active on the target at all times, ahead of Wrath.",
+      "source_url": "https://www.wowhead.com/forever/spell=8925/moonfire",
+      "effects": [
+        {
+          "kind": "direct_damage",
+          "dmg_range": [
+            25,
+            29
+          ],
+          "sp_coeff": 0.15
+        },
+        {
+          "kind": "periodic_damage",
+          "total_damage": 36,
+          "duration_sec": 12,
+          "tick_interval_sec": 3,
+          "damage_per_tick": 10,
+          "sp_coeff": 0.13,
+          "can_crit": true
+        }
+      ]
+    },
+    {
+      "id": "druid_claw",
+      "wowhead_spell_id": 1082,
+      "name": {
+        "en": "Claw",
+        "fr": "Griffe"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 7,
+      "min_level": 20,
+      "resource_cost": {
+        "energy": 45
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": null,
+      "flags": [
+        "requires_cat_form",
+        "requires_all_targets",
+        "discount_power_on_miss"
+      ],
+      "notes": "Exactly the level-20 cap (Cat Form itself is unlocked by a level-20 class quest). Cat Form's real combo-point builder: 110% weapon damage + 27 flat, awards 1 combo point (tooltip text; the raw effect value shows 2, tooltip text used as authoritative per this project's standing rule). Real GCD is 1 second, same as Rogue's (not the 1.5s default).",
+      "source_url": "https://www.wowhead.com/forever/spell=1082/claw",
+      "effects": [
+        {
+          "kind": "normalized_weapon_damage",
+          "pct": 1.1,
+          "flat": 27
+        },
+        {
+          "kind": "resource_generation",
+          "resource": "combo_points",
+          "immediate": 1
+        }
+      ]
+    },
+    {
+      "id": "druid_rip",
+      "wowhead_spell_id": 1079,
+      "name": {
+        "en": "Rip",
+        "fr": "Déchirure"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 6,
+      "min_level": 20,
+      "resource_cost": {
+        "energy": 30,
+        "combo_points": "1 to 5"
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "physical",
+      "mechanic": "bleeding",
+      "flags": [
+        "requires_cat_form",
+        "dot_stacking_rule",
+        "periodic_can_crit"
+      ],
+      "notes": "Exactly the level-20 cap. Real per-combo-point DoT table from the tooltip (not derived): 1 CP 44 over 12s, 2 CP 71, 3 CP 97, 4 CP 124, 5 CP 150 (6 ticks of ~2s each). Real, explicit \"DoT Stacking Rule\" flag confirms the schema's non-stacking-on-refresh default. Real single-target priority (Wowhead's own Level 20 Feral Druid DPS guide, more precise than Icy Veins' generic text): cast at 4+ combo points if the target will live at least ~6 more seconds, otherwise keep using Claw. Also scales with Attack Power per the tooltip's own text; exact coefficient not shown in the effect breakdown (gap, same as Rogue's Eviscerate).",
+      "source_url": "https://www.wowhead.com/forever/spell=1079/rip",
+      "effects": [
+        {
+          "kind": "combo_point_scaling",
+          "resource": "combo_points",
+          "dot_table": {
+            "1": 44,
+            "2": 71,
+            "3": 97,
+            "4": 124,
+            "5": 150
+          },
+          "duration_sec": 12,
+          "tick_interval_sec": 2
+        }
+      ]
+    },
+    {
+      "id": "druid_maul",
+      "wowhead_spell_id": 6807,
+      "name": {
+        "en": "Maul",
+        "fr": "Mutiler"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 7,
+      "min_level": 10,
+      "resource_cost": {
+        "rage": 15
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 0,
+      "cast_time": "on next melee swing",
+      "school": "physical",
+      "mechanic": null,
+      "flags": [
+        "requires_bear_form",
+        "discount_power_on_miss"
+      ],
+      "notes": "Real level-10 rank (well below the level-20 cap, already usable). Bear Form's real Rage-spender: enhances the next melee swing by a flat +18 damage (tooltip text; raw effect value shows 19). No GCD -- queues onto the next swing rather than consuming an action, the same real mechanic as Warrior's Heroic Strike. Real single-target priority (Icy Veins): the main Rage dump while tanking single targets (Swipe is the AoE alternative, out of scope here).",
+      "source_url": "https://www.wowhead.com/forever/spell=6807/maul",
+      "effects": [
+        {
+          "kind": "flat_bonus_on_next_swing",
+          "flat": 18
+        }
+      ]
+    }
+  ],
+  "talents": {
+    "balance": [
+      {
+        "id": "druid_improved_wrath",
+        "wowhead_talent_id": "n104923",
+        "name": {
+          "en": "Improved Wrath",
+          "fr": "Colère améliorée"
+        },
+        "row": 1,
+        "col": 2,
+        "max_rank_total": 5,
+        "effect_per_rank": null,
+        "see_ability_id": "druid_wrath",
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 5/5 (reduces Wrath's cast time and Mana cost, per Icy Veins' text; exact per-rank amounts not looked up). Picked over Nature's Focus (Restoration, pushback resistance) as the guide's stated first choice."
+      },
+      {
+        "id": "druid_moonglow",
+        "wowhead_talent_id": "n104925",
+        "name": {
+          "en": "Moonglow",
+          "fr": "Lueur de la lune"
+        },
+        "row": 2,
+        "col": 1,
+        "max_rank_total": 3,
+        "effect_per_rank": null,
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 3/3 (\"reduces the amount of time you'll spend not casting spells\", per Icy Veins -- likely a Mana-cost reduction; exact effect not looked up)."
+      },
+      {
+        "id": "druid_natures_reach",
+        "wowhead_talent_id": "n104929",
+        "name": {
+          "en": "Nature's Reach",
+          "fr": "Allonge de la Nature"
+        },
+        "row": 2,
+        "col": 4,
+        "max_rank_total": 2,
+        "effect_per_rank": null,
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 2/2 (reduces spell miss chance and increases range, per Icy Veins' text; exact per-rank amounts not looked up)."
+      },
+      {
+        "id": "druid_improved_moonfire",
+        "wowhead_talent_id": "n104931",
+        "name": {
+          "en": "Improved Moonfire",
+          "fr": "Eclat lunaire amélioré"
+        },
+        "row": 2,
+        "col": 2,
+        "max_rank_total": 2,
+        "effect_per_rank": null,
+        "see_ability_id": "druid_moonfire",
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes only 1/2 -- explicitly called \"extremely flexible\" by Icy Veins, the softest pick in this build (unlike every other class's fully-determined 11 points found so far)."
+      }
+    ],
+    "feral": [
+      {
+        "id": "druid_ferocity",
+        "wowhead_talent_id": "n104938",
+        "name": {
+          "en": "Ferocity",
+          "fr": null
+        },
+        "row": 1,
+        "col": 2,
+        "max_rank_total": 5,
+        "effect_per_rank": "-Rage cost of Bear Form abilities per rank; -Energy cost of Cat Form abilities per rank",
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 5/5 -- helps both Bear (more Maul casts) and Cat (cheaper Claw) resource economy, per Icy Veins' text."
+      },
+      {
+        "id": "druid_feral_swiftness",
+        "wowhead_talent_id": "n104943",
+        "name": {
+          "en": "Feral Swiftness",
+          "fr": null
+        },
+        "row": 2,
+        "col": 1,
+        "max_rank_total": 2,
+        "effect_per_rank": "+15%/rank movement speed in Cat Form; +Dodge chance per rank in all forms",
+        "see_ability_id": null,
+        "dps_relevant": false,
+        "notes": "Real level-20 build takes 2/2 -- mobility/survivability, not a damage talent."
+      },
+      {
+        "id": "druid_heart_of_the_wild",
+        "wowhead_talent_id": "n104939",
+        "name": {
+          "en": "Heart of the Wild",
+          "fr": null
+        },
+        "row": 1,
+        "col": 3,
+        "max_rank_total": 5,
+        "effect_per_rank": "+Intellect/Stamina/Strength (form-dependent) per rank, per Icy Veins' text",
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 3/5 -- Icy Veins notes it's \"very potent at higher levels, but a bit less so with low level gear\", i.e. a real but currently-weak pick."
+      },
+      {
+        "id": "druid_feral_charge",
+        "wowhead_talent_id": "n104944",
+        "name": {
+          "en": "Feral Charge",
+          "fr": null
+        },
+        "row": 3,
+        "col": 3,
+        "max_rank_total": 1,
+        "effect_per_rank": "Grants a Charge-like gap-closer usable in Bear/Cat Form",
+        "see_ability_id": null,
+        "dps_relevant": false,
+        "notes": "Real level-20 build takes 1/1, the build's final point -- mobility, not a sustained-damage tool (same out-of-scope reasoning as Warrior's Charge)."
+      }
+    ],
+    "restoration": []
+  }
+}

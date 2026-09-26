@@ -1,0 +1,329 @@
+{
+  "class": "paladin",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Retribution single-target rotation pieces reachable in an 11-point level-20 build, like the other class passes.",
+  "gaps": [
+    "Icy Veins presents TWO real level-20 builds with no single one called definitively best: the PRIMARY build (catalogued here) trades a Retribution talent for 2 points in the Holy tree (Improved Holy Strike) plus a defensive Retribution pick (Deflection); an ALTERNATIVE all-Retribution build instead takes Benediction 5/5 + Conviction 3/5 + Seal of Command 1/1 (dropping Improved Holy Strike and Deflection entirely) to reach Seal of Command, described as dealing \"slightly more damage\" especially with Judgement on stunned targets. Seal of Command and Benediction's real values are NOT sourced in this pass -- only the primary build's pieces are.",
+    "Seal of the Crusader (used situationally per the real rotation, to apply a Judgement-amplifying debuff on long fights before switching back to Seal of Righteousness) not looked up.",
+    "Exorcism (situational vs Undead/Demons), Hammer of Justice, Blessing of Might/Kings, Devotion Aura, Holy Light not looked up.",
+    "\"talents.holy\" only includes the 1 talent actually taken in the primary Retribution build (Improved Holy Strike) -- the rest of that tree is not catalogued.",
+    "Improved Judgement and Conviction's exact numeric per-rank effects not looked up (only names/point allocation confirmed from the real build).",
+    "Protection (tank, 2026-09-25): real level-20 build sourced (talents.protection below). Its own real single-target priority (Icy Veins) is Consecration (kept up on cooldown, now sourced) > Seal of Fury (the new tank Seal, real mechanic confirmed -- melee attacks deal bonus Holy damage, block-absorb while shielded, and its Judgement release taunts -- but its own exact damage numbers weren't found this pass, an open gap) > Judgement (taunts via Seal of Fury, real no-own-damage mechanic already documented above) > Holy Strike (already sourced above). Without Seal of Fury's real numbers, Judgement contributes no simulated damage for Protection, same as it would for any spec without a damage-dealing Seal active -- a disclosed limitation, not an invented zero."
+  ],
+  "abilities": [
+    {
+      "id": "paladin_holy_strike",
+      "wowhead_spell_id": 1866,
+      "wowhead_talent_id": "n105328",
+      "name": {
+        "en": "Holy Strike",
+        "fr": "Frappe sacrée"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": "unknown (at least 3 ranks found: level 6, 12, 20)",
+      "min_level": 20,
+      "resource_cost": {
+        "mana": 12
+      },
+      "cooldown_sec": 12,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "holy",
+      "mechanic": null,
+      "flags": [
+        "requires_melee_weapon",
+        "initiates_combat"
+      ],
+      "notes": "Exactly the level-20 cap. Base 12-second cooldown; Improved Holy Strike (talented in the primary real build) reduces this. Real single-target priority (Icy Veins): use on cooldown alongside Judgement, whenever Mana allows.",
+      "source_url": "https://www.wowhead.com/forever/spell=1866/holy-strike",
+      "effects": [
+        {
+          "kind": "normalized_weapon_damage",
+          "pct": 0.3,
+          "dmg_range": [
+            18,
+            22
+          ],
+          "sp_coeff": 0.429
+        }
+      ]
+    },
+    {
+      "id": "paladin_judgement",
+      "wowhead_spell_id": 20271,
+      "wowhead_talent_id": "n105705",
+      "name": {
+        "en": "Judgement",
+        "fr": "Jugement"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": "max",
+      "max_rank_total": 1,
+      "min_level": 4,
+      "resource_cost": {
+        "mana_pct_of_base": 6
+      },
+      "cooldown_sec": 10,
+      "gcd_sec": 0,
+      "cast_time": "instant",
+      "school": "holy",
+      "mechanic": null,
+      "flags": [
+        "does_not_consume_the_seal",
+        "no_gcd"
+      ],
+      "notes": "Real, important mechanic: Judgement deals NO damage of its own -- it \"unleashes the energy of your active Seal\" without consuming it, so its actual effect comes entirely from whichever Seal ability's own entry is active (see paladin_seal_of_righteousness for the default single-target Seal). Costs a % of base Mana, not a flat amount. Uses no GCD, unlike almost every other ability catalogued in this project so far.",
+      "source_url": "https://www.wowhead.com/forever/spell=20271/judgement",
+      "effects": [
+        {
+          "kind": "proc_trigger",
+          "description": "Deals whatever damage/effect the currently active Seal's own \"Judgement effect\" specifies -- see the active Seal's own ability entry."
+        }
+      ]
+    },
+    {
+      "id": "paladin_seal_of_righteousness",
+      "wowhead_spell_id": 20288,
+      "name": {
+        "en": "Seal of Righteousness",
+        "fr": "Sceau de Droiture"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 18,
+      "resource_cost": {
+        "mana": 60
+      },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "holy",
+      "mechanic": null,
+      "flags": [
+        "dispel_type_magic",
+        "only_one_seal_active_at_a_time"
+      ],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 26). Two distinct effects in one ability: (1) a passive buff, active for 30s, adding +6 to 20 Holy damage to every melee swing (explicitly weapon-speed-scaled: \"slower weapons cause more Holy damage per swing\" -- a real per-swing flat bonus, not a DPS-normalized one); (2) a separate 53-57 Holy damage direct hit dealt only when Judgement is cast while this Seal is active (\"unleashing this Seal's energy\"). Real, explicit tooltip rule: \"Only one Seal can be active on the Paladin at any one time\" -- another sourced non-stacking-across-sources rule, consistent with Serpent Sting's (Hunter) similar rule. Real single-target priority (Icy Veins): the default Seal to keep active unless Seal of Command is talented (not in this build).",
+      "source_url": "https://www.wowhead.com/forever/spell=20288/seal-of-righteousness",
+      "effects": [
+        {
+          "kind": "self_buff",
+          "per_swing_bonus_dmg_range": [
+            6,
+            20
+          ],
+          "duration_sec": 30,
+          "notes": "scales with weapon speed: slower weapons get more bonus damage per swing"
+        },
+        {
+          "kind": "proc_trigger",
+          "description": "When Judgement is cast while this Seal is active",
+          "dmg_range": [
+            53,
+            57
+          ]
+        }
+      ]
+    },
+    {
+      "id": "paladin_consecration",
+      "wowhead_spell_id": 26573,
+      "name": {
+        "en": "Consecration",
+        "fr": "Consécration"
+      },
+      "category": "core_ability",
+      "trees": [],
+      "rank": "max",
+      "max_rank_total": 1,
+      "min_level": 20,
+      "resource_cost": {
+        "mana": 135
+      },
+      "cooldown_sec": 8,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "holy",
+      "mechanic": null,
+      "flags": [
+        "ground_effect",
+        "aoe_bonus_on_first_4_targets"
+      ],
+      "notes": "Exactly the level-20 cap (real Forever redesign: trained from the Paladin trainer rather than a talent, per the source). Real single-target priority (Protection, Icy Veins): the top rotation priority, kept up on cooldown. Real tooltip: 16 Holy damage over 8 sec to any enemy standing in the area, with the FIRST 4 enemies taking an additional 32 damage over 8 sec (a multi-target bonus, not modeled here -- solo single-target value only). Duration and cooldown are identical (8s), so it can be kept at 100% uptime. Tick cadence within the 8s wasn't explicitly confirmed on the raw tooltip (its own effect breakdown showed unrelated threat/script values, not a clean per-tick damage number) -- 4 ticks of 4 assumed as the closest classic-Consecration-consistent reading of \"16 over 8 sec\", disclosed rather than left unmodeled.",
+      "source_url": "https://www.wowhead.com/forever/spell=26573/consecration",
+      "effects": [
+        {
+          "kind": "periodic_damage",
+          "total_damage": 16,
+          "duration_sec": 8,
+          "tick_interval_sec": 2,
+          "damage_per_tick": 4
+        }
+      ]
+    }
+  ],
+  "talents": {
+    "retribution": [
+      {
+        "id": "paladin_deflection",
+        "wowhead_talent_id": "n105707",
+        "name": {
+          "en": "Deflection",
+          "fr": "Déviation"
+        },
+        "row": 1,
+        "col": 2,
+        "max_rank_total": 5,
+        "effect_per_rank": "+Parry chance per rank; Parries also speed up the next auto-attack (\"Parry Haste\"), per Icy Veins' text -- a small real DPS side-effect of what's primarily a defensive talent",
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real primary-build pick, 5/5. The guide explicitly says to swap this out for Benediction once past level 20 for group content."
+      },
+      {
+        "id": "paladin_improved_judgement",
+        "wowhead_talent_id": "n105705",
+        "name": {
+          "en": "Improved Judgement",
+          "fr": "Jugement amélioré"
+        },
+        "row": 2,
+        "col": 1,
+        "max_rank_total": 2,
+        "effect_per_rank": null,
+        "see_ability_id": "paladin_judgement",
+        "dps_relevant": true,
+        "notes": "Real primary-build pick, 2/2 (reduces Judgement's cooldown, per Icy Veins' text; exact per-rank amount not looked up)."
+      },
+      {
+        "id": "paladin_conviction",
+        "wowhead_talent_id": "n105703",
+        "name": {
+          "en": "Conviction",
+          "fr": "Conviction"
+        },
+        "row": 2,
+        "col": 3,
+        "max_rank_total": 5,
+        "effect_per_rank": null,
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real primary-build pick, 2/5 (\"a bit more damage\", per Icy Veins; exact per-rank amount not looked up). The alternative build instead takes 3/5."
+      },
+      {
+        "id": "paladin_benediction",
+        "wowhead_talent_id": "n105706",
+        "name": {
+          "en": "Benediction",
+          "fr": "Bénédiction"
+        },
+        "row": 1,
+        "col": 3,
+        "max_rank_total": 5,
+        "effect_per_rank": null,
+        "see_ability_id": null,
+        "dps_relevant": null,
+        "notes": "Not in the primary build; the alternative build takes 5/5 instead of Improved Holy Strike + Deflection. Not looked up."
+      },
+      {
+        "id": "paladin_seal_of_command",
+        "wowhead_talent_id": "n105696",
+        "name": {
+          "en": "Seal of Command",
+          "fr": "Sceau d'autorité"
+        },
+        "row": 3,
+        "col": 3,
+        "max_rank_total": 1,
+        "effect_per_rank": null,
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Not in the primary build; the alternative build's whole point is reaching this (1/1), described as dealing \"slightly more damage\" than Seal of Righteousness, especially with Judgement on stunned targets. Not looked up."
+      }
+    ],
+    "holy": [
+      {
+        "id": "paladin_improved_holy_strike",
+        "wowhead_talent_id": "n105328",
+        "name": {
+          "en": "Improved Holy Strike",
+          "fr": "Frappe sacrée améliorée"
+        },
+        "row": 1,
+        "col": 1,
+        "max_rank_total": 2,
+        "effect_per_rank": null,
+        "see_ability_id": "paladin_holy_strike",
+        "dps_relevant": true,
+        "notes": "Real primary-build pick, 2/2 (reduces Holy Strike's cooldown, per Icy Veins' text; exact per-rank amount not looked up). Given up entirely in the alternative build."
+      }
+    ],
+    "protection": [
+      {
+        "id": "paladin_redoubt",
+        "wowhead_talent_id": "n105626",
+        "name": {
+          "en": "Redoubt",
+          "fr": null
+        },
+        "row": 1,
+        "col": 3,
+        "max_rank_total": 5,
+        "effect_per_rank": "+1%/rank chance to gain a large temporary Block chance bonus after being critically hit",
+        "see_ability_id": null,
+        "dps_relevant": false,
+        "notes": "Real level-20 build takes 5/5 -- taken as a setup for Shield Specialization's Mana-on-Block synergy, per Icy Veins' text."
+      },
+      {
+        "id": "paladin_precision",
+        "wowhead_talent_id": "n105638",
+        "name": {
+          "en": "Precision",
+          "fr": null
+        },
+        "row": 2,
+        "col": 1,
+        "max_rank_total": 3,
+        "effect_per_rank": "+1% hit chance per rank",
+        "see_ability_id": null,
+        "dps_relevant": true,
+        "notes": "Real level-20 build takes 3/3."
+      },
+      {
+        "id": "paladin_anticipation",
+        "wowhead_talent_id": "n105636",
+        "name": {
+          "en": "Anticipation",
+          "fr": null
+        },
+        "row": 2,
+        "col": 4,
+        "max_rank_total": 5,
+        "effect_per_rank": "+1%/rank Defense skill",
+        "see_ability_id": null,
+        "dps_relevant": false,
+        "notes": "Real level-20 build takes 2/5 -- explicitly called low-value this early by Icy Veins (\"won't provide much value by itself early\"), taken only for lack of a better option."
+      },
+      {
+        "id": "paladin_shield_specialization_prot",
+        "wowhead_talent_id": "n110874",
+        "name": {
+          "en": "Shield Specialization",
+          "fr": null
+        },
+        "row": 3,
+        "col": 3,
+        "max_rank_total": 3,
+        "effect_per_rank": "Chance per rank to regain a percentage of base Mana after a Block",
+        "see_ability_id": null,
+        "dps_relevant": false,
+        "notes": "Real level-20 build takes 1/3 (the build's final point) -- Mana sustain, not a damage talent. Distinct talent id from Warrior's own identically-named Shield Specialization -- do not assume matching values."
+      }
+    ]
+  }
+}

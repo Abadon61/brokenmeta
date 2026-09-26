@@ -2255,6 +2255,46 @@
     .tc-layout { grid-template-columns: 1fr; }
   }
 
+  /* ---------- WoW: simulate my character (addon export) ---------- */
+  .ms-steps { margin: 8px 0 18px; padding-left: 22px; line-height: 1.7; color: var(--text-dim); }
+  .ms-steps code, .ms-limits code { background: var(--bg-2); border: 1px solid var(--border); padding: 1px 5px; font-size: 12.5px; color: var(--cream); }
+  .ms-dl { display: inline-block; margin: 6px 0 2px; padding: 6px 14px; border: 1px solid var(--cyan); color: var(--cyan); text-decoration: none; font-size: 13px; }
+  .ms-dl:hover { background: rgba(0,0,0,0.2); color: var(--cream); }
+  .ms-export { width: 100%; box-sizing: border-box; min-height: 150px; resize: vertical; background: var(--bg-2); border: 1px solid var(--border); color: var(--cream); padding: 10px 12px; font: 12.5px/1.5 ui-monospace, SFMono-Regular, Consolas, monospace; }
+  .ms-export:focus { outline: none; border-color: var(--cyan); }
+  .ms-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 12px 0; }
+  .ms-btn { padding: 9px 22px; border: 1px solid var(--red); background: var(--red); color: var(--cream); font: inherit; font-size: 14px; text-transform: uppercase; letter-spacing: 0.04em; cursor: pointer; }
+  .ms-btn:hover { filter: brightness(1.12); }
+  .ms-btn:disabled { opacity: 0.55; cursor: wait; }
+  .ms-spec-pick { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--text-faint); }
+  .ms-spec-pick select { background: var(--bg-2); border: 1px solid var(--border); color: var(--cream); padding: 6px 8px; font: inherit; }
+  .ms-status { font-size: 13px; color: var(--text-dim); }
+  .ms-status.is-busy::before { content: ""; display: inline-block; width: 10px; height: 10px; margin-right: 8px; border: 2px solid var(--cyan); border-right-color: transparent; border-radius: 50%; animation: ms-spin 0.8s linear infinite; vertical-align: -1px; }
+  .ms-status.is-error { color: var(--red); }
+  @keyframes ms-spin { to { transform: rotate(360deg); } }
+  .ms-result { margin: 22px 0; }
+  .ms-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--rc); background: var(--bg-2); }
+  .ms-head img { border: 1px solid var(--border); }
+  .ms-spec { font-family: 'Cal Sans', sans-serif; font-size: 18px; color: var(--cream); }
+  .ms-sub { font-size: 13px; color: var(--text-faint); }
+  .ms-compare { margin: 14px 0; padding: 14px; border: 1px solid var(--border); background: var(--bg-2); }
+  .ms-bar-row { display: grid; grid-template-columns: minmax(120px, 220px) 1fr auto; align-items: center; gap: 12px; padding: 6px 0; font-size: 13.5px; }
+  .ms-big { font-family: 'Cal Sans', sans-serif; font-size: 18px; color: var(--cyan); }
+  .ms-diff { margin: 8px 0 0; font-size: 13.5px; }
+  .ms-diff.is-up { color: var(--cyan); }
+  .ms-diff.is-down { color: var(--gold); }
+  .ms-src { display: grid; grid-template-columns: minmax(120px, 200px) 1fr auto; align-items: center; }
+  .ms-table-wrap { overflow-x: auto; }
+  .ms-stats { width: 100%; border-collapse: collapse; border: 1px solid var(--border); background: var(--bg-2); font-size: 13.5px; }
+  .ms-stats th, .ms-stats td { padding: 8px 14px; border-bottom: 1px solid var(--border); text-align: right; }
+  .ms-stats th[scope="row"], .ms-stats thead th:first-child { text-align: left; font-weight: normal; color: var(--text-dim); }
+  .ms-stats thead th { color: var(--text-faint); font-weight: normal; font-size: 12px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .ms-limits { padding-left: 22px; line-height: 1.7; color: var(--text-dim); }
+  @media (max-width: 560px) {
+    .ms-bar-row, .ms-src { grid-template-columns: 1fr auto; }
+    .ms-bar-row .wow-rank-bar-wrap, .ms-src .wow-rank-bar-wrap { grid-column: 1 / -1; grid-row: 2; }
+  }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }

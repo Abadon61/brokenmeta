@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Glossaire des sorts Paladin WoW: Forever">
 <meta name="twitter:description" content="Coûts, dégâts et temps de recharge réels des sorts Paladin dans WoW: Forever, sourcés depuis Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
 
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
   </div>
 </details>
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -466,7 +476,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Icy Veins presents TWO real level-20 builds with no single one called definitively best: the PRIMARY build (catalogued here) trades a Retribution talent for 2 points in the Holy tree (Improved Holy Strike) plus a defensive Retribution pick (Deflection); an ALTERNATIVE all-Retribution build instead takes Benediction 5/5 + Conviction 3/5 + Seal of Command 1/1 (dropping Improved Holy Strike and Deflection entirely) to reach Seal of Command, described as dealing &#34;slightly more damage&#34; especially with Judgement on stunned targets. Seal of Command and Benediction&#39;s real values are NOT sourced in this pass -- only the primary build&#39;s pieces are.</li><li>Seal of the Crusader (used situationally per the real rotation, to apply a Judgement-amplifying debuff on long fights before switching back to Seal of Righteousness) not looked up.</li><li>Exorcism (situational vs Undead/Demons), Hammer of Justice, Blessing of Might/Kings, Devotion Aura, Holy Light not looked up.</li><li>&#34;talents.holy&#34; only includes the 1 talent actually taken in the primary Retribution build (Improved Holy Strike) -- the rest of that tree is not catalogued.</li><li>Improved Judgement and Conviction&#39;s exact numeric per-rank effects not looked up (only names/point allocation confirmed from the real build).</li><li>Protection (tank, 2026-09-25): real level-20 build sourced (talents.protection below). Its own real single-target priority (Icy Veins) is Consecration (kept up on cooldown, now sourced) &gt; Seal of Fury (the new tank Seal, real mechanic confirmed -- melee attacks deal bonus Holy damage, block-absorb while shielded, and its Judgement release taunts -- but its own exact damage numbers weren&#39;t found this pass, an open gap) &gt; Judgement (taunts via Seal of Fury, real no-own-damage mechanic already documented above) &gt; Holy Strike (already sourced above). Without Seal of Fury&#39;s real numbers, Judgement contributes no simulated damage for Protection, same as it would for any spec without a damage-dealing Seal active -- a disclosed limitation, not an invented zero.</li></ul>
 
 
-<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;optimiseur de personnage utilisent ces mêmes données.</p>
+<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;Item builder utilisent ces mêmes données.</p>
 <p><a href="../../../wow-forever/glossaire/">← Retour au glossaire</a></p>
 
 </div>
@@ -515,10 +525,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

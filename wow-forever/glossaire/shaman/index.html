@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Glossaire des sorts Chaman WoW: Forever">
 <meta name="twitter:description" content="Coûts, dégâts et temps de recharge réels des sorts Chaman dans WoW: Forever, sourcés depuis Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
 
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
   </div>
 </details>
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -461,7 +471,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Real, explicit source caveat: Icy Veins&#39; own guide says the level-20 Enhancement toolkit is too limited to show the spec&#39;s real playstyle yet (&#34;the full playstyle isn&#39;t really on display yet until we see more of the Beta open up&#34;) -- this class&#39;s real level-20 kit is genuinely thinner than every other class catalogued so far, not an artifact of under-research this pass.</li><li>None of Stormstrike, Flurry, Maelstrom Weapon or Windfury Weapon (Enhancement&#39;s real signature abilities in other WoW versions) are reachable at 11 points and none are named in the real level-20 rotation text -- not looked up.</li><li>Lightning Shield, Flametongue Weapon (group alternative to Rockbiter), Frost Shock, Fire Nova, and the Strength of Earth/Stoneskin/Healing Stream totems named in the real rotation but not looked up. Searing Totem IS now sourced (2026-09-26, user-flagged) and in Enhancement&#39;s rotation -- see its own entry for the one still-approximate value (attack interval, not shown on its own tooltip).</li><li>&#34;talents.restoration&#34; is an empty placeholder. Note: the guide also flags a real alternative build spending points in Restoration (Mindfulness + Water Shield) for better early Mana sustain, at the cost of blocking a deeper Enhancement path later -- not sourced here.</li><li>Elemental (2026-09-25): real, explicit source caveat -- Icy Veins&#39; own guide says Elemental&#39;s best talents (Lava Burst, Elemental Alacrity) &#34;are none of these abilities... available at Level 20&#34;, describing them as &#34;a preview of sorts for what is to come.&#34; The real usable level-20 rotation is just Lightning Bolt (filler) + Flame Shock (maintained DoT). Both abilities below use their real Rank 1 tooltips (level 1 and level 10 respectively) rather than whatever higher rank is actually trainable by 20 -- a disclosed conservative approximation, not the exact level-20 numbers, after this pass&#39;s searches for the exact intermediate rank IDs didn&#39;t turn up a clean result in reasonable time. Fire Nova (3+ target tool) and Earth Shock (already sourced above, used more as an interrupt/utility per Elemental&#39;s own guide than a core rotation piece) are real but not part of Elemental&#39;s own single-target priority text.</li></ul>
 
 
-<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;optimiseur de personnage utilisent ces mêmes données.</p>
+<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;Item builder utilisent ces mêmes données.</p>
 <p><a href="../../../wow-forever/glossaire/">← Retour au glossaire</a></p>
 
 </div>
@@ -510,10 +520,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

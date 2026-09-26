@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Glossaire des sorts Démoniste WoW: Forever">
 <meta name="twitter:description" content="Coûts, dégâts et temps de recharge réels des sorts Démoniste dans WoW: Forever, sourcés depuis Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
 
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
   </div>
 </details>
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -457,7 +467,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Bane of Agony (a real DoT explicitly named in the rotation, applied only &#34;if the enemy will survive long enough&#34;), Life Tap (the class&#39;s core Health-to-Mana mechanic, central to the whole build&#39;s talent picks), Drain Life, Drain Soul, curses (Curse of Recklessness/Curse of the Elements, dungeon/group-situational), and the demon pet&#39;s own damage are all named in the real rotation but not looked up.</li><li>For Affliction specifically, Shadow Bolt is explicitly named in the guide as WORSE than wanding at level 20 (&#34;currently deals less damage for the time spent casting while also costing Mana and generating additional threat&#34;) -- a real, sourced reason it&#39;s deliberately excluded from Affliction&#39;s own rotation, not an oversight. Destruction&#39;s own guide names it as a real primary filler instead (see below) -- this is a genuine per-spec difference, not a contradiction.</li><li>Demon pet damage is entirely unsourced, the same real gap already flagged for Hunter&#39;s pet -- likely a meaningful fraction of total real DPS for all 3 specs.</li><li>Bane of Agony, Life Tap, Drain Life, Drain Soul, curses (Curse of Recklessness/Curse of the Elements, dungeon/group-situational) are named in all 3 specs&#39; real rotations but not looked up.</li><li>Demonology (2026-09-25): real, sourced finding -- its level-20 rotation uses the exact same two DoTs as Affliction (Immolate + Corruption maintained), just with different talents (Unholy Power/Demonic Energies instead of the rest of Affliction&#39;s tree) and a much bigger reliance on demon damage (unsourced). Produces the same simulated number as Affliction here, a disclosed limitation.</li><li>Destruction (2026-09-25): real, sourced finding -- unlike Affliction, Destruction&#39;s own guide names Shadow Bolt as its primary direct-damage filler (now sourced below, Rank 1/level 1 -- the real level-20-trainable rank wasn&#39;t pinned down this pass, a disclosed conservative approximation). Also names Searing Pain (faster cast, higher threat) and Shadowburn (the build&#39;s 1-point capstone, an instant Soul-Shard finisher) as real tools, neither sourced this pass.</li></ul>
 
 
-<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;optimiseur de personnage utilisent ces mêmes données.</p>
+<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;Item builder utilisent ces mêmes données.</p>
 <p><a href="../../../wow-forever/glossaire/">← Retour au glossaire</a></p>
 
 </div>
@@ -506,10 +516,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

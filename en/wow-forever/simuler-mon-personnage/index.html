@@ -1,0 +1,436 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Simulate my WoW: Forever character (DPS)</title>
+<meta name="description" content="Paste the BrokenMeta addon export and simulate your real WoW: Forever character&#39;s DPS, compared with the best level-20 gear.">
+<link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/simuler-mon-personnage/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/simuler-mon-personnage/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Simulate my WoW: Forever character (DPS)">
+<meta property="og:description" content="Paste the BrokenMeta addon export and simulate your real WoW: Forever character&#39;s DPS, compared with the best level-20 gear.">
+<meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Simulate my WoW: Forever character (DPS)">
+<meta name="twitter:description" content="Paste the BrokenMeta addon export and simulate your real WoW: Forever character&#39;s DPS, compared with the best level-20 gear.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Simulate my character", "item": "https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Simulate my character", "description": "Paste the BrokenMeta addon export and simulate your real WoW: Forever character's DPS, compared with the best level-20 gear.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../">Teamfight Tactics</a>
+    <a class="game-toggle-btn" href="../../../league/">League of Legends</a>
+    <a class="game-toggle-btn" href="../../../wow-forever/" data-active="true">WoW: Forever</a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/simuler-mon-personnage/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/simuler-mon-personnage/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" >League of Legends</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/" data-active="true">World of Warcraft: Forever</a>
+
+<div class="mobile-nav-group-title">Beta: Forever</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/" >Overview</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/classes/" >Classes &amp; races</a>
+
+<div class="mobile-nav-group-title">Class guides</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/" >All classes</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/druid/balance/">Druid · Balance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/druid/feral-combat/">Druid · Feral Combat</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/druid/restoration/">Druid · Restoration</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/hunter/beast-mastery/">Hunter · Beast Mastery</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/hunter/marksmanship/">Hunter · Marksmanship</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/hunter/survival/">Hunter · Survival</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/mage/arcane/">Mage · Arcane</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/mage/fire/">Mage · Fire</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/mage/frost/">Mage · Frost</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/paladin/holy/">Paladin · Holy</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/paladin/protection/">Paladin · Protection</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/paladin/retribution/">Paladin · Retribution</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/priest/discipline/">Priest · Discipline</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/priest/holy/">Priest · Holy</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/priest/shadow/">Priest · Shadow</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/rogue/assassination/">Rogue · Assassination</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/rogue/combat/">Rogue · Combat</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/rogue/subtlety/">Rogue · Subtlety</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/elemental/">Shaman · Elemental</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/enhancement/">Shaman · Enhancement</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/shaman/restoration/">Shaman · Restoration</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warlock/affliction/">Warlock · Affliction</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warlock/demonology/">Warlock · Demonology</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warlock/destruction/">Warlock · Destruction</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warrior/arms/">Warrior · Arms</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warrior/fury/">Warrior · Fury</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/guides/warrior/protection/">Warrior · Protection</a>
+
+<div class="mobile-nav-group-title">Professions</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/alchemy/" >Alchemy</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/blacksmithing/" >Blacksmithing</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/enchanting/" >Enchanting</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/engineering/" >Engineering</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/leatherworking/" >Leatherworking</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/tailoring/" >Tailoring</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/cooking/" >Cooking</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/first-aid/" >First Aid</a>
+
+<div class="mobile-nav-group-title">Dungeons</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/" >All dungeons</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/deadmines/">Deadmines</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
+
+<div class="mobile-nav-group-title">Raids</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >All raids</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Molten Core</a>
+
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Talent calculator</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" data-active="true">Simulate my character</a>
+
+<a class="nav-link" href="../../../wow-forever/glossaire/" >Spell glossary</a>
+<a class="nav-link" href="../../../wow-forever/simulateur/" >DPS simulator</a>
+<a class="nav-link" href="../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <span class="title">World of Warcraft: Forever</span>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">Beta: Forever</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/">Overview</a>
+    <a href="../../../wow-forever/beta/">Beta</a>
+    <a href="../../../wow-forever/sortie/">Release</a>
+    <a href="../../../wow-forever/editions/">Editions &amp; prices</a>
+    <a href="../../../wow-forever/classes/">Classes &amp; races</a>
+    
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Class guides</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/guides/">All classes</a>
+    <details class="nav-sub"><summary>Druid</summary>
+      <a href="../../../wow-forever/guides/druid/">Overview</a>
+      <a href="../../../wow-forever/guides/druid/balance/">Balance</a><a href="../../../wow-forever/guides/druid/feral-combat/">Feral Combat</a><a href="../../../wow-forever/guides/druid/restoration/">Restoration</a>
+    </details><details class="nav-sub"><summary>Hunter</summary>
+      <a href="../../../wow-forever/guides/hunter/">Overview</a>
+      <a href="../../../wow-forever/guides/hunter/beast-mastery/">Beast Mastery</a><a href="../../../wow-forever/guides/hunter/marksmanship/">Marksmanship</a><a href="../../../wow-forever/guides/hunter/survival/">Survival</a>
+    </details><details class="nav-sub"><summary>Mage</summary>
+      <a href="../../../wow-forever/guides/mage/">Overview</a>
+      <a href="../../../wow-forever/guides/mage/arcane/">Arcane</a><a href="../../../wow-forever/guides/mage/fire/">Fire</a><a href="../../../wow-forever/guides/mage/frost/">Frost</a>
+    </details><details class="nav-sub"><summary>Paladin</summary>
+      <a href="../../../wow-forever/guides/paladin/">Overview</a>
+      <a href="../../../wow-forever/guides/paladin/holy/">Holy</a><a href="../../../wow-forever/guides/paladin/protection/">Protection</a><a href="../../../wow-forever/guides/paladin/retribution/">Retribution</a>
+    </details><details class="nav-sub"><summary>Priest</summary>
+      <a href="../../../wow-forever/guides/priest/">Overview</a>
+      <a href="../../../wow-forever/guides/priest/discipline/">Discipline</a><a href="../../../wow-forever/guides/priest/holy/">Holy</a><a href="../../../wow-forever/guides/priest/shadow/">Shadow</a>
+    </details><details class="nav-sub"><summary>Rogue</summary>
+      <a href="../../../wow-forever/guides/rogue/">Overview</a>
+      <a href="../../../wow-forever/guides/rogue/assassination/">Assassination</a><a href="../../../wow-forever/guides/rogue/combat/">Combat</a><a href="../../../wow-forever/guides/rogue/subtlety/">Subtlety</a>
+    </details><details class="nav-sub"><summary>Shaman</summary>
+      <a href="../../../wow-forever/guides/shaman/">Overview</a>
+      <a href="../../../wow-forever/guides/shaman/elemental/">Elemental</a><a href="../../../wow-forever/guides/shaman/enhancement/">Enhancement</a><a href="../../../wow-forever/guides/shaman/restoration/">Restoration</a>
+    </details><details class="nav-sub"><summary>Warlock</summary>
+      <a href="../../../wow-forever/guides/warlock/">Overview</a>
+      <a href="../../../wow-forever/guides/warlock/affliction/">Affliction</a><a href="../../../wow-forever/guides/warlock/demonology/">Demonology</a><a href="../../../wow-forever/guides/warlock/destruction/">Destruction</a>
+    </details><details class="nav-sub"><summary>Warrior</summary>
+      <a href="../../../wow-forever/guides/warrior/">Overview</a>
+      <a href="../../../wow-forever/guides/warrior/arms/">Arms</a><a href="../../../wow-forever/guides/warrior/fury/">Fury</a><a href="../../../wow-forever/guides/warrior/protection/">Protection</a>
+    </details>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Professions</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/professions/">All professions</a>
+    <a href="../../../wow-forever/professions/alchemy/">Alchemy</a><a href="../../../wow-forever/professions/blacksmithing/">Blacksmithing</a><a href="../../../wow-forever/professions/enchanting/">Enchanting</a><a href="../../../wow-forever/professions/engineering/">Engineering</a><a href="../../../wow-forever/professions/leatherworking/">Leatherworking</a><a href="../../../wow-forever/professions/tailoring/">Tailoring</a><a href="../../../wow-forever/professions/cooking/">Cooking</a><a href="../../../wow-forever/professions/first-aid/">First Aid</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Dungeons</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/dungeons/">All dungeons</a>
+    <a href="../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a><a href="../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a><a href="../../../wow-forever/dungeons/uldaman/">Uldaman</a><a href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a><a href="../../../wow-forever/dungeons/maraudon/">Maraudon</a><a href="../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a><a href="../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a><a href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a><a href="../../../wow-forever/dungeons/stratholme/">Stratholme</a><a href="../../../wow-forever/dungeons/scholomance/">Scholomance</a><a href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a><a href="../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Raids</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/raids/">All raids</a>
+    <a href="../../../wow-forever/raids/molten-core/">Molten Core</a>
+  </div>
+</details>
+<details class="nav-dropdown" data-active="true">
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Talent calculator</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simulate my character</a>
+    
+  </div>
+</details>
+<a class="nav-link" href="../../../wow-forever/glossaire/" >Spell glossary</a>
+<a class="nav-link" href="../../../wow-forever/simulateur/" >DPS simulator</a>
+<a class="nav-link" href="../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+
+  </div>
+</div>
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../en/">Home</a></li><li><a href="../../../en/wow-forever/">World of Warcraft: Forever</a></li><li><span aria-current="page">Simulate my character</span></li>
+</ol></nav>
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">World of Warcraft: Forever · Simulate my character</div>
+    <h1 class="ph-title">Simulate my character</h1>
+    <p class="ph-lede">Paste the BrokenMeta addon export: this page simulates your character&#39;s DPS with its real stats and weapons, then compares it with the best-in-slot (BiS) level-20 gear for its spec. Same engine as our DPS ranking.</p>
+    
+    
+  </div>
+</section>
+
+
+<h2 class="fiche-section-title">How it works</h2>
+<ol class="ms-steps">
+  <li>Download the <strong>BrokenMeta</strong> addon and unzip it into World of Warcraft's <code>_classic_beta_\Interface\AddOns</code> folder, then restart the game.
+    <a class="ms-dl" href="../../../assets/downloads/BrokenMeta-0.4.0.zip" download>Download the BrokenMeta addon 0.4.0 (.zip)</a></li><li>In game, remove temporary buffs (they inflate the character sheet stats), then type <code>/bmw export</code>.</li><li>Copy the text with Ctrl+C, paste it below and run the simulation.</li>
+</ol>
+
+<div id="msApp" data-base="../../../assets/wowsim/" data-lang="en" data-manifest="4d6df48f93" data-addon="0.4.0"
+     data-worker="../../../assets/js/wow-mysim-worker.js?v=bd5ebfe58b">
+  <div class="tc-field">
+    <label for="msExport">Addon export (/bmw export)</label>
+    <textarea id="msExport" class="ms-export" rows="8" spellcheck="false" autocomplete="off"
+              placeholder="format=BMW1&#10;class=...&#10;spec=...&#10;..."></textarea>
+  </div>
+  <div class="ms-actions">
+    <button type="button" id="msRun" class="ms-btn">Simulate</button>
+    <label class="ms-spec-pick" hidden>Specialization: <select id="msSpec"></select></label>
+    <span id="msStatus" class="ms-status" role="status" aria-live="polite"></span>
+  </div>
+  <p class="wow-note">The simulation runs entirely in your browser: the export is never sent to any server. It contains no character name and no realm. The first run downloads the Python engine (about 11 MB); later runs are instant.</p>
+  <section id="msResult" class="ms-result" hidden></section>
+</div>
+
+<script type="application/json" id="msI18n">{"st_engine": "Loading the simulation engine (first run: a few seconds)\u2026", "st_files": "Loading spell data\u2026", "st_sim": "Simulating\u2026", "st_crash": "The simulation failed. Reload the page and try again.", "st_err_empty": "Paste the addon export first.", "st_err_bad_format": "This isn't a BrokenMeta export (it must start with format=BMW1). Use /bmw export in game.", "st_err_no_class": "The export has no class.", "st_err_class_not_simulated": "No DPS spec of this class is simulated yet.", "tank": "tank", "level": "Level", "you": "Your character", "bis": "Best-in-slot (BiS) lvl 20", "diff_up": "{pct}% above the simulated BiS.", "diff_down": "{pct}% below the simulated BiS.", "breakdown_h2": "Where your DPS comes from", "total": "Total", "stats_h2": "Stats used by the simulation", "stat_ap": "Attack power", "stat_sp": "Spell power", "stat_crit": "Critical strike", "stat_hit": "Hit chance", "stat_mh": "Main-hand weapon (damage \u00b7 speed)", "stat_oh": "Off-hand weapon (damage \u00b7 speed)", "warn_level": "Your character isn't level 20: the simulator is calibrated for level 20, so treat the result as indicative.", "warn_buffs": "Buffs were active at export time: they inflate your stats. For an accurate result, export without buffs.", "warn_no_weapon_data": "The export has no weapon damage (addon older than 0.3): the BiS weapon was used instead. Update the addon.", "update": "A newer version of the addon is available ({old} \u2192 {new}):", "method_note": "{n} simulated {s}-second single-target fights, with the same random rolls for your character and the BiS: the gap comes only from stats and weapons."}</script>
+<script type="application/json" id="msSpecs">{"warrior_fury": {"class_name": "Warrior", "spec_name": "Fury", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d"}, "warrior_arms": {"class_name": "Warrior", "spec_name": "Arms", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d"}, "warrior_protection": {"class_name": "Warrior", "spec_name": "Protection", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d"}, "rogue_combat": {"class_name": "Rogue", "spec_name": "Combat", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468"}, "rogue_assassination": {"class_name": "Rogue", "spec_name": "Assassination", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468"}, "rogue_subtlety": {"class_name": "Rogue", "spec_name": "Subtlety", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468"}, "paladin_retribution": {"class_name": "Paladin", "spec_name": "Retribution", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_paladin.jpg", "class_color": "#f48cba"}, "paladin_protection": {"class_name": "Paladin", "spec_name": "Protection", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_paladin.jpg", "class_color": "#f48cba"}, "shaman_enhancement": {"class_name": "Shaman", "spec_name": "Enhancement", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_shaman.jpg", "class_color": "#0070dd"}, "shaman_elemental": {"class_name": "Shaman", "spec_name": "Elemental", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_shaman.jpg", "class_color": "#0070dd"}, "mage_fire": {"class_name": "Mage", "spec_name": "Fire", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb"}, "mage_arcane": {"class_name": "Mage", "spec_name": "Arcane", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb"}, "mage_frost": {"class_name": "Mage", "spec_name": "Frost", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb"}, "priest_shadow": {"class_name": "Priest", "spec_name": "Shadow", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_priest.jpg", "class_color": "#ffffff"}, "druid_balance": {"class_name": "Druid", "spec_name": "Balance", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a"}, "druid_feral": {"class_name": "Druid", "spec_name": "Feral Combat", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a"}, "druid_feral_tank": {"class_name": "Druid", "spec_name": "Feral Combat", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a"}, "warlock_affliction": {"class_name": "Warlock", "spec_name": "Affliction", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee"}, "warlock_demonology": {"class_name": "Warlock", "spec_name": "Demonology", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee"}, "warlock_destruction": {"class_name": "Warlock", "spec_name": "Destruction", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee"}, "hunter_marksmanship": {"class_name": "Hunter", "spec_name": "Marksmanship", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg", "class_color": "#aad372"}, "hunter_beast_mastery": {"class_name": "Hunter", "spec_name": "Beast Mastery", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg", "class_color": "#aad372"}, "hunter_survival": {"class_name": "Hunter", "spec_name": "Survival", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg", "class_color": "#aad372"}}</script>
+<script src="../../../assets/js/wow-mysim.js?v=bd5ebfe58b" defer></script>
+
+<h2 class="fiche-section-title">What the simulation does not model yet</h2>
+<ul class="ms-limits">
+  <li>Only level 20 (the beta&#39;s current cap) is calibrated: above it, rotations and spell ranks no longer match.</li><li>The export carries all your talents, but the simulator only applies the few talents whose numeric effect is sourced.</li><li>No mana regeneration or shortage, no wand, no Warlock pet: the same limits as our DPS ranking.</li><li>Stats come from the character sheet at export time: an active buff skews them.</li>
+</ul>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../">Comp List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossary</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyze your profile</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Discord Alerts</a>
+      <a href="../../../methodologie/">Methodology</a>
+      <a href="../../../confidentialite/">Privacy</a>
+      <a href="../../../cgu/">Terms</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer"></p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

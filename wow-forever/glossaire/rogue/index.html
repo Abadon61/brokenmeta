@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Glossaire des sorts Voleur WoW: Forever">
 <meta name="twitter:description" content="Coûts, dégâts et temps de recharge réels des sorts Voleur dans WoW: Forever, sourcés depuis Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
 
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
   </div>
 </details>
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -578,7 +588,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Only the Combat single-target rotation pieces are covered (Sinister Strike, Backstab, Eviscerate, Slice and Dice). Ambush (stealth opener), Instant Poison (weapon buff named in the real rotation), Gouge, Kick, Sprint, and all Assassination/Subtlety trees are not looked up.</li><li>French names for Backstab, Eviscerate and Slice and Dice were NOT found from a reliable source this pass (only Sinister Strike&#39;s real FR name, &#34;Attaque pernicieuse&#34;, is confirmed, via data/wow_talents/rogue.json&#39;s own Improved Sinister Strike entry) -- left in English with a note rather than guessed.</li><li>Eviscerate&#39;s Attack-Power scaling coefficient: the tooltip states the ability&#39;s damage &#34;increased by Attack Power&#34; but the exact coefficient wasn&#39;t visible in the effect breakdown captured this pass (unlike e.g. Mage spells, which show an explicit &#34;SP mod: X&#34;).</li><li>Combat&#39;s own Dual Wield Specialization (n105740, Combat tree) wasn&#39;t cross-checked against Warrior&#39;s for whether Rogue&#39;s version has the same real values -- don&#39;t assume they match.</li><li>Real, sourced finding (2026-09-25): Assassination and Subtlety&#39;s own level-20 guides describe the SAME sustained single-target core rotation as Combat -- build combo points with Backstab (behind target) or Sinister Strike, spend at 5 combo points on Eviscerate or Slice and Dice. Each spec&#39;s real differences are its talents (now catalogued below), a one-time stealth opener (Ambush, Subtlety/Assassination), and poisons (Instant Poison, all three specs -- still unsourced). None of those are modeled by this project&#39;s simulator yet, so all three specs currently produce the same simulated number: a real, disclosed limitation, not a mistake. Ghostly Strike (Subtlety&#39;s own granted ability, a non-positional Backstab alternative) is real but its own cost/cooldown/damage aren&#39;t sourced yet.</li></ul>
 
 
-<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;optimiseur de personnage utilisent ces mêmes données.</p>
+<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;Item builder utilisent ces mêmes données.</p>
 <p><a href="../../../wow-forever/glossaire/">← Retour au glossaire</a></p>
 
 </div>
@@ -627,10 +637,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

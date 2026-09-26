@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Glossaire des sorts Chasseur WoW: Forever">
 <meta name="twitter:description" content="Coûts, dégâts et temps de recharge réels des sorts Chasseur dans WoW: Forever, sourcés depuis Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
 
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
   </div>
 </details>
-<a class="nav-link" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../wow-forever/glossaire/" data-active="true">Glossaire des sorts</a>
-<a class="nav-link" href="../../../wow-forever/optimisation/" >Optimisation de personnage</a>
 <a class="nav-link" href="../../../wow-forever/simulateur/" >Simulateur DPS</a>
 <a class="nav-link" href="../../../wow-forever/progression/" >Progression 1-60</a>
 <a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
@@ -450,7 +460,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Pet damage is entirely unsourced: the guide&#39;s own text says &#34;the majority of a Hunter&#39;s power comes from both you and your pet&#39;s basic attacks&#34; -- likely a large fraction of real total DPS, and completely out of scope for this pass (would need the pet&#39;s own stats, AI, and abilities).</li><li>Auto Shot itself (the ranged weapon&#39;s own auto-attack) isn&#39;t a distinct spell with tooltip damage numbers the way a cast ability is -- it&#39;s driven by the equipped ranged weapon&#39;s own damage/speed, the same way melee auto-attacks are handled by a simulator&#39;s own logic rather than a glossary entry. Noted here, not modeled as an ability.</li><li>Hunter&#39;s Mark, Aspect of the Hawk, Disengage, Mend Pet (all named in the real rotation) not looked up.</li><li>Real, sourced finding (2026-09-25): ALL THREE Hunter specs&#39; own guides converge on the exact same real level-20 single-target rotation -- Serpent Sting, then Aimed Shot on cooldown, Auto Shot filler, Arcane Shot if mana allows. Survival&#39;s own guide is explicit about this: &#34;At Level 20, regardless of what talents you choose, this is the optimal choice&#34; (the ranged rotation) -- its melee alternative (Raptor Strike on cooldown) is presented as the deliberately worse option, not sourced here. Beast Mastery&#39;s own guide describes the identical ranged rotation too. Spec choice at level 20 is therefore almost entirely about talents and pet investment, not the rotation itself -- all 3 specs intentionally produce the same simulated number in this project&#39;s engine, a disclosed finding, not a duplication error.</li><li>Beast Mastery&#39;s real level-20 build: 5/5 Deadly Aspects, 2/2 Pathfinding (both confirmed firm picks) -- the guide explicitly leaves its remaining 4 points &#34;far more subjective&#34; with several named alternatives (Focused Fire, Improved Revive Pet, Hawk Eye, Bestial Swiftness) and no single committed combination, so only the 2 firm talents are catalogued below.</li><li>Survival&#39;s real level-20 build (talents.survival below) is explicitly framed by its own guide as NOT a damage build (&#34;you should not go Survival if all you care about is damage&#34;) -- Deflection, Entrapment and Deterrence are defensive/utility talents; a 4th (&#34;Savage Strikes&#34;, 2/2) is required by the real 11-point total but isn&#39;t individually named in the guide&#39;s own prose.</li></ul>
 
 
-<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;optimiseur de personnage utilisent ces mêmes données.</p>
+<p class="wow-note">Voir aussi : le simulateur de DPS et l&#39;Item builder utilisent ces mêmes données.</p>
 <p><a href="../../../wow-forever/glossaire/">← Retour au glossaire</a></p>
 
 </div>
@@ -499,10 +509,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

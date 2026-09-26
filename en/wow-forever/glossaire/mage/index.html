@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever Mage spell glossary">
 <meta name="twitter:description" content="Real Mage spell costs, damage and cooldowns in WoW: Forever, sourced from Wowhead.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=af4ff9681b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=af4ff9681b">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=bd5ebfe58b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=bd5ebfe58b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=af4ff9681b">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=bd5ebfe58b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -200,9 +200,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/raids/" >All raids</a>
 <a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/raids/molten-core/">Molten Core</a>
 
-<a class="nav-link" href="../../../../wow-forever/talents/" >Talent calculator</a>
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/talents/" >Talent calculator</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/simuler-mon-personnage/" >Simulate my character</a>
+
 <a class="nav-link" href="../../../../wow-forever/glossaire/" data-active="true">Spell glossary</a>
-<a class="nav-link" href="../../../../wow-forever/optimisation/" >Character optimizer</a>
 <a class="nav-link" href="../../../../wow-forever/simulateur/" >DPS simulator</a>
 <a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
 <a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
@@ -294,9 +297,16 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../../../../wow-forever/raids/molten-core/">Molten Core</a>
   </div>
 </details>
-<a class="nav-link" href="../../../../wow-forever/talents/" >Talent calculator</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../wow-forever/talents/">Talent calculator</a>
+    <a href="../../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../../wow-forever/simuler-mon-personnage/">Simulate my character</a>
+    
+  </div>
+</details>
 <a class="nav-link" href="../../../../wow-forever/glossaire/" data-active="true">Spell glossary</a>
-<a class="nav-link" href="../../../../wow-forever/optimisation/" >Character optimizer</a>
 <a class="nav-link" href="../../../../wow-forever/simulateur/" >DPS simulator</a>
 <a class="nav-link" href="../../../../wow-forever/progression/" >Leveling 1-60</a>
 <a class="nav-link" href="../../../../wow-forever/faq/" >FAQ</a>
@@ -571,7 +581,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li>Only the Fire tree&#39;s single-target rotation pieces are covered (Fireball, Fire Blast, Pyroblast, Wake of Fire, Ignite, Improved Fireball). Utility/defensive/AoE spells named in Icy Veins&#39; guide (Frostbolt, Polymorph, Counterspell, Frost Nova, Blast Wave, Arcane Explosion, Flamestrike, Scorch, Improved Scorch, armors, wards) are not looked up.</li><li>Frostfire Bolt (replaces Fireball at level 40) not looked up -- out of scope for a level-20 model anyway.</li><li>Wand damage: Icy Veins repeatedly says wand damage is very strong at low levels and should be used over spells when mana-inefficient -- not sourced, and not modeled by anything in this project yet.</li><li>No real armor-mitigation-equivalent needed here (casters ignore armor), but spell resistance / partial resists on Fire damage against resistant targets isn&#39;t sourced either.</li><li>Real, sourced finding (2026-09-25): Arcane and Frost&#39;s own level-20 guides both describe a rotation that ISN&#39;T actually usable yet at the beta&#39;s level-20 cap. Arcane&#39;s whole single-target priority depends on Missile Barrage, which its own guide text says &#34;will only be available from Level 24 on&#34; -- mentioned early so players learn the concept, not because it&#39;s usable at 20. Frost&#39;s headline single-target spell, Ice Lance (wowhead_spell_id 400640), requires character level 28 (confirmed on its own tooltip) despite the guide already investing all 11 points toward it (Frostbite/Ice Shards exist specifically to buff it) -- the level-20 payoff is entirely in Frostbolt&#39;s chill uptime and future-proofing, not a distinct level-20 nuke. Both specs&#39; real, actually-castable level-20 damage kit therefore reduces to Frostbolt (shared with every Mage spec, not Fire-tree-exclusive) plus unsourced wand damage -- a real limitation of the level-20 cap, not a gap in this research pass.</li><li>Frostbolt (below) uses Rank 3&#39;s real tooltip (Requires level 14, confirmed via Wowhead&#39;s own trainer list). Community rank-ladder data (wow-forever.gg) confirms a Rank 4 exists at exactly the level-20 cap, but its own individual tooltip wasn&#39;t re-fetched this pass -- Rank 3&#39;s real, sourced values are used as a close, disclosed approximation rather than guessing Rank 4&#39;s numbers.</li></ul>
 
 
-<p class="wow-note">See also: the DPS simulator and character optimizer use this same data.</p>
+<p class="wow-note">See also: the DPS simulator and the Item builder use this same data.</p>
 <p><a href="../../../../wow-forever/glossaire/">← Back to glossary</a></p>
 
 </div>
@@ -620,10 +630,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=af4ff9681b" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=af4ff9681b" defer></script>
-<script src="../../../../assets/js/site-search.js?v=af4ff9681b" defer></script>
-<script src="../../../../assets/js/favorites.js?v=af4ff9681b" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=bd5ebfe58b" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=bd5ebfe58b" defer></script>
+<script src="../../../../assets/js/site-search.js?v=bd5ebfe58b" defer></script>
+<script src="../../../../assets/js/favorites.js?v=bd5ebfe58b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

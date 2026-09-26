@@ -1,0 +1,93 @@
+{
+  "class": "priest",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. This file covers only the Shadow single-target rotation pieces reachable in an 11-point level-20 build, like the Mage and Rogue passes.",
+  "gaps": [
+    "Power Word: Fortitude, Inner Fire, Power Word: Shield (buffs named in the real rotation) not looked up.",
+    "Wand Specialization, Twilight Focus, Spirit Tap talents' exact numeric effects not looked up (only their names/point allocation are confirmed from the real build).",
+    "\"talents.discipline\" and \"talents.holy\" only include the 2 talents actually taken in the real level-20 build (Wand Specialization, Twilight Focus) -- the rest of those trees are not catalogued at all, unlike Warrior/Mage/Rogue where the full non-taken tree was at least listed with dps_relevant flags.",
+    "Real level-20 build note: this build spends points in ALL THREE trees (2 Discipline + 2 Holy + 7 Shadow), unlike every other class's build sourced so far, which stayed in one primary tree. Not yet clear if this is specific to Priest's early leveling or a broader pattern worth re-checking on other classes."
+  ],
+  "abilities": [
+    {
+      "id": "priest_shadow_word_pain",
+      "wowhead_spell_id": 970,
+      "wowhead_talent_id": "n105830",
+      "name": { "en": "Shadow Word: Pain", "fr": "Mot de l'ombre : Douleur" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 18,
+      "resource_cost": { "mana": 95 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "shadow",
+      "mechanic": null,
+      "flags": ["periodic_can_crit", "dispel_type_magic"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 26). Real single-target priority (Icy Veins) applies this after Mind Blast, near the end of a short fight -- consistent with a DoT that needs time to pay off.",
+      "source_url": "https://www.wowhead.com/forever/spell=970/shadow-word-pain",
+      "effects": [
+        { "kind": "periodic_damage", "total_damage": 108, "duration_sec": 18, "tick_interval_sec": 3, "damage_per_tick": 19, "sp_coeff": 0.20, "can_crit": true }
+      ]
+    },
+    {
+      "id": "priest_mind_blast",
+      "wowhead_spell_id": 8102,
+      "name": { "en": "Mind Blast", "fr": "Explosion de l'esprit" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 2,
+      "max_rank_total": 9,
+      "min_level": 16,
+      "resource_cost": { "mana": 80 },
+      "cooldown_sec": 8,
+      "gcd_sec": 1.5,
+      "cast_time": "1.5 sec",
+      "school": "shadow",
+      "mechanic": null,
+      "flags": ["high_threat"],
+      "notes": "Rank 2 is the max rank trainable by level 20 (Rank 3 requires level 22). Real single-target priority (Icy Veins) casts this right after Smite (the opener) and before Shadow Word: Pain.",
+      "source_url": "https://www.wowhead.com/forever/spell=8102/mind-blast",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [70, 75], "sp_coeff": 0.429 }
+      ]
+    },
+    {
+      "id": "priest_smite",
+      "wowhead_spell_id": 585,
+      "name": { "en": "Smite", "fr": "Châtiment" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": "unknown (next found rank requires level 30)",
+      "min_level": 1,
+      "resource_cost": { "mana": 20 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "1.5 sec",
+      "school": "holy",
+      "mechanic": null,
+      "flags": [],
+      "notes": "A Holy-school spell, not Shadow -- real, sourced quirk of the level-20 rotation: Shadowform (the capstone that would make Shadow spells the whole kit) is nowhere near reachable at 11 points, so Icy Veins' real rotation opens with this basic Holy nuke rather than a Shadow spell. Rank 1 is confirmed the max reachable by level 20 (the only other rank found, id 1004, requires level 30); ranks between weren't individually checked, so max_rank_total is left descriptive rather than a confirmed number.",
+      "source_url": "https://www.wowhead.com/forever/spell=585/smite",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [16, 20], "sp_coeff": 0.429 }
+      ]
+    }
+  ],
+  "talents": {
+    "shadow": [
+      { "id": "priest_spirit_tap", "wowhead_talent_id": "n105833", "name": { "en": "Spirit Tap", "fr": "Connexion spirituelle" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (\"your only source of extra mana regen early on\", per Icy Veins -- a sustain/uptime enabler, not a direct damage talent, but DPS-relevant since running out of mana ends the rotation)." },
+      { "id": "priest_improved_shadow_word_pain", "wowhead_talent_id": "n105830", "name": { "en": "Improved Shadow Word: Pain", "fr": "Mot de l'ombre : Douleur amélioré" }, "row": 2, "col": 3, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": "priest_shadow_word_pain", "dps_relevant": true, "notes": "Real level-20 build takes 2/2 (\"extra damage\", per Icy Veins; exact per-rank amount not looked up)." }
+    ],
+    "discipline": [
+      { "id": "priest_wand_specialization", "wowhead_talent_id": "n105850", "name": { "en": "Wand Specialization", "fr": "Spécialisation Baguette" }, "row": 1, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 2/2 -- Icy Veins calls this \"the big DPS boost\" and takes it first, before any Shadow talent. Improves wand (ranged auto-attack) damage; exact numeric effect not looked up." }
+    ],
+    "holy": [
+      { "id": "priest_twilight_focus", "wowhead_talent_id": "n105867", "name": { "en": "Twilight Focus", "fr": "Concentration crépusculaire" }, "row": 1, "col": 1, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": null, "notes": "Real level-20 build takes 2/3, but only \"if you find yourself playing mostly solo\" per Icy Veins -- an alternative final 2 points exist (Blackout for PvP, Shadow Reach for range), so this isn't as fixed a pick as the rest of the build. Effect not looked up." }
+    ]
+  }
+}
