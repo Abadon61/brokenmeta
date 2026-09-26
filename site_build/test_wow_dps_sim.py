@@ -145,6 +145,54 @@ class TestNoNullAbilityNames(unittest.TestCase):
                         self.assertTrue(len(val) > 0, f"{class_id}.{ability['id']}.name.{lang} is empty")
 
 
+class TestNoOverlappingDotChains(unittest.TestCase):
+    """Regression test for the DoT-epoch bug (2026-09-26): a maintain_dot ability's simulated
+    per-source DPS must never exceed its own theoretical maximum (every tick landing, every tick
+    critting) -- the pre-fix bug let a refresh landing just after the previous application's
+    tracked expiry leave the OLD tick chain alive in parallel with the new one, compounding a
+    single DoT's damage several-fold over a long fight (caught via Warlock Corruption reporting
+    67+ DPS alone, and Hunter Serpent Sting reporting ~17 DPS, when 65 damage/15s and 60
+    damage/15s respectively cap out far lower even with every tick critting)."""
+
+    def test_dot_sources_never_exceed_theoretical_max(self):
+        for spec_id, profile in w.ROTATIONS.items():
+            glossary = wow_spells.load_class(profile.get("glossary", spec_id))
+            abilities = {a["id"]: a for a in (glossary or {}).get("abilities", [])}
+            stats = w.bis_stats_for_spec(spec_id)
+            dps, breakdown = w.run_class(spec_id, iterations=150, fight_len=300.0)
+            for aid, ab in abilities.items():
+                effects = ab.get("effects", [])
+                periodic = next((e for e in effects if e["kind"] == "periodic_damage"), None)
+                if not periodic or aid not in breakdown:
+                    continue
+                with self.subTest(spec=spec_id, ability=aid):
+                    sp, ap = stats["sp"], stats["ap"]
+                    dmg_mult = profile.get("talent_mods", {}).get(aid, {}).get("damage_mult", 1.0)
+                    per_tick = periodic.get("damage_per_tick")
+                    if per_tick is None:
+                        ticks = round(periodic["duration_sec"] / periodic["tick_interval_sec"])
+                        per_tick = periodic["total_damage"] / ticks
+                    per_tick = (per_tick + sp * periodic.get("sp_coeff", 0)) * dmg_mult
+                    # Some abilities (e.g. Fireball) also carry their own direct_damage effect
+                    # under the SAME ability id, and breakdown[aid] sums both components together
+                    # -- so the theoretical max must too, or a real direct-hit contribution reads
+                    # as a false "overlapping DoT chain" positive.
+                    direct = next((e for e in effects if e["kind"] == "direct_damage"), None)
+                    direct_max = 0.0
+                    if direct:
+                        base_max = max(direct["dmg_range"]) if "dmg_range" in direct else direct.get("flat", 0)
+                        base_max += ap * direct.get("ap_coeff", 0) + sp * direct.get("sp_coeff", 0)
+                        # One direct hit per GCD at best, roughly every 1.5s.
+                        direct_max = (base_max * dmg_mult * 2.0) / 1.5
+                    max_dps_if_always_up_and_always_crit = ((per_tick * 2.0) / periodic["tick_interval_sec"]) + direct_max
+                    self.assertLessEqual(
+                        breakdown[aid], max_dps_if_always_up_and_always_crit * 1.05,  # 5% RNG slack
+                        f"{spec_id}.{aid}: simulated {breakdown[aid]:.2f} DPS exceeds the "
+                        f"theoretical max of {max_dps_if_always_up_and_always_crit:.2f} DPS "
+                        f"(100% uptime, every tick/hit critting) -- possible overlapping DoT chains",
+                    )
+
+
 class TestBuildRankingShape(unittest.TestCase):
     """build_ranking() must return exactly one row per ROTATIONS entry, sorted descending by DPS,
     each with the fields the homepage template and guide pages actually read."""

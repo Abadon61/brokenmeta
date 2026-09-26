@@ -142,6 +142,7 @@ class Sim:
         self.cooldowns = {}
         self.gcd_ready = 0.0
         self.dot_ends = {}
+        self.dot_epoch = {}
         self.buff_ends = {}
         self.once_used = set()
         self.dodge_window_until = -1.0
@@ -193,30 +194,51 @@ class Sim:
         if res in ("rage", "energy") and res in cost:
             self.resource -= cost[res]
 
+    def talent_mod(self, aid):
+        """Real, quantified talent-point modifiers for this spec's own build (see ROTATIONS'
+        "talent_mods" -- only added where the exact numeric effect is sourced from the real
+        talent tooltip AND confirmed to be in that spec's own real 11-point build, not just
+        "a talent that exists somewhere in the tree"). Empty dict if this spec has none for aid."""
+        return self.profile.get("talent_mods", {}).get(aid, {})
+
     def lockout(self, aid):
         ab = self.abilities[aid]
-        return max(parse_cast_time(ab.get("cast_time")), ab.get("gcd_sec", 1.5) or 0)
+        override = self.talent_mod(aid).get("cast_time_override")
+        cast_time = override if override is not None else parse_cast_time(ab.get("cast_time"))
+        return max(cast_time, ab.get("gcd_sec", 1.5) or 0)
 
     def apply_effects(self, aid, t, combo_points_used=None):
         ab = self.abilities[aid]
         sp, crit_frac = self.stats["sp"], self.stats["crit"]
+        dmg_mult = self.talent_mod(aid).get("damage_mult", 1.0)
         for eff in ab.get("effects", []):
             kind = eff["kind"]
             if kind == "direct_damage":
                 dmg, _ = resolve_direct_damage(eff, self.stats["ap"], sp, crit_frac)
-                self.add_dmg(dmg, aid)
+                self.add_dmg(dmg * dmg_mult, aid)
             elif kind == "normalized_weapon_damage":
                 dmg, _ = resolve_normalized_weapon_damage(eff, self.avg_hit(0), sp, crit_frac)
-                self.add_dmg(dmg, aid)
+                self.add_dmg(dmg * dmg_mult, aid)
             elif kind == "periodic_damage":
                 duration, interval, per_tick, _ = resolve_periodic_setup(eff, sp)
-                was_active = t <= self.dot_ends.get(aid, -1.0)
+                per_tick *= dmg_mult
                 self.dot_ends[aid] = t + duration
-                if not was_active:
-                    self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick})
-                    if self.trace is not None:
-                        name = self.abilities.get(aid, {}).get("name", {}).get("fr") or aid
-                        self.trace.append(f"{self._now:6.2f}s  {name:28s} posé (DoT, {duration:.0f}s)")
+                # Every (re)application starts a fresh epoch and always (re)schedules its own tick
+                # chain -- real bug found 2026-09-26: the old "if not was_active: push" logic
+                # assumed a refresh always lands before the previous application's tracked expiry,
+                # but a refresh landing even slightly AFTER it (was_active reads False) used to
+                # leave the ORIGINAL tick chain alive (its own `t <= dot_ends` check still passes,
+                # since dot_ends had just been pushed further out by the new application) --
+                # spawning a second, permanent, parallel tick chain. Repeated a few times this
+                # compounded a DoT's real DPS several-fold. The epoch counter makes a tick chain
+                # from an earlier application stop rescheduling itself the moment a newer
+                # application exists, regardless of exact timing.
+                self.dot_epoch[aid] = self.dot_epoch.get(aid, 0) + 1
+                epoch = self.dot_epoch[aid]
+                self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick, "epoch": epoch})
+                if self.trace is not None:
+                    name = self.abilities.get(aid, {}).get("name", {}).get("fr") or aid
+                    self.trace.append(f"{self._now:6.2f}s  {name:28s} posé (DoT, {duration:.0f}s)")
             elif kind == "resource_generation" and eff.get("resource") == "combo_points":
                 self.combo_points = min(5, self.combo_points + eff.get("immediate", 0))
             elif kind == "combo_point_scaling":
@@ -230,10 +252,9 @@ class Sim:
                     duration = eff.get("duration_sec", 12)
                     ticks = round(duration / interval)
                     per_tick = total / ticks
-                    was_active = t <= self.dot_ends.get(aid, -1.0)
                     self.dot_ends[aid] = t + duration
-                    if not was_active:
-                        self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick})
+                    self.dot_epoch[aid] = self.dot_epoch.get(aid, 0) + 1
+                    self.push(t + interval, "dot_tick", {"aid": aid, "interval": interval, "per_tick": per_tick, "epoch": self.dot_epoch[aid]})
                 elif "base" in eff:
                     self.buff_ends[aid] = t + eff["base"] + eff["per_point"] * cp
                     self.swing_speed_mult = SND_HASTE_MULT
@@ -381,7 +402,8 @@ class Sim:
         lock = self.lockout(aid)
         if lock > 0:
             self.gcd_ready = t + lock
-        cd = self.abilities[aid].get("cooldown_sec")
+        cd_override = self.talent_mod(aid).get("cooldown_override")
+        cd = cd_override if cd_override is not None else self.abilities[aid].get("cooldown_sec")
         if cd:
             self.cooldowns[aid] = t + cd
             group = self.abilities[aid].get("cooldown_group")
@@ -406,7 +428,10 @@ class Sim:
                 self.do_swing(t, data["idx"])
             elif kind == "dot_tick":
                 aid = data["aid"]
-                if t <= self.dot_ends.get(aid, -1.0):
+                # Only the CURRENT epoch's chain keeps ticking -- a chain from a superseded
+                # application (see apply_effects' periodic_damage branch) silently stops here
+                # instead of continuing to fire in parallel with the new one.
+                if data.get("epoch") == self.dot_epoch.get(aid) and t <= self.dot_ends.get(aid, -1.0):
                     is_crit = roll(self.stats["crit"])
                     self.add_dmg(data["per_tick"] * (2.0 if is_crit else 1.0), aid, is_tick=True)
                     self.push(t + data["interval"], "dot_tick", data)
@@ -602,6 +627,16 @@ ROTATIONS = {
     "mage_fire": {
         "glossary": "mage", "resource": "mana", "role": "dps",
         "weapons": [],
+        # Real, sourced talent (2026-09-26): Wake of Fire 2/2 (Fire-tree only, per
+        # data/wow_talents/mage.json) reduces Fire Blast's cooldown by 2s at full rank --
+        # confirmed at rank 2/2 in mage_fire_blast's own glossary note ("Base cooldown is 8s;
+        # Wake of Fire (talented) reduces this to 6s"). The talent's other effect (+25-50% crit
+        # on the next Fire Blast after a kill) is a leveling-only proc that can't fire in a
+        # continuous single-boss fight -- same out-of-scope reasoning as Victory Rush -- so it's
+        # not modeled.
+        "talent_mods": {
+            "mage_fire_blast": {"cooldown_override": 6.0},
+        },
         "rotation": [
             {"ability": "mage_pyroblast", "kind": "once"},        # notes: "Single-Target Rotation opener"
             {"ability": "mage_fire_blast", "kind": "on_cooldown"},
@@ -667,6 +702,15 @@ ROTATIONS = {
     "warlock_affliction": {
         "glossary": "warlock", "resource": "mana", "role": "dps",
         "weapons": [],
+        # Real, sourced talent (2026-09-26): Improved Corruption 5/5 is confirmed in Affliction's
+        # own real build (data/wow_talents/warlock.json), and its exact rank-5 tooltip is "Reduces
+        # the casting time of your Corruption spell by 2 sec and increases the damage it deals by
+        # 10%" -- i.e. Corruption's 2s base cast becomes instant, +10% damage. NOT applied to
+        # Demonology/Destruction below: neither spec's own real build in that same talents file
+        # takes this talent (checked directly, not assumed).
+        "talent_mods": {
+            "warlock_corruption": {"cast_time_override": 0.0, "damage_mult": 1.10},
+        },
         "rotation": [
             {"ability": "warlock_immolate", "kind": "maintain_dot"},   # notes: "the first DoT applied, before Corruption"
             {"ability": "warlock_corruption", "kind": "maintain_dot"},
