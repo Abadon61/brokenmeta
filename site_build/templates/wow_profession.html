@@ -17,7 +17,8 @@
 <h2 class="fiche-section-title">{{ tx.sum_h2 }}</h2>
 <dl class="wow-facts">
   <div><dt>{{ tx.s_crafts }}</dt><dd class="nums">{{ T.crafts }}</dd></div>
-  <div><dt>{{ tx.s_cost }}</dt><dd>{{ tx.s_cost_wait }}</dd></div>
+  {% if prof.ah %}<div><dt>{{ tx.s_cost_ah }}</dt><dd><span class="nums">≈ {{ prof.ah.total_copper|wow_money(lang) }}</span>{% if prof.ah.unknown %}<br><small>{{ tx.s_cost_unknown.format(n=prof.ah.unknown) }}</small>{% endif %}</dd></div>
+  {% else %}<div><dt>{{ tx.s_cost }}</dt><dd>{{ tx.s_cost_wait }}</dd></div>{% endif %}
   {% if T.yellow_points or T.green_points %}<div><dt>{{ tx.s_risky }}</dt><dd class="nums">{{ T.yellow_points + T.green_points }}</dd></div>{% endif %}
   {% if T.unknown_plans %}<div><dt>{{ tx.s_unknown }}</dt><dd class="nums">{{ T.unknown_plans }}</dd></div>{% endif %}
 </dl>
@@ -38,17 +39,22 @@
 {% if T.yellow_points or T.green_points %}<p class="wow-note">{{ tx.risk_note }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.shop_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.shop_p }}</p>
+<p class="page-intro" style="margin-top:0">{{ tx.shop_p_ah if prof.ah else tx.shop_p }}</p>
+{% if prof.ah %}<p class="wow-note">{{ tx.ah_note.format(realm=prof.ah.realm, faction=tx.factions.get(prof.ah.faction, prof.ah.faction), date=prof.ah.scanned.strftime('%d/%m/%Y' if lang == 'fr' else '%Y-%m-%d')) }} <a href="{{ root }}wow-forever/partager-mes-donnees/">{{ tx.ah_note_link }}</a></p>{% endif %}
 <div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th>{{ tx.m_vprice }}</th></tr></thead>
-  <tbody>{% for i in prof.materials %}
+  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th>{{ tx.m_vprice }}</th>{% if prof.ah %}<th>{{ tx.m_ahprice }}</th><th>{{ tx.m_line }}</th>{% endif %}</tr></thead>
+  <tbody>{% for i in prof.materials %}{% set a = prof.ah.rows[i.id] if prof.ah else None %}
   <tr>
     <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a></td>
     <td class="nums">{{ i.count }}</td>
     <td>{{ tx.kinds_price[i.price.kind] }}</td>
     <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
+    {% if prof.ah %}<td class="nums">{% if a.ah_unit is not none %}{{ a.ah_unit|wow_money(lang) }}<br><small class="pf-listed{{ ' is-thin' if a.thin }}" {% if a.thin %}title="{{ tx.m_thin }}"{% endif %}>{{ tx.m_listed.format(n=a.listed) }}{% if a.thin %} ⚠{% endif %}</small>{% else %}{{ tx.m_none }}{% endif %}</td>
+    <td class="nums">{% if a.line is not none %}{{ a.line|wow_money(lang) }}{% if a.source == 'ah' and i.price.kind == 'vendor' %}<br><small>{{ tx.m_cheaper_ah }}</small>{% endif %}{% else %}<small>{{ tx.m_unknown }}</small>{% endif %}</td>{% endif %}
   </tr>{% endfor %}</tbody>
+  {% if prof.ah %}<tfoot><tr><th colspan="5">{{ tx.m_total }}</th><th class="nums">{{ prof.ah.reagents_copper|wow_money(lang) }}</th></tr></tfoot>{% endif %}
 </table></div>
+{% if prof.ah and prof.ah.rows.values()|selectattr('thin')|list %}<p class="wow-note">{{ tx.m_thin }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.ranks_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.ranks_p }}</p>
@@ -61,7 +67,7 @@
 <ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.limits_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.limits %}<li>{{ h }}</li>{% endfor %}{% if T.has_disenchant %}<li>{{ tx.limit_disenchant }}</li>{% endif %}</ul>
+<ul class="gd-list">{% for h in (tx.limits_ah if prof.ah else tx.limits) %}<li>{{ h }}</li>{% endfor %}{% if T.has_disenchant %}<li>{{ tx.limit_disenchant }}</li>{% endif %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.all_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.all_p.format(name=prof.name[lang]) }}</p>

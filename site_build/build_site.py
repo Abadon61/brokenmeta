@@ -46,6 +46,7 @@ import wow_talents  # noqa: E402
 import wow_guides  # noqa: E402
 import wow_spells  # noqa: E402
 import wow_dps_sim  # noqa: E402
+import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 
 # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
@@ -6659,6 +6660,10 @@ def main() -> None:
     wow_races_source = _races_data.get("icons_source", {"label": "", "url": ""})
     wow_guide_list = wow_guides.load_guides(wt_classes)          # classes whose 3 specializations all have a sourced role
     wow_profs = wow_guides.load_professions()
+    # Auction prices shared through the BrokenMeta addon (wow-worker aggregates), 2026-09-26.
+    _ah_market = wow_ah.pick_market(wow_ah.load())
+    for _p in wow_profs:
+        wow_ah.price_profession(_p, _ah_market)
     env.globals["wow_guides_nav"] = wow_guide_list
     env.globals["wow_profs_nav"] = wow_profs
     wow_dungeons = wow_guides.load_dungeons()
@@ -7740,7 +7745,7 @@ def main() -> None:
                 assert len(_pt) <= 60 and len(_pd) <= 155, (_pt, len(_pt), len(_pd))
                 _ph1 = _gx["p_h1"].format(name=_pn)
                 _risky = _p["totals"]["yellow_points"] + _p["totals"]["green_points"]
-                _pi = _gx["p_intro"].format(crafts=_p["totals"]["crafts"], cap=_p["cap"],
+                _pi = _gx["p_intro_ah" if _p.get("ah") else "p_intro"].format(crafts=_p["totals"]["crafts"], cap=_p["cap"],
                                             risk=(_gx["risk_some"].format(n=_risky) if _risky else _gx["risk_none"]))
                 render("wow_profession.html", _ppath, lang, active_nav="wow", active_sub="wow-professions", tx=_gx, prof=_p, g_title=_pt, g_desc=_pd,
                        g_h1=_ph1, g_intro=_pi, breadcrumb_schema=breadcrumb_schema(_pcrumb + [(_pn, canonical_for(_ppath, lang))]),

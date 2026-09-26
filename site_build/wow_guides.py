@@ -811,3 +811,53 @@ _SHARE = {
 }
 for _lang, _txt in _SHARE.items():
     TXT[_lang].update(_txt)
+
+
+# Profession pages with auction prices shared through the BrokenMeta addon (see wow_ah.py).
+_AH_TXT = {
+    "fr": {
+        "p_intro_ah": "Le parcours ci-dessous passe de 1 à {cap} en au moins {crafts} créations. Il est calculé à partir des recettes, des composants et des prix de la base de données Wowhead Forever et des tables du client bêta. Les coûts en or utilisent les prix de l'hôtel des ventes partagés par les joueurs via l'addon BrokenMeta. {risk}",
+        "s_cost_ah": "Coût total estimé (composants, plans, rangs)",
+        "s_cost_unknown": "{n} composant(s) sans prix connu, non comptés",
+        "shop_p_ah": "Tous les composants du parcours, du plus coûteux au moins coûteux, avec leur prix à l'hôtel des ventes quand il est connu.",
+        "ah_note": "Prix de l'hôtel des ventes de {realm} ({faction}), scan du {date}, partagé par les joueurs via l'addon BrokenMeta. Un seul royaume pour l'instant, et les prix de la bêta bougent beaucoup : c'est un ordre de grandeur, pas un devis.",
+        "ah_note_link": "Partagez vos prix pour les affiner →",
+        "factions": {"Horde": "Horde", "Alliance": "Alliance", "Neutral": "neutre"},
+        "m_ahprice": "Prix HV (unité)",
+        "m_line": "Coût",
+        "m_listed": "{n} en vente",
+        "m_thin": "⚠ Moins d'unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.",
+        "m_cheaper_ah": "moins cher à l'HV",
+        "m_unknown": "prix inconnu",
+        "m_total": "Total des composants au prix connu",
+        "limits_ah": [
+            "Les prix viennent d'un seul scan de l'hôtel des ventes (un royaume, une faction) partagé par un joueur : ils peuvent être très différents sur votre royaume, et la bêta a peu de vendeurs. La suite de recettes n'est pas encore recalculée avec ces prix.",
+            "Les composants sans prix connu ne sont pas comptés dans le total : le coût réel est donc plus élevé.",
+        ],
+    },
+    "en": {
+        "p_intro_ah": "The route below goes from 1 to {cap} in at least {crafts} crafts. It is computed from the recipes, reagents and prices of the Wowhead Forever database and the beta client tables. Gold costs use the auction house prices players share through the BrokenMeta addon. {risk}",
+        "s_cost_ah": "Estimated total cost (reagents, plans, ranks)",
+        "s_cost_unknown": "{n} reagent(s) with no known price, not counted",
+        "shop_p_ah": "Every reagent of the route, most expensive first, with its auction house price when known.",
+        "ah_note": "Auction house prices from {realm} ({faction}), scanned {date}, shared by players through the BrokenMeta addon. Only one realm so far, and beta prices move a lot: this is a ballpark, not a quote.",
+        "ah_note_link": "Share your prices to refine them →",
+        "factions": {"Horde": "Horde", "Alliance": "Alliance", "Neutral": "neutral"},
+        "m_ahprice": "AH price (unit)",
+        "m_line": "Cost",
+        "m_listed": "{n} listed",
+        "m_thin": "⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.",
+        "m_cheaper_ah": "cheaper at the AH",
+        "m_unknown": "unknown price",
+        "m_total": "Total of reagents with a known price",
+        "limits_ah": [
+            "Prices come from a single auction house scan (one realm, one faction) shared by a player: they can be very different on your realm, and the beta has few sellers. The recipe sequence is not recomputed with these prices yet.",
+            "Reagents with no known price are left out of the total: the real cost is higher.",
+        ],
+    },
+}
+for _lang, _txt in _AH_TXT.items():
+    # First limit replaced (prices now exist), the other existing limits kept, "unknown" added.
+    _first, _unknown = _txt["limits_ah"]
+    _txt["limits_ah"] = [_first] + TXT[_lang]["limits"][1:] + [_unknown]
+    TXT[_lang].update(_txt)
