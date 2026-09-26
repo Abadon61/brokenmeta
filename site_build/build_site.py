@@ -6705,6 +6705,10 @@ def main() -> None:
     # of what actually changed, which is what made the deploy-worktree
     # sync/commit slow even for a one-file asset swap (site-audit finding,
     # 2026-09-13).
+    # Per-file cache-buster for scripts that change without style_base.css/build_site.py changing
+    # (css_v would stay the same): the host's CDN caches /assets/*.js for a year by exact URL, so a
+    # fixed ?v= kept serving the old wow-share.js after a deploy (seen live 2026-09-26).
+    env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
     # -- needed to safely embed a translated string inside an inline <script>.

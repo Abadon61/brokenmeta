@@ -17,7 +17,7 @@
 </ol>
 
 <div id="msApp" data-base="{{ root }}assets/wowsim/" data-lang="{{ lang }}" data-manifest="{{ ms_manifest_hash }}" data-addon="{{ addon_version or '' }}"
-     data-worker="{{ root }}assets/js/wow-mysim-worker.js?v={{ css_v }}">
+     data-worker="{{ root }}assets/js/wow-mysim-worker.js?v={{ js_v('wow-mysim-worker.js') }}">
   <div class="tc-field">
     <label for="msExport">{{ tx.ms_paste_label }}</label>
     <textarea id="msExport" class="ms-export" rows="8" spellcheck="false" autocomplete="off"
@@ -34,7 +34,7 @@
 
 <script type="application/json" id="msI18n">{{ ms_i18n|tojson }}</script>
 <script type="application/json" id="msSpecs">{{ ms_specs|tojson }}</script>
-<script src="{{ root }}assets/js/wow-mysim.js?v={{ css_v }}" defer></script>
+<script src="{{ root }}assets/js/wow-mysim.js?v={{ js_v('wow-mysim.js') }}" defer></script>
 
 <h2 class="fiche-section-title">{{ tx.ms_limits_h2 }}</h2>
 <ul class="ms-limits">
