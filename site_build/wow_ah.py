@@ -8,9 +8,11 @@ committed snapshot documents exactly what a deployed page was built from.
 Pricing rule per shopping-list reagent:
   - bought from a vendor: the vendor's fixed price, unless the auction house sells it cheaper
     AND lists at least the quantity the route needs;
-  - gathered / crafted / disenchanted: the auction house price if the item was seen in the
-    chosen market, otherwise unknown (never guessed). "thin" flags a market listing fewer
-    units than the route needs (the real cost will be higher: the cheapest units run out).
+  - gathered / disenchanted: the auction house price if the item was seen in the chosen market,
+    otherwise unknown (never guessed). "thin" flags a market listing fewer units than the route
+    needs (the real cost will be higher: the cheapest units run out);
+  - crafted by this same profession (Cured Heavy Hide, grinding stones...): the cheaper of its
+    auction price and its crafting cost (its own recipe's reagents priced by these same rules).
 """
 import json
 from datetime import datetime, timezone
@@ -60,16 +62,44 @@ def price_profession(prof, market):
     if not market:
         prof["ah"] = None
         return prof
+    recipes = {r["creates"]["id"]: r for r in prof.get("recipes", []) if r.get("creates")}
+
+    def reagent_unit(g, depth):
+        seen = market["prices"].get(g["id"])
+        if g["price"]["kind"] == "vendor":
+            vendor = g["price"]["copper"]
+            return min(vendor, seen["unit"]) if seen else vendor
+        options = [seen["unit"]] if seen else []
+        crafted = craft_cost(g["id"], depth + 1)
+        if crafted is not None:
+            options.append(crafted)
+        return min(options) if options else None
+
+    def craft_cost(item_id, depth=0):
+        r = recipes.get(item_id)
+        if not r or depth > 2:
+            return None
+        total = 0
+        for g in r["reagents"]:
+            unit = reagent_unit(g, depth)
+            if unit is None:
+                return None
+            total += unit * g["count"]
+        return -(-total // max(1, r["creates"].get("count") or 1))  # ceil
+
     rows, known, unknown, from_ah = {}, 0, 0, 0
     for m in prof["materials"]:
         seen = market["prices"].get(m["id"])
         ah_unit = seen["unit"] if seen else None
         listed = seen["qty"] if seen else 0
+        crafted = craft_cost(m["id"]) if m["price"]["kind"] == "craft" else None
         if m["price"]["kind"] == "vendor":
             unit, source = m["price"]["copper"], "vendor"
             if ah_unit is not None and ah_unit < unit and listed >= m["count"]:
                 unit, source = ah_unit, "ah"
                 from_ah += 1
+        elif crafted is not None and (ah_unit is None or crafted <= ah_unit):
+            unit, source = crafted, "craft"
         elif ah_unit is not None:
             unit, source = ah_unit, "ah"
             from_ah += 1

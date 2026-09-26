@@ -828,6 +828,7 @@ _AH_TXT = {
         "m_listed": "{n} en vente",
         "m_thin": "⚠ Moins d'unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.",
         "m_cheaper_ah": "moins cher à l'HV",
+        "m_crafted": "coût de fabrication (moins cher que l'HV)",
         "m_unknown": "prix inconnu",
         "m_total": "Total des composants au prix connu",
         "limits_ah": [
@@ -848,6 +849,7 @@ _AH_TXT = {
         "m_listed": "{n} listed",
         "m_thin": "⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.",
         "m_cheaper_ah": "cheaper at the AH",
+        "m_crafted": "crafting cost (cheaper than the AH)",
         "m_unknown": "unknown price",
         "m_total": "Total of reagents with a known price",
         "limits_ah": [

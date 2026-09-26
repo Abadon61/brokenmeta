@@ -50,7 +50,7 @@
     <td>{{ tx.kinds_price[i.price.kind] }}</td>
     <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
     {% if prof.ah %}<td class="nums">{% if a.ah_unit is not none %}{{ a.ah_unit|wow_money(lang) }}<br><small class="pf-listed{{ ' is-thin' if a.thin }}" {% if a.thin %}title="{{ tx.m_thin }}"{% endif %}>{{ tx.m_listed.format(n=a.listed) }}{% if a.thin %} ⚠{% endif %}</small>{% else %}{{ tx.m_none }}{% endif %}</td>
-    <td class="nums">{% if a.line is not none %}{{ a.line|wow_money(lang) }}{% if a.source == 'ah' and i.price.kind == 'vendor' %}<br><small>{{ tx.m_cheaper_ah }}</small>{% endif %}{% else %}<small>{{ tx.m_unknown }}</small>{% endif %}</td>{% endif %}
+    <td class="nums">{% if a.line is not none %}{{ a.line|wow_money(lang) }}{% if a.source == 'ah' and i.price.kind == 'vendor' %}<br><small>{{ tx.m_cheaper_ah }}</small>{% elif a.source == 'craft' %}<br><small>{{ tx.m_crafted }}</small>{% endif %}{% else %}<small>{{ tx.m_unknown }}</small>{% endif %}</td>{% endif %}
   </tr>{% endfor %}</tbody>
   {% if prof.ah %}<tfoot><tr><th colspan="5">{{ tx.m_total }}</th><th class="nums">{{ prof.ah.reagents_copper|wow_money(lang) }}</th></tr></tfoot>{% endif %}
 </table></div>
