@@ -86,12 +86,17 @@ readNames()
 
 local function full(sender)
   if not sender or sender == "" then return nil end
-  if not sender:find("-", 1, true) then return sender .. "-" .. realm end
-  return sender
+  if sender:find("-", 1, true) then return sender end
+  -- "Name Realm" (seen on Forever) -> "Name-Realm", the form /w expects.
+  local name, rest = sender:match("^(%S+)%s+(.+)$")
+  if name then return name .. "-" .. rest:gsub("%s", "") end
+  return sender .. "-" .. realm
 end
 
+-- Character name without the realm. Seen in game: Forever gives the sender as "Name Realm" (a
+-- space, not the usual dash); a character name has neither, so both are cut.
 local function short(name)
-  return (name:gsub("%-.*$", ""))
+  return (name:gsub("[%-%s].*$", ""))
 end
 
 ---------------------------------------------------------------------------------------------
@@ -249,7 +254,7 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
   elseif event == "CHAT_MSG_ADDON" then
     if prefix ~= PREFIX or type(msg) ~= "string" then return end
     local who = full(sender)
-    if not who or who == myFull then return end
+    if not who or who == myFull or short(who) == myName then return end -- our own broadcasts come back
     if msg == "Q1" then
       -- Answer the newcomer directly, a little later so answers don't all arrive at once.
       local reply, n = profileMessage()

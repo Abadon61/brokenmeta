@@ -204,11 +204,14 @@ class CrafterTests(unittest.TestCase):
         names = [e.name for e in lua_list(self.g.NS.CraftList()[0])]
         self.assertEqual(names[0], "Test-Realm", "me first")
         self.assertIn("Bob-Realm", names)
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225;", "CHANNEL", "Kael Storm Strike")
+        self.assertIsNotNone(self.g.NS.CraftPeers()["Kael-StormStrike"], "space form stored as Name-Realm")
         self.g.NS.CraftWhisper("Bob-Realm")
         self.assertEqual(self.g.WHISPERED[1], "Bob-Realm")
 
     def test_ignores_self_other_faction_and_foreign_prefix(self):
         self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Test-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Test Stormstrike")
         self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Horde;Orc;2;164:150:225;", "CHANNEL", "Orc-Realm")
         self.event("CHAT_MSG_ADDON", "BrokenMeta", "V:0.1", "GUILD", "Bob-Realm")
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
