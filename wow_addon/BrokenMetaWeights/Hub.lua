@@ -10,6 +10,8 @@ local T = ns.Localize("hub", {
   up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
   up_best = "Donjon le plus rentable : %s (%d amélioration(s), +%.2f DPS)", up_level = "niv. %d",
   no_dungeon = "Aucune amélioration trouvée dans les donjons pour ton niveau.",
+  up_pick = "Donjon : %s", up_top = "le plus rentable", up_none_in = "Aucune amélioration dans ce donjon pour ton niveau et ta spé.",
+  up_summary = "%d emplacement(s) amélioré(s), +%.2f DPS au total. Clique sur le donjon pour en choisir un autre.", up_quest = "récompense de quête",
   guide_h = "Guide de ta spécialisation", guide_follow = "Tu suis %d des %d talents conseillés par le guide (modèle niveau %d).",
   guide_nobuild = "Le guide complet de ta spécialisation (talents, priorité de stats, consommables, métiers) est sur brokenmeta.gg.",
   guide_more = "Talents détaillés, priorité de stats, consommables et métiers : tout est dans le guide sur brokenmeta.gg.",
@@ -65,6 +67,8 @@ local T = ns.Localize("hub", {
   up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
   up_best = "Most rewarding dungeon: %s (%d upgrade(s), +%.2f DPS)", up_level = "lvl %d",
   no_dungeon = "No dungeon upgrade found for your level.",
+  up_pick = "Dungeon: %s", up_top = "most rewarding", up_none_in = "No upgrade in this dungeon for your level and spec.",
+  up_summary = "%d slot(s) improved, +%.2f DPS in total. Click the dungeon to pick another one.", up_quest = "quest reward",
   guide_h = "Your specialization guide", guide_follow = "You follow %d of the %d talents the guide recommends (level %d template).",
   guide_nobuild = "Your specialization's full guide (talents, stat priority, consumables, professions) is on brokenmeta.gg.",
   guide_more = "Detailed talents, stat priority, consumables and professions: it's all in the guide on brokenmeta.gg.",
@@ -367,11 +371,12 @@ local function lootLink(it)
   return "|cff" .. (QUALITY[it.q] or "ffffff") .. "|Hitem:" .. it.id .. "::::::::|h[" .. name .. "]|h|r"
 end
 
--- Best dungeon item per equipment slot that beats what is worn (wearable by the class, required
--- level at most 3 above the player's), plus the dungeon whose best items add up to the most DPS.
-local function dungeonUpgrades()
+-- Dungeon upgrades, per dungeon: every dungeon item that beats what is worn (wearable by the class,
+-- required level at most 3 above the player's), and per dungeon the sum of its best item per slot
+-- (what a run is worth). { [d] = { items = { { it, gain } } sorted, n = slots improved, gain } }.
+local function upgradesByDungeon()
   local level = UnitLevel("player") or 1
-  local best = {}
+  local out = {}
   for _, it in ipairs(ns.LOOT or {}) do
     local slots = it.slot and ns.SLOTS[it.slot]
     if slots and (it.req or 0) <= level + 3 and ns.CanWearType(it.t) then
@@ -384,32 +389,67 @@ local function dungeonUpgrades()
           if not worst or ev < worst then worst = ev end
         end
         local gain = v - (worst or 0)
-        if gain > 0.005 and (not best[it.slot] or gain > best[it.slot].gain) then
-          best[it.slot] = { it = it, gain = gain }
+        if gain > 0.005 then
+          local dd = out[it.d] or { items = {}, best = {} }
+          out[it.d] = dd
+          dd.items[#dd.items + 1] = { it = it, gain = gain }
+          if not dd.best[it.slot] or gain > dd.best[it.slot] then dd.best[it.slot] = gain end
         end
       end
     end
   end
-  local list, perDungeon = {}, {}
-  for _, b in pairs(best) do
-    list[#list + 1] = b
-    local pd = perDungeon[b.it.d] or { n = 0, gain = 0 }
-    pd.n, pd.gain = pd.n + 1, pd.gain + b.gain
-    perDungeon[b.it.d] = pd
+  for _, dd in pairs(out) do
+    table.sort(dd.items, function(x, y) return x.gain > y.gain end)
+    dd.n, dd.gain = 0, 0
+    for _, g in pairs(dd.best) do dd.n, dd.gain = dd.n + 1, dd.gain + g end
   end
-  table.sort(list, function(x, y) return x.gain > y.gain end)
-  local top
-  for d, pd in pairs(perDungeon) do
-    if not top or pd.gain > top.gain then top = { d = d, n = pd.n, gain = pd.gain } end
-  end
-  return list, top
+  return out
 end
+ns.UpgradesByDungeon = upgradesByDungeon
 
 local function dungeonName(i)
   local dg = ns.DUNGEONS and ns.DUNGEONS[i]
   if not dg then return "?" end
   return (dg.name[IS_FR and "frFR" or "enUS"] or dg.name.enUS) .. (dg.levels ~= "" and (" (" .. dg.levels .. ")") or "")
 end
+
+-- Dungeons in the picker: most rewarding first, then the others by name.
+local function dungeonOrder(by)
+  local list = {}
+  for i in ipairs(ns.DUNGEONS or {}) do list[#list + 1] = i end
+  table.sort(list, function(a, b)
+    local ga, gb = by[a] and by[a].gain or 0, by[b] and by[b].gain or 0
+    if ga ~= gb then return ga > gb end
+    return dungeonName(a) < dungeonName(b)
+  end)
+  return list
+end
+
+local BAG_MAX, PICK_ROW = 4, 7 -- bag upgrades shown, row where the dungeon picker sits
+local selectedDungeon -- nil: the most rewarding one
+
+local pickBtn = ns.Button(pUp)
+pickBtn:SetSize(W - 32, 22)
+pickBtn:SetPoint("TOPLEFT", 4, -40 - (PICK_ROW - 1) * 17 + 3)
+
+-- The picker: a panel over the list with one button per dungeon (upgrades count and DPS gain).
+local picker = CreateFrame("Frame", nil, pUp, ns.BACKDROP_TEMPLATE)
+picker:SetPoint("TOPLEFT", pickBtn, "BOTTOMLEFT", 0, -4)
+picker:SetPoint("RIGHT", pUp, "RIGHT", -4, 0)
+picker:SetHeight(318)
+ns.Flat(picker, ns.C.bg, ns.C.borderBright)
+picker:SetFrameLevel((pUp:GetFrameLevel() or 1) + 20)
+picker:Hide()
+local pickRows = {}
+for k = 1, 24 do
+  local b = ns.Button(picker, nil, "pill")
+  b:SetSize((W - 50) / 2, 24)
+  b:SetPoint("TOPLEFT", 6 + ((k - 1) % 2) * ((W - 50) / 2 + 6), -6 - math.floor((k - 1) / 2) * 26)
+  if b.GetFontString and b:GetFontString() then b:GetFontString():SetWidth((W - 50) / 2 - 12) end
+  b:Hide()
+  pickRows[k] = b
+end
+pickBtn:SetScript("OnClick", function() picker:SetShown(not picker:IsShown()) end)
 
 refreshers[2] = function()
   local found = {}
@@ -434,26 +474,48 @@ refreshers[2] = function()
   if #found == 0 then
     setRow(pUp, i, "|cff8a81ab" .. T.no_upgrade .. "|r"); i = i + 1
   end
-  for k = 1, math.min(#found, 6) do
+  for k = 1, math.min(#found, BAG_MAX) do
     local f = found[k]
     setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link }); i = i + 1
   end
-  i = i + 1
-  setRow(pUp, i, "|cffffc23c" .. T.up_dungeons .. "|r"); i = i + 1
-  local list, top = dungeonUpgrades()
-  if top then
-    setRow(pUp, i, string.format(T.up_best, dungeonName(top.d), top.n, top.gain)); i = i + 1
-  else
-    setRow(pUp, i, "|cff8a81ab" .. T.no_dungeon .. "|r"); i = i + 1
+  clearRows(pUp, i)
+
+  -- Dungeon picker and the selected dungeon's upgrades.
+  local by = upgradesByDungeon()
+  local order = dungeonOrder(by)
+  local top = order[1] and by[order[1]] and order[1] or nil
+  local d = selectedDungeon or top or order[1]
+  if not d then pickBtn:Hide(); return end
+  pickBtn:Show()
+  local dd = by[d]
+  pickBtn:SetText(string.format(T.up_pick, dungeonName(d)) .. (d == top and ("  · " .. T.up_top) or "") .. "  ↓")
+  for k, b in ipairs(pickRows) do
+    local idx = order[k]
+    if idx then
+      local x = by[idx]
+      b:SetText(dungeonName(idx) .. (x and string.format("  |c%s+%.1f|r", ns.HEX.teal, x.gain) or ""))
+      if idx == d then b:LockHighlight() else b:UnlockHighlight() end
+      b:SetScript("OnClick", function() selectedDungeon = idx; picker:Hide(); refreshers[2]() end)
+      b:Show()
+    else
+      b:Hide()
+    end
   end
-  local level = UnitLevel("player") or 1
-  for _, b in ipairs(list) do
-    if i > #pUp.rows then break end
-    local it = b.it
-    local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
-    local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
-    setRow(pUp, i, lootLink(it) .. "  |cff8a81ab" .. dungeonName(it.d) .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
-      { icon = icon, link = "item:" .. it.id }); i = i + 1
+  i = PICK_ROW + 1
+  if not dd then
+    setRow(pUp, i, "|cff8a81ab" .. T.up_none_in .. "|r"); i = i + 1
+  else
+    setRow(pUp, i, "|cff8a81ab" .. string.format(T.up_summary, dd.n, dd.gain) .. "|r"); i = i + 1
+    local level = UnitLevel("player") or 1
+    for _, b in ipairs(dd.items) do
+      if i > #pUp.rows then break end
+      local it = b.it
+      local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
+      local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
+      local src = it.quest and T.up_quest or (it.src or "")
+      setRow(pUp, i, lootLink(it) .. "  |cff8a81ab" .. src .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
+        { icon = icon, link = "item:" .. it.id }); i = i + 1
+    end
   end
   clearRows(pUp, i)
 end

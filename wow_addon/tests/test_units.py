@@ -63,7 +63,21 @@ class HubTests(unittest.TestCase):
         _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [""])
         g.LUA_EVAL('function(label) for _, f in ipairs(frames) do if rawget(f, "text") == label and f.scripts.OnClick then f.scripts.OnClick() end end end')("Upgrades")
         texts = lua_list(g.LUA_EVAL('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t then o[#o+1] = t end end return o end')())
-        self.assertTrue(any("Most rewarding dungeon" in t for t in texts))
+        self.assertTrue(any("slot(s) improved" in t for t in texts), "the selected dungeon's summary")
+        buttons = lua_list(g.LUA_EVAL('function() local o = {} for _, f in ipairs(frames) do local t = rawget(f, "text") if type(t) == "string" then o[#o+1] = t end end return o end')())
+        self.assertTrue(any(t.startswith("Dungeon: ") and "most rewarding" in t for t in buttons), "picker defaults to the best dungeon")
+
+    def test_upgrades_grouped_by_dungeon(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        by = g.NS.UpgradesByDungeon()
+        dungeons = list(by.keys())
+        self.assertGreater(len(dungeons), 1)
+        for d in dungeons:
+            dd = by[d]
+            items = lua_list(dd["items"])
+            self.assertTrue(all(x.it.d == d for x in items), "only that dungeon's items")
+            self.assertEqual([x.gain for x in items], sorted((x.gain for x in items), reverse=True))
+            self.assertLessEqual(dd.gain, sum(x.gain for x in items) + 1e-9, "per-run value = best item per slot")
 
     def test_bag_upgrades_skip_unwearable(self):
         _, _, _, g = run("enUS", "SHAMAN", [0, 11, 0], ITEMS, {}, [], [""], bags=["plate_chest", "cloth_sp"])
