@@ -4,7 +4,9 @@
 --
 -- Messages (prefix BMCraft):
 --   Q1                              a newcomer asks everyone for their profile (answered by whisper)
---   P2;avail;level;class;faction;race;sex;line:rank:max,...;short message   a profile
+--   P3;avail;level;class;faction;race;sex;favs;line:rank:max,...;short message   a profile
+--      (favs: how many players have this crafter in their favourites; 0.12 and older sent P2, no favs)
+--   F1 / F0                          I added you to / removed you from my favourites (whisper)
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 local LOCALE = GetLocale()
@@ -182,21 +184,27 @@ local function profileMessage()
   local _, class = UnitClass("player")
   local _, race = UnitRace("player")
   local sex = UnitSex and UnitSex("player") or 2
-  return "P2;" .. (db().avail and 1 or 0) .. ";" .. (UnitLevel("player") or 0) .. ";" .. (class or "")
-    .. ";" .. (UnitFactionGroup("player") or "") .. ";" .. (race or "") .. ";" .. (sex or 2)
+  local fans = 0
+  for _ in pairs(db().favBy or {}) do fans = fans + 1 end
+  return "P3;" .. (db().avail and 1 or 0) .. ";" .. (UnitLevel("player") or 0) .. ";" .. (class or "")
+    .. ";" .. (UnitFactionGroup("player") or "") .. ";" .. (race or "") .. ";" .. (sex or 2) .. ";" .. fans
     .. ";" .. table.concat(parts, ",") .. ";" .. cleanMessage(db().msg), #parts
 end
 
 local function parseProfile(msg)
-  local avail, level, class, faction, race, sex, profs, text =
-    msg:match("^P2;([01]);(%d+);(%u*);(%a*);(%a*);(%d);([%d:,]*);(.*)$")
+  local avail, level, class, faction, race, sex, fans, profs, text =
+    msg:match("^P3;([01]);(%d+);(%u*);(%a*);(%a*);(%d);(%d+);([%d:,]*);(.*)$")
+  if not avail then
+    avail, level, class, faction, race, sex, profs, text = msg:match("^P2;([01]);(%d+);(%u*);(%a*);(%a*);(%d);([%d:,]*);(.*)$")
+    fans = "0"
+  end
   if not avail then return nil end
   local list = {}
   for line, rank, max in profs:gmatch("(%d+):(%d+):(%d+)") do
     list[#list + 1] = { line = tonumber(line), rank = tonumber(rank), max = tonumber(max) }
   end
   return { avail = avail == "1", level = tonumber(level), class = class, faction = faction, race = race,
-    sex = tonumber(sex), profs = list, msg = cleanMessage(text) }
+    sex = tonumber(sex), favs = tonumber(fans) or 0, profs = list, msg = cleanMessage(text) }
 end
 
 ---------------------------------------------------------------------------------------------
@@ -323,12 +331,34 @@ end
 ns.CraftFavs = favs
 
 local function snapshot(p)
-  return { level = p.level, class = p.class, faction = p.faction, race = p.race, sex = p.sex, profs = p.profs, msg = p.msg }
+  return { level = p.level, class = p.class, faction = p.faction, race = p.race, sex = p.sex, profs = p.profs, msg = p.msg,
+    favs = p.favs }
+end
+
+-- Removals still to tell (the crafter was not online): { ["Name-Realm"] = true }, per realm.
+local function unfavs()
+  BrokenMetaWeightsDB.craftUnfavs = BrokenMetaWeightsDB.craftUnfavs or {}
+  local u = BrokenMetaWeightsDB.craftUnfavs[realm]
+  if not u then u = {}; BrokenMetaWeightsDB.craftUnfavs[realm] = u end
+  return u
+end
+
+-- The crafter counts who favours them (F1 / F0 by invisible whisper); sent when they are online.
+local function tellFav(name)
+  local f = favs()[name]
+  if f and not f.sent then send("F1", "WHISPER", name); f.sent = true end
+  if not f and unfavs()[name] then send("F0", "WHISPER", name); unfavs()[name] = nil end
 end
 
 function ns.ToggleCraftFav(name, p)
-  if favs()[name] then favs()[name] = nil
-  else favs()[name] = { p = snapshot(p), t = time() } end
+  if favs()[name] then
+    favs()[name] = nil
+    if not favs()[name] then unfavs()[name] = true end
+  else
+    favs()[name] = { p = snapshot(p), t = time() }
+    unfavs()[name] = nil
+  end
+  if peers[name] then tellFav(name) end
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
 
@@ -343,6 +373,12 @@ local function receive(body, sender, kind)
     if ns.OnRecipeMessage then ns.OnRecipeMessage(body, who) end
     return
   end
+  if body == "F1" or body == "F0" then
+    db().favBy = db().favBy or {}
+    db().favBy[who] = body == "F1" or nil
+    if ns.OnCraftChanged then ns.OnCraftChanged() end
+    return
+  end
   if body == "Q1" then
     -- Available crafters answer, invisibly, a little later so answers don't all arrive at once.
     local reply, n = profileMessage()
@@ -353,7 +389,8 @@ local function receive(body, sender, kind)
   if p and (p.faction == "" or p.faction == (UnitFactionGroup("player") or p.faction)) then
     p.seen = GetTime()
     peers[who] = p
-    if favs()[who] then favs()[who] = { p = snapshot(p), t = time() } end
+    if favs()[who] then favs()[who].p = snapshot(p); favs()[who].t = time() end
+    tellFav(who)
     if ns.OnCraftChanged then ns.OnCraftChanged() end
   end
 end
@@ -560,6 +597,9 @@ local function makeCard(parent, width)
     setRaceIcon(self.icon, p.race, p.sex, p.class)
     self.light:SetTexture(p.avail and "Interface\\FriendsFrame\\StatusIcon-Online" or "Interface\\FriendsFrame\\StatusIcon-Offline")
     local label = "|c" .. classColor(p.class) .. short(e.name) .. "|r  |c" .. HEX.faint .. (p.level or "?") .. "|r"
+    if (p.favs or 0) > 0 then
+      label = label .. "  |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:12:12:0:0|t|c" .. HEX.gold .. p.favs .. "|r"
+    end
     if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
     self.name:SetText(label)
     self.profs:SetText(profText(p, only))
@@ -715,6 +755,7 @@ function ns.CraftList()
   table.sort(list, function(a, b)
     if a.p.avail ~= b.p.avail then return a.p.avail end
     if a.fav ~= b.fav then return a.fav end
+    if (a.p.favs or 0) ~= (b.p.favs or 0) then return (a.p.favs or 0) > (b.p.favs or 0) end
     if a.r ~= b.r then return a.r > b.r end
     return a.name < b.name
   end)

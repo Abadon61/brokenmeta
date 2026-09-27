@@ -178,7 +178,7 @@ class VersionTests(unittest.TestCase):
 
 
 class CrafterTests(unittest.TestCase):
-    ME = "P2;{a};20;WARRIOR;Alliance;Orc;2;171:60:75;{m}"
+    ME = "P3;{a};20;WARRIOR;Alliance;Orc;2;{f};171:60:75;{m}"
 
     def setUp(self):
         _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
@@ -206,11 +206,11 @@ class CrafterTests(unittest.TestCase):
 
     def test_available_click_posts_a_chat_line(self):
         self.g.NS.SetCraftAvailable(True)
-        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m=""))
-        self.assertEqual(self.sent()[-1], "GUILD:" + self.ME.format(a=1, m=""), "guild gets it invisibly")
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="", f=0))
+        self.assertEqual(self.sent()[-1], "GUILD:" + self.ME.format(a=1, m="", f=0), "guild gets it invisibly")
         self.assertIn("disponible", self.g.chat[len(self.g.chat)])
         self.g.NS.SetCraftAvailable(False)
-        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=0, m=""), "unavailable is announced too")
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=0, m="", f=0), "unavailable is announced too")
 
     def test_channel_line_lists_crafter_and_whisper(self):
         self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225,197:80:150;Tout le cuir, compos fournies", "Bob-Realm")
@@ -243,7 +243,7 @@ class CrafterTests(unittest.TestCase):
         self.line("BM1 Q1", "New-Realm")
         self.g.flush()
         sent = self.sent()
-        self.assertEqual(sent[-1], "WHISPER:" + self.ME.format(a=1, m=""))
+        self.assertEqual(sent[-1], "WHISPER:" + self.ME.format(a=1, m="", f=0))
         self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
 
     def test_message_cleaned_limited_and_announced(self):
@@ -254,7 +254,7 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(self.chat(), [], "not available: saved only")
         self.g.NS.SetCraftAvailable(True)
         self.g.NS.SetCraftMessage("Tout le cuir, compos fournies")
-        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="Tout le cuir, compos fournies"))
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="Tout le cuir, compos fournies", f=0))
         self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225;Salut |Hitem:1|h", "Bob-Realm")
         peer = self.g.NS.CraftPeers()["Bob-Realm"]
         self.assertEqual(peer.msg, "Salut Hitem:1h", "no chat escapes from others")
@@ -281,6 +281,28 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(bob[0].p.msg, "Armes")
         self.g.NS.ToggleCraftFav("Bob-Realm", bob[0].p)
         self.assertEqual([e.name for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"], [])
+
+    def test_favourite_count_signals(self):
+        # Someone favours me: my profile carries the count.
+        self.event("CHAT_MSG_ADDON", "BMCraft", "F1", "WHISPER", "Fan-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "F1", "WHISPER", "Fan2-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "F1", "WHISPER", "Fan-Realm")
+        self.g.NS.SetCraftAvailable(True)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="", f=2))
+        self.event("CHAT_MSG_ADDON", "BMCraft", "F0", "WHISPER", "Fan2-Realm")
+        self.g.NS.CraftAnnounce()
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="", f=1))
+        # I favour an online crafter: told right away; an offline one: told when seen again.
+        self.line("BM1 P3;1;18;MAGE;Alliance;Human;3;7;164:150:225;x", "Bob-Realm")
+        self.assertEqual(self.g.NS.CraftPeers()["Bob-Realm"].favs, 7)
+        self.g.NS.ToggleCraftFav("Bob-Realm", self.g.NS.CraftPeers()["Bob-Realm"])
+        self.assertEqual(lua_list(self.g.SENT)[-1], "WHISPER:F1")
+        self.g.NS.ToggleCraftFav("Cid-Realm", self.g.NS.CraftPeers()["Bob-Realm"])
+        self.assertNotEqual(self.g.SENT_TO[len(lua_list(self.g.SENT))], "Cid-Realm", "offline: not yet")
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225;", "Cid-Realm")
+        self.assertEqual(lua_list(self.g.SENT)[-1], "WHISPER:F1")
+        self.assertEqual(self.g.SENT_TO[len(lua_list(self.g.SENT))], "Cid-Realm")
+        self.assertEqual(self.g.NS.CraftPeers()["Cid-Realm"].favs, 0, "P2 from older versions still read")
 
     def test_offline_player_dropped(self):
         self.line("BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Bob-Realm")
