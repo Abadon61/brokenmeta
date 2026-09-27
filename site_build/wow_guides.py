@@ -934,6 +934,7 @@ _ADDON_PAGE = {
             "<strong>La recherche par objet</strong> : tape un nom d'objet, l'annuaire ne garde que les artisans qui savent le fabriquer.",
             "Un bouton <strong>MP</strong> pour lui écrire toi-même. L'addon n'envoie jamais de message à ta place.",
             "<strong>Tes artisans favoris</strong> : une étoile pour les garder, même quand ils ne sont pas annoncés.",
+            "<strong>Le tableau des demandes</strong> : publie « je cherche [objet] » d'un clic ; les artisans qui ont la recette sont prévenus.",
         ],
         "ad_offer_h3": "Proposer tes services",
         "ad_offer": [
@@ -946,6 +947,8 @@ _ADDON_PAGE = {
             "L'onglet <strong>Montée</strong> reprend le parcours optimal des <a href=\"{root}wow-forever/professions/\">guides de métiers</a>, à partir de ton niveau actuel.",
             "Scanne l'hôtel des ventes depuis l'addon : chaque composant affiche son prix du moment (marchand, HV ou fabriqué, le moins cher).",
             "Pour chaque étape : le coût total, le coût d'un craft et le prix de l'objet fabriqué à l'HV, pour savoir si le revendre finance ta montée.",
+            "<strong>La liste de courses</strong> : tous les composants du reste du parcours, moins ce que tu as déjà dans tes sacs, avec la recherche à l'HV en un clic.",
+            "<strong>L'Atelier</strong> : tes crafts rentables (prix HV moins la commission) et les recettes à apprendre, avec où les trouver.",
         ],
         "ad_mock_caption": "L'annuaire des artisans dans l'addon (personnages fictifs).",
         "ad_mock": {
@@ -999,6 +1002,7 @@ _ADDON_PAGE = {
             "<strong>Item search</strong>: type an item name, the directory keeps the crafters who can make it.",
             "A <strong>Whisper</strong> button to message them yourself. The addon never sends a message for you.",
             "<strong>Your favourite crafters</strong>: a star keeps them, even when they are not announced.",
+            "<strong>The requests board</strong>: post \"looking for [item]\" with one click; crafters who know the recipe are told.",
         ],
         "ad_offer_h3": "Offer your services",
         "ad_offer": [
@@ -1011,6 +1015,8 @@ _ADDON_PAGE = {
             "The <strong>Leveling</strong> tab follows the optimal route of the <a href=\"{root}wow-forever/professions/\">profession guides</a>, from your current skill.",
             "Scan the auction house from the addon: every reagent shows its current price (vendor, AH or crafted, the cheapest).",
             "For each step: the total cost, the cost of one craft and the crafted item's AH price, to know whether selling it pays for your leveling.",
+            "<strong>The shopping list</strong>: every reagent the rest of the route needs, minus what you already carry, with a one-click AH search.",
+            "<strong>The Workshop</strong>: your profitable crafts (AH price minus the cut) and the recipes to learn, with where to get them.",
         ],
         "ad_mock_caption": "The crafters directory in the addon (made-up characters).",
         "ad_mock": {
