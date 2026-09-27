@@ -45,6 +45,12 @@
 <h2 class="fiche-section-title">{{ tx.ad_dps_h2 }}</h2>
 <ul class="ms-limits">{% for item in tx.ad_dps %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
 
+<h2 class="fiche-section-title">{{ tx.ad_eco_h2 }}</h2>
+<ul class="ms-limits">{% for item in tx.ad_eco %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+
+<h2 class="fiche-section-title">{{ tx.ad_dg_h2 }}</h2>
+<ul class="ms-limits">{% for item in tx.ad_dg %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+
 <h2 class="fiche-section-title">{{ tx.ad_install_h2 }}</h2>
 <ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol>
 <p class="ad-cta"><a class="wh-btn" href="{{ addon_url }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a></p>
