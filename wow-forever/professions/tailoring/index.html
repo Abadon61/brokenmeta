@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Couture WoW: Forever : monter de 1 à 300 à petit prix">
 <meta name="twitter:description" content="Guide Couture de WoW: Forever : parcours de 1 à 300 le moins cher, liste de courses, origine des plans et toutes les recettes.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=8eff41f55d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=8eff41f55d">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=b9099982dc">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=b9099982dc">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=8eff41f55d">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=b9099982dc">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Le résumé</h2>
 <dl class="wow-facts">
   <div><dt>Créations à faire</dt><dd class="nums">299</dd></div>
-  <div><dt>Coût total estimé (composants, plans, rangs)</dt><dd><span class="nums">≈ 466 po 29 pa 96 pc</span><br><small>1 composant(s) sans prix connu, non comptés</small></dd></div>
+  <div><dt>Coût total estimé (composants, plans, rangs)</dt><dd><span class="nums" id="pfCostTotal">≈ 427 po 5 pa 94 pc</span><br><small id="pfCostUnknown">1 composant(s) sans prix connu, non comptés</small></dd></div>
   
   <div><dt>Points non garantis</dt><dd class="nums">170</dd></div>
   
@@ -547,189 +547,193 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">La liste de courses complète</h2>
 <p class="page-intro" style="margin-top:0">Tous les composants du parcours, du plus coûteux au moins coûteux, avec leur prix à l&#39;hôtel des ventes quand il est connu.</p>
-<p class="wow-note">Prix de l&#39;hôtel des ventes de Classic Beta PvP (Horde), scan du 26/09/2026, partagé par les joueurs via l&#39;addon BrokenMeta. Un seul royaume pour l&#39;instant, et les prix de la bêta bougent beaucoup : c&#39;est un ordre de grandeur, pas un devis. <a href="../../../wow-forever/partager-mes-donnees/">Partagez vos prix pour les affiner →</a></p>
+<p class="wow-note"><span id="pfAhNoteText">Prix de l&#39;hôtel des ventes de Classic Beta PvP (Horde), scan du 27/09/2026, partagé par les joueurs via l&#39;addon BrokenMeta. Un seul royaume pour l&#39;instant, et les prix de la bêta bougent beaucoup : c&#39;est un ordre de grandeur, pas un devis. </span><a href="../../../wow-forever/partager-mes-donnees/">Partagez vos prix pour les affiner →</a></p>
 <div class="wow-table-wrap"><table class="wow-table">
   <thead><tr><th>Composant</th><th>Quantité</th><th>Origine</th><th>Prix chez le vendeur</th><th>Prix HV (unité)</th><th>Coût</th></tr></thead>
   <tbody>
-  <tr>
+  <tr data-item="4305">
     <td data-first><a href="https://www.wowhead.com/forever/item=4305" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_silk_03.jpg" alt="" width="24" height="24" loading="lazy">Rouleau d&#39;étoffe de soie</a></td>
     <td class="nums">251</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">79 pa 99 pc<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">35 en vente ⚠</small></td>
-    <td class="nums">200 po 77 pa 49 pc</td>
+    <td class="nums pf-ah">64 pa 96 pc<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">112 en vente ⚠</small></td>
+    <td class="nums pf-line">163 po 4 pa 96 pc</td>
   </tr>
-  <tr>
+  <tr data-item="14256">
     <td data-first><a href="https://www.wowhead.com/forever/item=14256" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_felrag.jpg" alt="" width="24" height="24" loading="lazy">Gangrétoffe</a></td>
     <td class="nums">100</td>
     <td>Vendeur</td>
     <td class="nums">80 pa</td>
-    <td class="nums">—</td>
-    <td class="nums">80 po</td>
+    <td class="nums pf-ah">5 po 31 pa<br><small class="pf-listed" >4 en vente</small></td>
+    <td class="nums pf-line">80 po</td>
   </tr>
-  <tr>
+  <tr data-item="7067">
     <td data-first><a href="https://www.wowhead.com/forever/item=7067" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ore_iron_01.jpg" alt="" width="24" height="24" loading="lazy">Terre élémentaire</a></td>
     <td class="nums">30</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">2 po 7 pa<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">1 en vente ⚠</small></td>
-    <td class="nums">62 po 10 pa</td>
+    <td class="nums pf-ah">2 po 5 pa<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">2 en vente ⚠</small></td>
+    <td class="nums pf-line">61 po 50 pa</td>
   </tr>
-  <tr>
+  <tr data-item="4339">
     <td data-first><a href="https://www.wowhead.com/forever/item=4339" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_mageweave_03.jpg" alt="" width="24" height="24" loading="lazy">Rouleau de tisse-mage</a><span class="pf-risk" title="* Ce matériau ne drop que sur des mobs de niveau 40+ : il reste rare et cher tant que le plafond de la bêta est au niveau 20 (sourcé sur wow-professions.com/forever).">*</span></td>
     <td class="nums">70</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">68 pa 50 pc<br><small class="pf-listed" >98 en vente</small></td>
-    <td class="nums">47 po 95 pa</td>
+    <td class="nums pf-ah">69 pa 88 pc<br><small class="pf-listed" >204 en vente</small></td>
+    <td class="nums pf-line">48 po 91 pa 60 pc</td>
   </tr>
-  <tr>
+  <tr data-item="2997">
     <td data-first><a href="https://www.wowhead.com/forever/item=2997" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_wool_03.jpg" alt="" width="24" height="24" loading="lazy">Rouleau d&#39;étoffe de laine</a></td>
     <td class="nums">150</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">9 pa 80 pc<br><small class="pf-listed" >182 en vente</small></td>
-    <td class="nums">14 po 70 pa</td>
+    <td class="nums pf-ah">9 pa<br><small class="pf-listed" >448 en vente</small></td>
+    <td class="nums pf-line">13 po 50 pa</td>
   </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3182" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_web.jpg" alt="" width="24" height="24" loading="lazy">Soie d&#39;araignée</a></td>
-    <td class="nums">32</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">42 pa 93 pc<br><small class="pf-listed" >113 en vente</small></td>
-    <td class="nums">13 po 73 pa 76 pc</td>
-  </tr>
-  <tr>
+  <tr data-item="14048">
     <td data-first><a href="https://www.wowhead.com/forever/item=14048" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_purplefire_02.jpg" alt="" width="24" height="24" loading="lazy">Rouleau d&#39;étoffe runique</a></td>
     <td class="nums">50</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">20 pa<br><small class="pf-listed" >77 en vente</small></td>
-    <td class="nums">10 po</td>
+    <td class="nums pf-ah">22 pa 47 pc<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">24 en vente ⚠</small></td>
+    <td class="nums pf-line">11 po 23 pa 50 pc</td>
   </tr>
-  <tr>
+  <tr data-item="3182">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3182" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_web.jpg" alt="" width="24" height="24" loading="lazy">Soie d&#39;araignée</a></td>
+    <td class="nums">32</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">34 pa<br><small class="pf-listed" >248 en vente</small></td>
+    <td class="nums pf-line">10 po 88 pa</td>
+  </tr>
+  <tr data-item="5500">
     <td data-first><a href="https://www.wowhead.com/forever/item=5500" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_pearl_02.jpg" alt="" width="24" height="24" loading="lazy">Perle iridescente</a></td>
     <td class="nums">3</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">2 po 79 pa 97 pc<br><small class="pf-listed" >19 en vente</small></td>
-    <td class="nums">8 po 39 pa 91 pc</td>
+    <td class="nums pf-ah">3 po 22 pa 99 pc<br><small class="pf-listed" >25 en vente</small></td>
+    <td class="nums pf-line">9 po 68 pa 97 pc</td>
   </tr>
-  <tr>
+  <tr data-item="4291">
     <td data-first><a href="https://www.wowhead.com/forever/item=4291" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_silk_02.jpg" alt="" width="24" height="24" loading="lazy">Bobine de soie</a></td>
     <td class="nums">110</td>
     <td>Vendeur</td>
     <td class="nums">5 pa</td>
-    <td class="nums">8 pa 96 pc<br><small class="pf-listed" >29 en vente</small></td>
-    <td class="nums">5 po 50 pa</td>
+    <td class="nums pf-ah">8 pa<br><small class="pf-listed" >99 en vente</small></td>
+    <td class="nums pf-line">5 po 50 pa</td>
   </tr>
-  <tr>
+  <tr data-item="14341">
     <td data-first><a href="https://www.wowhead.com/forever/item=14341" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_antimagicshell.jpg" alt="" width="24" height="24" loading="lazy">Fil runique</a></td>
     <td class="nums">10</td>
     <td>Vendeur</td>
     <td class="nums">50 pa</td>
-    <td class="nums">—</td>
-    <td class="nums">5 po</td>
+    <td class="nums pf-ah">60 pa<br><small class="pf-listed" >1 en vente</small></td>
+    <td class="nums pf-line">5 po</td>
   </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=5498" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_pearl_03.jpg" alt="" width="24" height="24" loading="lazy">Petite perle satinée</a></td>
-    <td class="nums">5</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">44 pa 10 pc<br><small class="pf-listed" >114 en vente</small></td>
-    <td class="nums">2 po 20 pa 50 pc</td>
-  </tr>
-  <tr>
+  <tr data-item="2321">
     <td data-first><a href="https://www.wowhead.com/forever/item=2321" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_wool_02.jpg" alt="" width="24" height="24" loading="lazy">Bobine de fil raffiné</a></td>
     <td class="nums">185</td>
     <td>Vendeur</td>
     <td class="nums">1 pa</td>
-    <td class="nums">1 pa 45 pc<br><small class="pf-listed" >343 en vente</small></td>
-    <td class="nums">1 po 85 pa</td>
+    <td class="nums pf-ah">1 pa 15 pc<br><small class="pf-listed" >369 en vente</small></td>
+    <td class="nums pf-line">1 po 85 pa</td>
   </tr>
-  <tr>
+  <tr data-item="5498">
+    <td data-first><a href="https://www.wowhead.com/forever/item=5498" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_gem_pearl_03.jpg" alt="" width="24" height="24" loading="lazy">Petite perle satinée</a></td>
+    <td class="nums">5</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">36 pa 90 pc<br><small class="pf-listed" >215 en vente</small></td>
+    <td class="nums pf-line">1 po 84 pa 50 pc</td>
+  </tr>
+  <tr data-item="2996">
     <td data-first><a href="https://www.wowhead.com/forever/item=2996" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_linen_02.jpg" alt="" width="24" height="24" loading="lazy">Rouleau d&#39;étoffe en lin</a></td>
     <td class="nums">78</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">1 pa 79 pc<br><small class="pf-listed" >2546 en vente</small></td>
-    <td class="nums">1 po 39 pa 62 pc</td>
+    <td class="nums pf-ah">1 pa 90 pc<br><small class="pf-listed" >652 en vente</small></td>
+    <td class="nums pf-line">1 po 48 pa 20 pc</td>
   </tr>
-  <tr>
+  <tr data-item="8170">
     <td data-first><a href="https://www.wowhead.com/forever/item=8170" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_02.jpg" alt="" width="24" height="24" loading="lazy">Cuir robuste</a></td>
     <td class="nums">20</td>
     <td>Vendeur</td>
     <td class="nums">20 pa</td>
-    <td class="nums">6 pa 96 pc<br><small class="pf-listed" >386 en vente</small></td>
-    <td class="nums">1 po 39 pa 20 pc<br><small>moins cher à l&#39;HV</small></td>
+    <td class="nums pf-ah">5 pa 99 pc<br><small class="pf-listed" >221 en vente</small></td>
+    <td class="nums pf-line">1 po 19 pa 80 pc<br><small>moins cher à l&#39;HV</small></td>
   </tr>
-  <tr>
+  <tr data-item="6260">
     <td data-first><a href="https://www.wowhead.com/forever/item=6260" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_15.jpg" alt="" width="24" height="24" loading="lazy">Teinture bleue</a></td>
     <td class="nums">85</td>
     <td>Vendeur</td>
     <td class="nums">50 pc</td>
-    <td class="nums">99 pc<br><small class="pf-listed" >253 en vente</small></td>
-    <td class="nums">42 pa 50 pc</td>
+    <td class="nums pf-ah">98 pc<br><small class="pf-listed" >173 en vente</small></td>
+    <td class="nums pf-line">42 pa 50 pc</td>
   </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2604" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_11.jpg" alt="" width="24" height="24" loading="lazy">Teinture rouge</a></td>
-    <td class="nums">54</td>
-    <td>Vendeur</td>
-    <td class="nums">50 pc</td>
-    <td class="nums">89 pc<br><small class="pf-listed" >106 en vente</small></td>
-    <td class="nums">27 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2319" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_05.jpg" alt="" width="24" height="24" loading="lazy">Cuir moyen</a></td>
-    <td class="nums">12</td>
-    <td>Vendeur</td>
-    <td class="nums">2 pa</td>
-    <td class="nums">2 pa 15 pc<br><small class="pf-listed" >3102 en vente</small></td>
-    <td class="nums">24 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2318" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_03.jpg" alt="" width="24" height="24" loading="lazy">Cuir léger</a></td>
-    <td class="nums">16</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">1 pa 25 pc<br><small class="pf-listed" >5893 en vente</small></td>
-    <td class="nums">20 pa</td>
-  </tr>
-  <tr>
+  <tr data-item="2589">
     <td data-first><a href="https://www.wowhead.com/forever/item=2589" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_linen_01.jpg" alt="" width="24" height="24" loading="lazy">Etoffe de lin</a></td>
     <td class="nums">48</td>
     <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums">21 pc<br><small class="pf-listed" >5295 en vente</small></td>
-    <td class="nums">10 pa 8 pc</td>
+    <td class="nums pf-ah">82 pc<br><small class="pf-listed" >9603 en vente</small></td>
+    <td class="nums pf-line">39 pa 36 pc</td>
   </tr>
-  <tr>
+  <tr data-item="2604">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2604" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_potion_11.jpg" alt="" width="24" height="24" loading="lazy">Teinture rouge</a></td>
+    <td class="nums">54</td>
+    <td>Vendeur</td>
+    <td class="nums">50 pc</td>
+    <td class="nums pf-ah">82 pc<br><small class="pf-listed" >72 en vente</small></td>
+    <td class="nums pf-line">27 pa</td>
+  </tr>
+  <tr data-item="2318">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2318" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_03.jpg" alt="" width="24" height="24" loading="lazy">Cuir léger</a></td>
+    <td class="nums">16</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">1 pa 35 pc<br><small class="pf-listed" >8417 en vente</small></td>
+    <td class="nums pf-line">21 pa 60 pc</td>
+  </tr>
+  <tr data-item="7071">
     <td data-first><a href="https://www.wowhead.com/forever/item=7071" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_armorkit_12.jpg" alt="" width="24" height="24" loading="lazy">Boucle en fer</a></td>
     <td class="nums">5</td>
     <td>À fabriquer</td>
     <td class="nums">—</td>
-    <td class="nums">1 pa 79 pc<br><small class="pf-listed" >75 en vente</small></td>
-    <td class="nums">8 pa 95 pc</td>
+    <td class="nums pf-ah">1 pa 60 pc<br><small class="pf-listed" >145 en vente</small></td>
+    <td class="nums pf-line">8 pa</td>
   </tr>
-  <tr>
+  <tr data-item="2319">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2319" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_leatherscrap_05.jpg" alt="" width="24" height="24" loading="lazy">Cuir moyen</a></td>
+    <td class="nums">12</td>
+    <td>Vendeur</td>
+    <td class="nums">2 pa</td>
+    <td class="nums pf-ah">50 pc<br><small class="pf-listed" >2915 en vente</small></td>
+    <td class="nums pf-line">6 pa<br><small>moins cher à l&#39;HV</small></td>
+  </tr>
+  <tr data-item="2320">
     <td data-first><a href="https://www.wowhead.com/forever/item=2320" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_fabric_linen_03.jpg" alt="" width="24" height="24" loading="lazy">Bobine de fil grossier</a></td>
     <td class="nums">51</td>
     <td>Vendeur</td>
     <td class="nums">10 pc</td>
-    <td class="nums">16 pc<br><small class="pf-listed" >940 en vente</small></td>
-    <td class="nums">5 pa 10 pc</td>
+    <td class="nums pf-ah">17 pc<br><small class="pf-listed" >438 en vente</small></td>
+    <td class="nums pf-line">5 pa 10 pc</td>
   </tr>
-  <tr>
+  <tr data-item="249431">
     <td data-first><a href="https://www.wowhead.com/forever/item=249431" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_inscription_inkgreen01.jpg" alt="" width="24" height="24" loading="lazy">Teinture viridienne</a></td>
     <td class="nums">10</td>
     <td>À fabriquer</td>
     <td class="nums">—</td>
-    <td class="nums">—</td>
-    <td class="nums"><small>prix inconnu</small></td>
+    <td class="nums pf-ah">—</td>
+    <td class="nums pf-line"><small>prix inconnu</small></td>
   </tr></tbody>
-  <tfoot><tr><th colspan="5">Total des composants au prix connu</th><th class="nums">456 po 38 pa 11 pc</th></tr></tfoot>
+  <tfoot><tr><th colspan="5">Total des composants au prix connu</th><th class="nums" id="pfReagTotal">417 po 14 pa 9 pc</th></tr></tfoot>
 </table></div>
-<p class="wow-note">⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.</p>
+<p class="wow-note" id="pfThinNote">⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.</p>
+
+<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+<script type="application/json" id="pfLive">{"m": [[4305, 251, "farm", 600], [14256, 100, "vendor", 8000], [7067, 30, "farm", 400], [4339, 70, "farm", 1250], [2997, 150, "farm", 100], [14048, 50, "farm", 2000], [3182, 32, "farm", 387], [5500, 3, "farm", 750], [4291, 110, "vendor", 500], [14341, 10, "vendor", 5000], [2321, 185, "vendor", 100], [5498, 5, "farm", 200], [2996, 78, "farm", 40], [8170, 20, "vendor", 2000], [6260, 85, "vendor", 50], [2589, 48, "farm", 13], [2604, 54, "vendor", 50], [2318, 16, "farm", 15], [7071, 5, "craft", 100], [2319, 12, "vendor", 200], [2320, 51, "vendor", 10], [249431, 10, "craft", 375]], "r": {}, "x": 99185, "i18n": {"units": ["po", "pa", "pc"], "date_fr": true, "m_none": "\u2014", "m_listed": "{n} en vente", "m_thin": "\u26a0 Moins d'unit\u00e9s en vente que la quantit\u00e9 n\u00e9cessaire : le vrai co\u00fbt sera plus \u00e9lev\u00e9, les moins ch\u00e8res partiront en premier.", "m_cheaper_ah": "moins cher \u00e0 l'HV", "m_crafted": "co\u00fbt de fabrication (moins cher que l'HV)", "m_unknown": "prix inconnu", "s_cost_unknown": "{n} composant(s) sans prix connu, non compt\u00e9s", "ah_note": "Prix de l'h\u00f4tel des ventes de {realm} ({faction}), scan du {date}, partag\u00e9 par les joueurs via l'addon BrokenMeta. Un seul royaume pour l'instant, et les prix de la b\u00eata bougent beaucoup : c'est un ordre de grandeur, pas un devis.", "factions": {"Horde": "Horde", "Alliance": "Alliance", "Neutral": "neutre"}}}</script>
+<script src="../../../assets/js/wow-profession-live.js?v=c3a73426eb" defer></script>
 <p class="wow-note">* Ce matériau ne drop que sur des mobs de niveau 40+ : il reste rare et cher tant que le plafond de la bêta est au niveau 20 (sourcé sur wow-professions.com/forever).</p>
 
 <h2 class="fiche-section-title">Les rangs du métier chez le formateur</h2>
@@ -3556,10 +3560,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/site-search.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/favorites.js?v=8eff41f55d" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/site-search.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/favorites.js?v=b9099982dc" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Cuisine WoW: Forever : monter de 1 à 300 à petit prix">
 <meta name="twitter:description" content="Guide Cuisine de WoW: Forever : parcours de 1 à 300 le moins cher, liste de courses, origine des plans et toutes les recettes.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=8eff41f55d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=8eff41f55d">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=b9099982dc">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=b9099982dc">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=8eff41f55d">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=b9099982dc">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Le résumé</h2>
 <dl class="wow-facts">
   <div><dt>Créations à faire</dt><dd class="nums">299</dd></div>
-  <div><dt>Coût total estimé (composants, plans, rangs)</dt><dd><span class="nums">≈ 20 po 68 pa 64 pc</span><br><small>2 composant(s) sans prix connu, non comptés</small></dd></div>
+  <div><dt>Coût total estimé (composants, plans, rangs)</dt><dd><span class="nums" id="pfCostTotal">≈ 12 po 71 pa 35 pc</span><br><small id="pfCostUnknown">1 composant(s) sans prix connu, non comptés</small></dd></div>
   
   
   
@@ -435,117 +435,121 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">La liste de courses complète</h2>
 <p class="page-intro" style="margin-top:0">Tous les composants du parcours, du plus coûteux au moins coûteux, avec leur prix à l&#39;hôtel des ventes quand il est connu.</p>
-<p class="wow-note">Prix de l&#39;hôtel des ventes de Classic Beta PvP (Horde), scan du 26/09/2026, partagé par les joueurs via l&#39;addon BrokenMeta. Un seul royaume pour l&#39;instant, et les prix de la bêta bougent beaucoup : c&#39;est un ordre de grandeur, pas un devis. <a href="../../../wow-forever/partager-mes-donnees/">Partagez vos prix pour les affiner →</a></p>
+<p class="wow-note"><span id="pfAhNoteText">Prix de l&#39;hôtel des ventes de Classic Beta PvP (Horde), scan du 27/09/2026, partagé par les joueurs via l&#39;addon BrokenMeta. Un seul royaume pour l&#39;instant, et les prix de la bêta bougent beaucoup : c&#39;est un ordre de grandeur, pas un devis. </span><a href="../../../wow-forever/partager-mes-donnees/">Partagez vos prix pour les affiner →</a></p>
 <div class="wow-table-wrap"><table class="wow-table">
   <thead><tr><th>Composant</th><th>Quantité</th><th>Origine</th><th>Prix chez le vendeur</th><th>Prix HV (unité)</th><th>Coût</th></tr></thead>
   <tbody>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3404" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterscales_02.jpg" alt="" width="24" height="24" loading="lazy">Aile de busard</a></td>
-    <td class="nums">40</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">30 pa<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">3 en vente ⚠</small></td>
-    <td class="nums">12 po</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=5504" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Chair de palourde relevée</a></td>
-    <td class="nums">40</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">2 pa 73 pc<br><small class="pf-listed" >639 en vente</small></td>
-    <td class="nums">1 po 9 pa 20 pc</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=12205" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Viande d&#39;araignée blanche</a></td>
-    <td class="nums">50</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">1 pa 85 pc<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">18 en vente ⚠</small></td>
-    <td class="nums">92 pa 50 pc</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2692" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_legion_dalapenopepper.jpg" alt="" width="24" height="24" loading="lazy">Epices fortes</a></td>
-    <td class="nums">170</td>
-    <td>Vendeur</td>
-    <td class="nums">40 pc</td>
-    <td class="nums">85 pc<br><small class="pf-listed" >458 en vente</small></td>
-    <td class="nums">68 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3731" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_71.jpg" alt="" width="24" height="24" loading="lazy">Viande de lion</a></td>
-    <td class="nums">10</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">5 pa<br><small class="pf-listed" >144 en vente</small></td>
-    <td class="nums">50 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3713" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_vendor_rice.jpg" alt="" width="24" height="24" loading="lazy">Epices apaisantes</a></td>
-    <td class="nums">20</td>
-    <td>Vendeur</td>
-    <td class="nums">1 pa 60 pc</td>
-    <td class="nums">2 pa 75 pc<br><small class="pf-listed" >13 en vente</small></td>
-    <td class="nums">32 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=6291" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_08.jpg" alt="" width="24" height="24" loading="lazy">Goujon brillant cru</a></td>
-    <td class="nums">44</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">71 pc<br><small class="pf-listed" >1145 en vente</small></td>
-    <td class="nums">31 pa 24 pc</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=6361" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_25.jpg" alt="" width="24" height="24" loading="lazy">Thon arc-en-ciel cru</a></td>
-    <td class="nums">40</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">77 pc<br><small class="pf-listed" >887 en vente</small></td>
-    <td class="nums">30 pa 80 pc</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2675" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_birdbeck_02.jpg" alt="" width="24" height="24" loading="lazy">Pince de clampant</a></td>
-    <td class="nums">35</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">20 pc<br><small class="pf-listed" >636 en vente</small></td>
-    <td class="nums">7 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2678" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_wheat_02.jpg" alt="" width="24" height="24" loading="lazy">Epices douces</a></td>
-    <td class="nums">40</td>
-    <td>Vendeur</td>
-    <td class="nums">10 pc</td>
-    <td class="nums">17 pc<br><small class="pf-listed" >1016 en vente</small></td>
-    <td class="nums">4 pa</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2672" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="24" height="24" loading="lazy">Viande de loup maigre</a></td>
-    <td class="nums">5</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">70 pc<br><small class="pf-listed" >628 en vente</small></td>
-    <td class="nums">3 pa 50 pc</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=13756" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_03.jpg" alt="" width="24" height="24" loading="lazy">Perche estivale crue</a></td>
-    <td class="nums">40</td>
-    <td>À récolter</td>
-    <td class="nums">—</td>
-    <td class="nums">—</td>
-    <td class="nums"><small>prix inconnu</small></td>
-  </tr>
-  <tr>
+  <tr data-item="13889">
     <td data-first><a href="https://www.wowhead.com/forever/item=13889" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_20.jpg" alt="" width="24" height="24" loading="lazy">Saumon Blanchécaille cru</a></td>
     <td class="nums">20</td>
     <td>À récolter</td>
     <td class="nums">—</td>
+    <td class="nums pf-ah">10 pa<br><small class="pf-listed" >72 en vente</small></td>
+    <td class="nums pf-line">2 po</td>
+  </tr>
+  <tr data-item="5504">
+    <td data-first><a href="https://www.wowhead.com/forever/item=5504" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Chair de palourde relevée</a></td>
+    <td class="nums">40</td>
+    <td>À récolter</td>
     <td class="nums">—</td>
-    <td class="nums"><small>prix inconnu</small></td>
+    <td class="nums pf-ah">3 pa 90 pc<br><small class="pf-listed" >780 en vente</small></td>
+    <td class="nums pf-line">1 po 56 pa</td>
+  </tr>
+  <tr data-item="3404">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3404" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterscales_02.jpg" alt="" width="24" height="24" loading="lazy">Aile de busard</a></td>
+    <td class="nums">40</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">3 pa<br><small class="pf-listed is-thin" title="⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.">1 en vente ⚠</small></td>
+    <td class="nums pf-line">1 po 20 pa</td>
+  </tr>
+  <tr data-item="12205">
+    <td data-first><a href="https://www.wowhead.com/forever/item=12205" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Viande d&#39;araignée blanche</a></td>
+    <td class="nums">50</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">1 pa 89 pc<br><small class="pf-listed" >66 en vente</small></td>
+    <td class="nums pf-line">94 pa 50 pc</td>
+  </tr>
+  <tr data-item="3731">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3731" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_71.jpg" alt="" width="24" height="24" loading="lazy">Viande de lion</a></td>
+    <td class="nums">10</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">9 pa 44 pc<br><small class="pf-listed" >110 en vente</small></td>
+    <td class="nums pf-line">94 pa 40 pc</td>
+  </tr>
+  <tr data-item="2692">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2692" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_legion_dalapenopepper.jpg" alt="" width="24" height="24" loading="lazy">Epices fortes</a></td>
+    <td class="nums">170</td>
+    <td>Vendeur</td>
+    <td class="nums">40 pc</td>
+    <td class="nums pf-ah">79 pc<br><small class="pf-listed" >385 en vente</small></td>
+    <td class="nums pf-line">68 pa</td>
+  </tr>
+  <tr data-item="6291">
+    <td data-first><a href="https://www.wowhead.com/forever/item=6291" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_08.jpg" alt="" width="24" height="24" loading="lazy">Goujon brillant cru</a></td>
+    <td class="nums">44</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">75 pc<br><small class="pf-listed" >1228 en vente</small></td>
+    <td class="nums pf-line">33 pa</td>
+  </tr>
+  <tr data-item="3713">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3713" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_vendor_rice.jpg" alt="" width="24" height="24" loading="lazy">Epices apaisantes</a></td>
+    <td class="nums">20</td>
+    <td>Vendeur</td>
+    <td class="nums">1 pa 60 pc</td>
+    <td class="nums pf-ah">2 pa 50 pc<br><small class="pf-listed" >37 en vente</small></td>
+    <td class="nums pf-line">32 pa</td>
+  </tr>
+  <tr data-item="6361">
+    <td data-first><a href="https://www.wowhead.com/forever/item=6361" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_25.jpg" alt="" width="24" height="24" loading="lazy">Thon arc-en-ciel cru</a></td>
+    <td class="nums">40</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">47 pc<br><small class="pf-listed" >477 en vente</small></td>
+    <td class="nums pf-line">18 pa 80 pc</td>
+  </tr>
+  <tr data-item="2675">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2675" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_birdbeck_02.jpg" alt="" width="24" height="24" loading="lazy">Pince de clampant</a></td>
+    <td class="nums">35</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">15 pc<br><small class="pf-listed" >1249 en vente</small></td>
+    <td class="nums pf-line">5 pa 25 pc</td>
+  </tr>
+  <tr data-item="2672">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2672" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="24" height="24" loading="lazy">Viande de loup maigre</a></td>
+    <td class="nums">5</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">1 pa<br><small class="pf-listed" >2469 en vente</small></td>
+    <td class="nums pf-line">5 pa</td>
+  </tr>
+  <tr data-item="2678">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2678" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_wheat_02.jpg" alt="" width="24" height="24" loading="lazy">Epices douces</a></td>
+    <td class="nums">40</td>
+    <td>Vendeur</td>
+    <td class="nums">10 pc</td>
+    <td class="nums pf-ah">14 pc<br><small class="pf-listed" >434 en vente</small></td>
+    <td class="nums pf-line">4 pa</td>
+  </tr>
+  <tr data-item="13756">
+    <td data-first><a href="https://www.wowhead.com/forever/item=13756" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_03.jpg" alt="" width="24" height="24" loading="lazy">Perche estivale crue</a></td>
+    <td class="nums">40</td>
+    <td>À récolter</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">—</td>
+    <td class="nums pf-line"><small>prix inconnu</small></td>
   </tr></tbody>
-  <tfoot><tr><th colspan="5">Total des composants au prix connu</th><th class="nums">16 po 28 pa 24 pc</th></tr></tfoot>
+  <tfoot><tr><th colspan="5">Total des composants au prix connu</th><th class="nums" id="pfReagTotal">8 po 30 pa 95 pc</th></tr></tfoot>
 </table></div>
-<p class="wow-note">⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.</p>
+<p class="wow-note" id="pfThinNote">⚠ Moins d&#39;unités en vente que la quantité nécessaire : le vrai coût sera plus élevé, les moins chères partiront en premier.</p>
+
+<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+<script type="application/json" id="pfLive">{"m": [[13889, 20, "farm", 5], [5504, 40, "farm", 22], [3404, 40, "farm", 181], [12205, 50, "farm", 112], [3731, 10, "farm", 55], [2692, 170, "vendor", 40], [6291, 44, "farm", 1], [3713, 20, "vendor", 160], [6361, 40, "farm", 2], [2675, 35, "farm", 11], [2672, 5, "farm", 4], [2678, 40, "vendor", 10], [13756, 40, "farm", 9]], "r": {}, "x": 44040, "i18n": {"units": ["po", "pa", "pc"], "date_fr": true, "m_none": "\u2014", "m_listed": "{n} en vente", "m_thin": "\u26a0 Moins d'unit\u00e9s en vente que la quantit\u00e9 n\u00e9cessaire : le vrai co\u00fbt sera plus \u00e9lev\u00e9, les moins ch\u00e8res partiront en premier.", "m_cheaper_ah": "moins cher \u00e0 l'HV", "m_crafted": "co\u00fbt de fabrication (moins cher que l'HV)", "m_unknown": "prix inconnu", "s_cost_unknown": "{n} composant(s) sans prix connu, non compt\u00e9s", "ah_note": "Prix de l'h\u00f4tel des ventes de {realm} ({faction}), scan du {date}, partag\u00e9 par les joueurs via l'addon BrokenMeta. Un seul royaume pour l'instant, et les prix de la b\u00eata bougent beaucoup : c'est un ordre de grandeur, pas un devis.", "factions": {"Horde": "Horde", "Alliance": "Alliance", "Neutral": "neutre"}}}</script>
+<script src="../../../assets/js/wow-profession-live.js?v=c3a73426eb" defer></script>
 
 
 <h2 class="fiche-section-title">Les rangs du métier chez le formateur</h2>
@@ -1386,10 +1390,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/site-search.js?v=8eff41f55d" defer></script>
-<script src="../../../assets/js/favorites.js?v=8eff41f55d" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/site-search.js?v=b9099982dc" defer></script>
+<script src="../../../assets/js/favorites.js?v=b9099982dc" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

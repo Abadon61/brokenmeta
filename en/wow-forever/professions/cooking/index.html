@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Cooking WoW: Forever: 1 to 300 on the cheap">
 <meta name="twitter:description" content="WoW: Forever Cooking guide: the cheapest 1-300 route, shopping list, where the plans come from and every recipe.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8eff41f55d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8eff41f55d">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=b9099982dc">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=b9099982dc">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=8eff41f55d">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=b9099982dc">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -349,7 +349,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Summary</h2>
 <dl class="wow-facts">
   <div><dt>Crafts to make</dt><dd class="nums">299</dd></div>
-  <div><dt>Estimated total cost (reagents, plans, ranks)</dt><dd><span class="nums">≈ 20 g 68 s 64 c</span><br><small>2 reagent(s) with no known price, not counted</small></dd></div>
+  <div><dt>Estimated total cost (reagents, plans, ranks)</dt><dd><span class="nums" id="pfCostTotal">≈ 12 g 71 s 35 c</span><br><small id="pfCostUnknown">1 reagent(s) with no known price, not counted</small></dd></div>
   
   
   
@@ -435,117 +435,121 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">The full shopping list</h2>
 <p class="page-intro" style="margin-top:0">Every reagent of the route, most expensive first, with its auction house price when known.</p>
-<p class="wow-note">Auction house prices from Classic Beta PvP (Horde), scanned 2026-09-26, shared by players through the BrokenMeta addon. Only one realm so far, and beta prices move a lot: this is a ballpark, not a quote. <a href="../../../../wow-forever/partager-mes-donnees/">Share your prices to refine them →</a></p>
+<p class="wow-note"><span id="pfAhNoteText">Auction house prices from Classic Beta PvP (Horde), scanned 2026-09-27, shared by players through the BrokenMeta addon. Only one realm so far, and beta prices move a lot: this is a ballpark, not a quote. </span><a href="../../../../wow-forever/partager-mes-donnees/">Share your prices to refine them →</a></p>
 <div class="wow-table-wrap"><table class="wow-table">
   <thead><tr><th>Reagent</th><th>Quantity</th><th>Source</th><th>Vendor price</th><th>AH price (unit)</th><th>Cost</th></tr></thead>
   <tbody>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3404" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterscales_02.jpg" alt="" width="24" height="24" loading="lazy">Buzzard Wing</a></td>
-    <td class="nums">40</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">30 s<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">3 listed ⚠</small></td>
-    <td class="nums">12 g</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=5504" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Tangy Clam Meat</a></td>
-    <td class="nums">40</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">2 s 73 c<br><small class="pf-listed" >639 listed</small></td>
-    <td class="nums">1 g 9 s 20 c</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=12205" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">White Spider Meat</a></td>
-    <td class="nums">50</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">1 s 85 c<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">18 listed ⚠</small></td>
-    <td class="nums">92 s 50 c</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2692" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_legion_dalapenopepper.jpg" alt="" width="24" height="24" loading="lazy">Hot Spices</a></td>
-    <td class="nums">170</td>
-    <td>Vendor</td>
-    <td class="nums">40 c</td>
-    <td class="nums">85 c<br><small class="pf-listed" >458 listed</small></td>
-    <td class="nums">68 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3731" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_71.jpg" alt="" width="24" height="24" loading="lazy">Lion Meat</a></td>
-    <td class="nums">10</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">5 s<br><small class="pf-listed" >144 listed</small></td>
-    <td class="nums">50 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=3713" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_vendor_rice.jpg" alt="" width="24" height="24" loading="lazy">Soothing Spices</a></td>
-    <td class="nums">20</td>
-    <td>Vendor</td>
-    <td class="nums">1 s 60 c</td>
-    <td class="nums">2 s 75 c<br><small class="pf-listed" >13 listed</small></td>
-    <td class="nums">32 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=6291" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_08.jpg" alt="" width="24" height="24" loading="lazy">Raw Brilliant Smallfish</a></td>
-    <td class="nums">44</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">71 c<br><small class="pf-listed" >1145 listed</small></td>
-    <td class="nums">31 s 24 c</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=6361" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_25.jpg" alt="" width="24" height="24" loading="lazy">Raw Rainbow Fin Albacore</a></td>
-    <td class="nums">40</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">77 c<br><small class="pf-listed" >887 listed</small></td>
-    <td class="nums">30 s 80 c</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2675" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_birdbeck_02.jpg" alt="" width="24" height="24" loading="lazy">Crawler Claw</a></td>
-    <td class="nums">35</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">20 c<br><small class="pf-listed" >636 listed</small></td>
-    <td class="nums">7 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2678" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_wheat_02.jpg" alt="" width="24" height="24" loading="lazy">Mild Spices</a></td>
-    <td class="nums">40</td>
-    <td>Vendor</td>
-    <td class="nums">10 c</td>
-    <td class="nums">17 c<br><small class="pf-listed" >1016 listed</small></td>
-    <td class="nums">4 s</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=2672" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="24" height="24" loading="lazy">Stringy Wolf Meat</a></td>
-    <td class="nums">5</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">70 c<br><small class="pf-listed" >628 listed</small></td>
-    <td class="nums">3 s 50 c</td>
-  </tr>
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/item=13756" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_03.jpg" alt="" width="24" height="24" loading="lazy">Raw Summer Bass</a></td>
-    <td class="nums">40</td>
-    <td>Gather</td>
-    <td class="nums">—</td>
-    <td class="nums">—</td>
-    <td class="nums"><small>unknown price</small></td>
-  </tr>
-  <tr>
+  <tr data-item="13889">
     <td data-first><a href="https://www.wowhead.com/forever/item=13889" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_20.jpg" alt="" width="24" height="24" loading="lazy">Raw Whitescale Salmon</a></td>
     <td class="nums">20</td>
     <td>Gather</td>
     <td class="nums">—</td>
+    <td class="nums pf-ah">10 s<br><small class="pf-listed" >72 listed</small></td>
+    <td class="nums pf-line">2 g</td>
+  </tr>
+  <tr data-item="5504">
+    <td data-first><a href="https://www.wowhead.com/forever/item=5504" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">Tangy Clam Meat</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
     <td class="nums">—</td>
-    <td class="nums"><small>unknown price</small></td>
+    <td class="nums pf-ah">3 s 90 c<br><small class="pf-listed" >780 listed</small></td>
+    <td class="nums pf-line">1 g 56 s</td>
+  </tr>
+  <tr data-item="3404">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3404" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterscales_02.jpg" alt="" width="24" height="24" loading="lazy">Buzzard Wing</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">3 s<br><small class="pf-listed is-thin" title="⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.">1 listed ⚠</small></td>
+    <td class="nums pf-line">1 g 20 s</td>
+  </tr>
+  <tr data-item="12205">
+    <td data-first><a href="https://www.wowhead.com/forever/item=12205" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_51.jpg" alt="" width="24" height="24" loading="lazy">White Spider Meat</a></td>
+    <td class="nums">50</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">1 s 89 c<br><small class="pf-listed" >66 listed</small></td>
+    <td class="nums pf-line">94 s 50 c</td>
+  </tr>
+  <tr data-item="3731">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3731" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_71.jpg" alt="" width="24" height="24" loading="lazy">Lion Meat</a></td>
+    <td class="nums">10</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">9 s 44 c<br><small class="pf-listed" >110 listed</small></td>
+    <td class="nums pf-line">94 s 40 c</td>
+  </tr>
+  <tr data-item="2692">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2692" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_legion_dalapenopepper.jpg" alt="" width="24" height="24" loading="lazy">Hot Spices</a></td>
+    <td class="nums">170</td>
+    <td>Vendor</td>
+    <td class="nums">40 c</td>
+    <td class="nums pf-ah">79 c<br><small class="pf-listed" >385 listed</small></td>
+    <td class="nums pf-line">68 s</td>
+  </tr>
+  <tr data-item="6291">
+    <td data-first><a href="https://www.wowhead.com/forever/item=6291" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_08.jpg" alt="" width="24" height="24" loading="lazy">Raw Brilliant Smallfish</a></td>
+    <td class="nums">44</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">75 c<br><small class="pf-listed" >1228 listed</small></td>
+    <td class="nums pf-line">33 s</td>
+  </tr>
+  <tr data-item="3713">
+    <td data-first><a href="https://www.wowhead.com/forever/item=3713" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_vendor_rice.jpg" alt="" width="24" height="24" loading="lazy">Soothing Spices</a></td>
+    <td class="nums">20</td>
+    <td>Vendor</td>
+    <td class="nums">1 s 60 c</td>
+    <td class="nums pf-ah">2 s 50 c<br><small class="pf-listed" >37 listed</small></td>
+    <td class="nums pf-line">32 s</td>
+  </tr>
+  <tr data-item="6361">
+    <td data-first><a href="https://www.wowhead.com/forever/item=6361" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_25.jpg" alt="" width="24" height="24" loading="lazy">Raw Rainbow Fin Albacore</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">47 c<br><small class="pf-listed" >477 listed</small></td>
+    <td class="nums pf-line">18 s 80 c</td>
+  </tr>
+  <tr data-item="2675">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2675" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_birdbeck_02.jpg" alt="" width="24" height="24" loading="lazy">Crawler Claw</a></td>
+    <td class="nums">35</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">15 c<br><small class="pf-listed" >1249 listed</small></td>
+    <td class="nums pf-line">5 s 25 c</td>
+  </tr>
+  <tr data-item="2672">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2672" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="24" height="24" loading="lazy">Stringy Wolf Meat</a></td>
+    <td class="nums">5</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">1 s<br><small class="pf-listed" >2469 listed</small></td>
+    <td class="nums pf-line">5 s</td>
+  </tr>
+  <tr data-item="2678">
+    <td data-first><a href="https://www.wowhead.com/forever/item=2678" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_wheat_02.jpg" alt="" width="24" height="24" loading="lazy">Mild Spices</a></td>
+    <td class="nums">40</td>
+    <td>Vendor</td>
+    <td class="nums">10 c</td>
+    <td class="nums pf-ah">14 c<br><small class="pf-listed" >434 listed</small></td>
+    <td class="nums pf-line">4 s</td>
+  </tr>
+  <tr data-item="13756">
+    <td data-first><a href="https://www.wowhead.com/forever/item=13756" rel="noopener nofollow" target="_blank"><img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_fish_03.jpg" alt="" width="24" height="24" loading="lazy">Raw Summer Bass</a></td>
+    <td class="nums">40</td>
+    <td>Gather</td>
+    <td class="nums">—</td>
+    <td class="nums pf-ah">—</td>
+    <td class="nums pf-line"><small>unknown price</small></td>
   </tr></tbody>
-  <tfoot><tr><th colspan="5">Total of reagents with a known price</th><th class="nums">16 g 28 s 24 c</th></tr></tfoot>
+  <tfoot><tr><th colspan="5">Total of reagents with a known price</th><th class="nums" id="pfReagTotal">8 g 30 s 95 c</th></tr></tfoot>
 </table></div>
-<p class="wow-note">⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.</p>
+<p class="wow-note" id="pfThinNote">⚠ Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.</p>
+
+<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+<script type="application/json" id="pfLive">{"m": [[13889, 20, "farm", 5], [5504, 40, "farm", 22], [3404, 40, "farm", 181], [12205, 50, "farm", 112], [3731, 10, "farm", 55], [2692, 170, "vendor", 40], [6291, 44, "farm", 1], [3713, 20, "vendor", 160], [6361, 40, "farm", 2], [2675, 35, "farm", 11], [2672, 5, "farm", 4], [2678, 40, "vendor", 10], [13756, 40, "farm", 9]], "r": {}, "x": 44040, "i18n": {"units": ["g", "s", "c"], "date_fr": false, "m_none": "\u2014", "m_listed": "{n} listed", "m_thin": "\u26a0 Fewer units listed than the route needs: the real cost will be higher, the cheapest ones go first.", "m_cheaper_ah": "cheaper at the AH", "m_crafted": "crafting cost (cheaper than the AH)", "m_unknown": "unknown price", "s_cost_unknown": "{n} reagent(s) with no known price, not counted", "ah_note": "Auction house prices from {realm} ({faction}), scanned {date}, shared by players through the BrokenMeta addon. Only one realm so far, and beta prices move a lot: this is a ballpark, not a quote.", "factions": {"Horde": "Horde", "Alliance": "Alliance", "Neutral": "neutral"}}}</script>
+<script src="../../../../assets/js/wow-profession-live.js?v=c3a73426eb" defer></script>
 
 
 <h2 class="fiche-section-title">Profession ranks at the trainer</h2>
@@ -1386,10 +1390,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=8eff41f55d" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=8eff41f55d" defer></script>
-<script src="../../../../assets/js/site-search.js?v=8eff41f55d" defer></script>
-<script src="../../../../assets/js/favorites.js?v=8eff41f55d" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=b9099982dc" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=b9099982dc" defer></script>
+<script src="../../../../assets/js/site-search.js?v=b9099982dc" defer></script>
+<script src="../../../../assets/js/favorites.js?v=b9099982dc" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
