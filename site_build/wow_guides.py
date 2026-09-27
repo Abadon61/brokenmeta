@@ -905,3 +905,139 @@ for _lang, _txt in _AH_TXT.items():
     _first, _unknown = _txt["limits_ah"]
     _txt["limits_ah"] = [_first] + TXT[_lang]["limits"][1:] + [_unknown]
     TXT[_lang].update(_txt)
+
+
+# Addon page (/wow-forever/addon/, 2026-09-27): presents BrokenMeta Hub (DPS + Profession sections)
+# with a download button. The directory mockup uses made-up characters, never real players.
+_ADDON_PAGE = {
+    "fr": {
+        "ad_kicker": "World of Warcraft: Forever · Addon gratuit",
+        "ad_title": "Addon BrokenMeta Hub pour WoW: Forever (gratuit)",
+        "ad_desc": "Addon gratuit WoW: Forever : valeur DPS de chaque objet, annuaire des artisans disponibles avec leurs recettes, montée de métier aux prix de l'HV.",
+        "ad_h1": "BrokenMeta Hub, l'addon WoW: Forever",
+        "ad_intro": "Un seul addon gratuit, deux volets : BrokenMeta : DPS pour savoir ce que vaut chaque objet pour ta spé, et BrokenMeta : Profession pour trouver un artisan disponible sur tout ton royaume, ou monter ton métier au meilleur prix.",
+        "ad_download": "Télécharger l'addon {v} (.zip)",
+        "ad_nav": "Addon BrokenMeta",
+        "ad_dps_h2": "BrokenMeta : DPS",
+        "ad_dps": [
+            "<strong>La valeur en DPS de chaque objet</strong> dans son infobulle, pour ta spécialisation, calculée par le simulateur du site.",
+            "<strong>Tes améliorations</strong> repérées dans tes sacs et dans les donjons de ton niveau, avec le donjon le plus rentable.",
+            "<strong>Tes poids de stats personnels</strong> : calcule-les sur <a href=\"{root}wow-forever/simuler-mon-personnage/\">Simuler mon personnage</a>, puis importe-les dans l'addon (à refaire tous les 5 niveaux, l'addon te le rappelle).",
+            "<strong>Un export de ton personnage</strong> à coller sur le site pour simuler ton vrai DPS.",
+        ],
+        "ad_prof_h2": "BrokenMeta : Profession",
+        "ad_find_h3": "Trouver un artisan disponible",
+        "ad_find": [
+            "<strong>L'annuaire des artisans</strong> qui ont l'addon et se sont mis disponibles, sur tout ton royaume et ta faction, quelle que soit leur zone.",
+            "Leur race, leur niveau, leurs métiers avec leur niveau de compétence, et un court message (« armes et armures, compos fournies »).",
+            "<strong>Leurs recettes</strong> : un clic pour voir tout ce qu'un artisan sait fabriquer, avec l'infobulle du jeu.",
+            "<strong>La recherche par objet</strong> : tape un nom d'objet, l'annuaire ne garde que les artisans qui savent le fabriquer.",
+            "Un bouton <strong>MP</strong> pour lui écrire toi-même. L'addon n'envoie jamais de message à ta place.",
+        ],
+        "ad_offer_h3": "Proposer tes services",
+        "ad_offer": [
+            "Ouvre une fois ta fenêtre de métier : l'addon note tes recettes.",
+            "Dans BrokenMeta : Profession > Mon profil, écris un court message et clique sur <strong>Disponible</strong>.",
+            "Ton annonce est visible par tous pendant une heure. L'addon te prévient avant la fin : un clic sur Renouveler la prolonge.",
+        ],
+        "ad_level_h3": "Monter un métier au meilleur prix",
+        "ad_level": [
+            "L'onglet <strong>Montée</strong> reprend le parcours optimal des <a href=\"{root}wow-forever/professions/\">guides de métiers</a>, à partir de ton niveau actuel.",
+            "Scanne l'hôtel des ventes depuis l'addon : chaque composant affiche son prix du moment (marchand, HV ou fabriqué, le moins cher).",
+            "Pour chaque étape : le coût total, le coût d'un craft et le prix de l'objet fabriqué à l'HV, pour savoir si le revendre finance ta montée.",
+        ],
+        "ad_mock_caption": "L'annuaire des artisans dans l'addon (personnages fictifs).",
+        "ad_mock": {
+            "tab_dps": "DPS", "tab_prof": "Profession", "sub_dir": "Artisans", "sub_me": "Mon profil", "sub_level": "Montée",
+            "all": "Tous les métiers", "refresh": "Actualiser", "search": "Chercher un objet…",
+            "count": "3 artisans annoncés, 2 disponibles", "recipes": "Recettes", "whisper": "MP",
+            "rows": [
+                {"name": "Thrangor", "color": "#c79c6e", "level": 20, "initial": "T", "avail": True,
+                 "profs": [["Forge", "118", "150"]], "msg": "Armes et armures jusqu'à 115, compos fournies"},
+                {"name": "Lyssia", "color": "#3fc7eb", "level": 18, "initial": "L", "avail": True,
+                 "profs": [["Couture", "96", "150"], ["Enchantement", "74", "150"]], "msg": "Sacs 10 cases à prix coûtant"},
+                {"name": "Morvak", "color": "#fff468", "level": 16, "initial": "M", "avail": False,
+                 "profs": [["Travail du cuir", "80", "150"]], "msg": ""},
+            ],
+        },
+        "ad_install_h2": "Installer l'addon",
+        "ad_install": [
+            "Télécharge le fichier .zip avec le bouton ci-dessus.",
+            "Décompresse-le dans le dossier <code>_classic_beta_\\Interface\\AddOns</code> de World of Warcraft : tu dois obtenir un dossier <code>BrokenMetaWeights</code>.",
+            "Relance complètement le jeu, puis clique sur le bouton à l'épée autour de la minicarte (ou tape <code>/bmw</code>).",
+        ],
+        "ad_faq_h2": "Questions fréquentes",
+        "ad_faq": [
+            ["L'addon est-il autorisé par Blizzard ?", "Oui. Il est gratuit, son code est lisible, et il n'automatise rien : chaque annonce d'artisan part d'un clic de sa part, comme avec les addons de recherche de groupe. Les contacts se font en MP, par les joueurs eux-mêmes."],
+            ["Pourquoi dois-je cliquer sur « Disponible » à chaque connexion ?", "Le jeu n'autorise un addon à publier ton annonce qu'après un clic de ta part. Ta dispo repart donc à zéro quand tu te connectes, et une annonce dure une heure."],
+            ["Mes données partent-elles quelque part ?", "Non. L'annuaire passe par le jeu, entre joueurs de l'addon. Rien n'est envoyé au site, sauf si tu choisis de <a href=\"{root}wow-forever/partager-mes-donnees/\">partager tes données</a>."],
+            ["Pourquoi je ne vois pas un ami qui a l'addon ?", "Il doit avoir une version récente, être de ton royaume et de ta faction, et avoir cliqué sur Disponible. Clique sur Actualiser dans l'onglet Artisans."],
+        ],
+    },
+    "en": {
+        "ad_kicker": "World of Warcraft: Forever · Free addon",
+        "ad_title": "BrokenMeta Hub addon for WoW: Forever (free)",
+        "ad_desc": "Free WoW: Forever addon: every item's DPS value, a directory of available crafters with their recipes, profession leveling at auction house prices.",
+        "ad_h1": "BrokenMeta Hub, the WoW: Forever addon",
+        "ad_intro": "One free addon, two sections: BrokenMeta : DPS tells you what every item is worth for your spec, and BrokenMeta : Professions finds an available crafter anywhere on your realm, or levels your profession at the best price.",
+        "ad_download": "Download the addon {v} (.zip)",
+        "ad_nav": "BrokenMeta addon",
+        "ad_dps_h2": "BrokenMeta : DPS",
+        "ad_dps": [
+            "<strong>Every item's DPS value</strong> in its tooltip, for your spec, computed by the site's simulator.",
+            "<strong>Your upgrades</strong> spotted in your bags and in the dungeons of your level, with the most rewarding dungeon.",
+            "<strong>Your personal stat weights</strong>: compute them on <a href=\"{root}wow-forever/simuler-mon-personnage/\">Simulate my character</a>, then import them into the addon (redo it every 5 levels, the addon reminds you).",
+            "<strong>A character export</strong> to paste on the site to simulate your real DPS.",
+        ],
+        "ad_prof_h2": "BrokenMeta : Professions",
+        "ad_find_h3": "Find an available crafter",
+        "ad_find": [
+            "<strong>The directory of crafters</strong> who run the addon and set themselves available, across your whole realm and faction, whatever their zone.",
+            "Their race, level, professions with skill level, and a short message (\"weapons and armor, bring your mats\").",
+            "<strong>Their recipes</strong>: one click to see everything a crafter can make, with the game's tooltip.",
+            "<strong>Item search</strong>: type an item name, the directory keeps the crafters who can make it.",
+            "A <strong>Whisper</strong> button to message them yourself. The addon never sends a message for you.",
+        ],
+        "ad_offer_h3": "Offer your services",
+        "ad_offer": [
+            "Open your profession window once: the addon notes your recipes.",
+            "In BrokenMeta : Professions > My profile, write a short message and click <strong>Available</strong>.",
+            "Your announce is visible to everyone for one hour. The addon warns you before it ends: one click on Renew extends it.",
+        ],
+        "ad_level_h3": "Level a profession at the best price",
+        "ad_level": [
+            "The <strong>Leveling</strong> tab follows the optimal route of the <a href=\"{root}wow-forever/professions/\">profession guides</a>, from your current skill.",
+            "Scan the auction house from the addon: every reagent shows its current price (vendor, AH or crafted, the cheapest).",
+            "For each step: the total cost, the cost of one craft and the crafted item's AH price, to know whether selling it pays for your leveling.",
+        ],
+        "ad_mock_caption": "The crafters directory in the addon (made-up characters).",
+        "ad_mock": {
+            "tab_dps": "DPS", "tab_prof": "Professions", "sub_dir": "Crafters", "sub_me": "My profile", "sub_level": "Leveling",
+            "all": "All professions", "refresh": "Refresh", "search": "Search an item…",
+            "count": "3 crafters announced, 2 available", "recipes": "Recipes", "whisper": "Whisper",
+            "rows": [
+                {"name": "Thrangor", "color": "#c79c6e", "level": 20, "initial": "T", "avail": True,
+                 "profs": [["Blacksmithing", "118", "150"]], "msg": "Weapons and armor up to 115, bring your mats"},
+                {"name": "Lyssia", "color": "#3fc7eb", "level": 18, "initial": "L", "avail": True,
+                 "profs": [["Tailoring", "96", "150"], ["Enchanting", "74", "150"]], "msg": "10-slot bags at cost price"},
+                {"name": "Morvak", "color": "#fff468", "level": 16, "initial": "M", "avail": False,
+                 "profs": [["Leatherworking", "80", "150"]], "msg": ""},
+            ],
+        },
+        "ad_install_h2": "Install the addon",
+        "ad_install": [
+            "Download the .zip file with the button above.",
+            "Unzip it into World of Warcraft's <code>_classic_beta_\\Interface\\AddOns</code> folder: you should get a <code>BrokenMetaWeights</code> folder.",
+            "Restart the game completely, then click the sword button around the minimap (or type <code>/bmw</code>).",
+        ],
+        "ad_faq_h2": "Frequently asked questions",
+        "ad_faq": [
+            ["Is the addon allowed by Blizzard?", "Yes. It is free, its code is readable, and it automates nothing: every crafter announce comes from their own click, like with group-finder addons. Players contact each other by whisper, themselves."],
+            ["Why must I click \"Available\" each time I log in?", "The game only lets an addon post your announce after a click from you. So your availability resets when you log in, and an announce lasts one hour."],
+            ["Does my data go anywhere?", "No. The directory goes through the game, between addon players. Nothing is sent to the site unless you choose to <a href=\"{root}wow-forever/partager-mes-donnees/\">share your data</a>."],
+            ["Why can't I see a friend who has the addon?", "They need a recent version, your realm and faction, and to have clicked Available. Click Refresh in the Crafters tab."],
+        ],
+    },
+}
+for _lang, _txt in _ADDON_PAGE.items():
+    TXT[_lang].update(_txt)

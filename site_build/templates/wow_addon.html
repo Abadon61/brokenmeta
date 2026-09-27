@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.ad_kicker, g_h1, g_intro) }}
+
+{% if addon_version %}<p class="ad-cta"><a class="wh-btn" href="{{ root }}assets/downloads/BrokenMeta-{{ addon_version }}.zip" download>{{ tx.ad_download.format(v=addon_version) }} <span aria-hidden="true">↓</span></a></p>{% endif %}
+
+<h2 class="fiche-section-title">{{ tx.ad_prof_h2 }}</h2>
+{% set mk = tx.ad_mock %}
+<figure class="bmh">
+  <div class="bmh-win" aria-hidden="true">
+    <div class="bmh-head"><span class="bmh-logo">B</span> BrokenMeta <span class="bmh-tag">hub</span><span class="bmh-x">×</span></div>
+    <div class="bmh-sections"><span>{{ mk.tab_dps }}</span><span class="on">{{ mk.tab_prof }}</span></div>
+    <div class="bmh-subs"><span class="on">{{ mk.sub_dir }}</span><span>{{ mk.sub_me }}</span><span>{{ mk.sub_level }}</span></div>
+    <div class="bmh-tools"><span class="bmh-btn">{{ mk.all }}</span><span class="bmh-input">{{ mk.search }}</span><span class="bmh-btn">{{ mk.refresh }}</span></div>
+    <div class="bmh-count">{{ mk.count }}</div>
+    {% for r in mk.rows %}
+    <div class="bmh-card{% if r.avail %} avail{% endif %}">
+      <div class="bmh-portrait" style="--cc: {{ r.color }}">{{ r.initial }}<i class="bmh-light{% if r.avail %} on{% endif %}"></i></div>
+      <div class="bmh-body">
+        <div class="bmh-name" style="color: {{ r.color }}">{{ r.name }} <span>{{ r.level }}</span></div>
+        <div class="bmh-profs">{% for p in r.profs %}<span><b>{{ p[0] }}</b> {{ p[1] }}<em>/{{ p[2] }}</em></span>{% endfor %}</div>
+        {% if r.msg %}<div class="bmh-msg">« {{ r.msg }} »</div>{% endif %}
+      </div>
+      <span class="bmh-btn">{{ mk.recipes }}</span><span class="bmh-btn bmh-primary">{{ mk.whisper }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  <figcaption>{{ tx.ad_mock_caption }}</figcaption>
+</figure>
+
+<h3 class="ad-h3">{{ tx.ad_find_h3 }}</h3>
+<ul class="ms-limits">{% for item in tx.ad_find %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
+<h3 class="ad-h3">{{ tx.ad_offer_h3 }}</h3>
+<ol class="ms-steps">{% for item in tx.ad_offer %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ol>
+<h3 class="ad-h3">{{ tx.ad_level_h3 }}</h3>
+<ul class="ms-limits">{% for item in tx.ad_level %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
+
+<h2 class="fiche-section-title">{{ tx.ad_dps_h2 }}</h2>
+<ul class="ms-limits">{% for item in tx.ad_dps %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
+
+<h2 class="fiche-section-title">{{ tx.ad_install_h2 }}</h2>
+<ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol>
+{% if addon_version %}<p class="ad-cta"><a class="wh-btn" href="{{ root }}assets/downloads/BrokenMeta-{{ addon_version }}.zip" download>{{ tx.ad_download.format(v=addon_version) }} <span aria-hidden="true">↓</span></a></p>{% endif %}
+
+<h2 class="fiche-section-title">{{ tx.ad_faq_h2 }}</h2>
+<div class="ad-faq">
+  {% for q, a in tx.ad_faq %}<details><summary>{{ q }}</summary><p>{{ a.replace('{root}', root)|safe }}</p></details>{% endfor %}
+</div>
+{% endblock %}

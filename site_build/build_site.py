@@ -6688,6 +6688,8 @@ def main() -> None:
     # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
+    # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
+    _wnav.append(("addon", "Addon BrokenMeta", "BrokenMeta addon"))
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
@@ -7718,6 +7720,17 @@ def main() -> None:
                        article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
             # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
             # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
+            _adpath = "/wow-forever/addon/"
+            assert len(_gx["ad_title"]) <= 60 and len(_gx["ad_desc"]) <= 155
+            _adroot = "/" if lang == "fr" else "/en/"
+            render("wow_addon.html", _adpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx,
+                   addon_version=addon_version(),
+                   g_title=_gx["ad_title"], g_desc=_gx["ad_desc"], g_h1=_gx["ad_h1"], g_intro=_gx["ad_intro"],
+                   faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
+                               "mainEntity": [{"@type": "Question", "name": q,
+                                               "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
+                                              for q, a in _gx["ad_faq"]]},
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["ad_h1"], canonical_for(_adpath, lang))]))
             _shpath = "/wow-forever/partager-mes-donnees/"
             assert len(_gx["sh_title"]) <= 60 and len(_gx["sh_desc"]) <= 155
             render("wow_share.html", _shpath, lang, active_nav="wow", active_sub="wow-partager-mes-donnees", tx=_gx,
