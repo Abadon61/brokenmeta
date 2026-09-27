@@ -156,6 +156,7 @@ def profession_routes():
             {"f": s["from"], "t": s["to"], "c": s["crafts"], "recipe": s["recipe"],
              "name": {"frFR": s["name"]["fr"], "enUS": s["name"]["en"]},
              "icon": (s.get("creates") or {}).get("icon"), "item": (s.get("creates") or {}).get("id"),
+             "q": (s.get("creates") or {}).get("count") or 1,
              "reag": [reagent(g) for g in s["reagents"]]}
             for s in p["route"]],
             "made": made_by(p)}

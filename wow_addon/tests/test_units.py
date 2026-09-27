@@ -284,6 +284,12 @@ class LevelingTests(unittest.TestCase):
         self.assertIsNotNone(scan2)
         self.assertEqual(missing2, 0)
         self.assertGreater(total2, total)
+        first = lua_list(plan2)[0]
+        per_craft = sum((r.unit or 0) * r.g.n for r in lua_list(first.reag))
+        self.assertAlmostEqual(first.unitCost, per_craft / (first.step.q or 1))
+        self.assertIsNone(first.ah, "crafted potion not in the scan")
+        prices[first.step.item] = self.ev("{ 777, 3, 1 }")
+        self.assertEqual(lua_list(self.g.NS.LevelingPlan(171, 60)[0])[0].ah, 777)
 
 
 if __name__ == "__main__":

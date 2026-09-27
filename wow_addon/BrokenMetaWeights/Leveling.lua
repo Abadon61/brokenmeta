@@ -22,6 +22,7 @@ local T = ns.Localize("leveling", {
   hours = "%d h", days = "%d j", minutes = "%d min",
   src_v = "marchand", src_a = "HV", src_c = "fabriqué",
   tip_price = "%d × %s = %s (%s)", tip_noprice = "Pas de prix : absent de ton dernier scan de l'hôtel des ventes.",
+  step_total = "Étape", craft_cost = "Coût du craft", ah_price = "Prix HV", ah_none = "absent de ton dernier scan",
 }, {
   tab = "Leveling", scan = "Scan the auction house",
   scan_closed = "Open the auction house to scan",
@@ -36,6 +37,7 @@ local T = ns.Localize("leveling", {
   hours = "%dh", days = "%dd", minutes = "%dmin",
   src_v = "vendor", src_a = "AH", src_c = "crafted",
   tip_price = "%d × %s = %s (%s)", tip_noprice = "No price: not in your latest auction house scan.",
+  step_total = "Step", craft_cost = "Craft cost", ah_price = "AH price", ah_none = "not in your latest scan",
 })
 
 if not ns.HubTab or not ns.PROFESSIONS then return end
@@ -129,7 +131,12 @@ function ns.LevelingPlan(line, rank)
       end
       total = total + cost -- the known part; the unknown reagents are counted in `missing`
       crafts = crafts + n
-      plan[#plan + 1] = { step = st, crafts = n, cost = priced and cost or nil, reag = lines }
+      -- One crafted item: the reagents of one craft over the items it makes; and its AH price.
+      local perCraft = 0
+      for _, r in ipairs(lines) do perCraft = r.unit and perCraft + r.unit * r.g.n or nil; if not perCraft then break end end
+      local sold = st.item and prices and prices[st.item]
+      plan[#plan + 1] = { step = st, crafts = n, cost = priced and cost or nil, reag = lines,
+        unitCost = perCraft and perCraft / math.max(1, st.q or 1) or nil, ah = sold and sold[1] or nil }
     end
   end
   return plan, total, missing, crafts, scan
@@ -238,12 +245,12 @@ for i = 1, CARDS do
   c.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
   c.title = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontName")
   c.title:SetPoint("TOPLEFT", c.icon, "TOPRIGHT", 10, 1)
-  c.title:SetWidth(W - 210)
+  c.title:SetWidth(W - 280) -- leaves room for the price column
   c.title:SetJustifyH("LEFT")
   c.title:SetWordWrap(false)
   c.iconBtn = CreateFrame("Button", nil, c)
   c.iconBtn:SetAllPoints(c.icon)
-  c.iconBtn:SetScript("OnEnter", function(self) itemTooltip(self, self.id) end)
+  c.iconBtn:SetScript("OnEnter", function(self) itemTooltip(self, self.id, self.extra) end)
   c.iconBtn:SetScript("OnLeave", function() GameTooltip:Hide() end)
   c.iconBtn:SetScript("OnClick", function(self) linkToChat(self.id) end)
   c.free = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
@@ -252,13 +259,20 @@ for i = 1, CARDS do
   for j = 1, MAX_CHIPS do
     local chip = makeChip(c)
     if j == 1 then chip:SetPoint("TOPLEFT", c.title, "BOTTOMLEFT", 0, -4)
-    else chip:SetPoint("LEFT", c.chips[j - 1], "RIGHT", 10, 0) end
+    else chip:SetPoint("LEFT", c.chips[j - 1], "RIGHT", 7, 0) end
     chip:Hide()
     c.chips[j] = chip
   end
+  -- Right column: step total, then one item's crafting cost and its auction house price.
   c.cost = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
-  c.cost:SetPoint("RIGHT", -10, 0)
+  c.cost:SetPoint("TOPRIGHT", -10, -6)
   c.cost:SetJustifyH("RIGHT")
+  c.unit = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  c.unit:SetPoint("TOPRIGHT", c.cost, "BOTTOMRIGHT", 0, -3)
+  c.unit:SetJustifyH("RIGHT")
+  c.sell = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  c.sell:SetPoint("TOPRIGHT", c.unit, "BOTTOMRIGHT", 0, -1)
+  c.sell:SetJustifyH("RIGHT")
   c:Hide()
   cards[i] = c
 end
@@ -330,7 +344,16 @@ refresh = function()
         if e.reag[j] then setChip(c.chips[j], e.reag[j], compact) else c.chips[j]:Hide() end
       end
       c.free:SetText(#e.reag == 0 and ("|c" .. HEX.faint .. T.free .. "|r") or "")
-      c.cost:SetText(e.cost and money(e.cost) or "|cffff5a6b?|r")
+      c.cost:SetText(T.step_total .. " " .. (e.cost and money(e.cost) or "|cffff5a6b?|r"))
+      c.unit:SetText(T.craft_cost .. " " .. (e.unitCost and money(e.unitCost) or "|cffff5a6b?|r"))
+      -- AH price in teal when selling the item is worth more than crafting it.
+      local gain = e.ah and e.unitCost and e.ah > e.unitCost
+      c.sell:SetText(T.ah_price .. " " .. (e.ah and ((gain and ("|c" .. HEX.teal) or "") .. money(e.ah) .. (gain and "|r" or ""))
+        or ("|c" .. HEX.faint .. "—|r")))
+      c.iconBtn.extra = {
+        "|c" .. HEX.teal .. "BrokenMeta|r  " .. T.craft_cost .. " " .. (e.unitCost and money(e.unitCost) or "?"),
+        "|c" .. HEX.teal .. "BrokenMeta|r  " .. T.ah_price .. " " .. (e.ah and money(e.ah) or T.ah_none),
+      }
       ns.FlatBorder(c, k == 1 and C.teal or C.border) -- the step to do now
       c:Show()
     else

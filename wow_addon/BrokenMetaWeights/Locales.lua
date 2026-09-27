@@ -126,6 +126,7 @@ EXTRA.deDE = {
     hours = "%d Std.", days = "%d T.", minutes = "%d Min.",
     src_v = "Händler", src_a = "AH", src_c = "hergestellt",
     tip_price = "%d × %s = %s (%s)", tip_noprice = "Kein Preis: nicht in deinem letzten Auktionshaus-Scan.",
+    step_total = "Schritt", craft_cost = "Herstellungskosten", ah_price = "AH-Preis", ah_none = "nicht in deinem letzten Scan",
   },
   craft = {
     tab_dir = "Handwerker", tab_me = "Mein Profil",
@@ -260,6 +261,7 @@ EXTRA.esES = {
     hours = "%d h", days = "%d d", minutes = "%d min",
     src_v = "vendedor", src_a = "subasta", src_c = "fabricado",
     tip_price = "%d × %s = %s (%s)", tip_noprice = "Sin precio: no aparece en tu último escaneo de la casa de subastas.",
+    step_total = "Etapa", craft_cost = "Coste de fabricación", ah_price = "Precio subasta", ah_none = "no aparece en tu último escaneo",
   },
   craft = {
     tab_dir = "Artesanos", tab_me = "Mi perfil",
