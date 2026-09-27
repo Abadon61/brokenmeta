@@ -21,6 +21,7 @@ local T = ns.Localize("leveling", {
   link_title = "Lien brokenmeta.gg", link_hint = "Le lien est déjà sélectionné : Ctrl+C, puis colle-le dans ton navigateur.",
   hours = "%d h", days = "%d j", minutes = "%d min",
   src_v = "marchand", src_a = "HV", src_c = "fabriqué",
+  tip_price = "%d × %s = %s (%s)", tip_noprice = "Pas de prix : absent de ton dernier scan de l'hôtel des ventes.",
 }, {
   tab = "Leveling", scan = "Scan the auction house",
   scan_closed = "Open the auction house to scan",
@@ -34,6 +35,7 @@ local T = ns.Localize("leveling", {
   link_title = "brokenmeta.gg link", link_hint = "The link is already selected: Ctrl+C, then paste it in your browser.",
   hours = "%dh", days = "%dd", minutes = "%dmin",
   src_v = "vendor", src_a = "AH", src_c = "crafted",
+  tip_price = "%d × %s = %s (%s)", tip_noprice = "No price: not in your latest auction house scan.",
 })
 
 if not ns.HubTab or not ns.PROFESSIONS then return end
@@ -172,6 +174,56 @@ summary2:SetPoint("TOPLEFT", 4, -68)
 summary2:SetWidth(W - 40)
 summary2:SetJustifyH("LEFT")
 
+-- Item tooltips (the game's own, like bags and chat links) on the result icon and on each reagent;
+-- shift-click puts the item link in the chat box. extra: lines added under the tooltip.
+local function itemTooltip(owner, id, extra)
+  if not id then return end
+  GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
+  if GameTooltip.SetItemByID then GameTooltip:SetItemByID(id) else GameTooltip:SetHyperlink("item:" .. id) end
+  if extra then
+    GameTooltip:AddLine(" ")
+    for _, l in ipairs(extra) do GameTooltip:AddLine(l) end
+  end
+  GameTooltip:Show()
+end
+
+local function linkToChat(id)
+  if not id or not IsModifiedClick or not IsModifiedClick("CHATLINK") then return end
+  local link = select(2, ns.GetItemInfo(id))
+  if link then
+    if ChatEdit_InsertLink then ChatEdit_InsertLink(link) elseif HandleModifiedItemClick then HandleModifiedItemClick(link) end
+  end
+end
+
+-- A reagent chip: icon, quantity, price (price only in the tooltip when the step has many reagents).
+local MAX_CHIPS = 7
+local function makeChip(parent)
+  local b = CreateFrame("Button", nil, parent)
+  b:SetHeight(18)
+  b.icon = b:CreateTexture(nil, "ARTWORK")
+  b.icon:SetSize(16, 16)
+  b.icon:SetPoint("LEFT", 0, 0)
+  b.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+  b.text = b:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+  b.text:SetPoint("LEFT", b.icon, "RIGHT", 4, 0)
+  b:SetScript("OnEnter", function(self) itemTooltip(self, self.id, self.extra) end)
+  b:SetScript("OnLeave", function() GameTooltip:Hide() end)
+  b:SetScript("OnClick", function(self) linkToChat(self.id) end)
+  return b
+end
+
+local function setChip(b, r, compact)
+  b.id = r.g.id
+  b.icon:SetTexture("Interface\\Icons\\" .. (r.g.icon or "INV_Misc_QuestionMark"))
+  local price = r.unit and money(r.unit * r.qty) or "|cffff5a6b?|r"
+  b.text:SetText("|c" .. HEX.cream .. r.qty .. "×|r" .. (compact and "" or (" |c" .. HEX.dim .. price .. "|r")))
+  local line = r.unit and string.format(T.tip_price, r.qty, money(r.unit), money(r.unit * r.qty), T["src_" .. r.src])
+    or ("|cffff5a6b" .. T.tip_noprice .. "|r")
+  b.extra = { "|c" .. HEX.teal .. "BrokenMeta|r  " .. line }
+  b:SetWidth(20 + ((b.text.GetStringWidth and b.text:GetStringWidth()) or 60))
+  b:Show()
+end
+
 -- Step cards: result icon, "from-to · recipe ×crafts", the reagents with their prices, step cost.
 local CARDS, TOP, GAP, CARD_H = 6, -90, 60, 54
 local cards = {}
@@ -189,11 +241,21 @@ for i = 1, CARDS do
   c.title:SetWidth(W - 210)
   c.title:SetJustifyH("LEFT")
   c.title:SetWordWrap(false)
-  c.reag = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-  c.reag:SetPoint("TOPLEFT", c.title, "BOTTOMLEFT", 0, -4)
-  c.reag:SetWidth(W - 210)
-  c.reag:SetJustifyH("LEFT")
-  c.reag:SetWordWrap(false)
+  c.iconBtn = CreateFrame("Button", nil, c)
+  c.iconBtn:SetAllPoints(c.icon)
+  c.iconBtn:SetScript("OnEnter", function(self) itemTooltip(self, self.id) end)
+  c.iconBtn:SetScript("OnLeave", function() GameTooltip:Hide() end)
+  c.iconBtn:SetScript("OnClick", function(self) linkToChat(self.id) end)
+  c.free = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  c.free:SetPoint("TOPLEFT", c.title, "BOTTOMLEFT", 0, -5)
+  c.chips = {}
+  for j = 1, MAX_CHIPS do
+    local chip = makeChip(c)
+    if j == 1 then chip:SetPoint("TOPLEFT", c.title, "BOTTOMLEFT", 0, -4)
+    else chip:SetPoint("LEFT", c.chips[j - 1], "RIGHT", 10, 0) end
+    chip:Hide()
+    c.chips[j] = chip
+  end
   c.cost = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
   c.cost:SetPoint("RIGHT", -10, 0)
   c.cost:SetJustifyH("RIGHT")
@@ -219,17 +281,6 @@ local function ago(t)
   if s >= 86400 then return string.format(T.days, math.floor(s / 86400)) end
   if s >= 3600 then return string.format(T.hours, math.floor(s / 3600)) end
   return string.format(T.minutes, math.floor(s / 60))
-end
-
-local function reagentText(r)
-  local name = r.g.name[LOC] or r.g.name.enUS
-  local price
-  if r.unit then
-    price = "|c" .. HEX.dim .. money(r.unit * r.qty) .. " " .. T["src_" .. r.src] .. "|r"
-  else
-    price = "|cffff5a6b?|r"
-  end
-  return "|c" .. HEX.cream .. r.qty .. "×|r " .. name .. " " .. price
 end
 
 refresh = function()
@@ -273,9 +324,12 @@ refresh = function()
       local st = e.step
       c.icon:SetTexture(st.icon and ("Interface\\Icons\\" .. st.icon) or "Interface\\Icons\\INV_Misc_QuestionMark")
       c.title:SetText(string.format(T.step, st.f, st.t, st.name[LOC] or st.name.enUS, e.crafts))
-      local parts = {}
-      for _, r in ipairs(e.reag) do parts[#parts + 1] = reagentText(r) end
-      c.reag:SetText(#parts > 0 and table.concat(parts, "   ") or ("|c" .. HEX.faint .. T.free .. "|r"))
+      c.iconBtn.id = st.item
+      local compact = #e.reag > 3
+      for j = 1, MAX_CHIPS do
+        if e.reag[j] then setChip(c.chips[j], e.reag[j], compact) else c.chips[j]:Hide() end
+      end
+      c.free:SetText(#e.reag == 0 and ("|c" .. HEX.faint .. T.free .. "|r") or "")
       c.cost:SetText(e.cost and money(e.cost) or "|cffff5a6b?|r")
       ns.FlatBorder(c, k == 1 and C.teal or C.border) -- the step to do now
       c:Show()

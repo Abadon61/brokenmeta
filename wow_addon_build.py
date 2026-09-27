@@ -155,7 +155,7 @@ def profession_routes():
         out[line] = {"id": p["id"], "name": {"frFR": p["name"]["fr"], "enUS": p["name"]["en"]}, "cap": p["cap"], "steps": [
             {"f": s["from"], "t": s["to"], "c": s["crafts"], "recipe": s["recipe"],
              "name": {"frFR": s["name"]["fr"], "enUS": s["name"]["en"]},
-             "icon": (s.get("creates") or {}).get("icon"),
+             "icon": (s.get("creates") or {}).get("icon"), "item": (s.get("creates") or {}).get("id"),
              "reag": [reagent(g) for g in s["reagents"]]}
             for s in p["route"]],
             "made": made_by(p)}
@@ -166,7 +166,7 @@ def reagent(g):
     """Route reagent for the addon's pricing: k = v(endor) / f(arm) / c(rafted) / d(isenchant),
     v = vendor price in copper (vendor reagents only)."""
     price = g.get("price") or {}
-    r = {"id": g["id"], "n": g["count"], "k": (price.get("kind") or "farm")[0],
+    r = {"id": g["id"], "n": g["count"], "k": (price.get("kind") or "farm")[0], "icon": g.get("icon"),
          "name": {"frFR": g["name"]["fr"], "enUS": g["name"]["en"]}}
     if price.get("kind") == "vendor":
         r["v"] = price.get("copper") or 0

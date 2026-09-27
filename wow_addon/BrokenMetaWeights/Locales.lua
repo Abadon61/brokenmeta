@@ -125,6 +125,7 @@ EXTRA.deDE = {
     link_title = "Link zu brokenmeta.gg", link_hint = "Der Link ist schon markiert: Strg+C und im Browser einfügen.",
     hours = "%d Std.", days = "%d T.", minutes = "%d Min.",
     src_v = "Händler", src_a = "AH", src_c = "hergestellt",
+    tip_price = "%d × %s = %s (%s)", tip_noprice = "Kein Preis: nicht in deinem letzten Auktionshaus-Scan.",
   },
   craft = {
     tab_dir = "Handwerker", tab_me = "Mein Profil",
@@ -258,6 +259,7 @@ EXTRA.esES = {
     link_title = "Enlace de brokenmeta.gg", link_hint = "El enlace ya está seleccionado: Ctrl+C y pégalo en tu navegador.",
     hours = "%d h", days = "%d d", minutes = "%d min",
     src_v = "vendedor", src_a = "subasta", src_c = "fabricado",
+    tip_price = "%d × %s = %s (%s)", tip_noprice = "Sin precio: no aparece en tu último escaneo de la casa de subastas.",
   },
   craft = {
     tab_dir = "Artesanos", tab_me = "Mi perfil",
