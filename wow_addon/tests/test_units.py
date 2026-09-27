@@ -247,5 +247,44 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 
 
+class LevelingTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        self.ev = self.g.LUA_EVAL
+
+    def test_vendor_farm_and_crafted_prices(self):
+        price = self.g.NS.ReagentPrice
+        prof = self.ev("{ made = { [99] = { n = 2, reag = { { id = 1, n = 4, k = 'v', v = 50 } } } } }")
+        vendor = self.ev("{ id = 1, n = 1, k = 'v', v = 50 }")
+        farm = self.ev("{ id = 2, n = 1, k = 'f' }")
+        crafted = self.ev("{ id = 99, n = 1, k = 'c' }")
+        self.assertEqual(price(prof, vendor, None, 0), (50, "v"))
+        self.assertEqual(price(prof, vendor, self.ev("{ [1] = { 30, 20, 1 } }"), 0), (30, "a"), "AH cheaper than vendor")
+        self.assertEqual(price(prof, farm, None, 0), (None, None), "farmed, no scan: unknown")
+        self.assertEqual(price(prof, farm, self.ev("{ [2] = { 120, 5, 1 } }"), 0), (120, "a"))
+        # crafted: 4 x 50 vendor / 2 made = 100 each, cheaper than 150 on the AH
+        self.assertEqual(price(prof, crafted, self.ev("{ [99] = { 150, 5, 1 } }"), 0), (100, "c"))
+        self.assertEqual(price(prof, crafted, self.ev("{ [99] = { 80, 5, 1 } }"), 0), (80, "a"))
+
+    def test_plan_from_current_skill_uses_latest_scan(self):
+        plan, total, missing, crafts, scan = self.g.NS.LevelingPlan(171, 60)
+        steps = lua_list(plan)
+        self.assertGreater(len(steps), 0)
+        self.assertGreaterEqual(steps[0].step.t, 61, "done steps are skipped")
+        self.assertIsNone(scan)
+        self.assertGreater(missing, 0, "herbs have no price without a scan")
+        farm = {r.g.id for st in steps for r in lua_list(st.reag) if r.g.k != "v"}
+        d = self.g.NS.Data()
+        prices = self.ev("{}")
+        for item in farm:
+            prices[item] = self.ev("{ 10, 99, 1 }")
+        d.ah[len(d.ah) + 1] = self.ev("{ realm = 'Realm', faction = 'Alliance', t = 1790000000 }")
+        d.ah[len(d.ah)].prices = prices
+        plan2, total2, missing2, _, scan2 = self.g.NS.LevelingPlan(171, 60)
+        self.assertIsNotNone(scan2)
+        self.assertEqual(missing2, 0)
+        self.assertGreater(total2, total)
+
+
 if __name__ == "__main__":
     unittest.main()

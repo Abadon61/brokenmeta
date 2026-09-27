@@ -29,7 +29,7 @@ local T = ns.Localize("hub", {
   copy_empty = "Aucune donnée pour l'instant : joue un peu ou scanne l'hôtel des ventes.",
   scan_hint = "Ouvre l'hôtel des ventes (parle à un commissaire-priseur) pour activer le scan.",
   meas = "Mesures enregistrées", meas_detail = "%d (feuille de perso %d · familier %d · cotes %d)",
-  ah_h = "Hôtel des ventes", ah_none = "Aucun scan. Ouvre l'hôtel des ventes et clique sur « BrokenMeta : scanner les prix ».",
+  ah_h = "Hôtel des ventes", ah_none = "Aucun scan. Ouvre l'hôtel des ventes, puis Profession > Montée > « Scanner l'hôtel des ventes ».",
   ah_last = "Dernier scan : %s · %s (%s) · %d annonces · %d objets", ah_mode = "Mode de scan du client : %s",
   ah_count = "Scans conservés : %d",
   run = "Lancer", cmd_hint = "Commandes à taper dans le chat (ou clique sur Lancer).",
@@ -82,7 +82,7 @@ local T = ns.Localize("hub", {
   copy_empty = "No data yet: play a bit or scan the auction house.",
   scan_hint = "Open the auction house (talk to an auctioneer) to enable the scan.",
   meas = "Recorded measurements", meas_detail = "%d (character sheet %d · pet %d · ratings %d)",
-  ah_h = "Auction house", ah_none = "No scan yet. Open the auction house and click \"BrokenMeta: scan prices\".",
+  ah_h = "Auction house", ah_none = "No scan yet. Open the auction house, then Professions > Leveling > \"Scan the auction house\".",
   ah_last = "Last scan: %s · %s (%s) · %d listings · %d items", ah_mode = "Client scan mode: %s",
   ah_count = "Scans kept: %d",
   run = "Run", cmd_hint = "Commands to type in chat (or click Run).",
@@ -655,22 +655,10 @@ copyBtn:SetScript("OnClick", function() if ns.ShowShareCopy then ns.ShowShareCop
 rows(pData, 10, -130, 18)
 for _, row in ipairs(pData.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
 
--- A click here counts as the hardware event full scans require, same as the auction window button.
-local scanBtn = ns.Button(pData)
-scanBtn:SetSize(370, 22)
-scanBtn:SetPoint("TOPLEFT", 4, -330)
-scanBtn:SetText(T.scan)
-scanBtn:SetScript("OnClick", function() if ns.StartAuctionScan then ns.StartAuctionScan() end end)
-local scanHint = pData:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-scanHint:SetPoint("TOPLEFT", scanBtn, "BOTTOMLEFT", 0, -6)
-scanHint:SetWidth(W - 40)
-scanHint:SetJustifyH("LEFT")
+-- The scan button itself is in Profession > Leveling, next to the prices it feeds.
 
 refreshers[5] = function()
   shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff2de6c4" .. T.share_on .. "|r") or T.share_off)
-  local open = ns.IsAuctionOpen and ns.IsAuctionOpen()
-  if open then scanBtn:Enable() else scanBtn:Disable() end
-  scanHint:SetText(open and "" or ("|cff8a81ab" .. T.scan_hint .. "|r"))
   local d = ns.Data()
   local n = { stats = 0, pet = 0, rating = 0 }
   for _, r in ipairs(d.meas) do n[r.k] = (n[r.k] or 0) + 1 end

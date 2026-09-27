@@ -155,9 +155,39 @@ def profession_routes():
         out[line] = {"id": p["id"], "name": {"frFR": p["name"]["fr"], "enUS": p["name"]["en"]}, "cap": p["cap"], "steps": [
             {"f": s["from"], "t": s["to"], "c": s["crafts"], "recipe": s["recipe"],
              "name": {"frFR": s["name"]["fr"], "enUS": s["name"]["en"]},
-             "reag": [{"id": g["id"], "n": g["count"], "name": {"frFR": g["name"]["fr"], "enUS": g["name"]["en"]}}
-                      for g in s["reagents"]]}
-            for s in p["route"]]}
+             "icon": (s.get("creates") or {}).get("icon"),
+             "reag": [reagent(g) for g in s["reagents"]]}
+            for s in p["route"]],
+            "made": made_by(p)}
+    return out
+
+
+def reagent(g):
+    """Route reagent for the addon's pricing: k = v(endor) / f(arm) / c(rafted) / d(isenchant),
+    v = vendor price in copper (vendor reagents only)."""
+    price = g.get("price") or {}
+    r = {"id": g["id"], "n": g["count"], "k": (price.get("kind") or "farm")[0],
+         "name": {"frFR": g["name"]["fr"], "enUS": g["name"]["en"]}}
+    if price.get("kind") == "vendor":
+        r["v"] = price.get("copper") or 0
+    return r
+
+
+def made_by(p):
+    """Recipes of the reagents this profession crafts itself (Cured Heavy Hide...), two levels deep,
+    so the addon can price them at the cheaper of the auction house and their crafting cost."""
+    recipes = {r["creates"]["id"]: r for r in p.get("recipes", []) if r.get("creates")}
+    wanted = [g["id"] for s in p["route"] for g in s["reagents"] if (g.get("price") or {}).get("kind") == "craft"]
+    out, depth = {}, 0
+    while wanted and depth < 3:
+        nxt = []
+        for item in wanted:
+            r = recipes.get(item)
+            if not r or item in out:
+                continue
+            out[item] = {"n": r["creates"].get("count") or 1, "reag": [reagent(g) for g in r["reagents"]]}
+            nxt += [g["id"] for g in r["reagents"] if (g.get("price") or {}).get("kind") == "craft"]
+        wanted, depth = nxt, depth + 1
     return out
 
 
