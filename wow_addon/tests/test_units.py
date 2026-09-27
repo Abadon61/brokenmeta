@@ -647,5 +647,26 @@ class EconomyDungeonTests(unittest.TestCase):
         self.assertEqual([(e.d, e.n) for e in log], [(2, 3), (2, 1)], "newest first, with the count")
 
 
+class LanguageTests(unittest.TestCase):
+    def texts(self, g):
+        return lua_list(g.LUA_EVAL('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t then o[#o+1] = t end end return o end')())
+
+    def test_language_override_and_auto(self):
+        _, _, texts, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], cvars={"brokenMetaLanguage": "frFR"})
+        self.assertEqual((g.NS.LOCALE, g.NS.CLIENT_LOCALE, g.NS.IS_FR), ("frFR", "enUS", True))
+        self.assertTrue(any("Profession montre" in t for t in texts), "French texts on an English client")
+        _, _, texts, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], cvars={"brokenMetaLanguage": "auto"})
+        self.assertEqual(g.NS.LOCALE, "enUS")
+        _, _, texts, g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [], cvars={"brokenMetaLanguage": "deDE"})
+        self.assertEqual(g.NS.LOCALE, "deDE")
+        self.assertTrue(any("Berufe zeigt" in t for t in texts))
+
+    def test_lang_command_saves_for_next_reload(self):
+        _, chat, _, g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [], ["lang en"])
+        self.assertEqual(g.CVARS["brokenMetaLanguage"], "enUS")
+        self.assertEqual(g.NS.LOCALE, "frFR", "applied only after /reload")
+        self.assertIn("/reload", chat[-1])
+
+
 if __name__ == "__main__":
     unittest.main()

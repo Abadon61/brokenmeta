@@ -796,7 +796,7 @@ end
 -- Site URL in the player's language (French pages for frFR, English pages otherwise), tagged so
 -- Google Analytics shows the traffic the addon brings.
 function ns.SiteURL(path, campaign)
-  local prefix = GetLocale() == "frFR" and "" or "en/"
+  local prefix = ns.IS_FR and "" or "en/"
   return "https://brokenmeta.gg/" .. prefix .. path .. "?utm_source=addon&utm_medium=ingame&utm_campaign=" .. campaign
 end
 

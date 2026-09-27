@@ -10,7 +10,7 @@
 --   D1;faction;itemID[;age] / D0 / DQ   craft requests (see Requests.lua)
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
-local LOCALE = GetLocale()
+local LOCALE = ns.LOCALE
 
 local T = ns.Localize("craft", {
   tab_dir = "Artisans", tab_me = "Mon profil",

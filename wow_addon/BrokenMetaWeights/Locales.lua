@@ -1,9 +1,37 @@
 -- Loaded first. Each file builds its texts with ns.Localize(section, frenchTable, englishTable):
--- French for frFR clients, the German/Spanish tables below for deDE/esES/esMX (any key missing
--- there falls back to English), English for every other client.
+-- French for frFR, the German/Spanish tables below for deDE/esES/esMX (any key missing there falls
+-- back to English), English otherwise.
+--
+-- The language is the client's, unless the player picked another one in the options. That choice
+-- lives in a game CVar and not in the SavedVariables: every text is built while the files load,
+-- BEFORE the SavedVariables are read, whereas CVars are already there. Changing it needs a /reload.
+-- (Parsing the game's own texts, e.g. "Equip:" in tooltips, always follows the CLIENT language.)
 local _, ns = ...
-local LOCALE = GetLocale()
+local CVAR = "brokenMetaLanguage"
+local LANGS = { frFR = true, enUS = true, deDE = true, esES = true }
+local function cvar(name)
+  local ok, v = pcall(function()
+    if C_CVar and C_CVar.GetCVar then return C_CVar.GetCVar(name) end
+    if GetCVar then return GetCVar(name) end
+  end)
+  return ok and v or nil
+end
+if C_CVar and C_CVar.RegisterCVar then pcall(C_CVar.RegisterCVar, CVAR, "auto")
+elseif RegisterCVar then pcall(RegisterCVar, CVAR, "auto") end
+ns.CLIENT_LOCALE = GetLocale()
+local LOCALE = ns.CLIENT_LOCALE
+local picked = cvar(CVAR)
+if picked and LANGS[picked] then LOCALE = picked end
+ns.LOCALE, ns.LANG_CVAR = LOCALE, CVAR
+ns.LANG_SUPPORTED = cvar(CVAR) ~= nil -- the client keeps the choice across sessions
 ns.IS_FR = LOCALE == "frFR"
+
+-- Saves the language to use from the next /reload ("auto" = the client's).
+function ns.SetLanguage(value)
+  if C_CVar and C_CVar.SetCVar then pcall(C_CVar.SetCVar, CVAR, value)
+  elseif SetCVar then pcall(SetCVar, CVAR, value) end
+end
+function ns.GetLanguageChoice() return cvar(CVAR) or "auto" end
 
 local EXTRA = {}
 
@@ -23,7 +51,7 @@ EXTRA.deDE = {
     spec_set = "Spezialisierung: %s",
     spec_auto = "automatische Erkennung (Talentbaum mit den meisten Punkten).",
     spec_unknown = "unbekannte Spezialisierung: %s. Liste: /bmw list",
-    help = "/bmw: Fenster · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw tour · /bmw probe",
+    help = "/bmw: Fenster · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw lang · /bmw tour · /bmw probe",
     weights = "Gewichtungen (DPS pro Punkt) für %s:",
     approx = "Näherung",
     share_state = "Datenfreigabe mit brokenmeta.gg: ",
@@ -39,6 +67,7 @@ EXTRA.deDE = {
     import_bad = "dieser Text ist kein Broken-Meta-Gewichtungsexport (er beginnt mit BMW-W1).",
     import_class = "diese Gewichtungen gehören zu einer anderen Klasse als dieser Charakter.",
     import_cleared = "zurück zu den generischen Gewichtungen (Stufe 20).",
+    lang_set = "Sprache gespeichert: tippe /reload, um sie anzuwenden.", lang_help = "/bmw lang fr, en, de, es oder auto (Spielsprache).",
     refresh_weights = "deine persönlichen Gewichtungen stammen von Stufe %d: berechne sie auf brokenmeta.gg neu (alle %d Stufen).",
   },
   hub = {
@@ -174,6 +203,8 @@ EXTRA.deDE = {
     weights_reminder = "Alle 5 Stufen an neue Wertgewichtungen erinnern", announce_reminder = "Warnen, bevor meine Handwerker-Ankündigung abläuft",
     request_alert = "Benachrichtigen, wenn jemand einen Gegenstand sucht, den ich herstellen kann", sounds = "Mit diesen Hinweisen einen Ton abspielen",
     minimap = "Minimap-Button anzeigen", open = "Hub öffnen", tour = "Einführung erneut ansehen",
+    language = "Sprache des Addons:", lang_auto = "Automatisch (%s)", reload = "Oberfläche neu laden",
+    lang_pending = "Lade die Oberfläche neu, um die neue Sprache anzuwenden.", lang_unsupported = "Dein Client kann diese Wahl nicht speichern.",
   },
   tour = {
     next = "Weiter", prev = "Zurück", done = "Los geht's!", skip = "Überspringen",
@@ -243,7 +274,7 @@ EXTRA.esES = {
     spec_set = "especialización: %s",
     spec_auto = "detección automática (el árbol de talentos con más puntos).",
     spec_unknown = "especialización desconocida: %s. Lista: /bmw list",
-    help = "/bmw: ventana · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw tour · /bmw probe",
+    help = "/bmw: ventana · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw lang · /bmw tour · /bmw probe",
     weights = "Pesos (DPS por punto) para %s:",
     approx = "aproximación",
     share_state = "datos compartidos con brokenmeta.gg: ",
@@ -259,6 +290,7 @@ EXTRA.esES = {
     import_bad = "este texto no es una exportación de pesos de Broken Meta (empieza por BMW-W1).",
     import_class = "estos pesos son de otra clase distinta a la de este personaje.",
     import_cleared = "vuelta a los pesos genéricos (nivel 20).",
+    lang_set = "idioma guardado: escribe /reload para aplicarlo.", lang_help = "/bmw lang fr, en, de, es o auto (idioma del juego).",
     refresh_weights = "tus pesos personales son del nivel %d: vuelve a calcularlos en brokenmeta.gg (cada %d niveles).",
   },
   hub = {
@@ -394,6 +426,8 @@ EXTRA.esES = {
     weights_reminder = "Recordarme rehacer mis pesos cada 5 niveles", announce_reminder = "Avisarme cuando mi anuncio de artesano vaya a caducar",
     request_alert = "Avisarme cuando alguien busque un objeto que sé fabricar", sounds = "Reproducir un sonido con estos avisos",
     minimap = "Mostrar el botón del minimapa", open = "Abrir el hub", tour = "Volver a ver la visita guiada",
+    language = "Idioma del addon:", lang_auto = "Automático (%s)", reload = "Recargar la interfaz",
+    lang_pending = "Recarga la interfaz para aplicar el nuevo idioma.", lang_unsupported = "Tu cliente no puede guardar esta elección.",
   },
   tour = {
     next = "Siguiente", prev = "Anterior", done = "¡Vamos!", skip = "Saltar",

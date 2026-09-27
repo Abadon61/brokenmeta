@@ -11,6 +11,9 @@ import lupa
 ADDON = Path(__file__).resolve().parent.parent / "BrokenMetaWeights"
 MOCK = r'''
 chat = {}
+CVARS = CVARS_INIT or {}
+C_CVar = { RegisterCVar = function(n, v) if CVARS[n] == nil then CVARS[n] = v end end,
+           GetCVar = function(n) return CVARS[n] end, SetCVar = function(n, v) CVARS[n] = v end }
 DEFAULT_CHAT_FRAME = { AddMessage = function(_, m) chat[#chat+1] = m end }
 function GetLocale() return LOCALE end
 function UnitClass() return "Guerrier", CLASS end
@@ -125,10 +128,11 @@ def toc_files():
     return [l.strip() for l in toc.splitlines() if l.strip().endswith(".lua") and not l.startswith("#")]
 
 
-def run(locale, cls, talents, items, equipped, hovers, slash=(), bags=()):
+def run(locale, cls, talents, items, equipped, hovers, slash=(), bags=(), cvars=None):
     lua = lupa.LuaRuntime(unpack_returned_tuples=True)
     g = lua.globals()
     g.LOCALE, g.CLASS = locale, cls
+    g.CVARS_INIT = lua.table_from(cvars or {})
     lua.execute(MOCK)
     g.TALENTS = lua.table_from(talents)
     for link, it in items.items():
