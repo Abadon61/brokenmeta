@@ -4,7 +4,7 @@ local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("hub", {
-  title = "BrokenMeta · Hub", sec_dps = "DPS", sec_prof = "Profession",
+  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profession",
   tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
   tab_guide = "Guide",
   up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
@@ -44,7 +44,7 @@ local T = ns.Localize("hub", {
     { "share", "/bmw share on|off", "Active ou coupe le partage des données avec brokenmeta.gg." },
     { "ah", "/bmw ah", "Scanne l'hôtel des ventes (il doit être ouvert)." },
     { "import", "/bmw import", "Importe tes poids personnels calculés sur brokenmeta.gg (/bmw import clear pour revenir aux poids génériques)." },
-    { "craft", "/bmw craft", "Ouvre l'annuaire des artisans connectés (BrokenMeta : Profession)." },
+    { "craft", "/bmw craft", "Ouvre l'annuaire des artisans connectés (Broken Meta : Profession)." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -57,7 +57,7 @@ local T = ns.Localize("hub", {
   no_spec = "Aucune spécialisation DPS simulée pour ta classe.",
   rating = "cote",
 }, {
-  title = "BrokenMeta · Hub", sec_dps = "DPS", sec_prof = "Professions",
+  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Professions",
   tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
   tab_guide = "Guide",
   up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
@@ -97,7 +97,7 @@ local T = ns.Localize("hub", {
     { "share", "/bmw share on|off", "Turns data sharing with brokenmeta.gg on or off." },
     { "ah", "/bmw ah", "Scans the auction house (it must be open)." },
     { "import", "/bmw import", "Imports your personal weights computed on brokenmeta.gg (/bmw import clear to go back to generic weights)." },
-    { "craft", "/bmw craft", "Opens the directory of online crafters (BrokenMeta : Professions)." },
+    { "craft", "/bmw craft", "Opens the directory of online crafters (Broken Meta : Professions)." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -123,10 +123,7 @@ local function slotLabel(key) return _G[key] or key end
 -- Frame
 ---------------------------------------------------------------------------------------------
 local W, H = 590, 600
-local hub = ns.Window("BrokenMetaHub", W, H, "BrokenMeta") -- Escape closes it
-local hubTag = hub:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
-hubTag:SetPoint("BOTTOMLEFT", hub.title, "BOTTOMRIGHT", 6, 1)
-hubTag:SetText("|c" .. ns.HEX.faint .. "hub|r")
+local hub = ns.Window("BrokenMetaHub", W, H, "Broken Meta : Hub") -- Escape closes it
 
 -- Section bar: DPS / Profession tabs over a hairline.
 local sectionLine = ns.Line(hub)
@@ -148,7 +145,7 @@ end
 local current = 1
 local refreshers = {}
 
--- Two sections (BrokenMeta : DPS and BrokenMeta : Profession), each with its own row of tabs.
+-- Two sections (Broken Meta : DPS and Broken Meta : Profession), each with its own row of tabs.
 -- Other files add their pages with ns.HubTab(section, label, refresher).
 local SECTIONS = { { key = "dps", label = T.sec_dps }, { key = "prof", label = T.sec_prof } }
 local sectionOf, sectionBtns = {}, {}

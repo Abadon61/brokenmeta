@@ -1,4 +1,4 @@
--- BrokenMeta : Profession > Leveling. The site's optimal route to max out a profession, from the
+-- Broken Meta : Profession > Leveling. The site's optimal route to max out a profession, from the
 -- player's current skill, with each reagent priced from the player's latest auction house scan
 -- (same rules as the site's profession guides, site_build/wow_ah.py):
 --   vendor reagent: the vendor price, unless the auction house is cheaper;
@@ -226,7 +226,7 @@ local function setChip(b, r, compact)
   b.text:SetText("|c" .. HEX.cream .. r.qty .. "×|r" .. (compact and "" or (" |c" .. HEX.dim .. price .. "|r")))
   local line = r.unit and string.format(T.tip_price, r.qty, money(r.unit), money(r.unit * r.qty), T["src_" .. r.src])
     or ("|cffff5a6b" .. T.tip_noprice .. "|r")
-  b.extra = { "|c" .. HEX.teal .. "BrokenMeta|r  " .. line }
+  b.extra = { "|c" .. HEX.teal .. "Broken Meta|r  " .. line }
   b:SetWidth(20 + ((b.text.GetStringWidth and b.text:GetStringWidth()) or 60))
   b:Show()
 end
@@ -351,8 +351,8 @@ refresh = function()
       c.sell:SetText(T.ah_price .. " " .. (e.ah and ((gain and ("|c" .. HEX.teal) or "") .. money(e.ah) .. (gain and "|r" or ""))
         or ("|c" .. HEX.faint .. "—|r")))
       c.iconBtn.extra = {
-        "|c" .. HEX.teal .. "BrokenMeta|r  " .. T.craft_cost .. " " .. (e.unitCost and money(e.unitCost) or "?"),
-        "|c" .. HEX.teal .. "BrokenMeta|r  " .. T.ah_price .. " " .. (e.ah and money(e.ah) or T.ah_none),
+        "|c" .. HEX.teal .. "Broken Meta|r  " .. T.craft_cost .. " " .. (e.unitCost and money(e.unitCost) or "?"),
+        "|c" .. HEX.teal .. "Broken Meta|r  " .. T.ah_price .. " " .. (e.ah and money(e.ah) or T.ah_none),
       }
       ns.FlatBorder(c, k == 1 and C.teal or C.border) -- the step to do now
       c:Show()

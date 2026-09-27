@@ -1,4 +1,4 @@
--- BrokenMeta : Profession. A directory of the crafters who run the addon: crafters announce their
+-- Broken Meta : Profession. A directory of the crafters who run the addon: crafters announce their
 -- professions, skill levels and availability with one click, every player of the realm with the
 -- addon sees them (see "How the directory travels" below), and the whisper button opens a /w.
 --
@@ -19,19 +19,22 @@ local T = ns.Localize("craft", {
   count = "%d artisan(s) connecté(s), %d disponible(s)",
   none = "Aucun artisan annoncé pour l'instant. Clique sur Actualiser : les artisans disponibles qui ont l'addon, sur ton royaume et ta faction, apparaîtront ici.",
   search = "Chercher un objet…", rec_count = "%d recettes enregistrées", rec_none = "recettes : ouvre ta fenêtre de métier",
+  site_opt = "Apparaître sur brokenmeta.gg (annuaire public des artisans)", site_copy = "Copier ma fiche pour le site",
+  site_title = "Ma fiche d'artisan pour brokenmeta.gg",
+  site_hint = "Ctrl+C, puis colle-la sur brokenmeta.gg/wow-forever/artisans/ (bouton « Publier ma fiche »). Elle contient : nom du personnage, royaume, faction, classe, race, niveau, métiers, recettes, message et nombre de favoris.",
   refresh = "Actualiser", renew = "Renouveler l'annonce", renewed = "ton annonce d'artisan a été renouvelée.",
   announced = "Annoncé il y a %d min : visible par tous pendant 1 h. Clique sur Renouveler pour prolonger.",
-  renew_hint = "ton annonce d'artisan expire dans 5 min : ouvre BrokenMeta : Profession > Mon profil et clique sur Renouveler pour rester visible.",
+  renew_hint = "ton annonce d'artisan expire dans 5 min : ouvre Broken Meta : Profession > Mon profil et clique sur Renouveler pour rester visible.",
   whisper = "MP", you = "toi", page = "Page %d/%d",
   avail_on = "Disponible", avail_off = "Indisponible",
   avail_hint_on = "Tu apparais en vert dans l'annuaire : les joueurs peuvent te chuchoter pour un craft. Clique pour te rendre indisponible.",
   avail_hint_off = "Tu apparais en gris dans l'annuaire. Clique pour te rendre disponible et recevoir des demandes de craft.",
   my_profs = "Tes métiers", no_prof = "Tu n'as aucun métier d'artisanat : tu peux quand même chercher des artisans.",
-  net_ok = "Connecté au réseau BrokenMeta (%d joueur(s) avec l'addon vus).",
-  net_wait = "Connexion au réseau BrokenMeta en cours…",
+  net_ok = "Connecté au réseau Broken Meta (%d joueur(s) avec l'addon vus).",
+  net_wait = "Connexion au réseau Broken Meta en cours…",
   diag = "Diagnostic : canal %d · envoyés %d · reçus d'autres joueurs %d · tes échos %d · dernier : %s · envoi : %s",
-  net_fail = "Impossible de rejoindre le canal BrokenMeta : trop de canaux ouverts ? Quitte-en un puis tape /reload.",
-  intro = "BrokenMeta : Profession montre les artisans connectés qui ont l'addon. Mets-toi disponible pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
+  net_fail = "Impossible de rejoindre le canal Broken Meta : trop de canaux ouverts ? Quitte-en un puis tape /reload.",
+  intro = "Broken Meta : Profession montre les artisans connectés qui ont l'addon. Mets-toi disponible pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
   msg_label = "Message court, affiché sur ta carte d'artisan (60 caractères max) :", msg_save = "Enregistrer",
   msg_saved = "ton message d'artisan est enregistré.", preview = "Aperçu de ta carte",
   avail_now = "tu es maintenant disponible dans l'annuaire des artisans.",
@@ -44,19 +47,22 @@ local T = ns.Localize("craft", {
   count = "%d crafter(s) online, %d available",
   none = "No crafter announced yet. Click Refresh: available crafters who run the addon, on your realm and faction, will show up here.",
   search = "Search an item…", rec_count = "%d recipes recorded", rec_none = "recipes: open your profession window",
+  site_opt = "Show me on brokenmeta.gg (public crafters directory)", site_copy = "Copy my card for the site",
+  site_title = "My crafter card for brokenmeta.gg",
+  site_hint = "Ctrl+C, then paste it on brokenmeta.gg/en/wow-forever/artisans/ (\"Publish my card\" button). It holds: character name, realm, faction, class, race, level, professions, recipes, message and favourite count.",
   refresh = "Refresh", renew = "Renew the announce", renewed = "your crafter announce is renewed.",
   announced = "Announced %d min ago: visible to everyone for 1 hour. Click Renew to extend it.",
-  renew_hint = "your crafter announce expires in 5 min: open BrokenMeta : Professions > My profile and click Renew to stay visible.",
+  renew_hint = "your crafter announce expires in 5 min: open Broken Meta : Professions > My profile and click Renew to stay visible.",
   whisper = "Whisper", you = "you", page = "Page %d/%d",
   avail_on = "Available", avail_off = "Unavailable",
   avail_hint_on = "You show up in green in the directory: players can whisper you for a craft. Click to become unavailable.",
   avail_hint_off = "You show up in grey in the directory. Click to become available and get craft requests.",
   my_profs = "Your professions", no_prof = "You have no crafting profession: you can still search for crafters.",
-  net_ok = "Connected to the BrokenMeta network (%d player(s) with the addon seen).",
-  net_wait = "Connecting to the BrokenMeta network…",
+  net_ok = "Connected to the Broken Meta network (%d player(s) with the addon seen).",
+  net_wait = "Connecting to the Broken Meta network…",
   diag = "Diagnostics: channel %d · sent %d · received from others %d · own echoes %d · last: %s · send: %s",
-  net_fail = "Could not join the BrokenMeta channel: too many channels open? Leave one, then type /reload.",
-  intro = "BrokenMeta : Professions shows the online crafters who run the addon. Set yourself available to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
+  net_fail = "Could not join the Broken Meta channel: too many channels open? Leave one, then type /reload.",
+  intro = "Broken Meta : Professions shows the online crafters who run the addon. Set yourself available to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
   msg_label = "Short message shown on your crafter card (60 characters max):", msg_save = "Save",
   msg_saved = "your crafter message is saved.", preview = "Your card preview",
   avail_now = "you are now available in the crafters directory.",
@@ -843,7 +849,59 @@ prevLabel:SetText(T.preview)
 local preview = makeCard(pMe, W - 32)
 preview:SetPoint("TOPLEFT", 4, -160)
 
-ns.Hub.rows(pMe, 10, -236, 18)
+ns.Hub.rows(pMe, 9, -236, 18)
+
+-- brokenmeta.gg crafters page (opt-in): a check box, then a card to copy and paste on the site.
+local SITE_KEY_LEN = 32
+local function siteKey()
+  local d = db()
+  if not d.siteKey or #d.siteKey ~= SITE_KEY_LEN then
+    local hex = {}
+    for i = 1, SITE_KEY_LEN do hex[i] = string.format("%x", math.random(0, 15)) end
+    d.siteKey = table.concat(hex) -- proves on the site that later updates come from this character
+  end
+  return d.siteKey
+end
+
+-- "BMC1;k=key;n=Name;r=Realm;f=Horde;c=WARRIOR;ra=Orc;s=2;l=20;fv=3;p=164:150:225,...;m=message;rc=164:1001,1002/197:-2"
+function ns.CrafterCard()
+  local _, class = UnitClass("player")
+  local _, race = UnitRace("player")
+  local parts, fans = {}, 0
+  for _, pr in ipairs(myProfessions()) do parts[#parts + 1] = pr.line .. ":" .. pr.rank .. ":" .. pr.max end
+  for _ in pairs(db().favBy or {}) do fans = fans + 1 end
+  local rec = {}
+  for line, list in pairs(ns.MyRecipes and ns.MyRecipes() or {}) do
+    if #list > 0 then rec[#rec + 1] = line .. ":" .. table.concat(list, ",") end
+  end
+  local f = {
+    "BMC1", "k=" .. siteKey(), "n=" .. myName, "r=" .. (GetRealmName() or ""), "f=" .. (UnitFactionGroup("player") or ""),
+    "c=" .. (class or ""), "ra=" .. (race or ""), "s=" .. ((UnitSex and UnitSex("player")) or 2), "l=" .. (UnitLevel("player") or 0),
+    "fv=" .. fans, "p=" .. table.concat(parts, ","), "m=" .. cleanMessage(db().msg), "rc=" .. table.concat(rec, "/"),
+  }
+  return table.concat(f, ";")
+end
+
+local siteCheck = ns.Button(pMe)
+siteCheck:SetSize(18, 18)
+siteCheck:SetPoint("BOTTOMLEFT", 4, 8)
+siteCheck.mark = siteCheck:CreateTexture(nil, "OVERLAY")
+siteCheck.mark:SetAllPoints()
+siteCheck.mark:SetTexture("Interface\\Buttons\\UI-CheckBox-Check")
+local siteLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+siteLabel:SetPoint("LEFT", siteCheck, "RIGHT", 8, 0)
+siteLabel:SetText(T.site_opt)
+local siteBtn = ns.Button(pMe, nil, "primary")
+siteBtn:SetSize(200, 22)
+siteBtn:SetPoint("BOTTOMRIGHT", -4, 6)
+siteBtn:SetText(T.site_copy)
+siteCheck:SetScript("OnClick", function()
+  db().public = not db().public or nil
+  if ns.OnCraftChanged then ns.OnCraftChanged() end
+end)
+siteBtn:SetScript("OnClick", function()
+  ns.ShowCopyText(T.site_title, T.site_hint, ns.CrafterCard())
+end)
 -- The last rows (network status, diagnostics) are long: let them wrap over the free space below.
 for _, row in ipairs(pMe.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
 
@@ -873,6 +931,8 @@ refreshMe = function()
   ns.Hub.setRow(pMe, i, "|c" .. HEX.faint .. string.format(T.diag, channelId, stats.sent, stats.recv, stats.echo,
     stats.last or "-", stats.result or "-") .. "|r"); i = i + 1
   ns.Hub.clearRows(pMe, i)
+  siteCheck.mark:SetShown(db().public == true)
+  if db().public then siteBtn:Enable() else siteBtn:Disable() end
 end
 
 function ns.OnCraftChanged()

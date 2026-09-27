@@ -1,4 +1,4 @@
--- BrokenMeta : Profession > recipes. A crafter's learned recipes are recorded when they open their
+-- Broken Meta : Profession > recipes. A crafter's learned recipes are recorded when they open their
 -- profession window; a buyer who clicks "Recipes" on a crafter card (or searches an item) asks for
 -- them through an invisible addon whisper, and the crafter's addon answers by itself.
 --

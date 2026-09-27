@@ -10,14 +10,14 @@ local MAX_SCANS = 5
 local CHUNK = 400 -- listings processed per frame, so a big auction house doesn't freeze the game
 
 local T = ns.Localize("auction", {
-  button = "BrokenMeta : scanner les prix", scanning = "Scan en cours… %d / %d",
+  button = "Broken Meta : scanner les prix", scanning = "Scan en cours… %d / %d",
   done = "scan de l'hôtel des ventes terminé : %d annonces, %d objets différents.",
   wait = "le jeu n'autorise un scan complet que toutes les 15 minutes environ. Réessaie plus tard.",
   noapi = "aucune fonction de scan de l'hôtel des ventes n'est disponible dans ce client.",
   empty = "le scan n'a renvoyé aucune annonce.",
   closed = "ouvre d'abord l'hôtel des ventes (parle à un commissaire-priseur), puis relance le scan.",
 }, {
-  button = "BrokenMeta: scan prices", scanning = "Scanning… %d / %d",
+  button = "Broken Meta : scan prices", scanning = "Scanning… %d / %d",
   done = "auction house scan done: %d listings, %d distinct items.",
   wait = "the game only allows a full scan about every 15 minutes. Try again later.",
   noapi = "no auction house scan function is available in this client.",

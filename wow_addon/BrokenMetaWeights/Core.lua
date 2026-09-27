@@ -4,7 +4,7 @@ local ADDON, ns = ...
 
 local IS_FR = GetLocale() == "frFR"
 local L = ns.Localize("core", {
-  header = "BrokenMeta",
+  header = "Broken Meta",
   vs_equipped = "vs équipé",
   same = "équipé",
   no_spec = "aucune spécialisation DPS simulée pour cette classe.",
@@ -15,7 +15,7 @@ local L = ns.Localize("core", {
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
-  import_ok = "tes poids personnels sont importés : ils remplacent les poids génériques pour ce personnage.", import_bad = "ce texte n'est pas un export de poids BrokenMeta (il commence par BMW-W1).", import_class = "ces poids sont pour une autre classe que ce personnage.", import_cleared = "retour aux poids génériques (niveau 20).",
+  import_ok = "tes poids personnels sont importés : ils remplacent les poids génériques pour ce personnage.", import_bad = "ce texte n'est pas un export de poids Broken Meta (il commence par BMW-W1).", import_class = "ces poids sont pour une autre classe que ce personnage.", import_cleared = "retour aux poids génériques (niveau 20).",
   refresh_weights = "tes poids personnels datent du niveau %d : refais-les sur brokenmeta.gg (Simuler mon personnage), à faire tous les %d niveaux.",
   loot_drop = "Butin de donjon : %s (%s)", loot_quest = "Récompense de quête : %s",
   welcome = {
@@ -26,7 +26,7 @@ local L = ns.Localize("core", {
   cant_wear = "ta classe ne peut pas le porter", wear_at = "portable au niveau %d",
   snap_done = "%d nouvelle(s) mesure(s) enregistrée(s).",
 }, {
-  header = "BrokenMeta",
+  header = "Broken Meta",
   vs_equipped = "vs equipped",
   same = "equipped",
   no_spec = "no simulated DPS spec for this class.",
@@ -37,7 +37,7 @@ local L = ns.Localize("core", {
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
-  import_ok = "your personal weights are imported: they replace the generic weights for this character.", import_bad = "this text isn't a BrokenMeta weights export (it starts with BMW-W1).", import_class = "these weights are for another class than this character.", import_cleared = "back to the generic (level 20) weights.",
+  import_ok = "your personal weights are imported: they replace the generic weights for this character.", import_bad = "this text isn't a Broken Meta weights export (it starts with BMW-W1).", import_class = "these weights are for another class than this character.", import_cleared = "back to the generic (level 20) weights.",
   refresh_weights = "your personal weights are from level %d: redo them on brokenmeta.gg (Simulate my character), every %d levels.",
   loot_drop = "Dungeon loot: %s (%s)", loot_quest = "Quest reward: %s",
   welcome = {
@@ -49,7 +49,7 @@ local L = ns.Localize("core", {
   snap_done = "%d new measurement(s) recorded.",
 })
 
-local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff2de6c4BrokenMeta|r " .. msg) end
+local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff2de6c4Broken Meta|r " .. msg) end
 
 ---------------------------------------------------------------------------------------------
 -- Spec selection
@@ -532,7 +532,7 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     local _, perTab = readTalents()
     if C_AuctionHouse then say("  C_AuctionHouse.ReplicateItems: " .. type(C_AuctionHouse.ReplicateItems)) end
     say("  auction scan mode: " .. tostring(ns.AuctionMode and ns.AuctionMode()))
-    say("  race icon: " .. tostring(ns.RaceIconSource or "not drawn yet (open BrokenMeta : Profession)"))
+    say("  race icon: " .. tostring(ns.RaceIconSource or "not drawn yet (open Broken Meta : Profession)"))
     say("  points per tree: " .. (perTab and table.concat(perTab, " / ") or "nil")
       .. " -> tree " .. tostring(talentTabWithMostPoints()))
   elseif cmd == "share" then
