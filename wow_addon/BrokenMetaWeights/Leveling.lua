@@ -12,7 +12,7 @@ local T = ns.Localize("leveling", {
   tab = "Montée", scan = "Scanner l'hôtel des ventes",
   scan_closed = "Ouvre l'hôtel des ventes pour scanner",
   no_scan = "Aucun scan de ton royaume : ouvre l'hôtel des ventes et clique sur « Scanner » pour avoir les prix du moment.",
-  scan_info = "Prix du scan du %s (%s, %s), il y a %s.",
+  scan_info = "Prix : médiane de %d scan(s) récents, dernier le %s (%s, %s), il y a %s.", stale = "Scan ancien : rescanne pour des prix à jour.",
   skill = "Ton niveau : %d / %d", not_learned = "Tu n'as pas ce métier : parcours complet depuis 1.",
   total = "Reste %d fabrications · composants : %s", unknown = " (%d composant(s) sans prix)",
   done = "Parcours terminé : ton métier est au niveau maximum du guide.",
@@ -27,7 +27,7 @@ local T = ns.Localize("leveling", {
   tab = "Leveling", scan = "Scan the auction house",
   scan_closed = "Open the auction house to scan",
   no_scan = "No scan from your realm: open the auction house and click \"Scan\" to get current prices.",
-  scan_info = "Prices from the %s scan (%s, %s), %s ago.",
+  scan_info = "Prices: median of %d recent scan(s), latest on %s (%s, %s), %s ago.", stale = "Old scan: scan again for current prices.",
   skill = "Your skill: %d / %d", not_learned = "You don't have this profession: full route from 1.",
   total = "%d crafts left · reagents: %s", unknown = " (%d reagent(s) without a price)",
   done = "Route complete: your profession is at the guide's maximum.",
@@ -63,17 +63,47 @@ local function money(copper)
 end
 ns.Money = money
 
--- Latest scan of this realm and faction: { [itemID] = { unit, quantity, listings } }.
+-- Prices of this realm and faction from the scans of the last MARKET_DAYS (the addon keeps 5): per
+-- item, the MEDIAN of the lowest unit price seen in each scan (one cheap or overpriced listing in
+-- a single scan no longer sets the price), with the quantity of the latest scan holding it.
+-- Returns { t = latest scan time, realm, faction, n = scans used, prices = { [itemID] = { unit, qty, scans } } }.
+local MARKET_DAYS, STALE_DAYS = 7, 3
 local function market()
   local d = ns.Data and ns.Data()
   if not d or not d.ah then return nil end
-  local realm, faction = GetRealmName(), UnitFactionGroup("player")
+  local realm, faction, now = GetRealmName(), UnitFactionGroup("player"), time()
+  local scans = {}
   for i = #d.ah, 1, -1 do
     local s = d.ah[i]
-    if s.realm == realm and s.faction == faction then return s end
+    if s.realm == realm and s.faction == faction and (now - (s.t or 0)) <= MARKET_DAYS * 86400 then scans[#scans + 1] = s end
   end
-  return nil
+  if #scans == 0 then
+    -- Nothing recent: the latest scan anyway, flagged as stale by its date.
+    for i = #d.ah, 1, -1 do
+      local s = d.ah[i]
+      if s.realm == realm and s.faction == faction then scans[1] = s; break end
+    end
+    if #scans == 0 then return nil end
+  end
+  local seen = {}
+  for _, s in ipairs(scans) do -- newest first
+    for id, p in pairs(s.prices or {}) do
+      local e = seen[id]
+      if not e then e = { units = {}, qty = p[2] }; seen[id] = e end
+      e.units[#e.units + 1] = p[1]
+    end
+  end
+  local prices = {}
+  for id, e in pairs(seen) do
+    table.sort(e.units)
+    local n = #e.units
+    local median = n % 2 == 1 and e.units[(n + 1) / 2] or math.floor((e.units[n / 2] + e.units[n / 2 + 1]) / 2)
+    prices[id] = { median, e.qty, n }
+  end
+  return { t = scans[1].t, realm = scans[1].realm, faction = scans[1].faction, n = #scans, prices = prices,
+    stale = (now - (scans[1].t or 0)) > STALE_DAYS * 86400 }
 end
+ns.Market = market
 
 -- Unit price of a reagent (copper) and where it comes from ("v", "a", "c"), or nil.
 local function unitPrice(prof, g, prices, depth)
@@ -166,6 +196,10 @@ scanBtn:SetScript("OnClick", function() if ns.StartAuctionScan then ns.StartAuct
 local guideBtn = ns.Button(page)
 guideBtn:SetSize(170, 20)
 guideBtn:SetPoint("BOTTOMRIGHT", -4, 4)
+-- Shopping list (Workshop.lua): the reagents the rest of the route needs, minus what you carry.
+local shopBtn = ns.Button(page)
+shopBtn:SetSize(150, 20)
+shopBtn:SetPoint("RIGHT", guideBtn, "LEFT", -8, 0)
 guideBtn:SetText(T.guide)
 
 local info = page:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
@@ -315,8 +349,12 @@ refresh = function()
   end)
 
   local rank, max = skillIn(line)
+  shopBtn:SetShown(ns.ShowShoppingList ~= nil)
+  if ns.WorkshopTexts then shopBtn:SetText(ns.WorkshopTexts.shop_btn) end
+  shopBtn:SetScript("OnClick", function() if ns.ShowShoppingList then ns.ShowShoppingList(line, rank or 0) end end)
   local plan, total, missing, crafts, scan = ns.LevelingPlan(line, rank or 0)
-  info:SetText(scan and string.format(T.scan_info, date("%d/%m %H:%M", scan.t), scan.realm or "?", scan.faction or "?", ago(scan.t))
+  info:SetText(scan and (string.format(T.scan_info, scan.n, date("%d/%m %H:%M", scan.t), scan.realm or "?", scan.faction or "?", ago(scan.t))
+      .. (scan.stale and ("  |cffff9900" .. T.stale .. "|r") or ""))
     or ("|c" .. HEX.faint .. T.no_scan .. "|r"))
   summary:SetText(rank and string.format(T.skill, rank, max) or ("|c" .. HEX.faint .. T.not_learned .. "|r"))
   if #plan == 0 then

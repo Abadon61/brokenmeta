@@ -192,6 +192,43 @@ def made_by(p):
     return out
 
 
+def all_recipes():
+    """Every recipe of every profession, for the addon's workshop (profitable crafts, recipes to learn)
+    and the craft requests board. Keyed by the crafted item's ID, or minus the spell ID when the recipe
+    makes no item (enchantments), like the addon's recorded recipes. Names go to a shared table.
+      s spell, l learn level, c difficulty colours, q items made, a source (t trainer, v vendor,
+      d drop / other, s starting recipe), ac source cost (copper), np vendor NPC, r reagents."""
+    recipes, names = {}, {}
+    for f in sorted((ROOT / "data" / "wow_professions").glob("*.json")):
+        p = json.loads(f.read_text(encoding="utf-8"))
+        line = PROF_SKILL_LINES.get(p["id"])
+        if not line:
+            continue
+        out = {}
+        for r in p.get("recipes", []):
+            cr = r.get("creates")
+            key = cr["id"] if cr else -r["id"]
+            names[key] = [(cr or r)["name"]["fr"], (cr or r)["name"]["en"]]
+            acq = r.get("acquire") or {}
+            kind = {"trainer": "t", "vendor": "v", "start": "s"}.get(acq.get("type"), "d")
+            # Reagents as one compact string "id:n:kind[:vendor copper],..." (decoded by the addon on use):
+            # a table per reagent made Data.lua 1 MB.
+            regs = [reagent(g) for g in r.get("reagents", [])]
+            e = {"s": r["id"], "l": r.get("learn_at") or 1, "c": r.get("colors") or [], "a": kind,
+                 "r": ",".join(f"{g['id']}:{g['n']}:{g['k']}" + (f":{g['v']}" if "v" in g else "") for g in regs)}
+            if cr and (cr.get("count") or 1) != 1:
+                e["q"] = cr["count"]
+            if acq.get("cost"):
+                e["ac"] = acq["cost"]
+            if acq.get("npc"):
+                e["np"] = acq["npc"]
+            for g in regs:
+                names.setdefault(g["id"], [g["name"]["frFR"], g["name"]["enUS"]])
+            out[key] = e
+        recipes[line] = out
+    return recipes, names
+
+
 def write_data_lua():
     dungeons, loot = loot_data()
     prof = json.loads((ROOT / "data" / "wow_items" / "proficiency.json").read_text(encoding="utf-8"))["classes"]
@@ -206,6 +243,14 @@ def write_data_lua():
         "ns.PROFICIENCY = " + lua(prof),
         "ns.TALENT_BUILDS = {" + nl + ("," + nl).join(f"  {k} = {lua(v)}" for k, v in talent_builds().items()) + nl + "}",
         "ns.PROFESSIONS = {" + nl + ("," + nl).join(f"  [{k}] = {lua(v)}" for k, v in profession_routes().items()) + nl + "}",
+    ]
+    recipes, names = all_recipes()
+    parts += [
+        "-- Every recipe (workshop, recipes to learn, craft requests): see all_recipes() in wow_addon_build.py.",
+        "ns.RECIPES = {" + nl + ("," + nl).join(
+            f"  [{line}] = {{" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(rs.items())) + "}"
+            for line, rs in recipes.items()) + nl + "}",
+        "ns.ITEM_NAMES = {" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(names.items())) + "}",
     ]
     DATA_OUT.write_text(nl.join(parts) + nl, encoding="utf-8")
     print(f"wrote {DATA_OUT.relative_to(ROOT)} ({len(loot)} loot items, {len(dungeons)} dungeons)")

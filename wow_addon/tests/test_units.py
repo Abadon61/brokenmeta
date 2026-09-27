@@ -411,5 +411,63 @@ class LevelingTests(unittest.TestCase):
         self.assertEqual(lua_list(self.g.NS.LevelingPlan(171, 60)[0])[0].ah, 777)
 
 
+class WorkshopTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        self.g.flush()
+        self.ev = self.g.LUA_EVAL
+
+    def scan(self, t, prices):
+        d = self.g.NS.Data()
+        s = self.ev("{ realm = 'Realm', faction = 'Alliance' }")
+        s.t = t
+        s.prices = self.ev("{}")
+        for k, v in prices.items():
+            s.prices[k] = self.ev("{ %d, %d, 1 }" % (v, 20))
+        d.ah[len(d.ah) + 1] = s
+
+    def test_market_is_the_median_of_recent_scans(self):
+        now = 1790000000
+        self.scan(now - 3600 * 50, {2589: 100})
+        self.scan(now - 3600 * 20, {2589: 900})       # one overpriced scan
+        self.scan(now - 3600 * 2, {2589: 120, 2592: 50})
+        self.scan(now - 86400 * 20, {2589: 1})        # too old: ignored
+        m = self.g.NS.Market()
+        self.assertEqual(m.n, 3)
+        self.assertEqual(m.prices[2589][0 + 1], 120, "median, not the latest or the extreme")
+        self.assertEqual(m.prices[2592][1], 50)
+        self.assertFalse(m.stale)
+
+    def test_craft_cost_and_profitable_crafts(self):
+        # Tailoring 197, Brown Linen Vest 2568: 1 Bolt of Linen Cloth (2996, crafted from 2 Linen 2589) + 1 Coarse Thread (2320, vendor 10)
+        r = self.g.NS.DecodeReagents(self.ev("function() return ns_RECIPES_197_2568 end")() if False else self.g.NS.RECIPES[197][2568].r)
+        ids = sorted(x.id for x in lua_list(r))
+        self.assertEqual(ids, [2320, 2996])
+        prices = self.ev("{ [2589] = { 30, 99, 1 }, [2568] = { 400, 5, 1 } }")
+        cost = self.g.NS.CraftCost(197, 2568, prices)
+        self.assertAlmostEqual(cost, 2 * 30 + 10, msg="bolt priced as its crafting cost (2 linen), thread at vendor price")
+        store = self.g.NS.MyRecipes()
+        store[197] = self.ev("{ 2568 }")
+        crafts = lua_list(self.g.NS.ProfitableCrafts(197, prices))
+        self.assertEqual(len(crafts), 1)
+        self.assertAlmostEqual(crafts[0].margin, 400 * 0.95 - 70)
+
+    def test_recipes_to_learn_and_shopping_list(self):
+        store = self.g.NS.MyRecipes()
+        store[171] = self.ev("{ 118 }")  # knows Minor Healing Potion
+        todo = lua_list(self.g.NS.RecipesToLearn(171, 60))
+        keys = [e.key for e in todo]
+        self.assertNotIn(118, keys, "known recipes left out")
+        self.assertTrue(all(e.r.l <= 85 for e in todo), "up to skill + 25")
+        self.assertEqual([e.r.l for e in todo], sorted(e.r.l for e in todo))
+        route = self.g.NS.PROFESSIONS[171]
+        reag = route.steps[len(lua_list(route.steps))].reag[1].id
+        self.ev("function(id) BAGCOUNT[id] = 3 end")(reag)
+        items, total = self.g.NS.ShoppingList(171, 60)
+        x = next(i for i in lua_list(items) if i.id == reag)
+        self.assertEqual(x.have, 3)
+        self.assertEqual(x.buy, max(0, x.need - 3))
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -21,7 +21,9 @@ function wipe(t) for k in pairs(t) do t[k] = nil end return t end
 function GetNumTalentTabs() return 3 end
 function GetTalentTabInfo(i) return "Tab"..i, "icon", TALENTS[i], "bg" end
 Enum = nil; TooltipDataProcessor = nil
-C_Item = { GetItemInfo = function(l) return _GII(l) end, GetItemStats = function(l) return _GIS(l) end }
+BAGCOUNT = {}
+C_Item = { GetItemInfo = function(l) return _GII(l) end, GetItemStats = function(l) return _GIS(l) end,
+           GetItemCount = function(id) return BAGCOUNT[id] or 0 end }
 ITEM_SPELL_TRIGGER_ONEQUIP = (LOCALE == "frFR") and "Équipé :" or "Equip:"
 ITEMS = {}
 function _GIS(link) return ITEMS[link] and ITEMS[link].stats end

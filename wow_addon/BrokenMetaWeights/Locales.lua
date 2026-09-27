@@ -125,7 +125,7 @@ EXTRA.deDE = {
   leveling = {
     tab = "Leveln", scan = "Auktionshaus scannen", scan_closed = "Öffne das Auktionshaus zum Scannen",
     no_scan = "Kein Scan von deinem Realm: öffne das Auktionshaus und klicke auf „Scannen“, um aktuelle Preise zu bekommen.",
-    scan_info = "Preise vom Scan am %s (%s, %s), vor %s.",
+    scan_info = "Preise: Median aus %d neuen Scan(s), zuletzt am %s (%s, %s), vor %s.", stale = "Alter Scan: scanne erneut für aktuelle Preise.",
     skill = "Deine Fertigkeit: %d / %d", not_learned = "Du hast diesen Beruf nicht: ganze Route ab 1.",
     total = "Noch %d Herstellungen · Materialien: %s", unknown = " (%d Material(ien) ohne Preis)",
     done = "Route abgeschlossen: dein Beruf ist auf dem Maximum des Guides.",
@@ -277,7 +277,7 @@ EXTRA.esES = {
   leveling = {
     tab = "Subir", scan = "Escanear la casa de subastas", scan_closed = "Abre la casa de subastas para escanear",
     no_scan = "No hay escaneo de tu reino: abre la casa de subastas y pulsa «Escanear» para tener los precios actuales.",
-    scan_info = "Precios del escaneo del %s (%s, %s), hace %s.",
+    scan_info = "Precios: mediana de %d escaneo(s) recientes, el último el %s (%s, %s), hace %s.", stale = "Escaneo antiguo: vuelve a escanear para tener precios actuales.",
     skill = "Tu nivel: %d / %d", not_learned = "No tienes esta profesión: ruta completa desde 1.",
     total = "Quedan %d fabricaciones · materiales: %s", unknown = " (%d material(es) sin precio)",
     done = "Ruta completada: tu profesión está al máximo de la guía.",
