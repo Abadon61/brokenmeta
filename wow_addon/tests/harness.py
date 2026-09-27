@@ -88,6 +88,8 @@ SENT_TO = {}
 JOINED = {}
 function JoinTemporaryChannel(name) JOINED[name] = true end
 function GetChannelName(name) if JOINED[name] then return 5, name end return 0 end
+CHAT = {}
+function SendChatMessage(m, kind, lang, target) CHAT[#CHAT+1] = kind .. ":" .. tostring(target) .. ":" .. m end
 WHISPERED = {}
 function ChatFrame_SendTell(name) WHISPERED[#WHISPERED+1] = name end
 ERR_CHAT_PLAYER_NOT_FOUND_S = "No player named '%s' is currently playing."

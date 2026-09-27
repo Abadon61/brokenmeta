@@ -860,6 +860,7 @@ function ns.HubTab(section, label, refresher)
   return page, #pages
 end
 function ns.HubShow(index) hub:Show(); showPage(index) end
+function ns.HubTabButton(index) return tabs[index] end
 function ns.HubRefresh(index) if hub:IsShown() and current == index and refreshers[index] then refreshers[index]() end end
 
 function ns.ToggleHub()

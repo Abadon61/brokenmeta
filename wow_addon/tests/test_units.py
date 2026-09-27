@@ -178,81 +178,98 @@ class VersionTests(unittest.TestCase):
 
 
 class CrafterTests(unittest.TestCase):
+    ME = "P2;{a};20;WARRIOR;Alliance;Orc;2;171:60:75;{m}"
+
     def setUp(self):
         _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
         self.g.flush()
         self.frame = next(f for f in self.g.LUA_EVAL("function() return frames end")().values()
-                          if f.events and f.events["SKILL_LINES_CHANGED"])
+                          if f.events and f.events["CHAT_MSG_CHANNEL"])
 
     def event(self, *args):
         self.frame.scripts.OnEvent(self.frame, *args)
 
+    def line(self, text, author):
+        # CHAT_MSG_CHANNEL: text, author, language, channel name, target, flags, zone id, number, base name
+        self.event("CHAT_MSG_CHANNEL", text, author, "", "5. BrokenMetaCraft", "", "", 0, 5, "BrokenMetaCraft")
+
     def sent(self):
         return lua_list(self.g.SENT)
 
-    def test_joins_channel_asks_and_announces(self):
-        sent = self.sent()
-        self.assertIn("CHANNEL:Q1", sent)
-        # mock: Alchemy 60/75 (line 171), level 20 warrior, Alliance, unavailable by default
-        self.assertIn("CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;", sent)
-        self.assertEqual(self.g.SENT_TO[sent.index("CHANNEL:Q1") + 1], "5", "sent on the hidden channel's number")
+    def chat(self):
+        return lua_list(self.g.CHAT)
 
-    def test_peer_profile_listed_and_whisper(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225,197:80:150;Tout le cuir, compos fournies", "CHANNEL", "Bob-Realm")
+    def test_login_joins_hidden_channel_and_sends_nothing(self):
+        self.assertTrue(self.g.JOINED["BrokenMetaCraft"])
+        self.assertEqual(self.chat(), [], "no chat line without a click")
+        self.assertFalse(self.g.NS.CraftPeers() and len(list(self.g.NS.CraftPeers().keys())))
+
+    def test_available_click_posts_a_chat_line(self):
+        self.g.NS.SetCraftAvailable(True)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m=""))
+        self.assertEqual(self.sent()[-1], "GUILD:" + self.ME.format(a=1, m=""), "guild gets it invisibly")
+        self.assertIn("disponible", self.g.chat[len(self.g.chat)])
+        self.g.NS.SetCraftAvailable(False)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=0, m=""), "unavailable is announced too")
+
+    def test_channel_line_lists_crafter_and_whisper(self):
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225,197:80:150;Tout le cuir, compos fournies", "Bob-Realm")
         peers = self.g.NS.CraftPeers()
         self.assertTrue(peers["Bob-Realm"].avail)
+        self.assertEqual(peers["Bob-Realm"].msg, "Tout le cuir, compos fournies")
         names = [e.name for e in lua_list(self.g.NS.CraftList()[0])]
-        self.assertEqual(names[0], "Test-Realm", "me first")
         self.assertIn("Bob-Realm", names)
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225;", "CHANNEL", "Kael Storm Strike")
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225;", "Kael Storm Strike")
         self.assertIsNotNone(self.g.NS.CraftPeers()["Kael-StormStrike"], "space form stored as Name-Realm")
         self.g.NS.CraftWhisper("Bob-Realm")
         self.assertEqual(self.g.WHISPERED[1], "Bob-Realm")
 
-    def test_ignores_self_other_faction_and_foreign_prefix(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Test-Realm")
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Test Stormstrike")
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Horde;Orc;2;164:150:225;", "CHANNEL", "Orc-Realm")
+    def test_ignores_self_other_faction_untagged_and_other_channels(self):
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Test-Realm")
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Test Stormstrike")
+        self.line("BM1 P2;1;18;MAGE;Horde;Orc;2;164:150:225;", "Orc-Realm")
+        self.line("P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Nolabel-Realm")
+        self.event("CHAT_MSG_CHANNEL", "BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Trader-Realm", "", "2. Trade", "", "", 0, 2, "Trade")
         self.event("CHAT_MSG_ADDON", "BrokenMeta", "V:0.1", "GUILD", "Bob-Realm")
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 
-    def test_query_answered_by_whisper(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "Q1", "CHANNEL", "New-Realm")
+    def test_request_click_and_invisible_answer_when_available(self):
+        self.g.NS.CraftRequest(True)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 Q1")
+        self.line("BM1 Q1", "New-Realm")
+        self.g.flush()
+        self.assertFalse(any(s.startswith("WHISPER") for s in self.sent()), "unavailable: no answer")
+        self.g.NS.SetCraftAvailable(True)
+        self.line("BM1 Q1", "New-Realm")
         self.g.flush()
         sent = self.sent()
-        self.assertEqual(sent[-1], "WHISPER:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;")
+        self.assertEqual(sent[-1], "WHISPER:" + self.ME.format(a=1, m=""))
         self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
 
-    def test_toggle_available_broadcasts(self):
-        self.g.NS.SetCraftAvailable(True)
-        self.g.flush()
-        self.assertEqual(self.sent()[-2:], ["CHANNEL:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;",
-                                            "GUILD:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;"], "channel + guild")
-        self.assertIn("disponible", self.g.chat[len(self.g.chat)])
-
-    def test_message_cleaned_limited_and_sent(self):
+    def test_message_cleaned_limited_and_announced(self):
         clean = self.g.NS.CleanCraftMessage
         self.assertEqual(clean("  |cffff0000Cuir;épique|r  "), "cffff0000Cuirépiquer")
         self.assertEqual(clean("é" * 80), "é" * 60, "60 characters, UTF-8 kept whole")
+        self.g.NS.SetCraftMessage("Tout le cuir")
+        self.assertEqual(self.chat(), [], "not available: saved only")
+        self.g.NS.SetCraftAvailable(True)
         self.g.NS.SetCraftMessage("Tout le cuir, compos fournies")
-        self.g.flush()
-        self.assertEqual(self.sent()[-2:], ["CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies",
-                                            "GUILD:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies"])
-        peer = self.g.NS.CraftPeers()
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225;Salut |Hitem:1|h", "CHANNEL", "Bob-Realm")
-        self.assertEqual(peer["Bob-Realm"].msg, "Salut Hitem:1h", "no chat escapes from others")
-        self.assertEqual(peer["Bob-Realm"].race, "Human")
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="Tout le cuir, compos fournies"))
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225;Salut |Hitem:1|h", "Bob-Realm")
+        peer = self.g.NS.CraftPeers()["Bob-Realm"]
+        self.assertEqual(peer.msg, "Salut Hitem:1h", "no chat escapes from others")
+        self.assertEqual(peer.race, "Human")
 
     def test_group_profile_counts_in_diagnostics(self):
         self.event("CHAT_MSG_ADDON", "BMCraft", "P2;0;6;MAGE;Alliance;Troll;2;197:9:75;tout pour les po", "PARTY", "Polo-Realm")
-        self.event("CHAT_MSG_ADDON", "BMCraft", "Q1", "CHANNEL", "Test-Realm")
+        self.line("BM1 Q1", "Test-Realm")
         st = self.g.NS.CraftStats
         self.assertEqual((st.recv, st.echo), (1, 1))
         self.assertEqual(st.last, "Polo (PARTY)")
         self.assertIn("Polo-Realm", list(self.g.NS.CraftPeers().keys()))
 
     def test_offline_player_dropped(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Bob-Realm")
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Bob-Realm")
         self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 

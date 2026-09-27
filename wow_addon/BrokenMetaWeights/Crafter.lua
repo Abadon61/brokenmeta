@@ -1,7 +1,6 @@
--- BrokenMeta : Profession. A live directory of the crafters who run the addon: each client joins a
--- hidden chat channel and announces its professions, skill levels and a "available" flag through
--- addon messages (the addon has no internet). Searching lists who is online right now, and the
--- whisper button opens a /w to them.
+-- BrokenMeta : Profession. A directory of the crafters who run the addon: crafters announce their
+-- professions, skill levels and availability with one click, every player of the realm with the
+-- addon sees them (see "How the directory travels" below), and the whisper button opens a /w.
 --
 -- Messages (prefix BMCraft):
 --   Q1                              a newcomer asks everyone for their profile (answered by whisper)
@@ -14,7 +13,10 @@ local T = ns.Localize("craft", {
   tab_dir = "Artisans", tab_me = "Mon profil",
   all = "Tous les métiers", only_avail = "Dispo seulement", everyone = "Tout le monde",
   count = "%d artisan(s) connecté(s), %d disponible(s)",
-  none = "Aucun artisan connecté pour l'instant. L'annuaire ne montre que les joueurs qui ont l'addon, sur ton royaume et ta faction.",
+  none = "Aucun artisan annoncé pour l'instant. Clique sur Actualiser : les artisans disponibles qui ont l'addon, sur ton royaume et ta faction, apparaîtront ici.",
+  refresh = "Actualiser", renew = "Renouveler l'annonce", renewed = "ton annonce d'artisan a été renouvelée.",
+  announced = "Annoncé il y a %d min : visible par tous pendant 1 h. Clique sur Renouveler pour prolonger.",
+  renew_hint = "ton annonce d'artisan expire dans 5 min : ouvre BrokenMeta : Profession > Mon profil et clique sur Renouveler pour rester visible.",
   whisper = "MP", you = "toi", page = "Page %d/%d",
   avail_on = "Disponible", avail_off = "Indisponible",
   avail_hint_on = "Tu apparais en vert dans l'annuaire : les joueurs peuvent te chuchoter pour un craft. Clique pour te rendre indisponible.",
@@ -33,7 +35,10 @@ local T = ns.Localize("craft", {
   tab_dir = "Crafters", tab_me = "My profile",
   all = "All professions", only_avail = "Available only", everyone = "Everyone",
   count = "%d crafter(s) online, %d available",
-  none = "No crafter online right now. The directory only shows players who run the addon, on your realm and faction.",
+  none = "No crafter announced yet. Click Refresh: available crafters who run the addon, on your realm and faction, will show up here.",
+  refresh = "Refresh", renew = "Renew the announce", renewed = "your crafter announce is renewed.",
+  announced = "Announced %d min ago: visible to everyone for 1 hour. Click Renew to extend it.",
+  renew_hint = "your crafter announce expires in 5 min: open BrokenMeta : Professions > My profile and click Renew to stay visible.",
   whisper = "Whisper", you = "you", page = "Page %d/%d",
   avail_on = "Available", avail_off = "Unavailable",
   avail_hint_on = "You show up in green in the directory: players can whisper you for a craft. Click to become unavailable.",
@@ -51,7 +56,7 @@ local T = ns.Localize("craft", {
 })
 
 local PREFIX, CHANNEL = "BMCraft", "BrokenMetaCraft"
-local HEARTBEAT, EXPIRE = 300, 720 -- seconds: profile re-sent every 5 min, dropped after 12 min of silence
+local EXPIRE = 3720 -- seconds: a crafter's announce is shown for 1 hour (+2 min of margin)
 
 -- Crafting professions (skill line IDs), in the order of the filter.
 local CRAFTS = { 164, 165, 197, 171, 202, 333, 755, 773, 185, 129 }
@@ -174,12 +179,25 @@ end
 ---------------------------------------------------------------------------------------------
 -- Network
 ---------------------------------------------------------------------------------------------
+-- How the directory travels. Classic (and so Forever) blocks ADDON messages on custom chat channels
+-- (patch 1.13.3: in game, the hidden channel only echoed our own). What stays allowed: ordinary
+-- chat lines in a custom channel, sent from a real click, which every addon can read. So:
+--   * the crafter's clicks (Available / Unavailable / Renew / Save message) post one chat line
+--     "BM1 P2;..." in the hidden channel: every player of the realm with the addon, in any zone,
+--     reads it and updates the directory. The channel is kept out of the chat windows.
+--   * opening the Crafters tab (a click) posts "BM1 Q1": crafters who are available answer with
+--     their profile through an invisible addon whisper, so late arrivals see them too.
+--   * guild and group also get the profile through invisible addon messages.
+-- No click, no chat line: an announce is valid for ANNOUNCE_TTL, then the addon asks the crafter
+-- to renew it with one click.
 local peers = {} -- ["Name-Realm"] = profile + seen
 local channelId = 0
 local joinFailed = false
+local TAG = "BM1 "
+local ANNOUNCE_TTL = 3600
+local lastRequest = -60
 
--- Counters for the diagnostic line of My profile (first real two-player test: players did not see
--- each other, cause unknown). result = what the client answered to the last send.
+-- Counters for the diagnostics line of My profile.
 local stats = { sent = 0, recv = 0, echo = 0, last = nil, result = nil }
 ns.CraftStats = stats
 
@@ -190,28 +208,38 @@ local function send(msg, kind, target)
   stats.result = kind .. " " .. (ok and tostring(res) or ("error " .. tostring(res)))
 end
 
--- Besides the hidden channel, profiles also go to the guild and the group: those addon routes are
--- known to work on Forever (the update notice uses them), so group-mates always see each other.
 local function sendOthers(msg)
   if IsInGuild and IsInGuild() then send(msg, "GUILD") end
   if IsInRaid and IsInRaid() then send(msg, "RAID")
   elseif IsInGroup and IsInGroup() then send(msg, "PARTY") end
 end
 
-local function broadcast()
-  local msg, n = profileMessage()
-  if n == 0 then return end
-  if channelId > 0 then send(msg, "CHANNEL", channelId) end
-  sendOthers(msg)
+-- A chat line in the hidden channel. Only call from a click: the game refuses channel messages
+-- that no hardware event started.
+local function chat(line)
+  if channelId == 0 or not SendChatMessage then return false end
+  SendChatMessage(TAG .. line, "CHANNEL", nil, channelId)
+  stats.sent = stats.sent + 1
+  stats.result = "CHANNEL chat"
+  return true
 end
 
-local lastBroadcast = -HEARTBEAT
-local pending = false
--- Several changes in a row (skill-ups, toggles) end up as one message.
-local function broadcastSoon()
-  if pending then return end
-  pending = true
-  C_Timer.After(2, function() pending = false; lastBroadcast = GetTime(); broadcast() end)
+local function announce()
+  local msg, n = profileMessage()
+  if n == 0 then return end
+  chat(msg)
+  sendOthers(msg)
+  db().announced = time()
+  db().reminded = nil
+end
+ns.CraftAnnounce = announce
+
+-- Ask who is available (from a click: opening the Crafters tab, the Refresh button).
+function ns.CraftRequest(force)
+  if not force and GetTime() - lastRequest < 60 then return end
+  lastRequest = GetTime()
+  chat("Q1")
+  sendOthers("Q1")
 end
 
 local function hideChannel()
@@ -227,9 +255,6 @@ local function join(attempt)
   if id and id > 0 then
     channelId = id
     hideChannel()
-    send("Q1", "CHANNEL", channelId)
-    sendOthers("Q1")
-    broadcastSoon()
   elseif attempt < 5 then
     C_Timer.After(3, function() join(attempt + 1) end)
   else
@@ -238,28 +263,57 @@ local function join(attempt)
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
 
--- The join / leave notices of the hidden channel stay out of the chat.
+local function isOurChannel(name, base)
+  return base == CHANNEL or (type(name) == "string" and name:find(CHANNEL, 1, true) ~= nil)
+end
+
+-- The channel's notices and lines stay out of the chat windows, wherever it got added.
 if ChatFrame_AddMessageEventFilter then
-  ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(_, _, _, _, _, _, _, _, _, _, name)
-    return name == CHANNEL
+  ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL_NOTICE", function(_, _, _, _, _, name, _, _, _, _, base)
+    return isOurChannel(name, base)
+  end)
+  ChatFrame_AddMessageEventFilter("CHAT_MSG_CHANNEL", function(_, _, _, _, _, name, _, _, _, _, base)
+    return isOurChannel(name, base)
   end)
 end
 
 function ns.SetCraftAvailable(on)
   db().avail = on and true or false
   ns.say(on and T.avail_now or T.avail_gone)
-  broadcastSoon()
+  announce() -- from the button's click: also tells everyone when we stop being available
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
 
 function ns.CraftPeers() return peers end
 
+-- A message from another player (chat line in the channel, or addon message).
+local function receive(body, sender, kind)
+  local who = full(sender)
+  if not who then return end
+  if who == myFull or short(who) == myName then stats.echo = stats.echo + 1; return end
+  stats.recv = stats.recv + 1
+  stats.last = short(who) .. " (" .. tostring(kind) .. ")"
+  if body == "Q1" then
+    -- Available crafters answer, invisibly, a little later so answers don't all arrive at once.
+    local reply, n = profileMessage()
+    if n > 0 and db().avail then C_Timer.After(1 + math.random() * 4, function() send(reply, "WHISPER", who) end) end
+    return
+  end
+  local p = parseProfile(body)
+  if p and (p.faction == "" or p.faction == (UnitFactionGroup("player") or p.faction)) then
+    p.seen = GetTime()
+    peers[who] = p
+    if ns.OnCraftChanged then ns.OnCraftChanged() end
+  end
+end
+ns.CraftReceive = receive
+
 local f = CreateFrame("Frame")
-for _, ev in ipairs({ "PLAYER_LOGIN", "CHAT_MSG_ADDON", "CHAT_MSG_SYSTEM", "SKILL_LINES_CHANGED", "PLAYER_LOGOUT",
+for _, ev in ipairs({ "PLAYER_LOGIN", "CHAT_MSG_ADDON", "CHAT_MSG_CHANNEL", "CHAT_MSG_SYSTEM", "SKILL_LINES_CHANGED",
     "GROUP_ROSTER_UPDATE" }) do
   pcall(f.RegisterEvent, f, ev)
 end
-f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
+f:SetScript("OnEvent", function(_, event, a1, a2, a3, a4, a5, a6, a7, a8, a9)
   if event == "PLAYER_LOGIN" then
     if C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix then pcall(C_ChatInfo.RegisterAddonMessagePrefix, PREFIX) end
     readNames()
@@ -269,32 +323,20 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
       if old and not BrokenMetaWeightsDB.craft[charKey] then BrokenMetaWeightsDB.craft[charKey] = old end
       BrokenMetaWeightsDB.craft["Unknown-" .. (GetRealmName() or "")] = nil
     end
-    db()
+    -- A new session starts unavailable: nobody has our announce any more.
+    db().announced = nil
+    db().avail = false
     C_Timer.After(6, function() join(1) end)
+  elseif event == "CHAT_MSG_CHANNEL" then
+    -- text, author, language, channel name, target, flags, zone id, channel number, base name
+    if isOurChannel(a4, a9) and type(a1) == "string" and a1:sub(1, #TAG) == TAG then receive(a1:sub(#TAG + 1), a2, "CHANNEL") end
   elseif event == "CHAT_MSG_ADDON" then
-    if prefix ~= PREFIX or type(msg) ~= "string" then return end
-    local who = full(sender)
-    if not who then return end
-    if who == myFull or short(who) == myName then stats.echo = stats.echo + 1; return end -- our own broadcasts come back
-    stats.recv = stats.recv + 1
-    stats.last = short(who) .. " (" .. tostring(kind) .. ")"
-    if msg == "Q1" then
-      -- Answer the newcomer directly, a little later so answers don't all arrive at once.
-      local reply, n = profileMessage()
-      if n > 0 then C_Timer.After(1 + math.random() * 6, function() send(reply, "WHISPER", who) end) end
-    else
-      local p = parseProfile(msg)
-      if p and (p.faction == "" or p.faction == (UnitFactionGroup("player") or p.faction)) then
-        p.seen = GetTime()
-        peers[who] = p
-        if ns.OnCraftChanged then ns.OnCraftChanged() end
-      end
-    end
+    if a1 == PREFIX and type(a2) == "string" then receive(a2, a4, a3) end
   elseif event == "CHAT_MSG_SYSTEM" then
-    -- "No player named X is currently playing": X logged off, drop them.
-    if type(prefix) ~= "string" or not ERR_CHAT_PLAYER_NOT_FOUND_S then return end
+    -- "No player named X is currently playing" (after a whisper to them): X logged off, drop them.
+    if type(a1) ~= "string" or not ERR_CHAT_PLAYER_NOT_FOUND_S then return end
     local pattern = "^" .. ERR_CHAT_PLAYER_NOT_FOUND_S:gsub("([%^%$%(%)%.%[%]%*%+%-%?])", "%%%1"):gsub("%%s", "(.+)") .. "$"
-    local gone = prefix:match(pattern)
+    local gone = a1:match(pattern)
     if gone then
       for name in pairs(peers) do
         if name == gone or name == full(gone) or short(name) == gone then peers[name] = nil end
@@ -302,33 +344,33 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
       if ns.OnCraftChanged then ns.OnCraftChanged() end
     end
   elseif event == "GROUP_ROSTER_UPDATE" then
-    -- New group-mates: ask them and tell them (throttled by broadcastSoon).
-    if IsInGroup and IsInGroup() and not pending then
-      if IsInRaid and IsInRaid() then send("Q1", "RAID") else send("Q1", "PARTY") end
-      broadcastSoon()
+    local m, n = profileMessage()
+    if IsInGroup and IsInGroup() and n > 0 then
+      if IsInRaid and IsInRaid() then send(m, "RAID") else send(m, "PARTY") end
     end
   elseif event == "SKILL_LINES_CHANGED" then
-    if channelId > 0 then broadcastSoon() end
-  elseif event == "PLAYER_LOGOUT" then
-    -- Tell the others we left (best effort: the client may not flush it before quitting).
-    local msg, n = profileMessage()
-    if channelId > 0 and n > 0 then send((msg:gsub("^P2;[01];", "P2;0;")), "CHANNEL", channelId) end
+    local m, n = profileMessage()
+    if n > 0 then sendOthers(m) end
   end
 end)
 
--- Heartbeat and expiry (OnUpdate rather than a repeating timer).
+-- Expiry, and the reminder to renew an announce that others are about to drop.
 local elapsed = 0
 f:SetScript("OnUpdate", function(_, dt)
   elapsed = elapsed + dt
   if elapsed < 10 then return end
   elapsed = 0
   local now = GetTime()
-  if channelId > 0 and now - lastBroadcast >= HEARTBEAT then lastBroadcast = now; broadcast() end
   local changed = false
   for name, p in pairs(peers) do
     if now - p.seen > EXPIRE then peers[name] = nil; changed = true end
   end
   if changed and ns.OnCraftChanged then ns.OnCraftChanged() end
+  local d = db()
+  if d.avail and d.announced and time() - d.announced > ANNOUNCE_TTL - 300 and not d.reminded then
+    d.reminded = true
+    ns.say(T.renew_hint)
+  end
 end)
 
 ---------------------------------------------------------------------------------------------
@@ -484,6 +526,15 @@ local availBtn = ns.Button(pDir)
 availBtn:SetSize(140, 22)
 availBtn:SetPoint("LEFT", filterBtn, "RIGHT", 8, 0)
 availBtn:SetScript("OnClick", function() onlyAvail = not onlyAvail; pageNo = 1; refreshDir() end)
+local refreshBtn = ns.Button(pDir)
+refreshBtn:SetSize(120, 22)
+refreshBtn:SetPoint("TOPRIGHT", -4, -2)
+refreshBtn:SetText(T.refresh)
+refreshBtn:SetScript("OnClick", function() ns.CraftRequest(true) end)
+-- Opening the tab is a click too: ask who is available (at most once a minute).
+if ns.HubTabButton and ns.HubTabButton(dirIndex) then
+  ns.HubTabButton(dirIndex):HookScript("OnClick", function() ns.CraftRequest(false) end)
+end
 local dirCount = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 dirCount:SetPoint("TOPLEFT", 4, -32)
 dirCount:SetWidth(W - 40)
@@ -584,9 +635,14 @@ toggle:SetPoint("TOPLEFT", 4, -48)
 toggle:SetScript("OnClick", function() ns.SetCraftAvailable(not db().avail) end)
 local toggleHint = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 toggleHint:SetPoint("LEFT", toggle, "RIGHT", 10, 0)
-toggleHint:SetWidth(W - 270)
+toggleHint:SetWidth(W - 430)
 toggleHint:SetJustifyH("LEFT")
 
+local renewBtn = ns.Button(pMe)
+renewBtn:SetSize(150, 22)
+renewBtn:SetPoint("TOPRIGHT", -4, -52)
+renewBtn:SetText(T.renew)
+renewBtn:SetScript("OnClick", function() ns.CraftAnnounce(); ns.say(T.renewed); if ns.OnCraftChanged then ns.OnCraftChanged() end end)
 local msgLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 msgLabel:SetPoint("TOPLEFT", 4, -92)
 msgLabel:SetText(T.msg_label)
@@ -603,7 +659,7 @@ msgSave:SetText(T.msg_save)
 function ns.SetCraftMessage(text)
   db().msg = cleanMessage(text)
   ns.say(T.msg_saved)
-  broadcastSoon()
+  if db().avail then ns.CraftAnnounce() end -- from the Save click / Enter key
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
 msgSave:SetScript("OnClick", function() msgBox:ClearFocus(); ns.SetCraftMessage(msgBox:GetText()) end)
@@ -623,7 +679,9 @@ for _, row in ipairs(pMe.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(tr
 refreshMe = function()
   local on = db().avail
   toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5a6b" .. T.avail_off .. "|r"))
-  toggleHint:SetText(on and T.avail_hint_on or T.avail_hint_off)
+  local age = db().announced and math.floor((time() - db().announced) / 60)
+  toggleHint:SetText(on and (age and string.format(T.announced, age) or T.avail_hint_on) or T.avail_hint_off)
+  renewBtn:SetShown(on)
   if not msgBox:HasFocus() then msgBox:SetText(db().msg or "") end
   local mine = myEntry()
   if mine then preview:Set(mine) end
