@@ -5,7 +5,7 @@
 --
 -- Messages (prefix BMCraft):
 --   Q1                              a newcomer asks everyone for their profile (answered by whisper)
---   P1;avail;level;class;faction;line:rank:max,line:rank:max   a profile
+--   P2;avail;level;class;faction;race;sex;line:rank:max,...;short message   a profile
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 local LOCALE = GetLocale()
@@ -24,6 +24,8 @@ local T = ns.Localize("craft", {
   net_wait = "Connexion au réseau BrokenMeta en cours…",
   net_fail = "Impossible de rejoindre le canal BrokenMeta : trop de canaux ouverts ? Quitte-en un puis tape /reload.",
   intro = "BrokenMeta : Profession montre les artisans connectés qui ont l'addon. Mets-toi disponible pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
+  msg_label = "Message court, affiché sur ta carte d'artisan (60 caractères max) :", msg_save = "Enregistrer",
+  msg_saved = "ton message d'artisan est enregistré.", preview = "Aperçu de ta carte",
   avail_now = "tu es maintenant disponible dans l'annuaire des artisans.",
   avail_gone = "tu n'es plus disponible dans l'annuaire des artisans.",
 }, {
@@ -40,6 +42,8 @@ local T = ns.Localize("craft", {
   net_wait = "Connecting to the BrokenMeta network…",
   net_fail = "Could not join the BrokenMeta channel: too many channels open? Leave one, then type /reload.",
   intro = "BrokenMeta : Professions shows the online crafters who run the addon. Set yourself available to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
+  msg_label = "Short message shown on your crafter card (60 characters max):", msg_save = "Save",
+  msg_saved = "your crafter message is saved.", preview = "Your card preview",
   avail_now = "you are now available in the crafters directory.",
   avail_gone = "you are no longer available in the crafters directory.",
 })
@@ -70,10 +74,15 @@ local function profName(line)
   return n and n[LANG] or ("#" .. tostring(line))
 end
 
-local realm = (GetNormalizedRealmName and GetNormalizedRealmName()) or (GetRealmName() or ""):gsub("[%s%-]", "")
-local myName = UnitName("player")
-local myFull = myName .. "-" .. realm
-local charKey = myName .. "-" .. (GetRealmName() or "")
+-- Set at PLAYER_LOGIN: while addons load on a fresh login, UnitName("player") is still "Unknown".
+local realm, myName, myFull, charKey = "", "", "", ""
+local function readNames()
+  realm = (GetNormalizedRealmName and GetNormalizedRealmName()) or (GetRealmName() or ""):gsub("[%s%-]", "")
+  myName = UnitName("player") or "?"
+  myFull = myName .. "-" .. realm
+  charKey = myName .. "-" .. (GetRealmName() or "")
+end
+readNames()
 
 local function full(sender)
   if not sender or sender == "" then return nil end
@@ -82,8 +91,7 @@ local function full(sender)
 end
 
 local function short(name)
-  if Ambiguate then return Ambiguate(name, "none") end
-  return (name:gsub("%-" .. realm .. "$", ""))
+  return (name:gsub("%-.*$", ""))
 end
 
 ---------------------------------------------------------------------------------------------
@@ -119,22 +127,41 @@ local function myProfessions()
   return out
 end
 
+-- Short message: no chat escapes (|), no field separator (;), at most MSG_MAX characters (UTF-8).
+local MSG_MAX = 60
+local function cleanMessage(text)
+  text = (text or ""):gsub("[|;%c]", ""):gsub("^%s+", ""):gsub("%s+$", "")
+  local out, n = {}, 0
+  for ch in text:gmatch("[\1-\127\194-\244][\128-\191]*") do
+    n = n + 1
+    if n > MSG_MAX then break end
+    out[n] = ch
+  end
+  return table.concat(out)
+end
+ns.CleanCraftMessage = cleanMessage
+
 local function profileMessage()
   local parts = {}
   for _, p in ipairs(myProfessions()) do parts[#parts + 1] = p.line .. ":" .. p.rank .. ":" .. p.max end
   local _, class = UnitClass("player")
-  return "P1;" .. (db().avail and 1 or 0) .. ";" .. (UnitLevel("player") or 0) .. ";" .. (class or "")
-    .. ";" .. (UnitFactionGroup("player") or "") .. ";" .. table.concat(parts, ","), #parts
+  local _, race = UnitRace("player")
+  local sex = UnitSex and UnitSex("player") or 2
+  return "P2;" .. (db().avail and 1 or 0) .. ";" .. (UnitLevel("player") or 0) .. ";" .. (class or "")
+    .. ";" .. (UnitFactionGroup("player") or "") .. ";" .. (race or "") .. ";" .. (sex or 2)
+    .. ";" .. table.concat(parts, ",") .. ";" .. cleanMessage(db().msg), #parts
 end
 
 local function parseProfile(msg)
-  local avail, level, class, faction, profs = msg:match("^P1;([01]);(%d+);(%u*);(%a*);(.*)$")
+  local avail, level, class, faction, race, sex, profs, text =
+    msg:match("^P2;([01]);(%d+);(%u*);(%a*);(%a*);(%d);([%d:,]*);(.*)$")
   if not avail then return nil end
   local list = {}
   for line, rank, max in profs:gmatch("(%d+):(%d+):(%d+)") do
     list[#list + 1] = { line = tonumber(line), rank = tonumber(rank), max = tonumber(max) }
   end
-  return { avail = avail == "1", level = tonumber(level), class = class, faction = faction, profs = list }
+  return { avail = avail == "1", level = tonumber(level), class = class, faction = faction, race = race,
+    sex = tonumber(sex), profs = list, msg = cleanMessage(text) }
 end
 
 ---------------------------------------------------------------------------------------------
@@ -210,6 +237,13 @@ end
 f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
   if event == "PLAYER_LOGIN" then
     if C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix then pcall(C_ChatInfo.RegisterAddonMessagePrefix, PREFIX) end
+    readNames()
+    -- 0.8.0 could save this character as "Unknown-<realm>".
+    if BrokenMetaWeightsDB and BrokenMetaWeightsDB.craft then
+      local old = BrokenMetaWeightsDB.craft["Unknown-" .. (GetRealmName() or "")]
+      if old and not BrokenMetaWeightsDB.craft[charKey] then BrokenMetaWeightsDB.craft[charKey] = old end
+      BrokenMetaWeightsDB.craft["Unknown-" .. (GetRealmName() or "")] = nil
+    end
     db()
     C_Timer.After(6, function() join(1) end)
   elseif event == "CHAT_MSG_ADDON" then
@@ -244,7 +278,7 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
   elseif event == "PLAYER_LOGOUT" then
     -- Tell the others we left (best effort: the client may not flush it before quitting).
     local msg, n = profileMessage()
-    if channelId > 0 and n > 0 then send((msg:gsub("^P1;[01];", "P1;0;")), "CHANNEL", channelId) end
+    if channelId > 0 and n > 0 then send((msg:gsub("^P2;[01];", "P2;0;")), "CHANNEL", channelId) end
   end
 end)
 
@@ -267,26 +301,113 @@ end)
 -- Hub pages
 ---------------------------------------------------------------------------------------------
 if not ns.HubTab then return end
-local H = ns.Hub
-local W = H.W
-local ROWS, LINE, TOP = 17, 22, -58
+local W = ns.Hub.W
+local C, HEX = ns.C, ns.HEX
 
 local function classColor(class)
   local c = RAID_CLASS_COLORS and RAID_CLASS_COLORS[class]
   return c and c.colorStr or "ffffffff"
 end
 
+-- Race portrait: modern atlas, then the Classic race sheet, then the class icon.
+local function setRaceIcon(tex, race, sex, class)
+  local g = sex == 3 and "female" or "male"
+  local r = race and race ~= "" and (race == "Scourge" and "undead" or race:lower()) or nil
+  if r and tex.SetAtlas and C_Texture and C_Texture.GetAtlasInfo then
+    for _, fmt in ipairs({ "raceicon128-%s-%s", "raceicon-%s-%s" }) do
+      local name = fmt:format(r, g)
+      if C_Texture.GetAtlasInfo(name) then tex:SetAtlas(name); return end
+    end
+  end
+  if r and RACE_ICON_TCOORDS then
+    local coords = RACE_ICON_TCOORDS[race:upper() .. "_" .. g:upper()] or RACE_ICON_TCOORDS[r:upper() .. "_" .. g:upper()]
+    if coords then
+      tex:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Races")
+      tex:SetTexCoord(unpack(coords))
+      return
+    end
+  end
+  if class and CLASS_ICON_TCOORDS and CLASS_ICON_TCOORDS[class] then
+    tex:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
+    tex:SetTexCoord(unpack(CLASS_ICON_TCOORDS[class]))
+    return
+  end
+  tex:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
+  tex:SetTexCoord(0, 1, 0, 1)
+end
+
 local function profText(p, only)
   local parts = {}
   for _, pr in ipairs(p.profs) do
     if not only or pr.line == only then
-      parts[#parts + 1] = profName(pr.line) .. " |cffffffff" .. pr.rank .. "|r/" .. pr.max
+      parts[#parts + 1] = "|c" .. HEX.gold .. profName(pr.line) .. "|r |c" .. HEX.cream .. pr.rank .. "|r|c" .. HEX.faint .. "/" .. pr.max .. "|r"
     end
   end
-  return table.concat(parts, " · ")
+  return table.concat(parts, "   ")
 end
 
+local function whisper(name)
+  if ChatFrame_SendTell then
+    ChatFrame_SendTell(name)
+  elseif ChatFrame_OpenChat then
+    ChatFrame_OpenChat("/w " .. name .. " ")
+  end
+end
+ns.CraftWhisper = whisper
+
+-- A crafter card: framed box, race portrait, status light, name / level, professions, message,
+-- whisper button. Border: teal when available, gold for your own card.
+local CARD_H = 58
+local function makeCard(parent, width)
+  local c = CreateFrame("Frame", nil, parent, ns.BACKDROP_TEMPLATE)
+  c:SetSize(width, CARD_H)
+  ns.Flat(c)
+  c:EnableMouse(true)
+  c:SetScript("OnEnter", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.rowHover)) end end)
+  c:SetScript("OnLeave", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.row)) end end)
+  c.icon = c:CreateTexture(nil, "ARTWORK")
+  c.icon:SetSize(42, 42)
+  c.icon:SetPoint("LEFT", 8, 0)
+  c.light = c:CreateTexture(nil, "OVERLAY")
+  c.light:SetSize(14, 14)
+  c.light:SetPoint("BOTTOMRIGHT", c.icon, "BOTTOMRIGHT", 4, -4)
+  c.name = c:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+  c.name:SetPoint("TOPLEFT", c.icon, "TOPRIGHT", 10, 0)
+  c.profs = c:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  c.profs:SetPoint("TOPLEFT", c.name, "BOTTOMLEFT", 0, -3)
+  c.profs:SetWidth(width - 160)
+  c.profs:SetJustifyH("LEFT")
+  c.profs:SetWordWrap(false)
+  c.msg = c:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  c.msg:SetPoint("TOPLEFT", c.profs, "BOTTOMLEFT", 0, -3)
+  c.msg:SetWidth(width - 160)
+  c.msg:SetJustifyH("LEFT")
+  c.msg:SetWordWrap(false)
+  c.btn = CreateFrame("Button", nil, c, "UIPanelButtonTemplate")
+  c.btn:SetSize(80, 22)
+  c.btn:SetPoint("RIGHT", -10, 0)
+  c.btn:SetText(T.whisper)
+  function c:Set(e, only)
+    local p = e.p
+    setRaceIcon(self.icon, p.race, p.sex, p.class)
+    self.light:SetTexture(p.avail and "Interface\\FriendsFrame\\StatusIcon-Online" or "Interface\\FriendsFrame\\StatusIcon-Offline")
+    local label = "|c" .. classColor(p.class) .. short(e.name) .. "|r  |c" .. HEX.faint .. (p.level or "?") .. "|r"
+    if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
+    self.name:SetText(label)
+    self.profs:SetText(profText(p, only))
+    self.msg:SetText(p.msg and p.msg ~= "" and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
+    ns.FlatBorder(self, e.me and C.gold or (p.avail and C.teal or C.border))
+    self.btn:SetShown(not e.me)
+    self.btn:SetScript("OnClick", function() whisper(e.name) end)
+    self:Show()
+  end
+  return c
+end
+
+---------------------------------------------------------------------------------------------
 -- Page: directory
+---------------------------------------------------------------------------------------------
+local CARDS, TOP, GAP = 6, -52, 64
 local filterIdx, onlyAvail, pageNo = 0, false, 1
 local refreshDir
 local pDir, dirIndex = ns.HubTab("prof", T.tab_dir, function() refreshDir() end)
@@ -309,27 +430,17 @@ local dirCount = pDir:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
 dirCount:SetPoint("TOPLEFT", 4, -32)
 dirCount:SetWidth(W - 40)
 dirCount:SetJustifyH("LEFT")
+local dirNone = pDir:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+dirNone:SetPoint("TOPLEFT", 4, TOP - 4)
+dirNone:SetWidth(W - 40)
+dirNone:SetJustifyH("LEFT")
 
-H.rows(pDir, ROWS, TOP, LINE)
-local whisperBtns = {}
-for i = 1, ROWS do
-  local b = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
-  b:SetSize(70, 20)
-  b:SetPoint("TOPRIGHT", -4, TOP - (i - 1) * LINE + 3)
-  b:SetText(T.whisper)
-  b:SetFrameLevel((pDir:GetFrameLevel() or 1) + 5) -- above the row's tooltip area
-  b:Hide()
-  whisperBtns[i] = b
+local cards = {}
+for i = 1, CARDS do
+  cards[i] = makeCard(pDir, W - 32)
+  cards[i]:SetPoint("TOPLEFT", 4, TOP - (i - 1) * GAP)
+  cards[i]:Hide()
 end
-
-local function whisper(name)
-  if ChatFrame_SendTell then
-    ChatFrame_SendTell(name)
-  elseif ChatFrame_OpenChat then
-    ChatFrame_OpenChat("/w " .. name .. " ")
-  end
-end
-ns.CraftWhisper = whisper
 
 local prevBtn = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
 prevBtn:SetSize(28, 20)
@@ -343,6 +454,11 @@ nextBtn:SetText(">")
 nextBtn:SetScript("OnClick", function() pageNo = pageNo + 1; refreshDir() end)
 local pageText = pDir:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 pageText:SetPoint("LEFT", prevBtn, "RIGHT", 6, 0)
+
+local function myEntry()
+  local mine = parseProfile((profileMessage()))
+  return mine and { name = myFull, p = mine, me = true }
+end
 
 -- Visible entries: me first (so I can check what I send), then available before unavailable,
 -- then highest skill in the filtered profession.
@@ -368,8 +484,8 @@ function ns.CraftList()
     if a.r ~= b.r then return a.r > b.r end
     return a.name < b.name
   end)
-  local mine = parseProfile((profileMessage()))
-  if mine and keep(mine) then table.insert(list, 1, { name = myFull, p = mine, me = true }) end
+  local mine = myEntry()
+  if mine and keep(mine.p) then table.insert(list, 1, mine) end
   return list, only
 end
 
@@ -382,30 +498,21 @@ refreshDir = function()
   end
   dirCount:SetText(string.format(T.count, total, avail))
   local list, only = ns.CraftList()
-  local pages = math.max(1, math.ceil(#list / ROWS))
+  local pages = math.max(1, math.ceil(#list / CARDS))
   pageNo = math.min(math.max(pageNo, 1), pages)
   pageText:SetText(string.format(T.page, pageNo, pages))
   if pageNo > 1 then prevBtn:Enable() else prevBtn:Disable() end
   if pageNo < pages then nextBtn:Enable() else nextBtn:Disable() end
-  for i = 1, ROWS do
-    local e = list[(pageNo - 1) * ROWS + i]
-    local b = whisperBtns[i]
-    if e then
-      local dot = e.p.avail and "|cff40ff40●|r " or "|cff777777●|r "
-      local label = "|c" .. classColor(e.p.class) .. short(e.name) .. "|r"
-      if e.me then label = label .. " |cff888888(" .. T.you .. ")|r" end
-      H.setRow(pDir, i, dot .. label .. " |cff888888" .. (e.p.level or "?") .. "|r  " .. profText(e.p, only))
-      b:SetShown(not e.me)
-      b:SetScript("OnClick", function() whisper(e.name) end)
-    else
-      H.setRow(pDir, i)
-      b:Hide()
-    end
+  for i = 1, CARDS do
+    local e = list[(pageNo - 1) * CARDS + i]
+    if e then cards[i]:Set(e, only) else cards[i]:Hide() end
   end
-  if #list == 0 then H.setRow(pDir, 1, "|cff888888" .. T.none .. "|r") end
+  dirNone:SetText(#list == 0 and ("|c" .. HEX.faint .. T.none .. "|r") or "")
 end
 
+---------------------------------------------------------------------------------------------
 -- Page: my profile
+---------------------------------------------------------------------------------------------
 local refreshMe
 local pMe, meIndex = ns.HubTab("prof", T.tab_me, function() refreshMe() end)
 local meIntro = pMe:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
@@ -415,31 +522,64 @@ meIntro:SetJustifyH("LEFT")
 meIntro:SetText(T.intro)
 local toggle = CreateFrame("Button", nil, pMe, "UIPanelButtonTemplate")
 toggle:SetSize(220, 30)
-toggle:SetPoint("TOPLEFT", 4, -52)
+toggle:SetPoint("TOPLEFT", 4, -48)
 toggle:SetScript("OnClick", function() ns.SetCraftAvailable(not db().avail) end)
 local toggleHint = pMe:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
 toggleHint:SetPoint("LEFT", toggle, "RIGHT", 10, 0)
 toggleHint:SetWidth(W - 270)
 toggleHint:SetJustifyH("LEFT")
-H.rows(pMe, 14, -100, 18)
+
+local msgLabel = pMe:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+msgLabel:SetPoint("TOPLEFT", 4, -92)
+msgLabel:SetText(T.msg_label)
+local msgBox = CreateFrame("EditBox", nil, pMe, "InputBoxTemplate")
+msgBox:SetSize(W - 150, 22)
+msgBox:SetPoint("TOPLEFT", 10, -108)
+msgBox:SetAutoFocus(false)
+msgBox:SetMaxLetters(MSG_MAX)
+local msgSave = CreateFrame("Button", nil, pMe, "UIPanelButtonTemplate")
+msgSave:SetSize(100, 22)
+msgSave:SetPoint("LEFT", msgBox, "RIGHT", 8, 0)
+msgSave:SetText(T.msg_save)
+
+function ns.SetCraftMessage(text)
+  db().msg = cleanMessage(text)
+  ns.say(T.msg_saved)
+  broadcastSoon()
+  if ns.OnCraftChanged then ns.OnCraftChanged() end
+end
+msgSave:SetScript("OnClick", function() msgBox:ClearFocus(); ns.SetCraftMessage(msgBox:GetText()) end)
+msgBox:SetScript("OnEnterPressed", function(self) self:ClearFocus(); ns.SetCraftMessage(self:GetText()) end)
+msgBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+
+local prevLabel = pMe:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+prevLabel:SetPoint("TOPLEFT", 4, -144)
+prevLabel:SetText(T.preview)
+local preview = makeCard(pMe, W - 32)
+preview:SetPoint("TOPLEFT", 4, -160)
+
+ns.Hub.rows(pMe, 10, -236, 18)
 
 refreshMe = function()
   local on = db().avail
-  toggle:SetText(on and ("|cff40ff40● " .. T.avail_on .. "|r") or ("|cffff5050● " .. T.avail_off .. "|r"))
+  toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5050" .. T.avail_off .. "|r"))
   toggleHint:SetText(on and T.avail_hint_on or T.avail_hint_off)
+  if not msgBox:HasFocus() then msgBox:SetText(db().msg or "") end
+  local mine = myEntry()
+  if mine then preview:Set(mine) end
   local i = 1
-  H.setRow(pMe, i, "|cffffd100" .. T.my_profs .. "|r"); i = i + 1
+  ns.Hub.setRow(pMe, i, "|c" .. HEX.gold .. T.my_profs .. "|r"); i = i + 1
   local profs = myProfessions()
   for _, p in ipairs(profs) do
-    H.setRow(pMe, i, profName(p.line), "|cffffffff" .. p.rank .. "|r/" .. p.max); i = i + 1
+    ns.Hub.setRow(pMe, i, profName(p.line), "|cffffffff" .. p.rank .. "|r/" .. p.max); i = i + 1
   end
-  if #profs == 0 then H.setRow(pMe, i, "|cff888888" .. T.no_prof .. "|r"); i = i + 1 end
+  if #profs == 0 then ns.Hub.setRow(pMe, i, "|c" .. HEX.faint .. T.no_prof .. "|r"); i = i + 1 end
   i = i + 1
   local seen = 0
   for _ in pairs(peers) do seen = seen + 1 end
-  H.setRow(pMe, i, channelId > 0 and ("|cff40ff40" .. string.format(T.net_ok, seen) .. "|r")
-    or (joinFailed and ("|cffff5050" .. T.net_fail .. "|r") or ("|cff888888" .. T.net_wait .. "|r"))); i = i + 1
-  H.clearRows(pMe, i)
+  ns.Hub.setRow(pMe, i, channelId > 0 and ("|c" .. HEX.teal .. string.format(T.net_ok, seen) .. "|r")
+    or (joinFailed and ("|cffff5050" .. T.net_fail .. "|r") or ("|c" .. HEX.faint .. T.net_wait .. "|r"))); i = i + 1
+  ns.Hub.clearRows(pMe, i)
 end
 
 function ns.OnCraftChanged()

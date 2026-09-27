@@ -194,11 +194,11 @@ class CrafterTests(unittest.TestCase):
         sent = self.sent()
         self.assertIn("CHANNEL:Q1", sent)
         # mock: Alchemy 60/75 (line 171), level 20 warrior, Alliance, unavailable by default
-        self.assertIn("CHANNEL:P1;0;20;WARRIOR;Alliance;171:60:75", sent)
+        self.assertIn("CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;", sent)
         self.assertEqual(self.g.SENT_TO[sent.index("CHANNEL:Q1") + 1], "5", "sent on the hidden channel's number")
 
     def test_peer_profile_listed_and_whisper(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225,197:80:150", "CHANNEL", "Bob-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225,197:80:150;Tout le cuir, compos fournies", "CHANNEL", "Bob-Realm")
         peers = self.g.NS.CraftPeers()
         self.assertTrue(peers["Bob-Realm"].avail)
         names = [e.name for e in lua_list(self.g.NS.CraftList()[0])]
@@ -208,8 +208,8 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(self.g.WHISPERED[1], "Bob-Realm")
 
     def test_ignores_self_other_faction_and_foreign_prefix(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225", "CHANNEL", "Test-Realm")
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Horde;164:150:225", "CHANNEL", "Orc-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Test-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Horde;Orc;2;164:150:225;", "CHANNEL", "Orc-Realm")
         self.event("CHAT_MSG_ADDON", "BrokenMeta", "V:0.1", "GUILD", "Bob-Realm")
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 
@@ -217,17 +217,29 @@ class CrafterTests(unittest.TestCase):
         self.event("CHAT_MSG_ADDON", "BMCraft", "Q1", "CHANNEL", "New-Realm")
         self.g.flush()
         sent = self.sent()
-        self.assertEqual(sent[-1], "WHISPER:P1;0;20;WARRIOR;Alliance;171:60:75")
+        self.assertEqual(sent[-1], "WHISPER:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;")
         self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
 
     def test_toggle_available_broadcasts(self):
         self.g.NS.SetCraftAvailable(True)
         self.g.flush()
-        self.assertEqual(self.sent()[-1], "CHANNEL:P1;1;20;WARRIOR;Alliance;171:60:75")
+        self.assertEqual(self.sent()[-1], "CHANNEL:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;")
         self.assertIn("disponible", self.g.chat[len(self.g.chat)])
 
+    def test_message_cleaned_limited_and_sent(self):
+        clean = self.g.NS.CleanCraftMessage
+        self.assertEqual(clean("  |cffff0000Cuir;épique|r  "), "cffff0000Cuirépiquer")
+        self.assertEqual(clean("é" * 80), "é" * 60, "60 characters, UTF-8 kept whole")
+        self.g.NS.SetCraftMessage("Tout le cuir, compos fournies")
+        self.g.flush()
+        self.assertEqual(self.sent()[-1], "CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies")
+        peer = self.g.NS.CraftPeers()
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225;Salut |Hitem:1|h", "CHANNEL", "Bob-Realm")
+        self.assertEqual(peer["Bob-Realm"].msg, "Salut Hitem:1h", "no chat escapes from others")
+        self.assertEqual(peer["Bob-Realm"].race, "Human")
+
     def test_offline_player_dropped(self):
-        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225", "CHANNEL", "Bob-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Bob-Realm")
         self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 

@@ -577,6 +577,8 @@ f:SetScript("OnEvent", function(_, event)
   if event == "BAG_UPDATE_DELAYED" then
     -- only the hub cares about bag contents
   elseif event == "PLAYER_LOGIN" then
+    -- The name can still read "Unknown" while addons load on a fresh login.
+    charKey = UnitName("player") .. "-" .. (GetRealmName() or "")
     BrokenMetaWeightsDB = BrokenMetaWeightsDB or {}
     BrokenMetaWeightsDB.chars = BrokenMetaWeightsDB.chars or {}
     setSpec(detectSpec())
