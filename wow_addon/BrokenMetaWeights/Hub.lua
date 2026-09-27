@@ -4,7 +4,7 @@ local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("hub", {
-  title = "BrokenMeta · Hub DPS",
+  title = "BrokenMeta · Hub", sec_dps = "DPS", sec_prof = "Profession",
   tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
   tab_guide = "Guide",
   up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
@@ -44,6 +44,7 @@ local T = ns.Localize("hub", {
     { "share", "/bmw share on|off", "Active ou coupe le partage des données avec brokenmeta.gg." },
     { "ah", "/bmw ah", "Scanne l'hôtel des ventes (il doit être ouvert)." },
     { "import", "/bmw import", "Importe tes poids personnels calculés sur brokenmeta.gg (/bmw import clear pour revenir aux poids génériques)." },
+    { "craft", "/bmw craft", "Ouvre l'annuaire des artisans connectés (BrokenMeta : Profession)." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -56,7 +57,7 @@ local T = ns.Localize("hub", {
   no_spec = "Aucune spécialisation DPS simulée pour ta classe.",
   rating = "cote",
 }, {
-  title = "BrokenMeta · DPS Hub",
+  title = "BrokenMeta · Hub", sec_dps = "DPS", sec_prof = "Professions",
   tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
   tab_guide = "Guide",
   up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
@@ -96,6 +97,7 @@ local T = ns.Localize("hub", {
     { "share", "/bmw share on|off", "Turns data sharing with brokenmeta.gg on or off." },
     { "ah", "/bmw ah", "Scans the auction house (it must be open)." },
     { "import", "/bmw import", "Imports your personal weights computed on brokenmeta.gg (/bmw import clear to go back to generic weights)." },
+    { "craft", "/bmw craft", "Opens the directory of online crafters (BrokenMeta : Professions)." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -120,7 +122,7 @@ local function slotLabel(key) return _G[key] or key end
 ---------------------------------------------------------------------------------------------
 -- Frame
 ---------------------------------------------------------------------------------------------
-local W, H = 590, 560
+local W, H = 590, 586
 local hub = CreateFrame("Frame", "BrokenMetaHub", UIParent, "BasicFrameTemplateWithInset")
 hub:SetSize(W, H)
 hub:SetPoint("CENTER")
@@ -141,7 +143,7 @@ hub.title:SetText("|TInterface\\AddOns\\BrokenMetaWeights\\Media\\icon:16|t " ..
 local pages, tabs = {}, {}
 local function newPage()
   local p = CreateFrame("Frame", nil, hub)
-  p:SetPoint("TOPLEFT", 12, -62)
+  p:SetPoint("TOPLEFT", 12, -88)
   p:SetPoint("BOTTOMRIGHT", -12, 12)
   p:Hide()
   pages[#pages + 1] = p
@@ -150,24 +152,54 @@ end
 
 local current = 1
 local refreshers = {}
+
+-- Two sections (BrokenMeta : DPS and BrokenMeta : Profession), each with its own row of tabs.
+-- Other files add their pages with ns.HubTab(section, label, refresher).
+local SECTIONS = { { key = "dps", label = T.sec_dps }, { key = "prof", label = T.sec_prof } }
+local sectionOf, sectionBtns = {}, {}
+
 local function showPage(i)
   current = i
+  local sec = sectionOf[i]
   for j, p in ipairs(pages) do p:SetShown(j == i) end
-  for j, b in ipairs(tabs) do
+  for j, b in pairs(tabs) do
+    b:SetShown(sectionOf[j] == sec)
     if j == i then b:LockHighlight() else b:UnlockHighlight() end
+  end
+  for key, b in pairs(sectionBtns) do
+    if key == sec then b:LockHighlight() else b:UnlockHighlight() end
   end
   if refreshers[i] then refreshers[i]() end
 end
 
--- Tab buttons in display order; each opens the page created with that index below.
-for pos, def in ipairs({ { T.tab_char, 1 }, { T.tab_up, 2 }, { T.tab_guide, 6 }, { T.tab_data, 5 },
-    { T.tab_export, 3 }, { T.tab_cmd, 4 } }) do
+local lastTab = {} -- last page opened in each section
+local function addTab(section, label, index)
+  local pos = 0
+  for _, sec in pairs(sectionOf) do if sec == section then pos = pos + 1 end end
+  sectionOf[index] = section
+  lastTab[section] = lastTab[section] or index
   local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
   b:SetSize(91, 22)
-  b:SetPoint("TOPLEFT", 12 + (pos - 1) * 94, -30)
-  b:SetText(def[1])
-  b:SetScript("OnClick", function() showPage(def[2]) end)
-  tabs[def[2]] = b
+  b:SetPoint("TOPLEFT", 12 + pos * 94, -56)
+  b:SetText(label)
+  b:SetScript("OnClick", function() lastTab[section] = index; showPage(index) end)
+  b:Hide()
+  tabs[index] = b
+end
+
+for pos, sec in ipairs(SECTIONS) do
+  local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
+  b:SetSize(200, 24)
+  b:SetPoint("TOPLEFT", 12 + (pos - 1) * 206, -28)
+  b:SetText("|cff4fd1c5BrokenMeta|r : " .. sec.label)
+  b:SetScript("OnClick", function() if lastTab[sec.key] then showPage(lastTab[sec.key]) end end)
+  sectionBtns[sec.key] = b
+end
+
+-- DPS tabs in display order; each opens the page created with that index below.
+for _, def in ipairs({ { T.tab_char, 1 }, { T.tab_up, 2 }, { T.tab_guide, 6 }, { T.tab_data, 5 },
+    { T.tab_export, 3 }, { T.tab_cmd, 4 } }) do
+  addTab("dps", def[1], def[2])
 end
 
 -- Reusable rows: optional item icon, left/right text, and a hover area that shows the item's
@@ -847,6 +879,17 @@ end
 ---------------------------------------------------------------------------------------------
 -- Entry points
 ---------------------------------------------------------------------------------------------
+-- Shared building blocks for the pages other files add (Crafter.lua).
+ns.Hub = { W = W, rows = rows, setRow = setRow, clearRows = clearRows }
+function ns.HubTab(section, label, refresher)
+  local page = newPage()
+  addTab(section, label, #pages)
+  refreshers[#pages] = refresher
+  return page, #pages
+end
+function ns.HubShow(index) hub:Show(); showPage(index) end
+function ns.HubRefresh(index) if hub:IsShown() and current == index and refreshers[index] then refreshers[index]() end end
+
 function ns.ToggleHub()
   if hub:IsShown() then hub:Hide() else hub:Show(); showPage(current) end
 end

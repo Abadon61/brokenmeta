@@ -72,7 +72,7 @@ class HubTests(unittest.TestCase):
         self.assertNotIn("plate_chest", texts)
 
     def test_localized_titles(self):
-        for loc, expected in (("frFR", "Hub DPS"), ("deDE", "DPS-Hub"), ("esES", "Hub DPS"), ("enUS", "DPS Hub"), ("ruRU", "DPS Hub")):
+        for loc, expected in (("frFR", "Profession montre"), ("deDE", "Berufe zeigt"), ("esES", "Profesiones muestra"), ("enUS", "Professions shows"), ("ruRU", "Professions shows")):
             _, _, texts, _ = run(loc, "WARRIOR", [0, 11, 0], ITEMS, {}, [])
             self.assertTrue(any(expected in t for t in texts), (loc, expected))
 
@@ -175,6 +175,61 @@ class VersionTests(unittest.TestCase):
                 self.assertEqual(len(g.chat), before, "same/older version: no notice")
                 f.scripts.OnEvent(f, "CHAT_MSG_ADDON", "BrokenMeta", "V:99.0.0")
                 self.assertIn("newer version", g.chat[len(g.chat)])
+
+
+class CrafterTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        self.g.flush()
+        self.frame = next(f for f in self.g.LUA_EVAL("function() return frames end")().values()
+                          if f.events and f.events["SKILL_LINES_CHANGED"])
+
+    def event(self, *args):
+        self.frame.scripts.OnEvent(self.frame, *args)
+
+    def sent(self):
+        return lua_list(self.g.SENT)
+
+    def test_joins_channel_asks_and_announces(self):
+        sent = self.sent()
+        self.assertIn("CHANNEL:Q1", sent)
+        # mock: Alchemy 60/75 (line 171), level 20 warrior, Alliance, unavailable by default
+        self.assertIn("CHANNEL:P1;0;20;WARRIOR;Alliance;171:60:75", sent)
+        self.assertEqual(self.g.SENT_TO[sent.index("CHANNEL:Q1") + 1], "5", "sent on the hidden channel's number")
+
+    def test_peer_profile_listed_and_whisper(self):
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225,197:80:150", "CHANNEL", "Bob-Realm")
+        peers = self.g.NS.CraftPeers()
+        self.assertTrue(peers["Bob-Realm"].avail)
+        names = [e.name for e in lua_list(self.g.NS.CraftList()[0])]
+        self.assertEqual(names[0], "Test-Realm", "me first")
+        self.assertIn("Bob-Realm", names)
+        self.g.NS.CraftWhisper("Bob-Realm")
+        self.assertEqual(self.g.WHISPERED[1], "Bob-Realm")
+
+    def test_ignores_self_other_faction_and_foreign_prefix(self):
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225", "CHANNEL", "Test-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Horde;164:150:225", "CHANNEL", "Orc-Realm")
+        self.event("CHAT_MSG_ADDON", "BrokenMeta", "V:0.1", "GUILD", "Bob-Realm")
+        self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
+
+    def test_query_answered_by_whisper(self):
+        self.event("CHAT_MSG_ADDON", "BMCraft", "Q1", "CHANNEL", "New-Realm")
+        self.g.flush()
+        sent = self.sent()
+        self.assertEqual(sent[-1], "WHISPER:P1;0;20;WARRIOR;Alliance;171:60:75")
+        self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
+
+    def test_toggle_available_broadcasts(self):
+        self.g.NS.SetCraftAvailable(True)
+        self.g.flush()
+        self.assertEqual(self.sent()[-1], "CHANNEL:P1;1;20;WARRIOR;Alliance;171:60:75")
+        self.assertIn("disponible", self.g.chat[len(self.g.chat)])
+
+    def test_offline_player_dropped(self):
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P1;1;18;MAGE;Alliance;164:150:225", "CHANNEL", "Bob-Realm")
+        self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
+        self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 
 
 if __name__ == "__main__":

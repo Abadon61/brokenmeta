@@ -11,7 +11,7 @@ local L = ns.Localize("core", {
   spec_set = "spécialisation : %s",
   spec_auto = "détection automatique (arbre de talents le plus rempli).",
   spec_unknown = "spécialisation inconnue : %s. Liste : /bmw list",
-  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw probe",
+  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw probe",
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
@@ -33,7 +33,7 @@ local L = ns.Localize("core", {
   spec_set = "spec: %s",
   spec_auto = "automatic detection (talent tree with the most points).",
   spec_unknown = "unknown spec: %s. List: /bmw list",
-  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw probe",
+  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw probe",
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
@@ -553,6 +553,8 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     say(string.format(L.snap_done, ns.SnapshotAll()))
   elseif cmd == "minimap" and ns.ToggleMinimap then
     ns.ToggleMinimap()
+  elseif cmd == "craft" and ns.ShowCrafters then
+    ns.ShowCrafters()
   elseif cmd == "export" and ns.ShowExport then
     ns.ShowExport()
   elseif cmd == "" and ns.ToggleHub then

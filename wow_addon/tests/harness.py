@@ -83,7 +83,14 @@ function GetBuildInfo() return "1.60.1", "70009", "Sep 2026", 16001 end
 function GetTime() return 100 end
 function IsInGuild() return true end
 SENT = {}
-C_ChatInfo = { RegisterAddonMessagePrefix = function() return true end, SendAddonMessage = function(p, m, c) SENT[#SENT+1] = c .. ":" .. m end }
+C_ChatInfo = { RegisterAddonMessagePrefix = function() return true end, SendAddonMessage = function(p, m, c, t) SENT[#SENT+1] = c .. ":" .. m; if t then SENT_TO[#SENT] = tostring(t) end end }
+SENT_TO = {}
+JOINED = {}
+function JoinTemporaryChannel(name) JOINED[name] = true end
+function GetChannelName(name) if JOINED[name] then return 5, name end return 0 end
+WHISPERED = {}
+function ChatFrame_SendTell(name) WHISPERED[#WHISPERED+1] = name end
+ERR_CHAT_PLAYER_NOT_FOUND_S = "No player named '%s' is currently playing."
 function GetProfessions() return 1, nil end
 function GetProfessionInfo(i) return "Alchemy", 1, 60, 75, 0, 0, 171 end
 function UnitRace() return "Orc", "Orc" end
