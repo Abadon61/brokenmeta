@@ -11,7 +11,9 @@ local LOCALE = GetLocale()
 
 local T = ns.Localize("craft", {
   tab_dir = "Artisans", tab_me = "Mon profil",
-  all = "Tous les métiers", only_avail = "Dispo seulement", everyone = "Tout le monde",
+  all = "Tous les métiers", only_avail = "Dispo seulement", everyone = "Tout le monde", favorites = "Favoris",
+  fav_add = "Ajouter aux favoris", fav_del = "Retirer des favoris", not_announced = "Pas annoncé en ce moment · vu il y a %s",
+  minutes = "%d min", hours = "%d h", days = "%d j",
   count = "%d artisan(s) connecté(s), %d disponible(s)",
   none = "Aucun artisan annoncé pour l'instant. Clique sur Actualiser : les artisans disponibles qui ont l'addon, sur ton royaume et ta faction, apparaîtront ici.",
   search = "Chercher un objet…", rec_count = "%d recettes enregistrées", rec_none = "recettes : ouvre ta fenêtre de métier",
@@ -34,7 +36,9 @@ local T = ns.Localize("craft", {
   avail_gone = "tu n'es plus disponible dans l'annuaire des artisans.",
 }, {
   tab_dir = "Crafters", tab_me = "My profile",
-  all = "All professions", only_avail = "Available only", everyone = "Everyone",
+  all = "All professions", only_avail = "Available only", everyone = "Everyone", favorites = "Favourites",
+  fav_add = "Add to favourites", fav_del = "Remove from favourites", not_announced = "Not announced right now · seen %s ago",
+  minutes = "%d min", hours = "%dh", days = "%dd",
   count = "%d crafter(s) online, %d available",
   none = "No crafter announced yet. Click Refresh: available crafters who run the addon, on your realm and faction, will show up here.",
   search = "Search an item…", rec_count = "%d recipes recorded", rec_none = "recipes: open your profession window",
@@ -83,6 +87,14 @@ local function profName(line)
   return n and n[LANG] or ("#" .. tostring(line))
 end
 ns.CraftProfName = profName
+
+-- "3 min", "2 h", "4 j" since a time() value.
+function ns.Ago(t)
+  local sec = math.max(0, time() - (t or 0))
+  if sec >= 86400 then return string.format(T.days, math.floor(sec / 86400)) end
+  if sec >= 3600 then return string.format(T.hours, math.floor(sec / 3600)) end
+  return string.format(T.minutes, math.floor(sec / 60))
+end
 
 -- Skill line of a profession from its name in any of the four languages (Classic windows give names).
 function ns.CraftLineFromName(name)
@@ -299,6 +311,27 @@ end
 
 function ns.CraftPeers() return peers end
 
+-- Favourite crafters, per realm, kept across sessions with their last known profile so they stay
+-- listed (greyed) while they are not announced: { ["Name-Realm"] = { p = profile, t = time() } }.
+local function favs()
+  BrokenMetaWeightsDB = BrokenMetaWeightsDB or {}
+  BrokenMetaWeightsDB.craftFavs = BrokenMetaWeightsDB.craftFavs or {}
+  local f = BrokenMetaWeightsDB.craftFavs[realm]
+  if not f then f = {}; BrokenMetaWeightsDB.craftFavs[realm] = f end
+  return f
+end
+ns.CraftFavs = favs
+
+local function snapshot(p)
+  return { level = p.level, class = p.class, faction = p.faction, race = p.race, sex = p.sex, profs = p.profs, msg = p.msg }
+end
+
+function ns.ToggleCraftFav(name, p)
+  if favs()[name] then favs()[name] = nil
+  else favs()[name] = { p = snapshot(p), t = time() } end
+  if ns.OnCraftChanged then ns.OnCraftChanged() end
+end
+
 -- A message from another player (chat line in the channel, or addon message).
 local function receive(body, sender, kind)
   local who = full(sender)
@@ -320,6 +353,7 @@ local function receive(body, sender, kind)
   if p and (p.faction == "" or p.faction == (UnitFactionGroup("player") or p.faction)) then
     p.seen = GetTime()
     peers[who] = p
+    if favs()[who] then favs()[who] = { p = snapshot(p), t = time() } end
     if ns.OnCraftChanged then ns.OnCraftChanged() end
   end
 end
@@ -504,6 +538,19 @@ local function makeCard(parent, width)
   c.btn:SetSize(80, 22)
   c.btn:SetPoint("RIGHT", -10, 0)
   c.btn:SetText(T.whisper)
+  -- Favourite star (the raid-marker star: no star glyph in the fonts), grey when not a favourite.
+  c.star = CreateFrame("Button", nil, c)
+  c.star:SetSize(16, 16)
+  c.star:SetPoint("LEFT", c.name, "RIGHT", 6, 0)
+  c.star.tex = c.star:CreateTexture(nil, "ARTWORK")
+  c.star.tex:SetAllPoints()
+  c.star.tex:SetTexture("Interface\\TargetingFrame\\UI-RaidTargetingIcon_1")
+  c.star:SetScript("OnEnter", function(self)
+    GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+    GameTooltip:SetText(self.on and T.fav_del or T.fav_add)
+    GameTooltip:Show()
+  end)
+  c.star:SetScript("OnLeave", function() GameTooltip:Hide() end)
   c.rec = ns.Button(c)
   c.rec:SetSize(80, 22)
   c.rec:SetPoint("RIGHT", c.btn, "LEFT", -6, 0)
@@ -516,7 +563,15 @@ local function makeCard(parent, width)
     if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
     self.name:SetText(label)
     self.profs:SetText(profText(p, only))
-    if e.match and #e.match > 0 then
+    local fav = not e.me and favs()[e.name] ~= nil
+    self.star:SetShown(not e.me)
+    self.star.on = fav
+    self.star.tex:SetDesaturated(not fav)
+    self.star.tex:SetAlpha(fav and 1 or 0.35)
+    self.star:SetScript("OnClick", function() ns.ToggleCraftFav(e.name, p) end)
+    if e.offline then
+      self.msg:SetText("|c" .. HEX.faint .. string.format(T.not_announced, e.ago or "?") .. "|r")
+    elseif e.match and #e.match > 0 then
       self.msg:SetText("|c" .. HEX.teal .. string.format(ns.RecipeTexts.knows, table.concat(e.match, ", ")) .. "|r")
     else
       self.msg:SetText(p.msg and p.msg ~= "" and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
@@ -538,7 +593,7 @@ end
 -- Page: directory
 ---------------------------------------------------------------------------------------------
 local CARDS, TOP, GAP = 6, -52, 64
-local filterIdx, onlyAvail, pageNo = 0, false, 1
+local filterIdx, mode, pageNo = 0, 0, 1 -- mode: 0 everyone, 1 available only, 2 favourites
 local refreshDir
 local pDir, dirIndex = ns.HubTab("prof", T.tab_dir, function() refreshDir() end)
 
@@ -555,7 +610,7 @@ if filterBtn.RegisterForClicks then filterBtn:RegisterForClicks("LeftButtonUp", 
 local availBtn = ns.Button(pDir)
 availBtn:SetSize(140, 22)
 availBtn:SetPoint("LEFT", filterBtn, "RIGHT", 8, 0)
-availBtn:SetScript("OnClick", function() onlyAvail = not onlyAvail; pageNo = 1; refreshDir() end)
+availBtn:SetScript("OnClick", function() mode = (mode + 1) % 3; pageNo = 1; refreshDir() end)
 local refreshBtn = ns.Button(pDir)
 refreshBtn:SetSize(120, 22)
 refreshBtn:SetPoint("TOPRIGHT", -4, -2)
@@ -628,8 +683,9 @@ function ns.CraftList()
     for _, pr in ipairs(p.profs) do if not only or pr.line == only then best = math.max(best, pr.rank) end end
     return best
   end
-  local function keep(p)
-    if onlyAvail and not p.avail then return false end
+  local function keep(p, name)
+    if mode == 1 and not p.avail then return false end
+    if mode == 2 and not favs()[name] then return false end
     if not only then return #p.profs > 0 end
     for _, pr in ipairs(p.profs) do if pr.line == only then return true end end
     return false
@@ -640,18 +696,30 @@ function ns.CraftList()
     return found, n > 0
   end
   for name, p in pairs(peers) do
-    if keep(p) then
+    if keep(p, name) then
       local found, ok = matches(name, false)
-      if ok then list[#list + 1] = { name = name, p = p, r = rank(p), match = found } end
+      if ok then list[#list + 1] = { name = name, p = p, r = rank(p), match = found, fav = favs()[name] ~= nil } end
+    end
+  end
+  -- Favourites not announced right now: their last known profile, greyed.
+  for name, f in pairs(favs()) do
+    if not peers[name] then
+      local fp = snapshot(f.p)
+      fp.avail = false
+      if keep(fp, name) then
+        local found, ok = matches(name, false)
+        if ok then list[#list + 1] = { name = name, p = fp, r = rank(fp), match = found, fav = true, offline = true, ago = ns.Ago(f.t) } end
+      end
     end
   end
   table.sort(list, function(a, b)
     if a.p.avail ~= b.p.avail then return a.p.avail end
+    if a.fav ~= b.fav then return a.fav end
     if a.r ~= b.r then return a.r > b.r end
     return a.name < b.name
   end)
   local mine = myEntry()
-  if mine and keep(mine.p) then
+  if mine and mode ~= 2 and keep(mine.p, myFull) then
     local found, ok = matches(myFull, true)
     mine.match = found
     if ok then table.insert(list, 1, mine) end
@@ -661,7 +729,7 @@ end
 
 refreshDir = function()
   filterBtn:SetText(filterIdx > 0 and profName(CRAFTS[filterIdx]) or T.all)
-  availBtn:SetText(onlyAvail and T.only_avail or T.everyone)
+  availBtn:SetText(mode == 1 and T.only_avail or (mode == 2 and T.favorites or T.everyone))
   local total, avail = 0, 0
   for _, p in pairs(peers) do
     if #p.profs > 0 then total = total + 1; if p.avail then avail = avail + 1 end end

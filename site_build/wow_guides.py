@@ -933,6 +933,7 @@ _ADDON_PAGE = {
             "<strong>Leurs recettes</strong> : un clic pour voir tout ce qu'un artisan sait fabriquer, avec l'infobulle du jeu.",
             "<strong>La recherche par objet</strong> : tape un nom d'objet, l'annuaire ne garde que les artisans qui savent le fabriquer.",
             "Un bouton <strong>MP</strong> pour lui écrire toi-même. L'addon n'envoie jamais de message à ta place.",
+            "<strong>Tes artisans favoris</strong> : une étoile pour les garder, même quand ils ne sont pas annoncés.",
         ],
         "ad_offer_h3": "Proposer tes services",
         "ad_offer": [
@@ -997,6 +998,7 @@ _ADDON_PAGE = {
             "<strong>Their recipes</strong>: one click to see everything a crafter can make, with the game's tooltip.",
             "<strong>Item search</strong>: type an item name, the directory keeps the crafters who can make it.",
             "A <strong>Whisper</strong> button to message them yourself. The addon never sends a message for you.",
+            "<strong>Your favourite crafters</strong>: a star keeps them, even when they are not announced.",
         ],
         "ad_offer_h3": "Offer your services",
         "ad_offer": [

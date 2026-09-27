@@ -268,6 +268,20 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(st.last, "Polo (PARTY)")
         self.assertIn("Polo-Realm", list(self.g.NS.CraftPeers().keys()))
 
+    def test_favourite_stays_listed_when_not_announced(self):
+        self.line("BM1 P2;1;18;MAGE;Alliance;Human;3;164:150:225;Armes", "Bob-Realm")
+        self.g.NS.ToggleCraftFav("Bob-Realm", self.g.NS.CraftPeers()["Bob-Realm"])
+        self.assertIsNotNone(self.g.NS.CraftFavs()["Bob-Realm"])
+        self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
+        self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
+        bob = [e for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"]
+        self.assertEqual(len(bob), 1, "favourite kept in the list")
+        self.assertTrue(bob[0].offline)
+        self.assertFalse(bob[0].p.avail)
+        self.assertEqual(bob[0].p.msg, "Armes")
+        self.g.NS.ToggleCraftFav("Bob-Realm", bob[0].p)
+        self.assertEqual([e.name for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"], [])
+
     def test_offline_player_dropped(self):
         self.line("BM1 P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "Bob-Realm")
         self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
