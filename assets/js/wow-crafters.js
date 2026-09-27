@@ -60,7 +60,8 @@
 
   async function load() {
     try {
-      const r = await fetch(`${API}/v1/crafters`);
+      // no-store: the worker allows 2 min of caching, which hid a card right after publishing it.
+      const r = await fetch(`${API}/v1/crafters`, { cache: "no-store" });
       if (!r.ok) throw new Error(r.status);
       all = (await r.json()).crafters || [];
     } catch (e) {
