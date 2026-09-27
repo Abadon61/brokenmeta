@@ -469,5 +469,51 @@ class WorkshopTests(unittest.TestCase):
         self.assertEqual(x.buy, max(0, x.need - 3))
 
 
+class RequestTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        self.g.flush()
+        self.ev = self.g.LUA_EVAL
+        self.frame = next(f for f in self.ev("function() return frames end")().values()
+                          if f.events and f.events["CHAT_MSG_CHANNEL"])
+
+    def line(self, text, author):
+        self.frame.scripts.OnEvent(self.frame, "CHAT_MSG_CHANNEL", text, author, "", "5. BrokenMetaCraft", "", "", 0, 5, "BrokenMetaCraft")
+
+    def test_resolve_item_by_name_or_link(self):
+        r = self.g.NS.ResolveCraftable
+        self.assertEqual(r("Gilet marron en lin"), 2568)
+        self.assertEqual(r("  gilet MARRON en lin "), 2568)
+        self.assertEqual(r("|cffffffff|Hitem:2568::::|h[x]|h|r"), 2568)
+        self.assertIsNone(r("zz"))
+        self.assertIsNone(r("item:6948"), "not craftable")
+
+    def test_post_repost_guard_and_cancel(self):
+        self.g.NS.PostCraftRequest(2568)
+        self.assertEqual(lua_list(self.g.CHAT)[-1], "CHANNEL:5:BM1 D1;Alliance;2568")
+        self.g.NS.PostCraftRequest(2568)
+        self.assertEqual(len(lua_list(self.g.CHAT)), 1, "no repost within a minute")
+        self.g.NS.CancelCraftRequest()
+        self.assertEqual(lua_list(self.g.CHAT)[-1], "CHANNEL:5:BM1 D0")
+
+    def test_crafter_is_told_and_late_arrivals_get_answers(self):
+        self.g.NS.MyRecipes()[197] = self.ev("{ 2568 }")
+        self.line("BM1 D1;Alliance;2568", "Bob-Realm")
+        self.assertIn("tu sais le fabriquer", self.g.chat[len(self.g.chat)])
+        lst = lua_list(self.g.NS.CraftRequestList())
+        self.assertEqual((lst[0].name, lst[0].item, lst[0].can), ("Bob-Realm", 2568, True))
+        self.line("BM1 D1;Horde;2568", "Orc-Realm")
+        self.assertEqual(len(lua_list(self.g.NS.CraftRequestList())), 1, "other faction ignored")
+        self.line("BM1 D0", "Bob-Realm")
+        self.assertEqual(len(lua_list(self.g.NS.CraftRequestList())), 0)
+        # I have a request: a DQ gets it by invisible whisper
+        self.g.NS.PostCraftRequest(2568)
+        self.line("BM1 DQ", "New-Realm")
+        self.g.flush()
+        sent = lua_list(self.g.SENT)
+        self.assertEqual(sent[-1], "WHISPER:D1;Alliance;2568;0")
+        self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
+
+
 if __name__ == "__main__":
     unittest.main()

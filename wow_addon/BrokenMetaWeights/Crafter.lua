@@ -7,6 +7,7 @@
 --   P3;avail;level;class;faction;race;sex;favs;line:rank:max,...;short message   a profile
 --      (favs: how many players have this crafter in their favourites; 0.12 and older sent P2, no favs)
 --   F1 / F0                          I added you to / removed you from my favourites (whisper)
+--   D1;faction;itemID[;age] / D0 / DQ   craft requests (see Requests.lua)
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 local LOCALE = GetLocale()
@@ -272,6 +273,8 @@ local function announce()
   db().reminded = nil
 end
 ns.CraftAnnounce = announce
+ns.CraftChat = chat -- craft requests (Requests.lua) post the same way, from a click
+ns.CraftShortName = short
 
 -- Ask who is available (from a click: opening the Crafters tab, the Refresh button).
 function ns.CraftRequest(force)
@@ -375,6 +378,10 @@ local function receive(body, sender, kind)
   if who == myFull or short(who) == myName then stats.echo = stats.echo + 1; return end
   stats.recv = stats.recv + 1
   stats.last = short(who) .. " (" .. tostring(kind) .. ")"
+  if body == "DQ" or body == "D0" or body:sub(1, 3) == "D1;" then -- craft requests (Requests.lua)
+    if ns.OnRequestMessage then ns.OnRequestMessage(body, who) end
+    return
+  end
   if body:sub(1, 2) == "R1" then -- recipes (Recipes.lua)
     if ns.OnRecipeMessage then ns.OnRecipeMessage(body, who) end
     return

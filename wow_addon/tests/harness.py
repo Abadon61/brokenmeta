@@ -43,7 +43,7 @@ local function obj(name)
   function f:NumLines() return #self.lines end
   function f:AddLine(l) self.added[#self.added+1] = l end
   function f:SetText(t) self.text = t end
-  function f:GetText() return self.text end
+  function f:GetText() return rawget(self, "text") end
   function f:Show() self.shown = true end
   function f:Hide() self.shown = false end
   function f:IsShown() return self.shown end
