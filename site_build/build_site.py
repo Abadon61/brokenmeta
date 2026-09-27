@@ -5020,6 +5020,9 @@ def wowsim_manifest():
 ADDON_DIR = PROJECT / "wow_addon" / "BrokenMetaWeights"
 
 
+ADDON_CURSEFORGE_URL = "https://www.curseforge.com/wow/addons/broken-meta-hub"
+
+
 def addon_version():
     """The BrokenMeta WoW addon's version, read from its .toc (None if the addon isn't there)."""
     toc = ADDON_DIR / "BrokenMetaWeights.toc"
@@ -6718,7 +6721,10 @@ def main() -> None:
     # Per-file cache-buster for scripts that change without style_base.css/build_site.py changing
     # (css_v would stay the same): the host's CDN caches /assets/*.js for a year by exact URL, so a
     # fixed ?v= kept serving the old wow-share.js after a deploy (seen live 2026-09-26).
-    env.globals["addon_version"] = addon_version()  # BrokenMeta WoW addon .toc version (download links)
+    env.globals["addon_version"] = addon_version()  # BrokenMeta WoW addon .toc version ("update available" notice)
+    # The addon is distributed on CurseForge only (2026-09-27, user decision: players get updates
+    # through the CurseForge app); the site no longer serves a zip.
+    env.globals["addon_url"] = ADDON_CURSEFORGE_URL
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
@@ -8665,16 +8671,8 @@ def main() -> None:
         _dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy(PROJECT / _f["path"], _dst)
     (_simdir / "manifest.json").write_text(_manifest_json, encoding="utf-8")
-    # The addon itself, zipped straight from wow_addon/ on every build so the download link always
-    # serves the current version. Versioned file name: the service worker caches assets forever.
-    _addon_v = addon_version()
-    if _addon_v:
-        _dl = DIST / "assets" / "downloads"
-        _dl.mkdir(parents=True, exist_ok=True)
-        with zipfile.ZipFile(_dl / f"BrokenMeta-{_addon_v}.zip", "w", zipfile.ZIP_DEFLATED) as _zf:
-            for _f in sorted(ADDON_DIR.rglob("*")):
-                if _f.is_file():
-                    _zf.write(_f, (Path(ADDON_DIR.name) / _f.relative_to(ADDON_DIR)).as_posix())
+    # The addon is no longer zipped here: it is distributed on CurseForge (ADDON_CURSEFORGE_URL), and
+    # the old /assets/downloads/BrokenMeta-<version>.zip links redirect there (.htaccess below).
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
     # Built by charts-ui/ (npm run build:embed) -- Bklit AreaChart island for the World Stat pages.
     if (ROOT / "vendor" / "bm-charts.js").exists():
@@ -8808,6 +8806,7 @@ def main() -> None:
         "\n"
         "# Old manual-input DPS calculator, replaced 2026-09-26 by the export-based simulation page.\n"
         "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
+        "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
         "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
         "\n"
         "<IfModule mod_expires.c>\n"

@@ -622,12 +622,12 @@ _MYSIM = {
         "ms_intro": "Collez l'export de l'addon Broken Meta : la page simule le DPS de votre personnage avec ses vraies stats et ses armes, puis le compare au meilleur équipement (BiS) niveau 20 de sa spécialisation. Même moteur que notre classement DPS.",
         "ms_how_h2": "Comment faire",
         "ms_steps": [
-            "Téléchargez l'addon <strong>BrokenMeta</strong> et décompressez-le dans le dossier <code>_classic_beta_\\Interface\\AddOns</code> de World of Warcraft, puis relancez le jeu.",
+            "Installez l'addon <strong>Broken Meta : Hub</strong> depuis CurseForge (application CurseForge, ou fichier .zip de sa page), puis relancez le jeu.",
             "En jeu, retirez vos buffs temporaires (ils gonflent les stats de la feuille de personnage), puis tapez <code>/bmw export</code>.",
             "Copiez le texte avec Ctrl+C, collez-le ci-dessous et lancez la simulation.",
         ],
         "ms_paste_label": "Export de l'addon (/bmw export)",
-        "ms_download": "Télécharger l'addon BrokenMeta {v} (.zip)",
+        "ms_download": "Télécharger l'addon sur CurseForge",
         "ms_run": "Simuler",
         "ms_spec_label": "Spécialisation :",
         "ms_privacy": "La simulation tourne entièrement dans votre navigateur : l'export n'est envoyé à aucun serveur. Il ne contient ni nom de personnage ni royaume. Le premier lancement télécharge le moteur Python (environ 11 Mo), les suivants sont immédiats. Pour aider à améliorer le simulateur, vous pouvez partager anonymement les mesures de l'addon :",
@@ -687,12 +687,12 @@ _MYSIM = {
         "ms_intro": "Paste the BrokenMeta addon export: this page simulates your character's DPS with its real stats and weapons, then compares it with the best-in-slot (BiS) level-20 gear for its spec. Same engine as our DPS ranking.",
         "ms_how_h2": "How it works",
         "ms_steps": [
-            "Download the <strong>BrokenMeta</strong> addon and unzip it into World of Warcraft's <code>_classic_beta_\\Interface\\AddOns</code> folder, then restart the game.",
+            "Install the <strong>Broken Meta : Hub</strong> addon from CurseForge (CurseForge app, or the .zip file on its page), then restart the game.",
             "In game, remove temporary buffs (they inflate the character sheet stats), then type <code>/bmw export</code>.",
             "Copy the text with Ctrl+C, paste it below and run the simulation.",
         ],
         "ms_paste_label": "Addon export (/bmw export)",
-        "ms_download": "Download the BrokenMeta addon {v} (.zip)",
+        "ms_download": "Get the addon on CurseForge",
         "ms_run": "Simulate",
         "ms_spec_label": "Specialization:",
         "ms_privacy": "The simulation runs entirely in your browser: the export is never sent to any server. It contains no character name and no realm. The first run downloads the Python engine (about 11 MB); later runs are instant. To help improve the simulator, you can anonymously share the addon's measurements:",
@@ -916,7 +916,7 @@ _ADDON_PAGE = {
         "ad_desc": "Addon gratuit WoW: Forever : valeur DPS de chaque objet, annuaire des artisans disponibles avec leurs recettes, montée de métier aux prix de l'HV.",
         "ad_h1": "Broken Meta : Hub, l'addon WoW: Forever",
         "ad_intro": "Un seul addon gratuit, deux volets : Broken Meta : DPS pour savoir ce que vaut chaque objet pour ta spé, et Broken Meta : Profession pour trouver un artisan disponible sur tout ton royaume, ou monter ton métier au meilleur prix.",
-        "ad_download": "Télécharger l'addon {v} (.zip)",
+        "ad_download": "Télécharger sur CurseForge",
         "ad_nav": "Addon BrokenMeta",
         "ad_dps_h2": "Broken Meta : DPS",
         "ad_dps": [
@@ -966,9 +966,9 @@ _ADDON_PAGE = {
         },
         "ad_install_h2": "Installer l'addon",
         "ad_install": [
-            "Télécharge le fichier .zip avec le bouton ci-dessus.",
-            "Décompresse-le dans le dossier <code>_classic_beta_\\Interface\\AddOns</code> de World of Warcraft : tu dois obtenir un dossier <code>BrokenMetaWeights</code>.",
-            "Relance complètement le jeu, puis clique sur le bouton à l'épée autour de la minicarte (ou tape <code>/bmw</code>).",
+            "Le plus simple : installe-le avec l'<strong>application CurseForge</strong>, qui le met aussi à jour automatiquement.",
+            "Sans l'application : télécharge le .zip sur sa page CurseForge et décompresse-le dans le dossier <code>Interface\\AddOns</code> de WoW: Forever. Tu dois obtenir un dossier <code>BrokenMetaWeights</code>.",
+            "Relance complètement le jeu, puis clique sur le bouton à la spirale autour de la minicarte (ou tape <code>/bmw</code>).",
         ],
         "ad_faq_h2": "Questions fréquentes",
         "ad_faq": [
@@ -984,7 +984,7 @@ _ADDON_PAGE = {
         "ad_desc": "Free WoW: Forever addon: every item's DPS value, a directory of available crafters with their recipes, profession leveling at auction house prices.",
         "ad_h1": "Broken Meta : Hub, the WoW: Forever addon",
         "ad_intro": "One free addon, two sections: Broken Meta : DPS tells you what every item is worth for your spec, and Broken Meta : Professions finds an available crafter anywhere on your realm, or levels your profession at the best price.",
-        "ad_download": "Download the addon {v} (.zip)",
+        "ad_download": "Get it on CurseForge",
         "ad_nav": "BrokenMeta addon",
         "ad_dps_h2": "Broken Meta : DPS",
         "ad_dps": [
@@ -1034,9 +1034,9 @@ _ADDON_PAGE = {
         },
         "ad_install_h2": "Install the addon",
         "ad_install": [
-            "Download the .zip file with the button above.",
-            "Unzip it into World of Warcraft's <code>_classic_beta_\\Interface\\AddOns</code> folder: you should get a <code>BrokenMetaWeights</code> folder.",
-            "Restart the game completely, then click the sword button around the minimap (or type <code>/bmw</code>).",
+            "The easiest way: install it with the <strong>CurseForge app</strong>, which also keeps it up to date.",
+            "Without the app: download the .zip on its CurseForge page and unzip it into WoW: Forever's <code>Interface\\AddOns</code> folder. You should get a <code>BrokenMetaWeights</code> folder.",
+            "Restart the game completely, then click the spiral button around the minimap (or type <code>/bmw</code>).",
         ],
         "ad_faq_h2": "Frequently asked questions",
         "ad_faq": [

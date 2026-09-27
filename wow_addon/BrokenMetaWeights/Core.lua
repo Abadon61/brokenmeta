@@ -23,7 +23,7 @@ local L = ns.Localize("core", {
     "merci d'avoir installé l'addon ! Clique sur le bouton à l'épée autour de la minicarte (ou tape /bmw) pour ouvrir le hub.",
     "Survole un objet : sa valeur en DPS pour ta spé s'affiche dans l'infobulle. Guides et simulateur : brokenmeta.gg",
   },
-  update_available = "une nouvelle version de l'addon existe (%s, tu as la %s) : télécharge-la sur brokenmeta.gg (page WoW: Forever).",
+  update_available = "une nouvelle version de l'addon existe (%s, tu as la %s) : mets-la à jour avec l\'application CurseForge (Broken Meta : Hub).",
   cant_wear = "ta classe ne peut pas le porter", wear_at = "portable au niveau %d",
   snap_done = "%d nouvelle(s) mesure(s) enregistrée(s).",
 }, {
@@ -46,7 +46,7 @@ local L = ns.Localize("core", {
     "thanks for installing the addon! Click the sword button around the minimap (or type /bmw) to open the hub.",
     "Hover an item: its DPS value for your spec shows in the tooltip. Guides and simulator: brokenmeta.gg",
   },
-  update_available = "a newer version of the addon exists (%s, you have %s): download it on brokenmeta.gg (WoW: Forever page).",
+  update_available = "a newer version of the addon exists (%s, you have %s): update it with the CurseForge app (Broken Meta : Hub).",
   cant_wear = "your class can't wear it", wear_at = "wearable at level %d",
   snap_done = "%d new measurement(s) recorded.",
 })
