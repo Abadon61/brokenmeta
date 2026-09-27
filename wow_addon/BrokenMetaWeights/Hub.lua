@@ -45,6 +45,8 @@ local T = ns.Localize("hub", {
     { "ah", "/bmw ah", "Scanne l'hôtel des ventes (il doit être ouvert)." },
     { "import", "/bmw import", "Importe tes poids personnels calculés sur brokenmeta.gg (/bmw import clear pour revenir aux poids génériques)." },
     { "craft", "/bmw craft", "Ouvre l'annuaire des artisans connectés (Broken Meta : Profession)." },
+    { "options", "/bmw options", "Ouvre les réglages de l'addon (aussi dans Options > AddOns)." },
+    { "tour", "/bmw tour", "Relance la visite guidée." },
     { "probe", "/bmw probe", "Diagnostic : fonctions du client et points par arbre." },
   },
   spec = "Spécialisation", weights = "Poids (DPS simulé par point)",
@@ -98,6 +100,8 @@ local T = ns.Localize("hub", {
     { "ah", "/bmw ah", "Scans the auction house (it must be open)." },
     { "import", "/bmw import", "Imports your personal weights computed on brokenmeta.gg (/bmw import clear to go back to generic weights)." },
     { "craft", "/bmw craft", "Opens the directory of online crafters (Broken Meta : Professions)." },
+    { "options", "/bmw options", "Opens the addon settings (also in Options > AddOns)." },
+    { "tour", "/bmw tour", "Replays the guided tour." },
     { "probe", "/bmw probe", "Diagnostics: client functions and points per tree." },
   },
   spec = "Specialization", weights = "Weights (simulated DPS per point)",
@@ -591,7 +595,7 @@ cmdHint:SetJustifyH("LEFT")
 cmdHint:SetText(T.cmd_hint)
 local cmdDesc = {}
 for i, c in ipairs(T.cmds) do
-  local y = -22 - (i - 1) * 35
+  local y = -22 - (i - 1) * 32
   local name = pCmd:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
   name:SetPoint("TOPLEFT", 4, y)
   name:SetText("|cff2de6c4" .. c[2] .. "|r")

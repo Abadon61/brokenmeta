@@ -11,7 +11,7 @@ local L = ns.Localize("core", {
   spec_set = "spécialisation : %s",
   spec_auto = "détection automatique (arbre de talents le plus rempli).",
   spec_unknown = "spécialisation inconnue : %s. Liste : /bmw list",
-  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw probe",
+  help = "/bmw : fenêtre · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw tour · /bmw probe",
   weights = "Poids (DPS par point) pour %s :",
   approx = "approximation",
   share_state = "partage des données avec brokenmeta.gg : ",
@@ -33,7 +33,7 @@ local L = ns.Localize("core", {
   spec_set = "spec: %s",
   spec_auto = "automatic detection (talent tree with the most points).",
   spec_unknown = "unknown spec: %s. List: /bmw list",
-  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw probe",
+  help = "/bmw: window · /bmw weights · /bmw export · /bmw list · /bmw spec <id> · /bmw auto · /bmw minimap · /bmw share · /bmw ah · /bmw import · /bmw craft · /bmw options · /bmw tour · /bmw probe",
   weights = "Weights (DPS per point) for %s:",
   approx = "approximation",
   share_state = "data sharing with brokenmeta.gg: ",
@@ -452,7 +452,7 @@ local function onTooltipItem(tt)
   if not equipLoc or equipLoc == "" then return end
   local added = false
   local v = score(link)
-  if v and v > 0 then
+  if v and v > 0 and (not ns.Option or ns.Option("tooltip_dps")) then
     local line = string.format("%s · %s : |cffffffff~%.2f DPS|r", L.header, specName(currentSpec), v)
     local canWear, need = ns.CanWearLink(link)
     if not canWear then
@@ -469,7 +469,7 @@ local function onTooltipItem(tt)
     tt:AddLine(line, 0.31, 0.82, 0.77)
     added = true
   end
-  local src = lootLine(link)
+  local src = (not ns.Option or ns.Option("tooltip_loot")) and lootLine(link)
   if src then
     tt:AddLine("|cff888888" .. src .. "|r")
     added = true
@@ -554,6 +554,10 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     say(string.format(L.snap_done, ns.SnapshotAll()))
   elseif cmd == "minimap" and ns.ToggleMinimap then
     ns.ToggleMinimap()
+  elseif cmd == "options" and ns.ShowOptions then
+    ns.ShowOptions()
+  elseif cmd == "tour" and ns.StartTour then
+    ns.StartTour()
   elseif cmd == "craft" and ns.ShowCrafters then
     ns.ShowCrafters()
   elseif cmd == "export" and ns.ShowExport then
@@ -586,14 +590,14 @@ f:SetScript("OnEvent", function(_, event)
     refreshRatings()
     C_Timer.After(10, function()
       local old = ns.ImportedWeightsStale()
-      if old then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
+      if old and (not ns.Option or ns.Option("weights_reminder")) then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
     end)
   elseif event == "PLAYER_LEVEL_UP" then
     if not BrokenMetaWeightsDB.chars[charKey] then setSpec(detectSpec()) end
     -- UnitLevel is updated just after the event fires.
     C_Timer.After(1, function()
       local old = ns.ImportedWeightsStale()
-      if old then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
+      if old and (not ns.Option or ns.Option("weights_reminder")) then say(string.format(L.refresh_weights, old, ns.REFRESH_LEVELS)) end
     end)
     refreshRatings()
   elseif event == "PLAYER_EQUIPMENT_CHANGED" then

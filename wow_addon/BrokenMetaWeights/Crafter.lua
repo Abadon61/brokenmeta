@@ -468,7 +468,8 @@ f:SetScript("OnUpdate", function(_, dt)
   end
   if changed and ns.OnCraftChanged then ns.OnCraftChanged() end
   local d = db()
-  if d.avail and d.announced and time() - d.announced > ANNOUNCE_TTL - 300 and not d.reminded then
+  if d.avail and d.announced and time() - d.announced > ANNOUNCE_TTL - 300 and not d.reminded
+      and (not ns.Option or ns.Option("announce_reminder")) then
     d.reminded = true
     ns.say(T.renew_hint)
   end

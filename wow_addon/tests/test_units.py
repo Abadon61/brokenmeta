@@ -515,5 +515,30 @@ class RequestTests(unittest.TestCase):
         self.assertEqual(self.g.SENT_TO[len(sent)], "New-Realm")
 
 
+class OptionsTourTests(unittest.TestCase):
+    def test_tooltip_dps_option_and_defaults(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {16: SWORD_EQ}, [])
+        self.assertTrue(g.NS.Option("tooltip_dps"))
+        self.assertTrue(g.NS.Option("request_alert"))
+        self.assertIn("vs equipped", g.hover("sword"))
+        g.NS.SetOption("tooltip_dps", False)
+        self.assertFalse(g.NS.Option("tooltip_dps"))
+        line = g.hover("sword")
+        self.assertTrue(line is None or "DPS" not in line, "DPS line off")
+
+    def test_tour_starts_once(self):
+        _, _, texts, g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        g.NS.ToggleHub()
+        tour = g.LUA_EVAL("function() return _G.BrokenMetaTour end")()
+        self.assertTrue(tour.shown, "first opening shows the tour")
+        g.NS.TourStep(5)
+        self.assertEqual(tour.count.text, "5 / 5")
+        tour.nextBtn.scripts.OnClick(tour.nextBtn)
+        self.assertFalse(tour.shown)
+        self.assertTrue(g.LUA_EVAL("function() return BrokenMetaWeightsDB.tourDone end")())
+        g.NS.ToggleHub(); g.NS.ToggleHub()
+        self.assertFalse(tour.shown, "not again once done")
+
+
 if __name__ == "__main__":
     unittest.main()
