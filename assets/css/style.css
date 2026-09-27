@@ -2325,6 +2325,47 @@
     .ms-bar-row .wow-rank-bar-wrap, .ms-src .wow-rank-bar-wrap { grid-column: 1 / -1; grid-row: 2; }
   }
 
+  /* Addon page (/wow-forever/addon/): a static mockup of the addon's crafters directory, in the
+     addon's own look (which is the site's palette), plus the FAQ. */
+  .ad-cta { margin: 18px 0 26px; }
+  .ad-h3 { font: 600 17px 'Afacad Flux', sans-serif; color: var(--cream); margin: 22px 0 6px; }
+  .ad-faq details { border: 1px solid var(--border); background: var(--row); margin-bottom: 8px; padding: 10px 14px; }
+  .ad-faq summary { cursor: pointer; color: var(--cream); font-weight: 600; }
+  .ad-faq p { margin: 8px 0 2px; color: var(--text-dim); line-height: 1.6; }
+  .bmh { margin: 14px 0 22px; }
+  .bmh figcaption { margin-top: 8px; font-size: 13px; color: var(--text-faint); }
+  .bmh-win { max-width: 600px; background: var(--bg); border: 1px solid var(--border); color: var(--cream); font-family: 'Afacad Flux', sans-serif; }
+  .bmh-head { display: flex; align-items: center; gap: 8px; padding: 9px 12px; border-bottom: 1px solid var(--border); font: 17px 'Cal Sans', sans-serif; }
+  .bmh-logo { width: 20px; height: 20px; background: var(--magenta); display: inline-flex; align-items: center; justify-content: center; font-size: 12px; }
+  .bmh-tag { font: 11px 'Space Mono', monospace; color: var(--text-faint); }
+  .bmh-x { margin-left: auto; color: var(--text-faint); }
+  .bmh-sections { display: flex; gap: 22px; padding: 0 16px; border-bottom: 1px solid var(--border); font: 15px 'Cal Sans', sans-serif; color: var(--text-faint); }
+  .bmh-sections span { padding: 8px 0; }
+  .bmh-sections .on { color: var(--cream); border-bottom: 2px solid var(--magenta); }
+  .bmh-subs { display: flex; gap: 6px; padding: 8px 12px; font: 12px 'Cal Sans', sans-serif; color: var(--text-faint); }
+  .bmh-subs span { padding: 3px 12px; border: 1px solid transparent; }
+  .bmh-subs .on { color: var(--cream); background: var(--row); border-color: var(--border-bright); }
+  .bmh-tools { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 12px; }
+  .bmh-btn { display: inline-block; padding: 3px 12px; border: 1px solid var(--border-bright); font: 12px 'Cal Sans', sans-serif; white-space: nowrap; }
+  .bmh-primary { border-color: var(--magenta); }
+  .bmh-input { flex: 1; min-width: 140px; padding: 3px 8px; background: var(--row); border: 1px solid var(--border-bright); font-size: 12px; color: var(--text-faint); }
+  .bmh-count { padding: 8px 12px 4px; font-size: 13px; color: var(--text-dim); }
+  .bmh-card { display: flex; align-items: center; gap: 10px; margin: 0 12px 8px; padding: 8px 10px; background: var(--row); border: 1px solid var(--border); }
+  .bmh-card:last-child { margin-bottom: 12px; }
+  .bmh-card.avail { border-color: var(--teal); }
+  .bmh-card .bmh-btn { flex-shrink: 0; }
+  .bmh-portrait { position: relative; flex-shrink: 0; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; background: var(--bg); border: 1px solid var(--border-bright); color: var(--cc); font: 20px 'Cal Sans', sans-serif; }
+  .bmh-light { position: absolute; right: -5px; bottom: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--text-faint); border: 2px solid var(--row); }
+  .bmh-light.on { background: #3ad94a; }
+  .bmh-body { flex: 1; min-width: 0; }
+  .bmh-name { font: 14px 'Cal Sans', sans-serif; }
+  .bmh-name span { color: var(--text-faint); font: 11px 'Space Mono', monospace; }
+  .bmh-profs { font-size: 13px; display: flex; flex-wrap: wrap; gap: 4px 14px; }
+  .bmh-profs b { color: var(--gold); font-weight: 400; }
+  .bmh-profs em { color: var(--text-faint); font-style: normal; }
+  .bmh-msg { font-size: 12.5px; color: var(--text-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  @media (max-width: 560px) { .bmh-card { flex-wrap: wrap; } .bmh-body { flex-basis: calc(100% - 56px); } }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
