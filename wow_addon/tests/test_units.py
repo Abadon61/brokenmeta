@@ -274,6 +274,62 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(len(list(self.g.NS.CraftPeers().keys())), 0)
 
 
+class RecipeTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        self.g.flush()
+        self.ev = self.g.LUA_EVAL
+        # Modern profession window: Tailoring (197) open, recipes 1 and 2 learned (2 makes no item), 3 not.
+        self.ev('''function()
+          C_TradeSkillUI = {
+            GetBaseProfessionInfo = function() return { professionID = 197 } end,
+            GetAllRecipeIDs = function() return { 1, 2, 3 } end,
+            GetRecipeInfo = function(id) return { learned = id ~= 3 } end,
+            GetRecipeSchematic = function(id) if id == 2 then return {} end return { outputItemID = 1000 + id } end,
+          }
+        end''')()
+        self.frame = next(f for f in self.ev("function() return frames end")().values()
+                          if f.events and f.events["CHAT_MSG_CHANNEL"])
+
+    def addon_msg(self, body, sender):
+        self.frame.scripts.OnEvent(self.frame, "CHAT_MSG_ADDON", "BMCraft", body, "WHISPER", sender)
+
+    def test_capture_from_profession_window(self):
+        line, n = self.g.NS.CaptureRecipes()
+        self.assertEqual((line, n), (197, 2))
+        self.assertEqual(lua_list(self.g.NS.MyRecipes()[197]), [-2, 1001], "item IDs, minus spell ID without item")
+        self.assertIn("2 recettes de Couture", self.g.chat[len(self.g.chat)])
+
+    def test_answer_request_in_chunks(self):
+        self.g.NS.CaptureRecipes()
+        self.addon_msg("R1?", "Bob-Realm")
+        self.g.flush()
+        sent = lua_list(self.g.SENT)
+        self.assertEqual(sent[-1], "WHISPER:R1;197;1;1;-2,1001")
+        self.assertEqual(self.g.SENT_TO[len(sent)], "Bob-Realm")
+        # nothing recorded: an explicit empty answer
+        _, _, _, g2 = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        f2 = next(f for f in g2.LUA_EVAL("function() return frames end")().values() if f.events and f.events["CHAT_MSG_CHANNEL"])
+        f2.scripts.OnEvent(f2, "CHAT_MSG_ADDON", "BMCraft", "R1?", "WHISPER", "Bob-Realm")
+        g2.flush()
+        self.assertEqual(lua_list(g2.SENT)[-1], "WHISPER:R1;0;1;1;")
+
+    def test_receive_chunks_and_search(self):
+        self.g.NS.ShowRecipes("Bob-Realm", False)
+        self.assertEqual(lua_list(self.g.SENT)[-1], "WHISPER:R1?", "asked by invisible whisper")
+        self.addon_msg("R1;164;1;2;10,11", "Bob-Realm")
+        self.addon_msg("R1;164;2;2;12", "Bob-Realm")
+        cache = self.g.NS.PeerRecipes("Bob-Realm")
+        self.assertEqual(lua_list(cache.lines[164]), [10, 11, 12])
+        self.addon_msg("R1;164;1;1;13", "Bob-Realm")
+        self.assertEqual(lua_list(cache.lines[164]), [13], "a new answer replaces the old list")
+        self.ev('function() ITEMS[13] = { name = "Bottes en cuir cousu main" } end')()
+        found, n = self.g.NS.RecipeMatches("Bob-Realm", "BOTTES")
+        self.assertEqual((lua_list(found), n), (["Bottes en cuir cousu main"], 1))
+        self.assertEqual(self.g.NS.RecipeMatches("Bob-Realm", "épée")[1], 0)
+        self.g.flush()
+
+
 class LevelingTests(unittest.TestCase):
     def setUp(self):
         _, _, _, self.g = run("frFR", "WARRIOR", [0, 11, 0], ITEMS, {}, [])

@@ -114,6 +114,14 @@ EXTRA.deDE = {
     empty = "der Scan hat keine Angebote geliefert.",
     closed = "öffne zuerst das Auktionshaus (sprich mit einem Auktionator) und starte den Scan dann erneut.",
   },
+  recipes = {
+    button = "Rezepte", title = "Rezepte von %s", mine = "Meine Rezepte", loading = "Anfrage an %s gesendet…",
+    none_mine = "Keine Rezepte gespeichert: öffne einmal dein Berufsfenster (Taste K oder Zauberbuch), damit das Addon sie notiert.",
+    none_other = "%s hat keine Rezepte geteilt: er muss einmal sein Berufsfenster öffnen, mit Addon-Version 0.12 oder neuer.",
+    no_answer = "Keine Antwort von %s: vielleicht offline oder eine alte Addon-Version.",
+    saved = "%d Rezepte (%s) gespeichert: andere Addon-Spieler sehen sie im Handwerkerverzeichnis.",
+    search = "Filtern…", count = "%d Rezept(e)", page = "Seite %d/%d", knows = "Kann herstellen: %s",
+  },
   leveling = {
     tab = "Leveln", scan = "Auktionshaus scannen", scan_closed = "Öffne das Auktionshaus zum Scannen",
     no_scan = "Kein Scan von deinem Realm: öffne das Auktionshaus und klicke auf „Scannen“, um aktuelle Preise zu bekommen.",
@@ -131,6 +139,7 @@ EXTRA.deDE = {
   craft = {
     tab_dir = "Handwerker", tab_me = "Mein Profil",
     none = "Noch kein Handwerker angekündigt. Klicke auf Aktualisieren: verfügbare Handwerker mit dem Addon, auf deinem Realm und deiner Fraktion, erscheinen hier.",
+    search = "Gegenstand suchen…", rec_count = "%d Rezepte gespeichert", rec_none = "Rezepte: öffne dein Berufsfenster",
     refresh = "Aktualisieren", renew = "Ankündigung erneuern", renewed = "deine Handwerker-Ankündigung ist erneuert.",
     announced = "Vor %d Min. angekündigt: 1 Std. für alle sichtbar. Klicke auf Erneuern, um sie zu verlängern.",
     renew_hint = "deine Handwerker-Ankündigung läuft in 5 Min. ab: öffne BrokenMeta : Berufe > Mein Profil und klicke auf Erneuern.",
@@ -252,6 +261,14 @@ EXTRA.esES = {
     empty = "el escaneo no devolvió ningún anuncio.",
     closed = "abre primero la casa de subastas (habla con un subastador) y vuelve a lanzar el escaneo.",
   },
+  recipes = {
+    button = "Recetas", title = "Recetas de %s", mine = "Mis recetas", loading = "Petición enviada a %s…",
+    none_mine = "No hay recetas guardadas: abre una vez tu ventana de profesión (tecla K o libro de hechizos) para que el addon las anote.",
+    none_other = "%s no ha compartido recetas: debe abrir una vez su ventana de profesión, con la versión 0.12 del addon o superior.",
+    no_answer = "Sin respuesta de %s: quizá esté desconectado o tenga una versión antigua del addon.",
+    saved = "%d recetas de %s guardadas: los demás jugadores del addon pueden verlas en el directorio de artesanos.",
+    search = "Filtrar…", count = "%d receta(s)", page = "Página %d/%d", knows = "Sabe hacer: %s",
+  },
   leveling = {
     tab = "Subir", scan = "Escanear la casa de subastas", scan_closed = "Abre la casa de subastas para escanear",
     no_scan = "No hay escaneo de tu reino: abre la casa de subastas y pulsa «Escanear» para tener los precios actuales.",
@@ -269,6 +286,7 @@ EXTRA.esES = {
   craft = {
     tab_dir = "Artesanos", tab_me = "Mi perfil",
     none = "Aún no hay artesanos anunciados. Pulsa Actualizar: los artesanos disponibles con el addon, en tu reino y tu facción, aparecerán aquí.",
+    search = "Buscar un objeto…", rec_count = "%d recetas guardadas", rec_none = "recetas: abre tu ventana de profesión",
     refresh = "Actualizar", renew = "Renovar el anuncio", renewed = "tu anuncio de artesano se ha renovado.",
     announced = "Anunciado hace %d min: visible para todos durante 1 h. Pulsa Renovar para prolongarlo.",
     renew_hint = "tu anuncio de artesano caduca en 5 min: abre BrokenMeta : Profesiones > Mi perfil y pulsa Renovar.",

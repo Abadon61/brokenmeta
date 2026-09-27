@@ -14,6 +14,7 @@ local T = ns.Localize("craft", {
   all = "Tous les métiers", only_avail = "Dispo seulement", everyone = "Tout le monde",
   count = "%d artisan(s) connecté(s), %d disponible(s)",
   none = "Aucun artisan annoncé pour l'instant. Clique sur Actualiser : les artisans disponibles qui ont l'addon, sur ton royaume et ta faction, apparaîtront ici.",
+  search = "Chercher un objet…", rec_count = "%d recettes enregistrées", rec_none = "recettes : ouvre ta fenêtre de métier",
   refresh = "Actualiser", renew = "Renouveler l'annonce", renewed = "ton annonce d'artisan a été renouvelée.",
   announced = "Annoncé il y a %d min : visible par tous pendant 1 h. Clique sur Renouveler pour prolonger.",
   renew_hint = "ton annonce d'artisan expire dans 5 min : ouvre BrokenMeta : Profession > Mon profil et clique sur Renouveler pour rester visible.",
@@ -36,6 +37,7 @@ local T = ns.Localize("craft", {
   all = "All professions", only_avail = "Available only", everyone = "Everyone",
   count = "%d crafter(s) online, %d available",
   none = "No crafter announced yet. Click Refresh: available crafters who run the addon, on your realm and faction, will show up here.",
+  search = "Search an item…", rec_count = "%d recipes recorded", rec_none = "recipes: open your profession window",
   refresh = "Refresh", renew = "Renew the announce", renewed = "your crafter announce is renewed.",
   announced = "Announced %d min ago: visible to everyone for 1 hour. Click Renew to extend it.",
   renew_hint = "your crafter announce expires in 5 min: open BrokenMeta : Professions > My profile and click Renew to stay visible.",
@@ -79,6 +81,15 @@ local LANG = (LOCALE == "frFR" and 1) or (LOCALE == "deDE" and 3) or ((LOCALE ==
 local function profName(line)
   local n = NAMES[line]
   return n and n[LANG] or ("#" .. tostring(line))
+end
+ns.CraftProfName = profName
+
+-- Skill line of a profession from its name in any of the four languages (Classic windows give names).
+function ns.CraftLineFromName(name)
+  for line, n in pairs(NAMES) do
+    for _, loc in ipairs(n) do if loc == name then return line end end
+  end
+  return nil
 end
 
 -- Set at PLAYER_LOGIN: while addons load on a fresh login, UnitName("player") is still "Unknown".
@@ -208,6 +219,8 @@ local function send(msg, kind, target)
   stats.result = kind .. " " .. (ok and tostring(res) or ("error " .. tostring(res)))
 end
 
+ns.CraftSend = send
+
 local function sendOthers(msg)
   if IsInGuild and IsInGuild() then send(msg, "GUILD") end
   if IsInRaid and IsInRaid() then send(msg, "RAID")
@@ -293,6 +306,10 @@ local function receive(body, sender, kind)
   if who == myFull or short(who) == myName then stats.echo = stats.echo + 1; return end
   stats.recv = stats.recv + 1
   stats.last = short(who) .. " (" .. tostring(kind) .. ")"
+  if body:sub(1, 2) == "R1" then -- recipes (Recipes.lua)
+    if ns.OnRecipeMessage then ns.OnRecipeMessage(body, who) end
+    return
+  end
   if body == "Q1" then
     -- Available crafters answer, invisibly, a little later so answers don't all arrive at once.
     local reply, n = profileMessage()
@@ -487,6 +504,10 @@ local function makeCard(parent, width)
   c.btn:SetSize(80, 22)
   c.btn:SetPoint("RIGHT", -10, 0)
   c.btn:SetText(T.whisper)
+  c.rec = ns.Button(c)
+  c.rec:SetSize(80, 22)
+  c.rec:SetPoint("RIGHT", c.btn, "LEFT", -6, 0)
+  c.rec:SetText(ns.RecipeTexts and ns.RecipeTexts.button or "Recettes")
   function c:Set(e, only)
     local p = e.p
     setRaceIcon(self.icon, p.race, p.sex, p.class)
@@ -495,10 +516,19 @@ local function makeCard(parent, width)
     if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
     self.name:SetText(label)
     self.profs:SetText(profText(p, only))
-    self.msg:SetText(p.msg and p.msg ~= "" and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
+    if e.match and #e.match > 0 then
+      self.msg:SetText("|c" .. HEX.teal .. string.format(ns.RecipeTexts.knows, table.concat(e.match, ", ")) .. "|r")
+    else
+      self.msg:SetText(p.msg and p.msg ~= "" and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
+    end
     ns.FlatBorder(self, e.me and C.gold or (p.avail and C.teal or C.border))
     self.btn:SetShown(not e.me)
     self.btn:SetScript("OnClick", function() whisper(e.name) end)
+    self.rec:ClearAllPoints()
+    if e.me then self.rec:SetPoint("RIGHT", -10, 0) else self.rec:SetPoint("RIGHT", self.btn, "LEFT", -6, 0) end
+    self.rec:SetShown(ns.ShowRecipes ~= nil)
+    if ns.RecipeTexts then self.rec:SetText(ns.RecipeTexts.button) end -- Recipes.lua loads after the cards
+    self.rec:SetScript("OnClick", function() ns.ShowRecipes(e.name, e.me) end)
     self:Show()
   end
   return c
@@ -535,9 +565,28 @@ refreshBtn:SetScript("OnClick", function() ns.CraftRequest(true) end)
 if ns.HubTabButton and ns.HubTabButton(dirIndex) then
   ns.HubTabButton(dirIndex):HookScript("OnClick", function() ns.CraftRequest(false) end)
 end
+-- Item search: crafters whose recipes make a matching item (their recipes are asked for as needed).
+local searchText = ""
+local searchBox = ns.Input(pDir)
+searchBox:SetSize(230, 20)
+searchBox:SetPoint("TOPRIGHT", -4, -28)
+local searchHint = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+searchHint:SetPoint("LEFT", searchBox, "LEFT", 8, 0)
+searchBox:SetScript("OnTextChanged", function(self)
+  searchText = (self:GetText() or ""):gsub("^%s+", ""):gsub("%s+$", "")
+  searchHint:SetShown(searchText == "" and not self:HasFocus())
+  pageNo = 1
+  if searchText ~= "" and ns.RequestRecipes then
+    for name, p in pairs(peers) do if p.avail then ns.RequestRecipes(name) end end
+  end
+  refreshDir()
+end)
+searchBox:SetScript("OnEditFocusGained", function() searchHint:Hide() end)
+searchBox:SetScript("OnEditFocusLost", function() searchHint:SetShown(searchText == "") end)
+searchBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
 local dirCount = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 dirCount:SetPoint("TOPLEFT", 4, -32)
-dirCount:SetWidth(W - 40)
+dirCount:SetWidth(W - 280)
 dirCount:SetJustifyH("LEFT")
 local dirNone = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 dirNone:SetPoint("TOPLEFT", 4, TOP - 4)
@@ -585,8 +634,16 @@ function ns.CraftList()
     for _, pr in ipairs(p.profs) do if pr.line == only then return true end end
     return false
   end
+  local function matches(name, mine)
+    if searchText == "" or not ns.RecipeMatches then return nil, true end
+    local found, n = ns.RecipeMatches(name, searchText, mine)
+    return found, n > 0
+  end
   for name, p in pairs(peers) do
-    if keep(p) then list[#list + 1] = { name = name, p = p, r = rank(p) } end
+    if keep(p) then
+      local found, ok = matches(name, false)
+      if ok then list[#list + 1] = { name = name, p = p, r = rank(p), match = found } end
+    end
   end
   table.sort(list, function(a, b)
     if a.p.avail ~= b.p.avail then return a.p.avail end
@@ -594,7 +651,11 @@ function ns.CraftList()
     return a.name < b.name
   end)
   local mine = myEntry()
-  if mine and keep(mine.p) then table.insert(list, 1, mine) end
+  if mine and keep(mine.p) then
+    local found, ok = matches(myFull, true)
+    mine.match = found
+    if ok then table.insert(list, 1, mine) end
+  end
   return list, only
 end
 
@@ -606,6 +667,7 @@ refreshDir = function()
     if #p.profs > 0 then total = total + 1; if p.avail then avail = avail + 1 end end
   end
   dirCount:SetText(string.format(T.count, total, avail))
+  searchHint:SetText("|c" .. HEX.faint .. T.search .. "|r")
   local list, only = ns.CraftList()
   local pages = math.max(1, math.ceil(#list / CARDS))
   pageNo = math.min(math.max(pageNo, 1), pages)
@@ -689,7 +751,9 @@ refreshMe = function()
   ns.Hub.setRow(pMe, i, "|c" .. HEX.gold .. T.my_profs .. "|r"); i = i + 1
   local profs = myProfessions()
   for _, p in ipairs(profs) do
-    ns.Hub.setRow(pMe, i, profName(p.line), "|cffffffff" .. p.rank .. "|r/" .. p.max); i = i + 1
+    local rec = ns.MyRecipes and ns.MyRecipes()[p.line]
+    ns.Hub.setRow(pMe, i, profName(p.line) .. "  |c" .. HEX.faint .. (rec and string.format(T.rec_count, #rec) or T.rec_none) .. "|r",
+      "|cffffffff" .. p.rank .. "|r/" .. p.max); i = i + 1
   end
   if #profs == 0 then ns.Hub.setRow(pMe, i, "|c" .. HEX.faint .. T.no_prof .. "|r"); i = i + 1 end
   i = i + 1
