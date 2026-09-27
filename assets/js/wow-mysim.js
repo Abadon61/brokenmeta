@@ -174,7 +174,7 @@
     var dlLink = document.querySelector('.ms-dl');
     var update = (latest && dlLink && olderThan(r.addon, latest))
       ? '<p class="wow-note">' + esc(T.update.replace('{old}', r.addon || '?').replace('{new}', latest)) +
-        ' <a href="' + esc(dlLink.getAttribute('href')) + '" download>' + esc(dlLink.textContent) + '</a></p>'
+        ' <a href="' + esc(dlLink.getAttribute('href')) + '" target="_blank" rel="noopener">' + esc(dlLink.textContent) + '</a></p>'
       : '';
     var warn = update + r.warnings.map(function (w) { return '<p class="wow-note">' + esc(T['warn_' + w] || w) + '</p>'; }).join('');
 
