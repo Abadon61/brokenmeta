@@ -120,3 +120,29 @@ def price_profession(prof, market):
         "realm": market["realm"], "faction": market["faction"], "scanned": market["scanned"],
     }
     return prof
+
+
+def live_payload(prof):
+    """What js/wow-profession-live.js needs to reprice a profession page in the browser from the
+    worker's latest aggregates, with the same rules as price_profession() above:
+      m  materials  [item, count, kind, vendor copper]
+      r  recipes of the crafted reagents (two levels deep)  {item: [made, [[item, count, kind, copper], ...]]}
+      x  fixed costs (recipes to buy + trainer ranks), added to the total like prof["ah"]["total_copper"]."""
+    def row(g):
+        price = g.get("price") or {}
+        return [g["id"], g["count"], price.get("kind") or "farm", price.get("copper") or 0]
+    by_item = {r["creates"]["id"]: r for r in prof.get("recipes", []) if r.get("creates")}
+    wanted = [m["id"] for m in prof["materials"] if (m.get("price") or {}).get("kind") == "craft"]
+    recipes, depth = {}, 0
+    while wanted and depth < 3:
+        nxt = []
+        for item in wanted:
+            r = by_item.get(item)
+            if not r or item in recipes:
+                continue
+            recipes[item] = [r["creates"].get("count") or 1, [row(g) for g in r["reagents"]]]
+            nxt += [g["id"] for g in r["reagents"] if (g.get("price") or {}).get("kind") == "craft"]
+        wanted, depth = nxt, depth + 1
+    t = prof["totals"]
+    return {"m": [row(m) for m in prof["materials"]], "r": recipes,
+            "x": t.get("recipes_copper", 0) + t.get("ranks_copper", 0)}

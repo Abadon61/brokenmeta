@@ -7763,7 +7763,11 @@ def main() -> None:
                 _risky = _p["totals"]["yellow_points"] + _p["totals"]["green_points"]
                 _pi = _gx["p_intro_ah" if _p.get("ah") else "p_intro"].format(crafts=_p["totals"]["crafts"], cap=_p["cap"],
                                             risk=(_gx["risk_some"].format(n=_risky) if _risky else _gx["risk_none"]))
-                render("wow_profession.html", _ppath, lang, active_nav="wow", active_sub="wow-professions", tx=_gx, prof=_p, g_title=_pt, g_desc=_pd,
+                _pf_live = dict(wow_ah.live_payload(_p), i18n={
+                    "units": ["po", "pa", "pc"] if lang == "fr" else ["g", "s", "c"], "date_fr": lang == "fr",
+                    **{k: _gx[k] for k in ("m_none", "m_listed", "m_thin", "m_cheaper_ah", "m_crafted", "m_unknown",
+                                           "s_cost_unknown", "ah_note", "factions")}})
+                render("wow_profession.html", _ppath, lang, active_nav="wow", active_sub="wow-professions", tx=_gx, prof=_p, pf_live=_pf_live, g_title=_pt, g_desc=_pd,
                        g_h1=_ph1, g_intro=_pi, breadcrumb_schema=breadcrumb_schema(_pcrumb + [(_pn, canonical_for(_ppath, lang))]),
                        article_schema=build_article_schema(_ph1, canonical_for(_ppath, lang), _pd))
         render("team_builder.html", "/team-builder/", lang, active_nav="builder")
@@ -8661,7 +8665,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"
