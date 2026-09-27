@@ -540,5 +540,46 @@ class OptionsTourTests(unittest.TestCase):
         self.assertFalse(tour.shown, "not again once done")
 
 
+def delta4(g, link):
+    r = g.NS.deltaVsEquipped(link, g.NS.score(link))
+    r = r if isinstance(r, tuple) else (r,)
+    return tuple(r) + (None,) * (4 - len(r))
+
+
+class DualSlotTests(unittest.TestCase):
+    ITEMS2 = dict(ITEMS)
+    ITEMS2.update({
+        "ring_a": {"loc": "INVTYPE_FINGER", "stats": {"ITEM_MOD_STRENGTH_SHORT": 2}},
+        "ring_b": {"loc": "INVTYPE_FINGER", "stats": {"ITEM_MOD_STRENGTH_SHORT": 6}},
+        "ring_new": {"loc": "INVTYPE_FINGER", "stats": {"ITEM_MOD_STRENGTH_SHORT": 5}},
+        "mh_1h": {"loc": "INVTYPE_WEAPON", "classID": 2, "subID": 7, "stats": {"ITEM_MOD_STRENGTH_SHORT": 4}},
+        "oh_1h": {"loc": "INVTYPE_WEAPON", "classID": 2, "subID": 7, "stats": {"ITEM_MOD_STRENGTH_SHORT": 3}},
+        "shield": {"loc": "INVTYPE_SHIELD", "classID": 4, "subID": 6, "stats": {"ITEM_MOD_STRENGTH_SHORT": 3}},
+    })
+
+    def test_ring_compares_with_weaker_and_shows_the_other(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], self.ITEMS2, {11: "ring_a", 12: "ring_b"}, [])
+        s = g.NS.score
+        d, same, note, other = delta4(g, "ring_new")
+        self.assertAlmostEqual(d, s("ring_new") - s("ring_a"), msg="replaces the weaker ring")
+        self.assertAlmostEqual(other, s("ring_new") - s("ring_b"))
+        self.assertIn("vs the other", g.hover("ring_new"))
+
+    def test_two_hander_replaces_both_hands(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], self.ITEMS2, {16: "mh_1h", 17: "oh_1h"}, [])
+        s = g.NS.score
+        d, same, note, other = delta4(g, "sword")
+        self.assertAlmostEqual(d, s("sword") - s("mh_1h") - s("oh_1h"))
+        self.assertEqual(note, "two")
+        self.assertIn("vs both your weapons", g.hover("sword"))
+
+    def test_off_hand_under_a_two_hander(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], self.ITEMS2, {16: SWORD_EQ}, [])
+        s = g.NS.score
+        d, same, note, other = delta4(g, "shield")
+        self.assertEqual(note, "replaces_2h")
+        self.assertAlmostEqual(d, s("shield") - s(SWORD_EQ))
+
+
 if __name__ == "__main__":
     unittest.main()

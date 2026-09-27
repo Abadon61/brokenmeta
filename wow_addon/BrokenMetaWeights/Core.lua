@@ -5,7 +5,8 @@ local ADDON, ns = ...
 local IS_FR = GetLocale() == "frFR"
 local L = ns.Localize("core", {
   header = "Broken Meta",
-  vs_equipped = "vs équipé",
+  vs_equipped = "vs équipé", vs_two = "vs tes deux armes", vs_other = "%s vs l'autre",
+  replaces_2h = "remplace ton arme à deux mains",
   same = "équipé",
   no_spec = "aucune spécialisation DPS simulée pour cette classe.",
   spec_set = "spécialisation : %s",
@@ -27,7 +28,8 @@ local L = ns.Localize("core", {
   snap_done = "%d nouvelle(s) mesure(s) enregistrée(s).",
 }, {
   header = "Broken Meta",
-  vs_equipped = "vs equipped",
+  vs_equipped = "vs equipped", vs_two = "vs both your weapons", vs_other = "%s vs the other",
+  replaces_2h = "replaces your two-hander",
   same = "equipped",
   no_spec = "no simulated DPS spec for this class.",
   spec_set = "spec: %s",
@@ -416,20 +418,48 @@ local SLOTS = {
   INVTYPE_RANGEDRIGHT = { 18 }, INVTYPE_THROWN = { 18 }, INVTYPE_RELIC = { 18 },
 }
 
--- Returns the delta against the weakest equipped item in the matching slot(s) (an empty slot
--- counts as 0), or nil + "same" when the hovered item is the one already equipped.
+-- Delta of an item against what it would replace (an empty slot counts as 0). Returns
+--   delta, same, note, other
+-- same: the hovered item is the one equipped; note: "two" (a two-hander replaces main AND off hand),
+-- "replaces_2h" (an off-hand item or a one-hander that can't dual wield forces the two-hander off);
+-- other: for two-slot items (rings, trinkets, dual-wielded one-handers), the delta against the
+-- OTHER slot (the main delta is against the weaker one, the one you would replace).
+local OFF_LOCS = { INVTYPE_WEAPONOFFHAND = true, INVTYPE_SHIELD = true, INVTYPE_HOLDABLE = true }
+local function equipped(slot)
+  local eq = GetInventoryItemLink("player", slot)
+  return eq, eq and score(eq) or 0
+end
+local function canDualWield()
+  if CanDualWield then return CanDualWield() and true or false end
+  return playerClass == "WARRIOR" or playerClass == "ROGUE" or playerClass == "HUNTER" or playerClass == "SHAMAN"
+end
+
 local function deltaVsEquipped(link, itemScore)
   local equipLoc = select(9, GetItemInfo(link))
   local slots = equipLoc and SLOTS[equipLoc]
   if not slots then return nil end
-  local worst
-  for _, slot in ipairs(slots) do
-    local eq = GetInventoryItemLink("player", slot)
-    if eq == link then return nil, true end
-    local v = eq and score(eq) or 0
-    if not worst or v < worst then worst = v end
+  local mh, mhScore = equipped(16)
+  local oh, ohScore = equipped(17)
+  local mhTwoHand = mh and select(9, GetItemInfo(mh)) == "INVTYPE_2HWEAPON"
+  if equipLoc == "INVTYPE_2HWEAPON" then
+    if mh == link then return nil, true end
+    return itemScore - mhScore - ohScore, nil, oh and "two" or nil
   end
-  return itemScore - worst
+  if equipLoc == "INVTYPE_WEAPON" and not canDualWield() then slots = { 16 } end
+  if mhTwoHand and (OFF_LOCS[equipLoc] or equipLoc == "INVTYPE_WEAPON") then
+    if equipLoc == "INVTYPE_WEAPON" then return itemScore - mhScore, nil, "replaces_2h" end
+    return itemScore - mhScore, nil, "replaces_2h"
+  end
+  if #slots == 1 then
+    local eq, v = equipped(slots[1])
+    if eq == link then return nil, true end
+    return itemScore - v
+  end
+  local a, va = equipped(slots[1])
+  local b, vb = equipped(slots[2])
+  if a == link or b == link then return nil, true end
+  if va <= vb then return itemScore - va, nil, nil, itemScore - vb end
+  return itemScore - vb, nil, nil, itemScore - va
 end
 
 ---------------------------------------------------------------------------------------------
@@ -458,12 +488,17 @@ local function onTooltipItem(tt)
     if not canWear then
       line = line .. "  |cffff5050(" .. (need and string.format(L.wear_at, need) or L.cant_wear) .. ")|r"
     else
-      local d, same = deltaVsEquipped(link, v)
+      local d, same, note, other = deltaVsEquipped(link, v)
+      local function fmt(x)
+        local color = x > 0.005 and "|cff40ff40+" or (x < -0.005 and "|cffff5050" or "|cffcccccc")
+        return string.format("%s%.2f|r", color, x)
+      end
       if same then
         line = line .. "  |cff888888(" .. L.same .. ")|r"
       elseif d then
-        local color = d > 0.005 and "|cff40ff40+" or (d < -0.005 and "|cffff5050" or "|cffcccccc")
-        line = line .. string.format("  %s%.2f|r %s", color, d, L.vs_equipped)
+        line = line .. "  " .. fmt(d) .. " " .. (note == "two" and L.vs_two or L.vs_equipped)
+        if other then line = line .. "  |cff888888(" .. string.format(L.vs_other, fmt(other) .. "|cff888888") .. ")|r" end
+        if note == "replaces_2h" then line = line .. "  |cff888888(" .. L.replaces_2h .. ")|r" end
       end
     end
     tt:AddLine(line, 0.31, 0.82, 0.77)

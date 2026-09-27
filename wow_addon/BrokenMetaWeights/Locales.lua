@@ -16,7 +16,8 @@ end
 
 EXTRA.deDE = {
   core = {
-    vs_equipped = "vs. angelegt",
+    vs_equipped = "vs. angelegt", vs_two = "vs. deine beiden Waffen", vs_other = "%s vs. den anderen",
+    replaces_2h = "ersetzt deine Zweihandwaffe",
     same = "angelegt",
     no_spec = "für diese Klasse ist keine DPS-Spezialisierung simuliert.",
     spec_set = "Spezialisierung: %s",
@@ -214,7 +215,8 @@ EXTRA.deDE = {
 
 EXTRA.esES = {
   core = {
-    vs_equipped = "vs. equipado",
+    vs_equipped = "vs. equipado", vs_two = "vs. tus dos armas", vs_other = "%s vs. el otro",
+    replaces_2h = "sustituye tu arma a dos manos",
     same = "equipado",
     no_spec = "no hay ninguna especialización DPS simulada para esta clase.",
     spec_set = "especialización: %s",
