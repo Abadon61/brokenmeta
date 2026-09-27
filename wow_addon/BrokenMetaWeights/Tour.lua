@@ -5,7 +5,7 @@ local ADDON, ns = ...
 local T = ns.Localize("tour", {
   next = "Suivant", prev = "Précédent", done = "C'est parti !", skip = "Passer",
   steps = {
-    { "Bienvenue dans Broken Meta : Hub", "Deux outils dans une seule fenêtre : Broken Meta : DPS pour ton équipement, et Broken Meta : Profession pour l'artisanat. Tu peux ouvrir cette fenêtre avec le bouton à la spirale autour de la minicarte ou avec /bmw." },
+    { "Bienvenue dans Broken Meta : Hub", "Quatre outils dans une seule fenêtre : DPS pour ton équipement, Profession pour l'artisanat, Économie pour la valeur de tes objets et les bonnes affaires, Donjons pour le butin de chaque boss. Tu peux ouvrir cette fenêtre avec le bouton à la spirale autour de la minicarte ou avec /bmw." },
     { "Broken Meta : DPS", "Survole n'importe quel objet : son infobulle affiche sa valeur en DPS pour ta spé, comparée à ce que tu portes. L'onglet Améliorations liste les meilleurs objets de tes sacs et des donjons de ton niveau." },
     { "Broken Meta : Profession", "Trouve un artisan disponible sur tout ton royaume, consulte ses recettes et écris-lui. Tu cherches un objet ? Publie une demande. Tu es artisan ? Mets-toi disponible dans Mon profil." },
     { "Monter tes métiers", "L'onglet Montée donne le parcours le moins cher depuis ton niveau, aux prix de l'hôtel des ventes (scanne-le une fois). L'Atelier montre tes crafts rentables et les recettes à apprendre." },
@@ -14,7 +14,7 @@ local T = ns.Localize("tour", {
 }, {
   next = "Next", prev = "Back", done = "Let's go!", skip = "Skip",
   steps = {
-    { "Welcome to Broken Meta : Hub", "Two tools in one window: Broken Meta : DPS for your gear, and Broken Meta : Professions for crafting. Open this window with the spiral button around the minimap or with /bmw." },
+    { "Welcome to Broken Meta : Hub", "Four tools in one window: DPS for your gear, Professions for crafting, Economy for what your items are worth and good deals, Dungeons for each boss's loot. Open this window with the spiral button around the minimap or with /bmw." },
     { "Broken Meta : DPS", "Hover any item: its tooltip shows its DPS value for your spec, compared with what you wear. The Upgrades tab lists the best items in your bags and in the dungeons of your level." },
     { "Broken Meta : Professions", "Find an available crafter anywhere on your realm, browse their recipes and whisper them. Looking for an item? Post a request. You craft? Set yourself available in My profile." },
     { "Level your professions", "The Leveling tab gives the cheapest route from your skill, at auction house prices (scan it once). The Workshop shows your profitable crafts and the recipes to learn." },

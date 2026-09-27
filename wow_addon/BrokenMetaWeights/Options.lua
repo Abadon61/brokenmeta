@@ -6,6 +6,7 @@ local T = ns.Localize("options", {
   title = "Broken Meta : Hub", intro = "Réglages de l'addon. Ils s'appliquent tout de suite.",
   tooltip_dps = "Afficher la valeur en DPS dans l'infobulle des objets",
   tooltip_loot = "Afficher où l'objet s'obtient (donjon, boss ou quête)",
+  tooltip_ah = "Afficher le prix à l'hôtel des ventes (d'après tes scans)",
   weights_reminder = "Me rappeler de refaire mes poids de stats tous les 5 niveaux",
   announce_reminder = "Me prévenir quand mon annonce d'artisan va expirer",
   request_alert = "Me prévenir quand quelqu'un cherche un objet que je sais fabriquer",
@@ -16,6 +17,7 @@ local T = ns.Localize("options", {
   title = "Broken Meta : Hub", intro = "Addon settings. They apply right away.",
   tooltip_dps = "Show the DPS value in item tooltips",
   tooltip_loot = "Show where the item comes from (dungeon, boss or quest)",
+  tooltip_ah = "Show the auction house price (from your scans)",
   weights_reminder = "Remind me to redo my stat weights every 5 levels",
   announce_reminder = "Warn me when my crafter announce is about to expire",
   request_alert = "Tell me when someone looks for an item I can make",
@@ -24,9 +26,9 @@ local T = ns.Localize("options", {
   open = "Open the hub", tour = "Replay the guided tour",
 })
 
-local DEFAULTS = { tooltip_dps = true, tooltip_loot = true, weights_reminder = true, announce_reminder = true,
+local DEFAULTS = { tooltip_dps = true, tooltip_loot = true, tooltip_ah = true, weights_reminder = true, announce_reminder = true,
   request_alert = true, sounds = true }
-local ORDER = { "tooltip_dps", "tooltip_loot", "weights_reminder", "announce_reminder", "request_alert", "sounds", "minimap" }
+local ORDER = { "tooltip_dps", "tooltip_loot", "tooltip_ah", "weights_reminder", "announce_reminder", "request_alert", "sounds", "minimap" }
 
 -- ns.Option("tooltip_dps") -> true / false (defaults above until the player changes it).
 function ns.Option(key)

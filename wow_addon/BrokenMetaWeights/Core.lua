@@ -476,10 +476,16 @@ local function lootLine(link)
 end
 
 local function onTooltipItem(tt)
-  if tt == scanTip or not currentSpec or not tt.GetItem then return end
+  if tt == scanTip or not tt.GetItem then return end
   local _, link = tt:GetItem()
-  local equipLoc = link and select(9, GetItemInfo(link))
-  if not equipLoc or equipLoc == "" then return end
+  if not link then return end
+  local equipLoc = select(9, GetItemInfo(link))
+  if not currentSpec or not equipLoc or equipLoc == "" then
+    -- Not gear (reagents, consumables...): only the auction price line (Economy.lua).
+    local ahLine = (not ns.Option or ns.Option("tooltip_ah")) and ns.TooltipAHLine and ns.TooltipAHLine(tonumber(link:match("item:(%d+)")))
+    if ahLine then tt:AddLine(ahLine); tt:Show() end
+    return
+  end
   local added = false
   local v = score(link)
   if v and v > 0 and (not ns.Option or ns.Option("tooltip_dps")) then
@@ -507,6 +513,12 @@ local function onTooltipItem(tt)
   local src = (not ns.Option or ns.Option("tooltip_loot")) and lootLine(link)
   if src then
     tt:AddLine("|cff888888" .. src .. "|r")
+    added = true
+  end
+  -- Auction price from the player's own scans (Economy.lua).
+  local ahLine = (not ns.Option or ns.Option("tooltip_ah")) and ns.TooltipAHLine and ns.TooltipAHLine(tonumber(link:match("item:(%d+)")))
+  if ahLine then
+    tt:AddLine(ahLine)
     added = true
   end
   if added then tt:Show() end

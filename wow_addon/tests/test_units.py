@@ -595,5 +595,57 @@ class DualSlotTests(unittest.TestCase):
         self.assertAlmostEqual(d, s("shield") - s(SWORD_EQ))
 
 
+class EconomyDungeonTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [], bags=["food", "ring_crit"])
+        self.ev = self.g.LUA_EVAL
+
+    def scan(self, t, prices):
+        d = self.g.NS.Data()
+        s = self.ev("{ realm = 'Realm', faction = 'Alliance' }")
+        s.t, s.prices = t, self.ev("{}")
+        for k, v in prices.items():
+            s.prices[k] = self.ev("{ %d, 7, 1 }" % v)
+        d.ah[len(d.ah) + 1] = s
+
+    def test_ah_tooltip_line_on_any_item(self):
+        self.ev('function() ITEMS["item:2589"] = { name = "Linen", loc = "" } end')()
+        self.assertIsNone(self.g.hover("item:2589"), "no scan, no line")
+        self.scan(1790000000 - 60, {2589: 120})
+        line = self.g.hover("item:2589")
+        self.assertIn("AH price", line)
+        self.g.NS.SetOption("tooltip_ah", False)
+        self.assertIsNone(self.g.hover("item:2589"))
+
+    def test_price_history_and_deals(self):
+        now = 1790000000
+        for k, v in enumerate([1000, 1100, 900, 1050]):
+            self.scan(now - (5 - k) * 3600, {2589: v, 2592: 500})
+        self.scan(now - 60, {2589: 400, 2592: 480})
+        hist = lua_list(self.g.NS.PriceHistory(2589))
+        self.assertEqual([h.unit for h in hist][:2], [400, 1050], "newest first")
+        deals = lua_list(self.g.NS.AuctionDeals())
+        self.assertEqual([d.id for d in deals], [2589], "only the item under 70% of its usual price")
+        self.assertAlmostEqual(deals[0].margin, deals[0].usual * 0.95 - 400)
+
+    def test_dungeon_loot_grouped_by_boss_and_loot_log(self):
+        items, n, ups = self.g.NS.DungeonLoot(2)  # Deadmines
+        rows = lua_list(items)
+        self.assertTrue(rows[0].header, "starts with a boss header")
+        self.assertEqual(n, sum(1 for r in rows if not r.header))
+        self.assertTrue(any(r.header and r.header.startswith("Quest rewards") for r in rows))
+        self.assertGreater(ups, 0, "a naked warrior has upgrades")
+        # loot log: only inside a dungeon
+        self.ev('function() LOOT_ITEM_SELF = "You receive loot: %s."; LOOT_ITEM_SELF_MULTIPLE = "You receive loot: %sx%d." end')()
+        self.g.NS.RecordLoot("You receive loot: |cff1eff00|Hitem:872::::|h[Rockslicer]|h|r.")
+        self.assertEqual(len(lua_list(self.g.NS.LootLog())), 0, "not in a dungeon")
+        self.ev('function() GetInstanceInfo = function() return "Deadmines", "party" end end')()
+        self.assertEqual(self.g.NS.CurrentDungeon(), 2)
+        self.g.NS.RecordLoot("You receive loot: |cff1eff00|Hitem:872::::|h[Rockslicer]|h|r.")
+        self.g.NS.RecordLoot("You receive loot: |cff1eff00|Hitem:2589::::|h[Linen]|h|rx3.")
+        log = lua_list(self.g.NS.LootLog())
+        self.assertEqual([(e.d, e.n) for e in log], [(2, 3), (2, 1)], "newest first, with the count")
+
+
 if __name__ == "__main__":
     unittest.main()

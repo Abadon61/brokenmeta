@@ -42,7 +42,7 @@ EXTRA.deDE = {
     refresh_weights = "deine persönlichen Gewichtungen stammen von Stufe %d: berechne sie auf brokenmeta.gg neu (alle %d Stufen).",
   },
   hub = {
-    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Berufe",
+    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Berufe", sec_eco = "Wirtschaft", sec_dg = "Dungeons",
     tab_char = "Charakter", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Befehle", tab_data = "Daten",
     tab_guide = "Guide",
     up_bags = "In deinen Taschen", up_dungeons = "In Dungeons (bester Gegenstand pro Platz)",
@@ -170,7 +170,7 @@ EXTRA.deDE = {
   },
   options = {
     intro = "Einstellungen des Addons. Sie gelten sofort.",
-    tooltip_dps = "DPS-Wert im Tooltip von Gegenständen anzeigen", tooltip_loot = "Herkunft des Gegenstands anzeigen (Dungeon, Boss oder Quest)",
+    tooltip_dps = "DPS-Wert im Tooltip von Gegenständen anzeigen", tooltip_loot = "Herkunft des Gegenstands anzeigen (Dungeon, Boss oder Quest)", tooltip_ah = "Auktionshauspreis anzeigen (aus deinen Scans)",
     weights_reminder = "Alle 5 Stufen an neue Wertgewichtungen erinnern", announce_reminder = "Warnen, bevor meine Handwerker-Ankündigung abläuft",
     request_alert = "Benachrichtigen, wenn jemand einen Gegenstand sucht, den ich herstellen kann", sounds = "Mit diesen Hinweisen einen Ton abspielen",
     minimap = "Minimap-Button anzeigen", open = "Hub öffnen", tour = "Einführung erneut ansehen",
@@ -178,12 +178,31 @@ EXTRA.deDE = {
   tour = {
     next = "Weiter", prev = "Zurück", done = "Los geht's!", skip = "Überspringen",
     steps = {
-      { "Willkommen bei Broken Meta : Hub", "Zwei Werkzeuge in einem Fenster: Broken Meta : DPS für deine Ausrüstung und Broken Meta : Berufe fürs Handwerk. Öffne das Fenster mit dem Spiral-Button an der Minimap oder mit /bmw." },
+      { "Willkommen bei Broken Meta : Hub", "Vier Werkzeuge in einem Fenster: DPS für deine Ausrüstung, Berufe fürs Handwerk, Wirtschaft für den Wert deiner Gegenstände und Schnäppchen, Dungeons für die Beute jedes Bosses. Öffne das Fenster mit dem Spiral-Button an der Minimap oder mit /bmw." },
       { "Broken Meta : DPS", "Fahre über einen Gegenstand: sein Tooltip zeigt seinen DPS-Wert für deine Spezialisierung, verglichen mit deiner Ausrüstung. Der Reiter Verbesserungen listet die besten Gegenstände aus Taschen und Dungeons." },
       { "Broken Meta : Berufe", "Finde einen verfügbaren Handwerker auf deinem ganzen Realm, sieh seine Rezepte und flüstere ihn an. Du suchst etwas? Poste eine Anfrage. Du stellst her? Mach dich im Profil verfügbar." },
       { "Berufe leveln", "Der Reiter Leveln zeigt die günstigste Route ab deiner Fertigkeit zu Auktionshauspreisen (einmal scannen). Die Werkstatt zeigt lohnende Rezepte und neue Rezepte." },
       { "Einstellungen", "Alles unter Optionen > AddOns > Broken Meta : Hub oder mit /bmw options. Viel Spaß!" },
     },
+  },
+  economy = {
+    tab_inv = "Inventar", tab_price = "Preise", tab_deals = "Schnäppchen",
+    scan = "Auktionshaus scannen", scan_closed = "Öffne das Auktionshaus zum Scannen",
+    no_scan = "Kein Scan von deinem Realm: öffne das Auktionshaus und scanne es, um Preise zu sehen.",
+    inv_total = "Deine Taschen sind im Auktionshaus %s wert (%s beim Händler).",
+    inv_none = "Nichts zu verkaufen in deinen Taschen.", ah = "AH %s", vendor = "Händler %s",
+    price_box = "Gegenstand: Name oder Umschalt+Klick", price_now = "Aktueller Preis (Median): %s · %d im letzten Scan angeboten",
+    price_none = "Dieser Gegenstand ist in keinem deiner Scans.", price_pick = "Gib einen Namen ein oder Umschalt+Klick auf den Gegenstand.",
+    price_scan = "Scan vom %s", price_absent = "nicht angeboten",
+    deals_info = "Gegenstände mindestens 30 % unter ihrem üblichen Preis (Median deiner früheren Scans). Marge nach 5 % Gebühr.",
+    deals_none = "Keine Schnäppchen im letzten Scan (mindestens 3 Scans nötig).", deal = "%s statt %s",
+    tooltip = "AH-Preis", tooltip_n = "Median aus %d Scan(s)", page = "Seite %d/%d",
+  },
+  dungeons = {
+    tab_loot = "Beute", tab_log = "Verlauf", pick = "Dungeon: %s", here = "du bist hier", quests = "Questbelohnungen: %s",
+    none = "Keine Beutedaten für diesen Dungeon.", owned = "im Besitz", level = "St. %d",
+    log_none = "Noch nichts: die Beute, die du in Dungeons aufhebst (grün und besser), erscheint hier.",
+    page = "Seite %d/%d", summary = "%d Gegenstand/Gegenstände, %d Upgrade(s) für deine Spezialisierung.",
   },
   craft = {
     tab_dir = "Handwerker", tab_me = "Mein Profil",
@@ -243,7 +262,7 @@ EXTRA.esES = {
     refresh_weights = "tus pesos personales son del nivel %d: vuelve a calcularlos en brokenmeta.gg (cada %d niveles).",
   },
   hub = {
-    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profesiones",
+    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profesiones", sec_eco = "Economía", sec_dg = "Mazmorras",
     tab_char = "Personaje", tab_up = "Mejoras", tab_export = "Exportar", tab_cmd = "Comandos", tab_data = "Datos",
     tab_guide = "Guía",
     up_bags = "En tus bolsas", up_dungeons = "En mazmorras (mejor objeto por ranura)",
@@ -371,7 +390,7 @@ EXTRA.esES = {
   },
   options = {
     intro = "Ajustes del addon. Se aplican al instante.",
-    tooltip_dps = "Mostrar el valor en DPS en la descripción de los objetos", tooltip_loot = "Mostrar de dónde sale el objeto (mazmorra, jefe o misión)",
+    tooltip_dps = "Mostrar el valor en DPS en la descripción de los objetos", tooltip_loot = "Mostrar de dónde sale el objeto (mazmorra, jefe o misión)", tooltip_ah = "Mostrar el precio de subasta (según tus escaneos)",
     weights_reminder = "Recordarme rehacer mis pesos cada 5 niveles", announce_reminder = "Avisarme cuando mi anuncio de artesano vaya a caducar",
     request_alert = "Avisarme cuando alguien busque un objeto que sé fabricar", sounds = "Reproducir un sonido con estos avisos",
     minimap = "Mostrar el botón del minimapa", open = "Abrir el hub", tour = "Volver a ver la visita guiada",
@@ -379,12 +398,31 @@ EXTRA.esES = {
   tour = {
     next = "Siguiente", prev = "Anterior", done = "¡Vamos!", skip = "Saltar",
     steps = {
-      { "Bienvenido a Broken Meta : Hub", "Dos herramientas en una ventana: Broken Meta : DPS para tu equipo y Broken Meta : Profesiones para la artesanía. Ábrela con el botón de la espiral del minimapa o con /bmw." },
+      { "Bienvenido a Broken Meta : Hub", "Cuatro herramientas en una ventana: DPS para tu equipo, Profesiones para la artesanía, Economía para el valor de tus objetos y las gangas, Mazmorras para el botín de cada jefe. Ábrela con el botón de la espiral del minimapa o con /bmw." },
       { "Broken Meta : DPS", "Pasa el ratón por un objeto: su descripción muestra su valor en DPS para tu especialización, comparado con lo que llevas. La pestaña Mejoras lista los mejores objetos de tus bolsas y de las mazmorras de tu nivel." },
       { "Broken Meta : Profesiones", "Encuentra un artesano disponible en todo tu reino, mira sus recetas y susúrrale. ¿Buscas algo? Publica un pedido. ¿Fabricas? Ponte disponible en Mi perfil." },
       { "Subir profesiones", "La pestaña Subir da la ruta más barata desde tu nivel, a precios de subasta (escanéala una vez). El Taller muestra tus recetas rentables y las recetas por aprender." },
       { "Ajustes", "Todo está en Opciones > AddOns > Broken Meta : Hub, o con /bmw options. ¡Buen juego!" },
     },
+  },
+  economy = {
+    tab_inv = "Inventario", tab_price = "Precios", tab_deals = "Gangas",
+    scan = "Escanear la casa de subastas", scan_closed = "Abre la casa de subastas para escanear",
+    no_scan = "No hay escaneo de tu reino: abre la casa de subastas y escanéala para ver los precios.",
+    inv_total = "Tus bolsas valen %s en la casa de subastas (%s en un vendedor).",
+    inv_none = "Nada que vender en tus bolsas.", ah = "subasta %s", vendor = "vendedor %s",
+    price_box = "Objeto: nombre o Mayús+clic", price_now = "Precio actual (mediana): %s · %d a la venta en el último escaneo",
+    price_none = "Este objeto no aparece en ninguno de tus escaneos.", price_pick = "Escribe el nombre de un objeto o haz Mayús+clic en él.",
+    price_scan = "Escaneo del %s", price_absent = "no a la venta",
+    deals_info = "Objetos al menos un 30 % por debajo de su precio habitual (mediana de tus escaneos anteriores). Margen tras la comisión del 5 %.",
+    deals_none = "Ninguna ganga en tu último escaneo (hacen falta al menos 3 escaneos).", deal = "%s en vez de %s",
+    tooltip = "Precio de subasta", tooltip_n = "mediana de %d escaneo(s)", page = "Página %d/%d",
+  },
+  dungeons = {
+    tab_loot = "Botín", tab_log = "Historial", pick = "Mazmorra: %s", here = "estás aquí", quests = "Recompensas de misión: %s",
+    none = "No hay datos de botín para esta mazmorra.", owned = "lo tienes", level = "niv. %d",
+    log_none = "Nada todavía: el botín que recojas en mazmorras (verde y mejor) aparecerá aquí.",
+    page = "Página %d/%d", summary = "%d objeto(s), %d mejora(s) para tu especialización.",
   },
   craft = {
     tab_dir = "Artesanos", tab_me = "Mi perfil",

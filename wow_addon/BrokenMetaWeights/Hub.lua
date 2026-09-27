@@ -4,7 +4,7 @@ local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("hub", {
-  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profession",
+  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profession", sec_eco = "Économie", sec_dg = "Donjons",
   tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
   tab_guide = "Guide",
   up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
@@ -61,7 +61,7 @@ local T = ns.Localize("hub", {
   no_spec = "Aucune spécialisation DPS simulée pour ta classe.",
   rating = "cote",
 }, {
-  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Professions",
+  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Professions", sec_eco = "Economy", sec_dg = "Dungeons",
   tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
   tab_guide = "Guide",
   up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
@@ -155,7 +155,8 @@ local refreshers = {}
 
 -- Two sections (Broken Meta : DPS and Broken Meta : Profession), each with its own row of tabs.
 -- Other files add their pages with ns.HubTab(section, label, refresher).
-local SECTIONS = { { key = "dps", label = T.sec_dps }, { key = "prof", label = T.sec_prof } }
+local SECTIONS = { { key = "dps", label = T.sec_dps }, { key = "prof", label = T.sec_prof },
+  { key = "eco", label = T.sec_eco }, { key = "dg", label = T.sec_dg } }
 local sectionOf, sectionBtns = {}, {}
 
 local function showPage(i)
