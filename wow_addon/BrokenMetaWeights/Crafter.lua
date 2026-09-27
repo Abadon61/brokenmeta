@@ -882,6 +882,8 @@ function ns.CrafterCard()
   return table.concat(f, ";")
 end
 
+-- Off until the site's /wow-forever/artisans/ page and its wow-worker routes are live.
+local SITE_DIRECTORY = false
 local siteCheck = ns.Button(pMe)
 siteCheck:SetSize(18, 18)
 siteCheck:SetPoint("BOTTOMLEFT", 4, 8)
@@ -933,6 +935,7 @@ refreshMe = function()
   ns.Hub.clearRows(pMe, i)
   siteCheck.mark:SetShown(db().public == true)
   if db().public then siteBtn:Enable() else siteBtn:Disable() end
+  siteCheck:SetShown(SITE_DIRECTORY); siteLabel:SetShown(SITE_DIRECTORY); siteBtn:SetShown(SITE_DIRECTORY)
 end
 
 function ns.OnCraftChanged()
