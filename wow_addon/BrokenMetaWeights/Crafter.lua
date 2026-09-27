@@ -22,6 +22,7 @@ local T = ns.Localize("craft", {
   my_profs = "Tes métiers", no_prof = "Tu n'as aucun métier d'artisanat : tu peux quand même chercher des artisans.",
   net_ok = "Connecté au réseau BrokenMeta (%d joueur(s) avec l'addon vus).",
   net_wait = "Connexion au réseau BrokenMeta en cours…",
+  diag = "Diagnostic : canal %d · envoyés %d · reçus d'autres joueurs %d · tes échos %d · dernier : %s · envoi : %s",
   net_fail = "Impossible de rejoindre le canal BrokenMeta : trop de canaux ouverts ? Quitte-en un puis tape /reload.",
   intro = "BrokenMeta : Profession montre les artisans connectés qui ont l'addon. Mets-toi disponible pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
   msg_label = "Message court, affiché sur ta carte d'artisan (60 caractères max) :", msg_save = "Enregistrer",
@@ -40,6 +41,7 @@ local T = ns.Localize("craft", {
   my_profs = "Your professions", no_prof = "You have no crafting profession: you can still search for crafters.",
   net_ok = "Connected to the BrokenMeta network (%d player(s) with the addon seen).",
   net_wait = "Connecting to the BrokenMeta network…",
+  diag = "Diagnostics: channel %d · sent %d · received from others %d · own echoes %d · last: %s · send: %s",
   net_fail = "Could not join the BrokenMeta channel: too many channels open? Leave one, then type /reload.",
   intro = "BrokenMeta : Professions shows the online crafters who run the addon. Set yourself available to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
   msg_label = "Short message shown on your crafter card (60 characters max):", msg_save = "Save",
@@ -176,15 +178,31 @@ local peers = {} -- ["Name-Realm"] = profile + seen
 local channelId = 0
 local joinFailed = false
 
+-- Counters for the diagnostic line of My profile (first real two-player test: players did not see
+-- each other, cause unknown). result = what the client answered to the last send.
+local stats = { sent = 0, recv = 0, echo = 0, last = nil, result = nil }
+ns.CraftStats = stats
+
 local function send(msg, kind, target)
   if not (C_ChatInfo and C_ChatInfo.SendAddonMessage) then return end
-  pcall(C_ChatInfo.SendAddonMessage, PREFIX, msg, kind, target)
+  local ok, res = pcall(C_ChatInfo.SendAddonMessage, PREFIX, msg, kind, target)
+  stats.sent = stats.sent + 1
+  stats.result = kind .. " " .. (ok and tostring(res) or ("error " .. tostring(res)))
+end
+
+-- Besides the hidden channel, profiles also go to the guild and the group: those addon routes are
+-- known to work on Forever (the update notice uses them), so group-mates always see each other.
+local function sendOthers(msg)
+  if IsInGuild and IsInGuild() then send(msg, "GUILD") end
+  if IsInRaid and IsInRaid() then send(msg, "RAID")
+  elseif IsInGroup and IsInGroup() then send(msg, "PARTY") end
 end
 
 local function broadcast()
-  if channelId == 0 then return end
   local msg, n = profileMessage()
-  if n > 0 then send(msg, "CHANNEL", channelId) end
+  if n == 0 then return end
+  if channelId > 0 then send(msg, "CHANNEL", channelId) end
+  sendOthers(msg)
 end
 
 local lastBroadcast = -HEARTBEAT
@@ -210,6 +228,7 @@ local function join(attempt)
     channelId = id
     hideChannel()
     send("Q1", "CHANNEL", channelId)
+    sendOthers("Q1")
     broadcastSoon()
   elseif attempt < 5 then
     C_Timer.After(3, function() join(attempt + 1) end)
@@ -236,7 +255,8 @@ end
 function ns.CraftPeers() return peers end
 
 local f = CreateFrame("Frame")
-for _, ev in ipairs({ "PLAYER_LOGIN", "CHAT_MSG_ADDON", "CHAT_MSG_SYSTEM", "SKILL_LINES_CHANGED", "PLAYER_LOGOUT" }) do
+for _, ev in ipairs({ "PLAYER_LOGIN", "CHAT_MSG_ADDON", "CHAT_MSG_SYSTEM", "SKILL_LINES_CHANGED", "PLAYER_LOGOUT",
+    "GROUP_ROSTER_UPDATE" }) do
   pcall(f.RegisterEvent, f, ev)
 end
 f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
@@ -254,7 +274,10 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
   elseif event == "CHAT_MSG_ADDON" then
     if prefix ~= PREFIX or type(msg) ~= "string" then return end
     local who = full(sender)
-    if not who or who == myFull or short(who) == myName then return end -- our own broadcasts come back
+    if not who then return end
+    if who == myFull or short(who) == myName then stats.echo = stats.echo + 1; return end -- our own broadcasts come back
+    stats.recv = stats.recv + 1
+    stats.last = short(who) .. " (" .. tostring(kind) .. ")"
     if msg == "Q1" then
       -- Answer the newcomer directly, a little later so answers don't all arrive at once.
       local reply, n = profileMessage()
@@ -277,6 +300,12 @@ f:SetScript("OnEvent", function(_, event, prefix, msg, kind, sender)
         if name == gone or name == full(gone) or short(name) == gone then peers[name] = nil end
       end
       if ns.OnCraftChanged then ns.OnCraftChanged() end
+    end
+  elseif event == "GROUP_ROSTER_UPDATE" then
+    -- New group-mates: ask them and tell them (throttled by broadcastSoon).
+    if IsInGroup and IsInGroup() and not pending then
+      if IsInRaid and IsInRaid() then send("Q1", "RAID") else send("Q1", "PARTY") end
+      broadcastSoon()
     end
   elseif event == "SKILL_LINES_CHANGED" then
     if channelId > 0 then broadcastSoon() end
@@ -588,6 +617,8 @@ local preview = makeCard(pMe, W - 32)
 preview:SetPoint("TOPLEFT", 4, -160)
 
 ns.Hub.rows(pMe, 10, -236, 18)
+-- The last rows (network status, diagnostics) are long: let them wrap over the free space below.
+for _, row in ipairs(pMe.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
 
 refreshMe = function()
   local on = db().avail
@@ -608,6 +639,8 @@ refreshMe = function()
   for _ in pairs(peers) do seen = seen + 1 end
   ns.Hub.setRow(pMe, i, channelId > 0 and ("|c" .. HEX.teal .. string.format(T.net_ok, seen) .. "|r")
     or (joinFailed and ("|cffff5a6b" .. T.net_fail .. "|r") or ("|c" .. HEX.faint .. T.net_wait .. "|r"))); i = i + 1
+  ns.Hub.setRow(pMe, i, "|c" .. HEX.faint .. string.format(T.diag, channelId, stats.sent, stats.recv, stats.echo,
+    stats.last or "-", stats.result or "-") .. "|r"); i = i + 1
   ns.Hub.clearRows(pMe, i)
 end
 

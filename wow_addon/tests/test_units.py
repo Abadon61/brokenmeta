@@ -226,7 +226,8 @@ class CrafterTests(unittest.TestCase):
     def test_toggle_available_broadcasts(self):
         self.g.NS.SetCraftAvailable(True)
         self.g.flush()
-        self.assertEqual(self.sent()[-1], "CHANNEL:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;")
+        self.assertEqual(self.sent()[-2:], ["CHANNEL:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;",
+                                            "GUILD:P2;1;20;WARRIOR;Alliance;Orc;2;171:60:75;"], "channel + guild")
         self.assertIn("disponible", self.g.chat[len(self.g.chat)])
 
     def test_message_cleaned_limited_and_sent(self):
@@ -235,11 +236,20 @@ class CrafterTests(unittest.TestCase):
         self.assertEqual(clean("é" * 80), "é" * 60, "60 characters, UTF-8 kept whole")
         self.g.NS.SetCraftMessage("Tout le cuir, compos fournies")
         self.g.flush()
-        self.assertEqual(self.sent()[-1], "CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies")
+        self.assertEqual(self.sent()[-2:], ["CHANNEL:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies",
+                                            "GUILD:P2;0;20;WARRIOR;Alliance;Orc;2;171:60:75;Tout le cuir, compos fournies"])
         peer = self.g.NS.CraftPeers()
         self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;3;164:150:225;Salut |Hitem:1|h", "CHANNEL", "Bob-Realm")
         self.assertEqual(peer["Bob-Realm"].msg, "Salut Hitem:1h", "no chat escapes from others")
         self.assertEqual(peer["Bob-Realm"].race, "Human")
+
+    def test_group_profile_counts_in_diagnostics(self):
+        self.event("CHAT_MSG_ADDON", "BMCraft", "P2;0;6;MAGE;Alliance;Troll;2;197:9:75;tout pour les po", "PARTY", "Polo-Realm")
+        self.event("CHAT_MSG_ADDON", "BMCraft", "Q1", "CHANNEL", "Test-Realm")
+        st = self.g.NS.CraftStats
+        self.assertEqual((st.recv, st.echo), (1, 1))
+        self.assertEqual(st.last, "Polo (PARTY)")
+        self.assertIn("Polo-Realm", list(self.g.NS.CraftPeers().keys()))
 
     def test_offline_player_dropped(self):
         self.event("CHAT_MSG_ADDON", "BMCraft", "P2;1;18;MAGE;Alliance;Human;2;164:150:225;", "CHANNEL", "Bob-Realm")
