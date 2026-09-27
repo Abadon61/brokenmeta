@@ -4,6 +4,7 @@ local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("hub", {
+  reload = "Recharger pour appliquer", lang_tip = "Langue de l'addon (AUTO = celle du jeu). Clique pour changer.",
   title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profession", sec_eco = "Économie", sec_dg = "Donjons",
   tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
   tab_guide = "Guide",
@@ -61,6 +62,7 @@ local T = ns.Localize("hub", {
   no_spec = "Aucune spécialisation DPS simulée pour ta classe.",
   rating = "cote",
 }, {
+  reload = "Reload to apply", lang_tip = "Addon language (AUTO = the game's). Click to change.",
   title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Professions", sec_eco = "Economy", sec_dg = "Dungeons",
   tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
   tab_guide = "Guide",
@@ -132,6 +134,41 @@ local function slotLabel(key) return _G[key] or key end
 ---------------------------------------------------------------------------------------------
 local W, H = 590, 600
 local hub = ns.Window("BrokenMetaHub", W, H, "Broken Meta : Hub") -- Escape closes it
+
+-- Addon language, right in the header (also in the Options panel): cycles Auto / FR / EN / DE / ES;
+-- the texts are built at load, so the choice applies after the reload button (see Locales.lua).
+local LANG_CODES = { "auto", "frFR", "enUS", "deDE", "esES" }
+local LANG_SHORT = { auto = "AUTO", frFR = "FR", enUS = "EN", deDE = "DE", esES = "ES" }
+local langBtn = ns.Button(hub)
+langBtn:SetSize(58, 20)
+langBtn:SetPoint("TOPRIGHT", -38, -7)
+local reloadBtn = ns.Button(hub, nil, "primary")
+reloadBtn:SetSize(150, 20)
+reloadBtn:SetPoint("RIGHT", langBtn, "LEFT", -6, 0)
+reloadBtn:SetText(T.reload)
+reloadBtn:SetScript("OnClick", function() if ReloadUI then ReloadUI() end end)
+local function showLang()
+  local choice = ns.GetLanguageChoice and ns.GetLanguageChoice() or "auto"
+  langBtn:SetText(LANG_SHORT[choice] or choice)
+  local wanted = choice == "auto" and ns.CLIENT_LOCALE or choice
+  reloadBtn:SetShown(wanted ~= ns.LOCALE)
+end
+langBtn:SetScript("OnClick", function()
+  local choice = ns.GetLanguageChoice and ns.GetLanguageChoice() or "auto"
+  local k = 1
+  for i, c in ipairs(LANG_CODES) do if c == choice then k = i end end
+  if ns.SetLanguage then ns.SetLanguage(LANG_CODES[k % #LANG_CODES + 1]) end
+  showLang()
+  if ns.ShowLanguageOption then ns.ShowLanguageOption() end
+end)
+langBtn:HookScript("OnEnter", function(self)
+  GameTooltip:SetOwner(self, "ANCHOR_BOTTOM")
+  GameTooltip:SetText(T.lang_tip)
+  GameTooltip:Show()
+end)
+langBtn:HookScript("OnLeave", function() GameTooltip:Hide() end)
+hub:HookScript("OnShow", showLang)
+showLang()
 
 -- Section bar: DPS / Profession tabs over a hairline.
 local sectionLine = ns.Line(hub)

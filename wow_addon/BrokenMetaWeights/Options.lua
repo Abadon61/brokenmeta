@@ -157,5 +157,8 @@ end
 
 local ev = CreateFrame("Frame")
 ev:RegisterEvent("PLAYER_LOGIN")
-ev:SetScript("OnEvent", function() pcall(build) end)
+ev:SetScript("OnEvent", function()
+  local ok, err = pcall(build)
+  if not ok and ns.say then ns.say("options: " .. tostring(err)) end -- visible, so it gets reported
+end)
 ns.OptionsTexts = T

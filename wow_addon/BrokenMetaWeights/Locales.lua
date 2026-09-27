@@ -71,6 +71,7 @@ EXTRA.deDE = {
     refresh_weights = "deine persönlichen Gewichtungen stammen von Stufe %d: berechne sie auf brokenmeta.gg neu (alle %d Stufen).",
   },
   hub = {
+    reload = "Neu laden zum Anwenden", lang_tip = "Sprache des Addons (AUTO = die des Spiels). Klicke zum Ändern.",
     title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Berufe", sec_eco = "Wirtschaft", sec_dg = "Dungeons",
     tab_char = "Charakter", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Befehle", tab_data = "Daten",
     tab_guide = "Guide",
@@ -294,6 +295,7 @@ EXTRA.esES = {
     refresh_weights = "tus pesos personales son del nivel %d: vuelve a calcularlos en brokenmeta.gg (cada %d niveles).",
   },
   hub = {
+    reload = "Recargar para aplicar", lang_tip = "Idioma del addon (AUTO = el del juego). Haz clic para cambiarlo.",
     title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profesiones", sec_eco = "Economía", sec_dg = "Mazmorras",
     tab_char = "Personaje", tab_up = "Mejoras", tab_export = "Exportar", tab_cmd = "Comandos", tab_data = "Datos",
     tab_guide = "Guía",
