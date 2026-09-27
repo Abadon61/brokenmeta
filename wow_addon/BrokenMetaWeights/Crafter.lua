@@ -883,7 +883,7 @@ function ns.CrafterCard()
 end
 
 -- Off until the site's /wow-forever/artisans/ page and its wow-worker routes are live.
-local SITE_DIRECTORY = false
+local SITE_DIRECTORY = true
 local siteCheck = ns.Button(pMe)
 siteCheck:SetSize(18, 18)
 siteCheck:SetPoint("BOTTOMLEFT", 4, 8)

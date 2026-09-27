@@ -51,3 +51,28 @@ CREATE TABLE IF NOT EXISTS rate (
   count   INTEGER NOT NULL,
   PRIMARY KEY (key, window)
 );
+
+-- Public crafters directory (2026-09-27). Opt-in only: a crafter ticks "Show me on brokenmeta.gg"
+-- in the addon and pastes their card on /wow-forever/artisans/ with a consent box. This is the only
+-- table holding a character name, published on purpose. key_hash = SHA-256 of the secret key the
+-- addon generated for that character (only its holder can update the card); delete_hash = SHA-256
+-- of the deletion code shown after publishing. Cards not updated for 60 days are purged.
+CREATE TABLE IF NOT EXISTS crafters (
+  realm        TEXT NOT NULL,
+  name         TEXT NOT NULL,
+  faction      TEXT NOT NULL,
+  class        TEXT,
+  race         TEXT,
+  sex          INTEGER,
+  level        INTEGER,
+  favs         INTEGER NOT NULL DEFAULT 0,
+  profs        TEXT NOT NULL,
+  msg          TEXT,
+  recipes      TEXT,
+  key_hash     TEXT NOT NULL,
+  delete_hash  TEXT NOT NULL,
+  created_at   INTEGER NOT NULL,
+  updated_at   INTEGER NOT NULL,
+  PRIMARY KEY (realm, name)
+);
+CREATE INDEX IF NOT EXISTS idx_crafters_updated ON crafters (updated_at);

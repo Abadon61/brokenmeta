@@ -6689,6 +6689,7 @@ def main() -> None:
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
+    _wnav.append(("artisans", "Artisans", "Crafters"))
     _wnav.append(("addon", "Addon BrokenMeta", "BrokenMeta addon"))
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
@@ -7731,6 +7732,12 @@ def main() -> None:
                                                "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
                                               for q, a in _gx["ad_faq"]]},
                    breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["ad_h1"], canonical_for(_adpath, lang))]))
+            # Public crafters directory (2026-09-27): opt-in cards from the addon, loaded from wow-worker.
+            _crpath = "/wow-forever/artisans/"
+            assert len(_gx["cr_title"]) <= 60 and len(_gx["cr_desc"]) <= 155
+            render("wow_crafters.html", _crpath, lang, active_nav="wow", active_sub="wow-artisans", tx=_gx,
+                   g_title=_gx["cr_title"], g_desc=_gx["cr_desc"], g_h1=_gx["cr_h1"], g_intro=_gx["cr_intro"],
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["cr_h1"], canonical_for(_crpath, lang))]))
             _shpath = "/wow-forever/partager-mes-donnees/"
             assert len(_gx["sh_title"]) <= 60 and len(_gx["sh_desc"]) <= 155
             render("wow_share.html", _shpath, lang, active_nav="wow", active_sub="wow-partager-mes-donnees", tx=_gx,
@@ -8648,7 +8655,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"

@@ -8,12 +8,18 @@
 //   - every field is whitelisted and type/range-checked here, anything else is dropped;
 //   - the raw IP is never stored: rate limiting uses a salted SHA-256 hash, purged after a day;
 //   - each upload returns a one-time deletion code; DELETE /v1/submission erases that upload.
+//   - exception, on purpose and opt-in: the crafters directory publishes the character name, realm
+//     and crafting profile of crafters who tick "Show me on brokenmeta.gg" and consent on the site.
 //
 // Routes:
 //   POST   /v1/submit       JSON { format: "BMD1", addon, client, meas: [...], ah: [...] }
 //   DELETE /v1/submission   JSON { code }
 //   GET    /v1/aggregates   public aggregates (latest price per realm/faction/item, counts)
 //   GET    /v1/export?kind= raw measurements for simulator calibration (Bearer ADMIN_TOKEN)
+//   POST   /v1/crafter      JSON { consent: true, card: "BMC1;..." }: publish / update a crafter card (opt-in)
+//   GET    /v1/crafters     public crafters directory (cards updated in the last 60 days)
+//   GET    /v1/crafter?realm=&name=   one card with its recipes
+//   DELETE /v1/crafter      JSON { code } or { card } (the crafter), or { realm, name } with Bearer ADMIN_TOKEN (moderation)
 //   cron   daily purge of uploads older than 24 months
 
 export interface Env {
@@ -220,6 +226,142 @@ async function handleExport(request: Request, url: URL, env: Env, origin: string
   return json({ kind, rows: (rows.results ?? []).map((r) => JSON.parse(r.data)) }, 200, origin);
 }
 
+// ---------------------------------------------------------------------------------------------
+// Public crafters directory (opt-in, see schema.sql). The card is the text the addon builds:
+// "BMC1;k=<32 hex key>;n=Name;r=Realm;f=Horde;c=WARRIOR;ra=Orc;s=2;l=20;fv=3;p=164:150:225,...;m=msg;rc=164:1001,1002/197:-2"
+// ---------------------------------------------------------------------------------------------
+const CRAFTER_DAYS = 60;
+const PROF_LINES = new Set([164, 165, 171, 185, 129, 197, 202, 333, 755, 773]);
+const MAX_RECIPES = 2000;
+
+type Card = {
+  key: string; name: string; realm: string; faction: string; cls: string; race: string; sex: number; level: number;
+  favs: number; profs: [number, number, number][]; msg: string; recipes: Record<string, number[]>;
+};
+
+function parseCard(text: unknown): Card {
+  if (typeof text !== "string" || text.length > 40_000) throw new BadRequest("bad_card");
+  const parts = text.trim().split(";");
+  if (parts.shift() !== "BMC1") throw new BadRequest("bad_card");
+  const f: Record<string, string> = {};
+  for (const part of parts) {
+    const i = part.indexOf("=");
+    if (i > 0) f[part.slice(0, i)] = part.slice(i + 1);
+  }
+  const key = f.k || "";
+  if (!/^[0-9a-f]{32}$/.test(key)) throw new BadRequest("bad_card");
+  // Character names: letters only (accents allowed), 2-12 in game; realms: letters, spaces, ' and -.
+  const name = (f.n || "").trim();
+  if (!/^\p{L}{2,24}$/u.test(name)) throw new BadRequest("bad_name");
+  const realm = (f.r || "").trim();
+  if (!/^[\p{L}\p{N} '\-]{2,64}$/u.test(realm)) throw new BadRequest("bad_realm");
+  if (!FACTIONS.has(f.f) || f.f === "Neutral") throw new BadRequest("bad_faction");
+  const cls = CLASSES.has(f.c) ? f.c : "";
+  const race = /^[A-Za-z]{2,24}$/.test(f.ra || "") ? f.ra : "";
+  const num = (v: string | undefined, min: number, max: number) => {
+    const n = Number(v);
+    return Number.isInteger(n) && n >= min && n <= max ? n : min;
+  };
+  const profs: [number, number, number][] = [];
+  for (const p of (f.p || "").split(",")) {
+    const m = p.match(/^(\d+):(\d+):(\d+)$/);
+    if (m && PROF_LINES.has(Number(m[1])) && profs.length < 6) profs.push([Number(m[1]), Math.min(Number(m[2]), 450), Math.min(Number(m[3]), 450)]);
+  }
+  if (!profs.length) throw new BadRequest("no_profession");
+  // The addon already strips chat codes; this also drops anything that could be read as HTML.
+  const msg = (f.m || "").replace(/[<>&"|\u0000-\u001f]/g, "").trim().slice(0, 60);
+  const recipes: Record<string, number[]> = {};
+  let total = 0;
+  for (const block of (f.rc || "").split("/")) {
+    const m = block.match(/^(\d+):([-\d,]+)$/);
+    if (!m || !PROF_LINES.has(Number(m[1]))) continue;
+    const ids = m[2].split(",").map(Number).filter((n) => Number.isInteger(n) && n !== 0 && Math.abs(n) < 10_000_000);
+    const kept = ids.slice(0, MAX_RECIPES - total);
+    total += kept.length;
+    if (kept.length) recipes[m[1]] = kept;
+  }
+  return { key, name, realm, faction: f.f, cls, race, sex: num(f.s, 2, 3), level: num(f.l, 1, 80), favs: num(f.fv, 0, 100_000),
+    profs, msg, recipes };
+}
+
+async function handleCrafterPublish(request: Request, env: Env, origin: string): Promise<Response> {
+  const text = await request.text();
+  if (text.length > 60_000) throw new BadRequest("too_large");
+  let body: any;
+  try { body = JSON.parse(text); } catch { throw new BadRequest("bad_json"); }
+  if (body?.consent !== true) throw new BadRequest("no_consent");
+  if (await rateLimited(request, env)) return json({ error: "rate_limited" }, 429, origin, { "Retry-After": "3600" });
+  const c = parseCard(body.card);
+  const keyHash = await sha256(c.key);
+  const existing = await env.DB.prepare("SELECT key_hash, created_at FROM crafters WHERE realm = ? AND name = ?")
+    .bind(c.realm, c.name).first<{ key_hash: string; created_at: number }>();
+  // Only the character whose addon first published this card (same secret key) can replace it.
+  if (existing && existing.key_hash !== keyHash) return json({ error: "name_taken" }, 409, origin);
+  const code = randomHex(16);
+  const now = Math.floor(Date.now() / 1000);
+  await env.DB.prepare(
+    `INSERT INTO crafters (realm, name, faction, class, race, sex, level, favs, profs, msg, recipes, key_hash, delete_hash, created_at, updated_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(realm, name) DO UPDATE SET faction = excluded.faction, class = excluded.class, race = excluded.race, sex = excluded.sex,
+       level = excluded.level, favs = excluded.favs, profs = excluded.profs, msg = excluded.msg, recipes = excluded.recipes,
+       delete_hash = excluded.delete_hash, updated_at = excluded.updated_at`,
+  ).bind(c.realm, c.name, c.faction, c.cls, c.race, c.sex, c.level, c.favs, JSON.stringify(c.profs), c.msg,
+    JSON.stringify(c.recipes), keyHash, await sha256(code), existing?.created_at ?? now, now).run();
+  return json({ ok: true, name: c.name, realm: c.realm, deletion_code: code, updated: !!existing }, 200, origin);
+}
+
+type CrafterRow = { realm: string; name: string; faction: string; class: string; race: string; sex: number; level: number;
+  favs: number; profs: string; msg: string; recipes: string; updated_at: number };
+
+function publicCrafter(r: CrafterRow, withRecipes: boolean) {
+  const recipes = JSON.parse(r.recipes || "{}") as Record<string, number[]>;
+  let n = 0;
+  for (const ids of Object.values(recipes)) n += ids.length;
+  return { realm: r.realm, name: r.name, faction: r.faction, class: r.class, race: r.race, sex: r.sex, level: r.level,
+    favs: r.favs, profs: JSON.parse(r.profs), msg: r.msg, updated_at: r.updated_at, n_recipes: n,
+    ...(withRecipes ? { recipes } : {}) };
+}
+
+async function handleCrafterList(env: Env, origin: string): Promise<Response> {
+  const since = Math.floor(Date.now() / 1000) - CRAFTER_DAYS * 86400;
+  const rows = await env.DB.prepare("SELECT * FROM crafters WHERE updated_at >= ? ORDER BY favs DESC, updated_at DESC LIMIT 2000")
+    .bind(since).all<CrafterRow>();
+  return json({ generated_at: Date.now(), crafters: (rows.results ?? []).map((r) => publicCrafter(r, false)) }, 200, origin,
+    { "Cache-Control": "public, max-age=120" });
+}
+
+async function handleCrafterGet(url: URL, env: Env, origin: string): Promise<Response> {
+  const realm = url.searchParams.get("realm") || "", name = url.searchParams.get("name") || "";
+  const r = await env.DB.prepare("SELECT * FROM crafters WHERE realm = ? AND name = ?").bind(realm, name).first<CrafterRow>();
+  if (!r) return json({ error: "not_found" }, 404, origin);
+  return json(publicCrafter(r, true), 200, origin, { "Cache-Control": "public, max-age=120" });
+}
+
+// The crafter's deletion code, or (moderation) the admin token with realm + name.
+async function handleCrafterDelete(request: Request, env: Env, origin: string): Promise<Response> {
+  let body: any;
+  try { body = await request.json(); } catch { throw new BadRequest("bad_json"); }
+  const auth = request.headers.get("Authorization") || "";
+  if (env.ADMIN_TOKEN && auth === `Bearer ${env.ADMIN_TOKEN}`) {
+    const res = await env.DB.prepare("DELETE FROM crafters WHERE realm = ? AND name = ?").bind(String(body?.realm || ""), String(body?.name || "")).run();
+    return json({ ok: (res.meta?.changes ?? 0) > 0 }, 200, origin);
+  }
+  // Or the card itself: its secret key proves ownership, so pasting it again always works (each
+  // publish issues a new deletion code and the older ones stop working).
+  if (typeof body?.card === "string") {
+    const c = parseCard(body.card);
+    const res = await env.DB.prepare("DELETE FROM crafters WHERE realm = ? AND name = ? AND key_hash = ?")
+      .bind(c.realm, c.name, await sha256(c.key)).run();
+    if ((res.meta?.changes ?? 0) === 0) return json({ error: "not_found" }, 404, origin);
+    return json({ ok: true }, 200, origin);
+  }
+  const code = cleanString(body?.code, 64);
+  if (!code || !/^[0-9a-f]{32}$/.test(code)) throw new BadRequest("bad_code");
+  const res = await env.DB.prepare("DELETE FROM crafters WHERE delete_hash = ?").bind(await sha256(code)).run();
+  if ((res.meta?.changes ?? 0) === 0) return json({ error: "not_found" }, 404, origin);
+  return json({ ok: true }, 200, origin);
+}
+
 // Daily cron (wrangler.toml [triggers]): enforces the 24-month retention stated on the site's
 // privacy page, and clears stale rate-limit rows.
 async function purge(env: Env): Promise<void> {
@@ -229,12 +371,13 @@ async function purge(env: Env): Promise<void> {
     env.DB.prepare("DELETE FROM ah_prices WHERE submission_id IN (SELECT id FROM submissions WHERE received_at < ?)").bind(cutoff),
     env.DB.prepare("DELETE FROM submissions WHERE received_at < ?").bind(cutoff),
     env.DB.prepare("DELETE FROM rate WHERE window < ?").bind(Math.floor(Date.now() / 3_600_000) - 24),
+    env.DB.prepare("DELETE FROM crafters WHERE updated_at < ?").bind(Math.floor(Date.now() / 1000) - CRAFTER_DAYS * 86400),
   ]);
 }
 
 export default {
   async scheduled(_event: ScheduledController, env: Env): Promise<void> {
-    await purge(env);
+    await purge(env); // also drops crafter cards not updated for 60 days
   },
 
   async fetch(request: Request, env: Env): Promise<Response> {
@@ -246,6 +389,10 @@ export default {
       if (url.pathname === "/v1/submission" && request.method === "DELETE") return await handleDelete(request, env, origin);
       if (url.pathname === "/v1/aggregates" && request.method === "GET") return await handleAggregates(env, origin);
       if (url.pathname === "/v1/export" && request.method === "GET") return await handleExport(request, url, env, origin);
+      if (url.pathname === "/v1/crafter" && request.method === "POST") return await handleCrafterPublish(request, env, origin);
+      if (url.pathname === "/v1/crafter" && request.method === "GET") return await handleCrafterGet(url, env, origin);
+      if (url.pathname === "/v1/crafter" && request.method === "DELETE") return await handleCrafterDelete(request, env, origin);
+      if (url.pathname === "/v1/crafters" && request.method === "GET") return await handleCrafterList(env, origin);
       return json({ error: "not_found" }, 404, origin);
     } catch (e: any) {
       if (e instanceof BadRequest) return json({ error: e.message }, 400, origin);

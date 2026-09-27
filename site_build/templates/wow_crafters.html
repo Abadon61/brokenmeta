@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.cr_kicker, g_h1, g_intro) }}
+
+<div class="cr-filters">
+  <select id="crRealm" aria-label="{{ tx.cr_js.all_realms }}"><option value="">{{ tx.cr_js.all_realms }}</option></select>
+  <select id="crFaction" aria-label="{{ tx.cr_faction }}">
+    <option value="">{{ tx.cr_js.all_factions }}</option>
+    <option value="Horde">{{ tx.cr_js.factions.Horde }}</option>
+    <option value="Alliance">{{ tx.cr_js.factions.Alliance }}</option>
+  </select>
+  <select id="crProf" aria-label="{{ tx.cr_js.all_profs }}"><option value="">{{ tx.cr_js.all_profs }}</option></select>
+  <input id="crName" type="search" placeholder="{{ tx.cr_name_ph }}" aria-label="{{ tx.cr_name_ph }}">
+  <span id="crCount" class="cr-count"></span>
+</div>
+<div id="crList" class="cr-list"><p class="cr-empty">{{ tx.cr_js.loading }}</p></div>
+<p class="cr-note">{{ tx.cr_note|safe }}</p>
+
+<h2 class="fiche-section-title">{{ tx.cr_pub_h2 }}</h2>
+<ol class="ms-steps">{% for step in tx.cr_pub_steps %}<li>{{ step|safe }}</li>{% endfor %}</ol>
+<div class="tc-field">
+  <label for="crCard">{{ tx.cr_card_label }}</label>
+  <textarea id="crCard" class="ms-export" rows="3" spellcheck="false" autocomplete="off" placeholder="BMC1;k=..."></textarea>
+</div>
+<label class="sh-consent"><input type="checkbox" id="crConsent"> <span>{{ tx.cr_consent|safe }}</span></label>
+<div class="ms-actions">
+  <button type="button" id="crPublish" class="ms-btn" disabled>{{ tx.cr_publish }}</button>
+  <span id="crStatus" class="ms-status" role="status" aria-live="polite"></span>
+</div>
+<p id="crCodeBox" class="cr-code" hidden>{{ tx.cr_code_intro }} <code id="crCode"></code></p>
+
+<h2 class="fiche-section-title">{{ tx.cr_del_h2 }}</h2>
+<p>{{ tx.cr_del_p }}</p>
+<div class="tc-field">
+  <textarea id="crDel" class="ms-export" rows="2" spellcheck="false" autocomplete="off" aria-label="{{ tx.cr_del_h2 }}"></textarea>
+</div>
+<div class="ms-actions">
+  <button type="button" id="crDelete" class="ms-btn">{{ tx.cr_delete }}</button>
+  <span id="crDelStatus" class="ms-status" role="status" aria-live="polite"></span>
+</div>
+
+<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+<script type="application/json" id="crI18n">{{ tx.cr_js|tojson }}</script>
+<script src="{{ root }}assets/js/wow-crafters.js?v={{ js_v('wow-crafters.js') }}" defer></script>
+{% endblock %}

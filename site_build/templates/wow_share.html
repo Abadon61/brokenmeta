@@ -28,7 +28,7 @@
     <textarea id="shPaste" class="ms-export" rows="4" spellcheck="false" autocomplete="off" placeholder="BMD1 addon=..."></textarea>
   </div>
   <section id="shPreview" hidden></section>
-  <label class="sh-consent"><input type="checkbox" id="shConsent"> {{ tx.sh_consent|safe }}</label>
+  <label class="sh-consent"><input type="checkbox" id="shConsent"> <span>{{ tx.sh_consent|safe }}</span></label>
   <div class="ms-actions">
     <button type="button" id="shSend" class="ms-btn" disabled>{{ tx.sh_send }}</button>
     <span id="shStatus" class="ms-status" role="status" aria-live="polite"></span>
