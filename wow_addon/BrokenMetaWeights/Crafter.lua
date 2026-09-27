@@ -309,31 +309,50 @@ local function classColor(class)
   return c and c.colorStr or "ffffffff"
 end
 
--- Race portrait: modern atlas, then the Classic race sheet, then the class icon.
+-- Race portrait, first source this client has: the achievement portraits (square, fit the card's
+-- frame), the modern race atlases, the Classic race sheet, then the class icon. The source used is
+-- kept in ns.RaceIconSource for /bmw probe.
+local ACH_RACE = { Scourge = "Undead", NightElf = "Nightelf", BloodElf = "Bloodelf" }
+local function fileExists(path)
+  if not GetFileIDFromPath then return nil end
+  return GetFileIDFromPath(path) ~= nil
+end
 local function setRaceIcon(tex, race, sex, class)
-  local g = sex == 3 and "female" or "male"
-  local r = race and race ~= "" and (race == "Scourge" and "undead" or race:lower()) or nil
-  if r and tex.SetAtlas and C_Texture and C_Texture.GetAtlasInfo then
-    for _, fmt in ipairs({ "raceicon128-%s-%s", "raceicon-%s-%s" }) do
-      local name = fmt:format(r, g)
-      if C_Texture.GetAtlasInfo(name) then tex:SetAtlas(name); return end
+  local male = sex ~= 3
+  local g = male and "male" or "female"
+  local r = race and race ~= "" and race or nil
+  tex:SetTexCoord(0, 1, 0, 1)
+  if r then
+    local ach = "Interface\\Icons\\Achievement_Character_" .. (ACH_RACE[r] or r) .. "_" .. (male and "Male" or "Female")
+    if fileExists(ach) then
+      tex:SetTexture(ach)
+      tex:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+      ns.RaceIconSource = "achievement"
+      return
     end
-  end
-  if r and RACE_ICON_TCOORDS then
-    local coords = RACE_ICON_TCOORDS[race:upper() .. "_" .. g:upper()] or RACE_ICON_TCOORDS[r:upper() .. "_" .. g:upper()]
+    local low = r == "Scourge" and "undead" or r:lower()
+    if tex.SetAtlas and C_Texture and C_Texture.GetAtlasInfo then
+      for _, fmt in ipairs({ "raceicon128-%s-%s", "raceicon-%s-%s" }) do
+        local name = fmt:format(low, g)
+        if C_Texture.GetAtlasInfo(name) then tex:SetAtlas(name); ns.RaceIconSource = "atlas " .. name; return end
+      end
+    end
+    local coords = RACE_ICON_TCOORDS and (RACE_ICON_TCOORDS[r:upper() .. "_" .. g:upper()] or RACE_ICON_TCOORDS[low:upper() .. "_" .. g:upper()])
     if coords then
       tex:SetTexture("Interface\\Glues\\CharacterCreate\\UI-CharacterCreate-Races")
       tex:SetTexCoord(unpack(coords))
+      ns.RaceIconSource = "race sheet"
       return
     end
   end
   if class and CLASS_ICON_TCOORDS and CLASS_ICON_TCOORDS[class] then
     tex:SetTexture("Interface\\TargetingFrame\\UI-Classes-Circles")
     tex:SetTexCoord(unpack(CLASS_ICON_TCOORDS[class]))
+    ns.RaceIconSource = "class icon (no race art found)"
     return
   end
   tex:SetTexture("Interface\\Icons\\INV_Misc_QuestionMark")
-  tex:SetTexCoord(0, 1, 0, 1)
+  ns.RaceIconSource = "none"
 end
 
 local function profText(p, only)
@@ -365,25 +384,30 @@ local function makeCard(parent, width)
   c:EnableMouse(true)
   c:SetScript("OnEnter", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.rowHover)) end end)
   c:SetScript("OnLeave", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.row)) end end)
-  c.icon = c:CreateTexture(nil, "ARTWORK")
-  c.icon:SetSize(42, 42)
-  c.icon:SetPoint("LEFT", 8, 0)
-  c.light = c:CreateTexture(nil, "OVERLAY")
+  -- Portrait in its own frame (1-pixel border, class colour on hover-free cards).
+  c.frame = CreateFrame("Frame", nil, c, ns.BACKDROP_TEMPLATE)
+  c.frame:SetSize(44, 44)
+  c.frame:SetPoint("LEFT", 7, 0)
+  ns.Flat(c.frame, ns.C.bg, ns.C.borderBright)
+  c.icon = c.frame:CreateTexture(nil, "ARTWORK")
+  c.icon:SetPoint("TOPLEFT", 1, -1)
+  c.icon:SetPoint("BOTTOMRIGHT", -1, 1)
+  c.light = c.frame:CreateTexture(nil, "OVERLAY") -- on the portrait frame, else drawn under it
   c.light:SetSize(14, 14)
-  c.light:SetPoint("BOTTOMRIGHT", c.icon, "BOTTOMRIGHT", 4, -4)
-  c.name = c:CreateFontString(nil, "OVERLAY", "GameFontNormal")
-  c.name:SetPoint("TOPLEFT", c.icon, "TOPRIGHT", 10, 0)
-  c.profs = c:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  c.light:SetPoint("BOTTOMRIGHT", c.frame, "BOTTOMRIGHT", 5, -5)
+  c.name = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontName")
+  c.name:SetPoint("TOPLEFT", c.frame, "TOPRIGHT", 10, 1)
+  c.profs = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
   c.profs:SetPoint("TOPLEFT", c.name, "BOTTOMLEFT", 0, -3)
   c.profs:SetWidth(width - 160)
   c.profs:SetJustifyH("LEFT")
   c.profs:SetWordWrap(false)
-  c.msg = c:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  c.msg = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
   c.msg:SetPoint("TOPLEFT", c.profs, "BOTTOMLEFT", 0, -3)
   c.msg:SetWidth(width - 160)
   c.msg:SetJustifyH("LEFT")
   c.msg:SetWordWrap(false)
-  c.btn = CreateFrame("Button", nil, c, "UIPanelButtonTemplate")
+  c.btn = ns.Button(c, nil, "primary")
   c.btn:SetSize(80, 22)
   c.btn:SetPoint("RIGHT", -10, 0)
   c.btn:SetText(T.whisper)
@@ -412,7 +436,7 @@ local filterIdx, onlyAvail, pageNo = 0, false, 1
 local refreshDir
 local pDir, dirIndex = ns.HubTab("prof", T.tab_dir, function() refreshDir() end)
 
-local filterBtn = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
+local filterBtn = ns.Button(pDir)
 filterBtn:SetSize(200, 22)
 filterBtn:SetPoint("TOPLEFT", 4, -2)
 filterBtn:SetScript("OnClick", function(_, button)
@@ -422,15 +446,15 @@ filterBtn:SetScript("OnClick", function(_, button)
   refreshDir()
 end)
 if filterBtn.RegisterForClicks then filterBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp") end
-local availBtn = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
+local availBtn = ns.Button(pDir)
 availBtn:SetSize(140, 22)
 availBtn:SetPoint("LEFT", filterBtn, "RIGHT", 8, 0)
 availBtn:SetScript("OnClick", function() onlyAvail = not onlyAvail; pageNo = 1; refreshDir() end)
-local dirCount = pDir:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local dirCount = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 dirCount:SetPoint("TOPLEFT", 4, -32)
 dirCount:SetWidth(W - 40)
 dirCount:SetJustifyH("LEFT")
-local dirNone = pDir:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local dirNone = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 dirNone:SetPoint("TOPLEFT", 4, TOP - 4)
 dirNone:SetWidth(W - 40)
 dirNone:SetJustifyH("LEFT")
@@ -442,17 +466,17 @@ for i = 1, CARDS do
   cards[i]:Hide()
 end
 
-local prevBtn = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
+local prevBtn = ns.Button(pDir)
 prevBtn:SetSize(28, 20)
 prevBtn:SetPoint("BOTTOMLEFT", 4, 4)
 prevBtn:SetText("<")
 prevBtn:SetScript("OnClick", function() pageNo = pageNo - 1; refreshDir() end)
-local nextBtn = CreateFrame("Button", nil, pDir, "UIPanelButtonTemplate")
+local nextBtn = ns.Button(pDir)
 nextBtn:SetSize(28, 20)
 nextBtn:SetPoint("LEFT", prevBtn, "RIGHT", 70, 0)
 nextBtn:SetText(">")
 nextBtn:SetScript("OnClick", function() pageNo = pageNo + 1; refreshDir() end)
-local pageText = pDir:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local pageText = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 pageText:SetPoint("LEFT", prevBtn, "RIGHT", 6, 0)
 
 local function myEntry()
@@ -515,29 +539,29 @@ end
 ---------------------------------------------------------------------------------------------
 local refreshMe
 local pMe, meIndex = ns.HubTab("prof", T.tab_me, function() refreshMe() end)
-local meIntro = pMe:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local meIntro = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 meIntro:SetPoint("TOPLEFT", 4, -2)
 meIntro:SetWidth(W - 40)
 meIntro:SetJustifyH("LEFT")
 meIntro:SetText(T.intro)
-local toggle = CreateFrame("Button", nil, pMe, "UIPanelButtonTemplate")
+local toggle = ns.Button(pMe, nil, "primary")
 toggle:SetSize(220, 30)
 toggle:SetPoint("TOPLEFT", 4, -48)
 toggle:SetScript("OnClick", function() ns.SetCraftAvailable(not db().avail) end)
-local toggleHint = pMe:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local toggleHint = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 toggleHint:SetPoint("LEFT", toggle, "RIGHT", 10, 0)
 toggleHint:SetWidth(W - 270)
 toggleHint:SetJustifyH("LEFT")
 
-local msgLabel = pMe:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local msgLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 msgLabel:SetPoint("TOPLEFT", 4, -92)
 msgLabel:SetText(T.msg_label)
-local msgBox = CreateFrame("EditBox", nil, pMe, "InputBoxTemplate")
+local msgBox = ns.Input(pMe)
 msgBox:SetSize(W - 150, 22)
-msgBox:SetPoint("TOPLEFT", 10, -108)
+msgBox:SetPoint("TOPLEFT", 4, -110)
 msgBox:SetAutoFocus(false)
 msgBox:SetMaxLetters(MSG_MAX)
-local msgSave = CreateFrame("Button", nil, pMe, "UIPanelButtonTemplate")
+local msgSave = ns.Button(pMe)
 msgSave:SetSize(100, 22)
 msgSave:SetPoint("LEFT", msgBox, "RIGHT", 8, 0)
 msgSave:SetText(T.msg_save)
@@ -552,7 +576,7 @@ msgSave:SetScript("OnClick", function() msgBox:ClearFocus(); ns.SetCraftMessage(
 msgBox:SetScript("OnEnterPressed", function(self) self:ClearFocus(); ns.SetCraftMessage(self:GetText()) end)
 msgBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
 
-local prevLabel = pMe:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local prevLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 prevLabel:SetPoint("TOPLEFT", 4, -144)
 prevLabel:SetText(T.preview)
 local preview = makeCard(pMe, W - 32)
@@ -562,7 +586,7 @@ ns.Hub.rows(pMe, 10, -236, 18)
 
 refreshMe = function()
   local on = db().avail
-  toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5050" .. T.avail_off .. "|r"))
+  toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5a6b" .. T.avail_off .. "|r"))
   toggleHint:SetText(on and T.avail_hint_on or T.avail_hint_off)
   if not msgBox:HasFocus() then msgBox:SetText(db().msg or "") end
   local mine = myEntry()
@@ -578,7 +602,7 @@ refreshMe = function()
   local seen = 0
   for _ in pairs(peers) do seen = seen + 1 end
   ns.Hub.setRow(pMe, i, channelId > 0 and ("|c" .. HEX.teal .. string.format(T.net_ok, seen) .. "|r")
-    or (joinFailed and ("|cffff5050" .. T.net_fail .. "|r") or ("|c" .. HEX.faint .. T.net_wait .. "|r"))); i = i + 1
+    or (joinFailed and ("|cffff5a6b" .. T.net_fail .. "|r") or ("|c" .. HEX.faint .. T.net_wait .. "|r"))); i = i + 1
   ns.Hub.clearRows(pMe, i)
 end
 

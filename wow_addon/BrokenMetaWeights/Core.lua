@@ -49,7 +49,7 @@ local L = ns.Localize("core", {
   snap_done = "%d new measurement(s) recorded.",
 })
 
-local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff4fd1c5BrokenMeta|r " .. msg) end
+local function say(msg) DEFAULT_CHAT_FRAME:AddMessage("|cff2de6c4BrokenMeta|r " .. msg) end
 
 ---------------------------------------------------------------------------------------------
 -- Spec selection
@@ -532,6 +532,7 @@ SlashCmdList.BROKENMETAWEIGHTS = function(msg)
     local _, perTab = readTalents()
     if C_AuctionHouse then say("  C_AuctionHouse.ReplicateItems: " .. type(C_AuctionHouse.ReplicateItems)) end
     say("  auction scan mode: " .. tostring(ns.AuctionMode and ns.AuctionMode()))
+    say("  race icon: " .. tostring(ns.RaceIconSource or "not drawn yet (open BrokenMeta : Profession)"))
     say("  points per tree: " .. (perTab and table.concat(perTab, " / ") or "nil")
       .. " -> tree " .. tostring(talentTabWithMostPoints()))
   elseif cmd == "share" then

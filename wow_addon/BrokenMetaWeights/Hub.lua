@@ -122,28 +122,23 @@ local function slotLabel(key) return _G[key] or key end
 ---------------------------------------------------------------------------------------------
 -- Frame
 ---------------------------------------------------------------------------------------------
-local W, H = 590, 586
-local hub = CreateFrame("Frame", "BrokenMetaHub", UIParent, "BasicFrameTemplateWithInset")
-hub:SetSize(W, H)
-hub:SetPoint("CENTER")
-hub:SetFrameStrata("HIGH")
-hub:SetMovable(true)
-hub:EnableMouse(true)
-hub:RegisterForDrag("LeftButton")
-hub:SetScript("OnDragStart", hub.StartMoving)
-hub:SetScript("OnDragStop", hub.StopMovingOrSizing)
-hub:SetClampedToScreen(true)
-hub:Hide()
-tinsert(UISpecialFrames, "BrokenMetaHub") -- Escape closes it
+local W, H = 590, 600
+local hub = ns.Window("BrokenMetaHub", W, H, "BrokenMeta") -- Escape closes it
+local hubTag = hub:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+hubTag:SetPoint("BOTTOMLEFT", hub.title, "BOTTOMRIGHT", 6, 1)
+hubTag:SetText("|c" .. ns.HEX.faint .. "hub|r")
 
-hub.title = hub:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-hub.title:SetPoint("TOP", 0, -5)
-hub.title:SetText("|TInterface\\AddOns\\BrokenMetaWeights\\Media\\icon:16|t " .. T.title)
+-- Section bar: DPS / Profession tabs over a hairline.
+local sectionLine = ns.Line(hub)
+sectionLine:SetColorTexture(unpack(ns.C.border))
+sectionLine:SetHeight(1)
+sectionLine:SetPoint("TOPLEFT", 1, -66)
+sectionLine:SetPoint("TOPRIGHT", -1, -66)
 
 local pages, tabs = {}, {}
 local function newPage()
   local p = CreateFrame("Frame", nil, hub)
-  p:SetPoint("TOPLEFT", 12, -88)
+  p:SetPoint("TOPLEFT", 12, -102)
   p:SetPoint("BOTTOMRIGHT", -12, 12)
   p:Hide()
   pages[#pages + 1] = p
@@ -178,9 +173,9 @@ local function addTab(section, label, index)
   for _, sec in pairs(sectionOf) do if sec == section then pos = pos + 1 end end
   sectionOf[index] = section
   lastTab[section] = lastTab[section] or index
-  local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
+  local b = ns.Button(hub, nil, "pill")
   b:SetSize(91, 22)
-  b:SetPoint("TOPLEFT", 12 + pos * 94, -56)
+  b:SetPoint("TOPLEFT", 12 + pos * 94, -74)
   b:SetText(label)
   b:SetScript("OnClick", function() lastTab[section] = index; showPage(index) end)
   b:Hide()
@@ -188,10 +183,10 @@ local function addTab(section, label, index)
 end
 
 for pos, sec in ipairs(SECTIONS) do
-  local b = CreateFrame("Button", nil, hub, "UIPanelButtonTemplate")
-  b:SetSize(200, 24)
-  b:SetPoint("TOPLEFT", 12 + (pos - 1) * 206, -28)
-  b:SetText("|cff4fd1c5BrokenMeta|r : " .. sec.label)
+  local b = ns.Button(hub, nil, "tab")
+  b:SetSize(110, 30)
+  b:SetPoint("TOPLEFT", 14 + (pos - 1) * 116, -36)
+  b:SetText(sec.label)
   b:SetScript("OnClick", function() if lastTab[sec.key] then showPage(lastTab[sec.key]) end end)
   sectionBtns[sec.key] = b
 end
@@ -215,12 +210,12 @@ local function rows(page, n, top, lineH, withIcon)
       icon:SetPoint("TOPLEFT", 4, y + 1)
       icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
     end
-    local l = page:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    local l = page:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
     l:SetPoint("TOPLEFT", withIcon and (lineH + 6) or 4, y)
     l:SetWidth(W - 150)
     l:SetJustifyH("LEFT")
     l:SetWordWrap(false)
-    local r = page:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+    local r = page:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
     r:SetPoint("TOPRIGHT", -4, y)
     r:SetJustifyH("RIGHT")
     local row = { l, r, icon = icon }
@@ -258,9 +253,9 @@ local function clearRows(page, from)
 end
 
 local function fmtDelta(d)
-  if d > 0.005 then return string.format("|cff40ff40+%.2f|r", d) end
-  if d < -0.005 then return string.format("|cffff5050%.2f|r", d) end
-  return "|cffcccccc0.00|r"
+  if d > 0.005 then return string.format("|cff2de6c4+%.2f|r", d) end
+  if d < -0.005 then return string.format("|cffff5a6b%.2f|r", d) end
+  return "|cffbdb4cf0.00|r"
 end
 
 ---------------------------------------------------------------------------------------------
@@ -268,7 +263,7 @@ end
 ---------------------------------------------------------------------------------------------
 local pChar = newPage()
 
-local specText = pChar:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local specText = pChar:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
 specText:SetPoint("TOP", 0, -4)
 
 local function cycleSpec(step)
@@ -281,7 +276,7 @@ local function cycleSpec(step)
 end
 
 for _, def in ipairs({ { "<", -1, "TOPLEFT", 4 }, { ">", 1, "TOPRIGHT", -4 } }) do
-  local b = CreateFrame("Button", nil, pChar, "UIPanelButtonTemplate")
+  local b = ns.Button(pChar)
   b:SetSize(28, 20)
   b:SetPoint(def[3], def[4], 0)
   b:SetText(def[1])
@@ -290,12 +285,12 @@ end
 
 rows(pChar, 26, -30, 15, true)
 
-local importBtn = CreateFrame("Button", nil, pChar, "UIPanelButtonTemplate")
+local importBtn = ns.Button(pChar)
 importBtn:SetSize(180, 22)
 importBtn:SetPoint("BOTTOMLEFT", 4, 4)
 importBtn:SetText(T.import_btn)
 importBtn:SetScript("OnClick", function() if ns.ShowImportDialog then ns.ShowImportDialog() end end)
-local resetBtn = CreateFrame("Button", nil, pChar, "UIPanelButtonTemplate")
+local resetBtn = ns.Button(pChar)
 resetBtn:SetSize(180, 22)
 resetBtn:SetPoint("LEFT", importBtn, "RIGHT", 8, 0)
 resetBtn:SetText(T.reset_btn)
@@ -312,21 +307,21 @@ refreshers[1] = function()
   local w, custom = ns.ActiveWeights(spec)
   local rp = ns.GetRatingPerPct()
   local i = 1
-  setRow(pChar, i, "|cffffd100" .. T.weights .. "|r", custom
-    and string.format("|cff40ff40" .. T.w_custom .. "|r", custom.level or 0, custom.date or "?")
-    or ("|cff888888" .. T.w_generic .. "|r")); i = i + 1
+  setRow(pChar, i, "|cffffc23c" .. T.weights .. "|r", custom
+    and string.format("|cff2de6c4" .. T.w_custom .. "|r", custom.level or 0, custom.date or "?")
+    or ("|cff8a81ab" .. T.w_generic .. "|r")); i = i + 1
   setRow(pChar, i, string.format(IS_FR and "Force %.3f · Agilité %.3f · Intelligence %.3f"
     or "Strength %.3f · Agility %.3f · Intellect %.3f", w.str, w.agi, w.int)); i = i + 1
   setRow(pChar, i, string.format(IS_FR and "Puiss. d'attaque %.3f · Puiss. des sorts %.3f" or "Attack power %.3f · Spell power %.3f", w.ap, w.sp)); i = i + 1
   setRow(pChar, i, string.format(IS_FR and "Critique 1%% %.3f (%.1f %s) · Toucher 1%% %.3f (%.1f %s)"
     or "Crit 1%% %.3f (%.1f %s) · Hit 1%% %.3f (%.1f %s)",
     w.crit, rp.crit, T.rating, w.hit, rp.hit, T.rating),
-    rp.crit_approx and ("|cff888888" .. T.approx .. "|r") or nil); i = i + 1
+    rp.crit_approx and ("|cff8a81ab" .. T.approx .. "|r") or nil); i = i + 1
   if (w.wdps_mh or 0) + (w.wdps_oh or 0) + (w.wdps_r or 0) > 0 then
     setRow(pChar, i, string.format(T.wdps_line, w.wdps_mh or 0, w.wdps_oh or 0, w.wdps_r or 0)); i = i + 1
   end
   i = i + 1
-  setRow(pChar, i, "|cffffd100" .. T.gear .. "|r", "|cffffd100DPS|r"); i = i + 1
+  setRow(pChar, i, "|cffffc23c" .. T.gear .. "|r", "|cffffc23cDPS|r"); i = i + 1
   local total = 0
   for _, s in ipairs(SLOT_ORDER) do
     local link = GetInventoryItemLink("player", s[1])
@@ -338,10 +333,10 @@ refreshers[1] = function()
       local ok, _, tex = pcall(GetInventorySlotInfo, s[2])
       icon, dim = ok and tex or nil, true
     end
-    setRow(pChar, i, slotLabel(s[2]) .. " : " .. (link or ("|cff888888" .. T.empty .. "|r")),
+    setRow(pChar, i, slotLabel(s[2]) .. " : " .. (link or ("|cff8a81ab" .. T.empty .. "|r")),
       link and string.format("%.2f", v) or "", { icon = icon, dim = dim, slot = link and s[1] or nil }); i = i + 1
   end
-  setRow(pChar, i, "|cffffd100" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
+  setRow(pChar, i, "|cffffc23c" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
   if not custom and (UnitLevel("player") or 20) ~= 20 then
     setRow(pChar, i, "|cffff9900" .. T.w_hint_level .. "|r"); i = i + 1
   elseif custom and ns.ImportedWeightsStale() then
@@ -354,7 +349,7 @@ end
 -- Page 2: Upgrades from bags
 ---------------------------------------------------------------------------------------------
 local pUp = newPage()
-local upHint = pUp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local upHint = pUp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 upHint:SetPoint("TOPLEFT", 4, -2)
 upHint:SetPoint("TOPRIGHT", -4, -2)
 upHint:SetJustifyH("LEFT")
@@ -434,21 +429,21 @@ refreshers[2] = function()
   end
   table.sort(found, function(a, b) return a.d > b.d end)
   local i = 1
-  setRow(pUp, i, "|cffffd100" .. T.up_bags .. "|r"); i = i + 1
+  setRow(pUp, i, "|cffffc23c" .. T.up_bags .. "|r"); i = i + 1
   if #found == 0 then
-    setRow(pUp, i, "|cff888888" .. T.no_upgrade .. "|r"); i = i + 1
+    setRow(pUp, i, "|cff8a81ab" .. T.no_upgrade .. "|r"); i = i + 1
   end
   for k = 1, math.min(#found, 6) do
     local f = found[k]
     setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link }); i = i + 1
   end
   i = i + 1
-  setRow(pUp, i, "|cffffd100" .. T.up_dungeons .. "|r"); i = i + 1
+  setRow(pUp, i, "|cffffc23c" .. T.up_dungeons .. "|r"); i = i + 1
   local list, top = dungeonUpgrades()
   if top then
     setRow(pUp, i, string.format(T.up_best, dungeonName(top.d), top.n, top.gain)); i = i + 1
   else
-    setRow(pUp, i, "|cff888888" .. T.no_dungeon .. "|r"); i = i + 1
+    setRow(pUp, i, "|cff8a81ab" .. T.no_dungeon .. "|r"); i = i + 1
   end
   local level = UnitLevel("player") or 1
   for _, b in ipairs(list) do
@@ -456,7 +451,7 @@ refreshers[2] = function()
     local it = b.it
     local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
     local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
-    setRow(pUp, i, lootLink(it) .. "  |cff888888" .. dungeonName(it.d) .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
+    setRow(pUp, i, lootLink(it) .. "  |cff8a81ab" .. dungeonName(it.d) .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
       { icon = icon, link = "item:" .. it.id }); i = i + 1
   end
   clearRows(pUp, i)
@@ -466,7 +461,7 @@ end
 -- Page 3: Export
 ---------------------------------------------------------------------------------------------
 local pExp = newPage()
-local expHint = pExp:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local expHint = pExp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 expHint:SetPoint("TOPLEFT", 4, -2)
 expHint:SetPoint("TOPRIGHT", -4, -2)
 expHint:SetJustifyH("LEFT")
@@ -593,24 +588,24 @@ end
 -- Page 4: Commands
 ---------------------------------------------------------------------------------------------
 local pCmd = newPage()
-local cmdHint = pCmd:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
+local cmdHint = pCmd:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 cmdHint:SetPoint("TOPLEFT", 4, -2)
 cmdHint:SetJustifyH("LEFT")
 cmdHint:SetText(T.cmd_hint)
 local cmdDesc = {}
 for i, c in ipairs(T.cmds) do
   local y = -22 - (i - 1) * 35
-  local name = pCmd:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+  local name = pCmd:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
   name:SetPoint("TOPLEFT", 4, y)
-  name:SetText("|cff4fd1c5" .. c[2] .. "|r")
-  local desc = pCmd:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  name:SetText("|cff2de6c4" .. c[2] .. "|r")
+  local desc = pCmd:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
   desc:SetPoint("TOPLEFT", 4, y - 16)
   desc:SetWidth(W - 110)
   desc:SetJustifyH("LEFT")
   desc:SetText(c[3])
   cmdDesc[i] = desc
   if c[1] then
-    local b = CreateFrame("Button", nil, pCmd, "UIPanelButtonTemplate")
+    local b = ns.Button(pCmd)
     b:SetSize(70, 20)
     b:SetPoint("TOPRIGHT", -4, y)
     b:SetText(T.run)
@@ -622,7 +617,7 @@ refreshers[4] = function()
   local ids = ns.classSpecs()
   for i, c in ipairs(T.cmds) do
     if c[3]:find("%%s") then
-      cmdDesc[i]:SetText(c[3]:format(ids[1] or "warrior_fury") .. "\n|cff888888" .. table.concat(ids, ", ") .. "|r")
+      cmdDesc[i]:SetText(c[3]:format(ids[1] or "warrior_fury") .. "\n|cff8a81ab" .. table.concat(ids, ", ") .. "|r")
     end
   end
 end
@@ -631,27 +626,27 @@ end
 -- Page 5: Data (what is collected for the site, sharing switch)
 ---------------------------------------------------------------------------------------------
 local pData = newPage()
-local dataTitle = pData:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local dataTitle = pData:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
 dataTitle:SetPoint("TOPLEFT", 4, -2)
 dataTitle:SetText(T.data_h)
-local dataIntro = pData:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local dataIntro = pData:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 dataIntro:SetPoint("TOPLEFT", 4, -22)
 dataIntro:SetWidth(W - 40)
 dataIntro:SetJustifyH("LEFT")
 dataIntro:SetText(T.data_intro)
 
-local shareBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+local shareBtn = ns.Button(pData)
 shareBtn:SetSize(150, 22)
 shareBtn:SetPoint("TOPLEFT", 4, -96)
 shareBtn:SetScript("OnClick", function()
   SlashCmdList.BROKENMETAWEIGHTS(BrokenMetaWeightsDB.share and "share off" or "share on")
 end)
-local snapBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+local snapBtn = ns.Button(pData)
 snapBtn:SetSize(150, 22)
 snapBtn:SetPoint("LEFT", shareBtn, "RIGHT", 8, 0)
 snapBtn:SetText(T.snap)
 snapBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("snap") end)
-local copyBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+local copyBtn = ns.Button(pData)
 copyBtn:SetSize(150, 22)
 copyBtn:SetPoint("LEFT", snapBtn, "RIGHT", 8, 0)
 copyBtn:SetText(T.copy)
@@ -661,27 +656,27 @@ rows(pData, 10, -130, 18)
 for _, row in ipairs(pData.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
 
 -- A click here counts as the hardware event full scans require, same as the auction window button.
-local scanBtn = CreateFrame("Button", nil, pData, "UIPanelButtonTemplate")
+local scanBtn = ns.Button(pData)
 scanBtn:SetSize(370, 22)
 scanBtn:SetPoint("TOPLEFT", 4, -330)
 scanBtn:SetText(T.scan)
 scanBtn:SetScript("OnClick", function() if ns.StartAuctionScan then ns.StartAuctionScan() end end)
-local scanHint = pData:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local scanHint = pData:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 scanHint:SetPoint("TOPLEFT", scanBtn, "BOTTOMLEFT", 0, -6)
 scanHint:SetWidth(W - 40)
 scanHint:SetJustifyH("LEFT")
 
 refreshers[5] = function()
-  shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff40ff40" .. T.share_on .. "|r") or T.share_off)
+  shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff2de6c4" .. T.share_on .. "|r") or T.share_off)
   local open = ns.IsAuctionOpen and ns.IsAuctionOpen()
   if open then scanBtn:Enable() else scanBtn:Disable() end
-  scanHint:SetText(open and "" or ("|cff888888" .. T.scan_hint .. "|r"))
+  scanHint:SetText(open and "" or ("|cff8a81ab" .. T.scan_hint .. "|r"))
   local d = ns.Data()
   local n = { stats = 0, pet = 0, rating = 0 }
   for _, r in ipairs(d.meas) do n[r.k] = (n[r.k] or 0) + 1 end
   local i = 1
-  setRow(pData, i, "|cffffd100" .. T.meas .. "|r", string.format(T.meas_detail, #d.meas, n.stats, n.pet, n.rating)); i = i + 2
-  setRow(pData, i, "|cffffd100" .. T.ah_h .. "|r"); i = i + 1
+  setRow(pData, i, "|cffffc23c" .. T.meas .. "|r", string.format(T.meas_detail, #d.meas, n.stats, n.pet, n.rating)); i = i + 2
+  setRow(pData, i, "|cffffc23c" .. T.ah_h .. "|r"); i = i + 1
   setRow(pData, i, string.format(T.ah_mode, tostring(ns.AuctionMode and ns.AuctionMode() or "-"))); i = i + 1
   local last = d.ah[#d.ah]
   if last then
@@ -691,7 +686,7 @@ refreshers[5] = function()
       last.listings or 0, distinct)); i = i + 1
     setRow(pData, i, string.format(T.ah_count, #d.ah)); i = i + 1
   else
-    setRow(pData, i, "|cff888888" .. T.ah_none .. "|r"); i = i + 1
+    setRow(pData, i, "|cff8a81ab" .. T.ah_none .. "|r"); i = i + 1
   end
   clearRows(pData, i)
 end
@@ -699,38 +694,27 @@ end
 ---------------------------------------------------------------------------------------------
 -- Copy dialog: the share string, pre-selected for Ctrl+C
 ---------------------------------------------------------------------------------------------
-local copyFrame = CreateFrame("Frame", "BrokenMetaShareCopy", UIParent, "BasicFrameTemplateWithInset")
-copyFrame:SetSize(520, 300)
+local copyFrame = ns.Window("BrokenMetaShareCopy", 520, 300, T.copy_title, "DIALOG")
+copyFrame:ClearAllPoints()
 copyFrame:SetPoint("CENTER", 0, 60)
-copyFrame:SetFrameStrata("DIALOG")
-copyFrame:SetMovable(true)
-copyFrame:EnableMouse(true)
-copyFrame:RegisterForDrag("LeftButton")
-copyFrame:SetScript("OnDragStart", copyFrame.StartMoving)
-copyFrame:SetScript("OnDragStop", copyFrame.StopMovingOrSizing)
-copyFrame:Hide()
-tinsert(UISpecialFrames, "BrokenMetaShareCopy")
-copyFrame.title = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
-copyFrame.title:SetPoint("TOP", 0, -5)
-copyFrame.title:SetText(T.copy_title)
-local copyHint = copyFrame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-copyHint:SetPoint("TOPLEFT", 14, -32)
+local copyHint = copyFrame:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+copyHint:SetPoint("TOPLEFT", 14, -42)
 copyHint:SetWidth(490)
 copyHint:SetJustifyH("LEFT")
 local copyScroll = CreateFrame("ScrollFrame", "BrokenMetaShareCopyScroll", copyFrame, "UIPanelScrollFrameTemplate")
-copyScroll:SetPoint("TOPLEFT", 14, -70)
+copyScroll:SetPoint("TOPLEFT", 14, -80)
 copyScroll:SetPoint("BOTTOMRIGHT", -32, 14)
 local copyBox = CreateFrame("EditBox", nil, copyScroll)
 copyBox:SetMultiLine(true)
 copyBox:SetAutoFocus(false)
 copyBox:SetMaxLetters(0)
-copyBox:SetFontObject(ChatFontNormal)
+copyBox:SetFontObject("BrokenMetaFontMono")
 copyBox:SetWidth(460)
 copyBox:SetScript("OnEscapePressed", function() copyFrame:Hide() end)
 copyScroll:SetScrollChild(copyBox)
 
 -- Any text to copy (share data, site links): a game addon cannot open a browser.
-local importOk = CreateFrame("Button", nil, copyFrame, "UIPanelButtonTemplate")
+local importOk = ns.Button(copyFrame, nil, "primary")
 importOk:SetSize(140, 22)
 importOk:SetPoint("BOTTOMRIGHT", -30, 16)
 importOk:SetText(T.import_do)
@@ -775,31 +759,31 @@ end
 -- Page 6: Guide (teaser + links to the site; the full guide stays on brokenmeta.gg)
 ---------------------------------------------------------------------------------------------
 local pGuide = newPage()
-local gTitle = pGuide:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local gTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
 gTitle:SetPoint("TOPLEFT", 4, -2)
 gTitle:SetText(T.guide_h)
-local gText = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlight")
+local gText = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
 gText:SetPoint("TOPLEFT", 4, -24)
 gText:SetWidth(W - 40)
 gText:SetJustifyH("LEFT")
-local gMore = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+local gMore = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 gMore:SetPoint("TOPLEFT", gText, "BOTTOMLEFT", 0, -8)
 gMore:SetWidth(W - 40)
 gMore:SetJustifyH("LEFT")
-local gBtn = CreateFrame("Button", nil, pGuide, "UIPanelButtonTemplate")
+local gBtn = ns.Button(pGuide)
 gBtn:SetSize(220, 24)
 gBtn:SetPoint("TOPLEFT", gMore, "BOTTOMLEFT", 0, -10)
 gBtn:SetText(T.guide_copy)
-local pTitle = pGuide:CreateFontString(nil, "OVERLAY", "GameFontNormal")
+local pTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
 pTitle:SetPoint("TOPLEFT", 4, -190)
 pTitle:SetText(T.prof_h)
 local profRows = {}
 for k = 1, 4 do
-  local fs = pGuide:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmall")
+  local fs = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
   fs:SetPoint("TOPLEFT", 4, -190 - k * 34)
   fs:SetWidth(W - 160)
   fs:SetJustifyH("LEFT")
-  local b = CreateFrame("Button", nil, pGuide, "UIPanelButtonTemplate")
+  local b = ns.Button(pGuide)
   b:SetSize(120, 22)
   b:SetPoint("TOPRIGHT", -4, -186 - k * 34)
   b:SetText(T.prof_copy)
@@ -869,7 +853,7 @@ refreshers[6] = function()
     end
   end
   if k == 0 then
-    profRows[1].fs:SetText("|cff888888" .. T.prof_none .. "|r")
+    profRows[1].fs:SetText("|cff8a81ab" .. T.prof_none .. "|r")
     profRows[1].btn:Hide()
     k = 1
   end

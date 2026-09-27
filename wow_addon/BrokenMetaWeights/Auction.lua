@@ -144,7 +144,7 @@ function ns.ShowAuctionButton()
   local anchor = AuctionHouseFrame or AuctionFrame
   if not anchor then return end
   if not btn then
-    btn = CreateFrame("Button", "BrokenMetaAuctionScanButton", UIParent, "UIPanelButtonTemplate")
+    btn = ns.Button(UIParent, "BrokenMetaAuctionScanButton", "primary", true)
     btn:SetSize(240, 24)
     btn:SetFrameStrata("DIALOG")
     btn:SetScript("OnClick", ns.StartAuctionScan)
