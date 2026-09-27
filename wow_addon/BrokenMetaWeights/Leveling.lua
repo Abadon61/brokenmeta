@@ -45,13 +45,17 @@ local ORDER = {}
 for line in pairs(ns.PROFESSIONS) do ORDER[#ORDER + 1] = line end
 table.sort(ORDER, function(a, b) return ns.PROFESSIONS[a].id < ns.PROFESSIONS[b].id end)
 
+-- Gold / silver / copper with the game's coin icons (drawn here: Forever's client has no
+-- GetCoinTextureString). Zero parts are left out, except a lone 0 copper.
+local COIN = "|TInterface\\MoneyFrame\\UI-%sIcon:12:12:2:0|t"
 local function money(copper)
   copper = math.floor(copper + 0.5)
-  if GetCoinTextureString then return GetCoinTextureString(copper) end
   local g, s, c = math.floor(copper / 10000), math.floor(copper / 100) % 100, copper % 100
-  if g > 0 then return string.format("%dg %ds %dc", g, s, c) end
-  if s > 0 then return string.format("%ds %dc", s, c) end
-  return string.format("%dc", c)
+  local parts = {}
+  if g > 0 then parts[#parts + 1] = g .. COIN:format("Gold") end
+  if s > 0 then parts[#parts + 1] = s .. COIN:format("Silver") end
+  if c > 0 or #parts == 0 then parts[#parts + 1] = c .. COIN:format("Copper") end
+  return table.concat(parts, " ")
 end
 ns.Money = money
 
