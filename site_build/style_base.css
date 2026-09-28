@@ -1862,7 +1862,7 @@
   .wow-faq-item summary { cursor: pointer; padding: 12px 16px; font-weight: 700; color: var(--cream); }
   .wow-faq-item[open] { border-color: var(--border-bright); }
   .wow-rank-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 24px; }
-  .wow-rank-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--border); background: var(--bg-2); text-decoration: none; transition: border-color .15s ease; }
+  .wow-rank-row { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--border); background: var(--bg-2); text-decoration: none; transition: border-color .15s ease; }
   .wow-rank-row:hover { border-color: var(--border-bright); }
   .wow-rank-icon { width: 28px; height: 28px; border-radius: 4px; flex: none; }
   .wow-rank-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
@@ -1872,8 +1872,11 @@
   .wow-rank-tag[data-role="tank"] { color: var(--cyan); border-color: var(--cyan); }
   .wow-rank-bar-wrap { height: 8px; background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
   .wow-rank-bar { display: block; height: 100%; background: var(--rc, var(--magenta)); }
-  .wow-rank-dps { font: 700 15px/1 'Space Mono', monospace; font-variant-numeric: tabular-nums; color: var(--cream); white-space: nowrap; text-align: right; }
-  .wow-rank-dps span { display: block; font: 400 10px 'Space Mono', monospace; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  /* Work-in-progress ranking (2026-09-28, user request): the sim isn't precise enough yet to
+     stand behind exact numbers, so bars are desaturated and unlabeled until real Warcraft Logs
+     data is available -- keeps the relative-order visual without implying false precision. */
+  .wow-rank-list.is-wip .wow-rank-bar { background: var(--text-faint); }
+  .wow-rank-wip-tag { display: inline-block; margin-left: 10px; font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; border: 1px solid var(--border-bright); color: var(--text-faint); vertical-align: middle; }
   .wow-faq-item p { margin: 0; padding: 0 16px 14px; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
   .wow-sources a { color: var(--cyan); }
   @media (max-width: 640px) { .wow-count-grid b { font-size: 30px; } .wow-count { padding: 14px 16px; } }

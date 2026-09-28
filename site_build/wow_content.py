@@ -600,9 +600,10 @@ UI = {
            "share_sub": "Notre addon gratuit BrokenMeta affiche la valeur en DPS de chaque objet, repère tes améliorations, trouve les artisans connectés et relève les vraies valeurs de WoW: Forever et les prix de l'hôtel des ventes. Envoi anonyme, en deux clics.",
            "share_cta": "Partager mes données",
            "addon_cta": "Télécharger l'addon sur CurseForge", "addon_more": "Découvrir l'addon",
-           "ranking_h2": "Classement DPS niveau 20", "ranking_intro": "Fonctionnalité en cours de développement. Chaque rotation mono-cible réellement disponible au niveau 20 (le plafond actuel de la bêta), simulée coup par coup à partir des vraies formules de dégâts du glossaire des sorts, avec le meilleur stuff équipable au niveau 20 pour chaque spécialisation — pas une estimation à la main.",
+           "ranking_h2": "Classement DPS niveau 20", "ranking_wip_tag": "Work in progress",
+           "ranking_intro": "Ce classement compare l'ordre relatif des rotations mono-cible réellement disponibles au niveau 20 (le plafond actuel de la bêta), simulées coup par coup à partir des vraies formules de dégâts du glossaire des sorts. Notre moteur maison n'est pas encore assez précis pour afficher des chiffres fiables : les jauges sont volontairement grisées et sans valeur. On les remplacera par de vraies données (Warcraft Logs) dès qu'elles existeront pour WoW: Forever.",
            "ranking_note": "Le stuff utilisé pour chaque spécialisation est détaillé sur sa page de guide. Les enchantements ne sont pas encore pris en compte, et les stats de base du Chaman restent une approximation non vérifiée (aucune race pouvant jouer Chaman n'existait sur Classic pour en retrouver les valeurs exactes). Les rôles Tank sont inclus pour comparaison mais ne sont pas construits pour le DPS.",
-           "ranking_tank_tag": "Tank", "ranking_dps_unit": "DPS simulé"},
+           "ranking_tank_tag": "Tank"},
     "en": {"sources": "Sources", "sources_note": "Information checked on September 20, 2026. Points that only come from a community wiki or a single source are flagged in the text.",
            "countdown": "Launch in", "days": "days", "hours": "hours", "minutes": "minutes", "seconds": "seconds", "live": "The game is out!",
            "launch_line": "Launching November 4, 2026, 3:00 p.m. Pacific time — midnight in Paris",
@@ -612,9 +613,10 @@ UI = {
            "share_sub": "Our free BrokenMeta addon shows every item's DPS value, spots your upgrades, finds online crafters and records WoW: Forever's real values and auction house prices. Anonymous, sent in two clicks.",
            "share_cta": "Share my data",
            "addon_cta": "Get the addon on CurseForge", "addon_more": "About the addon",
-           "ranking_h2": "Level 20 DPS ranking", "ranking_intro": "Feature under active development. Every single-target rotation actually available at level 20 (the beta's current cap), simulated swing by swing from the spell glossary's real damage formulas, geared with the best equippable level-20 gear for each spec — not a hand-waved estimate.",
+           "ranking_h2": "Level 20 DPS ranking", "ranking_wip_tag": "Work in progress",
+           "ranking_intro": "This ranking compares the relative order of every single-target rotation actually available at level 20 (the beta's current cap), simulated swing by swing from the spell glossary's real damage formulas. Our own engine isn't precise enough yet to show reliable numbers: the bars are deliberately grayed out and unlabeled. We'll swap in real data (Warcraft Logs) once it exists for WoW: Forever.",
            "ranking_note": "The gear used for each spec is detailed on its own guide page. Enchants aren't factored in yet, and Shaman's base character stats remain an unverified approximation (no race that could play Shaman existed in Classic to derive exact values from). Tank roles are included for comparison but aren't built for damage.",
-           "ranking_tank_tag": "Tank", "ranking_dps_unit": "Simulated DPS"},
+           "ranking_tank_tag": "Tank"},
 }
 
 
