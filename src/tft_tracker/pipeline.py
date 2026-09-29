@@ -522,6 +522,11 @@ def main(argv=None) -> None:
         for meta, counts in zip(bracket_meta, sample_counts):
             meta.update(counts)
 
+    # UTC calendar date when this dataset's brackets were observed from a
+    # live Riot collection. --from-cache reprocesses old data and must not
+    # claim a new observation date. `generated_at` below remains the exact
+    # time the derived output is calculated.
+    observed_at = None if args.from_cache else datetime.now(timezone.utc).date().isoformat()
     elapsed = time.monotonic() - started
     print(f"\nCollected {len(all_matches)} ranked matches across {len(regions)} region(s) / "
           f"{len(tiers)} tier(s) in {elapsed:.1f}s ({client.request_count} API requests).")
@@ -567,6 +572,7 @@ def main(argv=None) -> None:
 
     output = {
         "generated_at": generated_at,
+        "observed_at": observed_at,
         "set": set_name,
         "sample": {
             "regions": regions,

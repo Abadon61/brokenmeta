@@ -3339,7 +3339,8 @@ def save_comp_archive(archive: dict) -> None:
     COMP_ARCHIVE_PATH.write_text(json.dumps(archive, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
 
 
-def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]:
+def build_hors_meta_comps(comps_filtered: list[dict], *,
+                          observed_at: str | None = None) -> tuple[list[dict], dict]:
     """"Hors Meta" archive: a comp that qualified for a real /compo/ page in
     a past refresh but doesn't clear filter_quality() this time isn't
     necessarily dead -- a Riot dev API key's 24h TTL means every refresh
@@ -3352,8 +3353,11 @@ def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]
     data/comp_archive.json (git-tracked, unlike data/output/*.json which is
     gitignored and fully overwritten every refresh) is the persistent memory
     across refreshes: every comp that qualifies gets its full record
-    refreshed here every time, so the archive always holds each comp's own
-    latest-known-good snapshot. Anything in the archive for the CURRENT set
+    refreshed when source data carries a live observation date, so the
+    archive holds each comp's latest-known-good snapshot without treating a
+    static-site rebuild as a new observation. `observed_at` is the UTC date
+    of the live Riot sampling run that produced the current dataset; it is
+    absent for legacy data and --from-cache. Anything in the archive for the CURRENT set
     that doesn't qualify this run becomes a "Hors Meta" comp -- same full
     record, tier overwritten to "HM", carrying its last real tier/date
     alongside so comp.html can be honest about it being archived instead of
@@ -3365,11 +3369,18 @@ def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]
     comps then writes the archive back with save_comp_archive() once the
     build actually succeeds, not before."""
     archive = load_comp_archive()
-    today = datetime.now(timezone.utc).date().isoformat()
     live_keys = {c["key"] for c in comps_filtered}
 
     for c in comps_filtered:
-        archive[c["key"]] = {**c, "_set": SET_LABEL, "_last_seen": today}
+        previous = archive.get(c["key"], {})
+        entry = {**previous, **c, "_set": SET_LABEL}
+        if observed_at:
+            entry["_last_seen"] = observed_at
+        elif "_last_seen" in previous:
+            entry["_last_seen"] = previous["_last_seen"]
+        else:
+            entry.pop("_last_seen", None)
+        archive[c["key"]] = entry
 
     hors_meta = []
     for key, entry in archive.items():
@@ -5296,7 +5307,9 @@ def main() -> None:
     all_comps_raw = combined["comps"]
     comps_filtered = filter_quality(all_comps_raw)
     comps_by_key = {c["key"]: c for c in all_comps_raw}
-    hors_meta_comps, comp_archive = build_hors_meta_comps(comps_filtered)
+    hors_meta_comps, comp_archive = build_hors_meta_comps(
+        comps_filtered, observed_at=combined.get("observed_at")
+    )
     if hors_meta_comps:
         print(f"Hors Meta: {len(hors_meta_comps)} previously-published comp(s) kept archived "
               f"(didn't clear the live quality bar this refresh): "
