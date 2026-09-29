@@ -25,7 +25,7 @@ from . import config
 from .analysis import build_report, load_benchmarks, load_matchups
 from .champion_images import build_champion_image_map, classify_item_offense
 from .champion_stats import build_champion_stats
-from .collector import collect_bracket
+from .collector import BracketSample, collect_bracket
 from .comp_signature import derive_comp
 from .leaderboard import collect_leaderboard
 from .matchup_proxy import build_matchup_table
@@ -406,6 +406,63 @@ def _load_matches_from_cache(regions: list[str]) -> dict[str, list[dict]]:
     return by_region
 
 
+def _aggregate_bracket_samples(
+    samples: list[BracketSample], regions: list[str], tiers: list[str]
+) -> tuple[list[dict], dict[str, list[dict]], dict[str, list[dict]], list[dict[str, int]]]:
+    """Build unique regional/global populations and honest rank slices.
+
+    Riot match IDs are unique within a regional routing cluster, so the
+    global identity is (region, match_id). Rank attribution is retained only
+    when every non-fallback discovery agrees on one requested tier. Apex
+    fallback samples remain visible in the overall/regional totals, but are
+    never represented as genuine Apex observations.
+    """
+    all_matches: list[dict] = []
+    matches_by_region: dict[str, list[dict]] = {region: [] for region in regions}
+    matches_by_tier: dict[str, list[dict]] = {tier: [] for tier in tiers}
+    seen: set[tuple[str, str]] = set()
+    entries: dict[tuple[str, str], dict] = {}
+    discoveries: dict[tuple[str, str], set[str]] = {}
+    discovery_owners: dict[tuple[str, str], set[int]] = {}
+    per_sample = [{"matches_unique_in_region": 0, "matches_assigned_to_rank_bucket": 0}
+                  for _ in samples]
+
+    for sample_index, sample in enumerate(samples):
+        for match in sample.matches:
+            match_id = (match.get("metadata") or {}).get("match_id")
+            # Match payloads from Riot should always contain an ID. Preserve
+            # malformed/synthetic records independently instead of merging
+            # unrelated missing-ID matches together.
+            if not match_id:
+                key = (sample.region, f"__missing_id__:{sample_index}:{len(all_matches)}")
+            else:
+                key = (sample.region, str(match_id))
+            if key not in seen:
+                seen.add(key)
+                entries[key] = match
+                all_matches.append(match)
+                matches_by_region.setdefault(sample.region, []).append(match)
+                per_sample[sample_index]["matches_unique_in_region"] += 1
+            if not match_id:
+                continue
+            if not sample.used_fallback:
+                discoveries.setdefault(key, set()).add(sample.tier)
+                discovery_owners.setdefault(key, set()).add(sample_index)
+
+    for key, genuine_tiers in discoveries.items():
+        if len(genuine_tiers) != 1:
+            continue
+        tier = next(iter(genuine_tiers))
+        if tier not in matches_by_tier:
+            continue
+        match = entries[key]
+        matches_by_tier[tier].append(match)
+        owner = min(discovery_owners[key])
+        per_sample[owner]["matches_assigned_to_rank_bucket"] += 1
+
+    return all_matches, matches_by_region, matches_by_tier, per_sample
+
+
 def main(argv=None) -> None:
     args = parse_args(argv)
     regions = [r.strip().upper() for r in args.regions.split(",") if r.strip()]
@@ -439,6 +496,7 @@ def main(argv=None) -> None:
             print(f"   {region}: {len(matches)} cached ranked matches")
         args.by_rank_bracket = False  # not recoverable from cache alone -- see _load_matches_from_cache
     else:
+        samples: list[BracketSample] = []
         for region in regions:
             for tier in tiers:
                 print(f"== {region} / {tier} ==")
@@ -447,9 +505,7 @@ def main(argv=None) -> None:
                       f"| ranked matches kept: {len(sample.matches)}")
                 if sample.fallback_note:
                     print(f"   NOTE: {sample.fallback_note}")
-                all_matches.extend(sample.matches)
-                matches_by_region[region].extend(sample.matches)
-                matches_by_tier[tier].extend(sample.matches)
+                samples.append(sample)
                 bracket_meta.append({
                     "region": region,
                     "tier": tier,
@@ -457,7 +513,14 @@ def main(argv=None) -> None:
                     "matches_collected": len(sample.matches),
                     "used_apex_fallback": sample.used_fallback,
                     "fallback_note": sample.fallback_note,
+                    "source_tier": sample.source_tier,
+                    "source_division": sample.source_division,
                 })
+        all_matches, matches_by_region, matches_by_tier, sample_counts = _aggregate_bracket_samples(
+            samples, regions, tiers
+        )
+        for meta, counts in zip(bracket_meta, sample_counts):
+            meta.update(counts)
 
     elapsed = time.monotonic() - started
     print(f"\nCollected {len(all_matches)} ranked matches across {len(regions)} region(s) / "
@@ -619,6 +682,7 @@ def main(argv=None) -> None:
             "generated_at": generated_at,
             "set": set_name,
             "bracket_definitions": config.RANK_BRACKETS,
+            "fallback_brackets": [meta for meta in bracket_meta if meta["used_apex_fallback"]],
             "ranks": by_rank,
         }, indent=2), encoding="utf-8")
         print(f"Per-rank-bracket tier lists written to {by_rank_path}.")
