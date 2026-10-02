@@ -8829,9 +8829,9 @@ def main() -> None:
     # that class's first spec guide, FR and EN.
     _guide_redirects = "\n# WoW: Forever guides hub / class overview pages removed 2026-10-02.\n"
     for _pfx in ("", "/en"):
-        _guide_redirects += f"Redirect 301 {_pfx}/wow-forever/guides/ {_pfx}/wow-forever/\n"
+        _guide_redirects += f"RedirectMatch 301 ^{_pfx}/wow-forever/guides/$ {_pfx}/wow-forever/\n"
         for _gg in wow_guide_list:
-            _guide_redirects += f"Redirect 301 {_pfx}/wow-forever/guides/{_gg['cls']['id']}/ {_pfx}/wow-forever/guides/{_gg['cls']['id']}/{_gg['cls']['specs'][0]['id']}/\n"
+            _guide_redirects += f"RedirectMatch 301 ^{_pfx}/wow-forever/guides/{_gg['cls']['id']}/$ {_pfx}/wow-forever/guides/{_gg['cls']['id']}/{_gg['cls']['specs'][0]['id']}/\n"
     _guide_redirects += "\n"
     (DIST / ".htaccess").write_text(
         "ErrorDocument 404 /404.html\n"
