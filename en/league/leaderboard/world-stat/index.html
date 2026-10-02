@@ -1,0 +1,309 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>World Stat — League of Legends | BrokenMeta.gg</title>
+<meta name="description" content="Average Elo (LP) over time for the Challenger/Grandmaster/Master top 100 by region on League of Legends, real Riot data.">
+<link rel="canonical" href="https://brokenmeta.gg/en/league/leaderboard/world-stat/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/league/leaderboard/world-stat/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/league/leaderboard/world-stat/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/league/leaderboard/world-stat/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="World Stat — League of Legends | BrokenMeta.gg">
+<meta property="og:description" content="Average Elo (LP) over time for the Challenger/Grandmaster/Master top 100 by region on League of Legends, real Riot data.">
+<meta property="og:url" content="https://brokenmeta.gg/en/league/leaderboard/world-stat/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="World Stat — League of Legends | BrokenMeta.gg">
+<meta name="twitter:description" content="Average Elo (LP) over time for the Challenger/Grandmaster/Master top 100 by region on League of Legends, real Riot data.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=c9511059d1">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=c9511059d1">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=c9511059d1">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}, {"@type": "ListItem", "position": 3, "name": "Leaderboard", "item": "https://brokenmeta.gg/en/league/leaderboard/"}, {"@type": "ListItem", "position": 4, "name": "World Stat", "item": "https://brokenmeta.gg/en/league/leaderboard/world-stat/"}]}</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../../wow-forever/" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../../../" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../../../league/" data-active="true" title="League of Legends"><img class="game-toggle-icon" src="../../../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/leaderboard/world-stat/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/leaderboard/world-stat/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../wow-forever/" >World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../../../league/combos/" >Combos</a>
+<a class="nav-link" href="../../../../league/tendances/" >Trends</a>
+<a class="nav-link" href="../../../../league/changements/" >Tier Changes</a>
+<div class="mobile-nav-group-title">Glossary</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/objets/" >Item</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../../league/leaderboard/" data-active="true">Leaderboard</a>
+<a class="nav-link" href="../../../../league/comparer/" >Compare</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <a class="title" href="../../../../league/">League of Legends</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../../../league/combos/" >Combos</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Meta</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../league/tendances/">Trends</a>
+    <a href="../../../../league/changements/">Tier Changes</a>
+    <a href="../../../../league/patch-notes/">Patch Notes</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossary</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../league/glossaire/objets/">Item</a>
+    <a href="../../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<details class="nav-dropdown" data-active="true">
+  <summary class="nav-link">Tools</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../league/leaderboard/">Leaderboard</a>
+    <a href="../../../../league/comparer/">Compare</a>
+  </div>
+</details>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+
+  </div>
+</div>
+
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../../en/">Home</a></li><li><a href="../../../../en/league/">League of Legends</a></li><li><a href="../../../../en/league/leaderboard/">Leaderboard</a></li><li><span aria-current="page">World Stat</span></li>
+</ol></nav>
+
+
+<a class="back-link" href="../../../../league/leaderboard/">← Back to the leaderboard</a>
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">League of Legends</div>
+    <h1 class="ph-title">World Stat — League of Legends</h1>
+    
+    
+    
+  </div>
+</section>
+
+
+<h2 class="ws-section-title" style="margin-top:0">Average Elo of the top 100 by region</h2>
+<div class="ws-chart-wrap">
+  <div class="bm-chart-mount" data-bm-chart="{&#34;series&#34;: [{&#34;key&#34;: &#34;EUW&#34;, &#34;label&#34;: &#34;EUW&#34;, &#34;color&#34;: &#34;var(--magenta)&#34;}, {&#34;key&#34;: &#34;NA&#34;, &#34;label&#34;: &#34;NA&#34;, &#34;color&#34;: &#34;var(--cyan)&#34;}, {&#34;key&#34;: &#34;BR&#34;, &#34;label&#34;: &#34;BR&#34;, &#34;color&#34;: &#34;var(--gold)&#34;}, {&#34;key&#34;: &#34;KR&#34;, &#34;label&#34;: &#34;KR&#34;, &#34;color&#34;: &#34;var(--teal)&#34;}], &#34;data&#34;: [{&#34;date&#34;: &#34;2026-09-17&#34;, &#34;EUW&#34;: 3150.0, &#34;NA&#34;: 2250.1, &#34;BR&#34;: 2598.8, &#34;KR&#34;: 2353.1}, {&#34;date&#34;: &#34;2026-09-19&#34;, &#34;EUW&#34;: 3148.2, &#34;NA&#34;: 2288.5, &#34;BR&#34;: 2597.0, &#34;KR&#34;: 2355.2}]}"><svg class="ws-chart-svg" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" role="img"><defs><linearGradient id="wsg-EUW" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--magenta)" stop-opacity="0.30" /><stop offset="1" stop-color="var(--magenta)" stop-opacity="0" /></linearGradient><linearGradient id="wsg-NA" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--cyan)" stop-opacity="0.30" /><stop offset="1" stop-color="var(--cyan)" stop-opacity="0" /></linearGradient><linearGradient id="wsg-BR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--gold)" stop-opacity="0.30" /><stop offset="1" stop-color="var(--gold)" stop-opacity="0" /></linearGradient><linearGradient id="wsg-KR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--teal)" stop-opacity="0.30" /><stop offset="1" stop-color="var(--teal)" stop-opacity="0" /></linearGradient></defs><line x1="46" y1="266.0" x2="742" y2="266.0" stroke="var(--border)" stroke-width="1" /><text x="38" y="269.0" text-anchor="end" font-size="10">2142</text><line x1="46" y1="204.0" x2="742" y2="204.0" stroke="var(--border)" stroke-width="1" /><text x="38" y="207.0" text-anchor="end" font-size="10">2421</text><line x1="46" y1="142.0" x2="742" y2="142.0" stroke="var(--border)" stroke-width="1" /><text x="38" y="145.0" text-anchor="end" font-size="10">2700</text><line x1="46" y1="80.0" x2="742" y2="80.0" stroke="var(--border)" stroke-width="1" /><text x="38" y="83.0" text-anchor="end" font-size="10">2979</text><line x1="46" y1="18.0" x2="742" y2="18.0" stroke="var(--border)" stroke-width="1" /><text x="38" y="21.0" text-anchor="end" font-size="10">3258</text><text x="46.0" y="284" text-anchor="middle" font-size="10">Sep 17</text><text x="742.0" y="284" text-anchor="middle" font-size="10">Sep 19</text><path class="ws-area" d="M46.0,42.0 L742.0,42.4 L742.0,266.0 L46.0,266.0 Z" fill="url(#wsg-EUW)" style="--d:0.00s" /><path class="ws-line" pathLength="1" d="M46.0,42.0 L742.0,42.4" fill="none" stroke="var(--magenta)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="--d:0.00s" /><circle class="ws-dot" cx="46.0" cy="42.0" r="3.5" fill="var(--magenta)" style="--d:0.00s"><title>EUW · 3150 LP · Sep 17</title></circle><circle class="ws-dot" cx="742.0" cy="42.4" r="3.5" fill="var(--magenta)" style="--d:0.00s"><title>EUW · 3148 LP · Sep 19</title></circle><path class="ws-area" d="M46.0,242.0 L742.0,233.5 L742.0,266.0 L46.0,266.0 Z" fill="url(#wsg-NA)" style="--d:0.15s" /><path class="ws-line" pathLength="1" d="M46.0,242.0 L742.0,233.5" fill="none" stroke="var(--cyan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="--d:0.15s" /><circle class="ws-dot" cx="46.0" cy="242.0" r="3.5" fill="var(--cyan)" style="--d:0.15s"><title>NA · 2250 LP · Sep 17</title></circle><circle class="ws-dot" cx="742.0" cy="233.5" r="3.5" fill="var(--cyan)" style="--d:0.15s"><title>NA · 2288 LP · Sep 19</title></circle><path class="ws-area" d="M46.0,164.5 L742.0,164.9 L742.0,266.0 L46.0,266.0 Z" fill="url(#wsg-BR)" style="--d:0.30s" /><path class="ws-line" pathLength="1" d="M46.0,164.5 L742.0,164.9" fill="none" stroke="var(--gold)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="--d:0.30s" /><circle class="ws-dot" cx="46.0" cy="164.5" r="3.5" fill="var(--gold)" style="--d:0.30s"><title>BR · 2599 LP · Sep 17</title></circle><circle class="ws-dot" cx="742.0" cy="164.9" r="3.5" fill="var(--gold)" style="--d:0.30s"><title>BR · 2597 LP · Sep 19</title></circle><path class="ws-area" d="M46.0,219.1 L742.0,218.6 L742.0,266.0 L46.0,266.0 Z" fill="url(#wsg-KR)" style="--d:0.45s" /><path class="ws-line" pathLength="1" d="M46.0,219.1 L742.0,218.6" fill="none" stroke="var(--teal)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="--d:0.45s" /><circle class="ws-dot" cx="46.0" cy="219.1" r="3.5" fill="var(--teal)" style="--d:0.45s"><title>KR · 2353 LP · Sep 17</title></circle><circle class="ws-dot" cx="742.0" cy="218.6" r="3.5" fill="var(--teal)" style="--d:0.45s"><title>KR · 2355 LP · Sep 19</title></circle></svg></div>
+  <script src="../../../../assets/js/bm-charts.js?v=c9511059d1" defer></script>
+  
+  <div class="ws-legend">
+    
+    <div class="ws-legend-item">
+      <span class="ws-legend-swatch" style="background:var(--magenta)"></span>
+      <span>EUW</span>
+      <span class="ws-legend-value nums">3148 LP</span>
+    </div>
+    
+    <div class="ws-legend-item">
+      <span class="ws-legend-swatch" style="background:var(--cyan)"></span>
+      <span>NA</span>
+      <span class="ws-legend-value nums">2288 LP</span>
+    </div>
+    
+    <div class="ws-legend-item">
+      <span class="ws-legend-swatch" style="background:var(--gold)"></span>
+      <span>BR</span>
+      <span class="ws-legend-value nums">2597 LP</span>
+    </div>
+    
+    <div class="ws-legend-item">
+      <span class="ws-legend-swatch" style="background:var(--teal)"></span>
+      <span>KR</span>
+      <span class="ws-legend-value nums">2355 LP</span>
+    </div>
+    
+  </div>
+  
+</div>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../../">Comp List</a>
+      <a href="../../../../champions/">Champion List</a>
+      <a href="../../../../glossaire/">Glossary</a>
+      <a href="../../../../patch-notes/">Patch Notes</a>
+      <a href="../../../../leaderboard/">Leaderboard</a>
+      <a href="../../../../metascope/">Analyze your profile</a>
+      <a href="../../../../team-builder/">Team Builder</a>
+      <a href="../../../../discord/">Discord Alerts</a>
+      <a href="../../../../methodologie/">Methodology</a>
+      <a href="../../../../confidentialite/">Privacy</a>
+      <a href="../../../../cgu/">Terms</a>
+      <a href="../../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg isn&#39;t endorsed by Riot Games and doesn&#39;t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../../";</script>
+<script src="../../../../assets/js/copy-comp.js?v=c9511059d1" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=c9511059d1" defer></script>
+<script src="../../../../assets/js/site-search.js?v=c9511059d1" defer></script>
+<script src="../../../../assets/js/favorites.js?v=c9511059d1" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

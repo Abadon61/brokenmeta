@@ -1,0 +1,306 @@
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Comparer deux profils — League of Legends | BrokenMeta.gg</title>
+<meta name="description" content="Compare deux profils League of Legends côte à côte : rang, winrate, CS/min, dégâts/min et participation aux kills, à partir de vraies parties classées.">
+<link rel="canonical" href="https://brokenmeta.gg/league/comparer/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/league/comparer/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/league/comparer/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/league/comparer/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Comparer deux profils — League of Legends | BrokenMeta.gg">
+<meta property="og:description" content="Compare deux profils League of Legends côte à côte : rang, winrate, CS/min, dégâts/min et participation aux kills, à partir de vraies parties classées.">
+<meta property="og:url" content="https://brokenmeta.gg/league/comparer/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Comparer deux profils — League of Legends | BrokenMeta.gg">
+<meta name="twitter:description" content="Compare deux profils League of Legends côte à côte : rang, winrate, CS/min, dégâts/min et participation aux kills, à partir de vraies parties classées.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=c9511059d1">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=c9511059d1">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../assets/css/style.css?v=c9511059d1">
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Comparateur de profils", "item": "https://brokenmeta.gg/league/comparer/"}]}</script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../" style="text-decoration:none"><img class="wordmark-logo" src="../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../wow-forever/" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../league/" data-active="true" title="League of Legends"><img class="game-toggle-icon" src="../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/comparer/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/comparer/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../wow-forever/" >World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../league/combos/" >Combos</a>
+<a class="nav-link" href="../../league/tendances/" >Tendances</a>
+<a class="nav-link" href="../../league/changements/" >Changements</a>
+<div class="mobile-nav-group-title">Glossaire</div>
+<a class="nav-link mobile-nav-sublink" href="../../league/glossaire/objets/" >Objet</a>
+<a class="nav-link mobile-nav-sublink" href="../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../league/comparer/" data-active="true">Comparateur de profil</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <a class="title" href="../../league/">League of Legends</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../league/combos/" >Combos</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Méta</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../league/tendances/">Tendances</a>
+    <a href="../../league/changements/">Changements</a>
+    <a href="../../league/patch-notes/">Patch Notes</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossaire</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../league/glossaire/objets/">Objet</a>
+    <a href="../../league/glossaire/champions/">Champion</a>
+    <a href="../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<details class="nav-dropdown" data-active="true">
+  <summary class="nav-link">Outils</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../league/leaderboard/">Leaderboard</a>
+    <a href="../../league/comparer/">Comparateur de profil</a>
+  </div>
+</details>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Voir mon profil
+</a>
+
+
+  </div>
+</div>
+
+<div class="page">
+
+<nav class="crumbs" aria-label="Fil d&#39;Ariane"><ol>
+<li><a href="../../">Accueil</a></li><li><a href="../../league/">League of Legends</a></li><li><span aria-current="page">Comparateur de profils</span></li>
+</ol></nav>
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">League of Legends</div>
+    <h1 class="ph-title">Comparateur de profil</h1>
+    <p class="ph-lede">Cherche deux invocateurs pour comparer leurs statistiques réelles côte à côte (file classée solo/duo).</p>
+    
+    
+  </div>
+</section>
+
+
+<form id="lolCompareForm" class="lol-compare-form">
+  <div class="lol-compare-form-side">
+    <div class="fiche-kicker">Joueur A</div>
+    <input type="text" id="lolCompareRiotIdA" class="search-input" placeholder="Pseudo#TAG" autocomplete="off" required>
+    <select id="lolCompareRegionA" class="metascope-region-select">
+      <option value="EUW">EUW</option>
+      <option value="NA">NA</option>
+      <option value="BR">BR</option>
+      <option value="KR">KR</option>
+    </select>
+  </div>
+  <div class="lol-compare-form-vs">VS</div>
+  <div class="lol-compare-form-side">
+    <div class="fiche-kicker">Joueur B</div>
+    <input type="text" id="lolCompareRiotIdB" class="search-input" placeholder="Pseudo#TAG" autocomplete="off" required>
+    <select id="lolCompareRegionB" class="metascope-region-select">
+      <option value="EUW">EUW</option>
+      <option value="NA">NA</option>
+      <option value="BR">BR</option>
+      <option value="KR">KR</option>
+    </select>
+  </div>
+  <button type="submit" class="metascope-search-button">Comparer</button>
+</form>
+<div id="lolCompareStatus" class="metascope-status" hidden></div>
+<div id="lolCompareResults"></div>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../">Compo List</a>
+      <a href="../../champions/">Champion List</a>
+      <a href="../../glossaire/">Glossaire</a>
+      <a href="../../patch-notes/">Patch Notes</a>
+      <a href="../../leaderboard/">Leaderboard</a>
+      <a href="../../metascope/">Analyse ton profil</a>
+      <a href="../../team-builder/">Team Builder</a>
+      <a href="../../discord/">Alertes Discord</a>
+      <a href="../../methodologie/">Méthodologie</a>
+      <a href="../../confidentialite/">Confidentialité</a>
+      <a href="../../cgu/">CGU</a>
+      <a href="../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg n&#39;est pas approuvé par Riot Games et ne reflète pas les opinions de Riot Games ou de quiconque impliqué officiellement dans la production ou la gestion des propriétés de Riot Games. Riot Games et toutes les propriétés associées sont des marques commerciales ou déposées de Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
+window.BM_I18N_LEAGUE = {"loading": "Recherche en cours\u2026", "queueSolo": "Class\u00e9 en solo/duo", "queueFlex": "Class\u00e9 flexible", "queueAram": "ARAM", "queueNormalDraft": "Normale (Draft)", "queueNormalBlind": "Normale (Aveugle)", "queueClash": "Clash", "queueCustom": "Partie personnalis\u00e9e", "liveGameLabel": "EN PARTIE", "you": "(toi)", "bot": "(bot)", "win": "Victoire", "loss": "D\u00e9faite", "winAbbr": "V", "lossAbbr": "D", "viewMatchAria": "Voir la partie", "badgeDeathless": "Increvable", "badgeTripleKill": "Triple Kill", "badgeDoubleKill": "Double Kill", "badgeGoodSupport": "Soutien exemplaire", "medalGold": "Or", "medalSilver": "Argent", "medalBronze": "Bronze", "allies": "Alli\u00e9s", "enemies": "Adversaires", "noRecentMatches": "Aucune partie r\u00e9cente dans cette file.", "noChampionsPlayed": "Aucun champion jou\u00e9 dans cette file.", "thChampion": "Champion", "thGames": "Parties", "thWinrate": "Winrate", "thAvgKda": "KDA moyen", "thRatio": "Ratio", "devBadge": "En d\u00e9veloppement -- en attente de l'API de production Riot", "lpProgressTitle": "Progression de LP", "rankNote": "Compar\u00e9 \u00e0 la moyenne mesur\u00e9e des joueurs {tier} de nos parties \u00e9chantillonn\u00e9es ({n} joueurs), pour les r\u00f4les que tu as r\u00e9ellement jou\u00e9s.", "rankNoteApprox": "Ton rang ({tier}) n'est pas encore \u00e9chantillonn\u00e9 : comparaison avec {used}, le rang mesur\u00e9 le plus proche.", "noRankData": "Pas encore de moyenne de rang mesur\u00e9e pour ton niveau.", "cooldownLabel": "R\u00e9essaie dans {s} s", "staleNote": "R\u00e9sultat mis en cache il y a {min} min (limite de l'API Riot atteinte). R\u00e9essaie un peu plus tard pour l'actualiser.", "thDpm": "DPM", "dpmLabel": "DPM", "commsRealTitle": "Communication en jeu (pings)", "commsRealNote": "Pings r\u00e9ellement envoy\u00e9s, moyenne par partie sur tes {n} derni\u00e8res parties. Riot n'expose pas les messages de chat, uniquement les pings.", "pingsPerGame": "pings / partie", "pingLabels": {"allInPings": "All-in", "assistMePings": "Aide-moi", "basicPings": "Basique", "commandPings": "Commande", "dangerPings": "Danger", "enemyMissingPings": "Ennemi disparu", "enemyVisionPings": "Ennemi rep\u00e9r\u00e9", "getBackPings": "Reculez", "holdPings": "Tenir", "needVisionPings": "Besoin de vision", "onMyWayPings": "En chemin", "pushPings": "Poussez", "retreatPings": "Retraite", "visionClearedPings": "Vision nettoy\u00e9e"}, "combatTitle": "Profil de combat", "perGameNote": "Moyennes sur tes parties de cette file.", "kpiDpm": "D\u00e9g\u00e2ts / min (DPM)", "kpiDmgTaken": "D\u00e9g\u00e2ts subis / min", "kpiMitigated": "D\u00e9g\u00e2ts mitig\u00e9s / min", "kpiCc": "Contr\u00f4le inflig\u00e9", "kpiDead": "Temps pass\u00e9 mort", "kpiHeal": "Soins / min", "kpiVsRank": "vs moyenne du rang", "visionTitle": "Vision & objectifs", "kpiVisionMin": "Vision / min", "kpiWardsPlaced": "Balises pos\u00e9es", "kpiWardsKilled": "Balises d\u00e9truites", "kpiControlWards": "Balises de contr\u00f4le", "kpiTurrets": "Tours", "kpiPlates": "Plaques", "kpiDragons": "Dragons", "kpiBarons": "Barons", "kpiHeralds": "H\u00e9rauts", "kpiObjDmg": "D\u00e9g\u00e2ts obj. / min", "perGameUnit": "/ partie", "recordsTitle": "Records & tendances", "kpiBestKda": "Meilleur KDA", "kpiMostKills": "Plus de kills", "kpiBestDpm": "Meilleur DPM", "kpiPentas": "Pentakills", "kpiSpree": "Plus longue s\u00e9rie", "kpiFirstBlood": "Premier sang", "kpiSoloKills": "Solo kills", "kpiStreakWin": "S\u00e9rie de victoires", "kpiStreakLoss": "S\u00e9rie de d\u00e9faites", "kpiAfterLoss": "Winrate apr\u00e8s une d\u00e9faite", "kpiShort": "Parties < 25 min", "kpiMid": "Parties 25-35 min", "kpiLong": "Parties 35 min +", "gamesUnitShort": "parties", "quadrasLabel": "quadras", "masteryTitle": "Ma\u00eetrise des champions", "masteryLevel": "Niv.", "masteryPts": "pts", "lpProgressNote": "Non class\u00e9 dans cette file, ou aucun relev\u00e9 de LP enregistr\u00e9 pour l'instant -- revient plus tard une fois que ce profil aura \u00e9t\u00e9 recherch\u00e9 en \u00e9tant class\u00e9.", "lpTrackingBadge": "Suivi d\u00e9marr\u00e9 -- 1 seul relev\u00e9 pour l'instant", "lpOnePointNote": "Premier relev\u00e9 de LP r\u00e9el enregistr\u00e9. Reviens apr\u00e8s une nouvelle recherche (id\u00e9alement apr\u00e8s quelques parties) pour voir la courbe se dessiner.", "lpRealNote": "{n} relev\u00e9s r\u00e9els de LP en {queue}, enregistr\u00e9s \u00e0 chaque recherche de ce profil -- aucune valeur invent\u00e9e.", "commsTitle": "Communication en jeu", "commsNote": "Les pings et les messages de chat ne sont expos\u00e9s par l'API Riot \u00e0 aucun endpoint -- cette section restera un exemple tant que \u00e7a n'aura pas chang\u00e9. Exemple illustratif :", "messagesPerGame": "Messages / partie", "pingOnMyWay": "En chemin", "pingMissing": "Ennemi manquant", "pingDanger": "Attention", "notEnoughSameChamp": "Pas assez de parties sur un m\u00eame champion dans cette file (min. 2).", "noMatchesInQueue": "Aucune partie dans cette file.", "youLabel": "Toi", "rankAvgLabel": "Rang", "csPerMin": "CS / min", "goldPerMin": "Gold / min", "dmgPerMin": "D\u00e9g\u00e2ts / min", "killParticipation": "Participation aux kills", "vsAvg": "vs moyenne", "notEnoughToCompare": "Pas assez de parties pour comparer.", "gamesUnit": "jeux", "partiesUnit": "parties", "notEnoughHourly": "Pas assez de parties pour un historique horaire.", "seasonBestTitle": "Meilleures perfs de la saison", "seasonBestSub": "class\u00e9 par KDA, min. 2 parties", "roleDistTitle": "R\u00e9partition par r\u00f4le", "youVsRankTitle": "Toi vs moyenne du rang", "activityTitle": "Mod\u00e8les d'activit\u00e9", "weekdaysLabel": "En semaine", "hourlyLabel": "Par heure", "noRecentGame": "Aucune partie.", "gamesTogether": "parties ensemble", "unranked": "Non class\u00e9", "seeAllChamps": "Voir tous les champions \u2192", "playedWith": "Jou\u00e9 avec", "recentMatches": "derniers matchs", "tabHistory": "Historique", "tabChampions": "Champions", "tabStats": "Statistiques", "level": "Niveau", "mostPlayed": "Le plus jou\u00e9", "weekdayLabels": ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"], "bannedChampionsTitle": "Champions bannis", "noBans": "Aucun ban", "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "j", "favAdd": "Ajouter aux favoris", "favRemove": "Retirer des favoris", "favHint": "Pour suivre ce profil, ajoute-le \u00e0 tes favoris"};
+window.BM_I18N_LEAGUE.lang = "fr";
+</script>
+<script src="../../assets/js/lol-compare.js?v=c9511059d1" defer></script>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../";</script>
+<script src="../../assets/js/copy-comp.js?v=c9511059d1" defer></script>
+<script src="../../assets/js/champ-icons.js?v=c9511059d1" defer></script>
+<script src="../../assets/js/site-search.js?v=c9511059d1" defer></script>
+<script src="../../assets/js/favorites.js?v=c9511059d1" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

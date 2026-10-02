@@ -1,0 +1,99 @@
+{
+  "class": "hunter",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Marksmanship single-target rotation pieces reachable in an 11-point level-20 build, like the Mage/Rogue/Priest/Druid passes. Real caveat from the source itself: Marksmanship's own guide explicitly calls this specific 11-point build niche (\"not a good general play build\", better for dungeon AoE), and recommends a Beast Mastery build (Deadly Aspects + Pathfinding, not sourced here) as the actually-recommended general-purpose level-20 build. Catalogued anyway since it's Marksmanship's own dedicated guide content, with this caveat kept visible rather than silently treating it as \"the\" Hunter build.",
+  "gaps": [
+    "Pet damage is entirely unsourced: the guide's own text says \"the majority of a Hunter's power comes from both you and your pet's basic attacks\" -- likely a large fraction of real total DPS, and completely out of scope for this pass (would need the pet's own stats, AI, and abilities).",
+    "Auto Shot itself (the ranged weapon's own auto-attack) isn't a distinct spell with tooltip damage numbers the way a cast ability is -- it's driven by the equipped ranged weapon's own damage/speed, the same way melee auto-attacks are handled by a simulator's own logic rather than a glossary entry. Noted here, not modeled as an ability.",
+    "Hunter's Mark, Aspect of the Hawk, Disengage, Mend Pet (all named in the real rotation) not looked up.",
+    "Real, sourced finding (2026-09-25): ALL THREE Hunter specs' own guides converge on the exact same real level-20 single-target rotation -- Serpent Sting, then Aimed Shot on cooldown, Auto Shot filler, Arcane Shot if mana allows. Survival's own guide is explicit about this: \"At Level 20, regardless of what talents you choose, this is the optimal choice\" (the ranged rotation) -- its melee alternative (Raptor Strike on cooldown) is presented as the deliberately worse option, not sourced here. Beast Mastery's own guide describes the identical ranged rotation too. Spec choice at level 20 is therefore almost entirely about talents and pet investment, not the rotation itself -- all 3 specs intentionally produce the same simulated number in this project's engine, a disclosed finding, not a duplication error.",
+    "Beast Mastery's real level-20 build: 5/5 Deadly Aspects, 2/2 Pathfinding (both confirmed firm picks) -- the guide explicitly leaves its remaining 4 points \"far more subjective\" with several named alternatives (Focused Fire, Improved Revive Pet, Hawk Eye, Bestial Swiftness) and no single committed combination, so only the 2 firm talents are catalogued below.",
+    "Survival's real level-20 build (talents.survival below) is explicitly framed by its own guide as NOT a damage build (\"you should not go Survival if all you care about is damage\") -- Deflection, Entrapment and Deterrence are defensive/utility talents; a 4th (\"Savage Strikes\", 2/2) is required by the real 11-point total but isn't individually named in the guide's own prose."
+  ],
+  "abilities": [
+    {
+      "id": "hunter_aimed_shot",
+      "wowhead_spell_id": 19434,
+      "name": { "en": "Aimed Shot", "fr": "Tir de précision" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 6,
+      "min_level": 20,
+      "resource_cost": { "mana": 75 },
+      "cooldown_sec": 6,
+      "gcd_sec": 1.5,
+      "cast_time": "2 sec",
+      "school": "physical",
+      "mechanic": null,
+      "flags": ["requires_ranged_weapon", "shares_cooldown_with_multi_shot", "does_not_reset_ranged_auto_attack_timer"],
+      "notes": "Exactly the level-20 cap (this is the ability's very first rank). Real single-target priority (Icy Veins): use on cooldown, after Serpent Sting.",
+      "source_url": "https://www.wowhead.com/forever/spell=19434/aimed-shot",
+      "effects": [
+        { "kind": "normalized_weapon_damage", "pct": 1.00, "flat": 20 }
+      ]
+    },
+    {
+      "id": "hunter_serpent_sting",
+      "wowhead_spell_id": 13550,
+      "name": { "en": "Serpent Sting", "fr": "Morsure de serpent" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 9,
+      "min_level": 18,
+      "resource_cost": { "mana": 50 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "nature",
+      "mechanic": null,
+      "flags": ["requires_ranged_weapon", "does_not_reset_ranged_auto_attack_timer", "periodic_can_crit", "dispel_type_poison", "one_sting_per_hunter_per_target"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 26). Real, explicit tooltip rule: \"Only one Sting per Hunter can be active on any one target\" -- a sourced non-stacking-across-sources rule distinct from (but compatible with) this schema's general refresh-not-stack default. Real single-target priority (Icy Veins): cast once the pet has engaged, before Aimed Shot.",
+      "source_url": "https://www.wowhead.com/forever/spell=13550/serpent-sting",
+      "effects": [
+        { "kind": "periodic_damage", "total_damage": 60, "duration_sec": 15, "tick_interval_sec": 3, "damage_per_tick": 12, "can_crit": true }
+      ]
+    },
+    {
+      "id": "hunter_arcane_shot",
+      "wowhead_spell_id": 14282,
+      "name": { "en": "Arcane Shot", "fr": "Tir d'Arcane" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 20,
+      "resource_cost": { "mana": 50 },
+      "cooldown_sec": 6,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "arcane",
+      "mechanic": null,
+      "flags": ["requires_ranged_weapon", "does_not_reset_ranged_auto_attack_timer"],
+      "notes": "Exactly the level-20 cap. Real single-target priority (Icy Veins): only cast \"if you have extra mana\", otherwise stick to Auto Shot -- an explicitly conditional, not on-cooldown, rotation piece (mana-limited, unlike Aimed Shot).",
+      "source_url": "https://www.wowhead.com/forever/spell=14282/arcane-shot",
+      "effects": [
+        { "kind": "direct_damage", "flat": 39 }
+      ]
+    }
+  ],
+  "talents": {
+    "marksmanship": [
+      { "id": "hunter_lethal_attacks", "wowhead_talent_id": "n105011", "name": { "en": "Lethal Attacks", "fr": "Attaques mortelles" }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5; exact effect not looked up." },
+      { "id": "hunter_careful_aim", "wowhead_talent_id": "n105008", "name": { "en": "Careful Aim", "fr": "Visée minutieuse" }, "row": 2, "col": 3, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5; exact effect not looked up." },
+      { "id": "hunter_lone_wolf", "wowhead_talent_id": "n105007", "name": { "en": "Lone Wolf", "fr": "Loup solitaire" }, "row": 3, "col": 4, "max_rank_total": 1, "effect_per_rank": "+20% damage to Multi-Shot specifically, per Icy Veins' guide text (a dungeon-AoE-focused pick, not general single-target value)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1, but the guide explicitly says never take this unless maximizing dungeon AoE/cleave -- the least single-target-relevant pick of any class's 11-point build found so far." }
+    ],
+    "beast_mastery": [
+      { "id": "hunter_deadly_aspects", "wowhead_talent_id": "n104960", "name": { "en": "Deadly Aspects", "fr": null }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": "Chance per rank to proc a 30% Haste buff for 12 sec while an Aspect is active", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 -- called \"one of the best 5 point talents\" by Icy Veins." },
+      { "id": "hunter_pathfinding", "wowhead_talent_id": "n104973", "name": { "en": "Pathfinding", "fr": null }, "row": 2, "col": 3, "max_rank_total": 2, "effect_per_rank": "+3%/rank movement speed", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 2/2 -- pure movement quality-of-life, not a damage talent, per Icy Veins' own text." }
+    ],
+    "survival": [
+      { "id": "hunter_deflection", "wowhead_talent_id": "n104995", "name": { "en": "Deflection", "fr": null }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": "+2%/rank Parry chance", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 5/5 (\"10% base parry\", per Icy Veins) -- defensive, not offensive." },
+      { "id": "hunter_entrapment", "wowhead_talent_id": "n104994", "name": { "en": "Entrapment", "fr": null }, "row": 2, "col": 1, "max_rank_total": 5, "effect_per_rank": "Chance per rank for your Traps to also Root the target briefly", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 3/5 -- control utility, not damage." },
+      { "id": "hunter_savage_strikes", "wowhead_talent_id": "n104993", "name": { "en": "Savage Strikes", "fr": null }, "row": 2, "col": 2, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": null, "notes": "Real level-20 build takes 2/2 (required by the real 11-point total: 5+3+2+1) -- not individually named in Icy Veins' own prose, only inferable from the point allocation; effect not confirmed." },
+      { "id": "hunter_deterrence", "wowhead_talent_id": "n104986", "name": { "en": "Deterrence", "fr": null }, "row": 3, "col": 3, "max_rank_total": 1, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 1/1, the build's final point -- an on-use defensive cooldown, per Icy Veins' text." }
+    ]
+  }
+}

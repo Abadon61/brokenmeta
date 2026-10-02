@@ -1,0 +1,564 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>Restoration Druid WoW: Forever: guide and talents</title>
+<meta name="description" content="WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.">
+<link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/guides/druid/restoration/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/guides/druid/restoration/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Restoration Druid WoW: Forever: guide and talents">
+<meta property="og:description" content="WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.">
+<meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Restoration Druid WoW: Forever: guide and talents">
+<meta name="twitter:description" content="WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=c9511059d1">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=c9511059d1">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=c9511059d1">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/wow-forever/"}, {"@type": "ListItem", "position": 3, "name": "Druid \u00b7 Restoration", "item": "https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Restoration Druid: specialization guide", "description": "WoW: Forever Restoration Druid guide: Healer, last-tier talents and the full tree, read from the beta client data.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../../../wow-forever/" data-active="true" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../../../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../../../../" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../../../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../../../../league/" title="League of Legends"><img class="game-toggle-icon" src="../../../../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/guides/druid/restoration/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/guides/druid/restoration/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/" data-active="true">World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../league/" >League of Legends</a>
+
+<div class="mobile-nav-group-title">Beta: Forever</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/" >Overview</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/beta/" >Beta</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/sortie/" >Release</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/editions/" >Editions &amp; prices</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/classes/" >Classes &amp; races</a>
+
+
+<div class="mobile-nav-group-title">Professions</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/alchemy/" >Alchemy</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/blacksmithing/" >Blacksmithing</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/enchanting/" >Enchanting</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/engineering/" >Engineering</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/leatherworking/" >Leatherworking</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/tailoring/" >Tailoring</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/cooking/" >Cooking</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/professions/first-aid/" >First Aid</a>
+
+<div class="mobile-nav-group-title">Dungeons</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/" >All dungeons</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
+
+<div class="mobile-nav-group-title">Raids</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/raids/" >All raids</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a>
+
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/talents/" >Talent calculator</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/simuler-mon-personnage/" >Simulate my character</a>
+
+<a class="nav-link" href="../../../../../wow-forever/glossaire/" >Spell glossary</a>
+<a class="nav-link" href="../../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../../wow-forever/faq/" >FAQ</a>
+<a class="nav-link" href="../../../../../wow-forever/artisans/" >Crafters</a>
+<a class="nav-link" href="../../../../../wow-forever/addon/" >BrokenMeta addon</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <a class="title" href="../../../../../wow-forever/">World of Warcraft: Forever</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">Beta: Forever</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../../wow-forever/">Overview</a>
+    <a href="../../../../../wow-forever/beta/">Beta</a>
+    <a href="../../../../../wow-forever/sortie/">Release</a>
+    <a href="../../../../../wow-forever/editions/">Editions &amp; prices</a>
+    <a href="../../../../../wow-forever/classes/">Classes &amp; races</a>
+    
+  </div>
+</details>
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">Professions</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../../wow-forever/professions/">All professions</a>
+    <a href="../../../../../wow-forever/professions/alchemy/">Alchemy</a><a href="../../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a><a href="../../../../../wow-forever/professions/enchanting/">Enchanting</a><a href="../../../../../wow-forever/professions/engineering/">Engineering</a><a href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a><a href="../../../../../wow-forever/professions/tailoring/">Tailoring</a><a href="../../../../../wow-forever/professions/cooking/">Cooking</a><a href="../../../../../wow-forever/professions/first-aid/">First Aid</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Dungeons</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../../wow-forever/dungeons/">All dungeons</a>
+    <a href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a><a href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a><a href="../../../../../wow-forever/dungeons/wailing-caverns/">Wailing Caverns</a><a href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a><a href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a><a href="../../../../../wow-forever/dungeons/stockade/">Stormwind Stockade</a><a href="../../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a><a href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a><a href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a><a href="../../../../../wow-forever/dungeons/razorfen-downs/">Razorfen Downs</a><a href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a><a href="../../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a><a href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a><a href="../../../../../wow-forever/dungeons/sunken-temple/">Sunken Temple</a><a href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a><a href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a><a href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a><a href="../../../../../wow-forever/dungeons/scholomance/">Scholomance</a><a href="../../../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruins of Lordaeron</a><a href="../../../../../wow-forever/dungeons/hall-of-thanes/">The Hall of Thanes</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Raids</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../../wow-forever/raids/">All raids</a>
+    <a href="../../../../../wow-forever/raids/molten-core/">Molten Core</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../../../wow-forever/talents/">Talent calculator</a>
+    <a href="../../../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../../../wow-forever/simuler-mon-personnage/">Simulate my character</a>
+    
+  </div>
+</details>
+<a class="nav-link" href="../../../../../wow-forever/glossaire/" >Spell glossary</a>
+<a class="nav-link" href="../../../../../wow-forever/progression/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../../../wow-forever/faq/" >FAQ</a>
+<a class="nav-link" href="../../../../../wow-forever/artisans/" >Crafters</a>
+<a class="nav-link" href="../../../../../wow-forever/addon/" >BrokenMeta addon</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../../../wow-forever/beta/" >
+  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  Get beta access
+</a>
+
+
+  </div>
+</div>
+
+
+<nav class="wow-specbar" aria-label="Specialization guides">
+  <div class="wow-specbar-inner">
+  <div class="wow-specbar-group" style="--cc: #ff7c0a">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/druid/balance/" title="Druid — Balance"><img src="../../../../../assets/img/spec/druid-balance.png" alt="Druid — Balance" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/druid/feral-combat/" title="Druid — Feral Combat"><img src="../../../../../assets/img/spec/druid-feral-combat.png" alt="Druid — Feral Combat" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/druid/restoration/" title="Druid — Restoration" data-active="true" aria-current="page"><img src="../../../../../assets/img/spec/druid-restoration.png" alt="Druid — Restoration" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #aad372">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/hunter/beast-mastery/" title="Hunter — Beast Mastery"><img src="../../../../../assets/img/spec/hunter-beast-mastery.png" alt="Hunter — Beast Mastery" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/hunter/marksmanship/" title="Hunter — Marksmanship"><img src="../../../../../assets/img/spec/hunter-marksmanship.png" alt="Hunter — Marksmanship" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/hunter/survival/" title="Hunter — Survival"><img src="../../../../../assets/img/spec/hunter-survival.png" alt="Hunter — Survival" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #3fc7eb">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/mage/arcane/" title="Mage — Arcane"><img src="../../../../../assets/img/spec/mage-arcane.png" alt="Mage — Arcane" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/mage/fire/" title="Mage — Fire"><img src="../../../../../assets/img/spec/mage-fire.png" alt="Mage — Fire" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/mage/frost/" title="Mage — Frost"><img src="../../../../../assets/img/spec/mage-frost.png" alt="Mage — Frost" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #f48cba">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/paladin/holy/" title="Paladin — Holy"><img src="../../../../../assets/img/spec/paladin-holy.png" alt="Paladin — Holy" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/paladin/protection/" title="Paladin — Protection"><img src="../../../../../assets/img/spec/paladin-protection.png" alt="Paladin — Protection" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/paladin/retribution/" title="Paladin — Retribution"><img src="../../../../../assets/img/spec/paladin-retribution.png" alt="Paladin — Retribution" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #ffffff">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/priest/discipline/" title="Priest — Discipline"><img src="../../../../../assets/img/spec/priest-discipline.png" alt="Priest — Discipline" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/priest/holy/" title="Priest — Holy"><img src="../../../../../assets/img/spec/priest-holy.png" alt="Priest — Holy" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/priest/shadow/" title="Priest — Shadow"><img src="../../../../../assets/img/spec/priest-shadow.png" alt="Priest — Shadow" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #fff468">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/rogue/assassination/" title="Rogue — Assassination"><img src="../../../../../assets/img/spec/rogue-assassination.png" alt="Rogue — Assassination" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/rogue/combat/" title="Rogue — Combat"><img src="../../../../../assets/img/spec/rogue-combat.png" alt="Rogue — Combat" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/rogue/subtlety/" title="Rogue — Subtlety"><img src="../../../../../assets/img/spec/rogue-subtlety.png" alt="Rogue — Subtlety" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #0070dd">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/shaman/elemental/" title="Shaman — Elemental"><img src="../../../../../assets/img/spec/shaman-elemental.png" alt="Shaman — Elemental" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/shaman/enhancement/" title="Shaman — Enhancement"><img src="../../../../../assets/img/spec/shaman-enhancement.png" alt="Shaman — Enhancement" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/shaman/restoration/" title="Shaman — Restoration"><img src="../../../../../assets/img/spec/shaman-restoration.png" alt="Shaman — Restoration" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #8788ee">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/warlock/affliction/" title="Warlock — Affliction"><img src="../../../../../assets/img/spec/warlock-affliction.png" alt="Warlock — Affliction" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/warlock/demonology/" title="Warlock — Demonology"><img src="../../../../../assets/img/spec/warlock-demonology.png" alt="Warlock — Demonology" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/warlock/destruction/" title="Warlock — Destruction"><img src="../../../../../assets/img/spec/warlock-destruction.png" alt="Warlock — Destruction" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #c69b6d">
+    <a class="wow-spec-link" href="../../../../../wow-forever/guides/warrior/arms/" title="Warrior — Arms"><img src="../../../../../assets/img/spec/warrior-arms.png" alt="Warrior — Arms" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/warrior/fury/" title="Warrior — Fury"><img src="../../../../../assets/img/spec/warrior-fury.png" alt="Warrior — Fury" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../../../wow-forever/guides/warrior/protection/" title="Warrior — Protection"><img src="../../../../../assets/img/spec/warrior-protection.png" alt="Warrior — Protection" width="32" height="32" loading="lazy"></a>
+  </div>
+  </div>
+</nav>
+
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../../../en/">Home</a></li><li><a href="../../../../../en/wow-forever/">World of Warcraft: Forever</a></li><li><span aria-current="page">Druid · Restoration</span></li>
+</ol></nav>
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
+    <h1 class="ph-title">Restoration Druid: specialization guide</h1>
+    <p class="ph-lede">Restoration is the Healer specialization of the Druid in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.69913); the role is the one stated by the Icy Veins guide for the specialization.</p>
+    
+    
+  </div>
+</section>
+
+
+<h2 class="fiche-section-title">At a glance</h2>
+<dl class="wow-facts">
+  <div><dt>Class</dt><dd>Druid</dd></div>
+  <div><dt>Role</dt><dd>Healer</dd></div>
+  <div><dt>Talents in the tree</dt><dd class="nums">16</dd></div>
+  <div><dt>Maximum points in the tree</dt><dd class="nums">51</dd></div>
+  <div><dt>Highest tier</dt><dd class="nums">7</dd></div>
+  <div><dt>Points needed for the last tier</dt><dd class="nums">30</dd></div>
+</dl>
+
+
+<h2 class="fiche-section-title">Talent template (level 20)</h2>
+<p class="page-intro" style="margin-top:0">The class&#39;s three trees, with the talents the Icy Veins guide recommends at level 20 in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it. Point counts are shown when the guide states them; otherwise only the talents are named. This section is fixed: it does not move and does not depend on the calculator.</p>
+<p class="wow-note">Icy Veins offers a world build and a dungeon healing variant; the final point is very flexible.</p>
+<div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
+<div class="wg-trees">
+<div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Restoration <span class="wg-own">this guide</span></h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Nature&#39;s Focus — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavegreater.jpg" alt="Nature&#39;s Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Furor — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="Furor" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Naturalist — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Naturalist" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Subtlety — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_eyeoftheowl.jpg" alt="Subtlety" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Natural Shapeshifter — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Natural Shapeshifter" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Reflection — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="Reflection" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Gift of Nature — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_protectionformnature.jpg" alt="Gift of Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-option" style="grid-row: 3; grid-column: 5" title="Gift of the Earthmother — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Gift of the Earthmother" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Tranquil Spirit — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_elunesgrace.jpg" alt="Tranquil Spirit" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Improved Rejuvenation — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg" alt="Improved Rejuvenation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Swiftmend — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_relics_idolofrejuvenation.jpg" alt="Swiftmend" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Nature&#39;s Swiftness — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Nature&#39;s Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Living Spirit — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_giftofthewaterspirit.jpg" alt="Living Spirit" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Improved Tranquility — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Improved Tranquility" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Improved Regrowth — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_resistnature.jpg" alt="Improved Regrowth" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Wild Growth — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_flourish.jpg" alt="Wild Growth" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  </div>
+</div><div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Balance</h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="90" x2="168" y2="106"/><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/></svg>
+    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Improved Wrath — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="Improved Wrath" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Genesis — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg" alt="Genesis" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Moonglow — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg" alt="Moonglow" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Improved Moonfire — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg" alt="Improved Moonfire" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Nature&#39;s Majesty — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg" alt="Nature&#39;s Majesty" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Nature&#39;s Reach — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg" alt="Nature&#39;s Reach" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Improved Entangling Roots — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Improved Entangling Roots" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Nature&#39;s Splendor — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg" alt="Nature&#39;s Splendor" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Insect Swarm — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg" alt="Insect Swarm" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Vengeance — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Improved Starfire — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg" alt="Improved Starfire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Overgrowth — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_15.jpg" alt="Overgrowth" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Nature&#39;s Grace — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg" alt="Nature&#39;s Grace" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Eclipse — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg" alt="Eclipse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 3" title="Moonfury — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Moonfury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Moonkin Form — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="Moonkin Form" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  </div>
+</div><div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Feral Combat</h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link" x1="220" y1="142" x2="220" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Ferocity — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_hyena.jpg" alt="Ferocity" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Heart of the Wild — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg" alt="Heart of the Wild" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Feral Swiftness — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Feral Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Feral Instinct — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg" alt="Feral Instinct" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Brutal Impact — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_bash.jpg" alt="Brutal Impact" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Thick Hide — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_bear_03.jpg" alt="Thick Hide" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Savage Fury — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg" alt="Savage Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Feral Charge — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_bear.jpg" alt="Feral Charge" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Sharpened Claws — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg" alt="Sharpened Claws" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Shredding Attacks — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg" alt="Shredding Attacks" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Mangle — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_mangle2.jpg" alt="Mangle" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Predatory Strikes — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_cat.jpg" alt="Predatory Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Primal Fury — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_cannibalize.jpg" alt="Primal Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Predatory Instincts — 2 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_predatoryinstincts.jpg" alt="Predatory Instincts" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Leader of the Pack — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_unyeildingstamina.jpg" alt="Leader of the Pack" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="King of the Jungle — 3 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_kingofthejungle.jpg" alt="King of the Jungle" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Natural Reaction — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" alt="Natural Reaction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rend and Tear — 5 ranks">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_primalagression.jpg" alt="Rend and Tear" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Berserk — 1 rank">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" alt="Berserk" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  </div>
+</div>
+</div>
+<div class="wg-talents">
+  <div class="wg-talent">
+    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="" width="44" height="44" loading="lazy">
+    <div><b>Improved Wrath</b> <span class="wg-rank nums">Balance · Tier 1 · 5 ranks · Recommended</span>
+    <p>Icy Veins (world build): big damage gain and less time spent drinking.</p></div>
+  </div>
+  <div class="wg-talent">
+    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavegreater.jpg" alt="" width="44" height="44" loading="lazy">
+    <div><b>Nature&#39;s Focus</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · Recommended</span>
+    <p>Icy Veins: makes damage and healing casts more reliable.</p></div>
+  </div>
+  <div class="wg-talent is-option">
+    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="" width="44" height="44" loading="lazy">
+    <div><b>Gift of the Earthmother</b> <span class="wg-rank nums">Restoration · Tier 3 · 1 rank · Optional</span>
+    <p>Icy Veins (dungeon healing build): skips Improved Wrath for a much more responsive Rejuvenation.</p></div>
+  </div>
+</div>
+
+
+
+<h2 class="fiche-section-title">Stat priority</h2>
+<p class="page-intro" style="margin-top:0">In order of importance, according to Icy Veins.</p>
+<p class="wow-note">Icy Veins: this is not max-level advice and will change as more is learned.</p>
+<ol class="wg-stats"><li>Highest item level</li><li>Healing Power</li><li>Intellect</li><li>Spirit</li><li>Critical Strike</li><li>Haste</li></ol>
+
+
+<h2 class="fiche-section-title">Consumables</h2>
+<p class="page-intro" style="margin-top:0">What the Icy Veins guide lists for this specialization.</p>
+<ul class="gd-list"><li>Healing potions (often save your life)</li><li>Mana potions (in emergencies)</li><li>Water (recover mana out of combat)</li></ul>
+<h2 class="fiche-section-title">Suggested professions</h2>
+<ul class="gd-list"><li>Skinning + Leatherworking (to craft your own gear)</li></ul>
+
+<h2 class="fiche-section-title">Level 20 gear (BiS)</h2>
+
+<p class="wow-note">No source publishes a best-in-slot list or enchants for this specialization yet: the Icy Veins Forever guides only cover level 20 for now and do not detail them. The dungeon pages let you browse loot by item type and stats, with no per-specialization ranking: it&#39;s up to you to pick what matters for your class.</p>
+
+<p class="wow-note">Icy Veins guide dated 2026-09-18, read on September 21, 2026.</p>
+
+
+<h2 class="fiche-section-title">The last-tier talents</h2>
+<p class="page-intro" style="margin-top:0">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
+<div class="wg-talents">
+<div class="wg-talent">
+  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_flourish.jpg" alt="" width="44" height="44" loading="lazy">
+  <div><b>Wild Growth</b> <span class="wg-rank nums">Tier 7 · 1 rank</span>
+  <p>Heals the target and their party for 280 over 7 sec. Party members must be within … yards of target. The amount healed is applied quickly at first, and slows down as Wild Growth reaches its full duration.</p></div>
+</div>
+</div>
+
+
+
+<h2 class="fiche-section-title">Single-rank talents</h2>
+<p class="page-intro" style="margin-top:0">Talents you take only once, with their tier (official text at maximum rank).</p>
+<div class="wg-talents">
+<div class="wg-talent">
+  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="" width="44" height="44" loading="lazy">
+  <div><b>Gift of the Earthmother</b> <span class="wg-rank nums">Tier 3 · 1 rank</span>
+  <p>Reduces the global cooldown by -0.5 seconds on your Rejuvenation, Swiftmend, and Wild Growth spells.</p></div>
+</div>
+
+<div class="wg-talent">
+  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_relics_idolofrejuvenation.jpg" alt="" width="44" height="44" loading="lazy">
+  <div><b>Swiftmend</b> <span class="wg-rank nums">Tier 4 · 1 rank</span>
+  <p>Instantly heals a target with an active Rejuvenation or Regrowth effect for an amount equal to the full duration of the periodic effect of one of those spells.</p></div>
+</div>
+
+<div class="wg-talent">
+  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
+  <div><b>Nature&#39;s Swiftness</b> <span class="wg-rank nums">Tier 5 · 1 rank</span>
+  <p>When activated, your next Nature spell becomes an instant cast spell.</p></div>
+</div>
+</div>
+
+
+<h2 class="fiche-section-title">The tree tier by tier</h2>
+<p class="page-intro" style="margin-top:0">Each line is a tier of the tree; in brackets, the talent&#39;s maximum rank.</p>
+<div class="wow-table-wrap"><table class="wow-table">
+  <thead><tr><th>Tier</th><th>The tree tier by tier</th></tr></thead>
+  <tbody><tr><td data-first class="nums">1</td><td>Nature&#39;s Focus <span class="nums">(5)</span> · Furor <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">2</td><td>Naturalist <span class="nums">(5)</span> · Subtlety <span class="nums">(3)</span> · Natural Shapeshifter <span class="nums">(3)</span></td></tr><tr><td data-first class="nums">3</td><td>Reflection <span class="nums">(3)</span> · Gift of Nature <span class="nums">(5)</span> · Gift of the Earthmother <span class="nums">(1)</span></td></tr><tr><td data-first class="nums">4</td><td>Tranquil Spirit <span class="nums">(5)</span> · Improved Rejuvenation <span class="nums">(3)</span> · Swiftmend <span class="nums">(1)</span></td></tr><tr><td data-first class="nums">5</td><td>Nature&#39;s Swiftness <span class="nums">(1)</span> · Living Spirit <span class="nums">(3)</span> · Improved Tranquility <span class="nums">(2)</span></td></tr><tr><td data-first class="nums">6</td><td>Improved Regrowth <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">7</td><td>Wild Growth <span class="nums">(1)</span></td></tr></tbody>
+</table></div>
+
+<p><a class="wh-btn" href="../../../../../wow-forever/talents/druid/">Open Druid in the talent calculator <span aria-hidden="true">→</span></a></p>
+<p class="wow-note">Spend your 51 points, compare the three specializations and share your build by link.</p>
+
+<h2 class="fiche-section-title">Other Druid specializations</h2>
+<div class="wh-cards">
+  
+  <a class="wh-card" href="../../../../../wow-forever/guides/druid/balance/" style="--cc: #ff7c0a">
+    <img class="wh-card-icon" src="../../../../../assets/img/spec/druid-balance.png" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Balance</b><span class="wh-card-specs">Ranged DPS</span></span>
+  </a>
+  
+  <a class="wh-card" href="../../../../../wow-forever/guides/druid/feral-combat/" style="--cc: #ff7c0a">
+    <img class="wh-card-icon" src="../../../../../assets/img/spec/druid-feral-combat.png" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>Feral Combat</b><span class="wh-card-specs">Melee DPS and tank</span></span>
+  </a>
+  
+</div>
+
+<p class="wow-note">This page gives no rotation or spell priority: the client does not provide them and we do not invent them. The data will change when the game launches on November 4, 2026.</p>
+<h2 class="fiche-section-title">Sources</h2>
+<ul class="gd-list wow-sources">
+  <li>Role: <a href="https://www.icy-veins.com/wow-forever/restoration-druid-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Restoration Druid</a></li>
+  <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.69913 (tables via wago.tools)</a></li>
+</ul>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../../../">Comp List</a>
+      <a href="../../../../../champions/">Champion List</a>
+      <a href="../../../../../glossaire/">Glossary</a>
+      <a href="../../../../../patch-notes/">Patch Notes</a>
+      <a href="../../../../../leaderboard/">Leaderboard</a>
+      <a href="../../../../../metascope/">Analyze your profile</a>
+      <a href="../../../../../team-builder/">Team Builder</a>
+      <a href="../../../../../discord/">Discord Alerts</a>
+      <a href="../../../../../methodologie/">Methodology</a>
+      <a href="../../../../../confidentialite/">Privacy</a>
+      <a href="../../../../../cgu/">Terms</a>
+      <a href="../../../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer"></p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../../../";</script>
+<script src="../../../../../assets/js/copy-comp.js?v=c9511059d1" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=c9511059d1" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=c9511059d1" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=c9511059d1" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

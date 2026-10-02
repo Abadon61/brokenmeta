@@ -1,0 +1,143 @@
+{
+  "class": "shaman",
+  "resource_system": "mana",
+  "schema_version": 2,
+  "source_note": "See data/wow_spells/README.md for the schema. Every entry's values are read live from its own WoW: Forever Wowhead spell tooltip (wowhead.com/forever/spell=<wowhead_spell_id>) unless \"notes\" says otherwise. Covers only the Enhancement single-target rotation pieces reachable in an 11-point level-20 build, like the other class passes.",
+  "gaps": [
+    "Real, explicit source caveat: Icy Veins' own guide says the level-20 Enhancement toolkit is too limited to show the spec's real playstyle yet (\"the full playstyle isn't really on display yet until we see more of the Beta open up\") -- this class's real level-20 kit is genuinely thinner than every other class catalogued so far, not an artifact of under-research this pass.",
+    "None of Stormstrike, Flurry, Maelstrom Weapon or Windfury Weapon (Enhancement's real signature abilities in other WoW versions) are reachable at 11 points and none are named in the real level-20 rotation text -- not looked up.",
+    "Lightning Shield, Flametongue Weapon (group alternative to Rockbiter), Frost Shock, Fire Nova, and the Strength of Earth/Stoneskin/Healing Stream totems named in the real rotation but not looked up. Searing Totem IS now sourced (2026-09-26, user-flagged) and in Enhancement's rotation -- see its own entry for the one still-approximate value (attack interval, not shown on its own tooltip).",
+    "\"talents.restoration\" is an empty placeholder. Note: the guide also flags a real alternative build spending points in Restoration (Mindfulness + Water Shield) for better early Mana sustain, at the cost of blocking a deeper Enhancement path later -- not sourced here.",
+    "Elemental (2026-09-25): real, explicit source caveat -- Icy Veins' own guide says Elemental's best talents (Lava Burst, Elemental Alacrity) \"are none of these abilities... available at Level 20\", describing them as \"a preview of sorts for what is to come.\" The real usable level-20 rotation is just Lightning Bolt (filler) + Flame Shock (maintained DoT). Both abilities below use their real Rank 1 tooltips (level 1 and level 10 respectively) rather than whatever higher rank is actually trainable by 20 -- a disclosed conservative approximation, not the exact level-20 numbers, after this pass's searches for the exact intermediate rank IDs didn't turn up a clean result in reasonable time. Fire Nova (3+ target tool) and Earth Shock (already sourced above, used more as an interrupt/utility per Elemental's own guide than a core rotation piece) are real but not part of Elemental's own single-target priority text."
+  ],
+  "abilities": [
+    {
+      "id": "shaman_earth_shock",
+      "wowhead_spell_id": 8045,
+      "name": { "en": "Earth Shock", "fr": "Choc tellurique" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 7,
+      "min_level": 14,
+      "resource_cost": { "mana": 85 },
+      "cooldown_sec": 6,
+      "cooldown_group": "shaman_shock",
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "nature",
+      "mechanic": null,
+      "flags": ["high_threat"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 24). Also interrupts spellcasting and locks out that school for 2 sec -- a secondary utility effect alongside the damage. Real single-target priority (Icy Veins): cast when solo (Frost Shock is the group alternative, to avoid pulling threat). Shares its 6s cooldown with every other Shock spell (Flame Shock, Frost Shock) -- a well-documented core Shaman mechanic, not a per-spell cooldown (cooldown_group added 2026-09-26, user-flagged).",
+      "source_url": "https://www.wowhead.com/forever/spell=8045/earth-shock",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [52, 55], "sp_coeff": 0.386 }
+      ]
+    },
+    {
+      "id": "shaman_rockbiter_weapon",
+      "wowhead_spell_id": 8019,
+      "name": { "en": "Rockbiter Weapon", "fr": "Frappe des roches" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 3,
+      "max_rank_total": 8,
+      "min_level": 16,
+      "resource_cost": { "mana": 50 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "nature",
+      "mechanic": null,
+      "flags": ["requires_melee_weapon", "held_item_only"],
+      "notes": "Rank 3 is the max rank trainable by level 20 (Rank 4 requires level 24). A 60-minute weapon-imbue buff (+118 melee Attack Power), not a rotational damage ability -- more like a long-duration maintenance buff (comparable in role to Warrior's Battle Shout) than a spell recast on cooldown. Real single-target priority (Icy Veins): use when solo; Flametongue Weapon is the group alternative (not sourced).",
+      "source_url": "https://www.wowhead.com/forever/spell=8019/rockbiter-weapon",
+      "effects": [
+        { "kind": "self_buff", "attack_power": 118, "duration_sec": 3600 }
+      ]
+    },
+    {
+      "id": "shaman_lightning_bolt",
+      "wowhead_spell_id": 403,
+      "name": { "en": "Lightning Bolt", "fr": "Éclair" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": "at least 4 (real level-20 rank not individually confirmed this pass, see gaps)",
+      "min_level": 1,
+      "resource_cost": { "mana": 15 },
+      "cooldown_sec": null,
+      "gcd_sec": 1.5,
+      "cast_time": "1.5 sec",
+      "school": "nature",
+      "mechanic": null,
+      "flags": [],
+      "notes": "Real single-target priority (Icy Veins): pull with this, then return to it as filler between Flame Shock applications. Rank 1's own confirmed tooltip used (level 1) -- community data suggests a much higher rank (~49-57 damage) is the real level-20 cap, but its exact spell id wasn't pinned down this pass (disclosed conservative approximation, see gaps).",
+      "source_url": "https://www.wowhead.com/forever/spell=403/lightning-bolt",
+      "effects": [
+        { "kind": "direct_damage", "dmg_range": [15, 17], "sp_coeff": 0.429 }
+      ]
+    },
+    {
+      "id": "shaman_flame_shock",
+      "wowhead_spell_id": 8050,
+      "name": { "en": "Flame Shock", "fr": "Horion de flammes" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": "at least 6 (real level-20 rank not individually confirmed this pass, see gaps)",
+      "min_level": 10,
+      "resource_cost": { "mana": 55 },
+      "cooldown_sec": 6,
+      "cooldown_group": "shaman_shock",
+      "gcd_sec": 1.5,
+      "cast_time": "instant",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["periodic_can_crit", "dispel_type_magic"],
+      "notes": "Real single-target priority (Icy Veins): apply immediately after the Lightning Bolt pull, refresh on long-lived targets once it ends. Rank 1's own confirmed tooltip used (level 10) -- a higher rank is real level-20 cap per Call of Flame's own +5% buff to it existing at 20, but the exact intermediate rank wasn't pinned down this pass (disclosed conservative approximation, see gaps). Shares its 6s cooldown with every other Shock spell (Earth Shock, Frost Shock) -- a well-documented core Shaman mechanic, not a per-spell cooldown (cooldown_group added 2026-09-26, user-flagged).",
+      "source_url": "https://www.wowhead.com/forever/spell=8050/flame-shock",
+      "effects": [
+        { "kind": "direct_damage", "flat": 24, "sp_coeff": 0.214 },
+        { "kind": "periodic_damage", "total_damage": 28, "duration_sec": 12, "tick_interval_sec": 3, "damage_per_tick": 7, "sp_coeff": 0.10, "can_crit": true }
+      ]
+    },
+    {
+      "id": "shaman_searing_totem",
+      "wowhead_spell_id": 3599,
+      "name": { "en": "Searing Totem", "fr": "Totem incendiaire" },
+      "category": "core_ability",
+      "trees": [],
+      "rank": 1,
+      "max_rank_total": 4,
+      "min_level": 10,
+      "resource_cost": { "mana": 25 },
+      "cooldown_sec": null,
+      "gcd_sec": 1,
+      "cast_time": "instant",
+      "school": "fire",
+      "mechanic": null,
+      "flags": ["totem", "summon"],
+      "notes": "User-flagged (2026-09-26): untalented (\"trees\": []) and trainable at level 10, so available regardless of spec -- next rank is level 30, so Rank 1 is the real level-20 cap, no intermediate rank exists. Real tooltip: 'Summons a Searing Totem with 5 health at your feet for 30 sec that repeatedly attacks an enemy within 20 yards for 9 to 11 Fire damage.' Modeled here as a periodic_damage effect attributed to the caster (the engine has no separate pet/totem damage-source model, same simplification already disclosed for Hunter/Warlock pets) -- midpoint of the 9-11 range used per tick. The totem's own attack INTERVAL isn't shown on its spell tooltip (it's the summoned unit's own attack speed, not a caster cast time); 2 seconds is the commonly-cited Classic-era value across community sources (Wowpedia, classic theorycrafting), not independently confirmed on a Wowhead tooltip -- disclosed approximation, not a real per-tick sourced number like the rest of this file. No Spell Power scaling: real Searing Totem is a flat-damage totem in Classic-style itemization, never SP-scaled.",
+      "source_url": "https://www.wowhead.com/forever/spell=3599/searing-totem",
+      "effects": [
+        { "kind": "periodic_damage", "total_damage": 150, "duration_sec": 30, "tick_interval_sec": 2, "damage_per_tick": 10, "sp_coeff": 0, "can_crit": true }
+      ]
+    }
+  ],
+  "talents": {
+    "enhancement": [
+      { "id": "shaman_thundering_strikes", "wowhead_talent_id": "n104753", "name": { "en": "Thundering Strikes", "fr": "Frappe foudroyante" }, "row": 1, "col": 2, "max_rank_total": 5, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5 (\"bulk Critical Strike\", per Icy Veins; exact per-rank amount not looked up)." },
+      { "id": "shaman_mental_dexterity", "wowhead_talent_id": "n104755", "name": { "en": "Mental Dexterity", "fr": "Dextérité mentale" }, "row": 2, "col": 2, "max_rank_total": 3, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 3/3 (\"enables Intellect as a key stat\", per Icy Veins -- likely converts some Intellect into Attack Power or similar; exact effect not looked up)." },
+      { "id": "shaman_improved_ghost_wolf", "wowhead_talent_id": "n104752", "name": { "en": "Improved Ghost Wolf", "fr": "Loup fantôme amélioré" }, "row": 2, "col": 3, "max_rank_total": 2, "effect_per_rank": null, "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 2/2, but explicitly a mobility/utility pick with \"no throughput\" per Icy Veins' own text -- taken for its non-combat value, not DPS." },
+      { "id": "shaman_shamanistic_focus", "wowhead_talent_id": "n104749", "name": { "en": "Shamanistic Focus", "fr": "Focalisation chamanique" }, "row": 3, "col": 3, "max_rank_total": 1, "effect_per_rank": "Reduces the Mana cost of Shocks (e.g. Earth Shock) after a critical strike, per Icy Veins' text", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1, described as \"the goal early\" pick to sustain Shock usage on a limited Mana pool." }
+    ],
+    "elemental": [
+      { "id": "shaman_concussion", "wowhead_talent_id": "n104772", "name": { "en": "Concussion", "fr": null }, "row": 1, "col": 3, "max_rank_total": 5, "effect_per_rank": "+1% direct-damage-spell damage per rank", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 5/5." },
+      { "id": "shaman_elemental_warding", "wowhead_talent_id": "n104771", "name": { "en": "Elemental Warding", "fr": null }, "row": 2, "col": 1, "max_rank_total": 3, "effect_per_rank": "-10%/rank damage taken from Fire/Frost/Nature effects", "see_ability_id": null, "dps_relevant": false, "notes": "Real level-20 build takes 2/3 -- a defensive pick (Icy Veins offers Convection, a Mana-cost talent, as the alternative)." },
+      { "id": "shaman_call_of_flame", "wowhead_talent_id": "n104770", "name": { "en": "Call of Flame", "fr": null }, "row": 2, "col": 3, "max_rank_total": 3, "effect_per_rank": "+5%/rank damage from Fire Totems, Flame Shock, Fire Nova and Lava Burst", "see_ability_id": "shaman_flame_shock", "dps_relevant": true, "notes": "Real level-20 build takes 3/3 (+15% to Flame Shock/Searing Totem, per Icy Veins' text)." },
+      { "id": "shaman_elemental_focus", "wowhead_talent_id": "n104768", "name": { "en": "Elemental Focus", "fr": null }, "row": 3, "col": 2, "max_rank_total": 1, "effect_per_rank": "Critical strikes with a damage spell have a chance to grant Clearcasting (next spell costs no Mana)", "see_ability_id": null, "dps_relevant": true, "notes": "Real level-20 build takes 1/1, the build's final point, taken for Mana economy." }
+    ],
+    "restoration": []
+  }
+}
