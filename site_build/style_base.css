@@ -154,25 +154,27 @@
 
   /* Switch entre les jeux gérés par le site -- vit dans le topbar (pas
      dans le menu rose, qui est lui-même déjà scopé "outils du jeu actif")
-     pour bien marquer que TFT et LoL sont deux sections distinctes, pas
-     l'une un sous-outil de l'autre. Même famille visuelle que
-     .lang-toggle juste au-dessus -- en toutes lettres plutôt qu'en
-     icônes, deux icônes abstraites ne se comprenaient pas d'elles-mêmes. */
+     pour bien marquer que WoW/TFT/LoL sont trois sections distinctes, pas
+     l'une un sous-outil de l'autre. 2026-09-30 : le vrai logo de chaque jeu
+     remplace le libellé texte -- contrairement à une icône abstraite, un
+     joueur reconnaît directement ces trois logos, d'où le "title" (infobulle
+     au survol) plutôt qu'un texte visible en plus.
+     Ordre demandé : WoW: Forever, TFT, League of Legends. */
   .game-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .game-toggle-btn {
-    background: var(--row); border: none; color: var(--text-faint);
-    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
-    letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap;
-    padding: 6px 12px; display: flex; align-items: center; justify-content: center;
-    transition: color .12s ease, background .12s ease;
+    background: var(--row); border: none;
+    padding: 5px 9px; display: flex; align-items: center; justify-content: center;
+    transition: background .12s ease;
   }
+  .game-toggle-btn { min-height: 38px; }
+  .game-toggle-icon { display: block; border-radius: 3px; }
+  .game-toggle-icon--wow { border-radius: 0; }  /* badge officiel WoW: Forever, déjà détouré */
   .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
-  .game-toggle-btn[data-active="true"] { background: var(--magenta); color: #fff; }
-  .game-toggle-btn:hover:not([data-active="true"]) { color: var(--cream); }
-  /* Deux libellés complets ("Teamfight Tactics" + "League of Legends")
-     prennent trop de place à partir d'une largeur moyenne -- le menu
-     hamburger (section "Jeux" en haut du panneau mobile) prend le relais
-     avec les mêmes libellés en dessous de ce seuil. */
+  .game-toggle-btn[data-active="true"] { background: var(--magenta); }
+  .game-toggle-btn:hover:not([data-active="true"]) { background: var(--bg-2); }
+  /* En dessous d'une largeur moyenne, le menu hamburger (section "Jeux" en
+     haut du panneau mobile) prend le relais avec les libellés en toutes
+     lettres -- plus lisible qu'une rangée d'icônes minuscules au pouce. */
   @media (max-width: 900px) { .game-toggle { display: none; } }
 
   .navbar {

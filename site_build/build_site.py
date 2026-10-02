@@ -8623,6 +8623,12 @@ def main() -> None:
     # covers the whole site, FR and /en/ alike, with one registration.
     shutil.copy(LOGO_DIR / "pwa_icon_192.png", DIST / "assets" / "img" / "icon-192.png")
     shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "assets" / "img" / "icon-512.png")
+    # Game-switcher icons (topbar .game-toggle, 2026-09-30/10-02): all three are the user's own
+    # provided art -- the official "World of Warcraft: Forever" badge (kept whole, shown a bit
+    # taller than the two crests), and the TFT / LoL crests cropped to clean squares.
+    shutil.copy(LOGO_DIR / "game-wow-forever-nav.png", DIST / "assets" / "img" / "game-wow-forever.png")
+    shutil.copy(LOGO_DIR / "game-tft-nav.png", DIST / "assets" / "img" / "game-tft.png")
+    shutil.copy(LOGO_DIR / "game-lol-nav.png", DIST / "assets" / "img" / "game-lol.png")
     manifest = {
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",
