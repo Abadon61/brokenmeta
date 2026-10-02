@@ -29,3 +29,32 @@ prof = ROOT / "data" / "wow_items" / "proficiency.json"
 if prof.exists():
     (OUT / "proficiency.json").write_text(prof.read_text(encoding="utf-8"), encoding="utf-8")
 print(len(items), "items,", sum(1 for i in items if i["req"] >= 50), "with req >= 50,", sum(1 for i in items if i["from"] == "raid"), "raid")
+
+
+# ---- spells at level 60 (ranks resolved by the same code as the site's Python engine) ----
+import sys
+sys.path.insert(0, str(ROOT / "site_build"))
+import wow_dps_sim  # noqa: E402
+
+classes = ["warrior", "paladin", "hunter", "rogue", "priest", "shaman", "mage", "warlock", "druid"]
+spells = {}
+for cls in classes:
+    g = wow_dps_sim.load_glossary(cls, 60)
+    if not g:
+        continue
+    abil = {}
+    for a in g["abilities"]:
+        abil[a["id"]] = {k: a.get(k) for k in ("name", "wowhead_spell_id", "resource_cost", "cooldown_sec", "gcd_sec", "cast_time", "school", "flags", "effects", "min_level", "notes") if k in a}
+    fut = []
+    fp = ROOT / "data" / "wow_spells_future" / f"{cls}.json"
+    if fp.exists():
+        for a in json.loads(fp.read_text(encoding="utf-8"))["abilities"]:
+            known = [r for r in a["ranks"] if r["level"] <= 60]
+            if known:
+                fut.append({"name": a["name"], "first_level": a["first_level"], "rank": known[-1]})
+    spells[cls] = {"abilities": abil, "future": fut}
+(OUT / "spells60.json").write_text(json.dumps(spells, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+w = spells["warrior"]["abilities"]
+for k in ("warrior_bloodthirst", "warrior_whirlwind", "warrior_heroic_strike", "warrior_death_wish", "warrior_slam", "warrior_overpower", "warrior_rend"):
+    print(k, w[k].get("resource_cost"), w[k].get("cooldown_sec"), json.dumps(w[k]["effects"])[:260])
+print([ (f["name"], f["rank"]["cost"], f["rank"]["cooldown_ms"]) for f in spells["warrior"]["future"]])

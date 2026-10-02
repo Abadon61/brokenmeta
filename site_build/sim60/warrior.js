@@ -1,187 +1,270 @@
-// Warrior spec kits (Fury first). Numbers come from WoW: Forever's own tooltips where we have them
-// (data/wow_spells/warrior.json, data/wow_talents/warrior.json) and are marked ASSUMED where a
-// Classic 1.12 value is kept until Forever's level-60 table is sourced.
-import { GCD } from './constants.js';
+// Warrior spec kits: Fury (dual wield) and Arms (two-hander). Numbers come from WoW: Forever's own
+// tables/tooltips (data/spells60.json, exported by wow_sim60_export.py) when `data` is passed, and from
+// the constants below otherwise. Values marked ASSUMED are Classic 1.12 numbers kept until Forever's
+// level-60 table for that spell is sourced.
+import { OVERPOWER_WINDOW } from './constants.js';
 
-// ---- Forever-sourced / assumed ability numbers (level 60, max rank) ----
 export const WARRIOR = {
-  bloodthirst: { cost: 30, cd: 6, apCoeff: 0.35, flat: 30 },          // talent text: "35% of your Attack Power plus 30"
-  whirlwind: { cost: 25, cd: 10, normSpeed1H: 2.4, normSpeed2H: 3.3 }, // glossary: 100% normalized weapon damage (Classic normalization speeds, ASSUMED)
-  heroicStrike: { cost: 15, flat: 157 },                              // glossary: flat bonus on next swing, rank 9
-  execute: { cost: 15, base: 600, perRage: 15, cd: 0 },               // ASSUMED Classic rank 5 (600 + 15 per excess Rage); Forever value not sourced yet
-  deathWish: { cost: 10, cd: 180, duration: 30, dmgMult: 1.2 },       // Forever tooltip: +20% Physical damage, 30 s, 3 min cooldown
-  recklessness: { cost: 0, cd: 1800, duration: 15, crit: 1.0 },       // ASSUMED Classic (+100% crit 15 s, 30 min); future table has the spell at level 50
-  bloodrage: { cd: 60, immediate: 10, overTime: 10, overTimeSec: 10 },// Forever tooltip (spell 2687)
-  berserkerRage: { cd: 30 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 },                  // Forever: +25% attack speed at 5/5 for 3 swings after a melee crit
-  unbridledWrath: { chancePerRank: 0.12 },                            // Forever: 60% at 5/5, +1 Rage (2 with a two-hander)
-  dualWieldSpec: { ohDmgPerRank: 0.05, ohHitPerRank: 0.02 },          // Forever: +25% OH damage and +10% OH hit at 5/5 (off-hand base 50%)
+  bloodthirst: { cost: 30, cd: 6, apCoeff: 0.35, flat: 48 },           // glossary at L60: 35% AP + 48
+  whirlwind: { cost: 25, cd: 10, flat: 0, normSpeed1H: 2.4, normSpeed2H: 3.3 }, // 100% normalized weapon damage (normalization speeds ASSUMED Classic)
+  heroicStrike: { cost: 15, flat: 157 },
+  slam: { cost: 15, cd: 0, flat: 87, cast: 1.5 },
+  overpower: { cost: 5, cd: 5, flat: 35 },
+  rend: { cost: 10, total: 147, duration: 21, tick: 3 },
+  mortalStrike: { cost: 30, cd: 6, flat: 160, normSpeed2H: 3.3 },      // client table (spell 21553 at L60): weapon damage + 160
+  execute: { cost: 15, base: 600, perRage: 15 },                       // ASSUMED Classic rank 5 (600 + 15 per excess Rage)
+  deathWish: { cost: 10, cd: 180, duration: 30, dmgMult: 1.2 },
+  recklessness: { cd: 1800, duration: 15, crit: 1.0 },                 // ASSUMED Classic effect; cooldown from the client table
+  bloodrage: { cd: 60, immediate: 10, overTime: 10, overTimeSec: 10 },
+  flurry: { perRank: 0.05, charges: 3, expire: 15 },
+  unbridledWrath: { chancePerRank: 0.12 },
+  dualWieldSpec: { ohDmgPerRank: 0.05, ohHitPerRank: 0.02 },
   cruelty: { critPerRank: 0.01 },
   precision: { hitPerRank: 0.01 },
   improvedHeroicStrike: { costPerRank: 1 },
-  improvedExecute: { costPerRank: 2.5 },                              // Forever: -5 Rage over 2 ranks
+  improvedExecute: { costPerRank: 2.5 },
+  improvedOverpower: { critPerRank: 0.25 },                            // "+50% crit chance" over 2 ranks
+  improvedSlam: { castReduction: 0.5, gcdReduction: 0.5 },             // 2 ranks: -0.5 s cast
   boundlessRage: { capPerRank: 10 },
   angerManagement: { interval: 3, amount: 1 },
+  deepWounds: { pctPerRank: 0.20, duration: 12, tick: 3 },             // 3 ranks, 60% of average weapon damage over 12 s
+  twoHandSpec: { dmgPerRank: 0.01 },
+  impale: { critDmgPerRank: 0.10 },
 };
 
-// Rotation options & talent ranks arrive in cfg.build. Defaults model a typical raiding Fury build.
+// Overrides from the exported client data (spells60.json -> warrior.abilities), when available.
+export function warriorFromData(spells60) {
+  const W = JSON.parse(JSON.stringify(WARRIOR));
+  const a = spells60 && spells60.warrior && spells60.warrior.abilities;
+  if (!a) return W;
+  const eff = (id, kind) => (a[id] && a[id].effects || []).find((e) => e.kind === kind);
+  const cost = (id) => a[id] && a[id].resource_cost && a[id].resource_cost.rage;
+  const bt = eff('warrior_bloodthirst', 'direct_damage');
+  if (bt) { W.bloodthirst.apCoeff = bt.ap_coeff; W.bloodthirst.flat = bt.flat || 0; }
+  if (cost('warrior_bloodthirst')) W.bloodthirst.cost = cost('warrior_bloodthirst');
+  const hs = eff('warrior_heroic_strike', 'flat_bonus_on_next_swing'); if (hs) W.heroicStrike.flat = hs.flat;
+  const sl = eff('warrior_slam', 'normalized_weapon_damage'); if (sl) W.slam.flat = sl.flat;
+  const op = eff('warrior_overpower', 'normalized_weapon_damage'); if (op) W.overpower.flat = op.flat;
+  const rd = eff('warrior_rend', 'periodic_damage'); if (rd) { W.rend.total = rd.total_damage; W.rend.duration = rd.duration_sec; W.rend.tick = rd.tick_interval_sec; }
+  const dw = eff('warrior_death_wish', 'self_buff'); if (dw) { W.deathWish.dmgMult = 1 + dw.physical_damage_done_pct; W.deathWish.duration = dw.duration_sec; }
+  const fut = (spells60.warrior.future || []).find((f) => f.name === 'Mortal Strike');
+  if (fut) {
+    const e = fut.rank.effects.find((x) => x.effect === 121);
+    if (e) W.mortalStrike.flat = e.base;
+    W.mortalStrike.cost = fut.rank.cost.amount / 10; W.mortalStrike.cd = fut.rank.cooldown_ms / 1000;
+  }
+  const rk = (spells60.warrior.future || []).find((f) => f.name === 'Recklessness');
+  if (rk) W.recklessness.cd = rk.rank.cooldown_ms / 1000;
+  return W;
+}
+
 export const FURY_DEFAULT_BUILD = {
-  cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, precision: 3, improvedHeroicStrike: 3,
-  improvedExecute: 2, boundlessRage: 3, ragingBlows: 1, bloodthirst: 1, deathWish: 1, angerManagement: 0,
+  cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, precision: 3, improvedHeroicStrike: 0,
+  improvedExecute: 2, boundlessRage: 3, ragingBlows: 1, deathWish: 1,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
-  hsRageReserve: 0,             // extra Rage kept back before queueing Heroic Strike (rotation knob)
-  useRecklessness: true, useDeathWish: true, executePhase: true,
+  hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
+};
+export const ARMS_DEFAULT_BUILD = {
+  cruelty: 5, unbridledWrath: 5, improvedHeroicStrike: 3, improvedOverpower: 2, angerManagement: 1, deepWounds: 3,
+  twoHandSpec: 3, impale: 2, weaponmaster: 5, improvedSlam: 2, improvedExecute: 0, boundlessRage: 0, precision: 0,
+  useSlam: true, useRend: false, hsRageReserve: 20, useRecklessness: true, executePhase: true, flurry: 0,
 };
 
-export function furyKit(build = {}) {
-  const b = Object.assign({}, FURY_DEFAULT_BUILD, build);
-  const W = WARRIOR;
+// ---- shared helpers ----
+function yellowAttack(sim, name, rawFn, opts = {}) {
+  const out = sim.resolveYellow(opts.bonusCrit || 0, opts.canDodge !== false);
+  const e = sim.entry(name);
+  if (out === 'miss') { e.misses++; sim.onMeleeHit('miss', name, false, false); return out; }
+  if (out === 'dodge') { e.dodges++; sim.overpowerUntil = sim.now + OVERPOWER_WINDOW; sim.onMeleeHit('dodge', name, false, false); return out; }
+  let raw = rawFn(); if (out === 'crit') raw *= sim.critMult();
+  const dmg = sim.mitigate(raw * sim.mods.dmgMult, true);
+  sim.record(name, dmg, out); sim.onMeleeHit(out, name, false, false);
+  return out;
+}
+
+function commonSetup(sim, b, W) {
+  const mods = sim.mods;
+  sim.player.resource = 'rage';
+  sim.rageCap = 100 + W.boundlessRage.capPerRank * (b.boundlessRage || 0);
+  mods.critBonus += W.cruelty.critPerRank * (b.cruelty || 0);
+  mods.hitBonus += W.precision.hitPerRank * (b.precision || 0);
+  sim.reckAura = sim.addAura({ name: 'Recklessness', duration: W.recklessness.duration, mods: { critBonus: W.recklessness.crit } });
+  sim.sRK = sim.addSpell({ name: 'Recklessness', cost: () => 0, cd: W.recklessness.cd });
+  sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
+  sim.sEX = sim.addSpell({ name: 'Execute', cost: () => Math.max(0, W.execute.cost - W.improvedExecute.costPerRank * (b.improvedExecute || 0)), cd: 0 });
+  sim.hsCost = () => Math.max(0, W.heroicStrike.cost - W.improvedHeroicStrike.costPerRank * (b.improvedHeroicStrike || 0));
+  sim.sHS = sim.addSpell({
+    name: 'Heroic Strike', cost: sim.hsCost,
+    onSwing(s, sw) {            // replaces the main-hand white swing
+      s.spendRage(s.hsCost()); s.entry('Heroic Strike').casts++;
+      yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
+    },
+  });
+}
+
+// Bloodrage + Execute + Recklessness handled the same way in both kits.
+function offGcd(sim, W) {
+  const now = sim.now;
+  if (now >= sim.sBR.readyAt) {
+    sim.sBR.readyAt = now + W.bloodrage.cd; sim.entry('Bloodrage').casts++;
+    sim.gainRage(W.bloodrage.immediate);
+    const ticks = W.bloodrage.overTimeSec;
+    for (let i = 1; i <= ticks; i++) sim.schedule(i, () => sim.gainRage(W.bloodrage.overTime / ticks));
+  }
+}
+
+function castGcd(sim, spell, fn) {
+  sim.startGcd(); spell.readyAt = sim.now + spell.cd; spell.casts++; sim.entry(spell.name).casts++; fn();
+  return sim.gcdReadyAt - sim.now;
+}
+
+function executePhase(sim, W) {
+  if (!sim.canCast(sim.sEX)) return null;
+  return castGcd(sim, sim.sEX, () => {
+    sim.spendRage(sim.sEX.cost());
+    const extra = sim.rage; sim.rage = 0;
+    yellowAttack(sim, 'Execute', () => W.execute.base + W.execute.perRage * extra);
+  });
+}
+
+// =============================== FURY ===============================
+export function furyKit(build = {}, data = null) {
+  const b = Object.assign({}, FURY_DEFAULT_BUILD, build), W = warriorFromData(data);
   return {
-    name: 'warrior_fury', build: b,
+    name: 'warrior_fury', build: b, W,
     setup(sim) {
+      commonSetup(sim, b, W);
       const mods = sim.mods;
-      sim.player.resource = 'rage';
-      sim.rageCap = 100 + W.boundlessRage.capPerRank * b.boundlessRage;
-      mods.critBonus += W.cruelty.critPerRank * b.cruelty;
-      mods.hitBonus += W.precision.hitPerRank * b.precision;
       if (sim.player.dualWield) {
         mods.ohDmgBonus = W.dualWieldSpec.ohDmgPerRank * b.dualWieldSpec;
         mods.ohHitBonus = W.dualWieldSpec.ohHitPerRank * b.dualWieldSpec;
       }
-      if (b.enrageUptime > 0) mods.dmgMult *= 1 + 0.10 * b.enrageUptime;   // flat average, Enrage's "10% for 12 s"
-
+      if (b.enrageUptime > 0) mods.dmgMult *= 1 + 0.10 * b.enrageUptime;
       const twoHanded = !sim.player.dualWield && sim.player.weapons[0] && sim.player.weapons[0].twoHand;
-      const norm = twoHanded ? W.whirlwind.normSpeed2H : W.whirlwind.normSpeed1H;
+      sim._norm = twoHanded ? W.whirlwind.normSpeed2H : W.whirlwind.normSpeed1H;
+      sim.twoHanded = twoHanded;
 
-      // ---- auras ----
       sim.deathWishAura = sim.addAura({ name: 'Death Wish', duration: W.deathWish.duration, mods: { dmgMult: W.deathWish.dmgMult } });
-      sim.reckAura = sim.addAura({ name: 'Recklessness', duration: W.recklessness.duration, mods: { critBonus: W.recklessness.crit } });
-      sim.flurryAura = sim.addAura({ name: 'Flurry', duration: W.flurry.expire,
-        mods: { hasteMult: 1 + W.flurry.perRank * b.flurry } });
-      // Flurry is a haste aura with 3 "charges": one is consumed per swing, a fresh crit refills all 3.
+      sim.flurryAura = sim.addAura({ name: 'Flurry', duration: W.flurry.expire, mods: { hasteMult: 1 + W.flurry.perRank * b.flurry } });
       sim.flurryAura.charges = 0;
-
-      // ---- spells ----
-      const hsCost = () => Math.max(0, W.heroicStrike.cost - W.improvedHeroicStrike.costPerRank * b.improvedHeroicStrike);
-      const execCost = () => Math.max(0, W.execute.cost - W.improvedExecute.costPerRank * b.improvedExecute);
-
       sim.sBT = sim.addSpell({ name: 'Bloodthirst', cost: () => W.bloodthirst.cost, cd: W.bloodthirst.cd });
       sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: () => W.whirlwind.cost, cd: W.whirlwind.cd });
-      sim.sEX = sim.addSpell({ name: 'Execute', cost: execCost, cd: 0 });
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
-      sim.sRK = sim.addSpell({ name: 'Recklessness', cost: () => 0, cd: W.recklessness.cd });
-      sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
-      sim.sHS = sim.addSpell({
-        name: 'Heroic Strike', cost: hsCost,
-        onSwing(s, sw) {            // replaces the main-hand white swing
-          s.spendRage(hsCost());
-          const w = sw.w, out = s.resolveYellow();
-          const e = s.entry('Heroic Strike'); e.casts++;
-          if (out === 'miss') { e.misses++; s.onMeleeHit('miss', 'Heroic Strike', false, false); return; }
-          if (out === 'dodge') { e.dodges++; s.overpowerUntil = s.now + 5; s.onMeleeHit('dodge', 'Heroic Strike', false, false); return; }
-          let raw = s.weaponRoll(w) + s.ap() / 14 * w.speed + W.heroicStrike.flat;
-          if (out === 'crit') raw *= s.critMult();
-          const dmg = s.mitigate(raw * s.mods.dmgMult, true);
-          s.record('Heroic Strike', dmg, out);
-          s.onMeleeHit(out, 'Heroic Strike', false, false);
-        },
-      });
 
-      // ---- procs ----
+      const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
-        if (outcome === 'miss' || outcome === 'dodge') {
-          if (isWhite) flurryConsume(s);
-          return;
-        }
-        if (isWhite) flurryConsume(s);
+        if (isWhite) consume(s);
+        if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = W.flurry.charges; s.flurryAura.apply(1); }
-        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) {
-          s.gainRage(twoHanded ? 2 : 1);
+        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(twoHanded ? 2 : 1);
+      });
+    },
+    rotate(sim) {
+      const now = sim.now;
+      offGcd(sim, W);
+      const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
+      if (gcdLeft > 0) return gcdLeft;
+      if (b.useDeathWish && b.deathWish && sim.canCast(sim.sDW)) return castGcd(sim, sim.sDW, () => { sim.spendRage(W.deathWish.cost); sim.deathWishAura.apply(); });
+      if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
+      if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
+      if (sim.canCast(sim.sBT)) return castGcd(sim, sim.sBT, () => {
+        sim.spendRage(W.bloodthirst.cost);
+        yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
+      });
+      if (sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {
+        sim.spendRage(W.whirlwind.cost);
+        const mh = sim.player.weapons[0];
+        yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat);
+        if (b.ragingBlows && sim.player.dualWield) {
+          const oh = sim.player.weapons[1];
+          yellowAttack(sim, 'Whirlwind (Raging Blows)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm) * (0.5 + (sim.mods.ohDmgBonus || 0)));
         }
       });
-      function flurryConsume(s) {
-        const a = s.flurryAura;
-        if (!a.active) return;
-        a.charges--;
-        if (a.charges <= 0) a.expire();
-      }
-
-      sim.executeDamage = function (rageLeft) {
-        return W.execute.base + W.execute.perRage * rageLeft;
-      };
-      sim._norm = norm;
-    },
-
-    start(sim) {
-      // Pre-pull: Bloodrage on cooldown from t=0 (off the GCD).
-      sim.bloodrageTick = null;
-    },
-
-    // Priority list. Returns seconds until the next useful re-check (or null to wait for an event).
-    rotate(sim) {
-      const W2 = WARRIOR, now = sim.now;
-      const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
-      // Off-GCD: Bloodrage.
-      if (now >= sim.sBR.readyAt) {
-        sim.sBR.readyAt = now + W2.bloodrage.cd; sim.entry('Bloodrage').casts++;
-        sim.gainRage(W2.bloodrage.immediate);
-        const ticks = W2.bloodrage.overTimeSec;
-        for (let i = 1; i <= ticks; i++) sim.schedule(i, () => sim.gainRage(W2.bloodrage.overTime / ticks));
-      }
-      if (gcdLeft > 0) return gcdLeft;
-
-      const cast = (spell, fn) => { sim.startGcd(); spell.readyAt = now + spell.cd; spell.casts++; sim.entry(spell.name).casts++; fn(); return sim.gcdReadyAt - now; };
-      const yellow = (name, rawFn, opts = {}) => {
-        const out = sim.resolveYellow(0, opts.canDodge !== false);
-        const e = sim.entry(name);
-        if (out === 'miss') { e.misses++; sim.onMeleeHit('miss', name, false, false); return out; }
-        if (out === 'dodge') { e.dodges++; sim.overpowerUntil = now + 5; sim.onMeleeHit('dodge', name, false, false); return out; }
-        let raw = rawFn(); if (out === 'crit') raw *= sim.critMult();
-        const dmg = sim.mitigate(raw * sim.mods.dmgMult, true);
-        sim.record(name, dmg, out); sim.onMeleeHit(out, name, false, false);
-        return out;
-      };
-
-      // Cooldowns first.
-      if (b.useDeathWish && sim.canCast(sim.sDW)) {
-        return cast(sim.sDW, () => { sim.spendRage(W2.deathWish.cost); sim.deathWishAura.apply(); });
-      }
-      if (b.useRecklessness && sim.now >= sim.sRK.readyAt && now >= sim.gcdReadyAt) {
-        return cast(sim.sRK, () => { sim.reckAura.apply(); });
-      }
-      const exec = b.executePhase && sim.inExecute();
-      // Execute phase: Execute is the main button.
-      if (exec && sim.rage >= sim.sEX.cost()) {
-        return cast(sim.sEX, () => {
-          const cost = sim.sEX.cost(); sim.spendRage(cost);
-          const extra = Math.max(0, sim.rage - 0); sim.rage = 0;
-          yellow('Execute', () => sim.executeDamage(extra));
-        });
-      }
-      // Bloodthirst, then Whirlwind.
-      if (sim.canCast(sim.sBT)) {
-        return cast(sim.sBT, () => {
-          sim.spendRage(W2.bloodthirst.cost);
-          yellow('Bloodthirst', () => sim.ap() * W2.bloodthirst.apCoeff + W2.bloodthirst.flat);
-        });
-      }
-      if (sim.canCast(sim.sWW)) {
-        return cast(sim.sWW, () => {
-          sim.spendRage(W2.whirlwind.cost);
-          const mh = sim.player.weapons[0];
-          yellow('Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm);
-          if (b.ragingBlows && sim.player.dualWield) {
-            const oh = sim.player.weapons[1];
-            yellow('Whirlwind (Raging Blows)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm) * (0.5 + (sim.mods.ohDmgBonus || 0)));
-          }
-        });
-      }
-      // Heroic Strike: queue only on spare Rage (keep BT/WW affordable when they are about to come off cooldown).
-      const reserve = ((sim.sBT.readyAt - now) < 1.5 ? W2.bloodthirst.cost : 0) + ((sim.sWW.readyAt - now) < 1.5 ? W2.whirlwind.cost : 0) + b.hsRageReserve;
+      const reserve = ((sim.sBT.readyAt - now) < 1.5 ? W.bloodthirst.cost : 0) + ((sim.sWW.readyAt - now) < 1.5 ? W.whirlwind.cost : 0) + b.hsRageReserve;
       if (!sim.mhQueued && sim.rage >= sim.sHS.cost() + reserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
-      // Wait for the next event that can change the decision.
-      const t = Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt);
-      return Math.max(0.05, t - now);
+      return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt) - now);
+    },
+  };
+}
+
+// =============================== ARMS ===============================
+export function armsKit(build = {}, data = null) {
+  const b = Object.assign({}, ARMS_DEFAULT_BUILD, build), W = warriorFromData(data);
+  return {
+    name: 'warrior_arms', build: b, W,
+    setup(sim) {
+      commonSetup(sim, b, W);
+      const mods = sim.mods, mh = sim.player.weapons[0] || {};
+      sim.twoHanded = !!mh.twoHand;
+      if (sim.twoHanded) mods.dmgMult *= 1 + W.twoHandSpec.dmgPerRank * b.twoHandSpec;
+      mods.critDmgBonus += W.impale.critDmgPerRank * b.impale;
+      // Weaponmaster (Forever): axe/polearm +5% crit; mace/staff ignore 15% armor; sword 5% extra attack.
+      if (b.weaponmaster) {
+        const t = mh.type || '';
+        if (/axe|polearm/.test(t)) mods.critBonus += 0.05;
+        if (/mace|staff/.test(t)) sim.dr = sim.dr * 0.85;   // approximation: 15% less armor mitigation
+        sim.swordExtraAttack = /sword/.test(t) ? 0.05 : 0;
+      }
+      sim.sMS = sim.addSpell({ name: 'Mortal Strike', cost: () => W.mortalStrike.cost, cd: W.mortalStrike.cd });
+      sim.sOP = sim.addSpell({ name: 'Overpower', cost: () => W.overpower.cost, cd: W.overpower.cd });
+      sim.sSL = sim.addSpell({ name: 'Slam', cost: () => W.slam.cost, cd: 0 });
+      sim.sRD = sim.addSpell({ name: 'Rend', cost: () => W.rend.cost, cd: 0 });
+      sim.rendEndsAt = -1;
+      sim.slamUntil = -1;
+      // Deep Wounds: a crit applies a bleed worth (20% x ranks) of the average weapon damage over 12 s (refreshes, no stacking).
+      sim.deepWoundsAt = -1; sim.deepWoundsTick = 0;
+      const applyDeepWounds = (s) => {
+        const total = (mh.min + mh.max) / 2 * W.deepWounds.pctPerRank * b.deepWounds * 1.0;
+        const ticks = Math.round(W.deepWounds.duration / W.deepWounds.tick);
+        const per = total / ticks; s.deepWoundsAt = s.now + W.deepWounds.duration;
+        const my = ++s.deepWoundsTick;
+        for (let i = 1; i <= ticks; i++) s.schedule(i * W.deepWounds.tick, () => { if (s.deepWoundsTick === my && s.now <= s.deepWoundsAt + 1e-9) s.record('Deep Wounds', per * s.mods.dmgMult, 'hit'); });
+      };
+      sim.procs.push((s, outcome, source, isOH, isWhite) => {
+        if (outcome === 'miss' || outcome === 'dodge') return;
+        if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds(s);
+        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(sim.twoHanded ? 2 : 1);
+        if (isWhite && s.swordExtraAttack && outcome !== 'glance' && s.rng() < s.swordExtraAttack) s.whiteAttack(s.swings[0]);
+      });
+      if (b.angerManagement) {
+        const tick = () => { sim.gainRage(W.angerManagement.amount); sim.schedule(W.angerManagement.interval, tick); };
+        sim.schedule(W.angerManagement.interval, tick);
+      }
+    },
+    rotate(sim) {
+      const now = sim.now, mh = sim.player.weapons[0], norm = sim.twoHanded ? W.whirlwind.normSpeed2H : 2.4;
+      offGcd(sim, W);
+      const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
+      if (gcdLeft > 0) return gcdLeft;
+      if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
+      if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
+      if (sim.canCast(sim.sMS)) return castGcd(sim, sim.sMS, () => {
+        sim.spendRage(W.mortalStrike.cost);
+        yellowAttack(sim, 'Mortal Strike', () => sim.weaponRoll(mh) + sim.ap() / 14 * W.mortalStrike.normSpeed2H + W.mortalStrike.flat);
+      });
+      if (now <= sim.overpowerUntil && sim.canCast(sim.sOP)) return castGcd(sim, sim.sOP, () => {
+        sim.spendRage(W.overpower.cost); sim.overpowerUntil = -1;
+        yellowAttack(sim, 'Overpower', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.overpower.flat,
+          { canDodge: false, bonusCrit: W.improvedOverpower.critPerRank * b.improvedOverpower * 2 });
+      });
+      if (b.useRend && now >= sim.rendEndsAt && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
+        sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
+        const ticks = Math.round(W.rend.duration / W.rend.tick), per = W.rend.total / ticks, my = sim.rendEndsAt;
+        for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
+      });
+      // Slam: a cast that resets the swing timer; only worth it right after the main-hand swing (weaving).
+      if (b.useSlam && sim.canCast(sim.sSL) && sim.swings[0] && sim.swings[0].next - now > mh.speed * 0.55) {
+        const cast = Math.max(0.1, W.slam.cast - (b.improvedSlam >= 1 ? W.improvedSlam.castReduction : 0));
+        return castGcd(sim, sim.sSL, () => {
+          sim.spendRage(W.slam.cost);
+          yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat);
+          // the swing timer restarts after the cast (Improved Slam removes this penalty)
+          if (!(b.improvedSlam >= 2)) sim._scheduleSwing(sim.swings[0], cast + mh.speed / sim.hasteMult());
+        });
+      }
+      const reserve = ((sim.sMS.readyAt - now) < 1.5 ? W.mortalStrike.cost : 0) + b.hsRageReserve;
+      if (!sim.mhQueued && sim.rage >= sim.sHS.cost() + reserve && mh) sim.mhQueued = sim.sHS;
+      return Math.max(0.05, Math.min(sim.sMS.readyAt, sim.sBR.readyAt, sim.overpowerUntil > now ? sim.sOP.readyAt : Infinity) - now);
     },
   };
 }

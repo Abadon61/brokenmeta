@@ -105,7 +105,7 @@
     {% for r in wow_raids_nav %}<a href="{{ root }}wow-forever/raids/{{ r.id }}/">{{ r.name[lang] }}</a>{% endfor %}
   </div>
 </details>{% endif %}
-<details class="nav-dropdown" {% if active_sub in ('wow-talents', 'wow-optimisation', 'wow-simuler-mon-personnage') %}data-active="true"{% endif %}>
+<details class="nav-dropdown" {% if active_sub in ('wow-talents', 'wow-optimisation', 'wow-simuler-mon-personnage', 'wow-simulateur-dps') %}data-active="true"{% endif %}>
   <summary class="nav-link">Theorycraft</summary>
   <div class="nav-dropdown-menu">
     {% for want in wow_theorycraft_group %}{% for slug, fr_label, en_label in wow_nav if slug == want %}<a href="{{ root }}wow-forever/{{ slug }}/">{{ fr_label if lang == 'fr' else en_label }}</a>

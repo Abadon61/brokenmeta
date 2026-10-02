@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
+<p class="wow-note">{{ tx.beta_note }}</p>
+
+<div id="s60App" data-base="{{ root }}assets/sim60/" data-v="{{ s60.data_v }}" data-lang="{{ lang }}"
+     data-worker="{{ root }}assets/sim60/{{ s60.worker }}">
+  <p id="s60Loading" class="wow-note">…</p>
+  <div id="s60Form" hidden>
+    <h2 class="fiche-section-title">{{ tx.h_char }}</h2>
+    <div class="s60-grid">
+      <label class="s60-row"><span>{{ tx.class_spec }}</span>
+        <select id="s60Spec"><option value="warrior_fury">{{ 'Guerrier · Fureur' if lang == 'fr' else 'Warrior · Fury' }}</option><option value="warrior_arms">{{ 'Guerrier · Armes' if lang == 'fr' else 'Warrior · Arms' }}</option></select></label>
+      <label class="s60-row"><span>{{ tx.race }}</span><select id="s60Race"></select></label>
+      <label class="s60-row"><span>{{ tx.fight }}</span><input id="s60Len" type="number" min="30" max="900" value="180"></label>
+      <label class="s60-row"><span>{{ tx.iters }}</span><input id="s60Iters" type="number" min="100" max="200000" step="1000" value="5000"></label>
+      <label class="s60-row"><span>{{ tx.armor }}</span><input id="s60Armor" type="number" min="0" max="10000" value="3731"></label>
+    </div>
+
+    <h2 class="fiche-section-title">{{ tx.h_gear }}</h2>
+    <div id="s60Gear" class="s60-grid"></div>
+    <details class="s60-manual"><summary>{{ tx.manual }}</summary>
+      <p class="wow-note">{{ tx.manual_hint }}</p>
+      <div class="s60-grid">
+        <label class="s60-row"><span>{{ tx.ap }}</span><input id="s60Ap" type="number" step="1"></label>
+        <label class="s60-row"><span>{{ tx.crit }}</span><input id="s60Crit" type="number" step="0.1"></label>
+        <label class="s60-row"><span>{{ tx.hit }}</span><input id="s60Hit" type="number" step="0.1"></label>
+      </div>
+    </details>
+
+    <h2 class="fiche-section-title">{{ tx.h_buffs }}</h2>
+    <div class="s60-cols"><div id="s60Buffs" class="s60-checks"></div><div id="s60Cons" class="s60-checks"></div><div id="s60Debuffs" class="s60-checks"></div></div>
+
+    <h2 class="fiche-section-title">{{ tx.h_talents }}</h2>
+    <div class="s60-checks">
+      <label class="s60-check"><input type="checkbox" id="s60Exec" checked> {{ tx.execute }}</label>
+      <label class="s60-check"><input type="checkbox" id="s60DW" checked> {{ tx.dw }} ({{ 'Fureur' if lang == 'fr' else 'Fury' }})</label>
+      <label class="s60-check"><input type="checkbox" id="s60Reck" checked> {{ tx.reck }}</label>
+      <label class="s60-row"><span>{{ tx.enrage }}</span><input id="s60Enrage" type="number" min="0" max="1" step="0.05" value="0"></label>
+    </div>
+
+    <h2 class="fiche-section-title">{{ tx.h_run }}</h2>
+    <div class="ms-actions">
+      <button type="button" id="s60Run" class="ms-btn">{{ tx.run }}</button>
+      <button type="button" id="s60Weights" class="ms-btn">{{ tx.weights }}</button>
+      <button type="button" id="s60Opt" class="ms-btn">{{ tx.optimize }}</button>
+      <span id="s60Status" class="ms-status" role="status" aria-live="polite"></span>
+    </div>
+    <div id="s60Bar" class="s60-bar" hidden><i></i></div>
+
+    <h2 class="fiche-section-title">{{ tx.h_results }}</h2>
+    <section id="s60Result" class="ms-result" hidden></section>
+    <section id="s60Weights2" class="ms-result" hidden></section>
+    <section id="s60Opt2" class="ms-result" hidden></section>
+  </div>
+</div>
+<script type="application/json" id="s60I18n">{{ tx_js|tojson }}</script>
+<script src="{{ root }}assets/sim60/{{ s60.lib }}" defer></script>
+<script src="{{ root }}assets/js/wow-sim60.js?v={{ js_v('wow-sim60.js') }}" defer></script>
+
+<h2 class="fiche-section-title">{{ tx.h_limits }}</h2>
+<ul class="ms-limits">{% for item in tx.limits %}<li>{{ item }}</li>{% endfor %}</ul>
+{% endblock %}

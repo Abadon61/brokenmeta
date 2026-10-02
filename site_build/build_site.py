@@ -48,6 +48,8 @@ import wow_spells  # noqa: E402
 import wow_dps_sim  # noqa: E402
 import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
+import wow_sim60_texts  # noqa: E402
+import sim60_bundle  # noqa: E402
 
 # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
 # character creation actually works, not a per-race-and-class combined lookup). Read by hand from
@@ -5141,6 +5143,7 @@ def main() -> None:
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir(parents=True)
+    SIM60_BUILD = sim60_bundle.build(DIST)   # level-60 simulator: hashed lib + worker + data under dist/assets/sim60/
     images = ImageCache(DIST)
 
     # ---- Real champion + item image URLs (same CDragon source as the Artifact) ----
@@ -6747,12 +6750,13 @@ def main() -> None:
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
+    _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
     # "addon" is no longer a menu link: the pink bar CTA (macros.nav_cta) points there since 2026-10-02.
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
-    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage"]
+    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "simulateur-dps"]
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -7773,6 +7777,15 @@ def main() -> None:
                        g_title=_gx["ms_title"], g_desc=_gx["ms_desc"], g_h1=_gx["ms_h1"], g_intro=_gx["ms_intro"],
                        breadcrumb_schema=breadcrumb_schema(_mscrumb),
                        article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
+            # Level-60 DPS simulator (2026-10-02): JavaScript engine in sim60/, bundled by sim60_bundle.py.
+            _s60path = "/wow-forever/simulateur-dps/"
+            _s60 = wow_sim60_texts.TXT[lang]
+            assert len(_s60["title"]) <= 60 and len(_s60["desc"]) <= 155, (lang, len(_s60["title"]), len(_s60["desc"]))
+            _s60crumb = _gbase + [(_s60["h1"], canonical_for(_s60path, lang))]
+            render("wow_sim60.html", _s60path, lang, active_nav="wow", active_sub="wow-simulateur-dps", tx=_s60, tx_js=dict(_s60, **{"js": _s60["js"]}),
+                   s60=SIM60_BUILD, g_title=_s60["title"], g_desc=_s60["desc"], g_h1=_s60["h1"], g_intro=_s60["intro"],
+                   breadcrumb_schema=breadcrumb_schema(_s60crumb),
+                   article_schema=build_article_schema(_s60["h1"], canonical_for(_s60path, lang), _s60["desc"]))
             # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
             # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
             _adroot = "/" if lang == "fr" else "/en/"
@@ -8745,7 +8758,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"

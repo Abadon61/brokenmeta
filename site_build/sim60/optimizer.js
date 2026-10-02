@@ -57,3 +57,37 @@ export function optimizeGear({ pool, character, kit, fightLen = 180, iterations 
   }
   return { dps: best, gear: EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean), log, weights: w };
 }
+
+// Async variant used by the web page: `evaluate(spec)` runs the simulation on the worker pool (all cores)
+// and `getWeights()` returns {agi, crit, hit, haste} (AP equivalents). Same search as optimizeGear().
+export async function optimizeGearAsync({ pool, character, evaluate, getWeights, prefilter = 4, maxPasses = 3, onProgress }) {
+  const cls = character.class, base = Object.assign({}, character, { gear: [] });
+  const bySlot = {};
+  for (const s of EQUIP_SLOTS) bySlot[s] = (character.gear || []).find((g) => g.slot === s) || null;
+  const w = await getWeights(Object.assign({}, base, { gear: EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean) }));
+  const specOf = () => Object.assign({}, base, { gear: EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean) });
+  let best = await evaluate(specOf());
+  const log = [{ pass: 0, dps: best }];
+  for (let pass = 1; pass <= maxPasses; pass++) {
+    let improved = false;
+    for (const slot of EQUIP_SLOTS) {
+      const used = new Set(EQUIP_SLOTS.filter((s) => s !== slot && bySlot[s]).map((s) => bySlot[s].id));
+      let cands = pool.forSlot(slot, cls, 60).filter((i) => !used.has(i.id));
+      cands.sort((a, b) => score(b, w) - score(a, w));
+      cands = cands.slice(0, prefilter);
+      const current = bySlot[slot];
+      let bestItem = current, bestDps = best;
+      for (const it of cands) {
+        if (current && it.id === current.id) continue;
+        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st };
+        const d = await evaluate(specOf());
+        if (d > bestDps + 0.05) { bestDps = d; bestItem = bySlot[slot]; }
+      }
+      bySlot[slot] = bestItem;
+      if (bestDps > best + 0.05) { best = bestDps; improved = true; log.push({ pass, slot, name: bestItem && bestItem.name, dps: best }); }
+      if (onProgress) onProgress({ pass, slot, dps: best });
+    }
+    if (!improved) break;
+  }
+  return { dps: best, gear: EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean), log, weights: w };
+}
