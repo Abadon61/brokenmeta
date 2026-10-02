@@ -50,6 +50,15 @@ import re
 import wow_spells
 
 DODGE_CHANCE = 0.05          # same-level-target baseline -- see wow-warrior-sim.js for the citation
+# Level-60-vs-raid-boss attack table (2026-09-28, prep for the Nov 4 launch's max-level content),
+# ported from the retired wow-simulator.js's own sourced values: against a level-63 boss (3 above
+# the level-60 cap), Dodge = 5% + (bossDefense-attackerSkill)*0.1% = 5% + 15*0.1% = 6.5%, Glancing
+# Blow chance = 10% + (bossDefense-attackerSkill)*2% = 10% + 15*2% = 40% (original 1.12-era formula,
+# consistent with every other Forever mechanic confirmed so far -- see wow-simulator.js's own
+# comment for the full derivation and the two Vanilla WoW Wiki citations). Glance damage stays 70%,
+# same as the same-level table. A spec's ROTATIONS profile opts into this via "vs_boss": True.
+DODGE_CHANCE_VS_BOSS = 0.065
+GLANCE_CHANCE_VS_BOSS = 0.40
 # Critical strike multipliers, WoW Classic rules (Wowhead "Stats and Attributes for WoW Classic":
 # "A critical spell hit deals 150% of a spell's normal damage"; melee/ranged crits deal 200%).
 # Fixed 2026-09-26: every crit used to deal 200%, overrating casters. Forever's own spell crit
@@ -271,7 +280,7 @@ class Sim:
         self.events = []
         self.seq = 0
         self.resource = 0.0
-        self.resource_cap = ENERGY_CAP if profile["resource"] == "energy" else 100.0
+        self.resource_cap = ENERGY_CAP if profile["resource"] == "energy" else profile.get("rage_cap", 100.0)  # Boundless Rage raises this
         self.combo_points = 0
         self.cooldowns = {}
         self.gcd_ready = 0.0
@@ -288,6 +297,17 @@ class Sim:
         self.total_dmg = 0.0
         self.trace = None  # set to [] before run() to record a play-by-play (see trace_rotation())
         self._now = 0.0
+        # Level-60-vs-raid-boss attack table opt-in (see DODGE_CHANCE_VS_BOSS's comment).
+        vs_boss = profile.get("vs_boss", False)
+        self.dodge_chance = DODGE_CHANCE_VS_BOSS if vs_boss else DODGE_CHANCE
+        self.glance_chance = GLANCE_CHANCE_VS_BOSS if vs_boss else GLANCE_CHANCE
+        # Active-buff damage multipliers (e.g. Death Wish's own real "+20% Physical damage" --
+        # see the self_buff effect's physical_damage_done_pct/spell_damage_done_pct fields), and
+        # generic on-crit temporary-haste / on-hit bonus-resource talent mechanics (Flurry,
+        # Unbridled Wrath): all opt-in per spec via ROTATIONS' own "talent_mods" (see
+        # apply_buff_damage_mult/on_crit_haste_proc/on_melee_hit_bonus_resource below).
+        self.on_crit_haste_charges = 0
+        self.on_crit_haste_expire_at = -1.0
 
     def push(self, time, kind, data=None):
         if time > self.fight_len:
@@ -355,15 +375,20 @@ class Sim:
         ab = self.abilities[aid]
         sp, crit_frac = self.stats["sp"], self.stats["crit"]
         cmult = self.crit_mult(aid)
-        dmg_mult = self.talent_mod(aid).get("damage_mult", 1.0)
+        is_physical = ab.get("school", "physical") in (None, "physical")
+        dmg_mult = self.talent_mod(aid).get("damage_mult", 1.0) * self.active_buff_dmg_mult(t, is_physical)
         for eff in ab.get("effects", []):
             kind = eff["kind"]
             if kind == "direct_damage":
-                dmg, _ = resolve_direct_damage(eff, self.stats["ap"], sp, crit_frac, cmult)
+                dmg, is_crit = resolve_direct_damage(eff, self.stats["ap"], sp, crit_frac, cmult)
                 self.add_dmg(dmg * dmg_mult, aid)
+                if is_crit and is_physical:
+                    self.on_crit_haste_proc(t)  # real Flurry mechanic: any melee crit, not just white swings
             elif kind == "normalized_weapon_damage":
-                dmg, _ = resolve_normalized_weapon_damage(eff, self.avg_hit(0), sp, crit_frac, cmult)
+                dmg, is_crit = resolve_normalized_weapon_damage(eff, self.avg_hit(0), sp, crit_frac, cmult)
                 self.add_dmg(dmg * dmg_mult, aid)
+                if is_crit and is_physical:
+                    self.on_crit_haste_proc(t)
             elif kind == "periodic_damage":
                 duration, interval, per_tick, can_crit = resolve_periodic_setup(eff, sp)
                 per_tick *= dmg_mult
@@ -430,22 +455,26 @@ class Sim:
         weapons = self.profile["weapons"]
         wpn = weapons[idx]
         is_oh = wpn.get("offhand", False)
-        hit_frac = self.stats["hit"] - (0.19 if len(weapons) > 1 else 0.0)
+        # Dual Wield Specialization (real Fury talent, up to 5 ranks) reduces ONLY the off-hand's
+        # own share of the flat 19% dual-wield miss penalty -- the main hand's penalty is
+        # unaffected (Vanilla WoW Wiki -- Dual wield; wow-simulator.js's own sourced derivation).
+        dw_penalty = (self.profile.get("oh_miss_penalty", 0.19) if is_oh else 0.19) if len(weapons) > 1 else 0.0
+        hit_frac = self.stats["hit"] - dw_penalty
         roll_val = random.random()
         if roll_val >= hit_frac:
             if self.trace is not None:
                 self.trace.append(f"{t:6.2f}s  {'OH ' if is_oh else 'MH '} attaque de base -- raté")
             pass  # miss
-        elif roll(DODGE_CHANCE):
+        elif roll(self.dodge_chance):
             self.dodge_window_until = t + OVERPOWER_WINDOW
             if self.trace is not None:
                 self.trace.append(f"{t:6.2f}s  {'OH ' if is_oh else 'MH '} attaque de base -- esquivée")
         else:
-            is_glance = roll(GLANCE_CHANCE)
+            is_glance = roll(self.glance_chance)
             is_crit = (not is_glance) and roll(self.stats["crit"])
             base = wpn["dmg"] + self.stats["ap"] / 14 * wpn["speed"]  # see avg_hit()
             if is_oh:
-                base *= 0.5
+                base *= self.profile.get("oh_dmg_mult", 0.5)  # Dual Wield Specialization raises this per rank
             seal_id = self.profile.get("seal_ability")
             if seal_id and t <= self.buff_ends.get(seal_id, -1.0) and not is_oh:
                 seal = self.abilities.get(seal_id, {})
@@ -459,19 +488,72 @@ class Sim:
                 self.pending_swing_bonus = 0.0
                 self.pending_swing_bonus_tag = None
             mult = GLANCE_DAMAGE_MULT if is_glance else (2.0 if is_crit else 1.0)
-            dmg = base * mult
+            dmg = base * mult * self.active_buff_dmg_mult(t, physical=True)
             self.add_dmg(dmg, tag)
+            if is_crit:
+                self.on_crit_haste_proc(t)
+            self.on_melee_hit_bonus_resource(is_oh)
             if self.profile["resource"] == "rage":
                 self.gain_rage(dmg, is_crit, is_oh)
-        speed = wpn["speed"] / self.swing_speed_mult
+        speed = (wpn["speed"] / self.swing_speed_mult) * self.on_crit_haste_speed_mult(t, is_oh)
         self.push(t + speed, "swing", {"idx": idx})
+
+    def active_buff_dmg_mult(self, t, physical):
+        """Combined multiplier from every currently-active self_buff whose glossary effect carries
+        a real, sourced physical_damage_done_pct or spell_damage_done_pct (e.g. Death Wish's own
+        "+20% Physical damage for 30 sec" -- Forever spell=12328). Generic and stacking-additive
+        (real WoW damage-taken/done buffs of this kind stack additively with each other, not
+        multiplicatively), so a future second such buff on the same spec composes correctly."""
+        key = "physical_damage_done_pct" if physical else "spell_damage_done_pct"
+        total_pct = 0.0
+        for aid, end in self.buff_ends.items():
+            if t > end:
+                continue
+            for eff in self.abilities.get(aid, {}).get("effects", []):
+                if eff.get("kind") == "self_buff" and key in eff:
+                    total_pct += eff[key]
+        return 1.0 + total_pct
+
+    def on_crit_haste_proc(self, t):
+        """Flurry-style mechanic (real Fury Warrior talent, Forever's own beta client data): a
+        melee crit grants a fixed number of charges of bonus attack speed for the next few
+        swings, expiring after a set window if unused. Config lives on the spec's own
+        talent_mods under its OWN ability id (not a fake "flurry" ability) since it's tied to a
+        specific real talent -- e.g. {"warrior_flurry_talent": {"on_crit_haste": {"bonus": 0.25,
+        "charges": 3, "expire_sec": 15}}} -- looked up by name below since Flurry itself has no
+        cast/cooldown of its own to hang a talent_mod off."""
+        cfg = self.profile.get("on_crit_haste")
+        if not cfg:
+            return
+        self.on_crit_haste_charges = cfg["charges"]
+        self.on_crit_haste_expire_at = t + cfg["expire_sec"]
+
+    def on_crit_haste_speed_mult(self, t, is_oh):
+        cfg = self.profile.get("on_crit_haste")
+        if not cfg or self.on_crit_haste_charges <= 0 or t > self.on_crit_haste_expire_at:
+            return 1.0
+        # Both hands consume from the same shared charge pool (real Flurry mechanic: any landed
+        # swing, main or off hand, spends one charge), each hand tracking its own next-swing time.
+        self.on_crit_haste_charges -= 1
+        return 1.0 / (1.0 + cfg["bonus"])
+
+    def on_melee_hit_bonus_resource(self, is_oh):
+        """Unbridled Wrath-style mechanic (real Fury Warrior talent): a flat chance for +1 Rage
+        (or the profile's own configured amount) on any landed melee weapon hit, main or off
+        hand alike. Config: profile["on_melee_hit_bonus_resource"] = {"chance": 0.60, "amount": 1}."""
+        cfg = self.profile.get("on_melee_hit_bonus_resource")
+        if cfg and self.profile["resource"] == "rage" and random.random() < cfg["chance"]:
+            self.resource = min(self.resource_cap, self.resource + cfg["amount"])
 
     def gain_rage(self, dealt, is_crit, is_oh):
         f = (HIT_FACTOR_OH if is_oh else HIT_FACTOR_MH)["crit" if is_crit else "normal"]
         speed = self.profile["weapons"][1 if is_oh else 0]["speed"]
         raw = (15 * dealt) / (4 * self.rage_conversion) + (f * speed) / 2
         cap = (15 * dealt) / self.rage_conversion
-        self.resource = min(self.resource_cap, self.resource + min(raw, cap))
+        gained = min(raw, cap)
+        if is_oh:
+            gained *= self.profile.get("oh_rage_mult", 1.0)  # Dual Wield Specialization, +20%/rank
+        self.resource = min(self.resource_cap, self.resource + gained)
 
     def gain_energy(self, dt):
         self.resource = min(self.resource_cap, self.resource + ENERGY_REGEN_PER_SEC * dt)
@@ -667,7 +749,19 @@ ROTATIONS = {
         "resource": "rage",
         "role": "dps",
         "weapons": [{"dmg": 25, "speed": 2.6}, {"dmg": 18, "speed": 1.8, "offhand": True}],
+        # Level 30 kit (2026-10-02), from Icy Veins' level-30 Fury guide: its talent build (this
+        # site's guide template) takes Unbridled Wrath 5/5, Dual Wield Specialization 4/5 and Death
+        # Wish; Flurry, Boundless Rage, Bloodthirst and Whirlwind are NOT reachable at level 30, and
+        # its single-target priority is Overpower / Rend (Execute and Heroic Strike are advised
+        # against while leveling, so Heroic Strike is not in the rotation). Talent numbers below come from data/wow_talents/warrior.json's own
+        # Forever tooltips: Unbridled Wrath = 60% chance of +1 Rage per melee hit (1H weapons), Dual
+        # Wield Specialization = +5% off-hand damage and +2% off-hand hit per rank (off-hand base
+        # penalty 50%). Cruelty's +5% crit is not applied: the BiS aggregate it is compared with is
+        # explicitly "without talents". Stances are not modeled (Overpower is used as if available).
+        "oh_dmg_mult": 0.60, "oh_miss_penalty": 0.11,  # Dual Wield Specialization 4/5
+        "on_melee_hit_bonus_resource": {"chance": 0.60, "amount": 1},  # Unbridled Wrath 5/5 (1H weapons)
         "rotation": [
+            {"ability": "warrior_death_wish", "kind": "on_cooldown"},        # level-30 talent: +20% physical damage for 30 s, 3 min cooldown
             {"ability": "warrior_overpower", "kind": "dodge_proc"},       # notes: "usable for a few seconds after the CURRENT target dodges"
             {"ability": "warrior_rend", "kind": "maintain_dot"},          # notes: real bleed, "Periodic Can Crit"
         ],
@@ -773,6 +867,11 @@ ROTATIONS = {
         # stat-buff totem the user describes dropping at pull) -- a pure stat buff with no damage
         # of its own, so it wouldn't show up as a DPS line even once sourced; needs fresh Wowhead
         # data before it can be folded into the BIS stat calc instead.
+        # Level 30 (2026-10-02): Icy Veins' level-30 Enhancement build takes Flurry 4/5 -- this
+        # beta's tooltip: +25% attack speed for the next 3 swings after a melee crit at 5/5, i.e.
+        # 5% per rank (data/wow_talents/shaman.json), so 20% at 4/5. Its other level-30 talents
+        # (Thundering Strikes, Elemental Weapons...) are not modeled.
+        "on_crit_haste": {"bonus": 0.20, "charges": 3, "expire_sec": 15},  # Flurry 4/5
         "rotation": [
             {"ability": "shaman_searing_totem", "kind": "maintain_dot"},
             {"ability": "shaman_flame_shock", "kind": "maintain_dot"},
