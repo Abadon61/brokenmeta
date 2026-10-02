@@ -50,7 +50,7 @@ import wow_dps_sim
 import wow_spells
 
 ROOT = wow_spells.ROOT
-LEVEL_CAP = 20
+LEVEL_CAP = 30
 
 # ---- proficiency tables, sourced from vanilla-wow-archive.fandom.com/wiki/Class_proficiencies
 # (see module docstring). Armor types match this project's own item data's `type.en` strings
