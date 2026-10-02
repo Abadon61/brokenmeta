@@ -33,7 +33,7 @@ comment further down for the pet's sourcing and its disclosed Classic-approximat
 
 2026-09-26: stats are now real level-20 BiS gear, not an illustrative placeholder. Each
 spec's {ap, sp, hit, crit} comes from bis_stats_for_spec(), which converts the raw Str/Agi/
-Int/flat-AP/flat-SP totals in data/wow_items/bis_level20_stats.json (sourced from
+Int/flat-AP/flat-SP totals in data/wow_items/bis_level30_stats.json (sourced from
 foreverchanges.pro's BIS lists, cross-checked against Icy Veins/Wowhead for Warrior) through
 the real Classic Str->AP / Agi->Crit% / Int->SpellCrit% ratios and base Crit/Hit values also
 cited in that file (from Wowhead's own Classic "Stats and Attributes" guide). One weak link
@@ -99,7 +99,7 @@ def rage_conversion_value(level):
 
 
 RAGE_CONVERSION_L20 = rage_conversion_value(20)
-DEFAULT_LEVEL = 20
+DEFAULT_LEVEL = 30
 MAX_LEVEL = 60
 
 # ---- spell ranks by character level (2026-09-26) ------------------------------------------
@@ -953,7 +953,7 @@ ROTATIONS = {
     },
 }
 
-# Fallback only -- used if a spec has no entry in data/wow_items/bis_level20_stats.json.
+# Fallback only -- used if a spec has no entry in data/wow_items/bis_level30_stats.json.
 # Every spec in ROTATIONS has real BIS data now (see bis_stats_for_spec below), so this
 # should never actually fire, but stays as a safety net rather than a crash.
 DEFAULT_STATS = {"ap": 150, "sp": 90, "hit": 0.90, "crit": 0.15}
@@ -964,12 +964,12 @@ _BIS_DATA = None
 def _load_bis_data():
     global _BIS_DATA
     if _BIS_DATA is None:
-        path = wow_spells.ROOT / "data" / "wow_items" / "bis_level20_stats.json"
+        path = wow_spells.ROOT / "data" / "wow_items" / "bis_level30_stats.json"
         _BIS_DATA = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
     return _BIS_DATA
 
 
-# Per-spec metadata the raw bis_level20_stats.json doesn't itself encode: which crit formula
+# Per-spec metadata the raw bis_level30_stats.json doesn't itself encode: which crit formula
 # applies (physical, off Agility -- vs spell, off Intellect), which Agility->AP coefficient to
 # use (None for classes with no Agi->AP conversion, "melee" for Rogue/Feral Druid, "ranged" for
 # Hunter, whose real damage-relevant AP comes from the 2-per-Agi ranged coefficient, not the
@@ -993,7 +993,7 @@ def stat_deltas_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, f
     character constants (base melee/spell crit%, base hit%) added. Used to convert either one
     item's own stats (wow_bis_optimizer.py, 2026-09-26) or a full aggregate's stats
     (stats_from_raw below) into DPS-relevant terms with the same real Classic conversion ratios
-    (data/wow_items/bis_level20_stats.json). Returns None if spec_id/class_id isn't in the
+    (data/wow_items/bis_level30_stats.json). Returns None if spec_id/class_id isn't in the
     conversion tables."""
     profile = ROTATIONS.get(spec_id)
     if not profile:
@@ -1029,7 +1029,7 @@ def stat_deltas_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, f
 def stats_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_crit_pct=0, flat_hit_pct=0):
     """Turns a raw Str/Agi/Int + flat AP/SP/Crit/Hit stat block into the {ap, sp, hit, crit}
     shape run_class() needs: stat_deltas_from_raw()'s marginal contribution PLUS this spec's
-    base (no-gear) Crit%/Hit% constants, also cited in data/wow_items/bis_level20_stats.json.
+    base (no-gear) Crit%/Hit% constants, also cited in data/wow_items/bis_level30_stats.json.
     This is the shared math bis_stats_for_spec() (the aggregate BIS path) and
     wow_bis_optimizer.py (2026-09-26, the engine-driven BIS optimizer's final-loadout path) both
     call, so the two can never drift apart. Returns None if spec_id/class_id isn't in the
@@ -1059,7 +1059,7 @@ def stats_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_cr
 
 def bis_stats_for_spec(spec_id):
     """Turns the raw sourced gear stats (Str/Agi/Int + flat AP/SP/Crit/Hit from
-    data/wow_items/bis_level20_stats.json) into the {ap, sp, hit, crit} shape run_class()
+    data/wow_items/bis_level30_stats.json) into the {ap, sp, hit, crit} shape run_class()
     needs. Returns None if the spec isn't in the BIS data (shouldn't happen -- all 23 are)."""
     bis = _load_bis_data()
     spec_bis = bis.get("specs", {}).get(spec_id)

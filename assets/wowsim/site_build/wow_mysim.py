@@ -19,7 +19,7 @@ import wow_weights
 FORMAT = "BMW1"
 # Spell school whose Spell Power matters for a caster spec, when SPEC_STAT_PROFILE doesn't say.
 DEFAULT_SCHOOL = {"shaman": "nature", "paladin": "holy", "druid": "arcane"}
-SIM_LEVEL = 20
+SIM_LEVEL = 30
 
 LABELS = {
     "fr": {"white": "Attaque de base", "hunter_pet": "Familier"},
