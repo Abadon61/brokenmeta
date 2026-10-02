@@ -5033,6 +5033,48 @@ ADDON_DIR = PROJECT / "wow_addon" / "BrokenMetaWeights"
 
 ADDON_CURSEFORGE_URL = "https://www.curseforge.com/wow/addons/broken-meta-hub"
 
+# The BrokenMeta addon family (2026-10-02): /wow-forever/addon/ shows one tile per addon (download on
+# CurseForge + "more info" -> /wow-forever/addon/<id>/). Art: logo/wow_addon_icons/<id>.png.
+ADDONS = [
+    {"id": "hub", "cf": ADDON_CURSEFORGE_URL, "name": "Broken Meta : Hub",
+     "tag": {"fr": "Le hub : DPS, métiers, économie et donjons dans une seule fenêtre.",
+             "en": "The hub: DPS, professions, economy and dungeons in one window."}},
+    {"id": "dps", "cf": "https://www.curseforge.com/wow/addons/brokendps", "name": "BrokenDPS",
+     "tag": {"fr": "La valeur en DPS de chaque objet pour ta spé, tes améliorations et tes poids de stats.",
+             "en": "Every item's DPS value for your spec, your upgrades and your stat weights."},
+     "title": {"fr": "BrokenDPS : addon DPS pour WoW: Forever (gratuit)", "en": "BrokenDPS: free DPS addon for WoW: Forever"},
+     "desc": {"fr": "BrokenDPS, addon gratuit WoW: Forever : valeur DPS de chaque objet dans l'infobulle, tes améliorations et tes poids de stats personnels.",
+              "en": "BrokenDPS, free WoW: Forever addon: every item's DPS value in its tooltip, your upgrades and your personal stat weights."},
+     "h1": {"fr": "BrokenDPS, l'addon DPS de WoW: Forever", "en": "BrokenDPS, the WoW: Forever DPS addon"},
+     "sections": ["dps"]},
+    {"id": "crafter", "cf": "https://www.curseforge.com/wow/addons/brokencrafter", "name": "BrokenCrafter",
+     "tag": {"fr": "Trouve un artisan disponible, consulte ses recettes ou monte ton métier au meilleur prix.",
+             "en": "Find an available crafter, browse their recipes or level a profession at the best price."},
+     "title": {"fr": "BrokenCrafter : addon artisans WoW: Forever (gratuit)", "en": "BrokenCrafter: free crafters addon for WoW: Forever"},
+     "desc": {"fr": "BrokenCrafter, addon gratuit WoW: Forever : annuaire des artisans disponibles avec leurs recettes, et montée de métier aux prix de l'HV.",
+              "en": "BrokenCrafter, free WoW: Forever addon: directory of available crafters with their recipes, and profession leveling at auction house prices."},
+     "h1": {"fr": "BrokenCrafter, l'addon artisans de WoW: Forever", "en": "BrokenCrafter, the WoW: Forever crafters addon"},
+     "sections": ["prof"]},
+    {"id": "codex", "cf": "https://www.curseforge.com/wow/addons/brokencodex", "name": "BrokenCodex",
+     "tag": {"fr": "Prix de l'hôtel des ventes, valeur de tes sacs, bonnes affaires et butin des donjons.",
+             "en": "Auction house prices, your bags' value, bargains and dungeon loot."},
+     "title": {"fr": "BrokenCodex : addon économie et donjons WoW: Forever", "en": "BrokenCodex: economy and dungeons addon, WoW: Forever"},
+     "desc": {"fr": "BrokenCodex, addon gratuit WoW: Forever : prix de l'HV dans l'infobulle, valeur de tes sacs, bonnes affaires et butin boss par boss.",
+              "en": "BrokenCodex, free WoW: Forever addon: auction prices in tooltips, your bags' value, bargains and boss-by-boss dungeon loot."},
+     "h1": {"fr": "BrokenCodex, l'addon économie et donjons de WoW: Forever", "en": "BrokenCodex, the WoW: Forever economy and dungeons addon"},
+     "sections": ["eco", "dg"]},
+]
+ADDON_INDEX_TX = {
+    "fr": {"title": "Addons BrokenMeta pour WoW: Forever (gratuits)", "h1": "Les addons BrokenMeta pour WoW: Forever",
+           "desc": "Les addons gratuits BrokenMeta pour WoW: Forever : Hub, BrokenDPS, BrokenCrafter et BrokenCodex. Téléchargement sur CurseForge.",
+           "intro": "Quatre addons gratuits, tous sur CurseForge : le Hub qui réunit tout, et trois addons dédiés pour ne garder que ce dont tu as besoin.",
+           "download": "Télécharger", "more": "Plus d'infos", "home": "Tous les addons"},
+    "en": {"title": "BrokenMeta addons for WoW: Forever (free)", "h1": "The BrokenMeta addons for WoW: Forever",
+           "desc": "Free BrokenMeta addons for WoW: Forever: Hub, BrokenDPS, BrokenCrafter and BrokenCodex. Download on CurseForge.",
+           "intro": "Four free addons, all on CurseForge: the Hub that brings everything together, and three dedicated addons so you only keep what you need.",
+           "download": "Download", "more": "More info", "home": "All addons"},
+}
+
 
 def addon_version():
     """The BrokenMeta WoW addon's version, read from its .toc (None if the addon isn't there)."""
@@ -6689,13 +6731,13 @@ def main() -> None:
     wow_raids = wow_guides.load_raids()
     env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
     wow_spell_classes = wow_spells.load_all()   # {class_id: parsed json} for every data/wow_spells/<id>.json present
-    _wnav = list(wow_content.NAV)
+    _wnav = [n for n in wow_content.NAV if n[0] != "progression"]   # "Progression 1-60" dropped from the menu 2026-10-02 (page still built)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("talents" if wt_classes else "classes") + 1, ("glossaire", "Glossaire des sorts", "Spell glossary"))
     if wow_dungeons or wow_raids:
-        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Item builder", "Item builder"))
+        _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("optimisation", "Item builder", "Item builder"))
     # Rebuilt 2026-09-25 around the real level-20 kit (data/wow_spells/warrior.json) instead of the
     # speculative level-60 one removed 2026-09-23 -- see wow_warrior_sim.html / wow-warrior-sim.js.
     # The manual-input Fury calculator (/wow-forever/simulateur/) was replaced 2026-09-26 by the
@@ -6703,10 +6745,10 @@ def main() -> None:
     # "Simulate my character" (2026-09-26): paste the BrokenMeta addon export, simulated in the
     # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
     if wow_spell_classes:
-        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
+        _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
     _wnav.append(("artisans", "Artisans", "Crafters"))
-    _wnav.append(("addon", "Addon BrokenMeta", "BrokenMeta addon"))
+    # "addon" is no longer a menu link: the pink bar CTA (macros.nav_cta) points there since 2026-10-02.
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
@@ -7733,17 +7775,31 @@ def main() -> None:
                        article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
             # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
             # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
-            _adpath = "/wow-forever/addon/"
-            assert len(_gx["ad_title"]) <= 60 and len(_gx["ad_desc"]) <= 155
             _adroot = "/" if lang == "fr" else "/en/"
-            render("wow_addon.html", _adpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx,
-                   addon_version=addon_version(),
-                   g_title=_gx["ad_title"], g_desc=_gx["ad_desc"], g_h1=_gx["ad_h1"], g_intro=_gx["ad_intro"],
-                   faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
-                               "mainEntity": [{"@type": "Question", "name": q,
-                                               "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
-                                              for q, a in _gx["ad_faq"]]},
-                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["ad_h1"], canonical_for(_adpath, lang))]))
+            _adx = ADDON_INDEX_TX[lang]
+            _adpath = "/wow-forever/addon/"
+            assert len(_adx["title"]) <= 60 and len(_adx["desc"]) <= 155
+            _faq_schema = {"@context": "https://schema.org", "@type": "FAQPage",
+                           "mainEntity": [{"@type": "Question", "name": q,
+                                           "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
+                                          for q, a in _gx["ad_faq"]]}
+            render("wow_addon.html", _adpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx, adx=_adx, addons=ADDONS,
+                   g_title=_adx["title"], g_desc=_adx["desc"], g_h1=_adx["h1"], g_intro=_adx["intro"],
+                   faq_schema=_faq_schema,
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_adx["h1"], canonical_for(_adpath, lang))]))
+            for _ad in ADDONS:
+                _dpath = f"/wow-forever/addon/{_ad['id']}/"
+                if _ad["id"] == "hub":
+                    _dt, _dd, _dh, _di = _gx["ad_title"], _gx["ad_desc"], _gx["ad_h1"], _gx["ad_intro"]
+                else:
+                    _dt, _dd, _dh = _ad["title"][lang], _ad["desc"][lang], _ad["h1"][lang]
+                    _di = _ad["desc"][lang]
+                assert len(_dt) <= 60 and len(_dd) <= 155, (_ad["id"], lang, len(_dt), len(_dd))
+                render("wow_addon_detail.html", _dpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx, adx=_adx, ad=_ad,
+                       addon_version=addon_version(),
+                       g_title=_dt, g_desc=_dd, g_h1=_dh, g_intro=_di,
+                       faq_schema=_faq_schema,
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_adx["h1"], canonical_for(_adpath, lang)), (_dh, canonical_for(_dpath, lang))]))
             # Public crafters directory (2026-09-27): opt-in cards from the addon, loaded from wow-worker.
             _crpath = "/wow-forever/artisans/"
             assert len(_gx["cr_title"]) <= 60 and len(_gx["cr_desc"]) <= 155
@@ -8629,6 +8685,11 @@ def main() -> None:
     _spec_icon_dst.mkdir(parents=True, exist_ok=True)
     for _icon in sorted((LOGO_DIR / "wow_spec_icons").glob("*.png")):
         shutil.copy(_icon, _spec_icon_dst / _icon.name)
+    # Addon tiles/pages art (logo/wow_addon_icons: hub, dps, crafter, codex).
+    _addon_icon_dst = DIST / "assets" / "img" / "addon"
+    _addon_icon_dst.mkdir(parents=True, exist_ok=True)
+    for _icon in sorted((LOGO_DIR / "wow_addon_icons").glob("*.png")):
+        shutil.copy(_icon, _addon_icon_dst / _icon.name)
     manifest = {
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",

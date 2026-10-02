@@ -121,7 +121,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </details>
   </div>
 </div>
-<div class="navbar">
+<div class="navbar{% if active_nav == 'wow' %} navbar--center{% endif %}">
   <a class="title" href="{{ root }}{% if active_nav == 'league' %}league/{% elif active_nav == 'wow' %}wow-forever/{% endif %}">{% if active_nav == 'league' %}League of Legends{% elif active_nav == 'wow' %}World of Warcraft: Forever{% else %}Teamfight Tactics{% endif %}</a>
   <div class="navbar-right">
     <nav class="nav-menu">

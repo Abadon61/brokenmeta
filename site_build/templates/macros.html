@@ -25,7 +25,7 @@
 {% for want in wow_beta_group %}{% for slug, fr_label, en_label in wow_nav if slug == want %}<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/{{ slug ~ '/' if slug }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>
 {% endfor %}{% endfor %}
 {# 2026-10-02: no more "Guides de classe" group -- the spec banner (base.html .wow-specbar, also shown on mobile, scrolls sideways) links straight to every spec guide. #}
-{% if wow_profs_nav %}<div class="mobile-nav-group-title">{{ 'Métiers' if lang == 'fr' else 'Professions' }}</div>
+{% if wow_profs_nav %}<div class="mobile-nav-group-title">Professions</div>
 {% for p in wow_profs_nav %}<a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/professions/{{ p.id }}/" {% if active_sub == 'wow-professions' %}data-active="true"{% endif %}>{{ p.name[lang] }}</a>
 {% endfor %}{% endif %}
 {% if wow_dungeons_nav %}<div class="mobile-nav-group-title">{{ 'Donjons' if lang == 'fr' else 'Dungeons' }}</div>
@@ -85,9 +85,9 @@
 </details>
 {# "Guides de classe" dropdown removed 2026-10-02: replaced by the spec banner under this bar (base.html .wow-specbar). #}
 {% if wow_profs_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-professions' %}data-active="true"{% endif %}>
-  <summary class="nav-link">{{ 'Métiers' if lang == 'fr' else 'Professions' }}</summary>
+  <summary class="nav-link">Professions</summary>
   <div class="nav-dropdown-menu">
-    <a href="{{ root }}wow-forever/professions/">{{ 'Tous les métiers' if lang == 'fr' else 'All professions' }}</a>
+    <a href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if lang == 'fr' else 'All professions' }}</a>
     {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{{ p.name[lang] }}</a>{% endfor %}
   </div>
 </details>{% endif %}
@@ -183,9 +183,9 @@
    (TFT) and "Overlay TFT" obviously doesn't apply to League. #}
 {% macro nav_cta(lang, root, active_nav, active_sub=None) %}
 {% if active_nav == 'wow' %}
-<a class="nav-cta-button" href="{{ root }}wow-forever/beta/" {% if active_sub == 'wow-beta' %}data-active="true"{% endif %}>
-  <svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-  {{ 'Accéder à la bêta' if lang == 'fr' else 'Get beta access' }}
+<a class="nav-cta-button" href="{{ root }}wow-forever/addon/" {% if active_sub == 'wow-addon' %}data-active="true"{% endif %}>
+  <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+  {{ 'Addon BrokenMeta' if lang == 'fr' else 'BrokenMeta addon' }}
 </a>
 {% elif active_nav == 'league' %}
 <a class="nav-cta-button" href="{{ root }}league/" {% if active_sub == 'lol-profile' %}data-active="true"{% endif %}>
