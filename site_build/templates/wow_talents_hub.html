@@ -15,7 +15,7 @@
 <h2 class="fiche-section-title">{{ wt.classes_h2 }}</h2>
 <div class="lh-cards">
   {% for c in wt_classes %}
-  <a class="lh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/"><span class="lh-card-k">{{ wt.talents_kicker }}</span><b>{{ c.name[lang] }}</b><span>{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span></a>
+  <a class="lh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">{% if c.icon %}<img class="lh-card-icon" src="{{ c.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}<span class="lh-card-k">{{ wt.talents_kicker }}</span><b>{{ c.name[lang] }}</b><span>{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span></a>
   {% endfor %}
 </div>
 <h2 class="fiche-section-title">{{ wt.sources }}</h2>

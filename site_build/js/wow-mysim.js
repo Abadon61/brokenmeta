@@ -180,7 +180,8 @@
 
     out.innerHTML =
       '<div class="ms-head" style="--rc:' + esc(s.class_color || 'var(--magenta)') + '">' +
-        (s.class_icon ? '<img src="' + esc(s.class_icon) + '" alt="" width="40" height="40" loading="lazy">' : '') +
+        (s.spec_icon ? '<img src="' + esc((window.BM_ROOT || '') + s.spec_icon) + '" alt="" width="40" height="40" loading="lazy">'
+          : (s.class_icon ? '<img src="' + esc(s.class_icon) + '" alt="" width="40" height="40" loading="lazy">' : '')) +
         '<div><div class="ms-spec">' + esc(specLabel(r.spec)) + '</div>' +
         '<div class="ms-sub">' + esc(T.level) + ' ' + r.level + (r.race ? ' · ' + esc(r.race) : '') + '</div></div>' +
       '</div>' +

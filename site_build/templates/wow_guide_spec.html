@@ -143,7 +143,7 @@
 <div class="wh-cards">
   {% for s in cls.specs if s.id != spec.id %}
   <a class="wh-card" href="{{ root }}wow-forever/guides/{{ cls.id }}/{{ s.id }}/" style="--cc: {{ cls.color or '#8a6cff' }}">
-    {% if cls.icon %}<img class="wh-card-icon" src="{{ cls.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
+    <img class="wh-card-icon" src="{{ root }}assets/img/spec/{{ cls.id }}-{{ s.id }}.png" alt="" width="56" height="56" loading="lazy">
     <span class="wh-card-body"><b>{{ s.name[lang] }}</b><span class="wh-card-specs">{{ roles[s.id].role[lang] }}</span></span>
   </a>
   {% endfor %}

@@ -7530,22 +7530,13 @@ def main() -> None:
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
-            _bcls = {g["cls"]["id"]: g for g in wow_guide_list}
-            _guides_crumb = _gbase + [(_gx["guides"], canonical_for("/wow-forever/guides/", lang))]
-            render("wow_guides_hub.html", "/wow-forever/guides/", lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui,
-                   wt_classes=wt_classes, guide_ids=list(_bcls), breadcrumb_schema=breadcrumb_schema(_guides_crumb))
             for _g in wow_guide_list:
                 _cls, _roles = _g["cls"], _g["roles"]
                 _cn = _cls["name"][lang]
-                _sp = ", ".join(s["name"][lang] for s in _cls["specs"][:-1]) + (" / " if lang == "en" else " et ") + _cls["specs"][-1]["name"][lang]
-                _cpath = f"/wow-forever/guides/{_cls['id']}/"
-                _ct, _cd = _gx["class_title"].format(name=_cn), _gx["class_desc"].format(name=_cn, specs=_sp)
-                assert len(_ct) <= 60 and len(_cd) <= 155, (_ct, len(_ct), len(_cd))
-                _ch1, _ci = _gx["class_h1"].format(name=_cn), _gx["class_intro"].format(name=_cn, specs=_sp)
-                _ccrumb = _guides_crumb + [(_cn, canonical_for(_cpath, lang))]
-                render("wow_guide_class.html", _cpath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, roles=_roles,
-                       g_title=_ct, g_desc=_cd, g_h1=_ch1, g_intro=_ci, breadcrumb_schema=breadcrumb_schema(_ccrumb),
-                       article_schema=build_article_schema(_ch1, canonical_for(_cpath, lang), _cd))
+                # No intermediate hub / class overview pages any more (2026-10-02, user request): the
+                # spec banner under the menu links straight to each spec guide; the old URLs redirect
+                # (.htaccess, see below). Spec pages' breadcrumb goes home > section > class - spec.
+                _ccrumb = _gbase
                 for _s in _cls["specs"]:
                     _spath = f"/wow-forever/guides/{_cls['id']}/{_s['id']}/"
                     _role = _roles[_s["id"]]
@@ -7580,7 +7571,7 @@ def main() -> None:
                            bis_stats=(_bis_optimized.get(_bspec_id, (None, None, None))[1] if _bspec_id else None),
                            bis_dps=(_bis_optimized.get(_bspec_id, (None, None, None))[2] if _bspec_id else None),
                            bis_credit_url=_bis_gear_data["credit_url_by_class"].get(_cls["id"]),
-                           breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
+                           breadcrumb_schema=breadcrumb_schema(_ccrumb + [(f"{_cn} · {_sn}", canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
             if wow_dungeons:
                 _dcrumb = _gbase + [("Donjons" if lang == "fr" else "Dungeons", canonical_for("/wow-forever/dungeons/", lang))]
@@ -7731,7 +7722,9 @@ def main() -> None:
                     _ms_specs[_sid] = {"class_name": _scls["name"][lang] if _scls else _sid, "spec_name": _sname,
                                        "role": _sprof.get("role", "dps"),
                                        "class_icon": _scls.get("icon") if _scls else None,
-                                       "class_color": _scls.get("color") if _scls else None}
+                                       "class_color": _scls.get("color") if _scls else None,
+                                       "spec_icon": (f"assets/img/spec/{_scls['id']}-{wow_dps_sim.SPEC_ID_MAP[_sid]}.png"
+                                                     if _scls and wow_dps_sim.SPEC_ID_MAP.get(_sid) else None)}
                 render("wow_mysim.html", _mspath, lang, active_nav="wow", active_sub="wow-simuler-mon-personnage", tx=_gx,
                        ms_i18n=_gx["ms_js"], ms_specs=_ms_specs, ms_manifest_hash=wowsim_manifest()[1],
                        addon_version=addon_version(),
@@ -8629,6 +8622,13 @@ def main() -> None:
     shutil.copy(LOGO_DIR / "game-wow-forever-nav.png", DIST / "assets" / "img" / "game-wow-forever.png")
     shutil.copy(LOGO_DIR / "game-tft-nav.png", DIST / "assets" / "img" / "game-tft.png")
     shutil.copy(LOGO_DIR / "game-lol-nav.png", DIST / "assets" / "img" / "game-lol.png")
+    # WoW: Forever specialization icons (user-provided art, normalized to 128px by a one-off script
+    # into logo/wow_spec_icons/<class>-<spec>.png): they replace every class visual on the WoW pages
+    # (spec banner under the menu, DPS ranking, home page spec cards, guides, talent calculator).
+    _spec_icon_dst = DIST / "assets" / "img" / "spec"
+    _spec_icon_dst.mkdir(parents=True, exist_ok=True)
+    for _icon in sorted((LOGO_DIR / "wow_spec_icons").glob("*.png")):
+        shutil.copy(_icon, _spec_icon_dst / _icon.name)
     manifest = {
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",
@@ -8824,6 +8824,15 @@ def main() -> None:
     # keeps a short cache instead of none at all -- long enough to help a
     # back button or an accidental double-click, short enough that a data
     # refresh a few times a day is never stale for more than 5 minutes.
+    # 2026-10-02: the WoW guides hub and the per-class overview pages are gone (spec banner under the
+    # menu links straight to every spec guide). Old URLs keep working: hub -> WoW home, class page ->
+    # that class's first spec guide, FR and EN.
+    _guide_redirects = "\n# WoW: Forever guides hub / class overview pages removed 2026-10-02.\n"
+    for _pfx in ("", "/en"):
+        _guide_redirects += f"Redirect 301 {_pfx}/wow-forever/guides/ {_pfx}/wow-forever/\n"
+        for _gg in wow_guide_list:
+            _guide_redirects += f"Redirect 301 {_pfx}/wow-forever/guides/{_gg['cls']['id']}/ {_pfx}/wow-forever/guides/{_gg['cls']['id']}/{_gg['cls']['specs'][0]['id']}/\n"
+    _guide_redirects += "\n"
     (DIST / ".htaccess").write_text(
         "ErrorDocument 404 /404.html\n"
         "\n"
@@ -8831,6 +8840,7 @@ def main() -> None:
         "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
         "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
         "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
+        + _guide_redirects +
         "\n"
         "<IfModule mod_expires.c>\n"
         "  ExpiresActive On\n"

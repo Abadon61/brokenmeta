@@ -11,6 +11,7 @@
 {% if wt_fixture %}<p class="wt-fixture" data-marker="WOW-TALENTS-FIXTURE">{{ wt.fixture }}</p>{% endif %}
 {{ m.page_hero(wt.kicker, wt_h1, wt_intro, [(wt_class.specs|length, wt.specs), (wt_n_talents, wt.talents)]) }}
 <p><a class="fiche-link" href="{{ root }}wow-forever/talents/">← {{ wt.back }}</a></p>
+{% if wt_class.icon %}<p class="wt-class-badge" style="--cc: {{ wt_class.color or '#8a6cff' }}"><img src="{{ wt_class.icon }}" alt="" width="40" height="40"><span>{{ wt_class.name[lang] }}</span></p>{% endif %}
 <div id="wowTalents" class="wt"></div>
 <script id="wowTalentData" type="application/json">{{ wt_json|safe }}</script>
 <noscript><p class="wow-note">JavaScript is required for the calculator.</p></noscript>

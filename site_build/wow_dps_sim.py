@@ -1171,6 +1171,9 @@ def build_ranking(wt_classes, lang, iterations=300, fight_len=300.0):
             "class_name": cls["name"][lang] if cls else class_id,
             "class_icon": cls.get("icon") if cls else None,
             "class_color": cls.get("color") if cls else None,
+            # Specialization icon (user-provided art, logo/wow_spec_icons -> assets/img/spec/): replaces
+            # the class icon everywhere on the WoW pages since 2026-10-02.
+            "spec_icon": f"assets/img/spec/{class_id}-{wt_spec_id}.png" if wt_spec_id else None,
             "spec_name": spec_name,
             "role": profile.get("role", "dps"),
             "dps": dps,

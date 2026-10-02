@@ -169,6 +169,15 @@
   .game-toggle-btn { min-height: 38px; }
   .game-toggle-icon { display: block; border-radius: 3px; }
   .game-toggle-icon--wow { border-radius: 0; }  /* badge officiel WoW: Forever, déjà détouré */
+  .game-toggle-btn { gap: 8px; text-decoration: none; }
+  .game-toggle-label {
+    font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em;
+    color: var(--text-faint); white-space: nowrap;
+  }
+  .game-toggle-btn[data-active="true"] .game-toggle-label { color: #fff; }
+  .game-toggle-btn:hover .game-toggle-label { color: var(--cream); }
+  /* Game names next to the icons (2026-10-02); icons alone below this width (the row would crowd the search/language controls). */
+  @media (max-width: 1180px) { .game-toggle-label { display: none; } }
   .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
   .game-toggle-btn[data-active="true"] { background: var(--magenta); }
   .game-toggle-btn:hover:not([data-active="true"]) { background: var(--bg-2); }
@@ -195,7 +204,35 @@
     text-transform: uppercase;
     color: #fff;
   }
+  /* The game name is a link back to that game's home (2026-10-02). Clicking it must not highlight
+     or underline the text: no underline in any state, no text selection on a double-click, no
+     tap flash on mobile, and no focus ring after a mouse click (keyboard users still get one via
+     :focus-visible). */
+  .navbar a.title, .navbar a.title:visited, .navbar a.title:hover, .navbar a.title:active, .navbar a.title:focus {
+    color: #fff; text-decoration: none; -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none; user-select: none;
+  }
+  .navbar a.title:focus:not(:focus-visible) { outline: none; }
+  .navbar a.title:hover { opacity: .85; }
   .navbar .sep { color: rgba(255,255,255,0.75); font-size: 11px; }
+
+  /* WoW: Forever specialization banner under the pink menu bar (2026-10-02): one icon per spec guide,
+     grouped by class (class colour frames the icons). Scrolls sideways when the viewport is narrower
+     than the 27 icons instead of wrapping. */
+  .wow-specbar { background: #120d2d; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: thin; }
+  .wow-specbar-inner { display: flex; align-items: center; gap: 18px; width: max-content; margin: 0 auto; padding: 8px 24px; }
+  .wow-specbar-group { display: flex; gap: 4px; }
+  .wow-spec-link {
+    display: block; width: 36px; height: 36px; border-radius: 5px; overflow: hidden; flex: none;
+    border: 2px solid var(--cc, var(--border-bright)); opacity: .72;
+    transition: opacity .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  .wow-spec-link img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wow-spec-link:hover, .wow-spec-link:focus-visible { opacity: 1; transform: translateY(-1px); }
+  .wow-spec-link[data-active="true"] { opacity: 1; box-shadow: 0 0 0 2px var(--cc, var(--magenta)); }
+  /* Three spec icons side by side on the "Classes et races" class cards (replaces the single class icon). */
+  .wh-card-trio { display: flex; gap: 3px; flex: none; }
+  .wh-card-trio img { display: block; width: 28px; height: 28px; border-radius: 4px; object-fit: cover; }
 
   .nav-menu { display: flex; align-items: center; gap: 16px; }
   .nav-link {
@@ -1898,7 +1935,13 @@
   .wt-hint { margin: 10px 0 0; font-size: 12.5px; color: var(--text-faint); }
   .wt-trees { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .wt-tree { border: 1px solid var(--border-bright); background: radial-gradient(120% 90% at 0% 0%, var(--magenta-dim), var(--bg-2) 60%); padding: 12px 12px 14px; min-width: 0; }
-  .wt-tree-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .wt-tree-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .wt-tree-title { display: flex; align-items: center; gap: 9px; }
+  .wt-tree-icon { flex: none; width: 28px; height: 28px; border-radius: 5px; object-fit: cover; border: 1px solid var(--border-bright); }
+  /* Class logo on the talent calculator pages (2026-10-02). */
+  .lh-card-icon { display: block; width: 44px; height: 44px; border-radius: 6px; margin-bottom: 8px; border: 2px solid var(--cc, var(--border-bright)); }
+  .wt-class-badge { display: flex; align-items: center; gap: 12px; margin: 4px 0 14px; font-family: 'Cal Sans', sans-serif; font-size: 20px; color: var(--cream); }
+  .wt-class-badge img { width: 40px; height: 40px; border-radius: 6px; border: 2px solid var(--cc, var(--border-bright)); }
   .wt-tree-title { margin: 0; font-family: 'Cal Sans', sans-serif; font-size: 17px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream); flex: 1; min-width: 0; overflow-wrap: anywhere; }
   .wt-tree-count { font: 700 11px 'Space Mono', monospace; color: var(--gold); }
   .wt-tree-reset { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; background: none; border: none; color: var(--text-faint); cursor: pointer; padding: 2px 4px; }

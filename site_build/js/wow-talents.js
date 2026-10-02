@@ -103,7 +103,12 @@
   specs.forEach(function (s, si) {
     var tree = el('section', 'wt-tree'); tree.setAttribute('aria-label', s.name);
     var head = el('header', 'wt-tree-head');
-    var title = el('h3', 'wt-tree-title', s.name), count = el('span', 'wt-tree-count', '0');
+    var title = el('h3', 'wt-tree-title'), count = el('span', 'wt-tree-count', '0');
+    if (s.icon) {
+      var sicon = el('img', 'wt-tree-icon'); sicon.src = (window.BM_ROOT || '') + s.icon; sicon.alt = ''; sicon.width = 28; sicon.height = 28;
+      title.appendChild(sicon);
+    }
+    title.appendChild(document.createTextNode(s.name));
     var reset = el('button', 'wt-tree-reset', ui.resetTree); reset.type = 'button';
     reset.addEventListener('click', function () { s.talents.forEach(function (t) { delete ranks[t.id]; }); changed(); });
     head.appendChild(title); head.appendChild(count); head.appendChild(reset);
