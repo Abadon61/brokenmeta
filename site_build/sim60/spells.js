@@ -68,3 +68,24 @@ export function applyDot(sim, name, total, ticks, interval) {
   };
   sim.schedule(interval, step);
 }
+
+// Damage over time whose ticks can crit (Forever periodic effects carry can_crit). `perTick` is the snapshot damage of a tick;
+// `roll(i)` -> { crit: bool, mult: number } is evaluated at each tick; `onTick(res)` lets a kit react (Nightfall...).
+export function applyDotCrit(sim, name, perTick, ticks, interval, roll, onTick) {
+  const dots = sim.dots || (sim.dots = Object.create(null));
+  const ends = sim.dotEnds || (sim.dotEnds = Object.create(null));
+  const my = (dots[name] = (dots[name] || 0) + 1);
+  ends[name] = sim.now + ticks * interval;
+  let n = 0;
+  const step = () => {
+    if (dots[name] !== my) return;
+    const r = roll(n), d = perTick * r.mult;
+    sim.record(name, d, r.crit ? 'crit' : 'hit'); n++;
+    if (onTick) onTick(r);
+    if (n < ticks) sim.schedule(interval, step); else ends[name] = 0;
+  };
+  sim.schedule(interval, step);
+}
+export function dotActive(sim, name) { return !!(sim.dotEnds && sim.dotEnds[name] > sim.now + 1e-9); }
+export function dotLeft(sim, name) { return sim.dotEnds && sim.dotEnds[name] > sim.now ? sim.dotEnds[name] - sim.now : 0; }
+export function cancelDot(sim, name) { if (sim.dots && sim.dots[name] !== undefined) sim.dots[name]++; if (sim.dotEnds) sim.dotEnds[name] = 0; }

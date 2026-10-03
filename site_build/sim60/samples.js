@@ -53,3 +53,5 @@ export const SAMPLE_MAGE = {
   weapons: [],
   ...PRESET_CASTER,
 };
+
+export const SAMPLE_WARLOCK = { ...SAMPLE_MAGE, class: 'warlock', race: 'human' };

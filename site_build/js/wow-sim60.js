@@ -20,8 +20,9 @@
   function fmt(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
 
   var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' },
+    warlock_affliction: { cls: 'warlock', mode: 'caster' }, warlock_destruction: { cls: 'warlock', mode: 'caster' }, warlock_demonology: { cls: 'warlock', mode: 'caster' },
     mage_fire: { cls: 'mage', mode: 'caster' }, mage_frost: { cls: 'mage', mode: 'caster' }, mage_arcane: { cls: 'mage', mode: 'caster' } };
-  var CASTERS = { mage: 1 };
+  var CASTERS = { mage: 1, warlock: 1 };
   function isCaster() { return !!CASTERS[curCls()]; }
   function unit() { return isCaster() ? (fr ? 'PS' : 'SP') : (fr ? 'PA' : 'AP'); }
   function curSpec() { return $('s60Spec').value; }
@@ -162,7 +163,7 @@
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
     if (ap != null && cr != null && hi != null) spec.totals = isCaster() ? { sp: ap, crit: cr / 100, hit: hi / 100 } : { ap: ap, crit: cr / 100, hit: hi / 100 };
-    var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, useGem: $('s60Gem').checked, innervate: $('s60Inn').checked, movement: (num('s60Move') || 0) / 100, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
+    var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, useGem: $('s60Gem').checked, pet: $('s60Pet').value, sacrifice: $('s60Sac').value, curse: $('s60Curse').value, innervate: $('s60Inn').checked, movement: (num('s60Move') || 0) / 100, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
     return { spec: spec, build: build };
   }
   function makeJob(c) {
@@ -262,7 +263,7 @@
   }
 
   // ---------- talents ----------
-  var TREE_NAMES = { arcane: fr ? 'Arcanes' : 'Arcane', fire: fr ? 'Feu' : 'Fire', frost: fr ? 'Givre' : 'Frost', arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
+  var TREE_NAMES = { affliction: fr ? 'Affliction' : 'Affliction', demonology: fr ? 'Démonologie' : 'Demonology', destruction: 'Destruction', arcane: fr ? 'Arcanes' : 'Arcane', fire: fr ? 'Feu' : 'Fire', frost: fr ? 'Givre' : 'Frost', arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
   function talentStatus() {
     var v = S.validateRanks(state.tdata, state.ranks), st = $('s60TalentStatus');
     st.textContent = (v.ok ? fmt(T.t_ok, { pts: v.total, a: v.bySpec[0], b: v.bySpec[1], c: v.bySpec[2] }) : fmt(T.t_bad, { err: v.errors.slice(0, 2).join(' · ') }));
@@ -287,7 +288,7 @@
     });
     talentStatus();
   }
-  function loadPreset() { state.tdata = state.talentsAll[curCls()]; state.ranks = S.ranksFromNames(state.tdata, S.PRESETS[curSpec()]); renderTalents(); }
+  function loadPreset() { if ($('s60Sac')) $('s60Sac').value = curSpec() === 'warlock_demonology' ? 'imp' : 'none'; state.tdata = state.talentsAll[curCls()]; state.ranks = S.ranksFromNames(state.tdata, S.PRESETS[curSpec()]); renderTalents(); }
   function importLink() {
     var r = S.parseShareHash(state.tdata, $('s60TalentLink').value);
     var st = $('s60TalentStatus');
