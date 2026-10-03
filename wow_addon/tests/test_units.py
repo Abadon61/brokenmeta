@@ -64,8 +64,7 @@ class HubTests(unittest.TestCase):
         g.LUA_EVAL('function(label) for _, f in ipairs(frames) do if rawget(f, "text") == label and f.scripts.OnClick then f.scripts.OnClick() end end end')("Upgrades")
         texts = lua_list(g.LUA_EVAL('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t then o[#o+1] = t end end return o end')())
         self.assertTrue(any("slot(s) improved" in t for t in texts), "the selected dungeon's summary")
-        buttons = lua_list(g.LUA_EVAL('function() local o = {} for _, f in ipairs(frames) do local t = rawget(f, "text") if type(t) == "string" then o[#o+1] = t end end return o end')())
-        self.assertTrue(any(t.startswith("Dungeon: ") and "most rewarding" in t for t in buttons), "picker defaults to the best dungeon")
+        self.assertTrue(any("most rewarding" in t for t in texts), "the panel defaults to the best dungeon, marked as such")
 
     def test_upgrades_grouped_by_dungeon(self):
         _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
@@ -799,6 +798,13 @@ class CharacterPageTests(unittest.TestCase):
         g.NS.HubShow(g.NS.DPSTabs["character"])  # weights as gauges + equipped gear
         weights, _ = g.NS.ActiveWeights(g.NS.GetSpec())
         self.assertGreater(weights["str"] + weights["ap"] + weights["crit"], 0)
+
+    def test_every_dps_page_opens(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [], bags=["food", "ring_crit"])
+        for key in ("character", "upgrades", "bis", "guide", "export"):
+            g.NS.HubShow(g.NS.DPSTabs[key])
+        # again with the first dungeon picked and no spec: the empty states
+        g.NS.HubShow(g.NS.DPSTabs["upgrades"])
 
 
 class LanguageTests(unittest.TestCase):

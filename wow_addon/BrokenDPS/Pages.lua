@@ -9,6 +9,23 @@ local H = ns.Hub
 local W, rows, setRow, clearRows = H.W, H.rows, H.setRow, H.clearRows
 local HUB_ADDON = "BrokenMetaWeights" -- the export reports the HUB's version (the site compares it)
 
+
+-- Texts of the Upgrades, Best in slot, Guide and Export pages (new in the wide layout).
+local PT = ns.Localize("dpspages", {
+  up_bags_entry = "Dans tes sacs", up_vs = "face à ton équipement", up_total = "%d objet(s) utile(s) : +%.2f DPS au total",
+  bis_hint = "Meilleur équipement niveau 20 de ta spécialisation, objet par objet.", bis_worn = "✓ équipé", bis_owned = "dans tes sacs",
+  bis_none = "pas encore obtenu", bis_wearing = "%d sur %d équipés",
+  page = "Page %d/%d", prof_done_short = "Parcours terminé jusqu'à %d/%d.", prof_next_short = "Prochaine étape : %s (%d-%d), environ %d crafts.",
+  export_keys = "Contient : stats de la fiche personnage, talents, équipement (identifiants d'objets), armes. Aucun nom de personnage.",
+}, {
+  up_bags_entry = "In your bags", up_vs = "vs. your equipment", up_total = "%d useful item(s): +%.2f DPS in total",
+  bis_hint = "Level-20 best in slot gear for your spec, item by item.", bis_worn = "✓ worn", bis_owned = "in your bags",
+  bis_none = "not obtained yet", bis_wearing = "%d of %d worn",
+  page = "Page %d/%d", prof_done_short = "Route finished up to %d/%d.", prof_next_short = "Next step: %s (%d-%d), about %d crafts.",
+  export_keys = "Holds: character sheet stats, talents, gear (item ids), weapons. No character name.",
+})
+for k, v in pairs(PT) do if rawget(T, k) == nil then T[k] = v end end
+
 ns.HubSection("dps", T.sec_dps, 10, "BrokenDPS")
 local refreshers = {}
 local function newPage(label, slot)
@@ -269,25 +286,175 @@ refreshers[1] = function()
 end
 
 ---------------------------------------------------------------------------------------------
--- Page 2: Upgrades from bags
+-- Shared by the pages below: item cards (icon in a quality frame, name, a line of detail, what the item
+-- adds over what is worn with a meter) and the two-column layout of a list on the left, a panel on the right.
 ---------------------------------------------------------------------------------------------
-local pUp = newPage(T.tab_up, 2)
-local upHint = pUp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-upHint:SetPoint("TOPLEFT", 4, -2)
-upHint:SetPoint("TOPRIGHT", -4, -2)
-upHint:SetJustifyH("LEFT")
-upHint:SetText(T.up_hint)
-rows(pUp, 24, -40, 17, true)
-
-local Container = C_Container or {}
-local GetNumSlots = Container.GetContainerNumSlots or GetContainerNumSlots
-local GetBagLink = Container.GetContainerItemLink or GetContainerItemLink
-
 local QUALITY = { [2] = "1eff00", [3] = "0070dd", [4] = "a335ee", [5] = "ff8000" }
+local function rgbOf(hex)
+  return { tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255, 1 }
+end
 local function lootLink(it)
   local name = select(1, ns.GetItemInfo(it.id)) or it.n
   return "|cff" .. (QUALITY[it.q] or "ffffff") .. "|Hitem:" .. it.id .. "::::::::|h[" .. name .. "]|h|r"
 end
+
+local LIST_W = 262
+local PANEL_W = W - 24 - LIST_W - 12
+local CARD_W, CARD_H = math.floor((PANEL_W - 8) / 2), 64
+
+-- spec: { id or link, name, quality (number or hex), icon, sub, gain, maxGain, tag }
+local function newItemCard(parent, w)
+  w = w or CARD_W
+  local c = CreateFrame("Button", nil, parent, ns.BACKDROP_TEMPLATE)
+  c:SetSize(w, CARD_H - 6)
+  ns.Flat(c)
+  c.frame = CreateFrame("Frame", nil, c, ns.BACKDROP_TEMPLATE)
+  c.frame:SetSize(46, 46)
+  c.frame:SetPoint("LEFT", 8, 0)
+  ns.Flat(c.frame, ns.C.bg, ns.C.border)
+  c.icon = c.frame:CreateTexture(nil, "ARTWORK")
+  c.icon:SetPoint("TOPLEFT", 1, -1)
+  c.icon:SetPoint("BOTTOMRIGHT", -1, 1)
+  c.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+  c.name = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+  c.name:SetPoint("TOPLEFT", 64, -7)
+  c.name:SetWidth(w - 76)
+  c.name:SetJustifyH("LEFT")
+  c.name:SetWordWrap(false)
+  c.sub = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  c.sub:SetPoint("TOPLEFT", 64, -25)
+  c.sub:SetWidth(w - 76)
+  c.sub:SetJustifyH("LEFT")
+  c.sub:SetWordWrap(false)
+  c.delta = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+  c.delta:SetPoint("TOPLEFT", 64, -40)
+  c.delta:SetWidth(w - 76)
+  c.delta:SetJustifyH("LEFT")
+  c.delta:SetWordWrap(false)
+  c.meterBg = c:CreateTexture(nil, "ARTWORK")
+  c.meterBg:SetColorTexture(unpack(ns.C.border))
+  c.meterBg:SetHeight(3)
+  c.meterBg:SetPoint("BOTTOMLEFT", 64, 5)
+  c.meterBg:SetWidth(w - 76)
+  c.meterFill = c:CreateTexture(nil, "OVERLAY")
+  c.meterFill:SetHeight(3)
+  c.meterFill:SetPoint("BOTTOMLEFT", 64, 5)
+  c:SetScript("OnEnter", function(self)
+    if self.SetBackdropColor then self:SetBackdropColor(unpack(ns.C.rowHover)) end
+    if self.ref then
+      GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+      GameTooltip:SetHyperlink(self.ref)
+      GameTooltip:Show()
+    end
+  end)
+  c:SetScript("OnLeave", function(self)
+    if self.SetBackdropColor then self:SetBackdropColor(unpack(ns.C.row)) end
+    GameTooltip:Hide()
+  end)
+  c:SetScript("OnClick", function(self) if self.ref and HandleModifiedItemClick then HandleModifiedItemClick(self.link or self.ref) end end)
+  function c:Set(spec)
+    self.ref, self.link = spec.ref, spec.link
+    local hex = type(spec.quality) == "string" and spec.quality or QUALITY[spec.quality or 1] or "ffffff"
+    local q = rgbOf(hex)
+    self.name:SetText("|cff" .. hex .. (spec.name or "?") .. "|r" .. (spec.mark and ("  " .. spec.mark) or ""))
+    self.icon:SetTexture(spec.icon or "Interface\\Icons\\INV_Misc_QuestionMark")
+    ns.FlatBorder(self.frame, q)
+    self.sub:SetText("|c" .. ns.HEX.faint .. (spec.sub or "") .. "|r")
+    local gain = spec.gain
+    if gain and gain > 0.005 then
+      self.delta:SetText("|c" .. ns.HEX.teal .. string.format("+%.2f DPS", gain) .. "|r |c" .. ns.HEX.faint .. (spec.vs or "") .. "|r")
+      self.meterFill:SetColorTexture(unpack(ns.C.teal))
+      self.meterFill:SetWidth(math.max(2, math.floor((w - 76) * math.min(1, gain / math.max(spec.maxGain or gain, 0.01)))))
+      self.meterFill:Show()
+    else
+      self.delta:SetText(spec.note and ("|c" .. ns.HEX.faint .. spec.note .. "|r") or "")
+      self.meterFill:Hide()
+    end
+    self:Show()
+  end
+  return c
+end
+
+-- A column of selectable rows (pill buttons) with a tag on the right and a pager under it.
+local function newList(page, rowsN, rowH, top)
+  local list = { rows = {}, page = 1 }
+  for k = 1, rowsN do
+    local b = ns.Button(page, nil, "pill")
+    b:SetSize(LIST_W, rowH - 2)
+    b:SetPoint("TOPLEFT", 0, top - (k - 1) * rowH)
+    local fs = b.GetFontString and b:GetFontString()
+    if fs then fs:ClearAllPoints(); fs:SetPoint("LEFT", 12, 0); fs:SetWidth(LIST_W - 90); fs:SetJustifyH("LEFT"); fs:SetWordWrap(false) end
+    b.tag = b:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+    b.tag:SetPoint("RIGHT", -10, 0)
+    b:Hide()
+    list.rows[k] = b
+  end
+  local prev = ns.Button(page)
+  prev:SetSize(28, 22)
+  prev:SetPoint("BOTTOMLEFT", 0, 4)
+  prev:SetText("<")
+  local nxt = ns.Button(page)
+  nxt:SetSize(28, 22)
+  nxt:SetPoint("LEFT", prev, "RIGHT", 70, 0)
+  nxt:SetText(">")
+  local text = page:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+  text:SetPoint("LEFT", prev, "RIGHT", 8, 0)
+  -- entries: { label, tag, selected, onClick }
+  function list:Fill(entries, refresh)
+    local pages = math.max(1, math.ceil(#entries / #self.rows))
+    self.page = math.min(math.max(self.page, 1), pages)
+    for k, b in ipairs(self.rows) do
+      local e = entries[(self.page - 1) * #self.rows + k]
+      if e then
+        b:SetText(e.label)
+        b.tag:SetText(e.tag or "")
+        if e.selected then b:LockHighlight() else b:UnlockHighlight() end
+        b:SetScript("OnClick", e.onClick)
+        b:Show()
+      else
+        b:Hide()
+      end
+    end
+    text:SetText(string.format(T.page, self.page, pages))
+    if self.page > 1 then prev:Enable() else prev:Disable() end
+    if self.page < pages then nxt:Enable() else nxt:Disable() end
+    prev:SetScript("OnClick", function() self.page = self.page - 1; refresh() end)
+    nxt:SetScript("OnClick", function() self.page = self.page + 1; refresh() end)
+  end
+  return list
+end
+
+-- A title and a summary at the top of a panel.
+local function newPanelHead(parent)
+  local h = {}
+  h.title = parent:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+  if ns.MEDIA then pcall(h.title.SetFont, h.title, ns.MEDIA .. "Fonts/CalSans-Regular.ttf", 24, "") end
+  h.title:SetPoint("TOPLEFT", LIST_W + 12 + 2, -2)
+  h.title:SetWidth(PANEL_W - 4)
+  h.title:SetJustifyH("LEFT")
+  h.title:SetWordWrap(false)
+  h.sub = parent:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+  h.sub:SetPoint("TOPLEFT", h.title, "BOTTOMLEFT", 0, -6)
+  h.sub:SetWidth(PANEL_W - 4)
+  h.sub:SetJustifyH("LEFT")
+  h.sub:SetWordWrap(false)
+  return h
+end
+
+local function cardPos(k, top) -- card k (1-based) of a two-column grid under the panel head
+  return LIST_W + 12 + ((k - 1) % 2) * (CARD_W + 8), top - math.floor((k - 1) / 2) * CARD_H
+end
+
+---------------------------------------------------------------------------------------------
+-- Page 2: Upgrades: the sources on the left (bags, then dungeons by what a run is worth), the upgrades
+-- of the chosen source as cards on the right.
+---------------------------------------------------------------------------------------------
+local pUp, upIndex = newPage(T.tab_up, 2)
+ns.DPSTabs.upgrades = upIndex
+
+local Container = C_Container or {}
+local GetNumSlots = Container.GetContainerNumSlots or GetContainerNumSlots
+local GetBagLink = Container.GetContainerItemLink or GetContainerItemLink
 
 -- Dungeon upgrades, per dungeon: every dungeon item that beats what is worn (wearable by the class,
 -- required level at most 3 above the player's), and per dungeon the sum of its best item per slot
@@ -331,7 +498,7 @@ local function dungeonName(i)
   return (dg.name[IS_FR and "frFR" or "enUS"] or dg.name.enUS) .. (dg.levels ~= "" and (" (" .. dg.levels .. ")") or "")
 end
 
--- Dungeons in the picker: most rewarding first, then the others by name.
+-- Dungeons in the list: most rewarding first, then the others by name.
 local function dungeonOrder(by)
   local list = {}
   for i in ipairs(ns.DUNGEONS or {}) do list[#list + 1] = i end
@@ -343,33 +510,28 @@ local function dungeonOrder(by)
   return list
 end
 
-local BAG_MAX, PICK_ROW = 4, 7 -- bag upgrades shown, row where the dungeon picker sits
-local selectedDungeon -- nil: the most rewarding one
-
-local pickBtn = ns.Button(pUp)
-pickBtn:SetSize(W - 32, 22)
-pickBtn:SetPoint("TOPLEFT", 4, -40 - (PICK_ROW - 1) * 17 + 3)
-
--- The picker: a panel over the list with one button per dungeon (upgrades count and DPS gain).
-local picker = CreateFrame("Frame", nil, pUp, ns.BACKDROP_TEMPLATE)
-picker:SetPoint("TOPLEFT", pickBtn, "BOTTOMLEFT", 0, -4)
-picker:SetPoint("RIGHT", pUp, "RIGHT", -4, 0)
-picker:SetHeight(318)
-ns.Flat(picker, ns.C.bg, ns.C.borderBright)
-picker:SetFrameLevel((pUp:GetFrameLevel() or 1) + 20)
-picker:Hide()
-local pickRows = {}
-for k = 1, 24 do
-  local b = ns.Button(picker, nil, "pill")
-  b:SetSize((W - 50) / 2, 24)
-  b:SetPoint("TOPLEFT", 6 + ((k - 1) % 2) * ((W - 50) / 2 + 6), -6 - math.floor((k - 1) / 2) * 26)
-  if b.GetFontString and b:GetFontString() then b:GetFontString():SetWidth((W - 50) / 2 - 12) end
-  b:Hide()
-  pickRows[k] = b
+local UP_ROWS, UP_ROW_H = 15, 34
+local upSel -- nil: bags if it has upgrades, else the most rewarding dungeon; "bags"; or a dungeon index
+local upList = newList(pUp, UP_ROWS, UP_ROW_H, -2)
+local upHead = newPanelHead(pUp)
+local upCards = {}
+for k = 1, 12 do
+  upCards[k] = newItemCard(pUp)
+  upCards[k]:SetPoint("TOPLEFT", cardPos(k, -70))
+  upCards[k]:Hide()
 end
-pickBtn:SetScript("OnClick", function() picker:SetShown(not picker:IsShown()) end)
+local upEmpty = pUp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+upEmpty:SetPoint("TOPLEFT", LIST_W + 12 + 4, -80)
+upEmpty:SetWidth(PANEL_W - 8)
+upEmpty:SetJustifyH("LEFT")
+local upHint = pUp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+upHint:SetPoint("BOTTOMLEFT", LIST_W + 12 + 4, 8)
+upHint:SetWidth(PANEL_W - 8)
+upHint:SetJustifyH("LEFT")
+upHint:SetText(T.up_hint)
 
 refreshers[2] = function()
+  -- Upgrades in the bags.
   local found = {}
   if ns.GetSpec() and GetNumSlots and GetBagLink then
     local level = UnitLevel("player") or 1
@@ -387,61 +549,64 @@ refreshers[2] = function()
     end
   end
   table.sort(found, function(a, b) return a.d > b.d end)
-  local i = 1
-  setRow(pUp, i, "|cffffc23c" .. T.up_bags .. "|r"); i = i + 1
-  if #found == 0 then
-    setRow(pUp, i, "|cff7a7e96" .. T.no_upgrade .. "|r"); i = i + 1
-  end
-  for k = 1, math.min(#found, BAG_MAX) do
-    local f = found[k]
-    setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link }); i = i + 1
-  end
-  clearRows(pUp, i)
+  local bagsTotal = 0
+  for _, f in ipairs(found) do bagsTotal = bagsTotal + f.d end
 
-  -- Dungeon picker and the selected dungeon's upgrades.
   local by = upgradesByDungeon()
   local order = dungeonOrder(by)
   local top = order[1] and by[order[1]] and order[1] or nil
-  local d = selectedDungeon or top or order[1]
-  if not d then pickBtn:Hide(); return end
-  pickBtn:Show()
-  local dd = by[d]
-  pickBtn:SetText(string.format(T.up_pick, dungeonName(d)) .. (d == top and ("  · " .. T.up_top) or "") .. "  ↓")
-  for k, b in ipairs(pickRows) do
-    local idx = order[k]
-    if idx then
-      local x = by[idx]
-      b:SetText(dungeonName(idx) .. (x and string.format("  |c%s+%.1f|r", ns.HEX.teal, x.gain) or ""))
-      if idx == d then b:LockHighlight() else b:UnlockHighlight() end
-      b:SetScript("OnClick", function() selectedDungeon = idx; picker:Hide(); refreshers[2]() end)
-      b:Show()
-    else
-      b:Hide()
-    end
+  local sel = upSel
+  if sel == nil then sel = (#found > 0) and "bags" or top or order[1] end
+
+  local entries = { { label = "|c" .. ns.HEX.gold .. T.up_bags_entry .. "|r", tag = #found > 0 and string.format("|c%s+%.1f|r", ns.HEX.teal, bagsTotal) or "",
+    selected = sel == "bags", onClick = function() upSel = "bags"; refreshers[2]() end } }
+  for _, idx in ipairs(order) do
+    local x = by[idx]
+    entries[#entries + 1] = { label = dungeonName(idx), tag = x and string.format("|c%s+%.1f|r", ns.HEX.teal, x.gain) or "",
+      selected = sel == idx, onClick = function() upSel = idx; refreshers[2]() end }
   end
-  i = PICK_ROW + 1
-  if not dd then
-    setRow(pUp, i, "|cff7a7e96" .. T.up_none_in .. "|r"); i = i + 1
+  upList:Fill(entries, refreshers[2])
+
+  -- The cards of the selected source.
+  local cards = {}
+  local summary
+  if sel == "bags" then
+    upHead.title:SetText("|c" .. ns.HEX.gold .. T.up_bags_entry .. "|r")
+    for _, f in ipairs(found) do
+      local name, _, quality, _, _, _, _, _, loc, icon = ns.GetItemInfo(f.link)
+      cards[#cards + 1] = { ref = f.link, link = f.link, name = name, quality = quality, icon = icon, sub = loc and _G[loc] or "", gain = f.d, vs = T.up_vs }
+    end
+    summary = #found > 0 and string.format(T.up_total, #found, bagsTotal) or T.no_upgrade
   else
-    setRow(pUp, i, "|cff7a7e96" .. string.format(T.up_summary, dd.n, dd.gain) .. "|r"); i = i + 1
+    local dd = by[sel]
+    upHead.title:SetText("|c" .. ns.HEX.cream .. (sel and dungeonName(sel) or "") .. "|r" .. ((sel == top and dd) and ("  |c" .. ns.HEX.teal .. T.up_top .. "|r") or ""))
     local level = UnitLevel("player") or 1
-    for _, b in ipairs(dd.items) do
-      if i > #pUp.rows then break end
+    for _, b in ipairs(dd and dd.items or {}) do
       local it = b.it
-      local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
       local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
       local src = it.quest and T.up_quest or (it.src or "")
-      setRow(pUp, i, lootLink(it) .. "  |cff7a7e96" .. src .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
-        { icon = icon, link = "item:" .. it.id }); i = i + 1
+      if (it.req or 0) > level then src = src .. "  ·  " .. string.format(T.up_level, it.req) end
+      cards[#cards + 1] = { ref = "item:" .. it.id, link = lootLink(it), name = (select(1, ns.GetItemInfo(it.id))) or it.n, quality = it.q, icon = icon,
+        sub = src, gain = b.gain, vs = T.up_vs }
     end
+    summary = dd and string.format(T.up_summary, dd.n, dd.gain) or T.up_none_in
   end
-  clearRows(pUp, i)
+  upHead.sub:SetText("|c" .. ns.HEX.dim .. summary .. "|r")
+  local maxGain = 0
+  for _, c in ipairs(cards) do maxGain = math.max(maxGain, c.gain or 0) end
+  for k, card in ipairs(upCards) do
+    local spec = cards[k]
+    if spec then spec.maxGain = maxGain; card:Set(spec) else card:Hide() end
+  end
+  upEmpty:SetText(#cards == 0 and ("|c" .. ns.HEX.faint .. (sel == "bags" and T.no_upgrade or T.up_none_in) .. "|r") or "")
 end
 
 ---------------------------------------------------------------------------------------------
--- Page 5: Best in slot (level-20 gear per spec; data/wow_items/bis_gear_by_slot.json)
+-- Page 5: Best in slot (level-20 gear per spec; data/wow_items/bis_gear_by_slot.json): one card per
+-- slot, saying whether you wear it and what it would add over what you wear.
 ---------------------------------------------------------------------------------------------
-local pBis = newPage(T.tab_bis, 5)
+local pBis, bisIndex = newPage(T.tab_bis, 5)
+ns.DPSTabs.bis = bisIndex
 
 local BIS_SLOT_LABEL = {
   head = "HEADSLOT", neck = "NECKSLOT", shoulder = "SHOULDERSLOT", back = "BACKSLOT", chest = "CHESTSLOT",
@@ -449,58 +614,163 @@ local BIS_SLOT_LABEL = {
   finger = "FINGER0SLOT", finger2 = "FINGER1SLOT", trinket = "TRINKET0SLOT", trinket2 = "TRINKET1SLOT",
   main_hand = "MAINHANDSLOT", off_hand = "SECONDARYHANDSLOT", ranged = "RANGEDSLOT",
 }
+local BIS_SLOT_ID = {
+  head = 1, neck = 2, shoulder = 3, back = 15, chest = 5, wrist = 9, hands = 10, waist = 6, legs = 7, feet = 8,
+  finger = 11, finger2 = 12, trinket = 13, trinket2 = 14, main_hand = 16, off_hand = 17, ranged = 18,
+}
+
+local BIS_W = math.floor((W - 24 - 8) / 2)
+local bisHeadTitle = pBis:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+if ns.MEDIA then pcall(bisHeadTitle.SetFont, bisHeadTitle, ns.MEDIA .. "Fonts/CalSans-Regular.ttf", 24, "") end
+bisHeadTitle:SetPoint("TOPLEFT", 2, -2)
+bisHeadTitle:SetWidth(W - 40)
+bisHeadTitle:SetJustifyH("LEFT")
+local bisHeadSub = pBis:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+bisHeadSub:SetPoint("TOPLEFT", bisHeadTitle, "BOTTOMLEFT", 0, -6)
+bisHeadSub:SetWidth(W - 40)
+bisHeadSub:SetJustifyH("LEFT")
+local bisCards = {}
+for k = 1, 18 do
+  local c = newItemCard(pBis, BIS_W)
+  c:SetPoint("TOPLEFT", ((k - 1) % 2) * (BIS_W + 8), -66 - math.floor((k - 1) / 2) * CARD_H)
+  c:Hide()
+  bisCards[k] = c
+end
+local bisEmpty = pBis:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+bisEmpty:SetPoint("TOPLEFT", 4, -70)
+bisEmpty:SetWidth(W - 40)
+bisEmpty:SetJustifyH("LEFT")
 
 refreshers[5] = function()
   local spec = ns.GetSpec and ns.GetSpec()
   local rows = spec and ns.BIS and ns.BIS[spec]
-  local i = 1
   if not rows then
-    setRow(pBis, i, "|cff7a7e96" .. T.no_spec .. "|r"); i = i + 1
-    clearRows(pBis, i)
+    bisHeadTitle:SetText("")
+    bisHeadSub:SetText("")
+    for _, c in ipairs(bisCards) do c:Hide() end
+    bisEmpty:SetText("|c" .. ns.HEX.faint .. T.no_spec .. "|r")
     return
   end
-  for _, r in ipairs(rows) do
-    local icon = r.icon and ("Interface\\Icons\\" .. r.icon) or nil
-    setRow(pBis, i, slotLabel(BIS_SLOT_LABEL[r.slot] or r.slot) .. "  |cffffffff" .. (r.n or "?") .. "|r", "",
-      { icon = icon, link = r.id and ("item:" .. r.id) or nil }); i = i + 1
+  bisEmpty:SetText("")
+  bisHeadTitle:SetText("|c" .. ns.HEX.cream .. T.tab_bis .. "|r  |c" .. ns.HEX.teal .. ns.specName(spec) .. "|r")
+  bisHeadSub:SetText("|c" .. ns.HEX.dim .. T.bis_hint .. "|r")
+  local items, maxGain, wearing = {}, 0, 0
+  for k, r in ipairs(rows) do
+    local link = r.id and ("item:" .. r.id) or nil
+    local name, _, quality, _, _, _, _, _, _, tex = ns.GetItemInfo(r.id or 0)
+    local slotId = BIS_SLOT_ID[r.slot]
+    local worn = slotId and GetInventoryItemLink("player", slotId)
+    local isWorn = worn and r.id and tonumber(worn:match("item:(%d+)")) == r.id
+    local gain
+    if link and not isWorn and name then
+      local v = ns.score(link)
+      local d = v and ns.deltaVsEquipped(link, v)
+      if d and d > 0.005 then gain = d; maxGain = math.max(maxGain, d) end
+    end
+    if isWorn then wearing = wearing + 1 end
+    items[k] = { ref = link, link = link, name = name or r.n or "?", quality = quality or 3,
+      icon = r.icon and ("Interface\\Icons\\" .. r.icon) or tex, sub = slotLabel(BIS_SLOT_LABEL[r.slot] or r.slot),
+      gain = gain, vs = T.up_vs,
+      note = isWorn and ("|c" .. ns.HEX.teal .. T.bis_worn .. "|r") or ((r.id and GetItemCount and GetItemCount(r.id, true) or 0) > 0 and T.bis_owned or T.bis_none) }
   end
-  clearRows(pBis, i)
+  bisHeadSub:SetText("|c" .. ns.HEX.dim .. T.bis_hint .. "  ·  " .. string.format(T.bis_wearing, wearing, #rows) .. "|r")
+  for k, c in ipairs(bisCards) do
+    local it = items[k]
+    if it then it.maxGain = maxGain; c:Set(it) else c:Hide() end
+  end
 end
 
 ---------------------------------------------------------------------------------------------
--- Page 6: Guide (teaser + links to the site; the full guide stays on brokenmeta.gg)
+-- Page 6: Guide: your build against the guide's talents, and your professions with their route (the
+-- full guide stays on brokenmeta.gg; the buttons give the links).
 ---------------------------------------------------------------------------------------------
-local pGuide = newPage(T.tab_guide, 6)
-local gTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
-gTitle:SetPoint("TOPLEFT", 4, -2)
+local pGuide, guideIndex = newPage(T.tab_guide, 6)
+ns.DPSTabs.guide = guideIndex
+local GL_W = 380
+local GR_X = GL_W + 14
+local GR_W = W - 24 - GR_X
+
+local function newPanel(parent, x, w, h)
+  local f = CreateFrame("Frame", nil, parent, ns.BACKDROP_TEMPLATE)
+  f:SetSize(w, h)
+  f:SetPoint("TOPLEFT", x, -2)
+  ns.Flat(f, ns.C.row, ns.C.border)
+  return f
+end
+
+local gl = newPanel(pGuide, 0, GL_W, 330)
+local gTitle = gl:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
+gTitle:SetPoint("TOPLEFT", 14, -14)
 gTitle:SetText(T.guide_h)
-local gText = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
-gText:SetPoint("TOPLEFT", 4, -24)
-gText:SetWidth(W - 40)
+local gSpec = gl:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+if ns.MEDIA then pcall(gSpec.SetFont, gSpec, ns.MEDIA .. "Fonts/CalSans-Regular.ttf", 26, "") end
+gSpec:SetPoint("TOPLEFT", 14, -40)
+gSpec:SetWidth(GL_W - 28)
+gSpec:SetJustifyH("LEFT")
+local gText = gl:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+gText:SetPoint("TOPLEFT", gSpec, "BOTTOMLEFT", 0, -10)
+gText:SetWidth(GL_W - 28)
 gText:SetJustifyH("LEFT")
-local gMore = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-gMore:SetPoint("TOPLEFT", gText, "BOTTOMLEFT", 0, -8)
-gMore:SetWidth(W - 40)
+local gBarBg = gl:CreateTexture(nil, "ARTWORK")
+gBarBg:SetColorTexture(unpack(ns.C.border))
+gBarBg:SetHeight(10)
+gBarBg:SetWidth(GL_W - 28)
+gBarBg:SetPoint("TOPLEFT", 14, -150)
+local gBarFill = gl:CreateTexture(nil, "OVERLAY")
+gBarFill:SetHeight(10)
+gBarFill:SetPoint("TOPLEFT", 14, -150)
+local gMore = gl:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+gMore:SetPoint("TOPLEFT", 14, -176)
+gMore:SetWidth(GL_W - 28)
 gMore:SetJustifyH("LEFT")
-local gBtn = ns.Button(pGuide)
-gBtn:SetSize(220, 24)
-gBtn:SetPoint("TOPLEFT", gMore, "BOTTOMLEFT", 0, -10)
+local gBtn = ns.Button(gl, nil, "primary")
+gBtn:SetSize(GL_W - 28, 30)
+gBtn:SetPoint("BOTTOMLEFT", 14, 16)
 gBtn:SetText(T.guide_copy)
-local pTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
-pTitle:SetPoint("TOPLEFT", 4, -190)
+
+local gr = newPanel(pGuide, GR_X, GR_W, 330)
+local pTitle = gr:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
+pTitle:SetPoint("TOPLEFT", 14, -14)
 pTitle:SetText(T.prof_h)
 local profRows = {}
 for k = 1, 4 do
-  local fs = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-  fs:SetPoint("TOPLEFT", 4, -190 - k * 34)
-  fs:SetWidth(W - 160)
-  fs:SetJustifyH("LEFT")
-  local b = ns.Button(pGuide)
-  b:SetSize(120, 22)
-  b:SetPoint("TOPRIGHT", -4, -186 - k * 34)
-  b:SetText(T.prof_copy)
-  profRows[k] = { fs = fs, btn = b }
+  local y = -44 - (k - 1) * 70
+  local r = {}
+  r.icon = gr:CreateTexture(nil, "ARTWORK")
+  r.icon:SetSize(32, 32)
+  r.icon:SetPoint("TOPLEFT", 14, y)
+  r.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+  r.name = gr:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+  r.name:SetPoint("TOPLEFT", 54, y)
+  r.name:SetWidth(GR_W - 54 - 130)
+  r.name:SetJustifyH("LEFT")
+  r.name:SetWordWrap(false)
+  r.rank = gr:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+  r.rank:SetPoint("TOPRIGHT", -140, y - 2)
+  r.bg = gr:CreateTexture(nil, "ARTWORK")
+  r.bg:SetColorTexture(unpack(ns.C.border))
+  r.bg:SetHeight(6)
+  r.bg:SetWidth(GR_W - 54 - 130)
+  r.bg:SetPoint("TOPLEFT", 54, y - 20)
+  r.fill = gr:CreateTexture(nil, "OVERLAY")
+  r.fill:SetHeight(6)
+  r.fill:SetPoint("TOPLEFT", 54, y - 20)
+  r.next = gr:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  r.next:SetPoint("TOPLEFT", 54, y - 30)
+  r.next:SetWidth(GR_W - 54 - 130)
+  r.next:SetHeight(28)
+  r.next:SetJustifyH("LEFT")
+  r.next:SetJustifyV("TOP")
+  r.btn = ns.Button(gr)
+  r.btn:SetSize(112, 22)
+  r.btn:SetPoint("TOPRIGHT", -14, y - 4)
+  r.btn:SetText(T.prof_copy)
+  profRows[k] = r
 end
+local profNone = gr:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+profNone:SetPoint("TOPLEFT", 14, -46)
+profNone:SetWidth(GR_W - 28)
+profNone:SetJustifyH("LEFT")
 
 -- Learned professions as { line = skillLineID, rank, max }: modern API first, Classic fallback
 -- (matched on the localized name against the site's profession names).
@@ -528,13 +798,19 @@ refreshers[6] = function()
   local spec = ns.GetSpec()
   local tb = spec and ns.TALENT_BUILDS and ns.TALENT_BUILDS[spec]
   local ranks = ns.readTalents and select(1, ns.readTalents())
+  gSpec:SetText(spec and ("|c" .. ns.HEX.cream .. ns.specName(spec) .. "|r") or "")
   if spec and tb and #tb.core > 0 and ranks then
     local have = 0
     for _, node in ipairs(tb.core) do if (ranks[node] or 0) > 0 then have = have + 1 end end
-    gText:SetText("|cffffffff" .. ns.specName(spec) .. "|r : " .. string.format(T.guide_follow, have, #tb.core, tb.level or 20))
+    gText:SetText(string.format(T.guide_follow, have, #tb.core, tb.level or 20))
+    gBarBg:Show()
+    gBarFill:SetColorTexture(unpack(have == #tb.core and ns.C.teal or ns.C.gold))
+    gBarFill:SetWidth(math.max(2, math.floor((GL_W - 28) * have / #tb.core)))
+    gBarFill:Show()
     gMore:SetText(T.guide_more)
   else
-    gText:SetText(spec and ("|cffffffff" .. ns.specName(spec) .. "|r") or "")
+    gText:SetText("")
+    gBarBg:Hide(); gBarFill:Hide()
     gMore:SetText(T.guide_nobuild)
   end
   gBtn:SetShown(tb ~= nil)
@@ -547,49 +823,74 @@ refreshers[6] = function()
     local route = ns.PROFESSIONS and ns.PROFESSIONS[pr.line]
     if route and k < #profRows then
       k = k + 1
+      local r = profRows[k]
       local pname = route.name[IS_FR and "frFR" or "enUS"] or route.name.enUS
-      local text = string.format(T.prof_done, pname, pr.rank, pr.max)
+      local nextText = string.format(T.prof_done_short, pr.rank, pr.max)
       for _, st in ipairs(route.steps) do
         if pr.rank < st.t then
           local left = st.c
           if pr.rank > st.f then left = math.ceil(st.c * (st.t - pr.rank) / math.max(1, st.t - st.f)) end
-          text = string.format(T.prof_next, pname, pr.rank, pr.max, st.name[IS_FR and "frFR" or "enUS"] or st.name.enUS, st.f, st.t, left)
+          nextText = string.format(T.prof_next_short, st.name[IS_FR and "frFR" or "enUS"] or st.name.enUS, st.f, st.t, left)
           break
         end
       end
-      profRows[k].fs:SetText(text)
-      profRows[k].btn:Show()
-      profRows[k].btn:SetScript("OnClick", function()
+      r.icon:SetTexture(ns.ProfIconPath and ns.ProfIconPath(pr.line) or "Interface\\Icons\\INV_Misc_QuestionMark")
+      r.name:SetText("|c" .. ns.HEX.gold .. pname .. "|r")
+      r.rank:SetText("|c" .. ns.HEX.cream .. pr.rank .. "|r|c" .. ns.HEX.faint .. "/" .. pr.max .. "|r")
+      r.fill:SetColorTexture(unpack(ns.C.teal))
+      r.fill:SetWidth(math.max(2, math.floor((GR_W - 54 - 130) * math.min(1, pr.rank / math.max(pr.max, 1)))))
+      r.next:SetText("|c" .. ns.HEX.dim .. nextText .. "|r")
+      for _, f in ipairs({ r.icon, r.name, r.rank, r.bg, r.fill, r.next, r.btn }) do f:Show() end
+      r.btn:SetScript("OnClick", function()
         ns.ShowCopyText(T.link_title, T.link_hint, ns.SiteURL("wow-forever/professions/" .. route.id .. "/", "profession"))
       end)
     end
   end
-  if k == 0 then
-    profRows[1].fs:SetText("|cff7a7e96" .. T.prof_none .. "|r")
-    profRows[1].btn:Hide()
-    k = 1
+  profNone:SetText(k == 0 and ("|c" .. ns.HEX.faint .. T.prof_none .. "|r") or "")
+  for j = k + 1, #profRows do
+    local r = profRows[j]
+    for _, f in ipairs({ r.icon, r.name, r.rank, r.bg, r.fill, r.next, r.btn }) do f:Hide() end
   end
-  for j = k + 1, #profRows do profRows[j].fs:SetText(""); profRows[j].btn:Hide() end
 end
 
 ---------------------------------------------------------------------------------------------
 -- Page 3: Export
 ---------------------------------------------------------------------------------------------
 local pExp, iExport = newPage(T.tab_export, 3)
-local expHint = pExp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-expHint:SetPoint("TOPLEFT", 4, -2)
-expHint:SetPoint("TOPRIGHT", -4, -2)
+ns.DPSTabs.export = iExport
+-- Left: what this is and how to use it. Right: the text to copy, in a framed panel.
+local EX_W = 300
+local exInfo = CreateFrame("Frame", nil, pExp, ns.BACKDROP_TEMPLATE)
+exInfo:SetSize(EX_W, 330)
+exInfo:SetPoint("TOPLEFT", 0, -2)
+ns.Flat(exInfo, ns.C.row, ns.C.border)
+local exTitle = exInfo:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
+exTitle:SetPoint("TOPLEFT", 14, -14)
+exTitle:SetText(T.tab_export)
+local expHint = exInfo:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+expHint:SetPoint("TOPLEFT", 14, -42)
+expHint:SetWidth(EX_W - 28)
 expHint:SetJustifyH("LEFT")
+expHint:SetJustifyV("TOP")
 expHint:SetText(T.export_hint)
+local exKeys = exInfo:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+exKeys:SetPoint("BOTTOMLEFT", 14, 14)
+exKeys:SetWidth(EX_W - 28)
+exKeys:SetJustifyH("LEFT")
+exKeys:SetText(T.export_keys)
 
-local scroll = CreateFrame("ScrollFrame", "BrokenMetaHubExportScroll", pExp, "UIPanelScrollFrameTemplate")
-scroll:SetPoint("TOPLEFT", 4, -56)
-scroll:SetPoint("BOTTOMRIGHT", -26, 4)
+local exPanel = CreateFrame("Frame", nil, pExp, ns.BACKDROP_TEMPLATE)
+exPanel:SetPoint("TOPLEFT", EX_W + 14, -2)
+exPanel:SetPoint("BOTTOMRIGHT", 0, 4)
+ns.Flat(exPanel, ns.C.bg, ns.C.borderBright)
+local scroll = CreateFrame("ScrollFrame", "BrokenMetaHubExportScroll", exPanel, "UIPanelScrollFrameTemplate")
+scroll:SetPoint("TOPLEFT", 10, -10)
+scroll:SetPoint("BOTTOMRIGHT", -30, 10)
 local box = CreateFrame("EditBox", nil, scroll)
 box:SetMultiLine(true)
 box:SetAutoFocus(false)
 box:SetFontObject(ChatFontNormal)
-box:SetWidth(W - 60)
+box:SetWidth(W - 24 - EX_W - 14 - 50)
 box:SetScript("OnEscapePressed", function() if BrokenMetaHub then BrokenMetaHub:Hide() end end)
 scroll:SetScrollChild(box)
 
