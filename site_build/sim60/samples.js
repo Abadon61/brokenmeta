@@ -1,5 +1,5 @@
 // SYNTHETIC test characters (not real items): realistic magnitudes for exercising the pipeline.
-import { PRESET_RAID } from './presets.js';
+import { PRESET_RAID, PRESET_CASTER } from './presets.js';
 
 export const SAMPLE_FURY = {
   class: 'warrior', race: 'human',
@@ -37,4 +37,19 @@ export const SAMPLE_ROGUE = {
   buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'leader_of_the_pack'],
   consumables: ['elixir_mongoose', 'juju_power', 'juju_might', 'roids'],
   debuffs: ['sunder_armor_5', 'faerie_fire'],
+};
+
+export const SAMPLE_MAGE = {
+  class: 'mage', race: 'human',
+  gear: [
+    { slot: 'head', name: 'Sample hood', st: { int: 30, sta: 22, splpwr: 40, critstrkrtng: 14, hitrtng: 10 } },
+    { slot: 'chest', name: 'Sample robe', st: { int: 28, sta: 24, splpwr: 45, manargn: 6 } },
+    { slot: 'legs', name: 'Sample legs', st: { int: 26, sta: 22, splpwr: 40, critstrkrtng: 14 } },
+    { slot: 'hands', name: 'Sample gloves', st: { int: 18, sta: 14, splpwr: 24, hitrtng: 10 } },
+    { slot: 'trinket', name: 'Sample trinket', st: { splpwr: 50 } },
+    { slot: 'ring1', name: 'Sample ring', st: { int: 10, splpwr: 20, critstrkrtng: 14 } },
+    { slot: 'ring2', name: 'Sample ring 2', st: { splpwr: 25, hitrtng: 10 } },
+  ],
+  weapons: [],
+  ...PRESET_CASTER,
 };

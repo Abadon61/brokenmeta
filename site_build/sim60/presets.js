@@ -13,7 +13,9 @@ export const BUFFS = {
   mark_of_the_wild: { name: 'Mark of the Wild', str: 12, agi: 12, sta: 12, int: 12, spi: 12, assumed: true },
   strength_of_earth: { name: 'Strength of Earth Totem', str: 77, assumed: true },
   grace_of_air: { name: 'Grace of Air Totem', agi: 77, assumed: true },
-  leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, assumed: true },
+  leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, meleeOnly: true, assumed: true },
+  arcane_intellect: { name: 'Arcane Brilliance (Arcane Intellect)', int: 31, assumed: true },
+  moonkin_aura: { name: 'Moonkin Aura', spCrit: 0.03, assumed: true },
   trueshot_aura: { name: 'Trueshot Aura', ap: 100, assumed: true },
   dragonslayer: { name: 'Rallying Cry of the Dragonslayer', crit: 0.05, ap: 140, assumed: true },
   songflower: { name: 'Songflower Serenade', crit: 0.05, str: 15, agi: 15, assumed: true },
@@ -21,7 +23,12 @@ export const BUFFS = {
 };
 
 export const CONSUMABLES = {
-  elixir_mongoose: { name: 'Elixir of the Mongoose', agi: 25, crit: 0.02, assumed: true },
+  elixir_mongoose: { name: 'Elixir of the Mongoose', agi: 25, crit: 0.02, meleeOnly: true, assumed: true },
+  greater_arcane_elixir: { name: 'Greater Arcane Elixir', sp: 35, assumed: true },
+  flask_supreme_power: { name: 'Flask of Supreme Power', sp: 150, assumed: true },
+  brilliant_wizard_oil: { name: 'Brilliant Wizard Oil', sp: 36, spCrit: 0.01, assumed: true },
+  brilliant_mana_oil: { name: 'Brilliant Mana Oil', sp: 25, mp5: 12, assumed: true },
+  mageblood_potion: { name: 'Mageblood Potion', mp5: 12, assumed: true },
   juju_power: { name: 'Juju Power', str: 30, assumed: true },
   juju_might: { name: 'Juju Might', ap: 40, assumed: true },
   roids: { name: 'R.O.I.D.S.', str: 25, assumed: true },
@@ -36,7 +43,14 @@ export const DEBUFFS = {
   sunder_armor_5: { name: 'Sunder Armor x5', armor: -2250, assumed: true },
   faerie_fire: { name: 'Faerie Fire', armor: -505, assumed: true },
   curse_of_recklessness: { name: 'Curse of Recklessness', armor: -640, assumed: true },
+  curse_of_elements: { name: 'Curse of the Elements', spellTaken: 1.10, assumed: true },
   expose_armor: { name: 'Expose Armor (5 pts)', armor: -1700, assumed: true },
+};
+
+export const PRESET_CASTER = {
+  buffs: ['arcane_intellect', 'blessing_of_kings', 'mark_of_the_wild', 'moonkin_aura', 'dragonslayer', 'songflower'],
+  consumables: ['flask_supreme_power', 'greater_arcane_elixir', 'brilliant_wizard_oil', 'mageblood_potion'],
+  debuffs: ['curse_of_elements'],
 };
 
 export const PRESET_RAID = {

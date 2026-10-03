@@ -19,11 +19,12 @@
     <div class="s60-grid">
       <label class="s60-row"><span>{{ tx.class_spec }}</span>
         <select id="s60Spec"><option value="warrior_fury">{{ 'Guerrier · Fureur' if lang == 'fr' else 'Warrior · Fury' }}</option><option value="warrior_arms">{{ 'Guerrier · Armes' if lang == 'fr' else 'Warrior · Arms' }}</option>
-          <option value="rogue_combat">{{ 'Voleur · Combat' if lang == 'fr' else 'Rogue · Combat' }}</option><option value="rogue_assassination">{{ 'Voleur · Assassinat' if lang == 'fr' else 'Rogue · Assassination' }}</option><option value="rogue_subtlety">{{ 'Voleur · Finesse' if lang == 'fr' else 'Rogue · Subtlety' }}</option></select></label>
+          <option value="rogue_combat">{{ 'Voleur · Combat' if lang == 'fr' else 'Rogue · Combat' }}</option><option value="rogue_assassination">{{ 'Voleur · Assassinat' if lang == 'fr' else 'Rogue · Assassination' }}</option><option value="rogue_subtlety">{{ 'Voleur · Finesse' if lang == 'fr' else 'Rogue · Subtlety' }}</option>
+          <option value="mage_fire">{{ 'Mage · Feu' if lang == 'fr' else 'Mage · Fire' }}</option><option value="mage_frost">{{ 'Mage · Givre' if lang == 'fr' else 'Mage · Frost' }}</option><option value="mage_arcane">{{ 'Mage · Arcanes' if lang == 'fr' else 'Mage · Arcane' }}</option></select></label>
       <label class="s60-row"><span>{{ tx.race }}</span><select id="s60Race"></select></label>
       <label class="s60-row"><span>{{ tx.fight }}</span><input id="s60Len" type="number" min="30" max="900" value="180"></label>
       <label class="s60-row"><span>{{ tx.iters }}</span><input id="s60Iters" type="number" min="100" max="200000" step="1000" value="5000"></label>
-      <label class="s60-row"><span>{{ tx.armor }}</span><input id="s60Armor" type="number" min="0" max="10000" value="3731"></label>
+      <label class="s60-row" data-cls="warrior rogue"><span>{{ tx.armor }}</span><input id="s60Armor" type="number" min="0" max="10000" value="3731"></label>
     </div>
 
     <details class="s60-manual"><summary>{{ tx.base_title }}</summary>
@@ -36,7 +37,7 @@
     <details class="s60-manual"><summary>{{ tx.manual }}</summary>
       <p class="wow-note">{{ tx.manual_hint }}</p>
       <div class="s60-grid">
-        <label class="s60-row"><span>{{ tx.ap }}</span><input id="s60Ap" type="number" step="1"></label>
+        <label class="s60-row"><span id="s60ApLabel">{{ tx.ap }}</span><input id="s60Ap" type="number" step="1"></label>
         <label class="s60-row"><span>{{ tx.crit }}</span><input id="s60Crit" type="number" step="0.1"></label>
         <label class="s60-row"><span>{{ tx.hit }}</span><input id="s60Hit" type="number" step="0.1"></label>
       </div>
@@ -58,8 +59,9 @@
       <label class="s60-check" data-cls="warrior"><input type="checkbox" id="s60DW" checked> {{ tx.dw }} ({{ 'Fureur' if lang == 'fr' else 'Fury' }})</label>
       <label class="s60-check" data-cls="warrior"><input type="checkbox" id="s60Reck" checked> {{ tx.reck }}</label>
       <label class="s60-row" data-cls="warrior"><span>{{ tx.enrage }}</span><input id="s60Enrage" type="number" min="0" max="1" step="0.05" value="0"></label>
-      <label class="s60-check" data-cls="rogue" hidden><input type="checkbox" id="s60CD" checked> {{ tx.cooldowns }}</label>
+      <label class="s60-check" data-cls="rogue mage" hidden><input type="checkbox" id="s60CD" checked> {{ tx.cooldowns }}</label>
       <p class="wow-note" data-cls="rogue" hidden>{{ tx.rogue_note }}</p>
+      <p class="wow-note" data-cls="mage" hidden>{{ tx.mage_note }}</p>
     </div>
 
     <h2 class="fiche-section-title">{{ tx.h_run }}</h2>

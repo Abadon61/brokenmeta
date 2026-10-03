@@ -9,8 +9,9 @@ function withStats(cfg, delta) {
 }
 
 export function statWeights(cfg, iterations = 4000, seedBase = 1) {
+  const caster = cfg.player.resource === 'mana';
   const probes = {
-    ap: { ap: 40 },
+    ap: caster ? { sp: 40 } : { ap: 40 },       // main power stat: attack power or spell power
     crit: { crit: 0.01 },      // per 1%
     hit: { hit: 0.01 },        // per 1%
     haste: { haste: 0.01 },    // per 1% (multiplier 1 -> 1.01)
@@ -24,7 +25,7 @@ export function statWeights(cfg, iterations = 4000, seedBase = 1) {
     const lo = runBatch(withStats(cfg, down), iterations, seedBase).mean;
     out[k] = (hi - lo) / 2;
   }
-  const apPer = out.ap / 40;                      // DPS per AP
+  const apPer = out.ap / 40;                      // DPS per AP (spell power for casters)
   return {
     perPoint: { ap: apPer, crit: out.crit, hit: out.hit, haste: out.haste },
     normalizedToAp: { ap: 1, crit: out.crit / apPer, hit: out.hit / apPer, haste: out.haste / apPer },  // "1% crit = X AP"

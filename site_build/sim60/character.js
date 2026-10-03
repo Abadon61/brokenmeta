@@ -3,6 +3,9 @@
 import { RATING_PER_PCT, PLAYER_LEVEL, BASE_WEAPON_SKILL, BOSS_DEFENSE } from './constants.js';
 import { BUFFS, CONSUMABLES, DEBUFFS, RACIAL_SKILL } from './presets.js';
 
+// Level-63 boss vs level-60 caster (Classic, ASSUMED): 17% base spell miss; average partial-resist loss 3.75%.
+export const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.0375;
+
 // Level-60 Human base stats per class (str/agi/sta/int/spi) + racial modifiers.
 // warrior: Classic 1.12 values, kept as is. Every other class is an ESTIMATE (Classic-style, flagged
 // assumed): the Forever planner's sourced LEVEL-30 base (data/wow_items/base_stats_level30.json, race
@@ -38,10 +41,12 @@ const PRIMARY = ['str', 'agi', 'sta', 'int', 'spi'];
 const CLASS_RULES = {
   warrior: { apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
   rogue: { apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 29, baseCrit: 0, resource: 'energy' },
+  // Casters (Classic): spell crit from Intellect, mana from Intellect. baseMana/intPerCrit are ASSUMED Classic values.
+  mage: { caster: true, intPerCrit: 59.5, baseCrit: 0.002, baseMana: 1213, manaPerInt: 15, resource: 'mana' },
 };
 
 function sumGear(gear) {
-  const t = { str: 0, agi: 0, sta: 0, int: 0, spi: 0, ap: 0, critRating: 0, hitRating: 0, hasteRating: 0, armor: 0, weaponDmg: 0, skill: 0 };
+  const t = { sp: 0, mp5: 0, str: 0, agi: 0, sta: 0, int: 0, spi: 0, ap: 0, critRating: 0, hitRating: 0, hasteRating: 0, armor: 0, weaponDmg: 0, skill: 0 };
   for (const it of gear) {
     const s = it.st || {};
     for (const k of PRIMARY) t[k] += s[k] || 0;
@@ -51,6 +56,8 @@ function sumGear(gear) {
     t.hasteRating += s.hastertng || 0;
     t.armor += s.armor || 0;
     t.skill += s.skill || 0;
+    t.sp += (s.splpwr || 0) + (s.spldmg || 0);
+    t.mp5 += s.manargn || 0;
   }
   return t;
 }
@@ -70,14 +77,18 @@ export function buildCharacter(spec) {
   const gear = sumGear(spec.gear || []);
   const allBuffs = [...(spec.buffs || []).map((id) => BUFFS[id]), ...(spec.consumables || []).map((id) => CONSUMABLES[id])].filter(Boolean);
 
-  let statMult = 1, flatAp = gear.ap, buffCrit = 0, buffHit = 0, buffHaste = 1, apMult = 1;
+  let statMult = 1, flatAp = gear.ap, buffCrit = 0, buffHit = 0, buffHaste = 1, apMult = 1, buffSp = 0, buffSpCrit = 0, buffMp5 = 0, buffSpHit = 0;
   const prim = {};
   for (const k of PRIMARY) prim[k] = base[k] + gear[k];
   for (const b of allBuffs) {
     for (const k of PRIMARY) if (b[k]) prim[k] += b[k];
     if (b.statMult) statMult *= b.statMult;
     if (b.ap) flatAp += b.ap;
-    if (b.crit) buffCrit += b.crit;
+    if (b.crit && !(rules.caster && b.meleeOnly)) buffCrit += b.crit;
+    if (b.sp) buffSp += b.sp;
+    if (b.spCrit) buffSpCrit += b.spCrit;
+    if (b.spHit) buffSpHit += b.spHit;
+    if (b.mp5) buffMp5 += b.mp5;
     if (b.hit) buffHit += b.hit;
     if (b.haste) buffHaste *= b.haste;
     if (b.apMult) apMult *= b.apMult;
@@ -93,6 +104,8 @@ export function buildCharacter(spec) {
     hit = gear.hitRating / RATING_PER_PCT.hit / 100 + buffHit + (spec.flatHit || 0);
     haste = buffHaste * (1 + gear.hasteRating / RATING_PER_PCT.haste / 100);
   }
+
+  if (rules.caster) return buildCaster(spec, rules, prim, gear, { buffCrit, buffHit, buffHaste, buffSp, buffSpCrit, buffSpHit, buffMp5 });
 
   const weapons = (spec.weapons || []).map((w) => Object.assign({}, w));
   for (const w of weapons) if (spec.weaponDmgBonus) { w.min += spec.weaponDmgBonus; w.max += spec.weaponDmgBonus; }
@@ -116,5 +129,25 @@ export function buildCharacter(spec) {
     },
     target: { armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor },
+  };
+}
+
+// Caster stat block. Spell hit is a separate table from melee hit (Classic: 83% base against a level-63 boss,
+// +1% per 1% hit up to 99%), applied by the kit; here `hit` is only the bonus from gear/buffs.
+function buildCaster(spec, rules, prim, gear, b) {
+  const totals = spec.totals;
+  const sp = totals ? totals.sp : gear.sp + b.buffSp;
+  const crit = totals ? totals.crit : prim.int / rules.intPerCrit / 100 + rules.baseCrit + gear.critRating / RATING_PER_PCT.crit / 100 + b.buffCrit + b.buffSpCrit + (spec.flatCrit || 0);
+  const hit = totals ? totals.hit : gear.hitRating / RATING_PER_PCT.hit / 100 + b.buffHit + b.buffSpHit + (spec.flatHit || 0);
+  const haste = totals ? (totals.haste || 1) : b.buffHaste * (1 + gear.hasteRating / RATING_PER_PCT.haste / 100);
+  const mp5 = totals && totals.mp5 !== undefined ? totals.mp5 : gear.mp5 + b.buffMp5;
+  const mana = totals && totals.mana ? totals.mana : rules.baseMana + rules.manaPerInt * (prim.int - 20);
+  let resist = spec.targetSpellMitigation !== undefined ? spec.targetSpellMitigation : TARGET_SPELL_MITIGATION;
+  let taken = 1;
+  for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
+  return {
+    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [] },
+    target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
+    summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist) },
   };
 }

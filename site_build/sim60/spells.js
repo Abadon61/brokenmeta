@@ -1,0 +1,70 @@
+// Caster toolkit on top of the shared engine: mana pool and regeneration (five-second rule), timed casts
+// with haste, a spell-hit/crit/damage resolver and snapshotting damage-over-time effects. Classic 1.12
+// formulas where Forever has no table (ASSUMED, flagged in the kits that use them):
+//   spirit regen per second (outside the five-second rule) = 0.009327 * sqrt(Int) * Spirit
+//   spell crit multiplier 1.5, global cooldown 1.5 s (not reduced by haste), spell miss 17% vs a level-63 boss.
+export const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
+
+export function spiritRegenPerSec(stats) { return 0.009327 * Math.sqrt(Math.max(0, stats.int || 0)) * (stats.spi || 0); }
+
+// opts: { manaMax, mp5, spiritRegen, castingFraction }  (castingFraction = share of spirit regen kept inside the five-second rule)
+export function setupMana(sim, opts) {
+  sim.manaMax = opts.manaMax; sim.mana = opts.manaMax; sim.lastCastAt = -100; sim.casting = null;
+  sim.manaSpent = 0; sim.manaGained = 0; sim.manaOom = 0;
+  const per = REGEN_TICK;
+  const tick = () => {
+    const inFsr = sim.casting !== null || sim.now - sim.lastCastAt < FSR;
+    const spirit = opts.spiritRegen * (inFsr ? (opts.castingFraction || 0) : 1);
+    gainMana(sim, (opts.mp5 / 5 + spirit) * per);
+    sim.schedule(per, tick);
+  };
+  sim.schedule(per, tick);
+}
+export function gainMana(sim, n) {
+  const room = sim.manaMax - sim.mana; if (n > room) n = room;
+  if (n > 0) { sim.mana += n; sim.manaGained += n; }
+}
+export function spendMana(sim, n) { sim.mana -= n; if (sim.mana < 0) sim.mana = 0; sim.manaSpent += n; }
+
+export function castHaste(sim) { return sim.hasteMult(); }
+
+// Run a cast: global cooldown starts now, mana is spent now, the effect lands when the cast finishes.
+// spell: { name, gcd?:false } ; castTime in seconds before haste.
+export function beginCast(sim, spell, castTime, cost, onFinish) {
+  const t = castTime / castHaste(sim);
+  if (spell.gcd !== false) sim.gcdReadyAt = sim.now + SPELL_GCD;
+  spendMana(sim, cost);
+  sim.entry(spell.name).casts++;
+  if (t <= 1e-9) { sim.lastCastAt = sim.now; onFinish(); return Math.max(0, sim.gcdReadyAt - sim.now); }
+  sim.casting = { name: spell.name, endsAt: sim.now + t };
+  sim.schedule(t, () => { sim.casting = null; sim.lastCastAt = sim.now; onFinish(); sim.poke(0); });
+  return t;
+}
+
+// Direct spell: hit roll, crit roll, mitigation, record. `raw` is the pre-modifier damage.
+// m = { hit, crit, dmg, critBonus } supplied by the kit (school talents, auras).
+export function resolveSpell(sim, name, raw, m) {
+  const t = sim.target, e = sim.entry(name);
+  const hit = Math.min(0.99, 1 - t.spellMiss + sim.stats.hit + (m.hit || 0));
+  if (sim.rng() >= hit) { e.misses++; return { outcome: 'miss', dmg: 0 }; }
+  const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
+  const crit = sim.rng() < c;
+  let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
+  if (crit) d *= 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
+  sim.record(name, d, crit ? 'crit' : 'hit');
+  return { outcome: crit ? 'crit' : 'hit', dmg: d };
+}
+
+// Damage over time: `ticks` equal ticks, snapshotted. A new application of the same effect replaces the old one.
+export function applyDot(sim, name, total, ticks, interval) {
+  const dots = sim.dots || (sim.dots = Object.create(null));
+  const my = (dots[name] = (dots[name] || 0) + 1);
+  const per = total / ticks;
+  let n = 0;
+  const step = () => {
+    if (dots[name] !== my) return;
+    sim.record(name, per, 'hit'); n++;
+    if (n < ticks) sim.schedule(interval, step);
+  };
+  sim.schedule(interval, step);
+}

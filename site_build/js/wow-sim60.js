@@ -19,7 +19,11 @@
   }
   function fmt(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
 
-  var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' } };
+  var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' },
+    mage_fire: { cls: 'mage', mode: 'caster' }, mage_frost: { cls: 'mage', mode: 'caster' }, mage_arcane: { cls: 'mage', mode: 'caster' } };
+  var CASTERS = { mage: 1 };
+  function isCaster() { return !!CASTERS[curCls()]; }
+  function unit() { return isCaster() ? (fr ? 'PS' : 'SP') : (fr ? 'PA' : 'AP'); }
   function curSpec() { return $('s60Spec').value; }
   function curCls() { return SPECS[curSpec()].cls; }
   function curMode() { return SPECS[curSpec()].mode; }
@@ -63,6 +67,7 @@
   function itemLabel(it) { return it.name + ' (' + (it.zone || '') + (it.req ? ', ' + it.req : '') + ')'; }
   function itemScore(it) {
     var s = it.st || {};
+    if (isCaster()) return (s.splpwr || 0) + (s.spldmg || 0) + (s.int || 0) * 0.5 + (s.critstrkrtng || 0) * 0.9 + (s.hitrtng || 0) * 1.5 + (s.manargn || 0) * 1.5 + (s.spi || 0) * 0.15;
     return (s.str || 0) * 2 + (s.agi || 0) * 0.6 + (s.atkpwr || 0) + (s.critstrkrtng || 0) * 1.4 + (s.hitrtng || 0) * 2.6 + (s.dps || 0) * 6;
   }
   function fillSelect(sel, items, emptyLabel) {
@@ -112,18 +117,26 @@
         box.appendChild(el('label', { class: 's60-check' }, cb, ' ' + d.name, d.assumed ? el('em', { class: 's60-assumed', text: ' · ' + T.assumed }) : null));
       });
     };
-    addGroup($('s60Buffs'), S.BUFFS, S.PRESET_RAID.buffs, 'buff');
-    addGroup($('s60Cons'), S.CONSUMABLES, S.PRESET_RAID.consumables, 'cons');
-    addGroup($('s60Debuffs'), S.DEBUFFS, S.PRESET_RAID.debuffs, 'debuff');
+    addGroup($('s60Buffs'), S.BUFFS, [], 'buff');
+    addGroup($('s60Cons'), S.CONSUMABLES, [], 'cons');
+    addGroup($('s60Debuffs'), S.DEBUFFS, [], 'debuff');
+    applyRaidPreset();
+  }
+  // default raid buffs follow the class family (melee vs caster)
+  function applyRaidPreset() {
+    var p = isCaster() ? S.PRESET_CASTER : S.PRESET_RAID;
+    [['buff', S.BUFFS, p.buffs], ['cons', S.CONSUMABLES, p.consumables], ['debuff', S.DEBUFFS, p.debuffs]].forEach(function (g) {
+      Object.keys(g[1]).forEach(function (k) { var c = $('s60b_' + g[0] + '_' + k); if (c) c.checked = g[2].indexOf(k) >= 0; });
+    });
   }
   function refreshWeapons() {
-    var L = weaponLists(curSpec()), arms = curMode() === '2h';
+    var L = weaponLists(curSpec()), arms = curMode() === '2h', cast = curMode() === 'caster';
     fillSelect($('s60w_mh'), L.mh, T.empty); fillSelect($('s60w_oh'), L.oh, T.empty); fillSelect($('s60w_th'), L.th, T.empty);
-    $('s60rw_mh').hidden = arms; $('s60rw_oh').hidden = arms; $('s60rw_th').hidden = !arms;
+    $('s60rw_mh').hidden = arms || cast; $('s60rw_oh').hidden = arms || cast; $('s60rw_th').hidden = !(arms || cast);
   }
   function pickDefaultWeapons() {
     var L = weaponLists(curSpec());
-    if (curMode() === '2h') { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
+    if (curMode() === '2h' || curMode() === 'caster') { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
     else {
       if (L.mh[0]) $('s60w_mh').value = String(L.mh[0].id);
       var o = L.oh.filter(function (i) { return String(i.id) !== $('s60w_mh').value; })[0]; if (o) $('s60w_oh').value = String(o.id);
@@ -141,12 +154,14 @@
     });
     var weapons = [], arms = curMode() === '2h';
     function wp(k, off) { var v = $('s60w_' + k).value; if (!v) return; weapons.push(S.toWeapon(state.pool.byId.get(parseInt(v, 10)), off)); }
-    if (arms) wp('th', false); else { wp('mh', false); wp('oh', true); }
+    if (isCaster()) {
+      var wv = $('s60w_th').value; if (wv) { var wi = state.pool.byId.get(parseInt(wv, 10)); if (wi) gear.push({ slot: 'th', id: wi.id, name: wi.name, st: wi.st }); }
+    } else if (arms) wp('th', false); else { wp('mh', false); wp('oh', true); }
     var spec = { class: curCls(), base: readBase(), race: $('s60Race').value, gear: gear, weapons: weapons,
       buffs: checked('buff', S.BUFFS), consumables: checked('cons', S.CONSUMABLES), debuffs: checked('debuff', S.DEBUFFS),
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
-    if (ap != null && cr != null && hi != null) spec.totals = { ap: ap, crit: cr / 100, hit: hi / 100 };
+    if (ap != null && cr != null && hi != null) spec.totals = isCaster() ? { sp: ap, crit: cr / 100, hit: hi / 100 } : { ap: ap, crit: cr / 100, hit: hi / 100 };
     var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
     return { spec: spec, build: build };
   }
@@ -166,7 +181,8 @@
   }
   function showClassOptions() {
     var cls = curCls();
-    Array.prototype.forEach.call(document.querySelectorAll('[data-cls]'), function (e) { e.hidden = e.dataset.cls !== cls; });
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cls]'), function (e) { e.hidden = e.dataset.cls.split(' ').indexOf(cls) < 0; });
+    var lab = $('s60ApLabel'); if (lab) lab.textContent = isCaster() ? T.sp : T.ap;
   }
 
   // ---------- results ----------
@@ -182,7 +198,7 @@
     var up = Object.keys(r.uptimes).filter(function (k) { return r.uptimes[k] > 0; }).map(function (k) { return k + ' ' + (r.uptimes[k] * 100).toFixed(0) + ' %'; }).join(' · ');
     var sm = ch.summary;
     box.innerHTML = '<p class="s60-dps"><b>' + r.mean.toFixed(1) + '</b> ' + T.dps + ' <span>± ' + r.sem.toFixed(2) + ' (' + r.iterations + ')</span></p>' +
-      '<p class="wow-note">AP ' + Math.round(sm.ap) + ' · ' + T.crit + ' ' + (sm.crit * 100).toFixed(1) + ' · ' + T.hit + ' ' + (sm.hit * 100).toFixed(1) + ' · ' + T.armor + ' ' + Math.round(sm.armor) + '</p>' +
+      (isCaster() ? '<p class="wow-note">' + unit() + ' ' + Math.round(sm.sp) + ' · ' + T.crit + ' ' + (sm.crit * 100).toFixed(1) + ' · ' + T.hit + ' ' + (sm.hit * 100).toFixed(1) + ' · Mana ' + Math.round(sm.mana) + ' · MP5 ' + Math.round(sm.mp5) + '</p>' : '<p class="wow-note">AP ' + Math.round(sm.ap) + ' · ' + T.crit + ' ' + (sm.crit * 100).toFixed(1) + ' · ' + T.hit + ' ' + (sm.hit * 100).toFixed(1) + ' · ' + T.armor + ' ' + Math.round(sm.armor) + '</p>') +
       '<div class="wow-table-wrap"><table class="wow-table"><thead><tr><th>' + T.ability + '</th><th>DPS</th><th>' + T.share + '</th><th>' + T.casts + '</th><th>' + T.crits + '</th><th>' + T.misses + '</th><th>' + T.dodges + '</th></tr></thead><tbody>' + tr + '</tbody></table></div>' +
       (up ? '<p class="wow-note">' + T.uptime + ' : ' + up + '</p>' : '');
     status(fmt(T.js.done, { s: (ms / 1000).toFixed(1), rate: Math.round(r.iterations / (ms / 1000)) }) + ' · ' + fmt(T.js.workers, { n: getPool().size }));
@@ -203,7 +219,7 @@
   function doWeights() {
     var c = collect(), j = makeJob(c), iters = Math.max(500, Math.min(30000, num('s60Iters') || 4000)), t0 = performance.now();
     setBusy(true); status(T.js.weightsRunning); bar(0);
-    var probes = [['ap', { ap: 40 }], ['crit', { crit: 0.01 }], ['hit', { hit: 0.01 }], ['haste', { haste: 0.01 }]], res = {}, step = 0;
+    var probes = [['ap', isCaster() ? { sp: 40 } : { ap: 40 }], ['crit', { crit: 0.01 }], ['hit', { hit: 0.01 }], ['haste', { haste: 0.01 }]], res = {}, step = 0;
     function neg(d) { var o = {}; Object.keys(d).forEach(function (k) { o[k] = -d[k]; }); return o; }
     var p = Promise.resolve();
     probes.forEach(function (pr) {
@@ -212,7 +228,7 @@
     });
     p.then(function () {
       var apPer = res.ap / 40, box = $('s60Weights2'); box.hidden = false;
-      box.innerHTML = '<h3 class="ad-h3">' + T.w_title + '</h3><ul class="ms-limits"><li>' + T.w_crit + ' = <b>' + (res.crit / apPer).toFixed(1) + '</b> AP</li><li>' + T.w_hit + ' = <b>' + (res.hit / apPer).toFixed(1) + '</b> AP</li><li>' + T.w_haste + ' = <b>' + (res.haste / apPer).toFixed(1) + '</b> AP</li></ul>';
+      box.innerHTML = '<h3 class="ad-h3">' + T.w_title + '</h3><ul class="ms-limits"><li>' + T.w_crit + ' = <b>' + (res.crit / apPer).toFixed(1) + '</b> ' + unit() + '</li><li>' + T.w_hit + ' = <b>' + (res.hit / apPer).toFixed(1) + '</b> ' + unit() + '</li><li>' + T.w_haste + ' = <b>' + (res.haste / apPer).toFixed(1) + '</b> ' + unit() + '</li></ul>';
       var ms = performance.now() - t0; status(fmt(T.js.done, { s: (ms / 1000).toFixed(1), rate: Math.round(iters * 8 / (ms / 1000)) }));
     }).catch(function (e) { status(String(e)); }).then(function () { setBusy(false); bar(null); });
   }
@@ -225,10 +241,11 @@
     function getWeights(spec) {
       var job = jobFor(spec), n = 1200;
       function diff(d) { return Promise.all([getPool().run(withStats(job, d.up), n, 11), getPool().run(withStats(job, d.dn), n, 11)]).then(function (r) { return (r[0].mean - r[1].mean) / 2; }); }
-      return Promise.all([diff({ up: { ap: 40 }, dn: { ap: -40 } }), diff({ up: { crit: 0.01 }, dn: { crit: -0.01 } }), diff({ up: { hit: 0.01 }, dn: { hit: -0.01 } }), diff({ up: { haste: 0.01 }, dn: { haste: -0.01 } })])
+      var mainUp = isCaster() ? { sp: 40 } : { ap: 40 }, mainDn = isCaster() ? { sp: -40 } : { ap: -40 };
+      return Promise.all([diff({ up: mainUp, dn: mainDn }), diff({ up: { crit: 0.01 }, dn: { crit: -0.01 } }), diff({ up: { hit: 0.01 }, dn: { hit: -0.01 } }), diff({ up: { haste: 0.01 }, dn: { haste: -0.01 } })])
         .then(function (r) { var apPer = r[0] / 40; return { agi: 0.05 * r[1] / apPer, crit: r[1] / apPer, hit: r[2] / apPer, haste: r[3] / apPer }; });
     }
-    S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
+    S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, caster: isCaster(), evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
       onProgress: function (p) { status(fmt(T.js.optProgress, { slot: p.slot }) + ' ' + p.dps.toFixed(1) + ' DPS'); } }).then(function (res) {
       state.lastOpt = res;
       var box = $('s60Opt2'); box.hidden = false;
@@ -245,7 +262,7 @@
   }
 
   // ---------- talents ----------
-  var TREE_NAMES = { arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
+  var TREE_NAMES = { arcane: fr ? 'Arcanes' : 'Arcane', fire: fr ? 'Feu' : 'Fire', frost: fr ? 'Givre' : 'Frost', arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
   function talentStatus() {
     var v = S.validateRanks(state.tdata, state.ranks), st = $('s60TalentStatus');
     st.textContent = (v.ok ? fmt(T.t_ok, { pts: v.total, a: v.bySpec[0], b: v.bySpec[1], c: v.bySpec[2] }) : fmt(T.t_bad, { err: v.errors.slice(0, 2).join(' · ') }));
@@ -287,7 +304,7 @@
     BASE_KEYS.forEach(function (k) { $('s60Base').appendChild(el('label', { class: 's60-row' }, el('span', { text: k[1] }), el('input', { id: 's60base_' + k[0], type: 'number', step: '1' }))); });
     fillBase(); showClassOptions();
     $('s60Race').addEventListener('change', fillBase);
-    $('s60Spec').addEventListener('change', function () { buildGearSelects(); refreshWeapons(); pickDefaultWeapons(); loadPreset(); fillBase(); showClassOptions(); });
+    $('s60Spec').addEventListener('change', function () { buildGearSelects(); refreshWeapons(); pickDefaultWeapons(); loadPreset(); fillBase(); showClassOptions(); applyRaidPreset(); });
     $('s60Preset').addEventListener('click', loadPreset);
     $('s60TalentLink').addEventListener('change', importLink);
     $('s60Run').addEventListener('click', doRun);
