@@ -6,7 +6,9 @@
 --   BM1 D0                       I cancel my request
 --   BM1 DQ                       who is looking for something? (opening the tab, a click)
 --   whisper D1;faction;itemID;age   answer to DQ from players with an active request (invisible)
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("requests", {
@@ -16,7 +18,7 @@ local T = ns.Localize("requests", {
   mine = "Ta demande : %s, publiée il y a %s. Elle reste visible 30 min.",
   posted = "ta demande pour %s est publiée : les artisans qui ont l'addon la voient.",
   cancelled = "ta demande est retirée.", wait = "patiente un peu avant de republier une demande.",
-  none = "Aucune demande en cours. Publie la tienne, ou clique sur Actualiser.",
+  none = "Aucune demande en cours. Publie la tienne, ou clique sur Actualiser.", empty_t = "Aucune demande en cours",
   you_can = "tu sais le faire", whisper = "MP", ago = "il y a %s",
   alert = "%s cherche %s, et tu sais le fabriquer : Broken Meta : Profession > Demandes.",
   intro = "Tu cherches un objet fabriqué ? Publie une demande : les artisans qui ont la recette sont prévenus et peuvent te contacter. Tu peux aussi écrire toi-même à un joueur ci-dessous.",
@@ -27,7 +29,7 @@ local T = ns.Localize("requests", {
   mine = "Your request: %s, posted %s ago. It stays visible for 30 min.",
   posted = "your request for %s is posted: crafters with the addon can see it.",
   cancelled = "your request is withdrawn.", wait = "wait a little before posting a request again.",
-  none = "No request right now. Post yours, or click Refresh.",
+  none = "No request right now. Post yours, or click Refresh.", empty_t = "No request right now",
   you_can = "you can make it", whisper = "Whisper", ago = "%s ago",
   alert = "%s is looking for %s, and you can make it: Broken Meta : Professions > Requests.",
   intro = "Looking for a crafted item? Post a request: crafters who know the recipe are told and can contact you. You can also whisper a player below yourself.",
@@ -195,7 +197,7 @@ mineText:SetPoint("TOPLEFT", 4, -90)
 mineText:SetWidth(W - 190)
 mineText:SetJustifyH("LEFT")
 local cancelBtn = ns.Button(page)
-cancelBtn:SetSize(150, 20)
+cancelBtn:SetSize(150, 22)
 cancelBtn:SetPoint("TOPRIGHT", -4, -88)
 cancelBtn:SetText(T.cancel)
 cancelBtn:SetScript("OnClick", function() ns.CancelCraftRequest() end)
@@ -238,7 +240,7 @@ for i = 1, ROWS do
   r.text:SetJustifyH("LEFT")
   r.text:SetWordWrap(false)
   r.btn = ns.Button(r, nil, "primary")
-  r.btn:SetSize(80, 20)
+  r.btn:SetSize(80, 22)
   r.btn:SetPoint("RIGHT", 0, 0)
   r.btn:SetText(T.whisper)
   r:SetScript("OnEnter", function(self)
@@ -251,10 +253,8 @@ for i = 1, ROWS do
   r:Hide()
   rows[i] = r
 end
-local none = page:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-none:SetPoint("TOPLEFT", 4, TOP)
-none:SetWidth(W - 40)
-none:SetJustifyH("LEFT")
+local empty = ns.Callout(page, TOP - 6)
+function ns.ShowRequests() ns.HubShow(index) end
 
 refresh = function()
   updatePreview()
@@ -267,7 +267,12 @@ refresh = function()
     cancelBtn:Hide()
   end
   local list = ns.CraftRequestList()
-  none:SetText(#list == 0 and ("|c" .. HEX.faint .. T.none .. "|r") or "")
+  if #list == 0 then
+    empty:Set({ icon = "Interface\\Icons\\INV_Letter_15", title = T.empty_t, text = T.none, btn = T.publish,
+      onClick = function() box:SetFocus() end })
+  else
+    empty:Hide()
+  end
   for i = 1, ROWS do
     local e, r = list[i], rows[i]
     if e then

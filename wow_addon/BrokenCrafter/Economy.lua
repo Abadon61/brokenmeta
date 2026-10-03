@@ -4,7 +4,9 @@
 --   Prices      one item's price now and in every stored scan (name, or shift-click the item);
 --   Deals       items listed well under their usual price in the latest scan, and the resale margin.
 -- Also an "AH price" line in item tooltips (Core.lua calls ns.TooltipAHLine).
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("economy", {
@@ -17,7 +19,7 @@ local T = ns.Localize("economy", {
   price_none = "Cet objet n'apparaît dans aucun de tes scans.", price_pick = "Tape le nom d'un objet ou fais Maj+clic dessus.",
   price_scan = "Scan du %s", price_absent = "absent",
   deals_info = "Objets vendus au moins 30 % sous leur prix habituel (médiane de tes scans précédents). Marge après la commission de 5 %.",
-  deals_none = "Aucune bonne affaire dans ton dernier scan (il faut au moins 3 scans).", deal = "%s au lieu de %s", margin = "+%s",
+  deals_none = "Aucune bonne affaire dans ton dernier scan (il faut au moins 3 scans).", deals_t = "Aucune bonne affaire pour l'instant", deal = "%s au lieu de %s", margin = "+%s",
   tooltip = "Prix HV", tooltip_n = "médiane de %d scan(s)", page = "Page %d/%d",
 }, {
   tab_inv = "Inventory", tab_price = "Prices", tab_deals = "Deals",
@@ -29,7 +31,7 @@ local T = ns.Localize("economy", {
   price_none = "This item is in none of your scans.", price_pick = "Type an item name or shift-click it.",
   price_scan = "Scan of %s", price_absent = "not listed",
   deals_info = "Items listed at least 30% under their usual price (median of your previous scans). Margin after the 5% cut.",
-  deals_none = "No deal in your latest scan (it takes at least 3 scans).", deal = "%s instead of %s", margin = "+%s",
+  deals_none = "No deal in your latest scan (it takes at least 3 scans).", deals_t = "No deal for now", deal = "%s instead of %s", margin = "+%s",
   tooltip = "AH price", tooltip_n = "median of %d scan(s)", page = "Page %d/%d",
 })
 
@@ -41,8 +43,23 @@ function ns.TooltipAHLine(itemID)
   local m = itemID and ns.Market and ns.Market()
   local p = m and m.prices[itemID]
   if not p then return nil end
-  return "|cff2de6c4Broken Meta|r  " .. T.tooltip .. " : |cffffffff" .. money(p[1]) .. "|r  |cff8a81ab(" .. string.format(T.tooltip_n, p[3] or 1) .. ")|r"
+  return "|cff2de6c4Broken Meta|r  " .. T.tooltip .. " : |cffffffff" .. money(p[1]) .. "|r  |cff7a7e96(" .. string.format(T.tooltip_n, p[3] or 1) .. ")|r"
 end
+
+-- Registered with the HUB's single tooltip hook (order 3: after BrokenDPS's DPS line and
+-- BrokenCodex's loot-source line).
+ns.AddTooltipHandler(function(tt, link)
+  if ns.Option and not ns.Option("tooltip_ah") then return false end
+  local itemID = link and tonumber(link:match("item:(%d+)"))
+  local line = ns.TooltipAHLine(itemID)
+  if not line then return false end
+  tt:AddLine(line)
+  return true
+end, 3)
+
+-- /bmw ah and /bmw craft: scan the auction house, open the crafter directory.
+ns.RegisterCommand("ah", function() if ns.StartAuctionScan then ns.StartAuctionScan() end end)
+ns.RegisterCommand("craft", function() if ns.ShowCrafters then ns.ShowCrafters() end end)
 
 if not ns.HubTab then return end
 local W, C, HEX = ns.Hub.W, ns.C, ns.HEX
@@ -162,12 +179,12 @@ end
 
 local function pager(page, refresh, state)
   local prev = ns.Button(page)
-  prev:SetSize(28, 20)
+  prev:SetSize(28, 22)
   prev:SetPoint("BOTTOMLEFT", 4, 4)
   prev:SetText("<")
   prev:SetScript("OnClick", function() state.page = state.page - 1; refresh() end)
   local nxt = ns.Button(page)
-  nxt:SetSize(28, 20)
+  nxt:SetSize(28, 22)
   nxt:SetPoint("LEFT", prev, "RIGHT", 70, 0)
   nxt:SetText(">")
   nxt:SetScript("OnClick", function() state.page = state.page + 1; refresh() end)
@@ -189,6 +206,7 @@ end
 local ROWS = 17
 do
   local refresh
+  ns.HubSection("eco", ns.HubTexts.sec_eco, 30, "BrokenCrafter")
   local page = ns.HubTab("eco", T.tab_inv, function() refresh() end)
   local state = { page = 1 }
   local updScan, info = scanHeader(page)
@@ -201,7 +219,7 @@ do
   refresh = function()
     updScan()
     local list, totalAH, totalVendor, scan = ns.BagValues()
-    info:SetText(scan and "" or ("|c" .. HEX.faint .. T.no_scan .. "|r"))
+    info:SetText(scan and "" or ("|c" .. HEX.gold .. T.no_scan .. "|r"))
     local shown = {}
     for _, x in ipairs(list) do if x.value > 0 then shown[#shown + 1] = x end end
     total:SetText(#shown > 0 and string.format(T.inv_total, "|c" .. HEX.gold .. money(totalAH) .. "|r", money(totalVendor))
@@ -307,12 +325,18 @@ do
   local page = ns.HubTab("eco", T.tab_deals, function() refresh() end)
   local state = { page = 1 }
   local updScan, info = scanHeader(page)
+  local emptyBox = ns.Callout(page, -64)
   ns.Hub.rows(page, ROWS, -56, 22, true)
   local paging = pager(page, function() refresh() end, state)
   refresh = function()
     updScan()
     local list = ns.AuctionDeals()
-    info:SetText(#list > 0 and T.deals_info or ("|c" .. HEX.faint .. T.deals_none .. "|r"))
+    info:SetText(#list > 0 and T.deals_info or "")
+    if #list == 0 then
+      emptyBox:Set({ icon = "Interface\\Icons\\INV_Misc_Coin_01", title = T.deals_t, text = T.deals_none })
+    else
+      emptyBox:Hide()
+    end
     local first = paging(#list, ROWS)
     for i = 1, ROWS do
       local x = list[first + i]

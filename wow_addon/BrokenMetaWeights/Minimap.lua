@@ -72,7 +72,7 @@ end)
 
 btn:SetScript("OnEnter", function(self)
   GameTooltip:SetOwner(self, "ANCHOR_LEFT")
-  GameTooltip:AddLine("|T" .. ICON .. ":16|t Broken Meta : Hub", 0.18, 0.9, 0.77)
+  GameTooltip:AddLine("|T" .. ICON .. ":16|t Broken Meta : HUB", 0.18, 0.9, 0.77)
   if ns.GetSpec and ns.GetSpec() then GameTooltip:AddLine(ns.specName(ns.GetSpec()), 1, 1, 1) end
   GameTooltip:AddLine(TIP.left)
   GameTooltip:AddLine(TIP.right)

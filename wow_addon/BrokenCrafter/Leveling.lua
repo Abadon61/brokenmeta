@@ -5,7 +5,9 @@
 --   farmed / disenchanted: the auction house price, else unknown (never guessed);
 --   crafted by the same profession: the cheaper of its auction price and its crafting cost.
 -- The auction house scan button lives here too.
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("leveling", {
@@ -176,29 +178,32 @@ end
 -- Page
 ---------------------------------------------------------------------------------------------
 local refresh
-local page, index = ns.HubTab("prof", T.tab, function() refresh() end)
+local page, index = ns.HubTab("craft", T.tab, function() refresh() end)
 local profIdx, pageNo = nil, 1
 
 local profBtn = ns.Button(page)
 profBtn:SetSize(200, 22)
 profBtn:SetPoint("TOPLEFT", 4, -2)
-if profBtn.RegisterForClicks then profBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp") end
-profBtn:SetScript("OnClick", function(_, button)
-  profIdx = ((profIdx or 1) - 1 + (button == "RightButton" and -1 or 1)) % #ORDER + 1
-  pageNo = 1
-  refresh()
-end)
+ns.DropDown(profBtn, page, function()
+  local list = {}
+  for i, line in ipairs(ORDER) do
+    local prof = ns.PROFESSIONS[line]
+    list[i] = (ns.ProfIcon and ns.ProfIcon(line, 14) or "") .. (prof.name[LOC] or prof.name.enUS)
+  end
+  return list
+end, function() return profIdx or 1 end, function(i) profIdx = i; pageNo = 1; refresh() end)
+function ns.ShowLeveling() ns.HubShow(index) end
 -- A click here counts as the hardware event full scans require.
 local scanBtn = ns.Button(page, nil, "primary")
 scanBtn:SetSize(220, 22)
 scanBtn:SetPoint("TOPRIGHT", -4, -2)
 scanBtn:SetScript("OnClick", function() if ns.StartAuctionScan then ns.StartAuctionScan() end end)
 local guideBtn = ns.Button(page)
-guideBtn:SetSize(170, 20)
+guideBtn:SetSize(170, 22)
 guideBtn:SetPoint("BOTTOMRIGHT", -4, 4)
 -- Shopping list (Workshop.lua): the reagents the rest of the route needs, minus what you carry.
 local shopBtn = ns.Button(page)
-shopBtn:SetSize(150, 20)
+shopBtn:SetSize(150, 22)
 shopBtn:SetPoint("RIGHT", guideBtn, "LEFT", -8, 0)
 guideBtn:SetText(T.guide)
 
@@ -312,12 +317,12 @@ for i = 1, CARDS do
 end
 
 local prevBtn = ns.Button(page)
-prevBtn:SetSize(28, 20)
+prevBtn:SetSize(28, 22)
 prevBtn:SetPoint("BOTTOMLEFT", 4, 4)
 prevBtn:SetText("<")
 prevBtn:SetScript("OnClick", function() pageNo = pageNo - 1; refresh() end)
 local nextBtn = ns.Button(page)
-nextBtn:SetSize(28, 20)
+nextBtn:SetSize(28, 22)
 nextBtn:SetPoint("LEFT", prevBtn, "RIGHT", 70, 0)
 nextBtn:SetText(">")
 nextBtn:SetScript("OnClick", function() pageNo = pageNo + 1; refresh() end)
@@ -339,7 +344,7 @@ refresh = function()
   end
   local line = ORDER[profIdx]
   local prof = ns.PROFESSIONS[line]
-  profBtn:SetText(prof.name[LOC] or prof.name.enUS)
+  profBtn:SetText((ns.ProfIcon and ns.ProfIcon(line, 14) or "") .. (prof.name[LOC] or prof.name.enUS) .. "  v")
   local open = ns.IsAuctionOpen and ns.IsAuctionOpen()
   scanBtn:SetText(open and T.scan or T.scan_closed)
   if open then scanBtn:Enable() else scanBtn:Disable() end
@@ -355,7 +360,7 @@ refresh = function()
   local plan, total, missing, crafts, scan = ns.LevelingPlan(line, rank or 0)
   info:SetText(scan and (string.format(T.scan_info, scan.n, date("%d/%m %H:%M", scan.t), scan.realm or "?", scan.faction or "?", ago(scan.t))
       .. (scan.stale and ("  |cffff9900" .. T.stale .. "|r") or ""))
-    or ("|c" .. HEX.faint .. T.no_scan .. "|r"))
+    or ("|c" .. HEX.gold .. T.no_scan .. "|r"))
   summary:SetText(rank and string.format(T.skill, rank, max) or ("|c" .. HEX.faint .. T.not_learned .. "|r"))
   if #plan == 0 then
     summary2:SetText("|c" .. HEX.teal .. T.done .. "|r")

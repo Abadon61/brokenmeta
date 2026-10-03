@@ -8,7 +8,9 @@ import sys
 from pathlib import Path
 import lupa
 
-ADDON = Path(__file__).resolve().parent.parent / "BrokenMetaWeights"
+ADDONS_DIR = Path(__file__).resolve().parent.parent
+ADDON = ADDONS_DIR / "BrokenMetaWeights"  # kept for callers that only need the HUB's own path
+ALL_MODULES = ["BrokenMetaWeights", "BrokenDPS", "BrokenCrafter", "BrokenCodex"]
 MOCK = r'''
 chat = {}
 CVARS = CVARS_INIT or {}
@@ -116,19 +118,21 @@ GameTooltip = CreateFrame("GameTooltip", "GameTooltip")
 Minimap = CreateFrame("Frame", "Minimap"); function Minimap:GetWidth() return 140 end; function Minimap:GetCenter() return 400, 400 end; function Minimap:GetEffectiveScale() return 1 end
 function GameTooltip:GetItem() return "x", self.link end
 SlashCmdList = {}
-WorldFrame = {}
+WorldFrame = { scripts = {}, HookScript = function(self, s, fn) self.scripts[s] = fn end }
 function fire(ev) for _, f in ipairs(frames) do if f.events[ev] then f.scripts.OnEvent(f, ev) end end end
 function hover(link) GameTooltip.link = link; GameTooltip.added = {}; GameTooltip.scripts.OnTooltipSetItem(GameTooltip); return GameTooltip.added[1] end
 '''
 
 
-def toc_files():
-    """The .lua files listed in the addon's .toc, in load order."""
-    toc = (ADDON / "BrokenMetaWeights.toc").read_text(encoding="utf-8")
+def toc_files(module):
+    """The .lua files listed in that addon's own .toc, in load order."""
+    toc = (ADDONS_DIR / module / f"{module}.toc").read_text(encoding="utf-8")
     return [l.strip() for l in toc.splitlines() if l.strip().endswith(".lua") and not l.startswith("#")]
 
 
-def run(locale, cls, talents, items, equipped, hovers, slash=(), bags=(), cvars=None):
+def run(locale, cls, talents, items, equipped, hovers, slash=(), bags=(), cvars=None, modules=ALL_MODULES):
+    """modules: which addons of the suite to load (folder names), HUB first. Defaults to all four,
+    since most tests exercise BrokenDPS/BrokenCrafter/BrokenCodex features through the shared hub."""
     lua = lupa.LuaRuntime(unpack_returned_tuples=True)
     g = lua.globals()
     g.LOCALE, g.CLASS = locale, cls
@@ -142,10 +146,14 @@ def run(locale, cls, talents, items, equipped, hovers, slash=(), bags=(), cvars=
                                         "text": lua.table_from(it.get("text", []))})
     for slot, link in equipped.items():
         g.EQUIPPED[slot] = link
+    # BrokenMetaNS becomes a real Lua global once BrokenMetaWeights/Locales.lua runs (`BrokenMetaNS =
+    # ns`); every module after that does `local ns = BrokenMetaNS` and shares the same table. The HUB
+    # itself still gets its addon-name/ns pair the classic way (its own file passes `...`).
     ns = lua.table()
-    loader = lua.eval("function(src, name, ns) return assert(load(src, name))('BrokenMetaWeights', ns) end")
-    for f in toc_files():
-        loader((ADDON / f).read_text(encoding="utf-8"), f, ns)
+    loader = lua.eval("function(src, name, addon, ns) return assert(load(src, name))(addon, ns) end")
+    for module in modules:
+        for f in toc_files(module):
+            loader((ADDONS_DIR / module / f).read_text(encoding="utf-8"), f, module, ns)
     for i, l in enumerate(bags, 1):
         g.BAGS[0][i] = l
     g.fire("PLAYER_LOGIN")

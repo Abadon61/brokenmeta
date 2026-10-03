@@ -1,4 +1,4 @@
-"""Generates the stat weights used by the BrokenMetaWeights WoW: Forever addon.
+"""Generates the stat weights of BrokenDPS and the data files of the Broken Meta addon suite.
 
 For every spec in site_build/wow_dps_sim.py's ROTATIONS, measures how much simulated DPS one
 extra point of each stat adds on top of that spec's real level-20 BiS gear, then writes the
@@ -25,8 +25,16 @@ sys.path.insert(0, str(ROOT / "site_build"))
 import wow_dps_sim as sim  # noqa: E402
 import wow_weights  # noqa: E402
 
-OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Weights.lua"
-DATA_OUT = ROOT / "wow_addon" / "BrokenMetaWeights" / "Data.lua"
+# The Broken Meta suite: the HUB (folder BrokenMetaWeights, kept so players keep their saved data)
+# holds the data several addons share; each addon gets its own Data.lua.
+ADDONS_DIR = ROOT / "wow_addon"
+OUT = ADDONS_DIR / "BrokenDPS" / "Weights.lua"
+DATA_OUT = {
+    "hub": ADDONS_DIR / "BrokenMetaWeights" / "Data.lua",
+    "dps": ADDONS_DIR / "BrokenDPS" / "Data.lua",
+    "crafter": ADDONS_DIR / "BrokenCrafter" / "Data.lua",
+    "codex": ADDONS_DIR / "BrokenCodex" / "Data.lua",
+}
 
 def weights_for(spec_id, iterations, fight_len):
     """Level-20 BiS sheet weights through the shared wow_weights module (same code as the site)."""
@@ -68,11 +76,16 @@ def lua_table(rows):
         caster = "true" if sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("crit") == "spell" else "false"
         stats = ", ".join(f"{k} = {w[k]}" for k in ("str", "agi", "int", "ap", "sp", "crit", "hit", "wdps_mh", "wdps_oh", "wdps_r"))
         ranged = "true" if sim.SPEC_STAT_PROFILE.get(spec_id, {}).get("agi_ap") == "ranged" else "false"
+        # Talent that turns Intellect into Attack Power: lets the addon correct the Intellect weight for
+        # the rank the player really has (the weights above assume the guide's build).
+        t = sim.INT_AP_TALENTS.get(spec_id)
+        intap = (f",\n    intap = {{ node = {t['node']}, assumed = {t['assumed']}, ranks = {{" + ", ".join(f"{r:.4f}" for r in t["ranks"]) + "} }")\
+            if t else ""
         lines.append(
             f'  {spec_id} = {{ class = "{cls.upper()}", spec = "{sim.SPEC_ID_MAP.get(spec_id, spec_id)}", '
             f'role = "{prof.get("role", "dps")}", tab = {tab}, ranged = {ranged}, caster = {caster}, dps = {dps:.2f},\n'
             f"    name = {{ frFR = {lua_str(names['fr'])}, enUS = {lua_str(names['en'])} }},\n"
-            f"    w = {{ {stats} }} }},"
+            f"    w = {{ {stats} }}{intap} }},"
         )
     return "\n".join(lines)
 
@@ -108,23 +121,94 @@ def lua(v):
     raise TypeError(type(v))
 
 
+def loot_item(it, **extra):
+    """A site loot item (dungeon or raid page) -> the addon's compact loot row."""
+    st = it["st"]
+    stats = {k: v for k, v in {
+        "str": st.get("str"), "agi": st.get("agi"), "int": st.get("int"), "ap": st.get("atkpwr"),
+        "sp": (st.get("splpwr") or 0) + (st.get("spldmg") or 0) or None,
+        "critR": st.get("critstrkrtng"), "hitR": st.get("hitrtng"),
+        "wdps": st.get("rgddps") or st.get("dps"),
+    }.items() if v}
+    return dict({"id": it["id"], "slot": DUNGEON_SLOTS.get(it["slot"]), "t": it["type"]["en"] or None,
+                 "req": it.get("req", 0), "q": it.get("q", 2), "n": it["name"],
+                 "src": (it.get("src") or [None])[0], "quest": it.get("kind") == "quest", "st": stats}, **extra)
+
+
 def loot_data():
     d = json.loads((ROOT / "data" / "wow_dungeons" / "dungeons.json").read_text(encoding="utf-8"))
     dungeons, loot = [], []
     for i, dg in enumerate(d["dungeons"], 1):
         dungeons.append({"id": dg["id"], "name": {"frFR": dg["name"]["fr"], "enUS": dg["name"]["en"]}, "levels": dg["levels"]})
         for it in dg["items"]:
-            st = it["st"]
-            stats = {k: v for k, v in {
-                "str": st.get("str"), "agi": st.get("agi"), "int": st.get("int"), "ap": st.get("atkpwr"),
-                "sp": (st.get("splpwr") or 0) + (st.get("spldmg") or 0) or None,
-                "critR": st.get("critstrkrtng"), "hitR": st.get("hitrtng"),
-                "wdps": st.get("rgddps") or st.get("dps"),
-            }.items() if v}
-            loot.append({"id": it["id"], "d": i, "slot": DUNGEON_SLOTS.get(it["slot"]), "t": it["type"]["en"] or None,
-                         "req": it.get("req", 0), "q": it.get("q", 2), "n": it["name"],
-                         "src": (it.get("src") or [None])[0], "quest": it.get("kind") == "quest", "st": stats})
+            loot.append(loot_item(it, d=i))
     return dungeons, loot
+
+
+def dungeon_art():
+    """Per dungeon (same order as ns.DUNGEONS): its loading screen FileDataID and its bosses with NPC ids.
+    Built by wow_codex_art_build.py (data/wow_dungeons/art.json)."""
+    art = json.loads((ROOT / "data" / "wow_dungeons" / "art.json").read_text(encoding="utf-8"))
+    dungeons = json.loads((ROOT / "data" / "wow_dungeons" / "dungeons.json").read_text(encoding="utf-8"))["dungeons"]
+    out = []
+    for dg in dungeons:
+        a = art["dungeons"][dg["id"]]
+        bosses = []
+        for b in a["bosses"]:
+            row = {"name": {"frFR": b["name"]["fr"], "enUS": b["name"]["en"]}, "npc": b["npc"]}
+            if b.get("extra"):
+                row["extra"] = True
+            bosses.append(row)
+        quests = {}
+        for qn, qd in a.get("quests", {}).items():
+            row = {"name": {"frFR": qd["name"]["fr"], "enUS": qd["name"]["en"]}}
+            g = qd.get("giver")
+            if g:
+                row["giver"] = {"kind": g["kind"], "name": {"frFR": g["name"]["fr"], "enUS": g["name"]["en"]}}
+                if g.get("zone") and g.get("x") is not None:
+                    row["giver"].update({"zone": {"frFR": g["zone"]["fr"], "enUS": g["zone"]["en"]}, "x": g["x"], "y": g["y"]})
+            quests[qn] = row
+        # wide: a 16:9 picture (Forever's own dungeons); the others are the classic 4:3 loading screens
+        out.append({"image": a["image"], "wide": a["image"] > 1000000, "bosses": bosses, "quests": quests})
+    return out, {k: v["image"] for k, v in art.get("raids", {}).items()}
+
+
+def fr_en(v):
+    return {"frFR": v.get("fr") or v.get("en"), "enUS": v.get("en")} if isinstance(v, dict) else v
+
+
+def raids_data():
+    """Raids for BrokenCodex: info, bosses with their type, abilities (spell IDs) and loot."""
+    path = ROOT / "data" / "wow_raids" / "raids.json"
+    if not path.exists():
+        return []
+    out = []
+    for rd in json.loads(path.read_text(encoding="utf-8")).get("raids", []):
+        info = rd.get("info") or {}
+        att = info.get("attunement") or {}
+        out.append({
+            "id": rd["id"], "name": fr_en(rd["name"]), "level": info.get("level"), "players": info.get("players"),
+            "location": fr_en(info.get("location") or {"en": ""}), "attune": att.get("quest"), "attune_req": att.get("reqlevel"),
+            "bosses": [{"name": fr_en(b["name"]), "npc": b.get("npc"), "type": fr_en(b.get("type") or {"en": ""}),
+                        "abilities": [{"id": a["id"], "n": a["name"]} for a in b.get("abilities", [])],
+                        "drops": [loot_item(it) for it in b.get("drops", [])]} for b in rd.get("bosses", [])],
+            # loot of the raid whose boss the site doesn't know yet
+            "other": [loot_item(it) for it in rd.get("items", []) if not it.get("src")],
+        })
+    return out
+
+
+def bis_data():
+    """Level-20 best-in-slot gear per spec (data/wow_items/bis_gear_by_slot.json), for BrokenDPS."""
+    path = ROOT / "data" / "wow_items" / "bis_gear_by_slot.json"
+    if not path.exists():
+        return {}
+    out = {}
+    for spec, rows in json.loads(path.read_text(encoding="utf-8")).get("specs", {}).items():
+        out[spec] = [{"slot": r["slot"], "id": r.get("wowhead_item_id"), "n": r.get("name"),
+                      "icon": (r.get("icon") or "").rsplit("/", 1)[-1].replace(".jpg", "") or None}
+                     for r in rows if r.get("wowhead_item_id")]
+    return out
 
 
 def talent_builds():
@@ -232,28 +316,53 @@ def all_recipes():
 def write_data_lua():
     dungeons, loot = loot_data()
     prof = json.loads((ROOT / "data" / "wow_items" / "proficiency.json").read_text(encoding="utf-8"))["classes"]
-    nl = chr(10)
-    parts = [
-        "-- GENERATED by wow_addon_build.py (--data-only) from the site's data files -- do not edit by hand.",
-        f"-- {date.today().isoformat()}. Sources: data/wow_dungeons, data/wow_items/proficiency.json (beta client",
-        "-- tables), data/wow_guides/content.json (Icy Veins level-20 talent templates), data/wow_professions.",
-        "local _, ns = ...",
-        "ns.DUNGEONS = {" + nl + ("," + nl).join("  " + lua(x) for x in dungeons) + nl + "}",
-        "ns.LOOT = {" + nl + ("," + nl).join("  " + lua(x) for x in loot) + nl + "}",
-        "ns.PROFICIENCY = " + lua(prof),
-        "ns.TALENT_BUILDS = {" + nl + ("," + nl).join(f"  {k} = {lua(v)}" for k, v in talent_builds().items()) + nl + "}",
-        "ns.PROFESSIONS = {" + nl + ("," + nl).join(f"  [{k}] = {lua(v)}" for k, v in profession_routes().items()) + nl + "}",
-    ]
     recipes, names = all_recipes()
-    parts += [
-        "-- Every recipe (workshop, recipes to learn, craft requests): see all_recipes() in wow_addon_build.py.",
-        "ns.RECIPES = {" + nl + ("," + nl).join(
-            f"  [{line}] = {{" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(rs.items())) + "}"
-            for line, rs in recipes.items()) + nl + "}",
-        "ns.ITEM_NAMES = {" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(names.items())) + "}",
+    raids = raids_data()
+    art, raid_images = dungeon_art()
+    nl = chr(10)
+    head = [
+        "-- GENERATED by wow_addon_build.py (--data-only) from the site's data files -- do not edit by hand.",
+        f"-- {date.today().isoformat()}.",
     ]
-    DATA_OUT.write_text(nl.join(parts) + nl, encoding="utf-8")
-    print(f"wrote {DATA_OUT.relative_to(ROOT)} ({len(loot)} loot items, {len(dungeons)} dungeons)")
+    files = {
+        "hub": head + [
+            "-- Shared by the suite: dungeons and their loot (BrokenDPS upgrades, BrokenCodex). Source: data/wow_dungeons.",
+            "local _, ns = ...",
+            "ns.DUNGEONS = {" + nl + ("," + nl).join("  " + lua(x) for x in dungeons) + nl + "}",
+            "ns.LOOT = {" + nl + ("," + nl).join("  " + lua(x) for x in loot) + nl + "}",
+        ],
+        "dps": head + [
+            "-- BrokenDPS: armor/weapon proficiency (beta client tables), level-20 talent templates (Icy Veins),",
+            "-- level-20 best-in-slot gear per spec (data/wow_items/bis_gear_by_slot.json).",
+            "local ns = BrokenMetaNS",
+            "ns.PROFICIENCY = " + lua(prof),
+            "ns.TALENT_BUILDS = {" + nl + ("," + nl).join(f"  {k} = {lua(v)}" for k, v in talent_builds().items()) + nl + "}",
+            "ns.BIS = {" + nl + ("," + nl).join(f"  {k} = {lua(v)}" for k, v in bis_data().items()) + nl + "}",
+        ],
+        "crafter": head + [
+            "-- BrokenCrafter: profession routes and every recipe (data/wow_professions).",
+            "local ns = BrokenMetaNS",
+            "ns.PROFESSIONS = {" + nl + ("," + nl).join(f"  [{k}] = {lua(v)}" for k, v in profession_routes().items()) + nl + "}",
+            "-- Every recipe (workshop, recipes to learn, craft requests): see all_recipes() in wow_addon_build.py.",
+            "ns.RECIPES = {" + nl + ("," + nl).join(
+                f"  [{line}] = {{" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(rs.items())) + "}"
+                for line, rs in recipes.items()) + nl + "}",
+            "ns.ITEM_NAMES = {" + ", ".join(f"[{k}] = {lua(v)}" for k, v in sorted(names.items())) + "}",
+        ],
+        "codex": head + [
+            "-- BrokenCodex: raids, their bosses, abilities and loot (data/wow_raids/raids.json).",
+            "local ns = BrokenMetaNS",
+            "ns.RAIDS = {" + nl + ("," + nl).join("  " + lua(x) for x in raids) + nl + "}",
+            "-- Per dungeon (same order as ns.DUNGEONS): its loading screen (FileDataID of the game's own image)",
+            "-- and its bosses in the game's order, with the NPC id used for the head (wow_codex_art_build.py).",
+            "ns.DUNGEON_ART = {" + nl + ("," + nl).join("  " + lua(x) for x in art) + nl + "}",
+            "ns.RAID_IMAGES = " + lua(raid_images),
+        ],
+    }
+    for key, parts in files.items():
+        DATA_OUT[key].parent.mkdir(parents=True, exist_ok=True)
+        DATA_OUT[key].write_text(nl.join(parts) + nl, encoding="utf-8")
+    print(f"wrote 4 Data.lua ({len(loot)} loot items, {len(dungeons)} dungeons, {len(raids)} raid(s))")
 
 
 def main():
@@ -281,7 +390,7 @@ def main():
         "-- GENERATED by wow_addon_build.py -- do not edit by hand, re-run the script instead.\n"
         f"-- {date.today().isoformat()}, {args.iterations} fights x {args.fight_len:.0f}s per point, level-20 BiS gear.\n"
         "-- w = simulated DPS gained per +1 of: str/agi/int/ap/sp (points), crit/hit (percentage points).\n"
-        "local _, ns = ...\n"
+        "local ns = BrokenMetaNS -- BrokenDPS, part of the Broken Meta suite\n"
         "ns.WEIGHTS = {\n" + lua_table(rows) + "\n}\n\n"
         "-- Talent tree index per talent node id (the client's TraitNode ids), from data/wow_talents.\n"
         + talent_nodes_lua() + "\n",

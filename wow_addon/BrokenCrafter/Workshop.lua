@@ -4,7 +4,9 @@
 --   Recipes to learn: the recipes of your profession you don't know yet, up to 25 points above your
 --     skill, with where to get them (trainer, vendor, drop) from the site's profession data.
 --   Shopping list: every reagent the rest of your leveling route needs, minus what you already carry.
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("workshop", {
@@ -14,6 +16,8 @@ local T = ns.Localize("workshop", {
   learn_info = "Recettes de %s jusqu'au niveau %d que tu ne connais pas encore.",
   learn_none = "Tu connais déjà toutes les recettes accessibles à ton niveau.",
   no_recipes = "Ouvre une fois ta fenêtre de métier pour que l'addon connaisse tes recettes.",
+  empty_rec_t = "Recettes pas encore enregistrées", empty_scan_t = "Prix de l'hôtel des ventes manquants",
+  empty_none_t = "Rien à afficher", go_leveling = "Aller à l'onglet Montée",
   no_scan = "Scanne l'hôtel des ventes (onglet Montée) pour voir les crafts rentables.",
   no_prof = "Tu n'as aucun métier d'artisanat avec des données de recettes.",
   cost = "coût %s", ah = "HV %s", margin = "+%s",
@@ -30,6 +34,8 @@ local T = ns.Localize("workshop", {
   learn_info = "%s recipes up to skill %d that you don't know yet.",
   learn_none = "You already know every recipe available at your skill.",
   no_recipes = "Open your profession window once so the addon knows your recipes.",
+  empty_rec_t = "Recipes not recorded yet", empty_scan_t = "Auction house prices missing",
+  empty_none_t = "Nothing to show", go_leveling = "Go to the Leveling tab",
   no_scan = "Scan the auction house (Leveling tab) to see profitable crafts.",
   no_prof = "You have no crafting profession with recipe data.",
   cost = "cost %s", ah = "AH %s", margin = "+%s",
@@ -174,18 +180,17 @@ end
 ---------------------------------------------------------------------------------------------
 local ROWS, LINE, TOP = 16, 23, -54
 local refresh
-local page, index = ns.HubTab("prof", T.tab, function() refresh() end)
+local page, index = ns.HubTab("craft", T.tab, function() refresh() end)
 local lineIdx, mode, pageNo = nil, "profit", 1
 
 local profBtn = ns.Button(page)
 profBtn:SetSize(200, 22)
 profBtn:SetPoint("TOPLEFT", 4, -2)
-profBtn:SetScript("OnClick", function()
-  local lines = myLines()
-  lineIdx = (lineIdx or 1) % #lines + 1
-  pageNo = 1
-  refresh()
-end)
+ns.DropDown(profBtn, page, function()
+  local list = {}
+  for i, line in ipairs(myLines()) do list[i] = ns.ProfIcon(line, 14) .. (ns.CraftProfName and ns.CraftProfName(line) or tostring(line)) end
+  return list
+end, function() return lineIdx or 1 end, function(i) lineIdx = i; pageNo = 1; refresh() end)
 local modeBtn = ns.Button(page, nil, "pill")
 modeBtn:SetSize(170, 22)
 modeBtn:SetPoint("LEFT", profBtn, "RIGHT", 8, 0)
@@ -201,14 +206,15 @@ info:SetPoint("TOPLEFT", 4, -30)
 info:SetWidth(W - 40)
 info:SetJustifyH("LEFT")
 ns.Hub.rows(page, ROWS, TOP, LINE, true)
+local emptyBox = ns.Callout(page, TOP - 10)
 
 local prevBtn = ns.Button(page)
-prevBtn:SetSize(28, 20)
+prevBtn:SetSize(28, 22)
 prevBtn:SetPoint("BOTTOMLEFT", 4, 4)
 prevBtn:SetText("<")
 prevBtn:SetScript("OnClick", function() pageNo = pageNo - 1; refresh() end)
 local nextBtn = ns.Button(page)
-nextBtn:SetSize(28, 20)
+nextBtn:SetSize(28, 22)
 nextBtn:SetPoint("LEFT", prevBtn, "RIGHT", 70, 0)
 nextBtn:SetText(">")
 nextBtn:SetScript("OnClick", function() pageNo = pageNo + 1; refresh() end)
@@ -222,19 +228,24 @@ refresh = function()
   if #lines == 0 then info:SetText("|c" .. HEX.faint .. T.no_prof .. "|r"); ns.Hub.clearRows(page, 1); return end
   lineIdx = math.min(lineIdx or 1, #lines)
   local line = lines[lineIdx]
-  profBtn:SetText(ns.CraftProfName and ns.CraftProfName(line) or tostring(line))
+  profBtn:SetText(ns.ProfIcon(line, 14) .. (ns.CraftProfName and ns.CraftProfName(line) or tostring(line)) .. "  v")
   if mode == "profit" then modeBtn:LockHighlight(); learnBtn:UnlockHighlight() else learnBtn:LockHighlight(); modeBtn:UnlockHighlight() end
   local rank = skillIn(line) or 0
   local known = ns.MyRecipes and ns.MyRecipes()[line]
   local list, rowsOut = {}, {}
+  local empty -- callout shown instead of the (empty) list
   if mode == "profit" then
     local scan = ns.Market and ns.Market()
-    if not known then info:SetText("|c" .. HEX.faint .. T.no_recipes .. "|r")
-    elseif not scan then info:SetText("|c" .. HEX.faint .. T.no_scan .. "|r")
+    if not known then
+      empty = { title = T.empty_rec_t, text = T.no_recipes, warn = true }
+    elseif not scan then
+      empty = { title = T.empty_scan_t, text = T.no_scan, warn = true,
+        btn = ns.ShowLeveling and T.go_leveling or nil, onClick = function() if ns.ShowLeveling then ns.ShowLeveling() end end }
     else
       list = ns.ProfitableCrafts(line, scan.prices)
-      info:SetText(#list > 0 and T.profit_info or ("|c" .. HEX.faint .. T.profit_none .. "|r"))
+      if #list == 0 then empty = { title = T.empty_none_t, text = T.profit_none } end
     end
+    info:SetText(empty and "" or T.profit_info)
     for _, e in ipairs(list) do
       rowsOut[#rowsOut + 1] = { key = e.key,
         left = itemName(e.key) .. "  |c" .. HEX.faint .. string.format(T.cost, ns.Money(e.cost)) .. " · " .. string.format(T.ah, ns.Money(e.ah)) .. "|r",
@@ -242,8 +253,12 @@ refresh = function()
     end
   else
     list = ns.RecipesToLearn(line, rank)
-    info:SetText(not known and ("|c" .. HEX.faint .. T.no_recipes .. "|r")
-      or (#list > 0 and string.format(T.learn_info, ns.CraftProfName(line), rank + 25) or ("|c" .. HEX.faint .. T.learn_none .. "|r")))
+    if not known then
+      empty = { title = T.empty_rec_t, text = T.no_recipes, warn = true }
+    elseif #list == 0 then
+      empty = { title = T.empty_none_t, text = T.learn_none }
+    end
+    info:SetText(empty and "" or string.format(T.learn_info, ns.CraftProfName(line), rank + 25))
     for _, e in ipairs(list) do
       local tag = useful(e.r, rank) and ("  |c" .. HEX.teal .. T.useful .. "|r") or ""
       rowsOut[#rowsOut + 1] = { key = e.key,
@@ -251,6 +266,12 @@ refresh = function()
         right = "|c" .. HEX.dim .. sourceText(e.r) .. "|r" }
     end
     if not known then rowsOut = {} end
+  end
+  if empty then
+    empty.icon = ns.ProfIconPath(line)
+    emptyBox:Set(empty)
+  else
+    emptyBox:Hide()
   end
   local pages = math.max(1, math.ceil(#rowsOut / ROWS))
   pageNo = math.min(math.max(pageNo, 1), pages)

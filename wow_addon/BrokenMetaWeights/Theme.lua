@@ -1,20 +1,22 @@
--- brokenmeta.gg look for the addon: the site's palette (style_base.css) and fonts (Cal Sans for
--- titles and buttons, Afacad Flux for text, Space Mono for numbers) on flat frames (a 1-pixel
--- border and a solid fill, drawn with the plain white texture).
+-- Look of the addon: a dark palette and the site's fonts (Cal Sans for titles and buttons, Afacad
+-- Flux for text, Space Mono for numbers) on flat frames (a 1-pixel border and a solid fill, drawn
+-- with the plain white texture).
 local ADDON, ns = ...
 
 local function rgb(hex, a)
   return { tonumber(hex:sub(1, 2), 16) / 255, tonumber(hex:sub(3, 4), 16) / 255, tonumber(hex:sub(5, 6), 16) / 255, a or 1 }
 end
 
+-- Palette: near-black blue panels, a teal accent, soft white texts (the "grand tableau" mock-up).
+-- "magenta" is kept as a name but is the accent of primary buttons and of the active tab.
 ns.C = {
-  bg = rgb("100b26", 0.97), row = rgb("1a1440", 0.92), rowHover = rgb("251c58", 0.95),
-  border = rgb("2f2760"), borderBright = rgb("4d4192"),
-  magenta = rgb("d72638"), teal = rgb("2de6c4"), gold = rgb("ffc23c"),
-  cream = rgb("f0e7d8"), dim = rgb("bdb4cf"), faint = rgb("8a81ab"), none = { 0, 0, 0, 0 },
+  bg = rgb("0b0c13", 0.97), row = rgb("12141f", 0.95), rowHover = rgb("1b1e2f", 0.97),
+  border = rgb("262a3d"), borderBright = rgb("3a3f66"),
+  magenta = rgb("2de6c4"), teal = rgb("2de6c4"), gold = rgb("ffc23c"),
+  cream = rgb("e9e9f1"), dim = rgb("a2a6bd"), faint = rgb("7a7e96"), none = { 0, 0, 0, 0 },
 }
 -- Same colours for |c escapes in texts.
-ns.HEX = { teal = "ff2de6c4", gold = "ffffc23c", cream = "fff0e7d8", dim = "ffbdb4cf", faint = "ff8a81ab", magenta = "ffd72638" }
+ns.HEX = { teal = "ff2de6c4", gold = "ffffc23c", cream = "ffe9e9f1", dim = "ffa2a6bd", faint = "ff7a7e96", magenta = "ff2de6c4" }
 
 local FLAT = "Interface\\Buttons\\WHITE8x8"
 local FONTS = "Interface\\AddOns\\" .. ADDON .. "\\Media\\Fonts\\"

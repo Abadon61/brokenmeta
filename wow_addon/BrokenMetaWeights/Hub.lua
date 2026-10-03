@@ -1,12 +1,21 @@
--- BrokenMeta hub window (/bmw): Character (spec, weights, equipped gear value), Upgrades (bag
+-- Broken Meta : HUB window (/bmw): Character (spec, weights, equipped gear value), Upgrades (bag
 -- items worth more than what's equipped) and Export (a text string to paste on brokenmeta.gg).
 local ADDON, ns = ...
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("hub", {
   reload = "Recharger pour appliquer", lang_tip = "Langue de l'addon (AUTO = celle du jeu). Clique pour changer.",
-  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profession", sec_eco = "Économie", sec_dg = "Donjons",
-  tab_char = "Personnage", tab_up = "Améliorations", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
+  title = "Broken Meta : HUB", sec_dps = "DPS", sec_prof = "Profession", sec_eco = "Économie", sec_dg = "Donjons",
+  sec_home = "Accueil", sec_codex = "Codex", tab_addons = "Addons",
+  home_intro = "Broken Meta : HUB v%s réunit les addons Broken Meta pour WoW: Forever. Installe ceux qui t'intéressent : chacun ajoute sa section dans cette fenêtre, et ils fonctionnent les uns sans les autres.",
+  mod_dps = "La valeur en DPS de chaque objet pour ta spé, tes poids de stats, tes améliorations, l'équipement idéal et le guide de ta classe.",
+  mod_crafter = "L'annuaire des artisans, leurs recettes, les demandes, la montée de métier au meilleur prix et l'économie de l'hôtel des ventes.",
+  mod_codex = "Le codex des donjons et des raids : les boss, leurs techniques, le butin de chaque boss et l'historique de ton butin.",
+  mod_loaded = "installé · v%s", mod_disabled = "désactivé", mod_missing = "non installé",
+  mod_open = "Ouvrir", mod_link = "Lien CurseForge", mod_link_title = "Lien CurseForge",
+  mod_enable_hint = "Active-le dans la liste des AddOns (écran de choix du personnage), puis recharge l'interface.",
+  mod_curseforge = "Disponible gratuitement sur CurseForge (application CurseForge ou fichier .zip).",
+  tab_char = "Personnage", tab_up = "Améliorations", tab_bis = "Meilleur équipement", tab_export = "Export", tab_cmd = "Commandes", tab_data = "Données",
   tab_guide = "Guide",
   up_bags = "Dans tes sacs", up_dungeons = "Dans les donjons (meilleur objet par emplacement)",
   up_best = "Donjon le plus rentable : %s (%d amélioration(s), +%.2f DPS)", up_level = "niv. %d",
@@ -63,8 +72,17 @@ local T = ns.Localize("hub", {
   rating = "cote",
 }, {
   reload = "Reload to apply", lang_tip = "Addon language (AUTO = the game's). Click to change.",
-  title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Professions", sec_eco = "Economy", sec_dg = "Dungeons",
-  tab_char = "Character", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
+  title = "Broken Meta : HUB", sec_dps = "DPS", sec_prof = "Professions", sec_eco = "Economy", sec_dg = "Dungeons",
+  sec_home = "Home", sec_codex = "Codex", tab_addons = "Addons",
+  home_intro = "Broken Meta : HUB v%s brings together the Broken Meta addons for WoW: Forever. Install the ones you want: each adds its section to this window, and they work without one another.",
+  mod_dps = "Every item's DPS value for your spec, your stat weights, your upgrades, the best-in-slot gear and your class guide.",
+  mod_crafter = "The crafters directory, their recipes, requests, profession leveling at the best price and the auction house economy.",
+  mod_codex = "The dungeon and raid codex: bosses, their abilities, each boss's loot and your loot history.",
+  mod_loaded = "installed · v%s", mod_disabled = "disabled", mod_missing = "not installed",
+  mod_open = "Open", mod_link = "CurseForge link", mod_link_title = "CurseForge link",
+  mod_enable_hint = "Enable it in the AddOns list (character selection screen), then reload the interface.",
+  mod_curseforge = "Free on CurseForge (CurseForge app or .zip file).",
+  tab_char = "Character", tab_up = "Upgrades", tab_bis = "Best in slot", tab_export = "Export", tab_cmd = "Commands", tab_data = "Data",
   tab_guide = "Guide",
   up_bags = "In your bags", up_dungeons = "In dungeons (best item per slot)",
   up_best = "Most rewarding dungeon: %s (%d upgrade(s), +%.2f DPS)", up_level = "lvl %d",
@@ -121,19 +139,21 @@ local T = ns.Localize("hub", {
   rating = "rating",
 })
 
-local SLOT_ORDER = {
-  { 1, "HEADSLOT" }, { 2, "NECKSLOT" }, { 3, "SHOULDERSLOT" }, { 15, "BACKSLOT" }, { 5, "CHESTSLOT" },
-  { 9, "WRISTSLOT" }, { 10, "HANDSSLOT" }, { 6, "WAISTSLOT" }, { 7, "LEGSSLOT" }, { 8, "FEETSLOT" },
-  { 11, "FINGER0SLOT" }, { 12, "FINGER1SLOT" }, { 13, "TRINKET0SLOT" }, { 14, "TRINKET1SLOT" },
-  { 16, "MAINHANDSLOT" }, { 17, "SECONDARYHANDSLOT" }, { 18, "RANGEDSLOT" },
-}
-local function slotLabel(key) return _G[key] or key end
+
+ns.HubTexts = T -- the DPS pages (BrokenDPS) use these texts too
 
 ---------------------------------------------------------------------------------------------
 -- Frame
 ---------------------------------------------------------------------------------------------
-local W, H = 590, 600
-local hub = ns.Window("BrokenMetaHub", W, H, "Broken Meta : Hub") -- Escape closes it
+-- W: width of the area the pages fill (every page lays itself out from ns.Hub.W); the left column adds NAV.
+local W, H, NAV = 866, 700, 214
+local hub = ns.Window("BrokenMetaHub", W + NAV, H, "Broken Meta : HUB") -- Escape closes it
+-- A smaller screen (or UI scale) than the window: scale it down to fit.
+hub:HookScript("OnShow", function(self)
+  local sw, sh = UIParent:GetWidth() or 0, UIParent:GetHeight() or 0
+  local fit = (sw > 0 and sh > 0) and math.min(1, (sw - 40) / (W + NAV), (sh - 40) / H) or 1
+  self:SetScale(math.max(fit, 0.5))
+end)
 
 -- Addon language, right in the header (also in the Options panel): cycles Auto / FR / EN / DE / ES;
 -- the texts are built at load, so the choice applies after the reload button (see Locales.lua).
@@ -170,17 +190,26 @@ langBtn:HookScript("OnLeave", function() GameTooltip:Hide() end)
 hub:HookScript("OnShow", showLang)
 showLang()
 
--- Section bar: DPS / Profession tabs over a hairline.
-local sectionLine = ns.Line(hub)
-sectionLine:SetColorTexture(unpack(ns.C.border))
-sectionLine:SetHeight(1)
-sectionLine:SetPoint("TOPLEFT", 1, -66)
-sectionLine:SetPoint("TOPRIGHT", -1, -66)
+-- Left column (NAV px): the addons of the suite, logo and name; the open addon lists its tabs under
+-- it, grouped by section when it has several. The pages fill the rest of the window.
+local nav = CreateFrame("Frame", nil, hub)
+nav:SetPoint("TOPLEFT", 1, -ns.HEADER_H - 1)
+nav:SetPoint("BOTTOMLEFT", 1, 1)
+nav:SetWidth(NAV - 1)
+local navBg = nav:CreateTexture(nil, "BACKGROUND")
+navBg:SetAllPoints()
+navBg:SetColorTexture(0.03, 0.035, 0.06, 0.85)
+local navLine = ns.Line(hub)
+navLine:SetColorTexture(unpack(ns.C.border))
+navLine:SetWidth(1)
+navLine:SetPoint("TOPLEFT", NAV, -ns.HEADER_H - 1)
+navLine:SetPoint("BOTTOMLEFT", NAV, 1)
 
+local PAGE_TOP = ns.HEADER_H + 12
 local pages, tabs = {}, {}
 local function newPage()
   local p = CreateFrame("Frame", nil, hub)
-  p:SetPoint("TOPLEFT", 12, -102)
+  p:SetPoint("TOPLEFT", NAV + 12, -PAGE_TOP)
   p:SetPoint("BOTTOMRIGHT", -12, 12)
   p:Hide()
   pages[#pages + 1] = p
@@ -190,54 +219,122 @@ end
 local current = 1
 local refreshers = {}
 
--- Two sections (Broken Meta : DPS and Broken Meta : Profession), each with its own row of tabs.
--- Other files add their pages with ns.HubTab(section, label, refresher).
-local SECTIONS = { { key = "dps", label = T.sec_dps }, { key = "prof", label = T.sec_prof },
-  { key = "eco", label = T.sec_eco }, { key = "dg", label = T.sec_dg } }
-local sectionOf, sectionBtns = {}, {}
+-- An addon declares a section with ns.HubSection(key, label, order, addon) and adds tabs to it
+-- with ns.HubTab; the tab buttons (ns.HubTabButton) are the rows of the left column.
+ns.HUB_ADDONS = {
+  HUB = { name = "HUB", order = 0, icon = ns.MEDIA .. "icon" },
+  BrokenDPS = { name = "BrokenDPS", order = 10, icon = ns.MEDIA .. "icon_dps" },
+  BrokenCrafter = { name = "BrokenCrafter", order = 20, icon = ns.MEDIA .. "icon_crafter" },
+  BrokenCodex = { name = "BrokenCodex", order = 40, icon = ns.MEDIA .. "icon_codex" },
+}
+local sectionOf, sectionLabels, sectionList, sectionAddon, sectionTabs = {}, {}, {}, {}, {}
+local addonBtns, addonLast = {}, {}
+local lastTab = {} -- last page opened in each section
+
+local function sectionsOf(addon)
+  local out = {}
+  for _, sec in ipairs(sectionList) do if sectionAddon[sec.key] == addon then out[#out + 1] = sec end end
+  return out
+end
+
+local function addonIds()
+  local ids = {}
+  for id in pairs(addonBtns) do ids[#ids + 1] = id end
+  table.sort(ids, function(a, b) return ns.HUB_ADDONS[a].order < ns.HUB_ADDONS[b].order end)
+  return ids
+end
+
+-- Places the rows of the left column: every addon, and under the open one its sections and tabs.
+local function layoutNav(active, openIndex)
+  for _, b in pairs(tabs) do b:Hide() end
+  for _, fs in pairs(sectionLabels) do fs:Hide() end
+  local y = -10
+  for _, id in ipairs(addonIds()) do
+    local b = addonBtns[id]
+    b:ClearAllPoints()
+    b:SetPoint("TOPLEFT", 8, y)
+    y = y - 36
+    if id == active then b:LockHighlight() else b:UnlockHighlight() end
+    if id == active then
+      local secs = sectionsOf(id)
+      for _, sec in ipairs(secs) do
+        if #secs > 1 and sectionLabels[sec.key] then
+          sectionLabels[sec.key]:ClearAllPoints()
+          sectionLabels[sec.key]:SetPoint("TOPLEFT", 20, y - 4)
+          sectionLabels[sec.key]:Show()
+          y = y - 22
+        end
+        for _, index in ipairs(sectionTabs[sec.key] or {}) do
+          local t = tabs[index]
+          t:ClearAllPoints()
+          t:SetPoint("TOPLEFT", 22, y)
+          t:Show()
+          if index == openIndex then t:LockHighlight() else t:UnlockHighlight() end
+          y = y - 28
+        end
+      end
+      y = y - 6
+    end
+  end
+end
 
 local function showPage(i)
   current = i
   local sec = sectionOf[i]
+  local addon = sectionAddon[sec]
+  addonLast[addon] = sec
   for j, p in ipairs(pages) do p:SetShown(j == i) end
-  for j, b in pairs(tabs) do
-    b:SetShown(sectionOf[j] == sec)
-    if j == i then b:LockHighlight() else b:UnlockHighlight() end
-  end
-  for key, b in pairs(sectionBtns) do
-    if key == sec then b:LockHighlight() else b:UnlockHighlight() end
-  end
+  layoutNav(addon, i)
   if refreshers[i] then refreshers[i]() end
 end
 
-local lastTab = {} -- last page opened in each section
 local function addTab(section, label, index)
-  local pos = 0
-  for _, sec in pairs(sectionOf) do if sec == section then pos = pos + 1 end end
   sectionOf[index] = section
+  sectionTabs[section] = sectionTabs[section] or {}
+  table.insert(sectionTabs[section], index)
   lastTab[section] = lastTab[section] or index
-  local b = ns.Button(hub, nil, "pill")
-  b:SetSize(91, 22)
-  b:SetPoint("TOPLEFT", 12 + pos * 94, -74)
+  local b = ns.Button(nav, nil, "pill")
+  b:SetSize(NAV - 1 - 30, 26)
   b:SetText(label)
+  local fs = b.GetFontString and b:GetFontString()
+  if fs then fs:ClearAllPoints(); fs:SetPoint("LEFT", 12, 0); fs:SetJustifyH("LEFT") end
   b:SetScript("OnClick", function() lastTab[section] = index; showPage(index) end)
   b:Hide()
   tabs[index] = b
 end
 
-for pos, sec in ipairs(SECTIONS) do
-  local b = ns.Button(hub, nil, "tab")
-  b:SetSize(110, 30)
-  b:SetPoint("TOPLEFT", 14 + (pos - 1) * 116, -36)
-  b:SetText(sec.label)
-  b:SetScript("OnClick", function() if lastTab[sec.key] then showPage(lastTab[sec.key]) end end)
-  sectionBtns[sec.key] = b
+local function addonButton(id)
+  if addonBtns[id] then return end
+  local info = ns.HUB_ADDONS[id] or { name = id, order = 90 }
+  ns.HUB_ADDONS[id] = info
+  local b = ns.Button(nav, nil, "pill")
+  b:SetSize(NAV - 1 - 16, 32)
+  b:SetText(info.name)
+  local fs = b.GetFontString and b:GetFontString()
+  if fs then fs:ClearAllPoints(); fs:SetPoint("LEFT", 40, 0); fs:SetJustifyH("LEFT") end
+  b.logo = b:CreateTexture(nil, "ARTWORK")
+  b.logo:SetSize(22, 22)
+  b.logo:SetPoint("LEFT", 10, 0)
+  if info.icon then b.logo:SetTexture(info.icon) end
+  b:SetScript("OnClick", function()
+    local sec = addonLast[id]
+    if not sec then local first = sectionsOf(id)[1]; sec = first and first.key end
+    if sec and lastTab[sec] then showPage(lastTab[sec]) end
+  end)
+  addonBtns[id] = b
 end
 
--- DPS tabs in display order; each opens the page created with that index below.
-for _, def in ipairs({ { T.tab_char, 1 }, { T.tab_up, 2 }, { T.tab_guide, 6 }, { T.tab_data, 5 },
-    { T.tab_export, 3 }, { T.tab_cmd, 4 } }) do
-  addTab("dps", def[1], def[2])
+function ns.HubSection(key, label, order, addon)
+  if sectionLabels[key] then return end
+  addon = addon or "HUB"
+  addonButton(addon)
+  local fs = nav:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  fs:SetText(label)
+  fs:Hide()
+  sectionLabels[key] = fs
+  sectionAddon[key] = addon
+  sectionList[#sectionList + 1] = { key = key, order = order or 50 }
+  table.sort(sectionList, function(a, b2) return a.order < b2.order end)
 end
 
 -- Reusable rows: optional item icon, left/right text, and a hover area that shows the item's
@@ -265,13 +362,20 @@ local function rows(page, n, top, lineH, withIcon)
     local hover = CreateFrame("Button", nil, page)
     hover:SetPoint("TOPLEFT", 0, y + 2)
     hover:SetSize(W - 24, lineH)
+    -- Highlight in the page's own background layer: under the row's texts.
+    local hl = page:CreateTexture(nil, "BACKGROUND")
+    hl:SetColorTexture(unpack(ns.C.rowHover))
+    hl:SetPoint("TOPLEFT", 0, y + 2)
+    hl:SetSize(W - 24, lineH)
+    hl:Hide()
     hover:SetScript("OnEnter", function(self)
       if not row.slot and not row.link then return end
+      hl:Show()
       GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
       if row.slot then GameTooltip:SetInventoryItem("player", row.slot) else GameTooltip:SetHyperlink(row.link) end
       GameTooltip:Show()
     end)
-    hover:SetScript("OnLeave", function() GameTooltip:Hide() end)
+    hover:SetScript("OnLeave", function() hl:Hide(); GameTooltip:Hide() end)
     page.rows[i] = row
   end
 end
@@ -295,400 +399,34 @@ local function clearRows(page, from)
   for i = from, #page.rows do setRow(page, i) end
 end
 
+-- Building blocks for the pages every addon of the suite adds.
+ns.Hub = { W = W, rows = rows, setRow = setRow, clearRows = clearRows }
+function ns.HubTab(section, label, refresher)
+  local page = newPage()
+  addTab(section, label, #pages)
+  refreshers[#pages] = refresher
+  return page, #pages
+end
+function ns.HubShow(index) hub:Show(); showPage(index) end
+function ns.HubTabButton(index) return tabs[index] end
+function ns.HubRefresh(index) if hub:IsShown() and current == index and refreshers[index] then refreshers[index]() end end
+
+-- Home: the addons of the suite, the data shared with the site, the commands.
+ns.HubSection("home", T.sec_home, 0, "HUB")
+local pHome, iHome = ns.HubTab("home", T.tab_addons)
+local pData, iData = ns.HubTab("home", T.tab_data)
+local pCmd, iCmd = ns.HubTab("home", T.tab_cmd)
+ns.HubHomePage, ns.HubHomeIndex = pHome, iHome
+
 local function fmtDelta(d)
   if d > 0.005 then return string.format("|cff2de6c4+%.2f|r", d) end
   if d < -0.005 then return string.format("|cffff5a6b%.2f|r", d) end
-  return "|cffbdb4cf0.00|r"
-end
-
----------------------------------------------------------------------------------------------
--- Page 1: Character
----------------------------------------------------------------------------------------------
-local pChar = newPage()
-
-local specText = pChar:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
-specText:SetPoint("TOP", 0, -4)
-
-local function cycleSpec(step)
-  local list = ns.classSpecs()
-  if #list == 0 then return end
-  local idx = 1
-  for i, id in ipairs(list) do if id == ns.GetSpec() then idx = i end end
-  idx = (idx - 1 + step) % #list + 1
-  ns.ChooseSpec(list[idx])
-end
-
-for _, def in ipairs({ { "<", -1, "TOPLEFT", 4 }, { ">", 1, "TOPRIGHT", -4 } }) do
-  local b = ns.Button(pChar)
-  b:SetSize(28, 20)
-  b:SetPoint(def[3], def[4], 0)
-  b:SetText(def[1])
-  b:SetScript("OnClick", function() cycleSpec(def[2]) end)
-end
-
-rows(pChar, 26, -30, 15, true)
-
-local importBtn = ns.Button(pChar)
-importBtn:SetSize(180, 22)
-importBtn:SetPoint("BOTTOMLEFT", 4, 4)
-importBtn:SetText(T.import_btn)
-importBtn:SetScript("OnClick", function() if ns.ShowImportDialog then ns.ShowImportDialog() end end)
-local resetBtn = ns.Button(pChar)
-resetBtn:SetSize(180, 22)
-resetBtn:SetPoint("LEFT", importBtn, "RIGHT", 8, 0)
-resetBtn:SetText(T.reset_btn)
-resetBtn:SetScript("OnClick", function() SlashCmdList.BROKENMETAWEIGHTS("import clear") end)
-
-refreshers[1] = function()
-  local spec = ns.GetSpec()
-  if not spec then
-    specText:SetText(T.no_spec)
-    clearRows(pChar, 1)
-    return
-  end
-  specText:SetText(T.spec .. " : |cffffffff" .. ns.specName(spec) .. "|r")
-  local w, custom = ns.ActiveWeights(spec)
-  local rp = ns.GetRatingPerPct()
-  local i = 1
-  setRow(pChar, i, "|cffffc23c" .. T.weights .. "|r", custom
-    and string.format("|cff2de6c4" .. T.w_custom .. "|r", custom.level or 0, custom.date or "?")
-    or ("|cff8a81ab" .. T.w_generic .. "|r")); i = i + 1
-  setRow(pChar, i, string.format(IS_FR and "Force %.3f · Agilité %.3f · Intelligence %.3f"
-    or "Strength %.3f · Agility %.3f · Intellect %.3f", w.str, w.agi, w.int)); i = i + 1
-  setRow(pChar, i, string.format(IS_FR and "Puiss. d'attaque %.3f · Puiss. des sorts %.3f" or "Attack power %.3f · Spell power %.3f", w.ap, w.sp)); i = i + 1
-  setRow(pChar, i, string.format(IS_FR and "Critique 1%% %.3f (%.1f %s) · Toucher 1%% %.3f (%.1f %s)"
-    or "Crit 1%% %.3f (%.1f %s) · Hit 1%% %.3f (%.1f %s)",
-    w.crit, rp.crit, T.rating, w.hit, rp.hit, T.rating),
-    rp.crit_approx and ("|cff8a81ab" .. T.approx .. "|r") or nil); i = i + 1
-  if (w.wdps_mh or 0) + (w.wdps_oh or 0) + (w.wdps_r or 0) > 0 then
-    setRow(pChar, i, string.format(T.wdps_line, w.wdps_mh or 0, w.wdps_oh or 0, w.wdps_r or 0)); i = i + 1
-  end
-  i = i + 1
-  setRow(pChar, i, "|cffffc23c" .. T.gear .. "|r", "|cffffc23cDPS|r"); i = i + 1
-  local total = 0
-  for _, s in ipairs(SLOT_ORDER) do
-    local link = GetInventoryItemLink("player", s[1])
-    local v = link and ns.score(link) or 0
-    total = total + v
-    local icon, dim = GetInventoryItemTexture("player", s[1]), false
-    if not icon then
-      -- empty slot: the game's own grey slot silhouette
-      local ok, _, tex = pcall(GetInventorySlotInfo, s[2])
-      icon, dim = ok and tex or nil, true
-    end
-    setRow(pChar, i, slotLabel(s[2]) .. " : " .. (link or ("|cff8a81ab" .. T.empty .. "|r")),
-      link and string.format("%.2f", v) or "", { icon = icon, dim = dim, slot = link and s[1] or nil }); i = i + 1
-  end
-  setRow(pChar, i, "|cffffc23c" .. T.total .. "|r", string.format("|cffffffff%.2f|r", total)); i = i + 1
-  if not custom and (UnitLevel("player") or 20) ~= 20 then
-    setRow(pChar, i, "|cffff9900" .. T.w_hint_level .. "|r"); i = i + 1
-  elseif custom and ns.ImportedWeightsStale() then
-    setRow(pChar, i, "|cffff9900" .. string.format(T.w_hint_refresh, custom.level, ns.REFRESH_LEVELS) .. "|r"); i = i + 1
-  end
-  clearRows(pChar, i)
-end
-
----------------------------------------------------------------------------------------------
--- Page 2: Upgrades from bags
----------------------------------------------------------------------------------------------
-local pUp = newPage()
-local upHint = pUp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-upHint:SetPoint("TOPLEFT", 4, -2)
-upHint:SetPoint("TOPRIGHT", -4, -2)
-upHint:SetJustifyH("LEFT")
-upHint:SetText(T.up_hint)
-rows(pUp, 24, -40, 17, true)
-
-local Container = C_Container or {}
-local GetNumSlots = Container.GetContainerNumSlots or GetContainerNumSlots
-local GetBagLink = Container.GetContainerItemLink or GetContainerItemLink
-
-local QUALITY = { [2] = "1eff00", [3] = "0070dd", [4] = "a335ee", [5] = "ff8000" }
-local function lootLink(it)
-  local name = select(1, ns.GetItemInfo(it.id)) or it.n
-  return "|cff" .. (QUALITY[it.q] or "ffffff") .. "|Hitem:" .. it.id .. "::::::::|h[" .. name .. "]|h|r"
-end
-
--- Dungeon upgrades, per dungeon: every dungeon item that beats what is worn (wearable by the class,
--- required level at most 3 above the player's), and per dungeon the sum of its best item per slot
--- (what a run is worth). { [d] = { items = { { it, gain } } sorted, n = slots improved, gain } }.
-local function upgradesByDungeon()
-  local level = UnitLevel("player") or 1
-  local out = {}
-  for _, it in ipairs(ns.LOOT or {}) do
-    local slots = it.slot and ns.SLOTS[it.slot]
-    if slots and (it.req or 0) <= level + 3 and ns.CanWearType(it.t) then
-      local v = ns.scoreStats(it.st, it.slot) or 0
-      if v > 0 then
-        local worst
-        for _, slot in ipairs(slots) do
-          local eq = GetInventoryItemLink("player", slot)
-          local ev = eq and ns.score(eq) or 0
-          if not worst or ev < worst then worst = ev end
-        end
-        local gain = v - (worst or 0)
-        if gain > 0.005 then
-          local dd = out[it.d] or { items = {}, best = {} }
-          out[it.d] = dd
-          dd.items[#dd.items + 1] = { it = it, gain = gain }
-          if not dd.best[it.slot] or gain > dd.best[it.slot] then dd.best[it.slot] = gain end
-        end
-      end
-    end
-  end
-  for _, dd in pairs(out) do
-    table.sort(dd.items, function(x, y) return x.gain > y.gain end)
-    dd.n, dd.gain = 0, 0
-    for _, g in pairs(dd.best) do dd.n, dd.gain = dd.n + 1, dd.gain + g end
-  end
-  return out
-end
-ns.UpgradesByDungeon = upgradesByDungeon
-
-local function dungeonName(i)
-  local dg = ns.DUNGEONS and ns.DUNGEONS[i]
-  if not dg then return "?" end
-  return (dg.name[IS_FR and "frFR" or "enUS"] or dg.name.enUS) .. (dg.levels ~= "" and (" (" .. dg.levels .. ")") or "")
-end
-
--- Dungeons in the picker: most rewarding first, then the others by name.
-local function dungeonOrder(by)
-  local list = {}
-  for i in ipairs(ns.DUNGEONS or {}) do list[#list + 1] = i end
-  table.sort(list, function(a, b)
-    local ga, gb = by[a] and by[a].gain or 0, by[b] and by[b].gain or 0
-    if ga ~= gb then return ga > gb end
-    return dungeonName(a) < dungeonName(b)
-  end)
-  return list
-end
-
-local BAG_MAX, PICK_ROW = 4, 7 -- bag upgrades shown, row where the dungeon picker sits
-local selectedDungeon -- nil: the most rewarding one
-
-local pickBtn = ns.Button(pUp)
-pickBtn:SetSize(W - 32, 22)
-pickBtn:SetPoint("TOPLEFT", 4, -40 - (PICK_ROW - 1) * 17 + 3)
-
--- The picker: a panel over the list with one button per dungeon (upgrades count and DPS gain).
-local picker = CreateFrame("Frame", nil, pUp, ns.BACKDROP_TEMPLATE)
-picker:SetPoint("TOPLEFT", pickBtn, "BOTTOMLEFT", 0, -4)
-picker:SetPoint("RIGHT", pUp, "RIGHT", -4, 0)
-picker:SetHeight(318)
-ns.Flat(picker, ns.C.bg, ns.C.borderBright)
-picker:SetFrameLevel((pUp:GetFrameLevel() or 1) + 20)
-picker:Hide()
-local pickRows = {}
-for k = 1, 24 do
-  local b = ns.Button(picker, nil, "pill")
-  b:SetSize((W - 50) / 2, 24)
-  b:SetPoint("TOPLEFT", 6 + ((k - 1) % 2) * ((W - 50) / 2 + 6), -6 - math.floor((k - 1) / 2) * 26)
-  if b.GetFontString and b:GetFontString() then b:GetFontString():SetWidth((W - 50) / 2 - 12) end
-  b:Hide()
-  pickRows[k] = b
-end
-pickBtn:SetScript("OnClick", function() picker:SetShown(not picker:IsShown()) end)
-
-refreshers[2] = function()
-  local found = {}
-  if ns.GetSpec() and GetNumSlots and GetBagLink then
-    local level = UnitLevel("player") or 1
-    for bag = 0, (NUM_BAG_SLOTS or 4) do
-      for slot = 1, (GetNumSlots(bag) or 0) do
-        local link = GetBagLink(bag, slot)
-        local loc = link and select(9, ns.GetItemInfo(link))
-        local minLevel = link and select(5, ns.GetItemInfo(link)) or 0
-        if loc and ns.SLOTS[loc] and minLevel <= level and ns.CanWearLink(link) then
-          local v = ns.score(link)
-          local d = v and ns.deltaVsEquipped(link, v)
-          if d and d > 0.005 then found[#found + 1] = { link = link, d = d } end
-        end
-      end
-    end
-  end
-  table.sort(found, function(a, b) return a.d > b.d end)
-  local i = 1
-  setRow(pUp, i, "|cffffc23c" .. T.up_bags .. "|r"); i = i + 1
-  if #found == 0 then
-    setRow(pUp, i, "|cff8a81ab" .. T.no_upgrade .. "|r"); i = i + 1
-  end
-  for k = 1, math.min(#found, BAG_MAX) do
-    local f = found[k]
-    setRow(pUp, i, f.link, fmtDelta(f.d) .. " DPS", { icon = select(10, ns.GetItemInfo(f.link)), link = f.link }); i = i + 1
-  end
-  clearRows(pUp, i)
-
-  -- Dungeon picker and the selected dungeon's upgrades.
-  local by = upgradesByDungeon()
-  local order = dungeonOrder(by)
-  local top = order[1] and by[order[1]] and order[1] or nil
-  local d = selectedDungeon or top or order[1]
-  if not d then pickBtn:Hide(); return end
-  pickBtn:Show()
-  local dd = by[d]
-  pickBtn:SetText(string.format(T.up_pick, dungeonName(d)) .. (d == top and ("  · " .. T.up_top) or "") .. "  ↓")
-  for k, b in ipairs(pickRows) do
-    local idx = order[k]
-    if idx then
-      local x = by[idx]
-      b:SetText(dungeonName(idx) .. (x and string.format("  |c%s+%.1f|r", ns.HEX.teal, x.gain) or ""))
-      if idx == d then b:LockHighlight() else b:UnlockHighlight() end
-      b:SetScript("OnClick", function() selectedDungeon = idx; picker:Hide(); refreshers[2]() end)
-      b:Show()
-    else
-      b:Hide()
-    end
-  end
-  i = PICK_ROW + 1
-  if not dd then
-    setRow(pUp, i, "|cff8a81ab" .. T.up_none_in .. "|r"); i = i + 1
-  else
-    setRow(pUp, i, "|cff8a81ab" .. string.format(T.up_summary, dd.n, dd.gain) .. "|r"); i = i + 1
-    local level = UnitLevel("player") or 1
-    for _, b in ipairs(dd.items) do
-      if i > #pUp.rows then break end
-      local it = b.it
-      local extra = (it.req or 0) > level and (" · " .. string.format(T.up_level, it.req)) or ""
-      local icon = (C_Item and C_Item.GetItemIconByID and C_Item.GetItemIconByID(it.id)) or (GetItemIcon and GetItemIcon(it.id))
-      local src = it.quest and T.up_quest or (it.src or "")
-      setRow(pUp, i, lootLink(it) .. "  |cff8a81ab" .. src .. extra .. "|r", fmtDelta(b.gain) .. " DPS",
-        { icon = icon, link = "item:" .. it.id }); i = i + 1
-    end
-  end
-  clearRows(pUp, i)
-end
-
----------------------------------------------------------------------------------------------
--- Page 3: Export
----------------------------------------------------------------------------------------------
-local pExp = newPage()
-local expHint = pExp:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-expHint:SetPoint("TOPLEFT", 4, -2)
-expHint:SetPoint("TOPRIGHT", -4, -2)
-expHint:SetJustifyH("LEFT")
-expHint:SetText(T.export_hint)
-
-local scroll = CreateFrame("ScrollFrame", "BrokenMetaHubExportScroll", pExp, "UIPanelScrollFrameTemplate")
-scroll:SetPoint("TOPLEFT", 4, -56)
-scroll:SetPoint("BOTTOMRIGHT", -26, 4)
-local box = CreateFrame("EditBox", nil, scroll)
-box:SetMultiLine(true)
-box:SetAutoFocus(false)
-box:SetFontObject(ChatFontNormal)
-box:SetWidth(W - 60)
-box:SetScript("OnEscapePressed", function() hub:Hide() end)
-scroll:SetScrollChild(box)
-
--- pcall wrapper that keeps every return value, including nils in the middle (UnitDamage returns
--- nil off-hand values without an off-hand, which a table + unpack would silently cut short).
-local function safe(fn, ...)
-  if type(fn) ~= "function" then return nil end
-  return (function(ok, ...) if ok then return ... end end)(pcall(fn, ...))
-end
-
-local function num(v) return v and tostring(tonumber(string.format("%.2f", v))) or "" end
-
--- Plain "key=value" lines, one per line: readable by a human, trivial for the site to parse.
-local function buildExport()
-  local out = {}
-  local function add(k, v) out[#out + 1] = k .. "=" .. tostring(v == nil and "" or v) end
-  add("format", "BMW1")
-  add("addon", (C_AddOns and C_AddOns.GetAddOnMetadata or GetAddOnMetadata or function() end)(ADDON, "Version"))
-  add("client", select(1, GetBuildInfo()) .. "." .. select(2, GetBuildInfo()))
-  add("date", date("!%Y-%m-%dT%H:%M:%SZ"))
-  add("class", ns.PlayerClass())
-  add("spec", ns.GetSpec())
-  add("level", UnitLevel("player"))
-  add("race", select(2, UnitRace("player")))
-  -- Character sheet: effective primary stats, attack power, spell power, crit/hit as shown in game.
-  for i, k in ipairs({ "str", "agi", "sta", "int", "spi" }) do add(k, select(2, safe(UnitStat, "player", i))) end
-  local base, pos, neg = safe(UnitAttackPower, "player")
-  if base then add("ap", base + (pos or 0) + (neg or 0)) end
-  local rbase, rpos, rneg = safe(UnitRangedAttackPower, "player")
-  if rbase then add("rap", rbase + (rpos or 0) + (rneg or 0)) end
-  -- Spell power per school (2 holy, 3 fire, 4 nature, 5 frost, 6 shadow, 7 arcane) + the best one.
-  local sp = 0
-  for school, name in pairs({ [2] = "holy", [3] = "fire", [4] = "nature", [5] = "frost", [6] = "shadow", [7] = "arcane" }) do
-    local v = safe(GetSpellBonusDamage, school) or 0
-    add("sp_" .. name, v)
-    sp = math.max(sp, v)
-  end
-  add("sp", sp)
-  local spellCrit = 0
-  for school = 2, 7 do spellCrit = math.max(spellCrit, safe(GetSpellCritChance, school) or 0) end
-  add("crit_melee", num(safe(GetCritChance)))
-  add("crit_ranged", num(safe(GetRangedCritChance)))
-  add("crit_spell", num(spellCrit))
-  -- Hit: flat modifiers (talents, items) + what hit rating converts to at the current level.
-  local function ratingPct(cr)
-    local rating = cr and safe(GetCombatRating, cr)
-    if not rating or rating <= 0 then return 0 end
-    return safe(GetCombatRatingBonusForCombatRatingValue, cr, rating) or safe(GetCombatRatingBonus, cr) or 0
-  end
-  add("hit_melee", num((safe(GetHitModifier) or 0) + ratingPct(CR_HIT_MELEE or 6)))
-  add("hit_ranged", num((safe(GetHitModifier) or 0) + ratingPct(CR_HIT_RANGED or 7)))
-  add("hit_spell", num((safe(GetSpellHitModifier) or 0) + ratingPct(CR_HIT_SPELL or 8)))
-  -- Weapons as the character sheet shows them (AP bonus and % modifiers included).
-  local mh, oh = safe(UnitAttackSpeed, "player")
-  add("speed_mh", num(mh)); add("speed_oh", num(oh))
-  local mhMin, mhMax, ohMin, ohMax, _, _, pct = safe(UnitDamage, "player")
-  add("mh_min", num(mhMin)); add("mh_max", num(mhMax))
-  add("oh_min", num(ohMin)); add("oh_max", num(ohMax)); add("dmg_pct", num(pct))
-  local rSpeed, rMin, rMax, _, _, rPct = safe(UnitRangedDamage, "player")
-  add("r_speed", num(rSpeed)); add("r_min", num(rMin)); add("r_max", num(rMax)); add("r_pct", num(rPct))
-  -- Active buffs inflate sheet stats; the site warns when this is above 0.
-  local buffs = 0
-  if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
-    while safe(C_UnitAuras.GetAuraDataByIndex, "player", buffs + 1, "HELPFUL") do buffs = buffs + 1 end
-  elseif UnitBuff then
-    while safe(UnitBuff, "player", buffs + 1) do buffs = buffs + 1 end
-  end
-  add("buffs", buffs)
-  -- Talents: points per tree and node:rank pairs (the site calculator's own node ids).
-  local ranks, perTab = ns.readTalents()
-  if perTab then add("talent_points", table.concat(perTab, "/")) end
-  if ranks then
-    local list = {}
-    for node, r in pairs(ranks) do list[#list + 1] = node .. ":" .. r end
-    table.sort(list)
-    add("talents", table.concat(list, ","))
-  end
-  -- Gear: slot=itemID:enchantID:suffixID (from the item string, no personal data).
-  for _, s in ipairs(SLOT_ORDER) do
-    local link = GetInventoryItemLink("player", s[1])
-    local istr = link and link:match("|H(item:[^|]+)|h")
-    if istr then
-      local parts = { strsplit(":", istr) }
-      add("slot" .. s[1], (parts[2] or "") .. ":" .. (parts[3] or "") .. ":" .. (parts[8] or ""))
-      -- The item's own stats and slot type, so the site can compare dungeon items with it
-      -- ("Top gear"): st16=str:10,agi:5,wdps:12.4 / loc16=INVTYPE_2HWEAPON.
-      local st, list = ns.itemStats(link), {}
-      for k, v in pairs(st) do
-        if type(v) == "number" and v ~= 0 then list[#list + 1] = k .. ":" .. num(v) end
-      end
-      table.sort(list)
-      add("st" .. s[1], table.concat(list, ","))
-      add("loc" .. s[1], select(9, ns.GetItemInfo(link)) or "")
-    end
-  end
-  -- Rating needed for 1% crit / hit on this client, to turn item ratings into percentages.
-  local rp = ns.GetRatingPerPct()
-  add("rating_crit", num(rp.crit))
-  add("rating_hit", num(rp.hit))
-  return table.concat(out, "\n")
-end
-ns.BuildExport = buildExport
-
-refreshers[3] = function()
-  box:SetText(buildExport())
-  box:HighlightText()
-  box:SetFocus()
+  return "|cffa2a6bd0.00|r"
 end
 
 ---------------------------------------------------------------------------------------------
 -- Page 4: Commands
 ---------------------------------------------------------------------------------------------
-local pCmd = newPage()
 local cmdHint = pCmd:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 cmdHint:SetPoint("TOPLEFT", 4, -2)
 cmdHint:SetJustifyH("LEFT")
@@ -714,11 +452,11 @@ for i, c in ipairs(T.cmds) do
   end
 end
 
-refreshers[4] = function()
-  local ids = ns.classSpecs()
+refreshers[iCmd] = function()
+  local ids = ns.classSpecs and ns.classSpecs() or {}
   for i, c in ipairs(T.cmds) do
     if c[3]:find("%%s") then
-      cmdDesc[i]:SetText(c[3]:format(ids[1] or "warrior_fury") .. "\n|cff8a81ab" .. table.concat(ids, ", ") .. "|r")
+      cmdDesc[i]:SetText(c[3]:format(ids[1] or "warrior_fury") .. "\n|cff7a7e96" .. table.concat(ids, ", ") .. "|r")
     end
   end
 end
@@ -726,7 +464,6 @@ end
 ---------------------------------------------------------------------------------------------
 -- Page 5: Data (what is collected for the site, sharing switch)
 ---------------------------------------------------------------------------------------------
-local pData = newPage()
 local dataTitle = pData:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
 dataTitle:SetPoint("TOPLEFT", 4, -2)
 dataTitle:SetText(T.data_h)
@@ -758,7 +495,7 @@ for _, row in ipairs(pData.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(
 
 -- The scan button itself is in Profession > Leveling, next to the prices it feeds.
 
-refreshers[5] = function()
+refreshers[iData] = function()
   shareBtn:SetText(BrokenMetaWeightsDB.share and ("|cff2de6c4" .. T.share_on .. "|r") or T.share_off)
   local d = ns.Data()
   local n = { stats = 0, pet = 0, rating = 0 }
@@ -775,7 +512,7 @@ refreshers[5] = function()
       last.listings or 0, distinct)); i = i + 1
     setRow(pData, i, string.format(T.ah_count, #d.ah)); i = i + 1
   else
-    setRow(pData, i, "|cff8a81ab" .. T.ah_none .. "|r"); i = i + 1
+    setRow(pData, i, "|cff7a7e96" .. T.ah_none .. "|r"); i = i + 1
   end
   clearRows(pData, i)
 end
@@ -845,133 +582,113 @@ function ns.ShowShareCopy()
 end
 
 ---------------------------------------------------------------------------------------------
--- Page 6: Guide (teaser + links to the site; the full guide stays on brokenmeta.gg)
----------------------------------------------------------------------------------------------
-local pGuide = newPage()
-local gTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
-gTitle:SetPoint("TOPLEFT", 4, -2)
-gTitle:SetText(T.guide_h)
-local gText = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
-gText:SetPoint("TOPLEFT", 4, -24)
-gText:SetWidth(W - 40)
-gText:SetJustifyH("LEFT")
-local gMore = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-gMore:SetPoint("TOPLEFT", gText, "BOTTOMLEFT", 0, -8)
-gMore:SetWidth(W - 40)
-gMore:SetJustifyH("LEFT")
-local gBtn = ns.Button(pGuide)
-gBtn:SetSize(220, 24)
-gBtn:SetPoint("TOPLEFT", gMore, "BOTTOMLEFT", 0, -10)
-gBtn:SetText(T.guide_copy)
-local pTitle = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHeading")
-pTitle:SetPoint("TOPLEFT", 4, -190)
-pTitle:SetText(T.prof_h)
-local profRows = {}
-for k = 1, 4 do
-  local fs = pGuide:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-  fs:SetPoint("TOPLEFT", 4, -190 - k * 34)
-  fs:SetWidth(W - 160)
-  fs:SetJustifyH("LEFT")
-  local b = ns.Button(pGuide)
-  b:SetSize(120, 22)
-  b:SetPoint("TOPRIGHT", -4, -186 - k * 34)
-  b:SetText(T.prof_copy)
-  profRows[k] = { fs = fs, btn = b }
-end
-
--- Learned professions as { line = skillLineID, rank, max }: modern API first, Classic fallback
--- (matched on the localized name against the site's profession names).
-local function learnedProfessions()
-  local out = {}
-  if GetProfessions and GetProfessionInfo then
-    for _, idx in ipairs({ GetProfessions() }) do
-      local ok, _, _, rank, max, _, _, line = pcall(GetProfessionInfo, idx)
-      if ok and line then out[#out + 1] = { line = line, rank = rank or 0, max = max or 0 } end
-    end
-  elseif GetNumSkillLines and GetSkillLineInfo then
-    for i = 1, GetNumSkillLines() do
-      local name, header, _, rank, _, _, max = GetSkillLineInfo(i)
-      if name and not header then
-        for line, p in pairs(ns.PROFESSIONS or {}) do
-          if p.name.frFR == name or p.name.enUS == name then out[#out + 1] = { line = line, rank = rank or 0, max = max or 0 } end
-        end
-      end
-    end
-  end
-  return out
-end
-
-refreshers[6] = function()
-  local spec = ns.GetSpec()
-  local tb = spec and ns.TALENT_BUILDS and ns.TALENT_BUILDS[spec]
-  local ranks = ns.readTalents and select(1, ns.readTalents())
-  if spec and tb and #tb.core > 0 and ranks then
-    local have = 0
-    for _, node in ipairs(tb.core) do if (ranks[node] or 0) > 0 then have = have + 1 end end
-    gText:SetText("|cffffffff" .. ns.specName(spec) .. "|r : " .. string.format(T.guide_follow, have, #tb.core, tb.level or 20))
-    gMore:SetText(T.guide_more)
-  else
-    gText:SetText(spec and ("|cffffffff" .. ns.specName(spec) .. "|r") or "")
-    gMore:SetText(T.guide_nobuild)
-  end
-  gBtn:SetShown(tb ~= nil)
-  gBtn:SetScript("OnClick", function()
-    if tb then ns.ShowCopyText(T.link_title, T.link_hint, ns.SiteURL(tb.guide, "guide")) end
-  end)
-
-  local profs, k = learnedProfessions(), 0
-  for _, pr in ipairs(profs) do
-    local route = ns.PROFESSIONS and ns.PROFESSIONS[pr.line]
-    if route and k < #profRows then
-      k = k + 1
-      local pname = route.name[IS_FR and "frFR" or "enUS"] or route.name.enUS
-      local text = string.format(T.prof_done, pname, pr.rank, pr.max)
-      for _, st in ipairs(route.steps) do
-        if pr.rank < st.t then
-          local left = st.c
-          if pr.rank > st.f then left = math.ceil(st.c * (st.t - pr.rank) / math.max(1, st.t - st.f)) end
-          text = string.format(T.prof_next, pname, pr.rank, pr.max, st.name[IS_FR and "frFR" or "enUS"] or st.name.enUS, st.f, st.t, left)
-          break
-        end
-      end
-      profRows[k].fs:SetText(text)
-      profRows[k].btn:Show()
-      profRows[k].btn:SetScript("OnClick", function()
-        ns.ShowCopyText(T.link_title, T.link_hint, ns.SiteURL("wow-forever/professions/" .. route.id .. "/", "profession"))
-      end)
-    end
-  end
-  if k == 0 then
-    profRows[1].fs:SetText("|cff8a81ab" .. T.prof_none .. "|r")
-    profRows[1].btn:Hide()
-    k = 1
-  end
-  for j = k + 1, #profRows do profRows[j].fs:SetText(""); profRows[j].btn:Hide() end
-end
-
----------------------------------------------------------------------------------------------
 -- Entry points
 ---------------------------------------------------------------------------------------------
--- Shared building blocks for the pages other files add (Crafter.lua).
-ns.Hub = { W = W, rows = rows, setRow = setRow, clearRows = clearRows }
-function ns.HubTab(section, label, refresher)
-  local page = newPage()
-  addTab(section, label, #pages)
-  refreshers[#pages] = refresher
-  return page, #pages
-end
-function ns.HubShow(index) hub:Show(); showPage(index) end
-function ns.HubTabButton(index) return tabs[index] end
-function ns.HubRefresh(index) if hub:IsShown() and current == index and refreshers[index] then refreshers[index]() end end
 
 function ns.ToggleHub()
   if hub:IsShown() then hub:Hide() else hub:Show(); showPage(current) end
 end
 
-function ns.ShowExport()
-  hub:Show(); showPage(3)
-end
 
 function ns.OnDataChanged()
   if hub:IsShown() and refreshers[current] then refreshers[current]() end
+end
+
+---------------------------------------------------------------------------------------------
+-- Home > Addons: the suite, each addon installed (open it), disabled, or missing (CurseForge)
+---------------------------------------------------------------------------------------------
+local CURSEFORGE = "https://www.curseforge.com/wow/addons/"
+-- Each addon's own logo, shipped in the HUB's own Media folder so the home cards show it whether
+-- or not that addon is actually installed (the missing ones advertise what they look like too).
+ns.SUITE = {
+  { id = "BrokenDPS", section = "dps", slug = "brokendps", desc = T.mod_dps, icon = ns.MEDIA .. "icon_dps" },
+  { id = "BrokenCrafter", section = "prof", slug = "brokencrafter", desc = T.mod_crafter, icon = ns.MEDIA .. "icon_crafter" },
+  { id = "BrokenCodex", section = "codex", slug = "brokencodex", desc = T.mod_codex, icon = ns.MEDIA .. "icon_codex" },
+}
+
+local function metadata(name, field)
+  local get = (C_AddOns and C_AddOns.GetAddOnMetadata) or GetAddOnMetadata
+  local ok, v = pcall(get or function() end, name, field)
+  return ok and v or nil
+end
+
+-- "loaded", "disabled" (installed, not enabled) or "missing".
+function ns.AddonState(name)
+  if ns.Modules[name] then return "loaded" end
+  local isLoaded = (C_AddOns and C_AddOns.IsAddOnLoaded) or IsAddOnLoaded
+  if isLoaded then
+    local ok, loaded = pcall(isLoaded, name)
+    if ok and loaded then return "loaded" end
+  end
+  local info = (C_AddOns and C_AddOns.GetAddOnInfo) or GetAddOnInfo
+  if info then
+    local ok, _, title, _, _, reason = pcall(info, name)
+    if ok and title and reason ~= "MISSING" then return "disabled" end
+  end
+  return "missing"
+end
+
+function ns.HubOpenSection(key)
+  if lastTab[key] then hub:Show(); showPage(lastTab[key]) end
+end
+
+local homeIntro = pHome:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+homeIntro:SetPoint("TOPLEFT", 4, -2)
+homeIntro:SetWidth(W - 40)
+homeIntro:SetJustifyH("LEFT")
+local homeCards = {}
+for k, m in ipairs(ns.SUITE) do
+  local c = CreateFrame("Frame", nil, pHome, ns.BACKDROP_TEMPLATE)
+  c:SetSize(W - 32, 104)
+  c:SetPoint("TOPLEFT", 4, -40 - (k - 1) * 114)
+  ns.Flat(c)
+  c.icon = c:CreateTexture(nil, "ARTWORK")
+  c.icon:SetSize(40, 40)
+  c.icon:SetPoint("TOPLEFT", 12, -12)
+  c.icon:SetTexture(m.icon)
+  c.name = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+  c.name:SetPoint("TOPLEFT", c.icon, "TOPRIGHT", 12, 0)
+  c.name:SetText(m.id)
+  c.status = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+  c.status:SetPoint("LEFT", c.name, "RIGHT", 10, 0)
+  c.desc = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+  c.desc:SetPoint("TOPLEFT", c.name, "BOTTOMLEFT", 0, -6)
+  c.desc:SetWidth(W - 230)
+  c.desc:SetJustifyH("LEFT")
+  c.desc:SetText(m.desc)
+  c.note = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  c.note:SetPoint("BOTTOMLEFT", 64, 10)
+  c.note:SetWidth(W - 230)
+  c.note:SetJustifyH("LEFT")
+  c.btn = ns.Button(c, nil, "primary")
+  c.btn:SetSize(140, 24)
+  c.btn:SetPoint("RIGHT", -12, 0)
+  homeCards[k] = c
+end
+
+refreshers[iHome] = function()
+  homeIntro:SetText(string.format(T.home_intro, metadata(ADDON, "Version") or "?"))
+  for k, m in ipairs(ns.SUITE) do
+    local c, state = homeCards[k], ns.AddonState(m.id)
+    local url = CURSEFORGE .. m.slug
+    c:SetAlpha(state == "missing" and 0.55 or 1)
+    c.icon:SetDesaturated(state ~= "loaded")
+    ns.FlatBorder(c, state == "loaded" and ns.C.teal or ns.C.border)
+    if state == "loaded" then
+      c.status:SetText("|c" .. ns.HEX.teal .. string.format(T.mod_loaded, metadata(m.id, "Version") or "?") .. "|r")
+      c.note:SetText("")
+      c.btn:SetText(T.mod_open)
+      c.btn:SetScript("OnClick", function() ns.HubOpenSection(m.section) end)
+    elseif state == "disabled" then
+      c.status:SetText("|c" .. ns.HEX.gold .. T.mod_disabled .. "|r")
+      c.note:SetText(T.mod_enable_hint)
+      c.btn:SetText(T.mod_link)
+      c.btn:SetScript("OnClick", function() ns.ShowCopyText(T.mod_link_title, T.link_hint, url) end)
+    else
+      c.status:SetText("|c" .. ns.HEX.faint .. T.mod_missing .. "|r")
+      c.note:SetText(T.mod_curseforge)
+      c.btn:SetText(T.mod_link)
+      c.btn:SetScript("OnClick", function() ns.ShowCopyText(T.mod_link_title, T.link_hint, url) end)
+    end
+  end
 end
