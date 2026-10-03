@@ -83,6 +83,7 @@
   function itemLabel(it) { return it.name + ' (' + (it.zone || '') + (it.req ? ', ' + it.req : '') + ')'; }
   function itemScore(it) {
     var s = it.st || {};
+    if (isTank()) return ((s.armor || 0) + (s.armorbonus || 0)) * 0.02 + (s.sta || 0) * 0.8 + (s.defrtng || 0) * 2 + (s.str || 0) * 0.6 + (s.agi || 0) * 0.6 + (s.atkpwr || 0) * 0.3 + (s.hitrtng || 0) * 0.8 + (s.critstrkrtng || 0) * 0.4 + (s.dps || 0) * 6;
     if (isRanged()) return (s.agi || 0) * 1.6 + (s.atkpwr || 0) + (s.int || 0) * 0.2 + (s.critstrkrtng || 0) * 1.4 + (s.hitrtng || 0) * 2.6 + (s.dps || 0) * 6;
     if (isCaster()) return (s.splpwr || 0) + (s.spldmg || 0) + (s.int || 0) * 0.5 + (s.critstrkrtng || 0) * 0.9 + (s.hitrtng || 0) * 1.5 + (s.manargn || 0) * 1.5 + (s.spi || 0) * 0.15;
     return (s.str || 0) * 2 + (s.agi || 0) * 0.6 + (s.atkpwr || 0) + (s.critstrkrtng || 0) * 1.4 + (s.hitrtng || 0) * 2.6 + (s.dps || 0) * 6;
@@ -238,7 +239,7 @@
       '<tr><td data-first>' + T.tk_avoid + '</td><td class="nums">' + avoid + ' % (' + pc('miss') + ' / ' + pc('dodge') + ' / ' + pc('parry') + ')</td></tr>' +
       '<tr><td data-first>' + T.tk_block + '</td><td class="nums">' + pc('block') + ' %</td></tr>' +
       '<tr><td data-first>' + T.tk_crit + '</td><td class="nums">' + pc('crit') + ' % / ' + pc('crush') + ' %</td></tr>' +
-      '<tr><td data-first>' + T.tk_health + '</td><td class="nums">' + Math.round(t.health) + ' · ' + T.tk_def + ' ' + t.defense + ' · ' + T.armor + ' ' + Math.round(t.armor) + '</td></tr>' +
+      '<tr><td data-first>' + T.tk_health + '</td><td class="nums">' + Math.round(t.health) + ' · ' + T.tk_def + ' ' + t.defense + ' · ' + T.tk_armor + ' ' + Math.round(t.armor) + '</td></tr>' +
       '<tr><td data-first>' + T.tk_ttd + '</td><td class="nums">' + (dt > 0 ? (t.health / dt).toFixed(1) : '—') + ' s</td></tr>' +
       '</tbody></table></div>';
   }
@@ -291,11 +292,11 @@
         .then(function (r) { var apPer = r[0] / 40; return { agi: 0.05 * r[1] / apPer, crit: r[1] / apPer, hit: r[2] / apPer, haste: r[3] / apPer }; });
     }
     S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, caster: isCaster(), ranged: isRanged(), stick: isStick(), tank: isTank(), evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
-      onProgress: function (p) { status(fmt(T.js.optProgress, { slot: p.slot }) + ' ' + p.dps.toFixed(1) + ' DPS'); } }).then(function (res) {
+      onProgress: function (p) { status(fmt(T.js.optProgress, { slot: p.slot }) + ' ' + p.dps.toFixed(1) + (isTank() ? ' ' + T.tk_score : ' DPS')); } }).then(function (res) {
       state.lastOpt = res;
       var box = $('s60Opt2'); box.hidden = false;
       var list = res.weapons.concat(res.gear).map(function (g) { return '<li>' + g.slot + ' : ' + g.name + '</li>'; }).join('');
-      box.innerHTML = '<h3 class="ad-h3">' + T.o_title + ' : ' + res.dps.toFixed(1) + ' DPS</h3><ul class="ms-limits">' + list + '</ul><button type="button" class="ms-btn" id="s60Apply">' + T.apply + '</button><p class="wow-note">' + T.o_note + '</p>';
+      box.innerHTML = '<h3 class="ad-h3">' + T.o_title + ' : ' + res.dps.toFixed(1) + (isTank() ? ' ' + T.tk_score : ' DPS') + '</h3><ul class="ms-limits">' + list + '</ul><button type="button" class="ms-btn" id="s60Apply">' + T.apply + '</button><p class="wow-note">' + T.o_note + '</p>';
       $('s60Apply').addEventListener('click', function () {
         slots().forEach(function (s) { $('s60g_' + s).value = ''; });
         res.gear.forEach(function (g) { var sel = $('s60g_' + g.slot); if (sel) sel.value = String(g.id); });
