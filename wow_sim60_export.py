@@ -52,7 +52,19 @@ for cls in classes:
             known = [r for r in a["ranks"] if r["level"] <= 60]
             if known:
                 fut.append({"name": a["name"], "first_level": a["first_level"], "rank": known[-1]})
-    spells[cls] = {"abilities": abil, "future": fut}
+    # highest rank learnable by level 60 for every ability of the class ladder (the glossary entry above can sit on an older rank)
+    top = {}
+    rp = ROOT / "data" / "wow_spells_ranks" / f"{cls}.json"
+    if rp.exists():
+        for aid, ranks in json.loads(rp.read_text(encoding="utf-8"))["abilities"].items():
+            ok = [r for r in ranks if r["spell_level"] <= 60 and r.get("cost")] or [r for r in ranks if r["spell_level"] <= 60]
+            if ok:
+                top[aid] = ok[-1]
+    spells[cls] = {"abilities": abil, "future": fut, "top": top}
+# spells a talent grants or that the glossary leaves out (Mind Flay, Lava Burst, Starfire...): rank ladders rebuilt by name from the client tables
+import wow_sim60_extra_spells  # noqa: E402
+for _cls, _found in wow_sim60_extra_spells.extra_spells(refresh=False).items():
+    spells[_cls]["extra"] = _found
 (OUT / "spells60.json").write_text(json.dumps(spells, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 w = spells["warrior"]["abilities"]
 for k in ("warrior_bloodthirst", "warrior_whirlwind", "warrior_heroic_strike", "warrior_death_wish", "warrior_slam", "warrior_overpower", "warrior_rend"):
@@ -65,7 +77,7 @@ import wow_talents  # noqa: E402
 
 _classes, _ = wow_talents.load()
 talents = {}
-KIT_CLASSES = {"warrior", "rogue", "mage", "warlock", "hunter"}   # classes that have a simulator kit (keeps the page download small)
+KIT_CLASSES = {"warrior", "rogue", "mage", "warlock", "hunter", "priest", "shaman", "druid", "paladin"}   # classes that have a simulator kit (keeps the page download small)
 for c in _classes:
     if c["id"] not in KIT_CLASSES:
         continue

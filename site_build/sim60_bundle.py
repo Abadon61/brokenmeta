@@ -7,9 +7,9 @@ import shutil
 from pathlib import Path
 
 SIM = Path(__file__).parent / "sim60"
-ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "spells", "effects", "mage", "warlock", "hunter", "kits", "weights", "optimizer"]
+ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "spells", "effects", "caster", "mage", "warlock", "hunter", "priest", "shaman", "druid", "paladin", "kits", "weights", "optimizer"]
 EXPORTS = ("Sim, Aura, runBatchRaw, mergeRaw, finalize, runBatch, buildCharacter, ItemPool, toWeapon, EQUIP_SLOTS, "
-           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, resolveEffects, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, makeKit, KITS, "
+           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, resolveEffects, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, priestKit, shamanElementalKit, shamanEnhancementKit, druidBalanceKit, druidFeralKit, paladinRetKit, makeKit, KITS, "
            "statWeights, optimizeGear, optimizeGearAsync, validateRanks, parseShareHash, ranksToBuild, ranksFromNames, PRESETS, NAME_TO_KEY, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
 
 
@@ -26,7 +26,7 @@ def build(dist_dir: Path):
         parts.append(f"// ---- {name}.js ----")
         body = _strip((SIM / f"{name}.js").read_text(encoding="utf-8"))
         # the modules share ONE scope once bundled: a top-level name declared twice is a SyntaxError that breaks the whole page
-        for m in re.finditer(r"^(?:asyncs+)?(?:function|const|let|class)s+([A-Za-z_$][w$]*)", body, flags=re.M):
+        for m in re.finditer(r"^(?:async\s+)?(?:function|const|let|class)\s+([A-Za-z_$][\w$]*)", body, flags=re.M):
             if m.group(1) in seen:
                 raise SystemExit(f"sim60 bundle: '{m.group(1)}' is declared in both {seen[m.group(1)]}.js and {name}.js (rename one)")
             seen[m.group(1)] = name

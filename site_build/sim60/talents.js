@@ -22,6 +22,29 @@ export const NAME_TO_KEY = {
     'Hemorrhage': 'hemorrhage', 'Opportunity': 'opportunity', 'Quietus': 'quietus', 'Serrated Blades': 'serratedBlades', 'Puncturing Wounds': 'puncturingWounds',
     'Improved Poisons': 'improvedPoisons', 'Vile Poisons': 'vilePoisons',
   },
+  paladin: {
+    'Conviction': 'conviction', 'Improved Judgement': 'improvedJudgement', 'Sanctified Judgement': 'sanctifiedJudgement', 'Two-Handed Weapon Specialization': 'twoHandSpec', 'Vindication': 'vindication',
+    'Vengeance': 'vengeance', 'Seal of Command': 'sealOfCommand', 'Sacred Arbiter': 'sacredArbiter', 'Champion of the Light': 'championOfLight', 'Divine Strength': 'divineStrength',
+    'Divine Intellect': 'divineIntellect', 'Benediction': 'benediction', 'Holy Power': 'holyPower', 'Improved Seals': 'improvedSeals', 'Instrument of Law': 'instrumentOfLaw', 'Twist of Light': 'twistOfLight',
+  },
+  priest: {
+    'Shadow Focus': 'shadowFocus', 'Improved Shadow Word: Pain': 'improvedSwp', 'Improved Mind Blast': 'improvedMindBlast', 'Mind Flay': 'mindFlay', 'Improved Mind Flay': 'improvedMindFlay',
+    'Shadow Weaving': 'shadowWeaving', 'Darkness': 'darkness', 'Shadowform': 'shadowform', 'Devouring Contagion': 'devouringContagion', 'Twin Disciplines': 'twinDisciplines',
+    'Mental Agility': 'mentalAgility', 'Mental Strength': 'mentalStrength', 'Meditation': 'meditation', 'Power Infusion': 'powerInfusion', 'Inner Focus': 'innerFocus',
+  },
+  shaman: {
+    'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
+    'Elemental Alacrity': 'elementalAlacrity', 'Call of Thunder': 'callOfThunder', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst',
+    'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
+    'Rage of the Farseer': 'rageOfTheFarseer', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
+  },
+  druid: {
+    'Improved Wrath': 'improvedWrath', 'Genesis': 'genesis', 'Moonglow': 'moonglow', 'Improved Moonfire': 'improvedMoonfire', "Nature's Majesty": 'naturesMajesty', "Nature's Reach": 'naturesReach',
+    "Nature's Splendor": 'naturesSplendor', 'Insect Swarm': 'insectSwarm', 'Vengeance': 'vengeance', 'Improved Starfire': 'improvedStarfire', "Nature's Grace": 'naturesGrace', 'Eclipse': 'eclipse',
+    'Moonfury': 'moonfury', 'Moonkin Form': 'moonkinForm', 'Naturalist': 'naturalist', 'Ferocity': 'ferocity', 'Shredding Attacks': 'shreddingAttacks', 'Savage Fury': 'savageFury',
+    'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Predatory Instincts': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
+    'Leader of the Pack': 'leaderOfThePack',
+  },
   hunter: {
     'Lethal Attacks': 'lethalAttacks', 'Efficiency': 'efficiency', 'Careful Aim': 'carefulAim', 'Rapid Killing': 'rapidKilling', 'Improved Arcane Shot': 'improvedArcane', 'Lone Wolf': 'loneWolf',
     'Mortal Shots': 'mortalShots', 'Barrage': 'barrage', 'Ranged Weapon Specialization': 'rangedSpec', 'Improved Stings': 'improvedStings', 'Sniper Shot': 'sniperShot',
@@ -159,6 +182,34 @@ export const PRESETS = {
   hunter_survival: {
     'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, 'Clever Traps': 2, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2,
     'Lightning Reflexes': 5, 'Lacerating Strikes': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3, 'Hawk Eye': 1,
+  },
+  priest_shadow: {
+    'Shadow Focus': 5, 'Spirit Tap': 5, 'Improved Shadow Word: Pain': 2, 'Improved Mind Blast': 5, 'Mind Flay': 1, 'Improved Mind Flay': 2, 'Vampiric Embrace': 1, 'Shadow Weaving': 3,
+    'Devouring Contagion': 2, 'Darkness': 5, 'Shadowform': 1,
+    'Twin Disciplines': 5, 'Power in Light': 5, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 2,
+  },
+  shaman_elemental: {
+    'Convection': 5, 'Concussion': 5, 'Reverberation': 5, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Call of Thunder': 1, 'Lightning Overload': 3,
+    'Elemental Fury': 5, 'Lava Burst': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5, 'Mental Dexterity': 3, 'Guardian Totems': 2, 'Improved Ghost Wolf': 2, 'Improved Lightning Shield': 2,
+  },
+  druid_balance: {
+    'Improved Wrath': 5, 'Genesis': 5, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Majesty": 2, "Nature's Reach": 2, "Nature's Splendor": 1, 'Insect Swarm': 1, 'Vengeance': 5,
+    'Improved Starfire': 5, "Nature's Grace": 1, 'Eclipse': 3, 'Moonfury': 5, 'Moonkin Form': 1, 'Furor': 5, 'Naturalist': 5,
+  },
+  paladin_retribution: {
+    'Benediction': 5, 'Improved Judgement': 2, 'Conviction': 5, 'Vindication': 3, 'Sanctified Judgement': 3, 'Seal of Command': 1, 'Sacred Arbiter': 1, 'Two-Handed Weapon Specialization': 3,
+    'Vengeance': 3, 'Champion of the Light': 3, 'Instrument of Law': 2, 'Twist of Light': 1,
+    'Divine Strength': 5, 'Divine Intellect': 5, 'Improved Seals': 3, 'Healing Light': 3, 'Reverence': 3,
+  },
+  shaman_enhancement: {
+    'Thundering Strikes': 5, 'Ancestral Knowledge': 5, 'Mental Dexterity': 3, 'Elemental Weapons': 3, 'Flurry': 5, 'Stormstrike': 1, 'Mental Quickness': 2, 'Improved Stormstrike': 2,
+    'Maelstrom Weapon': 5, 'Rage of the Farseer': 1,
+    'Convection': 5, 'Concussion': 5, 'Call of Flame': 3, 'Elemental Devastation': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 2,
+  },
+  druid_feral: {
+    'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Leader of the Pack': 1,
+    'Predatory Instincts': 2, 'Rend and Tear': 5, 'Berserk': 1,
+    'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Reach": 2,
   },
   warrior_fury: {
     'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,

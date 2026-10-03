@@ -70,3 +70,24 @@ export const SAMPLE_HUNTER = {
   weapons: [{ min: 85, max: 165, speed: 2.8, type: 'gun' }],
   ...PRESET_HUNTER,
 };
+
+export const SAMPLE_PRIEST = { ...SAMPLE_MAGE, class: 'priest' };
+export const SAMPLE_SHAMAN_ELE = { ...SAMPLE_MAGE, class: 'shaman' };
+export const SAMPLE_DRUID_BAL = { ...SAMPLE_MAGE, class: 'druid' };
+
+export const SAMPLE_RET = {
+  class: 'paladin', race: 'human',
+  gear: [
+    { slot: 'head', name: 'Sample helm', st: { str: 28, sta: 30, critstrkrtng: 28 } },
+    { slot: 'chest', name: 'Sample chest', st: { str: 30, sta: 28, atkpwr: 40 } },
+    { slot: 'legs', name: 'Sample legs', st: { str: 26, agi: 18, sta: 26 } },
+    { slot: 'hands', name: 'Sample gloves', st: { str: 24, sta: 14, hitrtng: 10 } },
+    { slot: 'trinket', name: 'Sample trinket', st: { atkpwr: 76 } },
+    { slot: 'ring1', name: 'Sample ring', st: { str: 8, critstrkrtng: 14, hitrtng: 10 } },
+    { slot: 'ring2', name: 'Sample ring 2', st: { atkpwr: 36, hitrtng: 10 } },
+  ],
+  weapons: [{ min: 230, max: 345, speed: 3.5, type: 'two-handed sword', twoHand: true }],
+  ...PRESET_RAID,
+};
+export const SAMPLE_ENH = { ...SAMPLE_RET, class: 'shaman', variant: 'enhancement', weapons: [{ min: 100, max: 190, speed: 2.7, type: 'sword' }, { min: 80, max: 150, speed: 2.5, type: 'sword', offHand: true }] };
+export const SAMPLE_FERAL = { ...SAMPLE_RET, class: 'druid', variant: 'feral', weapons: [], gear: SAMPLE_RET.gear.map((g) => ({ ...g, st: { ...g.st, agi: (g.st.agi || 0) + 20 } })) };

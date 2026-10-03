@@ -27,12 +27,12 @@ function score(item, w) {
     + (s.dps || 0) * (w.dpsPerWeaponDps || 8);
 }
 
-const WEAPON_SLOTS = { dw: ['mh', 'oh'], '2h': ['th'], caster: ['th'], ranged: ['rng', 'th'] };
+const WEAPON_SLOTS = { dw: ['mh', 'oh'], '2h': ['th'], caster: ['th'], ranged: ['rng', 'th'], stick: ['th'] };
 
 function weaponCandidates(pool, cls, slot, mode) {
   const w = pool.weapons(cls, 60);
   if (slot === 'rng') return w.ranged;
-  if (mode === 'ranged' && slot === 'th') return w.twoHand.concat(w.oneHand, w.mainHand);   // melee weapon only lends its stats to a hunter
+  if ((mode === 'ranged' || mode === 'stick') && slot === 'th') return w.twoHand.concat(w.oneHand, w.mainHand);   // melee weapon only lends its stats to a hunter
   if (slot === 'mh') return w.oneHand.concat(w.mainHand);
   if (slot === 'oh') return w.oneHand.concat(w.offHand);
   return w.twoHand;
@@ -49,16 +49,16 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
   const wsel = {};
   const cw = character.weapons || [];
   if (mode === 'ranged') { wsel.rng = cw[0] ? pool.byId.get(cw[0].itemId) || null : null; wsel.th = null; }
-  else if (mode === '2h' || mode === 'caster') wsel.th = cw[0] ? pool.byId.get(cw[0].itemId) || null : null;
+  else if (mode === '2h' || mode === 'caster' || mode === 'stick') wsel.th = cw[0] ? pool.byId.get(cw[0].itemId) || null : null;
   else { wsel.mh = cw[0] ? pool.byId.get(cw[0].itemId) || null : null; wsel.oh = cw[1] ? pool.byId.get(cw[1].itemId) || null : null; }
 
   const specOf = () => {
     // casters have no swung weapon: the staff only contributes its stats, so it rides along with the gear
-    const weapons = mode === 'caster' ? [] : mode === 'ranged' ? (wsel.rng ? [toWeapon(wsel.rng, false)] : []) : mode === '2h'
+    const weapons = mode === 'caster' || mode === 'stick' ? [] : mode === 'ranged' ? (wsel.rng ? [toWeapon(wsel.rng, false)] : []) : mode === '2h'
       ? (wsel.th ? [toWeapon(wsel.th, false)] : [])
       : [wsel.mh && toWeapon(wsel.mh, false), wsel.oh && toWeapon(wsel.oh, true)].filter(Boolean);
     const gear = EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean);
-    if ((mode === 'caster' || mode === 'ranged') && wsel.th) gear.push({ slot: 'th', id: wsel.th.id, name: wsel.th.name, st: wsel.th.st });
+    if ((mode === 'caster' || mode === 'ranged' || mode === 'stick') && wsel.th) gear.push({ slot: 'th', id: wsel.th.id, name: wsel.th.name, st: wsel.th.st });
     return Object.assign({}, base, { gear, weapons });
   };
   // start from the best static pick when a weapon slot is empty (the engine needs a weapon to swing)

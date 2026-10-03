@@ -14,6 +14,8 @@ export const BUFFS = {
   strength_of_earth: { name: 'Strength of Earth Totem', str: 77, assumed: true },
   grace_of_air: { name: 'Grace of Air Totem', agi: 77, assumed: true },
   leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, meleeOnly: true, assumed: true },
+  blessing_of_wisdom: { name: 'Greater Blessing of Wisdom', mp5: 40 },        // 40 mana per 5 s: Forever client value
+  mana_spring_totem: { name: 'Mana Spring Totem', mp5: 62, assumed: true },                     // Classic rank 3 (25 per 2 s), ASSUMED
   arcane_intellect: { name: 'Arcane Brilliance (Arcane Intellect)', int: 31, assumed: true },
   moonkin_aura: { name: 'Moonkin Aura', spCrit: 0.03, assumed: true },
   trueshot_aura: { name: 'Trueshot Aura', ap: 100, assumed: true },
@@ -48,7 +50,7 @@ export const DEBUFFS = {
 };
 
 export const PRESET_CASTER = {
-  buffs: ['arcane_intellect', 'blessing_of_kings', 'mark_of_the_wild', 'moonkin_aura', 'dragonslayer', 'songflower'],
+  buffs: ['arcane_intellect', 'blessing_of_kings', 'blessing_of_wisdom', 'mana_spring_totem', 'mark_of_the_wild', 'moonkin_aura', 'dragonslayer', 'songflower'],
   consumables: ['flask_supreme_power', 'greater_arcane_elixir', 'brilliant_wizard_oil', 'mageblood_potion'],
   debuffs: ['curse_of_elements'],
 };
