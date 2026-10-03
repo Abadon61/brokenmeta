@@ -82,6 +82,49 @@ OP_CLASS_BONUS_STATS = {
 OP_STATS_SOURCE = {"label": "RankedBoost — WoW Classic Stats", "url": "https://rankedboost.com/world-of-warcraft/classic-stats/"}
 
 
+# Simulator ranking (site_build/sim60/ranking.mjs -> data/wow_ranking60.json): the simulator's spec id -> (class id, Forever spec id, suffix key)
+SIM60_RANK_SPECS = {
+    "warrior_fury": ("warrior", "fury", ""), "warrior_arms": ("warrior", "arms", ""), "warrior_protection": ("warrior", "protection", ""),
+    "rogue_combat": ("rogue", "combat", ""), "rogue_assassination": ("rogue", "assassination", ""), "rogue_subtlety": ("rogue", "subtlety", ""),
+    "mage_fire": ("mage", "fire", ""), "mage_frost": ("mage", "frost", ""), "mage_arcane": ("mage", "arcane", ""),
+    "warlock_affliction": ("warlock", "affliction", ""), "warlock_destruction": ("warlock", "destruction", ""), "warlock_demonology": ("warlock", "demonology", ""),
+    "hunter_marksmanship": ("hunter", "marksmanship", ""), "hunter_beastmastery": ("hunter", "beast-mastery", ""), "hunter_survival": ("hunter", "survival", "ranged"), "hunter_melee": ("hunter", "survival", "melee"),
+    "priest_shadow": ("priest", "shadow", ""), "shaman_elemental": ("shaman", "elemental", ""), "shaman_enhancement": ("shaman", "enhancement", ""),
+    "druid_balance": ("druid", "balance", ""), "druid_feral": ("druid", "feral-combat", ""), "druid_bear": ("druid", "feral-combat", "bear"), "paladin_retribution": ("paladin", "retribution", ""),
+    "paladin_protection": ("paladin", "protection", ""),
+}
+SIM60_SUFFIX = {"fr": {"ranged": " (distance)", "melee": " (mêlée)", "bear": " (ours)"}, "en": {"ranged": " (ranged)", "melee": " (melee)", "bear": " (bear)"}}
+
+
+def build_wow_ranking60(wt_classes, lang):
+    """Rows of the hub's DPS ranking (and, apart, the tanks by threat per second) from the level-60 simulator's data/wow_ranking60.json.
+    Returns ([], []) when the file does not exist, so the caller can fall back to the older engine."""
+    path = PROJECT / "data" / "wow_ranking60.json"
+    if not path.exists():
+        return [], []
+    data = json.loads(path.read_text(encoding="utf-8"))
+    classes = {c["id"]: c for c in wt_classes}
+    dps_rows, tank_rows = [], []
+    for r in data["specs"]:
+        m = SIM60_RANK_SPECS.get(r["spec"])
+        cls = classes.get(m[0]) if m else None
+        if not m or not cls:
+            continue
+        spec_name = next((x["name"][lang] for x in cls.get("specs", []) if x["id"] == m[1]), m[1]) + SIM60_SUFFIX[lang].get(m[2], "")
+        row = {
+            "spec_id": r["spec"], "class_id": m[0], "class_name": cls["name"][lang], "class_color": cls.get("color"), "spec_icon": f"assets/img/spec/{m[0]}-{m[1]}.png",
+            "spec_name": spec_name, "role": r["role"], "dps": r["dps"], "sem": r.get("sem"), "guide_path": f"wow-forever/guides/{m[0]}/{m[1]}/",
+        }
+        if r["role"] == "tank":
+            row.update({"tps": r["tps"], "dtps": r["dtps"], "health": r["health"], "dps": r["tps"]})
+            tank_rows.append(row)
+        else:
+            dps_rows.append(row)
+    dps_rows.sort(key=lambda x: x["dps"], reverse=True)
+    tank_rows.sort(key=lambda x: x["dps"], reverse=True)
+    return dps_rows, tank_rows
+
+
 OUT = PROJECT / "data" / "output"
 DIST = ROOT / "dist"
 # Persistent, git-tracked (unlike data/output/*.json, which is gitignored and
@@ -7480,7 +7523,9 @@ def main() -> None:
         # Cross-spec DPS ranking (data/wow_dps_sim.py's own generic engine, real spell-glossary
         # formulas): computed once per language since spec/class names are localized, sits at the
         # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
-        _wow_ranking = wow_dps_sim.build_ranking(wt_classes, lang, iterations=200, fight_len=300.0) if wt_classes else []
+        _wow_ranking, _wow_ranking_tanks = build_wow_ranking60(wt_classes, lang) if wt_classes else ([], [])
+        if wt_classes and not _wow_ranking:          # no simulator ranking file yet: the older level-30 engine
+            _wow_ranking = wow_dps_sim.build_ranking(wt_classes, lang, iterations=200, fight_len=300.0)
         # Per-slot BIS gear (data/wow_items/bis_gear_by_slot.json) keyed by our own ROTATIONS spec
         # id -- build a (class_id, wt_spec_id) -> that key lookup so each spec's own guide page can
         # show exactly the gear its DPS ranking number assumes. Healer specs (not in ROTATIONS)
@@ -7526,7 +7571,7 @@ def main() -> None:
                          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
             _wow_kw = dict(active_nav="wow", active_sub="wow-" + (_wslug or "index"),
                    page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
-                   wow_ranking=(_wow_ranking if _wslug == "" else []),
+                   wow_ranking=(_wow_ranking if _wslug == "" else []), wow_ranking_tanks=(_wow_ranking_tanks if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
