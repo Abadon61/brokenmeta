@@ -162,7 +162,7 @@
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
     if (ap != null && cr != null && hi != null) spec.totals = isCaster() ? { sp: ap, crit: cr / 100, hit: hi / 100 } : { ap: ap, crit: cr / 100, hit: hi / 100 };
-    var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
+    var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, useGem: $('s60Gem').checked, innervate: $('s60Inn').checked, movement: (num('s60Move') || 0) / 100, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
     return { spec: spec, build: build };
   }
   function makeJob(c) {

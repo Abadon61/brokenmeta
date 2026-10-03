@@ -49,3 +49,14 @@ test('the mana pool limits a long fight', () => {
   const short = runBatch(cfg(preset('mage_frost'), SAMPLE_MAGE, 40), 300, 1).mean, long = runBatch(cfg(preset('mage_frost'), SAMPLE_MAGE, 300), 300, 1).mean;
   assert.ok(long < short, 'oom: ' + short + ' vs ' + long);
 });
+
+test('Mana Gem and Innervate help a long fight; movement costs DPS; Arcane Blast burst runs', () => {
+  const fire = preset('mage_fire'), len = 300;
+  const base = runBatch(cfg({ ...fire, useGem: false }, SAMPLE_MAGE, len), 600, 1).mean;
+  assert.ok(runBatch(cfg({ ...fire, useGem: true }, SAMPLE_MAGE, len), 600, 1).mean > base, 'gem');
+  assert.ok(runBatch(cfg({ ...fire, useGem: false, innervate: true }, SAMPLE_MAGE, len), 600, 1).mean > base, 'innervate');
+  const frost = preset('mage_frost'), still = runBatch(cfg(frost, SAMPLE_MAGE, 60), 600, 1).mean;
+  assert.ok(runBatch(cfg({ ...frost, movement: 0.3 }, SAMPLE_MAGE, 60), 600, 1).mean < still * 0.95, 'movement');
+  const ab = runBatch(cfg({ ...preset('mage_arcane'), arcaneBlast: 1 }, SAMPLE_MAGE, 120), 300, 1);
+  assert.ok(ab.mean > 100);
+});

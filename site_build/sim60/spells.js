@@ -14,7 +14,7 @@ export function setupMana(sim, opts) {
   const per = REGEN_TICK;
   const tick = () => {
     const inFsr = sim.casting !== null || sim.now - sim.lastCastAt < FSR;
-    const spirit = opts.spiritRegen * (inFsr ? (opts.castingFraction || 0) : 1);
+    const spirit = opts.spiritRegen * (sim.regenMult || 1) * (inFsr && !(sim.regenMult > 1) ? (opts.castingFraction || 0) : 1);
     gainMana(sim, (opts.mp5 / 5 + spirit) * per);
     sim.schedule(per, tick);
   };
