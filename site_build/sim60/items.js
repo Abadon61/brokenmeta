@@ -5,7 +5,9 @@
 
 export const ARMOR_SLOTS = { head: [1], neck: [2], shoulder: [3], back: [16], chest: [5, 20], wrist: [9], hands: [10], waist: [6], legs: [7], feet: [8] };
 export const EQUIP_SLOTS = ['head', 'neck', 'shoulder', 'back', 'chest', 'wrist', 'hands', 'waist', 'legs', 'feet', 'ring1', 'ring2', 'trinket1', 'trinket2'];
-const SLOT_IDS = { ring1: [11], ring2: [11], trinket1: [12], trinket2: [12] };
+const SLOT_IDS = { ring1: [11], ring2: [11], trinket1: [12], trinket2: [12], shield: [14], held: [14, 23] };
+// extra gear slots by weapon mode: tanks carry a shield, casters a shield or an item held in the off-hand (slot ids 14 / 23)
+export function slotsFor(mode) { return mode === 'tank' ? EQUIP_SLOTS.concat(['shield']) : mode === 'caster' ? EQUIP_SLOTS.concat(['held']) : EQUIP_SLOTS; }
 
 const CLASS_KEY = { warrior: 'WARRIOR', paladin: 'PALADIN', hunter: 'HUNTER', rogue: 'ROGUE', priest: 'PRIEST', shaman: 'SHAMAN', mage: 'MAGE', warlock: 'WARLOCK', druid: 'DRUID' };
 const ARMOR_TYPES = new Set(['Cloth', 'Leather', 'Mail', 'Plate Mail']);

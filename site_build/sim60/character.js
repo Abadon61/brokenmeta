@@ -45,6 +45,11 @@ const CLASS_RULES = {
   // Casters (Classic): spell crit from Intellect, mana from Intellect. baseMana/intPerCrit are ASSUMED Classic values.
   // Hunter: ranged attack power = 2*level - 10 + Agility, crit from Agility (1 per 53), mana from Intellect (ASSUMED Classic values)
   hunter: { ranged: true, apPerStr: 0, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 10, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
+  // Tanks: attack power like the DPS version, plus the defensive block (ASSUMED Classic-style values: base health 1500 + 10 per Stamina, 5% parry/block with a
+  // shield, dodge from Agility, block value 40 + Strength / 20 when a shield is worn).
+  warrior_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
+  paladin_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
+  druid_bear: { tank: { parry: 0, block: 0, dodgeBase: 0, agiPerDodge: 14.7, baseHealth: 1500, bvBase: 0 }, stick: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
   // Melee classes with mana (Paladin, Enhancement) and the cat: attack power 2 per Strength (+3 per level for the Paladin), crit from Agility 1/20
   paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
   shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
@@ -57,7 +62,7 @@ const CLASS_RULES = {
 };
 
 function sumGear(gear) {
-  const t = { sp: 0, mp5: 0, str: 0, agi: 0, sta: 0, int: 0, spi: 0, ap: 0, critRating: 0, hitRating: 0, hasteRating: 0, armor: 0, weaponDmg: 0, skill: 0 };
+  const t = { defRating: 0, dodgePct: 0, shield: false, sp: 0, mp5: 0, str: 0, agi: 0, sta: 0, int: 0, spi: 0, ap: 0, critRating: 0, hitRating: 0, hasteRating: 0, armor: 0, weaponDmg: 0, skill: 0 };
   for (const it of gear) {
     const s = it.st || {};
     for (const k of PRIMARY) t[k] += s[k] || 0;
@@ -65,7 +70,9 @@ function sumGear(gear) {
     t.critRating += s.critstrkrtng || 0;
     t.hitRating += s.hitrtng || 0;
     t.hasteRating += s.hastertng || 0;
-    t.armor += s.armor || 0;
+    t.armor += (s.armor || 0) + (s.armorbonus || 0);
+    t.defRating += s.defrtng || 0; t.dodgePct += s.dodgepct || 0;
+    if (it.slot === 'shield') t.shield = true;
     t.skill += s.skill || 0;
     t.sp += (s.splpwr || 0) + (s.spldmg || 0);
     t.mp5 += s.manargn || 0;
@@ -142,16 +149,21 @@ export function buildCharacter(spec) {
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.armor) armor += d.armor; }
   armor = Math.max(0, armor);
 
+  const tank = rules.tank ? {
+    armor: gear.armor, health: rules.tank.baseHealth + 10 * prim.sta, defense: 300 + Math.floor(gear.defRating / RATING_PER_PCT.defense),
+    dodge: rules.tank.dodgeBase + prim.agi / rules.tank.agiPerDodge / 100 + gear.dodgePct / 100, parry: rules.tank.parry, block: rules.tank.block,
+    blockValue: gear.shield ? rules.tank.bvBase + prim.str / 20 : 0, shield: gear.shield, stamina: prim.sta,
+  } : undefined;
   const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: rules.baseMana + rules.manaPerInt * (prim.int - 20), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
   return {
     player: {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
-      effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined,
+      effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined, tank,
     },
-    target: { armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
-    summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [] },
+    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
+    summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
 }
 

@@ -91,3 +91,16 @@ export const SAMPLE_RET = {
 };
 export const SAMPLE_ENH = { ...SAMPLE_RET, class: 'shaman', variant: 'enhancement', weapons: [{ min: 100, max: 190, speed: 2.7, type: 'sword' }, { min: 80, max: 150, speed: 2.5, type: 'sword', offHand: true }] };
 export const SAMPLE_FERAL = { ...SAMPLE_RET, class: 'druid', variant: 'feral', weapons: [], gear: SAMPLE_RET.gear.map((g) => ({ ...g, st: { ...g.st, agi: (g.st.agi || 0) + 20 } })) };
+
+const TANK_GEAR = [
+  { slot: 'head', name: 'Sample helm', st: { str: 20, sta: 30, armor: 480, defrtng: 8 } },
+  { slot: 'chest', name: 'Sample chest', st: { str: 22, sta: 34, armor: 640, defrtng: 8 } },
+  { slot: 'legs', name: 'Sample legs', st: { str: 18, sta: 30, armor: 560, defrtng: 6, agi: 10 } },
+  { slot: 'hands', name: 'Sample gloves', st: { str: 12, sta: 20, armor: 300, hitrtng: 10 } },
+  { slot: 'feet', name: 'Sample boots', st: { sta: 22, armor: 360, defrtng: 5 } },
+  { slot: 'ring1', name: 'Sample ring', st: { sta: 14, armor: 80, defrtng: 5 } },
+  { slot: 'shield', name: 'Sample shield', st: { sta: 14, armor: 1400, str: 6 } },
+];
+export const SAMPLE_PROT_WAR = { class: 'warrior', variant: 'protection', race: 'human', gear: TANK_GEAR, weapons: [{ min: 110, max: 190, speed: 2.6, type: 'sword' }], ...PRESET_RAID };
+export const SAMPLE_PROT_PAL = { class: 'paladin', variant: 'protection', race: 'human', gear: TANK_GEAR, weapons: [{ min: 110, max: 190, speed: 2.6, type: 'sword' }], ...PRESET_RAID };
+export const SAMPLE_BEAR = { class: 'druid', variant: 'bear', race: 'nightelf', gear: TANK_GEAR.filter((g) => g.slot !== 'shield').map((g) => ({ ...g, st: { ...g.st, agi: (g.st.agi || 0) + 8 } })), weapons: [], ...PRESET_RAID };

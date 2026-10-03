@@ -112,6 +112,9 @@ export class Sim {
     this.auras = []; this.spells = []; this.procs = [];
     this.rotateAt = Infinity; this.rotateToken = 0;
     this.spellProcs = [];
+    // tanking: a per-run copy of the defensive stats, the counters the batch runner averages, a threat hook
+    this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
+    this.threatMult = null; this.takenMult = 1; this.bossHooks = [];
     this.spec = cfg.spec; this.spec.setup(this);
     attachEffects(this);
   }
@@ -162,7 +165,31 @@ export class Sim {
   record(source, amount, kind) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
+    if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
+  }
+  addC(name, v = 1) { this.counters[name] = (this.counters[name] || 0) + v; }
+  threat(n) { this.counters.threat = (this.counters.threat || 0) + n; }
+  // The raid boss swings at the tank (Classic attack table of a level-63 mob against a level-60 player; ASSUMED where noted).
+  _bossSwing(boss) {
+    const t = this.tank, adj = (t.defense - 5 * boss.level) * 0.0004;       // each defense point above the boss skill: 0.04% on every roll
+    const miss = Math.max(0, 0.05 + adj), dodge = Math.max(0, t.dodge + adj), parry = Math.max(0, t.parry + adj), block = t.shield ? Math.max(0, t.block + adj) : 0;
+    const crush = Math.max(0, 0.15 * (415 - t.defense) / 115), crit = Math.max(0, 0.05 - adj);         // crushing blows ASSUMED: 15% at 300 defense, none from 415
+    const r = this.rng(); let out = 'hit', c = miss;
+    if (r < c) out = 'miss'; else if (r < (c += dodge)) out = 'dodge'; else if (r < (c += parry)) out = 'parry'; else if (r < (c += block)) out = 'block'; else if (r < (c += crush)) out = 'crush'; else if (r < (c += crit)) out = 'crit';
+    let dmg = 0;
+    if (out !== 'miss' && out !== 'dodge' && out !== 'parry') {
+      dmg = boss.dmg * (1 + boss.var * (2 * this.rng() - 1));
+      if (out === 'crit') dmg *= 2; else if (out === 'crush') dmg *= 1.5;
+      dmg *= (1 - Math.min(0.75, t.armor / (t.armor + 400 + 85 * boss.level))) * this.takenMult;
+      if (out === 'block') dmg = Math.max(0, dmg - t.blockValue);
+    }
+    this.addC('swings'); this.addC('dmgTaken', dmg); this.addC('boss_' + out);
+    for (let i = 0; i < this.bossHooks.length; i++) this.bossHooks[i](this, out, dmg);
+  }
+  _startBoss() {
+    const boss = this.target.boss, swing = () => { this._bossSwing(boss); this.schedule(boss.speed, swing); };
+    this.schedule(boss.first === undefined ? 1.0 : boss.first, swing);
   }
   mitigate(raw, physical) { return physical ? raw * (1 - this.dr) : raw; }
 
@@ -263,6 +290,7 @@ export class Sim {
   // -------- run --------
   run() {
     this.startAutoAttacks();
+    if (this.tank && this.target.boss) this._startBoss();
     if (this.spec.start) this.spec.start(this);
     this.poke(0);
     const heap = this.heap;

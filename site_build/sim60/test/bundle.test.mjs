@@ -26,10 +26,10 @@ test('every kit runs inside the single bundled scope', () => {
   vm.runInContext('(function (root) {\n' + src + '\nroot.Sim60 = { ' + EXPORTS + ' };\n})(self);', ctx);
   const S = ctx.Sim60, data = rd('spells60.json'), fx = rd('effects.json'), tal = rd('talents.json');
   for (const k of Object.keys(S.KITS)) {
-    const cls = k.split('_')[0], variant = { shaman_enhancement: 'enhancement', druid_feral: 'feral' }[k];
-    const casterLike = /^(mage|warlock|priest)_|shaman_elemental|druid_balance/.test(k), ranged = k.startsWith('hunter'), stick = k === 'druid_feral';
+    const cls = k.split('_')[0], variant = { shaman_enhancement: 'enhancement', druid_feral: 'feral', warrior_protection: 'protection', paladin_protection: 'protection', druid_bear: 'bear' }[k];
+    const casterLike = /^(mage|warlock|priest)_|shaman_elemental|druid_balance/.test(k), ranged = k.startsWith('hunter'), stick = k === 'druid_feral' || k === 'druid_bear';
     const w = casterLike || stick ? [] : ranged ? [{ min: 80, max: 150, speed: 2.6, type: 'gun' }] : k === 'warrior_arms' || k === 'paladin_retribution' ? [{ min: 200, max: 300, speed: 3.4, type: 'two-handed sword', twoHand: true }] : [{ min: 80, max: 150, speed: 2.6, type: 'sword' }, { min: 60, max: 120, speed: 2.4, type: 'sword', offHand: true }];
-    const ch = S.buildCharacter({ class: cls, variant, race: 'human', gear: [], weapons: w, buffs: [], consumables: [], debuffs: [], effects: fx });
+    const ch = S.buildCharacter({ class: cls, variant, race: 'human', gear: /protection/.test(k) ? [{ slot: 'shield', id: 1, name: 'shield', st: { armor: 1400 } }] : [], weapons: w, buffs: [], consumables: [], debuffs: [], effects: fx });
     const build = S.ranksToBuild(cls, tal[cls], S.ranksFromNames(tal[cls], S.PRESETS[k]));
     const r = S.runBatch({ fightLen: 60, player: ch.player, target: ch.target, kitFactory: () => S.makeKit(k, build, data) }, 20, 1);
     assert.ok(r.mean > 0, k + ' ' + r.mean);

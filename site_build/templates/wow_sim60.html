@@ -22,6 +22,7 @@
           <option value="rogue_combat">{{ 'Voleur · Combat' if lang == 'fr' else 'Rogue · Combat' }}</option><option value="rogue_assassination">{{ 'Voleur · Assassinat' if lang == 'fr' else 'Rogue · Assassination' }}</option><option value="rogue_subtlety">{{ 'Voleur · Finesse' if lang == 'fr' else 'Rogue · Subtlety' }}</option>
           <option value="mage_fire">{{ 'Mage · Feu' if lang == 'fr' else 'Mage · Fire' }}</option><option value="mage_frost">{{ 'Mage · Givre' if lang == 'fr' else 'Mage · Frost' }}</option><option value="mage_arcane">{{ 'Mage · Arcanes' if lang == 'fr' else 'Mage · Arcane' }}</option>
           <option value="warlock_affliction">{{ 'Démoniste · Affliction' if lang == 'fr' else 'Warlock · Affliction' }}</option><option value="warlock_destruction">{{ 'Démoniste · Destruction' if lang == 'fr' else 'Warlock · Destruction' }}</option><option value="warlock_demonology">{{ 'Démoniste · Démonologie (sacrifice)' if lang == 'fr' else 'Warlock · Demonology (sacrifice)' }}</option>
+          <option value="warrior_protection">{{ 'Guerrier · Protection (tank)' if lang == 'fr' else 'Warrior · Protection (tank)' }}</option><option value="paladin_protection">{{ 'Paladin · Protection (tank)' if lang == 'fr' else 'Paladin · Protection (tank)' }}</option><option value="druid_bear">{{ 'Druide · Ours (tank)' if lang == 'fr' else 'Druid · Bear (tank)' }}</option>
           <option value="paladin_retribution">{{ 'Paladin · Vindicte' if lang == 'fr' else 'Paladin · Retribution' }}</option><option value="shaman_enhancement">{{ 'Chaman · Amélioration' if lang == 'fr' else 'Shaman · Enhancement' }}</option><option value="druid_feral">{{ 'Druide · Farouche (chat)' if lang == 'fr' else 'Druid · Feral (cat)' }}</option>
           <option value="priest_shadow">{{ 'Prêtre · Ombre' if lang == 'fr' else 'Priest · Shadow' }}</option><option value="shaman_elemental">{{ 'Chaman · Élémentaire' if lang == 'fr' else 'Shaman · Elemental' }}</option><option value="druid_balance">{{ 'Druide · Équilibre' if lang == 'fr' else 'Druid · Balance' }}</option>
           <option value="hunter_marksmanship">{{ 'Chasseur · Précision' if lang == 'fr' else 'Hunter · Marksmanship' }}</option><option value="hunter_beastmastery">{{ 'Chasseur · Maîtrise des bêtes' if lang == 'fr' else 'Hunter · Beast Mastery' }}</option><option value="hunter_survival">{{ 'Chasseur · Survie (à distance)' if lang == 'fr' else 'Hunter · Survival (ranged)' }}</option></select></label>
@@ -82,6 +83,10 @@
       <p class="wow-note" data-cls="hunter" hidden>{{ tx.hunter_note }}</p>
       <p class="wow-note" data-cls="priest shaman druid" hidden>{{ tx.casters_note }}</p>
       <p class="wow-note" data-cls="paladin shaman druid" hidden>{{ tx.melee2_note }}</p>
+      <label class="s60-row" data-tank hidden><span>{{ tx.boss_dmg }}</span><input id="s60BossDmg" type="number" min="1000" max="40000" step="500" value="9000"></label>
+      <label class="s60-row" data-tank hidden><span>{{ tx.boss_speed }}</span><input id="s60BossSpeed" type="number" min="1" max="4" step="0.1" value="2"></label>
+      <label class="s60-row" data-tank hidden><span>{{ tx.obj }}</span><select id="s60Obj"><option value="balanced">{{ tx.obj_balanced }}</option><option value="threat">{{ tx.obj_threat }}</option><option value="survival">{{ tx.obj_survival }}</option></select></label>
+      <p class="wow-note" data-tank hidden>{{ tx.tank_note }}</p>
     </div>
 
     <h2 class="fiche-section-title">{{ tx.h_run }}</h2>

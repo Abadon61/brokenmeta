@@ -12,6 +12,8 @@ export const NAME_TO_KEY = {
     'Anger Management': 'angerManagement', 'Deep Wounds': 'deepWounds',
     'Two-Handed Weapon Specialization': 'twoHandSpec', 'Impale': 'impale', 'Weaponmaster': 'weaponmaster', 'Improved Slam': 'improvedSlam',
     'Mortal Strike': 'mortalStrike',
+    'Shield Specialization': 'shieldSpec', 'Anticipation': 'anticipation', 'Toughness': 'toughness', 'Improved Revenge': 'improvedRevenge', 'Defiance': 'defiance', 'Bastion': 'bastion',
+    'Focused Rage': 'focusedRage', 'Master of Defense': 'masterOfDefense', 'Improved Sunder Armor': 'improvedSunder', 'Shield Slam': 'shieldSlam', 'Improved Bloodrage': 'improvedBloodrage', 'Deflection': 'deflection',
   },
   rogue: {
     'Malice': 'malice', 'Lethality': 'lethality', 'Precision': 'precision', 'Dual Wield Specialization': 'dualWieldSpec',
@@ -24,6 +26,8 @@ export const NAME_TO_KEY = {
   },
   paladin: {
     'Conviction': 'conviction', 'Improved Judgement': 'improvedJudgement', 'Sanctified Judgement': 'sanctifiedJudgement', 'Two-Handed Weapon Specialization': 'twoHandSpec', 'Vindication': 'vindication',
+    'Anticipation': 'anticipation', 'Toughness': 'toughness', 'Precision': 'precision', 'One-Handed Weapon Specialization': 'oneHandWeaponSpecialization', 'Improved Righteous Fury': 'improvedRighteousFury',
+    'Reckoning': 'reckoning', 'Redoubt': 'redoubt', 'Iron Creed': 'ironCreed', 'Sacred Duty': 'sacredDuty', 'Holy Shield': 'holyShield', 'Swift Judgement': 'swiftJudgement',
     'Vengeance': 'vengeance', 'Seal of Command': 'sealOfCommand', 'Sacred Arbiter': 'sacredArbiter', 'Champion of the Light': 'championOfLight', 'Divine Strength': 'divineStrength',
     'Divine Intellect': 'divineIntellect', 'Benediction': 'benediction', 'Holy Power': 'holyPower', 'Improved Seals': 'improvedSeals', 'Instrument of Law': 'instrumentOfLaw', 'Twist of Light': 'twistOfLight',
   },
@@ -43,7 +47,7 @@ export const NAME_TO_KEY = {
     "Nature's Splendor": 'naturesSplendor', 'Insect Swarm': 'insectSwarm', 'Vengeance': 'vengeance', 'Improved Starfire': 'improvedStarfire', "Nature's Grace": 'naturesGrace', 'Eclipse': 'eclipse',
     'Moonfury': 'moonfury', 'Moonkin Form': 'moonkinForm', 'Naturalist': 'naturalist', 'Ferocity': 'ferocity', 'Shredding Attacks': 'shreddingAttacks', 'Savage Fury': 'savageFury',
     'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Predatory Instincts': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
-    'Leader of the Pack': 'leaderOfThePack',
+    'Leader of the Pack': 'leaderOfThePack', 'Natural Reaction': 'naturalReaction', 'Feral Swiftness': 'feralSwiftness', 'Thick Hide': 'thickHide', 'Feral Instinct': 'feralInstinct', 'Blood Frenzy': 'bloodFrenzy',
   },
   hunter: {
     'Lethal Attacks': 'lethalAttacks', 'Efficiency': 'efficiency', 'Careful Aim': 'carefulAim', 'Rapid Killing': 'rapidKilling', 'Improved Arcane Shot': 'improvedArcane', 'Lone Wolf': 'loneWolf',
@@ -210,6 +214,21 @@ export const PRESETS = {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Leader of the Pack': 1,
     'Predatory Instincts': 2, 'Rend and Tear': 5, 'Berserk': 1,
     'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Reach": 2,
+  },
+  warrior_protection: {
+    'Shield Specialization': 5, 'Anticipation': 5, 'Toughness': 5, 'Improved Bloodrage': 2, 'Master of Defense': 2, 'Improved Revenge': 3, 'Defiance': 3, 'Last Stand': 1, 'Improved Sunder Armor': 3,
+    'Vanguard': 1, 'Bastion': 5, 'Focused Rage': 3, 'Shield Slam': 1,
+    'Deflection': 5, 'Improved Heroic Strike': 3, 'Improved Charge': 2, 'Improved Tactical Mastery': 1, 'Concussion Blow': 1,
+  },
+  paladin_protection: {
+    'Toughness': 5, 'Redoubt': 5, 'Precision': 3, 'Anticipation': 5, 'Improved Righteous Fury': 3, 'Shield Specialization': 3, 'Sacred Duty': 2, 'Improved Seal of Fury': 1, 'Swift Judgement': 1,
+    'One-Handed Weapon Specialization': 3, 'Reckoning': 5, "Templar's Bulwark": 1, 'Iron Creed': 5, 'Holy Shield': 1,
+    'Divine Strength': 5, 'Divine Intellect': 3,
+  },
+  druid_bear: {
+    'Ferocity': 5, 'Heart of the Wild': 5, 'Feral Swiftness': 2, 'Thick Hide': 3, 'Feral Instinct': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2,
+    'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Leader of the Pack': 1, 'Predatory Instincts': 2, 'Natural Reaction': 5, 'Berserk': 1,
+    'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
   warrior_fury: {
     'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,

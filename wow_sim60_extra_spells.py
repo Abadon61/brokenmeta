@@ -12,11 +12,14 @@ import wow_spell_ranks_build as R
 import wow_talents_import as imp
 
 EXTRA = {
+    "warrior": ["Shield Slam", "Revenge", "Shield Block", "Thunder Clap", "Sunder Armor", "Heroic Strike", "Shield Bash", "Concussion Blow", "Taunt", "Devastate", "Last Stand", "Shield Wall"],
     "priest": ["Mind Flay", "Shadow Word: Death", "Devouring Plague", "Holy Fire", "Penance", "Shadowform", "Vampiric Embrace", "Power Infusion", "Inner Focus", "Smite", "Shadow Word: Pain", "Mind Blast"],
     "shaman": ["Chain Lightning", "Lava Burst", "Stormstrike", "Windfury Weapon", "Flametongue Weapon", "Fire Nova", "Lightning Shield", "Earth Shock", "Flame Shock", "Lightning Bolt", "Searing Totem", "Magma Totem", "Rockbiter Weapon"],
-    "paladin": ["Seal of Command", "Seal of Righteousness", "Holy Shock", "Hammer of Wrath", "Exorcism", "Holy Strike", "Judgement", "Consecration", "Crusader Strike", "Holy Wrath", "Judgement of Command", "Judgement of Righteousness"],
-    "druid": ["Starfire", "Insect Swarm", "Wrath", "Moonfire", "Shred", "Rake", "Ferocious Bite", "Ravage", "Claw", "Rip", "Primal Bite", "Berserk", "Tiger's Fury", "Swipe", "Maul", "Lacerate"],
+    "paladin": ["Seal of Command", "Seal of Righteousness", "Holy Shock", "Hammer of Wrath", "Exorcism", "Holy Strike", "Judgement", "Consecration", "Crusader Strike", "Holy Wrath", "Judgement of Command", "Judgement of Righteousness", "Holy Shield", "Righteous Fury", "Seal of Fury", "Judgement of Light", "Judgement of Wisdom", "Hammer of the Righteous", "Avenger's Shield", "Blessing of Sanctuary"],
+    "druid": ["Starfire", "Insect Swarm", "Wrath", "Moonfire", "Shred", "Rake", "Ferocious Bite", "Ravage", "Claw", "Rip", "Primal Bite", "Berserk", "Tiger's Fury", "Swipe", "Maul", "Lacerate", "Growl", "Savage Bite", "Demoralizing Roar", "Bash", "Enrage"],
 }
+# spells that are not on a class skill line of the glossary (talent / passive spells): explicit client spell ids, highest rank at level 60
+SEEDS = {"paladin": {"Holy Shield": 20928, "Righteous Fury": 25780, "Hammer of the Righteous": 407632}}
 
 
 def extra_spells(build=None, refresh=False):
@@ -44,6 +47,8 @@ def extra_spells(build=None, refresh=False):
             if ok:
                 withcost = [r for r in ok if r.get("cost")]
                 found[n] = (withcost or ok)[-1]
+        for n, sid in SEEDS.get(cls, {}).items():
+            found[n] = R.rank_record(str(sid), T)
         out[cls] = found
     return out
 
