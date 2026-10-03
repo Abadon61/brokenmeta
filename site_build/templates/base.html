@@ -78,7 +78,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a class="wordmark" href="{{ root }}" style="text-decoration:none"><img class="wordmark-logo" src="{{ root }}assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
   <div class="game-toggle" role="group" aria-label="{{ t(lang, 'nav_games') }}">
     <a class="game-toggle-btn" href="{{ root }}wow-forever/"{% if active_nav == 'wow' %} data-active="true"{% endif %} title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="{{ root }}assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
-    <a class="game-toggle-btn" href="{{ root }}"{% if active_nav not in ('league', 'wow') %} data-active="true"{% endif %} title="Teamfight Tactics"><img class="game-toggle-icon" src="{{ root }}assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="{{ root }}tft/"{% if active_nav not in ('league', 'wow') %} data-active="true"{% endif %} title="Teamfight Tactics"><img class="game-toggle-icon" src="{{ root }}assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
     <a class="game-toggle-btn" href="{{ root }}league/"{% if active_nav == 'league' %} data-active="true"{% endif %} title="League of Legends"><img class="game-toggle-icon" src="{{ root }}assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
   </div>
   <div class="topbar-right">
@@ -151,7 +151,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <footer>
   <div class="footer-top">
     <nav class="footer-nav">
-      <a href="{{ root }}">{{ t(lang, 'nav_comps') }}</a>
+      <a href="{{ root }}tft/">{{ t(lang, 'nav_comps') }}</a>
       <a href="{{ root }}champions/">{{ t(lang, 'nav_champions') }}</a>
       <a href="{{ root }}glossaire/">{{ t(lang, 'nav_glossary') }}</a>
       <a href="{{ root }}patch-notes/">{{ t(lang, 'nav_patchnotes') }}</a>

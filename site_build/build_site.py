@@ -6925,6 +6925,8 @@ def main() -> None:
         "tier_buckets": TIER_BUCKETS,
     }
 
+    TFT_HOME = "/tft/"
+
     def region_root(r: str) -> str:
         return f"/region/{r.lower()}/"
 
@@ -6936,7 +6938,7 @@ def main() -> None:
             return region_root(key)
         if kind == "rank":
             return rank_root(key)
-        return "/"
+        return TFT_HOME                       # the TFT overview moved from / to /tft/ (the home page is now the WoW: Forever hub)
 
     print("Fetching League of Legends glossary data (Data Dragon)...")
     ddragon_version = fetch_ddragon_version()
@@ -7522,13 +7524,18 @@ def main() -> None:
             if _wp.get("faq"):
                 _wfaq = {"@context": "https://schema.org", "@type": "FAQPage",
                          "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _wp["faq"]]}
-            render("wow_page.html", _wpath, lang, active_nav="wow", active_sub="wow-" + (_wslug or "index"),
+            _wow_kw = dict(active_nav="wow", active_sub="wow-" + (_wslug or "index"),
                    page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
                    wow_ranking=(_wow_ranking if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
                    faq_schema=_wfaq)
+            render("wow_page.html", _wpath, lang, **_wow_kw)
+            if not _wslug:
+                # The site home page IS the WoW: Forever hub (2026-10-03). Same page served at / and /en/; the canonical stays on the
+                # real hub URL so there is one indexed page, not two.
+                render("wow_page.html", "/", lang, canonical=_wurl, alt_canonical=canonical_for(_wpath, "en" if lang == "fr" else "fr"), **_wow_kw)
         if wt_classes:
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
             _rules_src = wow_content.SOURCES["icy_talents"]
@@ -7935,11 +7942,11 @@ def main() -> None:
             def with_tier(base: str) -> str:
                 return base if tier is None else base + f"tier/{tier.lower()}/"
 
-            region_chips = [{"label": translate(_lang, "region_all"), "href": with_tier("/"), "active": kind != "region"}]
+            region_chips = [{"label": translate(_lang, "region_all"), "href": with_tier(TFT_HOME), "active": kind != "region"}]
             for r in available_regions:
                 region_chips.append({"label": REGION_SHORT.get(r, r), "href": with_tier(region_root(r)), "active": kind == "region" and key == r})
 
-            rank_chips = [{"label": translate(_lang, "rank_all"), "href": with_tier("/"), "active": kind != "rank"}]
+            rank_chips = [{"label": translate(_lang, "rank_all"), "href": with_tier(TFT_HOME), "active": kind != "rank"}]
             for b in available_ranks:
                 rank_chips.append({"label": rank_bracket_label(b, _lang), "href": with_tier(rank_root(b)), "active": kind == "rank" and key == b})
 
@@ -8715,7 +8722,7 @@ def main() -> None:
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",
         "description": "Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot.",
-        "start_url": "/?source=pwa",
+        "start_url": "/tft/?source=pwa",
         "id": "/",
         "display": "standalone",
         "background_color": "#100b26",
@@ -8922,6 +8929,9 @@ def main() -> None:
         "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
         "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
         "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
+        "# TFT overview moved from / to /tft/ on 2026-10-03: its tier pages follow.\n"
+        "RedirectMatch 301 ^/tier/([a-z]+)/$ /tft/tier/$1/\n"
+        "RedirectMatch 301 ^/en/tier/([a-z]+)/$ /en/tft/tier/$1/\n"
         + _guide_redirects +
         "\n"
         "<IfModule mod_expires.c>\n"
@@ -8985,6 +8995,8 @@ def main() -> None:
         # profile-page exclusion (2026-09-09): the EN half was silently
         # excluded, the FR half silently wasn't.
         if "player" not in p.relative_to(DIST).parts
+        # / and /en/ are copies of the WoW hub (canonical = /wow-forever/): not listed twice
+        and p.relative_to(DIST).as_posix() not in ("index.html", "en/index.html")
         # test-only talent pages (WOW_TALENTS_FIXTURE=1) never belong in a sitemap
         and not (wt_fixture and "talents" in p.relative_to(DIST).parts and "wow-forever" in p.relative_to(DIST).parts)
     )
