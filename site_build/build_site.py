@@ -5021,6 +5021,13 @@ ADDON_DIR = PROJECT / "wow_addon" / "BrokenMetaWeights"
 
 
 ADDON_CURSEFORGE_URL = "https://www.curseforge.com/wow/addons/broken-meta-hub"
+# The 3 addons of the suite (2026-09-30 split): same slugs as ns.SUITE in Hub.lua. Placeholders
+# until the CurseForge projects exist -- update both places once the real URLs are known.
+ADDON_CURSEFORGE_URLS = {
+    "dps": "https://www.curseforge.com/wow/addons/brokendps",
+    "crafter": "https://www.curseforge.com/wow/addons/brokencrafter",
+    "codex": "https://www.curseforge.com/wow/addons/brokencodex",
+}
 
 
 def addon_version():
@@ -6725,6 +6732,7 @@ def main() -> None:
     # The addon is distributed on CurseForge only (2026-09-27, user decision: players get updates
     # through the CurseForge app); the site no longer serves a zip.
     env.globals["addon_url"] = ADDON_CURSEFORGE_URL
+    env.globals["addon_urls"] = ADDON_CURSEFORGE_URLS
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
@@ -8610,6 +8618,11 @@ def main() -> None:
     # covers the whole site, FR and /en/ alike, with one registration.
     shutil.copy(LOGO_DIR / "pwa_icon_192.png", DIST / "assets" / "img" / "icon-192.png")
     shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "assets" / "img" / "icon-512.png")
+
+    # The 3 addons of the Broken Meta suite (BrokenDPS, BrokenCrafter, BrokenCodex), each with its
+    # own logo shown on /wow-forever/addon/ (the HUB itself reuses the site's own favicon in-game).
+    for _key in ("dps", "crafter", "codex"):
+        shutil.copy(ROOT / "assets_src" / "wow-addons" / f"{_key}.png", DIST / "assets" / "img" / f"wow-addon-{_key}.png")
     manifest = {
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",

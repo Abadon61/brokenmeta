@@ -9,9 +9,23 @@
 {% block content %}
 {{ m.page_hero(tx.ad_kicker, g_h1, g_intro) }}
 
-<p class="ad-cta"><a class="wh-btn" href="{{ addon_url }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a></p>
+<h2 class="fiche-section-title">{{ tx.ad_suite_h2 }}</h2>
+<p>{{ tx.ad_suite_intro }}</p>
+<div class="ad-suite">
+  {% for a in tx.ad_suite %}
+  <div class="ad-suite-card{% if a.is_hub %} is-hub{% endif %}">
+    <img class="ad-suite-icon" src="/assets/img/{{ 'icon-192.png' if a.is_hub else 'wow-addon-' + a.key + '.png' }}" alt="" width="48" height="48" loading="lazy">
+    <div class="ad-suite-body">
+      <p class="ad-suite-name">{{ a.name }}</p>
+      <p class="ad-suite-tag">{{ a.tag|safe }}</p>
+      <a class="wh-btn" href="{{ addon_url if a.is_hub else addon_urls[a.key] }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
 
 <h2 class="fiche-section-title">{{ tx.ad_prof_h2 }}</h2>
+<p class="ad-note"><img src="/assets/img/wow-addon-crafter.png" alt="" width="26" height="26" loading="lazy"> {{ tx.ad_prof_note|safe }} <a class="wh-btn" href="{{ addon_urls.crafter }}" target="_blank" rel="noopener">{{ tx.ad_download }}</a></p>
 {% set mk = tx.ad_mock %}
 <figure class="bmh">
   <div class="bmh-win" aria-hidden="true">
@@ -43,12 +57,15 @@
 <ul class="ms-limits">{% for item in tx.ad_level %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.ad_dps_h2 }}</h2>
+<p class="ad-note"><img src="/assets/img/wow-addon-dps.png" alt="" width="26" height="26" loading="lazy"> {{ tx.ad_dps_note|safe }} <a class="wh-btn" href="{{ addon_urls.dps }}" target="_blank" rel="noopener">{{ tx.ad_download }}</a></p>
 <ul class="ms-limits">{% for item in tx.ad_dps %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.ad_eco_h2 }}</h2>
+<p class="ad-note"><img src="/assets/img/wow-addon-crafter.png" alt="" width="26" height="26" loading="lazy"> {{ tx.ad_eco_note|safe }} <a class="wh-btn" href="{{ addon_urls.crafter }}" target="_blank" rel="noopener">{{ tx.ad_download }}</a></p>
 <ul class="ms-limits">{% for item in tx.ad_eco %}<li>{{ item|safe }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.ad_dg_h2 }}</h2>
+<p class="ad-note"><img src="/assets/img/wow-addon-codex.png" alt="" width="26" height="26" loading="lazy"> {{ tx.ad_dg_note|safe }} <a class="wh-btn" href="{{ addon_urls.codex }}" target="_blank" rel="noopener">{{ tx.ad_download }}</a></p>
 <ul class="ms-limits">{% for item in tx.ad_dg %}<li>{{ item|safe }}</li>{% endfor %}</ul>
 
 <h2 class="fiche-section-title">{{ tx.ad_install_h2 }}</h2>
