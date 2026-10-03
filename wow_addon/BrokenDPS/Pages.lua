@@ -641,7 +641,43 @@ bisEmpty:SetPoint("TOPLEFT", 4, -70)
 bisEmpty:SetWidth(W - 40)
 bisEmpty:SetJustifyH("LEFT")
 
+-- Ask the client for every item of the spec's list so names, icons and stats are known (the gain needs
+-- them); the page redraws as the answers come back.
+local bisRequested = {}
+local function preloadBis()
+  local spec = ns.GetSpec and ns.GetSpec()
+  local rows = spec and ns.BIS and ns.BIS[spec]
+  if not rows then return end
+  local request = (C_Item and C_Item.RequestLoadItemDataByID) or _G.RequestLoadItemDataByID
+  for _, r in ipairs(rows) do
+    if r.id and not bisRequested[r.id] and not ns.GetItemInfo(r.id) then
+      bisRequested[r.id] = true
+      if request then pcall(request, r.id) end
+    end
+  end
+end
+ns.PreloadBis = preloadBis
+
+local bisEvents, bisRedraw = CreateFrame("Frame"), false
+for _, e in ipairs({ "PLAYER_ENTERING_WORLD", "GET_ITEM_INFO_RECEIVED", "PLAYER_TALENT_UPDATE" }) do
+  pcall(bisEvents.RegisterEvent, bisEvents, e)
+end
+bisEvents:SetScript("OnEvent", function(_, event, itemID)
+  if event ~= "GET_ITEM_INFO_RECEIVED" then
+    bisRequested = {}
+    preloadBis()
+    return
+  end
+  if not bisRequested[itemID] or bisRedraw or not pBis:IsShown() then return end
+  bisRedraw = true -- several items arrive together: redraw once
+  C_Timer.After(0.2, function()
+    bisRedraw = false
+    if pBis:IsShown() then refreshers[5]() end
+  end)
+end)
+
 refreshers[5] = function()
+  preloadBis()
   local spec = ns.GetSpec and ns.GetSpec()
   local rows = spec and ns.BIS and ns.BIS[spec]
   if not rows then
