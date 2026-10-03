@@ -2382,6 +2382,21 @@
 
   /* Addon page (/wow-forever/addon/): a static mockup of the addon's crafters directory, in the
      addon's own look (which is the site's palette), plus the FAQ. */
+
+  /* Level-60 DPS simulator page (/wow-forever/simulateur-dps/) */
+  .s60-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px 16px; margin: 10px 0 16px; }
+  .s60-row { display: flex; flex-direction: column; gap: 4px; color: var(--text-dim); font-size: 13px; min-width: 0; }
+  .s60-row select, .s60-row input { background: var(--row); color: var(--cream); border: 1px solid var(--border); padding: 7px 8px; font: 500 14px 'Afacad Flux', sans-serif; max-width: 100%; }
+  .s60-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .s60-checks { display: flex; flex-direction: column; gap: 6px; }
+  .s60-check { color: var(--cream); font-size: 14px; display: block; }
+  .s60-rank { width: 3.2em; background: var(--row); color: var(--cream); border: 1px solid var(--border); padding: 3px 4px; margin-right: 4px; }
+  .s60-talent { cursor: help; } .s60-warn { color: var(--red); }
+  .s60-assumed { color: var(--text-dim); font-style: normal; font-size: 11px; }
+  .s60-manual { margin: 8px 0 12px; } .s60-manual summary { cursor: pointer; color: var(--cream); }
+  .s60-dps { font: 600 16px 'Afacad Flux', sans-serif; color: var(--cream); margin: 4px 0; }
+  .s60-dps b { font: 700 40px 'Cal Sans', sans-serif; color: var(--magenta); } .s60-dps span { color: var(--text-dim); font-size: 13px; }
+  .s60-bar { height: 6px; background: var(--row); margin: 8px 0; } .s60-bar i { display: block; height: 100%; width: 0; background: var(--magenta); transition: width .15s linear; }
   .ad-cta { margin: 18px 0 26px; }
   .ad-back { margin: 0 0 8px; font: 700 12px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .05em; }
   .ad-back a { color: var(--text-dim); text-decoration: none; }

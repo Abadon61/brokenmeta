@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever : sortie, bêta, éditions | BrokenMeta.gg">
 <meta name="twitter:description" content="World of Warcraft: Forever sort le 4 novembre 2026. Bêta, éditions, classes, donjons et calendrier, avec les sources officielles citées.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=b687560f5f">
-<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=b687560f5f">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=37c60f203e">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=37c60f203e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=b687560f5f">
+<link rel="stylesheet" href="../assets/css/style.css?v=37c60f203e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -176,6 +176,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../wow-forever/talents/" >Calculateur de talents</a>
 <a class="nav-link mobile-nav-sublink" href="../wow-forever/optimisation/" >Item builder</a>
 <a class="nav-link mobile-nav-sublink" href="../wow-forever/simuler-mon-personnage/" >Simuler mon personnage</a>
+<a class="nav-link mobile-nav-sublink" href="../wow-forever/simulateur-dps/" >Simulateur DPS niveau 60</a>
 
 <a class="nav-link" href="../wow-forever/glossaire/" >Glossaire des sorts</a>
 <a class="nav-link" href="../wow-forever/faq/" >FAQ</a>
@@ -241,6 +242,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <a href="../wow-forever/talents/">Calculateur de talents</a>
     <a href="../wow-forever/optimisation/">Item builder</a>
     <a href="../wow-forever/simuler-mon-personnage/">Simuler mon personnage</a>
+    <a href="../wow-forever/simulateur-dps/">Simulateur DPS niveau 60</a>
     
   </div>
 </details>
@@ -348,7 +350,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/warlock-destruction.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Démoniste — Destruction</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 85.7%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 85.6%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../wow-forever/guides/hunter/beast-mastery/">
+    <img class="wow-rank-icon" src="../assets/img/spec/hunter-beast-mastery.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Chasseur — Maîtrise des bêtes</b></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.0%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../wow-forever/guides/hunter/survival/">
+    <img class="wow-rank-icon" src="../assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Chasseur — Survie</b></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.0%"></span></span>
     </span>
   </a>
   
@@ -360,27 +378,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../wow-forever/guides/hunter/beast-mastery/">
-    <img class="wow-rank-icon" src="../assets/img/spec/hunter-beast-mastery.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Chasseur — Maîtrise des bêtes</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 83.9%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../wow-forever/guides/hunter/survival/">
-    <img class="wow-rank-icon" src="../assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Chasseur — Survie</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 83.9%"></span></span>
-    </span>
-  </a>
-  
   <a class="wow-rank-row" href="../wow-forever/guides/mage/fire/">
     <img class="wow-rank-icon" src="../assets/img/spec/mage-fire.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Mage — Feu</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 83.5%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 83.7%"></span></span>
     </span>
   </a>
   
@@ -388,7 +390,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/mage-frost.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Mage — Givre</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 80.1%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 79.9%"></span></span>
     </span>
   </a>
   
@@ -396,7 +398,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/druid-balance.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Druide — Equilibre</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 75.4%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 75.2%"></span></span>
     </span>
   </a>
   
@@ -412,7 +414,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/rogue-combat.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Voleur — Combat</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.1%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.2%"></span></span>
     </span>
   </a>
   
@@ -428,7 +430,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/rogue-subtlety.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Voleur — Finesse</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 66.8%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 66.9%"></span></span>
     </span>
   </a>
   
@@ -452,7 +454,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/warrior-fury.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Guerrier — Fureur</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 56.8%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 57.0%"></span></span>
     </span>
   </a>
   
@@ -460,7 +462,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/warrior-arms.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Guerrier — Armes</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 52.1%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 52.4%"></span></span>
     </span>
   </a>
   
@@ -468,7 +470,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/shaman-enhancement.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Chaman — Amélioration</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 51.2%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 51.5%"></span></span>
     </span>
   </a>
   
@@ -476,7 +478,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/paladin-retribution.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Paladin — Vindicte</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 51.1%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 51.0%"></span></span>
     </span>
   </a>
   
@@ -492,7 +494,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/warlock-demonology.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Démoniste — Démonologie</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 33.1%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 33.0%"></span></span>
     </span>
   </a>
   
@@ -500,7 +502,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/druid-feral-combat.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Druide — Combat farouche</b><span class="wow-rank-tag" data-role="tank">Tank</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 26.4%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 26.5%"></span></span>
     </span>
   </a>
   
@@ -508,7 +510,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <img class="wow-rank-icon" src="../assets/img/spec/paladin-protection.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>Paladin — Protection</b><span class="wow-rank-tag" data-role="tank">Tank</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 24.4%"></span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 24.5%"></span></span>
     </span>
   </a>
   
@@ -775,10 +777,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../";</script>
-<script src="../assets/js/copy-comp.js?v=b687560f5f" defer></script>
-<script src="../assets/js/champ-icons.js?v=b687560f5f" defer></script>
-<script src="../assets/js/site-search.js?v=b687560f5f" defer></script>
-<script src="../assets/js/favorites.js?v=b687560f5f" defer></script>
+<script src="../assets/js/copy-comp.js?v=37c60f203e" defer></script>
+<script src="../assets/js/champ-icons.js?v=37c60f203e" defer></script>
+<script src="../assets/js/site-search.js?v=37c60f203e" defer></script>
+<script src="../assets/js/favorites.js?v=37c60f203e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
