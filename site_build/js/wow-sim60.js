@@ -198,7 +198,7 @@
   function doOptimize() {
     var c = collect(), jj = makeJob(c), iters = Math.max(200, Math.min(2000, Math.round((num('s60Iters') || 5000) / 10))), t0 = performance.now();
     setBusy(true); status(fmt(T.js.optProgress, { slot: '…' })); bar(null);
-    var chara = Object.assign({}, c.spec, { gear: [] });
+    var chara = Object.assign({}, c.spec, { gear: [] }), wmode = curSpec() === 'warrior_arms' ? '2h' : 'dw';
     function jobFor(spec) { var ch = S.buildCharacter(spec); return Object.assign({}, jj.job, { player: ch.player, target: ch.target }); }
     function evaluate(spec) { return getPool().run(jobFor(spec), iters, 11).then(function (r) { return r.mean; }); }
     function getWeights(spec) {
@@ -207,15 +207,17 @@
       return Promise.all([diff({ up: { ap: 40 }, dn: { ap: -40 } }), diff({ up: { crit: 0.01 }, dn: { crit: -0.01 } }), diff({ up: { hit: 0.01 }, dn: { hit: -0.01 } }), diff({ up: { haste: 0.01 }, dn: { haste: -0.01 } })])
         .then(function (r) { var apPer = r[0] / 40; return { agi: 0.05 * r[1] / apPer, crit: r[1] / apPer, hit: r[2] / apPer, haste: r[3] / apPer }; });
     }
-    S.optimizeGearAsync({ pool: state.pool, character: chara, evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
+    S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
       onProgress: function (p) { status(fmt(T.js.optProgress, { slot: p.slot }) + ' ' + p.dps.toFixed(1) + ' DPS'); } }).then(function (res) {
       state.lastOpt = res;
       var box = $('s60Opt2'); box.hidden = false;
-      var list = res.gear.map(function (g) { return '<li>' + g.slot + ' : ' + g.name + '</li>'; }).join('');
+      var list = res.weapons.concat(res.gear).map(function (g) { return '<li>' + g.slot + ' : ' + g.name + '</li>'; }).join('');
       box.innerHTML = '<h3 class="ad-h3">' + T.o_title + ' : ' + res.dps.toFixed(1) + ' DPS</h3><ul class="ms-limits">' + list + '</ul><button type="button" class="ms-btn" id="s60Apply">' + T.apply + '</button><p class="wow-note">' + T.o_note + '</p>';
       $('s60Apply').addEventListener('click', function () {
         S.EQUIP_SLOTS.forEach(function (s) { $('s60g_' + s).value = ''; });
         res.gear.forEach(function (g) { var sel = $('s60g_' + g.slot); if (sel) sel.value = String(g.id); });
+        ['mh', 'oh', 'th'].forEach(function (k) { $('s60w_' + k).value = ''; });
+        res.weapons.forEach(function (g) { var sel = $('s60w_' + g.slot); if (sel) sel.value = String(g.id); });
       });
       status(fmt(T.js.optDone, { s: ((performance.now() - t0) / 1000).toFixed(1) }));
     }).catch(function (e) { status(String(e)); }).then(function () { setBusy(false); });
