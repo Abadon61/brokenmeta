@@ -833,4 +833,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   // current page's own depth, so it's registered with an absolute path
   // rather than the relative "root" prefix every other asset link uses.
   if ('serviceWorker' in navigator) {
-    window.addEventListener('load', function () { navigat
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

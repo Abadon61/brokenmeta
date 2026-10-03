@@ -392,3 +392,30 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
   });
   document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../";</script>
+<script src="../../assets/js/copy-comp.js?v=953524faab" defer></script>
+<script src="../../assets/js/champ-icons.js?v=953524faab" defer></script>
+<script src="../../assets/js/site-search.js?v=953524faab" defer></script>
+<script src="../../assets/js/favorites.js?v=953524faab" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
