@@ -1086,6 +1086,19 @@ SPEC_STAT_PROFILE = {
     "hunter_marksmanship": {"crit": "physical", "agi_ap": "ranged"}, "hunter_beast_mastery": {"crit": "physical", "agi_ap": "ranged"}, "hunter_survival": {"crit": "physical", "agi_ap": "ranged"},
 }
 
+# Talents that turn Intellect into Attack Power (data/wow_talents/*.json): Mental Dexterity (Shaman,
+# Enhancement tree: 33/67/100% of Int), Careful Aim (Hunter: 20-100% of Int, ranged AP). `node` is the
+# TraitNode id (the addon reads the player's own rank), `ranks[r-1]` the share of Intellect at rank r,
+# `assumed` the share the generic level-20 weights assume: the Enhancement guide's build takes Mental
+# Dexterity at max rank; the Hunter guides' builds do not take Careful Aim. The addon corrects the
+# Intellect weight for the rank the player really has (BrokenDPS/Core.lua, ns.ActiveWeights).
+INT_AP_TALENTS = {
+    "shaman_enhancement": {"node": 104755, "ranks": [1 / 3, 2 / 3, 1.0], "assumed": 1.0},
+    "hunter_marksmanship": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
+    "hunter_beast_mastery": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
+    "hunter_survival": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
+}
+
 
 def stat_deltas_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, flat_crit_pct=0, flat_hit_pct=0):
     """The MARGINAL {ap, sp, crit_pct, hit_pct} contribution of a raw stat block -- no base
@@ -1109,6 +1122,7 @@ def stat_deltas_from_raw(spec_id, str_=0, agi=0, int_=0, flat_ap=0, flat_sp=0, f
     # specs (2026-09-26, found while wiring Auto Shot) avoids silently inflating ranged AP with a
     # melee-only conversion that real Hunters don't get on their ranged attacks.
     ap = flat_ap if agi_ap_mode == "ranged" else flat_ap + str_ * ratios["ap_per_str"].get(class_id, 0)
+    ap += int_ * INT_AP_TALENTS.get(spec_id, {}).get("assumed", 0.0)  # Mental Dexterity / Careful Aim
     if agi_ap_mode == "ranged":
         ap += agi * ratios["ap_per_agi_ranged"].get(class_id, 0)
     elif agi_ap_mode == "melee":

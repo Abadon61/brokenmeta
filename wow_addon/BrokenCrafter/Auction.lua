@@ -4,7 +4,9 @@
 -- Forever mixes a Classic game with the modern UI, so both APIs are supported:
 --   modern:  C_AuctionHouse.ReplicateItems() + GetReplicateItemInfo(0-based index)
 --   classic: QueryAuctionItems(..., getAll = true) + GetAuctionItemInfo("list", i)
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 local MAX_SCANS = 5
 local CHUNK = 400 -- listings processed per frame, so a big auction house doesn't freeze the game

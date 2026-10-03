@@ -64,8 +64,7 @@ class HubTests(unittest.TestCase):
         g.LUA_EVAL('function(label) for _, f in ipairs(frames) do if rawget(f, "text") == label and f.scripts.OnClick then f.scripts.OnClick() end end end')("Upgrades")
         texts = lua_list(g.LUA_EVAL('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t then o[#o+1] = t end end return o end')())
         self.assertTrue(any("slot(s) improved" in t for t in texts), "the selected dungeon's summary")
-        buttons = lua_list(g.LUA_EVAL('function() local o = {} for _, f in ipairs(frames) do local t = rawget(f, "text") if type(t) == "string" then o[#o+1] = t end end return o end')())
-        self.assertTrue(any(t.startswith("Dungeon: ") and "most rewarding" in t for t in buttons), "picker defaults to the best dungeon")
+        self.assertTrue(any("most rewarding" in t for t in texts), "the panel defaults to the best dungeon, marked as such")
 
     def test_upgrades_grouped_by_dungeon(self):
         _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
@@ -294,7 +293,71 @@ class CrafterTests(unittest.TestCase):
         self.assertFalse(bob[0].p.avail)
         self.assertEqual(bob[0].p.msg, "Armes")
         self.g.NS.ToggleCraftFav("Bob-Realm", bob[0].p)
-        self.assertEqual([e.name for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"], [])
+        left = [e for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"]
+        self.assertEqual(len(left), 1, "no longer a favourite, still remembered as an announced crafter")
+        self.assertFalse(left[0].fav)
+
+    def test_register_is_saved_and_announced(self):
+        self.g.NS.RegisterCrafter(True)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="", f=0))
+        self.g.NS.RegisterCrafter(False)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=0, m="", f=0))
+
+    def test_registered_crafter_is_available_at_login_and_announced_on_first_click(self):
+        self.g.NS.RegisterCrafter(True)
+        self.event("PLAYER_LOGIN")  # next session: the saved registration is kept
+        before = len(self.chat())
+        self.g.WorldFrame.scripts.OnMouseDown(self.g.WorldFrame)
+        self.assertEqual(self.chat()[-1], "CHANNEL:5:BM1 " + self.ME.format(a=1, m="", f=0), "first click announces")
+        self.assertEqual(len(self.chat()), before + 1)
+        self.g.WorldFrame.scripts.OnMouseDown(self.g.WorldFrame)
+        self.assertEqual(len(self.chat()), before + 1, "announce still fresh: nothing more")
+        self.line("BM1 Q1", "New-Realm")
+        self.g.flush()
+        self.assertEqual(self.sent()[-1], "WHISPER:" + self.ME.format(a=1, m="", f=0), "answers Q1 invisibly")
+
+    def test_unregistered_crafter_stays_silent_on_click(self):
+        self.event("PLAYER_LOGIN")
+        self.g.WorldFrame.scripts.OnMouseDown(self.g.WorldFrame)
+        self.assertEqual(self.chat(), [])
+
+    def test_announced_crafter_stays_listed_offline_until_they_leave(self):
+        self.line("BM1 P3;1;18;MAGE;Alliance;Human;3;0;164:150:225;Armes", "Bob-Realm")
+        self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
+        bob = [e for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"]
+        self.assertEqual(len(bob), 1, "remembered while offline")
+        self.assertTrue(bob[0].offline)
+        self.assertFalse(bob[0].p.avail)
+        self.line("BM1 P3;0;18;MAGE;Alliance;Human;3;0;164:150:225;Armes", "Bob-Realm")
+        self.event("CHAT_MSG_SYSTEM", "No player named 'Bob' is currently playing.")
+        self.assertEqual([e for e in lua_list(self.g.NS.CraftList()[0]) if e.name == "Bob-Realm"], [], "said they are out")
+
+    def test_onboarding_steps_follow_registration_and_message(self):
+        steps, n = self.g.NS.CraftOnboarding()
+        self.assertEqual(n, 0)
+        self.g.NS.RegisterCrafter(True)
+        self.g.NS.SetCraftMessage("Tout le cuir")
+        steps, n = self.g.NS.CraftOnboarding()
+        self.assertEqual(n, 2, "registered + message; recipes not recorded yet")
+        self.assertEqual([s.done for s in lua_list(steps)], [True, False, True])
+
+    def test_profession_icons(self):
+        self.assertIn("Trade_Alchemy", self.g.NS.ProfIcon(171, 14))
+        self.assertEqual(self.g.NS.ProfIcon(1), "", "unknown line: no icon")
+        self.assertIn("QuestionMark", self.g.NS.ProfIconPath(1))
+
+    def test_toast_goes_to_the_chat_when_the_hub_is_closed(self):
+        before = len(self.g.chat)
+        self.g.NS.Toast("tu es inscrit")
+        self.assertEqual(len(self.g.chat), before + 1)
+
+    def test_every_crafter_page_opens_without_error(self):
+        for show in ("ShowCrafters", "ShowRequests", "ShowLeveling"):
+            getattr(self.g.NS, show)()
+        self.g.NS.RegisterCrafter(True)
+        self.g.NS.ShowCrafters()
+        self.line("BM1 P3;1;18;MAGE;Alliance;Human;3;0;164:150:225;Armes", "Bob-Realm")
+        self.g.NS.ShowCrafters()
 
     def test_favourite_count_signals(self):
         # Someone favours me: my profile carries the count.
@@ -647,6 +710,103 @@ class EconomyDungeonTests(unittest.TestCase):
         self.assertEqual([(e.d, e.n) for e in log], [(2, 3), (2, 1)], "newest first, with the count")
 
 
+class CodexDungeonTests(unittest.TestCase):
+    def setUp(self):
+        _, _, _, self.g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [], bags=["food", "ring_crit"])
+        self.ev = self.g.LUA_EVAL
+
+    def test_bosses_in_game_order_with_their_loot_and_an_other_entry(self):
+        bosses = lua_list(self.g.NS.DungeonBosses(2))  # Deadmines
+        names = [b.name for b in bosses]
+        self.assertEqual(names[0], "Rhahk'Zor", "the game's encounter order")
+        self.assertIn("Edwin VanCleef", names)
+        edwin = next(b for b in bosses if b.name == "Edwin VanCleef")
+        self.assertTrue(edwin.npc, "NPC id for the head")
+        self.assertGreater(len(lua_list(edwin["items"])), 0)
+        self.assertTrue(bosses[-1].other, "monsters and quests come last")
+        total = sum(len(lua_list(b["items"])) for b in bosses)
+        self.assertEqual(total, sum(1 for it in lua_list(self.g.NS.LOOT) if it.d == 2), "every item is under one entry")
+
+    def test_quests_are_grouped_with_a_header_row_each(self):
+        bosses = lua_list(self.g.NS.DungeonBosses(2))  # Deadmines: 5 quests
+        quests = next(b for b in bosses if b.quest)
+        rows = lua_list(quests["rows"])
+        headers = [r for r in rows if r.header]
+        self.assertEqual(len(headers), 5)
+        self.assertTrue(rows[0].header, "a quest header comes first")
+        self.assertTrue(all(r.indent for r in rows if not r.header), "rewards are indented under their quest")
+        self.assertEqual(len(lua_list(quests["items"])), len(rows) - len(headers))
+
+    def test_raid_bosses_with_head_abilities_and_loot(self):
+        bosses = lua_list(self.g.NS.RaidBosses(1))  # Molten Core
+        self.assertEqual(bosses[0].name, "Lucifron")
+        self.assertTrue(bosses[0].npc, "NPC id for the head")
+        self.assertTrue(bosses[0].abilities, "abilities line")
+        self.assertGreater(len(lua_list(bosses[1]["items"])), 0, "Magmadar drops Earthshaker")
+        self.assertTrue(bosses[-1].other, "the loot of the raid's other monsters comes last")
+        self.assertGreater(self.g.NS.RAID_IMAGES["molten-core"], 0)
+
+    def test_dungeon_and_raid_tabs_open_in_both_views(self):
+        tabs = self.g.NS.CodexTabs
+        for key in ("dungeons", "raids"):
+            self.g.NS.HubShow(tabs[key])  # the cards of the instances (a single raid goes straight to its detail)
+        self.ev('function() GetInstanceInfo = function() return "Molten Core", "raid" end end')()
+        self.assertEqual(self.g.NS.CurrentRaid(), 1)
+        self.g.NS.HubShow(tabs["raids"])
+        self.ev('function() GetInstanceInfo = function() return "Deadmines", "party" end end')()
+        self.g.NS.HubShow(tabs["dungeons"])
+
+    def test_every_dungeon_has_a_picture(self):
+        art = lua_list(self.g.NS.DUNGEON_ART)
+        self.assertEqual(len(art), len(lua_list(self.g.NS.DUNGEONS)))
+        self.assertTrue(all(a.image and a.image > 0 for a in art))
+
+    def test_the_two_views_open_without_error(self):
+        self.g.NS.HubOpenSection("codex")  # list of the dungeons
+        self.ev('function() GetInstanceInfo = function() return "Deadmines", "party" end end')()
+        self.g.NS.HubOpenSection("codex")  # you are in one: its first boss
+        self.g.NS.HubOpenSection("codex")
+
+
+class TalentWeightsTests(unittest.TestCase):
+    """Mental Dexterity turns Intellect into Attack Power: the Intellect weight follows the rank taken."""
+
+    def weights(self, ranks):
+        _, _, _, g = run("enUS", "SHAMAN", [0, 11, 0], ITEMS, {}, [], [])
+        g.LUA_EVAL("function() BrokenMetaNS.readTalents = function() return %s end end" % ranks)()
+        w, _ = g.NS.ActiveWeights("shaman_enhancement")
+        return w
+
+    def test_intellect_weight_follows_mental_dexterity(self):
+        full = self.weights("{ [104755] = 3 }")
+        self.assertGreater(full["ap"], 0)
+        self.assertAlmostEqual(full["int"], full["ap"], places=3, msg="3/3: 100% of Intellect becomes Attack Power")
+        one = self.weights("{ [104755] = 1 }")
+        self.assertAlmostEqual(one["int"], one["ap"] / 3, places=3, msg="1/3: a third")
+        none = self.weights("{}")
+        self.assertEqual(none["int"], 0, "no talent: Intellect is worth nothing to Enhancement")
+
+    def test_other_specs_are_untouched(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [])
+        w, _ = g.NS.ActiveWeights("warrior_fury")
+        self.assertEqual(w["int"], 0)
+
+
+class CharacterPageTests(unittest.TestCase):
+    def test_character_page_opens_with_gauges_for_every_stat(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [], bags=["food", "ring_crit"])
+        g.NS.HubShow(g.NS.DPSTabs["character"])  # weights as gauges + equipped gear
+        weights, _ = g.NS.ActiveWeights(g.NS.GetSpec())
+        self.assertGreater(weights["str"] + weights["ap"] + weights["crit"], 0)
+
+    def test_every_dps_page_opens(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], [], bags=["food", "ring_crit"])
+        for key in ("character", "upgrades", "bis", "guide", "export"):
+            g.NS.HubShow(g.NS.DPSTabs[key])
+        # again with the first dungeon picked and no spec: the empty states
+        g.NS.HubShow(g.NS.DPSTabs["upgrades"])
+
+
 class LanguageTests(unittest.TestCase):
     def texts(self, g):
         return lua_list(g.LUA_EVAL('function() local o = {} for _, fs in ipairs(fontstrings) do local t = rawget(fs, "text") if t then o[#o+1] = t end end return o end')())
@@ -666,6 +826,49 @@ class LanguageTests(unittest.TestCase):
         self.assertEqual(g.CVARS["brokenMetaLanguage"], "enUS")
         self.assertEqual(g.NS.LOCALE, "frFR", "applied only after /reload")
         self.assertIn("/reload", chat[-1])
+
+
+class SuiteTests(unittest.TestCase):
+    """The 4-addon split: the HUB alone, dependency-free child addons, home cards, per-addon data."""
+
+    def test_hub_alone_flags_children_missing(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], modules=["BrokenMetaWeights"])
+        self.assertIsNone(g.NS.Modules.BrokenDPS)
+        self.assertEqual(g.LUA_EVAL('function(ns) return ns.AddonState("BrokenDPS") end')(g.NS), "missing")
+
+    def test_each_child_loads_without_its_siblings(self):
+        for solo in ("BrokenDPS", "BrokenCrafter", "BrokenCodex"):
+            with self.subTest(solo=solo):
+                _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], modules=["BrokenMetaWeights", solo])
+                self.assertTrue(g.NS.Modules[solo])
+
+    def test_home_cards_reflect_loaded_and_missing_addons(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [], modules=["BrokenMetaWeights", "BrokenDPS"])
+        states = {row.id: g.LUA_EVAL('function(ns, id) return ns.AddonState(id) end')(g.NS, row.id) for row in lua_list(g.NS.SUITE)}
+        self.assertEqual(states["BrokenDPS"], "loaded")
+        self.assertEqual(states["BrokenCrafter"], "missing")
+        self.assertEqual(states["BrokenCodex"], "missing")
+
+    def test_dps_bis_table_has_gear_per_spec(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        fury = lua_list(g.NS.BIS.warrior_fury)
+        self.assertTrue(fury)
+        self.assertTrue(all(row.slot and row.id for row in fury))
+
+    def test_codex_raids_table_has_molten_core_bosses_and_loot(self):
+        _, _, _, g = run("enUS", "WARRIOR", [0, 11, 0], ITEMS, {}, [])
+        raids = lua_list(g.NS.RAIDS)
+        self.assertTrue(raids)
+        mc = next(r for r in raids if r.id == "molten-core")
+        bosses = lua_list(mc.bosses)
+        self.assertTrue(bosses)
+        self.assertTrue(any(lua_list(b.drops) for b in bosses))
+
+    def test_crafter_ah_and_craft_commands_registered(self):
+        # /bmw ah and /bmw craft moved from the old Core.lua to BrokenCrafter; they must still exist
+        # and run without error (the underlying functions are pcall-wrapped by the /bmw dispatcher).
+        _, chat, _, g = run("enUS", "MAGE", [0, 0, 0], ITEMS, {}, [], ["ah", "craft"])
+        self.assertFalse(any(m.startswith("options:") for m in chat))
 
 
 if __name__ == "__main__":

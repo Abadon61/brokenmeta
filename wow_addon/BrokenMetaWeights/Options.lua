@@ -3,7 +3,7 @@
 local ADDON, ns = ...
 
 local T = ns.Localize("options", {
-  title = "Broken Meta : Hub", intro = "Réglages de l'addon. Ils s'appliquent tout de suite.",
+  title = "Broken Meta : HUB", intro = "Réglages de l'addon. Ils s'appliquent tout de suite.",
   tooltip_dps = "Afficher la valeur en DPS dans l'infobulle des objets",
   tooltip_loot = "Afficher où l'objet s'obtient (donjon, boss ou quête)",
   tooltip_ah = "Afficher le prix à l'hôtel des ventes (d'après tes scans)",
@@ -16,7 +16,7 @@ local T = ns.Localize("options", {
   language = "Langue de l'addon :", lang_auto = "Automatique (%s)", reload = "Recharger l'interface",
   lang_pending = "Recharge l'interface pour appliquer la nouvelle langue.", lang_unsupported = "Ton client ne permet pas de garder ce choix.",
 }, {
-  title = "Broken Meta : Hub", intro = "Addon settings. They apply right away.",
+  title = "Broken Meta : HUB", intro = "Addon settings. They apply right away.",
   tooltip_dps = "Show the DPS value in item tooltips",
   tooltip_loot = "Show where the item comes from (dungeon, boss or quest)",
   tooltip_ah = "Show the auction house price (from your scans)",
@@ -33,6 +33,9 @@ local T = ns.Localize("options", {
 local DEFAULTS = { tooltip_dps = true, tooltip_loot = true, tooltip_ah = true, weights_reminder = true, announce_reminder = true,
   request_alert = true, sounds = true }
 local ORDER = { "tooltip_dps", "tooltip_loot", "tooltip_ah", "weights_reminder", "announce_reminder", "request_alert", "sounds", "minimap" }
+-- Options that belong to one addon of the suite: shown only when that addon is loaded.
+local OWNER = { tooltip_dps = "BrokenDPS", weights_reminder = "BrokenDPS", tooltip_loot = "BrokenCodex",
+  tooltip_ah = "BrokenCrafter", announce_reminder = "BrokenCrafter", request_alert = "BrokenCrafter" }
 
 -- ns.Option("tooltip_dps") -> true / false (defaults above until the player changes it).
 function ns.Option(key)
@@ -69,7 +72,11 @@ local function build()
   local intro = panel:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
   intro:SetPoint("TOPLEFT", 16, -44)
   intro:SetText(T.intro)
-  for i, key in ipairs(ORDER) do
+  local shown = {}
+  for _, key in ipairs(ORDER) do
+    if not OWNER[key] or ns.Modules[OWNER[key]] then shown[#shown + 1] = key end
+  end
+  for i, key in ipairs(shown) do
     local c = ns.Button(panel)
     c:SetSize(18, 18)
     c:SetPoint("TOPLEFT", 16, -74 - (i - 1) * 30)
@@ -86,7 +93,7 @@ local function build()
   local LANG_NAMES = { frFR = "Français", enUS = "English", deDE = "Deutsch", esES = "Español" }
   local CHOICES = { "auto", "frFR", "enUS", "deDE", "esES" }
   local langLabel = panel:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
-  langLabel:SetPoint("TOPLEFT", 16, -74 - #ORDER * 30 - 8)
+  langLabel:SetPoint("TOPLEFT", 16, -74 - #shown * 30 - 8)
   langLabel:SetText(T.language)
   local langBtn = ns.Button(panel)
   langBtn:SetSize(200, 22)
@@ -121,7 +128,7 @@ local function build()
 
   local open = ns.Button(panel, nil, "primary")
   open:SetSize(160, 24)
-  open:SetPoint("TOPLEFT", 16, -74 - #ORDER * 30 - 60)
+  open:SetPoint("TOPLEFT", 16, -74 - #shown * 30 - 60)
   open:SetText(T.open)
   open:SetScript("OnClick", function()
     if SettingsPanel and SettingsPanel:IsShown() and HideUIPanel then HideUIPanel(SettingsPanel) end

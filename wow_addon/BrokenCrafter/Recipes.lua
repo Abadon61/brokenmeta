@@ -6,7 +6,9 @@
 -- (enchantments). Messages (prefix BMCraft, whisper):
 --   R1?                                  send me your recipes
 --   R1;line;seq;total;e,e,e              one chunk of one profession's recipes (line 0: none)
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 
 local T = ns.Localize("recipes", {
@@ -301,12 +303,12 @@ local function build()
     rows[i] = b
   end
   local prev = ns.Button(win)
-  prev:SetSize(28, 20)
+  prev:SetSize(28, 22)
   prev:SetPoint("BOTTOMLEFT", 12, 10)
   prev:SetText("<")
   prev:SetScript("OnClick", function() pageNo = pageNo - 1; refreshWin() end)
   local nxt = ns.Button(win)
-  nxt:SetSize(28, 20)
+  nxt:SetSize(28, 22)
   nxt:SetPoint("LEFT", prev, "RIGHT", 70, 0)
   nxt:SetText(">")
   nxt:SetScript("OnClick", function() pageNo = pageNo + 1; refreshWin() end)

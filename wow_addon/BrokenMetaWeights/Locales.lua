@@ -7,6 +7,10 @@
 -- BEFORE the SavedVariables are read, whereas CVars are already there. Changing it needs a /reload.
 -- (Parsing the game's own texts, e.g. "Equip:" in tooltips, always follows the CLIENT language.)
 local _, ns = ...
+-- The suite's addons (BrokenDPS, BrokenCrafter, BrokenCodex) all load after this one (their .toc
+-- depends on it) and share this namespace: each sets ns.Modules.<its folder> = true.
+BrokenMetaNS = ns
+ns.Modules = {}
 local CVAR = "brokenMetaLanguage"
 local LANGS = { frFR = true, enUS = true, deDE = true, esES = true }
 local function cvar(name)
@@ -60,7 +64,7 @@ EXTRA.deDE = {
       "danke, dass du das Addon installiert hast! Klicke auf den Schwert-Button an der Minimap (oder tippe /bmw), um den Hub zu öffnen.",
       "Fahre über einen Gegenstand: sein DPS-Wert für deine Spezialisierung steht im Tooltip. Guides und Simulator: brokenmeta.gg",
     },
-    update_available = "eine neuere Version des Addons ist verfügbar (%s, du hast %s): aktualisiere sie mit der CurseForge-App (Broken Meta : Hub).",
+    update_available = "eine neuere Version des Addons ist verfügbar (%s, du hast %s): aktualisiere sie mit der CurseForge-App.",
     cant_wear = "deine Klasse kann das nicht tragen", wear_at = "tragbar ab Stufe %d",
     snap_done = "%d neue Messung(en) gespeichert.",
     import_ok = "deine persönlichen Gewichtungen sind importiert: Sie ersetzen die generischen für diesen Charakter.",
@@ -72,7 +76,16 @@ EXTRA.deDE = {
   },
   hub = {
     reload = "Neu laden zum Anwenden", lang_tip = "Sprache des Addons (AUTO = die des Spiels). Klicke zum Ändern.",
-    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Berufe", sec_eco = "Wirtschaft", sec_dg = "Dungeons",
+    title = "Broken Meta : HUB", sec_dps = "DPS", sec_prof = "Berufe", sec_eco = "Wirtschaft", sec_dg = "Dungeons",
+    sec_home = "Start", sec_codex = "Codex", tab_addons = "Addons", tab_bis = "BiS",
+    home_intro = "Broken Meta : HUB v%s vereint die Broken-Meta-Addons für WoW: Forever. Installiere die, die dich interessieren: jedes fügt seinen Bereich in dieses Fenster ein, und sie funktionieren unabhängig voneinander.",
+    mod_dps = "Der DPS-Wert jedes Gegenstands für deine Spezialisierung, deine Wertgewichtungen, Verbesserungen, die beste Ausrüstung und der Klassen-Guide.",
+    mod_crafter = "Das Handwerkerverzeichnis, Rezepte, Anfragen, Berufe günstig leveln und die Auktionshaus-Wirtschaft.",
+    mod_codex = "Der Kodex der Dungeons und Schlachtzüge: Bosse, ihre Fähigkeiten, die Beute jedes Bosses und dein Beuteverlauf.",
+    mod_loaded = "installiert · v%s", mod_disabled = "deaktiviert", mod_missing = "nicht installiert",
+    mod_open = "Öffnen", mod_link = "CurseForge-Link", mod_link_title = "CurseForge-Link",
+    mod_enable_hint = "Aktiviere es in der AddOn-Liste (Charakterauswahl) und lade die Oberfläche neu.",
+    mod_curseforge = "Kostenlos auf CurseForge (CurseForge-App oder .zip-Datei).",
     tab_char = "Charakter", tab_up = "Upgrades", tab_export = "Export", tab_cmd = "Befehle", tab_data = "Daten",
     tab_guide = "Guide",
     up_bags = "In deinen Taschen", up_dungeons = "In Dungeons (bester Gegenstand pro Platz)",
@@ -210,11 +223,11 @@ EXTRA.deDE = {
   tour = {
     next = "Weiter", prev = "Zurück", done = "Los geht's!", skip = "Überspringen",
     steps = {
-      { "Willkommen bei Broken Meta : Hub", "Vier Werkzeuge in einem Fenster: DPS für deine Ausrüstung, Berufe fürs Handwerk, Wirtschaft für den Wert deiner Gegenstände und Schnäppchen, Dungeons für die Beute jedes Bosses. Öffne das Fenster mit dem Spiral-Button an der Minimap oder mit /bmw." },
-      { "Broken Meta : DPS", "Fahre über einen Gegenstand: sein Tooltip zeigt seinen DPS-Wert für deine Spezialisierung, verglichen mit deiner Ausrüstung. Der Reiter Verbesserungen listet die besten Gegenstände aus Taschen und Dungeons." },
-      { "Broken Meta : Berufe", "Finde einen verfügbaren Handwerker auf deinem ganzen Realm, sieh seine Rezepte und flüstere ihn an. Du suchst etwas? Poste eine Anfrage. Du stellst her? Mach dich im Profil verfügbar." },
-      { "Berufe leveln", "Der Reiter Leveln zeigt die günstigste Route ab deiner Fertigkeit zu Auktionshauspreisen (einmal scannen). Die Werkstatt zeigt lohnende Rezepte und neue Rezepte." },
-      { "Einstellungen", "Alles unter Optionen > AddOns > Broken Meta : Hub oder mit /bmw options. Viel Spaß!" },
+      { "Willkommen bei Broken Meta : HUB", "Der HUB vereint die Broken-Meta-Addons für WoW: Forever. Die Startseite listet deine Addons; fehlende sind ausgegraut und auf CurseForge erhältlich. Öffne dieses Fenster mit dem Spiralknopf an der Minikarte oder mit /bmw." },
+      { "BrokenDPS", "Fahre über einen Gegenstand: sein Tooltip zeigt seinen DPS-Wert für deine Spezialisierung. Reiter: Charakter, Verbesserungen (pro Dungeon), BiS und Klassenguide auf brokenmeta.gg." },
+      { "BrokenCrafter", "Finde einen verfügbaren Handwerker auf deinem Realm und flüstere ihn an, levle deine Berufe zum besten Preis und verfolge den Wert deiner Gegenstände im Auktionshaus (Bereich Wirtschaft)." },
+      { "BrokenCodex", "Der Kodex der Dungeons und Schlachtzüge: Beute jedes Bosses, Bossfähigkeiten, Zugangsvoraussetzungen und dein Beuteverlauf." },
+      { "Einstellungen", "Alles unter Optionen > AddOns > Broken Meta : HUB oder mit /bmw options. Viel Spaß!" },
     },
   },
   economy = {
@@ -237,7 +250,7 @@ EXTRA.deDE = {
     page = "Seite %d/%d", summary = "%d Gegenstand/Gegenstände, %d Upgrade(s) für deine Spezialisierung.",
   },
   craft = {
-    tab_dir = "Handwerker", tab_me = "Mein Profil",
+    tab_dir = "Handwerker", tab_me = "Mein Profil", sec_find = "Finden", sec_craft = "Handwerker",
     none = "Noch kein Handwerker angekündigt. Klicke auf Aktualisieren: verfügbare Handwerker mit dem Addon, auf deinem Realm und deiner Fraktion, erscheinen hier.",
     search = "Gegenstand suchen…", rec_count = "%d Rezepte gespeichert", rec_none = "Rezepte: öffne dein Berufsfenster",
     site_opt = "Auf brokenmeta.gg erscheinen (öffentliches Handwerkerverzeichnis)", site_copy = "Karte für die Seite kopieren",
@@ -284,7 +297,7 @@ EXTRA.esES = {
       "¡gracias por instalar el addon! Haz clic en el botón de la espada junto al minimapa (o escribe /bmw) para abrir el hub.",
       "Pasa el ratón sobre un objeto: su valor en DPS para tu especialización aparece en la descripción. Guías y simulador: brokenmeta.gg",
     },
-    update_available = "hay una versión más reciente del addon (%s, tienes la %s): actualízala con la aplicación de CurseForge (Broken Meta : Hub).",
+    update_available = "hay una versión más reciente del addon (%s, tienes la %s): actualízala con la aplicación de CurseForge.",
     cant_wear = "tu clase no puede llevarlo", wear_at = "equipable a nivel %d",
     snap_done = "%d medición(es) nueva(s) guardada(s).",
     import_ok = "tus pesos personales se han importado: sustituyen a los genéricos para este personaje.",
@@ -296,7 +309,16 @@ EXTRA.esES = {
   },
   hub = {
     reload = "Recargar para aplicar", lang_tip = "Idioma del addon (AUTO = el del juego). Haz clic para cambiarlo.",
-    title = "Broken Meta : Hub", sec_dps = "DPS", sec_prof = "Profesiones", sec_eco = "Economía", sec_dg = "Mazmorras",
+    title = "Broken Meta : HUB", sec_dps = "DPS", sec_prof = "Profesiones", sec_eco = "Economía", sec_dg = "Mazmorras",
+    sec_home = "Inicio", sec_codex = "Códice", tab_addons = "Addons", tab_bis = "BiS",
+    home_intro = "Broken Meta : HUB v%s reúne los addons Broken Meta para WoW: Forever. Instala los que te interesen: cada uno añade su sección a esta ventana y funcionan unos sin otros.",
+    mod_dps = "El valor en DPS de cada objeto para tu especialización, tus pesos de estadísticas, tus mejoras, el mejor equipo y la guía de tu clase.",
+    mod_crafter = "El directorio de artesanos, sus recetas, los pedidos, subir profesiones al mejor precio y la economía de la casa de subastas.",
+    mod_codex = "El códice de mazmorras y bandas: los jefes, sus habilidades, el botín de cada jefe y el historial de tu botín.",
+    mod_loaded = "instalado · v%s", mod_disabled = "desactivado", mod_missing = "no instalado",
+    mod_open = "Abrir", mod_link = "Enlace de CurseForge", mod_link_title = "Enlace de CurseForge",
+    mod_enable_hint = "Actívalo en la lista de AddOns (pantalla de selección de personaje) y recarga la interfaz.",
+    mod_curseforge = "Gratis en CurseForge (aplicación de CurseForge o archivo .zip).",
     tab_char = "Personaje", tab_up = "Mejoras", tab_export = "Exportar", tab_cmd = "Comandos", tab_data = "Datos",
     tab_guide = "Guía",
     up_bags = "En tus bolsas", up_dungeons = "En mazmorras (mejor objeto por ranura)",
@@ -434,11 +456,11 @@ EXTRA.esES = {
   tour = {
     next = "Siguiente", prev = "Anterior", done = "¡Vamos!", skip = "Saltar",
     steps = {
-      { "Bienvenido a Broken Meta : Hub", "Cuatro herramientas en una ventana: DPS para tu equipo, Profesiones para la artesanía, Economía para el valor de tus objetos y las gangas, Mazmorras para el botín de cada jefe. Ábrela con el botón de la espiral del minimapa o con /bmw." },
-      { "Broken Meta : DPS", "Pasa el ratón por un objeto: su descripción muestra su valor en DPS para tu especialización, comparado con lo que llevas. La pestaña Mejoras lista los mejores objetos de tus bolsas y de las mazmorras de tu nivel." },
-      { "Broken Meta : Profesiones", "Encuentra un artesano disponible en todo tu reino, mira sus recetas y susúrrale. ¿Buscas algo? Publica un pedido. ¿Fabricas? Ponte disponible en Mi perfil." },
-      { "Subir profesiones", "La pestaña Subir da la ruta más barata desde tu nivel, a precios de subasta (escanéala una vez). El Taller muestra tus recetas rentables y las recetas por aprender." },
-      { "Ajustes", "Todo está en Opciones > AddOns > Broken Meta : Hub, o con /bmw options. ¡Buen juego!" },
+      { "Bienvenido a Broken Meta : HUB", "El HUB reúne los addons Broken Meta para WoW: Forever. El inicio lista los que tienes; los que faltan aparecen en gris y están disponibles en CurseForge. Abre esta ventana con el botón en espiral junto al minimapa o con /bmw." },
+      { "BrokenDPS", "Pasa el ratón por un objeto: su descripción muestra su valor en DPS para tu especialización. Pestañas: Personaje, Mejoras (por mazmorra), BiS y la Guía de tu clase en brokenmeta.gg." },
+      { "BrokenCrafter", "Encuentra un artesano disponible en tu reino y susúrrale, sube tus profesiones al mejor precio y sigue el valor de tus objetos en la casa de subastas (sección Economía)." },
+      { "BrokenCodex", "El códice de mazmorras y bandas: el botín de cada jefe, sus habilidades, los requisitos de acceso y tu historial de botín." },
+      { "Ajustes", "Todo está en Opciones > AddOns > Broken Meta : HUB, o con /bmw options. ¡Buen juego!" },
     },
   },
   economy = {
@@ -461,7 +483,7 @@ EXTRA.esES = {
     page = "Página %d/%d", summary = "%d objeto(s), %d mejora(s) para tu especialización.",
   },
   craft = {
-    tab_dir = "Artesanos", tab_me = "Mi perfil",
+    tab_dir = "Artesanos", tab_me = "Mi perfil", sec_find = "Buscar", sec_craft = "Artesano",
     none = "Aún no hay artesanos anunciados. Pulsa Actualizar: los artesanos disponibles con el addon, en tu reino y tu facción, aparecerán aquí.",
     search = "Buscar un objeto…", rec_count = "%d recetas guardadas", rec_none = "recetas: abre tu ventana de profesión",
     site_opt = "Aparecer en brokenmeta.gg (directorio público de artesanos)", site_copy = "Copiar mi ficha para la web",

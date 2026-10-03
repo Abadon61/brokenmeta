@@ -8,12 +8,14 @@
 --      (favs: how many players have this crafter in their favourites; 0.12 and older sent P2, no favs)
 --   F1 / F0                          I added you to / removed you from my favourites (whisper)
 --   D1;faction;itemID[;age] / D0 / DQ   craft requests (see Requests.lua)
-local ADDON, ns = ...
+local ADDON = ...
+local ns = BrokenMetaNS -- Broken Meta : HUB's namespace, shared by the suite
+ns.Modules.BrokenCrafter = true
 local IS_FR = ns.IS_FR
 local LOCALE = ns.LOCALE
 
 local T = ns.Localize("craft", {
-  tab_dir = "Artisans", tab_me = "Mon profil",
+  tab_dir = "Artisans", tab_me = "Mon profil", sec_find = "Trouver", sec_craft = "Artisan",
   all = "Tous les métiers", only_avail = "Dispo seulement", everyone = "Tout le monde", favorites = "Favoris",
   fav_add = "Ajouter aux favoris", fav_del = "Retirer des favoris", not_announced = "Pas annoncé en ce moment · vu il y a %s",
   minutes = "%d min", hours = "%d h", days = "%d j",
@@ -35,13 +37,29 @@ local T = ns.Localize("craft", {
   net_wait = "Connexion au réseau Broken Meta en cours…",
   diag = "Diagnostic : canal %d · envoyés %d · reçus d'autres joueurs %d · tes échos %d · dernier : %s · envoi : %s",
   net_fail = "Impossible de rejoindre le canal Broken Meta : trop de canaux ouverts ? Quitte-en un puis tape /reload.",
-  intro = "Broken Meta : Profession montre les artisans connectés qui ont l'addon. Mets-toi disponible pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
+  intro = "Broken Meta : Profession montre les artisans qui ont l'addon. Inscris-toi comme artisan pour recevoir des demandes, ou cherche un artisan dans l'onglet Artisans et clique sur MP pour lui écrire.",
   msg_label = "Message court, affiché sur ta carte d'artisan (60 caractères max) :", msg_save = "Enregistrer",
   msg_saved = "ton message d'artisan est enregistré.", preview = "Aperçu de ta carte",
   avail_now = "tu es maintenant disponible dans l'annuaire des artisans.",
   avail_gone = "tu n'es plus disponible dans l'annuaire des artisans.",
+  reg_btn = "S'inscrire comme artisan", reg_off = "Se désinscrire",
+  reg_hint = "Une seule fois : tu seras annoncé à chaque connexion, renouvelé automatiquement quand tu cliques en jeu, et listé même hors ligne.",
+  reg_hint_on = "Inscrit : tu es annoncé automatiquement à chaque connexion et listé même hors ligne. Clique pour passer indisponible.",
+  reg_hint_off = "Inscrit mais indisponible pour cette session. Clique pour redevenir disponible.",
+  reg_now = "tu es inscrit comme artisan : annonce automatique à chaque connexion.",
+  reg_gone = "tu n'es plus inscrit comme artisan.",
+  gate_title = "Inscris-toi pour accéder à l'annuaire",
+  gate_text = "L'annuaire des artisans de ton royaume est réservé aux artisans inscrits : c'est ce qui garantit qu'il y a toujours quelqu'un à qui écrire.",
+  gate_1 = "Une seule inscription : valable à chaque connexion",
+  gate_2 = "Les acheteurs te trouvent, même quand tu es hors ligne",
+  gate_3 = "Tu peux te désinscrire quand tu veux (onglet Artisan > Mon profil)",
+  banner_btn = "S'inscrire comme artisan",
+  mode_all = "Tous", mode_avail = "En ligne", mode_fav = "Favoris", whisper_full = "Chuchoter", lvl_short = "niv. %d",
+  pick_crafter = "Sélectionne un artisan dans la liste pour voir sa fiche.",
+  empty_dir = "Aucun artisan annoncé", empty_dir_btn = "Publier une demande",
+  ob_title = "Ta fiche : %d/3", ob_reg = "Inscrit", ob_rec = "Recettes enregistrées", ob_msg = "Message ajouté",
 }, {
-  tab_dir = "Crafters", tab_me = "My profile",
+  tab_dir = "Crafters", tab_me = "My profile", sec_find = "Find", sec_craft = "Crafter",
   all = "All professions", only_avail = "Available only", everyone = "Everyone", favorites = "Favourites",
   fav_add = "Add to favourites", fav_del = "Remove from favourites", not_announced = "Not announced right now · seen %s ago",
   minutes = "%d min", hours = "%dh", days = "%dd",
@@ -63,11 +81,27 @@ local T = ns.Localize("craft", {
   net_wait = "Connecting to the Broken Meta network…",
   diag = "Diagnostics: channel %d · sent %d · received from others %d · own echoes %d · last: %s · send: %s",
   net_fail = "Could not join the Broken Meta channel: too many channels open? Leave one, then type /reload.",
-  intro = "Broken Meta : Professions shows the online crafters who run the addon. Set yourself available to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
+  intro = "Broken Meta : Professions shows the crafters who run the addon. Register as a crafter to get requests, or look for a crafter in the Crafters tab and click Whisper to message them.",
   msg_label = "Short message shown on your crafter card (60 characters max):", msg_save = "Save",
   msg_saved = "your crafter message is saved.", preview = "Your card preview",
   avail_now = "you are now available in the crafters directory.",
   avail_gone = "you are no longer available in the crafters directory.",
+  reg_btn = "Register as a crafter", reg_off = "Unregister",
+  reg_hint = "Once only: you are announced at every login, renewed automatically when you click in game, and listed even when offline.",
+  reg_hint_on = "Registered: you are announced automatically at every login and listed even when offline. Click to go unavailable.",
+  reg_hint_off = "Registered but unavailable this session. Click to become available again.",
+  reg_now = "you are registered as a crafter: announced automatically at every login.",
+  reg_gone = "you are no longer registered as a crafter.",
+  gate_title = "Register to open the directory",
+  gate_text = "The crafters directory of your realm is for registered crafters: that is what makes sure there is always someone to whisper.",
+  gate_1 = "Register once: valid at every login",
+  gate_2 = "Buyers find you, even when you are offline",
+  gate_3 = "Unregister whenever you want (Crafter tab > My profile)",
+  banner_btn = "Register as a crafter",
+  mode_all = "All", mode_avail = "Online", mode_fav = "Favourites", whisper_full = "Whisper", lvl_short = "lvl %d",
+  pick_crafter = "Select a crafter in the list to see their card.",
+  empty_dir = "No crafter announced", empty_dir_btn = "Post a request",
+  ob_title = "Your card: %d/3", ob_reg = "Registered", ob_rec = "Recipes recorded", ob_msg = "Message added",
 })
 
 local PREFIX, CHANNEL = "BMCraft", "BrokenMetaCraft"
@@ -234,6 +268,7 @@ local joinFailed = false
 local TAG = "BM1 "
 local ANNOUNCE_TTL = 3600
 local lastRequest = -60
+local pruneKnown, hookClicks
 
 -- Counters for the diagnostics line of My profile.
 local stats = { sent = 0, recv = 0, echo = 0, last = nil, result = nil }
@@ -319,14 +354,61 @@ if ChatFrame_AddMessageEventFilter then
   end)
 end
 
-function ns.SetCraftAvailable(on)
+function ns.SetCraftAvailable(on, quiet)
   db().avail = on and true or false
-  ns.say(on and T.avail_now or T.avail_gone)
+  if not quiet then ns.Toast(on and T.avail_now or T.avail_gone) end
   announce() -- from the button's click: also tells everyone when we stop being available
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
 
 function ns.CraftPeers() return peers end
+
+-- Registered crafter: kept across sessions, available at login, announced on the first click.
+function ns.RegisterCrafter(on)
+  db().registered = on and true or nil
+  ns.Toast(on and T.reg_now or T.reg_gone)
+  ns.SetCraftAvailable(on, true)
+end
+
+-- The channel announce needs a click. A registered, available crafter's first click in the game
+-- world (or on the minimap button) posts it, and a click renews it before it expires: nobody has
+-- to open the addon to stay visible.
+local lastTry = -60
+local function autoAnnounce()
+  local d = db()
+  if not (d.registered and d.avail) or channelId == 0 then return end
+  if d.announced and time() - d.announced < ANNOUNCE_TTL - 600 then return end
+  if GetTime() - lastTry < 30 then return end
+  lastTry = GetTime()
+  announce()
+end
+ns.CraftAutoAnnounce = autoAnnounce
+
+local clicksHooked = false
+hookClicks = function()
+  if clicksHooked then return end
+  clicksHooked = true
+  if type(WorldFrame) == "table" and WorldFrame.HookScript then WorldFrame:HookScript("OnMouseDown", autoAnnounce) end
+  local mini = _G.BrokenMetaMinimapButton
+  if mini and mini.HookScript then mini:HookScript("OnClick", autoAnnounce) end
+end
+
+-- Crafters seen announcing, per realm, kept across sessions so the directory is never empty:
+-- { ["Name-Realm"] = { p = profile, t = time() } }, dropped after KNOWN_DAYS without a sign.
+local KNOWN_DAYS = 14
+local function known()
+  BrokenMetaWeightsDB = BrokenMetaWeightsDB or {}
+  BrokenMetaWeightsDB.craftKnown = BrokenMetaWeightsDB.craftKnown or {}
+  local k = BrokenMetaWeightsDB.craftKnown[realm]
+  if not k then k = {}; BrokenMetaWeightsDB.craftKnown[realm] = k end
+  return k
+end
+ns.CraftKnown = known
+
+pruneKnown = function()
+  local limit = time() - KNOWN_DAYS * 86400
+  for name, k in pairs(known()) do if (k.t or 0) < limit then known()[name] = nil end end
+end
 
 -- Favourite crafters, per realm, kept across sessions with their last known profile so they stay
 -- listed (greyed) while they are not announced: { ["Name-Realm"] = { p = profile, t = time() } }.
@@ -402,6 +484,10 @@ local function receive(body, sender, kind)
   if p and (p.faction == "" or p.faction == (UnitFactionGroup("player") or p.faction)) then
     p.seen = GetTime()
     peers[who] = p
+    if #p.profs > 0 then
+      -- An available crafter is remembered; one who says they are not is no longer listed offline.
+      known()[who] = p.avail and { p = snapshot(p), t = time() } or nil
+    end
     if favs()[who] then favs()[who].p = snapshot(p); favs()[who].t = time() end
     tellFav(who)
     if ns.OnCraftChanged then ns.OnCraftChanged() end
@@ -424,9 +510,12 @@ f:SetScript("OnEvent", function(_, event, a1, a2, a3, a4, a5, a6, a7, a8, a9)
       if old and not BrokenMetaWeightsDB.craft[charKey] then BrokenMetaWeightsDB.craft[charKey] = old end
       BrokenMetaWeightsDB.craft["Unknown-" .. (GetRealmName() or "")] = nil
     end
-    -- A new session starts unavailable: nobody has our announce any more.
+    -- Nobody has our announce any more, but a registered crafter is available again right away
+    -- (answers Q1 invisibly); the channel announce follows on the first click (see autoAnnounce).
     db().announced = nil
-    db().avail = false
+    db().avail = db().registered == true
+    pruneKnown()
+    hookClicks()
     C_Timer.After(6, function() join(1) end)
   elseif event == "CHAT_MSG_CHANNEL" then
     -- text, author, language, channel name, target, flags, zone id, channel number, base name
@@ -468,7 +557,7 @@ f:SetScript("OnUpdate", function(_, dt)
   end
   if changed and ns.OnCraftChanged then ns.OnCraftChanged() end
   local d = db()
-  if d.avail and d.announced and time() - d.announced > ANNOUNCE_TTL - 300 and not d.reminded
+  if d.avail and not d.registered and d.announced and time() - d.announced > ANNOUNCE_TTL - 300 and not d.reminded
       and (not ns.Option or ns.Option("announce_reminder")) then
     d.reminded = true
     ns.say(T.renew_hint)
@@ -537,7 +626,7 @@ local function profText(p, only)
   local parts = {}
   for _, pr in ipairs(p.profs) do
     if not only or pr.line == only then
-      parts[#parts + 1] = "|c" .. HEX.gold .. profName(pr.line) .. "|r |c" .. HEX.cream .. pr.rank .. "|r|c" .. HEX.faint .. "/" .. pr.max .. "|r"
+      parts[#parts + 1] = ns.ProfIcon(pr.line, 14) .. "|c" .. HEX.gold .. profName(pr.line) .. "|r |c" .. HEX.cream .. pr.rank .. "|r|c" .. HEX.faint .. "/" .. pr.max .. "|r"
     end
   end
   return table.concat(parts, "   ")
@@ -573,7 +662,7 @@ local function makeCard(parent, width)
   c.light = c.frame:CreateTexture(nil, "OVERLAY") -- on the portrait frame, else drawn under it
   c.light:SetSize(14, 14)
   c.light:SetPoint("BOTTOMRIGHT", c.frame, "BOTTOMRIGHT", 5, -5)
-  c.name = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontName")
+  c.name = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
   c.name:SetPoint("TOPLEFT", c.frame, "TOPRIGHT", 10, 1)
   c.profs = c:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
   c.profs:SetPoint("TOPLEFT", c.name, "BOTTOMLEFT", 0, -3)
@@ -585,6 +674,15 @@ local function makeCard(parent, width)
   c.msg:SetWidth(width - 160)
   c.msg:SetJustifyH("LEFT")
   c.msg:SetWordWrap(false)
+  -- Skill bar along the bottom edge: the card's main profession (rank / max).
+  c.barBg = c:CreateTexture(nil, "ARTWORK")
+  c.barBg:SetColorTexture(unpack(C.border))
+  c.barBg:SetHeight(3)
+  c.barBg:SetPoint("BOTTOMLEFT", 1, 1)
+  c.barBg:SetPoint("BOTTOMRIGHT", -1, 1)
+  c.barFill = c:CreateTexture(nil, "OVERLAY")
+  c.barFill:SetHeight(3)
+  c.barFill:SetPoint("BOTTOMLEFT", 1, 1)
   c.btn = ns.Button(c, nil, "primary")
   c.btn:SetSize(80, 22)
   c.btn:SetPoint("RIGHT", -10, 0)
@@ -617,6 +715,17 @@ local function makeCard(parent, width)
     if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
     self.name:SetText(label)
     self.profs:SetText(profText(p, only))
+    local top
+    for _, pr in ipairs(p.profs) do
+      if (not only or pr.line == only) and (not top or pr.rank > top.rank) then top = pr end
+    end
+    if top and top.max > 0 then
+      self.barFill:SetWidth(math.max(1, math.floor((width - 2) * math.min(1, top.rank / top.max))))
+      self.barFill:SetColorTexture(unpack(p.avail and C.teal or C.faint))
+      self.barBg:Show(); self.barFill:Show()
+    else
+      self.barBg:Hide(); self.barFill:Hide()
+    end
     local fav = not e.me and favs()[e.name] ~= nil
     self.star:SetShown(not e.me)
     self.star.on = fav
@@ -649,36 +758,23 @@ end
 local CARDS, TOP, GAP = 6, -52, 64
 local filterIdx, mode, pageNo = 0, 0, 1 -- mode: 0 everyone, 1 available only, 2 favourites
 local refreshDir
+-- Two sections, one per intention: "prof" (looking for a crafted item) and "craft" (being a crafter).
+ns.HubSection("prof", T.sec_find, 20, "BrokenCrafter")
+ns.HubSection("craft", T.sec_craft, 25, "BrokenCrafter")
 local pDir, dirIndex = ns.HubTab("prof", T.tab_dir, function() refreshDir() end)
 
-local filterBtn = ns.Button(pDir)
-filterBtn:SetSize(200, 22)
-filterBtn:SetPoint("TOPLEFT", 4, -2)
-filterBtn:SetScript("OnClick", function(_, button)
-  local step = button == "RightButton" and -1 or 1
-  filterIdx = (filterIdx + step) % (#CRAFTS + 1)
-  pageNo = 1
-  refreshDir()
-end)
-if filterBtn.RegisterForClicks then filterBtn:RegisterForClicks("LeftButtonUp", "RightButtonUp") end
-local availBtn = ns.Button(pDir)
-availBtn:SetSize(140, 22)
-availBtn:SetPoint("LEFT", filterBtn, "RIGHT", 8, 0)
-availBtn:SetScript("OnClick", function() mode = (mode + 1) % 3; pageNo = 1; refreshDir() end)
-local refreshBtn = ns.Button(pDir)
-refreshBtn:SetSize(120, 22)
-refreshBtn:SetPoint("TOPRIGHT", -4, -2)
-refreshBtn:SetText(T.refresh)
-refreshBtn:SetScript("OnClick", function() ns.CraftRequest(true) end)
--- Opening the tab is a click too: ask who is available (at most once a minute).
-if ns.HubTabButton and ns.HubTabButton(dirIndex) then
-  ns.HubTabButton(dirIndex):HookScript("OnClick", function() ns.CraftRequest(false) end)
-end
--- Item search: crafters whose recipes make a matching item (their recipes are asked for as needed).
+-- Three columns like the window: filters (search, who, professions with how many crafters), the
+-- crafters as compact rows, and the card of the selected crafter (skills, message, actions).
+local MID_W, LIST_W = 262, 306
+local DETAIL_W = W - 24 - MID_W - 12 - LIST_W - 12
+local ROW_H, ROWS = 62, 9
+local selName
+
+-- Left column.
 local searchText = ""
 local searchBox = ns.Input(pDir)
-searchBox:SetSize(230, 20)
-searchBox:SetPoint("TOPRIGHT", -4, -28)
+searchBox:SetSize(MID_W, 24)
+searchBox:SetPoint("TOPLEFT", 0, -2)
 local searchHint = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 searchHint:SetPoint("LEFT", searchBox, "LEFT", 8, 0)
 searchBox:SetScript("OnTextChanged", function(self)
@@ -693,34 +789,266 @@ end)
 searchBox:SetScript("OnEditFocusGained", function() searchHint:Hide() end)
 searchBox:SetScript("OnEditFocusLost", function() searchHint:SetShown(searchText == "") end)
 searchBox:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-local dirCount = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
-dirCount:SetPoint("TOPLEFT", 4, -32)
-dirCount:SetWidth(W - 280)
-dirCount:SetJustifyH("LEFT")
-local dirNone = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
-dirNone:SetPoint("TOPLEFT", 4, TOP - 4)
-dirNone:SetWidth(W - 40)
-dirNone:SetJustifyH("LEFT")
 
-local cards = {}
-for i = 1, CARDS do
-  cards[i] = makeCard(pDir, W - 32)
-  cards[i]:SetPoint("TOPLEFT", 4, TOP - (i - 1) * GAP)
-  cards[i]:Hide()
+local modeBtns = {}
+for k, key in ipairs({ "mode_all", "mode_avail", "mode_fav" }) do
+  local b = ns.Button(pDir, nil, "pill")
+  b:SetSize(math.floor((MID_W - 8) / 3), 24)
+  b:SetPoint("TOPLEFT", (k - 1) * (math.floor((MID_W - 8) / 3) + 4), -34)
+  b:SetText(T[key])
+  b:SetScript("OnClick", function() mode = k - 1; pageNo = 1; refreshDir() end)
+  modeBtns[k] = b
 end
 
+local filterRows = {}
+for i = 0, #CRAFTS do
+  local b = ns.Button(pDir, nil, "pill")
+  b:SetSize(MID_W, 28)
+  b:SetPoint("TOPLEFT", 0, -66 - i * 30)
+  local fs = b.GetFontString and b:GetFontString()
+  if fs then fs:ClearAllPoints(); fs:SetPoint("LEFT", 12, 0); fs:SetWidth(MID_W - 70); fs:SetJustifyH("LEFT") end
+  b.count = b:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+  b.count:SetPoint("RIGHT", -10, 0)
+  b:SetScript("OnClick", function() filterIdx = i; pageNo = 1; refreshDir() end)
+  filterRows[i] = b
+end
+
+local refreshBtn = ns.Button(pDir, nil, "primary")
+refreshBtn:SetSize(MID_W, 26)
+refreshBtn:SetPoint("BOTTOMLEFT", 0, 4)
+refreshBtn:SetText(T.refresh)
+refreshBtn:SetScript("OnClick", function() ns.CraftRequest(true) end)
+local dirCount = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+dirCount:SetPoint("BOTTOMLEFT", 2, 36)
+dirCount:SetWidth(MID_W - 4)
+dirCount:SetJustifyH("LEFT")
+-- Opening the tab is a click too: ask who is available (at most once a minute).
+if ns.HubTabButton and ns.HubTabButton(dirIndex) then
+  ns.HubTabButton(dirIndex):HookScript("OnClick", function() ns.CraftRequest(false) end)
+end
+
+-- The crafters: compact rows.
+local function makeRow(parent, w)
+  local r = CreateFrame("Button", nil, parent, ns.BACKDROP_TEMPLATE)
+  r:SetSize(w, ROW_H - 4)
+  ns.Flat(r)
+  r.frame = CreateFrame("Frame", nil, r, ns.BACKDROP_TEMPLATE)
+  r.frame:SetSize(44, 44)
+  r.frame:SetPoint("LEFT", 8, 0)
+  ns.Flat(r.frame, ns.C.bg, ns.C.borderBright)
+  r.icon = r.frame:CreateTexture(nil, "ARTWORK")
+  r.icon:SetPoint("TOPLEFT", 1, -1)
+  r.icon:SetPoint("BOTTOMRIGHT", -1, 1)
+  r.light = r.frame:CreateTexture(nil, "OVERLAY")
+  r.light:SetSize(14, 14)
+  r.light:SetPoint("BOTTOMRIGHT", r.frame, "BOTTOMRIGHT", 5, -5)
+  r.name = r:CreateFontString(nil, "OVERLAY", "BrokenMetaFontName")
+  r.name:SetPoint("TOPLEFT", r.frame, "TOPRIGHT", 10, 1)
+  r.name:SetWidth(w - 130)
+  r.name:SetJustifyH("LEFT")
+  r.name:SetWordWrap(false)
+  r.profs = r:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+  r.profs:SetPoint("TOPLEFT", r.name, "BOTTOMLEFT", 0, -3)
+  r.profs:SetWidth(w - 130)
+  r.profs:SetJustifyH("LEFT")
+  r.profs:SetWordWrap(false)
+  r.msg = r:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
+  r.msg:SetPoint("TOPLEFT", r.profs, "BOTTOMLEFT", 0, -2)
+  r.msg:SetWidth(w - 130)
+  r.msg:SetJustifyH("LEFT")
+  r.msg:SetWordWrap(false)
+  r.btn = ns.Button(r, nil, "primary")
+  r.btn:SetSize(58, 22)
+  r.btn:SetPoint("RIGHT", -8, 0)
+  r.btn:SetText(T.whisper)
+  r:SetScript("OnEnter", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.rowHover)) end end)
+  r:SetScript("OnLeave", function(self) if self.SetBackdropColor then self:SetBackdropColor(unpack(C.row)) end end)
+  function r:Set(e, only, selected)
+    local p = e.p
+    self.entry = e
+    setRaceIcon(self.icon, p.race, p.sex, p.class)
+    self.light:SetTexture(p.avail and "Interface\\FriendsFrame\\StatusIcon-Online" or "Interface\\FriendsFrame\\StatusIcon-Offline")
+    local label = "|c" .. classColor(p.class) .. short(e.name) .. "|r  |c" .. HEX.faint .. (p.level or "?") .. "|r"
+    if (p.favs or 0) > 0 then label = label .. "  |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_1:11:11:0:0|t|c" .. HEX.gold .. p.favs .. "|r" end
+    if e.me then label = label .. "  |c" .. HEX.gold .. "(" .. T.you .. ")|r" end
+    self.name:SetText(label)
+    local parts = {}
+    for _, pr in ipairs(p.profs) do
+      if not only or pr.line == only then
+        parts[#parts + 1] = ns.ProfIcon(pr.line, 14) .. "|c" .. HEX.cream .. pr.rank .. "|r|c" .. HEX.faint .. "/" .. pr.max .. "|r"
+      end
+    end
+    self.profs:SetText(table.concat(parts, "   "))
+    if e.offline then
+      self.msg:SetText("|c" .. HEX.faint .. string.format(T.not_announced, e.ago or "?") .. "|r")
+    elseif e.match and #e.match > 0 then
+      self.msg:SetText("|c" .. HEX.teal .. string.format(ns.RecipeTexts.knows, table.concat(e.match, ", ")) .. "|r")
+    else
+      self.msg:SetText(p.msg and p.msg ~= "" and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
+    end
+    ns.FlatBorder(self, selected and C.teal or (e.me and C.gold or C.border))
+    self.btn:SetShown(not e.me)
+    self.btn:SetScript("OnClick", function() whisper(e.name) end)
+    self:SetScript("OnClick", function() selName = e.name; refreshDir() end)
+    self:Show()
+  end
+  return r
+end
+local dirRows = {}
+for i = 1, ROWS do
+  dirRows[i] = makeRow(pDir, LIST_W)
+  dirRows[i]:SetPoint("TOPLEFT", MID_W + 12, -2 - (i - 1) * ROW_H)
+  dirRows[i]:Hide()
+end
 local prevBtn = ns.Button(pDir)
-prevBtn:SetSize(28, 20)
-prevBtn:SetPoint("BOTTOMLEFT", 4, 4)
+prevBtn:SetSize(28, 22)
+prevBtn:SetPoint("BOTTOMLEFT", MID_W + 12, 4)
 prevBtn:SetText("<")
 prevBtn:SetScript("OnClick", function() pageNo = pageNo - 1; refreshDir() end)
 local nextBtn = ns.Button(pDir)
-nextBtn:SetSize(28, 20)
+nextBtn:SetSize(28, 22)
 nextBtn:SetPoint("LEFT", prevBtn, "RIGHT", 70, 0)
 nextBtn:SetText(">")
 nextBtn:SetScript("OnClick", function() pageNo = pageNo + 1; refreshDir() end)
 local pageText = pDir:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 pageText:SetPoint("LEFT", prevBtn, "RIGHT", 6, 0)
+
+-- The card of the selected crafter.
+local card = CreateFrame("Frame", nil, pDir, ns.BACKDROP_TEMPLATE)
+card:SetPoint("TOPLEFT", MID_W + 12 + LIST_W + 12, -2)
+card:SetPoint("BOTTOMRIGHT", 0, 4)
+ns.Flat(card, C.row, C.border)
+card.name = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+if ns.MEDIA then pcall(card.name.SetFont, card.name, ns.MEDIA .. "Fonts/CalSans-Regular.ttf", 24, "") end
+card.name:SetPoint("TOPLEFT", 14, -14)
+card.name:SetWidth(DETAIL_W - 28)
+card.name:SetJustifyH("LEFT")
+card.name:SetWordWrap(false)
+card.sub = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+card.sub:SetPoint("TOPLEFT", card.name, "BOTTOMLEFT", 0, -6)
+card.sub:SetWidth(DETAIL_W - 28)
+card.sub:SetJustifyH("LEFT")
+card.sub:SetWordWrap(false)
+card.status = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+card.status:SetPoint("TOPLEFT", card.sub, "BOTTOMLEFT", 0, -4)
+card.status:SetWidth(DETAIL_W - 28)
+card.status:SetJustifyH("LEFT")
+card.bars = {}
+for k = 1, 3 do
+  local b = {}
+  b.icon = card:CreateTexture(nil, "ARTWORK")
+  b.icon:SetSize(20, 20)
+  b.icon:SetPoint("TOPLEFT", 14, -108 - (k - 1) * 46)
+  b.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+  b.label = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+  b.label:SetPoint("LEFT", b.icon, "RIGHT", 8, 0)
+  b.label:SetWidth(DETAIL_W - 100)
+  b.label:SetJustifyH("LEFT")
+  b.rank = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontMono")
+  b.rank:SetPoint("TOPRIGHT", -14, -112 - (k - 1) * 46)
+  b.bg = card:CreateTexture(nil, "ARTWORK")
+  b.bg:SetColorTexture(unpack(C.border))
+  b.bg:SetHeight(6)
+  b.bg:SetPoint("TOPLEFT", 14, -134 - (k - 1) * 46)
+  b.bg:SetWidth(DETAIL_W - 28)
+  b.fill = card:CreateTexture(nil, "OVERLAY")
+  b.fill:SetHeight(6)
+  b.fill:SetPoint("TOPLEFT", 14, -134 - (k - 1) * 46)
+  card.bars[k] = b
+end
+card.msg = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+card.msg:SetPoint("TOPLEFT", 14, -262)
+card.msg:SetWidth(DETAIL_W - 28)
+card.msg:SetHeight(60)
+card.msg:SetJustifyH("LEFT")
+card.msg:SetJustifyV("TOP")
+card.empty = card:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+card.empty:SetPoint("TOPLEFT", 14, -16)
+card.empty:SetWidth(DETAIL_W - 28)
+card.empty:SetJustifyH("LEFT")
+card.whisper = ns.Button(card, nil, "primary")
+card.whisper:SetSize(DETAIL_W - 28, 32)
+card.whisper:SetPoint("BOTTOMLEFT", 14, 76)
+card.whisper:SetText(T.whisper_full)
+card.fav = ns.Button(card)
+card.fav:SetSize(DETAIL_W - 28, 24)
+card.fav:SetPoint("BOTTOMLEFT", 14, 44)
+card.rec = ns.Button(card)
+card.rec:SetSize(DETAIL_W - 28, 24)
+card.rec:SetPoint("BOTTOMLEFT", 14, 14)
+
+local function showCard(e)
+  local shown = e ~= nil
+  for _, f in ipairs({ card.name, card.sub, card.status, card.msg, card.whisper, card.fav, card.rec }) do f:SetShown(shown) end
+  card.empty:SetShown(not shown)
+  card.empty:SetText("|c" .. HEX.faint .. T.pick_crafter .. "|r")
+  for _, b in ipairs(card.bars) do b.icon:Hide(); b.label:Hide(); b.rank:Hide(); b.bg:Hide(); b.fill:Hide() end
+  if not e then return end
+  local p = e.p
+  card.name:SetText("|c" .. classColor(p.class) .. short(e.name) .. "|r")
+  local className = LOCALIZED_CLASS_NAMES_MALE and LOCALIZED_CLASS_NAMES_MALE[p.class] or p.class or ""
+  card.sub:SetText("|c" .. HEX.dim .. className .. "  ·  " .. string.format(T.lvl_short, p.level or 0) .. "|r")
+  card.status:SetText(p.avail and ("|c" .. HEX.teal .. T.avail_on .. "|r")
+    or ("|c" .. HEX.faint .. (e.offline and string.format(T.not_announced, e.ago or "?") or T.avail_off) .. "|r"))
+  for k, pr in ipairs(p.profs) do
+    local b = card.bars[k]
+    if b then
+      b.icon:SetTexture(ns.ProfIconPath(pr.line))
+      b.label:SetText("|c" .. HEX.gold .. profName(pr.line) .. "|r")
+      b.rank:SetText("|c" .. HEX.cream .. pr.rank .. "|r|c" .. HEX.faint .. "/" .. pr.max .. "|r")
+      b.fill:SetWidth(math.max(1, math.floor((DETAIL_W - 28) * math.min(1, pr.rank / math.max(pr.max, 1)))))
+      b.fill:SetColorTexture(unpack(p.avail and C.teal or C.faint))
+      b.icon:Show(); b.label:Show(); b.rank:Show(); b.bg:Show(); b.fill:Show()
+    end
+  end
+  card.msg:SetText((p.msg and p.msg ~= "") and ("|c" .. HEX.dim .. "« " .. p.msg .. " »|r") or "")
+  card.whisper:SetShown(not e.me)
+  card.whisper:SetScript("OnClick", function() whisper(e.name) end)
+  card.fav:SetShown(not e.me)
+  local isFav = favs()[e.name] ~= nil
+  card.fav:SetText((isFav and T.fav_del or T.fav_add))
+  card.fav:SetScript("OnClick", function() ns.ToggleCraftFav(e.name, p) end)
+  card.rec:SetShown(ns.ShowRecipes ~= nil)
+  card.rec:SetText(ns.RecipeTexts and ns.RecipeTexts.button or "Recettes")
+  card.rec:SetScript("OnClick", function() ns.ShowRecipes(e.name, e.me) end)
+end
+
+local dirEmpty = ns.Callout(pDir, -64, LIST_W + 12 + DETAIL_W, MID_W + 12)
+
+-- Gate: a crafter who has not registered yet sees a frame over the whole directory (filters and
+-- list) until they register. A player without any crafting profession is a buyer, not a crafter:
+-- no gate for them, they can browse and whisper.
+local gate = CreateFrame("Frame", nil, pDir, ns.BACKDROP_TEMPLATE)
+gate:SetAllPoints()
+gate:SetFrameLevel((pDir:GetFrameLevel() or 0) + 50)
+gate:EnableMouse(true) -- swallows the clicks meant for the list below
+ns.Flat(gate, C.bg, C.teal)
+local gateTitle = gate:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+if ns.MEDIA then pcall(gateTitle.SetFont, gateTitle, ns.MEDIA .. "Fonts/CalSans-Regular.ttf", 24, "") end
+gateTitle:SetPoint("TOP", 0, -64)
+gateTitle:SetText("|c" .. HEX.gold .. T.gate_title .. "|r")
+local gateText = gate:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBody")
+gateText:SetPoint("TOP", gateTitle, "BOTTOM", 0, -16)
+gateText:SetWidth(W - 160)
+gateText:SetJustifyH("CENTER")
+gateText:SetText(T.gate_text)
+local gateLast = gateText
+for i, key in ipairs({ "gate_1", "gate_2", "gate_3" }) do
+  local l = gate:CreateFontString(nil, "OVERLAY", "BrokenMetaFontTitle")
+  l:SetPoint("TOP", gateLast, "BOTTOM", 0, i == 1 and -30 or -16)
+  l:SetWidth(W - 160)
+  l:SetJustifyH("CENTER")
+  l:SetText("|c" .. HEX.teal .. "+|r  " .. T[key])
+  gateLast = l
+end
+local gateBtn = ns.Button(gate, nil, "primary")
+gateBtn:SetSize(300, 40)
+gateBtn:SetPoint("TOP", gateLast, "BOTTOM", 0, -36)
+gateBtn:SetText(T.banner_btn)
+gateBtn:SetScript("OnClick", function() ns.RegisterCrafter(true) end)
+local function showGate()
+  gate:SetShown(not db().registered and #myProfessions() > 0)
+end
 
 local function myEntry()
   local mine = parseProfile((profileMessage()))
@@ -766,6 +1094,17 @@ function ns.CraftList()
       end
     end
   end
+  -- Crafters seen earlier who are not announced right now (not favourites, not me): greyed.
+  for name, k in pairs(known()) do
+    if not peers[name] and not favs()[name] and name ~= myFull then
+      local kp = snapshot(k.p)
+      kp.avail = false
+      if keep(kp, name) then
+        local found, ok = matches(name, false)
+        if ok then list[#list + 1] = { name = name, p = kp, r = rank(kp), match = found, fav = false, offline = true, ago = ns.Ago(k.t) } end
+      end
+    end
+  end
   table.sort(list, function(a, b)
     if a.p.avail ~= b.p.avail then return a.p.avail end
     if a.fav ~= b.fav then return a.fav end
@@ -783,32 +1122,79 @@ function ns.CraftList()
 end
 
 refreshDir = function()
-  filterBtn:SetText(filterIdx > 0 and profName(CRAFTS[filterIdx]) or T.all)
-  availBtn:SetText(mode == 1 and T.only_avail or (mode == 2 and T.favorites or T.everyone))
-  local total, avail = 0, 0
-  for _, p in pairs(peers) do
-    if #p.profs > 0 then total = total + 1; if p.avail then avail = avail + 1 end end
+  -- Crafters per profession (everyone known, whatever the filters), and who is online.
+  local counts, seen, total, avail = {}, {}, 0, 0
+  local function count(p)
+    total = total + 1
+    for _, pr in ipairs(p.profs) do counts[pr.line] = (counts[pr.line] or 0) + 1 end
   end
-  dirCount:SetText(string.format(T.count, total, avail))
+  local online = 0
+  for name, p in pairs(peers) do
+    if #p.profs > 0 then seen[name] = true; count(p); online = online + 1; if p.avail then avail = avail + 1 end end
+  end
+  for name, f in pairs(favs()) do if not seen[name] and #f.p.profs > 0 then seen[name] = true; count(f.p) end end
+  for name, k in pairs(known()) do if not seen[name] and name ~= myFull and #k.p.profs > 0 then seen[name] = true; count(k.p) end end
+  local mine = myEntry()
+  if mine and #mine.p.profs > 0 then count(mine.p) end
+  for i = 0, #CRAFTS do
+    local b = filterRows[i]
+    b:SetText(i == 0 and T.all or (ns.ProfIcon(CRAFTS[i], 16) .. profName(CRAFTS[i])))
+    b.count:SetText("|c" .. HEX.faint .. (i == 0 and total or (counts[CRAFTS[i]] or 0)) .. "|r")
+    if i == filterIdx then b:LockHighlight() else b:UnlockHighlight() end
+  end
+  for k, b in ipairs(modeBtns) do if mode == k - 1 then b:LockHighlight() else b:UnlockHighlight() end end
+  dirCount:SetText(string.format(T.count, online, avail))
   searchHint:SetText("|c" .. HEX.faint .. T.search .. "|r")
   local list, only = ns.CraftList()
-  local pages = math.max(1, math.ceil(#list / CARDS))
+  showGate()
+  local pages = math.max(1, math.ceil(#list / ROWS))
   pageNo = math.min(math.max(pageNo, 1), pages)
   pageText:SetText(string.format(T.page, pageNo, pages))
   if pageNo > 1 then prevBtn:Enable() else prevBtn:Disable() end
   if pageNo < pages then nextBtn:Enable() else nextBtn:Disable() end
-  for i = 1, CARDS do
-    local e = list[(pageNo - 1) * CARDS + i]
-    if e then cards[i]:Set(e, only) else cards[i]:Hide() end
+  -- The selected crafter: the one clicked if still listed, else the first.
+  local sel
+  for _, e in ipairs(list) do if e.name == selName then sel = e end end
+  sel = sel or list[1]
+  selName = sel and sel.name or nil
+  for i = 1, ROWS do
+    local e = list[(pageNo - 1) * ROWS + i]
+    if e then dirRows[i]:Set(e, only, e == sel) else dirRows[i]:Hide() end
   end
-  dirNone:SetText(#list == 0 and ("|c" .. HEX.faint .. T.none .. "|r") or "")
+  showCard(sel)
+  if #list == 0 then
+    dirEmpty:Set({ icon = ns.ProfIconPath(CRAFTS[filterIdx > 0 and filterIdx or 4]), title = T.empty_dir, text = T.none,
+      btn = ns.ShowRequests and T.empty_dir_btn or nil, onClick = function() if ns.ShowRequests then ns.ShowRequests() end end })
+  else
+    dirEmpty:Hide()
+  end
+end
+
+---------------------------------------------------------------------------------------------
+-- Onboarding: the three steps that make a complete crafter card.
+---------------------------------------------------------------------------------------------
+function ns.CraftOnboarding()
+  local profs = myProfessions()
+  local recorded = #profs > 0
+  for _, p in ipairs(profs) do
+    local rec = ns.MyRecipes and ns.MyRecipes()[p.line]
+    if not (rec and #rec > 0) then recorded = false end
+  end
+  local steps = {
+    { key = "reg", done = db().registered == true },
+    { key = "rec", done = recorded },
+    { key = "msg", done = (db().msg or "") ~= "" },
+  }
+  local n = 0
+  for _, st in ipairs(steps) do if st.done then n = n + 1 end end
+  return steps, n
 end
 
 ---------------------------------------------------------------------------------------------
 -- Page: my profile
 ---------------------------------------------------------------------------------------------
 local refreshMe
-local pMe, meIndex = ns.HubTab("prof", T.tab_me, function() refreshMe() end)
+local pMe, meIndex = ns.HubTab("craft", T.tab_me, function() refreshMe() end)
 local meIntro = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 meIntro:SetPoint("TOPLEFT", 4, -2)
 meIntro:SetWidth(W - 40)
@@ -817,7 +1203,14 @@ meIntro:SetText(T.intro)
 local toggle = ns.Button(pMe, nil, "primary")
 toggle:SetSize(220, 30)
 toggle:SetPoint("TOPLEFT", 4, -48)
-toggle:SetScript("OnClick", function() ns.SetCraftAvailable(not db().avail) end)
+toggle:SetScript("OnClick", function()
+  if db().registered then ns.SetCraftAvailable(not db().avail) else ns.RegisterCrafter(true) end
+end)
+local unreg = ns.Button(pMe)
+unreg:SetSize(150, 22)
+unreg:SetPoint("BOTTOMRIGHT", -4, 34)
+unreg:SetText(T.reg_off)
+unreg:SetScript("OnClick", function() ns.RegisterCrafter(false) end)
 local toggleHint = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
 toggleHint:SetPoint("LEFT", toggle, "RIGHT", 10, 0)
 toggleHint:SetWidth(W - 430)
@@ -827,7 +1220,7 @@ local renewBtn = ns.Button(pMe)
 renewBtn:SetSize(150, 22)
 renewBtn:SetPoint("TOPRIGHT", -4, -52)
 renewBtn:SetText(T.renew)
-renewBtn:SetScript("OnClick", function() ns.CraftAnnounce(); ns.say(T.renewed); if ns.OnCraftChanged then ns.OnCraftChanged() end end)
+renewBtn:SetScript("OnClick", function() ns.CraftAnnounce(); ns.Toast(T.renewed); if ns.OnCraftChanged then ns.OnCraftChanged() end end)
 local msgLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontHint")
 msgLabel:SetPoint("TOPLEFT", 4, -92)
 msgLabel:SetText(T.msg_label)
@@ -843,7 +1236,7 @@ msgSave:SetText(T.msg_save)
 
 function ns.SetCraftMessage(text)
   db().msg = cleanMessage(text)
-  ns.say(T.msg_saved)
+  ns.Toast(T.msg_saved)
   if db().avail then ns.CraftAnnounce() end -- from the Save click / Enter key
   if ns.OnCraftChanged then ns.OnCraftChanged() end
 end
@@ -857,7 +1250,29 @@ prevLabel:SetText(T.preview)
 local preview = makeCard(pMe, W - 32)
 preview:SetPoint("TOPLEFT", 4, -160)
 
-ns.Hub.rows(pMe, 9, -236, 18)
+-- Progress of the card (3 steps): a line of ticks and a three-segment bar under the card preview.
+local obLabel = pMe:CreateFontString(nil, "OVERLAY", "BrokenMetaFontBodySmall")
+obLabel:SetPoint("TOPLEFT", 4, -226)
+local obSegs = {}
+local segW = math.floor((W - 32 - 8) / 3)
+for i = 1, 3 do
+  obSegs[i] = pMe:CreateTexture(nil, "ARTWORK")
+  obSegs[i]:SetSize(segW, 6)
+  obSegs[i]:SetPoint("TOPLEFT", 4 + (i - 1) * (segW + 4), -244)
+end
+local function showProgress()
+  local steps, n = ns.CraftOnboarding()
+  local chips = {}
+  for i, st in ipairs(steps) do
+    local text = T["ob_" .. st.key]
+    chips[i] = st.done and ("|c" .. HEX.teal .. "|TInterface\\Buttons\\UI-CheckBox-Check:14:14:0:0|t " .. text .. "|r")
+      or ("|c" .. HEX.faint .. "-  " .. text .. "|r")
+    obSegs[i]:SetColorTexture(unpack(st.done and C.teal or C.border))
+  end
+  obLabel:SetText("|c" .. HEX.gold .. string.format(T.ob_title, n) .. "|r      " .. table.concat(chips, "     "))
+end
+
+ns.Hub.rows(pMe, 8, -268, 18)
 
 -- brokenmeta.gg crafters page (opt-in): a check box, then a card to copy and paste on the site.
 local SITE_KEY_LEN = 32
@@ -916,20 +1331,27 @@ end)
 for _, row in ipairs(pMe.rows) do row[1]:SetWidth(W - 40); row[1]:SetWordWrap(true) end
 
 refreshMe = function()
-  local on = db().avail
-  toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5a6b" .. T.avail_off .. "|r"))
-  local age = db().announced and math.floor((time() - db().announced) / 60)
-  toggleHint:SetText(on and (age and string.format(T.announced, age) or T.avail_hint_on) or T.avail_hint_off)
+  local on, reg = db().avail, db().registered
+  if not reg then
+    toggle:SetText(T.reg_btn)
+    toggleHint:SetText("|c" .. HEX.faint .. T.reg_hint .. "|r")
+  else
+    toggle:SetText(on and ("|c" .. HEX.teal .. T.avail_on .. "|r") or ("|cffff5a6b" .. T.avail_off .. "|r"))
+    local age = db().announced and math.floor((time() - db().announced) / 60)
+    toggleHint:SetText(on and (age and string.format(T.announced, age) or T.reg_hint_on) or T.reg_hint_off)
+  end
+  unreg:SetShown(reg == true)
   renewBtn:SetShown(on)
   if not msgBox:HasFocus() then msgBox:SetText(db().msg or "") end
   local mine = myEntry()
   if mine then preview:Set(mine) end
+  showProgress()
   local i = 1
   ns.Hub.setRow(pMe, i, "|c" .. HEX.gold .. T.my_profs .. "|r"); i = i + 1
   local profs = myProfessions()
   for _, p in ipairs(profs) do
     local rec = ns.MyRecipes and ns.MyRecipes()[p.line]
-    ns.Hub.setRow(pMe, i, profName(p.line) .. "  |c" .. HEX.faint .. (rec and string.format(T.rec_count, #rec) or T.rec_none) .. "|r",
+    ns.Hub.setRow(pMe, i, ns.ProfIcon(p.line, 14) .. profName(p.line) .. "  |c" .. HEX.faint .. (rec and string.format(T.rec_count, #rec) or T.rec_none) .. "|r",
       "|cffffffff" .. p.rank .. "|r/" .. p.max); i = i + 1
   end
   if #profs == 0 then ns.Hub.setRow(pMe, i, "|c" .. HEX.faint .. T.no_prof .. "|r"); i = i + 1 end

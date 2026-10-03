@@ -5,28 +5,27 @@ local ADDON, ns = ...
 local T = ns.Localize("tour", {
   next = "Suivant", prev = "Précédent", done = "C'est parti !", skip = "Passer",
   steps = {
-    { "Bienvenue dans Broken Meta : Hub", "Quatre outils dans une seule fenêtre : DPS pour ton équipement, Profession pour l'artisanat, Économie pour la valeur de tes objets et les bonnes affaires, Donjons pour le butin de chaque boss. Tu peux ouvrir cette fenêtre avec le bouton à la spirale autour de la minicarte ou avec /bmw." },
-    { "Broken Meta : DPS", "Survole n'importe quel objet : son infobulle affiche sa valeur en DPS pour ta spé, comparée à ce que tu portes. L'onglet Améliorations liste les meilleurs objets de tes sacs et des donjons de ton niveau." },
-    { "Broken Meta : Profession", "Trouve un artisan disponible sur tout ton royaume, consulte ses recettes et écris-lui. Tu cherches un objet ? Publie une demande. Tu es artisan ? Mets-toi disponible dans Mon profil." },
-    { "Monter tes métiers", "L'onglet Montée donne le parcours le moins cher depuis ton niveau, aux prix de l'hôtel des ventes (scanne-le une fois). L'Atelier montre tes crafts rentables et les recettes à apprendre." },
-    { "Réglages", "Tout se règle dans Options > AddOns > Broken Meta : Hub, ou avec /bmw options. Bon jeu !" },
+    { "Bienvenue dans Broken Meta : HUB", "Le HUB réunit les addons Broken Meta pour WoW: Forever. L'accueil liste ceux que tu as ; ceux qui manquent sont grisés et disponibles sur CurseForge. Ouvre cette fenêtre avec le bouton à la spirale autour de la minicarte ou avec /bmw." },
+    { "BrokenDPS", "Survole n'importe quel objet : son infobulle affiche sa valeur en DPS pour ta spé. Onglets Personnage, Améliorations (par donjon), BiS et Guide de ta classe sur brokenmeta.gg." },
+    { "BrokenCrafter", "Trouve un artisan disponible sur ton royaume et écris-lui, monte tes métiers au meilleur prix, et suis la valeur de tes objets à l'hôtel des ventes (section Économie)." },
+    { "BrokenCodex", "Le codex des donjons et des raids : butin de chaque boss, techniques des boss, conditions d'accès et historique de ton butin." },
+    { "Réglages", "Tout se règle dans Options > AddOns > Broken Meta : HUB, ou avec /bmw options. Bon jeu !" },
   },
 }, {
   next = "Next", prev = "Back", done = "Let's go!", skip = "Skip",
   steps = {
-    { "Welcome to Broken Meta : Hub", "Four tools in one window: DPS for your gear, Professions for crafting, Economy for what your items are worth and good deals, Dungeons for each boss's loot. Open this window with the spiral button around the minimap or with /bmw." },
-    { "Broken Meta : DPS", "Hover any item: its tooltip shows its DPS value for your spec, compared with what you wear. The Upgrades tab lists the best items in your bags and in the dungeons of your level." },
-    { "Broken Meta : Professions", "Find an available crafter anywhere on your realm, browse their recipes and whisper them. Looking for an item? Post a request. You craft? Set yourself available in My profile." },
-    { "Level your professions", "The Leveling tab gives the cheapest route from your skill, at auction house prices (scan it once). The Workshop shows your profitable crafts and the recipes to learn." },
-    { "Settings", "Everything is in Options > AddOns > Broken Meta : Hub, or with /bmw options. Have fun!" },
+    { "Welcome to Broken Meta : HUB", "The HUB gathers the Broken Meta addons for WoW: Forever. Home lists the ones you have; missing ones are greyed out and available on CurseForge. Open this window with the spiral button around the minimap or with /bmw." },
+    { "BrokenDPS", "Hover any item: its tooltip shows its DPS value for your spec. Tabs: Character, Upgrades (per dungeon), BiS and your class Guide on brokenmeta.gg." },
+    { "BrokenCrafter", "Find an available crafter on your realm and whisper them, level your professions at the best price, and track what your items are worth at the auction house (Economy section)." },
+    { "BrokenCodex", "The dungeon and raid codex: each boss's loot, boss abilities, attunements and your loot history." },
+    { "Settings", "Everything is in Options > AddOns > Broken Meta : HUB, or with /bmw options. Have fun!" },
   },
 })
 
 -- Which hub page each step opens (nil: leave it as is).
 local function openFor(step)
-  if step == 2 and ns.HubShow then ns.HubShow(1)
-  elseif step == 3 and ns.ShowCrafters then ns.ShowCrafters()
-  end
+  local key = ({ [1] = "home", [2] = "dps", [3] = "prof", [4] = "codex" })[step]
+  if key and ns.HubOpenSection then ns.HubOpenSection(key) end
 end
 
 local card, step
@@ -79,7 +78,7 @@ function ns.TourStep(n)
   card.prevBtn:SetShown(step > 1)
   local hub = _G.BrokenMetaHub
   card:ClearAllPoints()
-  if hub and hub:IsShown() then card:SetPoint("TOPLEFT", hub, "TOPRIGHT", 10, 0) else card:SetPoint("CENTER") end
+  if hub and hub:IsShown() then card:SetPoint("BOTTOMRIGHT", hub, "BOTTOMRIGHT", -16, 16) else card:SetPoint("CENTER") end -- inside the wide window
   card:Show()
   openFor(step)
 end

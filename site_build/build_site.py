@@ -5034,6 +5034,13 @@ ADDON_DIR = PROJECT / "wow_addon" / "BrokenMetaWeights"
 
 
 ADDON_CURSEFORGE_URL = "https://www.curseforge.com/wow/addons/broken-meta-hub"
+# The 3 addons of the suite (2026-09-30 split): same slugs as ns.SUITE in Hub.lua. Placeholders
+# until the CurseForge projects exist -- update both places once the real URLs are known.
+ADDON_CURSEFORGE_URLS = {
+    "dps": "https://www.curseforge.com/wow/addons/brokendps",
+    "crafter": "https://www.curseforge.com/wow/addons/brokencrafter",
+    "codex": "https://www.curseforge.com/wow/addons/brokencodex",
+}
 
 # The BrokenMeta addon family (2026-10-02): /wow-forever/addon/ shows one tile per addon (download on
 # CurseForge + "more info" -> /wow-forever/addon/<id>/). Art: logo/wow_addon_icons/<id>.png.
@@ -6784,6 +6791,7 @@ def main() -> None:
     # The addon is distributed on CurseForge only (2026-09-27, user decision: players get updates
     # through the CurseForge app); the site no longer serves a zip.
     env.globals["addon_url"] = ADDON_CURSEFORGE_URL
+    env.globals["addon_urls"] = ADDON_CURSEFORGE_URLS
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)

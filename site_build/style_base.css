@@ -2410,6 +2410,22 @@
   .ad-tile-actions .wh-btn { padding: 10px 14px; }
   .wh-btn-ghost { background: transparent; color: var(--cream); border-color: var(--border-bright); }
   .ad-h3 { font: 600 17px 'Afacad Flux', sans-serif; color: var(--cream); margin: 22px 0 6px; }
+  .ad-suite { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 18px 0 30px; }
+  .ad-suite-card { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid var(--border); background: var(--bg-2); }
+  .ad-suite-card.is-hub { border-left: 3px solid var(--cyan); grid-column: 1 / -1; }
+  .ad-suite-icon { flex: none; width: 48px; height: 48px; border-radius: 10px; background: var(--row); }
+  .ad-suite-body { flex: 1; min-width: 0; }
+  .ad-suite-name { margin: 0 0 4px; font: 600 16px 'Cal Sans', sans-serif; color: var(--cream); }
+  .ad-suite-tag { margin: 0 0 10px; font-size: 13px; line-height: 1.5; color: var(--text-dim); }
+  .ad-suite-card .wh-btn { font-size: 13px; padding: 7px 14px; }
+  .ad-note { display: flex; align-items: center; gap: 10px; margin: 4px 0 16px; padding: 10px 14px; border: 1px solid var(--border); border-left: 3px solid var(--cyan); background: var(--bg-2); font-size: 13.5px; color: var(--text-dim); }
+  .ad-note img { flex: none; width: 26px; height: 26px; border-radius: 6px; }
+  .ad-note .wh-btn { margin-left: auto; flex: none; font-size: 12.5px; padding: 6px 12px; }
+  @media (max-width: 640px) {
+    .ad-suite { grid-template-columns: 1fr; }
+    .ad-note { flex-wrap: wrap; }
+    .ad-note .wh-btn { margin-left: 0; }
+  }
   .ad-faq details { border: 1px solid var(--border); background: var(--row); margin-bottom: 8px; padding: 10px 14px; }
   .ad-faq summary { cursor: pointer; color: var(--cream); font-weight: 600; }
   .ad-faq p { margin: 8px 0 2px; color: var(--text-dim); line-height: 1.6; }
