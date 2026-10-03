@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever: release, beta, editions | BrokenMeta.gg">
 <meta name="twitter:description" content="World of Warcraft: Forever launches November 4, 2026. Beta, editions, classes, dungeons and schedule, with official sources cited.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=953524faab">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=953524faab">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=d7badda74f">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=d7badda74f">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=953524faab">
+<link rel="stylesheet" href="../../assets/css/style.css?v=d7badda74f">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -343,197 +343,212 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </aside>
 
-<h2 class="lh-h2">Level 30 DPS ranking<span class="wow-rank-wip-tag">Work in progress</span></h2>
-<p class="page-intro" style="margin-top:0">This ranking compares the relative order of every single-target rotation modeled at level 30 (the beta&#39;s current cap: level-30 gear and spell ranks), simulated swing by swing from the spell glossary&#39;s real damage formulas. Abilities learned between levels 21 and 30 are not all in the rotations yet. Our own engine isn&#39;t precise enough yet to show reliable numbers: the bars are deliberately grayed out and unlabeled. We&#39;ll swap in real data (Warcraft Logs) once it exists for WoW: Forever.</p>
-<div class="wow-rank-list is-wip">
+<h2 class="lh-h2">Level 60 DPS ranking<span class="wow-rank-wip-tag">Simulation</span></h2>
+<p class="page-intro" style="margin-top:0">Every specialization is run through our level-60 simulator: a stationary boss, 180 seconds, the raid buffs and consumables of its family, and the best gear the optimizer finds among the items known from the beta, with their effects (trinkets, procs, set bonuses). The color is the class color. These are simulation results, not real logs: the engine uses Classic mechanics wherever WoW: Forever has not shipped its values yet (they are flagged as assumptions in the simulator), and the ranking will move with the game.</p>
+<div class="wow-rank-list">
   
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/priest/shadow/">
+  <a class="wow-rank-row" href="../../wow-forever/guides/priest/shadow/" style="--rc: #ffffff">
     <img class="wow-rank-icon" src="../../assets/img/spec/priest-shadow.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Priest — Shadow</b></span>
+      <span class="wow-rank-label"><b>Priest — Shadow</b><span class="wow-rank-val nums">605 DPS</span></span>
       <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 100.0%"></span></span>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/destruction/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/warlock-destruction.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warlock — Destruction</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 85.6%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/beast-mastery/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-beast-mastery.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Hunter — Beast Mastery</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/survival/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Hunter — Survival</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.0%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/marksmanship/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-marksmanship.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Hunter — Marksmanship</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.0%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/mage/fire/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/mage-fire.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Mage — Fire</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 83.7%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/mage/frost/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/mage-frost.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Mage — Frost</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 80.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/druid/balance/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/druid-balance.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Druid — Balance</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 75.4%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/druid/feral-combat/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/druid-feral-combat.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Druid — Feral Combat</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.4%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/combat/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-combat.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Rogue — Combat</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/assassination/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-assassination.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Rogue — Assassination</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/subtlety/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-subtlety.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Rogue — Subtlety</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 67.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/shaman/elemental/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/shaman-elemental.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Shaman — Elemental</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 66.5%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/mage/arcane/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/mage-arcane.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Mage — Arcane</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 59.5%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/fury/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-fury.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warrior — Fury</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 56.7%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/shaman/enhancement/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/shaman-enhancement.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Shaman — Enhancement</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 55.7%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/arms/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-arms.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warrior — Arms</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 52.1%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/paladin/retribution/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/paladin-retribution.png" alt="" width="28" height="28" loading="lazy">
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Paladin — Retribution</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 51.0%"></span></span>
-    </span>
-  </a>
-  
-  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/affliction/">
+  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/affliction/" style="--rc: #8788ee">
     <img class="wow-rank-icon" src="../../assets/img/spec/warlock-affliction.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warlock — Affliction</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 33.9%"></span></span>
+      <span class="wow-rank-label"><b>Warlock — Affliction</b><span class="wow-rank-val nums">575 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 95.0%"></span></span>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/demonology/">
+  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/destruction/" style="--rc: #8788ee">
+    <img class="wow-rank-icon" src="../../assets/img/spec/warlock-destruction.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Warlock — Destruction</b><span class="wow-rank-val nums">569 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 94.1%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/beast-mastery/" style="--rc: #aad372">
+    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-beast-mastery.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Hunter — Beast Mastery</b><span class="wow-rank-val nums">565 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 93.4%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/mage/frost/" style="--rc: #3fc7eb">
+    <img class="wow-rank-icon" src="../../assets/img/spec/mage-frost.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Mage — Frost</b><span class="wow-rank-val nums">562 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 92.9%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/marksmanship/" style="--rc: #aad372">
+    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-marksmanship.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Hunter — Marksmanship</b><span class="wow-rank-val nums">510 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 84.2%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/fury/" style="--rc: #c69b6d">
+    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-fury.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Warrior — Fury</b><span class="wow-rank-val nums">496 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 82.0%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/mage/fire/" style="--rc: #3fc7eb">
+    <img class="wow-rank-icon" src="../../assets/img/spec/mage-fire.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Mage — Fire</b><span class="wow-rank-val nums">476 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 78.7%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/survival/" style="--rc: #aad372">
+    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Hunter — Survival (ranged)</b><span class="wow-rank-val nums">474 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 78.3%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/arms/" style="--rc: #c69b6d">
+    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-arms.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Warrior — Arms</b><span class="wow-rank-val nums">472 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 78.1%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/mage/arcane/" style="--rc: #3fc7eb">
+    <img class="wow-rank-icon" src="../../assets/img/spec/mage-arcane.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Mage — Arcane</b><span class="wow-rank-val nums">452 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 74.7%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/warlock/demonology/" style="--rc: #8788ee">
     <img class="wow-rank-icon" src="../../assets/img/spec/warlock-demonology.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warlock — Demonology</b></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 33.1%"></span></span>
+      <span class="wow-rank-label"><b>Warlock — Demonology</b><span class="wow-rank-val nums">443 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 73.2%"></span></span>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/druid/feral-combat/">
+  <a class="wow-rank-row" href="../../wow-forever/guides/druid/balance/" style="--rc: #ff7c0a">
+    <img class="wow-rank-icon" src="../../assets/img/spec/druid-balance.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Druid — Balance</b><span class="wow-rank-val nums">440 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 72.8%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/combat/" style="--rc: #fff468">
+    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-combat.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Rogue — Combat</b><span class="wow-rank-val nums">437 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 72.2%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/hunter/survival/" style="--rc: #aad372">
+    <img class="wow-rank-icon" src="../../assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Hunter — Survival (melee)</b><span class="wow-rank-val nums">423 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 70.0%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/assassination/" style="--rc: #fff468">
+    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-assassination.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Rogue — Assassination</b><span class="wow-rank-val nums">417 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 68.9%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/druid/feral-combat/" style="--rc: #ff7c0a">
     <img class="wow-rank-icon" src="../../assets/img/spec/druid-feral-combat.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Druid — Feral Combat</b><span class="wow-rank-tag" data-role="tank">Tank</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 26.4%"></span></span>
+      <span class="wow-rank-label"><b>Druid — Feral Combat</b><span class="wow-rank-val nums">403 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 66.6%"></span></span>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/paladin/protection/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/paladin-protection.png" alt="" width="28" height="28" loading="lazy">
+  <a class="wow-rank-row" href="../../wow-forever/guides/paladin/retribution/" style="--rc: #f48cba">
+    <img class="wow-rank-icon" src="../../assets/img/spec/paladin-retribution.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Paladin — Protection</b><span class="wow-rank-tag" data-role="tank">Tank</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 24.4%"></span></span>
+      <span class="wow-rank-label"><b>Paladin — Retribution</b><span class="wow-rank-val nums">366 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 60.6%"></span></span>
     </span>
   </a>
   
-  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/protection/">
-    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-protection.png" alt="" width="28" height="28" loading="lazy">
+  <a class="wow-rank-row" href="../../wow-forever/guides/rogue/subtlety/" style="--rc: #fff468">
+    <img class="wow-rank-icon" src="../../assets/img/spec/rogue-subtlety.png" alt="" width="28" height="28" loading="lazy">
     <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>Warrior — Protection</b><span class="wow-rank-tag" data-role="tank">Tank</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 19.2%"></span></span>
+      <span class="wow-rank-label"><b>Rogue — Subtlety</b><span class="wow-rank-val nums">364 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 60.2%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/shaman/enhancement/" style="--rc: #0070dd">
+    <img class="wow-rank-icon" src="../../assets/img/spec/shaman-enhancement.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Shaman — Enhancement</b><span class="wow-rank-val nums">295 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 48.7%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/shaman/elemental/" style="--rc: #0070dd">
+    <img class="wow-rank-icon" src="../../assets/img/spec/shaman-elemental.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Shaman — Elemental</b><span class="wow-rank-val nums">288 DPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 47.6%"></span></span>
     </span>
   </a>
   
 </div>
-<p class="wow-note">The gear used for each spec is detailed on its own guide page. Enchants aren&#39;t factored in yet, and Shaman&#39;s base character stats remain an unverified approximation (no race that could play Shaman existed in Classic to derive exact values from). Tank roles are included for comparison but aren&#39;t built for damage.</p>
+
+<h3 class="lh-h2" style="font-size:18px">Tanks: threat per second (TPS)</h3>
+<div class="wow-rank-list">
+  
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/warrior/protection/" style="--rc: #c69b6d">
+    <img class="wow-rank-icon" src="../../assets/img/spec/warrior-protection.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Warrior — Protection</b><span class="wow-rank-tag" data-role="tank">Tank</span><span class="wow-rank-val nums">555 TPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 100.0%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/paladin/protection/" style="--rc: #f48cba">
+    <img class="wow-rank-icon" src="../../assets/img/spec/paladin-protection.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Paladin — Protection</b><span class="wow-rank-tag" data-role="tank">Tank</span><span class="wow-rank-val nums">359 TPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 64.8%"></span></span>
+    </span>
+  </a>
+  
+  <a class="wow-rank-row" href="../../wow-forever/guides/druid/feral-combat/" style="--rc: #ff7c0a">
+    <img class="wow-rank-icon" src="../../assets/img/spec/druid-feral-combat.png" alt="" width="28" height="28" loading="lazy">
+    <span class="wow-rank-body">
+      <span class="wow-rank-label"><b>Druid — Feral Combat (bear)</b><span class="wow-rank-tag" data-role="tank">Tank</span><span class="wow-rank-val nums">245 TPS</span></span>
+      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: 44.2%"></span></span>
+    </span>
+  </a>
+  
+</div>
+
+<p class="wow-note">Each specialization&#39;s details, talents and gear can be set in the DPS simulator. Enchants and raids are not factored in yet: few raid items are known before launch. Level-60 base stats are estimates, flagged in the simulator.</p>
 
 <h2 class="lh-h2">Pick a specialization</h2>
 <div class="wh-cards">
@@ -787,10 +802,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=953524faab" defer></script>
-<script src="../../assets/js/champ-icons.js?v=953524faab" defer></script>
-<script src="../../assets/js/site-search.js?v=953524faab" defer></script>
-<script src="../../assets/js/favorites.js?v=953524faab" defer></script>
+<script src="../../assets/js/copy-comp.js?v=d7badda74f" defer></script>
+<script src="../../assets/js/champ-icons.js?v=d7badda74f" defer></script>
+<script src="../../assets/js/site-search.js?v=d7badda74f" defer></script>
+<script src="../../assets/js/favorites.js?v=d7badda74f" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
