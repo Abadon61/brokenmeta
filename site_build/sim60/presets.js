@@ -53,6 +53,12 @@ export const PRESET_CASTER = {
   debuffs: ['curse_of_elements'],
 };
 
+export const PRESET_HUNTER = {
+  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'grace_of_air', 'trueshot_aura', 'dragonslayer', 'songflower'],
+  consumables: ['elixir_mongoose', 'ground_scorpok', 'brilliant_mana_oil'],
+  debuffs: ['sunder_armor_5', 'faerie_fire'],
+};
+
 export const PRESET_RAID = {
   buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'leader_of_the_pack'],
   consumables: ['elixir_mongoose', 'juju_power', 'juju_might', 'roids'],

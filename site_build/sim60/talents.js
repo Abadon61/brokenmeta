@@ -22,6 +22,12 @@ export const NAME_TO_KEY = {
     'Hemorrhage': 'hemorrhage', 'Opportunity': 'opportunity', 'Quietus': 'quietus', 'Serrated Blades': 'serratedBlades', 'Puncturing Wounds': 'puncturingWounds',
     'Improved Poisons': 'improvedPoisons', 'Vile Poisons': 'vilePoisons',
   },
+  hunter: {
+    'Lethal Attacks': 'lethalAttacks', 'Efficiency': 'efficiency', 'Careful Aim': 'carefulAim', 'Rapid Killing': 'rapidKilling', 'Improved Arcane Shot': 'improvedArcane', 'Lone Wolf': 'loneWolf',
+    'Mortal Shots': 'mortalShots', 'Barrage': 'barrage', 'Ranged Weapon Specialization': 'rangedSpec', 'Improved Stings': 'improvedStings', 'Sniper Shot': 'sniperShot',
+    'Surefooted': 'surefooted', 'Lightning Reflexes': 'lightningReflexes', 'Unleashed Fury': 'unleashedFury', 'Ferocity': 'ferocity', 'Frenzy': 'frenzy', 'Bestial Wrath': 'bestialWrath',
+    'Focused Fire': 'focusedFire', 'Deadly Aspects': 'deadlyAspects', 'Summon Hawk': 'summonHawk', 'Bestial Discipline': 'bestialDiscipline',
+  },
   warlock: {
     'Suppression': 'suppression', 'Improved Corruption': 'improvedCorruption', 'Malediction': 'malediction', 'Improved Life Tap': 'improvedLifeTap', 'Pandemic': 'pandemic',
     'Malevolence': 'malevolence', 'Nightfall': 'nightfall', 'Shadow Mastery': 'shadowMastery', 'Improved Bane of Agony': 'improvedBaneOfAgony', 'Siphon Life': 'siphonLife', 'Wrack': 'wrack',
@@ -141,6 +147,18 @@ export const PRESETS = {
   warlock_demonology: {
     'Demonic Embrace': 5, 'Improved Imp': 3, 'Improved Health Funnel': 2, 'Fel Vitality': 3, 'Demonic Aegis': 2, 'Demonic Sacrifice': 1, 'Master Summoner': 2,
     'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Aftermath': 5, 'Ruin': 5, 'Shadowburn': 1, 'Agonizing Flames': 3, 'Conflagrate': 1, 'Fire and Brimstone': 3, 'Shadow and Flame': 2,
+  },
+  hunter_marksmanship: {
+    'Lethal Attacks': 5, 'Improved Stings': 3, 'Efficiency': 5, 'Careful Aim': 5, 'Rapid Killing': 2, 'Improved Arcane Shot': 5, 'Lone Wolf': 1, 'Trueshot Aura': 1, 'Mortal Shots': 5,
+    'Barrage': 3, 'Ranged Weapon Specialization': 5, 'Sniper Shot': 1, 'Deadly Aspects': 5, 'Endurance Training': 5,
+  },
+  hunter_beastmastery: {
+    'Deadly Aspects': 5, 'Endurance Training': 5, 'Focused Fire': 2, 'Bestial Swiftness': 1, 'Unleashed Fury': 5, 'Ferocity': 5, 'Summon Hawk': 1, 'Intimidation': 1,
+    'Bestial Discipline': 2, 'Frenzy': 5, 'Bestial Wrath': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3,
+  },
+  hunter_survival: {
+    'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, 'Clever Traps': 2, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2,
+    'Lightning Reflexes': 5, 'Lacerating Strikes': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3, 'Hawk Eye': 1,
   },
   warrior_fury: {
     'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,

@@ -31,19 +31,20 @@ export class ItemPool {
     return this.items.filter((i) => ids.includes(i.slot) && this.canEquip(i, cls, level));
   }
   weapons(cls, level = 60) {
-    const w = { oneHand: [], mainHand: [], offHand: [], twoHand: [] };
+    const w = { oneHand: [], mainHand: [], offHand: [], twoHand: [], ranged: [] };
     for (const i of this.items) {
       if (!this.canEquip(i, cls, level)) continue;
       if (i.slot === 13) { w.oneHand.push(i); }
       else if (i.slot === 21) w.mainHand.push(i);
       else if (i.slot === 22) w.offHand.push(i);
       else if (i.slot === 17) w.twoHand.push(i);
+      else if ((i.slot === 15 || i.slot === 26) && /^(Bows|Guns|Crossbows)$/.test(i.type)) w.ranged.push(i);
     }
     return w;
   }
 }
 
-const TYPE_TO_ENGINE = { Swords: 'sword', Maces: 'mace', Axes: 'axe', Daggers: 'dagger', 'Fist Weapons': 'fist', 'Two-Handed Swords': 'two-handed sword', 'Two-Handed Maces': 'two-handed mace', 'Two-Handed Axes': 'two-handed axe', Polearms: 'polearm', Staves: 'staff' };
+const TYPE_TO_ENGINE = { Swords: 'sword', Maces: 'mace', Axes: 'axe', Daggers: 'dagger', 'Fist Weapons': 'fist', 'Two-Handed Swords': 'two-handed sword', 'Two-Handed Maces': 'two-handed mace', 'Two-Handed Axes': 'two-handed axe', Polearms: 'polearm', Staves: 'staff', Bows: 'bow', Guns: 'gun', Crossbows: 'crossbow' };
 
 // Item -> engine weapon: avg damage per hit = dps * speed, +-25% spread.
 export function toWeapon(item, offHand = false) {

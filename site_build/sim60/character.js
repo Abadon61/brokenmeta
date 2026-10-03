@@ -42,6 +42,8 @@ const CLASS_RULES = {
   warrior: { apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
   rogue: { apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 29, baseCrit: 0, resource: 'energy' },
   // Casters (Classic): spell crit from Intellect, mana from Intellect. baseMana/intPerCrit are ASSUMED Classic values.
+  // Hunter: ranged attack power = 2*level - 10 + Agility, crit from Agility (1 per 53), mana from Intellect (ASSUMED Classic values)
+  hunter: { ranged: true, apPerStr: 0, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 10, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
   warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0, baseMana: 1200, manaPerInt: 15, resource: 'mana' },   // ASSUMED Classic values
   mage: { caster: true, intPerCrit: 59.5, baseCrit: 0.002, baseMana: 1213, manaPerInt: 15, resource: 'mana' },
 };
@@ -122,14 +124,15 @@ export function buildCharacter(spec) {
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.armor) armor += d.armor; }
   armor = Math.max(0, armor);
 
+  const extra = rules.ranged ? { int: prim.int, spi: prim.spi, mana: rules.baseMana + rules.manaPerInt * (prim.int - 20), mp5: gear.mp5 + buffMp5 } : {};
   return {
     player: {
-      level: PLAYER_LEVEL, resource: rules.resource, dualWield: weapons.length > 1,
-      stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi },
-      weapons,
+      level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged ? false : weapons.length > 1,
+      stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
+      weapons: rules.ranged ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
     },
     target: { armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2 },
-    summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor },
+    summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int },
   };
 }
 

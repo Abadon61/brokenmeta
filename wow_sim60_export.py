@@ -65,7 +65,7 @@ import wow_talents  # noqa: E402
 
 _classes, _ = wow_talents.load()
 talents = {}
-KIT_CLASSES = {"warrior", "rogue", "mage", "warlock"}   # classes that have a simulator kit (keeps the page download small)
+KIT_CLASSES = {"warrior", "rogue", "mage", "warlock", "hunter"}   # classes that have a simulator kit (keeps the page download small)
 for c in _classes:
     if c["id"] not in KIT_CLASSES:
         continue

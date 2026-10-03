@@ -13,54 +13,63 @@ function casterScore(item, w) {
   const s = item.st || {};
   return (s.splpwr || 0) + (s.spldmg || 0) + (s.int || 0) * (w.crit / 59.5 + 0.2) + (s.critstrkrtng || 0) / 14 * w.crit + (s.hitrtng || 0) / 10 * w.hit + (s.hastertng || 0) / 10 * w.haste + (s.manargn || 0) * 0.8 + (s.spi || 0) * 0.1;
 }
+// Hunters: ranged attack power (Agility counts twice: attack power and crit), Intellect through Careful Aim, ranged weapon dps.
+function hunterScore(item, w) {
+  const s = item.st || {};
+  return (s.agi || 0) * (1 + w.crit / 53) + (s.atkpwr || 0) + (s.int || 0) * 0.2 + (s.critstrkrtng || 0) / 14 * w.crit + (s.hitrtng || 0) / 10 * w.hit + (s.hastertng || 0) / 10 * w.haste + (s.dps || 0) * (w.dpsPerWeaponDps || 8) + (s.manargn || 0) * 0.5;
+}
 function score(item, w) {
   if (w.caster) return casterScore(item, w);
+  if (w.hunter) return hunterScore(item, w);
   const s = item.st || {};
   return (s.str || 0) * 2 + (s.agi || 0) * w.agi + (s.atkpwr || 0)
     + (s.critstrkrtng || 0) / 14 * w.crit + (s.hitrtng || 0) / 10 * w.hit + (s.hastertng || 0) / 10 * w.haste
     + (s.dps || 0) * (w.dpsPerWeaponDps || 8);
 }
 
-const WEAPON_SLOTS = { dw: ['mh', 'oh'], '2h': ['th'], caster: ['th'] };
+const WEAPON_SLOTS = { dw: ['mh', 'oh'], '2h': ['th'], caster: ['th'], ranged: ['rng', 'th'] };
 
-function weaponCandidates(pool, cls, slot) {
+function weaponCandidates(pool, cls, slot, mode) {
   const w = pool.weapons(cls, 60);
+  if (slot === 'rng') return w.ranged;
+  if (mode === 'ranged' && slot === 'th') return w.twoHand.concat(w.oneHand, w.mainHand);   // melee weapon only lends its stats to a hunter
   if (slot === 'mh') return w.oneHand.concat(w.mainHand);
   if (slot === 'oh') return w.oneHand.concat(w.offHand);
   return w.twoHand;
 }
 
 // Generic async core. `evaluate(spec)` -> Promise<number> (mean DPS), `getWeights(spec)` -> Promise<{agi,crit,hit,haste}>.
-export async function optimizeGearAsync({ pool, character, evaluate, getWeights, prefilter = 4, weaponPrefilter = 6, maxPasses = 3, onProgress, weaponMode, caster }) {
+export async function optimizeGearAsync({ pool, character, evaluate, getWeights, prefilter = 4, weaponPrefilter = 6, maxPasses = 3, onProgress, weaponMode, caster, ranged }) {
   const cls = character.class, base = Object.assign({}, character, { gear: [], weapons: [] });
-  const mode = caster ? 'caster' : weaponMode || ((character.weapons || []).length > 1 ? 'dw' : ((character.weapons || [])[0] && character.weapons[0].twoHand ? '2h' : 'dw'));
+  const mode = caster ? 'caster' : ranged ? 'ranged' : weaponMode || ((character.weapons || []).length > 1 ? 'dw' : ((character.weapons || [])[0] && character.weapons[0].twoHand ? '2h' : 'dw'));
   const wslots = WEAPON_SLOTS[mode];
   const bySlot = {};
   for (const s of EQUIP_SLOTS) bySlot[s] = (character.gear || []).find((g) => g.slot === s) || null;
   // current weapons by role
   const wsel = {};
   const cw = character.weapons || [];
-  if (mode === '2h' || mode === 'caster') wsel.th = cw[0] ? pool.byId.get(cw[0].itemId) || null : null;
+  if (mode === 'ranged') { wsel.rng = cw[0] ? pool.byId.get(cw[0].itemId) || null : null; wsel.th = null; }
+  else if (mode === '2h' || mode === 'caster') wsel.th = cw[0] ? pool.byId.get(cw[0].itemId) || null : null;
   else { wsel.mh = cw[0] ? pool.byId.get(cw[0].itemId) || null : null; wsel.oh = cw[1] ? pool.byId.get(cw[1].itemId) || null : null; }
 
   const specOf = () => {
     // casters have no swung weapon: the staff only contributes its stats, so it rides along with the gear
-    const weapons = mode === 'caster' ? [] : mode === '2h'
+    const weapons = mode === 'caster' ? [] : mode === 'ranged' ? (wsel.rng ? [toWeapon(wsel.rng, false)] : []) : mode === '2h'
       ? (wsel.th ? [toWeapon(wsel.th, false)] : [])
       : [wsel.mh && toWeapon(wsel.mh, false), wsel.oh && toWeapon(wsel.oh, true)].filter(Boolean);
     const gear = EQUIP_SLOTS.map((s) => bySlot[s]).filter(Boolean);
-    if (mode === 'caster' && wsel.th) gear.push({ slot: 'th', id: wsel.th.id, name: wsel.th.name, st: wsel.th.st });
+    if ((mode === 'caster' || mode === 'ranged') && wsel.th) gear.push({ slot: 'th', id: wsel.th.id, name: wsel.th.name, st: wsel.th.st });
     return Object.assign({}, base, { gear, weapons });
   };
   // start from the best static pick when a weapon slot is empty (the engine needs a weapon to swing)
-  const staticW = { agi: 0.3, crit: caster ? 6 : 28, hit: caster ? 8 : 22, haste: 20, dpsPerWeaponDps: 8, caster: !!caster };
+  const staticW = { agi: 0.3, crit: caster ? 6 : 28, hit: caster ? 8 : 22, haste: 20, dpsPerWeaponDps: 8, caster: !!caster, hunter: !!ranged };
   for (const slot of wslots) {
     if (wsel[slot]) continue;
     const taken = new Set(wslots.filter((x) => wsel[x]).map((x) => wsel[x].id));
-    const c = weaponCandidates(pool, cls, slot).filter((i) => !taken.has(i.id)).sort((x, y) => score(y, staticW) - score(x, staticW));
+    const c = weaponCandidates(pool, cls, slot, mode).filter((i) => !taken.has(i.id)).sort((x, y) => score(y, staticW) - score(x, staticW));
     wsel[slot] = c[0] || null;
   }
-  const w = Object.assign({ caster: !!caster }, await getWeights(specOf()));
+  const w = Object.assign({ caster: !!caster, hunter: !!ranged }, await getWeights(specOf()));
   let best = await evaluate(specOf());
   const log = [{ pass: 0, dps: best }];
   for (let pass = 1; pass <= maxPasses; pass++) {
@@ -68,7 +77,7 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
     // weapons first: they dominate the result
     for (const slot of wslots) {
       const others = new Set(wslots.filter((s) => s !== slot && wsel[s]).map((s) => wsel[s].id));
-      let cands = weaponCandidates(pool, cls, slot).filter((i) => !others.has(i.id));
+      let cands = weaponCandidates(pool, cls, slot, mode).filter((i) => !others.has(i.id));
       cands.sort((a, b) => score(b, w) - score(a, w));
       cands = cands.slice(0, weaponPrefilter);
       const current = wsel[slot];
