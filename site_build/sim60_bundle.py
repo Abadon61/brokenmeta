@@ -7,10 +7,10 @@ import shutil
 from pathlib import Path
 
 SIM = Path(__file__).parent / "sim60"
-ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "warrior", "kits", "weights", "optimizer"]
+ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "warrior", "kits", "weights", "optimizer"]
 EXPORTS = ("Sim, Aura, runBatchRaw, mergeRaw, finalize, runBatch, buildCharacter, ItemPool, toWeapon, EQUIP_SLOTS, "
            "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, furyKit, armsKit, makeKit, KITS, "
-           "statWeights, optimizeGear, optimizeGearAsync, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
+           "statWeights, optimizeGear, optimizeGearAsync, validateRanks, parseShareHash, ranksToBuild, ranksFromNames, PRESETS, NAME_TO_KEY, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
 
 
 def _strip(src: str) -> str:
@@ -57,7 +57,7 @@ def build(dist_dir: Path):
     wh = hashlib.sha256(worker.encode("utf-8")).hexdigest()[:10]
     worker_name = f"worker.{wh}.js"
     (out / worker_name).write_text(worker, encoding="utf-8")
-    for f in ("items.json", "proficiency.json", "spells60.json"):
+    for f in ("items.json", "proficiency.json", "spells60.json", "talents.json"):
         shutil.copy(SIM / "data" / f, out / f)
-    data_v = hashlib.sha256(b"".join((SIM / "data" / f).read_bytes() for f in ("items.json", "proficiency.json", "spells60.json"))).hexdigest()[:10]
+    data_v = hashlib.sha256(b"".join((SIM / "data" / f).read_bytes() for f in ("items.json", "proficiency.json", "spells60.json", "talents.json"))).hexdigest()[:10]
     return {"lib": lib_name, "worker": worker_name, "data_v": data_v}

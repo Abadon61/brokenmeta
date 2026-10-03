@@ -22,14 +22,19 @@ export const WARRIOR = {
   cruelty: { critPerRank: 0.01 },
   precision: { hitPerRank: 0.01 },
   improvedHeroicStrike: { costPerRank: 1 },
-  improvedExecute: { costPerRank: 2.5 },
-  improvedOverpower: { critPerRank: 0.25 },                            // "+50% crit chance" over 2 ranks
-  improvedSlam: { castReduction: 0.5, gcdReduction: 0.5 },             // 2 ranks: -0.5 s cast
+  improvedExecute: { cost: [0, 3, 5] },                                // Forever: -3 Rage at rank 1, -5 at rank 2
+  improvedOverpower: { critPerRank: 0.25 },                            // Forever: +25% Overpower crit chance per rank
+  improvedSlam: { castReductionPerRank: 0.25 },                        // Forever: -0.25 s cast time per rank; no swing delay at rank 2
   boundlessRage: { capPerRank: 10 },
   angerManagement: { interval: 3, amount: 1 },
   deepWounds: { pctPerRank: 0.20, duration: 12, tick: 3 },             // 3 ranks, 60% of average weapon damage over 12 s
   twoHandSpec: { dmgPerRank: 0.01 },
   impale: { critDmgPerRank: 0.10 },
+  enrage: { dmgPerRank: 0.02 },                                        // Forever: 30% chance on being hit, +2% Physical damage per rank for 12 s
+  weaponmaster: { axeCritPerRank: 0.01, maceArmorPerRank: 0.03, swordExtraAttackPerRank: 0.01 },
+  improvedBerserkerRage: { ragePerRank: 5 },                           // Forever: Berserker Rage instantly generates 5 Rage per rank
+  berserkerRage: { cd: 30 },
+  improvedRend: { bleedPerRank: 0.12 },
 };
 
 // Overrides from the exported client data (spells60.json -> warrior.abilities), when available.
@@ -60,14 +65,14 @@ export function warriorFromData(spells60) {
 
 export const FURY_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, precision: 3, improvedHeroicStrike: 0,
-  improvedExecute: 2, boundlessRage: 3, ragingBlows: 1, deathWish: 1,
+  improvedExecute: 2, boundlessRage: 3, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
 };
 export const ARMS_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, improvedHeroicStrike: 3, improvedOverpower: 2, angerManagement: 1, deepWounds: 3,
   twoHandSpec: 3, impale: 2, weaponmaster: 5, improvedSlam: 2, improvedExecute: 0, boundlessRage: 0, precision: 0,
-  useSlam: true, useRend: false, hsRageReserve: 20, useRecklessness: true, executePhase: true, flurry: 0,
+  mortalStrike: 1, useSlam: true, useRend: false, hsRageReserve: 20, useRecklessness: true, executePhase: true, flurry: 0,
 };
 
 // ---- shared helpers ----
@@ -84,6 +89,7 @@ function yellowAttack(sim, name, rawFn, opts = {}) {
 
 function commonSetup(sim, b, W) {
   const mods = sim.mods;
+  sim.kitBuild = b;
   sim.player.resource = 'rage';
   sim.rageCap = 100 + W.boundlessRage.capPerRank * (b.boundlessRage || 0);
   mods.critBonus += W.cruelty.critPerRank * (b.cruelty || 0);
@@ -91,7 +97,7 @@ function commonSetup(sim, b, W) {
   sim.reckAura = sim.addAura({ name: 'Recklessness', duration: W.recklessness.duration, mods: { critBonus: W.recklessness.crit } });
   sim.sRK = sim.addSpell({ name: 'Recklessness', cost: () => 0, cd: W.recklessness.cd });
   sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
-  sim.sEX = sim.addSpell({ name: 'Execute', cost: () => Math.max(0, W.execute.cost - W.improvedExecute.costPerRank * (b.improvedExecute || 0)), cd: 0 });
+  sim.sEX = sim.addSpell({ name: 'Execute', cost: () => Math.max(0, W.execute.cost - W.improvedExecute.cost[b.improvedExecute || 0]), cd: 0 });
   sim.hsCost = () => Math.max(0, W.heroicStrike.cost - W.improvedHeroicStrike.costPerRank * (b.improvedHeroicStrike || 0));
   sim.sHS = sim.addSpell({
     name: 'Heroic Strike', cost: sim.hsCost,
@@ -105,6 +111,11 @@ function commonSetup(sim, b, W) {
 // Bloodrage + Execute + Recklessness handled the same way in both kits.
 function offGcd(sim, W) {
   const now = sim.now;
+  const b = sim.kitBuild;
+  if (b && b.improvedBerserkerRage > 0) {
+    sim.sBZ = sim.sBZ || sim.addSpell({ name: 'Berserker Rage', cost: () => 0, cd: W.berserkerRage.cd });
+    if (now >= sim.sBZ.readyAt) { sim.sBZ.readyAt = now + W.berserkerRage.cd; sim.entry('Berserker Rage').casts++; sim.gainRage(W.improvedBerserkerRage.ragePerRank * b.improvedBerserkerRage); }
+  }
   if (now >= sim.sBR.readyAt) {
     sim.sBR.readyAt = now + W.bloodrage.cd; sim.entry('Bloodrage').casts++;
     sim.gainRage(W.bloodrage.immediate);
@@ -139,7 +150,7 @@ export function furyKit(build = {}, data = null) {
         mods.ohDmgBonus = W.dualWieldSpec.ohDmgPerRank * b.dualWieldSpec;
         mods.ohHitBonus = W.dualWieldSpec.ohHitPerRank * b.dualWieldSpec;
       }
-      if (b.enrageUptime > 0) mods.dmgMult *= 1 + 0.10 * b.enrageUptime;
+      if (b.enrage > 0 && b.enrageUptime > 0) mods.dmgMult *= 1 + W.enrage.dmgPerRank * b.enrage * b.enrageUptime;
       const twoHanded = !sim.player.dualWield && sim.player.weapons[0] && sim.player.weapons[0].twoHand;
       sim._norm = twoHanded ? W.whirlwind.normSpeed2H : W.whirlwind.normSpeed1H;
       sim.twoHanded = twoHanded;
@@ -167,7 +178,7 @@ export function furyKit(build = {}, data = null) {
       if (b.useDeathWish && b.deathWish && sim.canCast(sim.sDW)) return castGcd(sim, sim.sDW, () => { sim.spendRage(W.deathWish.cost); sim.deathWishAura.apply(); });
       if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
       if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
-      if (sim.canCast(sim.sBT)) return castGcd(sim, sim.sBT, () => {
+      if (b.bloodthirst && sim.canCast(sim.sBT)) return castGcd(sim, sim.sBT, () => {
         sim.spendRage(W.bloodthirst.cost);
         yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
       });
@@ -200,11 +211,12 @@ export function armsKit(build = {}, data = null) {
       mods.critDmgBonus += W.impale.critDmgPerRank * b.impale;
       // Weaponmaster (Forever): axe/polearm +5% crit; mace/staff ignore 15% armor; sword 5% extra attack.
       if (b.weaponmaster) {
-        const t = mh.type || '';
-        if (/axe|polearm/.test(t)) mods.critBonus += 0.05;
-        if (/mace|staff/.test(t)) sim.dr = sim.dr * 0.85;   // approximation: 15% less armor mitigation
-        sim.swordExtraAttack = /sword/.test(t) ? 0.05 : 0;
+        const t = mh.type || '', r = b.weaponmaster, wm = W.weaponmaster;
+        if (/axe|polearm/.test(t)) mods.critBonus += wm.axeCritPerRank * r;
+        if (/mace|staff/.test(t)) sim.dr = sim.dr * (1 - wm.maceArmorPerRank * r);   // approximation: x% less armor mitigation
+        sim.swordExtraAttack = /sword/.test(t) ? wm.swordExtraAttackPerRank * r : 0;
       }
+      if (b.enrage > 0 && b.enrageUptime > 0) mods.dmgMult *= 1 + W.enrage.dmgPerRank * b.enrage * b.enrageUptime;
       sim.sMS = sim.addSpell({ name: 'Mortal Strike', cost: () => W.mortalStrike.cost, cd: W.mortalStrike.cd });
       sim.sOP = sim.addSpell({ name: 'Overpower', cost: () => W.overpower.cost, cd: W.overpower.cd });
       sim.sSL = sim.addSpell({ name: 'Slam', cost: () => W.slam.cost, cd: 0 });
@@ -238,23 +250,23 @@ export function armsKit(build = {}, data = null) {
       if (gcdLeft > 0) return gcdLeft;
       if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
       if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
-      if (sim.canCast(sim.sMS)) return castGcd(sim, sim.sMS, () => {
+      if (b.mortalStrike && sim.canCast(sim.sMS)) return castGcd(sim, sim.sMS, () => {
         sim.spendRage(W.mortalStrike.cost);
         yellowAttack(sim, 'Mortal Strike', () => sim.weaponRoll(mh) + sim.ap() / 14 * W.mortalStrike.normSpeed2H + W.mortalStrike.flat);
       });
       if (now <= sim.overpowerUntil && sim.canCast(sim.sOP)) return castGcd(sim, sim.sOP, () => {
         sim.spendRage(W.overpower.cost); sim.overpowerUntil = -1;
         yellowAttack(sim, 'Overpower', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.overpower.flat,
-          { canDodge: false, bonusCrit: W.improvedOverpower.critPerRank * b.improvedOverpower * 2 });
+          { canDodge: false, bonusCrit: W.improvedOverpower.critPerRank * (b.improvedOverpower || 0) });
       });
       if (b.useRend && now >= sim.rendEndsAt && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
         sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
-        const ticks = Math.round(W.rend.duration / W.rend.tick), per = W.rend.total / ticks, my = sim.rendEndsAt;
+        const ticks = Math.round(W.rend.duration / W.rend.tick), per = W.rend.total * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0)) / ticks, my = sim.rendEndsAt;
         for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
       });
       // Slam: a cast that resets the swing timer; only worth it right after the main-hand swing (weaving).
       if (b.useSlam && sim.canCast(sim.sSL) && sim.swings[0] && sim.swings[0].next - now > mh.speed * 0.55) {
-        const cast = Math.max(0.1, W.slam.cast - (b.improvedSlam >= 1 ? W.improvedSlam.castReduction : 0));
+        const cast = Math.max(0.1, W.slam.cast - W.improvedSlam.castReductionPerRank * (b.improvedSlam || 0));
         return castGcd(sim, sim.sSL, () => {
           sim.spendRage(W.slam.cost);
           yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat);

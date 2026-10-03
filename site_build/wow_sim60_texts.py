@@ -19,6 +19,7 @@ TXT = {
         "ability": "Source", "share": "Part", "casts": "Lancers", "crits": "Critiques", "misses": "Ratés", "dodges": "Esquives", "uptime": "Uptime",
         "w_title": "Poids de stats (équivalent puissance d'attaque)", "w_crit": "1 % de critique", "w_hit": "1 % de toucher", "w_haste": "1 % de hâte",
         "o_title": "Meilleur équipement trouvé", "o_gain": "gain", "o_note": "L'optimiseur teste les objets de donjon connus de la bêta (niveau ≤ 60). Les objets de raid arriveront avec les données du jeu.",
+        "t_preset": "Build conseillé pour la spécialisation", "t_preset_btn": "Charger le build type", "t_import": "Lien du calculateur de talents", "t_note": "Seuls les talents qui ont un effet simulé sont listés ; les autres comptent dans le total de 51 points mais n'ont pas d'effet dans le moteur.", "t_ok": "{pts} points · arbres {a}/{b}/{c}", "t_bad": "Build invalide pour le calculateur : {err}", "t_link_bad": "Lien non reconnu : copiez le lien de partage du calculateur de talents.", "t_rev": "Le lien vient d'une autre version des talents : vérifiez les rangs.", "t_tree": "Arbre",
         "execute": "Phase d'exécution (20 % de fin de combat)", "dw": "Mort désirée", "reck": "Témérité", "enrage": "Uptime d'Enrage (0 à 1)",
         "limits": [
             "Mécaniques reprises de Classic (formule de rage, table d'attaque face à un boss niveau 63, suppression de critique de 4,8 %, armure). Elles sont signalées « hypothèse » tant que Forever ne les confirme pas.",
@@ -50,6 +51,7 @@ TXT = {
         "ability": "Source", "share": "Share", "casts": "Casts", "crits": "Crits", "misses": "Misses", "dodges": "Dodges", "uptime": "Uptime",
         "w_title": "Stat weights (attack power equivalent)", "w_crit": "1% crit", "w_hit": "1% hit", "w_haste": "1% haste",
         "o_title": "Best gear found", "o_gain": "gain", "o_note": "The optimizer tests the beta's known dungeon items (level ≤ 60). Raid items will come with the game's data.",
+        "t_preset": "Recommended build for the specialization", "t_preset_btn": "Load the default build", "t_import": "Talent calculator link", "t_note": "Only talents with a simulated effect are listed; the others count toward the 51-point total but have no effect in the engine.", "t_ok": "{pts} points · trees {a}/{b}/{c}", "t_bad": "Invalid build for the calculator: {err}", "t_link_bad": "Link not recognized: copy the share link from the talent calculator.", "t_rev": "The link comes from another version of the talents: check the ranks.", "t_tree": "Tree",
         "execute": "Execute phase (last 20% of the fight)", "dw": "Death Wish", "reck": "Recklessness", "enrage": "Enrage uptime (0 to 1)",
         "limits": [
             "Mechanics taken from Classic (rage formula, attack table against a level-63 boss, 4.8% crit suppression, armor). They are marked \"assumed\" until Forever confirms them.",

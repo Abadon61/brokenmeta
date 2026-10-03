@@ -1,0 +1,89 @@
+// Talent trees (data/talents.json, same data and ordering as the site's calculator) <-> simulator build.
+// Only talents with a simulated effect appear in NAME_TO_KEY; everything else is ignored by the engine.
+
+export const NAME_TO_KEY = {
+  warrior: {
+    // Fury
+    'Cruelty': 'cruelty', 'Unbridled Wrath': 'unbridledWrath', 'Boundless Rage': 'boundlessRage', 'Dual Wield Specialization': 'dualWieldSpec',
+    'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Precision': 'precision', 'Death Wish': 'deathWish',
+    'Improved Berserker Rage': 'improvedBerserkerRage', 'Flurry': 'flurry', 'Bloodthirst': 'bloodthirst',
+    // Arms
+    'Improved Heroic Strike': 'improvedHeroicStrike', 'Improved Rend': 'improvedRend', 'Improved Overpower': 'improvedOverpower',
+    'Anger Management': 'angerManagement', 'Deep Wounds': 'deepWounds',
+    'Two-Handed Weapon Specialization': 'twoHandSpec', 'Impale': 'impale', 'Weaponmaster': 'weaponmaster', 'Improved Slam': 'improvedSlam',
+    'Mortal Strike': 'mortalStrike',
+  },
+};
+// Keys that default to "on" in a hand-made build only through the presets below; a talent absent from the ranks means rank 0.
+export const ALL_KEYS = (cls) => Object.values(NAME_TO_KEY[cls] || {});
+
+const order = (spec) => spec.talents.slice().sort((a, b) => a.row - b.row || a.col - b.col);
+
+// Same rules as the calculator (js/wow-talents.js): shared points, row gates, prerequisites.
+export function validateRanks(data, ranks) {
+  const byId = {}, bySpec = [];
+  data.specs.forEach((s, si) => s.talents.forEach((t) => { byId[t.id] = t; t._spec = si; }));
+  const rank = (t) => ranks[t.id] || 0;
+  const spentIn = (si, belowRow) => data.specs[si].talents.reduce((n, t) => n + (t.row < belowRow ? rank(t) : 0), 0);
+  const gatesOf = (t) => (t.gates && t.gates.length ? t.gates : (t.row > 1 ? [{ through_row: t.row - 1, points: (t.row - 1) * data.rules.points_per_row }] : []));
+  const asList = (v) => (!v ? [] : Array.isArray(v) ? v : [v]);
+  let total = 0, ok = true; const errors = [];
+  for (const id in ranks) {
+    const t = byId[id];
+    if (!t) { ok = false; errors.push('unknown talent ' + id); continue; }
+    if (ranks[id] > t.max_rank) { ok = false; errors.push(t.name.en + ': above max rank'); }
+    total += ranks[id];
+  }
+  data.specs.forEach((s, si) => { bySpec[si] = spentIn(si, 99); });
+  for (const id in ranks) {
+    const t = byId[id]; if (!t || !ranks[id]) continue;
+    if (!gatesOf(t).every((g) => spentIn(t._spec, g.through_row + 1) >= g.points)) { ok = false; errors.push(t.name.en + ': row locked'); }
+    const all = asList(t.requires), any = asList(t.requires_any);
+    const met = (q) => (ranks[q.id] || 0) >= q.rank;
+    if (!all.every(met) || (any.length && !any.some(met))) { ok = false; errors.push(t.name.en + ': prerequisite missing'); }
+  }
+  if (total > data.rules.total_points) { ok = false; errors.push('more than ' + data.rules.total_points + ' points'); }
+  return { ok, total, bySpec, errors };
+}
+
+// Calculator share link "#b=<rev>.<tree1 ranks>.<tree2 ranks>.<tree3 ranks>" (one digit per talent, row-major order).
+export function parseShareHash(data, hash) {
+  const m = /^#?b=([0-9a-f]{6})((?:\.[0-9]*)+)$/.exec((hash || '').trim().replace(/^.*#/, '#'));
+  if (!m) return { error: 'format' };
+  const parts = m[2].slice(1).split('.');
+  if (parts.length !== data.specs.length) return { error: 'format' };
+  const ranks = {};
+  for (let i = 0; i < data.specs.length; i++) {
+    const ord = order(data.specs[i]);
+    if (parts[i].length !== ord.length) return { error: 'format' };
+    for (let j = 0; j < ord.length; j++) { const r = +parts[i][j]; if (r > ord[j].max_rank) return { error: 'format' }; if (r) ranks[ord[j].id] = r; }
+  }
+  return { ranks, revMatches: m[1] === data.rev };
+}
+
+export function ranksToBuild(cls, data, ranks) {
+  const map = NAME_TO_KEY[cls] || {}, build = {};
+  for (const k of Object.values(map)) build[k] = 0;
+  data.specs.forEach((s) => s.talents.forEach((t) => { const k = map[t.name.en]; if (k) build[k] = ranks[t.id] || 0; }));
+  return build;
+}
+
+export function ranksFromNames(data, byName) {
+  const ranks = {};
+  data.specs.forEach((s) => s.talents.forEach((t) => { if (byName[t.name.en]) ranks[t.id] = byName[t.name.en]; }));
+  return ranks;
+}
+
+// Typical raiding builds (51 points), by talent name. Checked against the tree rules in the tests.
+export const PRESETS = {
+  warrior_fury: {
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,
+    'Improved Execute': 2, 'Precision': 3, 'Death Wish': 1, 'Improved Berserker Rage': 2, 'Flurry': 5, 'Bloodthirst': 1,
+    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 4,
+  },
+  warrior_arms: {
+    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,
+    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1,
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3,
+  },
+};

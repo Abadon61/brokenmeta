@@ -40,6 +40,13 @@
     <div class="s60-cols"><div id="s60Buffs" class="s60-checks"></div><div id="s60Cons" class="s60-checks"></div><div id="s60Debuffs" class="s60-checks"></div></div>
 
     <h2 class="fiche-section-title">{{ tx.h_talents }}</h2>
+    <div class="s60-grid">
+      <label class="s60-row"><span>{{ tx.t_preset }}</span><button type="button" id="s60Preset" class="ms-btn">{{ tx.t_preset_btn }}</button></label>
+      <label class="s60-row"><span>{{ tx.t_import }}</span><input id="s60TalentLink" type="text" placeholder="https://brokenmeta.gg/wow-forever/talents/warrior/#b=..." autocomplete="off"></label>
+    </div>
+    <p id="s60TalentStatus" class="wow-note"></p>
+    <div id="s60Talents" class="s60-cols"></div>
+    <p class="wow-note">{{ tx.t_note }}</p>
     <div class="s60-checks">
       <label class="s60-check"><input type="checkbox" id="s60Exec" checked> {{ tx.execute }}</label>
       <label class="s60-check"><input type="checkbox" id="s60DW" checked> {{ tx.dw }} ({{ 'Fureur' if lang == 'fr' else 'Fury' }})</label>
