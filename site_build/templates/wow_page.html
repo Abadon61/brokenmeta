@@ -47,6 +47,16 @@
     <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/partager-mes-donnees/">{{ wow_ui.share_cta }} <span aria-hidden="true">→</span></a>
   </div>
 </aside>
+<aside class="wh-share">
+  <img src="{{ root }}assets/img/game-tft.png" alt="" width="48" height="48" loading="lazy">
+  <div class="wh-share-text">
+    <p class="wh-share-hook">{{ 'Vous cherchez la tier list Teamfight Tactics ?' if fr else 'Looking for the Teamfight Tactics tier list?' }}</p>
+    <p class="wh-share-sub">{{ 'Les compositions TFT les plus performantes, calculées à partir de vraies parties classées.' if fr else 'The best-performing TFT comps, computed from real ranked games.' }}</p>
+  </div>
+  <div class="wh-share-actions">
+    <a class="wh-btn" href="{{ root }}tft/">{{ 'Tier list TFT' if fr else 'TFT tier list' }} <span aria-hidden="true">→</span></a>
+  </div>
+</aside>
 {% if wow_ranking %}
 <h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>

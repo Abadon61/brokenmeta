@@ -7159,7 +7159,7 @@ def main() -> None:
             render("glossary_item_detail.html", f"/glossaire/objets/{it['slug']}/", lang, active_nav="glossary",
                    it=_itv,
                    breadcrumb_schema=breadcrumb_schema([
-                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (translate(lang, "breadcrumb_home"), canonical_for(TFT_HOME, lang)),
                        (translate(lang, "nav_glossary"), canonical_for("/glossaire/", lang)),
                        (translate(lang, "nav_glossary_items"), canonical_for("/glossaire/objets/", lang)),
                        (_itv["name"], _item_url),
@@ -7892,7 +7892,7 @@ def main() -> None:
             render("comp.html", f"/compo/{c['slug']}/", lang, active_nav="comps", c=c,
                    article_schema=article_schema, faq_schema=faq_schema,
                    breadcrumb_schema=breadcrumb_schema([
-                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (translate(lang, "breadcrumb_home"), canonical_for(TFT_HOME, lang)),
                        (c["display_label"], comp_url),
                    ]),
                    comp_note=COMP_NOTES[lang].get(c["key"]))
@@ -7924,7 +7924,7 @@ def main() -> None:
                    balance_history=balance_history_by_lang[lang].get(d["name"], []),
                    editorial_note=CHAMPION_NOTES[lang].get(d["name"]),
                    breadcrumb_schema=breadcrumb_schema([
-                       (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
+                       (translate(lang, "breadcrumb_home"), canonical_for(TFT_HOME, lang)),
                        (translate(lang, "nav_champions"), canonical_for("/champions/", lang)),
                        (_dv["name"], _champ_url),
                    ]),
