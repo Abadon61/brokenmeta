@@ -14,8 +14,8 @@ const daggers = { ...SAMPLE_ROGUE, weapons: [{ min: 55, max: 100, speed: 1.8, ty
 
 test('rogue base: AP = 2*level - 20 + Str + Agi, crit = Agi / 29', () => {
   const c = buildCharacter({ class: 'rogue', race: 'human', gear: [], weapons: [], buffs: [], consumables: [], debuffs: [] });
-  assert.equal(c.summary.ap, 100 + 85 + 120);
-  assert.ok(Math.abs(c.summary.crit - 120 / 29 / 100) < 1e-9);
+  assert.equal(c.summary.ap, 100 + 79 + 131);
+  assert.ok(Math.abs(c.summary.crit - 131 / 29 / 100) < 1e-9);
 });
 
 test('the rotation keeps Slice and Dice up, builds with Sinister Strike and spends at 5 combo points', () => {

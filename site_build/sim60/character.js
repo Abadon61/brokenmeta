@@ -3,15 +3,23 @@
 import { RATING_PER_PCT, PLAYER_LEVEL, BASE_WEAPON_SKILL, BOSS_DEFENSE } from './constants.js';
 import { BUFFS, CONSUMABLES, DEBUFFS, RACIAL_SKILL } from './presets.js';
 
-// Level-60 Human base stats per class + racial modifiers (Classic 1.12 values, UNVERIFIED against a
-// primary source: the figures come from a community summary of the 1.12 database and match the
-// racial deltas of the level-1 table already used by the site). The sim page lets the user override
-// them and the addon import replaces them with the real in-game totals.
+// Level-60 Human base stats per class (str/agi/sta/int/spi) + racial modifiers.
+// warrior: Classic 1.12 values, kept as is. Every other class is an ESTIMATE (Classic-style, flagged
+// assumed): the Forever planner's sourced LEVEL-30 base (data/wow_items/base_stats_level30.json, race
+// removed to Human) pushed to level 60 with L60 = L30 + 1.5 * (L30 - L1). The 1.5 factor is calibrated on
+// the Classic warrior (120/80/110/30/46 vs 120/80/110/30/50 known). Shaman has no L30 source: mean growth
+// of paladin and druid. The sim page lets the user override them, and the addon import replaces them with
+// the real in-game totals.
 export const BASE_L60_HUMAN = {
   warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 50 },
-  // ESTIMATE, not sourced: the Forever planner's level-30 Human rogue base (44/66/42/26/33) scaled by the
-  // same per-stat ratio as the warrior's level-30 -> level-60 growth. Overridable in the page.
-  rogue: { str: 85, agi: 120, sta: 81, int: 33, spi: 53 },
+  rogue: { str: 79, agi: 131, sta: 74, int: 35, spi: 51 },
+  hunter: { str: 55, agi: 126, sta: 89, int: 65, spi: 70 },
+  mage: { str: 30, agi: 35, sta: 45, int: 126, spi: 126 },
+  priest: { str: 35, agi: 40, sta: 50, int: 120, spi: 127 },
+  warlock: { str: 45, agi: 50, sta: 64, int: 115, spi: 116 },
+  paladin: { str: 105, agi: 65, sta: 100, int: 70, spi: 77 },
+  druid: { str: 64, agi: 60, sta: 70, int: 100, spi: 111 },
+  shaman: { str: 84, agi: 63, sta: 85, int: 85, spi: 94 },
 };
 export const RACE_MODS = {
   human: { str: 0, agi: 0, sta: 0, int: 0, spi: 0 },
