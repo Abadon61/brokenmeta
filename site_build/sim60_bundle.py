@@ -7,9 +7,9 @@ import shutil
 from pathlib import Path
 
 SIM = Path(__file__).parent / "sim60"
-ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "warrior", "kits", "weights", "optimizer"]
+ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "kits", "weights", "optimizer"]
 EXPORTS = ("Sim, Aura, runBatchRaw, mergeRaw, finalize, runBatch, buildCharacter, ItemPool, toWeapon, EQUIP_SLOTS, "
-           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, furyKit, armsKit, makeKit, KITS, "
+           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, furyKit, armsKit, rogueKit, makeKit, KITS, "
            "statWeights, optimizeGear, optimizeGearAsync, validateRanks, parseShareHash, ranksToBuild, ranksFromNames, PRESETS, NAME_TO_KEY, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
 
 

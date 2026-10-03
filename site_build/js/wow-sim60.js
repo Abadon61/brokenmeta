@@ -19,6 +19,10 @@
   }
   function fmt(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
 
+  var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' } };
+  function curSpec() { return $('s60Spec').value; }
+  function curCls() { return SPECS[curSpec()].cls; }
+  function curMode() { return SPECS[curSpec()].mode; }
   var state = { pool: null, data: null, items: null, prof: null, simPool: null, lastOpt: null, tdata: null, ranks: {} };
 
   // ---------- workers ----------
@@ -67,16 +71,16 @@
     items.forEach(function (it) { sel.appendChild(el('option', { value: String(it.id), text: itemLabel(it) })); });
   }
   function sortedFor(slot) {
-    return state.pool.forSlot(slot, 'warrior', 60).slice().sort(function (a, b) { return itemScore(b) - itemScore(a); });
+    return state.pool.forSlot(slot, curCls(), 60).slice().sort(function (a, b) { return itemScore(b) - itemScore(a); });
   }
   function weaponLists(spec) {
-    var w = state.pool.weapons('warrior', 60);
+    var w = state.pool.weapons(curCls(), 60);
     var by = function (a, b) { return itemScore(b) - itemScore(a); };
     var oneH = w.oneHand.concat(w.mainHand).sort(by), off = w.oneHand.concat(w.offHand).sort(by), two = w.twoHand.sort(by);
     return { mh: oneH, oh: off, th: two };
   }
 
-  function buildForm() {
+  function buildGearSelects() {
     var gearBox = $('s60Gear'); gearBox.innerHTML = '';
     var labels = fr ? SLOT_LABEL_FR : SLOT_LABEL;
     S.EQUIP_SLOTS.forEach(function (slot) {
@@ -89,6 +93,17 @@
       gearBox.appendChild(el('label', { class: 's60-row', id: 's60rw_' + k }, el('span', { text: T[k] }), sel));
     });
     refreshWeapons();
+    // sensible defaults: best-scoring gear per slot and weapons
+    S.EQUIP_SLOTS.forEach(function (slot) {
+      var list = sortedFor(slot); var used = {};
+      S.EQUIP_SLOTS.forEach(function (s2) { var v = $('s60g_' + s2).value; if (v) used[v] = 1; });
+      for (var i = 0; i < list.length; i++) if (!used[list[i].id]) { $('s60g_' + slot).value = String(list[i].id); break; }
+    });
+    pickDefaultWeapons();
+  }
+
+  function buildForm() {
+    buildGearSelects();
     var rs = $('s60Race'); RACES.forEach(function (r) { rs.appendChild(el('option', { value: r[0], text: fr ? r[2] : r[1] })); });
     var addGroup = function (box, defs, preset, group) {
       Object.keys(defs).forEach(function (k) {
@@ -100,23 +115,15 @@
     addGroup($('s60Buffs'), S.BUFFS, S.PRESET_RAID.buffs, 'buff');
     addGroup($('s60Cons'), S.CONSUMABLES, S.PRESET_RAID.consumables, 'cons');
     addGroup($('s60Debuffs'), S.DEBUFFS, S.PRESET_RAID.debuffs, 'debuff');
-    // sensible defaults: best-scoring gear per slot and weapons
-    S.EQUIP_SLOTS.forEach(function (slot) {
-      var list = sortedFor(slot); var used = {};
-      S.EQUIP_SLOTS.forEach(function (s2) { var v = $('s60g_' + s2).value; if (v) used[v] = 1; });
-      for (var i = 0; i < list.length; i++) if (!used[list[i].id]) { $('s60g_' + slot).value = String(list[i].id); break; }
-    });
-    pickDefaultWeapons();
   }
-  function curSpec() { return $('s60Spec').value; }
   function refreshWeapons() {
-    var L = weaponLists(curSpec()), arms = curSpec() === 'warrior_arms';
+    var L = weaponLists(curSpec()), arms = curMode() === '2h';
     fillSelect($('s60w_mh'), L.mh, T.empty); fillSelect($('s60w_oh'), L.oh, T.empty); fillSelect($('s60w_th'), L.th, T.empty);
     $('s60rw_mh').hidden = arms; $('s60rw_oh').hidden = arms; $('s60rw_th').hidden = !arms;
   }
   function pickDefaultWeapons() {
     var L = weaponLists(curSpec());
-    if (curSpec() === 'warrior_arms') { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
+    if (curMode() === '2h') { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
     else {
       if (L.mh[0]) $('s60w_mh').value = String(L.mh[0].id);
       var o = L.oh.filter(function (i) { return String(i.id) !== $('s60w_mh').value; })[0]; if (o) $('s60w_oh').value = String(o.id);
@@ -132,20 +139,34 @@
       var v = $('s60g_' + slot).value; if (!v) return;
       var it = state.pool.byId.get(parseInt(v, 10)); if (it) gear.push({ slot: slot, id: it.id, name: it.name, st: it.st });
     });
-    var weapons = [], arms = curSpec() === 'warrior_arms';
+    var weapons = [], arms = curMode() === '2h';
     function wp(k, off) { var v = $('s60w_' + k).value; if (!v) return; weapons.push(S.toWeapon(state.pool.byId.get(parseInt(v, 10)), off)); }
     if (arms) wp('th', false); else { wp('mh', false); wp('oh', true); }
-    var spec = { class: 'warrior', race: $('s60Race').value, gear: gear, weapons: weapons,
+    var spec = { class: curCls(), base: readBase(), race: $('s60Race').value, gear: gear, weapons: weapons,
       buffs: checked('buff', S.BUFFS), consumables: checked('cons', S.CONSUMABLES), debuffs: checked('debuff', S.DEBUFFS),
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
     if (ap != null && cr != null && hi != null) spec.totals = { ap: ap, crit: cr / 100, hit: hi / 100 };
-    var build = Object.assign(S.ranksToBuild('warrior', state.tdata, state.ranks), { executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
+    var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
     return { spec: spec, build: build };
   }
   function makeJob(c) {
     var ch = S.buildCharacter(c.spec);
     return { job: { player: ch.player, target: ch.target, fightLen: num('s60Len') || 180, kitName: curSpec(), kitBuild: c.build }, ch: ch };
+  }
+
+  // ---------- base stats (editable) ----------
+  var BASE_KEYS = [['str', 'Str'], ['agi', 'Agi'], ['sta', 'Sta'], ['int', 'Int'], ['spi', 'Spi']];
+  function fillBase() {
+    var h = S.BASE_L60_HUMAN[curCls()] || {}, m = S.RACE_MODS[$('s60Race').value] || {};
+    BASE_KEYS.forEach(function (k) { $('s60base_' + k[0]).value = String((h[k[0]] || 0) + (m[k[0]] || 0)); });
+  }
+  function readBase() {
+    var o = {}; BASE_KEYS.forEach(function (k) { o[k[0]] = parseFloat($('s60base_' + k[0]).value) || 0; }); return o;
+  }
+  function showClassOptions() {
+    var cls = curCls();
+    Array.prototype.forEach.call(document.querySelectorAll('[data-cls]'), function (e) { e.hidden = e.dataset.cls !== cls; });
   }
 
   // ---------- results ----------
@@ -198,7 +219,7 @@
   function doOptimize() {
     var c = collect(), jj = makeJob(c), iters = Math.max(200, Math.min(2000, Math.round((num('s60Iters') || 5000) / 10))), t0 = performance.now();
     setBusy(true); status(fmt(T.js.optProgress, { slot: '…' })); bar(null);
-    var chara = Object.assign({}, c.spec, { gear: [] }), wmode = curSpec() === 'warrior_arms' ? '2h' : 'dw';
+    var chara = Object.assign({}, c.spec, { gear: [] }), wmode = curMode();
     function jobFor(spec) { var ch = S.buildCharacter(spec); return Object.assign({}, jj.job, { player: ch.player, target: ch.target }); }
     function evaluate(spec) { return getPool().run(jobFor(spec), iters, 11).then(function (r) { return r.mean; }); }
     function getWeights(spec) {
@@ -224,7 +245,7 @@
   }
 
   // ---------- talents ----------
-  var TREE_NAMES = { arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: fr ? 'Protection' : 'Protection' };
+  var TREE_NAMES = { arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
   function talentStatus() {
     var v = S.validateRanks(state.tdata, state.ranks), st = $('s60TalentStatus');
     st.textContent = (v.ok ? fmt(T.t_ok, { pts: v.total, a: v.bySpec[0], b: v.bySpec[1], c: v.bySpec[2] }) : fmt(T.t_bad, { err: v.errors.slice(0, 2).join(' · ') }));
@@ -232,7 +253,7 @@
   }
   function renderTalents() {
     var box = $('s60Talents'); box.innerHTML = '';
-    var names = S.NAME_TO_KEY.warrior;
+    var names = S.NAME_TO_KEY[curCls()];
     state.tdata.specs.forEach(function (sp) {
       var rows = sp.talents.filter(function (t) { return names[t.name.en]; }).sort(function (a, b) { return a.row - b.row || a.col - b.col; });
       if (!rows.length) return;
@@ -249,7 +270,7 @@
     });
     talentStatus();
   }
-  function loadPreset() { state.ranks = S.ranksFromNames(state.tdata, S.PRESETS[curSpec()]); renderTalents(); }
+  function loadPreset() { state.tdata = state.talentsAll[curCls()]; state.ranks = S.ranksFromNames(state.tdata, S.PRESETS[curSpec()]); renderTalents(); }
   function importLink() {
     var r = S.parseShareHash(state.tdata, $('s60TalentLink').value);
     var st = $('s60TalentStatus');
@@ -260,10 +281,13 @@
 
   // ---------- boot ----------
   Promise.all(['items.json', 'proficiency.json', 'spells60.json', 'talents.json'].map(function (f) { return fetch(base + f + '?v=' + dv).then(function (r) { return r.json(); }); })).then(function (all) {
-    state.items = all[0]; state.prof = all[1]; state.data = all[2]; state.tdata = all[3].warrior;
+    state.items = all[0]; state.prof = all[1]; state.data = all[2]; state.talentsAll = all[3];
     state.pool = new S.ItemPool(all[0], all[1]);
     buildForm(); loadPreset();
-    $('s60Spec').addEventListener('change', function () { refreshWeapons(); pickDefaultWeapons(); loadPreset(); });
+    BASE_KEYS.forEach(function (k) { $('s60Base').appendChild(el('label', { class: 's60-row' }, el('span', { text: k[1] }), el('input', { id: 's60base_' + k[0], type: 'number', step: '1' }))); });
+    fillBase(); showClassOptions();
+    $('s60Race').addEventListener('change', fillBase);
+    $('s60Spec').addEventListener('change', function () { buildGearSelects(); refreshWeapons(); pickDefaultWeapons(); loadPreset(); fillBase(); showClassOptions(); });
     $('s60Preset').addEventListener('click', loadPreset);
     $('s60TalentLink').addEventListener('change', importLink);
     $('s60Run').addEventListener('click', doRun);

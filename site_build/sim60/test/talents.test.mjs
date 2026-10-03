@@ -7,12 +7,14 @@ import { furyKit, armsKit } from '../warrior.js';
 import { buildCharacter } from '../character.js';
 import { SAMPLE_FURY } from '../samples.js';
 
-const data = JSON.parse(readFileSync(new URL('../data/talents.json', import.meta.url))).warrior;
+const all = JSON.parse(readFileSync(new URL('../data/talents.json', import.meta.url)));
+const data = all.warrior;
 const spells = JSON.parse(readFileSync(new URL('../data/spells60.json', import.meta.url)));
 
 test('the preset builds follow the tree rules (gates, prerequisites, 51 points)', () => {
   for (const [k, p] of Object.entries(PRESETS)) {
-    const r = validateRanks(data, ranksFromNames(data, p));
+    const d = all[k.split('_')[0]];
+    const r = validateRanks(d, ranksFromNames(d, p));
     assert.ok(r.ok, k + ': ' + r.errors.join('; '));
     assert.ok(r.total <= 51);
   }

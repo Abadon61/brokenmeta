@@ -1,0 +1,13 @@
+import { readFileSync } from 'node:fs';
+import { runBatch } from './run.js';
+import { rogueKit } from './rogue.js';
+import { buildCharacter } from './character.js';
+import { SAMPLE_ROGUE } from './samples.js';
+const data = JSON.parse(readFileSync(new URL('data/spells60.json', import.meta.url)));
+const ch = buildCharacter(SAMPLE_ROGUE);
+const cfg = { fightLen: 180, player: ch.player, target: ch.target, kitFactory: () => rogueKit({}, data) };
+console.log('rogue', JSON.stringify({ ap: Math.round(ch.summary.ap), crit: +(ch.summary.crit * 100).toFixed(1), hit: +(ch.summary.hit * 100).toFixed(1) }));
+const t0 = Date.now(); const r = runBatch(cfg, 2000, 1); const dt = (Date.now() - t0) / 1000;
+console.log(`${(2000 / dt).toFixed(0)} fights/s  DPS ${r.mean.toFixed(1)} +/- ${r.sem.toFixed(2)}  energy wasted/fight ${r.rageWastedPerFight.toFixed(0)}`);
+for (const [k, v] of Object.entries(r.breakdown).sort((a, b) => b[1].dps - a[1].dps)) console.log(k.padEnd(24), v.dps.toFixed(1).padStart(7), 'casts', v.casts.toFixed(1), 'crit', v.crits.toFixed(1), 'miss', v.misses.toFixed(1));
+console.log('uptimes', Object.fromEntries(Object.entries(r.uptimes).map(([k, v]) => [k, +v.toFixed(2)])));

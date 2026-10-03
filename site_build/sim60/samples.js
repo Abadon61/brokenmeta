@@ -18,3 +18,23 @@ export const SAMPLE_FURY = {
   ],
   ...PRESET_RAID,
 };
+
+export const SAMPLE_ROGUE = {
+  class: 'rogue', race: 'human',
+  gear: [
+    { slot: 'head', name: 'Sample helm', st: { agi: 26, str: 10, sta: 24, critstrkrtng: 28 } },
+    { slot: 'chest', name: 'Sample chest', st: { agi: 24, str: 12, sta: 26, atkpwr: 40 } },
+    { slot: 'legs', name: 'Sample legs', st: { agi: 24, str: 10, sta: 24 } },
+    { slot: 'hands', name: 'Sample gloves', st: { agi: 18, sta: 14, hitrtng: 10 } },
+    { slot: 'trinket', name: 'Sample trinket', st: { atkpwr: 76 } },
+    { slot: 'ring1', name: 'Sample ring', st: { agi: 12, critstrkrtng: 14, hitrtng: 10 } },
+    { slot: 'ring2', name: 'Sample ring 2', st: { atkpwr: 36, hitrtng: 10 } },
+  ],
+  weapons: [
+    { min: 70, max: 130, speed: 2.6, type: 'sword' },
+    { min: 60, max: 110, speed: 2.4, type: 'sword', offHand: true },
+  ],
+  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'leader_of_the_pack'],
+  consumables: ['elixir_mongoose', 'juju_power', 'juju_might', 'roids'],
+  debuffs: ['sunder_armor_5', 'faerie_fire'],
+};

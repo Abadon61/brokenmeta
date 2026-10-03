@@ -2,7 +2,7 @@
 // tables/tooltips (data/spells60.json, exported by wow_sim60_export.py) when `data` is passed, and from
 // the constants below otherwise. Values marked ASSUMED are Classic 1.12 numbers kept until Forever's
 // level-60 table for that spell is sourced.
-import { OVERPOWER_WINDOW } from './constants.js';
+import { yellowAttack, castGcd } from './shared.js';
 
 export const WARRIOR = {
   bloodthirst: { cost: 30, cd: 6, apCoeff: 0.35, flat: 48 },           // glossary at L60: 35% AP + 48
@@ -76,17 +76,6 @@ export const ARMS_DEFAULT_BUILD = {
 };
 
 // ---- shared helpers ----
-function yellowAttack(sim, name, rawFn, opts = {}) {
-  const out = sim.resolveYellow(opts.bonusCrit || 0, opts.canDodge !== false);
-  const e = sim.entry(name);
-  if (out === 'miss') { e.misses++; sim.onMeleeHit('miss', name, false, false); return out; }
-  if (out === 'dodge') { e.dodges++; sim.overpowerUntil = sim.now + OVERPOWER_WINDOW; sim.onMeleeHit('dodge', name, false, false); return out; }
-  let raw = rawFn(); if (out === 'crit') raw *= sim.critMult();
-  const dmg = sim.mitigate(raw * sim.mods.dmgMult, true);
-  sim.record(name, dmg, out); sim.onMeleeHit(out, name, false, false);
-  return out;
-}
-
 function commonSetup(sim, b, W) {
   const mods = sim.mods;
   sim.kitBuild = b;
@@ -122,11 +111,6 @@ function offGcd(sim, W) {
     const ticks = W.bloodrage.overTimeSec;
     for (let i = 1; i <= ticks; i++) sim.schedule(i, () => sim.gainRage(W.bloodrage.overTime / ticks));
   }
-}
-
-function castGcd(sim, spell, fn) {
-  sim.startGcd(); spell.readyAt = sim.now + spell.cd; spell.casts++; sim.entry(spell.name).casts++; fn();
-  return sim.gcdReadyAt - sim.now;
 }
 
 function executePhase(sim, W) {

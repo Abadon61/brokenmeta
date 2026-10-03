@@ -9,6 +9,9 @@ import { BUFFS, CONSUMABLES, DEBUFFS, RACIAL_SKILL } from './presets.js';
 // them and the addon import replaces them with the real in-game totals.
 export const BASE_L60_HUMAN = {
   warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 50 },
+  // ESTIMATE, not sourced: the Forever planner's level-30 Human rogue base (44/66/42/26/33) scaled by the
+  // same per-stat ratio as the warrior's level-30 -> level-60 growth. Overridable in the page.
+  rogue: { str: 85, agi: 120, sta: 81, int: 33, spi: 53 },
 };
 export const RACE_MODS = {
   human: { str: 0, agi: 0, sta: 0, int: 0, spi: 0 },
@@ -25,7 +28,8 @@ const PRIMARY = ['str', 'agi', 'sta', 'int', 'spi'];
 
 // Class formulas (Classic): AP from Strength/Agility, crit from Agility.
 const CLASS_RULES = {
-  warrior: { apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0 },
+  warrior: { apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
+  rogue: { apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 29, baseCrit: 0, resource: 'energy' },
 };
 
 function sumGear(gear) {
@@ -98,7 +102,7 @@ export function buildCharacter(spec) {
 
   return {
     player: {
-      level: PLAYER_LEVEL, resource: 'rage', dualWield: weapons.length > 1,
+      level: PLAYER_LEVEL, resource: rules.resource, dualWield: weapons.length > 1,
       stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi },
       weapons,
     },
