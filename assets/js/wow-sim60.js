@@ -20,12 +20,16 @@
   function fmt(s, o) { return s.replace(/\{(\w+)\}/g, function (_, k) { return o[k]; }); }
 
   var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' },
+    paladin_retribution: { cls: 'paladin', mode: '2h' }, shaman_enhancement: { cls: 'shaman', mode: 'dw', variant: 'enhancement' }, druid_feral: { cls: 'druid', mode: 'stick', variant: 'feral' },
+    priest_shadow: { cls: 'priest', mode: 'caster' }, shaman_elemental: { cls: 'shaman', mode: 'caster' }, druid_balance: { cls: 'druid', mode: 'caster' },
     hunter_marksmanship: { cls: 'hunter', mode: 'ranged' }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged' }, hunter_survival: { cls: 'hunter', mode: 'ranged' },
     warlock_affliction: { cls: 'warlock', mode: 'caster' }, warlock_destruction: { cls: 'warlock', mode: 'caster' }, warlock_demonology: { cls: 'warlock', mode: 'caster' },
     mage_fire: { cls: 'mage', mode: 'caster' }, mage_frost: { cls: 'mage', mode: 'caster' }, mage_arcane: { cls: 'mage', mode: 'caster' } };
   var CASTERS = { mage: 1, warlock: 1 };
-  function isCaster() { return !!CASTERS[curCls()]; }
+  function isCaster() { return curMode() === 'caster'; }
   function isRanged() { return curMode() === 'ranged'; }
+  function isStick() { return curMode() === 'stick'; }
+  function curVariant() { return SPECS[curSpec()].variant; }
   function unit() { return isCaster() ? (fr ? 'PS' : 'SP') : (fr ? 'PA' : 'AP'); }
   function curSpec() { return $('s60Spec').value; }
   function curCls() { return SPECS[curSpec()].cls; }
@@ -86,7 +90,7 @@
     var w = state.pool.weapons(curCls(), 60);
     var by = function (a, b) { return itemScore(b) - itemScore(a); };
     var oneH = w.oneHand.concat(w.mainHand).sort(by), off = w.oneHand.concat(w.offHand).sort(by), two = w.twoHand.sort(by);
-    return { mh: oneH, oh: off, th: isRanged() ? two.concat(oneH) : two, rng: w.ranged.slice().sort(by) };
+    return { mh: oneH, oh: off, th: isRanged() || isStick() ? two.concat(oneH) : two, rng: w.ranged.slice().sort(by) };
   }
 
   function buildGearSelects() {
@@ -136,12 +140,12 @@
   function refreshWeapons() {
     var L = weaponLists(curSpec()), arms = curMode() === '2h', cast = curMode() === 'caster';
     fillSelect($('s60w_mh'), L.mh, T.empty); fillSelect($('s60w_oh'), L.oh, T.empty); fillSelect($('s60w_th'), L.th, T.empty); fillSelect($('s60w_rng'), L.rng, T.empty);
-    $('s60rw_mh').hidden = arms || cast || isRanged(); $('s60rw_oh').hidden = arms || cast || isRanged(); $('s60rw_th').hidden = !(arms || cast || isRanged()); $('s60rw_rng').hidden = !isRanged();
+    $('s60rw_mh').hidden = arms || cast || isRanged() || isStick(); $('s60rw_oh').hidden = arms || cast || isRanged() || isStick(); $('s60rw_th').hidden = !(arms || cast || isRanged() || isStick()); $('s60rw_rng').hidden = !isRanged();
   }
   function pickDefaultWeapons() {
     var L = weaponLists(curSpec());
     if (isRanged()) { if (L.rng[0]) $('s60w_rng').value = String(L.rng[0].id); if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
-    else if (curMode() === '2h' || curMode() === 'caster') { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
+    else if (curMode() === '2h' || curMode() === 'caster' || isStick()) { if (L.th[0]) $('s60w_th').value = String(L.th[0].id); }
     else {
       if (L.mh[0]) $('s60w_mh').value = String(L.mh[0].id);
       var o = L.oh.filter(function (i) { return String(i.id) !== $('s60w_mh').value; })[0]; if (o) $('s60w_oh').value = String(o.id);
@@ -161,11 +165,11 @@
     function wp(k, off) { var v = $('s60w_' + k).value; if (!v) return; weapons.push(S.toWeapon(state.pool.byId.get(parseInt(v, 10)), off)); }
     if (isCaster()) {
       var wv = $('s60w_th').value; if (wv) { var wi = state.pool.byId.get(parseInt(wv, 10)); if (wi) gear.push({ slot: 'th', id: wi.id, name: wi.name, st: wi.st }); }
-    } else if (isRanged()) {
+    } else if (isRanged() || isStick()) {
       var tv = $('s60w_th').value; if (tv) { var ti = state.pool.byId.get(parseInt(tv, 10)); if (ti) gear.push({ slot: 'th', id: ti.id, name: ti.name, st: ti.st }); }
-      wp('rng', false);
+      if (isRanged()) wp('rng', false);
     } else if (arms) wp('th', false); else { wp('mh', false); wp('oh', true); }
-    var spec = { class: curCls(), base: readBase(), effects: $('s60Fx') && $('s60Fx').checked ? state.effects : null, race: $('s60Race').value, gear: gear, weapons: weapons,
+    var spec = { class: curCls(), variant: curVariant(), base: readBase(), effects: $('s60Fx') && $('s60Fx').checked ? state.effects : null, race: $('s60Race').value, gear: gear, weapons: weapons,
       buffs: checked('buff', S.BUFFS), consumables: checked('cons', S.CONSUMABLES), debuffs: checked('debuff', S.DEBUFFS),
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
@@ -260,7 +264,7 @@
       return Promise.all([diff({ up: mainUp, dn: mainDn }), diff({ up: { crit: 0.01 }, dn: { crit: -0.01 } }), diff({ up: { hit: 0.01 }, dn: { hit: -0.01 } }), diff({ up: { haste: 0.01 }, dn: { haste: -0.01 } })])
         .then(function (r) { var apPer = r[0] / 40; return { agi: 0.05 * r[1] / apPer, crit: r[1] / apPer, hit: r[2] / apPer, haste: r[3] / apPer }; });
     }
-    S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, caster: isCaster(), ranged: isRanged(), evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
+    S.optimizeGearAsync({ pool: state.pool, character: chara, weaponMode: wmode, caster: isCaster(), ranged: isRanged(), stick: isStick(), evaluate: evaluate, getWeights: getWeights, prefilter: 4, maxPasses: 3,
       onProgress: function (p) { status(fmt(T.js.optProgress, { slot: p.slot }) + ' ' + p.dps.toFixed(1) + ' DPS'); } }).then(function (res) {
       state.lastOpt = res;
       var box = $('s60Opt2'); box.hidden = false;
@@ -277,7 +281,7 @@
   }
 
   // ---------- talents ----------
-  var TREE_NAMES = { 'beast-mastery': fr ? 'Maîtrise des bêtes' : 'Beast Mastery', marksmanship: fr ? 'Précision' : 'Marksmanship', survival: fr ? 'Survie' : 'Survival', affliction: fr ? 'Affliction' : 'Affliction', demonology: fr ? 'Démonologie' : 'Demonology', destruction: 'Destruction', arcane: fr ? 'Arcanes' : 'Arcane', fire: fr ? 'Feu' : 'Fire', frost: fr ? 'Givre' : 'Frost', arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
+  var TREE_NAMES = { discipline: fr ? 'Discipline' : 'Discipline', holy: fr ? 'Sacré' : 'Holy', shadow: fr ? 'Ombre' : 'Shadow', elemental: fr ? 'Élémentaire' : 'Elemental', enhancement: fr ? 'Amélioration' : 'Enhancement', restoration: fr ? 'Restauration' : 'Restoration', balance: fr ? 'Équilibre' : 'Balance', 'feral-combat': fr ? 'Combat farouche' : 'Feral Combat', retribution: fr ? 'Vindicte' : 'Retribution', protection: 'Protection', 'beast-mastery': fr ? 'Maîtrise des bêtes' : 'Beast Mastery', marksmanship: fr ? 'Précision' : 'Marksmanship', survival: fr ? 'Survie' : 'Survival', affliction: fr ? 'Affliction' : 'Affliction', demonology: fr ? 'Démonologie' : 'Demonology', destruction: 'Destruction', arcane: fr ? 'Arcanes' : 'Arcane', fire: fr ? 'Feu' : 'Fire', frost: fr ? 'Givre' : 'Frost', arms: fr ? 'Armes' : 'Arms', fury: fr ? 'Fureur' : 'Fury', protection: 'Protection', assassination: fr ? 'Assassinat' : 'Assassination', combat: 'Combat', subtlety: fr ? 'Finesse' : 'Subtlety' };
   function talentStatus() {
     var v = S.validateRanks(state.tdata, state.ranks), st = $('s60TalentStatus');
     st.textContent = (v.ok ? fmt(T.t_ok, { pts: v.total, a: v.bySpec[0], b: v.bySpec[1], c: v.bySpec[2] }) : fmt(T.t_bad, { err: v.errors.slice(0, 2).join(' · ') }));
