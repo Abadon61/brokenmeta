@@ -46,3 +46,12 @@ test('the preset builds convert to kit builds', () => {
   assert.equal(b.mutilate, 1); assert.equal(b.lethality, 5); assert.equal(b.bladeFlurry, 0);
   assert.ok(runBatch(cfg(b), 300, 1).mean > 150);
 });
+
+test('poisons (Classic values, assumed) add damage and the poison talents scale them', () => {
+  const none = runBatch(cfg({ mhPoison: 'none', ohPoison: 'none' }), 1500, 1);
+  const base = runBatch(cfg(), 1500, 1);
+  assert.ok(base.breakdown['Instant Poison'].dps > 0 && base.breakdown['Deadly Poison'].dps > 0);
+  assert.ok(!none.breakdown['Instant Poison'] && !none.breakdown['Deadly Poison']);
+  assert.ok(base.mean > none.mean * 1.03, 'poisons add >3%: ' + base.mean + ' vs ' + none.mean);
+  assert.ok(runBatch(cfg({ vilePoisons: 5, improvedPoisons: 5 }), 1500, 1).mean > base.mean, 'poison talents');
+});

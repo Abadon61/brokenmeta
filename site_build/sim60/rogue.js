@@ -1,8 +1,10 @@
 // Rogue kit (Combat / Assassination / Subtlety share one single-target rotation; the specs differ by
 // talents and by the builder they use). Numbers are WoW: Forever's own where we have them (glossary at
 // level 60 in data/spells60.json, talent tooltips in data/talents.json); ASSUMED = Classic value kept
-// until Forever's table is sourced. Poisons are NOT simulated yet (no Forever poison data), so every
-// rogue number is an under-count of the real thing.
+// until Forever's table is sourced. Poisons: Forever has no poison table yet, so the damage, proc chances
+// and the spell-hit roll are Classic 1.12 values (ASSUMED); only the talent effects come from Forever
+// (Improved Poisons, Vile Poisons, Malice on poisons, Mutilate vs poisoned). Not modeled: poison charges,
+// Venom, Improved Kidney Shot.
 import { yellowAttack, castGcd } from './shared.js';
 
 export const ROGUE = {
@@ -25,12 +27,18 @@ export const ROGUE = {
   hackAndSlash: { perRank: 0.01, armorPerRank: 0.03 }, weaponExpertise: { dodgePerRank: 0.01 },
   opportunity: { perRank: 0.05 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
   puncturingWounds: { bsCritPerRank: 0.10, mutCritPerRank: 0.05 },
+  // poisons: Classic 1.12 rank VII / V (ASSUMED). Nature damage: no armor, no AP scaling, 1.5x on crit, resisted like a spell.
+  poison: { resist: 0.17, critMult: 1.5, mutilateBonus: 1.2 },
+  instantPoison: { min: 146, max: 194, chance: 0.20 },
+  deadlyPoison: { total: 136, duration: 12, tick: 3, maxStacks: 5, chance: 0.30 },
+  improvedPoisons: { chancePerRank: 0.02 }, vilePoisons: { dmgPerRank: 0.04 },
 };
 
 export const ROGUE_DEFAULT_BUILD = {
   improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 5, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
   weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 5, ruthlessness: 3, relentlessStrikes: 1, improvedSliceAndDice: 3,
   sealFate: 0, vigor: 0, coldBlood: 0, mutilate: 0, hemorrhage: 0, opportunity: 0, quietus: 0, serratedBlades: 0, puncturingWounds: 0,
+  improvedPoisons: 0, vilePoisons: 0, mhPoison: 'instant', ohPoison: 'deadly',   // 'instant' | 'deadly' | 'none'
   builder: 'auto', useCooldowns: true,
 };
 
@@ -79,6 +87,37 @@ export function rogueKit(build = {}, data = null) {
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (isWhite && sim.extraAttack && outcome !== 'glance' && s.rng() < sim.extraAttack) s.whiteAttack(s.swings[0]);
+      });
+      // poisons: each landed weapon hit may apply the poison on that weapon
+      const dk = sim.deadly = { stacks: 0, endsAt: 0, ticking: false };
+      const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult;
+      const pcrit = () => Math.min(1, Math.max(0, sim.stats.crit + sim.mods.critBonus));
+      const pdmg = (name, base) => {
+        const crit = sim.rng() < pcrit();
+        const d = base * pmult() * (crit ? R.poison.critMult : 1);
+        sim.record(name, d, crit ? 'crit' : 'hit');
+      };
+      const dkTick = () => {
+        if (sim.now > dk.endsAt + 1e-9) { dk.stacks = 0; dk.ticking = false; return; }
+        pdmg('Deadly Poison', dk.stacks * R.deadlyPoison.total / (R.deadlyPoison.duration / R.deadlyPoison.tick));
+        sim.schedule(R.deadlyPoison.tick, dkTick);
+      };
+      const applyPoison = (kind) => {
+        const p = kind === 'deadly' ? R.deadlyPoison : R.instantPoison;
+        if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons) return;
+        const name = kind === 'deadly' ? 'Deadly Poison' : 'Instant Poison';
+        sim.entry(name).casts++;
+        if (sim.rng() < R.poison.resist) { sim.entry(name).misses++; return; }
+        if (kind === 'instant') { pdmg(name, p.min + (p.max - p.min) * sim.rng()); return; }
+        dk.stacks = Math.min(p.maxStacks, dk.stacks + 1); dk.endsAt = sim.now + p.duration;
+        if (!dk.ticking) { dk.ticking = true; sim.schedule(p.tick, dkTick); }
+      };
+      sim.procs.push((s, outcome, source, isOH, isWhite) => {
+        if (outcome === 'miss' || outcome === 'dodge') return;
+        if (source === 'Eviscerate') return;
+        const kind = isOH ? b.ohPoison : b.mhPoison;
+        if (kind === 'instant' || kind === 'deadly') applyPoison(kind);
+        if (source === 'Mutilate' && b.ohPoison !== 'none' && b.ohPoison !== undefined) applyPoison(b.ohPoison);   // Mutilate hits both weapons
       });
       // energy: +20 every 2 s, doubled by Adrenaline Rush
       const tick = () => { sim.gainRage(R.energy.perTick * (sim.arAura.active ? R.adrenalineRush.regenMult : 1)); sim.nextTick = sim.now + R.energy.tick; sim.schedule(R.energy.tick, tick); };
@@ -169,7 +208,7 @@ export function rogueKit(build = {}, data = null) {
         const o = yellowAttack(sim, 'Mutilate', () => {
           const mhPart = (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * R.mutilate.pct + R.mutilate.flat;
           const ohPart = ((sim.weaponRoll(oh) + sim.ap() / 14 * norm) * R.mutilate.pct + R.mutilate.flat) * ohMult();
-          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity);
+          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1);
         }, { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(R.mutilate.cp, o === 'crit', true);
       });

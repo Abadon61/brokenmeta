@@ -20,6 +20,7 @@ export const NAME_TO_KEY = {
     'Adrenaline Rush': 'adrenalineRush', 'Ruthlessness': 'ruthlessness', 'Relentless Strikes': 'relentlessStrikes',
     'Improved Slice and Dice': 'improvedSliceAndDice', 'Seal Fate': 'sealFate', 'Vigor': 'vigor', 'Cold Blood': 'coldBlood', 'Mutilate': 'mutilate',
     'Hemorrhage': 'hemorrhage', 'Opportunity': 'opportunity', 'Quietus': 'quietus', 'Serrated Blades': 'serratedBlades', 'Puncturing Wounds': 'puncturingWounds',
+    'Improved Poisons': 'improvedPoisons', 'Vile Poisons': 'vilePoisons',
   },
 };
 // Keys that default to "on" in a hand-made build only through the presets below; a talent absent from the ranks means rank 0.
