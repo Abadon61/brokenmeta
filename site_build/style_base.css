@@ -154,25 +154,36 @@
 
   /* Switch entre les jeux gérés par le site -- vit dans le topbar (pas
      dans le menu rose, qui est lui-même déjà scopé "outils du jeu actif")
-     pour bien marquer que TFT et LoL sont deux sections distinctes, pas
-     l'une un sous-outil de l'autre. Même famille visuelle que
-     .lang-toggle juste au-dessus -- en toutes lettres plutôt qu'en
-     icônes, deux icônes abstraites ne se comprenaient pas d'elles-mêmes. */
+     pour bien marquer que WoW/TFT/LoL sont trois sections distinctes, pas
+     l'une un sous-outil de l'autre. 2026-09-30 : le vrai logo de chaque jeu
+     remplace le libellé texte -- contrairement à une icône abstraite, un
+     joueur reconnaît directement ces trois logos, d'où le "title" (infobulle
+     au survol) plutôt qu'un texte visible en plus.
+     Ordre demandé : WoW: Forever, TFT, League of Legends. */
   .game-toggle { display: flex; border: 1px solid var(--border-bright); flex: none; }
   .game-toggle-btn {
-    background: var(--row); border: none; color: var(--text-faint);
-    font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700;
-    letter-spacing: 0.03em; text-transform: uppercase; white-space: nowrap;
-    padding: 6px 12px; display: flex; align-items: center; justify-content: center;
-    transition: color .12s ease, background .12s ease;
+    background: var(--row); border: none;
+    padding: 5px 9px; display: flex; align-items: center; justify-content: center;
+    transition: background .12s ease;
   }
+  .game-toggle-btn { min-height: 38px; }
+  .game-toggle-icon { display: block; border-radius: 3px; }
+  .game-toggle-icon--wow { border-radius: 0; }  /* badge officiel WoW: Forever, déjà détouré */
+  .game-toggle-btn { gap: 8px; text-decoration: none; }
+  .game-toggle-label {
+    font-family: 'Cal Sans', sans-serif; font-size: 12px; letter-spacing: 0.04em;
+    color: var(--text-faint); white-space: nowrap;
+  }
+  .game-toggle-btn[data-active="true"] .game-toggle-label { color: #fff; }
+  .game-toggle-btn:hover .game-toggle-label { color: var(--cream); }
+  /* Game names next to the icons (2026-10-02); icons alone below this width (the row would crowd the search/language controls). */
+  @media (max-width: 1180px) { .game-toggle-label { display: none; } }
   .game-toggle-btn + .game-toggle-btn { border-left: 1px solid var(--border-bright); }
-  .game-toggle-btn[data-active="true"] { background: var(--magenta); color: #fff; }
-  .game-toggle-btn:hover:not([data-active="true"]) { color: var(--cream); }
-  /* Deux libellés complets ("Teamfight Tactics" + "League of Legends")
-     prennent trop de place à partir d'une largeur moyenne -- le menu
-     hamburger (section "Jeux" en haut du panneau mobile) prend le relais
-     avec les mêmes libellés en dessous de ce seuil. */
+  .game-toggle-btn[data-active="true"] { background: var(--magenta); }
+  .game-toggle-btn:hover:not([data-active="true"]) { background: var(--bg-2); }
+  /* En dessous d'une largeur moyenne, le menu hamburger (section "Jeux" en
+     haut du panneau mobile) prend le relais avec les libellés en toutes
+     lettres -- plus lisible qu'une rangée d'icônes minuscules au pouce. */
   @media (max-width: 900px) { .game-toggle { display: none; } }
 
   .navbar {
@@ -193,7 +204,35 @@
     text-transform: uppercase;
     color: #fff;
   }
+  /* The game name is a link back to that game's home (2026-10-02). Clicking it must not highlight
+     or underline the text: no underline in any state, no text selection on a double-click, no
+     tap flash on mobile, and no focus ring after a mouse click (keyboard users still get one via
+     :focus-visible). */
+  .navbar a.title, .navbar a.title:visited, .navbar a.title:hover, .navbar a.title:active, .navbar a.title:focus {
+    color: #fff; text-decoration: none; -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none; user-select: none;
+  }
+  .navbar a.title:focus:not(:focus-visible) { outline: none; }
+  .navbar a.title:hover { opacity: .85; }
   .navbar .sep { color: rgba(255,255,255,0.75); font-size: 11px; }
+
+  /* WoW: Forever specialization banner under the pink menu bar (2026-10-02): one icon per spec guide,
+     grouped by class (class colour frames the icons). Scrolls sideways when the viewport is narrower
+     than the 27 icons instead of wrapping. */
+  .wow-specbar { background: #120d2d; border-bottom: 1px solid var(--border); overflow-x: auto; scrollbar-width: thin; }
+  .wow-specbar-inner { display: flex; align-items: center; gap: 18px; width: max-content; margin: 0 auto; padding: 8px 24px; }
+  .wow-specbar-group { display: flex; gap: 4px; }
+  .wow-spec-link {
+    display: block; width: 36px; height: 36px; border-radius: 5px; overflow: hidden; flex: none;
+    border: 2px solid var(--cc, var(--border-bright)); opacity: .72;
+    transition: opacity .12s ease, transform .12s ease, box-shadow .12s ease;
+  }
+  .wow-spec-link img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .wow-spec-link:hover, .wow-spec-link:focus-visible { opacity: 1; transform: translateY(-1px); }
+  .wow-spec-link[data-active="true"] { opacity: 1; box-shadow: 0 0 0 2px var(--cc, var(--magenta)); }
+  /* Three spec icons side by side on the "Classes et races" class cards (replaces the single class icon). */
+  .wh-card-trio { display: flex; gap: 3px; flex: none; }
+  .wh-card-trio img { display: block; width: 28px; height: 28px; border-radius: 4px; object-fit: cover; }
 
   .nav-menu { display: flex; align-items: center; gap: 16px; }
   .nav-link {
@@ -252,6 +291,13 @@
   .nav-cta-button svg { width: 14px; height: 14px; stroke: currentColor; fill: none; stroke-width: 2.4; flex: none; }
   .nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: #ef3448; color: #fff; }
 
+  /* WoW bar: game name left, menu truly centered on the bar, CTA right (3-column grid; .navbar-right dissolves). */
+  @media (min-width: 1100px) {
+    .navbar--center { display: grid; grid-template-columns: 1fr auto 1fr; }
+    .navbar--center .navbar-right { display: contents; }
+    .navbar--center .nav-menu { grid-column: 2; justify-self: center; }
+    .navbar--center .nav-cta-button { grid-column: 3; justify-self: end; }
+  }
   .navbar-right { display: flex; align-items: center; gap: 18px; flex-wrap: wrap; }
   /* Not a link/button -- there's nowhere real to send anyone yet (the
      Overwolf app isn't packaged/submitted). An inert badge that's honest
@@ -1862,7 +1908,7 @@
   .wow-faq-item summary { cursor: pointer; padding: 12px 16px; font-weight: 700; color: var(--cream); }
   .wow-faq-item[open] { border-color: var(--border-bright); }
   .wow-rank-list { display: flex; flex-direction: column; gap: 8px; margin: 14px 0 24px; }
-  .wow-rank-row { display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--border); background: var(--bg-2); text-decoration: none; transition: border-color .15s ease; }
+  .wow-rank-row { display: grid; grid-template-columns: 28px 1fr; align-items: center; gap: 12px; padding: 8px 10px; border: 1px solid var(--border); background: var(--bg-2); text-decoration: none; transition: border-color .15s ease; }
   .wow-rank-row:hover { border-color: var(--border-bright); }
   .wow-rank-icon { width: 28px; height: 28px; border-radius: 4px; flex: none; }
   .wow-rank-body { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
@@ -1872,8 +1918,11 @@
   .wow-rank-tag[data-role="tank"] { color: var(--cyan); border-color: var(--cyan); }
   .wow-rank-bar-wrap { height: 8px; background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
   .wow-rank-bar { display: block; height: 100%; background: var(--rc, var(--magenta)); }
-  .wow-rank-dps { font: 700 15px/1 'Space Mono', monospace; font-variant-numeric: tabular-nums; color: var(--cream); white-space: nowrap; text-align: right; }
-  .wow-rank-dps span { display: block; font: 400 10px 'Space Mono', monospace; color: var(--text-faint); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 2px; }
+  /* Work-in-progress ranking (2026-09-28, user request): the sim isn't precise enough yet to
+     stand behind exact numbers, so bars are desaturated and unlabeled until real Warcraft Logs
+     data is available -- keeps the relative-order visual without implying false precision. */
+  .wow-rank-list.is-wip .wow-rank-bar { background: var(--text-faint); }
+  .wow-rank-wip-tag { display: inline-block; margin-left: 10px; font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 2px 7px; border: 1px solid var(--border-bright); color: var(--text-faint); vertical-align: middle; }
   .wow-faq-item p { margin: 0; padding: 0 16px 14px; font-size: 14px; line-height: 1.6; color: var(--text-dim); }
   .wow-sources a { color: var(--cyan); }
   @media (max-width: 640px) { .wow-count-grid b { font-size: 30px; } .wow-count { padding: 14px 16px; } }
@@ -1893,7 +1942,13 @@
   .wt-hint { margin: 10px 0 0; font-size: 12.5px; color: var(--text-faint); }
   .wt-trees { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
   .wt-tree { border: 1px solid var(--border-bright); background: radial-gradient(120% 90% at 0% 0%, var(--magenta-dim), var(--bg-2) 60%); padding: 12px 12px 14px; min-width: 0; }
-  .wt-tree-head { display: flex; align-items: baseline; gap: 10px; margin-bottom: 10px; }
+  .wt-tree-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .wt-tree-title { display: flex; align-items: center; gap: 9px; }
+  .wt-tree-icon { flex: none; width: 28px; height: 28px; border-radius: 5px; object-fit: cover; border: 1px solid var(--border-bright); }
+  /* Class logo on the talent calculator pages (2026-10-02). */
+  .lh-card-icon { display: block; width: 44px; height: 44px; border-radius: 6px; margin-bottom: 8px; border: 2px solid var(--cc, var(--border-bright)); }
+  .wt-class-badge { display: flex; align-items: center; gap: 12px; margin: 4px 0 14px; font-family: 'Cal Sans', sans-serif; font-size: 20px; color: var(--cream); }
+  .wt-class-badge img { width: 40px; height: 40px; border-radius: 6px; border: 2px solid var(--cc, var(--border-bright)); }
   .wt-tree-title { margin: 0; font-family: 'Cal Sans', sans-serif; font-size: 17px; text-transform: uppercase; letter-spacing: 0.02em; color: var(--cream); flex: 1; min-width: 0; overflow-wrap: anywhere; }
   .wt-tree-count { font: 700 11px 'Space Mono', monospace; color: var(--gold); }
   .wt-tree-reset { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; background: none; border: none; color: var(--text-faint); cursor: pointer; padding: 2px 4px; }
@@ -2327,7 +2382,33 @@
 
   /* Addon page (/wow-forever/addon/): a static mockup of the addon's crafters directory, in the
      addon's own look (which is the site's palette), plus the FAQ. */
+
+  /* Level-60 DPS simulator page (/wow-forever/simulateur-dps/) */
+  .s60-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px 16px; margin: 10px 0 16px; }
+  .s60-row { display: flex; flex-direction: column; gap: 4px; color: var(--text-dim); font-size: 13px; min-width: 0; }
+  .s60-row select, .s60-row input { background: var(--row); color: var(--cream); border: 1px solid var(--border); padding: 7px 8px; font: 500 14px 'Afacad Flux', sans-serif; max-width: 100%; }
+  .s60-cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+  .s60-checks { display: flex; flex-direction: column; gap: 6px; }
+  .s60-check { color: var(--cream); font-size: 14px; display: block; }
+  .s60-rank { width: 3.2em; background: var(--row); color: var(--cream); border: 1px solid var(--border); padding: 3px 4px; margin-right: 4px; }
+  .s60-talent { cursor: help; } .s60-warn { color: var(--red); }
+  .s60-assumed { color: var(--text-dim); font-style: normal; font-size: 11px; }
+  .s60-manual { margin: 8px 0 12px; } .s60-manual summary { cursor: pointer; color: var(--cream); }
+  .s60-dps { font: 600 16px 'Afacad Flux', sans-serif; color: var(--cream); margin: 4px 0; }
+  .s60-dps b { font: 700 40px 'Cal Sans', sans-serif; color: var(--magenta); } .s60-dps span { color: var(--text-dim); font-size: 13px; }
+  .s60-bar { height: 6px; background: var(--row); margin: 8px 0; } .s60-bar i { display: block; height: 100%; width: 0; background: var(--magenta); transition: width .15s linear; }
   .ad-cta { margin: 18px 0 26px; }
+  .ad-back { margin: 0 0 8px; font: 700 12px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .05em; }
+  .ad-back a { color: var(--text-dim); text-decoration: none; }
+  .ad-back a:hover { color: var(--cream); }
+  .ad-tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 16px; margin: 18px 0 30px; }
+  .ad-tile { display: flex; flex-direction: column; gap: 10px; padding: 20px; border: 1px solid var(--border); border-top: 3px solid var(--magenta); background: var(--bg-2); }
+  .ad-tile-img { width: 96px; height: 96px; border-radius: 14px; object-fit: cover; }
+  .ad-tile-name { margin: 4px 0 0; font-family: 'Cal Sans', sans-serif; font-size: 22px; text-transform: uppercase; color: var(--cream); }
+  .ad-tile-tag { margin: 0; flex: 1; color: var(--text-dim); line-height: 1.5; }
+  .ad-tile-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .ad-tile-actions .wh-btn { padding: 10px 14px; }
+  .wh-btn-ghost { background: transparent; color: var(--cream); border-color: var(--border-bright); }
   .ad-h3 { font: 600 17px 'Afacad Flux', sans-serif; color: var(--cream); margin: 22px 0 6px; }
   .ad-suite { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 18px 0 30px; }
   .ad-suite-card { display: flex; gap: 14px; align-items: flex-start; padding: 16px; border: 1px solid var(--border); background: var(--bg-2); }

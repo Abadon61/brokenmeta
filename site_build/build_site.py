@@ -48,6 +48,8 @@ import wow_spells  # noqa: E402
 import wow_dps_sim  # noqa: E402
 import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
+import wow_sim60_texts  # noqa: E402
+import sim60_bundle  # noqa: E402
 
 # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
 # character creation actually works, not a per-race-and-class combined lookup). Read by hand from
@@ -3339,7 +3341,8 @@ def save_comp_archive(archive: dict) -> None:
     COMP_ARCHIVE_PATH.write_text(json.dumps(archive, ensure_ascii=False, indent=1, sort_keys=True), encoding="utf-8")
 
 
-def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]:
+def build_hors_meta_comps(comps_filtered: list[dict], *,
+                          observed_at: str | None = None) -> tuple[list[dict], dict]:
     """"Hors Meta" archive: a comp that qualified for a real /compo/ page in
     a past refresh but doesn't clear filter_quality() this time isn't
     necessarily dead -- a Riot dev API key's 24h TTL means every refresh
@@ -3352,8 +3355,11 @@ def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]
     data/comp_archive.json (git-tracked, unlike data/output/*.json which is
     gitignored and fully overwritten every refresh) is the persistent memory
     across refreshes: every comp that qualifies gets its full record
-    refreshed here every time, so the archive always holds each comp's own
-    latest-known-good snapshot. Anything in the archive for the CURRENT set
+    refreshed when source data carries a live observation date, so the
+    archive holds each comp's latest-known-good snapshot without treating a
+    static-site rebuild as a new observation. `observed_at` is the UTC date
+    of the live Riot sampling run that produced the current dataset; it is
+    absent for legacy data and --from-cache. Anything in the archive for the CURRENT set
     that doesn't qualify this run becomes a "Hors Meta" comp -- same full
     record, tier overwritten to "HM", carrying its last real tier/date
     alongside so comp.html can be honest about it being archived instead of
@@ -3365,11 +3371,18 @@ def build_hors_meta_comps(comps_filtered: list[dict]) -> tuple[list[dict], dict]
     comps then writes the archive back with save_comp_archive() once the
     build actually succeeds, not before."""
     archive = load_comp_archive()
-    today = datetime.now(timezone.utc).date().isoformat()
     live_keys = {c["key"] for c in comps_filtered}
 
     for c in comps_filtered:
-        archive[c["key"]] = {**c, "_set": SET_LABEL, "_last_seen": today}
+        previous = archive.get(c["key"], {})
+        entry = {**previous, **c, "_set": SET_LABEL}
+        if observed_at:
+            entry["_last_seen"] = observed_at
+        elif "_last_seen" in previous:
+            entry["_last_seen"] = previous["_last_seen"]
+        else:
+            entry.pop("_last_seen", None)
+        archive[c["key"]] = entry
 
     hors_meta = []
     for key, entry in archive.items():
@@ -5008,7 +5021,7 @@ def wowsim_manifest():
     every other asset cache-first: without it, a returning visitor kept an old simulator."""
     files = [ROOT / "wow_mysim.py", ROOT / "wow_dps_sim.py", ROOT / "wow_spells.py", ROOT / "wow_weights.py",
              PROJECT / "data" / "wow_dungeons" / "dungeons.json", PROJECT / "data" / "wow_items" / "proficiency.json",
-             PROJECT / "data" / "wow_items" / "bis_level20_stats.json",
+             PROJECT / "data" / "wow_items" / "bis_level30_stats.json",
              *sorted((PROJECT / "data" / "wow_spells").glob("*.json")),
              *sorted((PROJECT / "data" / "wow_spells_ranks").glob("*.json"))]
     body = json.dumps({"files": [{"path": f.relative_to(PROJECT).as_posix(),
@@ -5027,6 +5040,48 @@ ADDON_CURSEFORGE_URLS = {
     "dps": "https://www.curseforge.com/wow/addons/brokendps",
     "crafter": "https://www.curseforge.com/wow/addons/brokencrafter",
     "codex": "https://www.curseforge.com/wow/addons/brokencodex",
+}
+
+# The BrokenMeta addon family (2026-10-02): /wow-forever/addon/ shows one tile per addon (download on
+# CurseForge + "more info" -> /wow-forever/addon/<id>/). Art: logo/wow_addon_icons/<id>.png.
+ADDONS = [
+    {"id": "hub", "cf": ADDON_CURSEFORGE_URL, "name": "Broken Meta : Hub",
+     "tag": {"fr": "Le hub : DPS, métiers, économie et donjons dans une seule fenêtre.",
+             "en": "The hub: DPS, professions, economy and dungeons in one window."}},
+    {"id": "dps", "cf": "https://www.curseforge.com/wow/addons/brokendps", "name": "BrokenDPS",
+     "tag": {"fr": "La valeur en DPS de chaque objet pour ta spé, tes améliorations et tes poids de stats.",
+             "en": "Every item's DPS value for your spec, your upgrades and your stat weights."},
+     "title": {"fr": "BrokenDPS : addon DPS pour WoW: Forever (gratuit)", "en": "BrokenDPS: free DPS addon for WoW: Forever"},
+     "desc": {"fr": "BrokenDPS, addon gratuit WoW: Forever : valeur DPS de chaque objet dans l'infobulle, tes améliorations et tes poids de stats personnels.",
+              "en": "BrokenDPS, free WoW: Forever addon: every item's DPS value in its tooltip, your upgrades and your personal stat weights."},
+     "h1": {"fr": "BrokenDPS, l'addon DPS de WoW: Forever", "en": "BrokenDPS, the WoW: Forever DPS addon"},
+     "sections": ["dps"]},
+    {"id": "crafter", "cf": "https://www.curseforge.com/wow/addons/brokencrafter", "name": "BrokenCrafter",
+     "tag": {"fr": "Trouve un artisan disponible, consulte ses recettes ou monte ton métier au meilleur prix.",
+             "en": "Find an available crafter, browse their recipes or level a profession at the best price."},
+     "title": {"fr": "BrokenCrafter : addon artisans WoW: Forever (gratuit)", "en": "BrokenCrafter: free crafters addon for WoW: Forever"},
+     "desc": {"fr": "BrokenCrafter, addon gratuit WoW: Forever : annuaire des artisans disponibles avec leurs recettes, et montée de métier aux prix de l'HV.",
+              "en": "BrokenCrafter, free WoW: Forever addon: directory of available crafters with their recipes, and profession leveling at auction house prices."},
+     "h1": {"fr": "BrokenCrafter, l'addon artisans de WoW: Forever", "en": "BrokenCrafter, the WoW: Forever crafters addon"},
+     "sections": ["prof"]},
+    {"id": "codex", "cf": "https://www.curseforge.com/wow/addons/brokencodex", "name": "BrokenCodex",
+     "tag": {"fr": "Prix de l'hôtel des ventes, valeur de tes sacs, bonnes affaires et butin des donjons.",
+             "en": "Auction house prices, your bags' value, bargains and dungeon loot."},
+     "title": {"fr": "BrokenCodex : addon économie et donjons WoW: Forever", "en": "BrokenCodex: economy and dungeons addon, WoW: Forever"},
+     "desc": {"fr": "BrokenCodex, addon gratuit WoW: Forever : prix de l'HV dans l'infobulle, valeur de tes sacs, bonnes affaires et butin boss par boss.",
+              "en": "BrokenCodex, free WoW: Forever addon: auction prices in tooltips, your bags' value, bargains and boss-by-boss dungeon loot."},
+     "h1": {"fr": "BrokenCodex, l'addon économie et donjons de WoW: Forever", "en": "BrokenCodex, the WoW: Forever economy and dungeons addon"},
+     "sections": ["eco", "dg"]},
+]
+ADDON_INDEX_TX = {
+    "fr": {"title": "Addons BrokenMeta pour WoW: Forever (gratuits)", "h1": "Les addons BrokenMeta pour WoW: Forever",
+           "desc": "Les addons gratuits BrokenMeta pour WoW: Forever : Hub, BrokenDPS, BrokenCrafter et BrokenCodex. Téléchargement sur CurseForge.",
+           "intro": "Quatre addons gratuits, tous sur CurseForge : le Hub qui réunit tout, et trois addons dédiés pour ne garder que ce dont tu as besoin.",
+           "download": "Télécharger", "more": "Plus d'infos", "home": "Tous les addons"},
+    "en": {"title": "BrokenMeta addons for WoW: Forever (free)", "h1": "The BrokenMeta addons for WoW: Forever",
+           "desc": "Free BrokenMeta addons for WoW: Forever: Hub, BrokenDPS, BrokenCrafter and BrokenCodex. Download on CurseForge.",
+           "intro": "Four free addons, all on CurseForge: the Hub that brings everything together, and three dedicated addons so you only keep what you need.",
+           "download": "Download", "more": "More info", "home": "All addons"},
 }
 
 
@@ -5095,6 +5150,7 @@ def main() -> None:
     if DIST.exists():
         shutil.rmtree(DIST)
     DIST.mkdir(parents=True)
+    SIM60_BUILD = sim60_bundle.build(DIST)   # level-60 simulator: hashed lib + worker + data under dist/assets/sim60/
     images = ImageCache(DIST)
 
     # ---- Real champion + item image URLs (same CDragon source as the Artifact) ----
@@ -5303,7 +5359,9 @@ def main() -> None:
     all_comps_raw = combined["comps"]
     comps_filtered = filter_quality(all_comps_raw)
     comps_by_key = {c["key"]: c for c in all_comps_raw}
-    hors_meta_comps, comp_archive = build_hors_meta_comps(comps_filtered)
+    hors_meta_comps, comp_archive = build_hors_meta_comps(
+        comps_filtered, observed_at=combined.get("observed_at")
+    )
     if hors_meta_comps:
         print(f"Hors Meta: {len(hors_meta_comps)} previously-published comp(s) kept archived "
               f"(didn't clear the live quality bar this refresh): "
@@ -6683,13 +6741,13 @@ def main() -> None:
     wow_raids = wow_guides.load_raids()
     env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
     wow_spell_classes = wow_spells.load_all()   # {class_id: parsed json} for every data/wow_spells/<id>.json present
-    _wnav = list(wow_content.NAV)
+    _wnav = [n for n in wow_content.NAV if n[0] != "progression"]   # "Progression 1-60" dropped from the menu 2026-10-02 (page still built)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("talents" if wt_classes else "classes") + 1, ("glossaire", "Glossaire des sorts", "Spell glossary"))
     if wow_dungeons or wow_raids:
-        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("optimisation", "Item builder", "Item builder"))
+        _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("optimisation", "Item builder", "Item builder"))
     # Rebuilt 2026-09-25 around the real level-20 kit (data/wow_spells/warrior.json) instead of the
     # speculative level-60 one removed 2026-09-23 -- see wow_warrior_sim.html / wow-warrior-sim.js.
     # The manual-input Fury calculator (/wow-forever/simulateur/) was replaced 2026-09-26 by the
@@ -6697,14 +6755,15 @@ def main() -> None:
     # "Simulate my character" (2026-09-26): paste the BrokenMeta addon export, simulated in the
     # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
     if wow_spell_classes:
-        _wnav.insert([s for s, _, _ in _wnav].index("progression"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
+        _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
+    _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
-    _wnav.append(("addon", "Addon BrokenMeta", "BrokenMeta addon"))
+    # "addon" is no longer a menu link: the pink bar CTA (macros.nav_cta) points there since 2026-10-02.
     env.globals["wow_nav"] = _wnav
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
-    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage"]
+    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "simulateur-dps"]
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -7525,22 +7584,13 @@ def main() -> None:
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
-            _bcls = {g["cls"]["id"]: g for g in wow_guide_list}
-            _guides_crumb = _gbase + [(_gx["guides"], canonical_for("/wow-forever/guides/", lang))]
-            render("wow_guides_hub.html", "/wow-forever/guides/", lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui,
-                   wt_classes=wt_classes, guide_ids=list(_bcls), breadcrumb_schema=breadcrumb_schema(_guides_crumb))
             for _g in wow_guide_list:
                 _cls, _roles = _g["cls"], _g["roles"]
                 _cn = _cls["name"][lang]
-                _sp = ", ".join(s["name"][lang] for s in _cls["specs"][:-1]) + (" / " if lang == "en" else " et ") + _cls["specs"][-1]["name"][lang]
-                _cpath = f"/wow-forever/guides/{_cls['id']}/"
-                _ct, _cd = _gx["class_title"].format(name=_cn), _gx["class_desc"].format(name=_cn, specs=_sp)
-                assert len(_ct) <= 60 and len(_cd) <= 155, (_ct, len(_ct), len(_cd))
-                _ch1, _ci = _gx["class_h1"].format(name=_cn), _gx["class_intro"].format(name=_cn, specs=_sp)
-                _ccrumb = _guides_crumb + [(_cn, canonical_for(_cpath, lang))]
-                render("wow_guide_class.html", _cpath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, roles=_roles,
-                       g_title=_ct, g_desc=_cd, g_h1=_ch1, g_intro=_ci, breadcrumb_schema=breadcrumb_schema(_ccrumb),
-                       article_schema=build_article_schema(_ch1, canonical_for(_cpath, lang), _cd))
+                # No intermediate hub / class overview pages any more (2026-10-02, user request): the
+                # spec banner under the menu links straight to each spec guide; the old URLs redirect
+                # (.htaccess, see below). Spec pages' breadcrumb goes home > section > class - spec.
+                _ccrumb = _gbase
                 for _s in _cls["specs"]:
                     _spath = f"/wow-forever/guides/{_cls['id']}/{_s['id']}/"
                     _role = _roles[_s["id"]]
@@ -7575,7 +7625,7 @@ def main() -> None:
                            bis_stats=(_bis_optimized.get(_bspec_id, (None, None, None))[1] if _bspec_id else None),
                            bis_dps=(_bis_optimized.get(_bspec_id, (None, None, None))[2] if _bspec_id else None),
                            bis_credit_url=_bis_gear_data["credit_url_by_class"].get(_cls["id"]),
-                           breadcrumb_schema=breadcrumb_schema(_ccrumb + [(_sn, canonical_for(_spath, lang))]),
+                           breadcrumb_schema=breadcrumb_schema(_ccrumb + [(f"{_cn} · {_sn}", canonical_for(_spath, lang))]),
                            article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
             if wow_dungeons:
                 _dcrumb = _gbase + [("Donjons" if lang == "fr" else "Dungeons", canonical_for("/wow-forever/dungeons/", lang))]
@@ -7726,26 +7776,51 @@ def main() -> None:
                     _ms_specs[_sid] = {"class_name": _scls["name"][lang] if _scls else _sid, "spec_name": _sname,
                                        "role": _sprof.get("role", "dps"),
                                        "class_icon": _scls.get("icon") if _scls else None,
-                                       "class_color": _scls.get("color") if _scls else None}
+                                       "class_color": _scls.get("color") if _scls else None,
+                                       "spec_icon": (f"assets/img/spec/{_scls['id']}-{wow_dps_sim.SPEC_ID_MAP[_sid]}.png"
+                                                     if _scls and wow_dps_sim.SPEC_ID_MAP.get(_sid) else None)}
                 render("wow_mysim.html", _mspath, lang, active_nav="wow", active_sub="wow-simuler-mon-personnage", tx=_gx,
                        ms_i18n=_gx["ms_js"], ms_specs=_ms_specs, ms_manifest_hash=wowsim_manifest()[1],
                        addon_version=addon_version(),
                        g_title=_gx["ms_title"], g_desc=_gx["ms_desc"], g_h1=_gx["ms_h1"], g_intro=_gx["ms_intro"],
                        breadcrumb_schema=breadcrumb_schema(_mscrumb),
                        article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
+            # Level-60 DPS simulator (2026-10-02): JavaScript engine in sim60/, bundled by sim60_bundle.py.
+            _s60path = "/wow-forever/simulateur-dps/"
+            _s60 = wow_sim60_texts.TXT[lang]
+            assert len(_s60["title"]) <= 60 and len(_s60["desc"]) <= 155, (lang, len(_s60["title"]), len(_s60["desc"]))
+            _s60crumb = _gbase + [(_s60["h1"], canonical_for(_s60path, lang))]
+            render("wow_sim60.html", _s60path, lang, active_nav="wow", active_sub="wow-simulateur-dps", tx=_s60, tx_js=dict(_s60, **{"js": _s60["js"]}),
+                   s60=SIM60_BUILD, g_title=_s60["title"], g_desc=_s60["desc"], g_h1=_s60["h1"], g_intro=_s60["intro"],
+                   breadcrumb_schema=breadcrumb_schema(_s60crumb),
+                   article_schema=build_article_schema(_s60["h1"], canonical_for(_s60path, lang), _s60["desc"]))
             # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
             # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
-            _adpath = "/wow-forever/addon/"
-            assert len(_gx["ad_title"]) <= 60 and len(_gx["ad_desc"]) <= 155
             _adroot = "/" if lang == "fr" else "/en/"
-            render("wow_addon.html", _adpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx,
-                   addon_version=addon_version(),
-                   g_title=_gx["ad_title"], g_desc=_gx["ad_desc"], g_h1=_gx["ad_h1"], g_intro=_gx["ad_intro"],
-                   faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
-                               "mainEntity": [{"@type": "Question", "name": q,
-                                               "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
-                                              for q, a in _gx["ad_faq"]]},
-                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["ad_h1"], canonical_for(_adpath, lang))]))
+            _adx = ADDON_INDEX_TX[lang]
+            _adpath = "/wow-forever/addon/"
+            assert len(_adx["title"]) <= 60 and len(_adx["desc"]) <= 155
+            _faq_schema = {"@context": "https://schema.org", "@type": "FAQPage",
+                           "mainEntity": [{"@type": "Question", "name": q,
+                                           "acceptedAnswer": {"@type": "Answer", "text": re.sub(r"<[^>]+>", "", a.replace("{root}", _adroot))}}
+                                          for q, a in _gx["ad_faq"]]}
+            render("wow_addon.html", _adpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx, adx=_adx, addons=ADDONS,
+                   g_title=_adx["title"], g_desc=_adx["desc"], g_h1=_adx["h1"], g_intro=_adx["intro"],
+                   faq_schema=_faq_schema,
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_adx["h1"], canonical_for(_adpath, lang))]))
+            for _ad in ADDONS:
+                _dpath = f"/wow-forever/addon/{_ad['id']}/"
+                if _ad["id"] == "hub":
+                    _dt, _dd, _dh, _di = _gx["ad_title"], _gx["ad_desc"], _gx["ad_h1"], _gx["ad_intro"]
+                else:
+                    _dt, _dd, _dh = _ad["title"][lang], _ad["desc"][lang], _ad["h1"][lang]
+                    _di = _ad["desc"][lang]
+                assert len(_dt) <= 60 and len(_dd) <= 155, (_ad["id"], lang, len(_dt), len(_dd))
+                render("wow_addon_detail.html", _dpath, lang, active_nav="wow", active_sub="wow-addon", tx=_gx, adx=_adx, ad=_ad,
+                       addon_version=addon_version(),
+                       g_title=_dt, g_desc=_dd, g_h1=_dh, g_intro=_di,
+                       faq_schema=_faq_schema,
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_adx["h1"], canonical_for(_adpath, lang)), (_dh, canonical_for(_dpath, lang))]))
             # Public crafters directory (2026-09-27): opt-in cards from the addon, loaded from wow-worker.
             _crpath = "/wow-forever/artisans/"
             assert len(_gx["cr_title"]) <= 60 and len(_gx["cr_desc"]) <= 155
@@ -8618,11 +8693,24 @@ def main() -> None:
     # covers the whole site, FR and /en/ alike, with one registration.
     shutil.copy(LOGO_DIR / "pwa_icon_192.png", DIST / "assets" / "img" / "icon-192.png")
     shutil.copy(LOGO_DIR / "logo_google_512.png", DIST / "assets" / "img" / "icon-512.png")
-
-    # The 3 addons of the Broken Meta suite (BrokenDPS, BrokenCrafter, BrokenCodex), each with its
-    # own logo shown on /wow-forever/addon/ (the HUB itself reuses the site's own favicon in-game).
-    for _key in ("dps", "crafter", "codex"):
-        shutil.copy(ROOT / "assets_src" / "wow-addons" / f"{_key}.png", DIST / "assets" / "img" / f"wow-addon-{_key}.png")
+    # Game-switcher icons (topbar .game-toggle, 2026-09-30/10-02): all three are the user's own
+    # provided art -- the official "World of Warcraft: Forever" badge (kept whole, shown a bit
+    # taller than the two crests), and the TFT / LoL crests cropped to clean squares.
+    shutil.copy(LOGO_DIR / "game-wow-forever-nav.png", DIST / "assets" / "img" / "game-wow-forever.png")
+    shutil.copy(LOGO_DIR / "game-tft-nav.png", DIST / "assets" / "img" / "game-tft.png")
+    shutil.copy(LOGO_DIR / "game-lol-nav.png", DIST / "assets" / "img" / "game-lol.png")
+    # WoW: Forever specialization icons (user-provided art, normalized to 128px by a one-off script
+    # into logo/wow_spec_icons/<class>-<spec>.png): they replace every class visual on the WoW pages
+    # (spec banner under the menu, DPS ranking, home page spec cards, guides, talent calculator).
+    _spec_icon_dst = DIST / "assets" / "img" / "spec"
+    _spec_icon_dst.mkdir(parents=True, exist_ok=True)
+    for _icon in sorted((LOGO_DIR / "wow_spec_icons").glob("*.png")):
+        shutil.copy(_icon, _spec_icon_dst / _icon.name)
+    # Addon tiles/pages art (logo/wow_addon_icons: hub, dps, crafter, codex).
+    _addon_icon_dst = DIST / "assets" / "img" / "addon"
+    _addon_icon_dst.mkdir(parents=True, exist_ok=True)
+    for _icon in sorted((LOGO_DIR / "wow_addon_icons").glob("*.png")):
+        shutil.copy(_icon, _addon_icon_dst / _icon.name)
     manifest = {
         "name": "BrokenMeta.gg — Tier List TFT",
         "short_name": "BrokenMeta",
@@ -8678,7 +8766,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"
@@ -8818,6 +8906,15 @@ def main() -> None:
     # keeps a short cache instead of none at all -- long enough to help a
     # back button or an accidental double-click, short enough that a data
     # refresh a few times a day is never stale for more than 5 minutes.
+    # 2026-10-02: the WoW guides hub and the per-class overview pages are gone (spec banner under the
+    # menu links straight to every spec guide). Old URLs keep working: hub -> WoW home, class page ->
+    # that class's first spec guide, FR and EN.
+    _guide_redirects = "\n# WoW: Forever guides hub / class overview pages removed 2026-10-02.\n"
+    for _pfx in ("", "/en"):
+        _guide_redirects += f"RedirectMatch 301 ^{_pfx}/wow-forever/guides/$ {_pfx}/wow-forever/\n"
+        for _gg in wow_guide_list:
+            _guide_redirects += f"RedirectMatch 301 ^{_pfx}/wow-forever/guides/{_gg['cls']['id']}/$ {_pfx}/wow-forever/guides/{_gg['cls']['id']}/{_gg['cls']['specs'][0]['id']}/\n"
+    _guide_redirects += "\n"
     (DIST / ".htaccess").write_text(
         "ErrorDocument 404 /404.html\n"
         "\n"
@@ -8825,6 +8922,7 @@ def main() -> None:
         "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
         "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
         "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
+        + _guide_redirects +
         "\n"
         "<IfModule mod_expires.c>\n"
         "  ExpiresActive On\n"

@@ -70,9 +70,9 @@
 <p class="page-intro" style="margin-top:0">{{ tx.ranks_p }}</p>
 <div class="wow-table-wrap"><table class="wow-table">
   <thead><tr><th>{{ tx.r_rank }}</th><th>{{ tx.r_cap }}</th><th>{{ tx.r_at }}</th><th>{{ tx.r_level }}</th><th>{{ tx.r_cost }}</th></tr></thead>
-  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 20 %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</td><td class="nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</td></tr>{% endfor %}</tbody>
+  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 30 %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</td><td class="nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</td></tr>{% endfor %}</tbody>
 </table></div>
-{% if prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 20)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
+{% if prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 30)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.how_h2 }}</h2>
 <ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>

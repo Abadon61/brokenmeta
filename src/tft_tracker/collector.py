@@ -14,6 +14,10 @@ from .riot_client import RiotClient
 class BracketSample:
     region: str
     tier: str
+    # `tier` is the bracket requested. These fields record where its seed
+    # players actually came from when Riot's apex endpoint is empty.
+    source_tier: str | None = None
+    source_division: str | None = None
     used_fallback: bool = False
     fallback_note: str | None = None
     seed_puuids: list[str] = field(default_factory=list)
@@ -60,6 +64,8 @@ def collect_bracket(client: RiotClient, region: str, tier: str) -> BracketSample
     sample.seed_puuids = puuids
     sample.used_fallback = used_fallback
     sample.fallback_note = note
+    sample.source_tier = config.APEX_FALLBACK_TIER if used_fallback else tier
+    sample.source_division = config.APEX_FALLBACK_DIVISION if used_fallback else None
 
     for puuid in puuids:
         if len(sample.match_ids) >= config.MAX_MATCHES_PER_BRACKET:

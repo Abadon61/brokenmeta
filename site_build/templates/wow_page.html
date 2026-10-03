@@ -48,31 +48,30 @@
   </div>
 </aside>
 {% if wow_ranking %}
-<h2 class="lh-h2">{{ wow_ui.ranking_h2 }}</h2>
+<h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>
-<div class="wow-rank-list">
+<div class="wow-rank-list is-wip">
   {% set max_dps = wow_ranking[0].dps %}
   {% for r in wow_ranking %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
-    {% if r.class_icon %}<img class="wow-rank-icon" src="{{ r.class_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
+  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}">
+    {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b>{% if r.role == 'tank' %}<span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span>{% endif %}</span>
       <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_dps)|round(1) }}%"></span></span>
     </span>
-    <span class="wow-rank-dps nums">{{ '%.1f'|format(r.dps) }}<span>{{ wow_ui.ranking_dps_unit }}</span></span>
   </a>
   {% endfor %}
 </div>
 <p class="wow-note">{{ wow_ui.ranking_note }}</p>
 {% endif %}
-<h2 class="lh-h2">{{ wow_ui.pick_class }}</h2>
+<h2 class="lh-h2">{{ wow_ui.pick_spec }}</h2>
 <div class="wh-cards">
-  {% for c in wt_classes %}
-  <a class="wh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">
-    {% if c.icon %}<img class="wh-card-icon" src="{{ c.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
-    <span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ c.specs|map(attribute='talents')|map('length')|sum }} {{ wow_ui.talents_n }}</span></span>
+  {% for g in wow_guides_nav %}{% for s in g.cls.specs %}
+  <a class="wh-card" href="{{ root }}wow-forever/guides/{{ g.cls.id }}/{{ s.id }}/" style="--cc: {{ g.cls.color or '#8a6cff' }}">
+    <img class="wh-card-icon" src="{{ root }}assets/img/spec/{{ g.cls.id }}-{{ s.id }}.png" alt="" width="56" height="56" loading="lazy">
+    <span class="wh-card-body"><b>{{ s.name[lang] }}</b><span class="wh-card-specs">{{ g.cls.name[lang] }}</span><span class="wh-card-n nums">{{ g.roles[s.id].role[lang] }}</span></span>
   </a>
-  {% endfor %}
+  {% endfor %}{% endfor %}
 </div>
 {% else %}
 {{ m.page_hero(page.kicker, page.h1, page.intro) }}
@@ -87,7 +86,7 @@
 {% elif b.type == 'note' %}<p class="wow-note">{{ b.text }}</p>
 {% elif b.type == 'list' %}<ul class="gd-list">{% for it in b['items'] %}<li>{{ it }}</li>{% endfor %}</ul>
 {% elif b.type == 'facts' %}<dl class="wow-facts">{% for label, value in b['items'] %}<div><dt>{{ label }}</dt><dd>{{ value }}</dd></div>{% endfor %}</dl>
-{% elif b.type == 'classcards' %}{% if wt_classes %}<div class="wh-cards">{% for c in wt_classes %}<a class="wh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">{% if c.icon %}<img class="wh-card-icon" src="{{ c.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}<span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ wow_ui.cta_calc }} →</span></span></a>{% endfor %}</div>{% endif %}
+{% elif b.type == 'classcards' %}{% if wt_classes %}<div class="wh-cards">{% for c in wt_classes %}<a class="wh-card" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}"><span class="wh-card-trio">{% for sp in c.specs %}<img src="{{ root }}assets/img/spec/{{ c.id }}-{{ sp.id }}.png" alt="" width="28" height="28" loading="lazy">{% endfor %}</span><span class="wh-card-body"><b>{{ c.name[lang] }}</b><span class="wh-card-specs">{{ c.specs|map(attribute='name')|map(attribute=lang)|join(' · ') }}</span><span class="wh-card-n nums">{{ wow_ui.cta_calc }} →</span></span></a>{% endfor %}</div>{% endif %}
 {% elif b.type == 'racecards' %}{% if wow_races %}{% for fac, fac_label in (('alliance', 'Alliance'), ('horde', 'Horde')) %}<h3 class="wr-faction" data-faction="{{ fac }}">{{ fac_label }}</h3>
 <div class="wr-cards">{% for r in wow_races if r.faction == fac %}<div class="wr-card" data-faction="{{ fac }}">{% if r.icon %}<img class="wr-icon" src="{{ r.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}<span class="wr-body"><b>{{ r.name[lang] }}</b>{% if r.new %}<span class="wr-new">{{ wow_ui.new_race }}</span>{% endif %}</span></div>{% endfor %}</div>{% endfor %}{% endif %}
 {% elif b.type == 'cards' %}<div class="lh-cards">{% for slug, name, desc in b['items'] %}<a class="lh-card" href="{{ root }}wow-forever/{{ slug }}/"><span class="lh-card-k">World of Warcraft: Forever</span><b>{{ name }}</b><span>{{ desc }}</span></a>{% endfor %}</div>

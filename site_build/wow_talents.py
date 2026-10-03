@@ -228,5 +228,5 @@ def payload(cls: dict, lang: str) -> dict:
             if t.get("icon"):
                 item["icon"] = t["icon"]
             talents.append(item)
-        specs.append({"id": s["id"], "name": s["name"][lang], "talents": talents})
+        specs.append({"id": s["id"], "name": s["name"][lang], "icon": f"assets/img/spec/{cls['id']}-{s['id']}.png", "talents": talents})
     return {"rev": cls["rev"], "rules": RULES, "ui": UI[lang], "lang": lang, "specs": specs}

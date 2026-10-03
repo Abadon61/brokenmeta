@@ -50,7 +50,7 @@ import wow_dps_sim
 import wow_spells
 
 ROOT = wow_spells.ROOT
-LEVEL_CAP = 20
+LEVEL_CAP = 30
 
 # ---- proficiency tables, sourced from vanilla-wow-archive.fandom.com/wiki/Class_proficiencies
 # (see module docstring). Armor types match this project's own item data's `type.en` strings
@@ -229,6 +229,17 @@ def _pick_best(pool, spec_id, weights, candidates, exclude_ids=()):
     return best
 
 
+_L30_BASES = None
+
+
+def _level30_bases():
+    global _L30_BASES
+    if _L30_BASES is None:
+        path = wow_spells.ROOT / "data" / "wow_items" / "base_stats_level30.json"
+        _L30_BASES = {k: v["stats"] for k, v in json.loads(path.read_text(encoding="utf-8"))["classes"].items()} if path.exists() else {}
+    return _L30_BASES
+
+
 def optimize_spec(spec_id, race_base_stats, class_bonus_stats, fallback_gear, stat_names):
     """Computes this spec's own engine-driven BIS loadout. Returns (gear_list, final_stats_block,
     dps) where gear_list matches the shape wow_guide_spec.html already renders (slot/name/icon/
@@ -250,6 +261,10 @@ def optimize_spec(spec_id, race_base_stats, class_bonus_stats, fallback_gear, st
     base = dict(race_base_stats.get(race_key, {}))
     for k, v in class_bonus_stats.get(class_id, {}).items():
         base[k] = base.get(k, 0) + v
+    # Level-30 base (2026-10-02, foreverchanges.pro "empty character"): replaces the level-1 table when the class has one.
+    l30 = _level30_bases().get(class_id)
+    if l30:
+        base = dict(l30)
     baseline_stats = wow_dps_sim.stats_from_raw(spec_id, str_=base.get("str", 0), agi=base.get("agi", 0), int_=base.get("int", 0))
     weights, _ = _stat_weights(spec_id, baseline_stats)
 
