@@ -7,9 +7,9 @@ import shutil
 from pathlib import Path
 
 SIM = Path(__file__).parent / "sim60"
-ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "spells", "mage", "warlock", "hunter", "kits", "weights", "optimizer"]
+ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "spells", "effects", "mage", "warlock", "hunter", "kits", "weights", "optimizer"]
 EXPORTS = ("Sim, Aura, runBatchRaw, mergeRaw, finalize, runBatch, buildCharacter, ItemPool, toWeapon, EQUIP_SLOTS, "
-           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, makeKit, KITS, "
+           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, resolveEffects, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, makeKit, KITS, "
            "statWeights, optimizeGear, optimizeGearAsync, validateRanks, parseShareHash, ranksToBuild, ranksFromNames, PRESETS, NAME_TO_KEY, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
 
 
@@ -57,7 +57,7 @@ def build(dist_dir: Path):
     wh = hashlib.sha256(worker.encode("utf-8")).hexdigest()[:10]
     worker_name = f"worker.{wh}.js"
     (out / worker_name).write_text(worker, encoding="utf-8")
-    for f in ("items.json", "proficiency.json", "spells60.json", "talents.json"):
+    for f in ("items.json", "proficiency.json", "spells60.json", "talents.json", "effects.json"):
         shutil.copy(SIM / "data" / f, out / f)
-    data_v = hashlib.sha256(b"".join((SIM / "data" / f).read_bytes() for f in ("items.json", "proficiency.json", "spells60.json", "talents.json"))).hexdigest()[:10]
+    data_v = hashlib.sha256(b"".join((SIM / "data" / f).read_bytes() for f in ("items.json", "proficiency.json", "spells60.json", "talents.json", "effects.json"))).hexdigest()[:10]
     return {"lib": lib_name, "worker": worker_name, "data_v": data_v}

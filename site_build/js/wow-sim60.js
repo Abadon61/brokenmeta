@@ -165,7 +165,7 @@
       var tv = $('s60w_th').value; if (tv) { var ti = state.pool.byId.get(parseInt(tv, 10)); if (ti) gear.push({ slot: 'th', id: ti.id, name: ti.name, st: ti.st }); }
       wp('rng', false);
     } else if (arms) wp('th', false); else { wp('mh', false); wp('oh', true); }
-    var spec = { class: curCls(), base: readBase(), race: $('s60Race').value, gear: gear, weapons: weapons,
+    var spec = { class: curCls(), base: readBase(), effects: $('s60Fx') && $('s60Fx').checked ? state.effects : null, race: $('s60Race').value, gear: gear, weapons: weapons,
       buffs: checked('buff', S.BUFFS), consumables: checked('cons', S.CONSUMABLES), debuffs: checked('debuff', S.DEBUFFS),
       targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
@@ -208,10 +208,17 @@
     box.innerHTML = '<p class="s60-dps"><b>' + r.mean.toFixed(1) + '</b> ' + T.dps + ' <span>± ' + r.sem.toFixed(2) + ' (' + r.iterations + ')</span></p>' +
       (isCaster() ? '<p class="wow-note">' + unit() + ' ' + Math.round(sm.sp) + ' · ' + T.crit + ' ' + (sm.crit * 100).toFixed(1) + ' · ' + T.hit + ' ' + (sm.hit * 100).toFixed(1) + ' · Mana ' + Math.round(sm.mana) + ' · MP5 ' + Math.round(sm.mp5) + '</p>' : '<p class="wow-note">AP ' + Math.round(sm.ap) + ' · ' + T.crit + ' ' + (sm.crit * 100).toFixed(1) + ' · ' + T.hit + ' ' + (sm.hit * 100).toFixed(1) + ' · ' + T.armor + ' ' + Math.round(sm.armor) + '</p>') +
       '<div class="wow-table-wrap"><table class="wow-table"><thead><tr><th>' + T.ability + '</th><th>DPS</th><th>' + T.share + '</th><th>' + T.casts + '</th><th>' + T.crits + '</th><th>' + T.misses + '</th><th>' + T.dodges + '</th></tr></thead><tbody>' + tr + '</tbody></table></div>' +
-      (up ? '<p class="wow-note">' + T.uptime + ' : ' + up + '</p>' : '');
+      (up ? '<p class="wow-note">' + T.uptime + ' : ' + up + '</p>' : '') + fxList(sm);
     status(fmt(T.js.done, { s: (ms / 1000).toFixed(1), rate: Math.round(r.iterations / (ms / 1000)) }) + ' · ' + fmt(T.js.workers, { n: getPool().size }));
   }
 
+  function fxList(sm) {
+    var list = sm.effects || [];
+    if (!list.length) return '';
+    var sim = list.filter(function (e) { return e.status === 'simulated'; }), other = list.length - sim.length;
+    var names = sim.map(function (e) { return e.name; }).filter(function (n, i, a) { return a.indexOf(n) === i; }).join(' · ');
+    return '<p class="wow-note"><b>' + T.fx_title + '</b> : ' + (names || '—') + (other ? ' (' + fmt(T.fx_ignored, { n: other }) + ')' : '') + ' ' + T.fx_note + '</p>';
+  }
   function setBusy(b) { ['s60Run', 's60Weights', 's60Opt'].forEach(function (id) { $(id).disabled = b; }); }
 
   function doRun() {
@@ -305,8 +312,8 @@
   }
 
   // ---------- boot ----------
-  Promise.all(['items.json', 'proficiency.json', 'spells60.json', 'talents.json'].map(function (f) { return fetch(base + f + '?v=' + dv).then(function (r) { return r.json(); }); })).then(function (all) {
-    state.items = all[0]; state.prof = all[1]; state.data = all[2]; state.talentsAll = all[3];
+  Promise.all(['items.json', 'proficiency.json', 'spells60.json', 'talents.json', 'effects.json'].map(function (f) { return fetch(base + f + '?v=' + dv).then(function (r) { return r.json(); }); })).then(function (all) {
+    state.items = all[0]; state.prof = all[1]; state.data = all[2]; state.talentsAll = all[3]; state.effects = all[4];
     state.pool = new S.ItemPool(all[0], all[1]);
     buildForm(); loadPreset();
     BASE_KEYS.forEach(function (k) { $('s60Base').appendChild(el('label', { class: 's60-row' }, el('span', { text: k[1] }), el('input', { id: 's60base_' + k[0], type: 'number', step: '1' }))); });

@@ -52,6 +52,7 @@ export function resolveSpell(sim, name, raw, m) {
   let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
   if (crit) d *= 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
   sim.record(name, d, crit ? 'crit' : 'hit');
+  if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
   return { outcome: crit ? 'crit' : 'hit', dmg: d };
 }
 

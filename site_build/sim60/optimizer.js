@@ -69,6 +69,13 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
     const c = weaponCandidates(pool, cls, slot, mode).filter((i) => !taken.has(i.id)).sort((x, y) => score(y, staticW) - score(x, staticW));
     wsel[slot] = c[0] || null;
   }
+  // Items with a proc or an on-use effect have no stats to rank them by: always try a few of them next to the best-scoring ones.
+  const fxItems = (character.effects && character.effects.items) || {};
+  const withEffectItems = (top, all) => {
+    const have = new Set(top.map((i) => i.id));
+    const extra = all.filter((i) => fxItems[i.id] && !have.has(i.id)).slice(0, 6);
+    return top.concat(extra);
+  };
   const w = Object.assign({ caster: !!caster, hunter: !!ranged }, await getWeights(specOf()));
   let best = await evaluate(specOf());
   const log = [{ pass: 0, dps: best }];
@@ -79,7 +86,7 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
       const others = new Set(wslots.filter((s) => s !== slot && wsel[s]).map((s) => wsel[s].id));
       let cands = weaponCandidates(pool, cls, slot, mode).filter((i) => !others.has(i.id));
       cands.sort((a, b) => score(b, w) - score(a, w));
-      cands = cands.slice(0, weaponPrefilter);
+      cands = withEffectItems(cands.slice(0, weaponPrefilter), weaponCandidates(pool, cls, slot, mode).filter((i) => !others.has(i.id)));
       const current = wsel[slot];
       let bestItem = current, bestDps = best;
       for (const it of cands) {
@@ -96,7 +103,7 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
       const used = new Set(EQUIP_SLOTS.filter((s) => s !== slot && bySlot[s]).map((s) => bySlot[s].id));
       let cands = pool.forSlot(slot, cls, 60).filter((i) => !used.has(i.id));
       cands.sort((a, b) => score(b, w) - score(a, w));
-      cands = cands.slice(0, prefilter);
+      cands = withEffectItems(cands.slice(0, prefilter), pool.forSlot(slot, cls, 60).filter((i) => !used.has(i.id)));
       const current = bySlot[slot];
       let bestItem = current, bestDps = best;
       for (const it of cands) {

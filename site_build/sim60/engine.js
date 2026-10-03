@@ -2,6 +2,7 @@
 // `setup(sim)` (auras, spells, procs) and `rotate(sim)` (priority list). Everything the engine
 // models is Classic-derived and documented in constants.js.
 import { makeRng } from './rng.js';
+import { attachEffects } from './effects.js';
 import {
   GCD, RAGE_CAP, HIT_FACTOR, CRIT_MULT_PHYSICAL, DUAL_WIELD_MISS_PENALTY, OVERPOWER_WINDOW,
   meleeTable, armorDR, rageConversion, PLAYER_LEVEL,
@@ -94,7 +95,7 @@ export class Sim {
     this.rng = makeRng(cfg.seed | 0);
     this.now = 0; this.seq = 0; this.heap = new Heap();
     this.player = cfg.player;                       // {stats:{...}, weapons:[...], level, resource, dualWield}
-    this.stats = cfg.player.stats;
+    this.stats = Object.assign({}, cfg.player.stats);     // per-run copy: temporary buffs (item effects) adjust it
     this.level = cfg.player.level || PLAYER_LEVEL;
     this.target = cfg.target;                       // {armor, defense, executeFrac}
     this.table = meleeTable(this.stats.weaponSkill || 300, cfg.target.defense);
@@ -110,7 +111,9 @@ export class Sim {
     this.overpowerUntil = -1;
     this.auras = []; this.spells = []; this.procs = [];
     this.rotateAt = Infinity; this.rotateToken = 0;
+    this.spellProcs = [];
     this.spec = cfg.spec; this.spec.setup(this);
+    attachEffects(this);
   }
 
   // -------- scheduling --------

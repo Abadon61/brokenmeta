@@ -48,10 +48,10 @@ def main():
     duration = {r["ID"]: num(r.get("Duration"), int) for r in T["SpellDuration"]}
     cooldown = {r["SpellID"]: r for r in T["SpellCooldowns"] if num(r.get("DifficultyID"), int) == 0}
 
-    def spell(sid):
+    def spell(sid, depth=0):
         sid = str(sid)
         a, m, c = aura.get(sid, {}), misc.get(sid, {}), cooldown.get(sid, {})
-        return {
+        out = {
             "spell_id": int(sid), "name": name.get(sid, ""), "desc": desc.get(sid, ("", ""))[0], "aura_desc": desc.get(sid, ("", ""))[1],
             "proc_chance": num(a.get("ProcChance"), int), "proc_charges": num(a.get("ProcCharges"), int),
             "proc_mask": [num(a.get("ProcTypeMask_0"), int), num(a.get("ProcTypeMask_1"), int)], "ppm_id": num(a.get("SpellProcsPerMinuteID"), int),
@@ -61,7 +61,13 @@ def main():
                          "trigger_spell": num(e.get("EffectTriggerSpell"), int), "sp_coeff": num(e.get("EffectBonusCoefficient")), "chain": num(e.get("EffectChainTargets"), int)}
                         for e in effects.get(sid, [])],
         }
+        if depth < 2:                         # a proc effect only names a trigger spell: carry that spell's own data (damage, buff...) along
+            for e in out["effects"]:
+                if e["trigger_spell"] and str(e["trigger_spell"]) in name:
+                    e["triggered"] = spell(e["trigger_spell"], depth + 1)
+        return out
 
+    slot_of = {i["id"]: i["slot"] for i in items}
     link = defaultdict(list)                       # item id -> ItemEffect ids
     for r in T["ItemXItemEffect"]:
         if num(r["ItemID"], int) in pool:
@@ -79,7 +85,7 @@ def main():
             lst.append({"trigger": TRIGGER.get(trig, str(trig)), "charges": num(r.get("Charges"), int), "cooldown_ms": num(r.get("CoolDownMSec"), int),
                         "category_cd_ms": num(r.get("CategoryCoolDownMSec"), int), "spell": sp})
         if lst:
-            by_item[str(item_id)] = lst
+            by_item[str(item_id)] = {"slot": slot_of.get(item_id), "effects": lst}
 
     # set bonuses for the sets that hold at least one pool item
     sets = []
@@ -98,7 +104,7 @@ def main():
     OUT.write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     kinds = defaultdict(int)
     for lst in by_item.values():
-        for e in lst:
+        for e in lst["effects"]:
             kinds[e["trigger"]] += 1
     print(f"build {build}: {len(by_item)} of {len(pool)} pool items have effects {dict(kinds)}; {len(sets)} sets, {sum(len(s['bonuses']) for s in sets)} set bonuses -> {OUT}")
 
