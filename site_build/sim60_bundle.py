@@ -9,7 +9,7 @@ from pathlib import Path
 SIM = Path(__file__).parent / "sim60"
 ORDER = ["rng", "constants", "engine", "run", "presets", "character", "items", "talents", "shared", "warrior", "rogue", "spells", "effects", "caster", "mage", "warlock", "hunter", "priest", "shaman", "druid", "paladin", "tanks", "kits", "weights", "optimizer"]
 EXPORTS = ("Sim, Aura, runBatchRaw, mergeRaw, finalize, runBatch, buildCharacter, ItemPool, toWeapon, EQUIP_SLOTS, "
-           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, resolveEffects, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, priestKit, shamanElementalKit, shamanEnhancementKit, druidBalanceKit, druidFeralKit, paladinRetKit, warriorProtKit, paladinProtKit, druidBearKit, slotsFor, makeKit, KITS, "
+           "BUFFS, CONSUMABLES, DEBUFFS, PRESET_RAID, RACIAL_SKILL, RACE_MODS, BASE_L60_HUMAN, PRESET_CASTER, PRESET_HUNTER, resolveEffects, furyKit, armsKit, rogueKit, mageKit, warlockKit, hunterKit, hunterMeleeKit, priestKit, shamanElementalKit, shamanEnhancementKit, druidBalanceKit, druidFeralKit, paladinRetKit, warriorProtKit, paladinProtKit, druidBearKit, slotsFor, makeKit, KITS, "
            "statWeights, optimizeGear, optimizeGearAsync, validateRanks, parseShareHash, ranksToBuild, ranksFromNames, PRESETS, NAME_TO_KEY, FURY_DEFAULT_BUILD, ARMS_DEFAULT_BUILD, WARRIOR, warriorFromData, meleeTable, armorDR")
 
 

@@ -12,6 +12,8 @@ import wow_spell_ranks_build as R
 import wow_talents_import as imp
 
 EXTRA = {
+    "hunter": ["Raptor Strike", "Mongoose Bite", "Wing Clip", "Strider Kick", "Counterattack", "Multi-Shot", "Steady Shot", "Hunter's Mark", "Serpent Sting", "Arcane Shot", "Aimed Shot"],
+    "mage": ["Arcane Missiles", "Arcane Blast", "Ice Lance", "Frostfire Bolt", "Scorch"],
     "warrior": ["Shield Slam", "Revenge", "Shield Block", "Thunder Clap", "Sunder Armor", "Heroic Strike", "Shield Bash", "Concussion Blow", "Taunt", "Devastate", "Last Stand", "Shield Wall"],
     "priest": ["Mind Flay", "Shadow Word: Death", "Devouring Plague", "Holy Fire", "Penance", "Shadowform", "Vampiric Embrace", "Power Infusion", "Inner Focus", "Smite", "Shadow Word: Pain", "Mind Blast"],
     "shaman": ["Chain Lightning", "Lava Burst", "Stormstrike", "Windfury Weapon", "Flametongue Weapon", "Fire Nova", "Lightning Shield", "Earth Shock", "Flame Shock", "Lightning Bolt", "Searing Totem", "Magma Totem", "Rockbiter Weapon"],
@@ -19,7 +21,15 @@ EXTRA = {
     "druid": ["Starfire", "Insect Swarm", "Wrath", "Moonfire", "Shred", "Rake", "Ferocious Bite", "Ravage", "Claw", "Rip", "Primal Bite", "Berserk", "Tiger's Fury", "Swipe", "Maul", "Lacerate", "Growl", "Savage Bite", "Demoralizing Roar", "Bash", "Enrage"],
 }
 # spells that are not on a class skill line of the glossary (talent / passive spells): explicit client spell ids, highest rank at level 60
-SEEDS = {"paladin": {"Holy Shield": 20928, "Righteous Fury": 25780, "Hammer of the Righteous": 407632}}
+SEEDS = {
+    "paladin": {"Holy Shield": 20928, "Righteous Fury": 25780, "Hammer of the Righteous": 407632},
+    "mage": {"Arcane Blast": 1239700, "Arcane Blast Stacks": 400573, "Arcane Missiles": 25345, "Arcane Missiles Tick": 25346},
+    "druid": {"Savage Roar": 407988, "Tiger's Fury": 5217, "Tiger's Fury Energy": 417045, "Tiger's Fury Damage": 1289238, "Shifting Power": 1322605},
+}
+
+
+# spells missing from the class skill lines: highest rank (learn level <= 60) among ALL client spells of that name
+GLOBAL = {"hunter": ["Raptor Strike", "Mongoose Bite", "Wing Clip", "Strider Kick"]}
 
 
 def extra_spells(build=None, refresh=False):
@@ -47,8 +57,19 @@ def extra_spells(build=None, refresh=False):
             if ok:
                 withcost = [r for r in ok if r.get("cost")]
                 found[n] = (withcost or ok)[-1]
+        for n in GLOBAL.get(cls, []):
+            ids = [sid for sid, nm in T["names"].items() if nm == n and R.num(T["levels"].get(sid, {}).get("BaseLevel"), int) > 0]
+            ids.sort(key=lambda x: (R.num(T["levels"].get(x, {}).get("BaseLevel"), int), R.num(x, int)))
+            recs = [R.rank_record(x, T) for x in ids]
+            recs = [r for r in recs if r["level"] <= 60]
+            if recs:
+                found[n] = ([r for r in recs if r.get("cost")] or recs)[-1]
         for n, sid in SEEDS.get(cls, {}).items():
             found[n] = R.rank_record(str(sid), T)
+        for n, rec in found.items():           # percent-of-base-mana costs live in a separate column
+            pct = T["power"].get(str(rec["spell_id"]), {}).get("PowerCostPct")
+            if pct not in (None, "", "0"):
+                rec["cost_pct"] = R.num(pct, int)
         out[cls] = found
     return out
 

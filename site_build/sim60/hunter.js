@@ -206,3 +206,91 @@ function hunterRotate(sim, b, H) {
   const next = Math.min(sim.cd.arcane, sim.cd.shared, b.sniperShot ? sim.cd.sniper : Infinity, Math.max(now + 0.5, sim.serpentEnds - H.serpent.interval));
   return Math.max(0.1, next - now);
 }
+
+// ---------------------------------------------------------------------------------------------------------------------------
+// Survival in melee: the hunter fights with a melee weapon (dual wield when two are worn), Raptor Strike, Mongoose Bite after a dodge (or an
+// Expose Prey proc), Strider Kick, plus the pet. Numbers from the client's rank ladders (spells60.json: extra) and the Forever talent tooltips.
+// ASSUMED (Classic style): Raptor Strike off the global cooldown, Mongoose Bite / Strider Kick on a 1.5 s global cooldown, base mana 1300, the pet as above.
+// Serpent Sting, Arcane Shot and Aimed Shot are not used (they need the ranged weapon and range).
+export const HUNTER_MELEE = {
+  raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 5 }, strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
+  savageStrikes: { crit: 0.02 }, surefooted: { hit: 0.01 }, predatorsEdge: { critDmg: 0.06, oh: 0.10 }, lightningReflexes: { agi: 0.02 }, exposePrey: { chance: 0.05 },
+  lacerating: { frac: 0.40, ticks: 7, interval: 3 }, resourcefulness: { cost: 0.30 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, lethalAttacks: { crit: 0.01 },
+  norm: { dw: 2.4, twoHand: 3.3 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+};
+export const HUNTER_MELEE_DEFAULT_BUILD = {
+  savageStrikes: 0, surefooted: 0, predatorsEdge: 0, lightningReflexes: 0, exposePrey: 0, lacerating: 0, lacerationStrikes: 0, resourcefulness: 0, efficiency: 0, carefulAim: 0, lethalAttacks: 0, striderKick: 0,
+  unleashedFury: 0, ferocity: 0, frenzy: 0, focusedFire: 0, pet: 'cat', useCooldowns: true, usePotion: true, useGem: true,
+};
+
+export function hunterMeleeKit(build = {}, data = null) {
+  const b = Object.assign({}, HUNTER_MELEE_DEFAULT_BUILD, build), M = JSON.parse(JSON.stringify(HUNTER_MELEE)), H = HUNTER;
+  const ex = (data && data.hunter && data.hunter.extra) || {};
+  if (ex['Raptor Strike']) { const r = ex['Raptor Strike']; M.raptor.cost = r.cost.amount; M.raptor.cd = r.cooldown_ms / 1000; M.raptor.flat = r.effects.find((e) => e.effect === 58).base; }
+  if (ex['Mongoose Bite']) { const r = ex['Mongoose Bite']; M.mongoose.cost = r.cost.amount; M.mongoose.cd = r.cooldown_ms / 1000; M.mongoose.flat = r.effects.find((e) => e.effect === 121).base; }
+  if (ex['Strider Kick']) { const r = ex['Strider Kick']; M.strider.costPct = r.cost_pct / 100; M.strider.cd = r.cooldown_ms / 1000; M.strider.pct = r.effects.find((e) => e.effect === 31 && e.aura === 0).base / 100; }
+  return {
+    name: 'hunter_melee', build: b, M,
+    setup(sim) {
+      sim.player.resource = 'mana'; sim.kitBuild = b;
+      const st = sim.stats, mods = sim.mods;
+      const extraAgi = Math.floor((st.agi || 0) * M.lightningReflexes.agi * b.lightningReflexes);
+      mods.apBonus += extraAgi + (b.carefulAim ? Math.floor((st.int || 0) * M.carefulAim.intToAp * b.carefulAim) : 0);
+      mods.critBonus += extraAgi / 53 / 100 + M.lethalAttacks.crit * b.lethalAttacks;
+      mods.hitBonus += M.surefooted.hit * b.surefooted;
+      mods.critDmgBonus += M.predatorsEdge.critDmg * b.predatorsEdge;
+      if (sim.player.dualWield) mods.ohDmgBonus = (mods.ohDmgBonus || 0) + M.predatorsEdge.oh * b.predatorsEdge;
+      sim.petOn = b.pet !== 'none';
+      sim.dmgGlobal = sim.petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1;
+      mods.dmgMult *= sim.dmgGlobal;
+      setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
+      sim.cd = { raptor: 0, mongoose: 0, strider: 0, potion: 0, gem: 0 };
+      sim.mbUntil = -1; sim.aFrenzy = sim.addAura({ name: 'Frenzy', duration: H.frenzy.dur }); sim.aWrath = sim.addAura({ name: 'Bestial Wrath', duration: 18 });
+      sim.procs.push((s, outcome, source, isOH, isWhite) => {
+        if (outcome === 'miss' || outcome === 'dodge') return;
+        if (b.exposePrey && s.rng() < M.exposePrey.chance * b.exposePrey) s.mbUntil = s.now + M.mongoose.window;
+      });
+      if (sim.petOn) startPet(sim, b, H);
+    },
+    start() {},
+    rotate(sim) {
+      const now = sim.now, rem = sim.fightLen - now, st = sim.stats;
+      if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + M.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, M.manaPotion.min + (M.manaPotion.max - M.manaPotion.min) * sim.rng()); }
+      if (b.useGem && now >= sim.cd.gem && sim.mana <= sim.manaMax - 1100 && rem > 15) { sim.cd.gem = now + M.manaGem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, M.manaGem.min + (M.manaGem.max - M.manaGem.min) * sim.rng()); }
+      const cost = (c) => Math.round(c * (1 - M.resourcefulness.cost * b.resourcefulness) * (1 - M.efficiency.cost * b.efficiency));
+      const norm = sim.player.dualWield ? M.norm.dw : (sim.player.weapons[0] && sim.player.weapons[0].twoHand ? M.norm.twoHand : M.norm.dw);
+      const mh = sim.player.weapons[0];
+      const sa = M.savageStrikes.crit * b.savageStrikes;
+      // Raptor Strike: no global cooldown
+      if (mh && now >= sim.cd.raptor && sim.mana >= cost(M.raptor.cost)) {
+        sim.cd.raptor = now + M.raptor.cd; spendMana(sim, cost(M.raptor.cost)); sim.lastCastAt = now; sim.entry('Raptor Strike').casts++;
+        yellowAttack(sim, 'Raptor Strike', () => sim.weaponRoll(mh) + sim.ap() / 14 * mh.speed + M.raptor.flat, { critDmgBonus: sim.mods.critDmgBonus, bonusCrit: sa });
+      }
+      const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
+      if (gcdLeft > 0) return gcdLeft;
+      const striderCost = Math.round(M.strider.costPct * M.strider.baseMana);
+      if (mh && b.striderKick && now >= sim.cd.strider && sim.mana >= cost(striderCost)) {
+        sim.cd.strider = now + M.strider.cd; spendMana(sim, cost(striderCost)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Strider Kick').casts++;
+        yellowAttack(sim, 'Strider Kick', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * M.strider.pct, { critDmgBonus: sim.mods.critDmgBonus, bonusCrit: sa });
+        return 1.5;
+      }
+      const window = now < sim.overpowerUntil || now < sim.mbUntil;
+      if (mh && window && now >= sim.cd.mongoose && sim.mana >= cost(M.mongoose.cost)) {
+        sim.cd.mongoose = now + M.mongoose.cd; spendMana(sim, cost(M.mongoose.cost)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Mongoose Bite').casts++;
+        sim.overpowerUntil = -1; sim.mbUntil = -1;
+        let dealt = 0;
+        const r0 = sim.total;
+        yellowAttack(sim, 'Mongoose Bite', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + M.mongoose.flat, { critDmgBonus: sim.mods.critDmgBonus, bonusCrit: sa });
+        dealt = sim.total - r0;
+        if (b.lacerationStrikes && dealt > 0) {            // Lacerating Strikes: the bite also bleeds for 40% of its damage over 21 s
+          const per = dealt * M.lacerating.frac / M.lacerating.ticks, my = (sim.lacToken = (sim.lacToken || 0) + 1); let n = 0;
+          const step = () => { if (sim.lacToken !== my) return; sim.record('Lacerating Strikes', per, 'hit'); if (++n < M.lacerating.ticks) sim.schedule(M.lacerating.interval, step); };
+          sim.schedule(M.lacerating.interval, step);
+        }
+        return 1.5;
+      }
+      const next = Math.min(sim.cd.raptor, b.striderKick ? sim.cd.strider : Infinity, window ? sim.cd.mongoose : Infinity);
+      return Math.max(0.1, Math.min(0.5, next - now));
+    },
+  };
+}

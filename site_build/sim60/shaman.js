@@ -12,7 +12,7 @@ export const SHAMAN = {
 
 export const SHAMAN_ELE_DEFAULT_BUILD = {
   convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, callOfThunder: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
-  useCooldowns: true, usePotion: true, useGem: true, earthShock: false,
+  useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
 export function shamanElementalKit(build = {}, data = null) {
@@ -67,7 +67,7 @@ export function shamanElementalKit(build = {}, data = null) {
       if (S.fs && shockReady && rem > 6 && dotLeft(sim, S.fs.name) < 1.0) return S.fs;
       if (S.lvb && b.lavaBurst && ready(S.lvb)) return S.lvb;
       if (S.es && b.earthShock && shockReady) return S.es;
-      if (S.cl && ready(S.cl)) return S.cl;
+      if (S.cl && b.chainLightning && ready(S.cl)) return S.cl;
       return S.lb;
     },
   };

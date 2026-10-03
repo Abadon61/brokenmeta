@@ -2,9 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runBatch } from '../run.js';
-import { hunterKit } from '../hunter.js';
+import { hunterKit, hunterMeleeKit } from '../hunter.js';
 import { buildCharacter } from '../character.js';
-import { SAMPLE_HUNTER } from '../samples.js';
+import { SAMPLE_HUNTER, SAMPLE_HUNTER_MELEE } from '../samples.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from '../talents.js';
 
 const spells = JSON.parse(readFileSync(new URL('../data/spells60.json', import.meta.url)));
@@ -42,4 +42,15 @@ test('talents, attack power and haste move the DPS', () => {
   const more = { ...SAMPLE_HUNTER, gear: SAMPLE_HUNTER.gear.concat([{ slot: 'neck', name: 'x', st: { atkpwr: 120 } }]) };
   assert.ok(runBatch(cfg(mm, more), 1500, 1).mean > base * 1.02, 'attack power');
   assert.ok(runBatch(cfg({ ...mm, useCooldowns: false }), 1500, 1).mean < base, 'Rapid Fire');
+});
+
+test('Survival in melee: swings, Raptor Strike, Strider Kick and Mongoose Bite after a dodge, no ranged shots', () => {
+  const tal2 = tal, build = Object.assign(ranksToBuild('hunter', tal2, ranksFromNames(tal2, PRESETS.hunter_melee)), {});
+  const go = (b, sample = SAMPLE_HUNTER_MELEE) => { const ch = buildCharacter(sample); return runBatch({ fightLen: 180, player: ch.player, target: ch.target, kitFactory: () => hunterMeleeKit(b, spells) }, 800, 1); };
+  const r = go(build);
+  for (const n of ['White (main hand)', 'White (off-hand)', 'Raptor Strike', 'Strider Kick', 'Mongoose Bite']) assert.ok(r.breakdown[n] && r.breakdown[n].dps > 0, n + ' ' + Object.keys(r.breakdown));
+  assert.ok(!r.breakdown['Auto Shot'] && !r.breakdown['Arcane Shot']);
+  assert.ok(r.mean > 200 && r.mean < 3000, 'dps ' + r.mean);
+  assert.ok(r.mean > go({ ...build, predatorsEdge: 0 }).mean, "Predator's Edge");
+  assert.ok(!go({ ...build, striderKick: 0 }).breakdown['Strider Kick'], 'the talent');
 });

@@ -104,3 +104,5 @@ const TANK_GEAR = [
 export const SAMPLE_PROT_WAR = { class: 'warrior', variant: 'protection', race: 'human', gear: TANK_GEAR, weapons: [{ min: 110, max: 190, speed: 2.6, type: 'sword' }], ...PRESET_RAID };
 export const SAMPLE_PROT_PAL = { class: 'paladin', variant: 'protection', race: 'human', gear: TANK_GEAR, weapons: [{ min: 110, max: 190, speed: 2.6, type: 'sword' }], ...PRESET_RAID };
 export const SAMPLE_BEAR = { class: 'druid', variant: 'bear', race: 'nightelf', gear: TANK_GEAR.filter((g) => g.slot !== 'shield').map((g) => ({ ...g, st: { ...g.st, agi: (g.st.agi || 0) + 8 } })), weapons: [], ...PRESET_RAID };
+
+export const SAMPLE_HUNTER_MELEE = { ...SAMPLE_RET, class: 'hunter', variant: 'melee', race: 'nightelf', weapons: [{ min: 100, max: 190, speed: 2.7, type: 'sword' }, { min: 80, max: 150, speed: 2.5, type: 'sword', offHand: true }], gear: SAMPLE_RET.gear.map((g) => ({ ...g, st: { ...g.st, agi: (g.st.agi || 0) + 22, int: (g.st.int || 0) + 6 } })), ...PRESET_HUNTER };

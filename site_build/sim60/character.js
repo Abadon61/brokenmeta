@@ -53,10 +53,11 @@ const CLASS_RULES = {
   // Melee classes with mana (Paladin, Enhancement) and the cat: attack power 2 per Strength (+3 per level for the Paladin), crit from Agility 1/20
   paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
   shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
-  druid_feral: { stick: true, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'energy' },
+  druid_feral: { stick: true, manaUser: true, baseMana: 1300, manaPerInt: 15, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'energy' },
   priest: { caster: true, intPerCrit: 59.2, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },       // ASSUMED Classic values
   shaman: { caster: true, intPerCrit: 59.5, baseCrit: 0, baseMana: 1250, manaPerInt: 15, resource: 'mana' },
   druid: { caster: true, intPerCrit: 60, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },
+  hunter_melee: { manaUser: true, apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
   warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0, baseMana: 1200, manaPerInt: 15, resource: 'mana' },   // ASSUMED Classic values
   mage: { caster: true, intPerCrit: 59.5, baseCrit: 0.002, baseMana: 1213, manaPerInt: 15, resource: 'mana' },
 };

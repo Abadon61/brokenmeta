@@ -49,3 +49,11 @@ test('talents and attack power move the DPS of the new melee specs', () => {
     assert.ok(run(k, {}, more, 180, 1500).mean > base * 1.02, k + ' attack power');
   }
 });
+
+test('Feral cat uses the Forever finishers and cooldowns: Savage Roar, Tiger Fury, Shifting Power, Berserk', () => {
+  const r = run('druid_feral', {}, null, 180, 500);
+  assert.ok(r.uptimes['Savage Roar'] > 0.7, 'Savage Roar ' + r.uptimes['Savage Roar']);
+  assert.ok(r.breakdown["Tiger's Fury"].casts >= 5 && r.breakdown['Shifting Power'].casts > 5 && r.breakdown['Berserk'].casts >= 1);
+  assert.ok(r.mean > 300, 'dps ' + r.mean);
+  assert.ok(r.mean > run('druid_feral', { shiftingPower: 0, improvedShiftingPower: 0, berserk: 0 }, null, 180, 500).mean, 'the talents add DPS');
+});

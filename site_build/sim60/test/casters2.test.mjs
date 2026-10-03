@@ -33,7 +33,7 @@ test('Shadow Priest: Shadow Word: Pain and Devouring Plague tick, Mind Blast on 
 });
 
 test('Elemental Shaman: Flame Shock up, Lava Burst and Chain Lightning on cooldown, Lightning Bolt fills, Overload fires', () => {
-  const r = run('shaman_elemental');
+  const r = run('shaman_elemental', { chainLightning: true });
   for (const n of ['Flame Shock', 'Lava Burst', 'Chain Lightning', 'Lightning Bolt']) assert.ok(r.breakdown[n] && r.breakdown[n].dps > 0, n + ' ' + Object.keys(r.breakdown));
   assert.ok(r.breakdown['Lightning Bolt (Overload)'], 'Lightning Overload');
   assert.ok(r.mean > 150 && r.mean < 3000, 'dps ' + r.mean);

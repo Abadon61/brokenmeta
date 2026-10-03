@@ -60,3 +60,9 @@ test('Mana Gem and Innervate help a long fight; movement costs DPS; Arcane Blast
   const ab = runBatch(cfg({ ...preset('mage_arcane'), arcaneBlast: 1 }, SAMPLE_MAGE, 120), 300, 1);
   assert.ok(ab.mean > 100);
 });
+
+test('Arcane Missiles uses the client numbers: a missile is 209 + 0.286 spell power, five per channel', () => {
+  const r = runBatch(cfg(preset('mage_arcane'), SAMPLE_MAGE, 60), 300, 1);
+  assert.ok(r.breakdown['Arcane Missiles'].casts >= 8);
+  assert.ok(r.mean > 380, 'arcane dps ' + r.mean);
+});

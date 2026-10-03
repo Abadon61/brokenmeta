@@ -1,6 +1,6 @@
 // Mage kit (Fire / Frost / Arcane). Numbers are WoW: Forever's own where the level-60 glossary has them
 // (Fireball, Fire Blast, Pyroblast, Frostbolt, Scorch, Frostfire Bolt, Combustion cooldown) and the talent
-// tooltips; ASSUMED = Classic 1.12 value kept until Forever's table is sourced:
+// tooltips; ASSUMED = Classic 1.12 value kept until Forever's table is sourced (Arcane Missiles and Arcane Blast now come from the client tables):
 //   Arcane Missiles / Ice Lance / Arcane Blast damage and costs, Arcane Power and Presence of Mind cooldowns,
 //   Evocation, mana potion, spell hit/crit/mana formulas (see spells.js and character.js).
 // Simplifications: Arcane Blast is not rotated (the Forever tooltip is ambiguous about which spells its stacks
@@ -64,6 +64,16 @@ export function mageKit(build = {}, data = null) {
     const sc = fut('Scorch'); if (sc) { const [lo, hi, co] = range(sc.rank); Object.assign(M.scorch, { min: lo, max: hi, coeff: co, cost: sc.rank.cost.amount, cast: sc.rank.cast_ms / 1000 }); }
     const ff = fut('Frostfire Bolt'); if (ff) { const [lo, hi, co] = range(ff.rank); Object.assign(M.frostfireBolt, { min: lo, max: hi, coeff: co, cost: ff.rank.cost.amount, cast: ff.rank.cast_ms / 1000 }); const dt = ff.rank.effects.find((x) => x.aura === 3); if (dt) M.frostfireBolt.dot.total = dt.base * 3; }
     const cb = fut('Combustion'); if (cb) M.combustion.cd = cb.rank.cooldown_ms / 1000;
+    // Arcane Missiles and Arcane Blast straight from the client's rank ladders (spells60.json: extra): per-missile damage and coefficient, 15% of base mana for Arcane Blast
+    const ex = data.mage.extra || {};
+    if (ex['Arcane Missiles Tick'] && ex['Arcane Missiles']) {
+      const t = ex['Arcane Missiles Tick'], c = ex['Arcane Missiles'], e = t.effects.find((x) => x.effect === 2), ticks = Math.round(c.duration_ms / 1000);
+      Object.assign(M.arcaneMissiles, { cost: c.cost.amount, ticks, cast: ticks, total: ticks * (e.base + e.per_level * Math.max(0, 60 - t.spell_level)), coeff: ticks * e.sp_coeff });
+    }
+    if (ex['Arcane Blast']) {
+      const r = ex['Arcane Blast'], e = r.effects.find((x) => x.effect === 2), mid = e.base + e.per_level * Math.max(0, Math.min(60, r.max_level || 60) - r.spell_level);
+      Object.assign(M.arcaneBlast, { min: mid * (1 - e.variance / 2), max: mid * (1 + e.variance / 2), coeff: e.sp_coeff, cast: r.cast_ms / 1000, cost: Math.round(r.cost_pct / 100 * 1213) });
+    }
   }
 
   return {

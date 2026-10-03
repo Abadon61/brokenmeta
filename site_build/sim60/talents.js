@@ -47,12 +47,13 @@ export const NAME_TO_KEY = {
     "Nature's Splendor": 'naturesSplendor', 'Insect Swarm': 'insectSwarm', 'Vengeance': 'vengeance', 'Improved Starfire': 'improvedStarfire', "Nature's Grace": 'naturesGrace', 'Eclipse': 'eclipse',
     'Moonfury': 'moonfury', 'Moonkin Form': 'moonkinForm', 'Naturalist': 'naturalist', 'Ferocity': 'ferocity', 'Shredding Attacks': 'shreddingAttacks', 'Savage Fury': 'savageFury',
     'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Predatory Instincts': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
-    'Leader of the Pack': 'leaderOfThePack', 'Natural Reaction': 'naturalReaction', 'Feral Swiftness': 'feralSwiftness', 'Thick Hide': 'thickHide', 'Feral Instinct': 'feralInstinct', 'Blood Frenzy': 'bloodFrenzy',
+    'Leader of the Pack': 'leaderOfThePack', 'Shifting Power': 'shiftingPower', 'Improved Shifting Power': 'improvedShiftingPower', 'Berserk': 'berserk', 'Natural Reaction': 'naturalReaction', 'Feral Swiftness': 'feralSwiftness', 'Thick Hide': 'thickHide', 'Feral Instinct': 'feralInstinct', 'Blood Frenzy': 'bloodFrenzy',
   },
   hunter: {
     'Lethal Attacks': 'lethalAttacks', 'Efficiency': 'efficiency', 'Careful Aim': 'carefulAim', 'Rapid Killing': 'rapidKilling', 'Improved Arcane Shot': 'improvedArcane', 'Lone Wolf': 'loneWolf',
     'Mortal Shots': 'mortalShots', 'Barrage': 'barrage', 'Ranged Weapon Specialization': 'rangedSpec', 'Improved Stings': 'improvedStings', 'Sniper Shot': 'sniperShot',
     'Surefooted': 'surefooted', 'Lightning Reflexes': 'lightningReflexes', 'Unleashed Fury': 'unleashedFury', 'Ferocity': 'ferocity', 'Frenzy': 'frenzy', 'Bestial Wrath': 'bestialWrath',
+    'Strider Kick': 'striderKick', 'Savage Strikes': 'savageStrikes', "Predator's Edge": 'predatorsEdge', 'Expose Prey': 'exposePrey', 'Lacerating Strikes': 'lacerationStrikes', 'Resourcefulness': 'resourcefulness',
     'Focused Fire': 'focusedFire', 'Deadly Aspects': 'deadlyAspects', 'Summon Hawk': 'summonHawk', 'Bestial Discipline': 'bestialDiscipline',
   },
   warlock: {
@@ -183,6 +184,10 @@ export const PRESETS = {
     'Deadly Aspects': 5, 'Endurance Training': 5, 'Focused Fire': 2, 'Bestial Swiftness': 1, 'Unleashed Fury': 5, 'Ferocity': 5, 'Summon Hawk': 1, 'Intimidation': 1,
     'Bestial Discipline': 2, 'Frenzy': 5, 'Bestial Wrath': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3,
   },
+  hunter_melee: {
+    'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2, 'Strider Kick': 1, 'Lightning Reflexes': 5, 'Lacerating Strikes': 1,
+    'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Hawk Eye': 3, 'Improved Concussive Shot': 2,
+  },
   hunter_survival: {
     'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, 'Clever Traps': 2, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2,
     'Lightning Reflexes': 5, 'Lacerating Strikes': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3, 'Hawk Eye': 1,
@@ -211,9 +216,9 @@ export const PRESETS = {
     'Convection': 5, 'Concussion': 5, 'Call of Flame': 3, 'Elemental Devastation': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 2,
   },
   druid_feral: {
-    'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Leader of the Pack': 1,
-    'Predatory Instincts': 2, 'Rend and Tear': 5, 'Berserk': 1,
-    'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Reach": 2,
+    'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Shifting Power': 1,
+    'Leader of the Pack': 1, 'Predatory Instincts': 2, 'Improved Shifting Power': 2, 'Rend and Tear': 5, 'Berserk': 1,
+    'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, "Nature's Reach": 2,
   },
   warrior_protection: {
     'Shield Specialization': 5, 'Anticipation': 5, 'Toughness': 5, 'Improved Bloodrage': 2, 'Master of Defense': 2, 'Improved Revenge': 3, 'Defiance': 3, 'Last Stand': 1, 'Improved Sunder Armor': 3,
