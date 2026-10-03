@@ -40,7 +40,7 @@ export const WARLOCK_DEFAULT_BUILD = {
   rotation: 'affliction', curse: 'auto', filler: 'auto', pet: 'imp', sacrifice: 'none', useCooldowns: true, usePotion: true, useGem: true, immolate: 'auto',
 };
 
-const parseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
+const warlockParseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
 
 export function warlockKit(build = {}, data = null) {
   const b = Object.assign({}, WARLOCK_DEFAULT_BUILD, build), W = JSON.parse(JSON.stringify(WARLOCK));
@@ -53,7 +53,7 @@ export function warlockKit(build = {}, data = null) {
       if (d && d.flat !== undefined) { s.flat = d.flat; s.coeff = d.sp_coeff; }
       if (p && s.dot) { s.dot.total = p.total_damage; s.dot.interval = p.tick_interval_sec; s.dot.ticks = Math.round(p.duration_sec / p.tick_interval_sec); s.dot.coeff = p.sp_coeff || 0; }
       if (x.resource_cost && x.resource_cost.mana) s.cost = x.resource_cost.mana;
-      s.cast = parseCast(x.cast_time);
+      s.cast = warlockParseCast(x.cast_time);
     };
     pull('shadowBolt', 'warlock_shadow_bolt'); pull('immolate', 'warlock_immolate'); pull('corruption', 'warlock_corruption');
     const fut = (n) => (data.warlock.future || []).find((f) => f.name === n);
@@ -103,11 +103,11 @@ export function warlockKit(build = {}, data = null) {
         const mid = s.min !== undefined ? (s.min + s.max) / 2 : s.flat;
         const bonus = s === W.incinerate && dotActive(sim, 'Immolate') ? W.incinerate.immolateBonus : 1;
         const hit = Math.min(0.99, 1 - sim.target.spellMiss + st.hit + m.hit), crit = Math.min(1, st.crit + m.crit);
-        return ((mid + (sp + sim.spBonus) * s.coeff) * bonus * (1 + crit * 0.5 * (1 + m.critBonus)) * hit) * m.dmg / Math.max(castTime(sim, s), SPELL_GCD);
+        return ((mid + (sp + sim.spBonus) * s.coeff) * bonus * (1 + crit * 0.5 * (1 + m.critBonus)) * hit) * m.dmg / Math.max(warlockCastTime(sim, s), SPELL_GCD);
       };
     },
     start() {},
-    rotate(sim) { return rotate(sim, b, W); },
+    rotate(sim) { return warlockRotate(sim, b, W); },
   };
 }
 
@@ -131,7 +131,7 @@ function mods(sim, s, noAuras, periodic) {
   }
   return { hit, crit, dmg, critBonus };
 }
-function castTime(sim, s) {
+function warlockCastTime(sim, s) {
   const b = sim.kitBuild, W = sim.spec.W;
   let t = s.cast;
   if (s === W.shadowBolt || s === W.immolate || s === W.incinerate) t -= W.bane.cast * b.bane;
@@ -140,7 +140,7 @@ function castTime(sim, s) {
   if (s === W.shadowBolt && sim.aTrance.active) t = 0;
   return Math.max(0, t);
 }
-function manaCost(sim, s) {
+function warlockManaCost(sim, s) {
   const b = sim.kitBuild, W = sim.spec.W;
   let c = s.cost;
   if (s.destruction) c *= 1 - W.cataclysm.cost * b.cataclysm;
@@ -149,11 +149,11 @@ function manaCost(sim, s) {
 }
 
 // ---- cast a spell (direct part, then the periodic part when it landed) ----
-function cast(sim, s) {
+function warlockCast(sim, s) {
   const b = sim.kitBuild, W = sim.spec.W, st = sim.stats;
-  const cost = manaCost(sim, s);
+  const cost = warlockManaCost(sim, s);
   const tranced = s === W.shadowBolt && sim.aTrance.active; if (tranced) sim.aTrance.expire();
-  const ct = tranced ? 0 : castTime(sim, s);
+  const ct = tranced ? 0 : warlockCastTime(sim, s);
   return beginCast(sim, s, ct, cost, () => {
     let landed = true;
     if (s.min !== undefined || s.flat !== undefined) {
@@ -195,7 +195,7 @@ function startDot(sim, s) {
 function activeAfflictions(sim) { return ['Corruption', 'Bane of Agony', 'Bane of Doom', 'Siphon Life'].filter((n) => dotActive(sim, n)).length; }
 
 // ---- rotation ----
-function rotate(sim, b, W) {
+function warlockRotate(sim, b, W) {
   const now = sim.now, rem = sim.fightLen - now;
   if (sim.casting) return sim.casting.endsAt - now;
   if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - (W.manaPotion.min + W.manaPotion.max) / 2 && rem > 20) {
@@ -217,7 +217,7 @@ function rotate(sim, b, W) {
     if (b.filler === 'incinerate' && b.incinerate) return W.incinerate;
     return cands.sort((x, y) => sim.est(y) - sim.est(x))[0];
   })();
-  const refresh = (s, margin) => dotLeft(sim, s.name) <= margin + castTime(sim, s) && (rem > 6);
+  const refresh = (s, margin) => dotLeft(sim, s.name) <= margin + warlockCastTime(sim, s) && (rem > 6);
   const wantImmolate = b.immolate === true || (b.immolate === 'auto' && (destro || b.conflagrate));
   let s = null;
   // the damage-over-time effects first
@@ -233,7 +233,7 @@ function rotate(sim, b, W) {
   if (!s && now >= sim.cd.soulFire && destro && sim.est(W.soulFire) > sim.est(filler) * 0.95) s = W.soulFire;
   if (!s) s = filler;
   // Life Tap when the next cast is not affordable (or the pool is nearly dry)
-  const need = manaCost(sim, s);
+  const need = warlockManaCost(sim, s);
   if (need > sim.mana || sim.mana < 0.12 * sim.manaMax) {
     sim.gcdReadyAt = now + SPELL_GCD; sim.entry('Life Tap').casts++;
     gainMana(sim, W.lifeTap.restore * (1 + W.improvedLifeTap.restore * b.improvedLifeTap));
@@ -243,5 +243,5 @@ function rotate(sim, b, W) {
   if (s === W.shadowburn) sim.cd.shadowburn = now + W.shadowburn.cd;
   if (s === W.soulFire) sim.cd.soulFire = now + W.soulFire.cd * (1 - W.decimation.cd * b.decimation);
   if (s === W.doom) sim.cd.doom = now + W.doom.cd;
-  return cast(sim, s);
+  return warlockCast(sim, s);
 }

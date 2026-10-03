@@ -21,9 +21,16 @@ def _strip(src: str) -> str:
 
 def build(dist_dir: Path):
     parts = ["(function (root) {", "'use strict';"]
+    seen = {}
     for name in ORDER:
         parts.append(f"// ---- {name}.js ----")
-        parts.append(_strip((SIM / f"{name}.js").read_text(encoding="utf-8")))
+        body = _strip((SIM / f"{name}.js").read_text(encoding="utf-8"))
+        # the modules share ONE scope once bundled: a top-level name declared twice is a SyntaxError that breaks the whole page
+        for m in re.finditer(r"^(?:asyncs+)?(?:function|const|let|class)s+([A-Za-z_$][w$]*)", body, flags=re.M):
+            if m.group(1) in seen:
+                raise SystemExit(f"sim60 bundle: '{m.group(1)}' is declared in both {seen[m.group(1)]}.js and {name}.js (rename one)")
+            seen[m.group(1)] = name
+        parts.append(body)
     parts.append(f"root.Sim60 = {{ {EXPORTS} }};")
     parts.append("})(typeof self !== 'undefined' ? self : this);")
     lib = "\n".join(parts) + "\n"

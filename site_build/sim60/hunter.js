@@ -35,7 +35,7 @@ export const HUNTER_DEFAULT_BUILD = {
   pet: 'cat', useCooldowns: true, usePotion: true, useGem: true, aspect: true, quiver: true, shots: 'auto',
 };
 
-const parseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
+const hunterParseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
 
 export function hunterKit(build = {}, data = null) {
   const b = Object.assign({}, HUNTER_DEFAULT_BUILD, build), H = JSON.parse(JSON.stringify(HUNTER));
@@ -43,7 +43,7 @@ export function hunterKit(build = {}, data = null) {
   if (a) {
     const eff = (x, k) => (x && x.effects || []).find((e) => e.kind === k);
     const aim = a.hunter_aimed_shot, arc = a.hunter_arcane_shot, ser = a.hunter_serpent_sting;
-    if (aim) { const e = eff(aim, 'normalized_weapon_damage'); if (e) H.aimed.flat = e.flat; H.aimed.cost = aim.resource_cost.mana; H.aimed.cast = parseCast(aim.cast_time); if (aim.cooldown_sec) H.aimed.cd = aim.cooldown_sec; }
+    if (aim) { const e = eff(aim, 'normalized_weapon_damage'); if (e) H.aimed.flat = e.flat; H.aimed.cost = aim.resource_cost.mana; H.aimed.cast = hunterParseCast(aim.cast_time); if (aim.cooldown_sec) H.aimed.cd = aim.cooldown_sec; }
     if (arc) { const e = eff(arc, 'direct_damage'); if (e) H.arcane.flat = e.flat; H.arcane.cost = arc.resource_cost.mana; if (arc.cooldown_sec) H.arcane.cd = arc.cooldown_sec; }
     if (ser) { const e = eff(ser, 'periodic_damage'); if (e) { H.serpent.total = e.total_damage; H.serpent.interval = e.tick_interval_sec; H.serpent.ticks = Math.round(e.duration_sec / e.tick_interval_sec); } H.serpent.cost = ser.resource_cost.mana; }
     const fut = (n) => (data.hunter.future || []).find((f) => f.name === n);
@@ -93,7 +93,7 @@ export function hunterKit(build = {}, data = null) {
       if (petOn) startPet(sim, b, H);
     },
     start() {},
-    rotate(sim) { return rotate(sim, b, H); },
+    rotate(sim) { return hunterRotate(sim, b, H); },
   };
 }
 
@@ -127,7 +127,7 @@ function startPet(sim, b, H) {
 }
 
 // ---- rotation ----
-function rotate(sim, b, H) {
+function hunterRotate(sim, b, H) {
   const now = sim.now, rem = sim.fightLen - now;
   if (sim.casting) return sim.casting.endsAt - now;
   if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - (H.manaPotion.min + H.manaPotion.max) / 2 && rem > 20) {

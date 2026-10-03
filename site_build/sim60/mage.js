@@ -43,7 +43,7 @@ export const MAGE_DEFAULT_BUILD = {
   rotation: 'fire', filler: 'auto', useCooldowns: true, usePotion: true, useEvocation: true, useGem: true, innervate: false, movement: 0, arcaneBlast: 0,
 };
 
-const parseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
+const mageParseCast = (c) => (typeof c === 'string' ? (c === 'instant' ? 0 : parseFloat(c)) : c);
 
 export function mageKit(build = {}, data = null) {
   const b = Object.assign({}, MAGE_DEFAULT_BUILD, build), M = JSON.parse(JSON.stringify(MAGE));
@@ -56,7 +56,7 @@ export function mageKit(build = {}, data = null) {
       if (d) { s.min = d.dmg_range[0]; s.max = d.dmg_range[1]; s.coeff = d.sp_coeff; }
       if (p && s.dot) { s.dot.total = p.total_damage; s.dot.interval = p.tick_interval_sec; s.dot.ticks = Math.round(p.duration_sec / p.tick_interval_sec); if (p.sp_coeff !== undefined) s.dot.coeff = p.sp_coeff; }
       if (x.resource_cost && x.resource_cost.mana) s.cost = x.resource_cost.mana;
-      s.cast = parseCast(x.cast_time); if (x.cooldown_sec) s.cd = x.cooldown_sec;
+      s.cast = mageParseCast(x.cast_time); if (x.cooldown_sec) s.cd = x.cooldown_sec;
     };
     pull('fireball', 'mage_fireball'); pull('fireBlast', 'mage_fire_blast'); pull('pyroblast', 'mage_pyroblast'); pull('frostbolt', 'mage_frostbolt');
     const fut = (n) => (data.mage.future || []).find((f) => f.name === n);
@@ -99,11 +99,11 @@ export function mageKit(build = {}, data = null) {
         const dot = s.dot ? s.dot.total + (st.sp || 0) * (s.dot.coeff || 0) : 0;
         const m = specMods(sim, s, true);
         const hit = Math.min(0.99, 1 - sim.target.spellMiss + st.hit + m.hit), crit = Math.min(1, st.crit + sim.critBase + m.crit);
-        return ((mid + sp) * (1 + crit * (0.5 * (1 + m.critBonus))) * hit + dot) * m.dmg / Math.max(castTime(sim, s, true), SPELL_GCD);
+        return ((mid + sp) * (1 + crit * (0.5 * (1 + m.critBonus))) * hit + dot) * m.dmg / Math.max(mageCastTime(sim, s, true), SPELL_GCD);
       };
     },
     start(sim) { sim.arcaneBurst = arcaneBurstBetter(sim, M, b); },
-    rotate(sim) { return rotate(sim, b, M); },
+    rotate(sim) { return mageRotate(sim, b, M); },
   };
 }
 
@@ -127,7 +127,7 @@ function specMods(sim, s, noAuras, extra = 1) {
   }
   return { hit, crit: crit + sim.critBase, dmg, critBonus };
 }
-function castTime(sim, s, noAuras) {
+function mageCastTime(sim, s, noAuras) {
   const b = sim.kitBuild, M = sim.spec.M;
   let t = s.cast;
   if (s === M.fireball || s === M.frostfireBolt) t -= M.improvedFireball.cast * b.improvedFireball;
@@ -135,7 +135,7 @@ function castTime(sim, s, noAuras) {
   if (s === M.pyroblast && !noAuras && sim.aHeat.active) t *= 1 - 0.25 * sim.aHeat.stacks;
   return t;
 }
-function manaCost(sim, s) {
+function mageManaCost(sim, s) {
   const b = sim.kitBuild, M = sim.spec.M;
   if (sim.aCC.active) return 0;
   if (s === M.arcaneBlast) { let c = s.cost * (1 + s.stackCost * sim.aAB.stacks); if (sim.aAP.active) c *= M.arcanePower.cost; return Math.round(c); }
@@ -147,11 +147,11 @@ function manaCost(sim, s) {
 }
 
 // ---- casting a damage spell ----
-function cast(sim, s, instant) {
-  const b = sim.kitBuild, M = sim.spec.M, cost = manaCost(sim, s);
+function mageCast(sim, s, instant) {
+  const b = sim.kitBuild, M = sim.spec.M, cost = mageManaCost(sim, s);
   const usedCC = sim.aCC.active; if (usedCC) sim.aCC.expire();
   const pomUsed = sim.pom && s.cast >= 1.5 && s !== M.arcaneMissiles; if (pomUsed) sim.pom = false;
-  let ct = instant ? 0 : castTime(sim, s);
+  let ct = instant ? 0 : mageCastTime(sim, s);
   if (pomUsed) ct = 0;
   if (s === M.pyroblast) sim.aHeat.expire();
   let extra = 1;
@@ -203,7 +203,7 @@ function channelMissiles(sim, s, cost, extra = 1) {
 }
 
 // ---- rotation ----
-function rotate(sim, b, M) {
+function mageRotate(sim, b, M) {
   const now = sim.now;
   if (sim.casting) return sim.casting.endsAt - now;
   const rem = sim.fightLen - now;
@@ -248,7 +248,7 @@ function rotate(sim, b, M) {
     s = alt;
   }
   // out of mana: Evocation, else wait for the regeneration
-  if (manaCost(sim, s) > sim.mana) {
+  if (mageManaCost(sim, s) > sim.mana) {
     if (b.useEvocation && now >= sim.cd.evocation && rem > 10) {
       sim.cd.evocation = now + M.evocation.cd; sim.entry('Evocation').casts++;
       sim.gcdReadyAt = now + SPELL_GCD; sim.casting = { name: 'Evocation', endsAt: now + M.evocation.duration };
@@ -261,7 +261,7 @@ function rotate(sim, b, M) {
     return 0.5;
   }
   if (s === M.fireBlast) sim.cd.fireBlast = now + M.fireBlast.cd - M.wakeOfFire.cd * b.wakeOfFire;
-  return cast(sim, s, s.cast === 0);
+  return mageCast(sim, s, s.cast === 0);
 }
 
 // Arcane: is "four Arcane Blasts, then one Arcane Missiles with the stacks" better than Arcane Missiles alone?
