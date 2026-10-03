@@ -18,7 +18,7 @@
    dans base.html, pour la même logique). #}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_games') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}wow-forever/" {% if active_nav == 'wow' %}data-active="true"{% endif %}>World of Warcraft: Forever</a>
-<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav not in ('league', 'wow') %}data-active="true"{% endif %}>Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}tft/" {% if active_nav not in ('league', 'wow') %}data-active="true"{% endif %}>Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
 {% if active_nav == 'wow' %}
 <div class="mobile-nav-group-title">{{ 'Bêta : Forever' if lang == 'fr' else 'Beta: Forever' }}</div>
@@ -56,7 +56,7 @@
 <a class="nav-link" href="{{ root }}league/comparer/" {% if active_sub == 'lol-compare' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_compare') }}</a>
 {% else %}
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tierlists') }}</div>
-<a class="nav-link mobile-nav-sublink" href="{{ root }}" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
+<a class="nav-link mobile-nav-sublink" href="{{ root }}tft/" {% if active_nav == 'comps' %}data-active="true"{% endif %}>{{ t(lang, 'nav_comps') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}champions/" {% if active_nav == 'champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_champions') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}objets/" {% if active_nav == 'items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_items') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}combos-objets/" {% if active_nav == 'combos' %}data-active="true"{% endif %}>{{ t(lang, 'nav_combos') }}</a>
@@ -146,7 +146,7 @@
 <details class="nav-dropdown" {% if active_nav in ('comps', 'champions', 'items', 'combos') %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ t(lang, 'nav_tierlists') }}</summary>
   <div class="nav-dropdown-menu">
-    <a href="{{ root }}">{{ t(lang, 'nav_comps') }}</a>
+    <a href="{{ root }}tft/">{{ t(lang, 'nav_comps') }}</a>
     <a href="{{ root }}champions/">{{ t(lang, 'nav_champions') }}</a>
     <a href="{{ root }}objets/">{{ t(lang, 'nav_items') }}</a>
     <a href="{{ root }}combos-objets/">{{ t(lang, 'nav_combos') }}</a>
