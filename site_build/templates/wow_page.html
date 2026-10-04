@@ -42,6 +42,23 @@
   </div>
   {{ countdown('wh-count') }}
 </section>
+{% if wow_featured %}
+<section class="wf" aria-labelledby="wf-h">
+  <div class="wf-head"><h2 class="lh-h2" id="wf-h">{{ 'À la une' if lang == 'fr' else 'Featured' }}</h2><a class="wf-all" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} →</a></div>
+  <div class="wf-grid">
+  {% for c in wow_featured %}
+    <a class="wf-card{% if not c.external %} wf-ours{% endif %}" href="{{ c.href if c.external else root ~ c.href }}"{% if c.external %} rel="noopener nofollow" target="_blank"{% endif %} style="--ac: {{ c.color or '#8a6cff' }}">
+      <span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>
+      <span class="wf-body">
+        <span class="wf-tags">{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span>
+        <b class="wf-title">{{ c.title }}</b>
+        <span class="wf-meta">{{ c.date_label }} · {{ c.source_label }}{% if c.external %} ↗{% endif %}</span>
+      </span>
+    </a>
+  {% endfor %}
+  </div>
+</section>
+{% endif %}
 <aside class="wh-share">
   <img src="{{ root }}assets/img/icon-192.png" alt="" width="48" height="48" loading="lazy">
   <div class="wh-share-text">
@@ -64,11 +81,6 @@
     <a class="wh-btn" href="{{ root }}tft/">{{ 'Tier list TFT' if fr else 'TFT tier list' }} <span aria-hidden="true">→</span></a>
   </div>
 </aside>
-{% if wow_news_latest %}
-<h2 class="lh-h2">{{ 'Dernières actualités' if lang == 'fr' else 'Latest news' }}</h2>
-<ul class="wow-news-mini">{% for i in wow_news_latest %}<li><time>{{ i.date_label }}</time><a href="{{ i.url }}" rel="noopener nofollow" target="_blank">{{ i.title }} <span class="news-src">· {{ i.source_label }} ↗</span></a></li>{% endfor %}</ul>
-<p style="margin:0 0 18px"><a class="wh-btn" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} <span aria-hidden="true">→</span></a></p>
-{% endif %}
 {% if wow_ranking %}
 <h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>

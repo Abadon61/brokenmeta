@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% set fr = lang == 'fr' %}
+{% set I = 'https://wow.zamimg.com/images/wow/icons/large/' %}
+{% block title %}{{ art.title }}{% endblock %}
+{% block description %}{{ art.description }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+{% if draft %}<meta name="robots" content="noindex,follow">{% endif %}
+<meta property="article:published_time" content="{{ date }}">
+<meta property="article:modified_time" content="{{ updated }}">
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
+{% endblock %}
+{% block content %}
+{% if draft %}<p class="art-draft">{{ "Brouillon : non publié, non indexé. Relisez puis passez draft à False dans wow_articles.py." if fr else "Draft: not published, not indexed. Proof-read, then set draft to False in wow_articles.py." }}</p>{% endif %}
+<article class="art">
+  <header class="art-head" style="--ac: {{ color or '#8a6cff' }}">
+    <img class="art-img" src="{{ image if image.startswith('http') else root ~ image }}" alt="" width="96" height="96">
+    <div>
+      <div class="fiche-kicker"><span class="chg chg-{{ kind }}">{{ ('{' ~ kind ~ '}')|artfmt(lang)|striptags }}</span> <span class="news-tag" data-tag="{{ tag }}">{{ tag_label }}</span> · World of Warcraft: Forever</div>
+      <h1 class="ph-title">{{ art.h1 }}</h1>
+      <p class="art-meta">{{ 'Par' if fr else 'By' }} BrokenMeta.gg · <time datetime="{{ date }}">{{ date_label }}</time>{% if updated != date %} · {{ 'mis à jour le' if fr else 'updated' }} <time datetime="{{ updated }}">{{ updated_label }}</time>{% endif %}</p>
+    </div>
+  </header>
+  <p class="art-lede">{{ art.lede|artfmt(lang) }}</p>
+  {% for kind_, x in art.body %}
+    {% if kind_ == 'h2' %}<h2 class="fiche-section-title">{{ x }}</h2>
+    {% elif kind_ == 'p' %}<p class="art-p">{{ x|artfmt(lang) }}</p>
+    {% elif kind_ == 'list' %}<ul class="gd-list art-list">{% for li in x %}<li>{{ li|artfmt(lang) }}</li>{% endfor %}</ul>
+    {% elif kind_ == 'note' %}<p class="wow-note art-note">{{ x|artfmt(lang) }}</p>
+    {% elif kind_ == 'table' %}<div class="wow-table-wrap"><table class="wow-table"><thead><tr>{% for h in x.head %}<th>{{ h }}</th>{% endfor %}</tr></thead><tbody>{% for r in x.rows %}<tr>{% for c in r %}<td>{{ c|artfmt(lang) }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>
+    {% elif kind_ == 'cards' %}<div class="art-cards">{% for icon, t, sub, k in x %}<div class="art-card art-card-{{ k }}"><img src="{{ I ~ icon }}.jpg" alt="" width="56" height="56" loading="lazy"><div><span class="chg chg-{{ k }}">{{ ('{' ~ k ~ '}')|artfmt(lang)|striptags }}</span><b>{{ t }}</b><span>{{ sub }}</span></div></div>{% endfor %}</div>
+    {% elif kind_ == 'bars' %}{% set mx = x.rows|map(attribute=2)|max %}
+    <div class="art-bars" role="img" aria-label="{{ x.unit }}">
+      {% for label, b, a in x.rows %}
+      <div class="art-bar-row">
+        <div class="art-bar-label">{{ label }} <span class="t-{{ 'up' if a > b else ('nerf' if a < b else 'eq') }}">{{ ('%+.1f'|format((a / b - 1) * 100))|replace('.', ',' if fr else '.') }}{{ ' %' if fr else '%' }}</span></div>
+        <div class="art-bar"><span class="art-bar-before" style="width: {{ (b / mx * 100)|round(1) }}%"></span><em>{{ x.before }} {{ (b|string)|replace('.', ',' if fr else '.') }}</em></div>
+        <div class="art-bar"><span class="art-bar-after art-bar-{{ 'up' if a > b else 'nerf' }}" style="width: {{ (a / mx * 100)|round(1) }}%"></span><em>{{ x.after }} {{ (a|string)|replace('.', ',' if fr else '.') }}</em></div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  {% endfor %}
+  {% if art.faq %}
+  <h2 class="fiche-section-title">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</h2>
+  {% for q, a in art.faq %}<div class="faq-block"><h3 class="gd-sub">{{ q }}</h3><p class="page-intro" style="margin-top:0">{{ a }}</p></div>{% endfor %}
+  {% endif %}
+  {% if art.links %}
+  <h2 class="fiche-section-title">{{ 'Pour aller plus loin' if fr else 'Go further' }}</h2>
+  <div class="lh-cards">{% for label, path in art.links %}<a class="lh-card" href="{{ root }}{{ path }}"><span class="lh-card-k">BrokenMeta.gg</span><b>{{ label }}</b></a>{% endfor %}</div>
+  {% endif %}
+  <h2 class="fiche-section-title">Sources</h2>
+  <ul class="gd-list wow-sources">{% for label, url in sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul>
+  <p style="margin-top:22px"><a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if fr else 'All news' }} <span aria-hidden="true">→</span></a></p>
+</article>
+{% endblock %}

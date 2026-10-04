@@ -26,7 +26,7 @@ from pathlib import Path
 
 import requests
 from jinja2 import Environment, FileSystemLoader
-from markupsafe import Markup
+from markupsafe import Markup, escape
 
 ROOT = Path(__file__).resolve().parent
 PROJECT = ROOT.parent
@@ -50,6 +50,7 @@ import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 import wow_sim60_texts  # noqa: E402
 import wow_news  # noqa: E402
+import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
 
 # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
@@ -135,6 +136,37 @@ _MONTHS = {"fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juille
 def _news_date(iso, lang):
     y, m, d = int(iso[:4]), int(iso[5:7]), int(iso[8:10])
     return f"{d} {_MONTHS['fr'][m - 1]} {y}" if lang == "fr" else f"{_MONTHS['en'][m - 1]} {d}, {y}"
+
+
+def build_wow_featured(news_items, wt_classes, lang, n=4):
+    """Cards of the home page's "featured" block (2026-10-04, user request: news with an image, at the top).
+    Our own published articles come first, then the newest headlines. Images are always the site's own assets
+    (spec / class icons, the WoW: Forever logo, item icons from the game CDN already used site-wide), never a
+    picture taken from the source article."""
+    cards = []
+    by_name = {}
+    for c in wt_classes or []:
+        for nm in (c["name"]["en"], c["name"]["fr"]):
+            by_name[nm.lower()] = c
+    for a in sorted(wow_articles.published(), key=lambda a: a["date"], reverse=True):
+        cls = next((c for c in wt_classes or [] if c["id"] == a.get("class")), None)
+        cards.append({"title": a[lang]["title"], "href": f"wow-forever/actualites/{a['slug']}/", "external": False,
+                      "date_label": _news_date(a["date"], lang), "tag": a["tag"], "tag_label": wow_news.TAGS[a["tag"]][0 if lang == "fr" else 1],
+                      "image": a["image"], "color": (cls or {}).get("color"), "source_label": "BrokenMeta.gg", "kind": a["kind"]})
+    covered = {u for a in wow_articles.published() for _, u in a["sources"]}   # a headline our own article already covers
+    for i in news_items:
+        if len(cards) >= n:
+            break
+        if i["url"] in covered or any(i["url"].split("/news=")[-1].split("/")[0] in u for u in covered if "/news" in i["url"]):
+            continue
+        low = i["title"].lower()
+        cls = next((c for nm, c in by_name.items() if re.search(r"\b" + re.escape(nm) + r"s?\b", low)), None)
+        cards.append({"title": i["title"], "href": i["url"], "external": True, "date_label": _news_date(i["date"], lang),
+                      "tag": i["tag"], "tag_label": wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1],
+                      "image": (cls or {}).get("icon") or "assets/img/game-wow-forever.png", "color": (cls or {}).get("color"),
+                      "source_label": wow_news.SOURCES[i["source"]],
+                      "kind": "nerf" if re.search(r"nerf", low) else ("up" if re.search(r"buff|increased?", low) else None)})
+    return cards[:n]
 
 
 NEWS_TX = {
@@ -6923,6 +6955,18 @@ def main() -> None:
         return title
     env.filters["seo_title"] = seo_title
 
+    def artfmt(text, lang="fr"):
+        """Article inline markup (wow_articles.py docstring): escape first, then **bold**, {up}/{nerf}/{eq}
+        badges, [up]..[/up] coloured text, {i:icon} game icons. Nothing else becomes HTML."""
+        h = str(escape(text))
+        h = re.sub(r"\*\*(.+?)\*\*", r"<strong>\1</strong>", h)
+        for k, (fr_l, en_l) in wow_articles.KIND_LABEL.items():
+            h = h.replace("{" + k + "}", f'<span class="chg chg-{k}">{fr_l if lang == "fr" else en_l}</span>')
+            h = re.sub(r"\[" + k + r"\](.+?)\[/" + k + r"\]", r'<span class="t-' + k + r'">\1</span>', h)
+        h = re.sub(r"\{i:([a-z0-9_]+)\}", r'<img class="art-ico" src="https://wow.zamimg.com/images/wow/icons/large/\1.jpg" alt="" width="20" height="20" loading="lazy">', h)
+        return Markup(h)
+    env.filters["artfmt"] = artfmt
+
     LANGS = ["fr", "en"]
 
     def lang_url(url_path: str, lang: str) -> str:
@@ -7626,7 +7670,7 @@ def main() -> None:
             _wow_kw = dict(active_nav="wow", active_sub="wow-" + (_wslug or "index"),
                    page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
                    wow_ranking=(_wow_ranking if _wslug == "" else []), wow_ranking_tanks=(_wow_ranking_tanks if _wslug == "" else []),
-                   wow_news_latest=([dict(i, date_label=_news_date(i["date"], lang), source_label=wow_news.SOURCES[i["source"]]) for i in _news_data["items"][:6]] if _wslug == "" else []),
+                   wow_featured=(build_wow_featured(_news_data["items"], wt_classes, lang) if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
@@ -7711,7 +7755,31 @@ def main() -> None:
             _npath = "/wow-forever/actualites/"
             _nurl = canonical_for(_npath, lang)
             assert len(_nw["title"]) <= 60 and len(_nw["desc"]) <= 155
-            render("wow_news.html", _npath, lang, active_nav="wow", active_sub="wow-news", nw=_nw, items=_nrows, days=_ndays, tags=_ntags,
+            # Our own articles (wow_articles.py): drafts are rendered with noindex for proof-reading, listed nowhere.
+            _arts = []
+            for _a in sorted(wow_articles.ARTICLES, key=lambda a: a["date"], reverse=True):
+                _apath = f"/wow-forever/actualites/{_a['slug']}/"
+                _aurl = canonical_for(_apath, lang)
+                _acls = next((c for c in wt_classes or [] if c["id"] == _a.get("class")), None)
+                _atx = _a[lang]
+                _aimg = _a["image"] if _a["image"].startswith("http") else BASE_URL + _a["image"]
+                _afaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+                    {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _atx.get("faq", [])]} if _atx.get("faq") else None
+                render("wow_article.html", _apath, lang, active_nav="wow", active_sub="wow-news", art=_atx, draft=bool(_a.get("draft")), faq_schema=_afaq,
+                       date=_a["date"], updated=_a["updated"], date_label=_news_date(_a["date"], lang), updated_label=_news_date(_a["updated"], lang),
+                       tag=_a["tag"], tag_label=wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], image=_a["image"], kind=_a["kind"],
+                       color=(_acls or {}).get("color"), sources=_a["sources"],
+                       breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl), (_atx["h1"], _aurl)]),
+                       article_schema={"@context": "https://schema.org", "@type": "NewsArticle", "headline": _atx["title"], "description": _atx["description"],
+                                       "datePublished": _a["date"], "dateModified": _a["updated"], "inLanguage": lang, "image": [_aimg],
+                                       "mainEntityOfPage": {"@type": "WebPage", "@id": _aurl},
+                                       "keywords": _atx.get("keywords", ""), "author": {"@type": "Organization", "name": "BrokenMeta.gg", "url": BASE_URL},
+                                       "publisher": {"@type": "Organization", "name": "BrokenMeta.gg", "logo": {"@type": "ImageObject", "url": BASE_URL + "assets/img/icon-512.png"}}})
+                if _a in wow_articles.published():
+                    _arts.append({"title": _atx["title"], "description": _atx["description"], "href": f"wow-forever/actualites/{_a['slug']}/",
+                                  "date_label": _news_date(_a["date"], lang), "image": _a["image"], "color": (_acls or {}).get("color"),
+                                  "tag": _a["tag"], "tag_label": wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], "kind": _a["kind"]})
+            render("wow_news.html", _npath, lang, active_nav="wow", active_sub="wow-news", nw=_nw, items=_nrows, days=_ndays, tags=_ntags, articles=_arts,
                    breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
                    news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
@@ -9198,6 +9266,8 @@ def main() -> None:
         if "player" not in p.relative_to(DIST).parts
         # /wow-forever/ and /en/wow-forever/ are copies of the home page (canonical = / and /en/): not listed twice
         and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html")
+        # article drafts (wow_articles.py) carry noindex: never in the sitemap
+        and not ("actualites" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
         # test-only talent pages (WOW_TALENTS_FIXTURE=1) never belong in a sitemap
         and not (wt_fixture and "talents" in p.relative_to(DIST).parts and "wow-forever" in p.relative_to(DIST).parts)
     )
