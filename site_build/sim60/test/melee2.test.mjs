@@ -57,3 +57,13 @@ test('Feral cat uses the Forever finishers and cooldowns: Savage Roar, Tiger Fur
   assert.ok(r.mean > 300, 'dps ' + r.mean);
   assert.ok(r.mean > run('druid_feral', { shiftingPower: 0, improvedShiftingPower: 0, berserk: 0 }, null, 180, 500).mean, 'the talents add DPS');
 });
+
+test('Enhancement: Windfury Weapon gives the client\'s 2 extra attacks, Searing Totem is dropped, Maelstrom Weapon needs full stacks at 5 ranks', () => {
+  const r = run('shaman_enhancement', {}, null, 180, 300);
+  assert.ok(r.breakdown['Searing Bolt'] && r.breakdown['Searing Bolt'].dps > 5);
+  const noTotem = run('shaman_enhancement', { fireTotem: 'none' }, null, 180, 300);
+  assert.ok(!noTotem.breakdown['Searing Bolt']);
+  assert.ok(r.breakdown['Windfury'].casts > 5);
+  const weak = run('shaman_enhancement', { maelstromWeapon: 1 }, null, 180, 300);
+  assert.ok(weak.mean < r.mean + 5, 'a single rank is no better than five');
+});

@@ -22,6 +22,7 @@ EXTRA = {
 }
 # spells that are not on a class skill line of the glossary (talent / passive spells): explicit client spell ids, highest rank at level 60
 SEEDS = {
+    "shaman": {"Searing Bolt": 10436, "Magma Totem Pulse": 10581, "Fire Nova Damage": 408428, "Windfury Weapon Proc": 16361, "Frostbrand Attack": 16353, "Lightning Shield Damage": 432149},
     "paladin": {"Holy Shield": 20928, "Righteous Fury": 25780, "Hammer of the Righteous": 407632},
     "mage": {"Arcane Blast": 1239700, "Arcane Blast Stacks": 400573, "Arcane Missiles": 25345, "Arcane Missiles Tick": 25346},
     "druid": {"Savage Roar": 407988, "Tiger's Fury": 5217, "Tiger's Fury Energy": 417045, "Tiger's Fury Damage": 1289238, "Shifting Power": 1322605},

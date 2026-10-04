@@ -64,6 +64,11 @@
     <a class="wh-btn" href="{{ root }}tft/">{{ 'Tier list TFT' if fr else 'TFT tier list' }} <span aria-hidden="true">→</span></a>
   </div>
 </aside>
+{% if wow_news_latest %}
+<h2 class="lh-h2">{{ 'Dernières actualités' if lang == 'fr' else 'Latest news' }}</h2>
+<ul class="wow-news-mini">{% for i in wow_news_latest %}<li><time>{{ i.date_label }}</time><a href="{{ i.url }}" rel="noopener nofollow" target="_blank">{{ i.title }} <span class="news-src">· {{ i.source_label }} ↗</span></a></li>{% endfor %}</ul>
+<p style="margin:0 0 18px"><a class="wh-btn" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} <span aria-hidden="true">→</span></a></p>
+{% endif %}
 {% if wow_ranking %}
 <h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>

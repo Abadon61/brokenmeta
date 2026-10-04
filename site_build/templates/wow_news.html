@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ nw.title }}{% endblock %}
+{% block description %}{{ nw.desc }}{% endblock %}
+{% block og_type %}website{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ news_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(nw.kicker, nw.h1, nw.intro) }}
+<div class="news-filters" role="group" aria-label="{{ nw.filter_label }}">
+  <button type="button" class="news-chip is-on" data-tag="">{{ nw.all }} <span class="nums">{{ items|length }}</span></button>
+  {% for t in tags if t.n %}<button type="button" class="news-chip" data-tag="{{ t.id }}">{{ t.label }} <span class="nums">{{ t.n }}</span></button>{% endfor %}
+</div>
+<div class="news-list" id="news-list">
+  {% for day, rows in days %}
+  <h2 class="news-day">{{ day }}</h2>
+  {% for i in rows %}
+  <a class="news-item" href="{{ i.url }}" rel="noopener nofollow" target="_blank" data-tag="{{ i.tag }}">
+    <span class="news-tag" data-tag="{{ i.tag }}">{{ i.tag_label }}</span>
+    <span class="news-title">{{ i.title }}</span>
+    <span class="news-src">{{ i.source_label }} ↗</span>
+  </a>
+  {% endfor %}
+  {% endfor %}
+</div>
+<p class="wow-note">{{ nw.note }}</p>
+<script>
+(function () {
+  var chips = document.querySelectorAll('.news-chip'), items = document.querySelectorAll('.news-item'), days = document.querySelectorAll('.news-day');
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var tag = c.getAttribute('data-tag');
+      chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
+      items.forEach(function (i) { i.hidden = !!tag && i.getAttribute('data-tag') !== tag; });
+      days.forEach(function (d) { var n = d.nextElementSibling, any = false; while (n && n.classList.contains('news-item')) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+    });
+  });
+})();
+</script>
+{% endblock %}

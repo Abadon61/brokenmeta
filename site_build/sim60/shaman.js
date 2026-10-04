@@ -1,18 +1,47 @@
 // Shaman kits. Elemental: Lightning Bolt, Chain Lightning, Lava Burst, Flame Shock and Earth Shock from the client's rank ladders
 // (data/spells60.json: top / extra) and the Forever talent tooltips. ASSUMED (Classic style): base mana, mana items; the Searing Totem
 // (a few damage per second) and the elemental melee crit from Elemental Devastation are not simulated.
-import { makeCaster, fromRank, pickRank } from './caster.js';
+import { makeCaster, fromRank, pickRank, spellHit, tickDamage } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
+
+// ---- fire totems (shared by the Elemental and Enhancement kits) ----
+// Searing Totem: its "Attack" spell (47 fire damage + 0.017 spell power every 2.2 s, 55 s) and Magma Totem's pulse (73 + 0.033 spell
+// power every 2 s, 20 s, area: one target here) come from the client rank tables. Totem attacks crit like spells; Call of Flame and
+// Elemental Fury (Elemental) raise them.
+export function fireTotems(data) {
+  const out = {}, mk = (key, castName, boltName, interval, dmgName) => {
+    const c = pickRank(data, 'shaman', null, castName), bolt = pickRank(data, 'shaman', null, boltName);
+    if (!c || !bolt) return;
+    const d = bolt.effects.find((e) => e.effect === 2 && e.base > 0), mid = d.base;
+    out[key] = { name: castName, dmgName, cost: c.cost ? c.cost.amount : 0, dur: c.duration_ms / 1000, interval, min: mid * (1 - d.variance / 2), max: mid * (1 + d.variance / 2), coeff: d.sp_coeff };
+  };
+  mk('searing', 'Searing Totem', 'Searing Bolt', 2.2, 'Searing Bolt');
+  mk('magma', 'Magma Totem', 'Magma Totem Pulse', 2.0, 'Magma Totem');
+  return out;
+}
+// puts the totem down now: one attack every interval until it expires (a new totem replaces the old one)
+export function dropTotem(sim, T, mods) {
+  const id = (sim.totemId = (sim.totemId || 0) + 1), end = sim.now + T.dur;
+  sim.totemUntil = end;
+  const tick = () => {
+    if (sim.totemId !== id || sim.now > end + 1e-9) return;
+    const m = mods(sim);
+    if (spellHit(sim, m)) tickDamage(sim, T.dmgName, T.min + (T.max - T.min) * sim.rng() + ((sim.stats.sp || 0) + (sim.spBonus || 0)) * T.coeff, m);
+    else sim.entry(T.dmgName).misses++;
+    sim.schedule(T.interval, tick);
+  };
+  sim.schedule(T.interval, tick);
+}
 
 export const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
   thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, callOfThunder: { crit: 0.03 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
-  manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+  improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
 export const SHAMAN_ELE_DEFAULT_BUILD = {
   convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, callOfThunder: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
-  useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
+  improvedFireNova: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
 export function shamanElementalKit(build = {}, data = null) {
@@ -20,7 +49,10 @@ export function shamanElementalKit(build = {}, data = null) {
   const na = ['nature'], fi = ['fire'];
   const lb = pickRank(data, 'shaman', 'shaman_lightning_bolt', 'Lightning Bolt'), cl = pickRank(data, 'shaman', null, 'Chain Lightning'), lv = pickRank(data, 'shaman', null, 'Lava Burst');
   const fs = pickRank(data, 'shaman', 'shaman_flame_shock', 'Flame Shock'), es = pickRank(data, 'shaman', 'shaman_earth_shock', 'Earth Shock');
-  const S = {};
+  const S = {}, TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
+  const fnCast = pickRank(data, 'shaman', null, 'Fire Nova'), fnDmg = pickRank(data, 'shaman', null, 'Fire Nova Damage');
+  if (T) S.totem = { name: T.name, cost: T.cost, cast: 0, cd: 0, totem: true, schools: fi };
+  if (fnCast && fnDmg) S.fn = fromRank(fnDmg, { name: 'Fire Nova', schools: fi, cost: fnCast.cost.amount, cast: 0, cd: Math.max(2, fnCast.cooldown_ms / 1000 - H.improvedFireNova.cd * b.improvedFireNova), instant: true, nova: true });
   if (lb) S.lb = fromRank(lb, { name: 'Lightning Bolt', schools: na, bolt: true });
   if (cl) S.cl = fromRank(cl, { name: 'Chain Lightning', schools: na, bolt: true });
   if (lv) S.lvb = fromRank(lv, { name: 'Lava Burst', schools: fi, bolt: true });
@@ -40,17 +72,20 @@ export function shamanElementalKit(build = {}, data = null) {
       let hit = 0, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
       if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
-      if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
+      if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
+      if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
       if (s === S.lvb && dotActive(sim, S.fs ? S.fs.name : '')) dmg *= H.lavaBurstFs;
       return { hit, crit, dmg, critBonus };
     },
     castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity) : s.cast),
     cost(sim, s) {
+      if (s.totem) return s.cost;
       if (sim.aClear.active) return 0;
       return Math.round(s.cost * (s.bolt || s.shock ? 1 - H.convection.cost * b.convection : 1));
     },
-    beforeCast(sim, s) { if (sim.aClear.active) sim.aClear.expire(); if (s.shock) sim.cdAt.shock = sim.now + Math.max(1.5, 6 - H.reverberation.cd * b.reverberation * 5); },
+    beforeCast(sim, s) { if (s.totem) return; if (sim.aClear.active) sim.aClear.expire(); if (s.shock) sim.cdAt.shock = sim.now + Math.max(1.5, 6 - H.reverberation.cd * b.reverberation * 5); },
     afterHit(sim, s, outcome) {
+      if (s.totem) { dropTotem(sim, T, () => ({ hit: 0, crit: sim.critBase, dmg: 1 + H.callOfFlame.dmg * b.callOfFlame, critBonus: H.elementalFury.critBonus * b.elementalFury })); return; }
       if (outcome === 'miss') return;
       if (b.elementalFocus && !s.dot && sim.rng() < H.elementalFocus.chance) sim.aClear.apply();
       if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload) {
@@ -64,9 +99,11 @@ export function shamanElementalKit(build = {}, data = null) {
     choose(sim) {
       const now = sim.now, ready = (s) => now >= (sim.cdAt[s.name] || 0) - 1e-9, rem = sim.fightLen - now;
       const shockReady = now >= (sim.cdAt.shock || 0) - 1e-9;
+      if (S.totem && rem > 8 && now >= (sim.totemUntil || 0) - 1.0) return S.totem;
       if (S.fs && shockReady && rem > 6 && dotLeft(sim, S.fs.name) < 1.0) return S.fs;
       if (S.lvb && b.lavaBurst && ready(S.lvb)) return S.lvb;
       if (S.es && b.earthShock && shockReady) return S.es;
+      if (S.fn && b.fireNova && ready(S.fn)) return S.fn;
       if (S.cl && b.chainLightning && ready(S.cl)) return S.cl;
       return S.lb;
     },
@@ -83,21 +120,24 @@ import { yellowAttack } from './shared.js';
 import { setupMana, gainMana, spendMana, spiritRegenPerSec, resolveSpell } from './spells.js';
 
 export const SHAMAN_ENH = {
-  stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 315 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 }, maelstrom: { chancePerRank: 0.03, max: 5, dur: 30 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
+  stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
+  flurry: { perRank: 0.05, charges: 3, expire: 15 }, maelstrom: { chance: 0.10, perRank: 0.04, max: 5, dur: 30 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
   thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
 export const SHAMAN_ENH_DEFAULT_BUILD = {
   thunderingStrikes: 0, ancestralKnowledge: 0, mentalDexterity: 0, mentalQuickness: 0, elementalWeapons: 0, flurry: 0, stormstrike: 0, maelstromWeapon: 0, rageOfTheFarseer: 0,
-  windfuryWeapon: true, rockbiter: true, useCooldowns: true, usePotion: true, useGem: true,
+  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', useCooldowns: true, usePotion: true, useGem: true,
 };
 
 export function shamanEnhancementKit(build = {}, data = null) {
   const b = Object.assign({}, SHAMAN_ENH_DEFAULT_BUILD, build), E = JSON.parse(JSON.stringify(SHAMAN_ENH));
   const lb = pickRank(data, 'shaman', 'shaman_lightning_bolt', 'Lightning Bolt'), ss = pickRank(data, 'shaman', null, 'Stormstrike'), rb = pickRank(data, 'shaman', 'shaman_rockbiter_weapon', 'Rockbiter Weapon');
   const L = lb ? fromRank(lb) : null;
+  const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
+  const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
+  if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
   if (ss) { E.stormstrike.cost = ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }
   return {
     name: 'shaman_enhancement', build: b, E,
@@ -109,7 +149,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
       mods.critBonus += E.thunderingStrikes.crit * b.thunderingStrikes;
       sim.spBonus = Math.floor(int * E.mentalQuickness.sp * b.mentalQuickness);
       setupMana(sim, { manaMax: st.mana + 15 * extraInt, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int, spi: st.spi }), castingFraction: 0 });
-      sim.cd = { ss: 0, farseer: 0, potion: 0, gem: 0 };
+      sim.cd = { ss: 0, farseer: 0, potion: 0, gem: 0 }; sim.totemUntil = 0;
       sim.flurryAura = sim.addAura({ name: 'Flurry', duration: E.flurry.expire, mods: { hasteMult: 1 + E.flurry.perRank * b.flurry } });
       sim.flurryAura.charges = 0;
       sim.aMW = sim.addAura({ name: 'Maelstrom Weapon', duration: E.maelstrom.dur, maxStacks: E.maelstrom.max });
@@ -120,11 +160,11 @@ export function shamanEnhancementKit(build = {}, data = null) {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = E.flurry.charges; s.flurryAura.apply(1); }
-        if (b.maelstromWeapon && s.rng() < E.maelstrom.chancePerRank * b.maelstromWeapon) s.aMW.apply(1);
+        if (b.maelstromWeapon && s.rng() < E.maelstrom.chance) s.aMW.apply(1);
         if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.rng() < E.windfury.chance) {
           const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons);
           s.entry('Windfury').casts++;
-          s.inWindfury = true; s.mods.apBonus += bonus; s.whiteAttack(s.swings[0]); s.mods.apBonus -= bonus; s.inWindfury = false;
+          s.inWindfury = true; s.mods.apBonus += bonus; for (let i = 0; i < E.windfury.extra; i++) s.whiteAttack(s.swings[0]); s.mods.apBonus -= bonus; s.inWindfury = false;
         }
       });
     },
@@ -135,14 +175,22 @@ export function shamanEnhancementKit(build = {}, data = null) {
       if (b.useCooldowns && b.rageOfTheFarseer && now >= sim.cd.farseer) { sim.cd.farseer = now + E.farseer.cd; sim.entry('Rage of the Farseer').casts++; sim.aFar.apply(); }
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
-      // five Maelstrom Weapon stacks: an instant, free Lightning Bolt
-      if (L && sim.aMW.active && sim.aMW.stacks >= E.maelstrom.max) {
-        sim.aMW.expire(); sim.gcdReadyAt = now + 1.5; sim.entry('Lightning Bolt').casts++;
+      // fire totem (Searing): one global cooldown every 55 s
+      if (T && rem > 8 && now >= sim.totemUntil - 1.0 && sim.mana >= T.cost) {
+        spendMana(sim, T.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry(T.name).casts++;
+        dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1, critBonus: 0 }));
+        return 1.5;
+      }
+      // five Maelstrom Weapon stacks (each takes 4% per talent rank off the next Lightning Bolt's cast time and mana cost): at five ranks it is instant and free
+      if (L && b.maelstromWeapon && sim.aMW.active && sim.aMW.stacks >= E.maelstrom.max) {
+        const red = Math.min(1, E.maelstrom.perRank * b.maelstromWeapon * sim.aMW.stacks), lbCost = Math.round(L.cost * (1 - red));
+        if (lbCost > sim.mana) return 0.5;
+        sim.aMW.expire(); spendMana(sim, lbCost); sim.lastCastAt = now; sim.gcdReadyAt = now + Math.max(1.5, L.cast * (1 - red)); sim.entry('Lightning Bolt').casts++;
         const m = { hit: 0, crit: 0, dmg: sim.aSS.active ? E.stormstrike.nature : 1, critBonus: 0 };
         if (sim.aSS.active) sim.aSS.expire();
         const raw = L.direct.min + (L.direct.max - L.direct.min) * sim.rng() + (sim.stats.sp + sim.spBonus) * L.direct.coeff;
         resolveSpell(sim, 'Lightning Bolt', raw, { ...m, crit: sim.mods.critBonus });
-        return 1.5;
+        return Math.max(1.5, L.cast * (1 - red));
       }
       if (b.stormstrike && now >= sim.cd.ss && sim.mana >= E.stormstrike.cost && sim.player.weapons.length) {
         sim.cd.ss = now + E.stormstrike.cd; spendMana(sim, E.stormstrike.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Stormstrike').casts++;

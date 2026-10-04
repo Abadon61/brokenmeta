@@ -83,6 +83,7 @@
     {% endfor %}{% endfor %}
   </div>
 </details>
+{% if wow_news_on %}<a class="nav-link" href="{{ root }}wow-forever/actualites/" {% if active_sub == 'wow-news' %}data-active="true"{% endif %}>{{ 'Actualités' if lang == 'fr' else 'News' }}</a>{% endif %}
 {# "Guides de classe" dropdown removed 2026-10-02: replaced by the spec banner under this bar (base.html .wow-specbar). #}
 {% if wow_profs_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-professions' %}data-active="true"{% endif %}>
   <summary class="nav-link">Professions</summary>

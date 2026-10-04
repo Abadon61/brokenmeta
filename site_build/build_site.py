@@ -49,6 +49,7 @@ import wow_dps_sim  # noqa: E402
 import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 import wow_sim60_texts  # noqa: E402
+import wow_news  # noqa: E402
 import sim60_bundle  # noqa: E402
 
 # Level-1 base stats: race base + class bonus (both flat, additive tables -- this is how vanilla-style
@@ -126,6 +127,26 @@ def build_wow_ranking60(wt_classes, lang):
 
 
 OUT = PROJECT / "data" / "output"
+
+_MONTHS = {"fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+           "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+
+
+def _news_date(iso, lang):
+    y, m, d = int(iso[:4]), int(iso[5:7]), int(iso[8:10])
+    return f"{d} {_MONTHS['fr'][m - 1]} {y}" if lang == "fr" else f"{_MONTHS['en'][m - 1]} {d}, {y}"
+
+
+NEWS_TX = {
+    "fr": {"title": "Actualités WoW: Forever : bêta, classes, patchs", "desc": "Les dernières actualités de WoW: Forever : changements de la bêta, équilibrage des classes, posts de Blizzard et guides, mises à jour en continu.",
+           "kicker": "WORLD OF WARCRAFT: FOREVER", "h1": "Actualités WoW: Forever", "all": "Tout", "filter_label": "Filtrer par type",
+           "intro": "Toutes les nouvelles de WoW: Forever au même endroit : changements de chaque build de la bêta, équilibrage des classes, messages des développeurs et guides. Nous rassemblons les titres de Wowhead, MMO-Champion et des posts Blizzard, et chaque ligne renvoie à l'article original. Les titres restent en anglais, comme à la source.",
+           "note": "Liste à jour à chaque mise en ligne du site ; l'historique est conservé. BrokenMeta.gg n'est pas affilié à Wowhead, MMO-Champion ni à Blizzard : seuls le titre, la date et le lien vers la source sont repris."},
+    "en": {"title": "WoW: Forever News: beta, classes, patches", "desc": "The latest WoW: Forever news: beta build changes, class tuning, Blizzard posts and guides, kept up to date.",
+           "kicker": "WORLD OF WARCRAFT: FOREVER", "h1": "WoW: Forever News", "all": "All", "filter_label": "Filter by type",
+           "intro": "Every WoW: Forever headline in one place: changes in each beta build, class tuning, developer posts and guides. We gather the headlines of Wowhead, MMO-Champion and Blizzard's own posts, and each line links to the original article.",
+           "note": "The list is refreshed with every site update and the history is kept. BrokenMeta.gg is not affiliated with Wowhead, MMO-Champion or Blizzard: only the title, date and a link to the source are shown."},
+}
 DIST = ROOT / "dist"
 # Persistent, git-tracked (unlike data/output/*.json, which is gitignored and
 # gets fully overwritten by every refresh) -- see build_hors_meta_comps() for
@@ -6804,6 +6825,13 @@ def main() -> None:
     _wnav.append(("artisans", "Artisans", "Crafters"))
     # "addon" is no longer a menu link: the pink bar CTA (macros.nav_cta) points there since 2026-10-02.
     env.globals["wow_nav"] = _wnav
+    # News feed (2026-10-04): public RSS headlines (Wowhead Forever, MMO-Champion, Blizzard posts) kept as an archive in data/wow_news/news.json
+    try:
+        _news_data = wow_news.refresh(verbose=True)
+    except Exception as _e:                                    # never fail a build over a feed
+        print(f"[wow_news] refresh failed, using the stored archive: {_e}")
+        _news_data = wow_news.load()
+    env.globals["wow_news_on"] = bool(_news_data["items"])
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
     env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "simulateur-dps"]
@@ -7572,6 +7600,7 @@ def main() -> None:
             _wow_kw = dict(active_nav="wow", active_sub="wow-" + (_wslug or "index"),
                    page=_wp, wow_slug=_wslug, wow_ui=_wow_ui, wow_launch=wow_content.LAUNCH_UTC, wt_classes=(wt_classes if _wslug in ("", "classes") else []), wow_races=(wow_races if _wslug == "classes" else []),
                    wow_ranking=(_wow_ranking if _wslug == "" else []), wow_ranking_tanks=(_wow_ranking_tanks if _wslug == "" else []),
+                   wow_news_latest=([dict(i, date_label=_news_date(i["date"], lang), source_label=wow_news.SOURCES[i["source"]]) for i in _news_data["items"][:6]] if _wslug == "" else []),
                    wow_sources=[wow_content.SOURCES[k] for k in _wp["sources"]], wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
@@ -7644,6 +7673,22 @@ def main() -> None:
                        tree_names=_gtree_names, gaps=_gdata.get("gaps", []), wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_gcname, _gurl)]),
                        article_schema=build_article_schema(_gh1, _gurl, _gdesc))
+        if _news_data["items"]:
+            _nrows = [dict(i, date_label=_news_date(i["date"], lang), tag_label=wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1], source_label=wow_news.SOURCES[i["source"]]) for i in _news_data["items"]]
+            _ndays = []
+            for _r in _nrows:
+                if not _ndays or _ndays[-1][0] != _r["date_label"]:
+                    _ndays.append((_r["date_label"], []))
+                _ndays[-1][1].append(_r)
+            _ntags = [{"id": k, "label": v[0 if lang == "fr" else 1], "n": sum(1 for r in _nrows if r["tag"] == k)} for k, v in wow_news.TAGS.items()]
+            _nw = NEWS_TX[lang]
+            _npath = "/wow-forever/actualites/"
+            _nurl = canonical_for(_npath, lang)
+            assert len(_nw["title"]) <= 60 and len(_nw["desc"]) <= 155
+            render("wow_news.html", _npath, lang, active_nav="wow", active_sub="wow-news", nw=_nw, items=_nrows, days=_ndays, tags=_ntags,
+                   breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
+                   news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
+                                "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]

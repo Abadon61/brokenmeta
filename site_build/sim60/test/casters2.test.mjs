@@ -55,3 +55,10 @@ test('talents and spell power move the DPS of the new casters', () => {
     assert.ok(run(k, {}, more, 180, 1500).mean > base * 1.05, k + ' spell power');
   }
 });
+
+test('Elemental Shaman: Searing Totem is dropped every 55 s and its Searing Bolts add damage; Call of Flame raises them', () => {
+  const r = run('shaman_elemental', {}, null, 180, 300);
+  assert.ok(r.breakdown['Searing Totem'].casts >= 3 && r.breakdown['Searing Bolt'].dps > 10, 'Searing ' + JSON.stringify(r.breakdown['Searing Bolt']));
+  assert.ok(!run('shaman_elemental', { fireTotem: 'none' }, null, 180, 300).breakdown['Searing Bolt'], 'no totem, no bolts');
+  assert.ok(r.breakdown['Searing Bolt'].dps > run('shaman_elemental', { callOfFlame: 0 }, null, 180, 300).breakdown['Searing Bolt'].dps, 'Call of Flame');
+});
