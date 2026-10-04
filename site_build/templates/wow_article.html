@@ -6,7 +6,7 @@
 {% block og_type %}article{% endblock %}
 {% block og_image %}{% if banner %}{{ BASE_URL }}{{ banner }}{% else %}{{ image if image.startswith('http') else BASE_URL ~ image }}{% endif %}{% endblock %}
 {% block extra_head %}
-{% if draft %}<meta name="robots" content="noindex,follow">{% endif %}
+{% if draft or noindex %}<meta name="robots" content="noindex,follow">{% endif %}
 <meta property="article:published_time" content="{{ date }}">
 <meta property="article:modified_time" content="{{ updated }}">
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
@@ -20,7 +20,7 @@
   <header class="art-head" style="--ac: {{ color or '#8a6cff' }}">
     <img class="art-img" src="{{ image if image.startswith('http') else root ~ image }}" alt="" width="96" height="96">
     <div>
-      <div class="fiche-kicker"><span class="chg chg-{{ kind }}">{{ ('{' ~ kind ~ '}')|artfmt(lang)|striptags }}</span> <span class="news-tag" data-tag="{{ tag }}">{{ tag_label }}</span> · World of Warcraft: Forever</div>
+      <div class="fiche-kicker"><span class="fmt-tag fmt-{{ fmt }}">{{ format_label }}</span> {% if kind %}<span class="chg chg-{{ kind }}">{{ ('{' ~ kind ~ '}')|artfmt(lang)|striptags }}</span> {% endif %}<span class="news-tag" data-tag="{{ tag }}">{{ tag_label }}</span> · World of Warcraft: Forever</div>
       <h1 class="ph-title">{{ art.h1 }}</h1>
       <p class="art-meta">{{ 'Par' if fr else 'By' }} BrokenMeta.gg · <time datetime="{{ date }}">{{ date_label }}</time>{% if updated != date %} · {{ 'mis à jour le' if fr else 'updated' }} <time datetime="{{ updated }}">{{ updated_label }}</time>{% endif %}</p>
     </div>

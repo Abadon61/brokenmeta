@@ -15,6 +15,14 @@ Rules for every article:
   - keywords players actually search ("WoW Forever", the class + spec, "build", "patch", "nerf"/"buff", the item
     names) go into the title, the first paragraph, the h2s and the FAQ, written as normal sentences.
 
+Two formats (`format`, default "article"):
+  - "article": a full analysis (simulation, data), written for class/item buffs and nerfs;
+  - "brief" (brève, 2026-10-04): a short page for any other important headline, so the reader stays on the site:
+    a lede of 3-4 sentences rewritten in our own words, then a "Ce que ça change pour toi" / "What it means for
+    you" h2 with a few lines and `links` to our own pages (class guide, dungeon page, simulator, talents...).
+    A brief WITHOUT links is rendered noindex (a bare summary of someone else's news adds nothing for Google).
+    `kind` may be None for a brief (no up/nerf verdict).
+
 Blocks of `body` (per language): ("p", text), ("h2", text), ("list", [text, ...]), ("table", {"head": [...],
 "rows": [[...], ...]}), ("note", text). `faq` is a list of (question, answer).
 
@@ -29,6 +37,7 @@ big icon and a UP/NERF/ÉQUILIBRAGE badge; ("bars", {"unit": "DPS", "rows": [(la
 before/after bar chart drawn in CSS.
 """
 import os
+import re
 
 ARTICLES = [
     {
@@ -228,11 +237,13 @@ ARTICLES = [
 ]
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
+FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief")}
 
 
 def check():
     for a in ARTICLES:
-        assert a["kind"] in KIND_LABEL, a["slug"]
+        assert a.get("format", "article") in FORMAT_LABEL, a["slug"]
+        assert a["kind"] in KIND_LABEL or (a.get("format") == "brief" and a["kind"] is None), a["slug"]
         for lang in ("fr", "en"):
             t = a[lang]
             assert len(t["title"]) <= 60, (a["slug"], lang, len(t["title"]))
@@ -248,3 +259,31 @@ def published():
 
 
 check()
+
+
+def indexable(a):
+    """Drafts never are; a brief only when it links to our own pages (see the module docstring)."""
+    if a.get("draft"):
+        return False
+    if a.get("format") == "brief":
+        return bool(a["fr"].get("links")) and bool(a["en"].get("links"))
+    return True
+
+
+def covered_urls():
+    """Source urls (and Wowhead news ids) that one of our published pages already covers."""
+    urls = {u for a in published() for _, u in a["sources"]}
+    ids = {m.group(1) for u in urls for m in [re.search(r"(?:news=|-)(\d{5,})(?:/|$)", u)] if m}
+    return urls, ids
+
+
+def page_for(url):
+    """Our published article/brief covering this headline url, or None."""
+    m = re.search(r"(?:news=|-)(\d{5,})(?:/|$)", url)
+    nid = m.group(1) if m else None
+    for a in published():
+        for _, u in a["sources"]:
+            if u == url or (nid and nid in u):
+                return a
+    return None
+

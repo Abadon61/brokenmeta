@@ -252,20 +252,10 @@ def build_wow_featured(news_items, wt_classes, lang, n=4):
         cls = next((c for c in wt_classes or [] if c["id"] == a.get("class")), None)
         cards.append({"title": a[lang]["title"], "href": f"wow-forever/actualites/{a['slug']}/", "external": False, "banner": tile_banner(a.get("class")),
                       "date_label": _news_date(a["date"], lang), "tag": a["tag"], "tag_label": wow_news.TAGS[a["tag"]][0 if lang == "fr" else 1],
-                      "image": a["image"], "color": (cls or {}).get("color"), "source_label": "BrokenMeta.gg", "kind": a["kind"]})
-    covered = {u for a in wow_articles.published() for _, u in a["sources"]}   # a headline our own article already covers
-    for i in news_items:
-        if len(cards) >= n:
-            break
-        if i["url"] in covered or any(i["url"].split("/news=")[-1].split("/")[0] in u for u in covered if "/news" in i["url"]):
-            continue
-        low = i["title"].lower()
-        cls = next((c for nm, c in by_name.items() if re.search(r"\b" + re.escape(nm) + r"s?\b", low)), None)
-        cards.append({"title": i["title"], "href": i["url"], "external": True, "date_label": _news_date(i["date"], lang), "banner": tile_banner((cls or {}).get("id")),
-                      "tag": i["tag"], "tag_label": wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1],
-                      "image": (cls or {}).get("icon") or "assets/img/game-wow-forever.png", "color": (cls or {}).get("color"),
-                      "source_label": wow_news.SOURCES[i["source"]],
-                      "kind": "nerf" if re.search(r"nerf", low) else ("up" if re.search(r"buff|increased?", low) else None)})
+                      "image": a["image"], "color": (cls or {}).get("color"), "source_label": "BrokenMeta.gg", "kind": a["kind"],
+                      "format_label": wow_articles.FORMAT_LABEL[a.get("format", "article")][0 if lang == "fr" else 1]})
+    # Only our own pages (user, 2026-10-04: a tile sending the reader to Wowhead is a lost visitor). Headlines
+    # without a page of ours stay in the full news list.
     return cards[:n]
 
 
@@ -7844,7 +7834,13 @@ def main() -> None:
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_gcname, _gurl)]),
                        article_schema=build_article_schema(_gh1, _gurl, _gdesc))
         if _news_data["items"]:
-            _nrows = [dict(i, date_label=_news_date(i["date"], lang), tag_label=wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1], source_label=wow_news.SOURCES[i["source"]]) for i in _news_data["items"]]
+            _nrows = []
+            for i in _news_data["items"]:
+                _own = wow_articles.page_for(i["url"])
+                _nrows.append(dict(i, date_label=_news_date(i["date"], lang), tag_label=wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1],
+                                   source_label=("BrokenMeta.gg" if _own else wow_news.SOURCES[i["source"]]),
+                                   own_href=(f"wow-forever/actualites/{_own['slug']}/" if _own else None),
+                                   title=(_own[lang]["title"] if _own else i["title"])))
             _ndays = []
             for _r in _nrows:
                 if not _ndays or _ndays[-1][0] != _r["date_label"]:
@@ -7866,6 +7862,8 @@ def main() -> None:
                 _afaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
                     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _atx.get("faq", [])]} if _atx.get("faq") else None
                 render("wow_article.html", _apath, lang, active_nav="wow", active_sub="wow-news", art=_atx, draft=bool(_a.get("draft")), faq_schema=_afaq,
+                       noindex=not wow_articles.indexable(_a), fmt=_a.get("format", "article"),
+                       format_label=wow_articles.FORMAT_LABEL[_a.get("format", "article")][0 if lang == "fr" else 1],
                        date=_a["date"], updated=_a["updated"], date_label=_news_date(_a["date"], lang), updated_label=_news_date(_a["updated"], lang),
                        tag=_a["tag"], tag_label=wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], image=_a["image"], kind=_a["kind"],
                        banner=class_banner(_a.get("class")), wow_disclaimer=wow_content.DISCLAIMER[lang],
@@ -7880,6 +7878,7 @@ def main() -> None:
                     _arts.append({"title": _atx["title"], "description": _atx["description"], "href": f"wow-forever/actualites/{_a['slug']}/",
                                   "date_label": _news_date(_a["date"], lang), "image": _a["image"], "color": (_acls or {}).get("color"),
                                   "tag": _a["tag"], "tag_label": wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], "kind": _a["kind"],
+                                  "format_label": wow_articles.FORMAT_LABEL[_a.get("format", "article")][0 if lang == "fr" else 1],
                                   "banner": tile_banner(_a.get("class"))})
             render("wow_news.html", _npath, lang, active_nav="wow", active_sub="wow-news", nw=_nw, items=_nrows, days=_ndays, tags=_ntags, articles=_arts,
                    wow_disclaimer=wow_content.DISCLAIMER[lang],
