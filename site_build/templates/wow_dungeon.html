@@ -7,6 +7,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
 {% endblock %}
 {% block content %}
 {{ m.page_hero(tx.dg_kicker, g_h1, g_intro) }}
@@ -51,6 +52,34 @@
   </tr>{% endfor %}</tbody>
 </table></div>
 <p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
+{% if by_boss %}
+{% set fr = lang == 'fr' %}
+<h2 class="fiche-section-title">{{ 'Butin de ' ~ dname ~ ' par boss' if fr else dname ~ ' loot by boss' }}</h2>
+<p class="wow-note">{{ "Chaque boss ou créature qui lâche un objet équipable, avec ce qu'il lâche." if fr else 'Every boss or creature that drops an equippable item, with what it drops.' }}</p>
+<div class="dg-groups">
+{% for boss, its in by_boss %}
+<section class="dg-group">
+  <h3 class="gd-sub">{{ boss }} <span class="gd-dim nums">· {{ its|length }} {{ (('objet' if fr else 'item') if its|length == 1 else tx.dg_items_n) }}</span></h3>
+  <ul class="dg-group-list">{% for it in its %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}{% if it.type[lang] and it.type[lang] != dd.slots[it.slot|string][lang] %} · {{ it.type[lang] }}{% endif %}</span></li>{% endfor %}</ul>
+</section>
+{% endfor %}
+</div>
+{% if by_quest %}
+<h2 class="fiche-section-title">{{ 'Récompenses de quête de ' ~ dname if fr else dname ~ ' quest rewards' }}</h2>
+<div class="dg-groups">
+{% for quest, its in by_quest %}
+<section class="dg-group">
+  <h3 class="gd-sub">{{ quest }}</h3>
+  <ul class="dg-group-list">{% for it in its %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}</span></li>{% endfor %}</ul>
+</section>
+{% endfor %}
+</div>
+{% endif %}
+{% endif %}
+{% if dg_faq %}
+<h2 class="fiche-section-title">{{ 'Questions fréquentes' if lang == 'fr' else 'Frequently asked questions' }}</h2>
+{% for q, a in dg_faq %}<div class="faq-block"><h3 class="gd-sub">{{ q }}</h3><p class="page-intro" style="margin-top:0">{{ a }}</p></div>{% endfor %}
+{% endif %}
 <h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
 <ul class="gd-list">{% for h in tx.dg_method %}<li>{{ h }}</li>{% endfor %}</ul>
 <h2 class="fiche-section-title">{{ tx.sources }}</h2>

@@ -7562,7 +7562,7 @@ def main() -> None:
                             _b["items"].insert(4, _card)
             _wpath = "/wow-forever/" + (_wslug + "/" if _wslug else "")
             _wurl = canonical_for(_wpath, lang)
-            _wcrumbs = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
+            _wcrumbs = [(_wow_ui["section"], canonical_for("/", lang))]
             if _wslug:
                 _wcrumbs.append((_wfr if lang == "fr" else _wen, _wurl))
             _wfaq = None
@@ -7576,15 +7576,26 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema(_wcrumbs),
                    article_schema=build_article_schema(_wp["h1"], _wurl, _wp["description"]),
                    faq_schema=_wfaq)
-            render("wow_page.html", _wpath, lang, **_wow_kw)
             if not _wslug:
-                # The site home page IS the WoW: Forever hub (2026-10-03). Same page served at / and /en/; the canonical stays on the
-                # real hub URL so there is one indexed page, not two.
-                render("wow_page.html", "/", lang, canonical=_wurl, alt_canonical=canonical_for(_wpath, "en" if lang == "fr" else "fr"), **_wow_kw)
+                # The site home page IS the WoW: Forever hub (2026-10-03). The canonical is the root (SEO pass 2026-10-03):
+                # the home URL carries the site's links and brand searches, so / and /en/ are the indexed copies and
+                # /wow-forever/ (kept so no old link breaks) points its canonical at them. Brand-first title for "brokenmeta" searches.
+                _home_page = dict(_wp,
+                    title="BrokenMeta.gg : guides WoW: Forever, TFT et LoL" if lang == "fr" else "BrokenMeta.gg: WoW: Forever guides, TFT and LoL",
+                    description=("Guides WoW: Forever par classe, calculateur de talents, butin des donjons et simulateur DPS, plus tier list TFT et guides LoL. Données réelles."
+                                 if lang == "fr" else
+                                 "WoW: Forever class guides, talent calculator, dungeon loot and DPS simulator, plus a TFT tier list and LoL guides. Real data."))
+                assert len(_home_page["title"]) <= 60 and len(_home_page["description"]) <= 155
+                render("wow_page.html", "/", lang, **{**_wow_kw, "page": _home_page, "site_schema": True,
+                                                     "article_schema": build_article_schema(_wp["h1"], canonical_for("/", lang), _home_page["description"])})
+                render("wow_page.html", _wpath, lang, **{**_wow_kw, "canonical": canonical_for("/", lang),
+                                                         "alt_canonical": canonical_for("/", "en" if lang == "fr" else "fr")})
+            else:
+                render("wow_page.html", _wpath, lang, **_wow_kw)
         if wt_classes:
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
             _rules_src = wow_content.SOURCES["icy_talents"]
-            _tbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang)),
+            _tbase = [(_wow_ui["section"], canonical_for("/", lang)),
                       ("Calculateur de talents" if lang == "fr" else "Talent calculator", canonical_for("/wow-forever/talents/", lang))]
             assert len(_wt["hub_title"]) <= 60 and len(_wt["hub_desc"]) <= 155
             render("wow_talents_hub.html", "/wow-forever/talents/", lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
@@ -7607,7 +7618,7 @@ def main() -> None:
                        breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))
         if wow_spell_classes:
             _gsx = wow_spells.TXT[lang]
-            _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang)),
+            _gbase = [(_wow_ui["section"], canonical_for("/", lang)),
                       ("Glossaire des sorts" if lang == "fr" else "Spell glossary", canonical_for("/wow-forever/glossaire/", lang))]
             assert len(_gsx["hub_title"]) <= 60 and len(_gsx["hub_desc"]) <= 155
             render("wow_glossary_hub.html", "/wow-forever/glossaire/", lang, active_nav="wow", active_sub="wow-glossaire", tx=_gsx,
@@ -7635,7 +7646,7 @@ def main() -> None:
                        article_schema=build_article_schema(_gh1, _gurl, _gdesc))
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
-            _gbase = [(_wow_ui["breadcrumb_home"], canonical_for("/", lang)), (_wow_ui["section"], canonical_for("/wow-forever/", lang))]
+            _gbase = [(_wow_ui["section"], canonical_for("/", lang))]
             for _g in wow_guide_list:
                 _cls, _roles = _g["cls"], _g["roles"]
                 _cn = _cls["name"][lang]
@@ -7701,8 +7712,42 @@ def main() -> None:
                     _di = _gx["dg_intro"].format(name=_dn, levels=_d["levels"]) if _d["levels"] else _gx["dg_intro_nolvl"].format(name=_dn)
                     _dorder = {sl: i for i, sl in enumerate(wow_dungeons["slot_order"])}
                     _ditems = sorted(_d["items"], key=lambda i: (_dorder.get(i["slot"], 99), i["name"]))
+                    # Search Console (2026-10-03): the dungeon pages sit at position ~9 for "<dungeon> loot (table)
+                    # wow forever" (~3k impressions / 28 days). A filterable table alone is thin text for Google, so
+                    # the page also lists the loot grouped by boss / quest (the words players search for: "VanCleef
+                    # drops") and answers the usual questions in a FAQ. All of it comes from the same item data.
+                    def _group(kind):
+                        groups: dict[str, list] = {}
+                        for it in _ditems:
+                            if it.get("kind") == kind:
+                                for src in it.get("src") or []:
+                                    groups.setdefault(src, []).append(it)
+                        return sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0]))
+                    _by_boss, _by_quest = _group("drop"), _group("quest")
+                    _ndrop = sum(1 for it in _ditems if it.get("kind") == "drop")
+                    _nquest = len(_ditems) - _ndrop
+                    _faq = []
+                    if lang == "fr":
+                        _faq.append((f"Quel butin trouve-t-on dans {_dn} sur WoW: Forever ?",
+                                     f"{len(_ditems)} objets équipables : {_ndrop} lâchés par {len(_by_boss)} boss ou créatures et {_nquest} récompenses de quête."
+                                     + (f" {_by_boss[0][0]} en lâche le plus ({len(_by_boss[0][1])}) : " + ", ".join(i["name"] for i in _by_boss[0][1][:5]) + "." if _by_boss else "")))
+                        if _d["levels"]:
+                            _faq.append((f"À quel niveau faire {_dn} sur WoW: Forever ?", f"{_dn} est prévu pour les niveaux {_d['levels']}."))
+                        if _by_quest:
+                            _faq.append((f"Quelles quêtes de {_dn} donnent des objets ?", "Les quêtes " + ", ".join(q for q, _ in _by_quest[:6]) + f" donnent {_nquest} objets en récompense."))
+                    else:
+                        _faq.append((f"What loot drops in {_dn} in WoW: Forever?",
+                                     f"{len(_ditems)} equippable items: {_ndrop} dropped by {len(_by_boss)} bosses or creatures and {_nquest} quest rewards."
+                                     + (f" {_by_boss[0][0]} drops the most ({len(_by_boss[0][1])}): " + ", ".join(i["name"] for i in _by_boss[0][1][:5]) + "." if _by_boss else "")))
+                        if _d["levels"]:
+                            _faq.append((f"What level is {_dn} in WoW: Forever?", f"{_dn} is meant for levels {_d['levels']}."))
+                        if _by_quest:
+                            _faq.append((f"Which {_dn} quests reward items?", "The quests " + ", ".join(q for q, _ in _by_quest[:6]) + f" reward {_nquest} items."))
                     render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
+                           dname=_dn, by_boss=_by_boss, by_quest=_by_quest, dg_faq=_faq,
+                           faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
+                                       "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _faq]},
                            breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_dn, canonical_for(_dpath, lang))]),
                            article_schema=build_article_schema(_dh1, canonical_for(_dpath, lang), _dd_))
                 # one page with every dungeon's loot combined, same filter, plus a "which dungeon" column
@@ -8764,9 +8809,9 @@ def main() -> None:
     for _icon in sorted((LOGO_DIR / "wow_addon_icons").glob("*.png")):
         shutil.copy(_icon, _addon_icon_dst / _icon.name)
     manifest = {
-        "name": "BrokenMeta.gg — Tier List TFT",
+        "name": "BrokenMeta.gg",
         "short_name": "BrokenMeta",
-        "description": "Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot.",
+        "description": "Guides WoW: Forever, tier list TFT et guides League of Legends, tirés de vraies données.",
         "start_url": "/tft/?source=pwa",
         "id": "/",
         "display": "standalone",
@@ -9040,8 +9085,8 @@ def main() -> None:
         # profile-page exclusion (2026-09-09): the EN half was silently
         # excluded, the FR half silently wasn't.
         if "player" not in p.relative_to(DIST).parts
-        # / and /en/ are copies of the WoW hub (canonical = /wow-forever/): not listed twice
-        and p.relative_to(DIST).as_posix() not in ("index.html", "en/index.html")
+        # /wow-forever/ and /en/wow-forever/ are copies of the home page (canonical = / and /en/): not listed twice
+        and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html")
         # test-only talent pages (WOW_TALENTS_FIXTURE=1) never belong in a sitemap
         and not (wt_fixture and "talents" in p.relative_to(DIST).parts and "wow-forever" in p.relative_to(DIST).parts)
     )

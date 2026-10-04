@@ -8,6 +8,13 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
+{% if site_schema %}
+{# home page only: WebSite.name / alternateName is what Google shows as the site name above the result #}
+<script type="application/ld+json">{{ ({"@context": "https://schema.org", "@type": "WebSite", "name": "BrokenMeta.gg", "alternateName": ["BrokenMeta", "Broken Meta"], "url": BASE_URL, "inLanguage": lang,
+  "description": page.description})|tojson }}</script>
+<script type="application/ld+json">{{ ({"@context": "https://schema.org", "@type": "Organization", "name": "BrokenMeta.gg", "url": BASE_URL, "logo": BASE_URL ~ "assets/img/icon-512.png",
+  "sameAs": ["https://x.com/BrokenMetagg", "https://www.instagram.com/brokenmeta.gg/"]})|tojson }}</script>
+{% endif %}
 {% endblock %}
 {% macro countdown(extra_class='') %}
 <section class="wow-count {{ extra_class }}" id="wowCount" data-launch="{{ wow_launch }}" aria-live="off">
