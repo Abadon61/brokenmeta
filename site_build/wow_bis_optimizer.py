@@ -266,7 +266,7 @@ def optimize_spec(spec_id, race_base_stats, class_bonus_stats, fallback_gear, st
     if l30:
         base = dict(l30)
     baseline_stats = wow_dps_sim.stats_from_raw(spec_id, str_=base.get("str", 0), agi=base.get("agi", 0), int_=base.get("int", 0))
-    weights, _ = _stat_weights(spec_id, baseline_stats)
+    weights = _cached_weights(spec_id, baseline_stats)["stats"]
 
     gear = []
     totals = dict(base)
@@ -398,3 +398,111 @@ def optimize_spec(spec_id, race_base_stats, class_bonus_stats, fallback_gear, st
         "flat_ap": round(totals_flat_ap), "flat_sp": round(totals_flat_sp),
     }
     return gear, stats_block, dps
+
+
+# ---------------------------------------------------------------------------------------------
+# "Best loot of this dungeon for each spec" (dungeon pages, SEO pass 2026-10-04).
+#
+# Search Console: the dungeon pages sit at position ~9 for "<dungeon> loot wow forever" behind
+# Wowhead / Icy Veins / Mobalytics, who all show the raw loot table. What none of them shows is
+# which drop matters for YOUR spec: this ranks every item of one dungeon for one spec with the
+# same simulated stat weights the BIS optimizer above uses, plus a weapon-DPS weight (the main
+# reason a melee or hunter wants a weapon, ignored by _score, which only ranks within one slot).
+# Same proficiency tables, widened at level 40 (Plate for Warrior/Paladin, Mail for Hunter/
+# Shaman) for dungeons whose level range starts at 40 or more.
+# ---------------------------------------------------------------------------------------------
+_WEIGHTS = {}
+
+
+def _cached_weights(spec_id, baseline_stats):
+    """{"stats": {ap, sp, hit, crit}, "wdps": DPS per +1 weapon DPS} for one spec, computed once
+    per build (optimize_spec runs once per language; the simulation does not need to)."""
+    key = spec_id
+    if key not in _WEIGHTS:
+        weights, dps0 = _stat_weights(spec_id, baseline_stats)
+        profile = wow_dps_sim.ROTATIONS[spec_id]
+        wdps = 0.0
+        weapons = profile.get("weapons") or []
+        if weapons and weapons[0].get("speed"):
+            bumped = [dict(w) for w in weapons]
+            bumped[0]["dmg"] = bumped[0]["dmg"] + 5.0 * bumped[0]["speed"]       # +5 weapon DPS on the main weapon
+            dps1, _ = wow_dps_sim.run_class(spec_id, iterations=80, fight_len=120.0, stats=baseline_stats,
+                                            profile_override={**profile, "weapons": bumped})
+            wdps = max(0.0, (dps1 - dps0) / 5.0)
+        _WEIGHTS[key] = {"stats": weights, "wdps": wdps, "baseline": baseline_stats}
+    return _WEIGHTS[key]
+
+
+def _spec_baseline(spec_id, race_base_stats, class_bonus_stats):
+    profile = wow_dps_sim.ROTATIONS[spec_id]
+    class_id = profile.get("glossary", spec_id)
+    race = wow_dps_sim._load_bis_data()["specs"].get(spec_id, {}).get("race", "").lower().replace(" ", "")
+    base = dict(race_base_stats.get(race or "human", race_base_stats.get("human", {})))
+    for k, v in class_bonus_stats.get(class_id, {}).items():
+        base[k] = base.get(k, 0) + v
+    l30 = _level30_bases().get(class_id)
+    if l30:
+        base = dict(l30)
+    return wow_dps_sim.stats_from_raw(spec_id, str_=base.get("str", 0), agi=base.get("agi", 0), int_=base.get("int", 0))
+
+
+def _usable_slots(spec_id, class_id, min_level):
+    """{slot code: allowed item types (None = any)} this spec would actually wear or wield."""
+    armor = set(ARMOR_PROFICIENCY.get(class_id, set()))
+    if min_level >= 40:
+        armor |= {"warrior": {"Plate Mail"}, "paladin": {"Plate Mail"}, "hunter": {"Mail"}, "shaman": {"Mail"}}.get(class_id, set())
+    weapons = WEAPON_PROFICIENCY.get(class_id, set())
+    if spec_id in ("rogue_assassination", "rogue_subtlety"):
+        # Backstab / Ambush need a dagger (Classic rule, assumed in Forever); the sim gives the three
+        # rogue specs the same weapon profile, so the dagger requirement is applied here.
+        weapons = weapons & {"Daggers"}
+    slots = {code: armor for _, code, restricted in ARMOR_SLOTS if restricted}
+    slots.update({SLOT_NECK: None, SLOT_BACK: None, SLOT_FINGER: None, SLOT_TRINKET: None})
+    kind = WEAPON_STRUCTURE.get(spec_id, {"main": "1h"})
+    if kind["main"] == "ranged":
+        slots[SLOT_RANGED] = weapons & {"Bows", "Crossbows", "Guns"}
+    elif kind["main"] == "2h":
+        slots[SLOT_TWO_HAND] = weapons
+    elif kind["main"] == "caster":
+        slots[SLOT_ONE_HAND] = slots[SLOT_MAIN_HAND] = weapons - {"Wands"}
+        slots[SLOT_TWO_HAND] = weapons & {"Staves"}
+        slots[23] = None                                    # held in off-hand
+        if kind.get("wand"):
+            slots[SLOT_RANGED] = {"Wands"}
+    else:
+        slots[SLOT_ONE_HAND] = slots[SLOT_MAIN_HAND] = weapons
+        if kind.get("off") == "1h":
+            slots[22] = weapons                             # off hand only
+    if kind.get("off") == "shield" and class_id in SHIELD_CLASSES:
+        slots[SLOT_SHIELD] = {"Shield"}
+    return slots
+
+
+def dungeon_picks(spec_id, items, min_level, race_base_stats, class_bonus_stats, top=3):
+    """The `top` items of one dungeon that add the most simulated DPS for this spec, as
+    [(item, value)] best first. `value` = stat weights x the item's stats, plus the weapon-DPS
+    weight x the item's weapon DPS for a weapon the spec swings or shoots (casters: stats only)."""
+    profile = wow_dps_sim.ROTATIONS.get(spec_id)
+    if not profile:
+        return []
+    class_id = profile.get("glossary", spec_id)
+    w = _cached_weights(spec_id, _spec_baseline(spec_id, race_base_stats, class_bonus_stats))
+    slots = _usable_slots(spec_id, class_id, min_level)
+    caster = WEAPON_STRUCTURE.get(spec_id, {}).get("main") == "caster"
+    scored = []
+    for it in items:
+        allowed = slots.get(it["slot"], False)
+        if allowed is False:
+            continue
+        if allowed is not None and (it.get("type") or {}).get("en") not in allowed:
+            continue
+        value = _score(w["stats"], _item_stat_contribution(spec_id, it))
+        # Druid forms (cat/bear) hit with the form's own damage, not the weapon's (Classic rule, assumed
+        # unchanged in Forever): a feral druid's weapon only counts for its stats.
+        if not caster and class_id != "druid" and it.get("st", {}).get("dps") and it["slot"] in (SLOT_ONE_HAND, SLOT_MAIN_HAND, SLOT_TWO_HAND, SLOT_RANGED, 22):
+            value += w["wdps"] * it["st"]["dps"]
+        if value > 0:
+            scored.append((it, value))
+    scored.sort(key=lambda x: -x[1])
+    return scored[:top]
+

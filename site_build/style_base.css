@@ -2510,3 +2510,15 @@
 .dg-group h3 { margin: 14px 0 6px; }
 .dg-group-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; font-size: 14px; }
 .dg-group-list .dg-icon { width: 20px; height: 20px; vertical-align: middle; margin-right: 6px; }
+.dg-facts { display: flex; flex-wrap: wrap; gap: 10px; margin: 16px 0 6px; }
+.dg-facts > div { background: var(--bg-2); border: 1px solid var(--border); padding: 8px 14px; display: flex; flex-direction: column; gap: 2px; min-width: 90px; }
+.dg-facts span { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .05em; }
+.dg-facts b { color: var(--cream); font-weight: 400; }
+.dg-updated { margin-top: 4px; }
+.dg-picks th[scope="row"] a { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; white-space: nowrap; }
+.dg-picks td { font-size: 13px; }
+.dg-bosses { list-style: none; margin: 0; padding: 0; counter-reset: boss; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px 24px; }
+.dg-bosses > li { counter-increment: boss; }
+.dg-bosses > li h3::before { content: counter(boss) ". "; color: var(--text-faint); }
+.dg-giver, .dg-none { font-size: 13px; margin: 0 0 6px; }
+

@@ -162,6 +162,30 @@ SET_MUTATOR = "TFTSet18"
 # Tactics Set 18". Same string in FR and EN -- real players use it unchanged
 # in both languages. Bump this (and SET_MUTATOR) together when Set 19 ships.
 SET_LABEL = "TFT Set 18"
+# Where each dungeon's entrance is (WoW Classic locations, shown as such on the page: Forever is a
+# Classic-based branch; the two Forever-only dungeons are left out rather than guessed).
+DUNGEON_LOCATION = {
+    "ragefire-chasm": {"en": "Orgrimmar", "fr": "Orgrimmar"},
+    "deadmines": {"en": "Westfall, under Moonbrook", "fr": "Marche de l'Ouest, sous Ruisselune"},
+    "wailing-caverns": {"en": "the Barrens", "fr": "les Tarides"},
+    "shadowfang-keep": {"en": "Silverpine Forest", "fr": "forêt des Pins-Argentés"},
+    "blackfathom-deeps": {"en": "Ashenvale, on the coast", "fr": "Orneval, sur la côte"},
+    "stockade": {"en": "Stormwind City", "fr": "Cité de Stormwind"},
+    "gnomeregan": {"en": "Dun Morogh", "fr": "Dun Morogh"},
+    "scarlet-monastery": {"en": "Tirisfal Glades", "fr": "clairières de Tirisfal"},
+    "razorfen-kraul": {"en": "the southern Barrens", "fr": "sud des Tarides"},
+    "razorfen-downs": {"en": "the southern Barrens", "fr": "sud des Tarides"},
+    "uldaman": {"en": "the Badlands", "fr": "Terres ingrates"},
+    "zulfarrak": {"en": "Tanaris", "fr": "Tanaris"},
+    "maraudon": {"en": "Desolace", "fr": "Désolace"},
+    "sunken-temple": {"en": "the Swamp of Sorrows", "fr": "marais des Chagrins"},
+    "blackrock-depths": {"en": "Blackrock Mountain", "fr": "mont Rochenoire"},
+    "dire-maul": {"en": "Feralas", "fr": "Féralas"},
+    "stratholme": {"en": "the Eastern Plaguelands", "fr": "Maleterres de l'Est"},
+    "scholomance": {"en": "Caer Darrow, Western Plaguelands", "fr": "Caer Darrow, Maleterres de l'Ouest"},
+}
+# Last time the dungeon page content itself changed (the page date is the later of this and the data's own date).
+WOW_DUNGEON_CONTENT_DATE = "2026-10-04"
 # the short names players search with ("sfk loot table wow forever"), shown in dungeon snippets
 DUNGEON_ABBR = {"ragefire-chasm": "RFC", "deadmines": "VC", "wailing-caverns": "WC", "shadowfang-keep": "SFK",
                 "blackfathom-deeps": "BFD", "stockade": "Stocks", "gnomeregan": "Gnomer", "scarlet-monastery": "SM",
@@ -6801,6 +6825,8 @@ def main() -> None:
     env.globals["wow_guides_nav"] = wow_guide_list
     env.globals["wow_profs_nav"] = wow_profs
     wow_dungeons = wow_guides.load_dungeons()
+    _art_path = PROJECT / "data" / "wow_dungeons" / "art.json"
+    _dungeon_art = json.loads(_art_path.read_text(encoding="utf-8"))["dungeons"] if _art_path.exists() else {}
     env.globals["wow_dungeons_nav"] = wow_dungeons["dungeons"] if wow_dungeons else []
     wow_raids = wow_guides.load_raids()
     env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
@@ -7751,50 +7777,90 @@ def main() -> None:
                     _dfmt = dict(name=_dn, n=len(_d["items"]), abbr=f" ({_abbr})" if _abbr else "",
                                  bosses=", ".join(b for b, _ in _bcount.most_common(3)))
                     _dt = next(v.format(**_dfmt) for v in _gx["dg_title"] if len(v.format(**_dfmt)) <= 60 or v is _gx["dg_title"][-1])
-                    _dd_ = next(v.format(**_dfmt) for v in _gx["dg_desc"] if len(v.format(**_dfmt)) <= 155 or v is _gx["dg_desc"][-1])
+                    # Sunken Temple / Dire Maul only have quest rewards in the data: no "boss by boss" claim for them
+                    _dvariants = _gx["dg_desc"] if any(it.get("kind") == "drop" for it in _d["items"]) else _gx["dg_desc"][-1:]
+                    _dd_ = next(v.format(**_dfmt) for v in _dvariants if len(v.format(**_dfmt)) <= 155 or v is _dvariants[-1])
                     assert len(_dt) <= 60 and len(_dd_) <= 155, (_dt, len(_dt), len(_dd_))
                     _dh1 = _gx["dg_h1"].format(name=_dn)
                     _di = _gx["dg_intro"].format(name=_dn, levels=_d["levels"]) if _d["levels"] else _gx["dg_intro_nolvl"].format(name=_dn)
                     _dorder = {sl: i for i, sl in enumerate(wow_dungeons["slot_order"])}
                     _ditems = sorted(_d["items"], key=lambda i: (_dorder.get(i["slot"], 99), i["name"]))
-                    # Search Console (2026-10-03): the dungeon pages sit at position ~9 for "<dungeon> loot (table)
-                    # wow forever" (~3k impressions / 28 days). A filterable table alone is thin text for Google, so
-                    # the page also lists the loot grouped by boss / quest (the words players search for: "VanCleef
-                    # drops") and answers the usual questions in a FAQ. All of it comes from the same item data.
-                    def _group(kind):
-                        groups: dict[str, list] = {}
-                        for it in _ditems:
-                            if it.get("kind") == kind:
-                                for src in it.get("src") or []:
-                                    groups.setdefault(src, []).append(it)
-                        return sorted(groups.items(), key=lambda kv: (-len(kv[1]), kv[0]))
-                    _by_boss, _by_quest = _group("drop"), _group("quest")
+                    # Search Console (2026-10-04): position ~9 for "<dungeon> loot (table) wow forever", behind
+                    # Wowhead / Icy Veins / Mobalytics guides ("Bosses, Loot & Quests", dated a few days ago).
+                    # The page is now a full guide: where it is, the bosses in the game's order with their loot,
+                    # the quests with their giver, the best drop for each simulated spec (wow_bis_optimizer
+                    # .dungeon_picks: nobody else shows that) and a visible "updated" date. Everything comes from
+                    # data/wow_dungeons (dungeons.json + art.json, the game client's own boss order and quests).
+                    _art = _dungeon_art.get(_d["id"], {})
+                    _boss_order = [b["name"] for b in _art.get("bosses", [])]
+                    _boss_names = {b["en"] for b in _boss_order}
+                    _drops: dict[str, list] = {}
+                    _quests_items: dict[str, list] = {}
+                    for it in _ditems:
+                        for src in it.get("src") or []:
+                            (_drops if it.get("kind") == "drop" else _quests_items).setdefault(src, []).append(it)
+                    _bosses = [{"name": b.get(lang) or b["en"], "items": _drops.get(b["en"], [])} for b in _boss_order]
+                    _others = sorted(((n, its) for n, its in _drops.items() if n not in _boss_names), key=lambda kv: (-len(kv[1]), kv[0]))
+                    _qart = _art.get("quests", {})
+                    _quests = []
+                    for qn, its in sorted(_quests_items.items(), key=lambda kv: kv[0]):
+                        qa = _qart.get(qn, {})
+                        g = qa.get("giver") or {}
+                        _quests.append({"name": (qa.get("name") or {}).get(lang) or qn, "id": qa.get("id"), "items": its,
+                                        "giver": (g.get("name") or {}).get(lang), "giver_zone": (g.get("zone") or {}).get(lang),
+                                        "x": g.get("x"), "y": g.get("y")})
+                    _minlvl = int(str(_d["levels"]).split("-")[0]) if _d["levels"] else 60
+                    _picks = []
+                    for _sid in wow_dps_sim.ROTATIONS:
+                        if _sid in ("warrior_protection", "paladin_protection", "druid_feral_tank"):
+                            continue          # the engine only simulates a tank's damage: no gear advice for tanks from it
+                        _cls_id = wow_dps_sim.ROTATIONS[_sid].get("glossary", _sid)
+                        _cls = next((c for c in wt_classes if c["id"] == _cls_id), None)
+                        _wsid = wow_dps_sim.SPEC_ID_MAP.get(_sid)
+                        if not _cls or not _wsid:
+                            continue
+                        _top = wow_bis_optimizer.dungeon_picks(_sid, _ditems, _minlvl, OP_RACE_BASE_STATS, OP_CLASS_BONUS_STATS)
+                        if not _top:
+                            continue
+                        _sname = next((x["name"][lang] for x in _cls.get("specs", []) if x["id"] == _wsid), _wsid)
+                        _picks.append({"class_name": _cls["name"][lang], "class_color": _cls.get("color"), "spec_name": _sname,
+                                       "icon": f"assets/img/spec/{_cls_id}-{_wsid}.png", "guide": f"wow-forever/guides/{_cls_id}/{_wsid}/",
+                                       "items": [it for it, _ in _top]})
+                    _loc = DUNGEON_LOCATION.get(_d["id"])
+                    _updated = max(wow_dungeons.get("generated", "")[:10], WOW_DUNGEON_CONTENT_DATE)
                     _ndrop = sum(1 for it in _ditems if it.get("kind") == "drop")
                     _nquest = len(_ditems) - _ndrop
+                    _last = next((b for b in reversed(_bosses) if b["items"]), None)
                     _faq = []
                     if lang == "fr":
+                        if _loc:
+                            _faq.append((f"Où se trouve {_dn} dans WoW: Forever ?", f"L'entrée de {_dn} est en {_loc['fr']} (emplacement de WoW Classic)."))
                         _faq.append((f"Quel butin trouve-t-on dans {_dn} sur WoW: Forever ?",
-                                     f"{len(_ditems)} objets équipables : {_ndrop} lâchés par {len(_by_boss)} boss ou créatures et {_nquest} récompenses de quête."
-                                     + (f" {_by_boss[0][0]} en lâche le plus ({len(_by_boss[0][1])}) : " + ", ".join(i["name"] for i in _by_boss[0][1][:5]) + "." if _by_boss else "")))
+                                     f"{len(_ditems)} objets équipables : {_ndrop} lâchés par les boss et créatures, et {_nquest} récompenses de quête."
+                                     + (f" {_last['name']} lâche " + ", ".join(i["name"] for i in _last["items"][:5]) + "." if _last else "")))
+                        if _bosses:
+                            _faq.append((f"Combien de boss y a-t-il dans {_dn} ?", f"{len(_bosses)} rencontres, dans cet ordre : " + ", ".join(b["name"] for b in _bosses) + "."))
                         if _d["levels"]:
                             _faq.append((f"À quel niveau faire {_dn} sur WoW: Forever ?", f"{_dn} est prévu pour les niveaux {_d['levels']}."))
-                        if _by_quest:
-                            _faq.append((f"Quelles quêtes de {_dn} donnent des objets ?", "Les quêtes " + ", ".join(q for q, _ in _by_quest[:6]) + f" donnent {_nquest} objets en récompense."))
                     else:
+                        if _loc:
+                            _faq.append((f"Where is {_dn} in WoW: Forever?", f"The {_dn} entrance is in {_loc['en']} (WoW Classic location)."))
                         _faq.append((f"What loot drops in {_dn} in WoW: Forever?",
-                                     f"{len(_ditems)} equippable items: {_ndrop} dropped by {len(_by_boss)} bosses or creatures and {_nquest} quest rewards."
-                                     + (f" {_by_boss[0][0]} drops the most ({len(_by_boss[0][1])}): " + ", ".join(i["name"] for i in _by_boss[0][1][:5]) + "." if _by_boss else "")))
+                                     f"{len(_ditems)} equippable items: {_ndrop} dropped by bosses and creatures, and {_nquest} quest rewards."
+                                     + (f" {_last['name']} drops " + ", ".join(i["name"] for i in _last["items"][:5]) + "." if _last else "")))
+                        if _bosses:
+                            _faq.append((f"How many bosses are in {_dn}?", f"{len(_bosses)} encounters, in this order: " + ", ".join(b["name"] for b in _bosses) + "."))
                         if _d["levels"]:
                             _faq.append((f"What level is {_dn} in WoW: Forever?", f"{_dn} is meant for levels {_d['levels']}."))
-                        if _by_quest:
-                            _faq.append((f"Which {_dn} quests reward items?", "The quests " + ", ".join(q for q, _ in _by_quest[:6]) + f" reward {_nquest} items."))
+                    _durl = canonical_for(_dpath, lang)
                     render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
-                           dname=_dn, by_boss=_by_boss, by_quest=_by_quest, dg_faq=_faq,
+                           dname=_dn, dlevels=_d["levels"], dloc=_loc, bosses=_bosses, others=_others, quests=_quests, picks=_picks,
+                           updated=_updated, dg_faq=_faq,
                            faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                        "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _faq]},
-                           breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_dn, canonical_for(_dpath, lang))]),
-                           article_schema=build_article_schema(_dh1, canonical_for(_dpath, lang), _dd_))
+                           breadcrumb_schema=breadcrumb_schema(_dcrumb + [(_dn, _durl)]),
+                           article_schema={**build_article_schema(_dh1, _durl, _dd_), "dateModified": _updated, "inLanguage": lang})
                 # one page with every dungeon's loot combined, same filter, plus a "which dungeon" column
                 _allpath = "/wow-forever/dungeons/tous-les-objets/"
                 _allitems = sorted(

@@ -11,6 +11,35 @@
 {% endblock %}
 {% block content %}
 {{ m.page_hero(tx.dg_kicker, g_h1, g_intro) }}
+{% set fr = lang == 'fr' %}
+{% if bosses is defined %}
+<div class="dg-facts">
+  {% if dlevels %}<div><span>{{ 'Niveaux' if fr else 'Levels' }}</span><b class="nums">{{ dlevels }}</b></div>{% endif %}
+  {% if dloc %}<div><span>{{ 'Emplacement' if fr else 'Location' }}</span><b>{{ dloc[lang][:1]|upper ~ dloc[lang][1:] }}</b></div>{% endif %}
+  {% if bosses %}<div><span>Boss</span><b class="nums">{{ bosses|length }}</b></div>{% endif %}
+  <div><span>{{ 'Objets' if fr else 'Items' }}</span><b class="nums">{{ items|length }}</b></div>
+  {% if quests %}<div><span>{{ 'Quêtes' if fr else 'Quests' }}</span><b class="nums">{{ quests|length }}</b></div>{% endif %}
+</div>
+<p class="wow-note dg-updated">{{ 'Mis à jour le' if fr else 'Updated' }} <time datetime="{{ updated }}">{{ short_date(updated, lang) ~ ' ' ~ updated[:4] }}</time>{% if dloc %} · {{ "emplacement de WoW Classic" if fr else "WoW Classic location" }}{% endif %}</p>
+<nav class="gd-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  {% if picks %}<a href="#par-specialisation">{{ 'Meilleur butin par spé' if fr else 'Best loot per spec' }}</a>{% endif %}
+  {% if bosses %}<a href="#boss">Boss</a>{% endif %}
+  {% if quests %}<a href="#quetes">{{ 'Quêtes' if fr else 'Quests' }}</a>{% endif %}
+  <a href="#tableau">{{ 'Tous les objets' if fr else 'All items' }}</a>
+  <a href="#faq">FAQ</a>
+</nav>
+{% if picks %}
+<h2 class="fiche-section-title" id="par-specialisation">{{ 'Le meilleur butin de ' ~ dname ~ ' pour chaque spécialisation' if fr else 'Best ' ~ dname ~ ' loot for each spec' }}</h2>
+<p class="wow-note">{{ "Les 3 objets du donjon qui ajoutent le plus de dégâts à chaque spécialisation, d'après les poids de stats de notre simulateur (méthode et limites en bas de page)." if fr else "The 3 items of this dungeon that add the most damage to each spec, from our simulator's stat weights (method and limits at the bottom of the page)." }}</p>
+<div class="wow-table-wrap"><table class="wow-table dg-picks">
+  <thead><tr><th>{{ 'Spécialisation' if fr else 'Spec' }}</th><th>1</th><th>2</th><th>3</th></tr></thead>
+  <tbody>{% for p in picks %}<tr>
+    <th scope="row"><a href="{{ root }}{{ p.guide }}" style="color:{{ p.class_color or 'inherit' }}"><img src="{{ root }}{{ p.icon }}" alt="" width="22" height="22" loading="lazy">{{ p.class_name ~ ' ' ~ p.spec_name if fr else p.spec_name ~ ' ' ~ p.class_name }}</a></th>
+    {% for it in p['items'] %}<td>{{ dm.item_link(it, lang) }}</td>{% endfor %}{% for _ in range(3 - p['items']|length) %}<td>–</td>{% endfor %}
+  </tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}
+{% endif %}
 {% set ns = namespace(types=[]) %}
 {% for it in items %}{% if it.type.en and it.type.en not in ns.types %}{% set ns.types = ns.types + [it.type.en] %}{% endif %}{% endfor %}
 <div class="dg-filters" id="dgFilters">
@@ -37,6 +66,7 @@
   </fieldset>
   <button type="button" id="dgReset" class="dg-reset">{{ tx.dg_reset }}</button>
 </div>
+{% if bosses is defined %}<h2 class="fiche-section-title" id="tableau">{{ "Tous les objets de " ~ dname if fr else "All " ~ dname ~ " items" }}</h2>{% endif %}
 <p class="wow-note nums" id="dgCount"></p>
 <div class="wow-table-wrap"><table class="wow-table dg-table" id="dgTable">
   <thead><tr><th>{{ tx.dg_slot }}</th><th>{{ tx.dg_item }}</th><th>{{ tx.dg_type }}</th><th id="dgSortReq" class="dg-sortable" tabindex="0" role="button">{{ tx.dg_req }}<span class="dg-sort-arrow" aria-hidden="true"></span></th><th>{{ tx.dg_stats }}</th><th>{{ tx.dg_from }}</th>{% if all_dungeons %}<th>{{ tx.dg_dungeon }}</th>{% endif %}</tr></thead>
@@ -52,32 +82,37 @@
   </tr>{% endfor %}</tbody>
 </table></div>
 <p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
-{% if by_boss %}
-{% set fr = lang == 'fr' %}
-<h2 class="fiche-section-title">{{ 'Butin de ' ~ dname ~ ' par boss' if fr else dname ~ ' loot by boss' }}</h2>
-<p class="wow-note">{{ "Chaque boss ou créature qui lâche un objet équipable, avec ce qu'il lâche." if fr else 'Every boss or creature that drops an equippable item, with what it drops.' }}</p>
-<div class="dg-groups">
-{% for boss, its in by_boss %}
-<section class="dg-group">
-  <h3 class="gd-sub">{{ boss }} <span class="gd-dim nums">· {{ its|length }} {{ (('objet' if fr else 'item') if its|length == 1 else tx.dg_items_n) }}</span></h3>
-  <ul class="dg-group-list">{% for it in its %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}{% if it.type[lang] and it.type[lang] != dd.slots[it.slot|string][lang] %} · {{ it.type[lang] }}{% endif %}</span></li>{% endfor %}</ul>
-</section>
+{% if bosses %}
+<h2 class="fiche-section-title" id="boss">{{ 'Les boss de ' ~ dname ~ ' et leur butin' if fr else dname ~ ' bosses and their loot' }}</h2>
+<p class="wow-note">{{ "Dans l'ordre des rencontres du jeu." if fr else "In the game's encounter order." }}</p>
+<ol class="dg-bosses">
+{% for b in bosses %}
+<li class="dg-group">
+  <h3 class="gd-sub">{{ b.name }}{% if b['items'] %} <span class="gd-dim nums">· {{ b['items']|length }} {{ (('objet' if fr else 'item') if b['items']|length == 1 else tx.dg_items_n) }}</span>{% endif %}</h3>
+  {% if b['items'] %}<ul class="dg-group-list">{% for it in b['items'] %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}{% if it.type[lang] and it.type[lang] != dd.slots[it.slot|string][lang] %} · {{ it.type[lang] }}{% endif %}</span></li>{% endfor %}</ul>
+  {% else %}<p class="gd-dim dg-none">{{ "Aucun objet équipable connu." if fr else "No known equippable drop." }}</p>{% endif %}
+</li>
 {% endfor %}
-</div>
-{% if by_quest %}
-<h2 class="fiche-section-title">{{ 'Récompenses de quête de ' ~ dname if fr else dname ~ ' quest rewards' }}</h2>
-<div class="dg-groups">
-{% for quest, its in by_quest %}
-<section class="dg-group">
-  <h3 class="gd-sub">{{ quest }}</h3>
-  <ul class="dg-group-list">{% for it in its %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}</span></li>{% endfor %}</ul>
-</section>
-{% endfor %}
-</div>
+</ol>
+{% if others %}
+<h3 class="gd-sub">{{ 'Autres créatures' if fr else 'Other creatures' }}</h3>
+<ul class="dg-group-list">{% for name, its in others %}<li><b>{{ name }}</b> : {% for it in its %}{{ dm.item_link(it, lang) }}{% if not loop.last %}, {% endif %}{% endfor %}</li>{% endfor %}</ul>
 {% endif %}
+{% endif %}
+{% if quests %}
+<h2 class="fiche-section-title" id="quetes">{{ 'Les quêtes de ' ~ dname if fr else dname ~ ' quests' }}</h2>
+<div class="dg-groups">
+{% for q in quests %}
+<section class="dg-group">
+  <h3 class="gd-sub">{% if q.id %}<a href="https://www.wowhead.com/forever/quest={{ q.id }}" rel="noopener nofollow" target="_blank">{{ q.name }}</a>{% else %}{{ q.name }}{% endif %}</h3>
+  {% if q.giver %}<p class="gd-dim dg-giver">{{ 'Donnée par' if fr else 'From' }} {{ q.giver }}{% if q.giver_zone %}, {{ q.giver_zone }}{% endif %}{% if q.x %} <span class="nums">({{ q.x }}, {{ q.y }})</span>{% endif %}</p>{% endif %}
+  <ul class="dg-group-list">{% for it in q['items'] %}<li>{{ dm.item_link(it, lang) }} <span class="gd-dim">{{ dd.slots[it.slot|string][lang] }}</span></li>{% endfor %}</ul>
+</section>
+{% endfor %}
+</div>
 {% endif %}
 {% if dg_faq %}
-<h2 class="fiche-section-title">{{ 'Questions fréquentes' if lang == 'fr' else 'Frequently asked questions' }}</h2>
+<h2 class="fiche-section-title" id="faq">{{ 'Questions fréquentes' if lang == 'fr' else 'Frequently asked questions' }}</h2>
 {% for q, a in dg_faq %}<div class="faq-block"><h3 class="gd-sub">{{ q }}</h3><p class="page-intro" style="margin-top:0">{{ a }}</p></div>{% endfor %}
 {% endif %}
 <h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
