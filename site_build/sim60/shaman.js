@@ -123,18 +123,19 @@ export const SHAMAN_ENH = {
   stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
   flurry: { perRank: 0.05, charges: 3, expire: 15 }, maelstrom: { chance: 0.10, perRank: 0.04, max: 5, dur: 30 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
   thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
-  manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+  shamanisticFocus: { cost: 0.45 }, concussion: { dmg: 0.01 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
 export const SHAMAN_ENH_DEFAULT_BUILD = {
   thunderingStrikes: 0, ancestralKnowledge: 0, mentalDexterity: 0, mentalQuickness: 0, elementalWeapons: 0, flurry: 0, stormstrike: 0, maelstromWeapon: 0, rageOfTheFarseer: 0,
-  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', useCooldowns: true, usePotion: true, useGem: true,
+  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', shamanisticFocus: 0, earthShock: true, shockReserve: 700, useCooldowns: true, usePotion: true, useGem: true,
 };
 
 export function shamanEnhancementKit(build = {}, data = null) {
   const b = Object.assign({}, SHAMAN_ENH_DEFAULT_BUILD, build), E = JSON.parse(JSON.stringify(SHAMAN_ENH));
   const lb = pickRank(data, 'shaman', 'shaman_lightning_bolt', 'Lightning Bolt'), ss = pickRank(data, 'shaman', null, 'Stormstrike'), rb = pickRank(data, 'shaman', 'shaman_rockbiter_weapon', 'Rockbiter Weapon');
   const L = lb ? fromRank(lb) : null;
+  const esr = pickRank(data, 'shaman', 'shaman_earth_shock', 'Earth Shock'), ES = esr ? fromRank(esr, { name: 'Earth Shock', cd: 6 }) : null;
   const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
   const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
   if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
@@ -164,7 +165,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
         if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.rng() < E.windfury.chance) {
           const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons);
           s.entry('Windfury').casts++;
-          s.inWindfury = true; s.mods.apBonus += bonus; for (let i = 0; i < E.windfury.extra; i++) s.whiteAttack(s.swings[0]); s.mods.apBonus -= bonus; s.inWindfury = false;
+          s.inWindfury = true; s.mods.apBonus += bonus; s.whiteLabel = 'Windfury'; for (let i = 0; i < E.windfury.extra; i++) s.whiteAttack(s.swings[0]); s.whiteLabel = null; s.mods.apBonus -= bonus; s.inWindfury = false;
         }
       });
     },
@@ -180,6 +181,17 @@ export function shamanEnhancementKit(build = {}, data = null) {
         spendMana(sim, T.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry(T.name).casts++;
         dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1, critBonus: 0 }));
         return 1.5;
+      }
+      // Earth Shock on its own cooldown: Stormstrike's +20% nature damage applies to it, Concussion and Shamanistic Focus (-45% mana) help
+      if (b.earthShock && ES && now >= (sim.cd.shock || 0) && rem > 4) {
+        const esCost = Math.round(ES.cost * (1 - E.shamanisticFocus.cost * b.shamanisticFocus));
+        if (sim.mana >= esCost + b.shockReserve) {
+          sim.cd.shock = now + Math.max(1.5, ES.cd - 0.2 * (b.reverberation || 0)); spendMana(sim, esCost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Earth Shock').casts++;
+          const ssBonus = sim.aSS.active ? E.stormstrike.nature : 1; if (sim.aSS.active) sim.aSS.expire();
+          const raw = ES.direct.min + (ES.direct.max - ES.direct.min) * sim.rng() + (sim.stats.sp + sim.spBonus) * ES.direct.coeff;
+          resolveSpell(sim, 'Earth Shock', raw, { hit: 0, crit: sim.mods.critBonus, dmg: ssBonus * (1 + E.concussion.dmg * (b.concussion || 0)), critBonus: 0 });
+          return 1.5;
+        }
       }
       // five Maelstrom Weapon stacks (each takes 4% per talent rank off the next Lightning Bolt's cast time and mana cost): at five ranks it is instant and free
       if (L && b.maelstromWeapon && sim.aMW.active && sim.aMW.stacks >= E.maelstrom.max) {

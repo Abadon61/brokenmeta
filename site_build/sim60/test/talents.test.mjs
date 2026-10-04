@@ -65,3 +65,9 @@ test('Arms talents: Two-Handed Specialization and Impale add damage', () => {
   assert.ok(base > runBatch(cfg(armsKit, arms({ twoHandSpec: 0 }), twoHand), 1500, 1).mean);
   assert.ok(base > runBatch(cfg(armsKit, arms({ impale: 0 }), twoHand), 1500, 1).mean);
 });
+
+test('Arms: Bloodthrill lets Rend open Overpower without a dodge', () => {
+  const withB = runBatch(cfg(armsKit, arms(), twoHand), 800, 1), without = runBatch(cfg(armsKit, arms({ bloodthrill: 0 }), twoHand), 800, 1);
+  assert.ok(withB.breakdown['Rend'] && withB.breakdown['Overpower'].casts > without.breakdown['Overpower'].casts * 1.5, 'Overpower casts');
+  assert.ok(withB.mean > without.mean, 'Bloodthrill adds DPS');
+});

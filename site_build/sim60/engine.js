@@ -92,6 +92,7 @@ export class Sim {
   constructor(cfg) {
     this.cfg = cfg;
     this.fightLen = cfg.fightLen;
+    this.log = cfg.log ? [] : null;                 // optional [time, source, kind] list of every damage event (ranking pages: the opening)
     this.rng = makeRng(cfg.seed | 0);
     this.now = 0; this.seq = 0; this.heap = new Heap();
     this.player = cfg.player;                       // {stats:{...}, weapons:[...], level, resource, dualWield}
@@ -165,6 +166,7 @@ export class Sim {
   record(source, amount, kind) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
+    if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind]);
     if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
   }
@@ -256,7 +258,7 @@ export class Sim {
     this.poke(0);
   }
   whiteAttack(sw) {
-    const isOH = !!sw.w.offHand, w = sw.w, name = isOH ? 'White (off-hand)' : 'White (main hand)';
+    const isOH = !!sw.w.offHand, w = sw.w, name = this.whiteLabel || (isOH ? 'White (off-hand)' : 'White (main hand)');
     const outcome = this.resolveWhite(isOH);
     const e = this.entry(name);
     if (outcome === 'miss') { e.misses++; this.onMeleeHit('miss', 'white', isOH, true); return; }

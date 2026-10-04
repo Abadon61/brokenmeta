@@ -67,3 +67,14 @@ test('Enhancement: Windfury Weapon gives the client\'s 2 extra attacks, Searing 
   const weak = run('shaman_enhancement', { maelstromWeapon: 1 }, null, 180, 300);
   assert.ok(weak.mean < r.mean + 5, 'a single rank is no better than five');
 });
+
+test('Enhancement: the Windfury extra attacks show their own damage line', () => {
+  const r = run('shaman_enhancement', {}, null, 180, 300);
+  assert.ok(r.breakdown['Windfury'].dps > 15, 'Windfury dps ' + r.breakdown['Windfury'].dps);
+});
+
+test('Enhancement: Earth Shock is cast on its cooldown and adds damage', () => {
+  const r = run('shaman_enhancement', {}, null, 180, 400);
+  assert.ok(r.breakdown['Earth Shock'] && r.breakdown['Earth Shock'].casts > 8, 'Earth Shock ' + JSON.stringify(r.breakdown['Earth Shock']));
+  assert.ok(r.mean > run('shaman_enhancement', { earthShock: false }, null, 180, 400).mean, 'Earth Shock adds DPS');
+});

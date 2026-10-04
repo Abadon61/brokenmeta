@@ -63,3 +63,12 @@ test('Bear Druid: Dire Bear armor, Swipe and Lacerate, rage from damage taken, d
   const a = run('druid_bear', { naturalReaction: 5 }, null, 120, 800), z = run('druid_bear', { naturalReaction: 0 }, null, 120, 800);
   assert.ok(a.r.counters.boss_dodge > z.r.counters.boss_dodge, 'Natural Reaction dodge');
 });
+
+test('Protection Warrior spends spare rage on Heroic Strike before Sunder Armor; the Bear mauls on top of Swipe', () => {
+  const w = run('warrior_protection', {}, null, 120, 600);
+  assert.ok(w.r.breakdown['Heroic Strike'] && w.r.breakdown['Heroic Strike'].dps > 20, 'Heroic Strike ' + JSON.stringify(w.r.breakdown['Heroic Strike']));
+  assert.ok(w.tps > run('warrior_protection', { useHeroicStrike: false }, null, 120, 600).tps, 'Heroic Strike adds threat');
+  const bear = run('druid_bear', {}, null, 120, 600);
+  assert.ok(bear.r.breakdown['Maul'] && bear.r.breakdown['Maul'].dps > 30, 'Maul ' + JSON.stringify(bear.r.breakdown['Maul']));
+  assert.ok(bear.tps > run('druid_bear', { useSwipe: false }, null, 120, 600).tps * 0.95, 'Swipe is no loss');
+});

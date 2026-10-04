@@ -6,6 +6,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { ItemPool, toWeapon } from './items.js';
 import { optimizeGear } from './optimizer.js';
 import { runBatch } from './run.js';
+import { Sim } from './engine.js';
 import { buildCharacter } from './character.js';
 import { makeKit, KITS } from './kits.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
@@ -57,10 +58,47 @@ for (const [id, S] of Object.entries(SPECS)) {
   }
   const ch = buildCharacter({ ...character, gear, weapons });
   const r = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kit }, FINAL, 7);
+  // ---- data of the spec's detail page: talents, gear, stats, damage by ability, the opening ----
+  const talents = [];
+  for (const [tn, rk] of Object.entries(PRESETS[id])) {
+    for (const sp of tal[S.cls].specs) {
+      const t = sp.talents.find((x) => x.name.en === tn);
+      if (!t) continue;
+      const pick = (arr) => arr[Math.min(rk, arr.length) - 1];
+      talents.push({ tree: sp.id, tree_name: sp.name, name: t.name, rank: rk, max: t.max_rank, row: t.row, desc: { en: pick(t.desc.en), fr: pick(t.desc.fr || t.desc.en) } });
+      break;
+    }
+  }
+  const trees = {};
+  for (const t of talents) trees[t.tree] = (trees[t.tree] || 0) + t.rank;
+  const weaponSlot = (w) => (w.offHand ? 'oh' : w.twoHand ? 'th' : /bow|gun|crossbow/.test(w.type) ? 'rng' : 'mh');
+  const items = gear.map((g) => ({ slot: g.slot, id: g.id })).concat(weapons.map((w) => ({ slot: weaponSlot(w), id: w.itemId })));
+  for (const it of items) { const p = pool.byId.get(it.id) || {}; it.name = p.name; it.zone = p.zone; it.src = (p.src || [])[0]; it.ilvl = p.ilvl; it.q = p.q; }
+  const sim = new Sim({ fightLen: FIGHT, player: ch.player, target: ch.target, spec: kit(), seed: 11, log: true });
+  sim.run();
+  const opening = [];
+  for (const [t, n] of sim.log) {
+    if (t > 14 || /^White|Pet|Imp Firebolt|Searing Bolt|Deep Wounds|Ignite|Ignition|\(bleed\)|\(DoT\)|Windfury|Overload|Poison|Mana|Smokey|Ephemeral|Hawk/.test(n)) continue;
+    const last = opening[opening.length - 1];
+    if (last && last.n === n && t - last.t < 0.4) { last.x++; continue; }
+    if (opening.length < 14 && !opening.some((o) => o.n === n && t - o.t < 0.2)) opening.push({ t, n, x: 1 });
+  }
+  const sm = ch.summary || {};
+  const detail = {
+    talents, trees, items,
+    stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },
+    effects: (sm.effects || []).map((e) => (e && (e.name || e.id)) || String(e)).slice(0, 12),
+    uptimes: Object.entries(r.uptimes || {}).filter(([n, v]) => v > 0.05 && v < 0.999 && !/Ephemeral|Smokey/.test(n)).map(([n, v]) => [n, +v.toFixed(2)]),
+    abilities: Object.entries(r.breakdown).filter(([, v]) => (v.dps || 0) > 0.05).sort((a, b) => b[1].dps - a[1].dps)
+      .map(([n, v]) => ({ name: n, dps: +v.dps.toFixed(1), casts: +(v.casts || 0).toFixed(1), hits: +v.hits.toFixed(1), crit: v.hits ? +(v.crits / v.hits).toFixed(3) : 0 })),
+    opening,
+  };
   const row = { spec: id, class: S.cls, role: S.tank ? 'tank' : 'dps', dps: +r.mean.toFixed(1), sem: +r.sem.toFixed(2), name: KITS[id] };
   if (S.tank) { row.tps = +(r.counters.threat / FIGHT).toFixed(1); row.dtps = +(r.counters.dmgTaken / FIGHT).toFixed(1); row.health = Math.round(ch.summary.tank.health); }
+  row.spells = Object.entries(r.breakdown).filter(([, v]) => (v.dps || 0) > 0).sort((x, y) => y[1].dps - x[1].dps).map(([n, v]) => [n, +v.dps.toFixed(1), +(v.casts || 0).toFixed(1)]);
+  row.detail = detail;
   out.specs.push(row);
   console.log(id.padEnd(22), S.tank ? 'TPS ' + row.tps : 'DPS ' + row.dps, '±' + row.sem, ((Date.now() - t0) / 1000).toFixed(0) + 's');
 }
-writeFileSync(new URL('../../data/wow_ranking60.json', here), JSON.stringify(out, null, 1));
+writeFileSync(new URL(process.env.RANK_OUT || '../../data/wow_ranking60.json', here), JSON.stringify(out, null, 1));
 console.log('written', out.specs.length, 'specs');

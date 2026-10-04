@@ -86,10 +86,10 @@ export function warriorProtKit(build = {}, data = null) {
         });
       }
       const reserve = (now >= sim.sSS.readyAt - 1.5 && b.shieldSlam ? ssCost : 0);
+      if (b.useHeroicStrike && !sim.mhQueued && rage >= sim.sHS.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
       if (rage >= suCost + reserve) {
         return castGcd(sim, spell('Sunder Armor'), () => { sim.spendRage(suCost); sim.threat(W.sunder.threat * sim.threatMult()); });
       }
-      if (b.useHeroicStrike && !sim.mhQueued && rage >= sim.sHS.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
       const next = Math.min(b.shieldSlam ? sim.sSS.readyAt : Infinity, sim.sRV.readyAt, sim.sBR.readyAt);
       return Math.max(0.1, Math.min(0.5, next - now));
     },
@@ -197,7 +197,7 @@ export const DRUID_BEAR = {
   leaderOfThePack: { crit: 0.03 },
 };
 export const DRUID_BEAR_DEFAULT_BUILD = {
-  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0,
+  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true,
 };
 
 export function druidBearKit(build = {}, data = null) {
@@ -248,13 +248,13 @@ export function druidBearKit(build = {}, data = null) {
           sim.schedule(B.lacerate.interval, step);
         }, 1.5);
       }
-      if (rage >= swCost + 10) {
+      if (!sim.mhQueued && rage >= sim.sMaul.cost() + 5) sim.mhQueued = sim.sMaul;
+      if (b.useSwipe && rage >= swCost + 10) {
         return castGcd(sim, spell('Swipe'), () => {
           sim.spendRage(swCost);
           yellowAttack(sim, 'Swipe', () => B.swipe.dmg * (1 + B.savageFury.dmg * b.savageFury + B.feralInstinct.dmg * b.feralInstinct));
         }, 1.5);
       }
-      if (!sim.mhQueued && rage >= sim.sMaul.cost() + 5) sim.mhQueued = sim.sMaul;
       return Math.max(0.1, Math.min(0.5, sim.sEN.readyAt - now));
     },
   };

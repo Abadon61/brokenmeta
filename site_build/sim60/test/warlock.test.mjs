@@ -30,7 +30,7 @@ test('Destruction uses Immolate, Conflagrate and Incinerate; the capstone needs 
   const r = runBatch(cfg(preset('warlock_destruction')), 400, 1);
   assert.ok(r.breakdown['Immolate'] && r.breakdown['Conflagrate'].casts > 5 && (r.breakdown['Incinerate'] || r.breakdown['Shadow Bolt']));
   assert.ok(!runBatch(cfg(preset('warlock_destruction', { conflagrate: 0 })), 100, 1).breakdown['Conflagrate']);
-  const s = runBatch(cfg(preset('warlock_demonology')), 400, 1);
+  const s = runBatch(cfg(preset('warlock_demonology', { demonicSacrifice: 1 })), 400, 1);
   assert.ok(!s.breakdown['Imp Firebolt'], 'a sacrificed Imp does not attack');
 });
 
@@ -42,4 +42,12 @@ test('talents and spell power move the DPS; Demonic Sacrifice adds shadow damage
   assert.ok(runBatch(cfg(aff, more), 1500, 1).mean > base * 1.05, 'spell power');
   const sac = { ...aff, demonicSacrifice: 1, sacrifice: 'imp' };
   assert.ok(runBatch(cfg(sac), 1500, 1).mean > runBatch(cfg({ ...aff, pet: 'none' }), 1500, 1).mean * 1.05, 'sacrifice');
+});
+
+test('Demonology keeps its Imp out and uses Demonic Knowledge and Unholy Power', () => {
+  const b = preset('warlock_demonology');
+  assert.equal(b.demonicSacrifice, 0); assert.ok(b.demonicKnowledge > 0 && b.unholyPower > 0);
+  const r = runBatch(cfg(b), 400, 1);
+  assert.ok(r.breakdown['Imp Firebolt'] && r.breakdown['Imp Firebolt'].dps > 40, 'Imp');
+  assert.ok(r.mean > runBatch(cfg(preset('warlock_demonology', { demonicKnowledge: 0, unholyPower: 0 })), 400, 1).mean, 'pet talents add DPS');
 });

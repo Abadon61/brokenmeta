@@ -50,6 +50,7 @@ import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 import wow_sim60_texts  # noqa: E402
 import wow_news  # noqa: E402
+import wow_rank_texts  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
 
@@ -116,7 +117,9 @@ def build_wow_ranking60(wt_classes, lang):
         row = {
             "spec_id": r["spec"], "class_id": m[0], "class_name": cls["name"][lang], "class_color": cls.get("color"), "spec_icon": f"assets/img/spec/{m[0]}-{m[1]}.png",
             "spec_name": spec_name, "role": r["role"], "dps": r["dps"], "sem": r.get("sem"), "guide_path": f"wow-forever/guides/{m[0]}/{m[1]}/",
+            "slug": r["spec"].replace("_", "-"), "detail": r.get("detail"), "guide_spec": m[1],
         }
+        row["page_path"] = f"wow-forever/classement/{row['slug']}/" if row["detail"] else row["guide_path"]      # the detail page needs the simulator's detail data
         if r["role"] == "tank":
             row.update({"tps": r["tps"], "dtps": r["dtps"], "health": r["health"], "dps": r["tps"]})
             tank_rows.append(row)
@@ -131,6 +134,87 @@ OUT = PROJECT / "data" / "output"
 
 _MONTHS = {"fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
            "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+
+
+def _fmt_int(n):
+    return f"{int(round(n)):,}".replace(",", " ")
+
+
+def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_classes):
+    """One detail page of the ranking: /wow-forever/classement/<spec>/ (talents, gear, rotation, damage by ability)."""
+    rx = wow_rank_texts.TX[lang]
+    d = r["detail"]
+    cls = next((c for c in wt_classes if c["id"] == r["class_id"]), None)
+    tot = sum(a["dps"] for a in d["abilities"]) or 1.0
+    abilities = [dict(a, share=round(100 * a["dps"] / tot, 1), cpm=round(a["casts"] / 3.0, 1) if a["casts"] else 0) for a in d["abilities"]]
+    # talents grouped by tree, in the class's tree order
+    trees = []
+    for sp in (cls or {}).get("specs", []):
+        ts = [t for t in d["talents"] if t["tree"] == sp["id"]]
+        if ts:
+            trees.append({"name": sp["name"][lang] if isinstance(sp["name"], dict) else sp["name"], "points": sum(t["rank"] for t in ts),
+                          "talents": [{"name": t["name"][lang], "rank": t["rank"], "max": t["max"], "desc": t["desc"][lang]} for t in sorted(ts, key=lambda t: (t["row"], t["name"]["en"]))]})
+    order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
+    labels = wow_rank_texts.SLOTS[lang]
+    items = []
+    for it in sorted(d["items"], key=lambda it: order.get(it["slot"], 99)):
+        src = it.get("zone") or ""
+        if it.get("src"):
+            src = f"{src} — {it['src']}" if src else it["src"]
+        items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "source": src})
+    st = d.get("stats") or {}
+    pct = lambda v: f"{v * 100:.1f} %" if lang == "fr" else f"{v * 100:.1f}%"
+    stats = []
+    prim = st.get("prim") or {}
+    for k in ("str", "agi", "sta", "int", "spi"):
+        if prim.get(k):
+            stats.append((wow_rank_texts.STAT_LABELS[lang][k], _fmt_int(prim[k])))
+    if st.get("ap"):
+        stats.append((rx["st_ap"], _fmt_int(st["ap"])))
+    if st.get("sp"):
+        stats.append((rx["st_sp"], _fmt_int(st["sp"])))
+    if st.get("crit") is not None:
+        stats.append((rx["st_crit"], pct(st["crit"])))
+    if st.get("hit") is not None:
+        stats.append((rx["st_hit"], pct(st["hit"])))
+    if st.get("armor"):
+        stats.append((rx["st_armor"], _fmt_int(st["armor"])))
+    if st.get("mana") and r["role"] != "tank" and r["class_id"] in ("mage", "warlock", "priest", "druid", "shaman", "paladin", "hunter"):
+        stats.append((rx["st_mana"], _fmt_int(st["mana"])))
+    kpis = [(rx["st_crit"], pct(st["crit"]))] if st.get("crit") is not None else []
+    if st.get("sp") and r["class_id"] in ("mage", "warlock", "priest") or r["spec_id"] in ("shaman_elemental", "druid_balance"):
+        kpis.append((rx["st_sp"], _fmt_int(st.get("sp") or 0)))
+    elif st.get("ap"):
+        kpis.append((rx["st_ap"], _fmt_int(st["ap"])))
+    value = _fmt_int(r["dps"]) + (" TPS" if r["role"] == "tank" else " DPS")
+    tank = st.get("tank") or {}
+    if r["role"] == "tank" and tank:
+        L = {"fr": ("Défense", "Esquive", "Parade", "Blocage", "Valeur de blocage", "Armure"), "en": ("Defense", "Dodge", "Parry", "Block", "Block value", "Armor")}[lang]
+        stats = [(wow_rank_texts.STAT_LABELS[lang][k], _fmt_int(prim[k])) for k in ("str", "agi", "sta") if prim.get(k)]
+        stats += [(L[0], _fmt_int(tank.get("defense", 0))), (L[1], pct(tank.get("dodge", 0))), (L[2], pct(tank.get("parry", 0))), (L[3], pct(tank.get("block", 0))),
+                  (L[4], _fmt_int(tank.get("blockValue", 0))), (L[5], _fmt_int(tank.get("armor", 0)))]
+        kpis = []
+    opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"]]
+    pg = {
+        "title": rx["title"].format(cls=r["class_name"], spec=r["spec_name"]), "desc": rx["desc"].format(cls=r["class_name"], spec=r["spec_name"]),
+        "h1": rx["h1"].format(cls=r["class_name"], spec=r["spec_name"]), "intro": rx["intro"].format(cls=r["class_name"], spec=r["spec_name"]),
+        "value": value, "rank": i + 1, "rank_of": rx["rank_of"].format(n=len(rlist)), "kpis": kpis[:2],
+        "dtps": _fmt_int(r.get("dtps") or 0), "health": _fmt_int(r.get("health") or 0),
+        "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
+        "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
+        "effects": d.get("effects") or [], "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+    }
+    if r["role"] == "tank":                      # tanks are ranked by threat, not damage
+        swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
+        for k in ("title", "desc", "h1", "intro"):
+            for x, y in swap:
+                pg[k] = pg[k].replace(x, y)
+    path = "/wow-forever/" + "classement/" + r["slug"] + "/"
+    url = canonical_for(path, lang)
+    assert len(pg["title"]) <= 70, pg["title"]
+    render("wow_rank_spec.html", path, lang, active_nav="wow", active_sub="wow-index", rx=rx, pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
+           breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
+           article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
 
 
 def _news_date(iso, lang):
@@ -7783,6 +7867,10 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
                    news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
+        for _rlist in (_wow_ranking, _wow_ranking_tanks):
+            for _ri, _rr in enumerate(_rlist):
+                if _rr.get("detail"):
+                    _render_rank_spec(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri, wt_classes)
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]

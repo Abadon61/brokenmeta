@@ -87,7 +87,7 @@
 <div class="wow-rank-list">
   {% set max_dps = wow_ranking[0].dps %}
   {% for r in wow_ranking %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+  <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
     {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.dps).replace(',', ' ' if lang == 'fr' else ',') }} DPS</span></span>
@@ -101,7 +101,7 @@
 <div class="wow-rank-list">
   {% set max_tps = wow_ranking_tanks[0].dps %}
   {% for r in wow_ranking_tanks %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.guide_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+  <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
     {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
     <span class="wow-rank-body">
       <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.tps).replace(',', ' ' if lang == 'fr' else ',') }} TPS</span></span>

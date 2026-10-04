@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ pg.title }}{% endblock %}
+{% block description %}{{ pg.desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{{ m.page_hero(rx.kicker, pg.h1, pg.intro) }}
+<div class="rs-head" style="--rc: {{ r.class_color or '#8a6cff' }}">
+  <img class="rs-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="56" height="56">
+  <div class="rs-kpis">
+    <div class="rs-kpi"><span class="rs-kpi-v nums">{{ pg.value }}</span><span class="rs-kpi-l">{{ rx.tps_label if r.role == 'tank' else rx.dps_label }}</span></div>
+    <div class="rs-kpi"><span class="rs-kpi-v nums">#{{ pg.rank }}</span><span class="rs-kpi-l">{{ rx.rank_label }} {{ pg.rank_of }}</span></div>
+    {% if r.role == 'tank' %}
+    <div class="rs-kpi"><span class="rs-kpi-v nums">{{ pg.dtps }}</span><span class="rs-kpi-l">{{ rx.dtps_label }}</span></div>
+    <div class="rs-kpi"><span class="rs-kpi-v nums">{{ pg.health }}</span><span class="rs-kpi-l">{{ rx.health_label }}</span></div>
+    {% else %}
+    {% for k in pg.kpis %}<div class="rs-kpi"><span class="rs-kpi-v nums">{{ k[1] }}</span><span class="rs-kpi-l">{{ k[0] }}</span></div>{% endfor %}
+    {% endif %}
+  </div>
+</div>
+
+<h2 class="fiche-section-title">{{ rx.sec_rotation }}</h2>
+<ol class="rs-rot">{% for line in pg.rotation %}<li>{{ line }}</li>{% endfor %}</ol>
+{% if pg.opening %}
+<h3 class="rs-sub">{{ rx.sec_opening }}</h3>
+<p class="rs-hint">{{ rx.opening_hint }}</p>
+<div class="rs-open">{% for o in pg.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ rx.sec_abilities }}</h2>
+<div class="rs-table-wrap">
+<table class="rs-table">
+  <thead><tr><th>{{ rx.col_ability }}</th><th class="rs-bar-col">{{ rx.col_share }}</th><th class="nums">{{ rx.col_dps }}</th><th class="nums">{{ rx.col_casts }}</th><th class="nums">{{ rx.col_crit }}</th></tr></thead>
+  <tbody>
+  {% for a in pg.abilities %}
+  <tr><td>{{ a.name }}</td>
+      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ a.share }}%"></span></span><span class="nums rs-share">{{ a.share }}%</span></td>
+      <td class="nums">{{ a.dps }}</td><td class="nums">{{ a.cpm if a.cpm else '—' }}</td><td class="nums">{{ (a.crit * 100)|round(0)|int ~ '%' if a.crit else '—' }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% if pg.uptimes %}
+<h3 class="rs-sub">{{ rx.sec_uptimes }}</h3>
+<div class="rs-open">{% for u in pg.uptimes %}<span class="rs-step"><i class="nums">{{ (u[1] * 100)|round(0)|int }}%</i>{{ u[0] }}</span>{% endfor %}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ rx.sec_talents }}</h2>
+<div class="rs-trees">
+{% for t in pg.trees %}
+  <section class="rs-tree">
+    <h3 class="rs-tree-h">{{ t.name }} <span class="nums">{{ t.points }} {{ rx.points }}</span></h3>
+    <ul class="rs-talents">{% for x in t.talents %}<li><b>{{ x.name }}</b> <span class="nums">{{ x.rank }}/{{ x.max }}</span><span class="rs-tdesc">{{ x.desc }}</span></li>{% endfor %}</ul>
+  </section>
+{% endfor %}
+</div>
+
+<h2 class="fiche-section-title">{{ rx.sec_gear }}</h2>
+<div class="rs-table-wrap">
+<table class="rs-table rs-gear">
+  <thead><tr><th>{{ rx.col_slot }}</th><th>{{ rx.col_item }}</th><th>{{ rx.col_source }}</th></tr></thead>
+  <tbody>{% for g in pg.gear %}<tr><td>{{ g.slot_label }}</td><td class="rs-item q{{ g.q or 1 }}">{{ g.name }}</td><td>{{ g.source }}</td></tr>{% endfor %}</tbody>
+</table>
+</div>
+{% if pg.effects %}
+<h3 class="rs-sub">{{ rx.sec_effects }}</h3>
+<div class="rs-open">{% for e in pg.effects %}<span class="rs-step">{{ e }}</span>{% endfor %}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ rx.sec_stats }}</h2>
+<div class="rs-open">{% for s in pg.stats %}<span class="rs-step"><i class="nums">{{ s[1] }}</i>{{ s[0] }}</span>{% endfor %}</div>
+
+<h2 class="fiche-section-title">{{ rx.sec_assump }}</h2>
+<p class="wow-note">{{ rx.assump }}</p>
+
+<h2 class="fiche-section-title">{{ rx.links }}</h2>
+<div class="rs-links">
+  <a class="wh-btn" href="{{ root }}wow-forever/simulateur-dps/">{{ rx.l_sim }} <span aria-hidden="true">→</span></a>
+  <a class="wh-btn" href="{{ root }}{{ r.guide_path }}">{{ rx.l_guide }} <span aria-hidden="true">→</span></a>
+  <a class="wh-btn" href="{{ root }}wow-forever/talents/{{ r.class_id }}/">{{ rx.l_calc }} <span aria-hidden="true">→</span></a>
+  <a class="wh-btn" href="{{ root }}">{{ rx.l_rank }} <span aria-hidden="true">→</span></a>
+</div>
+<nav class="rs-pn" aria-label="{{ rx.rank_label }}">
+  {% if pg.prev %}<a href="{{ root }}{{ pg.prev.page_path }}">← {{ pg.prev.class_name }} {{ pg.prev.spec_name }}</a>{% else %}<span></span>{% endif %}
+  {% if pg.next %}<a href="{{ root }}{{ pg.next.page_path }}">{{ pg.next.class_name }} {{ pg.next.spec_name }} →</a>{% endif %}
+</nav>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}
