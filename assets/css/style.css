@@ -1917,6 +1917,27 @@
   .wow-rank-tag { font: 700 10px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: 0.05em; padding: 1px 6px; border: 1px solid var(--border-bright); color: var(--text-faint); }
   .wow-rank-tag[data-role="tank"] { color: var(--cyan); border-color: var(--cyan); }
   .wow-rank-bar-wrap { height: 8px; background: var(--bg); border: 1px solid var(--border); overflow: hidden; }
+  .news-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 18px; }
+  .news-chip { font: 700 12px 'Space Mono', monospace; padding: 6px 12px; border: 1px solid var(--border); background: var(--bg-2); color: var(--text-dim); cursor: pointer; letter-spacing: 0.02em; }
+  .news-chip:hover { border-color: var(--border-bright); color: var(--text); }
+  .news-chip.is-on { border-color: var(--cyan); color: var(--cyan); }
+  .news-day { font: 700 13px 'Space Mono', monospace; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin: 22px 0 8px; }
+  .news-item { display: grid; grid-template-columns: 138px 1fr auto; align-items: baseline; gap: 12px; padding: 10px 12px; border: 1px solid var(--border); background: var(--bg-2); margin-bottom: 6px; text-decoration: none; color: var(--text); transition: border-color 0.15s; }
+  .news-item:hover { border-color: var(--border-bright); }
+  .news-item[hidden], .news-day[hidden] { display: none; }
+  .news-title { font-weight: 600; line-height: 1.4; }
+  .news-src { font: 600 11px 'Space Mono', monospace; color: var(--text-faint); white-space: nowrap; }
+  .news-tag { font: 700 10px 'Space Mono', monospace; letter-spacing: 0.06em; text-transform: uppercase; color: var(--cyan); }
+  .news-tag[data-tag="tuning"] { color: var(--gold); }
+  .news-tag[data-tag="dev"] { color: var(--magenta); }
+  .news-tag[data-tag="guide"] { color: var(--green, #8ee08e); }
+  .news-tag[data-tag="release"] { color: #c79bff; }
+  .wow-news-mini { list-style: none; margin: 0 0 8px; padding: 0; }
+  .wow-news-mini li { display: grid; grid-template-columns: 74px 1fr; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--border); }
+  .wow-news-mini a { color: var(--text); text-decoration: none; font-weight: 600; }
+  .wow-news-mini a:hover { color: var(--cyan); }
+  .wow-news-mini time { font: 600 11px 'Space Mono', monospace; color: var(--text-faint); }
+  @media (max-width: 640px) { .news-item { grid-template-columns: 1fr; gap: 4px; } .news-src { justify-self: start; } }
   .wow-rank-val { margin-left: auto; font: 700 12px 'Space Mono', monospace; color: var(--text-dim); }
   .wow-rank-bar { display: block; height: 100%; background: var(--rc, var(--magenta)); }
   /* Work-in-progress ranking (2026-09-28, user request): the sim isn't precise enough yet to
