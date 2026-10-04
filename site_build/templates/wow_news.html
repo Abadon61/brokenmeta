@@ -11,8 +11,8 @@
 {{ m.page_hero(nw.kicker, nw.h1, nw.intro) }}
 {% if articles %}
 <h2 class="lh-h2">{{ 'Nos analyses' if lang == 'fr' else 'Our analysis' }}</h2>
-<div class="wf-grid">{% for c in articles %}<a class="wf-card wf-ours" href="{{ root }}{{ c.href }}" style="--ac: {{ c.color or '#8a6cff' }}">
-  <span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>
+<div class="wf-grid">{% for c in articles %}<a class="wf-card wf-ours{% if c.banner %} wf-has-banner{% endif %}" href="{{ root }}{{ c.href }}" style="--ac: {{ c.color or '#8a6cff' }}">
+  {% if c.banner %}<span class="wf-banner"><img src="{{ root }}{{ c.banner }}" alt="" width="600" height="315" loading="lazy"></span>{% else %}<span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>{% endif %}
   <span class="wf-body"><span class="wf-tags">{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span><b class="wf-title">{{ c.title }}</b><span class="wf-meta">{{ c.date_label }} · BrokenMeta.gg</span></span>
 </a>{% endfor %}</div>
 <h2 class="lh-h2">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }}</h2>

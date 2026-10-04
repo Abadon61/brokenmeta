@@ -4,6 +4,7 @@
 {% block title %}{{ art.title }}{% endblock %}
 {% block description %}{{ art.description }}{% endblock %}
 {% block og_type %}article{% endblock %}
+{% block og_image %}{% if banner %}{{ BASE_URL }}{{ banner }}{% else %}{{ image if image.startswith('http') else BASE_URL ~ image }}{% endif %}{% endblock %}
 {% block extra_head %}
 {% if draft %}<meta name="robots" content="noindex,follow">{% endif %}
 <meta property="article:published_time" content="{{ date }}">
@@ -15,6 +16,7 @@
 {% block content %}
 {% if draft %}<p class="art-draft">{{ "Brouillon : non publié, non indexé. Relisez puis passez draft à False dans wow_articles.py." if fr else "Draft: not published, not indexed. Proof-read, then set draft to False in wow_articles.py." }}</p>{% endif %}
 <article class="art">
+  {% if banner %}<figure class="art-banner"><img src="{{ root }}{{ banner }}" alt="{{ art.h1 }}" width="1200" height="630" fetchpriority="high"><figcaption>{{ 'Illustration' }} : © Blizzard Entertainment</figcaption></figure>{% endif %}
   <header class="art-head" style="--ac: {{ color or '#8a6cff' }}">
     <img class="art-img" src="{{ image if image.startswith('http') else root ~ image }}" alt="" width="96" height="96">
     <div>

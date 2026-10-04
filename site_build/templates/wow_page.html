@@ -47,8 +47,8 @@
   <div class="wf-head"><h2 class="lh-h2" id="wf-h">{{ 'À la une' if lang == 'fr' else 'Featured' }}</h2><a class="wf-all" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} →</a></div>
   <div class="wf-grid">
   {% for c in wow_featured %}
-    <a class="wf-card{% if not c.external %} wf-ours{% endif %}" href="{{ c.href if c.external else root ~ c.href }}"{% if c.external %} rel="noopener nofollow" target="_blank"{% endif %} style="--ac: {{ c.color or '#8a6cff' }}">
-      <span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>
+    <a class="wf-card{% if not c.external %} wf-ours{% endif %}{% if c.banner %} wf-has-banner{% endif %}" href="{{ c.href if c.external else root ~ c.href }}"{% if c.external %} rel="noopener nofollow" target="_blank"{% endif %} style="--ac: {{ c.color or '#8a6cff' }}">
+      {% if c.banner %}<span class="wf-banner"><img src="{{ root }}{{ c.banner }}" alt="" width="600" height="315" loading="lazy"></span>{% else %}<span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>{% endif %}
       <span class="wf-body">
         <span class="wf-tags">{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span>
         <b class="wf-title">{{ c.title }}</b>

@@ -222,6 +222,22 @@ def _news_date(iso, lang):
     return f"{d} {_MONTHS['fr'][m - 1]} {y}" if lang == "fr" else f"{_MONTHS['en'][m - 1]} {d}, {y}"
 
 
+def class_banner(class_id):
+    """Site path of the class illustration banner (logo/wow_class_art, see wow_class_art_build.py); the generic
+    "WoW: Forever" banner (all nine classes) when the subject is no single class; None if neither file exists."""
+    for name in ([class_id] if class_id else []) + ["forever"]:
+        if (PROJECT / "logo" / "wow_class_art" / f"{name}.jpg").exists():
+            return f"assets/img/wow-class/{name}.jpg"
+    return None
+
+
+def tile_banner(class_id):
+    """Image of a news tile: the class banner, else the text-free generic one (the tile writes its own title)."""
+    if class_id and (PROJECT / "logo" / "wow_class_art" / f"{class_id}.jpg").exists():
+        return f"assets/img/wow-class/{class_id}.jpg"
+    return "assets/img/wow-class/forever-plain.jpg" if (PROJECT / "logo" / "wow_class_art" / "forever-plain.jpg").exists() else class_banner(None)
+
+
 def build_wow_featured(news_items, wt_classes, lang, n=4):
     """Cards of the home page's "featured" block (2026-10-04, user request: news with an image, at the top).
     Our own published articles come first, then the newest headlines. Images are always the site's own assets
@@ -234,7 +250,7 @@ def build_wow_featured(news_items, wt_classes, lang, n=4):
             by_name[nm.lower()] = c
     for a in sorted(wow_articles.published(), key=lambda a: a["date"], reverse=True):
         cls = next((c for c in wt_classes or [] if c["id"] == a.get("class")), None)
-        cards.append({"title": a[lang]["title"], "href": f"wow-forever/actualites/{a['slug']}/", "external": False,
+        cards.append({"title": a[lang]["title"], "href": f"wow-forever/actualites/{a['slug']}/", "external": False, "banner": tile_banner(a.get("class")),
                       "date_label": _news_date(a["date"], lang), "tag": a["tag"], "tag_label": wow_news.TAGS[a["tag"]][0 if lang == "fr" else 1],
                       "image": a["image"], "color": (cls or {}).get("color"), "source_label": "BrokenMeta.gg", "kind": a["kind"]})
     covered = {u for a in wow_articles.published() for _, u in a["sources"]}   # a headline our own article already covers
@@ -245,7 +261,7 @@ def build_wow_featured(news_items, wt_classes, lang, n=4):
             continue
         low = i["title"].lower()
         cls = next((c for nm, c in by_name.items() if re.search(r"\b" + re.escape(nm) + r"s?\b", low)), None)
-        cards.append({"title": i["title"], "href": i["url"], "external": True, "date_label": _news_date(i["date"], lang),
+        cards.append({"title": i["title"], "href": i["url"], "external": True, "date_label": _news_date(i["date"], lang), "banner": tile_banner((cls or {}).get("id")),
                       "tag": i["tag"], "tag_label": wow_news.TAGS[i["tag"]][0 if lang == "fr" else 1],
                       "image": (cls or {}).get("icon") or "assets/img/game-wow-forever.png", "color": (cls or {}).get("color"),
                       "source_label": wow_news.SOURCES[i["source"]],
@@ -7846,12 +7862,13 @@ def main() -> None:
                 _aurl = canonical_for(_apath, lang)
                 _acls = next((c for c in wt_classes or [] if c["id"] == _a.get("class")), None)
                 _atx = _a[lang]
-                _aimg = _a["image"] if _a["image"].startswith("http") else BASE_URL + _a["image"]
+                _aimg = BASE_URL + class_banner(_a.get("class")) if class_banner(_a.get("class")) else (_a["image"] if _a["image"].startswith("http") else BASE_URL + _a["image"])
                 _afaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
                     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _atx.get("faq", [])]} if _atx.get("faq") else None
                 render("wow_article.html", _apath, lang, active_nav="wow", active_sub="wow-news", art=_atx, draft=bool(_a.get("draft")), faq_schema=_afaq,
                        date=_a["date"], updated=_a["updated"], date_label=_news_date(_a["date"], lang), updated_label=_news_date(_a["updated"], lang),
                        tag=_a["tag"], tag_label=wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], image=_a["image"], kind=_a["kind"],
+                       banner=class_banner(_a.get("class")), wow_disclaimer=wow_content.DISCLAIMER[lang],
                        color=(_acls or {}).get("color"), sources=_a["sources"],
                        breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl), (_atx["h1"], _aurl)]),
                        article_schema={"@context": "https://schema.org", "@type": "NewsArticle", "headline": _atx["title"], "description": _atx["description"],
@@ -7862,8 +7879,10 @@ def main() -> None:
                 if _a in wow_articles.published():
                     _arts.append({"title": _atx["title"], "description": _atx["description"], "href": f"wow-forever/actualites/{_a['slug']}/",
                                   "date_label": _news_date(_a["date"], lang), "image": _a["image"], "color": (_acls or {}).get("color"),
-                                  "tag": _a["tag"], "tag_label": wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], "kind": _a["kind"]})
+                                  "tag": _a["tag"], "tag_label": wow_news.TAGS[_a["tag"]][0 if lang == "fr" else 1], "kind": _a["kind"],
+                                  "banner": tile_banner(_a.get("class"))})
             render("wow_news.html", _npath, lang, active_nav="wow", active_sub="wow-news", nw=_nw, items=_nrows, days=_ndays, tags=_ntags, articles=_arts,
+                   wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
                    news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
@@ -9070,6 +9089,12 @@ def main() -> None:
     _spec_icon_dst.mkdir(parents=True, exist_ok=True)
     for _icon in sorted((LOGO_DIR / "wow_spec_icons").glob("*.png")):
         shutil.copy(_icon, _spec_icon_dst / _icon.name)
+    # Class banners illustrating the WoW: Forever articles and news cards (official Blizzard class art composed
+    # by wow_class_art_build.py into logo/wow_class_art/<class>.jpg, 1200x630; credited on every page that shows one).
+    _class_art_dst = DIST / "assets" / "img" / "wow-class"
+    _class_art_dst.mkdir(parents=True, exist_ok=True)
+    for _art in sorted((LOGO_DIR / "wow_class_art").glob("*.jpg")):
+        shutil.copy(_art, _class_art_dst / _art.name)
     # Addon tiles/pages art (logo/wow_addon_icons: hub, dps, crafter, codex).
     _addon_icon_dst = DIST / "assets" / "img" / "addon"
     _addon_icon_dst.mkdir(parents=True, exist_ok=True)
