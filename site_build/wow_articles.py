@@ -234,6 +234,118 @@ ARTICLES = [
             ],
         },
     },
+    {
+        "slug": "metiers-equipement-bonus-wow-forever",
+        "format": "brief",
+        "date": "2026-10-05",
+        "updated": "2026-10-05",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg",
+        "sources": [
+            ("Wowhead : Professions get Fun Thematic Gear Bonuses in WoW: Forever (4 Oct. 2026)",
+             "https://www.wowhead.com/news=383236/professions-get-fun-thematic-gear-bonuses-in-wow-forever"),
+        ],
+        "fr": {
+            "title": "WoW Forever : de l'équipement qui aide vos métiers",
+            "description": "WoW Forever ajoute des pièces d'équipement thématiques pour les métiers : vitesse de cuisine, marteau de forgeron lancé. Ce qu'on sait.",
+            "h1": "WoW Forever : du matériel de métier qui sert aussi au combat",
+            "lede": "La bêta de **WoW Forever** introduit des objets d'équipement liés aux métiers. Dans les Mines de la Mort, on trouve des pièces comme les **Smelting Pants** (utiles aux mineurs de bas niveau) et, depuis la dernière build, la **Cookie's Stirring Rod**, une baguette qui accélère la cuisine. L'**Arcanite Blacksmith Hammer** est une arme de jet qui peut étourdir la cible et remplace aussi le marteau de forgeron qu'on garde en sac. Ce sont des bonus de progression « horizontale » : ils ne rendent pas forcément plus fort.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Cuisine** : la Cookie's Stirring Rod se farme dans les Mines de la Mort et sert à tous les utilisateurs de baguette.",
+                    "**Forge** : l'Arcanite Blacksmith Hammer libère un emplacement de sac, en plus de son effet d'étourdissement.",
+                    "**Mineurs** : les Smelting Pants aident surtout pendant les premiers niveaux.",
+                    "Ces objets sont des **bonus de confort**, pas des gains de puissance : à farmer par intérêt pour le métier.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Mines de la Mort : butin", "wow-forever/dungeons/deadmines/"),
+                ("Guide Cuisine", "wow-forever/professions/cooking/"),
+                ("Guide Forge", "wow-forever/professions/blacksmithing/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Gear That Boosts Your Professions",
+            "description": "WoW Forever adds profession-themed gear: faster cooking, a throwable Blacksmith Hammer. What we know so far from the beta.",
+            "h1": "WoW Forever: profession gear that also works in combat",
+            "lede": "The **WoW Forever** beta introduces gear tied to professions. The Deadmines drops pieces such as the **Smelting Pants** (handy for low-level miners) and, since the latest build, **Cookie's Stirring Rod**, a wand that speeds up cooking. The **Arcanite Blacksmith Hammer** is a throwing weapon that can stun its target and also counts as the blacksmith hammer you would otherwise carry in your bags. These are \"horizontal progression\" rewards: they do not necessarily make you stronger.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Cooking**: Cookie's Stirring Rod drops in the Deadmines and works for any wand user.",
+                    "**Blacksmithing**: the Arcanite Blacksmith Hammer frees a bag slot, on top of its stun chance.",
+                    "**Miners**: the Smelting Pants mostly help during the first levels.",
+                    "These are **quality-of-life bonuses**, not power upgrades: farm them if you care about the profession.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Deadmines loot", "wow-forever/dungeons/deadmines/"),
+                ("Cooking guide", "wow-forever/professions/cooking/"),
+                ("Blacksmithing guide", "wow-forever/professions/blacksmithing/"),
+            ],
+        },
+    },
+    {
+        "slug": "student-fodder-xp-repose-wow-forever",
+        "format": "brief",
+        "date": "2026-10-05",
+        "updated": "2026-10-05",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg",
+        "sources": [
+            ("Wowhead : Student Fodder Doesn't Give Rested Experience in WoW: Forever (4 Oct. 2026)",
+             "https://www.wowhead.com/news=383243/student-fodder-doesnt-give-rested-experience-in-wow-forever"),
+        ],
+        "fr": {
+            "title": "WoW Forever : Student Fodder sans XP de repos",
+            "description": "Dans la bêta de WoW Forever, Student Fodder ne donne plus d'expérience de repos. Les autres moyens d'xp plus vite pendant le leveling.",
+            "h1": "WoW Forever : Student Fodder n'accorde plus d'expérience de repos",
+            "lede": "La quête du sac de couchage, venue de Season of Discovery, revient dans **WoW Forever**. Sa récompense **Student Fodder** donnait quatre barres d'expérience de repos ; dans la bêta, cet effet est supprimé. Il rend toujours instantanément une partie de la ressource de ta classe, et applique **Trail Snack** : +60 % de vitesse pendant 0,75 seconde et des soins sur la durée (175 par tick).",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "Ne compte plus sur Student Fodder pour **monter plus vite** : il sert désormais de soin et de ressource.",
+                    "Le **feu de camp** donne une barre d'expérience de repos, utilisable une fois par heure.",
+                    "Presque toutes les **nouvelles nourritures** donnent +5 % d'expérience, et le **Cozy Sleeping Bag** jusqu'à +3 % pendant une heure.",
+                    "Les **talents d'héritage** faciliteront aussi le leveling des personnages suivants.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+                ("Cuisine : nourritures", "wow-forever/professions/cooking/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Student Fodder Loses Rested XP",
+            "description": "In the WoW Forever beta, Student Fodder no longer grants rested experience. The other ways to level faster are still there.",
+            "h1": "WoW Forever: Student Fodder no longer gives rested experience",
+            "lede": "The Sleeping Bag quest chain from Season of Discovery returns in **WoW Forever**. Its reward **Student Fodder** used to give four bars of rested experience; in the beta that effect is gone. It still restores part of your class resource instantly and now applies **Trail Snack**: a 60% speed boost for 0.75 seconds plus healing over time (175 per tick).",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "Do not count on Student Fodder to **level faster**: it is now a heal and resource item.",
+                    "Resting at a **campfire** grants one bar of rested experience, once per hour.",
+                    "Almost all **new food buffs** give +5% experience, and the **Cozy Sleeping Bag** up to +3% for an hour.",
+                    "**Legacy talents** will also make levelling easier on later characters.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+                ("Cooking: food buffs", "wow-forever/professions/cooking/"),
+            ],
+        },
+    },
 ]
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
