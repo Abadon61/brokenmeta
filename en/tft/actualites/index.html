@@ -1,0 +1,489 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>TFT News: patches, meta and Set 18</title>
+<meta name="description" content="The latest Teamfight Tactics news: patch notes, balance changes, meta and comps, kept up to date.">
+<link rel="canonical" href="https://brokenmeta.gg/en/tft/actualites/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/tft/actualites/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/tft/actualites/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/tft/actualites/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="TFT News: patches, meta and Set 18">
+<meta property="og:description" content="The latest Teamfight Tactics news: patch notes, balance changes, meta and comps, kept up to date.">
+<meta property="og:url" content="https://brokenmeta.gg/en/tft/actualites/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="TFT News: patches, meta and Set 18">
+<meta name="twitter:description" content="The latest Teamfight Tactics news: patch notes, balance changes, meta and comps, kept up to date.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=a948a67477">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=a948a67477">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=a948a67477">
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "TFT News", "item": "https://brokenmeta.gg/en/tft/actualites/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "TFT News", "url": "https://brokenmeta.gg/en/tft/actualites/", "inLanguage": "en", "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://news.google.com/rss/articles/CBMiTEFVX3lxTE1OT2lYTl82V3gtQUlhc0x3ZWk5cS1VQmYyNWVzZzVSUjJOWmk5Qm0yTERTZWtVZE1nVWQwdWtfNVlqTWNZRWlWdk9iNEY?oc=5", "name": "Teamfight Tactics"}, {"@type": "ListItem", "position": 2, "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOekNJTFFNNlZVOWJ3YmxPUk5sYjZKZ3pQUkFlb0xMMVBlNWx1RHFldnJZeHA2SDZGTm5nZmtiMW9aY0xCNnhhR0FYbk9vWHZFY0wxcHFZN0EybEJaS2dNUGlsLWdIbkVOREJIdlpPU2FXR2xlZWl3dUt0U0Y0SFRzQWdWb2EzMC1oUXBiVERaZG94MUhKYk11bWNOWll1am54dFl5NDlUMnotUWZ5cm9PNQ?oc=5", "name": "Teamfight Tactics patch 18.3 notes: Augment buffs, Wisp nerfs, and more"}, {"@type": "ListItem", "position": 3, "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQOHZtRnJjdzVwWjlTeURCdVlfZVM0MVJUTFBDak9TSXZ2eFRuQzVUdlRQRzlsdDF6VGhmU1lMTC1JTmY5VmhwU3lSRkY3dWd4SU01NmR0QjR0MllGOVpVNnp1eTNfX0NPNlpwc21VdlJpNG1lSUM1dmNxVkRFc3EwVUg1OFdXbzlObnNRbmYtLXFGVzl1bWJxdzBBUmh4LUF0alpTMUdZRU9qaUR6Z1dGRFN2bXMyY21KZVAyNS1TOVk0cGM0ZVpBLXRlQQ?oc=5", "name": "Teamfight Tactics Set 18 Enchanted Wilds: All Three Cost Champions"}, {"@type": "ListItem", "position": 4, "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQTEcyRXRIOWM1am1lQXVDWTZDNUFGa0xOcEVIUC1XX1VfY0YyS2l4dURtck51MUVOUkJaamd1LWxZVWVGaThGVmFsS2pxNHg0SU5jQmtWZ0VnaG00RDZ3OVRlampodlNfdmd6Z0hTMDRsS3JXdjVoeGxINFB0cnpRSXFRLVNBb1NwU2lVaFNEZk5XbVFYUGtzRGxtMDRYaWFwMGhGbUYwNA?oc=5", "name": "Teamfight Tactics Launches Set 18 With A Major Update and New Game Engine"}, {"@type": "ListItem", "position": 5, "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOVTVGYXNjUmRtcHVOYm0yazFzVVRXWWhRZ004U2lQOGdFQW1ZZFQ0OVB3TkxCWHBVRjZkYzNrS3REU1JYYnlRb2NVSWhxRUoyekhydDNrX2FBNVR2Mm1UcDBFNDRCbldlU281UGF6c19WZHo1aFFKcFBpYXZUWW91U250akZxOUQyVlUzRVdwQzExSmhVSlpBOTJaQTZMblpSNlRnaDh3ZnpjTFJXUlhNTnJydG5aSTg?oc=5", "name": "Teamfight Tactics launches Enchanted Wilds, its first set on Unreal Engine"}, {"@type": "ListItem", "position": 6, "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQVVN3anBXYlpObkZrSjRfTXQ4TVNoX0ctczRGYWtIVnJwa3JySDU3dUM0TnNVTzBBZUxEVm5DMjhuM3VqYnVmdGZvU19Bdlo5TElyV2lmZUtrU3dZY1YxRnNaOTBacGJJX2VxeGs2TXpnd3Q0djh2d3Iwa25FRlNQN1IzRFRjRHE5WUJNcHhQc2dlSWUtd0dteF91bHhKVWs?oc=5", "name": "Teamfight Tactics patch 18.1"}, {"@type": "ListItem", "position": 7, "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTE9mTFNNbFJWYjFDcVZiYjV3OHZRRFlXS2QwMjRuU0FsUnNpV2M0WUJvcXluS3ZONTlsLWxJQkpkQnI5emlaN2lBZDBGN2tGMXNoRm12ZzR1c2lHQ1ZNeGdlVkhYd1YwVTlBTmpwcHROV2dKem91bERkTGFn?oc=5", "name": "Teamfight Tactics at EWC 25 Winners: Weibo Wins"}, {"@type": "ListItem", "position": 8, "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTFBxRFhmYXlCa1FNUy1OTXF5UHpYd0NBcEJ5ZS1xM3phWWY3NXV1YlRyRF9aRnNLdjFTYTRMV3R5M0xkZTNodFNVT2piempfZFNXTnNzaEVtZ2EtR1EtM0pjTkFB?oc=5", "name": "Teamfight Tactics Patch Notes Rundown"}, {"@type": "ListItem", "position": 9, "url": "https://news.google.com/rss/articles/CBMijgJBVV95cUxPT2pQWEhRVmE3bUJFSWlPa1psNXRidmpSdnpjN19JU1BtMVJVV2FETXY2WmxROG0tOWQybEszNkIyY0FzRXpndUVjQWtyMy1jc2xIMDhZVkVDcGg3dkI2RTM0eUJ6bUJjdEhiTEdFZjlhU2s1S0dfOUZ3aDhRdlZIR2R0N1I2VkktRWpSa1BWOUVzSzVrVjJhSEtXXzFSWlhLa09qUlJ3RWFpOEdtS011NFNkTFI4ZFpqcUNqeWJTc0d0dk1wemU4YmtaMVdtNnNXdng5V3RrX3c1Mm94ZjhXYklWaHQ4YzYzU1EyMW15NmtLcENkWG9wd2JNenQ4ak1wZWF1djh4Vjh4eENUTEHSAZMCQVVfeXFMUER6UjIzMnlvYnhwSXd2RzdrcVJYMl9EX0tncWVidlRmako1TDZvOVQ3eFVXUW1lT0QwSElWel9XU0VrcGVfSUxUUE5qS0h6VjZha0Nhb3ItYVN5T1h4c1JXSEc2bk02eGh3STcxZl96U0c4OWprMWExRm45MWgzWnVUdy1hLXFCYmpHUktuZ3A1bHJJa1NFQWhGWDZBN29kcENDU3NHWjRpQnJ1NjYzMEtFUnI1eV83YXZUQml1TENnMHI0WTM1MGNxZW4wVDA1RENIQUMwVkE0MWNLUjJyR1BWTWRETzFSQXRLWVo3UGV5YjhCa05SUndnUldXd3IyMktka2RSOTJYWFRsX0RCam1sTFU?oc=5", "name": "Esports World Cup 2026: Thrilling finals produce new champions across EA FC, PUBG: BATTLEGROUNDS and Teamfight Tactics | Hindustan Times"}, {"@type": "ListItem", "position": 10, "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTFBmckdBdTRYYzM3cHVJOXV4VmFUSW1iem5zd3BFWnl5azNTekRUQXhQVE5lMEZJOVZadldTLTVmZGFnVkdGLXV5RXJoa0xhamxDQnBwSWJqRVgtR0RMNnpLS2plREcwR3lOaVVRbEpaTUN5a0JiNnBlNFQzQ0U?oc=5", "name": "Teamfight Tactics trails other EWC 2026 events by peak viewership"}, {"@type": "ListItem", "position": 11, "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxOUElWOHVqTWkxSEhtckFNa1lndlBhTnpOOFVKdGtZMmgxUTZSM0tNNVplY3JESVB2bFdENDJ1UTNWdFUtTEtSU2tVbGtxVmUtamlPeGRQSWR0UE50UW41TVNuUHpqbTRWeF9jM3hJV1ExajB2LWYwb3lwV0Y3aXVKaE52YVk5cnhnOFlmamtUN21mVnRkSmxVM1BTNlAxLVZtNHl5TkpEbFNPSHNpLVV1aEwxbGVLZV9fREFDV25XcmR4dw?oc=5", "name": "Saudi Arabia\u2019s Team Vision claim Teamfight Tactics title at Esports World Cup 2026"}, {"@type": "ListItem", "position": 12, "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQZ2k0dUJWejRaRnZfYTZBMkdvUF9OVmt0b1B4VVpEUEY5V2VXV0o5VFU5SGdlRl9iTmhwY1FlVmxDS0twRmFzT0VNOTVDZGEtSXhJb2RGS3dWOVBGU3lqRnZLTXFIUC1GeUFsMDRocnM1WXhXTTlkdEV4TjlNdTVuV2hXMkpMc1dVLUNrd2NtZGhITHhSRERvOEgyeWFRby1BU1Q4bGJBN1plRG9DTHdtdg?oc=5", "name": "Teamfight Tactics Set 18 Enchanted Wilds Info"}, {"@type": "ListItem", "position": 13, "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxOWWVhM0hNaFVrT3lNcE54RzAxaGRFaDJJelFqeEJYdkRxLTFWV21SUzhsS1NMMld4bjRERGRKVVkxQmo1aWplMzRPdElKR2Y5RDRJNGpMNnlTRlFJMlhhTDZWeTdyUWhWNWp5UHlEb2lFUnI4NHR5anBFdS12TGdmdkJwUDNOVktNa3BtQ0NIdGFPQnhNd0hzdnNlYnotMlFNSXdlZmRwaDMzMVJYVWZleVdwTlFTbW1fUkRURVMtc0ZtaTBq?oc=5", "name": "Esports World Cup 2026: Team Vision overcome Aurora Gaming to claim Teamfight Tactics title"}, {"@type": "ListItem", "position": 14, "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNTHJ2SHVXR1l3b1VCb08yWVQ4RnNYblk1MzI0RW01a01EaWhHMThaMl9oN0RYeVRUaUZhNU54WmlyUlBoREtQY25QMUdBSHdhZVB3eUQ5OEVacVoyY0ZYaU5MQjc4ay0taXM1SGhjYTZqUU5Dejh5MEhlWmhBVFlmWENKMHFjOXBDTjZfMHdROTdiaC04UlJ4SjFPRGVIVW4tOE9LSWpuSDhxTjJmdU9HZzF2NjV2QlNOT3h6RUZR?oc=5", "name": "Esports World Cup 2026: The eight-team Teamfight Tactics Playoffs bracket has been set"}, {"@type": "ListItem", "position": 15, "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPNkRKWjFScHhxb3owTERQWFpEN2l5MDRyTG4yekFwOWxDcnptcWVUdUJ3QmZhVWEydFF4TjgyckdKbGJPdkRmeG1LRjVKMTNTdEV5Y0tQc0wxcHVRc0xId2RUSnhnREZXMXpYM0tZV3U0SE5IZnYtS3NsTTBvWjMwSkdhV3hNR2h2VDR0TnlidFgteUs0MWxaTkpmeU5zdVU?oc=5", "name": "Esports | EWC - Teamfight Tactics 2026 - Day 3"}, {"@type": "ListItem", "position": 16, "url": "https://news.google.com/rss/articles/CBMi2AFBVV95cUxPOFIyRThkdm1NOGlYN2R2dVpzQXdjSDNYMkZYdFNGWTE0eDNEcDczbEVHclF6TDBWYWpDMGV5UEpwanZIWmU1dTlaWWFRNW9NY0E0ckFId0ZLRFQ1LWE0bXQ5QjNJTVNTTC1nd2N0THhzQkdoblE5cThFOEVJR2szTTcyUHBuWVN2eklNRnlxdWJ0cmNzNmNhVDEyejVEb1FWc1hQN0QzajZkcUZKNkJ1QlRZUWdzMnVsbkdYZ3pHMDEwaW1mUlhXZ1RsZm5FTzNnOGtscFR6UWc?oc=5", "name": "Esports World Cup 2026: The Teamfight Tactics event begins today, here are the opening Group Stage fixtures"}, {"@type": "ListItem", "position": 17, "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5QSWh3WDVldDFCcDdnRUE1YmVfMnNUcVppbFRoaGZBQjZHVUc1UXpHQXV6WWZBMGdReGtMbEJJSkg4X2dXMUx2RURGbVpNLXBJZ0MxVDdoc1JlUkZ0US1EMTdXZmFxWDFpZ2hVQmhsVkk2OTBleFlGWEd3VQ?oc=5", "name": "\u201cEnchanted Wilds\u201d Brings Magic And Mayhem To \u2018Teamfight Tactics\u2019"}, {"@type": "ListItem", "position": 18, "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxNTDdYd0Z2ODlXOHB6M3pNSGFyTi10cU5wNE5NWjMtcmlMZTc3Y3J1V3gzb2xJT3NiYUNFOGR2a0lINVctdUxyOG5CVkVUaHhYMnFpZUcxV05KaW5SakZLbU1hWjFmcjhfdlAwYXB0aUYwQlBOTVpmWHhCX2VQcDk1U2IxVjNZMzBYVW15R1k2YXhySDkxOXYwZXg2S2xmcVIyNk9YTW5ZOXRvUkFjX01WNEREWDJyazVYX0dLZ2wxQngwZjJqTi1yelYwQ3F0VUk3d1lV?oc=5", "name": "Teamfight Tactics: Enchanted Wilds: the new set is now available"}, {"@type": "ListItem", "position": 19, "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPUU9tLVJDZWpOQnRVOXFUWmNINHU0dWw5UzFrenRpS2Z0ekxZZDdZc1ljTTE4WXkxX2stb0xSSWdUYU1TV0tuZ054clFfMXdxd2I5VXpTNUZjM2VWZDZzdDlqUmdMNVY1a1BIWnJCTzBSa0dRbG1mdnlVSFd4TVVXZFN6bkFYSWFOaUdJVFFfOFdBR19qU0VnTw?oc=5", "name": "Teamfight Tactics and Riftbound Culminate at Convergence Fest"}, {"@type": "ListItem", "position": 20, "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQblR5WDRQbTB5QlVQQVltWVdvWU5JUXk5RlFSakxXSUZnVnNGdVpyTG1obkplVldESWo2SVFsTXZtWmMxNGs3Yk5famRxMUlYbTdmT19JSER5WEFhcWFycGF6YUtpWEdiZmtOY3BGQjZienBMTm5aalpNdUxXU2NxaFJ4MTFFaHNKcC1SMVVXcw?oc=5", "name": "Riot Games Announces Convergence Fest, Bringing Together Teamfight Tactics and Riftbound"}]}}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../../tft/" data-active="true" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../../league/" title="League of Legends"><img class="game-toggle-icon" src="../../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/tft/actualites/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/tft/actualites/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../../tft/" data-active="true">Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" >League of Legends</a>
+
+<div class="mobile-nav-group-title">TFT Tier Lists</div>
+<a class="nav-link mobile-nav-sublink" href="../../../tft/" >Comp List</a>
+<a class="nav-link mobile-nav-sublink" href="../../../champions/" >Champion List</a>
+<a class="nav-link mobile-nav-sublink" href="../../../objets/" >Item List</a>
+<a class="nav-link mobile-nav-sublink" href="../../../combos-objets/" >Item Combos</a>
+<a class="nav-link" href="../../../patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../tft/actualites/" data-active="true">News</a>
+<a class="nav-link" href="../../../leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../team-builder/" >Team Builder</a>
+<div class="mobile-nav-group-title">Tools</div>
+<a class="nav-link mobile-nav-sublink" href="../../../tendances/" >Trends</a>
+<a class="nav-link mobile-nav-sublink" href="../../../changements/" >Tier Changes</a>
+<a class="nav-link mobile-nav-sublink" href="../../../contres/" >Counters</a>
+<a class="nav-link mobile-nav-sublink" href="../../../pepites-cachees/" >Sleeper Picks</a>
+<a class="nav-link mobile-nav-sublink" href="../../../discord/" >Discord Alerts</a>
+<div class="mobile-nav-group-title">Glossary</div>
+<a class="nav-link mobile-nav-sublink" href="../../../glossaire/champions/" >Champions</a>
+<a class="nav-link mobile-nav-sublink" href="../../../glossaire/familles/" >Families</a>
+<a class="nav-link mobile-nav-sublink" href="../../../glossaire/augments/" >Augments</a>
+<a class="nav-link mobile-nav-sublink" href="../../../glossaire/objets/" >Items</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../metascope/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Analyze your profile
+</a>
+<div class="overlay-cta" title="The Overwolf overlay is in development, not yet available for download.">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+  <span class="cta-label">Overlay TFT</span>
+  <span class="cta-soon">Soon</span>
+</div>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <a class="title" href="../../../">Teamfight Tactics</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">TFT Tier Lists</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../tft/">Comp List</a>
+    <a href="../../../champions/">Champion List</a>
+    <a href="../../../objets/">Item List</a>
+    <a href="../../../combos-objets/">Item Combos</a>
+  </div>
+</details>
+<a class="nav-link" href="../../../patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../tft/actualites/" data-active="true">News</a>
+<a class="nav-link" href="../../../leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../team-builder/" >Team Builder</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Tools</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../tendances/">Trends</a>
+    <a href="../../../changements/">Tier Changes</a>
+    <a href="../../../contres/">Counters</a>
+    <a href="../../../pepites-cachees/">Sleeper Picks</a>
+    <a href="../../../discord/">Discord Alerts</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossary</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../glossaire/champions/">Champions</a>
+    <a href="../../../glossaire/familles/">Families</a>
+    <a href="../../../glossaire/augments/">Augments</a>
+    <a href="../../../glossaire/objets/">Items</a>
+  </div>
+</details>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../metascope/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  Analyze your profile
+</a>
+<div class="overlay-cta" title="The Overwolf overlay is in development, not yet available for download.">
+  <svg viewBox="0 0 24 24"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+  <span class="cta-label">Overlay TFT</span>
+  <span class="cta-soon">Soon</span>
+</div>
+
+
+  </div>
+</div>
+
+<div class="page">
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">TEAMFIGHT TACTICS</div>
+    <h1 class="ph-title">TFT News</h1>
+    <p class="ph-lede">The game&#39;s key headlines in one place: patch notes, balance, meta and guides, gathered from the specialised press and official sources. Each line links to the original article.</p>
+    
+    
+  </div>
+</section>
+
+<div class="news-filters" role="group" aria-label="Filter by type">
+  <button type="button" class="news-chip is-on" data-tag="">All <span class="nums">21</span></button>
+  <button type="button" class="news-chip" data-tag="patch">Patches <span class="nums">4</span></button><button type="button" class="news-chip" data-tag="news">News <span class="nums">17</span></button>
+</div>
+<div class="news-list" id="news-list">
+  
+  <h2 class="news-day">October 2, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiTEFVX3lxTE1OT2lYTl82V3gtQUlhc0x3ZWk5cS1VQmYyNWVzZzVSUjJOWmk5Qm0yTERTZWtVZE1nVWQwdWtfNVlqTWNZRWlWdk9iNEY?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics</span>
+    <span class="news-src">IGN Deutschland ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 22, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMisAFBVV95cUxOekNJTFFNNlZVOWJ3YmxPUk5sYjZKZ3pQUkFlb0xMMVBlNWx1RHFldnJZeHA2SDZGTm5nZmtiMW9aY0xCNnhhR0FYbk9vWHZFY0wxcHFZN0EybEJaS2dNUGlsLWdIbkVOREJIdlpPU2FXR2xlZWl3dUt0U0Y0SFRzQWdWb2EzMC1oUXBiVERaZG94MUhKYk11bWNOWll1am54dFl5NDlUMnotUWZ5cm9PNQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Teamfight Tactics patch 18.3 notes: Augment buffs, Wisp nerfs, and more</span>
+    <span class="news-src">Esports.gg ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 8, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQOHZtRnJjdzVwWjlTeURCdVlfZVM0MVJUTFBDak9TSXZ2eFRuQzVUdlRQRzlsdDF6VGhmU1lMTC1JTmY5VmhwU3lSRkY3dWd4SU01NmR0QjR0MllGOVpVNnp1eTNfX0NPNlpwc21VdlJpNG1lSUM1dmNxVkRFc3EwVUg1OFdXbzlObnNRbmYtLXFGVzl1bWJxdzBBUmh4LUF0alpTMUdZRU9qaUR6Z1dGRFN2bXMyY21KZVAyNS1TOVk0cGM0ZVpBLXRlQQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics Set 18 Enchanted Wilds: All Three Cost Champions</span>
+    <span class="news-src">Yardbarker ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 28, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMipwFBVV95cUxQTEcyRXRIOWM1am1lQXVDWTZDNUFGa0xOcEVIUC1XX1VfY0YyS2l4dURtck51MUVOUkJaamd1LWxZVWVGaThGVmFsS2pxNHg0SU5jQmtWZ0VnaG00RDZ3OVRlampodlNfdmd6Z0hTMDRsS3JXdjVoeGxINFB0cnpRSXFRLVNBb1NwU2lVaFNEZk5XbVFYUGtzRGxtMDRYaWFwMGhGbUYwNA?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Teamfight Tactics Launches Set 18 With A Major Update and New Game Engine</span>
+    <span class="news-src">The Outerhaven ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 25, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMitwFBVV95cUxOVTVGYXNjUmRtcHVOYm0yazFzVVRXWWhRZ004U2lQOGdFQW1ZZFQ0OVB3TkxCWHBVRjZkYzNrS3REU1JYYnlRb2NVSWhxRUoyekhydDNrX2FBNVR2Mm1UcDBFNDRCbldlU281UGF6c19WZHo1aFFKcFBpYXZUWW91U250akZxOUQyVlUzRVdwQzExSmhVSlpBOTJaQTZMblpSNlRnaDh3ZnpjTFJXUlhNTnJydG5aSTg?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics launches Enchanted Wilds, its first set on Unreal Engine</span>
+    <span class="news-src">Inven Global ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinwFBVV95cUxQVVN3anBXYlpObkZrSjRfTXQ4TVNoX0ctczRGYWtIVnJwa3JySDU3dUM0TnNVTzBBZUxEVm5DMjhuM3VqYnVmdGZvU19Bdlo5TElyV2lmZUtrU3dZY1YxRnNaOTBacGJJX2VxeGs2TXpnd3Q0djh2d3Iwa25FRlNQN1IzRFRjRHE5WUJNcHhQc2dlSWUtd0dteF91bHhKVWs?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Teamfight Tactics patch 18.1</span>
+    <span class="news-src">teamfighttactics.leagueoflegends.com ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 14, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiekFVX3lxTE9mTFNNbFJWYjFDcVZiYjV3OHZRRFlXS2QwMjRuU0FsUnNpV2M0WUJvcXluS3ZONTlsLWxJQkpkQnI5emlaN2lBZDBGN2tGMXNoRm12ZzR1c2lHQ1ZNeGdlVkhYd1YwVTlBTmpwcHROV2dKem91bERkTGFn?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics at EWC 25 Winners: Weibo Wins</span>
+    <span class="news-src">Esports World Cup ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 11, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiYkFVX3lxTFBxRFhmYXlCa1FNUy1OTXF5UHpYd0NBcEJ5ZS1xM3phWWY3NXV1YlRyRF9aRnNLdjFTYTRMV3R5M0xkZTNodFNVT2piempfZFNXTnNzaEVtZ2EtR1EtM0pjTkFB?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Teamfight Tactics Patch Notes Rundown</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 29, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMijgJBVV95cUxPT2pQWEhRVmE3bUJFSWlPa1psNXRidmpSdnpjN19JU1BtMVJVV2FETXY2WmxROG0tOWQybEszNkIyY0FzRXpndUVjQWtyMy1jc2xIMDhZVkVDcGg3dkI2RTM0eUJ6bUJjdEhiTEdFZjlhU2s1S0dfOUZ3aDhRdlZIR2R0N1I2VkktRWpSa1BWOUVzSzVrVjJhSEtXXzFSWlhLa09qUlJ3RWFpOEdtS011NFNkTFI4ZFpqcUNqeWJTc0d0dk1wemU4YmtaMVdtNnNXdng5V3RrX3c1Mm94ZjhXYklWaHQ4YzYzU1EyMW15NmtLcENkWG9wd2JNenQ4ak1wZWF1djh4Vjh4eENUTEHSAZMCQVVfeXFMUER6UjIzMnlvYnhwSXd2RzdrcVJYMl9EX0tncWVidlRmako1TDZvOVQ3eFVXUW1lT0QwSElWel9XU0VrcGVfSUxUUE5qS0h6VjZha0Nhb3ItYVN5T1h4c1JXSEc2bk02eGh3STcxZl96U0c4OWprMWExRm45MWgzWnVUdy1hLXFCYmpHUktuZ3A1bHJJa1NFQWhGWDZBN29kcENDU3NHWjRpQnJ1NjYzMEtFUnI1eV83YXZUQml1TENnMHI0WTM1MGNxZW4wVDA1RENIQUMwVkE0MWNLUjJyR1BWTWRETzFSQXRLWVo3UGV5YjhCa05SUndnUldXd3IyMktka2RSOTJYWFRsX0RCam1sTFU?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Esports World Cup 2026: Thrilling finals produce new champions across EA FC, PUBG: BATTLEGROUNDS and Teamfight Tactics | Hindustan Times</span>
+    <span class="news-src">Hindustan Times ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 27, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMifEFVX3lxTFBmckdBdTRYYzM3cHVJOXV4VmFUSW1iem5zd3BFWnl5azNTekRUQXhQVE5lMEZJOVZadldTLTVmZGFnVkdGLXV5RXJoa0xhamxDQnBwSWJqRVgtR0RMNnpLS2plREcwR3lOaVVRbEpaTUN5a0JiNnBlNFQzQ0U?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics trails other EWC 2026 events by peak viewership</span>
+    <span class="news-src">Esports Charts ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxOUElWOHVqTWkxSEhtckFNa1lndlBhTnpOOFVKdGtZMmgxUTZSM0tNNVplY3JESVB2bFdENDJ1UTNWdFUtTEtSU2tVbGtxVmUtamlPeGRQSWR0UE50UW41TVNuUHpqbTRWeF9jM3hJV1ExajB2LWYwb3lwV0Y3aXVKaE52YVk5cnhnOFlmamtUN21mVnRkSmxVM1BTNlAxLVZtNHl5TkpEbFNPSHNpLVV1aEwxbGVLZV9fREFDV25XcmR4dw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Saudi Arabia’s Team Vision claim Teamfight Tactics title at Esports World Cup 2026</span>
+    <span class="news-src">アラブニュース ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQZ2k0dUJWejRaRnZfYTZBMkdvUF9OVmt0b1B4VVpEUEY5V2VXV0o5VFU5SGdlRl9iTmhwY1FlVmxDS0twRmFzT0VNOTVDZGEtSXhJb2RGS3dWOVBGU3lqRnZLTXFIUC1GeUFsMDRocnM1WXhXTTlkdEV4TjlNdTVuV2hXMkpMc1dVLUNrd2NtZGhITHhSRERvOEgyeWFRby1BU1Q4bGJBN1plRG9DTHdtdg?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics Set 18 Enchanted Wilds Info</span>
+    <span class="news-src">Yardbarker ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMixAFBVV95cUxOWWVhM0hNaFVrT3lNcE54RzAxaGRFaDJJelFqeEJYdkRxLTFWV21SUzhsS1NMMld4bjRERGRKVVkxQmo1aWplMzRPdElKR2Y5RDRJNGpMNnlTRlFJMlhhTDZWeTdyUWhWNWp5UHlEb2lFUnI4NHR5anBFdS12TGdmdkJwUDNOVktNa3BtQ0NIdGFPQnhNd0hzdnNlYnotMlFNSXdlZmRwaDMzMVJYVWZleVdwTlFTbW1fUkRURVMtc0ZtaTBq?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Esports World Cup 2026: Team Vision overcome Aurora Gaming to claim Teamfight Tactics title</span>
+    <span class="news-src">gamereactor.eu ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 24, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMivgFBVV95cUxNTHJ2SHVXR1l3b1VCb08yWVQ4RnNYblk1MzI0RW01a01EaWhHMThaMl9oN0RYeVRUaUZhNU54WmlyUlBoREtQY25QMUdBSHdhZVB3eUQ5OEVacVoyY0ZYaU5MQjc4ay0taXM1SGhjYTZqUU5Dejh5MEhlWmhBVFlmWENKMHFjOXBDTjZfMHdROTdiaC04UlJ4SjFPRGVIVW4tOE9LSWpuSDhxTjJmdU9HZzF2NjV2QlNOT3h6RUZR?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Esports World Cup 2026: The eight-team Teamfight Tactics Playoffs bracket has been set</span>
+    <span class="news-src">gamereactor.eu ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 21, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinwFBVV95cUxPNkRKWjFScHhxb3owTERQWFpEN2l5MDRyTG4yekFwOWxDcnptcWVUdUJ3QmZhVWEydFF4TjgyckdKbGJPdkRmeG1LRjVKMTNTdEV5Y0tQc0wxcHVRc0xId2RUSnhnREZXMXpYM0tZV3U0SE5IZnYtS3NsTTBvWjMwSkdhV3hNR2h2VDR0TnlidFgteUs0MWxaTkpmeU5zdVU?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Esports | EWC - Teamfight Tactics 2026 - Day 3</span>
+    <span class="news-src">DAZN ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMi2AFBVV95cUxPOFIyRThkdm1NOGlYN2R2dVpzQXdjSDNYMkZYdFNGWTE0eDNEcDczbEVHclF6TDBWYWpDMGV5UEpwanZIWmU1dTlaWWFRNW9NY0E0ckFId0ZLRFQ1LWE0bXQ5QjNJTVNTTC1nd2N0THhzQkdoblE5cThFOEVJR2szTTcyUHBuWVN2eklNRnlxdWJ0cmNzNmNhVDEyejVEb1FWc1hQN0QzajZkcUZKNkJ1QlRZUWdzMnVsbkdYZ3pHMDEwaW1mUlhXZ1RsZm5FTzNnOGtscFR6UWc?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Esports World Cup 2026: The Teamfight Tactics event begins today, here are the opening Group Stage fixtures</span>
+    <span class="news-src">gamereactor.eu ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 18, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMie0FVX3lxTE5QSWh3WDVldDFCcDdnRUE1YmVfMnNUcVppbFRoaGZBQjZHVUc1UXpHQXV6WWZBMGdReGtMbEJJSkg4X2dXMUx2RURGbVpNLXBJZ0MxVDdoc1JlUkZ0US1EMTdXZmFxWDFpZ2hVQmhsVkk2OTBleFlGWEd3VQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">“Enchanted Wilds” Brings Magic And Mayhem To ‘Teamfight Tactics’</span>
+    <span class="news-src">But Why Tho? ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 15, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMi0wFBVV95cUxNTDdYd0Z2ODlXOHB6M3pNSGFyTi10cU5wNE5NWjMtcmlMZTc3Y3J1V3gzb2xJT3NiYUNFOGR2a0lINVctdUxyOG5CVkVUaHhYMnFpZUcxV05KaW5SakZLbU1hWjFmcjhfdlAwYXB0aUYwQlBOTVpmWHhCX2VQcDk1U2IxVjNZMzBYVW15R1k2YXhySDkxOXYwZXg2S2xmcVIyNk9YTW5ZOXRvUkFjX01WNEREWDJyazVYX0dLZ2wxQngwZjJqTi1yelYwQ3F0VUk3d1lV?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics: Enchanted Wilds: the new set is now available</span>
+    <span class="news-src">Sortir à Paris ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 12, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMimAFBVV95cUxPUU9tLVJDZWpOQnRVOXFUWmNINHU0dWw5UzFrenRpS2Z0ekxZZDdZc1ljTTE4WXkxX2stb0xSSWdUYU1TV0tuZ054clFfMXdxd2I5VXpTNUZjM2VWZDZzdDlqUmdMNVY1a1BIWnJCTzBSa0dRbG1mdnlVSFd4TVVXZFN6bkFYSWFOaUdJVFFfOFdBR19qU0VnTw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Teamfight Tactics and Riftbound Culminate at Convergence Fest</span>
+    <span class="news-src">Bleeding Cool News ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 10, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMijwFBVV95cUxQblR5WDRQbTB5QlVQQVltWVdvWU5JUXk5RlFSakxXSUZnVnNGdVpyTG1obkplVldESWo2SVFsTXZtWmMxNGs3Yk5famRxMUlYbTdmT19JSER5WEFhcWFycGF6YUtpWEdiZmtOY3BGQjZienBMTm5aalpNdUxXU2NxaFJ4MTFFaHNKcC1SMVVXcw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Games Announces Convergence Fest, Bringing Together Teamfight Tactics and Riftbound</span>
+    <span class="news-src">Yahoo Sports ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 8, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMie0FVX3lxTE4tdXRlWVNzRFktQWZFT0FvYzJDTy1KX2tfWEhrNGVIQTlKZ3d5aS1ueF9BUUdWTS01dG5JQkZyQjVVSzJLR1VQQktoYXZ1elEzNi1KcUlwQ04zcFAtYzlPaXFKRFlNb3U4clllVUc1OXkyQXg4OEltWl94SQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Mortdog Leaves Riot Games After Years As The Face Of Teamfight Tactics</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  
+</div>
+<p class="wow-note">The list is refreshed with every site update and the history is kept. BrokenMeta.gg is not affiliated with Riot Games or the outlets cited: only the title, date and a link to the source are shown.</p>
+<script>
+(function () {
+  var chips = document.querySelectorAll('.news-chip'), items = document.querySelectorAll('.news-item'), days = document.querySelectorAll('.news-day');
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var tag = c.getAttribute('data-tag');
+      chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
+      items.forEach(function (i) { i.hidden = !!tag && i.getAttribute('data-tag') !== tag; });
+      days.forEach(function (d) { var n = d.nextElementSibling, any = false; while (n && n.classList.contains('news-item')) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+    });
+  });
+})();
+</script>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../tft/">Comp List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossary</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyze your profile</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Discord Alerts</a>
+      <a href="../../../methodologie/">Methodology</a>
+      <a href="../../../confidentialite/">Privacy</a>
+      <a href="../../../cgu/">Terms</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg isn&#39;t endorsed by Riot Games and doesn&#39;t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/site-search.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/favorites.js?v=a948a67477" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>

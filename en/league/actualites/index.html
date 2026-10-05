@@ -1,0 +1,874 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<title>League of Legends News: patches and meta</title>
+<meta name="description" content="The latest League of Legends news: patch notes, balance changes, meta and ranked, kept up to date.">
+<link rel="canonical" href="https://brokenmeta.gg/en/league/actualites/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/league/actualites/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/league/actualites/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/league/actualites/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="League of Legends News: patches and meta">
+<meta property="og:description" content="The latest League of Legends news: patch notes, balance changes, meta and ranked, kept up to date.">
+<meta property="og:url" content="https://brokenmeta.gg/en/league/actualites/">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="League of Legends News: patches and meta">
+<meta name="twitter:description" content="The latest League of Legends news: patch notes, balance changes, meta and ranked, kept up to date.">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=a948a67477">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=a948a67477">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=a948a67477">
+
+
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}, {"@type": "ListItem", "position": 3, "name": "League of Legends News", "item": "https://brokenmeta.gg/en/league/actualites/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "CollectionPage", "name": "League of Legends News", "url": "https://brokenmeta.gg/en/league/actualites/", "inLanguage": "en", "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": 1, "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxQb2w4NW9BcWRzbGNsbUZHWVI1UHNSbVgwY0s1R2RSTlJrS3lQOUdtQ0pZTU1wb29vb0YxNGtQSk1lakNJTktWODBJTlR3VDVKc3VtOGdGTnhSSi0wNkFfbWtSSWRyaDBZSmJCWjVuVkdOYjJPb2llTjExTUFEMGxSZ2JpSjB2LWNkOWs1T0FvelhlTGwwWVlZVDBZXzlNSzd2YXRXRHNndmNTak0wYTkwag?oc=5", "name": "League of Legends Patch 26.21 adds five new ARAM Mayhem Augments"}, {"@type": "ListItem", "position": 2, "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQVV9MSzNKZGZ3OHFXcnRpSmI3cG91bHhPTUZvaTF4bmRRMHhNYW9kbEx1RE9CQ2JQbWJOUy1MN0lyWkp4NzB1MExuamZVYlc5cEVhMzlYYTFNYXpDcU13VC11bVNxcWFUbVFHdFM3N1BWak5VNFVoMVNsMTNEZWxZSnROeEpqenZ2UWxVY3J1cVE4eTd6RFJpWUFGazFsMHFDZk9KQy1mc1Q1VHRJQmhaQ1JfNWtLTnBYc0xiZ25HRQ?oc=5", "name": "LoL Patch 26.20 Preview: Rocketbelt Rework, Hexplate Nerf and Lucian/Vayne Buffs"}, {"@type": "ListItem", "position": 3, "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxQR2cweEtFOU9MQ29MVmJOTzB4NkpmUzF0T1FjR0R4bTJaSXo2eHRYWjIxMk1mWEdBRjVsVHBTQnRvSk05MGZxSkhLcUFua0NJdFdQU0J4UUxIMF9oNnd5STZ0Sl9GN09Ud0ZKS2hub0RHb2tfX3FvejBXOExVU2xiMy1BV0xpODY2VDFmWUZJOFVOZnJadlNuN3duQUxyUG5EM21yYUdNTHhFSm1wS1Bza0lmYmJmanV1UmRIUEliM08zTGY1TU13?oc=5", "name": "League of Legends Patch 26.20 Preview: Champion buffs, nerfs, Items changes and more"}, {"@type": "ListItem", "position": 4, "url": "https://news.google.com/rss/articles/CBMiaEFVX3lxTFBrNF91c3ZuR1lXY1NDQjBnMGxPMGw2d2szalNzSVRMLURPVjMyMS04VDJIZWlNTmNYRGgtcUxNRXVYLUl0QXZUTDAyYUUweHRULXdjaU12WW9mdG9EWjJrRUhjUlBUdGg0?oc=5", "name": "Your Complete Beginner's Guide to League of Legends"}, {"@type": "ListItem", "position": 5, "url": "https://news.google.com/rss/articles/CBMiYkFVX3lxTE1ZLWMxTHoxQ1RYNlllOFlNZHItU2syMzBaNkI2aVVwZ3N6SGNLaXJDMnhncFZLRVdETUtOYXNUWkZTZEdhUGlvLTVtdnNLZjc1VWFHUHVPeC1KTW1ldjRUZ3Jn?oc=5", "name": "Upcoming Changes to League of Legends Classic"}, {"@type": "ListItem", "position": 6, "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQYnZ0S00xRVFnWnBwQ3hpUFd4NlBPbmZlNWw1ckFnWHhmN1FMUkhQeXVKOUZCNjFtcTIzb0EydTFVUG9UZnc4WUFYUm5GeHF1WkRZTFdRM29jMEtHVHhtOUhIVTVjRHNvamFYXy02NmhMZFpwN1d6RnBkXzNVVnVsaHZnVQ?oc=5", "name": "League Of Legends Patch 26.20: Worlds Patch And HEARTSTEEL Are Here?!"}, {"@type": "ListItem", "position": 7, "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQN3R5dzZyUW9HZU5FZVctY1pSQUJsRFExSExCWE1NX1pLcll4ZkVzOS1VdENLSHlwY1VxMWlPYVNzTl9icDBrbTFyMWpuQWtJMDM0ejRvSW9zam9JWU00Nkk4elQ5YkdRcTVsWUNvZ2lXaXdxZXRJSUludDF1ZVJNNENnNG1RLTJPc09LTFF3eEZ5XzA?oc=5", "name": "Riot Is Pulling Voice Chat From League Of Legends 26.20"}, {"@type": "ListItem", "position": 8, "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxONmF1dUFRampkUERSc1JVN21rQTVnQXZpUEJna3VLbURLeVAxWC02NkhJclR2U3JIZkdQWXp5MndWNkd6YzJFMUpJc0p5Q3NVdmYwRDhLTm1RM0Y0Vmtxb09GVE9HMHd4bnJNYXZkWEZGRVp5NzhHWUZzUW5LbGJGQVJJSG1OZXp6eXhSZ3FtMkF4ZER6WndV?oc=5", "name": "Patch 26.19 Notes"}, {"@type": "ListItem", "position": 9, "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxORFkxekxHam5uMk5KRG5IeXpyZUlWRFJnS19UZm9DeFp4b0oxWW1ENHJTelBVbVd5NllDejIzMVd3ay1DUkJEZnhNZjBScDlhNHNYdlNweF9ObFlTcXRQMkl1UHJHRkEtdXRsZXctdnNvYWZOS1FKOEs1a0FNRUtYdzFaWmpHMXNYaExtRXlCbjRjalc1bmxyc3dsWUMwUQ?oc=5", "name": "Riot Games delays League of Legends Team Voice rollout"}, {"@type": "ListItem", "position": 10, "url": "https://news.google.com/rss/articles/CBMicEFVX3lxTE43a0xnRGlkMGF6UWVHbTFIa3ZURk9LTWNEVkt0aFV4cHJlb0Qxa0JtV245c2lzbUZReWJORWhDcVVneWoxRkpKS1BzN2dDaE1JbzE1eC1VdlNaeEhtQnJDbVN5dXdqMzlSNFBzR0ttUko?oc=5", "name": "Valorant vs League of Legends Ranks: 25 vs 31 [2026]"}, {"@type": "ListItem", "position": 11, "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOMW4yeGUzOG5YOS1sUjI4WXFDZ3M1MnpQRy1wUnF0THB2MGdZN2dWYXhIQUpvWkU1SkVwX2l1d1hJQnRqLVhWdS1QTThtV1QtTFJKRGhEX2l3azlvWHZraWFERTNUYU8yN3ZvdThVYWliZFYxREJNWm5XZ21PTjJ3NDE5T2YzUnhnQ29EWm8yQUNBZDN4T0N2QVFB?oc=5", "name": "League of Legends x Chi Cha San Chen"}, {"@type": "ListItem", "position": 12, "url": "https://news.google.com/rss/articles/CBMiX0FVX3lxTE9wNUlEQy1DeDhvQkFFcXRDZGN5LS1pMThpT1RDY3ZkcmNqVFZVMHprRVNIUXZ4WUp4cVZ0YWU2MV9iWE5QWDV3cW5KckpiNE1fSmVGdGZWRjkxaGI0Z3RJ?oc=5", "name": "7 Strongest AP Bot Laners in League of Legends Season 26"}, {"@type": "ListItem", "position": 13, "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQYTFJdERPSVVWVWJRX3c5dVU5dEkwQlQtclJDZ0QwLWViZFU5aWMtRXk5Rjc3VDM0bktMY1U2Tjg5MDlrNnRUSGRKWExOMkFuS2ZhNmlkZm9iZXNLc0FZRXByTW9hOGl6RXUtenR3N0ZEV0VIUFBpUWgxVEFsd2xsUUpWSQ?oc=5", "name": "League Of Legends Patch 26.19: It's Worlds Patch Time!"}, {"@type": "ListItem", "position": 14, "url": "https://news.google.com/rss/articles/CBMibEFVX3lxTE54TkRobGY5cnFKRGR2OEN1TFZCbDdXZ1FwREVBQVpIZi1ybE40d0FWM21VS2pLMjZYM3RRMEtFcEF5cUwtWDgxdmtVWkhic3BRNlVpbjYtVGhLbEM2dGp3ZVFHel9qS3FWaUlEMA?oc=5", "name": "All Major Changes Coming to League of Legends From Patch 26.20"}, {"@type": "ListItem", "position": 15, "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxPQnIxU0JOckJFa2t6LWpuRURGWnB5Vy1zeC1EWXdNaWxzaEEtbHlJLUdxbVY2MWZZbVBhOHBILUo0YW9Zb01zNThGYWliRy1yUjltMjdfaDkzLVYtckFlQXpSdUt4NmFHbjlFMlJTVHpSZDdBcjFvcFY5czBseE53OHl1R194RXNtaFl3RUxHQWNHbzdNR3Zn?oc=5", "name": "League of Legends Patch 26.18 Notes"}, {"@type": "ListItem", "position": 16, "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUUhVLW5SUkRvd1VXbzZmVHB4NTFqaTQ3VHh0aHJkWnpIRlVLcXZTb0xuQko4OWljek5CcVRELThHSGFUb1hMSE1EbjAwMW1hVnd2R3VWZVluX2dYYTFiVEhBa1kwcWRfazYwd3pCSVRQX2U1WGF5bXRJTXZpb1pGY1FUd2w4aFdXblA5dGpDbk15ZDNocEVDY1lOczFLNVMtbWh1WGl3?oc=5", "name": "Riot, After 17 Years, Finally Adds Team Voice Chat To League Of Legends"}, {"@type": "ListItem", "position": 17, "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNdTlhSUtucU5pVkFTT3FGU3hoZlJNT1h3ekdUUUxxd29nZWdJcjhaNGRaXzRJWlNDOVhnbDFKU0RmYWNaWG40eV85azV5U2xXdWNHc3ZqaDlZc0hDMDZPYnlvVVM4VGpVSkFBWXJfYk45RHhuTGZ6c1RpZVlWTXJfSHB4SnRwdDJVTGdTRFRSbmdRRk93ZV8wUkhQeDRteWFLamNzc1FCajVhQQ?oc=5", "name": "'League of Legends' Reveals Season 3 Act 2, Teases Team Voice Chat"}, {"@type": "ListItem", "position": 18, "url": "https://news.google.com/rss/articles/CBMieEFVX3lxTE16WU5zd1Fyb0pOOF9VMDhRaHh4U1hsMmx5c3ZncGliMzE1WXFaYkFFT1U2am8yUFhFdGhQSURqVjc4ZEtQZjVDOVU0ZUt3YjlzY1NfMXN3VTJwRHVhV1FzR1RvVF9yUVAxT01hNmNVLXh4WkdKLVE4Tg?oc=5", "name": "League of Legends Team Voice: What We Know About Patch 26.20"}, {"@type": "ListItem", "position": 19, "url": "https://news.google.com/rss/articles/CBMid0FVX3lxTE9IQUVOWEJFcW5KZjJCVzRZd2I1c2s0bVJlQmlfeWVQLVl2c3ktYWx3R2NMNksyb2h5aDdNdEFZcTVtUUx3X2JOTjhFOUpMNjZmWjdFdlhXZ1BuMGZuWk0wR1A5a1NvRFZJekxBN29Sd1NHdjRINEhR?oc=5", "name": "Fortnite vs League of Legends Ranks: 22 vs 31 Tiers [2026]"}, {"@type": "ListItem", "position": 20, "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQRXdjSENkYUM1elk1bmVDV2dWdzZwN0p1dGo3OGZSTktPQk03R0U0NEZSZEx3TGs5ZURVc1o5YXJhaXVoR21YeUxKdHo0XzEyb0RFc3plNHRNMzRSR2RpTHQ4SXgtbXNtdWN6LUxkOWtxbWdscXFuaHpqN2Q4bHQwYTVxWUYwN3ZIbVFiXzAxbG5OQQ?oc=5", "name": "LoL Patch 26.17: Nasus, Vayne nerfs, Ultra Hydra"}]}}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Games">
+    <a class="game-toggle-btn" href="../../../" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../../tft/" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../../league/" data-active="true" title="League of Legends"><img class="game-toggle-icon" src="../../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="My Favorites" title="My Favorites">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Search a champion, item, comp…" aria-expanded="false" title="Search a champion, item, comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Search a champion, item, comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/league/actualites/" data-active="false">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/league/actualites/" data-active="true">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Games</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" >World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../../tft/" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" data-active="true">League of Legends</a>
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../../league/combos/" >Combos</a>
+<a class="nav-link" href="../../../league/tendances/" >Trends</a>
+<a class="nav-link" href="../../../league/changements/" >Tier Changes</a>
+<a class="nav-link" href="../../../league/actualites/" data-active="true">News</a>
+<div class="mobile-nav-group-title">Glossary</div>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/objets/" >Item</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/champions/" >Champion</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/glossaire/runes/" >Runes</a>
+<a class="nav-link" href="../../../league/patch-notes/" >Patch Notes</a>
+<a class="nav-link" href="../../../league/leaderboard/" >Leaderboard</a>
+<a class="nav-link" href="../../../league/comparer/" >Compare</a>
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar">
+  <a class="title" href="../../../league/">League of Legends</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+
+<a class="nav-link" href="../../../league/tier-list/" >Tier List</a>
+<a class="nav-link" href="../../../league/guide/" >Guides</a>
+<a class="nav-link" href="../../../league/combos/" >Combos</a>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Meta</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/tendances/">Trends</a>
+    <a href="../../../league/changements/">Tier Changes</a>
+    <a href="../../../league/patch-notes/">Patch Notes</a>
+    <a href="../../../league/actualites/">News</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Glossary</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/glossaire/objets/">Item</a>
+    <a href="../../../league/glossaire/champions/">Champion</a>
+    <a href="../../../league/glossaire/runes/">Runes</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Tools</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../league/leaderboard/">Leaderboard</a>
+    <a href="../../../league/comparer/">Compare</a>
+  </div>
+</details>
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../league/" >
+  <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+  View my profile
+</a>
+
+
+  </div>
+</div>
+
+<div class="page">
+
+<nav class="crumbs" aria-label="Breadcrumb"><ol>
+<li><a href="../../../en/">Home</a></li><li><a href="../../../en/league/">League of Legends</a></li><li><span aria-current="page">League of Legends News</span></li>
+</ol></nav>
+
+
+
+<section class="ph">
+  <div class="ph-text">
+    <div class="fiche-kicker">LEAGUE OF LEGENDS</div>
+    <h1 class="ph-title">League of Legends News</h1>
+    <p class="ph-lede">The game&#39;s key headlines in one place: patch notes, balance, meta and guides, gathered from the specialised press and official sources. Each line links to the original article.</p>
+    
+    
+  </div>
+</section>
+
+<div class="news-filters" role="group" aria-label="Filter by type">
+  <button type="button" class="news-chip is-on" data-tag="">All <span class="nums">77</span></button>
+  <button type="button" class="news-chip" data-tag="patch">Patches <span class="nums">43</span></button><button type="button" class="news-chip" data-tag="meta">Meta <span class="nums">4</span></button><button type="button" class="news-chip" data-tag="guide">Guides <span class="nums">3</span></button><button type="button" class="news-chip" data-tag="news">News <span class="nums">27</span></button>
+</div>
+<div class="news-list" id="news-list">
+  
+  <h2 class="news-day">October 5, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMisAFBVV95cUxQb2w4NW9BcWRzbGNsbUZHWVI1UHNSbVgwY0s1R2RSTlJrS3lQOUdtQ0pZTU1wb29vb0YxNGtQSk1lakNJTktWODBJTlR3VDVKc3VtOGdGTnhSSi0wNkFfbWtSSWRyaDBZSmJCWjVuVkdOYjJPb2llTjExTUFEMGxSZ2JpSjB2LWNkOWs1T0FvelhlTGwwWVlZVDBZXzlNSzd2YXRXRHNndmNTak0wYTkwag?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.21 adds five new ARAM Mayhem Augments</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 30, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMivwFBVV95cUxQVV9MSzNKZGZ3OHFXcnRpSmI3cG91bHhPTUZvaTF4bmRRMHhNYW9kbEx1RE9CQ2JQbWJOUy1MN0lyWkp4NzB1MExuamZVYlc5cEVhMzlYYTFNYXpDcU13VC11bVNxcWFUbVFHdFM3N1BWak5VNFVoMVNsMTNEZWxZSnROeEpqenZ2UWxVY3J1cVE4eTd6RFJpWUFGazFsMHFDZk9KQy1mc1Q1VHRJQmhaQ1JfNWtLTnBYc0xiZ25HRQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.20 Preview: Rocketbelt Rework, Hexplate Nerf and Lucian/Vayne Buffs</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 29, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxQR2cweEtFOU9MQ29MVmJOTzB4NkpmUzF0T1FjR0R4bTJaSXo2eHRYWjIxMk1mWEdBRjVsVHBTQnRvSk05MGZxSkhLcUFua0NJdFdQU0J4UUxIMF9oNnd5STZ0Sl9GN09Ud0ZKS2hub0RHb2tfX3FvejBXOExVU2xiMy1BV0xpODY2VDFmWUZJOFVOZnJadlNuN3duQUxyUG5EM21yYUdNTHhFSm1wS1Bza0lmYmJmanV1UmRIUEliM08zTGY1TU13?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.20 Preview: Champion buffs, nerfs, Items changes and more</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 26, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiaEFVX3lxTFBrNF91c3ZuR1lXY1NDQjBnMGxPMGw2d2szalNzSVRMLURPVjMyMS04VDJIZWlNTmNYRGgtcUxNRXVYLUl0QXZUTDAyYUUweHRULXdjaU12WW9mdG9EWjJrRUhjUlBUdGg0?oc=5" rel="noopener nofollow" target="_blank" data-tag="guide">
+    <span class="news-tag" data-tag="guide">Guides</span>
+    <span class="news-title">Your Complete Beginner&#39;s Guide to League of Legends</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 23, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiYkFVX3lxTE1ZLWMxTHoxQ1RYNlllOFlNZHItU2syMzBaNkI2aVVwZ3N6SGNLaXJDMnhncFZLRVdETUtOYXNUWkZTZEdhUGlvLTVtdnNLZjc1VWFHUHVPeC1KTW1ldjRUZ3Jn?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta">
+    <span class="news-tag" data-tag="meta">Meta</span>
+    <span class="news-title">Upcoming Changes to League of Legends Classic</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxQYnZ0S00xRVFnWnBwQ3hpUFd4NlBPbmZlNWw1ckFnWHhmN1FMUkhQeXVKOUZCNjFtcTIzb0EydTFVUG9UZnc4WUFYUm5GeHF1WkRZTFdRM29jMEtHVHhtOUhIVTVjRHNvamFYXy02NmhMZFpwN1d6RnBkXzNVVnVsaHZnVQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League Of Legends Patch 26.20: Worlds Patch And HEARTSTEEL Are Here?!</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 22, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMikwFBVV95cUxQN3R5dzZyUW9HZU5FZVctY1pSQUJsRFExSExCWE1NX1pLcll4ZkVzOS1VdENLSHlwY1VxMWlPYVNzTl9icDBrbTFyMWpuQWtJMDM0ejRvSW9zam9JWU00Nkk4elQ5YkdRcTVsWUNvZ2lXaXdxZXRJSUludDF1ZVJNNENnNG1RLTJPc09LTFF3eEZ5XzA?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Is Pulling Voice Chat From League Of Legends 26.20</span>
+    <span class="news-src">Engadget ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxONmF1dUFRampkUERSc1JVN21rQTVnQXZpUEJna3VLbURLeVAxWC02NkhJclR2U3JIZkdQWXp5MndWNkd6YzJFMUpJc0p5Q3NVdmYwRDhLTm1RM0Y0Vmtxb09GVE9HMHd4bnJNYXZkWEZGRVp5NzhHWUZzUW5LbGJGQVJJSG1OZXp6eXhSZ3FtMkF4ZER6WndV?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Patch 26.19 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMingFBVV95cUxORFkxekxHam5uMk5KRG5IeXpyZUlWRFJnS19UZm9DeFp4b0oxWW1ENHJTelBVbVd5NllDejIzMVd3ay1DUkJEZnhNZjBScDlhNHNYdlNweF9ObFlTcXRQMkl1UHJHRkEtdXRsZXctdnNvYWZOS1FKOEs1a0FNRUtYdzFaWmpHMXNYaExtRXlCbjRjalc1bmxyc3dsWUMwUQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Games delays League of Legends Team Voice rollout</span>
+    <span class="news-src">Inven Global ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 21, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMicEFVX3lxTE43a0xnRGlkMGF6UWVHbTFIa3ZURk9LTWNEVkt0aFV4cHJlb0Qxa0JtV245c2lzbUZReWJORWhDcVVneWoxRkpKS1BzN2dDaE1JbzE1eC1VdlNaeEhtQnJDbVN5dXdqMzlSNFBzR0ttUko?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Valorant vs League of Legends Ranks: 25 vs 31 [2026]</span>
+    <span class="news-src">shattered.io ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 15, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMimgFBVV95cUxOMW4yeGUzOG5YOS1sUjI4WXFDZ3M1MnpQRy1wUnF0THB2MGdZN2dWYXhIQUpvWkU1SkVwX2l1d1hJQnRqLVhWdS1QTThtV1QtTFJKRGhEX2l3azlvWHZraWFERTNUYU8yN3ZvdThVYWliZFYxREJNWm5XZ21PTjJ3NDE5T2YzUnhnQ29EWm8yQUNBZDN4T0N2QVFB?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends x Chi Cha San Chen</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE9wNUlEQy1DeDhvQkFFcXRDZGN5LS1pMThpT1RDY3ZkcmNqVFZVMHprRVNIUXZ4WUp4cVZ0YWU2MV9iWE5QWDV3cW5KckpiNE1fSmVGdGZWRjkxaGI0Z3RJ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">7 Strongest AP Bot Laners in League of Legends Season 26</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 12, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxQYTFJdERPSVVWVWJRX3c5dVU5dEkwQlQtclJDZ0QwLWViZFU5aWMtRXk5Rjc3VDM0bktMY1U2Tjg5MDlrNnRUSGRKWExOMkFuS2ZhNmlkZm9iZXNLc0FZRXByTW9hOGl6RXUtenR3N0ZEV0VIUFBpUWgxVEFsd2xsUUpWSQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League Of Legends Patch 26.19: It&#39;s Worlds Patch Time!</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 10, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMibEFVX3lxTE54TkRobGY5cnFKRGR2OEN1TFZCbDdXZ1FwREVBQVpIZi1ybE40d0FWM21VS2pLMjZYM3RRMEtFcEF5cUwtWDgxdmtVWkhic3BRNlVpbjYtVGhLbEM2dGp3ZVFHel9qS3FWaUlEMA?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">All Major Changes Coming to League of Legends From Patch 26.20</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 9, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPQnIxU0JOckJFa2t6LWpuRURGWnB5Vy1zeC1EWXdNaWxzaEEtbHlJLUdxbVY2MWZZbVBhOHBILUo0YW9Zb01zNThGYWliRy1yUjltMjdfaDkzLVYtckFlQXpSdUt4NmFHbjlFMlJTVHpSZDdBcjFvcFY5czBseE53OHl1R194RXNtaFl3RUxHQWNHbzdNR3Zn?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.18 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 8, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMipgFBVV95cUxOUUhVLW5SUkRvd1VXbzZmVHB4NTFqaTQ3VHh0aHJkWnpIRlVLcXZTb0xuQko4OWljek5CcVRELThHSGFUb1hMSE1EbjAwMW1hVnd2R3VWZVluX2dYYTFiVEhBa1kwcWRfazYwd3pCSVRQX2U1WGF5bXRJTXZpb1pGY1FUd2w4aFdXblA5dGpDbk15ZDNocEVDY1lOczFLNVMtbWh1WGl3?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot, After 17 Years, Finally Adds Team Voice Chat To League Of Legends</span>
+    <span class="news-src">Engadget ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNdTlhSUtucU5pVkFTT3FGU3hoZlJNT1h3ekdUUUxxd29nZWdJcjhaNGRaXzRJWlNDOVhnbDFKU0RmYWNaWG40eV85azV5U2xXdWNHc3ZqaDlZc0hDMDZPYnlvVVM4VGpVSkFBWXJfYk45RHhuTGZ6c1RpZVlWTXJfSHB4SnRwdDJVTGdTRFRSbmdRRk93ZV8wUkhQeDRteWFLamNzc1FCajVhQQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">&#39;League of Legends&#39; Reveals Season 3 Act 2, Teases Team Voice Chat</span>
+    <span class="news-src">Inven Global ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMieEFVX3lxTE16WU5zd1Fyb0pOOF9VMDhRaHh4U1hsMmx5c3ZncGliMzE1WXFaYkFFT1U2am8yUFhFdGhQSURqVjc4ZEtQZjVDOVU0ZUt3YjlzY1NfMXN3VTJwRHVhV1FzR1RvVF9yUVAxT01hNmNVLXh4WkdKLVE4Tg?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Team Voice: What We Know About Patch 26.20</span>
+    <span class="news-src">jeu.video ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">September 1, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMid0FVX3lxTE9IQUVOWEJFcW5KZjJCVzRZd2I1c2s0bVJlQmlfeWVQLVl2c3ktYWx3R2NMNksyb2h5aDdNdEFZcTVtUUx3X2JOTjhFOUpMNjZmWjdFdlhXZ1BuMGZuWk0wR1A5a1NvRFZJekxBN29Sd1NHdjRINEhR?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Fortnite vs League of Legends Ranks: 22 vs 31 Tiers [2026]</span>
+    <span class="news-src">shattered.io ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 28, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMikgFBVV95cUxQRXdjSENkYUM1elk1bmVDV2dWdzZwN0p1dGo3OGZSTktPQk03R0U0NEZSZEx3TGs5ZURVc1o5YXJhaXVoR21YeUxKdHo0XzEyb0RFc3plNHRNMzRSR2RpTHQ4SXgtbXNtdWN6LUxkOWtxbWdscXFuaHpqN2Q4bHQwYTVxWUYwN3ZIbVFiXzAxbG5OQQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.17: Nasus, Vayne nerfs, Ultra Hydra</span>
+    <span class="news-src">Esports.gg ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 26, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxOeHNNUHhoUDc3Nm9lMWNNMXgzbS1TMUZBcEc3Tk83MUlZNzloS2MzSUlNT2RfSERHNGs3ODhhbE1ackh1SW5iU2hPNjJXMlBldmtGSjRldVhGVVUzU0FmLUJHNnpteS10WXhhRzZCUVh1Y2oyNUhrNVR1MkFhTnRGbGFRUQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League Of Legends Patch 26.18: Zeri &amp; Nautilus Nerfs, Mid Lane Meta Shifts?</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 25, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxORVNDN1FPQVFvSlFuUzVXdjlfdGR2ZjFGLUZWbHFrdlFPU083R0x1UldlcWF0WFFtamxBa1ppdGJzQWVLX1lwZ1Z0ZnpuLVpMN1pOY2ZkLURja1RRTlFoazhRclEybnNZbm9JSkhjOE91VUJ0S1lZS2dFZnhOY2RIMDVNYkRJUk42SjFuNm1odEdzZmE3Q1pZ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.17 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 21, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMizwFBVV95cUxQOWtadzdJSkxUcW5nd3JzZEVBVHBwZTZKS3Q5SmQwTXJILTN4LVcwdWk5OERtYmNFWG05WlJqS2NOMFpZLW5jSW13QU1wZzRvbk1oWGR4SUZ2TlBySHNEa0YwelRNb1lrOWIwSGFwTXNoSzI0aU5XTVNXRjFiUTV1VUZsVUVuVjBfbmFZbEFIVTRtb1pYdFlDalVqbkYxTnJselVqNWdSQmxxTE5Zb0xhaXYzQ0ZEbHpvSUUxbk5ZYnBWRDB5WFNkNlFaQk1rdXc?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Classic Patch 26.17 Preview: Annie, Miss Fortune and Garen Buffed. Evelynn, Tryndamere and Gragas Nerfed</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilAFBVV95cUxPTE9aRkpVTkdHcGVIS1lFYTRjcko5ay1GRVczZ0c2TnNBdk5yYXNxSDhmdXNqOFpoS3Z6TTJwamtrSTB4Q0RnUVJfYmxfQXgxd21JaWpSRkxBRGljQjN2Y3Q0dE4xdThRNDR3MFNfbG9rZnJnNmZxQTRWeHFvdkc4ZmVWTWU5OVEzSzBqLS12TVlVOHh2?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot’s League of Legends Fighting Game Is Coming to an End</span>
+    <span class="news-src">VICE ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 20, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMieEFVX3lxTE95a3lsa2p5cUdveXgydzc4ODhjbUtlN0pEaGFaX3lvTExGMEVnM2dTbmFLRTVPZDVVaWViWkpOXzNWXy1VV0FORmF6RHVmNW1wMXpiem5IRnFaYjl4OFhFcW5YZjNIU1ZQeGtjZDdCMjNvNVZqMGdnMA?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Here Is What To Expect From the League of Legends Patch 26.17</span>
+    <span class="news-src">WIN.GG ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 19, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxPQkhLYXhiQm5KN29GZTdOU3NDcHRKSlh2czZMcVhnMFdOTGtrem9OVXAxR3lyRGpHMW5CVzdYbUlPR2pZdXBsTFRZNm1SeG9vR0RyN0NqUkRuZVlsZFJ2dG9PdFRXOERrQWczM0xrYW5qR0I0eWR2aFVaQ0FWbHdNMEd5TnN1R1JNdkNjeERKdV9UaWlqa1RBQ1B4TXlTREJxQTNlWlhya1pPbkYtZy1NQzl5OUlBYWNXRFhOZEtDczl6YUZ3dmpZb3hNenBpRXZTTnc?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.17 Preview: Xerath and Vayne hit with nerfs as Riot adjusts roaming supports and Sundered Sky</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiswFBVV95cUxOY2JfVzBLeG12VHdNaDNHc1VoRE9oRHNDTk9KQk9tdDd5WVgtdXlBdW45RFNPTzh1ckJzbXRrblMwcFBJZW9ISTB5Z1lHUXpPdkpub1RwMDgtM3RHMTV5ek9EemE2MmQxc2ZmbXhYNlhvSFpOTnVZemhBTWg0VVIyRURmNzZMYUdPYTc0dk5EU0RMVVlVVjdrdDJuMkZCNEJQTHVwYnZoMEdSUGNYTkJzT3hiZw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.17 Preview: Full Champion Buffs, Nerfs and Item changes</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 12, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPRXhDczMzN3lUQTRvc1BibnhjS3pmYkpsNjdkalpLcm1WSTRMM2syTkhTYWQwbzdUUHRWMEg3NWJNamkzNGM1SDRtSmNWZThnaEllejNtNVkyNElGU1FHNFoySUpDdloydmRTRXVTWkZEc2E1T2xzX2EwVzFkSUdVNHpuTQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League Of Legends Patch 26.17: 15 Champions Changes Confirmed</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMic0FVX3lxTE1FRktVRk5xbUd2dUNwOHJrSE8tUnhlbzBJZUt6NDI4NjNFMDNIamtyMWNmWHdQSi1QNDZPUnZrSVJVTlhfejhUdm5CUndDYmg5VndheFR0d0NuX2U4TVdzN254X2lrR3VNTTZOdGRGLTBOcGs?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">First look at Ocean Song Jinx and Soraka in League of Legends Patch 26.17</span>
+    <span class="news-src">Esports.gg ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 11, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQUE1qVU5vaDNhN3J2Z1V1Y2pvaDI1aENlRmNtaHF6RnlRd0FWd20xTUloeTNvTWY0T1BrRVY3U0poUmRGdmltQUxONExwYlRGZTVoNER6WmQwenlVbzZNaDZvYU4ycUhzSVFiZVFBTEFqVW9mM3dEMWFBcjdQTWhYT2VkeThmNFV2Zzh3YUIzZlIwU3FHRjhv?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.16 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMihwFBVV95cUxQWGtCVUo2ZVFFbEFJSFNwcTNVd1pWdS1YQmVRN2tsZ3dKT05WV0VSY0N2VFIzLVpodklKZkh1S1Q3TzYza0NGZ3NoZVNTSzNCRGh6VUQ1TUZwNzRnMFRWUEV0TnVSclBLS2g5ODBfaHFUNXlscF80MmNwQVB2M283LWR3c2czVjQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends patch 26.16 makes support roaming more expensive</span>
+    <span class="news-src">jeu.video ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMixwFBVV95cUxNWW5NY1JCMXliTUN0MUJtX3RMdFdQTF9sMEN2ZXdaRVdmLWFyTGUyZlZsRXB5N0x4akdIbUNFUlhSenJaaVlmZkl4QXN5UHJQQ3pVYXVzZUUySFN3R2x4ZWhkTVMyLWQ5S25xZTdodHVIY3pvNC1tZ2RlOWYweXQ2Wl9LNXBNckRZSFFPbGZTcWFnX2J0TlNjOFJlZjVMVnI4UkpfcVVRdUk3dUpaTFF0cy1DRzhlQXdoWVV1cVJjeVpGcGZDNXRr?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends Heartsong Seraphine skin: Release date, price and charity details</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 10, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiyAFBVV95cUxPbGJma2o5MkZKZ292VFg3SnkwZXNib0pRS1prTmQ1QUx1aU9nSW80bGh1U3JmSDYtOThGRE10a3NMWTQ0WG9RZUdoWGxuUnR5M1JGNXRWZE9XM0k4MVMzM0lWblpxeTJwaVg5YzJ2LTVSbEVsRDVKdUVadm5kYWhzclhyeVVFZW1Dek9lSEdqdnpUcEFVd2poYm82WnpRYjVIS2pGSEVwSjNHc1VCRE9HRFpEaFZxSTE0bWlxUTJxQVl3a0dZQ1AwWQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Classic Patch 26.16 Preview: All Champion Buffs, Nerfs and Changes</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMia0FVX3lxTE10NkVWTDYybHhiRm9CV0dIVm9VMnBvZDRKRE9USzRXNXFnZmZGQTViZmRhTUlLcGcxeUM2a0lKZkJpMUl0Wko1UVE3RnJyZXlicllQQkpxV1kyMllvdEdDNUFNOFhWUE1IeGJN?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta">
+    <span class="news-tag" data-tag="meta">Meta</span>
+    <span class="news-title">League of Legends Tier List: Best Champions for Every Role (2026)</span>
+    <span class="news-src">Esports.gg ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMibkFVX3lxTFBXcGhWSzRGZE4zWUM5RkR3U3BKWlNLZ0sxcktyUm5HWGxoelg1aVhxRXRBU2VqUHQ0Q3pwNnJIQ2t4MEdlM1Vrazh6UXhvMXZpbnMybVR1LTdSQ3RaRS1wVVBYUWlDOHEtN1h1SG9n?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends Classic: Everything you need to know</span>
+    <span class="news-src">Red Bull ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 5, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMivgFBVV95cUxQcnlmZHB6T2hCN2tmUE1pU1FQWDFQWHNoUDdfZ0FrdFJrYjBmamFLN3ZjRTlKQ3ZIbmE5UXR0YUpDSXBjX1dJTjNfdWppMGVxU3l3Q0lrMTNEYUVYVDdYNTMwdmNhaU9jQlBWZVpUMHlGbXU3Z056M2NPU09ZZXk0SkpyNHVBNHl1cFNNcElMTERvNDVINUJydEQ4em1QbC04aFozUTZOUVgwam9icFRkaEg0RVlpMDdlZjdnQnl3?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.16 Preview: Changes to the mages botlane and the roaming supports</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 4, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiuAFBVV95cUxQWWwzdzlyZlc3NTBoUW8yeHc4Q0w2ZXdWWXhJWkR1X1I2ZmRBdGlkY3lZYi1xYjZrRlFYc0hhbDVaWnlfZHE1SlNXT1BBMTR3QnFCNDBxSjl0MEJZaWFybEVUeUVWZGJsdlZoX1dRUzZyNG03bmdvX3k3bWZVNDlUTk1wdnpTZEJRVUdNa0Vkb3FCbE5pTkplX2pKbXN3Tkk5LTZicE83aHdBZ243ZXRLYkphOGJCVGlv?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.16 Preview reveals Buffs, Nerfs and major Bot Lane changes</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 3, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinwFBVV95cUxOMUxwMlg0SnlTUUpXUnZ2cHhGOE11LUdveXB6V2licHRobFF3b3F4QWNqWjRmYWdHSjdtRmtCUDFuUEhReUJGWmJ1SFpLZlE1Y2lrQVNta3h3RW1JX1MwZVROWmduLU1UQUx1bFdxQ3JULWx1SnNPS3NYd0hrR0YzMmZTcDdSeWxvZXRoVTdBQWVwbXdsLU5oV0k4U1RQbTA?oc=5" rel="noopener nofollow" target="_blank" data-tag="guide">
+    <span class="news-tag" data-tag="guide">Guides</span>
+    <span class="news-title">Climbing the Ranked Ladder: Tips From League of Legends Experts</span>
+    <span class="news-src">TV Obsessive ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiX0FVX3lxTE9KQm5EQ19iaEVOd3FobEdlX3p2VVA0Ml96d3Vka1BCSVphN3ZNWmN1VkZLVWYzczVvT2NZQ29qZmIzNDFpLWpPTktCZVFGemZaT2FSZlNvQXJIYWtWdnNv?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Best 5 ADCs in League of Legends Classic</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">August 1, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiZ0FVX3lxTE5OaVJUQkJXQVhtZUVaQ0E2RWszMzhxcnBKVG5GeVI2NW9UWjRhQ0g3V3FMS01DaXFJcWwydE1UTXBIOG50aDk1ZzNZenJRVE5vSVFaUk5yX0xNdGRBNkxzX3Z0bzJmR0U?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Best 5 Top Laners in League of Legends Classic</span>
+    <span class="news-src">Mobalytics ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMifkFVX3lxTE1MTEdTbUx3RVJTQTNGbmNVU3IyVVVLTEotOTYtNlJhV3hZMmx1dFQxQmNGZ0Z5dVJKMEZ3eVRzTmlFT1dRS0RfdUR4SjdwTkFEdUxYNUdvaVVZRFFSc1JFQVVQb2E4MjFfbUJsSWFINWk5aGRHNngyV3FHNE5jZw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">New League of Legends Skins in Patch 26.15</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMirgFBVV95cUxNRXZsU2pLVFpmSGZlNGJ1ZjVsc2ZBU2tJYmhZdGxlX01Qc0JGdG5YdmRDQjdDT0dxYTd0ZjNvenZOLTJLX0tYalJxTkxkN2E5WV9hZVZ0bDlzRm5DZE5mNmhFUWFBal94c3pwVlpvZWt2U3NHNS1pYjJtUzlnSkIzVFV0Um92aExWRlM1Z0pTLWZud2JfSnYzUE9Hak5BbDBnN3VsX0ZPMmxzNmRTUXc?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends Releases Nostalgic Video for the Launch of Classic Game Mode</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiigFBVV95cUxPWE10SHVGalJfYkcwaG41V1oyVUtXZWc5MEhKQ0dHdUZfdU05T3hnWF9McEFpajJYM2lUSDlQTmdXMTJvRmRTLTFRYTlIQk1EanVFcUV1V0Y4SUl6ZjdWQy05bzVoM2trUmExbTB1TUVpRkM2NGdrYnBQVUdFaHhLTUZ3bHd0QlVaU2c?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.15 Makes Bel’Veth Scale Into Ranked Season 3</span>
+    <span class="news-src">jeu.video ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 31, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinAFBVV95cUxQUUVBUjVuQzR3WWNPSnFMblJKUDF4aVZVSjI3cnZLT3F0bE1Gb3ctZ0hZRFFtbzBJTEs3dE9yaV81QTVCdHc0VE9zamx5MEo5LTRLQVhhN3huQ2J2dVphTkJyeTRfY3VobFM1cXlUYVIwRnNIdHNlZ2IzRktJN1hqRmRURkRfdlRvUlB0eE5FMDJPZmtwcXlBUVEwRlc?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.15 Notes Overview — Buffs, Nerfs, and More</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMingFBVV95cUxOVHVhNmNCdHRZdVRIb01RLW5QVEkwcnNjMEdvR2RkOHhYYm1JMDJ4UHFkVEpUX2V3LUlWbUMxcjY4dTZwR2hpYlRSbFJ4dXZRb0RscFlwdHViU1NoS3VXZi1HNDBGVkNEYXVfSzZSbEhRaEQxV1BWc2JmTk1vaHNhbXV1MkJodVlBcTNubFlfZHI2Ml9EOWNPRFczZVdpQQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta">
+    <span class="news-tag" data-tag="meta">Meta</span>
+    <span class="news-title">League of Legends Classic Tier List (based on early data leak)</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPNV9qMU12akRGQVpwcTZXN3FSZXo1cEVPMXVINXZOLTIyXy1CZXFlbVVReDMxNDEyMjFlZ3VDLWZhd1Z0R2o0dkU4QTZnaXpmNVZLbHEzUGdRakNLSWdNelZDSk03WTZYVExRMmFMTWlvN055aGthejd3Unp5bXhCbS1DcUdYbzVrdkRFWm9tYUlzRDZmem5aSUxPLU03a2NtX2MtZm8tNld3MTJUMExzMnhXY2NtRC13dlZzOC1iV1c?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Riot explains League of Legends Patch 26.16 changes targeting Mages bot meta</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMimgFBVV95cUxOZ3h1bFB5aTBaX21Ua0x6Q2YxeG5sY2RPeDVVWnNlaVFvVlNZMFJTTVB2MGJPMkxvYXUyVmdTZ1Nta0cwdlJYQUFKdnB0c2h4OEMyOUpuN3RJSUtLZk03cEFsZ09iOFprcVhCTURha1dFajF6cm5BSWw4OUNoSmVRem9fTC01M0cyc0hQN2FpZVFNc1FuVE1HcExn?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends Releases Highly Anticipated Classic Game Mode</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 30, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxQYnZ6OXhRamhrTWVIWGg3NHc4alFIQllpSmM4azhGdERyTUpsUGpTTDJiSkpDTm9WZUZMekxySDc0YUQxbTE4c09nRlVySHdQQWYyNGdmZmhPX3BjYWVZY0ZGRGxGOTJuMFRrWlpPamI0ODdjc24wdUVCQmcyY1FJZWdpbw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.16 Preview: ADC buffs and Support Changes to Counter the Bot Lane Mage Meta</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMic0FVX3lxTFBUWEQwcmxZTE9qSWg3dHF0MzV1OWU1cTJlaE1GX3hXWkVHTmwxZ2hUcjlFMVRNZFVRNnYwT2tRcFFXR3FTYm9aZ3dtRXNPdmNuMm9tSTVXR0wtRld1eHBaUHFJY2pUN0NWa2VsLS1Ybm8zVkE?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Riot Games Dev Outlines Mage Bot Changes Coming in League of Legends 26.16 Patch</span>
+    <span class="news-src">Insider Gaming ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxNdk96LXhEOFN5c3k0WnN0TDd0UF9SNzdyenFMeE15RG5tQkhlb2JYSjFlcEFwQzZYM3F3WmF4TGpFU003Umh6Qy1jQm5JYTVhZVhRNmswOVl4ZEJuX1lPUWJhZGdfV2g1MjFKZy1ZX2xhV2RjZXJ3SnBHUTJ1bmFMSGRVWdIBkAFBVV95cUxQX2F1azBIQi1sbF9tOG4xSmxiQzBoa2Vkc01WYlZ2LVdtUlBraUk3UC1BWVp1bTh6Ukh0LVd6UmFsUE5HT3Btc2xEYy02OVc1Z0IySUR6ZDB4S3BRTGF6YnVZd3BMMXVCZy1icGwzdlRSa190aXpzZUhCcGRTRmVrb1JMN1hROXFuSi0wSXh4a2c?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">What is League of Legends Classic?</span>
+    <span class="news-src">shacknews.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxNenJyME1YekRtRmNheFdkN1d4dVd2azdYbk53Z2VHVEZXTjJVWTdXc0l0d1gxWVlCc0xQMHM4UzNQQUdaTHVHX3Qzb3JhaEY5Z1BVclpxZEJmV1JXYmY1b1plNThXdy1wWVRaQ1JWdTVKekRWamE3eFkwa1E4T3RITTdtcW8xUkh5?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Riot Admits Bot Lane Mages Have Gone Too Far Ahead Of LoL Patch 26.16</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 29, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMizAFBVV95cUxOVVYzaDFXcXNGU3Q0X2ZERmdGR3gwdWtSX2x2SmpIREtQeGYzeTl1dE9TbnhYakF1Q3ktRmFweXRRcXdMdlZlU2I5amUzRDhxY21tQmhvVHQ1SzRfOXBVRG1SV2NnZVdJc0ZIWnJGUjdIUUlUaktieUJjYjBQaFgxSWw0ZVVNTWlOeHJFUUFLM1dZMlB6U2plU0RkX1dub2o3N0V3SHFjMm5qQjFKQzA4UUVBQVhYUU15cDhOdjMwVWxaZmlpWjRKT0Y3R0I?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.15 Preview: Bel&#39;Veth readjusted for late game, minor changes ahead of Split 3</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiiAFBVV95cUxOdzM5cGNuRkNNWldud0w2UDNJbzg0Mk5EYWtxazZ2TVVkRk9SQi1zTG5CbFFVcmpEVjJ4d1pCMDJhN1B1YXhsc2ZrcVNXZW5majBHM09WUHlEZ0NEck10ZHZPWVVYWDF6WUpwTHpxQVFvQU5abUZaWmRZcVAxSnhFRExlU1dWS1JE?oc=5" rel="noopener nofollow" target="_blank" data-tag="guide">
+    <span class="news-tag" data-tag="guide">Guides</span>
+    <span class="news-title">How to play League of Legends Classic</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMirAFBVV95cUxOdjhXdWJ0WFc3SkdtRFJuWktraWtBWldUa2ZFT0lxY1k4bGQ4VjRqUXJ3dmRHM1R4Qmp2a2IxYVAzNElPal9JZi1EaWhZRTB3X093ZWVYZ1plUDduMTU3aDB4UFlQUGl3Ml91U0tqdkFKZ0JXWW80VWNKa2xBRDJIRW94NnU1V3p0MHVsQXVnY2o1cFpaSS1jV0tYSGU5S0ZfNEZYSzE0NDh2VHd4?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Classic roadmap details future content updates</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiwgFBVV95cUxOeXBSbDZjQjJXTkxUWnZtWFNaR21pMTRudXJDX0oydnZHWDRVWElTV2xObGhaSTZucERnUmwwS25vV3lMbjk4UkxCS1V4WTFWdDZjRW9BQWFoQTdZOTFZRzRXcjJPQnc1dWpYbHhabjNhWFNua05SRGFRTEVBSWJCU1NkZ1h5cUFTMUpHbFluRlNaaERLRnVYYUtlR1BRUVk3cTVIZ2Nwb3F6TndseUFKX3BJWWhDOEJxLWkzUzM0aXBwdw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">League of Legends Classic: release date, all champions, and everything else we know</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMifEFVX3lxTE5BNzZnU2tuMjJYZEJnUlRMcXEyR0JKdDc0bVc2b2d5SnlXQTM2REdtbElTaFBpd0twSHhySHJZT2tXYjVhWmFoOVhtTEFoYU5LdFlSaUtYa2xyTmhmckhqNlBnYk1TeGFyYWE2ZDBBdE9kRjh2Uy1JSUlDY1E?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.15 Rewards Ranked Wins and Scales Back Bel’Veth’s Early Power</span>
+    <span class="news-src">jeu.video ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 28, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxQQjZwczI4Wk5mQjkzNDRKdkRRS1pRQmNhdmg2dnBWT1dtUGlNU2QxUlV1VzBaX0l6QzhXSXgzUUxRVmVyWmJDcFBuNk05anFrUWlwb2tROHB4LU4zMDRzVDNRSDZkN2FuOEVzM01oZlZCZlhOTU1HMUhRTjZfODRXaWxZdmtEQjJsRXIxaHN0RnRsVVRtUUpj?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Patch 26.15 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 25, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiugFBVV95cUxOYllYbFdpWFAzX051VFpxQlhSTmREMGlxcE91Y0VuMGlSV3RlSGFZVE5nb3Z2WjdLRVZTeWlCQmE0OC1fS0d2cEl6UEl5elBMQUYyOHRnMDNibTRPaERUUGxmakhGMDhjRkh4bzYzdnhsYUk4amxhVHdhcDFqQkZBS0l5SEtkSXZzVFY0QW5kZzJhQ2NzUFFsbExMdmliVGFIS0M5NXRDLWgtbGlOOG5xMWRzRXFrMXdTdHc?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Games implies League of Legends Classic could become a permanent mode</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 21, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMi0gFBVV95cUxOT1p4RW1qRjgyeThGaVN4bFJndUNyR2QxNmZJbldnNFd5Ym81NDlTUzZxMzFZTFpaZV9aUm5sM2JCU0Q3RXhqVVdKMm03LVJScG1pX0phOVhfUXhJS19ZdEZ6QjBLSmZQZEF5RG55SF9kSWFhSGg5N05VOHJqZ2pjdkpWSHQ0RjZXOS1DNmhLZHd0dV9UZTdqYnExMzlqbXdqY1FsM3ZVTkcwRnVmZ3psWUZnSkJlbkZodUpCbzlFMU1RNkFZZ0pLNnZvRnRWN2trQVE?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.15 Preview brings Locke nerfs, Alistar buffs and system changes</span>
+    <span class="news-src">AltChar ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiigFBVV95cUxNMV9NME1aRHZ0QzBFT1A3VkszWFlhWWxaQnVoUUVab3k3UmRaRFV3NUJoNGhDUnQ5M3J5N0JKYU16YWhuQU10MzVQWjdkUjR2bEtDV0otSi0xeVRnOEk2MXhmREpCcEZyNzFLNjBiYk9HUUFRaFo5cElxNkZnZC1pd3hfbmZfSE03SkE?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.15 Preview: More Locke Nerfs</span>
+    <span class="news-src">Insider Gaming ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 20, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinAFBVV95cUxNZ3VNWDZlR3RQTXVITW5RYlVkVXE2Z2RUUm1jWlMycTRVOHNFdl8zaW04V1ZGcGtKTTVrQlEza19qOWREQTFKWlQzUWpUOVRJUzE4Y1JYczZxYjJLeXN1QmpNZWlQcENNalhyZG5qU2ZJSEoyaVoyUlp1RmdFWTJFRi1xQWZQYjY5SENkamxPVzN5S0FCanVoQURFdy0?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.14 Notes Overview — Buffs, Nerfs, and More</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 18, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMikAFBVV95cUxOZEZzalVuMXp1cGQ2Y25rTVp6c0dGUmhRZjZLMzlaM1VOMFg3VkM0WFQ4aEJXRnFDSmNwOUFCSkVwTjdMYXEwOHNBS1lucDdwLXNCYjVBVU1RczYwbXJrRWFqUG5CNTZuY2JDNG1fZTV3TWtoRjNTYlVPVkZTMUhJc21JaG9fNDFyVTJvV1BkNlM?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta">
+    <span class="news-tag" data-tag="meta">Meta</span>
+    <span class="news-title">League of Legends Announces Ranked Season 2 End for 2026</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 17, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPV1dFVUdIQXdaQlFWenBTMVRUWnUxRW9HM1JMbjg3QUNHb0pmSlhmSmI4cWFHQVp4T2NFNHB6NlpBUmtPQngxVEdDWkNSWHJYYnZpZlY2RkdlYm9nNHFJaHhLQ2ViOC1JQmNPdzZEUHVxQzI5N3cxZFJzblZ5amZmVGY0aw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League Of Legends Patch 26.15 Preview – League Classic And Bel&#39;Veth Rework!</span>
+    <span class="news-src">Hotspawn ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMijAFBVV95cUxPX1NwSGk1YzF6WWpPX3FuTThFdzZMN2NxZ3ViLWRiSzhrSlBQVjZNbVhjZVp5WHlvTmVWTG11cmV6ZlBVUUE0Y3k1ZXVfYWRBLWJLTERHLUt4SmttRUczOW1zZkF2R012bEppd3BHQ013c2lQUC05OWFfUHhubVpSa2ZoT3NpTDNqQ3ItSQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">When is League of Legends Classic Really Taking Place?</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 15, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMifkFVX3lxTE4yRmhrZzIwRHFQcFk0b1V1Y2EydmpCT3k0dUhlbXFnZ2dGVVlZYkNEaDhJNWlFazkxN0ptQ0ZaWVdHT2pPY1N4T3lsc3QyT1JUWm1MbkJaOU9yU2Y5OUtrZWplWFlIOE8tOVF0cmFhWXNkaFM0bXUxZEVzVFVidw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">When Does League of Legends Classic Launch?</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilAFBVV95cUxOdmVqR0FWSk4yQjVWVkloSmVFMkVqU2FtY3dfX2c2QlNNUkd0OVZWMUpCU2k1cEhEM2JPTzVsb0VSYmNrc01yVGpBejgxTDBvOEdhWDQxT0doaU9rMWMzSkNuVFB1TEY2MVozY3YtaldOZmduTkt5cmZmUHRTQkIxQXBoQ252NEQ3TFBueE5UcXpieENp?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Everything You Need to Know About League of Legends Classic</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxNbGFyNXFrQ05ST3ZjN2RaTVNKTWk5TURvd3ppb0E1S0FGQzRWRWh3bDFzbl9zQzg2eDZMMUk0WEpLTC0zMjhaZ0MtTXB5eXhTU1l1c19nbWFuWE5KWGEyRFA2eGkteG9XZVlkMEVqR2ZjbjJnc1FDVE5nWXlwVkdxNWg1Vkg2QWxJd3A5NHhGblZ1RFZCNVdXUzZzaFFUNUFyaEp2eTFmV1JZY3pCaXhMVU02U09NUnFKMjdCWW54b1dWZWRtRlRlQWt2M0c1MWlQSXIwZm8tWEstcTJlcVE?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">All of the League of Legends Classic Champions That Are Confirmed, And All of the Eligible Ones For Future Releases</span>
+    <span class="news-src">GameGrin ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMivAFBVV95cUxPYWlRTlA0blgtYklSaVhpWGpvUUJ5U1BhUy1RZTlsM05xcy1lejEyc1JEYXMyeDhVVW1iVXJaZG0wcUh3RmQ0empCWmFRS0lpUnM4amdlR1ZULVRqeXRXbmpEM19ocXVTdTFIQmVZaE11TUticHBGN1pkQzRXa0xKVW1LVnVKenNBaUlNcnRMMGhsVXozWUdqbEpPMFVqTXdUc1lLZGtEMzRxWFpGVzRfX0RuNXdMNFpXTUo5dQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Games Launches League of Legends Classic on July 29 With Season 3 Style Gameplay</span>
+    <span class="news-src">gHacks ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMimAFBVV95cUxPSGlCdGhyTTJ1VXQ1WG50VERHU1NNYWs1aUpQeW1GcEZUQVVGUmJuQWZRek1wR3llYVhXNXZ3TThnQkN6TkJNdmQ3bXJpLTFXdWtVZGhPNjVBN1R6c2RmQ3RybWJPYmRyQ0ZuNEJveDJCZTEyWDA1V1NiOGt0UXdkNTNEOFFPUThiUG12VktYX3hYVVZMTWpETw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot is reviving old League of Legends even as it prepares the game&#39;s biggest overhaul ever</span>
+    <span class="news-src">TechSpot ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 14, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigAFBVV95cUxPYmE2QzV4UGc5V2lMU0tSeGI3NDEzcUZmMms3aVNNemdnZVVzejlrMmZiTHRrYzVIUmp0UnNILUFIUUctVHRMMlluRmxFRDlWNko0MzdRTmp6eTIzcGtYZHkwOC16eURxUElqSURwZWJJcXNqbEItS3JsLTFXUE5wbw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LEAGUE OF LEGENDS CLASSIC RELEASES IN PATCH 26.15</span>
+    <span class="news-src">Games Press ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPMWl6clU0ZDR1LUg3SjNwZVpzUWtRczVucVRCLXY2dkx0VXljNXB6QkN0WVJVaUJXZ3VtOHlMMVNWZzQ0NEVYMmdpc010blJRLVMwQjB4SUtYUDZ1ZEZmVDgxbWoxejR5VFpDWDFCRUpYUlRYQkNjR0FReHRtbklfMkJVNVc0dW1ua1d1aTNlb1VXQjdCZkdZ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">Patch 26.14 Notes</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMigwFBVV95cUxPbmtGbkVBRTR0RGt0TWRYVzJ1cHlheG1Qb1VuTUoxOGJlUkl0cnAwOFJyUE8wNXd3WkRhRkNXQzFCYlp4Zm5kdmZLbVFtTlVuSG9md3lISUg4YzcwZUVGUmQtenJ6RmNSQTd1Sjd0cl9hSlFQUFZBeTlUNkJ0UnhjalRISQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">/dev: League of Legends Classic</span>
+    <span class="news-src">League of Legends ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMinwFBVV95cUxNVWRaV0VqT3hBWFNHbzdSMl8tZUVna2s0OXFHRFRZTGc2bU9nbFNVZWhOX0hRZXlLcVBuaFZMb3gza0tSeUg3R3BmZFhaSlVVYnFGY2RQUWJrai0wR3VMYkppakJTME1kbXZKeEsxSGhBaGNuejhmdEcwYmV2TFRORnZMbWVVVFNpSlNCVlFkQkZvMXpRbGZFYVlWWnFlVEU?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">The future of League of Legends Classic is in your hands</span>
+    <span class="news-src">Polygon.com ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMieEFVX3lxTE05YkZsdVl6VzdFakhnc0xkUVBYYkNUa1FVRHFfLXdlcnJEME9tVWc1S3B3M1BETmIxRFdtdkljdGdScTVEdFBPNEtnUzV2LWV1R0Zwc2ltSDY3QjFmVXZSbFdCVXBvZ2pERUUtUzcwZE1tUURvS2kzRw?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends Patch 26.14: Locke Nerfs and More</span>
+    <span class="news-src">Insider Gaming ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMiywFBVV95cUxQS01rVlNWRl9xdHJiaUI0OWt3N1Fmb1pDc3pGYWF0MzNLb0pvdzFuMTQzX2d0WnZNYUxweTZrSHZRYVVjR2NrMTNrM052TnkxNC1fVjI3eTUtR1FKLWIyX3RjMkl1cmJVb2xsRHU4WXBaWFJqR0kxSTBsbXh4d0J0LWp1TDkzdUNWZy05WUEtRXJGTlpvczJWLU9ncmZQV3doZDAtbTFJZGN3Y3dYWEF4ZVg1ODZhMFhrUm9EY2lNVW5sN3VxaUUwVGtpVQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news">
+    <span class="news-tag" data-tag="news">News</span>
+    <span class="news-title">Riot Games will launch League of Legends Classic on July 29 with an initial roster of 60 champs</span>
+    <span class="news-src">Massively Overpowered ↗</span>
+  </a>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMirAFBVV95cUxQWmNZV0E1bmhGRUt3WlR3NWYtS2xxdDVGdjVuTVpkSVhfQlBhQmp1aEVMLVI4eHVJeDR3ZUhOZE44NlJSa2NIM3dDb3VBaE82cE1JX0tmcGRQc18zLUZRZktYQnRKX0NRWDU3OEV2cWVBcUxIQUdZNmotQmxyN3JiY3lLdV81M0Z5blJmTWZjd3lRX2xDZDdLekVmT1lRVVlCWjZHZnFNSGUxTGhQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">League of Legends - Official Dev Update: Classic, Mayhem &amp; More Video</span>
+    <span class="news-src">IGN Southeast Asia ↗</span>
+  </a>
+  
+  
+  <h2 class="news-day">July 8, 2026</h2>
+  
+  <a class="news-item" href="https://news.google.com/rss/articles/CBMirwFBVV95cUxPamNmdDRXWThUNzd1bDBWZ0JLM1lURklYZ25wbnBRV2ZjZW1EVFotNGptM1pzQnBUUlVGNnFpYUFqbkxmWnh3NmhPdm5wY05xZUI0VlJIeTcxZE9qa3NmRnpER2h0bDVyVlJORHZSSlpNOXFXSFhpdWVHV1RfYUtMVTlXVHNLeUc3TjNpamplUlRuVWVfWHQ0dHFVV0NwSnA5LU44WGVVdW1Nc0ZlaTFv?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch">
+    <span class="news-tag" data-tag="patch">Patches</span>
+    <span class="news-title">LoL Patch 26.14 Preview: Botlane mages stay, Locke early game nerfed</span>
+    <span class="news-src">sheepesports.com ↗</span>
+  </a>
+  
+  
+</div>
+<p class="wow-note">The list is refreshed with every site update and the history is kept. BrokenMeta.gg is not affiliated with Riot Games or the outlets cited: only the title, date and a link to the source are shown.</p>
+<script>
+(function () {
+  var chips = document.querySelectorAll('.news-chip'), items = document.querySelectorAll('.news-item'), days = document.querySelectorAll('.news-day');
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var tag = c.getAttribute('data-tag');
+      chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
+      items.forEach(function (i) { i.hidden = !!tag && i.getAttribute('data-tag') !== tag; });
+      days.forEach(function (d) { var n = d.nextElementSibling, any = false; while (n && n.classList.contains('news-item')) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+    });
+  });
+})();
+</script>
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../tft/">Comp List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossary</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyze your profile</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Discord Alerts</a>
+      <a href="../../../methodologie/">Methodology</a>
+      <a href="../../../confidentialite/">Privacy</a>
+      <a href="../../../cgu/">Terms</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Generated on 2026-09-22 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">BrokenMeta.gg isn&#39;t endorsed by Riot Games and doesn&#39;t reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/site-search.js?v=a948a67477" defer></script>
+<script src="../../../assets/js/favorites.js?v=a948a67477" defer></script>
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
