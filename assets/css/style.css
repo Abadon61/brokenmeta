@@ -2850,6 +2850,10 @@ footer { border-top: 1px solid var(--border); background: transparent; }
 
   @media (max-width: 1599px) { .dash-shares { grid-template-columns: 1fr; } }
 
+  /* Actualités de l'accueil : 2 tuiles visibles (les plus récentes), les anciennes en défilant */
+  .dash-cols .wf-grid { overflow-y: auto; overscroll-behavior: contain; scroll-snap-type: y proximity; padding-right: 8px; scrollbar-width: thin; scrollbar-color: #34419f transparent; }
+  .dash-cols .wf-card { scroll-snap-align: start; }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
