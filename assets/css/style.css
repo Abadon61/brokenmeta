@@ -2661,6 +2661,195 @@
 .news-own .news-src { color: #b9a5ff; }
 
 
+
+  /* ================= Thème dashboard (2026-10-05) : surcouche finale, voir sidebar/panneaux ================= */
+/* BrokenMeta -- thème "dashboard" (maquette locale, surcouche pure CSS).
+   DA : bleu nuit profond, panneaux arrondis à fine bordure bleue, sidebar à gauche avec item actif
+   en bleu électrique, bandeau haut avec recherche + boutons, pastilles de statut colorées. */
+
+:root {
+  --bg: #070a2b;
+  --bg-2: #0d1245;
+  --row: #0d1245;
+  --row-hover: #172073;
+  --border: #1e2772;
+  --border-bright: #34419f;
+  --magenta: #2a63ff;
+  --magenta-dim: rgba(42, 99, 255, 0.16);
+  --cyan: #cfe0ff;
+  --cream: #e9eeff;
+  --text-dim: #a6b2e6;
+  --text-faint: #7785cb;
+  --dash-side: 252px;
+  --dash-radius: 14px;
+  --dash-glow: 0 0 0 1px rgba(80, 110, 255, .06), 0 10px 30px rgba(2, 4, 30, .55);
+}
+::selection { background: #2a63ff; color: #fff; }
+
+body {
+  background:
+    radial-gradient(900px 500px at 85% -10%, rgba(42, 99, 255, .14), transparent 60%),
+    radial-gradient(700px 500px at 0% 100%, rgba(120, 60, 255, .10), transparent 60%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* ---------- Panneaux (toutes les "cartes" du site) ---------- */
+.ph, .ph-fiche, .wh-card, .lh-card, .wow-rank-row, .wf, .wh-share, .wow-facts > div,
+.wow-table-wrap, .wow-count {
+  border-radius: var(--dash-radius);
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, #101650 0%, #0b0f3d 100%);
+  box-shadow: var(--dash-glow);
+}
+.ph, .ph-fiche {
+  border-color: var(--border-bright);
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(42, 99, 255, .22), transparent 60%),
+    linear-gradient(180deg, #111852 0%, #0a0e3a 100%);
+}
+.wh-card, .lh-card, .wow-rank-row { transition: border-color .15s ease, transform .15s ease, box-shadow .15s ease; }
+.wh-card:hover, .lh-card:hover, .wow-rank-row:hover {
+  border-color: #4a63ff; transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(74, 99, 255, .35), 0 12px 28px rgba(8, 14, 90, .6);
+}
+.wh-card { border-left-width: 1px; position: relative; overflow: hidden; }
+.wh-card::before { content: ''; position: absolute; left: 0; top: 12px; bottom: 12px; width: 3px; border-radius: 0 3px 3px 0; background: var(--cc, #2a63ff); }
+.wh-card-icon, .lh-card-icon, .wh-card-trio img { border-radius: 10px; }
+
+/* Titres de section façon en-tête de widget : petite capitale + pastille bleue */
+.lh-h2, .fiche-section-title {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 12.5px !important; letter-spacing: .14em; text-transform: uppercase; color: var(--cyan);
+  margin: 30px 0 14px !important; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.lh-h2::before, .fiche-section-title::before {
+  content: ''; width: 8px; height: 8px; border-radius: 50%; flex: none;
+  background: #2a63ff; box-shadow: 0 0 10px 2px rgba(42, 99, 255, .7);
+}
+
+/* Boutons : bleu électrique */
+.nav-cta-button, .btn, .ph-cta, .wh-cta, a.cta {
+  border-radius: 9px; background: #1f5bff; color: #fff; box-shadow: 0 0 18px rgba(31, 91, 255, .45);
+}
+.nav-cta-button:hover, .nav-cta-button[data-active="true"] { background: #3b73ff; }
+
+/* Tableaux */
+.wow-table-wrap { overflow: hidden; padding: 4px 6px; }
+.wow-table th { color: var(--text-faint); font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase; }
+.wow-table tr:hover td { background: rgba(42, 99, 255, .08); }
+
+/* Grilles denses de dashboard */
+.page { max-width: 1320px; }
+.wh-cards, .lh-cards { gap: 12px; }
+.wow-rank-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 10px; }
+
+footer { border-top: 1px solid var(--border); background: transparent; }
+
+/* ====================== Layout dashboard (bureau) ====================== */
+@media (min-width: 1100px) {
+  /* Sidebar = ancienne barre de menu, verticale, fixée à gauche */
+  .navbar {
+    position: fixed; z-index: 40; left: 0; top: 0; bottom: 0; width: var(--dash-side);
+    display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; flex-wrap: nowrap;
+    padding: 88px 14px 18px; gap: 6px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #34419f transparent; border: 0; border-right: 1px solid var(--border);
+    background: linear-gradient(180deg, #131a78 0%, #0c1050 55%, #090c38 100%);
+    box-shadow: 8px 0 40px rgba(2, 4, 30, .5);
+  }
+  .navbar .title {
+    font-size: 10.5px; letter-spacing: .18em; color: var(--text-faint) !important;
+    padding: 0 12px 8px; border-bottom: 1px solid rgba(120, 140, 255, .15); margin-bottom: 4px;
+  }
+  .navbar .sep { display: none; }
+  .navbar-right { display: flex !important; flex-direction: column; align-items: stretch; gap: 10px; flex: 1; min-height: 0; }
+  .nav-menu { flex-direction: column; align-items: stretch; gap: 2px; }
+  .navbar--center .navbar-right, .navbar--center .nav-menu, .navbar--center .nav-cta-button { display: flex; grid-column: auto; justify-self: auto; }
+  .nav-link, .nav-dropdown > summary {
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 10px;
+    font-size: 13px; letter-spacing: .04em; color: #c9d3ff; transition: background .14s ease, color .14s ease;
+  }
+  .nav-link::before, .nav-dropdown > summary::before {
+    content: ''; width: 16px; height: 16px; flex: none; border-radius: 5px;
+    border: 1.5px solid currentColor; opacity: .55;
+  }
+  .nav-link:hover, .nav-dropdown > summary:hover { background: rgba(80, 110, 255, .16); color: #fff; }
+  .nav-link[data-active="true"], .nav-dropdown[data-active="true"] > summary {
+    background: #1f5bff; color: #fff; box-shadow: 0 6px 20px rgba(31, 91, 255, .5);
+  }
+  .nav-link[data-active="true"]::before, .nav-dropdown[data-active="true"] > summary::before { opacity: 1; background: rgba(255,255,255,.2); }
+  .nav-dropdown > summary::after { margin-left: auto; }
+  /* Sous-menus en accordéon dans la colonne (comme un menu burger), plus de flyout */
+  .nav-dropdown-menu {
+    position: static; transform: none; min-width: 0; margin: 2px 0 6px 18px; padding: 4px 0 4px 10px;
+    border: 0; border-left: 1px solid rgba(120, 140, 255, .28); border-radius: 0; background: transparent; box-shadow: none;
+  }
+  .nav-dropdown-menu a { color: #c9d3ff; border: 0; padding: 7px 10px; border-radius: 8px; font-size: 12px; white-space: normal; }
+  .nav-dropdown-menu a:hover { background: rgba(80, 110, 255, .16); color: #fff; }
+  .nav-dropdown[open] > summary { background: rgba(80, 110, 255, .16); color: #fff; }
+  .nav-cta-button { margin-top: auto; flex: none; justify-content: center; padding: 11px 14px; border-radius: 10px; }
+
+  /* Bandeau haut : logo sur la sidebar, recherche/boutons à droite */
+  .wordmark { position: fixed; z-index: 50; left: 22px; top: 22px; }
+  .topbar .wordmark { z-index: 60; }
+  .topbar {
+    margin-left: var(--dash-side); padding: 14px 28px; gap: 16px;
+    background: #070a2b;
+    border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 45;
+  }
+  .game-toggle { display: flex; padding: 4px; border-radius: 11px; background: #0d1245; border: 1px solid var(--border); }
+  .game-toggle-btn { border-radius: 8px !important; }
+  .site-search-wrap input, .site-search-wrap { border-radius: 10px; }
+  .topbar-right { margin-left: auto; }
+
+  .wow-specbar {
+    margin-left: var(--dash-side); background: rgba(10, 14, 58, .7); border-bottom: 1px solid var(--border);
+  }
+  .wow-spec-link { border-radius: 9px; }
+  .page, footer { margin-left: var(--dash-side); margin-right: 0; }
+  .page { max-width: none; padding: 26px 32px 70px; }
+  footer { padding-left: 32px; }
+}
+
+
+  /* ---------- Accueil WoW : widgets dashboard ---------- */
+  .dash-kpis { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin: 0 0 20px; }
+  .dash-kpi {
+    position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 6px; padding: 16px 18px 16px;
+    border-radius: var(--dash-radius); border: 1px solid var(--border); box-shadow: var(--dash-glow);
+    background: radial-gradient(120% 120% at 100% 0%, color-mix(in srgb, var(--kc) 22%, transparent), transparent 60%), linear-gradient(180deg, #101650, #0b0f3d);
+  }
+  .dash-kpi::after { content: ''; position: absolute; left: 18px; right: 18px; bottom: 0; height: 3px; border-radius: 3px 3px 0 0; background: var(--kc); box-shadow: 0 0 14px var(--kc); }
+  .dash-kpi-k { display: flex; align-items: center; gap: 8px; font: 700 10.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .1em; color: var(--text-faint); }
+  .dash-kpi-k i { width: 8px; height: 8px; border-radius: 50%; background: var(--kc); box-shadow: 0 0 9px var(--kc); flex: none; }
+  .dash-kpi b { font-family: 'Cal Sans', sans-serif; font-size: 22px; line-height: 1.15; color: #fff; }
+  .dash-kpi b.nums { font-size: 34px; }
+  .dash-kpi-s { font-size: 12.5px; color: var(--text-dim); }
+  .dash-cols { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; align-items: start; margin-bottom: 20px; }
+  .dash-cols .wf { border: 0; background: none; box-shadow: none; padding: 0; margin: 0; }
+  .dash-cols .wf-grid { grid-template-columns: 1fr; }
+  .dash-panel { padding: 18px 20px 16px; border-radius: var(--dash-radius); border: 1px solid var(--border); box-shadow: var(--dash-glow); background: linear-gradient(180deg, #101650, #0b0f3d); }
+  .dash-panel .lh-h2:first-child { margin-top: 0 !important; }
+  .dash-panel .wow-rank-list { grid-template-columns: 1fr; max-height: 520px; overflow-y: auto; padding-right: 6px; scrollbar-width: thin; scrollbar-color: #34419f transparent; }
+  .dash-panel .wow-rank-row { box-shadow: none; }
+  .dash-shares { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-bottom: 20px; }
+  .dash-shares .wh-share { margin: 0; }
+  @media (max-width: 1100px) { .dash-cols { grid-template-columns: 1fr; } .dash-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .dash-shares { grid-template-columns: 1fr; } .dash-kpi b.nums { font-size: 28px; } }
+
+  /* Menu sidebar : pas de soulignement, icônes de métiers, niveau des donjons à droite */
+  .navbar a, .navbar a:hover, .navbar a:focus { text-decoration: none; }
+  .navbar a.nav-link::after { display: none; }
+  .nav-dropdown-menu a { display: flex; align-items: center; gap: 10px; }
+  .nav-sub-icon { width: 20px; height: 20px; border-radius: 5px; flex: none; object-fit: cover; border: 1px solid rgba(120, 140, 255, .35); }
+  .nav-sub-lvl { margin-left: auto; padding-left: 8px; flex: none; font-size: 10.5px; color: var(--text-faint); letter-spacing: .02em; }
+  @media (min-width: 1100px) { :root { --dash-side: 296px; } }
+
+  .wh-share-profs { flex-wrap: wrap; }
+  .wh-prof-icons { display: grid; grid-template-columns: repeat(3, 40px); gap: 6px; flex: none; }
+  .wh-prof-icons img { width: 40px; height: 40px; border-radius: 10px; border: 1px solid rgba(120, 140, 255, .4); box-shadow: 0 4px 12px rgba(2, 4, 30, .5); }
+
+  @media (max-width: 1599px) { .dash-shares { grid-template-columns: 1fr; } }
+
   .page-h1 { font-family: 'Cal Sans', sans-serif; font-size: 26px; text-transform: uppercase; letter-spacing: 0.01em; margin: 6px 0 10px; }
   .page-intro { font-size: 13.5px; color: var(--text-dim); line-height: 1.6; max-width: 720px; margin: 0 0 22px; }
   a.comp-row, a.champ-comp-row { text-decoration: none; color: inherit; }
