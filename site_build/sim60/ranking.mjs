@@ -27,7 +27,7 @@ const SPECS = {
   hunter_marksmanship: { cls: 'hunter', mode: 'ranged', family: 'hunter', build: { pet: 'none' } }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged', family: 'hunter' },
   hunter_survival: { cls: 'hunter', mode: 'ranged', family: 'hunter' }, hunter_melee: { cls: 'hunter', variant: 'melee', mode: 'dw' },
   priest_shadow: { cls: 'priest', mode: 'caster', family: 'caster' }, shaman_elemental: { cls: 'shaman', mode: 'caster', family: 'caster', race: 'orc' },
-  shaman_enhancement: { cls: 'shaman', variant: 'enhancement', mode: 'dw', race: 'orc' }, druid_balance: { cls: 'druid', mode: 'caster', family: 'caster' },
+  shaman_enhancement: { cls: 'shaman', variant: 'enhancement', mode: '2h', race: 'orc' }, druid_balance: { cls: 'druid', mode: 'caster', family: 'caster' },
   druid_feral: { cls: 'druid', variant: 'feral', mode: 'stick' }, paladin_retribution: { cls: 'paladin', mode: '2h' },
   warrior_protection: { cls: 'warrior', variant: 'protection', mode: 'tank', tank: true }, paladin_protection: { cls: 'paladin', variant: 'protection', mode: 'tank', tank: true },
   druid_bear: { cls: 'druid', variant: 'bear', mode: 'stick', tank: true },
@@ -43,21 +43,27 @@ for (const [id, S] of Object.entries(SPECS)) {
   const build = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], PRESETS[id])), S.build || {});
   const kit = () => makeKit(id, build, data);
   const character = { class: S.cls, variant: S.variant, race: S.race || 'human', gear: [], weapons: [], buffs: family.buffs, consumables: family.consumables, debuffs: family.debuffs, effects: fx };
-  const res = optimizeGear({
-    pool, character, kit, fightLen: FIGHT, iterations: 500, prefilter: 4, maxPasses: 2, weaponMode: S.mode,
-    caster: S.mode === 'caster', ranged: S.mode === 'ranged', stick: S.mode === 'stick', tank: !!S.tank, objective: S.tank ? objectiveTank : undefined,
-  });
-  const done = await res;
-  // rebuild the final character the way the page applies an optimizer result
-  const gear = done.gear.slice(), weapons = [];
-  for (const w of done.weapons) {
-    const it = pool.byId.get(w.id);
-    if (w.slot === 'rng') weapons.push(toWeapon(it, false));
-    else if (w.slot === 'th' && (S.mode === 'caster' || S.mode === 'ranged' || S.mode === 'stick')) gear.push({ slot: 'th', id: it.id, name: it.name, st: it.st });
-    else weapons.push(toWeapon(it, w.slot === 'oh'));
-  }
-  const ch = buildCharacter({ ...character, gear, weapons });
-  const r = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kit }, FINAL, 7);
+  // a spec can be played with several weapon setups (Enhancement: dual wield or two-hand): the ranking keeps the best one, as a player would
+  const tryMode = async (mode) => {
+    const done = await optimizeGear({
+      pool, character, kit, fightLen: FIGHT, iterations: 500, prefilter: 4, maxPasses: 2, weaponMode: mode,
+      caster: mode === 'caster', ranged: mode === 'ranged', stick: mode === 'stick', tank: !!S.tank, objective: S.tank ? objectiveTank : undefined,
+    });
+    // rebuild the final character the way the page applies an optimizer result
+    const gear = done.gear.slice(), weapons = [];
+    for (const w of done.weapons) {
+      const it = pool.byId.get(w.id);
+      if (w.slot === 'rng') weapons.push(toWeapon(it, false));
+      else if (w.slot === 'th' && (mode === 'caster' || mode === 'ranged' || mode === 'stick')) gear.push({ slot: 'th', id: it.id, name: it.name, st: it.st });
+      else weapons.push(toWeapon(it, w.slot === 'oh'));
+    }
+    const ch = buildCharacter({ ...character, gear, weapons });
+    const r = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kit }, FINAL, 7);
+    return { done, gear, weapons, ch, r, mode };
+  };
+  let best = null;
+  for (const m of S.modes || [S.mode]) { const x = await tryMode(m); if (!best || x.r.mean > best.r.mean) best = x; }
+  const { done, gear, weapons, ch, r } = best;
   // ---- data of the spec's detail page: talents, gear, stats, damage by ability, the opening ----
   const talents = [];
   for (const [tn, rk] of Object.entries(PRESETS[id])) {

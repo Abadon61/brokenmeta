@@ -194,7 +194,8 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         stats += [(L[0], _fmt_int(tank.get("defense", 0))), (L[1], pct(tank.get("dodge", 0))), (L[2], pct(tank.get("parry", 0))), (L[3], pct(tank.get("block", 0))),
                   (L[4], _fmt_int(tank.get("blockValue", 0))), (L[5], _fmt_int(tank.get("armor", 0)))]
         kpis = []
-    opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"]]
+    # weapon procs named like a class spell (the Gatorbite Axe's "Rend") are not part of the rotation
+    opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"] and not (o["n"] == "Rend" and r["class_id"] != "warrior")]
     pg = {
         "title": rx["title"].format(cls=r["class_name"], spec=r["spec_name"]), "desc": rx["desc"].format(cls=r["class_name"], spec=r["spec_name"]),
         "h1": rx["h1"].format(cls=r["class_name"], spec=r["spec_name"]), "intro": rx["intro"].format(cls=r["class_name"], spec=r["spec_name"]),

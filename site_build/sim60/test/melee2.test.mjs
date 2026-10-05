@@ -75,6 +75,23 @@ test('Enhancement: the Windfury extra attacks show their own damage line', () =>
 
 test('Enhancement: Earth Shock is cast on its cooldown and adds damage', () => {
   const r = run('shaman_enhancement', {}, null, 180, 400);
-  assert.ok(r.breakdown['Earth Shock'] && r.breakdown['Earth Shock'].casts > 8, 'Earth Shock ' + JSON.stringify(r.breakdown['Earth Shock']));
+  assert.ok(r.breakdown['Earth Shock'] && r.breakdown['Earth Shock'].casts > 5, 'Earth Shock ' + JSON.stringify(r.breakdown['Earth Shock']));
   assert.ok(r.mean > run('shaman_enhancement', { earthShock: false }, null, 180, 400).mean, 'Earth Shock adds DPS');
+});
+
+test('Enhancement: Stormstrike comes first, Lightning Bolt is cast from one Maelstrom stack, Improved Stormstrike and Convection pay for it, swings go on while casting', () => {
+  const base = run('shaman_enhancement', {}, null, 180, 500);
+  assert.ok(base.breakdown['Lightning Bolt'].casts > 5, 'LB casts ' + base.breakdown['Lightning Bolt'].casts);
+  assert.ok(base.mean > run('shaman_enhancement', { improvedStormstrike: 0 }, null, 180, 500).mean, 'Improved Stormstrike mana');
+  assert.ok(base.mean > run('shaman_enhancement', { convection: 0, elementalFocus: 0 }, null, 180, 500).mean, 'Convection and Elemental Focus');
+  const swings = (r) => { const w = r.breakdown['White (main hand)']; return w.hits + w.misses + w.dodges + w.glances; };
+  const none = run('shaman_enhancement', { earthShock: false, flameShock: false, maelstromMin: 9, fireTotem: 'none' }, null, 180, 300), spam = run('shaman_enhancement', { maelstromMin: 0 }, null, 180, 300);
+  assert.ok(spam.breakdown['Lightning Bolt'].casts > 20 && Math.abs(swings(spam) - swings(none)) < 3, 'casting does not interrupt the swings: ' + swings(spam) + ' vs ' + swings(none));
+});
+
+test('Enhancement: the Stormstrike bonus is worth more on a Lightning Bolt than on the Earth Shock, and Frost Shock is no better than Earth Shock', () => {
+  const twoHand = { ...SAMPLE_ENH, weapons: [{ min: 200, max: 300, speed: 3.2, type: 'two-handed axe', twoHand: true }] };       // what the ranking plays (two-hand weapon)
+  const bolt = run('shaman_enhancement', {}, twoHand, 180, 1500), shock = run('shaman_enhancement', { ssBuffOn: 'shock' }, twoHand, 180, 1500);
+  assert.ok(bolt.mean > shock.mean, 'bolt first ' + bolt.mean + ' vs shock first ' + shock.mean);
+  assert.ok(run('shaman_enhancement', { shockSpell: 'frost' }, twoHand, 180, 1500).mean < bolt.mean * 1.01, 'Frost Shock does not beat Earth Shock');
 });

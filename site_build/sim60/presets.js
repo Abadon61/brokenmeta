@@ -11,11 +11,11 @@ export const BUFFS = {
   blessing_of_might: { name: 'Blessing of Might', ap: 185, assumed: true },
   blessing_of_kings: { name: 'Blessing of Kings', statMult: 1.10, assumed: true },
   mark_of_the_wild: { name: 'Mark of the Wild', str: 12, agi: 12, sta: 12, int: 12, spi: 12, assumed: true },
-  strength_of_earth: { name: 'Strength of Earth Totem', str: 77, assumed: true },
-  grace_of_air: { name: 'Grace of Air Totem', agi: 77, assumed: true },
+  strength_of_earth: { name: 'Strength of Earth Totem', str: 53 },          // Forever client value (rank at level 60)
+  grace_of_air: { name: 'Grace of Air Totem', agi: 89 },                    // Forever client value (rank at level 60)
   leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, meleeOnly: true, assumed: true },
   blessing_of_wisdom: { name: 'Greater Blessing of Wisdom', mp5: 40 },        // 40 mana per 5 s: Forever client value
-  mana_spring_totem: { name: 'Mana Spring Totem', mp5: 62, assumed: true },                     // Classic rank 3 (25 per 2 s), ASSUMED
+  mana_spring_totem: { name: 'Mana Spring Totem', mp5: 25 },                                    // Forever client: 10 mana per 2 s at the top rank (level 56)
   arcane_intellect: { name: 'Arcane Brilliance (Arcane Intellect)', int: 31, assumed: true },
   moonkin_aura: { name: 'Moonkin Aura', spCrit: 0.03, assumed: true },
   trueshot_aura: { name: 'Trueshot Aura', ap: 100, assumed: true },
@@ -62,7 +62,7 @@ export const PRESET_HUNTER = {
 };
 
 export const PRESET_RAID = {
-  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'leader_of_the_pack'],
+  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'mana_spring_totem', 'blessing_of_wisdom', 'leader_of_the_pack'],
   consumables: ['elixir_mongoose', 'juju_power', 'juju_might', 'roids'],
   debuffs: ['sunder_armor_5', 'faerie_fire'],
 };
