@@ -21,7 +21,7 @@
 
   var SPECS = { warrior_fury: { cls: 'warrior', mode: 'dw' }, warrior_arms: { cls: 'warrior', mode: '2h' }, rogue_combat: { cls: 'rogue', mode: 'dw' }, rogue_assassination: { cls: 'rogue', mode: 'dw' }, rogue_subtlety: { cls: 'rogue', mode: 'dw' },
     warrior_protection: { cls: 'warrior', mode: 'tank', variant: 'protection' }, paladin_protection: { cls: 'paladin', mode: 'tank', variant: 'protection' }, druid_bear: { cls: 'druid', mode: 'stick', variant: 'bear' },
-    paladin_retribution: { cls: 'paladin', mode: '2h' }, shaman_enhancement: { cls: 'shaman', mode: 'dw', variant: 'enhancement' }, druid_feral: { cls: 'druid', mode: 'stick', variant: 'feral' },
+    paladin_retribution: { cls: 'paladin', mode: '2h' }, shaman_enhancement: { cls: 'shaman', mode: '2h', variant: 'enhancement' }, druid_feral: { cls: 'druid', mode: 'stick', variant: 'feral' },
     priest_shadow: { cls: 'priest', mode: 'caster' }, shaman_elemental: { cls: 'shaman', mode: 'caster' }, druid_balance: { cls: 'druid', mode: 'caster' },
     hunter_melee: { cls: 'hunter', mode: 'dw', variant: 'melee' },
     hunter_marksmanship: { cls: 'hunter', mode: 'ranged' }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged' }, hunter_survival: { cls: 'hunter', mode: 'ranged' },
