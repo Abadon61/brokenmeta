@@ -179,13 +179,15 @@
 {% if wow_slug == '' %}
 <script>
 (function () {
-  var g = document.querySelector('.dash-cols .wf-grid'); if (!g) return;
+  var g = document.querySelector('.dash-cols .wf-grid'), side = document.querySelector('.dash-col-side'); if (!g || !side) return;
   function fit() {
-    var c = g.children; if (c.length < 3 || window.innerWidth < 1100) { g.style.maxHeight = ''; return; }
-    g.style.maxHeight = (c[1].offsetTop + c[1].offsetHeight - c[0].offsetTop + 2) + 'px';
+    if (window.innerWidth < 1100) { g.style.maxHeight = ''; return; }
+    g.style.maxHeight = '';
+    var h = side.offsetHeight - (g.getBoundingClientRect().top - g.closest('.dash-col-main').getBoundingClientRect().top);
+    if (h > 200 && g.scrollHeight > h) g.style.maxHeight = h + 'px';
   }
   fit(); window.addEventListener('resize', fit); window.addEventListener('load', fit);
-  Array.prototype.forEach.call(g.querySelectorAll('img'), function (i) { i.addEventListener('load', fit); });
+  Array.prototype.forEach.call(document.querySelectorAll('.dash-cols img'), function (i) { i.addEventListener('load', fit); });
 })();
 (function () {
   var box = document.getElementById('wowCount'); if (!box) return;
