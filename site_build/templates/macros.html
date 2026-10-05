@@ -89,14 +89,14 @@
   <summary class="nav-link">Professions</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if lang == 'fr' else 'All professions' }}</a>
-    {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{{ p.name[lang] }}</a>{% endfor %}
+    {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{% if p.icon %}<img class="nav-sub-icon" src="{{ p.icon }}" alt="" width="20" height="20" loading="lazy">{% endif %}<span>{{ p.name[lang] }}</span></a>{% endfor %}
   </div>
 </details>{% endif %}
 {% if wow_dungeons_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-dungeons' %}data-active="true"{% endif %}>
   <summary class="nav-link">{{ 'Donjons' if lang == 'fr' else 'Dungeons' }}</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if lang == 'fr' else 'All dungeons' }}</a>
-    {% for d in wow_dungeons_nav %}<a href="{{ root }}wow-forever/dungeons/{{ d.id }}/">{{ d.name[lang] }}</a>{% endfor %}
+    {% for d in wow_dungeons_nav %}<a href="{{ root }}wow-forever/dungeons/{{ d.id }}/"><span>{{ d.name[lang] }}</span>{% if d.levels %}<span class="nav-sub-lvl nums">{{ d.levels }}</span>{% endif %}</a>{% endfor %}
   </div>
 </details>{% endif %}
 {% if wow_raids_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-raids' %}data-active="true"{% endif %}>

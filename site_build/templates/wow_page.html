@@ -42,6 +42,16 @@
   </div>
   {{ countdown('wh-count') }}
 </section>
+{% if wow_ranking %}
+<section class="dash-kpis" aria-label="{{ 'Chiffres clés' if fr else 'Key figures' }}">
+  <div class="dash-kpi" style="--kc:#2a63ff"><span class="dash-kpi-k"><i></i>{{ 'Sortie de la bêta' if fr else 'Beta launch' }}</span><b class="nums" id="dashKpiDays">--</b><span class="dash-kpi-s">{{ 'jours restants' if fr else 'days left' }}</span></div>
+  <div class="dash-kpi" style="--kc:#2de6c4"><span class="dash-kpi-k"><i></i>{{ 'Spécialisations classées' if fr else 'Ranked specs' }}</span><b class="nums">{{ wow_ranking|length + (wow_ranking_tanks|length if wow_ranking_tanks else 0) }}</b><span class="dash-kpi-s">{{ 'DPS et tanks simulés' if fr else 'simulated DPS and tanks' }}</span></div>
+  <div class="dash-kpi" style="--kc:{{ wow_ranking[0].class_color or '#ffc23c' }}"><span class="dash-kpi-k"><i></i>{{ 'Meilleur DPS' if fr else 'Top DPS' }}</span><b>{{ wow_ranking[0].class_name }} {{ wow_ranking[0].spec_name }}</b><span class="dash-kpi-s nums">{{ '{:,.0f}'.format(wow_ranking[0].dps).replace(',', ' ' if fr else ',') }} DPS</span></div>
+  {% if wow_ranking_tanks %}<div class="dash-kpi" style="--kc:{{ wow_ranking_tanks[0].class_color or '#c76bff' }}"><span class="dash-kpi-k"><i></i>{{ 'Meilleur tank' if fr else 'Top tank' }}</span><b>{{ wow_ranking_tanks[0].class_name }} {{ wow_ranking_tanks[0].spec_name }}</b><span class="dash-kpi-s nums">{{ '{:,.0f}'.format(wow_ranking_tanks[0].tps).replace(',', ' ' if fr else ',') }} TPS</span></div>{% endif %}
+</section>
+{% endif %}
+<div class="dash-cols">
+<div class="dash-col-main">
 {% if wow_featured %}
 <section class="wf" aria-labelledby="wf-h">
   <div class="wf-head"><h2 class="lh-h2" id="wf-h">{{ 'À la une' if lang == 'fr' else 'Featured' }}</h2><a class="wf-all" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} →</a></div>
@@ -59,28 +69,8 @@
   </div>
 </section>
 {% endif %}
-<aside class="wh-share">
-  <img src="{{ root }}assets/img/icon-192.png" alt="" width="48" height="48" loading="lazy">
-  <div class="wh-share-text">
-    <p class="wh-share-hook">{{ wow_ui.share_hook }}</p>
-    <p class="wh-share-sub">{{ wow_ui.share_sub }}</p>
-  </div>
-  <div class="wh-share-actions">
-    <a class="wh-btn" href="{{ addon_url }}" target="_blank" rel="noopener">{{ wow_ui.addon_cta }} <span aria-hidden="true">↗</span></a>
-    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/addon/">{{ wow_ui.addon_more }} <span aria-hidden="true">→</span></a>
-    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/partager-mes-donnees/">{{ wow_ui.share_cta }} <span aria-hidden="true">→</span></a>
-  </div>
-</aside>
-<aside class="wh-share">
-  <img src="{{ root }}assets/img/game-tft.png" alt="" width="48" height="48" loading="lazy">
-  <div class="wh-share-text">
-    <p class="wh-share-hook">{{ 'Vous cherchez la tier list Teamfight Tactics ?' if fr else 'Looking for the Teamfight Tactics tier list?' }}</p>
-    <p class="wh-share-sub">{{ 'Les compositions TFT les plus performantes, calculées à partir de vraies parties classées.' if fr else 'The best-performing TFT comps, computed from real ranked games.' }}</p>
-  </div>
-  <div class="wh-share-actions">
-    <a class="wh-btn" href="{{ root }}tft/">{{ 'Tier list TFT' if fr else 'TFT tier list' }} <span aria-hidden="true">→</span></a>
-  </div>
-</aside>
+</div>
+<div class="dash-col-side"><section class="dash-panel">
 {% if wow_ranking %}
 <h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
 <p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>
@@ -113,6 +103,32 @@
 {% endif %}
 <p class="wow-note">{{ wow_ui.ranking_note }}</p>
 {% endif %}
+</section></div>
+</div>
+<div class="dash-shares">
+<aside class="wh-share">
+  <img src="{{ root }}assets/img/icon-192.png" alt="" width="48" height="48" loading="lazy">
+  <div class="wh-share-text">
+    <p class="wh-share-hook">{{ wow_ui.share_hook }}</p>
+    <p class="wh-share-sub">{{ wow_ui.share_sub }}</p>
+  </div>
+  <div class="wh-share-actions">
+    <a class="wh-btn" href="{{ addon_url }}" target="_blank" rel="noopener">{{ wow_ui.addon_cta }} <span aria-hidden="true">↗</span></a>
+    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/addon/">{{ wow_ui.addon_more }} <span aria-hidden="true">→</span></a>
+    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/partager-mes-donnees/">{{ wow_ui.share_cta }} <span aria-hidden="true">→</span></a>
+  </div>
+</aside>
+{% if wow_profs_nav %}<aside class="wh-share wh-share-profs">
+  <div class="wh-prof-icons" aria-hidden="true">{% for p in wow_profs_nav[:6] %}{% if p.icon %}<img src="{{ p.icon }}" alt="" width="40" height="40" loading="lazy">{% endif %}{% endfor %}</div>
+  <div class="wh-share-text">
+    <p class="wh-share-hook">{{ 'Découvrez nos guides sur les professions de WoW: Forever' if fr else 'Discover our WoW: Forever profession guides' }}</p>
+    <p class="wh-share-sub">{{ 'Parcours de 1 à 300, matériaux nécessaires et coûts, métier par métier.' if fr else 'Leveling routes from 1 to 300, required materials and costs, profession by profession.' }}</p>
+  </div>
+  <div class="wh-share-actions">
+    <a class="wh-btn" href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if fr else 'All professions' }} <span aria-hidden="true">→</span></a>
+  </div>
+</aside>{% endif %}
+</div>
 <h2 class="lh-h2">{{ wow_ui.pick_spec }}</h2>
 <div class="wh-cards">
   {% for g in wow_guides_nav %}{% for s in g.cls.specs %}
@@ -178,6 +194,7 @@
     cells.s.textContent = pad(s % 60);
     setTimeout(tick, 1000);
   }
+  var kd = document.getElementById('dashKpiDays'); if (kd) kd.textContent = Math.floor(Math.max(0, target - Date.now()) / 86400000);
   tick();
 })();
 </script>
