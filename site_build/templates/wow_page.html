@@ -179,6 +179,15 @@
 {% if wow_slug == '' %}
 <script>
 (function () {
+  var g = document.querySelector('.dash-cols .wf-grid'); if (!g) return;
+  function fit() {
+    var c = g.children; if (c.length < 3 || window.innerWidth < 1100) { g.style.maxHeight = ''; return; }
+    g.style.maxHeight = (c[1].offsetTop + c[1].offsetHeight - c[0].offsetTop + 2) + 'px';
+  }
+  fit(); window.addEventListener('resize', fit); window.addEventListener('load', fit);
+  Array.prototype.forEach.call(g.querySelectorAll('img'), function (i) { i.addEventListener('load', fit); });
+})();
+(function () {
   var box = document.getElementById('wowCount'); if (!box) return;
   var target = Date.parse(box.getAttribute('data-launch'));
   var cells = {};

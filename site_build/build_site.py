@@ -239,7 +239,7 @@ def tile_banner(class_id):
     return "assets/img/wow-class/forever-plain.jpg" if (PROJECT / "logo" / "wow_class_art" / "forever-plain.jpg").exists() else class_banner(None)
 
 
-def build_wow_featured(news_items, wt_classes, lang, n=4):
+def build_wow_featured(news_items, wt_classes, lang, n=12):
     """Cards of the home page's "featured" block (2026-10-04, user request: news with an image, at the top).
     Our own published articles come first, then the newest headlines. Images are always the site's own assets
     (spec / class icons, the WoW: Forever logo, item icons from the game CDN already used site-wide), never a
