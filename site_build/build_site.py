@@ -50,6 +50,7 @@ import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 import wow_sim60_texts  # noqa: E402
 import wow_news  # noqa: E402
+import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
@@ -258,6 +259,30 @@ def build_wow_featured(news_items, wt_classes, lang, n=12):
     # Only our own pages (user, 2026-10-04: a tile sending the reader to Wowhead is a lost visitor). Headlines
     # without a page of ours stay in the full news list.
     return cards[:n]
+
+
+GAME_NEWS_TX = {
+    "tft": {
+        "fr": {"title": "Actualités TFT : patchs, méta et set 18", "desc": "Les dernières actualités de Teamfight Tactics : notes de patch, changements d'équilibrage, méta et compos, mises à jour en continu.",
+               "kicker": "TEAMFIGHT TACTICS", "h1": "Actualités TFT"},
+        "en": {"title": "TFT News: patches, meta and Set 18", "desc": "The latest Teamfight Tactics news: patch notes, balance changes, meta and comps, kept up to date.",
+               "kicker": "TEAMFIGHT TACTICS", "h1": "TFT News"},
+    },
+    "lol": {
+        "fr": {"title": "Actualités League of Legends : patchs et méta", "desc": "Les dernières actualités de League of Legends : notes de patch, changements d'équilibrage, méta et classé, mises à jour en continu.",
+               "kicker": "LEAGUE OF LEGENDS", "h1": "Actualités League of Legends"},
+        "en": {"title": "League of Legends News: patches and meta", "desc": "The latest League of Legends news: patch notes, balance changes, meta and ranked, kept up to date.",
+               "kicker": "LEAGUE OF LEGENDS", "h1": "League of Legends News"},
+    },
+    "common": {
+        "fr": {"all": "Tout", "filter_label": "Filtrer par type",
+               "intro": "Les titres importants du jeu au même endroit : notes de patch, équilibrage, méta et guides, rassemblés depuis la presse spécialisée et les sources officielles. Chaque ligne renvoie à l'article original.",
+               "note": "Liste mise à jour à chaque mise en ligne du site ; l'historique est conservé. BrokenMeta.gg n'est pas affilié à Riot Games ni aux médias cités : seuls le titre, la date et le lien vers la source sont repris."},
+        "en": {"all": "All", "filter_label": "Filter by type",
+               "intro": "The game's key headlines in one place: patch notes, balance, meta and guides, gathered from the specialised press and official sources. Each line links to the original article.",
+               "note": "The list is refreshed with every site update and the history is kept. BrokenMeta.gg is not affiliated with Riot Games or the outlets cited: only the title, date and a link to the source are shown."},
+    },
+}
 
 
 NEWS_TX = {
@@ -6981,6 +7006,14 @@ def main() -> None:
         print(f"[wow_news] refresh failed, using the stored archive: {_e}")
         _news_data = wow_news.load()
     env.globals["wow_news_on"] = bool(_news_data["items"])
+    # TFT / LoL headline feeds (game_news.py), same fallback rule as the WoW feed
+    _game_news = {}
+    for _g in game_news.GAMES:
+        try:
+            _game_news[_g] = game_news.refresh(_g, verbose=True)
+        except Exception as _e:
+            print(f"[game_news] {_g} refresh failed, using the stored archive: {_e}")
+            _game_news[_g] = game_news.load(_g)
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
     env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "simulateur-dps"]
@@ -7429,7 +7462,29 @@ def main() -> None:
                breadcrumb_schema=lol_breadcrumbs(lang),
                ddragon_version=ddragon_version, role_icons=LOL_ROLE_ICON_SVG,
                home={"by_role": _home_by_role, "risers": _home_risers, "fallers": _home_fallers, "popular": _home_popular,
-                     "patch": (PATCHES_LOL[lang] or [None])[0], "hero_champion": {"id": _hero["id"]} if _hero else None})
+                     "patch": (PATCHES_LOL[lang] or [None])[0], "hero_champion": {"id": _hero["id"]} if _hero else None,
+                     "news": [dict(i, date_label=_news_date(i["date"], lang)) for i in game_news.items_for(_game_news["lol"], lang)[:5]]})
+
+        for _g, _gpath, _gnav, _gsub in (("tft", "/tft/actualites/", "tnews", None), ("lol", "/league/actualites/", "league", "lol-news")):
+            _gitems = game_news.items_for(_game_news[_g], lang)
+            if not _gitems:
+                continue
+            _gtx = {**GAME_NEWS_TX[_g][lang], **GAME_NEWS_TX["common"][lang]}
+            assert len(_gtx["title"]) <= 60 and len(_gtx["desc"]) <= 155
+            _grows = [dict(i, date_label=_news_date(i["date"], lang), tag_label=game_news.TAGS[i["tag"]][0 if lang == "fr" else 1], source_label=i["source"], own_href=None) for i in _gitems]
+            _gdays = []
+            for _r in _grows:
+                if not _gdays or _gdays[-1][0] != _r["date_label"]:
+                    _gdays.append((_r["date_label"], []))
+                _gdays[-1][1].append(_r)
+            _gtags = [{"id": k, "label": v[0 if lang == "fr" else 1], "n": sum(1 for r in _grows if r["tag"] == k)} for k, v in game_news.TAGS.items()]
+            _gurl = canonical_for(_gpath, lang)
+            render("game_news.html", _gpath, lang, active_nav=_gnav, active_sub=_gsub, nw=_gtx, items=_grows, days=_gdays, tags=_gtags,
+                   breadcrumb_schema=breadcrumb_schema([(translate(lang, "breadcrumb_home"), canonical_for("/", lang))]
+                                                      + ([] if _g == "tft" else [("League of Legends", canonical_for("/league/", lang))]) + [(_gtx["h1"], _gurl)]),
+                   news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _gtx["h1"], "url": _gurl, "inLanguage": lang,
+                                "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_grows[:20])]}})
+
 
         # ---- Glossaire League of Legends (objets + champions, données
         # réelles Data Dragon -- voir fetch_lol_glossary_data) ----

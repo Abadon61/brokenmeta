@@ -41,6 +41,11 @@
   <a class="lh-card" href="{{ root }}league/glossaire/champions/"><span class="lh-card-k">{{ 'Encyclopédie' if fr else 'Glossary' }}</span><b>{{ 'Champions, objets, runes' if fr else 'Champions, items, runes' }}</b><span>{{ 'Toutes les capacités, statistiques et recettes du patch en cours.' if fr else 'Every ability, stat and recipe of the current patch.' }}</span></a>
 </div>
 
+{% if home.news %}
+<h2 class="lh-h2">{{ 'Dernières actualités' if fr else 'Latest news' }}</h2>
+<div class="news-list">{% for i in home.news %}<a class="news-item" href="{{ i.url }}" rel="noopener nofollow" target="_blank" data-tag="{{ i.tag }}"><span class="news-tag" data-tag="{{ i.tag }}">{{ i.date_label }}</span><span class="news-title">{{ i.title }}</span><span class="news-src">{{ i.source }} ↗</span></a>{% endfor %}</div>
+<p class="lh-more"><a href="{{ root }}league/actualites/">{{ 'Toutes les actualités' if fr else 'All news' }} →</a></p>
+{% endif %}
 {% if home.by_role %}
 <h2 class="lh-h2">{{ 'Les plus forts par poste' if fr else 'Strongest by role' }}</h2>
 <p class="lh-sub">{{ 'Classement par winrate parmi les champions avec au moins 100 parties observées.' if fr else 'Ranked by win rate among champions with at least 100 observed games.' }}</p>

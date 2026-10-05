@@ -47,6 +47,7 @@
 {% if lol_guide_slugs_by_lang[lang] %}<a class="nav-link" href="{{ root }}league/combos/" {% if active_sub == 'lol-combos' %}data-active="true"{% endif %}>Combos</a>{% endif %}
 <a class="nav-link" href="{{ root }}league/tendances/" {% if active_sub == 'lol-trends' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_trends') }}</a>
 <a class="nav-link" href="{{ root }}league/changements/" {% if active_sub == 'lol-changelog' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_changelog') }}</a>
+<a class="nav-link" href="{{ root }}league/actualites/" {% if active_sub == 'lol-news' %}data-active="true"{% endif %}>{{ 'Actualités' if lang == 'fr' else 'News' }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_glossary') }}</div>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/objets/" {% if active_sub == 'lol-glossary-items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_items') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/glossaire/champions/" {% if active_sub == 'lol-glossary-champions' %}data-active="true"{% endif %}>{{ t(lang, 'nav_lol_champions') }}</a>
@@ -61,6 +62,7 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}objets/" {% if active_nav == 'items' %}data-active="true"{% endif %}>{{ t(lang, 'nav_items') }}</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}combos-objets/" {% if active_nav == 'combos' %}data-active="true"{% endif %}>{{ t(lang, 'nav_combos') }}</a>
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}tft/actualites/" {% if active_nav == 'tnews' %}data-active="true"{% endif %}>{{ 'Actualités' if lang == 'fr' else 'News' }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
 <div class="mobile-nav-group-title">{{ t(lang, 'nav_tools') }}</div>
@@ -126,6 +128,7 @@
     <a href="{{ root }}league/tendances/">{{ t(lang, 'nav_lol_trends') }}</a>
     <a href="{{ root }}league/changements/">{{ t(lang, 'nav_lol_changelog') }}</a>
     <a href="{{ root }}league/patch-notes/">{{ t(lang, 'nav_patchnotes') }}</a>
+    <a href="{{ root }}league/actualites/">{{ 'Actualités' if lang == 'fr' else 'News' }}</a>
   </div>
 </details>
 <details class="nav-dropdown" {% if active_sub in ('lol-glossary-items', 'lol-glossary-champions', 'lol-glossary-runes') %}data-active="true"{% endif %}>
@@ -154,6 +157,7 @@
   </div>
 </details>
 <a class="nav-link" href="{{ root }}patch-notes/" {% if active_nav == 'patchnotes' %}data-active="true"{% endif %}>{{ t(lang, 'nav_patchnotes') }}</a>
+<a class="nav-link" href="{{ root }}tft/actualites/" {% if active_nav == 'tnews' %}data-active="true"{% endif %}>{{ 'Actualités' if lang == 'fr' else 'News' }}</a>
 <a class="nav-link" href="{{ root }}leaderboard/" {% if active_nav == 'leaderboard' %}data-active="true"{% endif %}>{{ t(lang, 'nav_leaderboard') }}</a>
 <a class="nav-link" href="{{ root }}team-builder/" {% if active_nav == 'builder' %}data-active="true"{% endif %}>{{ t(lang, 'nav_builder') }}</a>
 <details class="nav-dropdown" {% if active_nav in ('trends', 'changelog', 'counters', 'sleepers', 'discord') %}data-active="true"{% endif %}>
