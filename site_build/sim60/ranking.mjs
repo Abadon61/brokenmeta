@@ -37,7 +37,10 @@ const FAMILY = { caster: PRESET_CASTER, hunter: PRESET_HUNTER };
 const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT, iterations: FINAL, build: rd('items.json').build, specs: [] };
 const objectiveTank = (r, ch) => { const len = FIGHT, thr = r.counters.threat / len, dt = r.counters.dmgTaken / len, raw = ch.target.boss.dmg / ch.target.boss.speed; return Math.sqrt(Math.max(0, thr) * Math.max(0, raw - dt)); };
 
+// RANK_ONLY=spec_a,spec_b recomputes only those specs and keeps the other rows of the existing file
+const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
+  if (ONLY && !ONLY.includes(id)) continue;
   const t0 = Date.now();
   const family = FAMILY[S.family] || PRESET_RAID;
   const build = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], PRESETS[id])), S.build || {});
@@ -121,6 +124,12 @@ for (const [id, S] of Object.entries(SPECS)) {
   row.detail = detail;
   out.specs.push(row);
   console.log(id.padEnd(22), S.tank ? 'TPS ' + row.tps : 'DPS ' + row.dps, '±' + row.sem, ((Date.now() - t0) / 1000).toFixed(0) + 's');
+}
+if (ONLY) {                                         // merge the recomputed rows into the existing file, in its order
+  const prev = JSON.parse(readFileSync(new URL('../../data/wow_ranking60.json', here)));
+  const fresh = new Map(out.specs.map((r) => [r.spec, r]));
+  out.specs = prev.specs.map((r) => fresh.get(r.spec) || r);
+  out.generated = prev.generated; out.iterations = prev.iterations;
 }
 writeFileSync(new URL(process.env.RANK_OUT || '../../data/wow_ranking60.json', here), JSON.stringify(out, null, 1));
 console.log('written', out.specs.length, 'specs');

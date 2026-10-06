@@ -103,7 +103,7 @@ export class Sim {
     this.dr = armorDR(cfg.target.armor);
     this.rageC = rageConversion(this.level);
     // dynamic modifiers (auras & talents write into this)
-    this.mods = { critBonus: 0, hitBonus: 0, apBonus: 0, apMult: 1, hasteMult: 1, dmgMult: 1, spellDmgMult: 1, critDmgBonus: 0 };
+    this.mods = { critBonus: 0, meleeCritBonus: 0, hitBonus: 0, apBonus: 0, apMult: 1, hasteMult: 1, dmgMult: 1, spellDmgMult: 1, critDmgBonus: 0 };
     this.rage = 0; this.rageCap = RAGE_CAP; this.rageWasted = 0; this.rageGained = 0;
     this.gcdReadyAt = 0;
     this.dmg = Object.create(null); this.total = 0;
@@ -140,7 +140,7 @@ export class Sim {
   hasteMult() { return (this.stats.haste || 1) * this.mods.hasteMult; }
   ap() { return (this.stats.ap + this.mods.apBonus) * this.mods.apMult; }
   critChance(extra = 0) {
-    const c = this.stats.crit + this.mods.critBonus + extra - this.table.critSuppression;
+    const c = this.stats.crit + this.mods.critBonus + this.mods.meleeCritBonus + extra - this.table.critSuppression;     // meleeCritBonus: melee only (Elemental Devastation)
     return c < 0 ? 0 : c > 1 ? 1 : c;
   }
   hitFrac() { return this.stats.hit + this.mods.hitBonus; }

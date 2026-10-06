@@ -95,3 +95,10 @@ test('Enhancement: the Stormstrike bonus is worth more on a Lightning Bolt than 
   assert.ok(bolt.mean > shock.mean, 'bolt first ' + bolt.mean + ' vs shock first ' + shock.mean);
   assert.ok(run('shaman_enhancement', { shockSpell: 'frost' }, twoHand, 180, 1500).mean < bolt.mean * 1.01, 'Frost Shock does not beat Earth Shock');
 });
+
+test('Enhancement: Elemental Devastation gives melee crit after a spell crit and beats Call of Flame for the same three points', () => {
+  const twoHand = { ...SAMPLE_ENH, weapons: [{ min: 200, max: 300, speed: 3.2, type: 'two-handed axe', twoHand: true }] };
+  const ed = run('shaman_enhancement', { callOfFlame: 0, elementalDevastation: 3 }, twoHand, 180, 1500), cof = run('shaman_enhancement', { callOfFlame: 3, elementalDevastation: 0 }, twoHand, 180, 1500);
+  assert.ok(ed.uptimes['Elemental Devastation'] > 0.2, 'uptime ' + ed.uptimes['Elemental Devastation']);
+  assert.ok(ed.mean > cof.mean, 'Elemental Devastation ' + ed.mean + ' vs Call of Flame ' + cof.mean);
+});

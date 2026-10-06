@@ -128,7 +128,7 @@ export const SHAMAN_ENH = {
 
 export const SHAMAN_ENH_DEFAULT_BUILD = {
   thunderingStrikes: 0, ancestralKnowledge: 0, mentalDexterity: 0, mentalQuickness: 0, elementalWeapons: 0, flurry: 0, stormstrike: 0, maelstromWeapon: 0, rageOfTheFarseer: 0,
-  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', shamanisticFocus: 0, earthShock: true, flameShock: true, fireNova: false, shockSpell: 'earth', ssBuffOn: 'bolt', fsFirst: true, fsRefresh: 3, maelstromMin: 3, improvedStormstrike: 0, convection: 0, elementalFocus: 0, elementalAlacrity: 0, improvedFireNova: 0, shockReserve: 300, useCooldowns: true, usePotion: true, useGem: true,
+  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', shamanisticFocus: 0, earthShock: true, flameShock: true, fireNova: false, shockSpell: 'earth', ssBuffOn: 'bolt', fsFirst: true, fsRefresh: 3, maelstromMin: 3, improvedStormstrike: 0, convection: 0, elementalFocus: 0, elementalAlacrity: 0, improvedFireNova: 0, elementalDevastation: 0, shockReserve: 300, useCooldowns: true, usePotion: true, useGem: true,
 };
 
 export function shamanEnhancementKit(build = {}, data = null) {
@@ -157,6 +157,11 @@ export function shamanEnhancementKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana + 15 * extraInt, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int, spi: st.spi }), castingFraction: (s) => (s.now < s.istUntil ? E.improvedStormstrike.keep : 0) });
       sim.cd = { ss: 0, farseer: 0, potion: 0, gem: 0 }; sim.totemUntil = 0; sim.fsUntil = -1;
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
+      // Elemental Devastation: an offensive spell crit (not the totem's bolts nor a damage-over-time tick) gives +3% melee crit per rank for 10 s
+      if (b.elementalDevastation) {
+        sim.aED = sim.addAura({ name: 'Elemental Devastation', duration: 10, mods: { meleeCritBonus: 0.03 * b.elementalDevastation } });
+        sim.spellProcs.push((s, name, kind) => { if (kind === 'crit' && !/Searing|DoT/.test(name)) s.aED.apply(); });
+      }
       sim.flurryAura = sim.addAura({ name: 'Flurry', duration: E.flurry.expire, mods: { hasteMult: 1 + E.flurry.perRank * b.flurry } });
       sim.flurryAura.charges = 0;
       sim.aMW = sim.addAura({ name: 'Maelstrom Weapon', duration: E.maelstrom.dur, maxStacks: E.maelstrom.max });
@@ -185,7 +190,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
       // fire totem (Searing): one global cooldown every 55 s
       if (T && rem > 8 && now >= sim.totemUntil - 1.0 && sim.mana >= T.cost) {
         spendMana(sim, T.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry(T.name).casts++;
-        dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1, critBonus: 0 }));
+        dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1 + E.callOfFlame.dmg * (b.callOfFlame || 0), critBonus: 0 }));
         return 1.5;
       }
       const spPow = (sim.stats.sp || 0) + sim.spBonus, focus = 1 - E.shamanisticFocus.cost * b.shamanisticFocus, conv = 1 - E.convection.cost * b.convection;
