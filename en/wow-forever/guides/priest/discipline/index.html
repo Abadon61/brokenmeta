@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Discipline Priest WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Discipline Priest guide: Healer, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=84e8303739">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=84e8303739">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=32ea8d867e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=32ea8d867e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=84e8303739">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=32ea8d867e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -495,8 +495,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <h2 class="fiche-section-title">Level 60 rotation</h2>
 <p class="page-intro" style="margin-top:0">Healing is not simulated yet: this is the healing rotation Icy Veins recommends (level 30), reworded.</p>
 
-<ol class="rs-rot"><li>Power Word: Shield as needed or to buy time; Heal for a moderate heal; Renew against chip damage.</li><li>Flash Heal only in emergencies (costly); Prayer of Healing when the party is hurt; cleanse when it is worth the mana.</li></ol>
-<p class="wow-note">Healing is not simulated: this list is Icy Veins&#39; (level 30), reworded. It is not validated by measurements. The level-60 build above is also put together by hand.</p>
+<ol class="rs-rot"><li>Power Word: Shield on the target about to be hit (942 absorbed for 500 mana: inefficient, use it for timing, not volume).</li><li>Penance on cooldown (12 s cooldown, instant).</li><li>Renew on the tank (3.35 healing per mana) and Greater Heal as the main heal (3.18 per mana); critical heals create a shield with Divine Aegis.</li><li>Flash Heal only in emergencies (2.77 per mana); Prayer of Mending on cooldown.</li><li>Inner Focus before a big heal, Power Infusion on yourself or another healer.</li></ol>
+<p class="wow-note">Healing is not simulated in combat. This rotation is derived from the client numbers (base heal, healing-power coefficient, mana, cast time) at 350 healing power and without talents: it gives an efficiency order, not a simulation result.</p>
+
+<h3 class="rs-sub">What Icy Veins recommends (level 30)</h3>
+<ul class="gd-list"><li>Power Word: Shield as needed or to buy time; Heal for a moderate heal; Renew against chip damage.</li><li>Flash Heal only in emergencies (costly); Prayer of Healing when the party is hurt; cleanse when it is worth the mana.</li></ul>
+<h3 class="rs-sub">Our comparison</h3>
+<p class="wow-note">Agreed with Icy Veins on Power Word: Shield, Heal, Renew and Flash Heal in emergencies. The numbers show Power Word: Shield is the least mana-efficient (1.9 per mana): it buys time, it does not heal in volume. Penance and Divine Aegis come from the Discipline talents. Computed without a combat simulation, at 350 healing power and without talents.</p>
+
+
+<h3 class="rs-sub">Healing spell efficiency at level 60</h3>
+<p class="rs-hint">Computed from the client numbers at 350 healing power, without talents. &#34;Healing per mana&#34; compares mana efficiency; &#34;healing per second&#34; counts at least 1.5 s per spell (the minimum time between two spells); area spells are shown for one target, then for all targets hit.</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>Spell</th><th class="nums">Cast</th><th class="nums">Mana</th><th class="nums">Healing per cast</th><th class="nums">Healing per mana</th><th class="nums">Healing per second</th><th class="nums">All targets</th></tr></thead>
+  <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=425277" rel="noopener nofollow" target="_blank">Renew</a></td><td class="nums">instant</td><td class="nums">410</td><td class="nums">1,372</td><td class="nums">3.35</td><td class="nums">915</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=8812" rel="noopener nofollow" target="_blank">Heal</a></td><td class="nums">4 s</td><td class="nums">450</td><td class="nums">1,458</td><td class="nums">3.24</td><td class="nums">364</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25314" rel="noopener nofollow" target="_blank">Greater Heal</a></td><td class="nums">3 s</td><td class="nums">710</td><td class="nums">2,260</td><td class="nums">3.18</td><td class="nums">753</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27608" rel="noopener nofollow" target="_blank">Flash Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,052</td><td class="nums">2.77</td><td class="nums">701</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=1240774" rel="noopener nofollow" target="_blank">Binding Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">992</td><td class="nums">2.61</td><td class="nums">661</td><td class="nums">×2 : 5.22</td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27607" rel="noopener nofollow" target="_blank">Power Word: Shield</a> <span class="rs-hint">absorb</span></td><td class="nums">instant</td><td class="nums">500</td><td class="nums">942</td><td class="nums">1.88</td><td class="nums">628</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25316" rel="noopener nofollow" target="_blank">Prayer of Healing</a></td><td class="nums">3 s</td><td class="nums">1,070</td><td class="nums">749</td><td class="nums">0.70</td><td class="nums">250</td><td class="nums">×5 : 3.50</td></tr></tbody>
+</table></div>
+<p class="rs-hint">Talent spells or spells without a usable number in the client: Prayer of Mending, Penance, Holy Nova, Power Infusion.</p>
 
 
 
@@ -635,10 +649,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=84e8303739" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=84e8303739" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=84e8303739" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=84e8303739" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=32ea8d867e" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=32ea8d867e" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=32ea8d867e" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=32ea8d867e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
