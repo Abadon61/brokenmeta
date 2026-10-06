@@ -63,6 +63,15 @@
 <h3 class="rs-sub">{{ rot_tx.verdict_h3 }}</h3>
 <p class="wow-note">{{ lvl60.rot.verdict }}</p>
 {% endif %}
+{% if lvl60.heal_table %}{% set ht = lvl60.heal_table %}
+<h3 class="rs-sub">{{ ht.tx.h3 }}</h3>
+<p class="rs-hint">{{ ht.tx.p }}</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ ht.tx.c_spell }}</th><th class="nums">{{ ht.tx.c_cast }}</th><th class="nums">{{ ht.tx.c_cost }}</th><th class="nums">{{ ht.tx.c_heal }}</th><th class="nums">{{ ht.tx.c_hpm }}</th><th class="nums">{{ ht.tx.c_hps }}</th><th class="nums">{{ ht.tx.c_multi }}</th></tr></thead>
+  <tbody>{% for r in ht.rows %}<tr><td><a href="https://www.wowhead.com/forever/spell={{ r.id }}" rel="noopener nofollow" target="_blank">{{ r.name }}</a>{% if r.extra %} <span class="rs-hint">{{ r.extra }}</span>{% endif %}</td><td class="nums">{{ r.cast }}</td><td class="nums">{{ r.cost }}</td><td class="nums">{{ r.heal }}</td><td class="nums">{{ r.hpm_txt }}</td><td class="nums">{{ r.hps }}</td><td class="nums">{{ r.multi }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="rs-hint">{{ ht.tx.special }}{{ ht.special }}.</p>
+{% endif %}
 {% endif %}
 
 {% if lvl60.has_weights %}

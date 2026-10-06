@@ -220,17 +220,44 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
            article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
 
 
+def _healing_table(lang, cls_id, power=350):
+    """Efficiency of the class's healing spells at level 60 from the client numbers (data/wow_guides/healing60.json), at `power` healing power and no talents."""
+    path = PROJECT / "data" / "wow_guides" / "healing60.json"
+    if not path.exists():
+        return None
+    data = json.loads(path.read_text(encoding="utf-8"))["classes"].get(cls_id)
+    if not data:
+        return None
+    tx = wow_guide_rotation.HEAL_TX[lang]
+    fmt = lambda n: f"{int(round(n)):,}".replace(",", " " if lang == "fr" else ",")
+    dec = lambda x: (f"{x:.2f}".replace(".", ",") if lang == "fr" else f"{x:.2f}")
+    rows = []
+    for sp in data["spells"]:
+        direct = sp["direct"]["base"] + sp["direct"]["coeff"] * power if sp.get("direct") else 0
+        hot = sp["hot"]["ticks"] * (sp["hot"]["tick"] + sp["hot"]["coeff"] * power) if sp.get("hot") else 0
+        ab = sp["absorb"]["base"] + (sp["absorb"].get("coeff") or 0) * power if sp.get("absorb") else 0
+        one = direct + hot + ab
+        t = max(sp["cast"], 1.5)
+        extra = tx["hot"] if hot and direct else (tx["absorb"] if ab else "")
+        rows.append({"name": sp["name"], "id": sp["spell_id"], "cast": tx["instant"] if sp["cast"] == 0 else (f"{sp['cast']:g} s".replace(".", ",") if lang == "fr" else f"{sp['cast']:g} s"),
+                     "cost": fmt(sp["cost"]), "heal": fmt(one), "hpm": one / sp["cost"], "hpm_txt": dec(one / sp["cost"]), "hps": fmt(one / t),
+                     "multi": (f"×{sp['targets']} : {dec(one * sp['targets'] / sp['cost'])}" if sp["targets"] > 1 else ""), "extra": extra})
+    rows.sort(key=lambda r: -r["hpm"])
+    return {"rows": rows, "special": ", ".join(data["special"]), "tx": tx}
+
+
 def _guide_level60(lang, cls_id, spec_id, rows):
     """Level-60 sections of a specialization guide: rotation (simulator vs Icy Veins), gear and stat weights from the ranking's simulation."""
     key = f"{cls_id}/{spec_id}"
     gx = wow_guide_rotation.G60[lang]
-    out = {"rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows)}
+    out = {"rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows), "heal_table": None}
     sim_rows = [r for r in rows if r.get("detail")]
     if sim_rows:
         out["rot"] = {"sim": [{"label": r["spec_name"] if len(sim_rows) > 1 else None, "steps": wow_rank_texts.ROTATION[r["spec_id"]][lang]} for r in sim_rows],
                       "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": None, "heal_note": None}
     elif key in wow_guide_rotation.HEALER_MAIN:
-        out["rot"] = {"sim": [{"label": None, "steps": wow_guide_rotation.HEALER_MAIN[key][lang]}], "iv": None, "verdict": None, "heal": True, "heal_note": wow_guide_rotation.HEALER_NOTE[lang]}
+        out["rot"] = {"sim": [{"label": None, "steps": wow_guide_rotation.HEALER_MAIN[key][lang]}], "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": True, "heal_note": wow_guide_rotation.HEALER_NOTE[lang]}
+        out["heal_table"] = _healing_table(lang, cls_id)
     order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
     labels = wow_rank_texts.SLOTS[lang]
     for r in sim_rows:
@@ -4786,9 +4813,18 @@ class ImageCache:
         if key in self._done or dest.exists():
             self._done.add(key)
             return
-        resp = requests.get(url, timeout=30)
-        resp.raise_for_status()
-        dest.write_bytes(resp.content)
+        # images are named by slug and never change: reuse the copy of the last deployment (no network, and no build failure when the image host is down)
+        kept = Path(r"D:/Site internet/brokenmeta-deploy") / dest.relative_to(self.champ_dir.parent.parent)
+        if kept.exists():
+            dest.write_bytes(kept.read_bytes())
+            self._done.add(key)
+            return
+        try:
+            resp = requests.get(url, timeout=15)
+            resp.raise_for_status()
+            dest.write_bytes(resp.content)
+        except requests.RequestException as e:
+            print(f"[images] {url}: {e} -> image skipped")
         self._done.add(key)
 
     def champion(self, slug: str, url: str) -> None:
