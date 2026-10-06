@@ -51,3 +51,10 @@ test('Demonology keeps its Imp out and uses Demonic Knowledge and Unholy Power',
   assert.ok(r.breakdown['Imp Firebolt'] && r.breakdown['Imp Firebolt'].dps > 40, 'Imp');
   assert.ok(r.mean > runBatch(cfg(preset('warlock_demonology', { demonicKnowledge: 0, unholyPower: 0 })), 400, 1).mean, 'pet talents add DPS');
 });
+
+test('Bane of Agony is the default curse over a 3-minute fight (it beats Bane of Doom) and Affliction keeps Immolate up', () => {
+  const ag = runBatch(cfg(preset('warlock_affliction')), 800, 1), doom = runBatch(cfg(preset('warlock_affliction', { curse: 'doom' })), 800, 1);
+  assert.ok(ag.breakdown['Bane of Agony'] && !ag.breakdown['Bane of Doom'], 'Agony by default');
+  assert.ok(ag.mean > doom.mean, 'Agony ' + ag.mean + ' vs Doom ' + doom.mean);
+  assert.ok(ag.breakdown['Immolate'] && ag.breakdown['Immolate'].casts > 5, 'Immolate in Affliction');
+});

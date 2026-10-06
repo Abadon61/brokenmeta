@@ -74,23 +74,23 @@ ROTATION = {
         "fr": ["Arcane Missiles (canalisé) comme sort principal.", "Arcane Power à chaque fois qu'il est prêt.", "Arcane Blast n'est pas lancé : ses charges coûtent trop de mana sur un combat de boss.", "Evocation et gemme de mana pour la mana."],
         "en": ["Arcane Missiles (channeled) as the main spell.", "Arcane Power on cooldown.", "Arcane Blast is not cast: its stacks cost too much mana over a boss fight.", "Evocation and the mana gem for mana."]},
     "warlock_affliction": {
-        "fr": ["Corruption, Siphon Life et la malédiction (Bane of Doom) toujours actifs.", "Wrack à chaque fois qu'il est prêt.", "Shadow Bolt comme sort de base.", "Life Tap quand la mana baisse.", "Le diablotin lance son Firebolt en continu."],
-        "en": ["Keep Corruption, Siphon Life and the curse (Bane of Doom) up.", "Wrack on cooldown.", "Shadow Bolt as the filler.", "Life Tap when mana runs low.", "The Imp casts Firebolt continuously."]},
+        "fr": ["Bane of Agony (la malédiction de dégâts sur la durée), Corruption et Siphon Life toujours actifs ; Immolate entretenu aussi.", "Wrack à chaque fois qu'il est prêt.", "Shadow Bolt comme sort de base (instantané avec Nightfall).", "Life Tap quand la mana baisse.", "Le diablotin lance son Firebolt en continu."],
+        "en": ["Keep Bane of Agony (the damage-over-time curse), Corruption and Siphon Life up, and Immolate as well.", "Wrack on cooldown.", "Shadow Bolt as the filler (instant with Nightfall).", "Life Tap when mana runs low.", "The Imp casts Firebolt continuously."]},
     "warlock_destruction": {
-        "fr": ["Immolate, Corruption et la malédiction toujours actifs.", "Conflagrate et Shadowburn à chaque fois qu'ils sont prêts.", "Incinerate comme sort de base.", "Life Tap quand la mana baisse.", "Le diablotin lance son Firebolt en continu."],
-        "en": ["Keep Immolate, Corruption and the curse up.", "Conflagrate and Shadowburn on cooldown.", "Incinerate as the filler.", "Life Tap when mana runs low.", "The Imp casts Firebolt continuously."]},
+        "fr": ["Immolate, Corruption et Bane of Agony toujours actifs (Bane of Agony fait mieux que Bane of Doom sur un combat de 3 minutes).", "Conflagrate et Shadowburn à chaque fois qu'ils sont prêts.", "Incinerate comme sort de base.", "Life Tap quand la mana baisse.", "Le diablotin lance son Firebolt en continu."],
+        "en": ["Keep Immolate, Corruption and Bane of Agony up (Bane of Agony beats Bane of Doom over a 3-minute fight).", "Conflagrate and Shadowburn on cooldown.", "Incinerate as the filler.", "Life Tap when mana runs low.", "The Imp casts Firebolt continuously."]},
     "warlock_demonology": {
-        "fr": ["Le diablotin reste en jeu : Firebolt en continu, boosté par Demonic Knowledge, Unholy Power et Master Demonologist.", "Immolate, Corruption et la malédiction toujours actifs.", "Conflagrate et Shadowburn à chaque fois qu'ils sont prêts.", "Shadow Bolt comme sort de base ; Life Tap quand la mana baisse."],
-        "en": ["The Imp stays out: Firebolt continuously, boosted by Demonic Knowledge, Unholy Power and Master Demonologist.", "Keep Immolate, Corruption and the curse up.", "Conflagrate and Shadowburn on cooldown.", "Shadow Bolt as the filler; Life Tap when mana runs low."]},
+        "fr": ["Le diablotin reste en jeu : Firebolt en continu, boosté par Demonic Knowledge, Unholy Power et Master Demonologist.", "Immolate, Corruption et Bane of Agony toujours actifs.", "Conflagrate et Shadowburn à chaque fois qu'ils sont prêts.", "Shadow Bolt comme sort de base ; Life Tap quand la mana baisse."],
+        "en": ["The Imp stays out: Firebolt continuously, boosted by Demonic Knowledge, Unholy Power and Master Demonologist.", "Keep Immolate, Corruption and Bane of Agony up.", "Conflagrate and Shadowburn on cooldown.", "Shadow Bolt as the filler; Life Tap when mana runs low."]},
     "hunter_marksmanship": {
-        "fr": ["Auto Shot en continu.", "Arcane Shot à chaque fois qu'il est prêt.", "Serpent Sting toujours actif.", "Multi-Shot et Sniper Shot à chaque fois qu'ils sont prêts.", "Rapid Fire à chaque fois qu'il est prêt."],
-        "en": ["Auto Shot continuously.", "Arcane Shot on cooldown.", "Keep Serpent Sting up.", "Multi-Shot and Sniper Shot on cooldown.", "Rapid Fire on cooldown."]},
+        "fr": ["Hunter's Mark sur la cible avant le combat (+110 de puissance d'attaque à distance).", "Auto Shot en continu.", "Arcane Shot à chaque fois qu'il est prêt.", "Serpent Sting toujours actif.", "Multi-Shot et Sniper Shot à chaque fois qu'ils sont prêts.", "Rapid Fire à chaque fois qu'il est prêt."],
+        "en": ["Hunter's Mark on the target before the fight (+110 ranged attack power).", "Auto Shot continuously.", "Arcane Shot on cooldown.", "Keep Serpent Sting up.", "Multi-Shot and Sniper Shot on cooldown.", "Rapid Fire on cooldown."]},
     "hunter_beastmastery": {
-        "fr": ["Auto Shot en continu.", "Arcane Shot et Multi-Shot à chaque fois qu'ils sont prêts.", "Serpent Sting toujours actif.", "Bestial Wrath et Rapid Fire à chaque fois qu'ils sont prêts.", "Le familier attaque en continu (morsure et griffes)."],
-        "en": ["Auto Shot continuously.", "Arcane Shot and Multi-Shot on cooldown.", "Keep Serpent Sting up.", "Bestial Wrath and Rapid Fire on cooldown.", "The pet attacks continuously (bite and claw)."]},
+        "fr": ["Hunter's Mark sur la cible avant le combat (+110 de puissance d'attaque à distance).", "Auto Shot en continu.", "Arcane Shot et Multi-Shot à chaque fois qu'ils sont prêts.", "Serpent Sting toujours actif.", "Bestial Wrath et Rapid Fire à chaque fois qu'ils sont prêts.", "Le familier attaque en continu (morsure et griffes)."],
+        "en": ["Hunter's Mark on the target before the fight (+110 ranged attack power).", "Auto Shot continuously.", "Arcane Shot and Multi-Shot on cooldown.", "Keep Serpent Sting up.", "Bestial Wrath and Rapid Fire on cooldown.", "The pet attacks continuously (bite and claw)."]},
     "hunter_survival": {
-        "fr": ["Auto Shot en continu.", "Arcane Shot et Multi-Shot à chaque fois qu'ils sont prêts.", "Serpent Sting toujours actif.", "Rapid Fire à chaque fois qu'il est prêt.", "Le familier attaque en continu."],
-        "en": ["Auto Shot continuously.", "Arcane Shot and Multi-Shot on cooldown.", "Keep Serpent Sting up.", "Rapid Fire on cooldown.", "The pet attacks continuously."]},
+        "fr": ["Hunter's Mark sur la cible avant le combat (+110 de puissance d'attaque à distance).", "Auto Shot en continu.", "Arcane Shot et Multi-Shot à chaque fois qu'ils sont prêts.", "Serpent Sting toujours actif.", "Rapid Fire à chaque fois qu'il est prêt.", "Le familier attaque en continu."],
+        "en": ["Hunter's Mark on the target before the fight (+110 ranged attack power).", "Auto Shot continuously.", "Arcane Shot and Multi-Shot on cooldown.", "Keep Serpent Sting up.", "Rapid Fire on cooldown.", "The pet attacks continuously."]},
     "hunter_melee": {
         "fr": ["Attaques de mêlée avec deux armes.", "Raptor Strike à chaque fois qu'il est prêt.", "Mongoose Bite juste après une esquive de la cible.", "Strider Kick à chaque fois qu'il est prêt.", "Le familier attaque en continu."],
         "en": ["Melee swings with two weapons.", "Raptor Strike on cooldown.", "Mongoose Bite right after a target dodge.", "Strider Kick on cooldown.", "The pet attacks continuously."]},
@@ -116,6 +116,6 @@ ROTATION = {
         "fr": ["Seal of Righteousness toujours actif ; Judgement dès qu'il est prêt.", "Holy Shield à chaque fois qu'il est prêt : plus de blocages et des dégâts sacrés à chaque blocage.", "Holy Strike dès qu'il est prêt.", "Reckoning : une attaque supplémentaire après chaque blocage."],
         "en": ["Keep Seal of Righteousness up; Judgement on cooldown.", "Holy Shield on cooldown: more blocks and holy damage on each block.", "Holy Strike on cooldown.", "Reckoning: an extra attack after each block."]},
     "druid_bear": {
-        "fr": ["Lacerate entretenu à 5 charges.", "Maul sur chaque attaque avec le rage disponible.", "Swipe avec le reste du rage.", "Enrage à chaque fois qu'il est prêt."],
-        "en": ["Keep Lacerate stacked to 5.", "Maul on every swing with the available rage.", "Swipe with the rest of the rage.", "Enrage on cooldown."]},
+        "fr": ["Lacerate entretenu à 5 charges.", "Primal Bite (20 rage, recharge de 6 s) dès qu'il est prêt : c'est la dépense de rage principale, avec beaucoup de menace.", "Maul sur chaque attaque avec le rage disponible.", "Swipe avec le reste du rage.", "Enrage à chaque fois qu'il est prêt."],
+        "en": ["Keep Lacerate stacked to 5.", "Primal Bite (20 rage, 6 s cooldown) on cooldown: the main rage spender, with high threat.", "Maul on every swing with the available rage.", "Swipe with the rest of the rage.", "Enrage on cooldown."]},
 }

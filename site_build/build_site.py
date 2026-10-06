@@ -52,6 +52,7 @@ import wow_sim60_texts  # noqa: E402
 import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
+import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
 
@@ -217,6 +218,42 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
     render("wow_rank_spec.html", path, lang, active_nav="wow", active_sub="wow-index", rx=rx, pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
            breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
            article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
+
+
+def _guide_level60(lang, cls_id, spec_id, rows):
+    """Level-60 sections of a specialization guide: rotation (simulator vs Icy Veins), gear and stat weights from the ranking's simulation."""
+    key = f"{cls_id}/{spec_id}"
+    gx = wow_guide_rotation.G60[lang]
+    out = {"rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows)}
+    sim_rows = [r for r in rows if r.get("detail")]
+    if sim_rows:
+        out["rot"] = {"sim": [{"label": r["spec_name"] if len(sim_rows) > 1 else None, "steps": wow_rank_texts.ROTATION[r["spec_id"]][lang]} for r in sim_rows],
+                      "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": None, "heal_note": None}
+    elif key in wow_guide_rotation.HEALER_MAIN:
+        out["rot"] = {"sim": [{"label": None, "steps": wow_guide_rotation.HEALER_MAIN[key][lang]}], "iv": None, "verdict": None, "heal": True, "heal_note": wow_guide_rotation.HEALER_NOTE[lang]}
+    order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
+    labels = wow_rank_texts.SLOTS[lang]
+    for r in sim_rows:
+        d = r["detail"]
+        items = []
+        for it in sorted(d["items"], key=lambda it: order.get(it["slot"], 99)):
+            src = it.get("zone") or ""
+            if it.get("src"):
+                src = f"{src} — {it['src']}" if src else it["src"]
+            items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "id": it.get("id"), "source": src})
+        out["gear"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "items": items})
+        w = d.get("weights")
+        if w:
+            main = "splpwr" if any(x["stat"] == "splpwr" for x in w) else "atkpwr"
+            rating = {"critstrkrtng": 14, "hitrtng": 10, "hastertng": 10}       # rating points per 1%: every row is shown per point so the stats compare directly
+            rows_w = []
+            for x in w:
+                k = rating.get(x["stat"], 1)
+                rows_w.append({"label": gx["stats"][x["stat"]], "per": round(x["per"] / k, 3), "rel": round(x["rel"] / k, 2), "unit": gx["w_unit_rating"] if k > 1 else gx["w_unit_pt"], "none": abs(x["rel"] / k) < 0.02})
+            rows_w.sort(key=lambda y: -y["per"])
+            out["weights"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "rows": rows_w, "main": gx["w_main_sp"] if main == "splpwr" else gx["w_main_ap"], "max": max(abs(y["per"]) for y in rows_w) or 1})
+    out["has_weights"] = bool(out["weights"])
+    return out
 
 
 def _news_date(iso, lang):
@@ -7984,6 +8021,10 @@ def main() -> None:
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
+                           lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]),
+                           rot_tx=wow_guide_rotation.TX[lang], g60=wow_guide_rotation.G60[lang],
+                           rank_links=[{"path": _rr["page_path"], "label": _rr["class_name"] + " " + _rr["spec_name"]} for _rr in (_wow_ranking + _wow_ranking_tanks)
+                                       if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"] and _rr.get("detail")],
                            content=_g["content"].get(_s["id"]), tpl=(wow_guides.template_tree(_cls, _s, _g["content"][_s["id"]]["build"]) if _g["content"].get(_s["id"]) else None), g_title=_st, g_desc=_sd, g_h1=_sh1, g_intro=_si,
                            bis_gear=(_bis_optimized.get(_bspec_id, (None, None, None))[0] if _bspec_id else None),
                            bis_stats=(_bis_optimized.get(_bspec_id, (None, None, None))[1] if _bspec_id else None),

@@ -29,8 +29,9 @@
 
 {% if content %}
 <h2 class="fiche-section-title">{{ tx.tpl_h2.format(level=content.build.level) }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.tpl_p.format(level=content.build.level) }}</p>
+<p class="page-intro" style="margin-top:0">{{ (tx.tpl_p60 if content.build.level == 60 else tx.tpl_p.format(level=content.build.level)) }}</p>
 {% if content.build.note %}<p class="wow-note">{{ content.build.note[lang] }}</p>{% endif %}
+{% if rank_links %}<p class="page-intro" style="margin-top:0">{{ tx.rank_see }} {% for l in rank_links %}<a class="wg-link" href="{{ root }}{{ l.path }}">{{ l.label }}</a>{{ ' · ' if not loop.last }}{% endfor %} →</p>{% endif %}
 <div class="wg-legend"><span class="wg-key is-reco"></span>{{ tx.tpl_reco }} <span class="wg-key is-option"></span>{{ tx.tpl_option }}</div>
 <div class="wg-trees">
 {% for tr in tpl.trees %}<div class="wg-tree-wrap">
@@ -45,33 +46,51 @@
 <div class="wg-talents">{% for i in tpl['items'] %}
   <div class="wg-talent{{ ' is-option' if i.option else '' }}">
     {% if i.t.icon %}<img class="wg-talent-icon" src="{{ i.t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
-    <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ i.tree[lang] }} · {{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · Icy Veins : {{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
+    <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ i.tree[lang] }} · {{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · {{ 'Icy Veins : ' if content.build.level != 60 }}{{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
     <p>{{ i.why[lang] }}</p></div>
   </div>{% endfor %}
 </div>
 
-{% if rotation_steps %}
-<h2 class="fiche-section-title">{{ tx.rotation_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.rotation_p }}</p>
-<ol class="wg-rotation">
-  {% for step in rotation_steps %}
-  <li class="wg-rotation-step">
-    <span class="wg-rotation-n nums">{{ loop.index }}</span>
-    <div class="wg-rotation-body">
-      {% if step.wowhead_spell_id %}<a href="https://www.wowhead.com/forever/spell={{ step.wowhead_spell_id }}" rel="noopener nofollow" target="_blank"><b>{{ step.name }}</b></a>{% else %}<b>{{ step.name }}</b>{% endif %}
-      <span class="wg-rotation-kind">{{ tx.kind_labels[step.kind] }}</span>
-    </div>
-  </li>
-  {% endfor %}
-</ol>
+{% if lvl60.rot %}
+<h2 class="fiche-section-title">{{ rot_tx.h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ rot_tx.intro_heal if lvl60.rot.heal else rot_tx.intro_sim }}</p>
+{% for blk in lvl60.rot.sim %}{% if blk.label %}<h3 class="rs-sub">{{ blk.label }}</h3>{% endif %}
+<ol class="rs-rot">{% for line in blk.steps %}<li>{{ line }}</li>{% endfor %}</ol>{% endfor %}
+{% if lvl60.rot.heal_note %}<p class="wow-note">{{ lvl60.rot.heal_note }}</p>{% endif %}
+{% if lvl60.rot.iv %}
+<h3 class="rs-sub">{{ rot_tx.iv_h3 }}</h3>
+<ul class="gd-list">{% for line in lvl60.rot.iv %}<li>{{ line }}</li>{% endfor %}</ul>
+<h3 class="rs-sub">{{ rot_tx.verdict_h3 }}</h3>
+<p class="wow-note">{{ lvl60.rot.verdict }}</p>
+{% endif %}
 {% endif %}
 
+{% if lvl60.has_weights %}
+<h2 class="fiche-section-title">{{ g60.w_h2 }}</h2>
+{% for wb in lvl60.weights %}
+{% if wb.label %}<h3 class="rs-sub">{{ wb.label }}</h3>{% endif %}
+<p class="page-intro" style="margin-top:0">{{ g60.w_p.format(main=wb.main) }}</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ g60.w_stat }}</th><th class="rs-bar-col"></th><th class="nums">{{ g60.w_per }}</th><th class="nums">{{ g60.w_rel }}</th></tr></thead>
+  <tbody>{% for x in wb.rows %}<tr><td>{{ x.label }} <span class="rs-hint">{{ x.unit }}</span></td>
+    <td class="rs-bar-col">{% if not x.none %}<span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ ((100 * x.per / wb.max) if x.per > 0 else 0)|round(1) }}%"></span></span>{% endif %}</td>
+    <td class="nums">{{ x.per }}</td><td class="nums">{{ g60.w_none if x.none else x.rel }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endfor %}
+{% if lvl60.tank_rows %}
+<h3 class="rs-sub">{{ g60.iv_stats_h3 }}</h3>
+<p class="wow-note">{{ g60.w_tank }}</p>
+<ol class="wg-stats">{% for st in content.stats.order %}<li>{{ st[lang] }}</li>{% endfor %}</ol>
+{% endif %}
+{% else %}
 <h2 class="fiche-section-title">{{ tx.stats_h2 }}</h2>
+{% if lvl60.gear %}<p class="wow-note">{{ g60.w_tank }}</p>{% endif %}
 <p class="page-intro" style="margin-top:0">{{ tx.stats_p }}{% if content.stats.speculative %} {{ tx.stats_spec }}{% endif %}</p>
 {% if content.stats.note %}<p class="wow-note">{{ content.stats.note[lang] }}</p>{% endif %}
 <ol class="wg-stats">{% for st in content.stats.order %}<li>{{ st[lang] }}</li>{% endfor %}</ol>
 {% if content.stats.alt %}<p class="page-intro" style="margin-top:14px"><b>{{ content.stats.alt.label[lang] }}</b></p>
 <ol class="wg-stats">{% for st in content.stats.alt.order %}<li>{{ st[lang] }}</li>{% endfor %}</ol>{% endif %}
+{% endif %}
 
 <h2 class="fiche-section-title">{{ tx.cons_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.cons_p }}</p>
@@ -79,41 +98,16 @@
 {% if content.professions %}<h2 class="fiche-section-title">{{ tx.prof_h2 }}</h2>
 <ul class="gd-list">{% for pr in content.professions %}<li>{{ pr[lang] }}</li>{% endfor %}</ul>{% endif %}
 
-<h2 class="fiche-section-title">{{ tx.gear_h2 }}</h2>
-{% if bis_gear %}
-<p class="page-intro" style="margin-top:0">{{ tx.gear_bis_p }}</p>
-<div class="wg-gear-grid">
-  {% for it in bis_gear %}
-  {% set item_url = "https://www.wowhead.com/forever/item=" ~ it.wowhead_item_id if it.wowhead_item_id else none %}
-  <div class="wg-gear-item">
-    {% if item_url %}<a href="{{ item_url }}" rel="noopener nofollow" target="_blank">{% endif %}
-    {% if it.icon %}<img class="wg-gear-icon" src="{{ it.icon }}" alt="" width="48" height="48" loading="lazy">{% endif %}
-    {% if item_url %}</a>{% endif %}
-    <div class="wg-gear-body">
-      <span class="wg-gear-slot">{{ tx.slot_labels[it.slot] }}</span>
-      {% if item_url %}<a href="{{ item_url }}" rel="noopener nofollow" target="_blank"><b>{{ it.name }}</b></a>{% else %}<b>{{ it.name }}</b>{% endif %}
-      {% if it.stat_text %}<span class="wg-gear-stat">{{ it.stat_text }}</span>{% endif %}
-      <span class="wg-gear-source">{% if it.source == "foreverchanges" %}<a href="{{ bis_credit_url }}" rel="noopener nofollow" target="_blank">{{ tx.gear_bis_fallback_source }}</a>{% else %}{{ tx.dg_from }} : {{ it.source[lang] }}{% endif %}</span>
-    </div>
-  </div>
-  {% endfor %}
-</div>
-{% if bis_stats %}
-<h3 class="wg-gear-stats-h3">{{ tx.gear_bis_stats_h3 }}</h3>
-<dl class="wow-facts">
-  {% for k, label in (('str','Force'),('agi','Agilité'),('sta','Endurance'),('int','Intelligence'),('spirit','Esprit')) %}
-  {% if bis_stats.stats[k] %}<div><dt>{{ label }}</dt><dd class="nums">{{ bis_stats.stats[k] }}</dd></div>{% endif %}
-  {% endfor %}
-  {% if bis_stats.flat_ap %}<div><dt>AP</dt><dd class="nums">+{{ bis_stats.flat_ap }}</dd></div>{% endif %}
-  {% if bis_stats.flat_sp %}<div><dt>SP</dt><dd class="nums">+{{ bis_stats.flat_sp }}</dd></div>{% endif %}
-  {% if bis_stats.hp %}<div><dt>PV</dt><dd class="nums">{{ bis_stats.hp }}</dd></div>{% endif %}
-  {% if bis_stats.armor %}<div><dt>Armure</dt><dd class="nums">{{ bis_stats.armor }}</dd></div>{% endif %}
-</dl>
-{% endif %}
-{% if bis_dps %}<p class="wow-note nums">{{ tx.gear_bis_dps.format(dps=("%.1f"|format(bis_dps))) }}</p>{% endif %}
-<p class="wow-note">{{ tx.gear_bis_methodology }}</p>
+<h2 class="fiche-section-title">{{ g60.gear_h2 }}</h2>
+{% if lvl60.gear %}
+<p class="page-intro" style="margin-top:0">{{ g60.gear_p }}</p>
+{% for blk in lvl60.gear %}{% if blk.label %}<h3 class="rs-sub">{{ blk.label }}</h3>{% endif %}
+<div class="rs-table-wrap"><table class="rs-table rs-gear">
+  <thead><tr><th>{{ g60.col_slot }}</th><th>{{ g60.col_item }}</th><th>{{ g60.col_source }}</th></tr></thead>
+  <tbody>{% for g in blk['items'] %}<tr><td>{{ g.slot_label }}</td><td class="rs-item q{{ g.q or 1 }}">{% if g.id and g.id > 0 %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}</td><td>{{ g.source }}</td></tr>{% endfor %}</tbody>
+</table></div>{% endfor %}
 {% else %}
-<p class="wow-note">{{ tx.gear_p }}</p>
+<p class="wow-note">{{ g60.gear_heal }}</p>
 {% endif %}
 <p class="wow-note">{{ tx.updated.format(date=content.updated) }}</p>
 {% endif %}
@@ -149,7 +143,7 @@
   {% endfor %}
 </div>
 
-<p class="wow-note">{{ tx.note_with_rotation if rotation_steps else tx.note }}</p>
+<p class="wow-note">{{ g60.note }}</p>
 <h2 class="fiche-section-title">{{ tx.sources }}</h2>
 <ul class="gd-list wow-sources">
   <li>{{ tx.src_role }}<a href="{{ role.url }}" rel="noopener nofollow" target="_blank">Icy Veins — {{ spec.name.en }} {{ cls.name.en }}</a></li>

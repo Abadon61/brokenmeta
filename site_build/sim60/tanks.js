@@ -197,11 +197,13 @@ export const DRUID_BEAR = {
   leaderOfThePack: { crit: 0.03 },
 };
 export const DRUID_BEAR_DEFAULT_BUILD = {
-  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true,
+  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true, usePrimalBite: true, primalBiteThreat: 1,
 };
 
 export function druidBearKit(build = {}, data = null) {
   const b = Object.assign({}, DRUID_BEAR_DEFAULT_BUILD, build), B = JSON.parse(JSON.stringify(DRUID_BEAR));
+  const pbr = pickRank(data, 'druid', null, 'Primal Bite');
+  if (pbr) { B.primalBite = { cost: pbr.cost.amount / 10, cd: pbr.cooldown_ms / 1000, flat: pbr.effects.find((e) => e.effect === 58).base }; }
   const mu = pickRank(data, 'druid', null, 'Maul'), sw = pickRank(data, 'druid', null, 'Swipe'), la = pickRank(data, 'druid', null, 'Lacerate'), en = pickRank(data, 'druid', null, 'Enrage');
   if (mu) { B.maul.cost = mu.cost.amount / 10; B.maul.flat = mu.effects.find((e) => e.effect === 58).base; }
   if (sw) { B.swipe.cost = sw.cost.amount / 10; B.swipe.dmg = sw.effects.find((e) => e.effect === 2).base; }
@@ -246,6 +248,15 @@ export function druidBearKit(build = {}, data = null) {
           const my = (sim.lacToken = (sim.lacToken || 0) + 1); let n = 0;
           const step = () => { if (sim.lacToken !== my) return; sim.record('Lacerate (bleed)', B.lacerate.tick * sim.lacerateStacks * sim.mods.dmgMult, 'hit'); if (++n < B.lacerate.ticks) sim.schedule(B.lacerate.interval, step); else sim.lacerateStacks = 0; };
           sim.schedule(B.lacerate.interval, step);
+        }, 1.5);
+      }
+      // Primal Bite (Feral talent): the rage spender on a 6 s cooldown, instant, high threat (the client does not quantify it: primalBiteThreat)
+      if (b.usePrimalBite && B.primalBite && now >= (sim.pbAt || 0) && rage >= B.primalBite.cost + 2) {
+        return castGcd(sim, spell('Primal Bite'), () => {
+          sim.spendRage(B.primalBite.cost); sim.pbAt = now + B.primalBite.cd;
+          const w = sim.player.weapons[0];
+          const o = yellowAttack(sim, 'Primal Bite', () => (w ? sim.weaponRoll(w) + sim.ap() / 14 * w.speed : 0) + B.primalBite.flat);
+          if (o !== 'miss' && o !== 'dodge' && b.primalBiteThreat > 1) sim.threat(B.primalBite.flat * (b.primalBiteThreat - 1) * sim.threatMult());
         }, 1.5);
       }
       if (!sim.mhQueued && rage >= sim.sMaul.cost() + 5) sim.mhQueued = sim.sMaul;

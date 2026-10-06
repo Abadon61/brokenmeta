@@ -72,3 +72,9 @@ test('Protection Warrior spends spare rage on Heroic Strike before Sunder Armor;
   assert.ok(bear.r.breakdown['Maul'] && bear.r.breakdown['Maul'].dps > 30, 'Maul ' + JSON.stringify(bear.r.breakdown['Maul']));
   assert.ok(bear.tps > run('druid_bear', { useSwipe: false }, null, 120, 600).tps * 0.95, 'Swipe is no loss');
 });
+
+test('Bear: Primal Bite on its 6 s cooldown adds threat', () => {
+  const on = run('druid_bear', {}, null, 120, 600), off = run('druid_bear', { usePrimalBite: false }, null, 120, 600);
+  assert.ok(on.r.breakdown['Primal Bite'] && on.r.breakdown['Primal Bite'].casts > 10, 'casts ' + JSON.stringify(on.r.breakdown['Primal Bite']));
+  assert.ok(on.tps > off.tps, 'TPS ' + on.tps + ' vs ' + off.tps);
+});

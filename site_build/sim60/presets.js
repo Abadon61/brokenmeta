@@ -11,6 +11,7 @@ export const BUFFS = {
   blessing_of_might: { name: 'Blessing of Might', ap: 185, assumed: true },
   blessing_of_kings: { name: 'Blessing of Kings', statMult: 1.10, assumed: true },
   mark_of_the_wild: { name: 'Mark of the Wild', str: 12, agi: 12, sta: 12, int: 12, spi: 12, assumed: true },
+  hunters_mark: { name: "Hunter's Mark", ap: 110 },                                          // Forever client: +110 ranged attack power on the target (ranged Hunters only)
   strength_of_earth: { name: 'Strength of Earth Totem', str: 53 },          // Forever client value (rank at level 60)
   grace_of_air: { name: 'Grace of Air Totem', agi: 89 },                    // Forever client value (rank at level 60)
   leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, meleeOnly: true, assumed: true },
@@ -56,7 +57,7 @@ export const PRESET_CASTER = {
 };
 
 export const PRESET_HUNTER = {
-  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'grace_of_air', 'trueshot_aura', 'dragonslayer', 'songflower'],
+  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'grace_of_air', 'trueshot_aura', 'hunters_mark', 'dragonslayer', 'songflower'],
   consumables: ['elixir_mongoose', 'ground_scorpok', 'brilliant_mana_oil'],
   debuffs: ['sunder_armor_5', 'faerie_fire'],
 };

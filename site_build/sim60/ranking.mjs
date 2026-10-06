@@ -64,6 +64,22 @@ for (const [id, S] of Object.entries(SPECS)) {
   let best = null;
   for (const m of S.modes || [S.mode]) { const x = await tryMode(m); if (!best || x.r.mean > best.r.mean) best = x; }
   const { done, gear, weapons, ch, r } = best;
+  // ---- stat weights at level 60 (DPS specs): DPS gained by one more point of each stat on the final character, same random draws on both sides ----
+  let weights = null;
+  if (!S.tank) {
+    const caster = S.mode === 'caster', main = caster ? 'splpwr' : 'atkpwr';
+    const probes = [[main, caster ? 30 : 40, 'pt'], ['str', 20, 'pt'], ['agi', 20, 'pt'], ['int', 20, 'pt'], ['spi', 20, 'pt'], ['critstrkrtng', 14, 'pct'], ['hitrtng', 10, 'pct'], ['hastertng', 10, 'pct']];
+    const runOf = (c) => runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, 3000, 3).mean;
+    const baseMean = runOf(ch);
+    const list = [];
+    for (const [key, amount, unit] of probes) {
+      const c2 = buildCharacter({ ...character, gear: gear.concat([{ slot: 'trinket3', id: -1, name: 'probe', st: { [key]: amount } }]), weapons });
+      const per = (runOf(c2) - baseMean) / (unit === 'pct' ? 1 : amount);
+      list.push({ stat: key, per: +per.toFixed(3), unit });
+    }
+    const ref = list.find((x) => x.stat === main).per || 1;
+    weights = list.map((x) => ({ ...x, rel: +(x.per / ref).toFixed(2) })).sort((a, b) => b.per - a.per);
+  }
   // ---- data of the spec's detail page: talents, gear, stats, damage by ability, the opening ----
   const talents = [];
   for (const [tn, rk] of Object.entries(PRESETS[id])) {
@@ -91,7 +107,7 @@ for (const [id, S] of Object.entries(SPECS)) {
   }
   const sm = ch.summary || {};
   const detail = {
-    talents, trees, items,
+    talents, trees, items, weights,
     stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },
     effects: (sm.effects || []).map((e) => (e && (e.name || e.id)) || String(e)).slice(0, 12),
     uptimes: Object.entries(r.uptimes || {}).filter(([n, v]) => v > 0.05 && v < 0.999 && !/Ephemeral|Smokey/.test(n)).map(([n, v]) => [n, +v.toFixed(2)]),

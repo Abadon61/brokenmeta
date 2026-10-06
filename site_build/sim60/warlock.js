@@ -209,7 +209,7 @@ function warlockRotate(sim, b, W) {
   const gcdLeft = sim.gcdReadyAt - now;
   if (gcdLeft > 1e-9) return gcdLeft;
   const destro = b.rotation === 'destruction';
-  const useDoom = b.curse === 'doom' || (b.curse === 'auto' && sim.fightLen >= 80);
+  const useDoom = b.curse === 'doom';             // 'auto' = Bane of Agony: it beats Bane of Doom over a 180 s fight (and it is Icy Veins' choice)
   const filler = (() => {
     const cands = [W.shadowBolt];
     if (b.incinerate) cands.push(W.incinerate);
@@ -218,7 +218,7 @@ function warlockRotate(sim, b, W) {
     return cands.sort((x, y) => sim.est(y) - sim.est(x))[0];
   })();
   const refresh = (s, margin) => dotLeft(sim, s.name) <= margin + warlockCastTime(sim, s) && (rem > 6);
-  const wantImmolate = b.immolate === true || (b.immolate === 'auto' && (destro || b.conflagrate));
+  const wantImmolate = b.immolate === true || (b.immolate === 'auto' && (destro || b.conflagrate || b.rotation === 'affliction'));
   let s = null;
   // the damage-over-time effects first
   {
