@@ -510,6 +510,171 @@ ARTICLES = [
             ],
         },
     },
+    {
+        "slug": "livres-bibliotheque-arc-niveau-30-wow-forever",
+        "format": "brief",
+        "date": "2026-10-06",
+        "updated": "2026-10-06",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": "hunter",
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_weapon_bow_08.jpg",
+        "sources": [
+            ("Wowhead : New Library Book Return Quest Unlocked at Level 30 in WoW: Forever (6 Oct. 2026)",
+             "https://www.wowhead.com/news=383251/new-reward-for-handing-in-library-books-at-level-30"),
+        ],
+        "fr": {
+            "title": "WoW Forever : quête des 25 livres, un arc au niveau 30",
+            "description": "WoW Forever : au niveau 30, rapportez 25 livres de bibliothèque pour choisir entre l'arc Truthseeker's Bow et deux autres récompenses.",
+            "h1": "WoW Forever : la quête des 25 livres débloquée au niveau 30",
+            "lede": "Dans la bêta de **WoW Forever**, les joueurs de **niveau 30** peuvent désormais rapporter **25 livres de bibliothèque** pour une récompense plus grosse. Il s'agit d'une seconde « Greater Friend of the Library » : on y choisit entre l'arc **Truthseeker's Bow**, le **Crest of Elucidation** et la **Researcher's Night Light**. Les deux dernières récompenses demandent le niveau 40, et l'arc pourrait lui aussi être verrouillé plus tard.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**25 livres** au niveau 30 : un choix unique entre le **Truthseeker's Bow**, le **Crest of Elucidation** et la **Researcher's Night Light**.",
+                    "**Chasseurs** : l'arc vaut le détour, mais il se pourrait qu'il reçoive aussi une restriction de niveau 40.",
+                    "Les paliers précédents restent : **10 livres** (collier) et **20 livres** (anneau).",
+                    "Les livres se rendent au bibliothécaire de ta faction : **Garion Wendell** à Hurlevent (Alliance), **Owen Thadd** à Fossoyeuse (Horde).",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Guide Chasseur Précision", "wow-forever/guides/hunter/marksmanship/"),
+                ("Calculateur de talents Chasseur", "wow-forever/talents/hunter/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: 25-Book Quest Unlocks a Bow at Level 30",
+            "description": "WoW Forever: at level 30, hand in 25 library books to pick Truthseeker's Bow or two other rewards. What we know from the beta.",
+            "h1": "WoW Forever: the 25-book library quest opens at level 30",
+            "lede": "In the **WoW Forever** beta, **level 30** players can now hand in **25 library books** for a bigger reward. It is a second \"Greater Friend of the Library\" quest: you pick between the **Truthseeker's Bow**, the **Crest of Elucidation** and the **Researcher's Night Light**. The last two require level 40, so the bow may also get a level lock later.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**25 books** at level 30: a single choice between the **Truthseeker's Bow**, the **Crest of Elucidation** and the **Researcher's Night Light**.",
+                    "**Hunters**: the bow is worth the trip, but it may end up with a level 40 requirement too.",
+                    "The earlier tiers stay: **10 books** (necklace) and **20 books** (ring).",
+                    "Hand books in to your faction's librarian: **Garion Wendell** in Stormwind (Alliance), **Owen Thadd** in Undercity (Horde).",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Marksmanship Hunter guide", "wow-forever/guides/hunter/marksmanship/"),
+                ("Hunter talent calculator", "wow-forever/talents/hunter/"),
+            ],
+        },
+    },
+    {
+        "slug": "lfg-style-de-jeu-obligatoire-wow-forever",
+        "format": "brief",
+        "date": "2026-10-07",
+        "updated": "2026-10-07",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_groupneedmore.jpg",
+        "sources": [
+            ("Wowhead : New Required \"Playstyle\" Selection Added To LFG In WoW: Forever (7 Oct. 2026)",
+             "https://www.wowhead.com/news=383259/new-required-playstyle-selection-added-to-lfg-in-wow-f"),
+        ],
+        "fr": {
+            "title": "WoW Forever : un style de jeu obligatoire dans le LFG",
+            "description": "WoW Forever bêta : le LFG demande de choisir Learning, Relaxed, Competitive ou Carry Offered avant de chercher un groupe de donjon.",
+            "h1": "WoW Forever : le LFG impose maintenant un style de jeu",
+            "lede": "Dans la bêta de **WoW Forever**, l'outil de recherche de groupe (**LFG**) affiche un nouveau menu « Playstyle » à remplir avant de pouvoir chercher un groupe de donjon. Quatre choix : **Learning**, **Relaxed**, **Competitive** et **Carry Offered**. Les deux premiers visent les runs tranquilles et les nouveaux joueurs ; « Competitive » n'a pas encore de vraie raison d'être en donjon, mais pourrait servir en raid.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Choix obligatoire** : impossible de lancer une recherche LFG sans sélectionner un style de jeu.",
+                    "**Learning / Relaxed** : pour les groupes qui prennent leur temps, idéal pour découvrir un donjon.",
+                    "**Carry Offered** : l'option la plus discutée, car un carry se fait souvent contre paiement ; les **GDKP** restent interdits dans WoW Forever.",
+                    "Prépare ton groupe avant de chercher : consulte nos pages de **donjons** pour le loot et les boss.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+                ("Bêta de WoW Forever", "wow-forever/beta/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: A Required Playstyle Choice in LFG",
+            "description": "WoW Forever beta: the LFG tool now asks you to pick Learning, Relaxed, Competitive or Carry Offered before queuing for a dungeon group.",
+            "h1": "WoW Forever: LFG now requires a playstyle",
+            "lede": "In the **WoW Forever** beta, the group finder (**LFG**) shows a new \"Playstyle\" menu that must be filled in before you can look for a dungeon group. There are four options: **Learning**, **Relaxed**, **Competitive** and **Carry Offered**. The first two target slower runs and newer players; \"Competitive\" has no real purpose in dungeons yet but could matter for raids.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Mandatory choice**: you cannot queue in LFG without picking a playstyle.",
+                    "**Learning / Relaxed**: for groups that take their time, ideal to discover a dungeon.",
+                    "**Carry Offered**: the most debated option, since carries often come at a price; **GDKPs** remain banned in WoW Forever.",
+                    "Prepare your group before queuing: check our **dungeon** pages for loot and bosses.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("All WoW Forever dungeons", "wow-forever/dungeons/"),
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+                ("WoW Forever beta", "wow-forever/beta/"),
+            ],
+        },
+    },
+    {
+        "slug": "booty-bay-bruiser-buckshot-nerf-wow-forever",
+        "format": "brief",
+        "date": "2026-10-07",
+        "updated": "2026-10-07",
+        "draft": False,
+        "tag": "tuning",
+        "kind": "nerf",
+        "class": "hunter",
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_05.jpg",
+        "sources": [
+            ("Wowhead : Booty Bay's Most Entertaining Weapon Just Got Nerfed - WoW Forever (6 Oct. 2026)",
+             "https://www.wowhead.com/news=383276/booty-bays-most-entertaining-weapon-just-got-nerfed-wo"),
+        ],
+        "fr": {
+            "title": "WoW Forever : Booty Bay Bruiser's Buckshot nerfé",
+            "description": "WoW Forever bêta : le fusil Booty Bay Bruiser's Buckshot, vendu à Honoré chez Baie-du-Butin, perd son effet de projection par hotfix.",
+            "h1": "WoW Forever : le Booty Bay Bruiser's Buckshot perd sa projection",
+            "lede": "Cette semaine, les joueurs de la bêta de **WoW Forever** ont découvert le fusil **Booty Bay Bruiser's Buckshot**, disponible à **Honoré** auprès de la faction Baie-du-Butin. Son effet à l'utilisation projetait en arrière la cible touchée, joueur ou PNJ, ce qui a provoqué un joyeux chaos. Blizzard a depuis appliqué un **hotfix** qui supprime cette projection.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Plus de projection** : le fusil ne repousse plus la cible, l'effet d'origine est retiré.",
+                    "L'arme reste accessible à **Honoré** avec la réputation de **Baie-du-Butin**.",
+                    "**Chasseurs** : pense à vérifier les armes à distance de ton niveau dans nos guides.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Guide Chasseur Précision", "wow-forever/guides/hunter/marksmanship/"),
+                ("Calculateur de talents Chasseur", "wow-forever/talents/hunter/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Booty Bay Bruiser's Buckshot Nerfed",
+            "description": "WoW Forever beta: the Booty Bay Bruiser's Buckshot gun, sold at Honored with Booty Bay, loses its knockback effect in a hotfix.",
+            "h1": "WoW Forever: Booty Bay Bruiser's Buckshot loses its knockback",
+            "lede": "This week, **WoW Forever** beta players found the **Booty Bay Bruiser's Buckshot** gun, available at **Honored** with the Booty Bay faction. Its on-use effect knocked back whoever you shot, player or NPC, and chaos followed. Blizzard has since applied a **hotfix** that removes the knockback.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**No more knockback**: the gun no longer pushes its target, the original effect is gone.",
+                    "The weapon is still available at **Honored** with **Booty Bay** reputation.",
+                    "**Hunters**: check the ranged weapons for your level in our guides.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Marksmanship Hunter guide", "wow-forever/guides/hunter/marksmanship/"),
+                ("Hunter talent calculator", "wow-forever/talents/hunter/"),
+            ],
+        },
+    },
 ]
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
