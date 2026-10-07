@@ -174,7 +174,7 @@ class Sim {
     this.dr = armorDR(cfg.target.armor);
     this.rageC = rageConversion(this.level);
     // dynamic modifiers (auras & talents write into this)
-    this.mods = { critBonus: 0, hitBonus: 0, apBonus: 0, apMult: 1, hasteMult: 1, dmgMult: 1, spellDmgMult: 1, critDmgBonus: 0 };
+    this.mods = { critBonus: 0, meleeCritBonus: 0, hitBonus: 0, apBonus: 0, apMult: 1, hasteMult: 1, dmgMult: 1, spellDmgMult: 1, critDmgBonus: 0 };
     this.rage = 0; this.rageCap = RAGE_CAP; this.rageWasted = 0; this.rageGained = 0;
     this.gcdReadyAt = 0;
     this.dmg = Object.create(null); this.total = 0;
@@ -211,7 +211,7 @@ class Sim {
   hasteMult() { return (this.stats.haste || 1) * this.mods.hasteMult; }
   ap() { return (this.stats.ap + this.mods.apBonus) * this.mods.apMult; }
   critChance(extra = 0) {
-    const c = this.stats.crit + this.mods.critBonus + extra - this.table.critSuppression;
+    const c = this.stats.crit + this.mods.critBonus + this.mods.meleeCritBonus + extra - this.table.critSuppression;     // meleeCritBonus: melee only (Elemental Devastation)
     return c < 0 ? 0 : c > 1 ? 1 : c;
   }
   hitFrac() { return this.stats.hit + this.mods.hitBonus; }
@@ -234,10 +234,10 @@ class Sim {
     if (!e) e = this.dmg[source] = { dmg: 0, hits: 0, crits: 0, misses: 0, dodges: 0, glances: 0, casts: 0 };
     return e;
   }
-  record(source, amount, kind) {
+  record(source, amount, kind, tick) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
-    if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind]);
+    if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
     if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
   }
@@ -439,6 +439,7 @@ const BUFFS = {
   blessing_of_might: { name: 'Blessing of Might', ap: 185, assumed: true },
   blessing_of_kings: { name: 'Blessing of Kings', statMult: 1.10, assumed: true },
   mark_of_the_wild: { name: 'Mark of the Wild', str: 12, agi: 12, sta: 12, int: 12, spi: 12, assumed: true },
+  hunters_mark: { name: "Hunter's Mark", ap: 110 },                                          // Forever client: +110 ranged attack power on the target (ranged Hunters only)
   strength_of_earth: { name: 'Strength of Earth Totem', str: 53 },          // Forever client value (rank at level 60)
   grace_of_air: { name: 'Grace of Air Totem', agi: 89 },                    // Forever client value (rank at level 60)
   leader_of_the_pack: { name: 'Leader of the Pack', crit: 0.03, meleeOnly: true, assumed: true },
@@ -484,7 +485,7 @@ const PRESET_CASTER = {
 };
 
 const PRESET_HUNTER = {
-  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'grace_of_air', 'trueshot_aura', 'dragonslayer', 'songflower'],
+  buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'grace_of_air', 'trueshot_aura', 'hunters_mark', 'dragonslayer', 'songflower'],
   consumables: ['elixir_mongoose', 'ground_scorpok', 'brilliant_mana_oil'],
   debuffs: ['sunder_armor_5', 'faerie_fire'],
 };
@@ -793,10 +794,11 @@ const NAME_TO_KEY = {
     'Mental Agility': 'mentalAgility', 'Mental Strength': 'mentalStrength', 'Meditation': 'meditation', 'Power Infusion': 'powerInfusion', 'Inner Focus': 'innerFocus',
   },
   shaman: {
+    'Mindfulness': 'mindfulness', 'Totemic Focus': 'totemicFocus', 'Tidal Focus': 'tidalFocus',
     'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
     'Elemental Alacrity': 'elementalAlacrity', 'Call of Thunder': 'callOfThunder', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst',
     'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
-    'Rage of the Farseer': 'rageOfTheFarseer', 'Improved Fire Nova': 'improvedFireNova', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
+    'Rage of the Farseer': 'rageOfTheFarseer', 'Improved Fire Nova': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
   },
   druid: {
     'Improved Wrath': 'improvedWrath', 'Genesis': 'genesis', 'Moonglow': 'moonglow', 'Improved Moonfire': 'improvedMoonfire', "Nature's Majesty": 'naturesMajesty', "Nature's Reach": 'naturesReach',
@@ -954,8 +956,9 @@ const PRESETS = {
     'Twin Disciplines': 5, 'Power in Light': 5, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 2,
   },
   shaman_elemental: {
-    'Convection': 5, 'Concussion': 5, 'Reverberation': 5, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Call of Thunder': 1, 'Lightning Overload': 3,
-    'Elemental Fury': 5, 'Lava Burst': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5, 'Mental Dexterity': 3, 'Guardian Totems': 2, 'Improved Ghost Wolf': 2, 'Improved Lightning Shield': 2,
+    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Call of Thunder': 1, 'Lightning Overload': 3,
+    'Elemental Fury': 5, 'Lava Burst': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
+    'Totemic Focus': 5, 'Mindfulness': 3, 'Tidal Focus': 2,       // Restoration: 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totem, +2 % hit
   },
   druid_balance: {
     'Improved Wrath': 5, 'Genesis': 5, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Majesty": 2, "Nature's Reach": 2, "Nature's Splendor": 1, 'Insect Swarm': 1, 'Vengeance': 5,
@@ -969,7 +972,7 @@ const PRESETS = {
   shaman_enhancement: {
     'Thundering Strikes': 5, 'Ancestral Knowledge': 5, 'Mental Dexterity': 3, 'Elemental Weapons': 3, 'Flurry': 5, 'Stormstrike': 1, 'Mental Quickness': 2, 'Improved Stormstrike': 2,
     'Maelstrom Weapon': 5, 'Rage of the Farseer': 1,
-    'Convection': 5, 'Concussion': 5, 'Call of Flame': 3, 'Shamanistic Focus': 1, 'Reverberation': 1, 'Elemental Focus': 1, 'Elemental Alacrity': 3,
+    'Convection': 5, 'Concussion': 5, 'Elemental Devastation': 3, 'Shamanistic Focus': 1, 'Reverberation': 1, 'Elemental Focus': 1, 'Elemental Alacrity': 3,
   },
   druid_feral: {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Shifting Power': 1,
@@ -999,7 +1002,7 @@ const PRESETS = {
   warrior_arms: {
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,
     'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1,
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Boundless Rage': 3,
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Boundless Rage': 3, 'Improved Cleave': 2,
   },
 };
 
@@ -1271,7 +1274,7 @@ function armsKit(build = {}, data = null) {
         yellowAttack(sim, 'Overpower', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.overpower.flat,
           { canDodge: false, bonusCrit: W.improvedOverpower.critPerRank * (b.improvedOverpower || 0) });
       });
-      if (b.useRend && b.bloodthrill > 0 && now >= sim.rendEndsAt && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
+      if (b.useRend && (b.bloodthrill > 0 || b.rendAlways) && now >= sim.rendEndsAt && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
         sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
         const ticks = Math.round(W.rend.duration / W.rend.tick), per = W.rend.total * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0)) / ticks, my = sim.rendEndsAt;
         for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
@@ -1599,7 +1602,7 @@ function applyDotCrit(sim, name, perTick, ticks, interval, roll, onTick) {
   const step = () => {
     if (dots[name] !== my) return;
     const r = roll(n), d = perTick * r.mult;
-    sim.record(name, d, r.crit ? 'crit' : 'hit'); n++;
+    sim.record(name, d, r.crit ? 'crit' : 'hit', true); n++;
     if (onTick) onTick(r);
     if (n < ticks) sim.schedule(interval, step); else ends[name] = 0;
   };
@@ -2409,7 +2412,7 @@ function warlockRotate(sim, b, W) {
   const gcdLeft = sim.gcdReadyAt - now;
   if (gcdLeft > 1e-9) return gcdLeft;
   const destro = b.rotation === 'destruction';
-  const useDoom = b.curse === 'doom' || (b.curse === 'auto' && sim.fightLen >= 80);
+  const useDoom = b.curse === 'doom';             // 'auto' = Bane of Agony: it beats Bane of Doom over a 180 s fight (and it is Icy Veins' choice)
   const filler = (() => {
     const cands = [W.shadowBolt];
     if (b.incinerate) cands.push(W.incinerate);
@@ -2418,7 +2421,7 @@ function warlockRotate(sim, b, W) {
     return cands.sort((x, y) => sim.est(y) - sim.est(x))[0];
   })();
   const refresh = (s, margin) => dotLeft(sim, s.name) <= margin + warlockCastTime(sim, s) && (rem > 6);
-  const wantImmolate = b.immolate === true || (b.immolate === 'auto' && (destro || b.conflagrate));
+  const wantImmolate = b.immolate === true || (b.immolate === 'auto' && (destro || b.conflagrate || b.rotation === 'affliction'));
   let s = null;
   // the damage-over-time effects first
   {
@@ -2871,12 +2874,12 @@ function dropTotem(sim, T, mods) {
 const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
   thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, callOfThunder: { crit: 0.03 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
-  improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+  improvedFireNova: { dmg: 0.1, cd: 2 }, mentalQuickness: { sp: 0.15 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
 const SHAMAN_ELE_DEFAULT_BUILD = {
   convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, callOfThunder: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
-  improvedFireNova: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
+  improvedFireNova: 0, mentalQuickness: 0, mindfulness: 0, totemicFocus: 0, tidalFocus: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
 function shamanElementalKit(build = {}, data = null) {
@@ -2897,14 +2900,14 @@ function shamanElementalKit(build = {}, data = null) {
     name: 'shaman_elemental', build: b, S,
     items: { potion: H.manaPotion, gem: H.manaGem },
     baseMana: (sim) => sim.stats.mana + 15 * Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge),
-    keep: () => 0,
+    keep: () => b.mindfulness / 6,                          // Mindfulness: 17 / 33 / 50 % of the regeneration continues while casting
     setup(sim) {
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
-      sim.spBonus = 0;
+      sim.spBonus = Math.floor(((sim.stats.int || 0) * (1 + H.ancestralKnowledge.int * b.ancestralKnowledge)) * H.mentalQuickness.sp * b.mentalQuickness);   // Mental Quickness: spell power from Intellect
       sim.critBase = H.thunderingStrikes.crit * b.thunderingStrikes + Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge) / 59.5 / 100;
     },
     mods(sim, s, kind) {
-      let hit = 0, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
+      let hit = 0.01 * b.tidalFocus, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
       if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
@@ -2914,7 +2917,7 @@ function shamanElementalKit(build = {}, data = null) {
     },
     castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity) : s.cast),
     cost(sim, s) {
-      if (s.totem) return s.cost;
+      if (s.totem) return Math.round(s.cost * (1 - 0.05 * b.totemicFocus));
       if (sim.aClear.active) return 0;
       return Math.round(s.cost * (s.bolt || s.shock ? 1 - H.convection.cost * b.convection : 1));
     },
@@ -2961,7 +2964,7 @@ const SHAMAN_ENH = {
 
 const SHAMAN_ENH_DEFAULT_BUILD = {
   thunderingStrikes: 0, ancestralKnowledge: 0, mentalDexterity: 0, mentalQuickness: 0, elementalWeapons: 0, flurry: 0, stormstrike: 0, maelstromWeapon: 0, rageOfTheFarseer: 0,
-  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', shamanisticFocus: 0, earthShock: true, flameShock: true, fireNova: false, shockSpell: 'earth', ssBuffOn: 'bolt', fsFirst: true, fsRefresh: 3, maelstromMin: 3, improvedStormstrike: 0, convection: 0, elementalFocus: 0, elementalAlacrity: 0, improvedFireNova: 0, shockReserve: 300, useCooldowns: true, usePotion: true, useGem: true,
+  windfuryWeapon: true, rockbiter: true, fireTotem: 'searing', shamanisticFocus: 0, earthShock: true, flameShock: true, fireNova: false, shockSpell: 'earth', ssBuffOn: 'bolt', fsFirst: true, fsRefresh: 3, maelstromMin: 3, improvedStormstrike: 0, convection: 0, elementalFocus: 0, elementalAlacrity: 0, improvedFireNova: 0, elementalDevastation: 0, shockReserve: 300, useCooldowns: true, usePotion: true, useGem: true,
 };
 
 function shamanEnhancementKit(build = {}, data = null) {
@@ -2990,6 +2993,11 @@ function shamanEnhancementKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana + 15 * extraInt, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int, spi: st.spi }), castingFraction: (s) => (s.now < s.istUntil ? E.improvedStormstrike.keep : 0) });
       sim.cd = { ss: 0, farseer: 0, potion: 0, gem: 0 }; sim.totemUntil = 0; sim.fsUntil = -1;
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
+      // Elemental Devastation: an offensive spell crit (not the totem's bolts nor a damage-over-time tick) gives +3% melee crit per rank for 10 s
+      if (b.elementalDevastation) {
+        sim.aED = sim.addAura({ name: 'Elemental Devastation', duration: 10, mods: { meleeCritBonus: 0.03 * b.elementalDevastation } });
+        sim.spellProcs.push((s, name, kind) => { if (kind === 'crit' && !/Searing|DoT/.test(name)) s.aED.apply(); });
+      }
       sim.flurryAura = sim.addAura({ name: 'Flurry', duration: E.flurry.expire, mods: { hasteMult: 1 + E.flurry.perRank * b.flurry } });
       sim.flurryAura.charges = 0;
       sim.aMW = sim.addAura({ name: 'Maelstrom Weapon', duration: E.maelstrom.dur, maxStacks: E.maelstrom.max });
@@ -3018,7 +3026,7 @@ function shamanEnhancementKit(build = {}, data = null) {
       // fire totem (Searing): one global cooldown every 55 s
       if (T && rem > 8 && now >= sim.totemUntil - 1.0 && sim.mana >= T.cost) {
         spendMana(sim, T.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry(T.name).casts++;
-        dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1, critBonus: 0 }));
+        dropTotem(sim, T, (x) => ({ hit: 0, crit: x.mods.critBonus, dmg: 1 + E.callOfFlame.dmg * (b.callOfFlame || 0), critBonus: 0 }));
         return 1.5;
       }
       const spPow = (sim.stats.sp || 0) + sim.spBonus, focus = 1 - E.shamanisticFocus.cost * b.shamanisticFocus, conv = 1 - E.convection.cost * b.convection;
@@ -3620,11 +3628,13 @@ const DRUID_BEAR = {
   leaderOfThePack: { crit: 0.03 },
 };
 const DRUID_BEAR_DEFAULT_BUILD = {
-  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true,
+  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true, usePrimalBite: true, primalBiteThreat: 1,
 };
 
 function druidBearKit(build = {}, data = null) {
   const b = Object.assign({}, DRUID_BEAR_DEFAULT_BUILD, build), B = JSON.parse(JSON.stringify(DRUID_BEAR));
+  const pbr = pickRank(data, 'druid', null, 'Primal Bite');
+  if (pbr) { B.primalBite = { cost: pbr.cost.amount / 10, cd: pbr.cooldown_ms / 1000, flat: pbr.effects.find((e) => e.effect === 58).base }; }
   const mu = pickRank(data, 'druid', null, 'Maul'), sw = pickRank(data, 'druid', null, 'Swipe'), la = pickRank(data, 'druid', null, 'Lacerate'), en = pickRank(data, 'druid', null, 'Enrage');
   if (mu) { B.maul.cost = mu.cost.amount / 10; B.maul.flat = mu.effects.find((e) => e.effect === 58).base; }
   if (sw) { B.swipe.cost = sw.cost.amount / 10; B.swipe.dmg = sw.effects.find((e) => e.effect === 2).base; }
@@ -3669,6 +3679,15 @@ function druidBearKit(build = {}, data = null) {
           const my = (sim.lacToken = (sim.lacToken || 0) + 1); let n = 0;
           const step = () => { if (sim.lacToken !== my) return; sim.record('Lacerate (bleed)', B.lacerate.tick * sim.lacerateStacks * sim.mods.dmgMult, 'hit'); if (++n < B.lacerate.ticks) sim.schedule(B.lacerate.interval, step); else sim.lacerateStacks = 0; };
           sim.schedule(B.lacerate.interval, step);
+        }, 1.5);
+      }
+      // Primal Bite (Feral talent): the rage spender on a 6 s cooldown, instant, high threat (the client does not quantify it: primalBiteThreat)
+      if (b.usePrimalBite && B.primalBite && now >= (sim.pbAt || 0) && rage >= B.primalBite.cost + 2) {
+        return castGcd(sim, spell('Primal Bite'), () => {
+          sim.spendRage(B.primalBite.cost); sim.pbAt = now + B.primalBite.cd;
+          const w = sim.player.weapons[0];
+          const o = yellowAttack(sim, 'Primal Bite', () => (w ? sim.weaponRoll(w) + sim.ap() / 14 * w.speed : 0) + B.primalBite.flat);
+          if (o !== 'miss' && o !== 'dodge' && b.primalBiteThreat > 1) sim.threat(B.primalBite.flat * (b.primalBiteThreat - 1) * sim.threatMult());
         }, 1.5);
       }
       if (!sim.mhQueued && rage >= sim.sMaul.cost() + 5) sim.mhQueued = sim.sMaul;
