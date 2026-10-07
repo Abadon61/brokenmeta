@@ -21,6 +21,17 @@ export function setupMana(sim, opts) {
   };
   sim.schedule(per, tick);
 }
+// Demonic / Dark Rune (a raid consumable, ASSUMED Classic values): 900-1500 mana every 2 minutes, its own cooldown apart from the potion and the gem.
+// The health it costs is not modelled. Used as soon as it restores its full average.
+export const MANA_RUNE = { cd: 120, min: 900, max: 1500 };
+export function useRune(sim, b) {
+  if (b.useRune === false) return;
+  const rem = sim.fightLen - sim.now;
+  if (sim.now >= (sim.runeAt || 0) && sim.mana <= sim.manaMax - (MANA_RUNE.min + MANA_RUNE.max) / 2 && rem > 15) {
+    sim.runeAt = sim.now + MANA_RUNE.cd; sim.entry('Demonic Rune').casts++;
+    gainMana(sim, MANA_RUNE.min + (MANA_RUNE.max - MANA_RUNE.min) * sim.rng());
+  }
+}
 export function gainMana(sim, n) {
   const room = sim.manaMax - sim.mana; if (n > room) n = room;
   if (n > 0) { sim.mana += n; sim.manaGained += n; }

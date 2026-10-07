@@ -197,6 +197,9 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
                   (L[4], _fmt_int(tank.get("blockValue", 0))), (L[5], _fmt_int(tank.get("armor", 0)))]
         kpis = []
     # weapon procs named like a class spell (the Gatorbite Axe's "Rend") are not part of the rotation
+    setup = d.get("setup") or {}
+    pick = lambda e: {"name": (wow_rank_texts.SETUP_FR.get(e["id"]) or e["name"]) if lang == "fr" else e["name"], "eff": wow_rank_texts.setup_effect(lang, e)}
+    setup_groups = [(rx["buffs_buffs"], [pick(e) for e in setup.get("buffs", [])]), (rx["buffs_cons"], [pick(e) for e in setup.get("consumables", [])]), (rx["buffs_debuffs"], [pick(e) for e in setup.get("debuffs", [])])]
     opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"] and not (o["n"] == "Rend" and r["class_id"] != "warrior")]
     pg = {
         "title": rx["title"].format(cls=r["class_name"], spec=r["spec_name"]), "desc": rx["desc"].format(cls=r["class_name"], spec=r["spec_name"]),
@@ -205,7 +208,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         "dtps": _fmt_int(r.get("dtps") or 0), "health": _fmt_int(r.get("health") or 0),
         "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
         "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
-        "effects": d.get("effects") or [], "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
     }
     if r["role"] == "tank":                      # tanks are ranked by threat, not damage
         swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
@@ -250,7 +253,7 @@ def _guide_level60(lang, cls_id, spec_id, rows):
     """Level-60 sections of a specialization guide: rotation (simulator vs Icy Veins), gear and stat weights from the ranking's simulation."""
     key = f"{cls_id}/{spec_id}"
     gx = wow_guide_rotation.G60[lang]
-    out = {"rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows), "heal_table": None}
+    out = {"cons": [], "cons_heal": None, "rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows), "heal_table": None}
     sim_rows = [r for r in rows if r.get("detail")]
     if sim_rows:
         out["rot"] = {"sim": [{"label": r["spec_name"] if len(sim_rows) > 1 else None, "steps": wow_rank_texts.ROTATION[r["spec_id"]][lang]} for r in sim_rows],
@@ -258,6 +261,7 @@ def _guide_level60(lang, cls_id, spec_id, rows):
     elif key in wow_guide_rotation.HEALER_MAIN:
         out["rot"] = {"sim": [{"label": None, "steps": wow_guide_rotation.HEALER_MAIN[key][lang]}], "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": True, "heal_note": wow_guide_rotation.HEALER_NOTE[lang]}
         out["heal_table"] = _healing_table(lang, cls_id)
+        out["cons_heal"] = wow_guide_rotation.HEALER_CONS[lang]
     order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
     labels = wow_rank_texts.SLOTS[lang]
     for r in sim_rows:
@@ -269,6 +273,12 @@ def _guide_level60(lang, cls_id, spec_id, rows):
                 src = f"{src} — {it['src']}" if src else it["src"]
             items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "id": it.get("id"), "source": src})
         out["gear"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "items": items})
+        cons = []
+        for c in d.get("consumables") or []:
+            if c["gain"] > 0.02 and (c["inSet"] or c["gain"] > 0.2):
+                cons.append({"name": (wow_rank_texts.SETUP_FR.get(c["id"]) or c["name"]) if lang == "fr" else c["name"], "gain": c["gain"], "pct": c["pct"], "in_set": c["inSet"]})
+        if cons:
+            out["cons"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "inset": [c for c in cons if c["in_set"]], "extra": [c for c in cons if not c["in_set"]][:6]})
         w = d.get("weights")
         if w:
             main = "splpwr" if any(x["stat"] == "splpwr" for x in w) else "atkpwr"

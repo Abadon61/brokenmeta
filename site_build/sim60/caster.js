@@ -1,7 +1,7 @@
 // Generic caster kit used by the Priest, Shaman and Druid casters: a spell table built from the client's rank records, a
 // priority function and a few modifier hooks. Mana, the five-second rule, spell hit/crit/mitigation, crit-capable damage over
 // time and channels come from spells.js. ASSUMED values are flagged where the kits define them.
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, SPELL_GCD, SPELL_CRIT_MULT } from './spells.js';
+import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, SPELL_GCD, SPELL_CRIT_MULT } from './spells.js';
 
 // ---- rank record (data/spells60.json: top / extra) -> spell definition ----
 export function levelPoints(e, rec) {
@@ -64,6 +64,7 @@ export function makeCaster(def) {
       if (b.useGem && it.gem && now >= (sim.cdAt.gem || 0) && sim.mana <= sim.manaMax - (it.gem.min + it.gem.max) / 2 && rem > 15) {
         sim.cdAt.gem = now + it.gem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, it.gem.min + (it.gem.max - it.gem.min) * sim.rng());
       }
+      useRune(sim, b);
       if (def.offGcd) def.offGcd(sim);
       const gcdLeft = sim.gcdReadyAt - now;
       if (gcdLeft > 1e-9) return gcdLeft;

@@ -74,6 +74,14 @@
 <h2 class="fiche-section-title">{{ rx.sec_stats }}</h2>
 <div class="rs-open">{% for s in pg.stats %}<span class="rs-step"><i class="nums">{{ s[1] }}</i>{{ s[0] }}</span>{% endfor %}</div>
 
+{% if pg.setup %}
+<h2 class="fiche-section-title">{{ rx.sec_buffs }}</h2>
+<p class="page-intro" style="margin-top:0">{{ rx.buffs_p }}</p>
+{% for g in pg.setup %}<h3 class="rs-sub">{{ g[0] }}</h3>
+<ul class="gd-list">{% for e in g[1] %}<li><b>{{ e.name }}</b>{% if e.eff %} — {{ e.eff }}{% endif %}</li>{% endfor %}</ul>{% endfor %}
+<p class="wow-note">{{ rx.buffs_note }}</p>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ rx.sec_assump }}</h2>
 <p class="wow-note">{{ rx.assump }}</p>
 

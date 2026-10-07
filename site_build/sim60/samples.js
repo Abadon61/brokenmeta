@@ -35,7 +35,7 @@ export const SAMPLE_ROGUE = {
     { min: 60, max: 110, speed: 2.4, type: 'sword', offHand: true },
   ],
   buffs: ['battle_shout', 'blessing_of_might', 'blessing_of_kings', 'mark_of_the_wild', 'strength_of_earth', 'grace_of_air', 'leader_of_the_pack'],
-  consumables: ['elixir_mongoose', 'juju_power', 'juju_might', 'roids'],
+  consumables: ['elixir_mongoose', 'juju_power', 'juju_might'],
   debuffs: ['sunder_armor_5', 'faerie_fire'],
 };
 

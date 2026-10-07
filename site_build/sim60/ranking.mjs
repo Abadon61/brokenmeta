@@ -10,7 +10,7 @@ import { Sim } from './engine.js';
 import { buildCharacter } from './character.js';
 import { makeKit, KITS } from './kits.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
-import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER } from './presets.js';
+import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, BUFFS, DEBUFFS } from './presets.js';
 
 const FIGHT = +process.argv[2] || 180, FINAL = +process.argv[3] || 6000;
 const here = new URL('.', import.meta.url);
@@ -37,6 +37,7 @@ const FAMILY = { caster: PRESET_CASTER, hunter: PRESET_HUNTER };
 const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT, iterations: FINAL, build: rd('items.json').build, specs: [] };
 const objectiveTank = (r, ch) => { const len = FIGHT, thr = r.counters.threat / len, dt = r.counters.dmgTaken / len, raw = ch.target.boss.dmg / ch.target.boss.speed; return Math.sqrt(Math.max(0, thr) * Math.max(0, raw - dt)); };
 
+const stat = (d) => { const o = {}; for (const k of ['str', 'agi', 'sta', 'int', 'spi', 'ap', 'sp', 'crit', 'spCrit', 'mp5', 'statMult', 'armor', 'spellTaken']) if (d[k]) o[k] = d[k]; if (d.meleeOnly) o.meleeOnly = true; return o; };
 // RANK_ONLY=spec_a,spec_b recomputes only those specs and keeps the other rows of the existing file
 const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
@@ -83,6 +84,17 @@ for (const [id, S] of Object.entries(SPECS)) {
     const ref = list.find((x) => x.stat === main).per || 1;
     weights = list.map((x) => ({ ...x, rel: +(x.per / ref).toFixed(2) })).sort((a, b) => b.per - a.per);
   }
+  // ---- consumables: what each one is worth to this spec. Those of the simulated set are removed one by one (loss), the others are added one by one (gain) ----
+  const metric = (c, rr) => (S.tank ? objectiveTank(rr, c) : rr.mean);
+  const withCons = (list) => { const c = buildCharacter({ ...character, consumables: list, gear, weapons }); return metric(c, runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, 2500, 3)); };
+  const baseCons = withCons(family.consumables), consumables = [];
+  for (const [cid, cdef] of Object.entries(CONSUMABLES)) {
+    if (cdef.weaponDmg) continue;
+    const inSet = family.consumables.includes(cid);
+    const v = withCons(inSet ? family.consumables.filter((x) => x !== cid) : family.consumables.concat([cid]));
+    consumables.push({ id: cid, name: cdef.name, inSet, gain: +((inSet ? baseCons - v : v - baseCons)).toFixed(2), pct: +(100 * (inSet ? baseCons - v : v - baseCons) / baseCons).toFixed(2) });
+  }
+  consumables.sort((a, b) => b.gain - a.gain);
   // ---- data of the spec's detail page: talents, gear, stats, damage by ability, the opening ----
   const talents = [];
   for (const [tn, rk] of Object.entries(PRESETS[id])) {
@@ -111,7 +123,9 @@ for (const [id, S] of Object.entries(SPECS)) {
   }
   const sm = ch.summary || {};
   const detail = {
-    talents, trees, items, weights,
+    talents, trees, items, weights, consumables,
+    // what the raid gives during the simulation (ids and values come from presets.js; the page translates the names)
+    setup: { buffs: family.buffs.map((x) => ({ id: x, name: BUFFS[x].name, ...stat(BUFFS[x]) })), consumables: family.consumables.map((x) => ({ id: x, name: CONSUMABLES[x].name, ...stat(CONSUMABLES[x]) })), debuffs: family.debuffs.map((x) => ({ id: x, name: DEBUFFS[x].name, ...stat(DEBUFFS[x]) })) },
     stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },
     effects: (sm.effects || []).map((e) => (e && (e.name || e.id)) || String(e)).slice(0, 12),
     uptimes: Object.entries(r.uptimes || {}).filter(([n, v]) => v > 0.05 && v < 0.999 && !/Ephemeral|Smokey/.test(n)).map(([n, v]) => [n, +v.toFixed(2)]),

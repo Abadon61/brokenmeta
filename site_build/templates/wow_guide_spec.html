@@ -101,9 +101,27 @@
 <ol class="wg-stats">{% for st in content.stats.alt.order %}<li>{{ st[lang] }}</li>{% endfor %}</ol>{% endif %}
 {% endif %}
 
+{% if lvl60.cons %}
+<h2 class="fiche-section-title">{{ g60.cons_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ g60.cons_p }}</p>
+{% for cb in lvl60.cons %}{% if cb.label %}<h3 class="rs-sub">{{ cb.label }}</h3>{% endif %}
+{% for part, rows_c in (('in', cb.inset), ('out', cb.extra)) %}{% if rows_c %}
+<h3 class="rs-sub">{{ g60.cons_in if part == 'in' else g60.cons_out }}</h3>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ g60.col_cons }}</th>{% if not lvl60.tank_rows %}<th class="nums">{{ g60.col_gain }}</th>{% endif %}<th class="nums">{{ g60.col_pct }}</th></tr></thead>
+  <tbody>{% for c in rows_c %}<tr><td>{{ c.name }}</td>{% if not lvl60.tank_rows %}<td class="nums">+{{ c.gain }}</td>{% endif %}<td class="nums">+{{ c.pct }} %</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endif %}{% endfor %}{% endfor %}
+{% if lvl60.tank_rows %}<p class="wow-note">{{ g60.cons_tank }}</p>{% endif %}
+{% elif lvl60.cons_heal %}
+<h2 class="fiche-section-title">{{ g60.cons_h2 }}</h2>
+<p class="page-intro" style="margin-top:0">{{ g60.cons_heal }}</p>
+<ul class="gd-list">{% for c in lvl60.cons_heal %}<li>{{ c }}</li>{% endfor %}</ul>
+{% else %}
 <h2 class="fiche-section-title">{{ tx.cons_h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ tx.cons_p }}</p>
 <ul class="gd-list">{% for c in content.consumables %}<li>{% if c.id %}<a href="https://www.wowhead.com/forever/item={{ c.id }}" rel="noopener nofollow" target="_blank">{{ c.name[lang] }}</a>{% else %}{{ c.name[lang] }}{% endif %}{% if c.note %} — {{ c.note[lang] }}{% endif %}</li>{% endfor %}</ul>
+{% endif %}
 {% if content.professions %}<h2 class="fiche-section-title">{{ tx.prof_h2 }}</h2>
 <ul class="gd-list">{% for pr in content.professions %}<li>{{ pr[lang] }}</li>{% endfor %}</ul>{% endif %}
 

@@ -6,7 +6,7 @@
 // Simplifications: Arcane Blast is not rotated (the Forever tooltip is ambiguous about which spells its stacks
 // boost); Frostfire Bolt takes both the fire and the frost damage modifiers; Ignite stacks are summed;
 // no trinkets, set bonuses, Mana Gems, Innervate or movement.
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDot, SPELL_GCD } from './spells.js';
+import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDot, SPELL_GCD } from './spells.js';
 
 export const MAGE = {
   fireball: { name: 'Fireball', schools: ['fire'], cast: 3.5, cost: 410, min: 424.6, max: 541.4, coeff: 1, dot: { total: 60, ticks: 4, interval: 2, coeff: 0 }, heat: true },
@@ -226,6 +226,7 @@ function mageRotate(sim, b, M) {
     sim.cd.gem = now + M.manaGem.cd; sim.entry('Mana Gem').casts++;
     gainMana(sim, M.manaGem.min + (M.manaGem.max - M.manaGem.min) * sim.rng());
   }
+  useRune(sim, b);
   if (b.innervate && now >= sim.cd.innervate && sim.mana < 0.5 * sim.manaMax) { sim.cd.innervate = now + M.innervate.cd; sim.entry('Innervate').casts++; sim.aInn.apply(); }
   if (b.useCooldowns) {
     if (b.combustion && now >= sim.cd.combustion && !sim.aComb.active) { sim.cd.combustion = now + M.combustion.cd; sim.entry('Combustion').casts++; sim.aComb.apply(1); sim.combCrits = 0; }

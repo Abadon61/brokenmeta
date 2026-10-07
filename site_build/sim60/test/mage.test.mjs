@@ -46,7 +46,7 @@ test('talents and spell power move the DPS', () => {
 });
 
 test('the mana pool limits a long fight', () => {
-  const short = runBatch(cfg(preset('mage_frost'), SAMPLE_MAGE, 40), 300, 1).mean, long = runBatch(cfg(preset('mage_frost'), SAMPLE_MAGE, 900), 300, 1).mean;
+  const noRune = { ...preset('mage_frost'), useRune: false }, short = runBatch(cfg(noRune, SAMPLE_MAGE, 40), 300, 1).mean, long = runBatch(cfg(noRune, SAMPLE_MAGE, 900), 300, 1).mean;
   assert.ok(long < short, 'oom: ' + short + ' vs ' + long);
 });
 

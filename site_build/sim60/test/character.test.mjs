@@ -21,7 +21,7 @@ test('Blessing of Kings multiplies primary stats; racial modifiers apply', () =>
 
 test('debuffs lower the boss armor (floored at 0) and the racial weapon skill is added', () => {
   const c = buildCharacter({ ...SAMPLE_FURY });
-  assert.equal(c.target.armor, 3731 - 2250 - 505);
+  assert.equal(c.target.armor, 3731 - 2250 - 505 - 505);
   assert.equal(c.player.stats.weaponSkill, 305);        // human + sword
   const o = buildCharacter({ ...SAMPLE_FURY, race: 'orc' });
   assert.equal(o.player.stats.weaponSkill, 300);        // orc + sword: no bonus

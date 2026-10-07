@@ -117,7 +117,7 @@ export function shamanElementalKit(build = {}, data = null) {
 // Windfury Weapon (20% per main-hand hit, one extra attack with +315 attack power), Rockbiter's +118 attack power kept on, Maelstrom
 // Weapon's proc chance (3% per rank per melee hit), Rage of the Farseer's cooldown, melee crit used for the Lightning Bolt crit.
 import { yellowAttack } from './shared.js';
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, resolveSpell, applyDot } from './spells.js';
+import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, resolveSpell, applyDot } from './spells.js';
 
 export const SHAMAN_ENH = {
   stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
@@ -184,6 +184,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
       const now = sim.now, rem = sim.fightLen - now;
       if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + E.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, E.manaPotion.min + (E.manaPotion.max - E.manaPotion.min) * sim.rng()); }
       if (b.useGem && now >= sim.cd.gem && sim.mana <= sim.manaMax - 1100 && rem > 15) { sim.cd.gem = now + E.manaGem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, E.manaGem.min + (E.manaGem.max - E.manaGem.min) * sim.rng()); }
+      useRune(sim, b);
       if (b.useCooldowns && b.rageOfTheFarseer && now >= sim.cd.farseer) { sim.cd.farseer = now + E.farseer.cd; sim.entry('Rage of the Farseer').casts++; sim.aFar.apply(); }
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;

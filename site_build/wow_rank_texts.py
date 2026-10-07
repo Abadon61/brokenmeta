@@ -24,7 +24,7 @@ TX = {
         "sec_talents": "Talents choisis", "points": "points", "sec_gear": "Équipement niveau 60", "col_slot": "Emplacement", "col_item": "Objet", "col_source": "Provenance",
         "sec_stats": "Statistiques du personnage", "st_ap": "Puissance d'attaque", "st_sp": "Puissance des sorts", "st_crit": "Critique", "st_hit": "Toucher", "st_haste": "Hâte", "st_mana": "Mana", "st_armor": "Armure",
         "sec_uptimes": "Bonus actifs", "sec_effects": "Effets d'objets simulés",
-        "sec_assump": "Hypothèses", "assump": "Simulation sur 180 secondes, boss immobile de niveau 63, buffs et consommables de raid de la famille de la classe, race standard, effets d'objets activés. Les stats de base du niveau 60 et plusieurs valeurs de Classic sont des estimations signalées dans le simulateur. Les résultats bougeront avec le jeu.",
+        "sec_buffs": "Buffs et consommables de la simulation", "buffs_p": "Chaque simulation reçoit tous les buffs qu'un raid de 20 joueurs peut apporter (une classe ou une spécialisation de chaque sorte) et les consommables de son rôle : parchemins, flacon ou élixirs, juju, plat. Il n'y a aucun buff de monde : ils n'existent pas dans les raids de WoW: Forever.", "buffs_buffs": "Buffs alliés", "buffs_cons": "Consommables", "buffs_debuffs": "Affaiblissements de la cible", "buffs_note": "Non simulés : Totem de Furie des vents, Infusion de puissance, Innervation et Jugements (effets à déclenchement ou à temps de recharge). Les valeurs viennent des tables du client bêta ; les huiles d'arme sont des estimations de Classic. Les consommables qui rapportent le plus pour cette spécialisation sont classés dans son guide.", "sec_assump": "Hypothèses", "assump": "Simulation sur 180 secondes, boss immobile de niveau 63, buffs et consommables de raid de la famille de la classe, race standard, effets d'objets activés. Les stats de base du niveau 60 et plusieurs valeurs de Classic sont des estimations signalées dans le simulateur. Les résultats bougeront avec le jeu.",
         "links": "Aller plus loin", "l_sim": "Ouvrir dans le simulateur", "l_guide": "Guide de la spécialisation", "l_calc": "Calculateur de talents", "l_rank": "Retour au classement",
         "prev": "Précédent", "next": "Suivant", "no_data": "Données indisponibles.", "dungeon": "Donjon", "raid": "Raid", "min": "min",
     },
@@ -38,7 +38,7 @@ TX = {
         "sec_talents": "Talents chosen", "points": "points", "sec_gear": "Level 60 gear", "col_slot": "Slot", "col_item": "Item", "col_source": "Source",
         "sec_stats": "Character stats", "st_ap": "Attack power", "st_sp": "Spell power", "st_crit": "Crit", "st_hit": "Hit", "st_haste": "Haste", "st_mana": "Mana", "st_armor": "Armor",
         "sec_uptimes": "Active buffs", "sec_effects": "Item effects simulated",
-        "sec_assump": "Assumptions", "assump": "A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class's family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.",
+        "sec_buffs": "Buffs and consumables in the simulation", "buffs_p": "Every simulation gets all the buffs a 20-player raid can bring (one class or specialization of each kind) and the consumables of its role: scrolls, flask or elixirs, juju, food. There are no world buffs: they do not exist in WoW: Forever raids.", "buffs_buffs": "Ally buffs", "buffs_cons": "Consumables", "buffs_debuffs": "Target debuffs", "buffs_note": "Not simulated: Windfury Totem, Power Infusion, Innervate and Judgements (proc or cooldown effects). Values come from the beta client tables; weapon oils are Classic estimates. The consumables worth the most for this specialization are ranked in its guide.", "sec_assump": "Assumptions", "assump": "A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class's family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.",
         "links": "Go further", "l_sim": "Open in the simulator", "l_guide": "Spec guide", "l_calc": "Talent calculator", "l_rank": "Back to the ranking",
         "prev": "Previous", "next": "Next", "no_data": "No data.", "dungeon": "Dungeon", "raid": "Raid", "min": "min",
     },
@@ -119,3 +119,41 @@ ROTATION = {
         "fr": ["Lacerate entretenu à 5 charges.", "Primal Bite (20 rage, recharge de 6 s) dès qu'il est prêt : c'est la dépense de rage principale, avec beaucoup de menace.", "Maul sur chaque attaque avec le rage disponible.", "Swipe avec le reste du rage.", "Enrage à chaque fois qu'il est prêt."],
         "en": ["Keep Lacerate stacked to 5.", "Primal Bite (20 rage, 6 s cooldown) on cooldown: the main rage spender, with high threat.", "Maul on every swing with the available rage.", "Swipe with the rest of the rage.", "Enrage on cooldown."]},
 }
+
+# names of the raid buffs and consumables (presets.js ids) in French; the English names come from presets.js
+SETUP_FR = {
+    "arcane_intellect": "Illumination des arcanes (Mage)", "blessing_of_kings": "Bénédiction des rois supérieure (Paladin)", "blessing_of_wisdom": "Bénédiction de sagesse supérieure (Paladin)",
+    "blessing_of_might": "Bénédiction de puissance supérieure (Paladin)", "mark_of_the_wild": "Don du fauve (Druide)", "divine_spirit": "Prière d'esprit (Prêtre)",
+    "power_word_fortitude": "Prière de robustesse (Prêtre)", "mana_spring_totem": "Totem de source de mana (Chaman)", "battle_shout": "Cri de guerre (Guerrier)",
+    "grace_of_air": "Totem de grâce de l'air (Chaman)", "strength_of_earth": "Totem de force de la terre (Chaman)", "leader_of_the_pack": "Chef de la meute (Druide farouche)",
+    "moonkin_aura": "Aura de sélénien (Druide équilibre)", "trueshot_aura": "Aura de précision (Chasseur)", "hunters_mark": "Marque du chasseur (Chasseur)",
+    "scroll_strength": "Parchemin de force", "scroll_agility": "Parchemin d'agilité", "scroll_intellect": "Parchemin d'intelligence", "scroll_spirit": "Parchemin d'esprit", "scroll_stamina": "Parchemin d'endurance",
+    "flask_ancient_knowledge": "Flacon de connaissance ancienne", "flask_madness": "Flacon de folie", "elixir_mongoose": "Élixir de la mangouste", "elixir_grizzly": "Élixir du grizzly",
+    "elixir_honey_badger": "Élixir du ratel", "elixir_mage_lord": "Élixir du seigneur mage", "elixir_owl": "Élixir de la chouette", "greater_arcane_elixir": "Élixir des arcanes supérieur",
+    "mageblood_potion": "Potion de sang de mage", "juju_power": "Juju de puissance", "juju_might": "Juju de force", "juju_guile": "Juju de ruse", "spirit_of_zanza": "Esprit de Zanza",
+    "food_spell_power": "Plat (puissance des sorts)", "food_strength": "Plat (force)", "food_agility": "Plat (agilité)", "nightfin_soup": "Soupe de nageoire de nuit",
+    "brilliant_wizard_oil": "Huile de sorcier brillante", "brilliant_mana_oil": "Huile de mana brillante",
+    "sunder_armor_5": "Brèche dans l'armure x5", "faerie_fire": "Lucioles", "curse_of_recklessness": "Malédiction de témérité", "curse_of_elements": "Malédiction des éléments", "expose_armor": "Exposer l'armure",
+}
+SETUP_STAT = {
+    "fr": {"str": "Force", "agi": "Agilité", "sta": "Endurance", "int": "Intelligence", "spi": "Esprit", "ap": "puissance d'attaque", "sp": "puissance des sorts", "mp5": "mana / 5 s"},
+    "en": {"str": "Strength", "agi": "Agility", "sta": "Stamina", "int": "Intellect", "spi": "Spirit", "ap": "attack power", "sp": "spell power", "mp5": "mana / 5 s"},
+}
+
+
+def setup_effect(lang, e):
+    """Short text of what a buff / consumable / debuff gives, from its stat dict (ranking detail.setup)."""
+    L = SETUP_STAT[lang]
+    parts = [f"+{e[k]} {L[k]}" for k in ("str", "agi", "sta", "int", "spi", "ap", "sp", "mp5") if e.get(k)]
+    pct = lambda v: (f"{v * 100:g} %" if lang == "fr" else f"{v * 100:g}%")
+    if e.get("statMult"):
+        parts.append(("+" + pct(e["statMult"] - 1) + " à toutes les stats") if lang == "fr" else ("+" + pct(e["statMult"] - 1) + " to all stats"))
+    if e.get("crit"):
+        parts.append(f"+{pct(e['crit'])} " + ("de critique (mêlée)" if e.get("meleeOnly") else "de critique") if lang == "fr" else f"+{pct(e['crit'])} crit" + (" (melee)" if e.get("meleeOnly") else ""))
+    if e.get("spCrit"):
+        parts.append(f"+{pct(e['spCrit'])} " + ("de critique des sorts" if lang == "fr" else "spell crit"))
+    if e.get("armor"):
+        parts.append((f"{e['armor']} d'armure de la cible") if lang == "fr" else (f"{e['armor']} target armor"))
+    if e.get("spellTaken"):
+        parts.append(("+" + pct(e["spellTaken"] - 1) + " de dégâts de sorts subis") if lang == "fr" else ("+" + pct(e["spellTaken"] - 1) + " spell damage taken"))
+    return ", ".join(parts)
