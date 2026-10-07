@@ -82,7 +82,7 @@ export function applyDotCrit(sim, name, perTick, ticks, interval, roll, onTick) 
   const step = () => {
     if (dots[name] !== my) return;
     const r = roll(n), d = perTick * r.mult;
-    sim.record(name, d, r.crit ? 'crit' : 'hit'); n++;
+    sim.record(name, d, r.crit ? 'crit' : 'hit', true); n++;
     if (onTick) onTick(r);
     if (n < ticks) sim.schedule(interval, step); else ends[name] = 0;
   };

@@ -10557,44 +10557,39 @@
    "spec": "shaman_elemental",
    "class": "shaman",
    "role": "dps",
-   "dps": 289.2,
-   "sem": 0.29,
+   "dps": 344.8,
+   "sem": 0.3,
    "name": "Elemental Shaman",
    "spells": [
     [
      "Lightning Bolt",
-     132.4,
-     38.4
-    ],
-    [
-     "Flame Shock",
-     60.7,
-     14.7
+     170.2,
+     46.9
     ],
     [
      "Lava Burst",
-     55,
-     12.2
+     67.5,
+     14.4
+    ],
+    [
+     "Flame Shock",
+     65.2,
+     15.3
     ],
     [
      "Searing Bolt",
-     30.4,
+     31.4,
      0
     ],
     [
      "Lightning Bolt (Overload)",
-     6.6,
-     3.2
+     8.5,
+     4
     ],
     [
      "Smokey's Lighter",
      2.1,
      2
-    ],
-    [
-     "Ignition",
-     2,
-     5.9
     ]
    ],
    "detail": {
@@ -10645,12 +10640,12 @@
        "en": "Reverberation",
        "fr": "Réverbération"
       },
-      "rank": 5,
+      "rank": 4,
       "max": 5,
       "row": 2,
       "desc": {
-       "en": "Reduces the cooldown of your Shock spells by -1.0 sec.",
-       "fr": "Réduit le temps de recharge de vos sorts Horion de -1,0 s."
+       "en": "Reduces the cooldown of your Shock spells by -0.8 sec.",
+       "fr": "Réduit le temps de recharge de vos sorts Horion de -0,8 s."
       }
      },
      {
@@ -10816,81 +10811,64 @@
       }
      },
      {
-      "tree": "enhancement",
+      "tree": "restoration",
       "tree_name": {
-       "en": "Enhancement",
-       "fr": "Amélioration"
+       "en": "Restoration",
+       "fr": "Restauration"
       },
       "name": {
-       "en": "Mental Dexterity",
-       "fr": "Dextérité mentale"
+       "en": "Totemic Focus",
+       "fr": "Focalisation totémique"
+      },
+      "rank": 5,
+      "max": 5,
+      "row": 1,
+      "desc": {
+       "en": "Reduces the Mana cost of your totems and any spells that summon or move them by 25%.",
+       "fr": "Réduit de 25 % le coût en mana de vos totems et des sorts qui permettent de les invoquer ou de les déplacer."
+      }
+     },
+     {
+      "tree": "restoration",
+      "tree_name": {
+       "en": "Restoration",
+       "fr": "Restauration"
+      },
+      "name": {
+       "en": "Mindfulness",
+       "fr": "Pleine conscience"
       },
       "rank": 3,
       "max": 3,
       "row": 2,
       "desc": {
-       "en": "Increases your Attack Power by an amount equal to 100% of your Intellect.",
-       "fr": "Augmente votre puissance d’attaque d’un montant égal à 100 % de votre intelligence."
+       "en": "Allows 50% of your Mana regeneration to continue while casting.",
+       "fr": "Vous confère 50 % de votre vitesse normale de récupération du mana pendant l’incantation."
       }
      },
      {
-      "tree": "enhancement",
+      "tree": "restoration",
       "tree_name": {
-       "en": "Enhancement",
-       "fr": "Amélioration"
+       "en": "Restoration",
+       "fr": "Restauration"
       },
       "name": {
-       "en": "Guardian Totems",
-       "fr": "Totems gardiens"
+       "en": "Tidal Focus",
+       "fr": "Focalisation des flots"
       },
       "rank": 2,
-      "max": 2,
+      "max": 5,
       "row": 2,
       "desc": {
-       "en": "Increases the amount of damage reduced by your Stoneskin Totem and Windwall Totem by 20% and reduces the cooldown of your Grounding Totem by -2 sec.",
-       "fr": "Augmente de 20 % la quantité de dégâts réduits par votre totem de peau de pierre et votre totem Mur de vent. Réduit le temps de recharge de votre totem de glèbe de -2 s."
-      }
-     },
-     {
-      "tree": "enhancement",
-      "tree_name": {
-       "en": "Enhancement",
-       "fr": "Amélioration"
-      },
-      "name": {
-       "en": "Improved Ghost Wolf",
-       "fr": "Loup fantôme amélioré"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 2,
-      "desc": {
-       "en": "Reduces the cast time of your Ghost Wolf spell by -3.0 sec, and Ghost Wolf may be used indoors.",
-       "fr": "Réduit le temps d’incantation de votre sort Loup fantôme de -3,0 s. De plus, Loup fantôme peut être utilisé en intérieur."
-      }
-     },
-     {
-      "tree": "enhancement",
-      "tree_name": {
-       "en": "Enhancement",
-       "fr": "Amélioration"
-      },
-      "name": {
-       "en": "Improved Lightning Shield",
-       "fr": "Bouclier de foudre amélioré"
-      },
-      "rank": 2,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Increases the damage done by your Lightning Shield orbs by 10%.",
-       "fr": "Augmente de 10 % les dégâts infligés par les orbes de votre bouclier de foudre."
+       "en": "Reduces the Mana cost of your healing spells by 2% and improves your chance to hit by 2%.",
+       "fr": "Réduit de 2 % le coût en mana de vos sorts de soins et améliore de 2 % vos chances de toucher."
       }
      }
     ],
     "trees": {
-     "elemental": 32,
-     "enhancement": 19
+     "elemental": 31,
+     "enhancement": 10,
+     "restoration": 10
     },
     "items": [
      {
@@ -10913,11 +10891,10 @@
      },
      {
       "slot": "shoulder",
-      "id": 17732,
-      "name": "Rotgrip Mantle",
-      "zone": "Maraudon",
-      "src": "Rotgrip",
-      "ilvl": 53,
+      "id": 18720,
+      "name": "Shroud of the Nathrezim",
+      "zone": "Stratholme",
+      "ilvl": 63,
       "q": 3
      },
      {
@@ -10940,17 +10917,16 @@
      },
      {
       "slot": "wrist",
-      "id": 9448,
-      "name": "Spidertank Oilrag",
-      "zone": "Gnomeregan",
-      "src": "Electrocutioner 6000",
-      "ilvl": 34,
+      "id": 16697,
+      "name": "Devout Bracers",
+      "zone": "Stratholme",
+      "ilvl": 57,
       "q": 3
      },
      {
       "slot": "hands",
-      "id": 16684,
-      "name": "Magister's Gloves",
+      "id": 16705,
+      "name": "Dreadmist Wraps",
       "zone": "Scholomance",
       "ilvl": 59,
       "q": 3
@@ -10966,20 +10942,20 @@
      },
      {
       "slot": "legs",
-      "id": 11823,
-      "name": "Luminary Kilt",
-      "zone": "Blackrock Depths",
-      "src": "Golem Lord Argelmach",
-      "ilvl": 59,
+      "id": 16699,
+      "name": "Dreadmist Leggings",
+      "zone": "Stratholme",
+      "src": "Baron Rivendare",
+      "ilvl": 61,
       "q": 3
      },
      {
       "slot": "feet",
-      "id": 11822,
-      "name": "Omnicast Boots",
+      "id": 22240,
+      "name": "Greaves of Withering Despair",
       "zone": "Blackrock Depths",
-      "src": "Golem Lord Argelmach",
-      "ilvl": 59,
+      "src": "High Interrogator Gerstahn",
+      "ilvl": 53,
       "q": 3
      },
      {
@@ -11027,44 +11003,44 @@
      },
      {
       "slot": "th",
-      "id": 11750,
-      "name": "Kindling Stave",
-      "zone": "Blackrock Depths",
-      "src": "Pyromancer Loregrain",
-      "ilvl": 53,
+      "id": 9604,
+      "name": "Mechanic's Pipehammer",
+      "zone": "Gnomeregan",
+      "src": "Data Rescue",
+      "ilvl": 32,
       "q": 3
      }
     ],
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 3.275,
+      "per": 3.901,
       "unit": "pct",
-      "rel": 9.86
+      "rel": 9.68
      },
      {
       "stat": "critstrkrtng",
-      "per": 2.303,
+      "per": 2.705,
       "unit": "pct",
-      "rel": 6.94
+      "rel": 6.71
      },
      {
       "stat": "int",
-      "per": 0.371,
+      "per": 0.455,
       "unit": "pt",
-      "rel": 1.12
+      "rel": 1.13
      },
      {
       "stat": "splpwr",
-      "per": 0.332,
+      "per": 0.403,
       "unit": "pt",
       "rel": 1
      },
      {
       "stat": "spi",
-      "per": 0.017,
+      "per": 0.211,
       "unit": "pt",
-      "rel": 0.05
+      "rel": 0.52
      },
      {
       "stat": "str",
@@ -11080,66 +11056,66 @@
      },
      {
       "stat": "hastertng",
-      "per": -1.441,
+      "per": -1.387,
       "unit": "pct",
-      "rel": -4.34
+      "rel": -3.44
      }
     ],
     "stats": {
      "prim": {
       "str": 125,
       "agi": 95,
-      "sta": 196,
-      "int": 330,
-      "spi": 173
+      "sta": 209,
+      "int": 314,
+      "spi": 207
      },
      "sp": 426,
-     "crit": 0.2054621848739496,
-     "hit": 0,
+     "crit": 0.20277310924369749,
+     "hit": 0.02,
      "haste": 1,
-     "mana": 5900
+     "mana": 5660
     },
     "effects": [
-     "Ignition",
      "Smokey's Lighter",
-     "Ephemeral Power"
+     "Ephemeral Power",
+     "Increase Spell Dam 18"
     ],
     "uptimes": [],
     "abilities": [
      {
       "name": "Lightning Bolt",
-      "dps": 132.4,
-      "casts": 38.4,
-      "hits": 31.8,
-      "crit": 0.291
-     },
-     {
-      "name": "Flame Shock",
-      "dps": 60.7,
-      "casts": 14.7,
-      "hits": 55.4,
-      "crit": 0.26
+      "dps": 170.2,
+      "casts": 46.9,
+      "hits": 40.4,
+      "crit": 0.288
      },
      {
       "name": "Lava Burst",
-      "dps": 55,
-      "casts": 12.2,
-      "hits": 10.1,
-      "crit": 0.262
+      "dps": 67.5,
+      "casts": 14.4,
+      "hits": 12.4,
+      "crit": 0.258
+     },
+     {
+      "name": "Flame Shock",
+      "dps": 65.2,
+      "casts": 15.3,
+      "hits": 59.1,
+      "crit": 0.258
      },
      {
       "name": "Searing Bolt",
-      "dps": 30.4,
+      "dps": 31.4,
       "casts": 0,
-      "hits": 65,
-      "crit": 0.261
+      "hits": 67.4,
+      "crit": 0.258
      },
      {
       "name": "Lightning Bolt (Overload)",
-      "dps": 6.6,
-      "casts": 3.2,
-      "hits": 3.2,
-      "crit": 0.292
+      "dps": 8.5,
+      "casts": 4,
+      "hits": 4,
+      "crit": 0.287
      },
      {
       "name": "Smokey's Lighter",
@@ -11147,23 +11123,11 @@
       "casts": 2,
       "hits": 1.7,
       "crit": 0
-     },
-     {
-      "name": "Ignition",
-      "dps": 2,
-      "casts": 5.9,
-      "hits": 4.9,
-      "crit": 0
      }
     ],
     "opening": [
      {
       "t": 1.5,
-      "n": "Flame Shock",
-      "x": 1
-     },
-     {
-      "t": 4.5,
       "n": "Flame Shock",
       "x": 1
      },
@@ -11178,17 +11142,7 @@
       "x": 1
      },
      {
-      "t": 7.5,
-      "n": "Flame Shock",
-      "x": 1
-     },
-     {
-      "t": 10.5,
-      "n": "Flame Shock",
-      "x": 1
-     },
-     {
-      "t": 11,
+      "t": 9,
       "n": "Lightning Bolt",
       "x": 1
      },

@@ -163,10 +163,10 @@ export class Sim {
     if (!e) e = this.dmg[source] = { dmg: 0, hits: 0, crits: 0, misses: 0, dodges: 0, glances: 0, casts: 0 };
     return e;
   }
-  record(source, amount, kind) {
+  record(source, amount, kind, tick) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
-    if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind]);
+    if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
     if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
   }

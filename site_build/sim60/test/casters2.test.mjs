@@ -62,3 +62,10 @@ test('Elemental Shaman: Searing Totem is dropped every 55 s and its Searing Bolt
   assert.ok(!run('shaman_elemental', { fireTotem: 'none' }, null, 180, 300).breakdown['Searing Bolt'], 'no totem, no bolts');
   assert.ok(r.breakdown['Searing Bolt'].dps > run('shaman_elemental', { callOfFlame: 0 }, null, 180, 300).breakdown['Searing Bolt'].dps, 'Call of Flame');
 });
+
+test('Elemental Shaman is mana-bound: Mindfulness (regeneration while casting) and Tidal Focus (hit) raise its DPS, Mental Quickness adds spell power', () => {
+  const without = run('shaman_elemental', { mindfulness: 0, tidalFocus: 0, totemicFocus: 0 }, null, 180, 800), withIt = run('shaman_elemental', {}, null, 180, 800);
+  assert.ok(withIt.mean > without.mean * 1.05, 'with ' + withIt.mean + ' without ' + without.mean);
+  const noMq = run('shaman_elemental', { mentalQuickness: 0 }, null, 60, 300), mq = run('shaman_elemental', { mentalQuickness: 2 }, null, 60, 300);
+  assert.ok(mq.mean > noMq.mean, 'Mental Quickness ' + mq.mean + ' vs ' + noMq.mean);
+});

@@ -102,7 +102,8 @@ for (const [id, S] of Object.entries(SPECS)) {
   const sim = new Sim({ fightLen: FIGHT, player: ch.player, target: ch.target, spec: kit(), seed: 11, log: true });
   sim.run();
   const opening = [];
-  for (const [t, n] of sim.log) {
+  for (const [t, n, , tick] of sim.log) {
+    if (tick) continue;                                   // damage-over-time ticks are not casts
     if (t > 14 || /^White|Pet|Imp Firebolt|Searing Bolt|Deep Wounds|Ignite|Ignition|\(bleed\)|\(DoT\)|Windfury|Overload|Poison|Mana|Smokey|Ephemeral|Hawk/.test(n)) continue;
     const last = opening[opening.length - 1];
     if (last && last.n === n && t - last.t < 0.4) { last.x++; continue; }
