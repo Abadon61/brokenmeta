@@ -249,7 +249,7 @@ def _curves_and_procs(lang, rx, d, r):
     return curves, procs
 
 
-def _talent_view(lang, rx, r, d, cls):
+def _talent_view(lang, rx, r, d, cls, notes=True):
     """Talent section of a ranking page: the class's real talent trees with the build's points, the constraints and the measured value of each talent."""
     if not cls:
         return None
@@ -286,10 +286,29 @@ def _talent_view(lang, rx, r, d, cls):
         cons.append(rx["why_tree"].format(tree=sp["name"][lang], pts=sum(x[0]["rank"] for x in mine), name=deep["name"][lang], row=deep["row"], need=need))
     top = [x for x in rows if x["kind"] == "value"][:3]
     gates = [x["name"] for x in rows if x["kind"] == "gate"]
-    return {"tpl": tpl, "rows": rows, "cons": cons, "rules": rx["why_rules"],
+    pts = {sp["name"][lang]: sum(t["rank"] for t in d["talents"] if t["name"]["en"] in where and where[t["name"]["en"]][0] is sp) for sp in cls["specs"]}
+    tx = {"legend": rx["tl_legend"], "points": rx["tl_points"], "col_talent": rx["col_talent"], "col_tier": rx["col_tier"], "col_value": rx["col_value"]}
+    return {"tpl": tpl, "rows": rows, "cons": cons, "rules": rx["why_rules"], "points": pts, "tx": tx,
             "top": rx["why_top"].format(top=", ".join(f"{x['name']} ({x['text'].split(' sans')[0].split(' without')[0]})" for x in top)) if top else None,
             "gates": rx["why_gate"].format(gates=", ".join(gates)) if gates else None,
-            "notes": (wow_rank_texts.TALENT_NOTES.get(r["spec_id"]) or {}).get(lang, [])}
+            "notes": (wow_rank_texts.TALENT_NOTES.get(r["spec_id"]) or {}).get(lang, []) if notes else []}
+
+
+def _alt_view(lang, rx, r, cls):
+    """The build with the spell the ranking build does not take: trees, talent values, damage by ability, opening, DPS compared with the ranked build."""
+    a = (r.get("detail") or {}).get("alt")
+    if not a or not cls:
+        return None
+    tl = _talent_view(lang, rx, r, {"talents": a["talents"], "talentValues": a["talentValues"]}, cls, notes=False)
+    tot = sum(x["dps"] for x in a["abilities"]) or 1.0
+    abilities = [dict(x, cpm=round(x["casts"] / 3.0, 1) if x["casts"] else 0) for x in a["abilities"] if not x["name"].startswith(("Smokey", "Ephemeral"))][:12]
+    delta = a["dps"] - r["dps"]
+    f1 = lambda v: (f"{v:.1f}".replace(".", ",") if lang == "fr" else f"{v:.1f}")
+    sign = lambda v: ("+" if v >= 0 else "−") + f1(abs(v))
+    return {"title": rx["alt_title"].format(spell=a["spell"]), "intro": rx["alt_intro"].format(spell=a["spell"], best=f1(r["dps"]), dps=f1(a["dps"]), delta=sign(delta), pct=sign(100 * delta / r["dps"])),
+            "dps": f1(a["dps"]), "delta": sign(delta), "dps_label": rx["alt_dps"], "delta_label": rx["alt_delta"], "rows_h": rx["alt_rows"], "abil_h": rx["alt_abil"], "open_h": rx["alt_open"],
+            "col_ability": rx["col_ability"], "col_dps": rx["col_dps"], "col_casts": rx["col_casts"], "tl": tl, "abilities": abilities,
+            "opening": [o for o in (a.get("opening") or []) if "(off-hand)" not in o["n"]]}
 
 
 def where_id(cls, tid):
@@ -356,6 +375,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
     setup_groups = [(rx["buffs_buffs"], [pick(e) for e in setup.get("buffs", [])]), (rx["buffs_cons"], [pick(e) for e in setup.get("consumables", [])]), (rx["buffs_debuffs"], [pick(e) for e in setup.get("debuffs", [])])]
     curves, procs = _curves_and_procs(lang, rx, d, r)
     tl = _talent_view(lang, rx, r, d, cls)
+    alt = _alt_view(lang, rx, r, cls)
     opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"] and not (o["n"] == "Rend" and r["class_id"] != "warrior")]
     pg = {
         "title": rx["title"].format(cls=r["class_name"], spec=r["spec_name"]), "desc": rx["desc"].format(cls=r["class_name"], spec=r["spec_name"]),
@@ -364,7 +384,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         "dtps": _fmt_int(r.get("dtps") or 0), "health": _fmt_int(r.get("health") or 0),
         "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
         "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
-        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "curves": curves, "procs": procs, "tl": tl, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "curves": curves, "procs": procs, "tl": tl, "alt": alt, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
     }
     if r["role"] == "tank":                      # tanks are ranked by threat, not damage
         swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
@@ -405,11 +425,11 @@ def _healing_table(lang, cls_id, power=350):
     return {"rows": rows, "special": ", ".join(data["special"]), "tx": tx}
 
 
-def _guide_level60(lang, cls_id, spec_id, rows):
+def _guide_level60(lang, cls_id, spec_id, rows, cls=None):
     """Level-60 sections of a specialization guide: rotation (simulator vs Icy Veins), gear and stat weights from the ranking's simulation."""
     key = f"{cls_id}/{spec_id}"
     gx = wow_guide_rotation.G60[lang]
-    out = {"cons": [], "cons_heal": None, "rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows), "heal_table": None}
+    out = {"alts": [(r["spec_name"] if len(rows) > 1 else None, _alt_view(lang, wow_rank_texts.TX[lang], r, cls)) for r in rows if r.get("detail") and (r["detail"].get("alt")) and cls], "cons": [], "cons_heal": None, "rot": None, "gear": [], "weights": [], "has_weights": False, "tank_rows": any(r["role"] == "tank" for r in rows), "heal_table": None}
     sim_rows = [r for r in rows if r.get("detail")]
     if sim_rows:
         out["rot"] = {"sim": [{"label": r["spec_name"] if len(sim_rows) > 1 else None, "steps": wow_rank_texts.ROTATION[r["spec_id"]][lang]} for r in sim_rows],
@@ -8224,7 +8244,7 @@ def main() -> None:
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
-                           lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]),
+                           lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]], _cls),
                            rot_tx=wow_guide_rotation.TX[lang], g60=wow_guide_rotation.G60[lang],
                            rank_links=[{"path": _rr["page_path"], "label": _rr["class_name"] + " " + _rr["spec_name"]} for _rr in (_wow_ranking + _wow_ranking_tanks)
                                        if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"] and _rr.get("detail")],

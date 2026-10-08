@@ -57,7 +57,7 @@ test('talents move the simulated DPS: Flurry, Cruelty, Dual Wield Specialization
 test('a build without the capstone cannot cast it', () => {
   assert.ok(!runBatch(cfg(furyKit, fury({ bloodthirst: 0 })), 100, 1).breakdown['Bloodthirst']);
   assert.ok(!runBatch(cfg(armsKit, arms({ mortalStrike: 0 }), twoHand), 100, 1).breakdown['Mortal Strike']);
-  assert.ok(runBatch(cfg(armsKit, arms(), twoHand), 100, 1).breakdown['Mortal Strike']);
+  assert.ok(runBatch(cfg(armsKit, arms({ mortalStrike: 1 }), twoHand), 100, 1).breakdown['Mortal Strike']);
 });
 
 test('Arms talents: Two-Handed Specialization and Impale add damage', () => {

@@ -1,0 +1,36 @@
+{% macro trees(tl, lang) %}
+<div class="wg-legend"><span class="wg-key is-reco"></span>{{ tl.tx.legend }}</div>
+<div class="wg-trees">
+{% for tr in tl.tpl.trees %}<div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">{{ tr.spec.name[lang] }} <span class="nums">{{ tl.points.get(tr.spec.name[lang], 0) }} {{ tl.tx.points }}</span></h3>
+  <div class="wg-tree" style="--rows: {{ tr.rows }}">
+    {{ tr.svg }}
+    {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col + 1 }}" title="{{ c.t.name[lang] }} — {{ c.t.max_rank }}">
+      <span class="wg-ico">{% if c.t.icon %}<img src="{{ c.t.icon }}" alt="{{ c.t.name[lang] }}" width="40" height="40" loading="lazy">{% endif %}<span class="wg-badge nums">{% if c.points %}{{ c.points }}/{{ c.t.max_rank }}{% else %}{{ c.t.max_rank }}{% endif %}</span></span></div>{% endfor %}
+  </div>
+</div>{% endfor %}
+</div>
+{% endmacro %}
+
+{% macro table(tl) %}
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ tl.tx.col_talent }}</th><th class="nums">{{ tl.tx.col_tier }}</th><th>{{ tl.tx.col_value }}</th></tr></thead>
+  <tbody>{% for x in tl.rows %}<tr><td><b>{{ x.name }}</b> <span class="nums">{{ x.rank }}/{{ x.max }}</span> <span class="rs-hint">{{ x.tree }}</span><span class="rs-tdesc">{{ x.desc }}</span></td><td class="nums">{{ x.tier }}</td><td class="{{ 'rs-v-' ~ x.kind }}">{{ x.text }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endmacro %}
+
+{% macro variant(a, lang) %}
+<h2 class="fiche-section-title">{{ a.title }}</h2>
+<p class="page-intro" style="margin-top:0">{{ a.intro }}</p>
+<div class="rs-kpis"><div class="rs-kpi"><span class="rs-kpi-v nums">{{ a.dps }}</span><span class="rs-kpi-l">{{ a.dps_label }}</span></div><div class="rs-kpi"><span class="rs-kpi-v nums">{{ a.delta }}</span><span class="rs-kpi-l">{{ a.delta_label }}</span></div></div>
+{{ trees(a.tl, lang) }}
+<h3 class="rs-sub">{{ a.rows_h }}</h3>
+{{ table(a.tl) }}
+<h3 class="rs-sub">{{ a.abil_h }}</h3>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ a.col_ability }}</th><th class="nums">{{ a.col_dps }}</th><th class="nums">{{ a.col_casts }}</th></tr></thead>
+  <tbody>{% for x in a.abilities %}<tr><td>{{ x.name|sl }}</td><td class="nums">{{ x.dps }}</td><td class="nums">{{ x.cpm if x.cpm else '—' }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% if a.opening %}<h3 class="rs-sub">{{ a.open_h }}</h3>
+<div class="rs-open">{% for o in a.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n|sl }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>{% endif %}
+{% endmacro %}

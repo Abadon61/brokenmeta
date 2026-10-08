@@ -53,6 +53,12 @@ const PROCS = {
 // stat curves: DPS as a function of one stat (a probe item adds it on top of the final gear). range = the largest amount tried, in the probe's own unit
 const CURVE_RANGE = { hitrtng: 180, critstrkrtng: 280, hastertng: 200, atkpwr: 400, splpwr: 300, int: 150, spi: 150, str: 120, agi: 120 };
 const RATING_PCT = { hitrtng: 10, critstrkrtng: 14, hastertng: 10 };
+// specs whose page also shows the build with a spell the ranking build does not take (the ranking keeps the one with more DPS)
+const ALTS = {
+  warrior_arms: { spell: 'Mortal Strike', names: { 'Improved Execute': 0, 'Mortal Strike': 1 } },
+  hunter_marksmanship: { spell: 'Sniper Shot', names: { 'Focused Fire': 0, 'Sniper Shot': 1 } },
+  warlock_demonology: { spell: 'Conflagrate', names: { 'Ruin': 0, 'Conflagrate': 1 } },
+};
 // RANK_ONLY=spec_a,spec_b recomputes only those specs and keeps the other rows of the existing file
 const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
@@ -173,9 +179,49 @@ for (const [id, S] of Object.entries(SPECS)) {
     if (last && last.n === n && t - last.t < 0.4) { last.x++; continue; }
     if (opening.length < 14 && !opening.some((o) => o.n === n && t - o.t < 0.2)) opening.push({ t, n, x: 1 });
   }
+  // ---- the alternative build (with the spell), on the same gear ----
+  let alt = null;
+  if (ALTS[id]) {
+    const names = { ...PRESETS[id] };
+    for (const [k, v] of Object.entries(ALTS[id].names)) { if (v) names[k] = v; else delete names[k]; }
+    const bAlt = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], names)), S.build || {});
+    const kitAlt = () => makeKit(id, bAlt, data);
+    const rA = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kitAlt }, FINAL, 7);
+    const tA = [];
+    for (const [tn, rk] of Object.entries(names)) {
+      for (const sp of tal[S.cls].specs) {
+        const t = sp.talents.find((x) => x.name.en === tn);
+        if (!t) continue;
+        const pick = (arr) => arr[Math.min(rk, arr.length) - 1];
+        tA.push({ tree: sp.id, tree_name: sp.name, name: t.name, rank: rk, max: t.max_rank, row: t.row, desc: { en: pick(t.desc.en), fr: pick(t.desc.fr || t.desc.en) } });
+        break;
+      }
+    }
+    const trA = {}; for (const t of tA) trA[t.tree] = (trA[t.tree] || 0) + t.rank;
+    const tvA = {}, baseA = metric(ch, runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kitAlt }, 1500, 3));
+    for (const tn of Object.keys(names)) {
+      const n2 = { ...names }; delete n2[tn];
+      const b2 = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], n2)), S.build || {});
+      if (JSON.stringify(b2) === JSON.stringify(bAlt)) { tvA[tn] = null; continue; }
+      const rr = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: () => makeKit(id, b2, data) }, 1500, 3);
+      tvA[tn] = { gain: +(baseA - metric(ch, rr)).toFixed(2), pct: +(100 * (baseA - metric(ch, rr)) / baseA).toFixed(2) };
+    }
+    const simA = new Sim({ fightLen: FIGHT, player: ch.player, target: ch.target, spec: kitAlt(), seed: 11, log: true });
+    simA.run();
+    const opA = [];
+    for (const [t, n, , tick] of simA.log) {
+      if (tick) continue;
+      if (t > 14 || /^White|Pet|Imp Firebolt|Searing Bolt|Deep Wounds|Ignite|Ignition|(bleed)|(DoT)|Windfury|Overload|Poison|Mana|Smokey|Ephemeral|Hawk/.test(n)) continue;
+      const last = opA[opA.length - 1];
+      if (last && last.n === n && t - last.t < 0.4) { last.x++; continue; }
+      if (opA.length < 14 && !opA.some((o) => o.n === n && t - o.t < 0.2)) opA.push({ t, n, x: 1 });
+    }
+    alt = { spell: ALTS[id].spell, dps: +rA.mean.toFixed(1), sem: +rA.sem.toFixed(2), talents: tA, trees: trA, talentValues: tvA, opening: opA,
+      abilities: Object.entries(rA.breakdown).filter(([, v]) => (v.dps || 0) > 0.05).sort((a, b) => b[1].dps - a[1].dps).map(([n, v]) => ({ name: n, dps: +v.dps.toFixed(1), casts: +(v.casts || 0).toFixed(1), hits: +v.hits.toFixed(1), crit: v.hits ? +(v.crits / v.hits).toFixed(3) : 0 })) };
+  }
   const sm = ch.summary || {};
   const detail = {
-    talents, trees, items, weights, consumables, curves, procs, talentValues,
+    talents, trees, items, weights, consumables, curves, procs, talentValues, alt,
     // what the raid gives during the simulation (ids and values come from presets.js; the page translates the names)
     setup: { buffs: family.buffs.map((x) => ({ id: x, name: BUFFS[x].name, ...stat(BUFFS[x]) })), consumables: family.consumables.map((x) => ({ id: x, name: CONSUMABLES[x].name, ...stat(CONSUMABLES[x]) })), debuffs: family.debuffs.map((x) => ({ id: x, name: DEBUFFS[x].name, ...stat(DEBUFFS[x]) })) },
     stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },

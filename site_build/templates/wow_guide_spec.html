@@ -51,6 +51,10 @@
   </div>{% endfor %}
 </div>
 
+{% if lvl60.alts %}{% import "wow_talent_macros.html" as tm %}
+{% for lab, a in lvl60.alts %}{% if a %}{% if lab %}<h3 class="rs-sub">{{ lab }}</h3>{% endif %}{{ tm.variant(a, lang) }}{% endif %}{% endfor %}
+{% endif %}
+
 {% if lvl60.rot %}
 <h2 class="fiche-section-title">{{ rot_tx.h2 }}</h2>
 <p class="page-intro" style="margin-top:0">{{ rot_tx.intro_heal if lvl60.rot.heal else rot_tx.intro_sim }}</p>
