@@ -38,6 +38,21 @@ const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT,
 const objectiveTank = (r, ch) => { const len = FIGHT, thr = r.counters.threat / len, dt = r.counters.dmgTaken / len, raw = ch.target.boss.dmg / ch.target.boss.speed; return Math.sqrt(Math.max(0, thr) * Math.max(0, raw - dt)); };
 
 const stat = (d) => { const o = {}; for (const k of ['str', 'agi', 'sta', 'int', 'spi', 'ap', 'sp', 'crit', 'spCrit', 'mp5', 'statMult', 'armor', 'spellTaken']) if (d[k]) o[k] = d[k]; if (d.meleeOnly) o.meleeOnly = true; return o; };
+// procs shown on a spec's page: talent / effect procs with the number of times they fire per minute. kind 'aura' = applications of the aura, 'entry' = hits + misses of the damage entry (div: attacks per proc)
+const PROCS = {
+  warrior_fury: [['Flurry', 'aura']],
+  rogue_combat: [['Instant Poison', 'entry'], ['Deadly Poison', 'entry']], rogue_assassination: [['Instant Poison', 'entry'], ['Deadly Poison', 'entry']], rogue_subtlety: [['Instant Poison', 'entry'], ['Deadly Poison', 'entry']],
+  mage_fire: [['Heating Up', 'aura'], ['Combustion', 'aura']], mage_frost: [['Fingers of Frost', 'aura'], ['Clearcasting', 'aura']], mage_arcane: [['Clearcasting', 'aura']],
+  warlock_affliction: [['Shadow Trance', 'aura']], warlock_destruction: [['Shadow and Flame', 'aura']],
+  shaman_elemental: [['Lightning Bolt (Overload)', 'entry'], ['Clearcasting', 'aura']],
+  shaman_enhancement: [['Windfury', 'entry', 2], ['Maelstrom Weapon', 'aura'], ['Elemental Devastation', 'aura'], ['Flurry', 'aura'], ['Clearcasting', 'aura']],
+  druid_balance: [["Nature's Grace", 'aura'], ['Eclipse', 'aura']],
+  paladin_retribution: [['Seal of Command', 'entry'], ['Vengeance', 'aura'], ['Vindication', 'aura']],
+  hunter_beastmastery: [['Frenzy', 'aura']],
+};
+// stat curves: DPS as a function of one stat (a probe item adds it on top of the final gear). range = the largest amount tried, in the probe's own unit
+const CURVE_RANGE = { hitrtng: 180, critstrkrtng: 280, hastertng: 200, atkpwr: 400, splpwr: 300, int: 150, spi: 150, str: 120, agi: 120 };
+const RATING_PCT = { hitrtng: 10, critstrkrtng: 14, hastertng: 10 };
 // RANK_ONLY=spec_a,spec_b recomputes only those specs and keeps the other rows of the existing file
 const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
@@ -84,6 +99,31 @@ for (const [id, S] of Object.entries(SPECS)) {
     const ref = list.find((x) => x.stat === main).per || 1;
     weights = list.map((x) => ({ ...x, rel: +(x.per / ref).toFixed(2) })).sort((a, b) => b.per - a.per);
   }
+  // ---- stat curves (DPS specs): where more of a stat stops paying ----
+  let curves = [];
+  if (!S.tank && weights) {
+    const sm0 = ch.summary || {}, baseOf = { hitrtng: (sm0.hit || 0) * 100, critstrkrtng: (sm0.crit || 0) * 100, hastertng: 0 };
+    const picks = weights.filter((w) => CURVE_RANGE[w.stat] && w.per > 0 && w.rel >= 0.05).slice(0, 4);
+    for (const w of picks) {
+      const key = w.stat, steps = 8, pts = [];
+      for (let i = 0; i <= steps; i++) {
+        const add = Math.round((CURVE_RANGE[key] * i) / steps), c2 = buildCharacter({ ...character, gear: add ? gear.concat([{ slot: 'trinket3', id: -1, name: 'probe', st: { [key]: add } }]) : gear, weapons });
+        pts.push([add, +runBatch({ fightLen: FIGHT, player: c2.player, target: c2.target, kitFactory: kit }, 1200, 3).mean.toFixed(2)]);
+      }
+      const rp = RATING_PCT[key], x = (a) => +(rp ? baseOf[key] + a / rp : a).toFixed(2);
+      // cap: the first step after which each further step gives less than a fifth of the first step's gain (and keeps giving little)
+      const sl = pts.slice(1).map((p, i) => p[1] - pts[i][1]), s0 = Math.max(sl[0], sl[1] || 0);
+      let cap = null;
+      if (s0 > 0.4) for (let i = 1; i < sl.length; i++) if (sl[i] < 0.2 * s0 && sl.slice(i).every((v) => v < 0.35 * s0)) { cap = x(pts[i][0]); break; }
+      curves.push({ stat: key, unit: rp ? 'pct' : 'pt', base: rp ? +baseOf[key].toFixed(2) : 0, points: pts.map((p) => [x(p[0]), p[1]]), cap });
+    }
+  }
+  // ---- procs per minute ----
+  const procs = [];
+  for (const [pn, kind, div] of PROCS[id] || []) {
+    const e = r.breakdown[pn], n = kind === 'aura' ? (r.applications || {})[pn] : e ? (e.hits + e.misses) / (div || 1) : 0;
+    if (n > 0.2) procs.push({ name: pn, perMin: +(n / (FIGHT / 60)).toFixed(1) });
+  }
   // ---- consumables: what each one is worth to this spec. Those of the simulated set are removed one by one (loss), the others are added one by one (gain) ----
   const metric = (c, rr) => (S.tank ? objectiveTank(rr, c) : rr.mean);
   const withCons = (list) => { const c = buildCharacter({ ...character, consumables: list, gear, weapons }); return metric(c, runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, 2500, 3)); };
@@ -95,6 +135,18 @@ for (const [id, S] of Object.entries(SPECS)) {
     consumables.push({ id: cid, name: cdef.name, inSet, gain: +((inSet ? baseCons - v : v - baseCons)).toFixed(2), pct: +(100 * (inSet ? baseCons - v : v - baseCons) / baseCons).toFixed(2) });
   }
   consumables.sort((a, b) => b.gain - a.gain);
+  // ---- value of each chosen talent: what the spec loses when it is taken out (null = the simulator has no effect for it: a gate / utility point) ----
+  const talentValues = {};
+  {
+    const base1 = metric(ch, runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kit }, 1500, 3));
+    for (const tn of Object.keys(PRESETS[id])) {
+      const names2 = { ...PRESETS[id] }; delete names2[tn];
+      const b2 = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], names2)), S.build || {});
+      if (JSON.stringify(b2) === JSON.stringify(build)) { talentValues[tn] = null; continue; }
+      const rr = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: () => makeKit(id, b2, data) }, 1500, 3);
+      talentValues[tn] = { gain: +(base1 - metric(ch, rr)).toFixed(2), pct: +(100 * (base1 - metric(ch, rr)) / base1).toFixed(2) };
+    }
+  }
   // ---- data of the spec's detail page: talents, gear, stats, damage by ability, the opening ----
   const talents = [];
   for (const [tn, rk] of Object.entries(PRESETS[id])) {
@@ -123,7 +175,7 @@ for (const [id, S] of Object.entries(SPECS)) {
   }
   const sm = ch.summary || {};
   const detail = {
-    talents, trees, items, weights, consumables,
+    talents, trees, items, weights, consumables, curves, procs, talentValues,
     // what the raid gives during the simulation (ids and values come from presets.js; the page translates the names)
     setup: { buffs: family.buffs.map((x) => ({ id: x, name: BUFFS[x].name, ...stat(BUFFS[x]) })), consumables: family.consumables.map((x) => ({ id: x, name: CONSUMABLES[x].name, ...stat(CONSUMABLES[x]) })), debuffs: family.debuffs.map((x) => ({ id: x, name: DEBUFFS[x].name, ...stat(DEBUFFS[x]) })) },
     stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },

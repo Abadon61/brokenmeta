@@ -142,6 +142,160 @@ def _fmt_int(n):
     return f"{int(round(n)):,}".replace(",", " ")
 
 
+_SPELL_IDS = {}
+
+
+def _spell_ids():
+    """name (EN and FR) -> Wowhead Forever spell id, highest rank of the simulator's tables first, then the glossary."""
+    if _SPELL_IDS:
+        return _SPELL_IDS
+    sp = json.loads((ROOT / "sim60" / "data" / "spells60.json").read_text(encoding="utf-8"))
+    for cls_data in sp.values():
+        for name, rec in (cls_data.get("extra") or {}).items():
+            _SPELL_IDS.setdefault(name, rec["spell_id"])
+    for gp in sorted((PROJECT / "data" / "wow_spells").glob("*.json")):
+        g = json.loads(gp.read_text(encoding="utf-8"))
+        cls = gp.stem
+        for ab in g.get("abilities", []):
+            nm = ab.get("name") or {}
+            top = ((sp.get(cls) or {}).get("top") or {}).get(ab.get("id"))
+            sid = top["spell_id"] if top else ab.get("wowhead_spell_id")
+            for n in (nm.get("en"), nm.get("fr")):
+                if n and sid:
+                    _SPELL_IDS.setdefault(n, sid)
+    for k in [k for k in _SPELL_IDS if len(k) < 4]:
+        del _SPELL_IDS[k]
+    return _SPELL_IDS
+
+
+_SL_RE = []
+
+
+def spell_links(text):
+    """Jinja filter: escapes a text and turns every known spell name into a Wowhead Forever link with its icon (the page's tooltip script draws both)."""
+    from markupsafe import Markup, escape
+    if not _SL_RE:
+        ids = _spell_ids()
+        names = sorted(ids, key=len, reverse=True)
+        _SL_RE.append((re.compile(r"(?<![\w>])(" + "|".join(re.escape(str(escape(n))) for n in names) + r")(?![\w])"), {str(escape(n)): ids[n] for n in names}))
+    rx, ids = _SL_RE[0]
+    s = str(escape(text))
+    return Markup(rx.sub(lambda m: f'<a class="rs-spell" href="https://www.wowhead.com/forever/spell={ids[m.group(1)]}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{m.group(1)}</a>', s))
+
+
+def _curve_svg(c, lang, stat_label, rx):
+    """One stat curve as an inline SVG line chart (DPS against the stat), with the current gear and the estimated cap marked."""
+    W, H, L, R, T, B = 460, 210, 46, 16, 16, 38
+    xs = [p[0] for p in c["points"]]
+    ys = [p[1] for p in c["points"]]
+    x0, x1 = min(xs), max(xs)
+    y0, y1 = min(ys), max(ys)
+    pad = (y1 - y0) * 0.1 or 1.0
+    y0 -= pad
+    y1 += pad
+    sx = lambda x: L + (x - x0) / ((x1 - x0) or 1) * (W - L - R)
+    sy = lambda y: T + (1 - (y - y0) / ((y1 - y0) or 1)) * (H - T - B)
+    num = lambda v, d=0: (f"{v:.{d}f}".replace(".", ",") if lang == "fr" else f"{v:.{d}f}")
+    unit = "%" if c["unit"] == "pct" else ""
+    parts = [f'<svg class="cv-svg" viewBox="0 0 {W} {H}" role="img" aria-label="{stat_label}" xmlns="http://www.w3.org/2000/svg">']
+    for k in range(5):
+        v = y0 + (y1 - y0) * k / 4
+        parts.append(f'<line class="cv-grid" x1="{L}" x2="{W - R}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/><text class="cv-t" x="{L - 6}" y="{sy(v) + 3:.1f}" text-anchor="end">{v:.0f}</text>')
+    for k in range(5):
+        v = x0 + (x1 - x0) * k / 4
+        parts.append(f'<text class="cv-t" x="{sx(v):.1f}" y="{H - B + 15}" text-anchor="middle">{num(v, 1 if c["unit"] == "pct" else 0)}{unit}</text>')
+    parts.append(f'<text class="cv-t cv-axis" x="{(L + W - R) / 2:.0f}" y="{H - 5}" text-anchor="middle">{stat_label}</text>')
+    pts = " ".join(f"{sx(p[0]):.1f},{sy(p[1]):.1f}" for p in c["points"])
+    parts.append(f'<polygon class="cv-area" points="{sx(x0):.1f},{sy(y0):.1f} {pts} {sx(x1):.1f},{sy(y0):.1f}"/><polyline class="cv-line" points="{pts}"/>')
+    for p in c["points"]:
+        parts.append(f'<circle class="cv-dot" cx="{sx(p[0]):.1f}" cy="{sy(p[1]):.1f}" r="2.6"><title>{num(p[0], 1 if c["unit"] == "pct" else 0)}{unit} : {p[1]:.0f} DPS</title></circle>')
+    parts.append(f'<line class="cv-now" x1="{sx(xs[0]):.1f}" x2="{sx(xs[0]):.1f}" y1="{T}" y2="{H - B}"/><text class="cv-t cv-tnow" x="{sx(xs[0]) + 4:.1f}" y="{T + 9}">{rx["cv_now"]}</text>')
+    if c.get("cap") is not None and x0 < c["cap"] <= x1:
+        parts.append(f'<line class="cv-cap" x1="{sx(c["cap"]):.1f}" x2="{sx(c["cap"]):.1f}" y1="{T}" y2="{H - B}"/><text class="cv-t cv-tcap" x="{sx(c["cap"]) - 4:.1f}" y="{T + 22}" text-anchor="end">{rx["cv_cap_label"]} ≈ {num(c["cap"], 1 if c["unit"] == "pct" else 0)}{unit}</text>')
+    parts.append("</svg>")
+    return "".join(parts)
+
+
+def _curves_and_procs(lang, rx, d, r):
+    """Chart blocks and proc rows of a ranking page, from the ranking's detail.curves / detail.procs."""
+    stat_names = wow_guide_rotation.G60[lang]["stats"]
+    curves = []
+    for c in d.get("curves") or []:
+        label = stat_names.get(c["stat"], c["stat"])
+        pts = c["points"]
+        step = (pts[1][0] - pts[0][0]) or 1
+        gain = max(0.0, (pts[1][1] - pts[0][1]) / step)
+        unit = ("point de %" if lang == "fr" else "1%") if c["unit"] == "pct" else ("point" if lang == "fr" else "point")
+        fmt = lambda v, dg=1: (f"{v:.{dg}f}".replace(".", ",") if lang == "fr" else f"{v:.{dg}f}")
+        if c.get("cap") is not None:
+            cap_txt = rx["cv_cap"].format(x=fmt(c["cap"], 1 if c["unit"] == "pct" else 0) + (" %" if lang == "fr" and c["unit"] == "pct" else "%" if c["unit"] == "pct" else ""), stat=label.lower() if lang == "en" else label)
+        else:
+            cap_txt = rx["cv_nocap"].format(stat=label, g=fmt(gain * (1 if c["unit"] == "pt" else 1), 2), u=("1 %" if c["unit"] == "pct" else ("point" if lang == "fr" else "point")))
+        curves.append({"label": label, "svg": _curve_svg(c, lang, label, rx), "text": cap_txt, "capped": c.get("cap") is not None})
+    procs = []
+    talents = {t["name"]["en"]: t for t in d.get("talents") or []}
+    for p in d.get("procs") or []:
+        tx = wow_rank_texts.PROC_TX.get(p["name"])
+        lab = (tx[0] if lang == "fr" else tx[1]) if tx else p["name"]
+        desc = None
+        for tn in wow_rank_texts.PROC_TALENT.get(p["name"], []):
+            if tn in talents:
+                desc = talents[tn]["desc"][lang]
+                lab = talents[tn]["name"][lang] if p["name"] not in ("Maelstrom Weapon", "Vengeance", "Frenzy", "Lightning Bolt (Overload)", "Clearcasting") else lab
+                break
+        if desc is None and tx and tx[2]:
+            desc = tx[2][0 if lang == "fr" else 1]
+        procs.append({"label": lab, "perMin": (f"{p['perMin']:.1f}".replace(".", ",") if lang == "fr" else f"{p['perMin']:.1f}"), "desc": desc})
+    return curves, procs
+
+
+def _talent_view(lang, rx, r, d, cls):
+    """Talent section of a ranking page: the class's real talent trees with the build's points, the constraints and the measured value of each talent."""
+    if not cls:
+        return None
+    where = {t["name"]["en"]: (sp, t) for sp in cls["specs"] for t in sp["talents"]}
+    flags = [{"id": where[t["name"]["en"]][1]["id"], "points": t["rank"], "why": {"fr": "", "en": ""}} for t in d["talents"] if t["name"]["en"] in where]
+    suffix = r["spec_id"].split("_", 1)[1]
+    own = next((sp for sp in cls["specs"] if sp["id"].replace("-", "") == suffix or sp["id"].startswith(suffix)), None)
+    if own is None:
+        pts = {sp["id"]: sum(f["points"] for f in flags if where_id(cls, f["id"]) == sp["id"]) for sp in cls["specs"]}
+        own = next(sp for sp in cls["specs"] if sp["id"] == max(pts, key=pts.get))
+    tpl = wow_guides.template_tree(cls, own, {"talents": flags})
+    unit = rx["unit_tank"] if r["role"] == "tank" else rx["unit_dps"]
+    tv = d.get("talentValues") or {}
+    rows = []
+    for t in d["talents"]:
+        en = t["name"]["en"]
+        sp, td = where.get(en, (None, None))
+        v = tv.get(en, "missing")
+        if v == "missing" or v is None:
+            kind, txt = "gate", rx["val_none"]
+        elif v["pct"] >= 0.3:
+            kind, txt = "value", rx["val_lost"].format(g=(f"{v['gain']:.1f}".replace(".", ",") if lang == "fr" else f"{v['gain']:.1f}"), u=unit, p=(f"{v['pct']:.1f}".replace(".", ",") if lang == "fr" else f"{v['pct']:.1f}"))
+        else:
+            kind, txt = "zero", rx["val_zero"]
+        rows.append({"name": t["name"][lang], "rank": t["rank"], "max": t["max"], "tier": td["row"] if td else "", "tree": sp["name"][lang] if sp else "", "kind": kind, "text": txt, "gain": (v or {}).get("gain", -1) if isinstance(v, dict) else -1, "desc": t["desc"][lang]})
+    rows.sort(key=lambda x: (-x["gain"], x["tier"] if isinstance(x["tier"], int) else 99))
+    cons = []
+    for sp in cls["specs"]:
+        mine = [(t, where[t["name"]["en"]][1]) for t in d["talents"] if t["name"]["en"] in where and where[t["name"]["en"]][0] is sp]
+        if not mine:
+            continue
+        deep = max(mine, key=lambda x: x[1]["row"])[1]
+        need = max([g["points"] for g in (deep.get("gates") or [])] or [0])
+        cons.append(rx["why_tree"].format(tree=sp["name"][lang], pts=sum(x[0]["rank"] for x in mine), name=deep["name"][lang], row=deep["row"], need=need))
+    top = [x for x in rows if x["kind"] == "value"][:3]
+    gates = [x["name"] for x in rows if x["kind"] == "gate"]
+    return {"tpl": tpl, "rows": rows, "cons": cons, "rules": rx["why_rules"],
+            "top": rx["why_top"].format(top=", ".join(f"{x['name']} ({x['text'].split(' sans')[0].split(' without')[0]})" for x in top)) if top else None,
+            "gates": rx["why_gate"].format(gates=", ".join(gates)) if gates else None,
+            "notes": (wow_rank_texts.TALENT_NOTES.get(r["spec_id"]) or {}).get(lang, [])}
+
+
+def where_id(cls, tid):
+    return next(sp["id"] for sp in cls["specs"] for t in sp["talents"] if t["id"] == tid)
+
+
 def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_classes):
     """One detail page of the ranking: /wow-forever/classement/<spec>/ (talents, gear, rotation, damage by ability)."""
     rx = wow_rank_texts.TX[lang]
@@ -200,6 +354,8 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
     setup = d.get("setup") or {}
     pick = lambda e: {"name": (wow_rank_texts.SETUP_FR.get(e["id"]) or e["name"]) if lang == "fr" else e["name"], "eff": wow_rank_texts.setup_effect(lang, e)}
     setup_groups = [(rx["buffs_buffs"], [pick(e) for e in setup.get("buffs", [])]), (rx["buffs_cons"], [pick(e) for e in setup.get("consumables", [])]), (rx["buffs_debuffs"], [pick(e) for e in setup.get("debuffs", [])])]
+    curves, procs = _curves_and_procs(lang, rx, d, r)
+    tl = _talent_view(lang, rx, r, d, cls)
     opening = [o for o in (d.get("opening") or []) if "(off-hand)" not in o["n"] and not (o["n"] == "Rend" and r["class_id"] != "warrior")]
     pg = {
         "title": rx["title"].format(cls=r["class_name"], spec=r["spec_name"]), "desc": rx["desc"].format(cls=r["class_name"], spec=r["spec_name"]),
@@ -208,7 +364,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         "dtps": _fmt_int(r.get("dtps") or 0), "health": _fmt_int(r.get("health") or 0),
         "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
         "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
-        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "curves": curves, "procs": procs, "tl": tl, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
     }
     if r["role"] == "tank":                      # tanks are ranked by threat, not damage
         swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
@@ -7037,6 +7193,7 @@ def main() -> None:
     # hreflang-linked URL, not a client-side toggle over one page. ----
     env = Environment(loader=FileSystemLoader(str(ROOT / "templates")), autoescape=True)
     env.globals["BASE_URL"] = BASE_URL
+    env.filters["sl"] = spell_links
     env.globals["star_svg"] = STAR_SVG
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate

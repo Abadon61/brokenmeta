@@ -24,11 +24,11 @@
 </div>
 
 <h2 class="fiche-section-title">{{ rx.sec_rotation }}</h2>
-<ol class="rs-rot">{% for line in pg.rotation %}<li>{{ line }}</li>{% endfor %}</ol>
+<ol class="rs-rot">{% for line in pg.rotation %}<li>{{ line|sl }}</li>{% endfor %}</ol>
 {% if pg.opening %}
 <h3 class="rs-sub">{{ rx.sec_opening }}</h3>
 <p class="rs-hint">{{ rx.opening_hint }}</p>
-<div class="rs-open">{% for o in pg.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>
+<div class="rs-open">{% for o in pg.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n|sl }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>
 {% endif %}
 
 <h2 class="fiche-section-title">{{ rx.sec_abilities }}</h2>
@@ -37,7 +37,7 @@
   <thead><tr><th>{{ rx.col_ability }}</th><th class="rs-bar-col">{{ rx.col_share }}</th><th class="nums">{{ rx.col_dps }}</th><th class="nums">{{ rx.col_casts }}</th><th class="nums">{{ rx.col_crit }}</th></tr></thead>
   <tbody>
   {% for a in pg.abilities %}
-  <tr><td>{{ a.name }}</td>
+  <tr><td>{{ a.name|sl }}</td>
       <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ a.share }}%"></span></span><span class="nums rs-share">{{ a.share }}%</span></td>
       <td class="nums">{{ a.dps }}</td><td class="nums">{{ a.cpm if a.cpm else '—' }}</td><td class="nums">{{ (a.crit * 100)|round(0)|int ~ '%' if a.crit else '—' }}</td></tr>
   {% endfor %}
@@ -49,7 +49,43 @@
 <div class="rs-open">{% for u in pg.uptimes %}<span class="rs-step"><i class="nums">{{ (u[1] * 100)|round(0)|int }}%</i>{{ u[0] }}</span>{% endfor %}</div>
 {% endif %}
 
+{% if pg.procs %}
+<h2 class="fiche-section-title">{{ rx.sec_procs }}</h2>
+<p class="page-intro" style="margin-top:0">{{ rx.procs_p }}</p>
+<div class="cv-procs">{% for p in pg.procs %}<div class="cv-proc"><div class="cv-proc-n nums">{{ p.perMin }}<small>{{ rx.procs_unit }}</small></div><div><b>{{ p.label|sl }}</b>{% if p.desc %}<p>{{ p.desc|sl }}</p>{% endif %}</div></div>{% endfor %}</div>
+{% endif %}
+{% if pg.curves %}
+<h2 class="fiche-section-title">{{ rx.sec_curves }}</h2>
+<p class="page-intro" style="margin-top:0">{{ rx.curves_p }}</p>
+<div class="cv-grid">{% for c in pg.curves %}<figure class="cv-card{{ ' is-capped' if c.capped }}"><figcaption>{{ c.label }}</figcaption>{{ c.svg|safe }}<p class="rs-hint">{{ c.text }}</p></figure>{% endfor %}</div>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ rx.sec_talents }}</h2>
+{% if pg.tl %}
+<div class="wg-legend"><span class="wg-key is-reco"></span>{{ rx.tl_legend }}</div>
+<div class="wg-trees">
+{% for tr in pg.tl.tpl.trees %}<div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">{{ tr.spec.name[lang] }} <span class="nums">{{ pg.trees|selectattr('name', 'equalto', tr.spec.name[lang])|map(attribute='points')|first|default(0) }} {{ rx.points }}</span></h3>
+  <div class="wg-tree" style="--rows: {{ tr.rows }}">
+    {{ tr.svg }}
+    {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col + 1 }}" title="{{ c.t.name[lang] }} — {{ c.t.max_rank }}">
+      <span class="wg-ico">{% if c.t.icon %}<img src="{{ c.t.icon }}" alt="{{ c.t.name[lang] }}" width="40" height="40" loading="lazy">{% endif %}<span class="wg-badge nums">{% if c.points %}{{ c.points }}/{{ c.t.max_rank }}{% else %}{{ c.t.max_rank }}{% endif %}</span></span></div>{% endfor %}
+  </div>
+</div>{% endfor %}
+</div>
+
+<h2 class="fiche-section-title">{{ rx.sec_why }}</h2>
+<p class="page-intro" style="margin-top:0">{{ pg.tl.rules }}</p>
+<ul class="gd-list">{% for c in pg.tl.cons %}<li>{{ c }}</li>{% endfor %}</ul>
+{% for para in pg.tl.notes %}<p class="page-intro">{{ para|sl }}</p>{% endfor %}
+{% if pg.tl.top %}<p class="page-intro">{{ pg.tl.top }}</p>{% endif %}
+{% if pg.tl.gates %}<p class="page-intro">{{ pg.tl.gates }}</p>{% endif %}
+<p class="rs-hint">{{ rx.why_table_p }}</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ rx.col_talent }}</th><th class="nums">{{ rx.col_tier }}</th><th>{{ rx.col_value }}</th></tr></thead>
+  <tbody>{% for x in pg.tl.rows %}<tr><td><b>{{ x.name }}</b> <span class="nums">{{ x.rank }}/{{ x.max }}</span> <span class="rs-hint">{{ x.tree }}</span><span class="rs-tdesc">{{ x.desc }}</span></td><td class="nums">{{ x.tier }}</td><td class="{{ 'rs-v-' ~ x.kind }}">{{ x.text }}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% else %}
 <div class="rs-trees">
 {% for t in pg.trees %}
   <section class="rs-tree">
@@ -58,6 +94,7 @@
   </section>
 {% endfor %}
 </div>
+{% endif %}
 
 <h2 class="fiche-section-title">{{ rx.sec_gear }}</h2>
 <div class="rs-table-wrap">

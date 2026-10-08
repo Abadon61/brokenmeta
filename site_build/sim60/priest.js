@@ -81,7 +81,7 @@ export function priestKit(build = {}, data = null) {
       if (S.mb && ready(S.mb)) return S.mb;
       if (S.swd && b.shadowWordDeath && ready(S.swd)) return S.swd;
       if (S.mf && b.mindFlay) return S.mf;
-      return b.shadowform ? S.mb : S.smite || S.mb;
+      return b.shadowform ? null : S.smite || S.mb;                // Shadowform forbids holy spells: without Mind Flay the priest just waits for the next cooldown
     },
   };
   if (S.mb) S.mb.cdBase = S.mb.cd;
