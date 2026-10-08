@@ -958,11 +958,11 @@ const PRESETS = {
   },
   warlock_demonology: {
     'Demonic Embrace': 5, 'Improved Imp': 3, 'Improved Health Funnel': 2, 'Unholy Power': 5, 'Fel Vitality': 3, 'Demonic Aegis': 2, 'Master Summoner': 2, 'Demonic Knowledge': 3, 'Master Demonologist': 3,
-    'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Aftermath': 5, 'Shadowburn': 1, 'Conflagrate': 1, 'Agonizing Flames': 3,
+    'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Aftermath': 5, 'Shadowburn': 1, 'Ruin': 1, 'Agonizing Flames': 3,
   },
   hunter_marksmanship: {
     'Lethal Attacks': 5, 'Improved Stings': 3, 'Efficiency': 5, 'Careful Aim': 5, 'Rapid Killing': 2, 'Improved Arcane Shot': 5, 'Lone Wolf': 1, 'Trueshot Aura': 1, 'Mortal Shots': 5,
-    'Barrage': 3, 'Ranged Weapon Specialization': 5, 'Sniper Shot': 1, 'Deadly Aspects': 5, 'Endurance Training': 5,
+    'Barrage': 3, 'Ranged Weapon Specialization': 5, 'Focused Fire': 1, 'Deadly Aspects': 5, 'Endurance Training': 5,
   },
   hunter_beastmastery: {
     'Deadly Aspects': 5, 'Endurance Training': 5, 'Focused Fire': 2, 'Bestial Swiftness': 1, 'Unleashed Fury': 5, 'Ferocity': 5, 'Summon Hawk': 1, 'Intimidation': 1,
@@ -1027,7 +1027,7 @@ const PRESETS = {
   },
   warrior_arms: {
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,
-    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1,
+    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Improved Execute': 1,
     'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Boundless Rage': 3, 'Improved Cleave': 2,
   },
 };
