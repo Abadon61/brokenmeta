@@ -58,7 +58,8 @@ export const CONSUMABLES = {
   nightfin_soup: { name: 'Nightfin Soup', mp5: 8 },
   brilliant_wizard_oil: { name: 'Brilliant Wizard Oil', sp: 36, spCrit: 0.01, assumed: true },
   brilliant_mana_oil: { name: 'Brilliant Mana Oil', sp: 25, mp5: 12, assumed: true },
-  dense_stone: { name: 'Dense Sharpening Stone', weaponDmg: 8, critMelee: 0, assumed: true },
+  dense_stone: { name: 'Dense Sharpening / Weight Stone', weaponDmg: 8 },                          // +8 weapon damage per weapon (client: Sharpen Blade V / Enhance Blunt Weapon V)
+  elemental_sharpening_stone: { name: 'Elemental Sharpening Stone', crit: 0.02, meleeOnly: true },      // client: Critical +2%
 };
 
 // Boss debuffs: armor reductions (additive on the boss's armor, floor 0) and the ones that matter for damage.
@@ -75,19 +76,19 @@ export const DEBUFFS = {
 const ALLY = ['arcane_intellect', 'blessing_of_kings', 'blessing_of_wisdom', 'blessing_of_might', 'mark_of_the_wild', 'divine_spirit', 'power_word_fortitude', 'mana_spring_totem'];
 export const PRESET_CASTER = {
   buffs: [...ALLY, 'moonkin_aura'],
-  consumables: ['scroll_intellect', 'scroll_spirit', 'scroll_stamina', 'flask_ancient_knowledge', 'juju_guile', 'spirit_of_zanza', 'mageblood_potion', 'brilliant_wizard_oil', 'food_spell_power'],
+  consumables: ['scroll_intellect', 'flask_ancient_knowledge', 'juju_guile', 'spirit_of_zanza', 'mageblood_potion', 'brilliant_wizard_oil', 'food_spell_power'],
   debuffs: ['curse_of_elements'],
 };
 
 export const PRESET_HUNTER = {
   buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'trueshot_aura', 'hunters_mark', 'leader_of_the_pack'],
-  consumables: ['scroll_agility', 'scroll_strength', 'scroll_stamina', 'elixir_mongoose', 'elixir_honey_badger', 'juju_might', 'brilliant_mana_oil', 'nightfin_soup', 'food_agility'],
+  consumables: ['scroll_agility', 'elixir_mongoose', 'juju_might', 'brilliant_mana_oil', 'food_agility'],
   debuffs: ['sunder_armor_5', 'faerie_fire', 'curse_of_recklessness'],
 };
 
 export const PRESET_RAID = {
   buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'leader_of_the_pack'],
-  consumables: ['scroll_strength', 'scroll_agility', 'scroll_stamina', 'elixir_mongoose', 'elixir_grizzly', 'juju_power', 'juju_might', 'nightfin_soup', 'food_strength'],
+  consumables: ['scroll_strength', 'elixir_mongoose', 'juju_power', 'juju_might', 'food_strength'],
   debuffs: ['sunder_armor_5', 'faerie_fire', 'curse_of_recklessness'],
 };
 
@@ -102,3 +103,23 @@ export const RACIAL_SKILL = {
   tauren: [],
   undead: [],
 };
+
+// ---- Wowhead spell ids (tooltips and icons on the site) and the slots of the consumables ----
+const SID = {
+  battle_shout: 25289, blessing_of_might: 25916, blessing_of_kings: 25898, blessing_of_wisdom: 25918, mark_of_the_wild: 21850, leader_of_the_pack: 24932, moonkin_aura: 24907,
+  strength_of_earth: 25361, grace_of_air: 25359, mana_spring_totem: 10497, divine_spirit: 27681, power_word_fortitude: 21564, arcane_intellect: 23028, hunters_mark: 14325, trueshot_aura: 20906,
+  scroll_strength: 12179, scroll_agility: 12174, scroll_intellect: 12176, scroll_spirit: 12177, scroll_stamina: 12178, flask_ancient_knowledge: 1213892, flask_madness: 1213897,
+  elixir_mongoose: 17538, elixir_grizzly: 1250986, elixir_honey_badger: 1213904, elixir_mage_lord: 1213914, elixir_owl: 1250940, greater_arcane_elixir: 17539, mageblood_potion: 24363,
+  juju_power: 16323, juju_might: 16329, juju_guile: 16327, spirit_of_zanza: 24382, food_spell_power: 1225780, food_strength: 1225778, food_agility: 1225779, nightfin_soup: 18194,
+  brilliant_wizard_oil: 25129, brilliant_mana_oil: 25130, dense_stone: 16138, elemental_sharpening_stone: 22756,
+  sunder_armor_5: 11597, faerie_fire: 9907, curse_of_recklessness: 11717, curse_of_elements: 1311680, expose_armor: 11198,
+};
+for (const [k, v] of Object.entries(SID)) { const e = BUFFS[k] || CONSUMABLES[k] || DEBUFFS[k]; if (e) e.sid = v; }
+// A character carries at most one scroll, one elixir or flask, one food and one weapon oil (the rule given for Forever; the client tables do not encode it).
+export const CONSUMABLE_SLOTS = {
+  scroll: ['scroll_strength', 'scroll_agility', 'scroll_intellect', 'scroll_spirit', 'scroll_stamina'],
+  elixir: ['flask_ancient_knowledge', 'flask_madness', 'elixir_mongoose', 'elixir_grizzly', 'elixir_honey_badger', 'elixir_mage_lord', 'elixir_owl', 'greater_arcane_elixir'],
+  food: ['food_spell_power', 'food_strength', 'food_agility', 'nightfin_soup'],
+  oil: ['brilliant_wizard_oil', 'brilliant_mana_oil', 'dense_stone', 'elemental_sharpening_stone'],
+};
+for (const [slot, ids] of Object.entries(CONSUMABLE_SLOTS)) for (const id of ids) if (CONSUMABLES[id]) CONSUMABLES[id].slot = slot;

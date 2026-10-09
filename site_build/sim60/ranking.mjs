@@ -10,12 +10,14 @@ import { Sim } from './engine.js';
 import { buildCharacter } from './character.js';
 import { makeKit, KITS } from './kits.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
-import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, BUFFS, DEBUFFS } from './presets.js';
+import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, CONSUMABLE_SLOTS, BUFFS, DEBUFFS } from './presets.js';
 
 const FIGHT = +process.argv[2] || 180, FINAL = +process.argv[3] || 6000;
 const here = new URL('.', import.meta.url);
 const rd = (f) => JSON.parse(readFileSync(new URL('data/' + f, here)));
 const pool = new ItemPool(rd('items.json'), rd('proficiency.json'));
+const ALL_ENCH = rd('enchants60.json').enchants.filter((e) => Object.keys(e.stats).length);
+const ENCHANTS = ALL_ENCH.filter((e) => e.kind !== 'kit'), ARMOR_KITS = ALL_ENCH.filter((e) => e.kind === 'kit');
 const data = rd('spells60.json'), fx = rd('effects.json'), tal = rd('talents.json');
 
 // spec -> { class, variant, mode, family, race, role }  (mode follows the page: dw / 2h / caster / ranged / stick / tank)
@@ -37,7 +39,7 @@ const FAMILY = { caster: PRESET_CASTER, hunter: PRESET_HUNTER };
 const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT, iterations: FINAL, build: rd('items.json').build, specs: [] };
 const objectiveTank = (r, ch) => { const len = FIGHT, thr = r.counters.threat / len, dt = r.counters.dmgTaken / len, raw = ch.target.boss.dmg / ch.target.boss.speed; return Math.sqrt(Math.max(0, thr) * Math.max(0, raw - dt)); };
 
-const stat = (d) => { const o = {}; for (const k of ['str', 'agi', 'sta', 'int', 'spi', 'ap', 'sp', 'crit', 'spCrit', 'mp5', 'statMult', 'armor', 'spellTaken']) if (d[k]) o[k] = d[k]; if (d.meleeOnly) o.meleeOnly = true; return o; };
+const stat = (d) => { const o = { sid: d.sid }; for (const k of ['str', 'agi', 'sta', 'int', 'spi', 'ap', 'sp', 'crit', 'spCrit', 'mp5', 'statMult', 'armor', 'spellTaken']) if (d[k]) o[k] = d[k]; if (d.meleeOnly) o.meleeOnly = true; return o; };
 // procs shown on a spec's page: talent / effect procs with the number of times they fire per minute. kind 'aura' = applications of the aura, 'entry' = hits + misses of the damage entry (div: attacks per proc)
 const PROCS = {
   warrior_fury: [['Flurry', 'aura']],
@@ -64,7 +66,7 @@ const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
   if (ONLY && !ONLY.includes(id)) continue;
   const t0 = Date.now();
-  const family = FAMILY[S.family] || PRESET_RAID;
+  let family = FAMILY[S.family] || PRESET_RAID;
   const build = Object.assign(ranksToBuild(S.cls, tal[S.cls], ranksFromNames(tal[S.cls], PRESETS[id])), S.build || {});
   const kit = () => makeKit(id, build, data);
   const character = { class: S.cls, variant: S.variant, race: S.race || 'human', gear: [], weapons: [], buffs: family.buffs, consumables: family.consumables, debuffs: family.debuffs, effects: fx };
@@ -88,6 +90,75 @@ for (const [id, S] of Object.entries(SPECS)) {
   };
   let best = null;
   for (const m of S.modes || [S.mode]) { const x = await tryMode(m); if (!best || x.r.mean > best.r.mean) best = x; }
+  // ---- enchantments: the best flat-stat enchantment of each slot (procs are not valued) ----
+  const wslot = (w) => (/bow|gun|crossbow/.test(w.type || '') ? 'rng' : w.offHand ? 'oh' : w.twoHand ? 'th' : 'mh');
+  const KIT_SLOTS = ['chest', 'legs', 'feet', 'hands'];
+  const applyEnch = (g, w, chosenE, kit, kitOn) => {
+    const st = {}, W = w.map((x) => ({ ...x }));
+    if (kit) { const n = (kitOn || []).length; for (const [k, v] of Object.entries(kit.stats)) st[k] = (st[k] || 0) + v * n; }
+    for (const [slot, e] of Object.entries(chosenE)) for (const [k, v] of Object.entries(e.stats)) {
+      if (k === 'wdmg') { const i = W.findIndex((x) => wslot(x) === slot); if (i >= 0) { W[i].min += v; W[i].max += v; } } else st[k] = (st[k] || 0) + v;
+    }
+    return { gear: g.concat([{ slot: 'enchants', id: -2, name: 'enchants', st }]), weapons: W };
+  };
+  const evalEnch = (chosenE, kitE, kitOn, n = 1500) => { const a = applyEnch(best.gear, best.weapons, chosenE, kitE, kitOn); const c = buildCharacter({ ...character, gear: a.gear, weapons: a.weapons }); return (S.tank ? objectiveTank(runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, n, 3), c) : runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, n, 3).mean); };
+  const present = new Set(best.gear.map((g) => g.slot));
+  for (const w of best.weapons) present.add(wslot(w));
+  const chosenE = {};
+  for (const slot of ['th', 'mh', 'oh', 'rng', 'shield', 'held', 'back', 'chest', 'wrist', 'hands', 'feet', 'neck']) {
+    if (!present.has(slot)) continue;
+    // one candidate per kind of stat: the strongest rank
+    const byKind = new Map();
+    for (const e of ENCHANTS) if (e.slots.includes(slot)) { const key = Object.keys(e.stats).sort().join('+'), tot = Object.values(e.stats).reduce((a, b) => a + b, 0); if (!byKind.has(key) || byKind.get(key).tot < tot) byKind.set(key, { e, tot }); }
+    let bestV = evalEnch(chosenE), pick = null;
+    for (const { e } of byKind.values()) { const v = evalEnch({ ...chosenE, [slot]: e }); if (v > bestV + 0.05) { bestV = v; pick = e; } }
+    if (pick) chosenE[slot] = pick;
+  }
+  // armor kits (leatherworking): an armor kit and an enchantment are both a permanent enchantment, so a piece (chest, hands, feet; the legs have no enchantment)
+  // carries one or the other. One family of kit for the whole character (attack power / spell power / stamina), put where it beats the enchantment of the slot.
+  let kitPick = null, kitOn = [];
+  {
+    const byKind = new Map();
+    for (const e of ARMOR_KITS) { const key = Object.keys(e.stats).sort().join('+'), tot = Object.values(e.stats).reduce((a, b) => a + b, 0); if (!byKind.has(key) || byKind.get(key).tot < tot) byKind.set(key, { e, tot }); }
+    let bestV = evalEnch(chosenE, null, []), bestSet = null;
+    for (const { e } of byKind.values()) {
+      let E = { ...chosenE }, on = [], cur = evalEnch(E, e, on);
+      for (const sl of KIT_SLOTS) {
+        if (!best.gear.some((x) => x.slot === sl)) continue;
+        const E2 = { ...E }; delete E2[sl];
+        const v2 = evalEnch(E2, e, on.concat([sl]));
+        if (v2 > cur + 0.05) { E = E2; on = on.concat([sl]); cur = v2; }
+      }
+      if (on.length && cur > bestV + 0.05) { bestV = cur; kitPick = e; kitOn = on; bestSet = E; }
+    }
+    if (bestSet) for (const k of Object.keys(chosenE)) if (!(k in bestSet)) delete chosenE[k];
+  }
+  { const a = applyEnch(best.gear, best.weapons, chosenE, kitPick, kitOn); best.gear = a.gear; best.weapons = a.weapons; }
+  const enchantsOut = {};
+  for (const [slot, e] of Object.entries(chosenE)) enchantsOut[slot] = { id: e.id, kind: e.kind, name: e.name, effect: e.effect, stats: e.stats };
+  const kitOut = kitPick ? { id: kitPick.id, name: kitPick.name, stats: kitPick.stats, slots: kitOn } : null;
+
+  // ---- consumables: one scroll, one elixir or flask, one food and one weapon oil at most; the best of each slot is picked on the final gear ----
+  const metric = (c, rr) => (S.tank ? objectiveTank(rr, c) : rr.mean);
+  const evalSet = (list, n = 2000) => { const c = buildCharacter({ ...character, consumables: list, gear: best.gear, weapons: best.weapons }); return metric(c, runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, n, 3)); };
+  let chosen = family.consumables.slice();
+  for (let pass = 0; pass < 2; pass++) {
+    for (const slot of Object.keys(CONSUMABLE_SLOTS)) {
+      const without = chosen.filter((x) => CONSUMABLES[x].slot !== slot);
+      let bestSet = chosen, bestV = evalSet(chosen);
+      for (const opt of [null, ...CONSUMABLE_SLOTS[slot]]) {
+        const set = opt ? without.concat([opt]) : without, v = evalSet(set);
+        if (v > bestV + 0.05) { bestSet = set; bestV = v; }
+      }
+      chosen = bestSet;
+    }
+  }
+  family = { ...family, consumables: chosen };
+  character.consumables = chosen;
+  {
+    const c = buildCharacter({ ...character, gear: best.gear, weapons: best.weapons });
+    best.ch = c; best.r = runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, FINAL, 7);
+  }
   const { done, gear, weapons, ch, r } = best;
   // ---- stat weights at level 60 (DPS specs): DPS gained by one more point of each stat on the final character, same random draws on both sides ----
   let weights = null;
@@ -109,7 +180,7 @@ for (const [id, S] of Object.entries(SPECS)) {
   let curves = [];
   if (!S.tank && weights) {
     const sm0 = ch.summary || {}, baseOf = { hitrtng: (sm0.hit || 0) * 100, critstrkrtng: (sm0.crit || 0) * 100, hastertng: 0 };
-    const picks = weights.filter((w) => CURVE_RANGE[w.stat] && w.per > 0 && w.rel >= 0.05).slice(0, 4);
+    const picks = weights.filter((w) => CURVE_RANGE[w.stat] && w.per > 0 && w.rel >= 0.05).slice(0, 6);
     for (const w of picks) {
       const key = w.stat, steps = 8, pts = [];
       for (let i = 0; i <= steps; i++) {
@@ -119,9 +190,9 @@ for (const [id, S] of Object.entries(SPECS)) {
       const rp = RATING_PCT[key], x = (a) => +(rp ? baseOf[key] + a / rp : a).toFixed(2);
       // cap: the first step after which each further step gives less than a fifth of the first step's gain (and keeps giving little)
       const sl = pts.slice(1).map((p, i) => p[1] - pts[i][1]), s0 = Math.max(sl[0], sl[1] || 0);
-      let cap = null;
-      if (s0 > 0.4) for (let i = 1; i < sl.length; i++) if (sl[i] < 0.2 * s0 && sl.slice(i).every((v) => v < 0.35 * s0)) { cap = x(pts[i][0]); break; }
-      curves.push({ stat: key, unit: rp ? 'pct' : 'pt', base: rp ? +baseOf[key].toFixed(2) : 0, points: pts.map((p) => [x(p[0]), p[1]]), cap });
+      let cap = null, capAdd = null;
+      if (s0 > 0.4) for (let i = 1; i < sl.length; i++) if (sl[i] < 0.2 * s0 && sl.slice(i).every((v) => v < 0.35 * s0)) { cap = x(pts[i][0]); capAdd = pts[i][0]; break; }
+      curves.push({ stat: key, unit: rp ? 'pct' : 'pt', base: rp ? +baseOf[key].toFixed(2) : 0, points: pts.map((p) => [x(p[0]), p[1], p[0]]), cap, capAdd });
     }
   }
   // ---- procs per minute ----
@@ -130,17 +201,20 @@ for (const [id, S] of Object.entries(SPECS)) {
     const e = r.breakdown[pn], n = kind === 'aura' ? (r.applications || {})[pn] : e ? (e.hits + e.misses) / (div || 1) : 0;
     if (n > 0.2) procs.push({ name: pn, perMin: +(n / (FIGHT / 60)).toFixed(1) });
   }
-  // ---- consumables: what each one is worth to this spec. Those of the simulated set are removed one by one (loss), the others are added one by one (gain) ----
-  const metric = (c, rr) => (S.tank ? objectiveTank(rr, c) : rr.mean);
-  const withCons = (list) => { const c = buildCharacter({ ...character, consumables: list, gear, weapons }); return metric(c, runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, 2500, 3)); };
-  const baseCons = withCons(family.consumables), consumables = [];
-  for (const [cid, cdef] of Object.entries(CONSUMABLES)) {
-    if (cdef.weaponDmg) continue;
-    const inSet = family.consumables.includes(cid);
-    const v = withCons(inSet ? family.consumables.filter((x) => x !== cid) : family.consumables.concat([cid]));
-    consumables.push({ id: cid, name: cdef.name, inSet, gain: +((inSet ? baseCons - v : v - baseCons)).toFixed(2), pct: +(100 * (inSet ? baseCons - v : v - baseCons) / baseCons).toFixed(2) });
+  // ---- consumables: what each option is worth to this spec, slot by slot (gain against an empty slot, the rest of the set unchanged) ----
+  const baseCons = evalSet(chosen, 2500), consumables = { slots: {}, extras: [] };
+  const mk = (id, v0, v1) => ({ id, sid: CONSUMABLES[id].sid, name: CONSUMABLES[id].name, chosen: chosen.includes(id), gain: +(v1 - v0).toFixed(2), pct: +(100 * (v1 - v0) / v0).toFixed(2) });
+  for (const slot of Object.keys(CONSUMABLE_SLOTS)) {
+    const without = chosen.filter((x) => CONSUMABLES[x].slot !== slot), v0 = evalSet(without, 2500);
+    consumables.slots[slot] = CONSUMABLE_SLOTS[slot].map((opt) => mk(opt, v0, evalSet(without.concat([opt]), 2500))).sort((x, y) => y.gain - x.gain);
   }
-  consumables.sort((a, b) => b.gain - a.gain);
+  // consumables outside the slots (juju, Zanza, Mageblood): removed when in the set, added when not
+  for (const [cid, cdef] of Object.entries(CONSUMABLES)) {
+    if (cdef.slot || cdef.weaponDmg) continue;
+    const inSet = chosen.includes(cid), v = evalSet(inSet ? chosen.filter((x) => x !== cid) : chosen.concat([cid]), 2500);
+    consumables.extras.push({ id: cid, sid: cdef.sid, name: cdef.name, chosen: inSet, gain: +(inSet ? baseCons - v : v - baseCons).toFixed(2), pct: +(100 * (inSet ? baseCons - v : v - baseCons) / baseCons).toFixed(2) });
+  }
+  consumables.extras.sort((x, y) => y.gain - x.gain);
   // ---- value of each chosen talent: what the spec loses when it is taken out (null = the simulator has no effect for it: a gate / utility point) ----
   const talentValues = {};
   {
@@ -167,8 +241,8 @@ for (const [id, S] of Object.entries(SPECS)) {
   const trees = {};
   for (const t of talents) trees[t.tree] = (trees[t.tree] || 0) + t.rank;
   const weaponSlot = (w) => (w.offHand ? 'oh' : w.twoHand ? 'th' : /bow|gun|crossbow/.test(w.type) ? 'rng' : 'mh');
-  const items = gear.map((g) => ({ slot: g.slot, id: g.id })).concat(weapons.map((w) => ({ slot: weaponSlot(w), id: w.itemId })));
-  for (const it of items) { const p = pool.byId.get(it.id) || {}; it.name = p.name; it.zone = p.zone; it.src = (p.src || [])[0]; it.ilvl = p.ilvl; it.q = p.q; }
+  const items = gear.filter((g) => g.id > 0).map((g) => ({ slot: g.slot, id: g.id })).concat(weapons.map((w) => ({ slot: weaponSlot(w), id: w.itemId })));
+  for (const it of items) { const p = pool.byId.get(it.id) || {}; it.name = p.name; it.zone = p.zone; it.from = p.from; it.skill = p.skill; it.src = (p.src || [])[0]; it.ilvl = p.ilvl; it.q = p.q; }
   const sim = new Sim({ fightLen: FIGHT, player: ch.player, target: ch.target, spec: kit(), seed: 11, log: true });
   sim.run();
   const opening = [];
@@ -221,7 +295,7 @@ for (const [id, S] of Object.entries(SPECS)) {
   }
   const sm = ch.summary || {};
   const detail = {
-    talents, trees, items, weights, consumables, curves, procs, talentValues, alt,
+    talents, trees, items, enchants: enchantsOut, kit: kitOut, weights, consumables, curves, procs, talentValues, alt,
     // what the raid gives during the simulation (ids and values come from presets.js; the page translates the names)
     setup: { buffs: family.buffs.map((x) => ({ id: x, name: BUFFS[x].name, ...stat(BUFFS[x]) })), consumables: family.consumables.map((x) => ({ id: x, name: CONSUMABLES[x].name, ...stat(CONSUMABLES[x]) })), debuffs: family.debuffs.map((x) => ({ id: x, name: DEBUFFS[x].name, ...stat(DEBUFFS[x]) })) },
     stats: { prim: sm.prim, ap: sm.ap, sp: sm.sp, crit: sm.crit, hit: sm.hit, haste: sm.haste, mana: sm.mana, armor: sm.armor, tank: sm.tank },

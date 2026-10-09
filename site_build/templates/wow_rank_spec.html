@@ -24,43 +24,6 @@
   </div>
 </div>
 
-<h2 class="fiche-section-title">{{ rx.sec_rotation }}</h2>
-<ol class="rs-rot">{% for line in pg.rotation %}<li>{{ line|sl }}</li>{% endfor %}</ol>
-{% if pg.opening %}
-<h3 class="rs-sub">{{ rx.sec_opening }}</h3>
-<p class="rs-hint">{{ rx.opening_hint }}</p>
-<div class="rs-open">{% for o in pg.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n|sl }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>
-{% endif %}
-
-<h2 class="fiche-section-title">{{ rx.sec_abilities }}</h2>
-<div class="rs-table-wrap">
-<table class="rs-table">
-  <thead><tr><th>{{ rx.col_ability }}</th><th class="rs-bar-col">{{ rx.col_share }}</th><th class="nums">{{ rx.col_dps }}</th><th class="nums">{{ rx.col_casts }}</th><th class="nums">{{ rx.col_crit }}</th></tr></thead>
-  <tbody>
-  {% for a in pg.abilities %}
-  <tr><td>{{ a.name|sl }}</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ a.share }}%"></span></span><span class="nums rs-share">{{ a.share }}%</span></td>
-      <td class="nums">{{ a.dps }}</td><td class="nums">{{ a.cpm if a.cpm else '—' }}</td><td class="nums">{{ (a.crit * 100)|round(0)|int ~ '%' if a.crit else '—' }}</td></tr>
-  {% endfor %}
-  </tbody>
-</table>
-</div>
-{% if pg.uptimes %}
-<h3 class="rs-sub">{{ rx.sec_uptimes }}</h3>
-<div class="rs-open">{% for u in pg.uptimes %}<span class="rs-step"><i class="nums">{{ (u[1] * 100)|round(0)|int }}%</i>{{ u[0] }}</span>{% endfor %}</div>
-{% endif %}
-
-{% if pg.procs %}
-<h2 class="fiche-section-title">{{ rx.sec_procs }}</h2>
-<p class="page-intro" style="margin-top:0">{{ rx.procs_p }}</p>
-<div class="cv-procs">{% for p in pg.procs %}<div class="cv-proc"><div class="cv-proc-n nums">{{ p.perMin }}<small>{{ rx.procs_unit }}</small></div><div><b>{{ p.label|sl }}</b>{% if p.desc %}<p>{{ p.desc|sl }}</p>{% endif %}</div></div>{% endfor %}</div>
-{% endif %}
-{% if pg.curves %}
-<h2 class="fiche-section-title">{{ rx.sec_curves }}</h2>
-<p class="page-intro" style="margin-top:0">{{ rx.curves_p }}</p>
-<div class="cv-grid">{% for c in pg.curves %}<figure class="cv-card{{ ' is-capped' if c.capped }}"><figcaption>{{ c.label }}</figcaption>{{ c.svg|safe }}<p class="rs-hint">{{ c.text }}</p></figure>{% endfor %}</div>
-{% endif %}
-
 <h2 class="fiche-section-title">{{ rx.sec_talents }}</h2>
 {% if pg.tl %}
 {{ tm.trees(pg.tl, lang) }}
@@ -85,11 +48,56 @@
 </div>
 {% endif %}
 
+{% if pg.curves %}
+<h2 class="fiche-section-title">{{ rx.sec_curves }}</h2>
+<p class="page-intro" style="margin-top:0">{{ rx.curves_p }}</p>
+<div class="cv-grid">{% for c in pg.curves %}<figure class="cv-card{{ ' is-capped' if c.capped }}"><figcaption>{{ c.label }}</figcaption>{{ c.svg|safe }}<p class="rs-hint">{{ c.text }}</p></figure>{% endfor %}</div>
+{% if pg.prio %}
+<h3 class="rs-sub">{{ rx.prio_h }}</h3>
+<p class="rs-hint">{{ rx.prio_p }}</p>
+<ol class="wg-stats">{% for p in pg.prio %}<li>{{ p.text }}</li>{% endfor %}</ol>
+{% endif %}
+{% endif %}
+
+
+<h2 class="fiche-section-title">{{ rx.sec_rotation }}</h2>
+<ol class="rs-rot">{% for line in pg.rotation %}<li>{{ line|sl }}</li>{% endfor %}</ol>
+{% if pg.opening %}
+<h3 class="rs-sub">{{ rx.sec_opening }}</h3>
+<p class="rs-hint">{{ rx.opening_hint }}</p>
+<div class="rs-open">{% for o in pg.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n|sl }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>
+{% endif %}
+
+{% if pg.procs %}
+<h3 class="rs-sub">{{ rx.sec_procs }}</h3>
+<p class="page-intro" style="margin-top:0">{{ rx.procs_p }}</p>
+<div class="cv-procs">{% for p in pg.procs %}<div class="cv-proc"><div class="cv-proc-n nums">{{ p.perMin }}<small>{{ rx.procs_unit }}</small></div><div><b>{{ p.label|sl }}</b>{% if p.desc %}<p>{{ p.desc|sl }}</p>{% endif %}</div></div>{% endfor %}</div>
+{% endif %}
+
+<h2 class="fiche-section-title">{{ rx.sec_abilities }}</h2>
+<div class="rs-table-wrap">
+<table class="rs-table">
+  <thead><tr><th>{{ rx.col_ability }}</th><th class="rs-bar-col">{{ rx.col_share }}</th><th class="nums">{{ rx.col_dps }}</th><th class="nums">{{ rx.col_casts }}</th><th class="nums">{{ rx.col_crit }}</th></tr></thead>
+  <tbody>
+  {% for a in pg.abilities %}
+  <tr><td>{{ a.name|sl }}</td>
+      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ a.share }}%"></span></span><span class="nums rs-share">{{ a.share }}%</span></td>
+      <td class="nums">{{ a.dps }}</td><td class="nums">{{ a.cpm if a.cpm else '—' }}</td><td class="nums">{{ (a.crit * 100)|round(0)|int ~ '%' if a.crit else '—' }}</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+</div>
+{% if pg.uptimes %}
+<h3 class="rs-sub">{{ rx.sec_uptimes }}</h3>
+<div class="rs-open">{% for u in pg.uptimes %}<span class="rs-step"><i class="nums">{{ (u[1] * 100)|round(0)|int }}%</i>{{ u[0] }}</span>{% endfor %}</div>
+{% endif %}
+
+
 <h2 class="fiche-section-title">{{ rx.sec_gear }}</h2>
 <div class="rs-table-wrap">
 <table class="rs-table rs-gear">
-  <thead><tr><th>{{ rx.col_slot }}</th><th>{{ rx.col_item }}</th><th>{{ rx.col_source }}</th></tr></thead>
-  <tbody>{% for g in pg.gear %}<tr><td>{{ g.slot_label }}</td><td class="rs-item q{{ g.q or 1 }}">{{ g.name }}</td><td>{{ g.source }}</td></tr>{% endfor %}</tbody>
+  <thead><tr><th>{{ rx.col_slot }}</th><th>{{ rx.col_item }}</th><th>{{ rx.col_source }}</th><th>{{ rx.col_ench }}</th></tr></thead>
+  <tbody>{% for g in pg.gear %}<tr><td>{{ g.slot_label }}</td><td class="rs-item q{{ g.q or 1 }}">{% if g.id and g.id > 0 %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}</td><td>{% if g.zone_path %}<a class="rs-zone" href="{{ root }}{{ g.zone_path }}">{{ g.zone }}</a>{% else %}{{ g.zone }}{% endif %}{% if g.boss %}{{ ' — ' if g.zone }}{{ g.boss }}{% endif %}</td><td>{% if g.ench %}<a class="rs-spell" href="{{ g.ench.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ g.ench.name }}</a> <span class="rs-hint">{{ g.ench.eff }}</span>{% endif %}{% if g.kit %}<div class="rs-kit"><a class="rs-spell" href="{{ g.kit.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ g.kit.name }}</a> <span class="rs-hint">{{ g.kit.eff }}</span></div>{% endif %}{% if not g.ench and not g.kit %}—{% endif %}</td></tr>{% endfor %}</tbody>
 </table>
 </div>
 {% if pg.effects %}
@@ -100,13 +108,7 @@
 <h2 class="fiche-section-title">{{ rx.sec_stats }}</h2>
 <div class="rs-open">{% for s in pg.stats %}<span class="rs-step"><i class="nums">{{ s[1] }}</i>{{ s[0] }}</span>{% endfor %}</div>
 
-{% if pg.setup %}
-<h2 class="fiche-section-title">{{ rx.sec_buffs }}</h2>
-<p class="page-intro" style="margin-top:0">{{ rx.buffs_p }}</p>
-{% for g in pg.setup %}<h3 class="rs-sub">{{ g[0] }}</h3>
-<ul class="gd-list">{% for e in g[1] %}<li><b>{{ e.name }}</b>{% if e.eff %} — {{ e.eff }}{% endif %}</li>{% endfor %}</ul>{% endfor %}
-<p class="wow-note">{{ rx.buffs_note }}</p>
-{% endif %}
+{% for g in pg.setup %}{{ tm.setdetails(g) }}{% endfor %}
 
 <h2 class="fiche-section-title">{{ rx.sec_assump }}</h2>
 <p class="wow-note">{{ rx.assump }}</p>

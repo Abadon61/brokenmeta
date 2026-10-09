@@ -20,8 +20,9 @@
 {% endmacro %}
 
 {% macro variant(a, lang) %}
-<h2 class="fiche-section-title">{{ a.title }}</h2>
-<p class="page-intro" style="margin-top:0">{{ a.intro }}</p>
+<details class="alt-details">
+<summary><span class="fiche-section-title">{{ a.title }}</span><span class="alt-sum nums">{{ a.dps }} DPS · {{ a.delta }}</span></summary>
+<p class="page-intro" style="margin-top:10px">{{ a.intro }}</p>
 <div class="rs-kpis"><div class="rs-kpi"><span class="rs-kpi-v nums">{{ a.dps }}</span><span class="rs-kpi-l">{{ a.dps_label }}</span></div><div class="rs-kpi"><span class="rs-kpi-v nums">{{ a.delta }}</span><span class="rs-kpi-l">{{ a.delta_label }}</span></div></div>
 {{ trees(a.tl, lang) }}
 <h3 class="rs-sub">{{ a.rows_h }}</h3>
@@ -33,4 +34,13 @@
 </table></div>
 {% if a.opening %}<h3 class="rs-sub">{{ a.open_h }}</h3>
 <div class="rs-open">{% for o in a.opening %}<span class="rs-step"><i class="nums">{{ o.t }} s</i>{{ o.n|sl }}{% if o.x > 1 %} <b>×{{ o.x }}</b>{% endif %}</span>{% endfor %}</div>{% endif %}
+</details>
+{% endmacro %}
+
+{% macro setdetails(g) %}
+<details class="alt-details">
+<summary><span class="fiche-section-title">{{ g.title }}</span><span class="alt-sum nums">{{ g["items"]|length }}</span></summary>
+<ul class="set-list">{% for e in g["items"] %}<li>{% if e.sid %}<a class="rs-spell" href="https://www.wowhead.com/forever/spell={{ e.sid }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ e.name }}</a>{% else %}<b>{{ e.name }}</b>{% endif %}{% if e.eff %} <span class="rs-hint">— {{ e.eff }}</span>{% endif %}</li>{% endfor %}</ul>
+{% if g.note %}<p class="wow-note">{{ g.note }}</p>{% endif %}
+</details>
 {% endmacro %}

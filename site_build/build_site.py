@@ -331,12 +331,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
                           "talents": [{"name": t["name"][lang], "rank": t["rank"], "max": t["max"], "desc": t["desc"][lang]} for t in sorted(ts, key=lambda t: (t["row"], t["name"]["en"]))]})
     order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
     labels = wow_rank_texts.SLOTS[lang]
-    items = []
-    for it in sorted(d["items"], key=lambda it: order.get(it["slot"], 99)):
-        src = it.get("zone") or ""
-        if it.get("src"):
-            src = f"{src} — {it['src']}" if src else it["src"]
-        items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "source": src})
+    items = _gear_items(lang, d, labels, order)
     st = d.get("stats") or {}
     pct = lambda v: f"{v * 100:.1f} %" if lang == "fr" else f"{v * 100:.1f}%"
     stats = []
@@ -371,8 +366,27 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         kpis = []
     # weapon procs named like a class spell (the Gatorbite Axe's "Rend") are not part of the rotation
     setup = d.get("setup") or {}
-    pick = lambda e: {"name": (wow_rank_texts.SETUP_FR.get(e["id"]) or e["name"]) if lang == "fr" else e["name"], "eff": wow_rank_texts.setup_effect(lang, e)}
-    setup_groups = [(rx["buffs_buffs"], [pick(e) for e in setup.get("buffs", [])]), (rx["buffs_cons"], [pick(e) for e in setup.get("consumables", [])]), (rx["buffs_debuffs"], [pick(e) for e in setup.get("debuffs", [])])]
+    pick = lambda e: {"name": (wow_rank_texts.SETUP_FR.get(e["id"]) or e["name"]) if lang == "fr" else e["name"], "eff": wow_rank_texts.setup_effect(lang, e), "sid": e.get("sid")}
+    setup_groups = [
+        {"title": rx["buffs_buffs"], "items": [pick(e) for e in setup.get("buffs", [])], "note": None},
+        {"title": rx["buffs_cons"], "items": [pick(e) for e in setup.get("consumables", [])], "note": rx["cons_rule"]},
+        {"title": rx["buffs_debuffs"], "items": [pick(e) for e in setup.get("debuffs", [])], "note": None},
+    ]
+    # stat priority: the measured weights, only the stats that bring something
+    gx = wow_guide_rotation.G60[lang]
+    rating = {"critstrkrtng": 14, "hitrtng": 10, "hastertng": 10}
+    caps = {c["stat"]: c.get("cap") for c in (d.get("curves") or [])}
+    prio = []
+    for x in sorted(d.get("weights") or [], key=lambda w: -w["per"] / rating.get(w["stat"], 1)):
+        k = rating.get(x["stat"], 1)
+        if x["per"] <= 0 or x["rel"] / k < 0.05:
+            continue
+        g = f"{x['per'] / k:.2f}"
+        t = rx["prio_row"].format(stat=gx["stats"][x["stat"]], g=g.replace(".", ",") if lang == "fr" else g, u=gx["w_unit_rating"] if k > 1 else gx["w_unit_pt"])
+        if caps.get(x["stat"]) is not None and k > 1:
+            cv = f"{caps[x['stat']]:.1f}".replace(".", ",") if lang == "fr" else f"{caps[x['stat']]:.1f}"
+            t += " (" + rx["prio_cap"].format(x=cv + (" %" if lang == "fr" else "%")) + ")"
+        prio.append({"text": t})
     curves, procs = _curves_and_procs(lang, rx, d, r)
     tl = _talent_view(lang, rx, r, d, cls)
     alt = _alt_view(lang, rx, r, cls)
@@ -384,7 +398,7 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         "dtps": _fmt_int(r.get("dtps") or 0), "health": _fmt_int(r.get("health") or 0),
         "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
         "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
-        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g[1]], "curves": curves, "procs": procs, "tl": tl, "alt": alt, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+        "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g["items"]], "prio": prio, "curves": curves, "procs": procs, "tl": tl, "alt": alt, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
     }
     if r["role"] == "tank":                      # tanks are ranked by threat, not damage
         swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
@@ -425,6 +439,111 @@ def _healing_table(lang, cls_id, power=350):
     return {"rows": rows, "special": ", ".join(data["special"]), "tx": tx}
 
 
+STAT_COLORS = {"hitrtng": "#2de6c4", "critstrkrtng": "#ffc23c", "hastertng": "#ff6b8b", "atkpwr": "#9b82ff", "splpwr": "#9b82ff", "int": "#4da3ff", "spi": "#b7e36a", "str": "#ff8a3d", "agi": "#6be3ff"}
+_PROF_KEYS = [(("mining", "minage"), "mining"), (("blacksmith", "forge"), "blacksmithing"), (("engineer", "ingénierie"), "engineering"), (("cooking", "cuisine"), "cooking"),
+              (("fishing", "pêche"), "fishing"), (("skinning", "dépeçage"), "skinning"), (("leatherworking", "travail du cuir"), "leatherworking"), (("herbalism", "herboristerie"), "herbalism"),
+              (("alchemy", "alchimie"), "alchemy"), (("tailoring", "couture"), "tailoring"), (("enchanting", "enchantement"), "enchanting"), (("first aid", "premiers soins"), "first-aid")]
+_PROF_STATIC = {"mining": ({"fr": "Minage", "en": "Mining"}, "trade_mining"), "fishing": ({"fr": "Pêche", "en": "Fishing"}, "trade_fishing"),
+                "skinning": ({"fr": "Dépeçage", "en": "Skinning"}, "inv_misc_pelt_wolf_01"), "herbalism": ({"fr": "Herboristerie", "en": "Herbalism"}, "trade_herbalism")}
+_PROF_CACHE = {}
+_ZONE_CACHE = {}
+
+
+def prof_chips(text, lang):
+    """The professions named in a guide's suggested-professions line, with their icon and, when the site has a build for them, the link to it."""
+    if not _PROF_CACHE:
+        for f in (PROJECT / "data" / "wow_professions").glob("*.json"):
+            j = json.loads(f.read_text(encoding="utf-8"))
+            _PROF_CACHE[j["id"]] = {"name": j["name"], "icon": j["icon"], "path": f"wow-forever/professions/{j['id']}/"}
+        for k, (nm, ic) in _PROF_STATIC.items():
+            _PROF_CACHE[k] = {"name": nm, "icon": f"https://wow.zamimg.com/images/wow/icons/large/{ic}.jpg", "path": None}
+    low = text.lower()
+    chips = []
+    for words, pid in _PROF_KEYS:
+        if any(w in low for w in words) and pid in _PROF_CACHE:
+            p = _PROF_CACHE[pid]
+            chips.append({"name": p["name"][lang], "icon": p["icon"], "path": p["path"]})
+    return chips
+
+
+def _prof_info(pid):
+    prof_chips("", "fr")                                       # fills the cache
+    return _PROF_CACHE.get(pid)
+
+
+def zone_path(zone):
+    """Site page of the dungeon or raid an item drops in (None when the site has no page for the zone)."""
+    if not _ZONE_CACHE:
+        for d in json.loads((PROJECT / "data" / "wow_dungeons" / "dungeons.json").read_text(encoding="utf-8"))["dungeons"]:
+            _ZONE_CACHE[d["name"]["en"]] = f"wow-forever/dungeons/{d['id']}/"
+        for d in json.loads((PROJECT / "data" / "wow_raids" / "raids.json").read_text(encoding="utf-8"))["raids"]:
+            _ZONE_CACHE[d["name"]["en"]] = f"wow-forever/raids/{d['id']}/"
+    return _ZONE_CACHE.get(zone)
+
+
+def _item_source(lang, it):
+    """Where an item comes from: the dungeon / raid page and the boss, or the profession (page) and the skill needed for a crafted item."""
+    if it.get("from") == "craft":
+        p = _prof_info(it.get("zone"))
+        if p:
+            return {"zone": p["name"][lang], "zone_path": p["path"], "boss": (f"niveau {it['skill']}" if lang == "fr" else f"skill {it['skill']}")}
+    return {"zone": it.get("zone") or "", "zone_path": zone_path(it.get("zone") or ""), "boss": it.get("src") or ""}
+
+
+def _gear_items(lang, d, labels, order):
+    """Rows of a spec's gear table: slot, item, where it drops (linked to the dungeon / raid page) and the best enchantment of the slot."""
+    ench = d.get("enchants") or {}
+    items = []
+    for it in sorted(d["items"], key=lambda it: order.get(it["slot"], 99)):
+        e = ench.get(it["slot"])
+        kit = d.get("kit")
+        kit_here = kit if kit and it["slot"] in kit["slots"] else None
+        items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "id": it.get("id"),
+                      **_item_source(lang, it),
+                      "ench": ({"name": e["name"][lang], "href": f"https://www.wowhead.com/forever/{'item' if e.get('kind') == 'scope' else 'spell'}={e['id']}", "eff": wow_rank_texts.setup_effect(lang, e["stats"])} if e else None),
+                      "kit": ({"name": kit_here["name"][lang], "href": f"https://www.wowhead.com/forever/item={kit_here['id']}", "eff": wow_rank_texts.setup_effect(lang, kit_here["stats"])} if kit_here else None)})
+    return items
+
+
+def _stat_chart(lang, gx, curves):
+    """One chart for every stat curve of a spec: DPS gained against the amount of the stat added, a colour per stat, the cap marked with a ring."""
+    cs = [c for c in curves if len(c["points"]) > 2 and len(c["points"][0]) > 2]
+    if not cs:
+        return None
+    W, H, L, R, T, B = 760, 330, 52, 18, 16, 46
+    xmax = max(p[2] for c in cs for p in c["points"]) or 1
+    gain = lambda c, p: p[1] - c["points"][0][1]
+    ymax = max(gain(c, p) for c in cs for p in c["points"]) or 1
+    ymax *= 1.08
+    sx = lambda v: L + v / xmax * (W - L - R)
+    sy = lambda v: T + (1 - v / ymax) * (H - T - B)
+    parts = [f'<svg class="cvu-svg" viewBox="0 0 {W} {H}" role="img" aria-label="{gx["w_chart_h"]}" xmlns="http://www.w3.org/2000/svg">']
+    for k in range(5):
+        v = ymax * k / 4
+        parts.append(f'<line class="cv-grid" x1="{L}" x2="{W - R}" y1="{sy(v):.1f}" y2="{sy(v):.1f}"/><text class="cv-t" x="{L - 6}" y="{sy(v) + 3:.1f}" text-anchor="end">{v:.0f}</text>')
+    for k in range(6):
+        v = xmax * k / 5
+        parts.append(f'<text class="cv-t" x="{sx(v):.1f}" y="{H - B + 15}" text-anchor="middle">{v:.0f}</text>')
+    parts.append(f'<text class="cv-t cv-axis" x="{(L + W - R) / 2:.0f}" y="{H - 6}" text-anchor="middle">{gx["w_chart_x"]}</text>')
+    parts.append(f'<text class="cv-t cv-axis" transform="translate(13 {(T + H - B) / 2:.0f}) rotate(-90)" text-anchor="middle">{gx["w_chart_y"]}</text>')
+    legend = []
+    for c in cs:
+        col = STAT_COLORS.get(c["stat"], "#bdb4cf")
+        pts = " ".join(f"{sx(p[2]):.1f},{sy(gain(c, p)):.1f}" for p in c["points"])
+        g = [f'<g class="cvu-curve" data-stat="{c["stat"]}" style="--c: {col}">', f'<polyline class="cvu-line" points="{pts}"/>']
+        for p in c["points"]:
+            g.append(f'<circle class="cvu-dot" cx="{sx(p[2]):.1f}" cy="{sy(gain(c, p)):.1f}" r="2.6"><title>{gx["stats"][c["stat"]]}: +{p[2]} → +{gain(c, p):.0f} DPS</title></circle>')
+        if c.get("capAdd") is not None:
+            cp = next((p for p in c["points"] if p[2] == c["capAdd"]), None)
+            if cp:
+                g.append(f'<circle class="cvu-cap" cx="{sx(cp[2]):.1f}" cy="{sy(gain(c, cp)):.1f}" r="7"><title>{gx["stats"][c["stat"]]}: cap</title></circle>')
+        g.append("</g>")
+        parts.append("".join(g))
+        legend.append({"stat": c["stat"], "label": gx["stats"][c["stat"]], "color": col})
+    parts.append("</svg>")
+    return {"svg": "".join(parts), "legend": legend}
+
+
 def _guide_level60(lang, cls_id, spec_id, rows, cls=None):
     """Level-60 sections of a specialization guide: rotation (simulator vs Icy Veins), gear and stat weights from the ranking's simulation."""
     key = f"{cls_id}/{spec_id}"
@@ -442,19 +561,17 @@ def _guide_level60(lang, cls_id, spec_id, rows, cls=None):
     labels = wow_rank_texts.SLOTS[lang]
     for r in sim_rows:
         d = r["detail"]
-        items = []
-        for it in sorted(d["items"], key=lambda it: order.get(it["slot"], 99)):
-            src = it.get("zone") or ""
-            if it.get("src"):
-                src = f"{src} — {it['src']}" if src else it["src"]
-            items.append({"slot_label": labels.get(it["slot"], it["slot"]), "name": it.get("name") or "?", "q": it.get("q"), "id": it.get("id"), "source": src})
-        out["gear"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "items": items})
-        cons = []
-        for c in d.get("consumables") or []:
-            if c["gain"] > 0.02 and (c["inSet"] or c["gain"] > 0.2):
-                cons.append({"name": (wow_rank_texts.SETUP_FR.get(c["id"]) or c["name"]) if lang == "fr" else c["name"], "gain": c["gain"], "pct": c["pct"], "in_set": c["inSet"]})
-        if cons:
-            out["cons"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "inset": [c for c in cons if c["in_set"]], "extra": [c for c in cons if not c["in_set"]][:6]})
+        items = _gear_items(lang, d, labels, order)
+        out["gear"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "items": items, "ench_any": any(i["ench"] or i["kit"] for i in items)})
+        cs = d.get("consumables") or {}
+        sl = cs.get("slots") or {}
+        nm = lambda c: (wow_rank_texts.SETUP_FR.get(c["id"]) or c["name"]) if lang == "fr" else c["name"]
+        top3 = lambda lst: [{"name": nm(c), "sid": c.get("sid"), "gain": (f"{c['gain']:.1f}".replace(".", ",") if lang == "fr" else f"{c['gain']:.1f}"), "pct": (f"{c['pct']:.1f}".replace(".", ",") if lang == "fr" else f"{c['pct']:.1f}"), "chosen": c["chosen"]} for c in sorted(lst, key=lambda c: -c["gain"]) if c["gain"] > 0.05][:3]
+        cats = [(gx["cons_scroll"], top3(sl.get("scroll", []))), (gx["cons_elixir"], top3(sl.get("elixir", []))),
+                (gx["cons_other"], top3(list(sl.get("food", [])) + list(sl.get("oil", [])) + list(cs.get("extras", []))))]
+        cats = [(t, rows_c) for t, rows_c in cats if rows_c]
+        if cats:
+            out["cons"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "cats": cats})
         w = d.get("weights")
         if w:
             main = "splpwr" if any(x["stat"] == "splpwr" for x in w) else "atkpwr"
@@ -462,9 +579,9 @@ def _guide_level60(lang, cls_id, spec_id, rows, cls=None):
             rows_w = []
             for x in w:
                 k = rating.get(x["stat"], 1)
-                rows_w.append({"label": gx["stats"][x["stat"]], "per": round(x["per"] / k, 3), "rel": round(x["rel"] / k, 2), "unit": gx["w_unit_rating"] if k > 1 else gx["w_unit_pt"], "none": abs(x["rel"] / k) < 0.02})
+                rows_w.append({"stat": x["stat"], "color": STAT_COLORS.get(x["stat"], "#bdb4cf"), "label": gx["stats"][x["stat"]], "per": round(x["per"] / k, 3), "rel": round(x["rel"] / k, 2), "unit": gx["w_unit_rating"] if k > 1 else gx["w_unit_pt"], "none": abs(x["rel"] / k) < 0.02})
             rows_w.sort(key=lambda y: -y["per"])
-            out["weights"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "rows": rows_w, "main": gx["w_main_sp"] if main == "splpwr" else gx["w_main_ap"], "max": max(abs(y["per"]) for y in rows_w) or 1})
+            out["weights"].append({"label": r["spec_name"] if len(sim_rows) > 1 else None, "rows": rows_w, "main": gx["w_main_sp"] if main == "splpwr" else gx["w_main_ap"], "max": max(abs(y["per"]) for y in rows_w) or 1, "chart": _stat_chart(lang, gx, d.get("curves") or [])})
     out["has_weights"] = bool(out["weights"])
     return out
 
@@ -7214,6 +7331,8 @@ def main() -> None:
     env = Environment(loader=FileSystemLoader(str(ROOT / "templates")), autoescape=True)
     env.globals["BASE_URL"] = BASE_URL
     env.filters["sl"] = spell_links
+    env.globals["prof_chips"] = prof_chips
+    env.globals["zone_path"] = zone_path
     env.globals["star_svg"] = STAR_SVG
     env.globals["copy_svg"] = COPY_SVG
     env.globals["t"] = translate
@@ -8244,7 +8363,7 @@ def main() -> None:
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
                            rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
-                           lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]], _cls),
+                           banner=class_banner(_cls["id"]), lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]], _cls),
                            rot_tx=wow_guide_rotation.TX[lang], g60=wow_guide_rotation.G60[lang],
                            rank_links=[{"path": _rr["page_path"], "label": _rr["class_name"] + " " + _rr["spec_name"]} for _rr in (_wow_ranking + _wow_ranking_tanks)
                                        if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"] and _rr.get("detail")],

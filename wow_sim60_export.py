@@ -23,6 +23,15 @@ for src_kind, groups in (("dungeon", d["dungeons"]), ("raid", r["raids"])):
                 "req": it.get("req") or 0, "ilvl": it.get("lvl"), "st": it["st"], "src": it.get("src", []),
                 "from": src_kind, "zone": g["name"]["en"] if isinstance(g["name"], dict) else g["name"],
             })
+# crafted equipment (wow_crafted_build.py): anyone can buy it or have it made, so it joins the pool like any other source
+cp = ROOT / "data" / "wow_crafted" / "items.json"
+if cp.exists():
+    for c in json.loads(cp.read_text(encoding="utf-8"))["items"]:
+        if c["id"] in seen:
+            continue
+        seen.add(c["id"])
+        items.append({"id": c["id"], "name": c["name"]["en"], "q": c["q"], "slot": c["slot"], "type": c["type"]["en"], "req": c["req"], "ilvl": c["req"], "st": c["st"],
+                      "src": [c["recipe_name"]["en"]], "from": "craft", "zone": c["prof"], "prof": c["prof"], "skill": c["skill"]})
 payload = {"build": d.get("build"), "slots": d["slots"], "items": items}
 (OUT / "items.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 prof = ROOT / "data" / "wow_items" / "proficiency.json"
