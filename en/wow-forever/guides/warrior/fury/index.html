@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Fury Warrior WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Fury Warrior guide: Melee DPS, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=666aa60a5d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=666aa60a5d">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=8a95fedcb0">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=8a95fedcb0">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=666aa60a5d">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=8a95fedcb0">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -307,6 +307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<figure class="art-banner"><img src="../../../../../assets/img/wow-class/warrior.jpg" alt="Warrior" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
 <h2 class="fiche-section-title">At a glance</h2>
 <dl class="wow-facts">
@@ -505,58 +506,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="page-intro" style="margin-top:0">Measured by the simulator on the character above: the DPS gained by one more point of each stat, with the same random draws on both sides. The relative value compares each stat with one point of attack power. Crit, hit and haste are counted per rating point, like Strength or Agility, so they compare directly; they respect the caps: hit at the cap adds nothing. A value near zero or negative is within the margin of error or tied to a limit (mana, cap).</p>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Stat</th><th class="rs-bar-col"></th><th class="nums">DPS gained</th><th class="nums">Relative value</th></tr></thead>
-  <tbody><tr><td>Strength <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%"></span></span></td>
-    <td class="nums">0.58</td><td class="nums">2.19</td></tr><tr><td>Hit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 96.4%"></span></span></td>
-    <td class="nums">0.559</td><td class="nums">2.11</td></tr><tr><td>Haste <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 83.1%"></span></span></td>
-    <td class="nums">0.482</td><td class="nums">1.82</td></tr><tr><td>Crit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 81.9%"></span></span></td>
-    <td class="nums">0.475</td><td class="nums">1.79</td></tr><tr><td>Agility <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 63.3%"></span></span></td>
-    <td class="nums">0.367</td><td class="nums">1.38</td></tr><tr><td>Attack power <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 45.7%"></span></span></td>
-    <td class="nums">0.265</td><td class="nums">1.0</td></tr><tr><td>Intellect <span class="rs-hint">per point</span></td>
+  <tbody><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Haste <span class="rs-hint">per rating point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #ff6b8b"></span></span></td>
+    <td class="nums">0.605</td><td class="nums">2.2</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Strength <span class="rs-hint">per point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 97.5%; background: #ff8a3d"></span></span></td>
+    <td class="nums">0.59</td><td class="nums">2.15</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Hit <span class="rs-hint">per rating point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 94.7%; background: #2de6c4"></span></span></td>
+    <td class="nums">0.573</td><td class="nums">2.08</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Crit <span class="rs-hint">per rating point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 85.3%; background: #ffc23c"></span></span></td>
+    <td class="nums">0.516</td><td class="nums">1.88</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agility <span class="rs-hint">per point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 64.8%; background: #6be3ff"></span></span></td>
+    <td class="nums">0.392</td><td class="nums">1.43</td></tr><tr class="cvu-row" data-stat="atkpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Attack power <span class="rs-hint">per point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 45.5%; background: #9b82ff"></span></span></td>
+    <td class="nums">0.275</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intellect <span class="rs-hint">per point</span></td>
     <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">no effect</td></tr><tr><td>Spirit <span class="rs-hint">per point</span></td>
+    <td class="nums">0.0</td><td class="nums">no effect</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Spirit <span class="rs-hint">per point</span></td>
     <td class="rs-bar-col"></td>
     <td class="nums">0.0</td><td class="nums">no effect</td></tr></tbody>
 </table></div>
+
+<h3 class="rs-sub">Gain curves by stat</h3>
+<p class="rs-hint">DPS gained when points of each stat are added on top of the simulated gear. Click a stat (or its row in the table) to bring its curve forward; the ring marks the estimated cap, past which every point is worth less than 20% of what it gave at the start.</p>
+<div class="cvu">
+  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Crit</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Haste</button><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Hit</button><button type="button" class="cvu-key" data-stat="str" style="--c: #ff8a3d"><span class="cvu-swatch"></span>Strength</button><button type="button" class="cvu-key" data-stat="agi" style="--c: #6be3ff"><span class="cvu-swatch"></span>Agility</button><button type="button" class="cvu-key" data-stat="atkpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Attack power</button></div>
+  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Gain curves by stat" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">36</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">72</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">108</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">143</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">80</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">160</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">320</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">400</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points added (rating or stat value)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gained</text><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 112.4,251.7 172.8,219.4 233.1,189.5 293.5,157.0 353.9,126.5 414.2,94.7 474.6,66.9 535.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Crit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="112.4" cy="251.7" r="2.6"><title>Crit: +35 → +17 DPS</title></circle><circle class="cvu-dot" cx="172.8" cy="219.4" r="2.6"><title>Crit: +70 → +35 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="189.5" r="2.6"><title>Crit: +105 → +51 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="157.0" r="2.6"><title>Crit: +140 → +68 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="126.5" r="2.6"><title>Crit: +175 → +84 DPS</title></circle><circle class="cvu-dot" cx="414.2" cy="94.7" r="2.6"><title>Crit: +210 → +101 DPS</title></circle><circle class="cvu-dot" cx="474.6" cy="66.9" r="2.6"><title>Crit: +245 → +116 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="35.9" r="2.6"><title>Crit: +280 → +133 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 95.1,259.8 138.2,238.7 181.4,216.1 224.5,193.7 267.6,171.2 310.8,148.9 353.9,127.1 397.0,105.7"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Haste: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.1" cy="259.8" r="2.6"><title>Haste: +25 → +13 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="238.7" r="2.6"><title>Haste: +50 → +24 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="216.1" r="2.6"><title>Haste: +75 → +36 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="193.7" r="2.6"><title>Haste: +100 → +48 DPS</title></circle><circle class="cvu-dot" cx="267.6" cy="171.2" r="2.6"><title>Haste: +125 → +60 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="148.9" r="2.6"><title>Haste: +150 → +72 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="127.1" r="2.6"><title>Haste: +175 → +84 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="105.7" r="2.6"><title>Haste: +200 → +95 DPS</title></circle></g><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 91.7,261.5 129.6,241.1 169.3,221.6 207.2,208.8 246.9,201.1 284.9,190.7 324.6,181.6 362.5,173.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="91.7" cy="261.5" r="2.6"><title>Hit: +23 → +12 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="241.1" r="2.6"><title>Hit: +45 → +23 DPS</title></circle><circle class="cvu-dot" cx="169.3" cy="221.6" r="2.6"><title>Hit: +68 → +33 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="208.8" r="2.6"><title>Hit: +90 → +40 DPS</title></circle><circle class="cvu-dot" cx="246.9" cy="201.1" r="2.6"><title>Hit: +113 → +44 DPS</title></circle><circle class="cvu-dot" cx="284.9" cy="190.7" r="2.6"><title>Hit: +135 → +50 DPS</title></circle><circle class="cvu-dot" cx="324.6" cy="181.6" r="2.6"><title>Hit: +158 → +55 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="173.2" r="2.6"><title>Hit: +180 → +59 DPS</title></circle></g><g class="cvu-curve" data-stat="str" style="--c: #ff8a3d"><polyline class="cvu-line" points="52.0,284.0 77.9,265.6 103.8,247.3 129.6,232.6 155.5,216.4 181.4,202.0 207.2,183.4 233.1,170.0 259.0,152.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Strength: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="265.6" r="2.6"><title>Strength: +15 → +10 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="247.3" r="2.6"><title>Strength: +30 → +20 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="232.6" r="2.6"><title>Strength: +45 → +28 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="216.4" r="2.6"><title>Strength: +60 → +36 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="202.0" r="2.6"><title>Strength: +75 → +44 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="183.4" r="2.6"><title>Strength: +90 → +54 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="170.0" r="2.6"><title>Strength: +105 → +61 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="152.9" r="2.6"><title>Strength: +120 → +70 DPS</title></circle></g><g class="cvu-curve" data-stat="agi" style="--c: #6be3ff"><polyline class="cvu-line" points="52.0,284.0 77.9,269.6 103.8,261.1 129.6,251.7 155.5,241.5 181.4,230.9 207.2,220.0 233.1,209.2 259.0,199.5"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Agility: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="269.6" r="2.6"><title>Agility: +15 → +8 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="261.1" r="2.6"><title>Agility: +30 → +12 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="251.7" r="2.6"><title>Agility: +45 → +17 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="241.5" r="2.6"><title>Agility: +60 → +23 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="230.9" r="2.6"><title>Agility: +75 → +28 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="220.0" r="2.6"><title>Agility: +90 → +34 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="209.2" r="2.6"><title>Agility: +105 → +40 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="199.5" r="2.6"><title>Agility: +120 → +45 DPS</title></circle></g><g class="cvu-curve" data-stat="atkpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 138.2,256.4 224.5,231.2 310.8,207.8 397.0,182.9 483.2,159.3 569.5,136.6 655.8,109.2 742.0,85.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Attack power: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="256.4" r="2.6"><title>Attack power: +50 → +15 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="231.2" r="2.6"><title>Attack power: +100 → +28 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="207.8" r="2.6"><title>Attack power: +150 → +41 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="182.9" r="2.6"><title>Attack power: +200 → +54 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="159.3" r="2.6"><title>Attack power: +250 → +67 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="136.6" r="2.6"><title>Attack power: +300 → +79 DPS</title></circle><circle class="cvu-dot" cx="655.8" cy="109.2" r="2.6"><title>Attack power: +350 → +94 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="85.9" r="2.6"><title>Attack power: +400 → +106 DPS</title></circle></g></svg>
+</div>
+
 
 
 
 
 
 <h2 class="fiche-section-title">Best level 60 consumables</h2>
-<p class="page-intro" style="margin-top:0">Measured by the simulator on the character above: the DPS lost when the consumable is taken out of the simulated set, or gained when it is added. Elixirs and the flask share the same slot in the game: read the gains as orders of magnitude, not as sums.</p>
+<p class="page-intro" style="margin-top:0">The three best of each category, measured by the simulator on the character above. Only one scroll and one elixir or flask can be worn at a time: each gain is the DPS this consumable brings alone, compared with an empty slot, the rest of the set unchanged. Gains in the same category therefore do not add up. The row marked with a dot is the one in the simulated set.</p>
 
 
-<h3 class="rs-sub">In the simulation</h3>
+<h3 class="rs-sub">Scrolls</h3>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td>Elixir of the Grizzly</td><td class="nums">+27.14</td><td class="nums">+4.99 %</td></tr><tr><td>Elixir of the Mongoose</td><td class="nums">+20.84</td><td class="nums">+3.83 %</td></tr><tr><td>Juju Power</td><td class="nums">+16.71</td><td class="nums">+3.07 %</td></tr><tr><td>Well Fed (strength food)</td><td class="nums">+14.9</td><td class="nums">+2.74 %</td></tr><tr><td>Juju Might</td><td class="nums">+10.55</td><td class="nums">+1.94 %</td></tr><tr><td>Scroll of Strength</td><td class="nums">+9.4</td><td class="nums">+1.73 %</td></tr><tr><td>Scroll of Agility</td><td class="nums">+5.15</td><td class="nums">+0.95 %</td></tr></tbody>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12179" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Strength</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+9.5</td><td class="nums">+1.7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12174" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Agility</a></td><td class="nums">+6.0</td><td class="nums">+1.1 %</td></tr></tbody>
 </table></div>
 
-<h3 class="rs-sub">Worth trying as well</h3>
+<h3 class="rs-sub">Elixirs and flasks</h3>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td>Elixir of the Honey Badger</td><td class="nums">+23.21</td><td class="nums">+4.26 %</td></tr><tr><td>Flask of Madness</td><td class="nums">+13.89</td><td class="nums">+2.55 %</td></tr><tr><td>Elixir of the Owl</td><td class="nums">+13.09</td><td class="nums">+2.4 %</td></tr><tr><td>Well Fed (agility food)</td><td class="nums">+9.33</td><td class="nums">+1.71 %</td></tr></tbody>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250986" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Grizzly</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+26.3</td><td class="nums">+5.0 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Honey Badger</a></td><td class="nums">+23.7</td><td class="nums">+4.5 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17538" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Mongoose</a></td><td class="nums">+21.6</td><td class="nums">+4.1 %</td></tr></tbody>
+</table></div>
+
+<h3 class="rs-sub">Potions, food and others</h3>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16323" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju Power</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+16.6</td><td class="nums">+3.0 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225778" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Well Fed (strength food)</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+14.0</td><td class="nums">+2.6 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16329" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju Might</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+10.4</td><td class="nums">+1.9 %</td></tr></tbody>
 </table></div>
 
 
 
 <h2 class="fiche-section-title">Suggested professions</h2>
-<ul class="gd-list"><li>Mining + Blacksmithing</li><li>Engineering (alternative to Mining later)</li><li>Cooking + Fishing; First Aid</li></ul>
+<ul class="gd-list prof-list"><li>Mining + Blacksmithing<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Mining</span><a class="prof-chip" href="../../../../../wow-forever/professions/blacksmithing/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="" width="22" height="22" loading="lazy">Blacksmithing guide <span aria-hidden="true">→</span></a></span></li><li>Engineering (alternative to Mining later)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Mining</span><a class="prof-chip" href="../../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Engineering guide <span aria-hidden="true">→</span></a></span></li><li>Cooking + Fishing; First Aid<span class="prof-chips"><a class="prof-chip" href="../../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Cooking guide <span aria-hidden="true">→</span></a><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_fishing.jpg" alt="" width="22" height="22" loading="lazy">Fishing</span><a class="prof-chip" href="../../../../../wow-forever/professions/first-aid/"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofsacrifice.jpg" alt="" width="22" height="22" loading="lazy">First Aid guide <span aria-hidden="true">→</span></a></span></li></ul>
 
 <h2 class="fiche-section-title">Level 60 gear</h2>
 
 <p class="page-intro" style="margin-top:0">The gear our optimizer picks for this specialization among the items known from the beta (dungeons and the few raid items already known), with item effects simulated. Nothing is hand-picked: it is the result of the ranking&#39;s computation, and it will change as new items are discovered.</p>
 
 <div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13404" rel="noopener nofollow" target="_blank">Mask of the Unforgiven</a></td><td>Stratholme — The Unforgiven</td></tr><tr><td>Neck</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></td><td>Dire Maul — Falrin&#39;s Vendetta</td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22241" rel="noopener nofollow" target="_blank">Dark Warder&#39;s Pauldrons</a></td><td>Blackrock Depths — Warder Stilgiss</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></td><td>Stratholme — Baron Rivendare</td></tr><tr><td>Chest</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></td><td>Blackrock Depths — Gorosh the Dervish</td></tr><tr><td>Wrists</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13400" rel="noopener nofollow" target="_blank">Vambraces of the Sadist</a></td><td>Stratholme — Timmy the Cruel</td></tr><tr><td>Hands</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=18722" rel="noopener nofollow" target="_blank">Death Grips</a></td><td>Stratholme — Magistrate Barthilas</td></tr><tr><td>Waist</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10329" rel="noopener nofollow" target="_blank">Scarlet Belt</a></td><td>Scarlet Monastery</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11728" rel="noopener nofollow" target="_blank">Savage Gladiator Leggings</a></td><td>Blackrock Depths — Ok&#39;thor the Breaker</td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11731" rel="noopener nofollow" target="_blank">Savage Gladiator Greaves</a></td><td>Blackrock Depths — Anub&#39;shiah</td></tr><tr><td>Ring 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></td><td>Molten Core</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td>Maraudon — Princess Theradras</td></tr><tr><td>Trinket 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td>Stratholme — The Great Fras Siabi</td></tr><tr><td>Main hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15806" rel="noopener nofollow" target="_blank">Mirah&#39;s Song</a></td><td>Scholomance — Kirtonos the Herald</td></tr><tr><td>Off hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=12062" rel="noopener nofollow" target="_blank">Skilled Fighting Blade</a></td><td>Blackrock Depths — Jail Break!</td></tr></tbody>
+  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
+  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13404" rel="noopener nofollow" target="_blank">Mask of the Unforgiven</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Unforgiven</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249019" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Strength</a> <span class="rs-hint">+5 Strength</span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22241" rel="noopener nofollow" target="_blank">Dark Warder&#39;s Pauldrons</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Warder Stilgiss</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></td></tr><tr><td>Chest</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Gorosh the Dervish</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Greater Stats</a> <span class="rs-hint">+4 Strength, +4 Agility, +4 Stamina, +4 Intellect, +4 Spirit</span></td></tr><tr><td>Wrists</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13400" rel="noopener nofollow" target="_blank">Vambraces of the Sadist</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Timmy the Cruel</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20010" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Superior Strength</a> <span class="rs-hint">+9 Strength</span></td></tr><tr><td>Hands</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=18722" rel="noopener nofollow" target="_blank">Death Grips</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Magistrate Barthilas</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20013" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Greater Strength</a> <span class="rs-hint">+10 Strength</span></td></tr><tr><td>Waist</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22242" rel="noopener nofollow" target="_blank">Verek&#39;s Leash</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Verek</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11728" rel="noopener nofollow" target="_blank">Savage Gladiator Leggings</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Ok&#39;thor the Breaker</td><td>—</td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11731" rel="noopener nofollow" target="_blank">Savage Gladiator Greaves</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Anub&#39;shiah</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Boots - Greater Agility</a> <span class="rs-hint">+7 Agility</span></td></tr><tr><td>Ring 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></td><td><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Trinket 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Main hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15806" rel="noopener nofollow" target="_blank">Mirah&#39;s Song</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Kirtonos the Herald</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Weapon - Strength</a> <span class="rs-hint">+15 Strength</span></td></tr><tr><td>Off hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=12062" rel="noopener nofollow" target="_blank">Skilled Fighting Blade</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Jail Break!</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Weapon - Strength</a> <span class="rs-hint">+15 Strength</span></td></tr></tbody>
 </table></div>
+<p class="rs-hint">Enchanting enchantments up to the maximum skill, valued by the simulator when they give flat stats or flat weapon damage; Leatherworking armor kits (chest, legs, feet, hands) and Engineering scopes are counted too; spell-proc enchants (Crusader, Fiery Weapon...) and school damage are not simulated. The beta data has no ring enchantment up to skill 300.</p>
 
 <p class="wow-note">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
 
@@ -570,38 +586,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p>Instantly attack the target causing damage equal to 35% of your Attack Power plus 30 and increasing your movement speed by 10% for 10 sec.</p></div>
 </div>
 </div>
-
-
-
-<h2 class="fiche-section-title">Single-rank talents</h2>
-<p class="page-intro" style="margin-top:0">Talents you take only once, with their tier (official text at maximum rank).</p>
-<div class="wg-talents">
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathscream.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Piercing Howl</b> <span class="wg-rank nums">Tier 3 · 1 rank</span>
-  <p>Causes all nearby enemies to be Dazed, reducing movement speed by 50% for 6 sec.</p></div>
-</div>
-
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Raging Blows</b> <span class="wg-rank nums">Tier 4 · 1 rank</span>
-  <p>Causes your Whirlwind to also strike with your Off Hand weapon, and reduces the Rage cost of your Cleave ability by -2.</p></div>
-</div>
-
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Death Wish</b> <span class="wg-rank nums">Tier 5 · 1 rank</span>
-  <p>When activated, increases your Physical damage done by 20% and makes you immune to Fear effects, but increases all damage you take by 5%. Lasts 30 sec.</p></div>
-</div>
-</div>
-
-
-<h2 class="fiche-section-title">The tree tier by tier</h2>
-<p class="page-intro" style="margin-top:0">Each line is a tier of the tree; in brackets, the talent&#39;s maximum rank.</p>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>Tier</th><th>The tree tier by tier</th></tr></thead>
-  <tbody><tr><td data-first class="nums">1</td><td>Booming Voice <span class="nums">(5)</span> · Cruelty <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">2</td><td>Iron Will <span class="nums">(5)</span> · Unbridled Wrath <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">3</td><td>Improved Cleave <span class="nums">(3)</span> · Piercing Howl <span class="nums">(1)</span> · Blood Craze <span class="nums">(3)</span> · Boundless Rage <span class="nums">(3)</span></td></tr><tr><td data-first class="nums">4</td><td>Dual Wield Specialization <span class="nums">(5)</span> · Raging Blows <span class="nums">(1)</span> · Enrage <span class="nums">(5)</span> · Improved Execute <span class="nums">(2)</span></td></tr><tr><td data-first class="nums">5</td><td>Precision <span class="nums">(3)</span> · Death Wish <span class="nums">(1)</span> · Improved Intercept <span class="nums">(2)</span></td></tr><tr><td data-first class="nums">6</td><td>Improved Berserker Rage <span class="nums">(2)</span> · Flurry <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">7</td><td>Bloodthirst <span class="nums">(1)</span></td></tr></tbody>
-</table></div>
 
 <p><a class="wh-btn" href="../../../../../wow-forever/talents/warrior/">Open Warrior in the talent calculator <span aria-hidden="true">→</span></a></p>
 <p class="wow-note">Spend your 51 points, compare the three specializations and share your build by link.</p>
@@ -627,6 +611,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Role: <a href="https://www.icy-veins.com/wow-forever/fury-warrior-melee-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Fury Warrior</a></li>
   <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
 </ul>
+<script>
+(function () {
+  document.querySelectorAll('.cvu').forEach(function (box) {
+    var sec = box.parentElement, focus = null;
+    function apply() {
+      box.querySelectorAll('.cvu-curve').forEach(function (g) {
+        var on = !focus || g.dataset.stat === focus;
+        g.classList.toggle('is-dim', !on); g.classList.toggle('is-on', !!focus && on);
+      });
+      box.querySelectorAll('.cvu-key').forEach(function (b) { b.classList.toggle('is-on', b.dataset.stat === focus); });
+      sec.querySelectorAll('.cvu-row').forEach(function (r) { r.classList.toggle('is-on', r.dataset.stat === focus); });
+    }
+    function pick(stat) { focus = (focus === stat) ? null : stat; apply(); }
+    box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
+    sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
+  });
+})();
+</script>
 
 </div>
 <footer>
@@ -674,10 +676,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=666aa60a5d" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=666aa60a5d" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=666aa60a5d" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=666aa60a5d" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=8a95fedcb0" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=8a95fedcb0" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=8a95fedcb0" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=8a95fedcb0" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

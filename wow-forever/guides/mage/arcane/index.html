@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Mage Arcanes WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Mage Arcanes de WoW: Forever : DPS à distance, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=666aa60a5d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=666aa60a5d">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8a95fedcb0">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8a95fedcb0">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=666aa60a5d">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8a95fedcb0">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -307,6 +307,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<figure class="art-banner"><img src="../../../../assets/img/wow-class/mage.jpg" alt="Mage" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
 <h2 class="fiche-section-title">En bref</h2>
 <dl class="wow-facts">
@@ -516,58 +517,73 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p class="page-intro" style="margin-top:0">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance des sorts. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
-  <tbody><tr><td>Toucher <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%"></span></span></td>
-    <td class="nums">0.478</td><td class="nums">1.36</td></tr><tr><td>Puissance des sorts <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 73.4%"></span></span></td>
-    <td class="nums">0.351</td><td class="nums">1.0</td></tr><tr><td>Hâte <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 66.5%"></span></span></td>
-    <td class="nums">0.318</td><td class="nums">0.91</td></tr><tr><td>Critique <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 53.1%"></span></span></td>
-    <td class="nums">0.254</td><td class="nums">0.72</td></tr><tr><td>Intelligence <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 16.1%"></span></span></td>
-    <td class="nums">0.077</td><td class="nums">0.22</td></tr><tr><td>Esprit <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 2.1%"></span></span></td>
-    <td class="nums">0.01</td><td class="nums">0.03</td></tr><tr><td>Force <span class="rs-hint">par point</span></td>
+  <tbody><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #2de6c4"></span></span></td>
+    <td class="nums">0.486</td><td class="nums">1.38</td></tr><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance des sorts <span class="rs-hint">par point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 72.6%; background: #9b82ff"></span></span></td>
+    <td class="nums">0.353</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 66.5%; background: #ff6b8b"></span></span></td>
+    <td class="nums">0.323</td><td class="nums">0.92</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 53.1%; background: #ffc23c"></span></span></td>
+    <td class="nums">0.258</td><td class="nums">0.73</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
+    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 15.4%; background: #4da3ff"></span></span></td>
+    <td class="nums">0.075</td><td class="nums">0.21</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
     <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr><td>Agilité <span class="rs-hint">par point</span></td>
+    <td class="nums">0.005</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
+    <td class="rs-bar-col"></td>
+    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
     <td class="rs-bar-col"></td>
     <td class="nums">0.0</td><td class="nums">aucun effet</td></tr></tbody>
 </table></div>
+
+<h3 class="rs-sub">Courbes de gain par statistique</h3>
+<p class="rs-hint">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
+<div class="cvu">
+  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Hâte</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance des sorts</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intelligence</button></div>
+  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">29</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">57</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">86</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">114</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,258.0 155.5,232.9 208.4,205.3 259.0,180.1 311.9,179.7 362.5,179.4 415.4,179.2 466.0,179.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="258.0" r="2.6"><title>Toucher: +23 → +11 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="232.9" r="2.6"><title>Toucher: +45 → +22 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="205.3" r="2.6"><title>Toucher: +68 → +34 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="180.1" r="2.6"><title>Toucher: +90 → +44 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="179.7" r="2.6"><title>Toucher: +113 → +45 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="179.4" r="2.6"><title>Toucher: +135 → +45 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="179.2" r="2.6"><title>Toucher: +158 → +45 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="179.2" r="2.6"><title>Toucher: +180 → +45 DPS</title></circle><circle class="cvu-cap" cx="259.0" cy="180.1" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,263.6 213.0,243.1 293.5,221.8 374.0,201.3 454.5,181.0 535.0,160.4 615.5,139.6 696.0,118.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="263.6" r="2.6"><title>Critique: +35 → +9 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="243.1" r="2.6"><title>Critique: +70 → +17 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="221.8" r="2.6"><title>Critique: +105 → +27 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="201.3" r="2.6"><title>Critique: +140 → +35 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="181.0" r="2.6"><title>Critique: +175 → +44 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="160.4" r="2.6"><title>Critique: +210 → +53 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="139.6" r="2.6"><title>Critique: +245 → +62 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="118.9" r="2.6"><title>Critique: +280 → +70 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 109.5,261.0 167.0,229.9 224.5,210.4 282.0,179.2 339.5,161.0 397.0,134.4 454.5,111.2 512.0,81.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hâte: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="109.5" cy="261.0" r="2.6"><title>Hâte: +25 → +10 DPS</title></circle><circle class="cvu-dot" cx="167.0" cy="229.9" r="2.6"><title>Hâte: +50 → +23 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="210.4" r="2.6"><title>Hâte: +75 → +31 DPS</title></circle><circle class="cvu-dot" cx="282.0" cy="179.2" r="2.6"><title>Hâte: +100 → +45 DPS</title></circle><circle class="cvu-dot" cx="339.5" cy="161.0" r="2.6"><title>Hâte: +125 → +53 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="134.4" r="2.6"><title>Hâte: +150 → +64 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="111.2" r="2.6"><title>Hâte: +175 → +74 DPS</title></circle><circle class="cvu-dot" cx="512.0" cy="81.0" r="2.6"><title>Hâte: +200 → +87 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance des sorts: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Puissance des sorts: +38 → +13 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Puissance des sorts: +75 → +26 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Puissance des sorts: +113 → +40 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Puissance des sorts: +150 → +53 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Puissance des sorts: +188 → +66 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Puissance des sorts: +225 → +79 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Puissance des sorts: +263 → +93 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Puissance des sorts: +300 → +106 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,280.9 139.4,277.4 180.8,274.6 224.5,271.6 268.2,268.5 311.9,265.4 353.3,261.9 397.0,258.5"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intelligence: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="280.9" r="2.6"><title>Intelligence: +19 → +1 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="277.4" r="2.6"><title>Intelligence: +38 → +3 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="274.6" r="2.6"><title>Intelligence: +56 → +4 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="271.6" r="2.6"><title>Intelligence: +75 → +5 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="268.5" r="2.6"><title>Intelligence: +94 → +7 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="265.4" r="2.6"><title>Intelligence: +113 → +8 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="261.9" r="2.6"><title>Intelligence: +131 → +9 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="258.5" r="2.6"><title>Intelligence: +150 → +11 DPS</title></circle></g></svg>
+</div>
+
 
 
 
 
 
 <h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Mesurés par le simulateur sur le personnage ci-dessus : le DPS perdu quand on retire le consommable du lot de la simulation, ou gagné quand on l&#39;ajoute. Les élixirs et le flacon prennent la même place dans le jeu : lisez les gains comme des ordres de grandeur, pas comme des additions.</p>
+<p class="page-intro" style="margin-top:0">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p>
 
 
-<h3 class="rs-sub">Dans la simulation</h3>
+<h3 class="rs-sub">Parchemins</h3>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td>Flacon de connaissance ancienne</td><td class="nums">+63.22</td><td class="nums">+14.69 %</td></tr><tr><td>Huile de sorcier brillante</td><td class="nums">+16.01</td><td class="nums">+3.72 %</td></tr><tr><td>Plat (puissance des sorts)</td><td class="nums">+8.78</td><td class="nums">+2.04 %</td></tr><tr><td>Juju de ruse</td><td class="nums">+2.21</td><td class="nums">+0.51 %</td></tr><tr><td>Parchemin d&#39;intelligence</td><td class="nums">+1.15</td><td class="nums">+0.27 %</td></tr><tr><td>Potion de sang de mage</td><td class="nums">+0.07</td><td class="nums">+0.02 %</td></tr><tr><td>Esprit de Zanza</td><td class="nums">+0.05</td><td class="nums">+0.01 %</td></tr><tr><td>Parchemin d&#39;esprit</td><td class="nums">+0.03</td><td class="nums">+0.01 %</td></tr></tbody>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;intelligence</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+1,2</td><td class="nums">+0,3 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12177" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;esprit</a></td><td class="nums">+0,1</td><td class="nums">+0,0 %</td></tr></tbody>
 </table></div>
 
-<h3 class="rs-sub">À essayer en plus</h3>
+<h3 class="rs-sub">Élixirs et flacons</h3>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td>Élixir du seigneur mage</td><td class="nums">+14.05</td><td class="nums">+3.27 %</td></tr><tr><td>Élixir des arcanes supérieur</td><td class="nums">+12.29</td><td class="nums">+2.86 %</td></tr><tr><td>Huile de mana brillante</td><td class="nums">+8.93</td><td class="nums">+2.07 %</td></tr><tr><td>Élixir de la chouette</td><td class="nums">+8.89</td><td class="nums">+2.07 %</td></tr><tr><td>Élixir de la mangouste</td><td class="nums">+7.04</td><td class="nums">+1.64 %</td></tr><tr><td>Élixir du grizzly</td><td class="nums">+7.04</td><td class="nums">+1.64 %</td></tr></tbody>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de connaissance ancienne</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+63,5</td><td class="nums">+16,9 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du seigneur mage</a></td><td class="nums">+14,1</td><td class="nums">+3,8 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir des arcanes supérieur</a></td><td class="nums">+12,3</td><td class="nums">+3,3 %</td></tr></tbody>
+</table></div>
+
+<h3 class="rs-sub">Potions, plats et autres</h3>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
+  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier brillante</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+16,1</td><td class="nums">+3,8 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de mana brillante</a></td><td class="nums">+8,8</td><td class="nums">+2,1 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (puissance des sorts)</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+8,8</td><td class="nums">+2,0 %</td></tr></tbody>
 </table></div>
 
 
 
 <h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list"><li>Ingénierie (« la meilleure profession » selon Icy Veins)</li><li>Couture (armures de tissu)</li><li>Au choix : Herboristerie / Alchimie</li><li>Secondaires : Secourisme, Cuisine, Pêche</li></ul>
+<ul class="gd-list prof-list"><li>Ingénierie (« la meilleure profession » selon Icy Veins)<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Guide Ingénierie <span aria-hidden="true">→</span></a></span></li><li>Couture (armures de tissu)<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/tailoring/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_tailoring.jpg" alt="" width="22" height="22" loading="lazy">Guide Couture <span aria-hidden="true">→</span></a></span></li><li>Au choix : Herboristerie / Alchimie<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herboristerie</span><a class="prof-chip" href="../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Guide Alchimie <span aria-hidden="true">→</span></a></span></li><li>Secondaires : Secourisme, Cuisine, Pêche<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Guide Cuisine <span aria-hidden="true">→</span></a><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_fishing.jpg" alt="" width="22" height="22" loading="lazy">Pêche</span></span></li></ul>
 
 <h2 class="fiche-section-title">Équipement niveau 60</h2>
 
 <p class="page-intro" style="margin-top:0">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons et les rares objets de raid déjà connus), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
 
 <div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th></tr></thead>
-  <tbody><tr><td>Tête</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16698" rel="noopener nofollow" target="_blank">Dreadmist Mask</a></td><td>Scholomance — Darkmaster Gandling</td></tr><tr><td>Cou</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td>Molten Core — Ragnaros</td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=18720" rel="noopener nofollow" target="_blank">Shroud of the Nathrezim</a></td><td>Stratholme</td></tr><tr><td>Dos</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11623" rel="noopener nofollow" target="_blank">Spritecaster Cape</a></td><td>Blackrock Depths — Houndmaster Grebmar</td></tr><tr><td>Torse</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17775" rel="noopener nofollow" target="_blank">Acumen Robes</a></td><td>Maraudon — Twisted Evils</td></tr><tr><td>Poignets</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9448" rel="noopener nofollow" target="_blank">Spidertank Oilrag</a></td><td>Gnomeregan — Electrocutioner 6000</td></tr><tr><td>Mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16705" rel="noopener nofollow" target="_blank">Dreadmist Wraps</a></td><td>Scholomance</td></tr><tr><td>Taille</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17755" rel="noopener nofollow" target="_blank">Satyrmane Sash</a></td><td>Maraudon — Lord Vyletongue</td></tr><tr><td>Jambes</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16699" rel="noopener nofollow" target="_blank">Dreadmist Leggings</a></td><td>Stratholme — Baron Rivendare</td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11822" rel="noopener nofollow" target="_blank">Omnicast Boots</a></td><td>Blackrock Depths — Golem Lord Argelmach</td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td>Molten Core</td></tr><tr><td>Anneau 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td>Maraudon — Princess Theradras</td></tr><tr><td>Bijou 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td>Molten Core</td></tr><tr><td>Bijou 2</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td>Stratholme — The Great Fras Siabi</td></tr><tr><td>Deux mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11750" rel="noopener nofollow" target="_blank">Kindling Stave</a></td><td>Blackrock Depths — Pyromancer Loregrain</td></tr><tr><td>Tenu en main gauche</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></td><td>Scarlet Monastery — Bloodmage Thalnos</td></tr></tbody>
+  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th><th>Enchantement bis</th></tr></thead>
+  <tbody><tr><td>Tête</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16698" rel="noopener nofollow" target="_blank">Dreadmist Mask</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Darkmaster Gandling</td><td>—</td></tr><tr><td>Cou</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Puissance des sorts)</a> <span class="rs-hint"></span></td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=18720" rel="noopener nofollow" target="_blank">Shroud of the Nathrezim</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a></td><td>—</td></tr><tr><td>Dos</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11623" rel="noopener nofollow" target="_blank">Spritecaster Cape</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Houndmaster Grebmar</td><td>—</td></tr><tr><td>Torse</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17775" rel="noopener nofollow" target="_blank">Acumen Robes</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Twisted Evils</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de plastron (Intelligence majeure)</a> <span class="rs-hint">+10 Intelligence</span></td></tr><tr><td>Poignets</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9448" rel="noopener nofollow" target="_blank">Spidertank Oilrag</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a> — Electrocutioner 6000</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Intelligence supérieure)</a> <span class="rs-hint">+7 Intelligence</span></td></tr><tr><td>Mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16705" rel="noopener nofollow" target="_blank">Dreadmist Wraps</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scholomance/">Scholomance</a></td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Pouvoir de guérison)</a> <span class="rs-hint"></span></td></tr><tr><td>Taille</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17755" rel="noopener nofollow" target="_blank">Satyrmane Sash</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Lord Vyletongue</td><td>—</td></tr><tr><td>Jambes</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16699" rel="noopener nofollow" target="_blank">Dreadmist Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</td><td>—</td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11822" rel="noopener nofollow" target="_blank">Omnicast Boots</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Golem Lord Argelmach</td><td>—</td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Anneau 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Bijou 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Bijou 2</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Deux mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11750" rel="noopener nofollow" target="_blank">Kindling Stave</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Pyromancer Loregrain</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme 2M (Intelligence majeure)</a> <span class="rs-hint">+9 Intelligence</span></td></tr><tr><td>Tenu en main gauche</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Bloodmage Thalnos</td><td>—</td></tr></tbody>
 </table></div>
+<p class="rs-hint">Enchantements d&#39;Enchantement jusqu&#39;au niveau de métier maximal, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
 
 <p class="wow-note">Guide Icy Veins daté du 2026-09-19, lu le 21 septembre 2026.</p>
 
@@ -581,38 +597,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p>Pendant 15 s, vos sorts infligent 30 % de points de dégâts supplémentaires et ils vous coûtent 30 % de points de mana supplémentaires.</p></div>
 </div>
 </div>
-
-
-
-<h2 class="fiche-section-title">Les talents à rang unique</h2>
-<p class="page-intro" style="margin-top:0">Talents qui ne se prennent qu&#39;une fois, avec leur palier (textes officiels au rang maximum).</p>
-<div class="wg-talents">
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blast.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Déflagration des arcanes</b> <span class="wg-rank nums">Palier 3 · 1 rang</span>
-  <p>Frappe la cible avec de l’énergie et lui inflige 54 points de dégâts des arcanes. Chaque fois que vous lancez Déflagration des arcanes, les dégâts de tous vos autres sorts augmentent de 10 %, mais le coût en mana de Déflagration des arcanes augmente de 175 %. Effet cumulable jusqu’à 4 fois. Dure 8 s ou jusqu’à ce que vous lanciez un autre sort de dégâts.</p></div>
-</div>
-
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_mage_missilebarrage.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Barrage de projectiles</b> <span class="wg-rank nums">Palier 4 · 1 rang</span>
-  <p>Confère à votre sort Déflagration des arcanes 40 % de chances, et à vos sorts Boule de feu, Éclair de givre et Éclair de givrefeu 20 % de chances de réduire de 50 % la durée de canalisation de votre prochain sort Projectiles des arcanes, de réduire son coût en mana de 100 % et de faire tirer des projectiles toutes les 0,5 s.</p></div>
-</div>
-
-<div class="wg-talent">
-  <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg" alt="" width="44" height="44" loading="lazy">
-  <div><b>Présence spirituelle</b> <span class="wg-rank nums">Palier 5 · 1 rang</span>
-  <p>Lorsque cette technique est activée, votre prochain sort de mage dont le temps d&#39;incantation est inférieur à 10 sec. devient un sort instantané.</p></div>
-</div>
-</div>
-
-
-<h2 class="fiche-section-title">L&#39;arbre palier par palier</h2>
-<p class="page-intro" style="margin-top:0">Chaque ligne est un palier de l&#39;arbre ; entre parenthèses, le nombre de rangs maximum du talent.</p>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>Palier</th><th>L&#39;arbre palier par palier</th></tr></thead>
-  <tbody><tr><td data-first class="nums">1</td><td>Spécialisation Baguette <span class="nums">(2)</span> · Focalisation des arcanes <span class="nums">(5)</span> · Canalisation améliorée <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">2</td><td>Subtilité des arcanes <span class="nums">(2)</span> · Absorption de magie <span class="nums">(2)</span> · Concentration des arcanes <span class="nums">(5)</span> · Résistance des arcanes <span class="nums">(2)</span></td></tr><tr><td data-first class="nums">3</td><td>Géométrie des arcanes <span class="nums">(2)</span> · Impact des arcanes <span class="nums">(3)</span> · Déflagration des arcanes <span class="nums">(1)</span></td></tr><tr><td data-first class="nums">4</td><td>Sauvegarde des arcanes <span class="nums">(2)</span> · Contresort amélioré <span class="nums">(2)</span> · Méditation des arcanes <span class="nums">(3)</span> · Barrage de projectiles <span class="nums">(1)</span></td></tr><tr><td data-first class="nums">5</td><td>Présence spirituelle <span class="nums">(1)</span> · Esprit des arcanes <span class="nums">(5)</span></td></tr><tr><td data-first class="nums">6</td><td>Instabilité des arcanes <span class="nums">(3)</span></td></tr><tr><td data-first class="nums">7</td><td>Pouvoir des arcanes <span class="nums">(1)</span></td></tr></tbody>
-</table></div>
 
 <p><a class="wh-btn" href="../../../../wow-forever/talents/mage/">Ouvrir Mage dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
 <p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
@@ -638,6 +622,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/arcane-mage-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Arcane Mage</a></li>
   <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
 </ul>
+<script>
+(function () {
+  document.querySelectorAll('.cvu').forEach(function (box) {
+    var sec = box.parentElement, focus = null;
+    function apply() {
+      box.querySelectorAll('.cvu-curve').forEach(function (g) {
+        var on = !focus || g.dataset.stat === focus;
+        g.classList.toggle('is-dim', !on); g.classList.toggle('is-on', !!focus && on);
+      });
+      box.querySelectorAll('.cvu-key').forEach(function (b) { b.classList.toggle('is-on', b.dataset.stat === focus); });
+      sec.querySelectorAll('.cvu-row').forEach(function (r) { r.classList.toggle('is-on', r.dataset.stat === focus); });
+    }
+    function pick(stat) { focus = (focus === stat) ? null : stat; apply(); }
+    box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
+    sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
+  });
+})();
+</script>
 
 </div>
 <footer>
@@ -685,10 +687,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=666aa60a5d" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=666aa60a5d" defer></script>
-<script src="../../../../assets/js/site-search.js?v=666aa60a5d" defer></script>
-<script src="../../../../assets/js/favorites.js?v=666aa60a5d" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8a95fedcb0" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8a95fedcb0" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8a95fedcb0" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8a95fedcb0" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
