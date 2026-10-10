@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Level 60 DPS and tank simulator WoW: Forever">
 <meta name="twitter:description" content="Level 60 DPS simulator for WoW: Forever: gear, buffs, talents, stat weights and a gear optimizer, thousands of fights in a few seconds.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=db33557509">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=db33557509">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=04215db23f">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=04215db23f">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=db33557509">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=04215db23f">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,23 +297,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Simulator</div>
-    <h1 class="ph-title">Level 60 DPS simulator</h1>
-    <p class="ph-lede">A full combat simulator in your browser: pick your gear, buffs and talents, run thousands of fights, get your DPS, your stat weights and the best gear. Warrior (Fury, Arms), Rogue (Combat, Assassination, Subtlety), Mage (Fire, Frost, Arcane) Warlock (Affliction, Destruction, Demonology) Hunter (Marksmanship, Beast Mastery, Survival), Shadow Priest, Elemental and Enhancement Shaman, Balance and Feral Druid, Retribution Paladin, and three tanks (Protection Warrior and Paladin, Bear Druid): every class has at least one specialization.</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Level 60 DPS simulator</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">22</b> specializations</span><span class="gh-chip"><b class="nums">5 000</b> fights per simulation</span><span class="gh-chip">DPS · stat weights · best gear</span></div>
+    <p class="gh-lede">Pick your gear, buffs and talents, run thousands of fights: DPS, stat weights and best gear, right in your browser.</p>
+  </div></div>
 </section>
-
-<p class="wow-note">Work in progress before the November 4 launch. The engine reuses Classic mechanics (attack table, rage formula, armor): anything not yet confirmed for Forever is marked &#34;assumed&#34; below.</p>
+<p class="sm-beta">Work in progress before the November 4 launch. The engine reuses Classic mechanics (attack table, rage formula, armor): anything not yet confirmed for Forever is marked &#34;assumed&#34; below.</p>
 
 <div id="s60App" data-base="../../../assets/sim60/" data-v="29a4825493" data-lang="en"
      data-worker="../../../assets/sim60/worker.832348496a.js">
   <p id="s60Loading" class="wow-note">…</p>
   <div id="s60Form" hidden>
-    <h2 class="fiche-section-title">Character</h2>
+    <div class="sm-layout"><div class="sm-left">
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Character</h2></div>
     <div class="s60-grid">
       <label class="s60-row"><span>Specialization</span>
         <select id="s60Spec"><option value="warrior_fury">Warrior · Fury</option><option value="warrior_arms">Warrior · Arms</option>
@@ -335,7 +334,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div id="s60Base" class="s60-grid"></div>
     </details>
 
-    <h2 class="fiche-section-title">Gear</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Gear</h2></div>
     <div id="s60Gear" class="s60-grid"></div>
     <details class="s60-manual"><summary>Hand-entered stats (replaces the computation)</summary>
       <p class="wow-note">Leave empty to compute from gear. Handy to paste the addon&#39;s values.</p>
@@ -348,10 +348,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <label class="s60-check"><input type="checkbox" id="s60Fx" checked> Simulate item effects (trinkets, weapon procs, set bonuses)</label>
 
-    <h2 class="fiche-section-title">Buffs, consumables and boss debuffs</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Buffs, consumables and boss debuffs</h2></div>
     <div class="s60-cols"><div id="s60Buffs" class="s60-checks"></div><div id="s60Cons" class="s60-checks"></div><div id="s60Debuffs" class="s60-checks"></div></div>
 
-    <h2 class="fiche-section-title">Talents and rotation</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Talents and rotation</h2></div>
     <div class="s60-grid">
       <label class="s60-row"><span>Recommended build for the specialization</span><button type="button" id="s60Preset" class="ms-btn">Load the default build</button></label>
       <label class="s60-row"><span>Talent calculator link</span><input id="s60TalentLink" type="text" placeholder="https://brokenmeta.gg/wow-forever/talents/warrior/#b=..." autocomplete="off"></label>
@@ -387,7 +389,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <p class="wow-note" data-tank hidden>Tanks: a level-63 raid boss hits the tank (Classic attack table, armor, rage from damage taken). Classic assumptions: Defensive Stance (+30% threat, -10% damage taken and dealt), Righteous Fury +60% holy threat, Shield Slam&#39;s flat threat, Holy Shield&#39;s charges, the bear&#39;s natural weapon, block value, crushing blows (15% at 300 defense), a 9000 boss hit. Taunt, survival cooldowns and area threat are not simulated.</p>
     </div>
 
-    <h2 class="fiche-section-title">Run</h2>
+    </section>
+    </div><aside class="sm-right">
+    <section class="gs-tile sm-run"><div class="gs-th"><h2 class="gs-h2">Run</h2></div>
     <div class="ms-actions">
       <button type="button" id="s60Run" class="ms-btn">Simulate</button>
       <button type="button" id="s60Weights" class="ms-btn">Stat weights</button>
@@ -396,18 +400,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
     <div id="s60Bar" class="s60-bar" hidden><i></i></div>
 
-    <h2 class="fiche-section-title">Results</h2>
+    </section>
+    <section class="gs-tile sm-res"><div class="gs-th"><h2 class="gs-h2">Results</h2></div>
     <section id="s60Result" class="ms-result" hidden></section>
     <section id="s60Weights2" class="ms-result" hidden></section>
     <section id="s60Opt2" class="ms-result" hidden></section>
+    </section>
+    </aside></div>
   </div>
 </div>
 <script type="application/json" id="s60I18n">{"kicker": "World of Warcraft: Forever \u00b7 Simulator", "title": "Level 60 DPS and tank simulator WoW: Forever", "desc": "Level 60 DPS simulator for WoW: Forever: gear, buffs, talents, stat weights and a gear optimizer, thousands of fights in a few seconds.", "h1": "Level 60 DPS simulator", "intro": "A full combat simulator in your browser: pick your gear, buffs and talents, run thousands of fights, get your DPS, your stat weights and the best gear. Warrior (Fury, Arms), Rogue (Combat, Assassination, Subtlety), Mage (Fire, Frost, Arcane) Warlock (Affliction, Destruction, Demonology) Hunter (Marksmanship, Beast Mastery, Survival), Shadow Priest, Elemental and Enhancement Shaman, Balance and Feral Druid, Retribution Paladin, and three tanks (Protection Warrior and Paladin, Bear Druid): every class has at least one specialization.", "beta_note": "Work in progress before the November 4 launch. The engine reuses Classic mechanics (attack table, rage formula, armor): anything not yet confirmed for Forever is marked \"assumed\" below.", "h_char": "Character", "h_gear": "Gear", "h_buffs": "Buffs, consumables and boss debuffs", "h_talents": "Talents and rotation", "h_run": "Run", "h_results": "Results", "h_limits": "Known limits", "class_spec": "Specialization", "race": "Race", "fight": "Fight length (s)", "iters": "Number of fights", "armor": "Boss armor", "manual": "Hand-entered stats (replaces the computation)", "manual_hint": "Leave empty to compute from gear. Handy to paste the addon's values.", "ap": "Attack power", "crit": "Crit %", "hit": "Hit %", "empty": "(empty)", "mh": "Main hand", "oh": "Off hand", "th": "Two-hand", "assumed": "assumed", "run": "Simulate", "weights": "Stat weights", "optimize": "Optimize gear", "apply": "Apply this gear", "running": "Running\u2026", "workers": "{n} cores used", "dps": "Mean DPS", "stdev": "Std deviation", "sem": "Margin of error (\u00b1)", "ability": "Source", "share": "Share", "casts": "Casts", "crits": "Crits", "misses": "Misses", "dodges": "Dodges", "uptime": "Uptime", "w_title": "Stat weights (attack power equivalent)", "w_crit": "1% crit", "w_hit": "1% hit", "w_haste": "1% haste", "o_title": "Best gear found", "o_gain": "gain", "o_note": "The optimizer tests the beta's known dungeon items (level \u2264 60). Raid items will come with the game's data.", "t_preset": "Recommended build for the specialization", "t_preset_btn": "Load the default build", "t_import": "Talent calculator link", "t_note": "Only talents with a simulated effect are listed; the others count toward the 51-point total but have no effect in the engine.", "t_ok": "{pts} points \u00b7 trees {a}/{b}/{c}", "t_bad": "Invalid build for the calculator: {err}", "t_link_bad": "Link not recognized: copy the share link from the talent calculator.", "t_rev": "The link comes from another version of the talents: check the ranks.", "t_tree": "Tree", "base_title": "Character base stats (level 60)", "base_hint": "Starting values with no gear: unverified for Forever, editable.", "cooldowns": "Use cooldowns (Adrenaline Rush, Blade Flurry, Cold Blood)", "tk_score": "(threat \u00d7 survival score)", "tk_armor": "armor", "tps": "threat per second (TPS)", "tk_taken": "Damage taken per second (of the boss's raw damage)", "tk_avoid": "Avoidance: miss / dodge / parry", "tk_block": "Block", "tk_crit": "Critical / crushing blows taken", "tk_health": "Tank health", "tk_def": "defense", "tk_ttd": "Time to death without healing", "boss_dmg": "Boss hit (raw damage)", "boss_speed": "Boss attack speed (s)", "obj": "Optimizer and weights priority", "obj_balanced": "Balance of threat and survival", "obj_threat": "Threat (TPS)", "obj_survival": "Survival (damage taken)", "tank_note": "Tanks: a level-63 raid boss hits the tank (Classic attack table, armor, rage from damage taken). Classic assumptions: Defensive Stance (+30% threat, -10% damage taken and dealt), Righteous Fury +60% holy threat, Shield Slam's flat threat, Holy Shield's charges, the bear's natural weapon, block value, crushing blows (15% at 300 defense), a 9000 boss hit. Taunt, survival cooldowns and area threat are not simulated.", "melee2_note": "Retribution Paladin, Enhancement Shaman and Feral Druid (cat): abilities, ranks and talents from Forever (client tables). Classic assumptions: Seal of Command at 7 procs per minute, Judgement damage, Windfury Weapon's proc chance (20% per hit) and Maelstrom Weapon's (10% per hit), the cat's natural weapon. Windfury Weapon (333 attack power, 2 extra attacks), Maelstrom Weapon's stacks (\u22124% cast time and mana per rank and per stack) Earth Shock (after Stormstrike) and the Searing Totem use Forever values. Flametongue and Frostbrand imbues, the other totems, healing and shapeshift spells are not simulated.", "casters_note": "Shadow Priest, Elemental Shaman and Balance Druid: spells, ranks and talents from Forever (client tables); base mana, mana items and the Mana Spring Totem are Classic assumptions. The Elemental Shaman drops the Searing Totem (Forever values, raised by Call of Flame and Elemental Fury); Magma Totem, Fire Nova and Earth Shock do worse on one target and are left out. Other schools (healing, forms) are not simulated.", "fx_label": "Simulate item effects (trinkets, weapon procs, set bonuses)", "fx_title": "Item effects simulated", "fx_ignored": "{n} other effects ignored: resistances, defensive, utility", "fx_note": "The client only gives a proc chance for set bonuses: weapon procs use 1 proc per minute (Classic assumption).", "hpet": "Pet", "shots": "Shared-cooldown shot", "aspect": "Aspect of the Hawk (Classic assumption)", "quiver": "Quiver haste (+15%, assumption)", "rng": "Ranged weapon", "hunter_note": "Hunter: Auto Shot, Arcane Shot, Serpent Sting, Aimed Shot, Sniper Shot and Rapid Fire use Forever values; Multi-Shot, Aspect of the Hawk, ammunition, the pet's attacks and Summon Hawk are Classic assumptions. Melee, traps and Volley are not simulated.", "pet": "Summoned demon", "sacrifice": "Demonic Sacrifice", "curse": "Bane", "warlock_note": "Warlock: Corruption, Immolate, Shadow Bolt, Conflagrate, Incinerate, Soul Fire, Siphon Life use Forever values; Bane of Agony, Shadowburn, Life Tap and the Imp's Firebolt are Classic assumptions; Soul Shards assumed unlimited, health assumed healed back.", "gem": "Mana Gem (every 2 minutes)", "innervate": "Innervate from a druid (Classic assumption)", "movement": "Time spent moving (%)", "sp": "Spell power", "mage_note": "Mage: spell engine (83% base hit + bonus, spell crit, mana, mana potion, Evocation) with Classic values as assumptions; Arcane Blast is not rotated and Arcane Missiles is simplified.", "rogue_note": "Rogue: poisons use Classic values (Instant VII main hand, Deadly V off hand), an assumption until Forever data exists. Charges and Venom are not simulated.", "execute": "Execute phase (last 20% of the fight)", "dw": "Death Wish", "reck": "Recklessness", "enrage": "Enrage uptime (0 to 1)", "limits": ["Mechanics taken from Classic (rage formula, attack table against a level-63 boss, 4.8% crit suppression, armor). They are marked \"assumed\" until Forever confirms them.", "Spell values come from the beta client tables when they exist; Execute and Recklessness still use Classic values.", "Level 60 base stats: unverified Classic values for the Warrior and estimates for the Rogue; they are editable, like the final stats entered from the addon.", "Items: only the data known from the beta (dungeons, a little Molten Core). Proc effects (weapon procs, trinkets, set bonuses) are not simulated yet.", "Not simulated yet: multiple targets, movement, boss dying before the end, stance changes. One stationary target, execute on the last 20% of the fight time."], "js": {"noItems": "No item", "run": "Simulate", "running": "Running\u2026", "done": "Done in {s} s ({rate} fights/s)", "optProgress": "Optimizing: {slot}\u2026", "optDone": "Optimization done in {s} s", "weightsRunning": "Computing weights\u2026", "workers": "{n} cores"}}</script>
 <script src="../../../assets/sim60/sim60.99194c9ea0.js" defer></script>
 <script src="../../../assets/js/wow-sim60.js?v=6bcac7aa7a" defer></script>
 
-<h2 class="fiche-section-title">Known limits</h2>
-<ul class="ms-limits"><li>Mechanics taken from Classic (rage formula, attack table against a level-63 boss, 4.8% crit suppression, armor). They are marked &#34;assumed&#34; until Forever confirms them.</li><li>Spell values come from the beta client tables when they exist; Execute and Recklessness still use Classic values.</li><li>Level 60 base stats: unverified Classic values for the Warrior and estimates for the Rogue; they are editable, like the final stats entered from the addon.</li><li>Items: only the data known from the beta (dungeons, a little Molten Core). Proc effects (weapon procs, trinkets, set bonuses) are not simulated yet.</li><li>Not simulated yet: multiple targets, movement, boss dying before the end, stance changes. One stationary target, execute on the last 20% of the fight time.</li></ul>
+<details class="gs-more gs-sources"><summary>Known limits</summary>
+<ul class="ms-limits"><li>Mechanics taken from Classic (rage formula, attack table against a level-63 boss, 4.8% crit suppression, armor). They are marked &#34;assumed&#34; until Forever confirms them.</li><li>Spell values come from the beta client tables when they exist; Execute and Recklessness still use Classic values.</li><li>Level 60 base stats: unverified Classic values for the Warrior and estimates for the Rogue; they are editable, like the final stats entered from the addon.</li><li>Items: only the data known from the beta (dungeons, a little Molten Core). Proc effects (weapon procs, trinkets, set bonuses) are not simulated yet.</li><li>Not simulated yet: multiple targets, movement, boss dying before the end, stance changes. One stationary target, execute on the last 20% of the fight time.</li></ul></details>
 
 </div>
 <footer>
@@ -455,10 +462,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=db33557509" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=db33557509" defer></script>
-<script src="../../../assets/js/site-search.js?v=db33557509" defer></script>
-<script src="../../../assets/js/favorites.js?v=db33557509" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=04215db23f" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=04215db23f" defer></script>
+<script src="../../../assets/js/site-search.js?v=04215db23f" defer></script>
+<script src="../../../assets/js/favorites.js?v=04215db23f" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
