@@ -478,10 +478,20 @@ def _usable_slots(spec_id, class_id, min_level):
     return slots
 
 
+# Minimum simulated DPS an item's own stats must bring (weapon DPS excluded) to be advised for a spec; the tiny
+# non-zero weights of useless stats (e.g. spell power on a warrior) stay under it.
+PICK_MIN_STAT_VALUE = 0.05
+# A primary stat (Strength / Agility / Intelligence) is useless to a spec when its own simulated value is at or
+# under this (the useless ones come out at exactly 0, a tiny negative at worst).
+PRIMARY_USEFUL_MIN = 0.001
+
+
 def dungeon_picks(spec_id, items, min_level, race_base_stats, class_bonus_stats, top=3):
     """The `top` items of one dungeon that add the most simulated DPS for this spec, as
     [(item, value)] best first. `value` = stat weights x the item's stats, plus the weapon-DPS
-    weight x the item's weapon DPS for a weapon the spec swings or shoots (casters: stats only)."""
+    weight x the item's weapon DPS for a weapon the spec swings or shoots (casters: stats only).
+    Items whose stats are all useless to the spec (stat value under PICK_MIN_STAT_VALUE), or that carry a primary
+    stat useless to it (e.g. Intelligence on a warrior), are never advised."""
     profile = wow_dps_sim.ROTATIONS.get(spec_id)
     if not profile:
         return []
@@ -497,6 +507,17 @@ def dungeon_picks(spec_id, items, min_level, race_base_stats, class_bonus_stats,
         if allowed is not None and (it.get("type") or {}).get("en") not in allowed:
             continue
         value = _score(w["stats"], _item_stat_contribution(spec_id, it))
+        # An item is only advised when at least one of its stats matters to the spec (Stamina and armor do not
+        # count): a staff with Intelligence/Spirit must not reach a warrior's list on its weapon DPS alone
+        # (user request, 2026-10-10). The weapon DPS below then only ranks items that already pass this test.
+        if value < PICK_MIN_STAT_VALUE:
+            continue
+        # ... and none of its PRIMARY stats (Strength / Agility / Intelligence) may be useless to the spec: an item
+        # with +5 Intelligence is a caster's item, a warrior gains nothing by taking it over another class (user
+        # request, 2026-10-10). Stamina, Spirit and the other secondary stats are not part of this test.
+        if any(it.get("st", {}).get(p) and _score(w["stats"], _item_stat_contribution(spec_id, {"st": {p: it["st"][p]}})) <= PRIMARY_USEFUL_MIN
+               for p in ("str", "agi", "int")):
+            continue
         # Druid forms (cat/bear) hit with the form's own damage, not the weapon's (Classic rule, assumed
         # unchanged in Forever): a feral druid's weapon only counts for its stats.
         if not caster and class_id != "druid" and it.get("st", {}).get("dps") and it["slot"] in (SLOT_ONE_HAND, SLOT_MAIN_HAND, SLOT_TWO_HAND, SLOT_RANGED, 22):

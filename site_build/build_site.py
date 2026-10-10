@@ -8448,6 +8448,12 @@ def main() -> None:
                         _picks.append({"class_name": _cls["name"][lang], "class_color": _cls.get("color"), "spec_name": _sname,
                                        "icon": f"assets/img/spec/{_cls_id}-{_wsid}.png", "guide": f"wow-forever/guides/{_cls_id}/{_wsid}/",
                                        "items": [it for it, _ in _top]})
+                    # Best-loot picks grouped by class (consecutive specs of a class), one card per class on the page.
+                    _picks_by_class = []
+                    for _pk in _picks:
+                        if not _picks_by_class or _picks_by_class[-1]["class_name"] != _pk["class_name"]:
+                            _picks_by_class.append({"class_name": _pk["class_name"], "class_color": _pk["class_color"], "specs": []})
+                        _picks_by_class[-1]["specs"].append(_pk)
                     _loc = DUNGEON_LOCATION.get(_d["id"])
                     _updated = max(wow_dungeons.get("generated", "")[:10], WOW_DUNGEON_CONTENT_DATE)
                     _ndrop = sum(1 for it in _ditems if it.get("kind") == "drop")
@@ -8477,7 +8483,7 @@ def main() -> None:
                     _durl = canonical_for(_dpath, lang)
                     render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
-                           dname=_dn, dlevels=_d["levels"], dloc=_loc, bosses=_bosses, others=_others, quests=_quests, picks=_picks,
+                           dname=_dn, dlevels=_d["levels"], dloc=_loc, bosses=_bosses, others=_others, quests=_quests, picks=_picks, picks_by_class=_picks_by_class,
                            updated=_updated, dg_faq=_faq,
                            faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                        "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _faq]},

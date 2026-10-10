@@ -3146,6 +3146,60 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Page de donjon (2026-10-10) ---------- */
+  .gh-updated { margin: 8px 0 0; font: 11px 'Space Mono', monospace; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
+  .rb-src.is-quest { background: rgba(255, 194, 60, .13); color: var(--gold); }
+  .dg-icon { border-radius: 5px; }
+  .dp-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .dp-card { min-width: 0; padding: 10px 12px; border: 1px solid var(--border); border-top: 3px solid var(--c); border-radius: 12px; background: var(--bg-2); }
+  .dp-card h3 { margin: 0 0 6px; font: 700 13px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .03em; color: var(--c); }
+  .dp-spec { padding: 7px 0; border-top: 1px solid rgba(255, 255, 255, .06); }
+  .dp-spec:first-of-type { border-top: 0; }
+  .dp-spec-n { display: flex; align-items: center; gap: 7px; font-size: 13.5px; font-weight: 600; color: var(--cream); text-decoration: none; }
+  .dp-spec-n img { width: 20px; height: 20px; border-radius: 5px; }
+  .dp-spec-n:hover { text-decoration: underline; }
+  .dp-items { display: flex; flex-wrap: wrap; gap: 2px 10px; margin-top: 3px; padding-left: 27px; font-size: 12.5px; }
+  .dp-items span { white-space: nowrap; display: inline-flex; align-items: center; gap: 4px; }
+  .dp-items em { font: normal 10px 'Space Mono', monospace; color: var(--text-faint); }
+  .dp-items .dg-icon { width: 18px; height: 18px; margin-right: 5px; vertical-align: middle; }
+  .dp-items a { text-decoration: none; }
+  .db-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .db-card, .dq-card { min-width: 0; padding: 11px 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-2); }
+  .db-card h3, .dq-card h3 { margin: 0 0 6px; display: flex; justify-content: space-between; gap: 6px; font: 700 14px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; color: var(--cream); }
+  .db-card h3 span { font: 11px 'Space Mono', monospace; color: var(--text-faint); }
+  .dq-card h3 { font-size: 13px; text-transform: none; letter-spacing: 0; }
+  .dq-card h3 a { color: var(--cream); text-decoration: none; }
+  .dq-card h3 a:hover { text-decoration: underline; }
+  .dq-giver { margin: 0 0 6px; font-size: 12px; color: var(--text-faint); }
+  .db-it { padding: 4px 0; font-size: 13.5px; line-height: 1.25; }
+  .db-it a { display: inline-flex; align-items: center; font-weight: 600; text-decoration: none; }
+  .db-it .dg-icon { width: 24px; height: 24px; margin-right: 7px; }
+  .db-it small { display: block; padding-left: 31px; font-size: 11.5px; color: var(--text-faint); }
+  .db-others { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px 18px; margin-top: 12px; padding: 10px 12px; border: 1px dashed var(--border-bright); border-radius: 12px; font-size: 13px; color: var(--text-dim); }
+  .db-others > b { grid-column: 1 / -1; color: var(--cream); }
+  .db-ot span { display: block; font-weight: 600; color: var(--cream); }
+  .db-ot .dg-icon { width: 20px; height: 20px; margin-right: 6px; vertical-align: middle; }
+  .dq-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .gs-scroll { max-height: 460px; overflow: auto; border: 1px solid var(--border); border-radius: 12px; }
+  .gs-scroll .pf-table th { position: sticky; top: 0; z-index: 1; background: #101650; }
+  .dq-faq .gs-more { margin: 0; padding: 12px 0; border-bottom: 1px solid var(--border); }
+  .dq-faq .gs-more:last-child { border-bottom: 0; }
+  .dq-faq summary { font-size: 15px; color: var(--cream); }
+  .dh-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 10px; margin: 14px 0 6px; }
+  .dh-card { display: flex; flex-direction: column; gap: 8px; padding: 14px 16px; border: 1px solid var(--border); border-left: 3px solid var(--magenta); border-radius: 12px; background: var(--bg-2); text-decoration: none; color: var(--cream); transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+  .dh-card:hover { transform: translateY(-2px); border-color: var(--border-bright); border-left-color: var(--magenta); background: var(--row-hover); }
+  .dh-card.is-all { border-left-color: var(--gold); }
+  .dh-card b { font: 700 17px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  .dh-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .dh-go { margin-top: auto; font-size: 13px; font-weight: 600; color: var(--cyan); }
+  @media (max-width: 1200px) {
+    .db-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dp-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .dq-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 620px) {
+    .db-grid, .dp-grid, .dq-grid, .db-others { grid-template-columns: 1fr; }
+  }
   @media (max-width: 1100px) {
     .rb-place { grid-template-columns: 1fr; }
     .rb-bosses { grid-template-columns: repeat(2, minmax(0, 1fr)); }

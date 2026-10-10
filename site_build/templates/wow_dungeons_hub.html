@@ -7,22 +7,42 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.dg_kicker, tx.dg_h1_hub, tx.dg_intro_hub) }}
-<div class="wh-cards">
-  <a class="wh-card" href="{{ root }}wow-forever/dungeons/tous-les-objets/" style="--cc: var(--cyan)">
-    <span class="wh-card-body"><b>{{ tx.dg_all_card }}</b><span class="wh-card-n nums">{{ dd.dungeons|map(attribute='items')|map('length')|sum }} {{ tx.dg_all_card_n }} →</span></span>
+{% set fr = lang == 'fr' %}
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.dg_kicker }}</div>
+      <h1 class="gh-title">{{ tx.dg_h1_hub }}</h1>
+      <p class="gh-lede">{{ tx.dg_intro_hub }}</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="{{ root }}wow-forever/dungeons/tous-les-objets/">{{ tx.dg_all_card }}</a>
+    </div>
+  </div>
+</section>
+<div class="dh-grid">
+  <a class="dh-card is-all" href="{{ root }}wow-forever/dungeons/tous-les-objets/">
+    <b>{{ tx.dg_all_card }}</b>
+    <span class="dh-chips"><span class="gh-chip"><b class="nums">{{ dd.dungeons|map(attribute='items')|map('length')|sum }}</b> {{ tx.dg_all_card_n }}</span><span class="gh-chip"><b class="nums">{{ dd.dungeons|length }}</b> {{ 'donjons' if fr else 'dungeons' }}</span></span>
+    <span class="dh-go">{{ 'Filtrer tout le butin' if fr else 'Filter all the loot' }} →</span>
   </a>
   {% for d in dd.dungeons %}
-  <a class="wh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
-    <span class="wh-card-body"><b>{{ d.name[lang] }}</b>{% if d.levels %}<span class="wh-card-specs">{{ tx.dg_levels }} {{ d.levels }}</span>{% endif %}<span class="wh-card-n nums">{{ d['items']|length }} {{ tx.dg_items_n }} →</span></span>
+  <a class="dh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
+    <b>{{ d.name[lang] }}</b>
+    <span class="dh-chips">{% if d.levels %}<span class="gh-chip is-gold">{{ tx.dg_levels }} <b class="nums">{{ d.levels }}</b></span>{% endif %}<span class="gh-chip"><b class="nums">{{ d['items']|length }}</b> {{ tx.dg_items_n }}</span></span>
+    <span class="dh-go">{{ 'Voir le butin' if fr else 'See the loot' }} →</span>
   </a>
   {% endfor %}
 </div>
-<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.dg_method %}<li>{{ h }}</li>{% endfor %}</ul>
-<h2 class="fiche-section-title">{{ tx.sources }}</h2>
-<ul class="gd-list wow-sources">
-  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
-  <li>{{ tx.dg_src2 }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">{{ wow_ui_sources_client }}</a></li>
-</ul>
+<details class="gs-more gs-sources">
+  <summary>{{ tx.dg_method_h2 }}</summary>
+  <ul class="gd-list">{% for h in tx.dg_method %}<li>{{ h }}</li>{% endfor %}</ul>
+</details>
+<details class="gs-more">
+  <summary>{{ tx.sources }}</summary>
+  <ul class="gd-list wow-sources">
+    <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+    <li>{{ tx.dg_src2 }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">{{ wow_ui_sources_client }}</a></li>
+  </ul>
+</details>
 {% endblock %}
