@@ -8,18 +8,22 @@
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.op_kicker, g_h1, g_intro) }}
+{# Item builder page (maquette validée 2026-10-10): compact hero, paperdoll tile on the left, sticky stats total on the right. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.op_kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">{{ op_slots|length }}</b> {{ 'emplacements' if lang == 'fr' else 'slots' }}</span><span class="gh-chip">{{ 'Race et classe' if lang == 'fr' else 'Race and class' }}</span><span class="gh-chip">{{ "Total des stats et niveau d'objet moyen" if lang == 'fr' else 'Stat total and average item level' }}</span><span class="gh-chip">{{ 'Lien de partage' if lang == 'fr' else 'Share link' }}</span></div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
 {% set all_gear = op_slots|map(attribute='gear')|sum(start=[]) %}
 {% set ns = namespace(types=[]) %}
 {% for it in all_gear %}{% if it.type.en and it.type.en not in ns.types %}{% set ns.types = ns.types + [it.type.en] %}{% endif %}{% endfor %}
 
-<div class="op-toolbar">
-  <button type="button" id="opReset" class="dg-reset">{{ tx.op_reset_build }}</button>
-  <button type="button" id="opShare" class="dg-reset">{{ tx.op_share }}</button>
-  <span id="opShareStatus" class="metascope-status" hidden></span>
-  <span class="wow-note nums op-completion" id="opCompletion"></span>
-</div>
-
+<div class="ob-layout">
+  <div class="ob-main">
+    <section class="gs-tile ob-doll"><div class="gs-th"><h2 class="gs-h2">{{ 'Équipement' if lang == 'fr' else 'Gear' }}</h2><span class="wow-note nums op-completion" id="opCompletion"></span></div>
 <div class="op-paperdoll" id="opAvatar">
   <div class="op-silhouette">
     <button type="button" class="op-identity-slot" id="opRaceSlot">
@@ -57,6 +61,7 @@
   </div>
 </div>
 
+    </section>
 <div class="op-picker op-race-picker" id="opRacePicker" hidden>
   <div class="op-picker-head">
     <span>{{ tx.op_choose_race }}</span>
@@ -100,14 +105,6 @@
   <button type="button" id="opClassRemove" class="dg-reset" hidden>{{ tx.op_remove_class }}</button>
 </div>
 
-<div class="op-summary" id="opSummary">
-  <div class="op-summary-title">{{ tx.op_summary_h2 }}</div>
-  <p class="op-summary-empty" id="opSummaryEmpty">{{ tx.op_summary_empty }}</p>
-  <p class="wow-note nums" id="opSummaryIlvl" hidden></p>
-  <div class="op-summary-stats" id="opSummaryStats" hidden></div>
-  <p class="wow-note" id="opSummaryNote" hidden>{{ tx.op_level1_note }}</p>
-</div>
-
 <div class="op-picker" id="opPicker" hidden>
   <div class="op-picker-head">
     <span id="opPickerTitle"></span>
@@ -146,15 +143,38 @@
   <div class="op-picker-list" id="opPickerList"></div>
   <p class="op-slot-none" id="opPickerNone" hidden>{{ tx.op_slot_none }}</p>
 </div>
+  </div>
+  <aside class="ob-side">
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.op_summary_h2 }}</h2></div>
+<div class="op-summary" id="opSummary">
+  <div class="op-summary-title">{{ tx.op_summary_h2 }}</div>
+  <p class="op-summary-empty" id="opSummaryEmpty">{{ tx.op_summary_empty }}</p>
+  <p class="wow-note nums" id="opSummaryIlvl" hidden></p>
+  <div class="op-summary-stats" id="opSummaryStats" hidden></div>
+  <p class="wow-note" id="opSummaryNote" hidden>{{ tx.op_level1_note }}</p>
+</div>
 
-<h2 class="fiche-section-title">{{ tx.op_method_h2 }}</h2>
+    <div class="ob-actions">
+<div class="op-toolbar">
+  <button type="button" id="opReset" class="dg-reset">{{ tx.op_reset_build }}</button>
+  <button type="button" id="opShare" class="dg-reset">{{ tx.op_share }}</button>
+  <span id="opShareStatus" class="metascope-status" hidden></span>
+</div>
+
+    </div>
+    </section>
+    <details class="gs-more gs-sources"><summary>{{ tx.op_method_h2 }}</summary>
 <ul class="gd-list">{% for h in tx.op_method %}<li>{{ h }}</li>{% endfor %}</ul>
-<h2 class="fiche-section-title">{{ tx.sources }}</h2>
+    </details>
+    <details class="gs-more gs-sources"><summary>{{ tx.sources }}</summary>
 <ul class="gd-list wow-sources">
   <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
   <li>{{ tx.op_race_credit }}<a href="{{ races_source.url }}" rel="noopener nofollow" target="_blank">{{ races_source.label }}</a></li>
   <li>{{ tx.op_stats_credit }}<a href="{{ stats_source.url }}" rel="noopener nofollow" target="_blank">{{ stats_source.label }}</a></li>
 </ul>
+    </details>
+  </aside>
+</div>
 <script>
 window.OP_I18N = {
   sourceDungeon: {{ tx.op_source_dungeon|tojson }},
