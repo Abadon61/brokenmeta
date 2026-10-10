@@ -8363,8 +8363,14 @@ def main() -> None:
                                 "name": _ra["name"][lang], "wowhead_spell_id": _ra.get("wowhead_spell_id"),
                                 "kind": _rstep["kind"],
                             })
+                    # Hero chip "N°3 du classement · 667 DPS": first ranking entry of this spec (DPS list, else tank list).
+                    _rank_info = None
+                    for _rlist2, _runit in ((_wow_ranking, "DPS"), (_wow_ranking_tanks, "TPS")):
+                        for _rpos, _rr2 in enumerate(_rlist2):
+                            if _rank_info is None and _rr2["class_id"] == _cls["id"] and _rr2["guide_spec"] == _s["id"]:
+                                _rank_info = {"pos": _rpos + 1, "val": _rr2["tps"] if _runit == "TPS" else _rr2["dps"], "unit": _runit}
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
-                           rotation_steps=_rotation_steps,
+                           rank_info=_rank_info, rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            banner=class_banner(_cls["id"]), lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]], _cls),
                            rot_tx=wow_guide_rotation.TX[lang], g60=wow_guide_rotation.G60[lang],
