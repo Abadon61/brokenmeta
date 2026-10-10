@@ -3040,6 +3040,71 @@ footer { border-top: 1px solid var(--border); background: transparent; }
     .gs-others { grid-template-columns: 1fr; }
   }
 
+  /* ---------- Guide de métier (2026-10-10) : même famille que les guides de spécialisation ---------- */
+  .gh-hero.is-flat { background: radial-gradient(700px 240px at 100% 0, rgba(42, 99, 255, .28), transparent 70%), linear-gradient(180deg, #0d1245, #0a0f3a); align-items: center; }
+  .gh-hero.is-flat::after { display: none; }
+  .gh-hero.is-flat .gh-in { justify-content: flex-start; align-items: center; gap: 18px 24px; }
+  .gh-hero.is-flat .gh-main { flex: 1; min-width: 260px; max-width: none; }
+  .gh-hero.is-flat .gh-lede { max-width: 80ch; }
+  .gh-hero.is-flat .gh-cta { flex-direction: column; }
+  .pf-hero-ico { width: 84px; height: 84px; flex: none; border-radius: 18px; border: 2px solid var(--border-bright); box-shadow: 0 8px 24px rgba(2, 4, 30, .6); }
+  .gh-chip.is-gold { border-color: var(--gold); color: var(--gold); }
+  .gh-chip.is-gold b { color: var(--gold); }
+  .gh-chip.is-warn { border-color: #ff9b3d; color: #ffb36a; }
+  .gh-chip:empty { display: none; }
+  .gs-tile.gs-w5 { grid-column: span 5; }
+  .pf-phases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+  .pf-ph { min-width: 0; padding: 12px 14px; border: 1px solid var(--border); border-radius: 12px; background: rgba(255, 255, 255, .015); }
+  .pf-ph-h { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .pf-ph-h b { font: 700 14px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .03em; color: var(--cream); }
+  .pf-st { display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 10px; padding: 7px 0; border-bottom: 1px solid rgba(255, 255, 255, .05); }
+  .pf-st:last-child { border-bottom: 0; }
+  .pf-pill { align-self: start; padding: 5px 0; border-radius: 8px; text-align: center; font: 700 11.5px 'Space Mono', monospace; color: var(--cyan); background: var(--magenta-dim); }
+  .pf-st-t { display: flex; align-items: center; gap: 8px; font-weight: 600; font-size: 14.5px; }
+  .pf-st-t a { color: var(--cream); text-decoration: none; display: inline-flex; align-items: center; min-width: 0; }
+  .pf-st-t a:hover { text-decoration: underline; }
+  .pf-st-t .pf-icon { margin-right: 8px; border-radius: 6px; flex: none; }
+  .pf-st-t small { margin-left: auto; font-size: 12px; color: var(--text-dim); white-space: nowrap; }
+  .pf-st-r { margin-top: 2px; }
+  .pf-st-r .pf-reagents { gap: 2px 10px; }
+  .pf-st-g { margin-top: 1px; font-size: 12px; color: var(--text-faint); }
+  .pf-st-g a { color: var(--text-dim); }
+  .pf-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  .pf-table th { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: left; font: 10.5px 'Space Mono', monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--text-faint); }
+  .pf-table td { padding: 7px 10px; border-bottom: 1px solid rgba(255, 255, 255, .05); vertical-align: middle; }
+  .pf-table .nums { text-align: right; }
+  .pf-table th.nums { text-align: right; }
+  .pf-table tbody tr:hover td { background: rgba(255, 255, 255, .03); }
+  .pf-table td a { color: var(--cream); text-decoration: none; }
+  .pf-table td a:hover { text-decoration: underline; }
+  .pf-table td[data-first] .pf-icon { border-radius: 6px; }
+  .pf-table small { display: block; font: 10.5px 'Space Mono', monospace; color: var(--text-faint); }
+  .pf-table tfoot th { padding-top: 10px; font: 700 12px 'Space Mono', monospace; color: var(--cream); }
+  .pf-table tfoot th.nums { color: var(--gold); font-size: 14px; }
+  .pf-or { display: inline-block; padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 600; white-space: nowrap; background: var(--magenta-dim); color: var(--cyan); }
+  .pf-or-vendor { background: rgba(255, 194, 60, .13); color: var(--gold); }
+  .pf-or-farm { background: rgba(45, 230, 196, .12); color: var(--teal); }
+  .pf-or-disenchant { background: rgba(199, 107, 255, .14); color: #c76bff; }
+  .pf-mats.is-short tbody tr:nth-child(n+15) { display: none; }
+  .pf-more { margin-top: 10px; padding: 8px 16px; border-radius: 999px; border: 1px solid var(--border-bright); background: transparent; color: var(--cyan); font-size: 13.5px; font-weight: 600; }
+  .pf-more:hover { background: var(--row-hover); }
+  .pf-ranks { display: grid; gap: 8px; }
+  .pf-rank { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 11px; background: var(--bg-2); }
+  .pf-rank b { font: 700 14px 'Cal Sans', sans-serif; text-transform: uppercase; color: var(--cream); }
+  .pf-rank-p { text-align: right; font: 700 13px 'Space Mono', monospace; color: var(--gold); }
+  .pf-rank-d { grid-column: 1 / -1; font-size: 12.5px; color: var(--text-faint); }
+  @media (max-width: 1100px) {
+    .pf-phases { grid-template-columns: 1fr; }
+    .gs-tile.gs-w5 { grid-column: span 12; }
+    .gh-hero.is-flat .gh-cta { flex-direction: row; }
+  }
+  @media (max-width: 620px) {
+    .pf-st { grid-template-columns: 1fr; gap: 4px; }
+    .pf-pill { width: 74px; }
+    .pf-hero-ico { width: 56px; height: 56px; align-self: flex-start; }
+    .gh-hero.is-flat .gh-main { flex-basis: calc(100% - 80px); min-width: 0; }
+  }
+
   @media (max-width: 1599px) { .dash-shares { grid-template-columns: 1fr; } }
 
   /* Actualités de l'accueil : 2 tuiles visibles (les plus récentes), les anciennes en défilant */
