@@ -3146,6 +3146,22 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Simuler mon personnage (2026-10-10) ---------- */
+  .ms2-steps { margin-top: 14px; }
+  .ms2-steps .ms-steps { list-style: none; counter-reset: s; padding: 0; margin: 8px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .ms2-steps .ms-steps li { counter-increment: s; position: relative; padding: 14px 14px 14px 56px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-2); color: var(--text-dim); line-height: 1.5; font-size: 14px; }
+  .ms2-steps .ms-steps li::before { content: counter(s); position: absolute; left: 14px; top: 14px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--magenta); color: #fff; font: 700 14px 'Cal Sans', sans-serif; }
+  .ms2-steps .ms-dl { display: inline-block; margin-top: 10px; padding: 7px 14px; border-radius: 10px; background: var(--magenta); border-color: var(--magenta); color: #fff; font-weight: 600; }
+  .ms2-run { margin-top: 14px; }
+  .ms2-run .ms-export { border-radius: 12px; background: var(--bg); }
+  .ms2-run .ms-btn { border-radius: 10px; background: var(--magenta); border-color: var(--magenta); font: 600 14px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; padding: 10px 22px; }
+  .ms2-priv { margin: 10px 0 0; font-size: 13px; color: var(--text-faint); }
+  #msApp .ms-result { margin: 14px 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--dash-radius); background: linear-gradient(180deg, #101650, #0b0f3d); box-shadow: var(--dash-glow); }
+  #msApp .ms-result[hidden] { display: none; }
+  #msApp .ms-result .fiche-section-title { font-size: 16px; margin: 18px 0 8px; }
+  #msApp .ms-head, #msApp .ms-compare { border-radius: 12px; }
+  @media (max-width: 900px) { .ms2-steps .ms-steps { grid-template-columns: 1fr; } }
+
   /* ---------- Item builder (2026-10-10) ---------- */
   .ob-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
   .ob-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
