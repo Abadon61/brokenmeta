@@ -3146,6 +3146,23 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Page de détail du classement (2026-10-10) ---------- */
+  .gh-chip.rk-big { padding: 7px 16px; font-size: 17px; }
+  .gh-chip.rk-big b { font-size: 19px; }
+  .gs-tile .cv-grid.rk-cv { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin: 6px 0 4px; }
+  .rk-cv .cv-card { border-radius: 12px; padding: 10px 10px 6px; }
+  .rk-cv .cv-card figcaption { font: 700 13px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .03em; }
+  .rk-prio { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; counter-reset: rkp; }
+  .rk-prio li { counter-increment: rkp; display: flex; align-items: center; gap: 8px; padding: 7px 12px; border: 1px solid var(--border); border-radius: 11px; background: var(--bg-2); font-size: 13.5px; }
+  .rk-prio li::before { content: counter(rkp); display: grid; place-items: center; width: 22px; height: 22px; border-radius: 7px; background: var(--magenta-dim); color: var(--cyan); font: 700 11px 'Space Mono', monospace; }
+  .rk-cs { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; }
+  .rk-cs div { padding: 9px 12px; border: 1px solid var(--border); border-radius: 11px; background: var(--bg-2); }
+  .rk-cs b { display: block; font: 700 17px 'Space Mono', monospace; }
+  .rk-cs span { font-size: 12px; color: var(--text-faint); }
+  .rk-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+  .gs-tile .rs-pn { margin: 16px 0 0; }
+  @media (max-width: 1100px) { .gs-tile .cv-grid.rk-cv { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
   /* ---------- Glossaire des sorts (2026-10-10) ---------- */
   .gl-ico { border-color: var(--cc); }
   .gh-chip.is-role { border-color: var(--cc); color: var(--cc); }

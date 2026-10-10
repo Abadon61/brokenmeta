@@ -88,12 +88,14 @@ OP_STATS_SOURCE = {"label": "RankedBoost — WoW Classic Stats", "url": "https:/
 
 
 # Simulator ranking (site_build/sim60/ranking.mjs -> data/wow_ranking60.json): the simulator's spec id -> (class id, Forever spec id, suffix key)
+# Survival hunters are melee in WoW: Forever (user, 2026-10-10): the simulator's "hunter_survival" (ranged) entry is not ranked;
+# "hunter_melee" is THE Survival entry, shown as "Survival" without a suffix.
 SIM60_RANK_SPECS = {
     "warrior_fury": ("warrior", "fury", ""), "warrior_arms": ("warrior", "arms", ""), "warrior_protection": ("warrior", "protection", ""),
     "rogue_combat": ("rogue", "combat", ""), "rogue_assassination": ("rogue", "assassination", ""), "rogue_subtlety": ("rogue", "subtlety", ""),
     "mage_fire": ("mage", "fire", ""), "mage_frost": ("mage", "frost", ""), "mage_arcane": ("mage", "arcane", ""),
     "warlock_affliction": ("warlock", "affliction", ""), "warlock_destruction": ("warlock", "destruction", ""), "warlock_demonology": ("warlock", "demonology", ""),
-    "hunter_marksmanship": ("hunter", "marksmanship", ""), "hunter_beastmastery": ("hunter", "beast-mastery", ""), "hunter_survival": ("hunter", "survival", "ranged"), "hunter_melee": ("hunter", "survival", "melee"),
+    "hunter_marksmanship": ("hunter", "marksmanship", ""), "hunter_beastmastery": ("hunter", "beast-mastery", ""), "hunter_melee": ("hunter", "survival", ""),
     "priest_shadow": ("priest", "shadow", ""), "shaman_elemental": ("shaman", "elemental", ""), "shaman_enhancement": ("shaman", "enhancement", ""),
     "druid_balance": ("druid", "balance", ""), "druid_feral": ("druid", "feral-combat", ""), "druid_bear": ("druid", "feral-combat", "bear"), "paladin_retribution": ("paladin", "retribution", ""),
     "paladin_protection": ("paladin", "protection", ""),
@@ -9783,6 +9785,9 @@ def main() -> None:
         "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
         "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
         "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
+        "# Ranged Survival ranking page removed 2026-10-10 (Survival is melee): its pages follow the melee one.\n"
+        "Redirect 301 /wow-forever/classement/hunter-survival/ /wow-forever/classement/hunter-melee/\n"
+        "Redirect 301 /en/wow-forever/classement/hunter-survival/ /en/wow-forever/classement/hunter-melee/\n"
         "# TFT overview moved from / to /tft/ on 2026-10-03: its tier pages follow.\n"
         "RedirectMatch 301 ^/tier/([a-z]+)/$ /tft/tier/$1/\n"
         "RedirectMatch 301 ^/en/tier/([a-z]+)/$ /en/tft/tier/$1/\n"
