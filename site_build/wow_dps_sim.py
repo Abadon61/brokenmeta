@@ -1040,16 +1040,6 @@ ROTATIONS = {
             {"ability": "hunter_arcane_shot", "kind": "on_cooldown"},
         ],
     },
-    "hunter_survival": {
-        "glossary": "hunter", "resource": "mana", "role": "dps",
-        "weapons": [{"dmg": 29, "speed": 2.40}],
-        "pet": True,
-        "rotation": [
-            {"ability": "hunter_serpent_sting", "kind": "maintain_dot"},
-            {"ability": "hunter_aimed_shot", "kind": "on_cooldown"},
-            {"ability": "hunter_arcane_shot", "kind": "on_cooldown"},
-        ],
-    },
 }
 
 # Fallback only -- used if a spec has no entry in data/wow_items/bis_level30_stats.json.
@@ -1083,7 +1073,7 @@ SPEC_STAT_PROFILE = {
     "priest_shadow": {"crit": "spell", "school": "shadow"},
     "druid_balance": {"crit": "spell", "school": "arcane"}, "druid_feral": {"crit": "physical", "agi_ap": "melee"}, "druid_feral_tank": {"crit": "physical", "agi_ap": "melee"},
     "warlock_affliction": {"crit": "spell", "school": "shadow"}, "warlock_demonology": {"crit": "spell", "school": "shadow"}, "warlock_destruction": {"crit": "spell", "school": "shadow"},
-    "hunter_marksmanship": {"crit": "physical", "agi_ap": "ranged"}, "hunter_beast_mastery": {"crit": "physical", "agi_ap": "ranged"}, "hunter_survival": {"crit": "physical", "agi_ap": "ranged"},
+    "hunter_marksmanship": {"crit": "physical", "agi_ap": "ranged"}, "hunter_beast_mastery": {"crit": "physical", "agi_ap": "ranged"},
 }
 
 # Talents that turn Intellect into Attack Power (data/wow_talents/*.json): Mental Dexterity (Shaman,
@@ -1096,7 +1086,6 @@ INT_AP_TALENTS = {
     "shaman_enhancement": {"node": 104755, "ranks": [1 / 3, 2 / 3, 1.0], "assumed": 1.0},
     "hunter_marksmanship": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
     "hunter_beast_mastery": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
-    "hunter_survival": {"node": 105008, "ranks": [0.2, 0.4, 0.6, 0.8, 1.0], "assumed": 0.0},
 }
 
 
@@ -1246,7 +1235,7 @@ SPEC_ID_MAP = {
     "priest_shadow": "shadow",
     "druid_balance": "balance", "druid_feral": "feral-combat", "druid_feral_tank": "feral-combat",
     "warlock_affliction": "affliction", "warlock_demonology": "demonology", "warlock_destruction": "destruction",
-    "hunter_marksmanship": "marksmanship", "hunter_beast_mastery": "beast-mastery", "hunter_survival": "survival",
+    "hunter_marksmanship": "marksmanship", "hunter_beast_mastery": "beast-mastery",
 }
 
 

@@ -189,10 +189,6 @@ export const PRESETS = {
     'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2, 'Strider Kick': 1, 'Lightning Reflexes': 5, 'Lacerating Strikes': 1,
     'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Hawk Eye': 3, 'Improved Concussive Shot': 2,
   },
-  hunter_survival: {
-    'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, 'Clever Traps': 2, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2,
-    'Lightning Reflexes': 5, 'Lacerating Strikes': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3, 'Hawk Eye': 1,
-  },
   priest_shadow: {
     'Shadow Focus': 5, 'Spirit Tap': 5, 'Improved Shadow Word: Pain': 2, 'Improved Mind Blast': 5, 'Mind Flay': 1, 'Improved Mind Flay': 2, 'Vampiric Embrace': 1, 'Shadow Weaving': 3,
     'Devouring Contagion': 2, 'Darkness': 5, 'Shadowform': 1,

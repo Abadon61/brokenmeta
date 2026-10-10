@@ -48,8 +48,8 @@ IV = {
         "fr": ["Hunter's Mark et Serpent Sting avant tout, familier envoyé en premier.", "Aimed Shot dès qu'il est prêt, Auto Shot entre deux ; Arcane Shot si la mana est pleine."],
         "en": ["Hunter's Mark and Serpent Sting first, pet sent in first.", "Aimed Shot on cooldown, Auto Shot in between; Arcane Shot if mana is capped."]},
     "hunter/survival": {
-        "fr": ["À distance : Hunter's Mark, Serpent Sting, Aimed Shot dès qu'il est prêt, Auto Shot, Arcane Shot en surplus de mana.", "Au corps à corps : Serpent Sting, Raptor Strike dès qu'il est prêt, Mongoose Bite dès qu'il est disponible, Strider Kick dès qu'il est prêt. Au niveau 30, le corps à corps commence à dépasser la distance sur une cible pour un build Survie complet."],
-        "en": ["Ranged: Hunter's Mark, Serpent Sting, Aimed Shot on cooldown, Auto Shot, Arcane Shot with spare mana.", "Melee: Serpent Sting, Raptor Strike on cooldown, Mongoose Bite whenever available, Strider Kick on cooldown. At level 30, melee starts to pass ranged on one target for a full Survival build."]},
+        "fr": ["Serpent Sting, Raptor Strike dès qu'il est prêt, Mongoose Bite dès qu'il est disponible, Strider Kick dès qu'il est prêt."],
+        "en": ["Serpent Sting, Raptor Strike on cooldown, Mongoose Bite whenever available, Strider Kick on cooldown."]},
     "priest/shadow": {
         "fr": ["Power Word: Shield et Inner Fire, Mind Blast pour engager, puis Devouring Plague, Shadow Word: Pain et Mind Flay (attention à la mana).", "Finir à la baguette pour économiser la mana ; Smite à la place de Mind Flay avant de l'apprendre."],
         "en": ["Power Word: Shield and Inner Fire, Mind Blast to pull, then Devouring Plague, Shadow Word: Pain and Mind Flay (watch your mana).", "Finish with the wand to save mana; Smite instead of Mind Flay before it is learned."]},
@@ -118,8 +118,8 @@ VERDICT = {
         "fr": "D'accord, et ajouté : Hunter's Mark (+110 de puissance d'attaque à distance, valeur du client), Serpent Sting, Arcane Shot. Différent : au niveau 60 sur une cible, Multi-Shot fait environ 4 % de mieux qu'Aimed Shot (incantation de 2 s) dans le simulateur, et Sniper Shot (incantation de 4 s qui coupe l'Auto Shot) fait perdre environ 4 % : le build ne le prend pas.",
         "en": "Agreed, and added: Hunter's Mark (+110 ranged attack power, client value), Serpent Sting, Arcane Shot. Different: at level 60 on one target Multi-Shot does about 4% better than Aimed Shot (2-second cast) in the simulator, and Sniper Shot (a 4-second cast that stops Auto Shot) costs about 4%: the build does not take it."},
     "hunter/survival": {
-        "fr": "D'accord sur les deux variantes (Hunter's Mark ajouté à la version à distance). Différent : Icy Veins voit le corps à corps dépasser la distance au niveau 30 ; avec l'équipement connu au niveau 60, le simulateur garde la distance devant (environ 493 DPS contre 422), et Multi-Shot y fait 6 % de mieux qu'Aimed Shot.",
-        "en": "Agreed on both variants (Hunter's Mark added to the ranged one). Different: Icy Veins sees melee passing ranged at level 30; with the known level-60 gear the simulator keeps ranged ahead (about 493 DPS against 422), and Multi-Shot does 6% better than Aimed Shot there."},
+        "fr": "Le simulateur joue Survie en mêlée avec deux armes : Raptor Strike dès qu'il est prêt, Mongoose Bite juste après une esquive de la cible, Strider Kick dès qu'il est prêt, et le familier attaque en continu.",
+        "en": "The simulator plays Survival in melee with two weapons: Raptor Strike on cooldown, Mongoose Bite right after a target dodge, Strider Kick on cooldown, and the pet attacks continuously."},
     "priest/shadow": {
         "fr": "D'accord : Mind Blast, Devouring Plague, Shadow Word: Pain, Mind Flay comme sort de base, plus Shadow Word: Death. Finir à la baguette est une habitude de montée en niveau, pas une partie de la rotation contre un boss.",
         "en": "Agreed: Mind Blast, Devouring Plague, Shadow Word: Pain, Mind Flay as the filler, plus Shadow Word: Death. Finishing with the wand is a leveling habit, not part of the rotation against a boss."},

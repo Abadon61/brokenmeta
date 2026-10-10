@@ -13,7 +13,7 @@ const FROM_PRESET = {
   rogue: { combat: 'rogue_combat', assassination: 'rogue_assassination', subtlety: 'rogue_subtlety' },
   mage: { fire: 'mage_fire', frost: 'mage_frost', arcane: 'mage_arcane' },
   warlock: { affliction: 'warlock_affliction', destruction: 'warlock_destruction', demonology: 'warlock_demonology' },
-  hunter: { marksmanship: 'hunter_marksmanship', 'beast-mastery': 'hunter_beastmastery', survival: 'hunter_survival' },
+  hunter: { marksmanship: 'hunter_marksmanship', 'beast-mastery': 'hunter_beastmastery', survival: 'hunter_melee' },
   priest: { shadow: 'priest_shadow' },
   shaman: { elemental: 'shaman_elemental', enhancement: 'shaman_enhancement' },
   druid: { balance: 'druid_balance', 'feral-combat': 'druid_feral' },

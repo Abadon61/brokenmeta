@@ -27,7 +27,7 @@ const SPECS = {
   mage_fire: { cls: 'mage', mode: 'caster', family: 'caster' }, mage_frost: { cls: 'mage', mode: 'caster', family: 'caster' }, mage_arcane: { cls: 'mage', mode: 'caster', family: 'caster' },
   warlock_affliction: { cls: 'warlock', mode: 'caster', family: 'caster' }, warlock_destruction: { cls: 'warlock', mode: 'caster', family: 'caster' }, warlock_demonology: { cls: 'warlock', mode: 'caster', family: 'caster' },
   hunter_marksmanship: { cls: 'hunter', mode: 'ranged', family: 'hunter', build: { pet: 'none' } }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged', family: 'hunter' },
-  hunter_survival: { cls: 'hunter', mode: 'ranged', family: 'hunter' }, hunter_melee: { cls: 'hunter', variant: 'melee', mode: 'dw' },
+  hunter_melee: { cls: 'hunter', variant: 'melee', mode: 'dw' },
   priest_shadow: { cls: 'priest', mode: 'caster', family: 'caster' }, shaman_elemental: { cls: 'shaman', mode: 'caster', family: 'caster', race: 'orc' },
   shaman_enhancement: { cls: 'shaman', variant: 'enhancement', mode: '2h', race: 'orc' }, druid_balance: { cls: 'druid', mode: 'caster', family: 'caster' },
   druid_feral: { cls: 'druid', variant: 'feral', mode: 'stick' }, paladin_retribution: { cls: 'paladin', mode: '2h' },

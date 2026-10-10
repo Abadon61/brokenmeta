@@ -125,7 +125,6 @@ WEAPON_STRUCTURE = {
     "warlock_destruction": {"main": "caster", "off": None, "wand": True},
     "hunter_marksmanship": {"main": "ranged", "off": None},
     "hunter_beast_mastery": {"main": "ranged", "off": None},
-    "hunter_survival": {"main": "ranged", "off": None},
 }
 
 STAT_KEY_ORDER = ["str", "agi", "int", "spi", "sta", "splpwr", "spldmg", "atkpwr", "manargn",

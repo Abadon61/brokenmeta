@@ -1,4 +1,4 @@
-// node optimize-hunter.mjs [marksmanship|beastmastery|survival] -- demo: optimise a synthetic hunter (gear, ranged weapon, melee stat stick)
+// node optimize-hunter.mjs [marksmanship|beastmastery] -- demo: optimise a synthetic hunter (gear, ranged weapon, melee stat stick)
 import { readFileSync } from 'node:fs';
 import { ItemPool } from './items.js';
 import { optimizeGear } from './optimizer.js';
@@ -6,7 +6,7 @@ import { hunterKit } from './hunter.js';
 import { SAMPLE_HUNTER } from './samples.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
 
-const spec = ['marksmanship', 'beastmastery', 'survival'].includes(process.argv[2]) ? process.argv[2] : 'marksmanship';
+const spec = ['marksmanship', 'beastmastery'].includes(process.argv[2]) ? process.argv[2] : 'marksmanship';
 const here = new URL('.', import.meta.url);
 const pool = new ItemPool(JSON.parse(readFileSync(new URL('data/items.json', here))), JSON.parse(readFileSync(new URL('data/proficiency.json', here))));
 const data = JSON.parse(readFileSync(new URL('data/spells60.json', here)));
