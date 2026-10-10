@@ -3146,6 +3146,43 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Glossaire des sorts (2026-10-10) ---------- */
+  .gl-ico { border-color: var(--cc); }
+  .gh-chip.is-role { border-color: var(--cc); color: var(--cc); }
+  .gl-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin: 12px 0; padding: 10px 12px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .94); backdrop-filter: blur(8px); box-shadow: var(--dash-glow); }
+  .gl-search { flex: 1 1 220px; min-width: 180px; display: flex; align-items: center; gap: 8px; padding: 8px 14px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); }
+  .gl-search input { flex: 1; min-width: 0; border: 0; outline: 0; background: transparent; color: var(--cream); font: 500 14.5px 'Afacad Flux', sans-serif; }
+  .gl-filters { display: flex; flex-wrap: wrap; gap: 5px; }
+  .gl-filters button { padding: 7px 13px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-2); color: var(--text-dim); font: 600 13px 'Afacad Flux', sans-serif; cursor: pointer; }
+  .gl-filters button.is-on { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+  .gl-level { padding: 7px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-2); color: var(--text-dim); font: 600 13px 'Afacad Flux', sans-serif; }
+  .gl-count { margin-left: auto; font-size: 11.5px; color: var(--text-faint); white-space: nowrap; }
+  .gl-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .gl-spell { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; padding: 12px 14px; border: 1px solid var(--border); border-radius: var(--dash-radius); background: linear-gradient(180deg, #101650, #0b0f3d); box-shadow: var(--dash-glow); }
+  .gl-spell[hidden] { display: none; }
+  .gl-spell img { width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--border-bright); }
+  .gl-body h3 { margin: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; font: 700 15px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  .gl-body h3 a { color: var(--cream); text-decoration: none; }
+  .gl-body h3 a:hover { text-decoration: underline; }
+  .gl-tag { padding: 3px 8px; border-radius: 6px; background: var(--magenta-dim); color: var(--cyan); font: 600 10.5px 'Space Mono', monospace; letter-spacing: .04em; text-transform: none; white-space: nowrap; }
+  .gl-tag.is-talent { background: rgba(255, 194, 60, .13); color: var(--gold); }
+  .gl-tag.is-eng { background: rgba(199, 107, 255, .14); color: #c76bff; }
+  .gl-meta { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 6px 0 7px; font-size: 12.5px; color: var(--text-dim); }
+  .gl-meta span { display: inline-flex; gap: 5px; align-items: center; }
+  .gl-meta i { font: normal 10px 'Space Mono', monospace; letter-spacing: .06em; text-transform: uppercase; color: var(--text-faint); }
+  .gl-res-rage { color: #ff6b6b; } .gl-res-mana { color: #5aa9ff; } .gl-res-energy { color: #ffe66d; }
+  .gl-desc { margin: 0; font-size: 14px; line-height: 1.45; color: var(--text-dim); }
+  .gl-desc.is-na { font-size: 13px; font-style: italic; color: var(--text-faint); }
+  .gl-none { padding: 40px 10px; text-align: center; color: var(--text-dim); }
+  .gl-hub { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; margin: 14px 0 6px; }
+  .gl-class { display: flex; align-items: center; gap: 14px; padding: 14px 16px; border: 1px solid var(--border); border-left: 3px solid var(--cc); border-radius: 12px; background: var(--bg-2); text-decoration: none; color: var(--cream); transition: transform .15s ease, border-color .15s ease, background .15s ease; }
+  .gl-class:hover { transform: translateY(-2px); border-color: var(--border-bright); border-left-color: var(--cc); background: var(--row-hover); }
+  .gl-class img { width: 56px; height: 56px; border-radius: 12px; border: 2px solid var(--cc); flex: none; }
+  .gl-class b { display: block; font: 700 18px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; color: var(--cc); }
+  .gl-class-n { font-size: 12.5px; color: var(--text-faint); }
+  @media (max-width: 1100px) { .gl-list { grid-template-columns: 1fr; } }
+  @media (max-width: 700px) { .gl-bar { top: 0; } .gl-count { margin-left: 0; } }
+
   /* ---------- Page de donjon (2026-10-10) ---------- */
   .gh-updated { margin: 8px 0 0; font: 11px 'Space Mono', monospace; letter-spacing: .04em; text-transform: uppercase; color: var(--text-faint); }
   .rb-src.is-quest { background: rgba(255, 194, 60, .13); color: var(--gold); }
