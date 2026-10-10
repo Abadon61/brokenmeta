@@ -24,7 +24,7 @@
     paladin_retribution: { cls: 'paladin', mode: '2h' }, shaman_enhancement: { cls: 'shaman', mode: '2h', variant: 'enhancement' }, druid_feral: { cls: 'druid', mode: 'stick', variant: 'feral' },
     priest_shadow: { cls: 'priest', mode: 'caster' }, shaman_elemental: { cls: 'shaman', mode: 'caster' }, druid_balance: { cls: 'druid', mode: 'caster' },
     hunter_melee: { cls: 'hunter', mode: 'dw', variant: 'melee' },
-    hunter_marksmanship: { cls: 'hunter', mode: 'ranged' }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged' }, hunter_survival: { cls: 'hunter', mode: 'ranged' },
+    hunter_marksmanship: { cls: 'hunter', mode: 'ranged' }, hunter_beastmastery: { cls: 'hunter', mode: 'ranged' },
     warlock_affliction: { cls: 'warlock', mode: 'caster' }, warlock_destruction: { cls: 'warlock', mode: 'caster' }, warlock_demonology: { cls: 'warlock', mode: 'caster' },
     mage_fire: { cls: 'mage', mode: 'caster' }, mage_frost: { cls: 'mage', mode: 'caster' }, mage_arcane: { cls: 'mage', mode: 'caster' } };
   var CASTERS = { mage: 1, warlock: 1 };

@@ -1,4 +1,4 @@
-importScripts('sim60.b9c9d457fc.js');
+importScripts('sim60.99194c9ea0.js');
 let data = null;
 self.onmessage = (ev) => {
   const m = ev.data, S = self.Sim60;

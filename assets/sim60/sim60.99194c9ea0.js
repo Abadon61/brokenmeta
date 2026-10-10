@@ -993,10 +993,6 @@ const PRESETS = {
     'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2, 'Strider Kick': 1, 'Lightning Reflexes': 5, 'Lacerating Strikes': 1,
     'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Hawk Eye': 3, 'Improved Concussive Shot': 2,
   },
-  hunter_survival: {
-    'Improved Tracking': 5, 'Savage Strikes': 2, 'Survivalist': 5, 'Surefooted': 3, 'Clever Traps': 2, "Predator's Edge": 5, 'Resourcefulness': 2, 'Expose Prey': 2,
-    'Lightning Reflexes': 5, 'Lacerating Strikes': 1, 'Lethal Attacks': 5, 'Efficiency': 5, 'Careful Aim': 5, 'Improved Stings': 3, 'Hawk Eye': 1,
-  },
   priest_shadow: {
     'Shadow Focus': 5, 'Spirit Tap': 5, 'Improved Shadow Word: Pain': 2, 'Improved Mind Blast': 5, 'Mind Flay': 1, 'Improved Mind Flay': 2, 'Vampiric Embrace': 1, 'Shadow Weaving': 3,
     'Devouring Contagion': 2, 'Darkness': 5, 'Shadowform': 1,
@@ -3778,7 +3774,7 @@ function makeKit(name, build, data) {
     case 'warlock_affliction': return warlockKit(Object.assign({}, build, { rotation: 'affliction' }), data);
     case 'warlock_destruction': return warlockKit(Object.assign({}, build, { rotation: 'destruction' }), data);
     case 'warlock_demonology': return warlockKit(Object.assign({ sacrifice: 'imp' }, build, { rotation: 'destruction' }), data);
-    case 'hunter_marksmanship': case 'hunter_beastmastery': case 'hunter_survival': return hunterKit(build, data);
+    case 'hunter_marksmanship': case 'hunter_beastmastery': return hunterKit(build, data);
     case 'priest_shadow': return priestKit(build, data);
     case 'shaman_elemental': return shamanElementalKit(build, data);
     case 'druid_balance': return druidBalanceKit(build, data);
@@ -3792,7 +3788,7 @@ function makeKit(name, build, data) {
     default: throw new Error('unknown kit ' + name);
   }
 }
-const KITS = { warrior_fury: 'Fury Warrior', warrior_arms: 'Arms Warrior', rogue_combat: 'Combat Rogue', rogue_assassination: 'Assassination Rogue', rogue_subtlety: 'Subtlety Rogue', mage_fire: 'Fire Mage', mage_frost: 'Frost Mage', mage_arcane: 'Arcane Mage', warlock_affliction: 'Affliction Warlock', warlock_destruction: 'Destruction Warlock', warlock_demonology: 'Demonology Warlock', hunter_marksmanship: 'Marksmanship Hunter', hunter_beastmastery: 'Beast Mastery Hunter', hunter_survival: 'Survival Hunter (ranged)', hunter_melee: 'Survival Hunter (melee)', priest_shadow: 'Shadow Priest', shaman_elemental: 'Elemental Shaman', druid_balance: 'Balance Druid', paladin_retribution: 'Retribution Paladin', shaman_enhancement: 'Enhancement Shaman', druid_feral: 'Feral Druid (cat)', warrior_protection: 'Protection Warrior', paladin_protection: 'Protection Paladin', druid_bear: 'Bear Druid' };
+const KITS = { warrior_fury: 'Fury Warrior', warrior_arms: 'Arms Warrior', rogue_combat: 'Combat Rogue', rogue_assassination: 'Assassination Rogue', rogue_subtlety: 'Subtlety Rogue', mage_fire: 'Fire Mage', mage_frost: 'Frost Mage', mage_arcane: 'Arcane Mage', warlock_affliction: 'Affliction Warlock', warlock_destruction: 'Destruction Warlock', warlock_demonology: 'Demonology Warlock', hunter_marksmanship: 'Marksmanship Hunter', hunter_beastmastery: 'Beast Mastery Hunter', hunter_melee: 'Survival Hunter', priest_shadow: 'Shadow Priest', shaman_elemental: 'Elemental Shaman', druid_balance: 'Balance Druid', paladin_retribution: 'Retribution Paladin', shaman_enhancement: 'Enhancement Shaman', druid_feral: 'Feral Druid (cat)', warrior_protection: 'Protection Warrior', paladin_protection: 'Protection Paladin', druid_bear: 'Bear Druid' };
 
 // ---- weights.js ----
 // Stat weights by central finite difference with common random numbers (same seeds on both sides),
