@@ -7,18 +7,36 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.rd_kicker, tx.rd_h1_hub, tx.rd_intro_hub) }}
-<div class="wh-cards">
+{% set fr = lang == 'fr' %}
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.rd_kicker }}</div>
+      <h1 class="gh-title">{{ tx.rd_h1_hub }}</h1>
+      <p class="gh-lede">{{ tx.rd_intro_hub }}</p>
+    </div>
+  </div>
+</section>
+<div class="rb-hubs">
   {% for r in dd.raids %}
-  <a class="wh-card" href="{{ root }}wow-forever/raids/{{ r.id }}/">
-    <span class="wh-card-body"><b>{{ r.name[lang] }}</b><span class="wh-card-specs">{{ r.bosses|length }} {{ tx.rd_bosses_n }}</span><span class="wh-card-n nums">{{ r['items']|length }} {{ tx.dg_items_n }} →</span></span>
+  <a class="rb-hub" href="{{ root }}wow-forever/raids/{{ r.id }}/">
+    {% if r.info and r.info.screenshots %}<span class="rb-hub-art" style="background-image: url('https://wow.zamimg.com/uploads/screenshots/normal/{{ r.info.screenshots[0] }}.jpg')"></span>{% endif %}
+    <span class="rb-hub-body">
+      <b>{{ r.name[lang] }}</b>
+      <span class="rb-hub-chips"><span class="gh-chip"><b class="nums">{{ r.bosses|length }}</b> {{ tx.rd_bosses_n }}</span><span class="gh-chip"><b class="nums">{{ r['items']|length }}</b> {{ tx.dg_items_n }}</span>{% if r.info and r.info.level %}<span class="gh-chip">{{ tx.rd_level }} <b class="nums">{{ r.info.level }}</b></span>{% endif %}</span>
+      <span class="rb-hub-go">{{ 'Voir les boss et le butin' if fr else 'See bosses and loot' }} →</span>
+    </span>
   </a>
   {% endfor %}
 </div>
-<h2 class="fiche-section-title">{{ tx.dg_method_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.rd_method %}<li>{{ h }}</li>{% endfor %}</ul>
-<h2 class="fiche-section-title">{{ tx.sources }}</h2>
-<ul class="gd-list wow-sources">
-  <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
-</ul>
+<details class="gs-more gs-sources">
+  <summary>{{ tx.dg_method_h2 }}</summary>
+  <ul class="gd-list">{% for h in tx.rd_method %}<li>{{ h }}</li>{% endfor %}</ul>
+</details>
+<details class="gs-more">
+  <summary>{{ tx.sources }}</summary>
+  <ul class="gd-list wow-sources">
+    <li>{{ tx.dg_src }}<a href="{{ dd.source.url }}" rel="noopener nofollow" target="_blank">{{ dd.source.label }}</a></li>
+  </ul>
+</details>
 {% endblock %}
