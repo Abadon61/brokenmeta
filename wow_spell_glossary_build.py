@@ -51,6 +51,171 @@ class TextTables:
             setattr(self, t, rd(build, t))
 
 
+class Unresolvable(Exception):
+    pass
+
+
+class GlossaryRenderer(imp.Renderer):
+    """wow_talents_import.Renderer plus what class spells need and the talent texts do not (nothing is guessed):
+    - `$?s123[A][B]` / `$?a123[A][B]` (knows a talent / has an aura) are read for a character WITHOUT talents or auras: branch B;
+    - `$<name>` description variables (talent multipliers, level polynomials) are evaluated with those same assumptions and $PL = 60;
+    - `$a1` radius = the first non-zero radius of the effect (a shout's area sits in the second radius slot);
+    - `$b1` = the effect's points per combo point, `$AP`/`$SP`/`$RAP` are read like their lowercase forms, `$@spellicon` is dropped;
+    - a minimum/maximum (`$m1`/`$M1`) of an effect with a damage range is NOT rendered (the client's rounding of the range is not
+      verified): that text stays unresolved and the page falls back to the Wowhead tooltip."""
+    PL = 60
+
+    def __init__(self, sp, names, lang, descs, var_defs):
+        super().__init__(sp, names, lang, descs)
+        self.var_defs = var_defs                    # spell id -> {variable name: expression text}
+
+    # ---- radius: first non-zero of the two radius slots
+    def _value(self, letter, sid, idx, overrides, decimals=None, numeric=False):
+        if letter.lower() == "a":
+            e = self.sp.effects.get(sid, {}).get(idx - 1)
+            if not e:
+                return None
+            for key in ("EffectRadiusIndex_0", "EffectRadiusIndex_1"):
+                r = self.sp.radius.get(e.get(key, "0"))
+                if r:
+                    return r
+            return None
+        return super()._value(letter, sid, idx, overrides, decimals, numeric)
+
+    # ---- conditionals read without talents / auras
+    @staticmethod
+    def _group(text, pos):
+        """Index just after the [...] group starting at pos (text[pos] == '[')."""
+        depth, i = 0, pos
+        while i < len(text):
+            depth += text[i] == "["
+            depth -= text[i] == "]"
+            i += 1
+            if depth == 0:
+                return i
+        raise Unresolvable("unbalanced brackets")
+
+    @staticmethod
+    def _cond_true(cond):
+        """Truth value for a character with no talents and no auras; spell-known (s) and aura (a) atoms only."""
+        expr = cond.strip()
+        if not re.fullmatch(r"(?:!?[sa]\d+|[&|()\s])+", expr):
+            raise Unresolvable(f"condition {cond!r}")
+        py = re.sub(r"(!?)[sa]\d+", lambda m: "True" if m.group(1) else "False", expr).replace("&", " and ").replace("|", " or ")
+        return bool(eval(py, {"__builtins__": {}}, {}))                    # only True/False/and/or/parentheses can be here
+
+    def _resolve_conditionals(self, text):
+        for _ in range(60):
+            i = text.find("$?")
+            if i < 0:
+                return text
+            pos, chain = i + 2, []
+            while True:
+                j = text.index("[", pos)
+                cond = text[pos:j]
+                end = self._group(text, j)
+                chain.append((cond, text[j + 1:end - 1]))
+                pos = end
+                if pos < len(text) and text[pos] == "?":
+                    pos += 1
+                    continue
+                break
+            else_text = ""
+            if pos < len(text) and text[pos] == "[":
+                end = self._group(text, pos)
+                else_text = text[pos + 1:end - 1]
+                pos = end
+            chosen = else_text
+            for c, body in chain:
+                if self._cond_true(c):
+                    chosen = body
+                    break
+            text = text[:i] + chosen + text[pos:]
+        raise Unresolvable("too many conditionals")
+
+    # ---- numeric expressions of the description variables
+    def _num(self, expr, sid, depth=0):
+        if depth > 6:
+            raise Unresolvable("variables too deep")
+        expr = self._resolve_conditionals(expr)
+        expr = re.sub(r"\$(\d+)?<(\w+)>", lambda m: repr(self._variable(m.group(2), m.group(1) or sid, depth + 1)), expr)
+        expr = expr.replace("$PL", repr(float(self.PL)))
+        expr = re.sub(r"\$(\d+)?b(\d)?", lambda m: repr(self._points_per_resource(m.group(1) or sid, int(m.group(2) or 1))), expr)
+
+        def eff(m):
+            ssid, idx = m.group(1) or sid, int(m.group(3) or 1)
+            e = self.sp.effects.get(ssid, {}).get(idx - 1)
+            if not e or float(e.get("Variance") or 0):
+                raise Unresolvable("effect with a range")
+            return repr(abs(float(e["EffectBasePointsF"])))
+        expr = re.sub(r"\$(\d+)?([sSmM])(\d)?", eff, expr)
+        expr = expr.strip()
+        if expr.startswith("${") and expr.endswith("}"):
+            expr = expr[2:-1]
+        return imp.safe_eval(expr)
+
+    def _points_per_resource(self, sid, idx):
+        e = self.sp.effects.get(sid, {}).get(idx - 1)
+        v = float(e.get("EffectPointsPerResource") or 0) if e else 0
+        if not v:
+            raise Unresolvable("no points per resource")
+        return v
+
+    def _variable(self, name, sid, depth):
+        defs = self.var_defs.get(sid, {})
+        if name not in defs:
+            raise Unresolvable(f"variable {name}")
+        return self._num(defs[name], sid, depth)
+
+    def _evaluate_formulas(self, text, sid):
+        """Evaluates every ${formula} that uses a description variable, $b or $PL. The game's own rounding of a fractional
+        result is not verified, so only a whole number is written; a fractional one leaves the text unresolved."""
+        out, i = [], 0
+        while i < len(text):
+            if text.startswith("${", i):
+                depth, j = 0, i + 1
+                while j < len(text):
+                    depth += text[j] == "{"
+                    depth -= text[j] == "}"
+                    if depth == 0:
+                        break
+                    j += 1
+                expr = text[i + 2:j]
+                if re.search(r"\$(?:\d+)?(?:<|b\d?|PL)", expr):
+                    value = self._num(expr, sid)
+                    dm = re.match(r"\.(\d)", text[j + 1:])
+                    if abs(value - round(value)) > 1e-9 and not dm:
+                        raise Unresolvable("fractional result")
+                    out.append(f"{value:.{int(dm.group(1))}f}" if dm else str(int(round(value))))
+                    i = j + 1 + (len(dm.group(0)) if dm else 0)
+                    continue
+                out.append(text[i:j + 1])
+                i = j + 1
+                continue
+            out.append(text[i])
+            i += 1
+        return "".join(out)
+
+    # ---- entry point
+    def render(self, template, sid, overrides, depth=0):
+        text = template
+        try:
+            text = re.sub(r"\$@spellicon\d+", "", text)
+            text = re.sub(r"\$(AP|SP|RAP)(?![A-Za-z])", lambda m: "$" + m.group(1).lower(), text)
+            text = self._resolve_conditionals(text)
+            text = self._evaluate_formulas(text, sid)
+            text = re.sub(r"\$(\d+)?<(\w+)>", lambda m: repr(self._variable(m.group(2), m.group(1) or sid, 0)), text)
+            text = re.sub(r"\$(\d+)?b(\d)?(?![A-Za-z])", lambda m: repr(self._points_per_resource(m.group(1) or sid, int(m.group(2) or 1))), text)
+            for m in re.finditer(r"\$(\d+)?[mM](\d)?(?![A-Za-z])", text):        # min / max of an effect: only when it has no range
+                e = self.sp.effects.get(m.group(1) or sid, {}).get(int(m.group(2) or 1) - 1)
+                if not e or float(e.get("Variance") or 0):
+                    raise Unresolvable("effect with a range")
+        except (Unresolvable, ValueError, SyntaxError, ZeroDivisionError, KeyError) as err:
+            self.problems.append(str(err))
+            return template, False
+        return super().render(text, sid, overrides, depth)
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--structure-build", default="1.60.1.70291")
@@ -65,7 +230,20 @@ def main():
     auras = {lang: {r["ID"]: r["AuraDescription_lang"] for r in rows} for lang, rows in spell_rows.items()}
     subtext = {r["ID"]: r["NameSubtext_lang"] for r in spell_rows["en"]}
     skill_names = {lang: {r["ID"]: r["DisplayName_lang"] for r in rd("1.60.1.69913", "SkillLine", code)} for lang, code in imp.LOCALES.items()}
-    renderers = {lang: imp.Renderer(sp, names[lang], lang, descs[lang]) for lang in imp.LOCALES}
+    xvars = defaultdict(list)
+    for r in rd("1.60.1.69913", "SpellXDescriptionVariables"):
+        xvars[r["SpellID"]].append(r["SpellDescriptionVariablesID"])
+    vtext = {r["ID"]: r["Variables"] for r in rd("1.60.1.69913", "SpellDescriptionVariables")}
+    var_defs = {}
+    for sid_, ids_ in xvars.items():
+        d_ = {}
+        for vid in ids_:
+            for line in vtext.get(vid, "").splitlines():
+                m_ = re.match(r"\$(\w+)=(.*)", line.strip())
+                if m_:
+                    d_[m_.group(1)] = m_.group(2)
+        var_defs[sid_] = d_
+    renderers = {lang: GlossaryRenderer(sp, names[lang], lang, descs[lang], var_defs) for lang in imp.LOCALES}
     icon_names = {r["ID"]: r["FileName"].rsplit(".", 1)[0].lower() for r in rd(args.text_build, "ManifestInterfaceData") if r["FilePath"].lower().startswith("interface\icons")}
     misc = {}
     for r in tt.SpellMisc:
