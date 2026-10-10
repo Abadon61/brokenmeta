@@ -7,10 +7,22 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.kicker, tx.hub_h1, tx.hub_intro) }}
-<div class="lh-cards">
+{% set fr = lang == 'fr' %}
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.kicker }}</div>
+      <h1 class="gh-title">{{ tx.hub_h1 }}</h1>
+      <p class="gh-lede">{{ tx.hub_intro }}</p>
+    </div>
+  </div>
+</section>
+<div class="gl-hub">
   {% for c in wt_classes %}{% if c.id in glossary_ids %}
-  <a class="lh-card" href="{{ root }}wow-forever/glossaire/{{ c.id }}/"><span class="lh-card-k">{{ tx.kicker.split(' · ')[-1] }}</span><b>{{ c.name[lang] }}</b></a>
+  <a class="gl-class" href="{{ root }}wow-forever/glossaire/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}">
+    {% if c.icon %}<img src="{{ c.icon }}" alt="{{ c.name[lang] }}" width="56" height="56" loading="lazy">{% endif %}
+    <span><b>{{ c.name[lang] }}</b><span class="gl-class-n nums">{{ glossary_counts[c.id] }} {{ tx.spells_n }}</span></span>
+  </a>
   {% endif %}{% endfor %}
 </div>
 {% endblock %}

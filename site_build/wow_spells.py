@@ -18,6 +18,17 @@ def load_class(class_id):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+ALL_DIR = ROOT / "data" / "wow_spells_all"
+
+
+def load_full_glossary():
+    """{class_id: parsed json} of data/wow_spells_all/<class>.json: EVERY class spell up to level 60 (see wow_spell_glossary_build.py)."""
+    out = {}
+    for path in sorted(ALL_DIR.glob("*.json")):
+        out[path.stem] = json.loads(path.read_text(encoding="utf-8"))
+    return out
+
+
 def load_all():
     """Returns {class_id: parsed_json} for every class glossary file that exists."""
     out = {}
@@ -30,14 +41,25 @@ TXT = {
     "fr": {
         "kicker": "World of Warcraft: Forever · Glossaire",
         "hub_title": "Glossaire des sorts WoW: Forever",
-        "hub_desc": "Coûts, temps de recharge et formules de dégâts réels de chaque sort, sourcés directement depuis les infobulles Wowhead de WoW: Forever.",
+        "hub_desc": "Tous les sorts de chaque classe de WoW: Forever jusqu'au niveau 60 : niveau, coût, recharge et texte du client de la bêta.",
         "hub_h1": "Glossaire des sorts",
-        "hub_intro": "Une capacité par ligne, avec sa vraie valeur et un lien vers son infobulle Wowhead — la base de données qui alimente nos outils de theorycraft. Chaque classe ne couvre pour l'instant que les sorts d'une rotation mono-cible soutenue (rangs au niveau 30, le plafond actuel de la bêta), pas l'intégralité du grimoire : les sorts appris entre les niveaux 21 et 30 n'y sont pas tous.",
+        "hub_intro": "Tous les sorts de chaque classe jusqu'au niveau 60, avec leur niveau d'apprentissage, leur coût, leur recharge et leur texte tels que le client de la bêta les décrit. Choisis une classe pour les parcourir, les chercher et les filtrer.",
         "class_link": "Voir le glossaire {name}",
         "class_title": "Glossaire des sorts {name} WoW: Forever",
-        "class_desc": "Coûts, dégâts et temps de recharge réels des sorts {name} dans WoW: Forever, sourcés depuis Wowhead.",
+        "class_desc": "Tous les sorts {name} de WoW: Forever jusqu'au niveau 60 : niveau, coût, recharge et texte, avec l'infobulle Wowhead.",
         "class_h1": "Glossaire des sorts : {name}",
-        "class_intro": "Les sorts et talents d'une rotation {name} mono-cible soutenue (rangs de sorts au niveau 30), avec leurs vraies valeurs sourcées depuis les infobulles Wowhead de WoW: Forever.",
+        "class_intro": "Tous les sorts de la classe {name} jusqu'au niveau 60, avec leur coût, leur temps de recharge et leur texte tels que le client de la bêta les décrit. Survole un nom pour afficher l'infobulle Wowhead.",
+        "spells_n": "sorts", "specs_n": "spécialisations", "max_rank_chip": "Rangs maximum au niveau 60",
+        "search_ph": "Chercher un sort…", "search_label": "Chercher un sort", "filter_all": "Tous", "filter_engraved": "Gravures", "other_line": "Autres", "level_all": "Tous les niveaux", "level_range": "Niveaux {a}-{b}",
+        "count_tpl": "{n} sort(s) affiché(s) sur {total}", "none": "Aucun sort ne correspond à ta recherche.",
+        "tag_level": "Niv. {n}", "tag_ranks": "{n} rangs (max {m})", "tag_talent": "Talent · {tree}", "tag_engraved": "Gravure",
+        "lbl_cost": "Coût", "channeled": "Canalisé", "lbl_cast": "Incantation", "lbl_cooldown": "Recharge", "lbl_duration": "Durée",
+        "res_rage": "Rage", "res_mana": "Mana", "res_energy": "Énergie", "min_unit": "min", "sec_unit": "s",
+        "no_text": "Survole le nom pour lire l'infobulle Wowhead.",
+        "talents_fold": "Afficher les talents (nom, arbre, rang max, effet)",
+        "source_h": "Source des données",
+        "source_p": "Tables du client de WoW: Forever (via wago.tools) : niveaux, coûts et temps de recharge de la build {structure}, textes de la build {text}. Les valeurs sont calculées à partir des tables du jeu ; quand un texte ne peut pas l'être en entier, seul le lien Wowhead est affiché.",
+        "level_intro": "Rang le plus élevé disponible au niveau 60.",
         "abilities_h2": "Sorts",
         "talents_h2": "Talents",
         "col_name": "Sort", "col_level": "Niveau requis", "col_cost": "Coût", "col_cooldown": "Recharge",
@@ -54,14 +76,25 @@ TXT = {
     "en": {
         "kicker": "World of Warcraft: Forever · Glossary",
         "hub_title": "WoW: Forever spell glossary",
-        "hub_desc": "Every ability's real cost, cooldown and damage formula, sourced directly from WoW: Forever's own Wowhead tooltips.",
+        "hub_desc": "Every spell of every WoW: Forever class up to level 60: level, cost, cooldown and the beta client's own text.",
         "hub_h1": "Spell glossary",
-        "hub_intro": "One ability per row, with its real value and a link to its own Wowhead tooltip — the database that powers our theorycraft tools. Each class currently only covers a sustained single-target rotation's spells (ranks at level 30, the beta's current cap), not the full spellbook: spells learned between levels 21 and 30 are not all in it.",
+        "hub_intro": "Every spell of every class up to level 60, with its learn level, cost, cooldown and text as the beta client describes them. Pick a class to browse, search and filter them.",
         "class_link": "View the {name} glossary",
         "class_title": "WoW: Forever {name} spell glossary",
-        "class_desc": "Real {name} spell costs, damage and cooldowns in WoW: Forever, sourced from Wowhead.",
+        "class_desc": "Every {name} spell in WoW: Forever up to level 60: level, cost, cooldown and text, with the Wowhead tooltip.",
         "class_h1": "Spell glossary: {name}",
-        "class_intro": "The spells and talents of a sustained single-target {name} rotation (spell ranks at level 30), with their real values sourced from WoW: Forever's own Wowhead tooltips.",
+        "class_intro": "Every {name} spell up to level 60, with its cost, cooldown and text as the beta client describes them. Hover a name to show the Wowhead tooltip.",
+        "spells_n": "spells", "specs_n": "specializations", "max_rank_chip": "Highest ranks at level 60",
+        "search_ph": "Search a spell…", "search_label": "Search a spell", "filter_all": "All", "filter_engraved": "Engravings", "other_line": "Other", "level_all": "All levels", "level_range": "Levels {a}-{b}",
+        "count_tpl": "{n} spell(s) shown of {total}", "none": "No spell matches your search.",
+        "tag_level": "Lvl {n}", "tag_ranks": "{n} ranks (max {m})", "tag_talent": "Talent · {tree}", "tag_engraved": "Engraving",
+        "lbl_cost": "Cost", "channeled": "Channeled", "lbl_cast": "Cast", "lbl_cooldown": "Cooldown", "lbl_duration": "Duration",
+        "res_rage": "Rage", "res_mana": "Mana", "res_energy": "Energy", "min_unit": "min", "sec_unit": "s",
+        "no_text": "Hover the name to read the Wowhead tooltip.",
+        "talents_fold": "Show the talents (name, tree, max rank, effect)",
+        "source_h": "Data source",
+        "source_p": "WoW: Forever client tables (via wago.tools): levels, costs and cooldowns from build {structure}, texts from build {text}. Values are computed from the game's own tables; when a text cannot be computed in full, only the Wowhead link is shown.",
+        "level_intro": "Highest rank available at level 60.",
         "abilities_h2": "Abilities",
         "talents_h2": "Talents",
         "col_name": "Ability", "col_level": "Required level", "col_cost": "Cost", "col_cooldown": "Cooldown",

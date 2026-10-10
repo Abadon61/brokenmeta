@@ -1,0 +1,2823 @@
+{
+ "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70291, texts from build 1.60.1.70170. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
+ "class": "hunter",
+ "abilities": [
+  {
+   "id": 75,
+   "name": {
+    "en": "Auto Shot",
+    "fr": "Tir automatique"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 1,
+   "max_rank_level": 1,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_whirlwind",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Automatically shoots the target until cancelled.",
+    "fr": "Attaque automatiquement la cible jusqu'à annulation."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14266,
+   "name": {
+    "en": "Raptor Strike",
+    "fr": "Attaque du raptor"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 1,
+   "max_rank_level": 56,
+   "ranks": 8,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 100
+   },
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_meleedamage",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "A strong attack that deals melee weapon damage plus 70.",
+    "fr": "Une attaque puissante qui inflige les dégâts de l’arme de mêlée plus 70."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1494,
+   "name": {
+    "en": "Track Beasts",
+    "fr": "Pistage des bêtes"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 1,
+   "max_rank_level": 1,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_tracking",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby beasts on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les bêtes des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 13163,
+   "name": {
+    "en": "Aspect of the Monkey",
+    "fr": "Aspect du singe"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 4,
+   "max_rank_level": 4,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 20
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_aspectofthemonkey",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter takes on the aspects of a monkey, increasing chance to dodge by 8%. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur adopte les qualités du singe. Ses chances d'esquiver augmentent de 8%. Un seul sort d'Aspect peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 25295,
+   "name": {
+    "en": "Serpent Sting",
+    "fr": "Morsure de serpent"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 4,
+   "max_rank_level": 60,
+   "ranks": 9,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 250
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 15.0,
+   "icon": "ability_hunter_quickshot",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Stings the target, causing 555 Nature damage over 15 sec. Only one Sting per Hunter can be active on any one target.",
+    "fr": "Mord la cible et lui inflige 555 points de dégâts de Nature en 15 s. Une seule technique de Morsure ou de Piqûre peut être active sur la cible par chasseur."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14287,
+   "name": {
+    "en": "Arcane Shot",
+    "fr": "Tir des arcanes"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 6,
+   "max_rank_level": 60,
+   "ranks": 8,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 190
+   },
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_impalingbolt",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "An instant shot that causes 217 Arcane damage.",
+    "fr": "Un tir instantané qui inflige 217 points de dégâts des Arcanes."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14325,
+   "name": {
+    "en": "Hunter's Mark",
+    "fr": "Marque du chasseur"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 6,
+   "max_rank_level": 58,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 120.0,
+   "icon": "ability_hunter_snipershot",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Places the Hunter's Mark on the target, increasing the Ranged Attack Power of all attackers against that target by 71. In addition, the target of this ability can always be seen by the hunter whether it stealths or turns invisible. The target also appears on the mini-map. Lasts for 2 min.",
+    "fr": "Appose la Marque du chasseur sur la cible, augmentant la puissance des attaques à distance de tous les attaquants de la cible de 71. De plus, la cible reste visible pour le chasseur même si elle se déplace furtivement ou passe invisible. La cible apparaît aussi sur la minicarte. Dure 2 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5116,
+   "name": {
+    "en": "Concussive Shot",
+    "fr": "Trait de choc"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 8,
+   "max_rank_level": 8,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 12.0,
+   "duration_s": 4.0,
+   "icon": "spell_frost_stun",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Dazes the target, slowing movement speed by 50% for 4 sec.",
+    "fr": "Hébète la cible et réduit sa vitesse de déplacement de 50% pendant 4 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 25296,
+   "name": {
+    "en": "Aspect of the Hawk",
+    "fr": "Aspect du faucon"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 10,
+   "max_rank_level": 60,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 120
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_ravenform",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter takes on the aspects of a hawk, increasing Ranged Attack Power by 120. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur adopte les qualités du faucon. Il augmente la puissance de ses attaques à distance de 120. Un seul aspect peut être activé à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 982,
+   "name": {
+    "en": "Revive Pet",
+    "fr": "Ressusciter le familier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 10,
+   "max_rank_level": 10,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 10.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_beastsoothe",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Revive your pet, returning it to life with 15% of its health.",
+    "fr": "Ranime votre familier, le ramenant à la vie avec 15% de sa vitalité."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19883,
+   "name": {
+    "en": "Track Humanoids",
+    "fr": "Pistage des humanoïdes"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 10,
+   "max_rank_level": 10,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_holy_prayerofhealing",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby humanoids on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les humanoïdes des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 15632,
+   "name": {
+    "en": "Distracting Shot",
+    "fr": "Trait provocateur"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 12,
+   "max_rank_level": 60,
+   "ranks": 6,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 110
+   },
+   "cast_s": 0,
+   "cooldown_s": 8.0,
+   "duration_s": null,
+   "icon": "spell_arcane_blink",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Distract the target, causing threat. More effective than Distracting Shot (Rank 5).",
+    "fr": "Distrait la cible et génère de la menace. Plus efficace que Trait provocateur (Rang 5)."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 13544,
+   "name": {
+    "en": "Mend Pet",
+    "fr": "Guérison du familier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 12,
+   "max_rank_level": 60,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 480
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 5.0,
+   "icon": "ability_hunter_mendpet",
+   "school": "nature",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": "Heals your pet 245 health every second while you focus. Lasts 5 sec.",
+    "fr": "Rend à votre familier 245 points de vie par seconde tant que vous vous focalisez sur le sort. Dure 5 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14268,
+   "name": {
+    "en": "Wing Clip",
+    "fr": "Coupure d'ailes"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 12,
+   "max_rank_level": 60,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 80
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 10.0,
+   "icon": "ability_rogue_trip",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Inflicts 50 damage and reduces the enemy target's movement speed by 60% for 10 sec.",
+    "fr": "Inflige 50 points de dégâts et réduit la vitesse de déplacement de la cible de 60% pendant 10 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1002,
+   "name": {
+    "en": "Eyes of the Beast",
+    "fr": "Oeil de la bête"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 14,
+   "max_rank_level": 14,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 20
+   },
+   "cast_s": 2.0,
+   "cooldown_s": null,
+   "duration_s": 120.0,
+   "icon": "ability_eyeoftheowl",
+   "school": "nature",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": "Take direct control of your pet and see through its eyes for 2 min.",
+    "fr": "Vous prenez le contrôle direct de votre familier et vous voyez à travers ses yeux pendant 2 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14305,
+   "name": {
+    "en": "Immolation Trap",
+    "fr": "Piège d'Immolation"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 16,
+   "max_rank_level": 56,
+   "ranks": 10,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 245
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 60.0,
+   "icon": "spell_fire_flameshock",
+   "school": "fire",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Place a Fire trap that will burn the first enemy to approach for 690 Fire damage over 15 sec. Trap will exist for 1 min. Only one Fire trap can be active at a time.",
+    "fr": "Place un piège de feu qui brûle le premier personnage adverse qui s’en approche et lui inflige 690 points de dégâts de feu en 15 s. Le piège reste en place pendant 1 min. Un seul piège de feu peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14271,
+   "name": {
+    "en": "Mongoose Bite",
+    "fr": "Morsure de la mangouste"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 16,
+   "max_rank_level": 58,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 65
+   },
+   "cast_s": 0,
+   "cooldown_s": 5.0,
+   "duration_s": null,
+   "icon": "ability_hunter_swiftstrike",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Counterattack the enemy for melee weapon damage plus 57. Can only be performed after you dodge.",
+    "fr": "Contre-attaque l’adversaire et lui inflige 57 points de dégâts. Réalisable uniquement après une esquive."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 2643,
+   "name": {
+    "en": "Multi-Shot",
+    "fr": "Flèches multiples"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 18,
+   "max_rank_level": 18,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0.5,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_upgrademoonglaive",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Fires several missiles, hitting 3 targets. Multi-Shot shares its cooldown with Aimed Shot.",
+    "fr": "Tire plusieurs projectiles et touche 3 cibles. Flèches multiples partage son temps de recharge avec Visée."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19884,
+   "name": {
+    "en": "Track Undead",
+    "fr": "Pistage des morts-vivants"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 18,
+   "max_rank_level": 18,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_shadow_darksummoning",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby undead on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les morts-vivants des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5118,
+   "name": {
+    "en": "Aspect of the Cheetah",
+    "fr": "Aspect du guépard"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 20,
+   "max_rank_level": 20,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 40
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_mount_jungletiger",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": "Le chasseur adopte les qualités du guépard et augmente sa vitesse de déplacement de 30%. S'il subit des dégâts sous cet aspect, il est hébété pendant 4 s. Vous ne pouvez activer qu'un seul aspect à la fois."
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 14273,
+   "name": {
+    "en": "Disengage",
+    "fr": "Désengagement"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 20,
+   "max_rank_level": 48,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 150
+   },
+   "cast_s": 0,
+   "cooldown_s": 5.0,
+   "duration_s": null,
+   "icon": "ability_rogue_feint",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Attempts to disengage from the target by reducing threat. More effective than Disengage (Rank 2). Disables auto-attack.",
+    "fr": "Tentative pour rompre le combat en diminuant le niveau de menace. Plus efficace que Désengagement (rang 2). Désactive les attaques automatiques."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14311,
+   "name": {
+    "en": "Freezing Trap",
+    "fr": "Piège givrant"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 100
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 60.0,
+   "icon": "spell_frost_chainsofice",
+   "school": "frost",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Place a Frost trap that freezes the first enemy that approaches, preventing all action for up to 20 sec. Any damage caused will break the ice. Trap will exist for 1 min. Only one Frost trap can be active at a time.",
+    "fr": "Place un piège de givre qui gèle le premier personnage adverse qui s’en approche et l’empêche d’agir pendant 20 s au maximum. Tous les dégâts subis brisent le givre. Le piège reste en place pendant 1 min. Un seul piège peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 3043,
+   "name": {
+    "en": "Scorpid Sting",
+    "fr": "Piqûre de scorpide"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 22,
+   "max_rank_level": 22,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 20.0,
+   "icon": "ability_hunter_criticalshot",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Stings the target, reducing the target's chance to hit with attacks by 2% for 20 sec. Only one Sting per Hunter can be active on any one target.",
+    "fr": "Pique la cible et réduit ses chances de toucher avec ses attaques de 2 % pendant 20 s. Une seule technique de piqûre peut être active sur la cible par personnage chasseur."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19885,
+   "name": {
+    "en": "Track Hidden",
+    "fr": "Pistage des camouflés"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 24,
+   "max_rank_level": 24,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_stealth",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases stealth detection and shows hidden units within detection range on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Augmente la Détection du camouflage et indique sur la minicarte les unités camouflées qui se trouvent à portée de détection. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1293527,
+   "name": {
+    "en": "Summon Hawk",
+    "fr": "Invocation de faucon"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 25,
+   "max_rank_level": 60,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 190
+   },
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_hunter_animalhandler",
+   "school": "physical",
+   "talent": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Command a hawk to dive-bomb your targeted enemy, dealing 108 (+ 5% of your ranged attack power) Physical damage and continuing its assault for 18 sec. Only 2 hawks can be active at once. Summon Hawk shares its cooldown with Arcane Shot.",
+    "fr": "Ordonne à un faucon de réaliser un bombardement en piqué sur l’adversaire que vous ciblez. Il lui inflige 108 (+ 5 % de votre puissance d'attaque à distance) points de dégâts physiques et continue son assaut pendant 18 s. Seuls 2 faucons peuvent être actifs à la fois. Invoquer un faucon partage son temps de recharge avec Tir des arcanes."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 3045,
+   "name": {
+    "en": "Rapid Fire",
+    "fr": "Tir rapide"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 26,
+   "max_rank_level": 26,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 100
+   },
+   "cast_s": 0,
+   "cooldown_s": 300.0,
+   "duration_s": 15.0,
+   "icon": "ability_hunter_runningshot",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases ranged and melee attack speed by 40% for 15 sec.",
+    "fr": "Augmente la vitesse d’attaque en mêlée et à distance de 40 % pendant 15 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19880,
+   "name": {
+    "en": "Track Elementals",
+    "fr": "Pistage des élémentaires"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 26,
+   "max_rank_level": 26,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_frost_summonwaterelemental",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby elementals on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les élémentaires des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 13809,
+   "name": {
+    "en": "Frost Trap",
+    "fr": "Piège de givre"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 28,
+   "max_rank_level": 28,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 60.0,
+   "icon": "spell_frost_freezingbreath",
+   "school": "frost",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Place a Frost trap that creates an ice slick around itself for 30 sec when the first enemy approaches it. All enemies within 10 yards will be slowed by 60% while in the area of effect. Trap will exist for 1 min. Only one Frost trap can be active at a time.",
+    "fr": "Place un piège de givre qui crée autour de lui une plaque de verglas pendant 30 s lorsque le premier personnage adverse s’en approche. Les personnages adverses à moins de 10 m sont ralentis de 60 % tant qu’ils sont dans sa zone d’effet. Le piège reste en place pendant 1 min. Un seul piège de givre peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 20910,
+   "name": {
+    "en": "Counterattack",
+    "fr": "Contre-attaque"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 30,
+   "max_rank_level": 54,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 85
+   },
+   "cast_s": 0,
+   "cooldown_s": 5.0,
+   "duration_s": 5.0,
+   "icon": "ability_warrior_challange",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "A strike that becomes active after parrying an opponent's attack. This attack deals 50% weapon damage plus 110 and immobilizes the target for 5 sec. Counterattack cannot be blocked, dodged, or parried.",
+    "fr": "Disponible après avoir paré une attaque de l’adversaire, cette technique inflige 50 % des dégâts de l’arme plus 110, et immobilise la cible pendant 5 s. La contre-attaque ne peut être bloquée, esquivée ou parée."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5384,
+   "name": {
+    "en": "Feign Death",
+    "fr": "Feindre la mort"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 30,
+   "max_rank_level": 30,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 80
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 360.0,
+   "icon": "ability_rogue_feigndeath",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Feign death which may trick enemies into ignoring you. Lasts 6 min. If not cancelled, after 6 min you will actually die.",
+    "fr": "Vous feignez la mort pour que vos ennemis vous ignorent. Dure 6 min au maximum. Si vous n’interrompez pas ce sort, vous mourrez réellement au bout de 6 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1317257,
+   "name": {
+    "en": "Strider Kick",
+    "fr": "Coup de trotteur"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 30,
+   "max_rank_level": 30,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 8.0,
+   "duration_s": 3.0,
+   "icon": "ability_hunter_pet_tallstrider",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "A powerful kick that deals 100% melee weapon damage and increases movement speed by 30% for 3 sec.",
+    "fr": "A powerful kick that deals 100% melee weapon damage and increases movement speed by 30% for 3 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1543,
+   "name": {
+    "en": "Flare",
+    "fr": "Fusée éclairante"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 32,
+   "max_rank_level": 32,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 50
+   },
+   "cast_s": 0,
+   "cooldown_s": 15.0,
+   "duration_s": 30.0,
+   "icon": "spell_fire_flare",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Exposes all hidden and invisible enemies within 10 yards of the targeted area for 30 sec.",
+    "fr": "Expose tous les ennemis cachés ou invisibles dans un rayon de 10 mètres autour du point ciblé pendant 30 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19878,
+   "name": {
+    "en": "Track Demons",
+    "fr": "Pistage des démons"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 32,
+   "max_rank_level": 32,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_shadow_summonfelhunter",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby demons on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les démons des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14317,
+   "name": {
+    "en": "Explosive Trap",
+    "fr": "Piège explosif"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 34,
+   "max_rank_level": 54,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 520
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 60.0,
+   "icon": "spell_fire_selfdestruct",
+   "school": "fire",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 14315,
+   "name": {
+    "en": "Explosive Trap Effect",
+    "fr": "Effet Piège explosif"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 34,
+   "max_rank_level": 54,
+   "ranks": 3,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 20.0,
+   "icon": "spell_fire_selfdestruct",
+   "school": "fire",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 14280,
+   "name": {
+    "en": "Viper Sting",
+    "fr": "Morsure de vipère"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 36,
+   "max_rank_level": 56,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 215
+   },
+   "cast_s": 0,
+   "cooldown_s": 15.0,
+   "duration_s": 8.0,
+   "icon": "ability_hunter_aimedshot",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Stings the target, draining 1108 mana over 8 sec. Only one Sting per Hunter can be active on any one target.",
+    "fr": "Mord la cible et lui draine 1108 points de mana en 8 s. Une seule technique de Morsure ou de Piqûre peut être active sur la cible par chasseur."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 13159,
+   "name": {
+    "en": "Aspect of the Pack",
+    "fr": "Aspect de la meute"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 40,
+   "max_rank_level": 40,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 100
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_mount_whitetiger",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter and group members within 30 yards take on the aspects of a pack of cheetahs, increasing movement speed by 30%. If a pack member takes damage, they will be dazed for 4 sec. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur et les membres de son groupe se trouvant dans un rayon de 30 mètres adoptent les qualités d'une meute de guépards. Leur vitesse de déplacement est augmentée de 30%. Si un membre de la meute subit des dégâts, il est hébété pendant 4 s. Vous ne pouvez activer qu'un seul aspect à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19882,
+   "name": {
+    "en": "Track Giants",
+    "fr": "Pistage des géants"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 40,
+   "max_rank_level": 40,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_racial_avatar",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby giants on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les géants des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14295,
+   "name": {
+    "en": "Volley",
+    "fr": "Salve"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": 40,
+   "max_rank_level": 58,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 490
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 6.0,
+   "icon": "ability_marksmanship",
+   "school": "arcane",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": "Continuously fires a volley of ammo at the target area, causing 112 Arcane damage to enemy targets within 8 yards every 1 sec for 6 sec.",
+    "fr": "Tire une salve sur la zone ciblée. Inflige 112 points de dégâts des arcanes aux adversaires à moins de 8 m toutes les 1 s pendant 6 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 20190,
+   "name": {
+    "en": "Aspect of the Wild",
+    "fr": "Aspect de la nature"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 46,
+   "max_rank_level": 56,
+   "ranks": 2,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 115
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_protectionformnature",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter and all party and raid members within 30 yards take on the aspect of the wild, increasing Nature resistance by 60. Only one Aspect can be active at a time.",
+    "fr": "Le personnage chasseur et les membres du groupe et du raid à moins de 30 m adoptent l’aspect de la nature, augmentant leur résistance à la nature de 60. Vous ne pouvez activer qu’un seul aspect à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19879,
+   "name": {
+    "en": "Track Dragonkin",
+    "fr": "Pistage des draconiens"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": 50,
+   "max_rank_level": 50,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_head_dragon_01",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby dragonkin on the minimap. Only one form of tracking can be active at a time.",
+    "fr": "Les draconiens des environs apparaissent sur la minicarte. Un seul type de Pistage peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19801,
+   "name": {
+    "en": "Tranquilizing Shot",
+    "fr": "Tir tranquillisant"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": 60,
+   "max_rank_level": 60,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 270
+   },
+   "cast_s": 0,
+   "cooldown_s": 20.0,
+   "duration_s": null,
+   "icon": "spell_nature_drowsy",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Attempts to remove 1 Frenzy effect from an enemy creature.",
+    "fr": "Tentative pour annuler 1 effets de frénésie sur une créature ennemie."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24510,
+   "name": {
+    "en": "Arcane Resistance",
+    "fr": "Résistance aux Arcanes"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_starfall",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases Arcane resistance by 120.",
+    "fr": "Augmente la résistance aux Arcanes de 120."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1299447,
+   "name": {
+    "en": "Aspect of the Beast",
+    "fr": "Aspect de la bête"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 110
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_mount_pinktiger",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter takes on the aspects of a beast, becoming untrackable and increasing Melee Attack Power by 110. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur adopte les qualités d’une bête et devient impossible à pister. Sa puissance d’attaque en mêlée est augmentée de 110. Vous ne pouvez activer qu’un seul aspect à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 469145,
+   "name": {
+    "en": "Aspect of the Falcon",
+    "fr": "Aspect de l’épervier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 120
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_dragonhawk",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter takes on the aspects of a Falcon, increasing melee and ranged Attack Power by the same amount as their highest rank of Aspect of the Hawk. While Aspect of the Falcon is active, the Improved Aspect of the Hawk talent can now proc from and benefit melee attacks. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur adopte les qualités de l’épervier, ce qui augmente la puissance d’attaque en mêlée et à distance du même montant que son rang le plus élevé d’Aspect du faucon. Lorsque Aspect de l’épervier est actif, le talent Aspect du faucon amélioré peut désormais se déclencher à partir des attaques de mêlée et les améliorer. Un seul aspect peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 415423,
+   "name": {
+    "en": "Aspect of the Viper",
+    "fr": "Aspect de la vipère"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_aspectoftheviper",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter takes on the aspect of the viper, causing your ranged and melee auto attacks to regenerate mana but reducing your total damage done by 10%. In addition, you gain 10% of maximum mana every 3 sec. Mana gained is based on the speed of your weapon. Only one Aspect can be active at a time.",
+    "fr": "Le chasseur adopte les qualités de la vipère. Chacune de vos attaques auto à distance et en mêlée régénère du mana, mais le total des dégâts infligés est réduit de 10 %. De plus, vous recevez 10 % de votre maximum de mana toutes les 3 s. Le gain de mana est proportionnel à la vitesse de l’arme. Un seul Aspect peut être actif à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1462,
+   "name": {
+    "en": "Beast Lore",
+    "fr": "Connaissance des bêtes"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 40
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 30.0,
+   "icon": "ability_physical_taunt",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Gather information about the target beast. The tooltip will display damage, health, armor, any special resistances, and diet.",
+    "fr": "Rassemble des informations sur la bête ciblée, telles que dégâts, vitalité, armure, résistances spéciales et régime alimentaire."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5149,
+   "name": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_beastcall02",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Lets you train your pet with various abilities that you have learned how to teach.",
+    "fr": "Vous permet d’inculquer à votre mascotte diverses techniques que vous avez appris à enseigner."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14296,
+   "name": {
+    "en": "Black Arrow",
+    "fr": "Flèche noire"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 30.0,
+   "icon": "ability_theblackarrow",
+   "school": "shadow",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Fires a Black Arrow into the target, slowing the target's movement speed by 70%, causing 150 Shadow damage and draining 150 mana over 30 sec.",
+    "fr": "Tire une Flèche noire sur la cible. Elle réduit la vitesse de déplacement de la cible de 70%, inflige 150 points de dégâts d'Ombre et draine 150 points de mana sur la durée en 30 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 883,
+   "name": {
+    "en": "Call Pet",
+    "fr": "Appel du familier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_beastcall",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Summons your pet to you.",
+    "fr": "Invoque votre familier auprès de vous."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 425711,
+   "name": {
+    "en": "Carve",
+    "fr": "Écharper"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "inv_throwingknife_06",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "A sweeping attack that strikes all enemies in front of you with your melee weapons for 65% weapon damage. Your primary target takes 50% increased damage.",
+    "fr": "Une attaque circulaire qui frappe tous les ennemis en face de vous avec vos armes de mêlée pour 65 % des dégâts de l’arme. Votre cible principale subit 50 % de dégâts supplémentaires."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409433,
+   "name": {
+    "en": "Chimera Shot",
+    "fr": "Tir de la chimère"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_hunter_chimerashot2",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "You deal 135% weapon damage, refreshing the current Sting on your target and triggering an effect: Serpent Sting - Instantly deals 48% of the damage done by your Serpent Sting. Viper Sting - Instantly restores mana to you equal to 60% of the total amount drained by your Viper Sting. Scorpid Sting - Attempts to Disarm the target for 10 sec. This effect cannot occur more than once per 1 minute.",
+    "fr": "Inflige 135 % des dégâts de l’arme. Réinitialise la piqûre ou morsure actuelle sur la cible et déclenche un effet : Morsure de serpent : inflige instantanément 48 % des dégâts de Morsure de serpent. Morsure de vipère : rend instantanément un montant de mana égal à 60 % du total drainé par Morsure de vipère. Piqûre de scorpide : tente de désarmer la cible pendant 10 s. Cet effet ne peut se produire plus d’une fois par minute."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409495,
+   "name": {
+    "en": "Chimera Shot - Scorpid",
+    "fr": "Tir de la chimère – Scorpide"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 10.0,
+   "icon": "inv_misc_head_dragon_bronze",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "You deal 135% weapon damage, refreshing the current Sting on your target and triggering an effect: Serpent Sting - Instantly deals 48% of the damage done by your Serpent Sting. Viper Sting - Instantly restores mana to you equal to 60% of the total amount drained by your Viper Sting. Scorpid Sting - Attempts to Disarm the target for 10 sec. This effect cannot occur more than once per 1 minute.",
+    "fr": "Infligez 135 % des dégâts de l’arme, réinitialise la piqûre ou morsure actuelle sur la cible et déclenche un effet : Morsure de serpent – Inflige instantanément 48 % des dégâts de Morsure de serpent. Morsure de vipère – Rend instantanément un montant de mana égal à 60 % du total drainé par Morsure de vipère. Piqûre de scorpide – Tente de désarmer la cible pendant 10 s. Cet effet ne peut se produire plus d’une fois par minute."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409493,
+   "name": {
+    "en": "Chimera Shot - Serpent",
+    "fr": "Tir de la chimère – Serpent"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_head_dragon_bronze",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "You deal 135% weapon damage, refreshing the current Sting on your target and triggering an effect: Serpent Sting - Instantly deals 48% of the damage done by your Serpent Sting. Viper Sting - Instantly restores mana to you equal to 60% of the total amount drained by your Viper Sting. Scorpid Sting - Attempts to Disarm the target for 10 sec. This effect cannot occur more than once per 1 minute.",
+    "fr": "Infligez 135 % des dégâts de l’arme, réinitialise la piqûre ou morsure actuelle sur la cible et déclenche un effet : Morsure de serpent – Inflige instantanément 48 % des dégâts de Morsure de serpent. Morsure de vipère – Rend instantanément un montant de mana égal à 60 % du total drainé par Morsure de vipère. Piqûre de scorpide – Tente de désarmer la cible pendant 10 s. Cet effet ne peut se produire plus d’une fois par minute."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409494,
+   "name": {
+    "en": "Chimera Shot - Viper",
+    "fr": "Tir de la chimère – Vipère"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_head_dragon_bronze",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "You deal 135% weapon damage, refreshing the current Sting on your target and triggering an effect: Serpent Sting - Instantly deals 48% of the damage done by your Serpent Sting. Viper Sting - Instantly restores mana to you equal to 60% of the total amount drained by your Viper Sting. Scorpid Sting - Attempts to Disarm the target for 10 sec. This effect cannot occur more than once per 1 minute.",
+    "fr": "Infligez 135 % des dégâts de l’arme, réinitialise la piqûre ou morsure actuelle sur la cible et déclenche un effet : Morsure de serpent – Inflige instantanément 48 % des dégâts de Morsure de serpent. Morsure de vipère – Rend instantanément un montant de mana égal à 60 % du total drainé par Morsure de vipère. Piqûre de scorpide – Tente de désarmer la cible pendant 10 s. Cet effet ne peut se produire plus d’une fois par minute."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 25077,
+   "name": {
+    "en": "Cobra Reflexes",
+    "fr": "Réflexes du cobra"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_guardianward",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases attack speed by 30%, but decreases damage.",
+    "fr": "Augmente la vitesse d'attaque de 30% mais diminue les dégâts infligés."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24582,
+   "name": {
+    "en": "Demoralizing Screech",
+    "fr": "Hurlement démoralisant"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_bat",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Blasts a single enemy for 33 damage and lowers the attack power of all enemies in melee range by 198. Effect lasts 30 sec.",
+    "fr": "Frappe un seul ennemi, lui infligeant 33 points de dégâts, et diminue de 198 la puissance d'attaque de tous les ennemis à portée de combat du lanceur de sorts. L'effet dure 30 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1264972,
+   "name": {
+    "en": "Dismember",
+    "fr": "Démembrer"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_crocolisk",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Viciously bites enemy appendages for 54 damage and reduces the effectiveness of any healing by 50% for 10 sec.",
+    "fr": "Mord violemment les membres d’un personnage adverse et lui inflige 54 points de dégâts en plus de réduire l’efficacité de tous les soins de 50 % pendant 10 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 2641,
+   "name": {
+    "en": "Dismiss Pet",
+    "fr": "Renvoyer le familier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 5.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_spiritwolf",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Dismiss your pet. Dismissing your pet will reduce its happiness by 50.",
+    "fr": "Renvoie votre familier. Réduit la satisfaction de votre familier de 50."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1265913,
+   "name": {
+    "en": "Dust Cloud",
+    "fr": "Nuage de poussière"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_sleep",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Your tallstrider kicks up an abrasive cloud of dust, reducing the target's Armor by 395 for 30 sec, stacking up to 1 times.",
+    "fr": "Votre haut-trotteur soulève un nuage de poussière agressif qui réduit l’Armure de la cible de 395 pendant 30 s, cumulable jusqu’à 1 fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 6197,
+   "name": {
+    "en": "Eagle Eye",
+    "fr": "Oeil d'aigle"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 25
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 60.0,
+   "icon": "ability_hunter_eagleeye",
+   "school": "arcane",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": "Zooms in the hunter's vision. Only usable outdoors. Lasts 1 min.",
+    "fr": "Zoome dans le champ de vision du chasseur. Ne fonctionne qu'en extérieur. Dure 1 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1221404,
+   "name": {
+    "en": "Enchanted Flare",
+    "fr": "Fusée éclairante enchantée"
+   },
+   "line": {
+    "en": "Marksmanship",
+    "fr": "Précision"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 50
+   },
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 30.0,
+   "icon": "ability_mage_arcanebarrage",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Exposes all hidden and invisible enemies within 10 yards of the targeted area, and staves off magical darkness for 30 sec.",
+    "fr": "Expose tous les personnages adverses cachés ou invisibles à moins de 10 m autour du point ciblé et repousse les ténèbres magiques pendant 30 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 6991,
+   "name": {
+    "en": "Feed Pet",
+    "fr": "Nourrir le familier"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_beasttraining",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Feed your pet the selected item. Feeding your pet increases happiness. Using food close to the pet's level will have a better result.",
+    "fr": "Donne à manger l'objet sélectionné à votre familier. Le nourrir le rend heureux. L'utilisation d'une nourriture d'un niveau proche du sien a plus d'effet."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24464,
+   "name": {
+    "en": "Fire Resistance",
+    "fr": "Résistance au Feu"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_fire_firearmor",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases Fire resistance by 120.",
+    "fr": "Augmente la résistance au Feu de 120."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 415320,
+   "name": {
+    "en": "Flanking Strike",
+    "fr": "Frappe latérale"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 10.0,
+   "icon": "ability_hunter_harass",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "You and your pet deal simultaneous instant 100% melee damage. Afterward, you deal 8% increased damage for 10 sec, stacking up to 3 times. Your pet's Basic attacks have a 50% chance to reset the cooldown on Flanking Strike.",
+    "fr": "Votre familier et vous infligez simultanément 100 % de vos dégâts de mêlée instantanément. Ensuite, vous infligez 8 % de dégâts supplémentaires pendant 10 s, cumulables jusqu’à 3 fois. Les attaques de base de votre familier ont 50 % de chances mettre fin au temps de recharge de Frappe latérale."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24478,
+   "name": {
+    "en": "Frost Resistance",
+    "fr": "Résistance au Givre"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_frost_frostward",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases Frost resistance by 120.",
+    "fr": "Augmente la résistance au Givre de 120."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24599,
+   "name": {
+    "en": "Furious Howl",
+    "fr": "Hurlement furieux"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_wolf",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Party members within 15 yards receive an extra 82 damage to their next Physical attack. Lasts 1 min.",
+    "fr": "Les membres du groupe dans un rayon de 15 mètres bénéficient de 82 points de dégâts supplémentaires lors de leur prochaine attaque physique. Dure 1 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5049,
+   "name": {
+    "en": "Great Stamina",
+    "fr": "Endurance supérieure"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_unyeildingstamina",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Stamina increased by 40.",
+    "fr": "Endurance augmentée de 40."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 14927,
+   "name": {
+    "en": "Growl",
+    "fr": "Grondement"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_physical_taunt",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Taunt the target, increasing the likelihood the creature will focus attacks on you.",
+    "fr": "Provoque la cible et augmente les chances que la créature focalise ses attaques sur vous."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409580,
+   "name": {
+    "en": "Heart of the Lion",
+    "fr": "Cœur de lion"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_cat",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The hunter invokes the heart of a lion, increasing total stats by 10% and Attack Power by 40 for all nearby allies, and increasing total stats for the Hunter by an additional 10%.",
+    "fr": "Invoque le cœur d’un lion et augmente le total des caractéristiques des alliés proches de 10 % et leur puissance d’attaque de 40, et le total de celles du chasseur de 10 % supplémentaires."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19153,
+   "name": {
+    "en": "Humanoid Slaying",
+    "fr": "Tueur d'humanoïdes"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_holy_prayerofhealing",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases all damage caused against Humanoid targets by 3% and increases critical damage caused against Humanoid targets by an additional 3%.",
+    "fr": "Augmente tous les dégâts infligés aux humanoïdes de 3% et augmente les dégâts infligés par les coups critiques aux humanoïdes de 3% supplémentaires."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19549,
+   "name": {
+    "en": "Improved Aspect of the Monkey",
+    "fr": "Aspect du singe amélioré"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_aspectofthemonkey",
+   "school": "physical",
+   "talent": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Increases the Dodge bonus of your Aspect of the Monkey by 4%. Additionally, your pet gains 50% of the effect of your Aspect of the Monkey ability.",
+    "fr": "Augmente de 4 % le bonus d’Esquive conféré par votre Aspect du singe. De plus, votre familier obtient 50 % de l’effet de votre technique Aspect du singe."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24443,
+   "name": {
+    "en": "Improved Revive Pet",
+    "fr": "Ressusciter le familier amélioré"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_beastsoothe",
+   "school": "physical",
+   "talent": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Revive Pet's casting time is reduced by 6 sec, mana cost is reduced by 40%, and increases the health your pet returns with by an additional 30%.",
+    "fr": "Le temps d'incantation du sort Ressusciter le familier est réduit de 6 sec., son coût en mana est diminué de 40% et le familier revient avec 30% points de vie supplémentaires."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24293,
+   "name": {
+    "en": "Improved Tracking",
+    "fr": "Pistage amélioré"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_head_dragon_black",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "While tracking Beasts, Demons, Dragonkin, Elementals, Giants, Humanoids, or Undead, all damage you deal to the tracked creature type is increased by 5%.",
+    "fr": "Lorsque vous remontez la piste de bêtes, de démons, de draconiens, d’élémentaires, de géants, d’humanoïdes ou de morts-vivants, tous les dégâts que vous infligez au type de créature pisté augmentent de 5 %."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 409379,
+   "name": {
+    "en": "Kill Command",
+    "fr": "Ordre de tuer"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 60.0,
+   "duration_s": 30.0,
+   "icon": "ability_hunter_killcommand",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Give the command to kill, increasing your pet's damage done from Claw and Bite by 60% for 30 sec. Each Claw or Bite done by the pet reduces the damage bonus by 20%.",
+    "fr": "Donne l’ordre de tuer. Les dégâts infligés par votre familier avec Griffe et Morsure sont augmentés de 60% pendant 30 s. Chaque attaque Griffe ou Morsure effectuée par le familier réduit le bonus de dégâts de 20%."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 444682,
+   "name": {
+    "en": "Lava Breath",
+    "fr": "Souffle de lave"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_fire_windsofwoe",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 25017,
+   "name": {
+    "en": "Lightning Breath",
+    "fr": "Souffle de foudre"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_lightning",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Breathes lightning, instantly dealing 92 Nature damage to a single target.",
+    "fr": "Souffle de la foudre sur une cible unique et lui inflige instantanément 92 points de dégâts de Nature."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19168,
+   "name": {
+    "en": "Lightning Reflexes",
+    "fr": "Réflexes éclairs"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_invisibilty",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Increases your Agility by 15%.",
+    "fr": "Augmente votre Agilité de 15%."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1265064,
+   "name": {
+    "en": "Mine!",
+    "fr": "À moi !"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_natureswrath",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Grabs an enemy's weapon with its talons, causing 44 damage and disarming them for 4 sec.",
+    "fr": "Saisit l’arme d’un personnage adverse avec ses griffes, lui inflige 44 points de dégâts et le désarme pendant 4 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24295,
+   "name": {
+    "en": "Monster Slaying",
+    "fr": "Tueur de monstres"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_head_dragon_black",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases all damage caused against Beasts, Giants and Dragonkin targets by 3% and increases critical damage caused against Beasts, Giants and Dragonkin targets by an additional 3%.",
+    "fr": "Augmente tous les dégâts infligés aux bêtes, aux géants et aux draconiens de 3% et augmente les dégâts infligés par les coups critiques aux bêtes, aux géants et aux draconiens de 3% supplémentaires."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24632,
+   "name": {
+    "en": "Natural Armor",
+    "fr": "Armure naturelle"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_spiritarmor",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Armor increased by 1000.",
+    "fr": "Armure augmentée de 1000."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24555,
+   "name": {
+    "en": "Natural Armor",
+    "fr": "Armure naturelle"
+   },
+   "line": {
+    "en": "Pet - Generic",
+    "fr": "Familier - générique"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_spiritarmor",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Armor increased by 675.",
+    "fr": "Armure augmentée de 675."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24513,
+   "name": {
+    "en": "Nature Resistance",
+    "fr": "Résistance à la Nature"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_resistnature",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases Nature resistance by 120.",
+    "fr": "Augmente la résistance à la Nature de 120."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1264752,
+   "name": {
+    "en": "Pinch",
+    "fr": "Pincer"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_crab",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Pinches an enemy's legs for 95 damage and reduces movement speed by 50% for 9 sec.",
+    "fr": "Pince les jambes d’un personnage adverse et lui inflige 95 points de dégâts en plus de réduire sa vitesse de déplacement de 50 % pendant 9 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24455,
+   "name": {
+    "en": "Prowl",
+    "fr": "Rôder"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_supriseattack",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Puts your pet in stealth mode, but slows its movement to 40% of normal. The first attack from stealth receives a 50% bonus to damage. Lasts until cancelled.",
+    "fr": "Votre familier entre en mode camouflage, mais sa vitesse de déplacement est réduite à 40% de la normale. La première attaque alors qu'il est camouflé inflige 50% de dégâts supplémentaires. Dure jusqu'à annulation."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 23989,
+   "name": {
+    "en": "Readiness",
+    "fr": "Promptitude"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 300.0,
+   "duration_s": null,
+   "icon": "ability_hunter_readiness",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "When activated, this ability immediately finishes the cooldown on all your other Hunter abilities.",
+    "fr": "Quand elle est activée, cette technique met immédiatement fin au temps de recharge de toutes vos autres techniques de chasseur ou chasseresse."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1265836,
+   "name": {
+    "en": "Savage Rend",
+    "fr": "Pourfendeur sauvage"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_raptor",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 14327,
+   "name": {
+    "en": "Scare Beast",
+    "fr": "Effrayer une bête"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "mana",
+    "amount": 75
+   },
+   "cast_s": 1.5,
+   "cooldown_s": 30.0,
+   "duration_s": 20.0,
+   "icon": "ability_druid_cower",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Scares a beast, causing it to run in fear for up to 20 sec. Damage caused may interrupt the effect. Only one beast can be feared at a time.",
+    "fr": "Effraie une bête et l'oblige à fuir pendant 20 s, d'éventuels dégâts abrègent les effets du sort. On ne peut effrayer qu'une seule bête à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24641,
+   "name": {
+    "en": "Scorpid Poison",
+    "fr": "Poison de scorpide"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_poisonsting",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Inflicts 5 Nature damage over 10 sec. Effect can stack up to 5 times on a single target.",
+    "fr": "Inflige 5 points de dégâts de Nature en 10 s. Effet cumulable jusqu'à 5 fois sur la même cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24516,
+   "name": {
+    "en": "Shadow Resistance",
+    "fr": "Résistance à l'Ombre"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_shadow_antishadow",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases Shadow resistance by 120.",
+    "fr": "Augmente la résistance à l'Ombre de 120."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19578,
+   "name": {
+    "en": "Spirit Bond",
+    "fr": "Engagement spirituel"
+   },
+   "line": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_demoralizingroar",
+   "school": "nature",
+   "talent": {
+    "en": "Beast Mastery",
+    "fr": "Maîtrise des bêtes"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "While your pet is active, you and your pet will regenerate 1% of total health every 5 sec.",
+    "fr": "Tant que votre familier est actif, vous et votre familier récupérez 1 % du total de vos points de vie toutes les 5 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19290,
+   "name": {
+    "en": "Surefooted",
+    "fr": "Pied sûr"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_kick",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Increases your hit chance by 3% and reduces the duration of movement impairing effects on you by 30%.",
+    "fr": "Augmente vos chances de toucher de 3 % et réduit la durée des effets ralentissant vos déplacements de 30 %."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 19376,
+   "name": {
+    "en": "Survival Tactics",
+    "fr": "Tactique de survie"
+   },
+   "line": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_ensnare",
+   "school": "physical",
+   "talent": {
+    "en": "Survival",
+    "fr": "Survie"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Increases your chance to hit with your Trap and Feign Death abilities by 17%.",
+    "fr": "Augmente de 17 % vos chances de toucher avec vos techniques Piège et Feindre la mort."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1264732,
+   "name": {
+    "en": "Swipe",
+    "fr": "Balayage"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_monsterclaw_03",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Swipe 3 nearby enemies, inflicting 21 damage.",
+    "fr": "Frappe 3 adversaires proches et inflige 21 points de dégâts."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1265048,
+   "name": {
+    "en": "Tendon Rip",
+    "fr": "Déchirure du tendon"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_hyena",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Tears at an enemy's legs for 60 damage over 9 sec and reduces movement speed by 50% for 9 sec.",
+    "fr": "Lacère les jambes d’un personnage adverse et lui inflige 60 points de dégâts en 9 s en plus de réduire sa vitesse de déplacement de 50 % pendant 9 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1265892,
+   "name": {
+    "en": "Web",
+    "fr": "Toile"
+   },
+   "line": {
+    "en": "Beast Training",
+    "fr": "Dressage des bêtes"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_web",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Entangles an enemy in a corrosive web, immobilizing them and dealing 52 Nature damage over 4 sec.",
+    "fr": "Emprisonne un personnage adverse dans une toile corrosive, l’immobilise et lui inflige 52 points de dégâts de nature en 4 s."
+   },
+   "desc_ok": true
+  }
+ ]
+}

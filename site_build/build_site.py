@@ -7358,6 +7358,7 @@ def main() -> None:
     wow_raids = wow_guides.load_raids()
     env.globals["wow_raids_nav"] = wow_raids["raids"] if wow_raids else []
     wow_spell_classes = wow_spells.load_all()   # {class_id: parsed json} for every data/wow_spells/<id>.json present
+    wow_spell_all = wow_spells.load_full_glossary()   # {class_id: every spell up to level 60} (data/wow_spells_all, wow_spell_glossary_build.py)
     _wnav = [n for n in wow_content.NAV if n[0] != "progression"]   # "Progression 1-60" dropped from the menu 2026-10-02 (page still built)
     if wt_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("classes") + 1, ("talents", "Calculateur de talents", "Talent calculator"))
@@ -8249,13 +8250,15 @@ def main() -> None:
                       ("Glossaire des sorts" if lang == "fr" else "Spell glossary", canonical_for("/wow-forever/glossaire/", lang))]
             assert len(_gsx["hub_title"]) <= 60 and len(_gsx["hub_desc"]) <= 155
             render("wow_glossary_hub.html", "/wow-forever/glossaire/", lang, active_nav="wow", active_sub="wow-glossaire", tx=_gsx,
-                   wt_classes=wt_classes, glossary_ids=list(wow_spell_classes.keys()), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                   wt_classes=wt_classes, glossary_ids=[c for c in wow_spell_classes if c in wow_spell_all],
+                   glossary_counts={c: len(d["abilities"]) for c, d in wow_spell_all.items()}, wow_disclaimer=wow_content.DISCLAIMER[lang],
                    breadcrumb_schema=breadcrumb_schema(_gbase))
             for _gc in wt_classes:
                 _gcid = _gc["id"]
-                if _gcid not in wow_spell_classes:
+                if _gcid not in wow_spell_classes or _gcid not in wow_spell_all:
                     continue
-                _gdata = wow_spell_classes[_gcid]
+                _gdata = wow_spell_classes[_gcid]          # the simulator's sourced glossary: only its talents table is shown
+                _gall = wow_spell_all[_gcid]
                 _gcname = _gc["name"][lang]
                 _gtitle = _gsx["class_title"].format(name=_gcname)
                 _gdesc = _gsx["class_desc"].format(name=_gcname)
@@ -8264,11 +8267,27 @@ def main() -> None:
                 _gpath = f"/wow-forever/glossaire/{_gcid}/"
                 _gurl = canonical_for(_gpath, lang)
                 _gtree_names = {s["id"]: s["name"][lang] for s in _gc["specs"]}
+                # One chip per spec tree; the other skill lines of the data (pet training, poisons, mounts, ...) are grouped under "Other".
+                _spec_names = [(sp["name"]["en"], sp["name"][lang]) for sp in _gc["specs"]]
+                _other = _gsx["other_line"]
+
+                def _line_label(a, _spec_names=_spec_names, _other=_other):
+                    en = a["line"]["en"]
+                    for sen, slang in _spec_names:
+                        if sen == en or sen in en or en in sen:
+                            return slang
+                    return _other
+                _gspells = [dict(a, line_label=_line_label(a)) for a in _gall["abilities"]]
+                _glines = [sl for _, sl in _spec_names if any(a["line_label"] == sl for a in _gspells)]
+                if any(a["line_label"] == _other for a in _gspells):
+                    _glines.append(_other)
+                _gbuilds = re.findall(r"build (1\.\d+\.\d+\.\d+)", _gall.get("_source", ""))
                 render("wow_glossary_class.html", _gpath, lang, active_nav="wow", active_sub="wow-glossaire", tx=_gsx,
                        g_title=_gtitle, g_desc=_gdesc, g_h1=_gh1, g_intro=_gsx["class_intro"].format(name=_gcname),
-                       abilities=[wow_spells.ability_view(a) for a in _gdata.get("abilities", [])],
+                       spells=_gspells, spell_lines=_glines, spell_class=_gc, n_engraved=sum(1 for a in _gspells if a.get("engraved")),
+                       src_builds=_gbuilds,
                        talents=wow_spells.talents_view(_gdata.get("talents", {})),
-                       tree_names=_gtree_names, gaps=_gdata.get("gaps", []), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       tree_names=_gtree_names, wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_gcname, _gurl)]),
                        article_schema=build_article_schema(_gh1, _gurl, _gdesc))
         if _news_data["items"]:

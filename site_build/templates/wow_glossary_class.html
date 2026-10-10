@@ -7,52 +7,118 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
+{% macro fmt_secs(v) %}{% if v >= 60 %}{{ ('%g' % (v / 60)|round(1))|replace('.', ',' if lang == 'fr' else '.') }} {{ tx.min_unit }}{% else %}{{ ('%g' % v)|replace('.', ',' if lang == 'fr' else '.') }} {{ tx.sec_unit }}{% endif %}{% endmacro %}
 {% block content %}
-{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
+{% set fr = lang == 'fr' %}
+{# Glossary class page (maquette validée 2026-10-10): every spell up to level 60 as a card, with a sticky search / filter bar. #}
+<section class="gh-hero is-flat" style="--cc: {{ spell_class.color or '#8a6cff' }}">
+  <div class="gh-in">
+    {% if spell_class.icon %}<img class="pf-hero-ico gl-ico" src="{{ spell_class.icon }}" alt="{{ spell_class.name[lang] }}" width="84" height="84">{% endif %}
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.kicker }}</div>
+      <h1 class="gh-title">{{ g_h1 }}</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role"><b class="nums">{{ spells|length }}</b> {{ tx.spells_n }}</span>
+        <span class="gh-chip"><b class="nums">{{ spell_class.specs|length }}</b> {{ tx.specs_n }}</span>
+        <span class="gh-chip">{{ tx.max_rank_chip }}</span>
+      </div>
+      <p class="gh-lede">{{ g_intro }}</p>
+    </div>
+  </div>
+</section>
 
-<h2 class="fiche-section-title">{{ tx.abilities_h2 }}</h2>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr>
-    <th>{{ tx.col_name }}</th><th>{{ tx.col_level }}</th><th>{{ tx.col_cost }}</th>
-    <th>{{ tx.col_cooldown }}</th><th>{{ tx.col_cast }}</th><th>{{ tx.col_effect }}</th><th>{{ tx.col_source }}</th>
-  </tr></thead>
-  <tbody>{% for a in abilities %}
-  <tr>
-    <td data-first><b><a href="{{ a.source_url }}" rel="noopener nofollow" target="_blank">{{ a.name[lang] or a.name.en }}</a></b></td>
-    <td class="nums">{{ a.min_level }}</td>
-    <td class="nums">{{ a.cost_text or tx.no_cost }}</td>
-    <td class="nums">{{ (a.cooldown_sec ~ 's') if a.cooldown_sec else tx.no_cooldown }}</td>
-    <td>{{ a.cast_time if a.cast_time != 'instant' else tx.instant }}</td>
-    <td>{% for eff in a.effects_text %}{{ eff }}{% if not loop.last %}<br>{% endif %}{% endfor %}</td>
-    <td><a href="{{ a.source_url }}" rel="noopener nofollow" target="_blank">{{ tx.source_wowhead }}</a></td>
-  </tr>{% endfor %}</tbody>
-</table></div>
+<div class="gl-bar" id="glBar">
+  <label class="gl-search"><span aria-hidden="true">⌕</span><input id="glQ" type="search" placeholder="{{ tx.search_ph }}" aria-label="{{ tx.search_label }}" autocomplete="off"></label>
+  <div class="gl-filters" id="glLines">
+    <button type="button" class="is-on" data-line="">{{ tx.filter_all }}</button>
+    {% for ln in spell_lines %}<button type="button" data-line="{{ ln }}">{{ ln }}</button>{% endfor %}
+    {% if n_engraved %}<button type="button" data-line="__engraved">{{ tx.filter_engraved }}</button>{% endif %}
+  </div>
+  <select class="gl-level" id="glLvl" aria-label="{{ 'Niveau' if fr else 'Level' }}">
+    <option value="">{{ tx.level_all }}</option>
+    {% for a, b in ((1, 10), (11, 20), (21, 30), (31, 40), (41, 50), (51, 60)) %}<option value="{{ a }}-{{ b }}">{{ tx.level_range.format(a=a, b=b) }}</option>{% endfor %}
+  </select>
+  <span class="gl-count nums" id="glCount" data-tpl="{{ tx.count_tpl }}" data-total="{{ spells|length }}"></span>
+</div>
+
+<div class="gl-list" id="glList">
+{% for a in spells %}
+  {% set d = a.desc[lang] %}
+  <article class="gl-spell" data-line="{{ a.line_label }}" data-eng="{{ 1 if a.engraved else 0 }}" data-lvl="{{ a.level or 0 }}" data-txt="{{ ((a.name[lang] ~ ' ' ~ (d or ''))|lower)|e }}">
+    <img src="https://wow.zamimg.com/images/wow/icons/large/{{ a.icon or 'inv_misc_questionmark' }}.jpg" alt="{{ a.name[lang] }}" width="48" height="48" loading="lazy">
+    <div class="gl-body">
+      <h3><a href="https://www.wowhead.com/forever/spell={{ a.id }}" rel="noopener nofollow" target="_blank">{{ a.name[lang] }}</a>
+        {% if a.talent %}<span class="gl-tag is-talent">{{ tx.tag_talent.format(tree=a.talent[lang]) }}</span>
+        {% elif a.engraved %}<span class="gl-tag is-eng">{{ tx.tag_engraved }}</span>
+        {% else %}<span class="gl-tag">{{ tx.tag_level.format(n=a.level) }}{% if a.ranks > 1 %} · {{ tx.tag_ranks.format(n=a.ranks, m=a.max_rank_level) }}{% endif %}</span>{% endif %}
+        <span class="gl-tag">{{ a.line_label }}</span></h3>
+      <div class="gl-meta">
+        {% if a.cost %}<span class="gl-res-{{ a.cost.type }}"><i>{{ tx.lbl_cost }}</i> {{ a.cost.amount }} {{ tx['res_' ~ a.cost.type] }}</span>{% endif %}
+        <span><i>{{ tx.lbl_cast }}</i> {% if a.cast_s %}{{ fmt_secs(a.cast_s) }}{% elif a.channeled %}{{ tx.channeled }}{% else %}{{ tx.instant }}{% endif %}</span>
+        {% if a.cooldown_s %}<span><i>{{ tx.lbl_cooldown }}</i> {{ fmt_secs(a.cooldown_s) }}</span>{% endif %}
+        {% if a.duration_s %}<span><i>{{ tx.lbl_duration }}</i> {{ fmt_secs(a.duration_s) }}</span>{% endif %}
+      </div>
+      {% if d %}<p class="gl-desc">{{ d }}</p>{% else %}<p class="gl-desc is-na">{{ tx.no_text }}</p>{% endif %}
+    </div>
+  </article>
+{% endfor %}
+</div>
+<p class="gl-none" id="glNone" hidden>{{ tx.none }}</p>
 
 {% if talents %}
-<h2 class="fiche-section-title">{{ tx.talents_h2 }}</h2>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr>
-    <th>{{ tx.col_name }}</th><th>{{ tx.col_tree }}</th><th>{{ tx.col_maxrank }}</th>
-    <th>{{ tx.talent_effect }}</th><th>{{ tx.talent_dps }}</th>
-  </tr></thead>
-  <tbody>{% for t in talents %}
-  <tr>
-    <td data-first><b>{{ t.name[lang] or t.name.en }}</b></td>
-    <td>{{ tree_names.get(t.tree, t.tree) }}</td>
-    <td class="nums">{{ t.max_rank_total }}</td>
-    <td>{{ t.effect_per_rank or '—' }}</td>
-    <td>{% if t.dps_relevant == true %}{{ tx.dps_yes }}{% elif t.dps_relevant == false %}{{ tx.dps_no }}{% else %}{{ tx.dps_unknown }}{% endif %}</td>
-  </tr>{% endfor %}</tbody>
-</table></div>
-<p class="wow-note">{{ tx.talents_no_tooltip_note }}</p>
+<section class="gs-tile" style="margin-top:22px">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.talents_h2 }}</h2><span class="gs-meta">{{ talents|length }}</span></div>
+  <details class="gs-more"><summary>{{ tx.talents_fold }}</summary>
+    <div class="rs-table-wrap"><table class="pf-table">
+      <thead><tr><th>{{ tx.col_name }}</th><th>{{ tx.col_tree }}</th><th>{{ tx.col_maxrank }}</th><th>{{ tx.talent_effect }}</th><th>{{ tx.talent_dps }}</th></tr></thead>
+      <tbody>{% for t in talents %}
+      <tr>
+        <td data-first><b>{{ t.name[lang] or t.name.en }}</b></td>
+        <td>{{ tree_names.get(t.tree, t.tree) }}</td>
+        <td class="nums">{{ t.max_rank_total }}</td>
+        <td>{{ t.effect_per_rank or '—' }}</td>
+        <td>{% if t.dps_relevant == true %}{{ tx.dps_yes }}{% elif t.dps_relevant == false %}{{ tx.dps_no }}{% else %}{{ tx.dps_unknown }}{% endif %}</td>
+      </tr>{% endfor %}</tbody>
+    </table></div>
+    <p class="wow-note">{{ tx.talents_no_tooltip_note }}</p>
+  </details>
+</section>
 {% endif %}
 
-{% if gaps %}
-<h2 class="fiche-section-title">{{ tx.gaps_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.gaps_intro }}</p>
-<ul class="gd-list">{% for g in gaps %}<li>{{ g }}</li>{% endfor %}</ul>
-{% endif %}
-
+<details class="gs-more gs-sources">
+  <summary>{{ tx.source_h }}</summary>
+  <p class="gs-lede">{{ tx.source_p.format(structure=src_builds[0] if src_builds|length > 0 else '?', text=src_builds[1] if src_builds|length > 1 else '?') }}</p>
+</details>
 <p class="wow-note">{{ tx.seealso_optimizer }}</p>
 <p><a href="{{ root }}wow-forever/glossaire/">← {{ tx.back_to_hub }}</a></p>
+<script>
+(function () {
+  var cards = Array.prototype.slice.call(document.querySelectorAll('#glList .gl-spell'));
+  var state = { line: '', lvl: '', q: '' };
+  var cnt = document.getElementById('glCount'), none = document.getElementById('glNone');
+  function apply() {
+    var n = 0, q = state.q.trim().toLowerCase(), lo = 0, hi = 999;
+    if (state.lvl) { var r = state.lvl.split('-'); lo = +r[0]; hi = +r[1]; }
+    cards.forEach(function (c) {
+      var ok = true, eng = c.getAttribute('data-eng') === '1';
+      if (state.line === '__engraved') ok = eng;
+      else if (state.line) ok = c.getAttribute('data-line') === state.line && !eng;
+      if (ok && state.lvl) { var l = +c.getAttribute('data-lvl'); ok = !eng && l >= lo && l <= hi; }
+      if (ok && q) ok = c.getAttribute('data-txt').indexOf(q) !== -1;
+      c.hidden = !ok; if (ok) n++;
+    });
+    cnt.textContent = cnt.getAttribute('data-tpl').replace('{n}', n).replace('{total}', cnt.getAttribute('data-total'));
+    none.hidden = n > 0;
+  }
+  document.getElementById('glQ').addEventListener('input', function (e) { state.q = e.target.value; apply(); });
+  document.getElementById('glLvl').addEventListener('change', function (e) { state.lvl = e.target.value; apply(); });
+  document.getElementById('glLines').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    state.line = b.getAttribute('data-line');
+    Array.prototype.forEach.call(document.querySelectorAll('#glLines button'), function (x) { x.classList.toggle('is-on', x === b); });
+    apply();
+  });
+  apply();
+})();
+</script>
 {% endblock %}

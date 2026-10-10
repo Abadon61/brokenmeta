@@ -1,0 +1,2219 @@
+{
+ "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70291, texts from build 1.60.1.70170. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
+ "class": "druid",
+ "abilities": [
+  {
+   "id": 25297,
+   "name": {
+    "en": "Healing Touch",
+    "fr": "Toucher guérisseur"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 1,
+   "max_rank_level": 60,
+   "ranks": 11,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 840
+   },
+   "cast_s": 3.5,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_healingtouch",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Heals a friendly target for 2332.",
+    "fr": "Rend 2332 points de vie à une cible alliée."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1235827,
+   "name": {
+    "en": "Lacerate",
+    "fr": "Lacérer"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 1,
+   "max_rank_level": 58,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 15
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 15.0,
+   "icon": "ability_druid_lacerate",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Lacerates the enemy target, making them bleed for 75 damage over 15 sec plus 10% weapon damage per existing application of Lacerate on the target. Causes a high amount of threat. This effect stacks up to 5 times on the same target.",
+    "fr": "Lacère la cible, ce qui la fait saigner pour 75 points de dégâts en 15 s plus 10 % des dégâts de l’arme par application existante de Lacérer sur la cible. Génère une quantité de menace élevée. Cet effet se cumule jusqu’à 5 fois sur la même cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9885,
+   "name": {
+    "en": "Mark of the Wild",
+    "fr": "Marque du fauve"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 1,
+   "max_rank_level": 60,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 445
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 3600.0,
+   "icon": "spell_nature_regeneration",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases the friendly target's armor by 385, all attributes by 16 and all resistances by 27 for 60 min.",
+    "fr": "Augmente l'Armure de la cible alliée de 385, toutes les caractéristiques de 16 et toutes les résistances de 27 pendant 60 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1322605,
+   "name": {
+    "en": "Shifting Power",
+    "fr": "Shifting Power"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 1,
+   "max_rank_level": 1,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 16.0,
+   "duration_s": null,
+   "icon": "spell_druid_displacement",
+   "school": "physical",
+   "talent": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 5217,
+   "name": {
+    "en": "Tiger's Fury",
+    "fr": "Fureur du tigre"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 1,
+   "max_rank_level": 24,
+   "ranks": 2,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 30.0,
+   "duration_s": 6.0,
+   "icon": "ability_mount_jungletiger",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 9912,
+   "name": {
+    "en": "Wrath",
+    "fr": "Colère"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 1,
+   "max_rank_level": 54,
+   "ranks": 8,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 120
+   },
+   "cast_s": 2.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_abolishmagic",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Causes 91 Nature damage to the target.",
+    "fr": "Inflige 91 points de dégâts de Nature à la cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9835,
+   "name": {
+    "en": "Moonfire",
+    "fr": "Eclat lunaire"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 4,
+   "max_rank_level": 58,
+   "ranks": 10,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 375
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 12.0,
+   "icon": "spell_nature_starfall",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Burns the enemy for 135 Arcane damage and then an additional 240 Arcane damage over 12 sec.",
+    "fr": "Brûle l'ennemi et lui inflige 135 points de dégâts des Arcanes, puis 240 points de dégâts des Arcanes supplémentaires en 12 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 25299,
+   "name": {
+    "en": "Rejuvenation",
+    "fr": "Récupération"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 4,
+   "max_rank_level": 60,
+   "ranks": 11,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 360
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 12.0,
+   "icon": "spell_nature_rejuvenation",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Heals the target for 776 over 12 sec.",
+    "fr": "Rend 776 points de vie à la cible en 12 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9910,
+   "name": {
+    "en": "Thorns",
+    "fr": "Epines"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 6,
+   "max_rank_level": 54,
+   "ranks": 6,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 320
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 600.0,
+   "icon": "spell_nature_thorns",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Thorns sprout from the friendly target causing 22 Nature damage to attackers when hit. Lasts 10 min.",
+    "fr": "Des épines poussent sur le corps de la cible. Elles infligent 22 points de dégâts de Nature aux attaquants qui touchent la cible. Dure 10 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9853,
+   "name": {
+    "en": "Entangling Roots",
+    "fr": "Sarments"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 8,
+   "max_rank_level": 58,
+   "ranks": 6,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 125
+   },
+   "cast_s": 1.5,
+   "cooldown_s": null,
+   "duration_s": 27.0,
+   "icon": "spell_nature_stranglevines",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 5487,
+   "name": {
+    "en": "Bear Form",
+    "fr": "Forme d’ours"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 10,
+   "max_rank_level": 10,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_racial_bearform",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Bear Form, increasing Attack Power by 30, Armor contribution from items by 180%, and Health by 180. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Bear Form, increasing Attack Power by 30, Armor contribution from items by 180%, and Health by 180. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9898,
+   "name": {
+    "en": "Demoralizing Roar",
+    "fr": "Rugissement démoralisant"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 10,
+   "max_rank_level": 52,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 10
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 30.0,
+   "icon": "ability_druid_demoralizingroar",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The druid roars, decreasing nearby enemies' melee attack power by 193. Lasts 30 sec.",
+    "fr": "Le druide rugit et réduit la puissance d'attaque en mêlée des ennemis proches de 193. Dure 30 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 6795,
+   "name": {
+    "en": "Growl",
+    "fr": "Grondement"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 10,
+   "max_rank_level": 10,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 8.0,
+   "duration_s": 3.0,
+   "icon": "ability_physical_taunt",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Taunts the target to attack you, but has no effect if the target is already attacking you.",
+    "fr": "Provoque la cible et la force à vous attaquer. Aucun effet si la cible est déjà en train de vous attaquer."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9881,
+   "name": {
+    "en": "Maul",
+    "fr": "Mutiler"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 10,
+   "max_rank_level": 58,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 15
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_maul",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases the druid's next attack by 128 damage.",
+    "fr": "Augmente de 128 points de dégâts la prochaine attaque du druide."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 17329,
+   "name": {
+    "en": "Nature's Grasp",
+    "fr": "Emprise de la nature"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 10,
+   "max_rank_level": 58,
+   "ranks": 6,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 125
+   },
+   "cast_s": 0,
+   "cooldown_s": 60.0,
+   "duration_s": 45.0,
+   "icon": "spell_nature_natureswrath",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "The next 1 melee attack that strikes the caster will afflict the attacker with Entangling Roots (Rank 6). Castable while shapeshifted. Lasts 45 sec.",
+    "fr": "Les prochaines attaques en mêlée qui touchent le lanceur ou la lanceuse infligent Sarments (rang 6) au personnage attaquant (1 fois). Ce sort peut être lancé sous une autre forme. Dure 45 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 18960,
+   "name": {
+    "en": "Teleport: Moonglade",
+    "fr": "Téléportation : Reflet-de-Lune"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 10,
+   "max_rank_level": 10,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 120
+   },
+   "cast_s": 10.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_arcane_teleportmoonglade",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Teleports the caster to the Moonglade.",
+    "fr": "Téléporte le lanceur de sorts à Reflet-de-Lune."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5229,
+   "name": {
+    "en": "Enrage",
+    "fr": "Enrager"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 12,
+   "max_rank_level": 12,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 60.0,
+   "duration_s": 10.0,
+   "icon": "ability_druid_enrage",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Instantly generates 10 Rage and another 20 Rage over 10 sec, but reduces base armor by 27% in Bear Form and 16% in Dire Bear Form. The druid is considered in combat for the duration.",
+    "fr": "Génère instantanément 10 points de rage, puis 20 points de rage supplémentaires en 10 s, mais réduit l’armure de base de 27 % en forme d’ours et de 16 % en forme d’ours redoutable. Le personnage druide est considéré comme étant en combat pendant toute la durée de l’effet."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9858,
+   "name": {
+    "en": "Regrowth",
+    "fr": "Rétablissement"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 12,
+   "max_rank_level": 60,
+   "ranks": 9,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 525
+   },
+   "cast_s": 2.0,
+   "cooldown_s": null,
+   "duration_s": 21.0,
+   "icon": "spell_nature_resistnature",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Heals a friendly target for 1021 and another 994 over 21 sec.",
+    "fr": "Soigne une cible amie pour 1021 puis pour 994 points supplémentaires pendant 21 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1237951,
+   "name": {
+    "en": "Revive",
+    "fr": "Ressusciter"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 12,
+   "max_rank_level": 60,
+   "ranks": 5,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 10.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_lunarguidance",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 8983,
+   "name": {
+    "en": "Bash",
+    "fr": "Sonner"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 14,
+   "max_rank_level": 46,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 10
+   },
+   "cast_s": 0,
+   "cooldown_s": 60.0,
+   "duration_s": 4.0,
+   "icon": "ability_druid_bash",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Stuns the target for 4 sec.",
+    "fr": "Etourdit la cible pendant 4 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 8946,
+   "name": {
+    "en": "Cure Poison",
+    "fr": "Guérison du poison"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 14,
+   "max_rank_level": 14,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_nullifypoison",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Cures 1 poison effect on the target.",
+    "fr": "Annule 1 effet de poison sur la cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1066,
+   "name": {
+    "en": "Aquatic Form",
+    "fr": "Forme aquatique"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 16,
+   "max_rank_level": 16,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_aquaticform",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Aquatic Form, increasing swim speed by 50% and allowing the druid to breathe underwater. Also protects the caster from Polymorph effects. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Aquatic Form, increasing swim speed by 50% and allowing the druid to breathe underwater. Also protects the caster from Polymorph effects. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5421,
+   "name": {
+    "en": "Aquatic Form (Passive)",
+    "fr": "Forme aquatique (Passif)"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 16,
+   "max_rank_level": 16,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_aquaticform",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases swimming speed by 50% and allow's the druid to breathe underwater.",
+    "fr": "Augmente la vitesse de nage de 50% et permet au druide de respirer sous l'eau."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9908,
+   "name": {
+    "en": "Swipe",
+    "fr": "Balayage"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 16,
+   "max_rank_level": 54,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 20
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_monsterclaw_03",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Swipe 3 nearby enemies, inflicting 83 damage.",
+    "fr": "Frappe 3 ennemis proches et inflige 83 points de dégâts."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9907,
+   "name": {
+    "en": "Faerie Fire",
+    "fr": "Lucioles"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 18,
+   "max_rank_level": 54,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 115
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 40.0,
+   "icon": "spell_nature_faeriefire",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Decrease the armor of the target by 505 for 40 sec. While affected, the target cannot stealth or turn invisible.",
+    "fr": "Réduit l'Armure de la cible de 505 pendant 40 s. Tant qu'elle est affectée, la cible ne peut pas se camoufler ni se rendre invisible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 18658,
+   "name": {
+    "en": "Hibernate",
+    "fr": "Hibernation"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 18,
+   "max_rank_level": 58,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 150
+   },
+   "cast_s": 1.5,
+   "cooldown_s": null,
+   "duration_s": 40.0,
+   "icon": "spell_nature_sleep",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Forces the enemy target to sleep for up to 40 sec. Any damage will awaken the target. Only one target can be forced to hibernate at a time. Only works on Beasts and Dragonkin.",
+    "fr": "Force la cible ennemie à s'endormir pendant 40 s au maximum. Si elle subit des dégâts, le sommeil est annulé. Une seule cible peut être plongée en hibernation à la fois. Ne fonctionne que sur les bêtes ou les draconiens."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 768,
+   "name": {
+    "en": "Cat Form",
+    "fr": "Forme de félin"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 20,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_catform",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Cat Form, increasing Attack Power by 12 plus Agility. Also protects the caster from Polymorph effects and allows the use of various cat abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Cat Form, increasing Attack Power by 12 plus Agility. Also protects the caster from Polymorph effects and allows the use of various cat abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9850,
+   "name": {
+    "en": "Claw",
+    "fr": "Griffe"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 58,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 45
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_rake",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Claw the enemy for 110% normal damage plus 115. Awards 1 combo point.",
+    "fr": "Griffe l’ennemi et lui inflige 110 % des dégâts normaux plus 115. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1238122,
+   "name": {
+    "en": "Feral Charge",
+    "fr": "Charge farouche"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 20,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 5
+   },
+   "cast_s": 0,
+   "cooldown_s": 15.0,
+   "duration_s": null,
+   "icon": "ability_hunter_pet_bear",
+   "school": "physical",
+   "talent": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Requires Bear Form, Dire Bear Form Charge an enemy, immobilizing them and interrupting any spell they are casting for 4 sec. Leap behind an enemy.",
+    "fr": "Nécessite la forme d’ours ou la forme d’ours redoutable Vous chargez un personnage adverse, stoppez son déplacement et interrompez le sort qu’il lançait pendant 4 s. Bondit derrière une cible adverse."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24977,
+   "name": {
+    "en": "Insect Swarm",
+    "fr": "Essaim d'insectes"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 160
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 12.0,
+   "icon": "spell_nature_insectswarm",
+   "school": "nature",
+   "talent": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "The enemy target is swarmed by insects, decreasing their chance to hit with attacks by 2% and causing 186 Nature damage over 12 sec.",
+    "fr": "La cible adverse est assaillie par des insectes. Ses chances de toucher avec les attaques sont réduites de 2 % et elle subit 186 points de dégâts de nature en 12 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9913,
+   "name": {
+    "en": "Prowl",
+    "fr": "Rôder"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 3,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 10.0,
+   "duration_s": null,
+   "icon": "ability_ambush",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Allows the Druid to prowl around, but reduces your movement speed by 30%. Lasts until cancelled.",
+    "fr": "Permet au druide de se déplacer de façon furtive, mais réduit sa vitesse de 30%. Dure jusqu'à annulation du sort."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 20748,
+   "name": {
+    "en": "Rebirth",
+    "fr": "Renaissance"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 5,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 2.0,
+   "cooldown_s": 1800.0,
+   "duration_s": null,
+   "icon": "spell_nature_reincarnation",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 9896,
+   "name": {
+    "en": "Rip",
+    "fr": "Déchirure"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 6,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 30
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 12.0,
+   "icon": "ability_ghoulfrenzy",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 25298,
+   "name": {
+    "en": "Starfire",
+    "fr": "Feu stellaire"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 20,
+   "max_rank_level": 60,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 340
+   },
+   "cast_s": 3.5,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_arcane_starfire",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Causes 381 Arcane damage to the target.",
+    "fr": "Inflige 381 points de dégâts des Arcanes à la cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9830,
+   "name": {
+    "en": "Shred",
+    "fr": "Lambeau"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 22,
+   "max_rank_level": 54,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_shadow_vampiricaura",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shred the target, causing 155% damage plus 180 to the target. Must be behind the target. Awards 1 combo point.",
+    "fr": "Met la cible en lambeaux et inflige 155% points de dégâts plus 180 à la cible. Il faut se trouver derrière la cible. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9901,
+   "name": {
+    "en": "Soothe Animal",
+    "fr": "Apaiser les animaux"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 22,
+   "max_rank_level": 54,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 100
+   },
+   "cast_s": 1.5,
+   "cooldown_s": null,
+   "duration_s": 15.0,
+   "icon": "ability_hunter_beastsoothe",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Soothes the target beast, reducing the range at which it will attack you by 10 yards. Only affects Beast targets level 70 or lower. Lasts 15 sec.",
+    "fr": "Apaise la bête ciblée, réduisant de 10 mètres la distance à laquelle elle vous attaquera. Affecte uniquement les bêtes de niveau 70 ou inférieur. Dure 15 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9904,
+   "name": {
+    "en": "Rake",
+    "fr": "Griffure"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 24,
+   "max_rank_level": 54,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 40
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 9.0,
+   "icon": "ability_druid_disembowel",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Rake the target for 61 damage and an additional 102 damage over 9 sec. Awards 1 combo point.",
+    "fr": "Lacère la cible, lui infligeant 61 points de dégâts et 102 points de dégâts supplémentaires sur la durée en 9 s. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 2782,
+   "name": {
+    "en": "Remove Curse",
+    "fr": "Délivrance de la malédiction"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 24,
+   "max_rank_level": 24,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_holy_removecurse",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Dispels 1 Curse or Bane from a friendly target.",
+    "fr": "Dissipe 1 malédiction ou plaie affectant une cible alliée."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1238073,
+   "name": {
+    "en": "Primal Bite",
+    "fr": "Primal Bite"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 25,
+   "max_rank_level": 60,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 20
+   },
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_racial_cannibalize",
+   "school": "physical",
+   "talent": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Bite the target, dealing 100% normal damage plus 77 and generating a high amount of threat.",
+    "fr": "Bite the target, dealing 100% normal damage plus 77 and generating a high amount of threat."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 2893,
+   "name": {
+    "en": "Abolish Poison",
+    "fr": "Abolir le poison"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 26,
+   "max_rank_level": 26,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 8.0,
+   "icon": "spell_nature_nullifypoison_02",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Attempts to cure 1 poison effect on the target, and 1 more poison effect every 2 seconds for 8 sec.",
+    "fr": "Tente de soigner 1 effet de poison sur la cible et 1 effet de poison en plus toutes les 2 secondes pendant 8 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5209,
+   "name": {
+    "en": "Challenging Roar",
+    "fr": "Rugissement provocateur"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 28,
+   "max_rank_level": 28,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "rage",
+    "amount": 15
+   },
+   "cast_s": 0,
+   "cooldown_s": 600.0,
+   "duration_s": 6.0,
+   "icon": "ability_druid_challangingroar",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Forces all nearby enemies to focus attacks on you for 6 sec.",
+    "fr": "Force tous les ennemis proches à focaliser leurs attaques sur vous pendant 6 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9892,
+   "name": {
+    "en": "Cower",
+    "fr": "Dérobade"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 28,
+   "max_rank_level": 52,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 20
+   },
+   "cast_s": 0,
+   "cooldown_s": 10.0,
+   "duration_s": null,
+   "icon": "ability_druid_cower",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Cower, causing no damage but lowering your threat a large amount, making the enemy less likely to attack you.",
+    "fr": "Vous vous recroquevillez, ce qui n'inflige pas de dégâts mais réduit grandement votre niveau de menace. L'ennemi est moins enclin à vous attaquer."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9863,
+   "name": {
+    "en": "Tranquility",
+    "fr": "Tranquillité"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 30,
+   "max_rank_level": 60,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 925
+   },
+   "cast_s": 0,
+   "cooldown_s": 300.0,
+   "duration_s": 10.0,
+   "icon": "spell_nature_tranquility",
+   "school": "nature",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 783,
+   "name": {
+    "en": "Travel Form",
+    "fr": "Forme de voyage"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 30,
+   "max_rank_level": 30,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_travelform",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Travel Form, increasing movement speed by 40%. Also protects the caster from Polymorph effects. Only useable outdoors. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Travel Form, increasing movement speed by 40%. Also protects the caster from Polymorph effects. Only useable outdoors. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 31018,
+   "name": {
+    "en": "Ferocious Bite",
+    "fr": "Morsure féroce"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 32,
+   "max_rank_level": 60,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 35
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_ferociousbite",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Finishing move that causes damage per combo point and converts each extra point of energy into 2.7 additional damage. Damage is increased by your Attack Power. 1 point : 199-259 damage 2 points: 346-406 damage 3 points: 493-553 damage 4 points: 640-700 damage 5 points: 787-847 damage",
+    "fr": "Coup de grâce qui inflige des dégâts en fonction du nombre de points de combo et convertit chaque point d’énergie supplémentaire en 2,7 points de dégâts. Les dégâts sont augmentés par votre puissance d’attaque : 1 point : 199-259 points de dégâts 2 points : 346-406 points de dégâts 3 points : 493-553 points de dégâts 4 points : 640-700 points de dégâts 5 points : 787-847 points de dégâts"
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9867,
+   "name": {
+    "en": "Ravage",
+    "fr": "Ravage"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 32,
+   "max_rank_level": 58,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_ravage",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Ravage the target, causing 350% damage plus 343 to the target. Must be prowling and behind the target. Awards 1 combo point.",
+    "fr": "Ravage la cible et lui inflige 350% des dégâts plus 343. Vous devez être camouflé et derrière la cible. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 22842,
+   "name": {
+    "en": "Frenzied Regeneration",
+    "fr": "Régénération frénétique"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 36,
+   "max_rank_level": 36,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 180.0,
+   "duration_s": 10.0,
+   "icon": "ability_bullrush",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Converts up to 10 Rage per second into health for 10 sec. Each point of Rage is converted into 1% health.",
+    "fr": "Convertit jusqu’à 10 points de rage par seconde en points de vie pendant 10 s. Chaque point de rage est converti en 1 % de points de vie."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9827,
+   "name": {
+    "en": "Pounce",
+    "fr": "Traquenard"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 36,
+   "max_rank_level": 56,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 50
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 2.0,
+   "icon": "ability_druid_supriseattack",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Pounce, stunning the target for 2 sec and causing 150 damage over 18 sec. Must be prowling and behind the target. Awards 1 combo point.",
+    "fr": "Attaque la cible par surprise et l'étourdit pendant 2 s en lui infligeant 150 points de dégâts en 18 s. Vous devez être camouflé et derrière la cible. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9634,
+   "name": {
+    "en": "Dire Bear Form",
+    "fr": "Forme d’ours redoutable"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 40,
+   "max_rank_level": 40,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_racial_bearform",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Dire Bear Form, increasing Attack Power by 120, Armor contribution from items by 360%, and Health by 600. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Dire Bear Form, increasing Attack Power by 120, Armor contribution from items by 360%, and Health by 600. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 17402,
+   "name": {
+    "en": "Hurricane",
+    "fr": "Ouragan"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 40,
+   "max_rank_level": 60,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 1495
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 10.0,
+   "icon": "spell_nature_cyclone",
+   "school": "nature",
+   "talent": null,
+   "channeled": true,
+   "desc": {
+    "en": "Creates a violent storm in the target area causing 132 Nature damage to enemies every 1 sec, and increasing the time between attacks by 20%. Lasts 10 sec. Druid must channel to maintain the spell.",
+    "fr": "Crée une violente tempête dans la zone ciblée, infligeant 132 points de dégâts de nature aux adversaires toutes les 1 s et augmentant de 20 % le temps entre leurs attaques. Dure 10 s. Le personnage druide doit canaliser le sort pendant toute sa durée, sinon celui-ci s’interrompt."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24907,
+   "name": {
+    "en": "Moonkin Aura",
+    "fr": "Aura de sélénien"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 40,
+   "max_rank_level": 40,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_moonglow",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 24858,
+   "name": {
+    "en": "Moonkin Form",
+    "fr": "Forme de sélénien"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 40,
+   "max_rank_level": 40,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_forceofnature",
+   "school": "physical",
+   "talent": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1238215,
+   "name": {
+    "en": "Wild Growth",
+    "fr": "Croissance sauvage"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 40,
+   "max_rank_level": 60,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 1050
+   },
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": 7.0,
+   "icon": "ability_druid_flourish",
+   "school": "nature",
+   "talent": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 22812,
+   "name": {
+    "en": "Barkskin",
+    "fr": "Ecorce"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": 44,
+   "max_rank_level": 44,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 60.0,
+   "duration_s": 15.0,
+   "icon": "spell_nature_stoneclawtotem",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Your skin becomes as tough as bark. Physical damage taken is reduced by 20%. While you are protected, damaging attacks will not cause spellcasting delays. Lasts 15 sec.",
+    "fr": "Votre peau devient aussi résistante que de l’écorce. Les dégâts physiques subis sont réduits de 20 %. Durant la protection, les attaques infligeant des dégâts ne provoquent pas de délai dans l’incantation des sorts. Dure 15 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 21850,
+   "name": {
+    "en": "Gift of the Wild",
+    "fr": "Don du fauve"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 50,
+   "max_rank_level": 60,
+   "ranks": 2,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 1200
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 3600.0,
+   "icon": "spell_nature_regeneration",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Gives the Gift of the Wild to all party and raid members, increasing armor by 385, all attributes by 16 and all resistances by 27 for 60 min.",
+    "fr": "Fait bénéficier du Don du fauve tous les membres du groupe ou du raid, ce qui augmente leur armure de 385, toutes leurs caractéristiques de 16 et toutes leurs résistances de 27 pendant 60 min."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 417141,
+   "name": {
+    "en": "Berserk",
+    "fr": "Berserk"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 180.0,
+   "duration_s": 15.0,
+   "icon": "ability_druid_berserk",
+   "school": "physical",
+   "talent": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Requires Cat Form, Bear Form, Dire Bear Form Causes your Primal Bite ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 sec.",
+    "fr": "Requires Cat Form, Bear Form, Dire Bear Form Causes your Primal Bite ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 9821,
+   "name": {
+    "en": "Dash",
+    "fr": "Célérité"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 300.0,
+   "duration_s": 15.0,
+   "icon": "ability_druid_dash",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Increases movement speed by 60% for 15 sec. Does not break prowling.",
+    "fr": "Augmente la vitesse de déplacement de 60% pendant 15 s. N'interrompt pas le camouflage."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 436956,
+   "name": {
+    "en": "Deeper Wilds",
+    "fr": "Fauverie accentuée"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_empoweredrejuvination",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Decreases the mana cost of Mark of the Wild by 50% and increases its duration by 50%.",
+    "fr": "Réduit le coût en mana de Marque du fauve de 50 % et augmente sa durée de 50 %."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 417148,
+   "name": {
+    "en": "Efflorescence",
+    "fr": "Efflorescence"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_misc_herb_talandrasrose",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 417123,
+   "name": {
+    "en": "Enhanced Restoration",
+    "fr": "Restauration amplifiée"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_preservation",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Your Rejuvenation and Regrowth spells can now be active on targets affected by another Druid's Rejuvenation or Regrowth.",
+    "fr": "Votre Récupération et votre Rétablissement peuvent à présent être actifs sur des cibles affectées par la Récupération ou le Rétablissement d’un autre druide."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 20719,
+   "name": {
+    "en": "Feline Grace",
+    "fr": "Grâce féline"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "inv_feather_01",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Reduces damage from falling.",
+    "fr": "Réduit les points de dégâts infligés par les chutes."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 17104,
+   "name": {
+    "en": "Gift of Nature",
+    "fr": "Don de la Nature"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_protectionformnature",
+   "school": "physical",
+   "talent": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Increases the effect of all your healing spells by 2%.",
+    "fr": "Augmente de 2 % l’effet de tous vos sorts de soins."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 17007,
+   "name": {
+    "en": "Leader of the Pack",
+    "fr": "Chef de la meute"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_unyeildingstamina",
+   "school": "physical",
+   "talent": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the critical strike chance of all party members within 45 yards by 3%, exclusive with Moonkin Aura.",
+    "fr": "Pendant qu’il est en forme de félin, d’ours ou d’ours redoutable, le Chef de la meute augmente de 3 % les chances de tous les membres du groupe se trouvant à moins de 45 m d’obtenir un coup critique. Incompatible avec Aura de sélénien."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 408245,
+   "name": {
+    "en": "Lifebloom",
+    "fr": "Fleur de vie"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_nature_healingtouch",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Heals the target over 7 sec. When Lifebloom completes its duration or is dispelled, the target instantly heals. This effect can stack up to 3 times on the same target.",
+    "fr": "Soigne la cible en 7 s. Quand Fleur de vie arrive au terme de sa durée ou est dissipée, la cible est soignée instantanément. Cet effet est cumulable jusqu’à 3 fois sur la même cible."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 414683,
+   "name": {
+    "en": "Living Seed",
+    "fr": "Graine de vie"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_giftoftheearthmother",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Heals a friendly target for 100.",
+    "fr": "Rend 100 points de vie à une cible alliée."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 408247,
+   "name": {
+    "en": "Nourish",
+    "fr": "Nourrir"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 2.0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_nourish",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 9826,
+   "name": {
+    "en": "Pounce Bleed",
+    "fr": "Traquenard sanglant"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 18.0,
+   "icon": "ability_druid_supriseattack",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 410176,
+   "name": {
+    "en": "Skull Bash",
+    "fr": "Coup de crâne"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "rage",
+    "amount": 10
+   },
+   "cast_s": 0,
+   "cooldown_s": 10.0,
+   "duration_s": null,
+   "icon": "inv_misc_bone_taurenskull_01",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Charge to a target within 13 yards and bash the target's skull, interrupting spellcasting and preventing any spell in that school from being cast for 2 sec. Shares a cooldown with Feral Charge.",
+    "fr": "Vous chargez une cible jusqu’à 13 m et lui fracassez le crâne, ce qui interrompt son incantation et l’empêche de lancer tout sort de la même école pendant 2 s. Partage le temps de recharge de Charge farouche."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 439756,
+   "name": {
+    "en": "Starfall",
+    "fr": "Météores"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_druid_starfall",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 417157,
+   "name": {
+    "en": "Starsurge",
+    "fr": "Éruption stellaire"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 6.0,
+   "duration_s": 15.0,
+   "icon": "spell_arcane_arcane03",
+   "school": "arcane",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 414689,
+   "name": {
+    "en": "Sunfire",
+    "fr": "Éclat solaire"
+   },
+   "line": {
+    "en": "Balance",
+    "fr": "Equilibre"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": {
+    "type": "energy",
+    "amount": 40
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": 12.0,
+   "icon": "ability_mage_firestarter",
+   "school": "nature",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": null,
+    "fr": null
+   },
+   "desc_ok": false
+  },
+  {
+   "id": 408024,
+   "name": {
+    "en": "Survival Instincts",
+    "fr": "Instincts de survie"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": 180.0,
+   "duration_s": 20.0,
+   "icon": "ability_druid_tigersroar",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "When activated, this grants you 30% of your maximum health and increases all non-Physical healing you deal by 20% for 20 sec. After the effect expires, the health is lost. Useable in all forms except Moonkin Form. In addition, you regenerate 3 rage every time you dodge while in Bear Form or Dire Bear Form, 10 energy while in Cat Form, or 1% of your maximum mana while in any other form.",
+    "fr": "À l’activation, vous rend 30 % de votre maximum de points de vie et augmente les soins non physiques que vous prodiguez de 20 % pendant 20 s. Après expiration, ces points de vie sont perdus. Utilisable sous n’importe quelle forme sauf celle de Sélénien. En outre, vous régénérez 3 points de rage chaque fois que vous esquivez en forme d’ours ou d’ours redoutable, 10 points d’énergie en forme de félin, ou 1 % de votre maximum de mana sous une autre forme."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 5225,
+   "name": {
+    "en": "Track Humanoids",
+    "fr": "Pistage des humanoïdes"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "ability_tracking",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shows the location of all nearby humanoids on the minimap. Only one type of thing can be tracked at a time.",
+    "fr": "Les humanoïdes qui se trouvent dans les environs apparaissent sur la minicarte. Vous ne pouvez repérer qu'un seul type de créature à la fois."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 24968,
+   "name": {
+    "en": "Tranquil Spirit",
+    "fr": "Tranquillité de l'esprit"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": null,
+   "max_rank_level": null,
+   "ranks": 1,
+   "engraved": true,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_holy_elunesgrace",
+   "school": "physical",
+   "talent": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Reduces the mana cost of your Healing Touch and Tranquility spells by 2%.",
+    "fr": "Réduit le coût en mana de vos sorts Toucher guérisseur et Tranquillité de 2%."
+   },
+   "desc_ok": true
+  }
+ ]
+}
