@@ -4,6 +4,9 @@ ErrorDocument 404 /404.html
 Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/
 RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub
 Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/
+# Ranged Survival ranking page removed 2026-10-10 (Survival is melee): its pages follow the melee one.
+Redirect 301 /wow-forever/classement/hunter-survival/ /wow-forever/classement/hunter-melee/
+Redirect 301 /en/wow-forever/classement/hunter-survival/ /en/wow-forever/classement/hunter-melee/
 # TFT overview moved from / to /tft/ on 2026-10-03: its tier pages follow.
 RedirectMatch 301 ^/tier/([a-z]+)/$ /tft/tier/$1/
 RedirectMatch 301 ^/en/tier/([a-z]+)/$ /en/tft/tier/$1/

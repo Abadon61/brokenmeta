@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Mage Frost level 60: build, rotation, DPS">
 <meta name="twitter:description" content="Level 60 Mage Frost build in WoW: Forever: talents, gear, rotation and DPS by ability, computed by simulation.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=07174e313f">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=07174e313f">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=1dd2d7bc9c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=1dd2d7bc9c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=07174e313f">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=1dd2d7bc9c">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,30 +297,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">LEVEL 60 RANKING</div>
-    <h1 class="ph-title">Mage Frost: level 60 build, talents, rotation and DPS</h1>
-    <p class="ph-lede">This is what our simulator gets for the Mage Frost at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
-    
-    
+
+<section class="gh-hero is-flat" style="--cc: #3fc7eb">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="../../../../assets/img/spec/mage-frost.png" alt="Mage Frost" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">LEVEL 60 RANKING</div>
+      <h1 class="gh-title">Mage Frost: level 60 build, talents, rotation and DPS</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">632 DPS</b> Average DPS</span>
+        <span class="gh-chip"><b class="nums">#8</b> Rank of 20</span>
+        
+        <span class="gh-chip">Crit <b class="nums">15.3%</b></span><span class="gh-chip">Spell power <b class="nums">569</b></span>
+        
+      </div>
+      <p class="gh-lede">This is what our simulator gets for the Mage Frost at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/guides/mage/frost/">Spec guide <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator</a>
+    </div>
   </div>
 </section>
 
-<div class="rs-head" style="--rc: #3fc7eb">
-  <img class="rs-icon" src="../../../../assets/img/spec/mage-frost.png" alt="" width="56" height="56">
-  <div class="rs-kpis">
-    <div class="rs-kpi"><span class="rs-kpi-v nums">632 DPS</span><span class="rs-kpi-l">Average DPS</span></div>
-    <div class="rs-kpi"><span class="rs-kpi-v nums">#8</span><span class="rs-kpi-l">Rank of 21</span></div>
-    
-    <div class="rs-kpi"><span class="rs-kpi-v nums">15.3%</span><span class="rs-kpi-l">Crit</span></div><div class="rs-kpi"><span class="rs-kpi-v nums">569</span><span class="rs-kpi-l">Spell power</span></div>
-    
-  </div>
-</div>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-rotation">Rotation and damage</a>
+  <a href="#rk-stats">Stats</a>
+  <a href="#rk-gear">Gear</a>
+  <a href="#rk-hyp">Assumptions</a>
+</nav>
 
-<h2 class="fiche-section-title">Talents chosen</h2>
+<div class="gs-grid">
 
 
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talents chosen</h2></div>
+  
+  
 <div class="wg-legend"><span class="wg-key is-reco"></span>Talent taken by the build</div>
 <div class="wg-trees">
 <div class="wg-tree-wrap">
@@ -398,88 +412,216 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-
-<h2 class="fiche-section-title">Why these talents</h2>
-<p class="page-intro" style="margin-top:0">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
-<ul class="gd-list"><li>Arcane: 19 points. The deepest talent, Arcane Meditation, is in tier 4 and needs 15 points in the tree.</li><li>Frost: 32 points. The deepest talent, Winter&#39;s Chill, is in tier 6 and needs 25 points in the tree.</li></ul>
-<p class="page-intro">32 points in Frost and 19 in Arcane. Fingers of Frost (−122 DPS, 19% of the DPS), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a> (−93), Ice Shards (−86) and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a> (−61) carry the specialization, followed by Shatter (−49), Winter&#39;s Chill (−47), Elemental Precision (−41) and Piercing Ice (−30).</p><p class="page-intro">The Arcane points are mostly for Arcane Meditation (mana regeneration while casting, −13 DPS); Arcane Focus, Arcane Impact and Arcane Concentration have no effect on frost spells, and Wand Specialization and Arcane Subtlety are not simulated. Frost Channeling is neutral.</p>
-<p class="page-intro">The talents that pay the most: Fingers of Frost (−122.0 DPS), Improved Frostbolt (−92.6 DPS), Ice Shards (−85.9 DPS).</p>
-<p class="page-intro">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Wand Specialization, Arcane Subtlety.</p>
-<p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
-
+  <details class="gs-more"><summary>Why these talents</summary>
+    <p class="gs-lede">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
+    <ul class="gd-list"><li>Arcane: 19 points. The deepest talent, Arcane Meditation, is in tier 4 and needs 15 points in the tree.</li><li>Frost: 32 points. The deepest talent, Winter&#39;s Chill, is in tier 6 and needs 25 points in the tree.</li></ul>
+    <p class="gs-lede">32 points in Frost and 19 in Arcane. Fingers of Frost (−122 DPS, 19% of the DPS), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a> (−93), Ice Shards (−86) and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a> (−61) carry the specialization, followed by Shatter (−49), Winter&#39;s Chill (−47), Elemental Precision (−41) and Piercing Ice (−30).</p><p class="gs-lede">The Arcane points are mostly for Arcane Meditation (mana regeneration while casting, −13 DPS); Arcane Focus, Arcane Impact and Arcane Concentration have no effect on frost spells, and Wand Specialization and Arcane Subtlety are not simulated. Frost Channeling is neutral.</p>
+    <p class="gs-lede">The talents that pay the most: Fingers of Frost (−122.0 DPS), Improved Frostbolt (−92.6 DPS), Ice Shards (−85.9 DPS).</p>
+    <p class="gs-lede">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Wand Specialization, Arcane Subtlety.</p>
+    <p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
+    
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Talent</th><th class="nums">Tier</th><th>Measured value</th></tr></thead>
   <tbody><tr><td><b>Fingers of Frost</b> <span class="nums">2/2</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec.</span></td><td class="nums">5</td><td class="rs-v-value">−122.0 DPS without it (19.2%)</td></tr><tr><td><b>Improved Frostbolt</b> <span class="nums">5/5</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Reduces the casting time of your Frostbolt spell by 0.5 sec.</span></td><td class="nums">1</td><td class="rs-v-value">−92.6 DPS without it (14.6%)</td></tr><tr><td><b>Ice Shards</b> <span class="nums">5/5</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Increases the critical strike damage bonus of your Frost spells by 100%.</span></td><td class="nums">2</td><td class="rs-v-value">−85.9 DPS without it (13.6%)</td></tr><tr><td><b>Ice Lance</b> <span class="nums">1/1</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Deals 28 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.</span></td><td class="nums">3</td><td class="rs-v-value">−69.2 DPS without it (10.9%)</td></tr><tr><td><b>Shatter</b> <span class="nums">3/3</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Increases the critical strike chance of all your spells against Frozen targets by 50%.</span></td><td class="nums">4</td><td class="rs-v-value">−56.7 DPS without it (8.9%)</td></tr><tr><td><b>Winter&#39;s Chill</b> <span class="nums">5/5</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Gives your Frost damage spells a 100% chance to apply the Winter&#39;s Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 5 times.</span></td><td class="nums">6</td><td class="rs-v-value">−46.7 DPS without it (7.4%)</td></tr><tr><td><b>Elemental Precision</b> <span class="nums">5/5</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Improves your chance to hit with Frost and Fire spells by 5%.</span></td><td class="nums">1</td><td class="rs-v-value">−40.9 DPS without it (6.4%)</td></tr><tr><td><b>Piercing Ice</b> <span class="nums">3/3</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Increases the damage done by your Frost spells by 6%.</span></td><td class="nums">3</td><td class="rs-v-value">−35.9 DPS without it (5.7%)</td></tr><tr><td><b>Arcane Meditation</b> <span class="nums">3/3</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Allows 50% of your Mana regeneration to continue while casting.</span></td><td class="nums">4</td><td class="rs-v-value">−15.6 DPS without it (2.5%)</td></tr><tr><td><b>Frost Channeling</b> <span class="nums">3/3</span> <span class="rs-hint">Frost</span><span class="rs-tdesc">Reduces the mana cost of your Frost spells by 15% and reduces the threat caused by your Frost spells by 30%.</span></td><td class="nums">3</td><td class="rs-v-value">−4.0 DPS without it (0.6%)</td></tr><tr><td><b>Arcane Concentration</b> <span class="nums">5/5</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.</span></td><td class="nums">2</td><td class="rs-v-value">−2.2 DPS without it (0.3%)</td></tr><tr><td><b>Arcane Focus</b> <span class="nums">5/5</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Improves your chance to hit with Arcane spells by 5%.</span></td><td class="nums">1</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Arcane Impact</b> <span class="nums">3/3</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Increases the critical strike chance of your Arcane spells by 6%.</span></td><td class="nums">3</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Wand Specialization</b> <span class="nums">1/2</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Increases your damage with Wands by 13%.</span></td><td class="nums">1</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Arcane Subtlety</b> <span class="nums">2/2</span> <span class="rs-hint">Arcane</span><span class="rs-tdesc">Reduces your target&#39;s resistance to all your spells by 15 and reduces the threat caused by your Arcane spells by 30%.</span></td><td class="nums">2</td><td class="rs-v-gate">no simulated effect</td></tr></tbody>
 </table></div>
 
-
-
-
-
-<h2 class="fiche-section-title">Stat caps</h2>
-<p class="page-intro" style="margin-top:0">Each curve shows the simulated character&#39;s DPS as a stat is added on top of its gear: the left point is the current gear. A dashed line marks the estimated cap, the point where every extra point is worth less than 20% of what it gave at the start.</p>
-<div class="cv-grid"><figure class="cv-card is-capped"><figcaption>Hit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">632</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">640</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">649</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">658</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">666</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">7.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">11.5%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">16.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">20.5%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">25.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,84.8 145.5,29.0 196.4,29.0 245.0,29.0 295.9,29.0 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,84.8 145.5,29.0 196.4,29.0 245.0,29.0 295.9,29.0 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>7.0% : 635 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="84.8" r="2.6"><title>9.3% : 651 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="29.0" r="2.6"><title>11.5% : 664 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="29.0" r="2.6"><title>13.8% : 664 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="29.0" r="2.6"><title>16.0% : 664 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="29.0" r="2.6"><title>18.3% : 664 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>20.5% : 664 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>22.8% : 664 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>25.0% : 664 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="145.5" x2="145.5" y1="16" y2="172"/><text class="cv-t cv-tcap" x="141.5" y="38" text-anchor="end">cap ≈ 11.5%</text></svg><p class="rs-hint">Estimated cap: about 11.5%. Past it, hit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Haste</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Haste" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">624</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">655</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">686</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">717</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">748</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5.0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15.0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Haste</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.6 145.5,126.1 195.2,110.5 245.0,93.7 294.8,77.6 344.5,60.5 394.2,44.5 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.6 145.5,126.1 195.2,110.5 245.0,93.7 294.8,77.6 344.5,60.5 394.2,44.5 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0.0% : 635 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.6" r="2.6"><title>2.5% : 648 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.1" r="2.6"><title>5.0% : 661 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.5" r="2.6"><title>7.5% : 673 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.7" r="2.6"><title>10.0% : 686 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.6" r="2.6"><title>12.5% : 699 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="60.5" r="2.6"><title>15.0% : 713 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="44.5" r="2.6"><title>17.5% : 726 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20.0% : 738 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Haste keeps paying, about +5.20 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Crit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Crit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">625</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">653</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">681</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">708</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">736</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">15.3%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">20.3%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">25.3%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">30.3%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">35.3%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Crit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.7,143.4 145.5,126.3 195.2,109.8 245.0,93.9 294.7,77.5 344.5,61.1 394.2,45.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.7,143.4 145.5,126.3 195.2,109.8 245.0,93.9 294.7,77.5 344.5,61.1 394.2,45.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>15.3% : 635 DPS</title></circle><circle class="cv-dot" cx="95.7" cy="143.4" r="2.6"><title>17.8% : 646 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.3" r="2.6"><title>20.3% : 658 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="109.8" r="2.6"><title>22.8% : 669 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.9" r="2.6"><title>25.3% : 681 DPS</title></circle><circle class="cv-dot" cx="294.7" cy="77.5" r="2.6"><title>27.8% : 692 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.1" r="2.6"><title>30.3% : 704 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.1" r="2.6"><title>32.8% : 715 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>35.3% : 727 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Crit keeps paying, about +4.42 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Spell power</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Spell power" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">620</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">663</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">706</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">748</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">791</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">75</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">150</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">225</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">300</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Spell power</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,142.5 145.5,126.5 195.9,110.0 245.0,94.0 295.4,77.5 344.5,61.5 394.9,45.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,142.5 145.5,126.5 195.9,110.0 245.0,94.0 295.4,77.5 344.5,61.5 394.9,45.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 635 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="142.5" r="2.6"><title>38 : 653 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>75 : 670 DPS</title></circle><circle class="cv-dot" cx="195.9" cy="110.0" r="2.6"><title>113 : 688 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>150 : 706 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="77.5" r="2.6"><title>188 : 724 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>225 : 741 DPS</title></circle><circle class="cv-dot" cx="394.9" cy="45.0" r="2.6"><title>263 : 759 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>300 : 777 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Spell power keeps paying, about +0.47 DPS per point at the start.</p></figure><figure class="cv-card"><figcaption>Intellect</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Intellect" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">634</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">637</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">640</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">643</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">646</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Intellect</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,144.5 146.8,135.2 194.6,122.4 245.0,108.7 295.4,89.8 345.8,66.2 393.6,45.8 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,144.5 146.8,135.2 194.6,122.4 245.0,108.7 295.4,89.8 345.8,66.2 393.6,45.8 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 635 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="144.5" r="2.6"><title>19 : 636 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="135.2" r="2.6"><title>38 : 637 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="122.4" r="2.6"><title>56 : 638 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="108.7" r="2.6"><title>75 : 639 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="89.8" r="2.6"><title>94 : 640 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="66.2" r="2.6"><title>113 : 642 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="45.8" r="2.6"><title>131 : 644 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>150 : 645 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Intellect keeps paying, about +0.06 DPS per point at the start.</p></figure></div>
-
-<h3 class="rs-sub">Stat priority</h3>
-<p class="rs-hint">From the most to the least profitable for one unit of stat added to the simulated gear. Only the stats that bring DPS are listed.</p>
-<ol class="wg-stats"><li>Hit: +0.78 DPS per rating point (up to about 11.5%)</li><li>Haste: +0.50 DPS per rating point</li><li>Spell power: +0.47 DPS per point</li><li>Crit: +0.33 DPS per rating point</li><li>Intellect: +0.07 DPS per point</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Rotation</h2>
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a> as the filler.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a> on a Frozen target (Fingers of Frost, Winter&#39;s Chill).</li><li>Evocation and the mana gem for mana.</li></ol>
-
-<h3 class="rs-sub">Observed opening</h3>
-<p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
-<div class="rs-open"><span class="rs-step"><i class="nums">5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span><span class="rs-step"><i class="nums">5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></span><span class="rs-step"><i class="nums">6.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></span><span class="rs-step"><i class="nums">10.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span><span class="rs-step"><i class="nums">13 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span></div>
-
-
-
-<h3 class="rs-sub">Procs and triggers</h3>
-<p class="page-intro" style="margin-top:0">Effects that fire during the rotation, with the average number of triggers per minute measured in the 180-second simulation.</p>
-<div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">2.9<small>per minute</small></div><div><b>Fingers of Frost</b><p>Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec.</p></div></div><div class="cv-proc"><div class="cv-proc-n nums">2.5<small>per minute</small></div><div><b>Clearcasting (free spell)</b><p>Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.</p></div></div></div>
-
-
-<h2 class="fiche-section-title">Damage by ability</h2>
-<div class="rs-table-wrap">
-<table class="rs-table">
-  <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
-  <tbody>
+  </details>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 68.8%"></span></span><span class="nums rs-share">68.8%</span></td>
-      <td class="nums">434.8</td><td class="nums">20.7</td><td class="nums">25%</td></tr>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 31.2%"></span></span><span class="nums rs-share">31.2%</span></td>
-      <td class="nums">197.3</td><td class="nums">5.8</td><td class="nums">75%</td></tr>
+</section>
+
+
+<section class="gs-tile gs-w7" id="rk-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation</h2></div>
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a> as the filler.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a> on a Frozen target (Fingers of Frost, Winter&#39;s Chill).</li><li>Evocation and the mana gem for mana.</li></ol>
   
-  </tbody>
-</table>
-</div>
+  <h3 class="gs-sub">Observed opening</h3>
+  <p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
+  <div class="rs-open"><span class="rs-step"><i class="nums">5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span><span class="rs-step"><i class="nums">5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></span><span class="rs-step"><i class="nums">6.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></span><span class="rs-step"><i class="nums">10.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span><span class="rs-step"><i class="nums">13 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></span></div>
+  
+  
+  <h3 class="gs-sub">Procs and triggers</h3>
+  <p class="gs-lede">Effects that fire during the rotation, with the average number of triggers per minute measured in the 180-second simulation.</p>
+  <div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">2.9<small>per minute</small></div><div><b>Fingers of Frost</b><p>Gives your Chill effects a 15% chance to grant you the Fingers of Frost effect, which treats your next 2 spells cast as if the target were Frozen. Lasts 15 sec.</p></div></div><div class="cv-proc"><div class="cv-proc-n nums">2.5<small>per minute</small></div><div><b>Clearcasting (free spell)</b><p>Gives you a 10% chance of entering a Clearcasting state after any damage spell hits a target. The Clearcasting state reduces the mana cost of your next damage spell by 100%.</p></div></div></div>
+  
+</section>
 
-<h3 class="rs-sub">Active buffs</h3>
-<div class="rs-open"><span class="rs-step"><i class="nums">99%</i>Winter&#39;s Chill</span><span class="rs-step"><i class="nums">7%</i>Fingers of Frost</span></div>
+<section class="gs-tile gs-w5">
+  <div class="gs-th"><h2 class="gs-h2">Damage by ability</h2></div>
+  <div class="rs-table-wrap">
+  <table class="rs-table">
+    <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
+    <tbody>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25304" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Frostbolt</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 68.8%"></span></span><span class="nums rs-share">68.8%</span></td>
+        <td class="nums">434.8</td><td class="nums">20.7</td><td class="nums">25%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1240047" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ice Lance</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 31.2%"></span></span><span class="nums rs-share">31.2%</span></td>
+        <td class="nums">197.3</td><td class="nums">5.8</td><td class="nums">75%</td></tr>
+    
+    </tbody>
+  </table>
+  </div>
+  
+  <h3 class="gs-sub">Active buffs</h3>
+  <div class="rs-open"><span class="rs-step"><i class="nums">99%</i>Winter&#39;s Chill</span><span class="rs-step"><i class="nums">7%</i>Fingers of Frost</span></div>
+  
+</section>
 
 
 
-<h2 class="fiche-section-title">Level 60 gear</h2>
-<div class="rs-table-wrap">
-<table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Engineering</a> — skill 300</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Spell Power</a> <span class="rs-hint"></span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</td><td>—</td></tr><tr><td>Chest</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19682" rel="noopener nofollow" target="_blank">Bloodvine Vest</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Wrists</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22655" rel="noopener nofollow" target="_blank">Glacial Wrists</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td>—</td></tr><tr><td>Hands</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Healing Power</a> <span class="rs-hint"></span></td></tr><tr><td>Waist</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Ring 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Trinket 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Two-hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</td><td>—</td></tr><tr><td>Held in off hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Bloodmage Thalnos</td><td>—</td></tr></tbody>
-</table>
-</div>
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">Stat caps</h2></div>
+  
+  <p class="gs-lede">Each curve shows the simulated character&#39;s DPS as a stat is added on top of its gear: the left point is the current gear. A dashed line marks the estimated cap, the point where every extra point is worth less than 20% of what it gave at the start.</p>
+  <div class="cv-grid rk-cv"><figure class="cv-card is-capped"><figcaption>Hit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">632</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">640</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">649</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">658</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">666</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">7.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">11.5%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">16.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">20.5%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">25.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,84.8 145.5,29.0 196.4,29.0 245.0,29.0 295.9,29.0 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,84.8 145.5,29.0 196.4,29.0 245.0,29.0 295.9,29.0 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>7.0% : 635 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="84.8" r="2.6"><title>9.3% : 651 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="29.0" r="2.6"><title>11.5% : 664 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="29.0" r="2.6"><title>13.8% : 664 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="29.0" r="2.6"><title>16.0% : 664 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="29.0" r="2.6"><title>18.3% : 664 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>20.5% : 664 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>22.8% : 664 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>25.0% : 664 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="145.5" x2="145.5" y1="16" y2="172"/><text class="cv-t cv-tcap" x="141.5" y="38" text-anchor="end">cap ≈ 11.5%</text></svg><p class="rs-hint">Estimated cap: about 11.5%. Past it, hit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Haste</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Haste" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">624</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">655</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">686</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">717</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">748</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5.0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15.0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Haste</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.6 145.5,126.1 195.2,110.5 245.0,93.7 294.8,77.6 344.5,60.5 394.2,44.5 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.6 145.5,126.1 195.2,110.5 245.0,93.7 294.8,77.6 344.5,60.5 394.2,44.5 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0.0% : 635 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.6" r="2.6"><title>2.5% : 648 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.1" r="2.6"><title>5.0% : 661 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.5" r="2.6"><title>7.5% : 673 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.7" r="2.6"><title>10.0% : 686 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.6" r="2.6"><title>12.5% : 699 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="60.5" r="2.6"><title>15.0% : 713 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="44.5" r="2.6"><title>17.5% : 726 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20.0% : 738 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Haste keeps paying, about +5.20 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Crit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Crit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">625</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">653</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">681</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">708</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">736</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">15.3%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">20.3%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">25.3%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">30.3%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">35.3%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Crit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.7,143.4 145.5,126.3 195.2,109.8 245.0,93.9 294.7,77.5 344.5,61.1 394.2,45.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.7,143.4 145.5,126.3 195.2,109.8 245.0,93.9 294.7,77.5 344.5,61.1 394.2,45.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>15.3% : 635 DPS</title></circle><circle class="cv-dot" cx="95.7" cy="143.4" r="2.6"><title>17.8% : 646 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.3" r="2.6"><title>20.3% : 658 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="109.8" r="2.6"><title>22.8% : 669 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.9" r="2.6"><title>25.3% : 681 DPS</title></circle><circle class="cv-dot" cx="294.7" cy="77.5" r="2.6"><title>27.8% : 692 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.1" r="2.6"><title>30.3% : 704 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.1" r="2.6"><title>32.8% : 715 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>35.3% : 727 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Crit keeps paying, about +4.42 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Spell power</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Spell power" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">620</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">663</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">706</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">748</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">791</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">75</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">150</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">225</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">300</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Spell power</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,142.5 145.5,126.5 195.9,110.0 245.0,94.0 295.4,77.5 344.5,61.5 394.9,45.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,142.5 145.5,126.5 195.9,110.0 245.0,94.0 295.4,77.5 344.5,61.5 394.9,45.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 635 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="142.5" r="2.6"><title>38 : 653 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>75 : 670 DPS</title></circle><circle class="cv-dot" cx="195.9" cy="110.0" r="2.6"><title>113 : 688 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>150 : 706 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="77.5" r="2.6"><title>188 : 724 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>225 : 741 DPS</title></circle><circle class="cv-dot" cx="394.9" cy="45.0" r="2.6"><title>263 : 759 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>300 : 777 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Spell power keeps paying, about +0.47 DPS per point at the start.</p></figure><figure class="cv-card"><figcaption>Intellect</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Intellect" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">634</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">637</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">640</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">643</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">646</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Intellect</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,144.5 146.8,135.2 194.6,122.4 245.0,108.7 295.4,89.8 345.8,66.2 393.6,45.8 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,144.5 146.8,135.2 194.6,122.4 245.0,108.7 295.4,89.8 345.8,66.2 393.6,45.8 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 635 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="144.5" r="2.6"><title>19 : 636 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="135.2" r="2.6"><title>38 : 637 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="122.4" r="2.6"><title>56 : 638 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="108.7" r="2.6"><title>75 : 639 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="89.8" r="2.6"><title>94 : 640 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="66.2" r="2.6"><title>113 : 642 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="45.8" r="2.6"><title>131 : 644 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>150 : 645 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Intellect keeps paying, about +0.06 DPS per point at the start.</p></figure></div>
+  
+  
+  <h3 class="gs-sub">Stat priority</h3>
+  <p class="rs-hint">From the most to the least profitable for one unit of stat added to the simulated gear. Only the stats that bring DPS are listed.</p>
+  <ol class="wg-stats rk-prio"><li>Hit: +0.78 DPS per rating point (up to about 11.5%)</li><li>Haste: +0.50 DPS per rating point</li><li>Spell power: +0.47 DPS per point</li><li>Crit: +0.33 DPS per rating point</li><li>Intellect: +0.07 DPS per point</li></ol>
+  
+  
+  <h3 class="gs-sub">Character stats</h3>
+  <div class="rk-cs"><div><b class="nums">50</b><span>Strength</span></div><div><b class="nums">56</b><span>Agility</span></div><div><b class="nums">287</b><span>Stamina</span></div><div><b class="nums">361</b><span>Intellect</span></div><div><b class="nums">255</b><span>Spirit</span></div><div><b class="nums">569</b><span>Spell power</span></div><div><b class="nums">15.3%</b><span>Crit</span></div><div><b class="nums">7.0%</b><span>Hit</span></div><div><b class="nums">6 328</b><span>Mana</span></div></div>
+  
+</section>
 
-<h3 class="rs-sub">Item effects simulated</h3>
-<div class="rs-open"><span class="rs-step">Ephemeral Power</span></div>
 
 
-<h2 class="fiche-section-title">Character stats</h2>
-<div class="rs-open"><span class="rs-step"><i class="nums">50</i>Strength</span><span class="rs-step"><i class="nums">56</i>Agility</span><span class="rs-step"><i class="nums">287</i>Stamina</span><span class="rs-step"><i class="nums">361</i>Intellect</span><span class="rs-step"><i class="nums">255</i>Spirit</span><span class="rs-step"><i class="nums">569</i>Spell power</span><span class="rs-step"><i class="nums">15.3%</i>Crit</span><span class="rs-step"><i class="nums">7.0%</i>Hit</span><span class="rs-step"><i class="nums">6 328</i>Mana</span></div>
-
-
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Head</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Engineering</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Neck</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Spell Power</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shoulders</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Back</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Chest</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19682" rel="noopener nofollow" target="_blank">Bloodvine Vest</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Wrists</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22655" rel="noopener nofollow" target="_blank">Glacial Wrists</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Hands</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Healing Power</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Waist</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Legs</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Feet</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Trinket 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Two-hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Held in off hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Bloodmage Thalnos</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+  </div>
+  
+  <details class="gs-more"><summary>Item effects simulated (1)</summary>
+    <div class="rs-open"><span class="rs-step">Ephemeral Power</span></div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Ally buffs</span><span class="alt-sum nums">9</span></summary>
 <ul class="set-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Brilliance (Mage)</a> <span class="rs-hint">— +31 Intellect</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25898" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Kings (Paladin)</a> <span class="rs-hint">— +10% to all stats</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25918" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Wisdom (Paladin)</a> <span class="rs-hint">— +40 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25916" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Might (Paladin)</a> <span class="rs-hint">— +133 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Gift of the Wild (Druid)</a> <span class="rs-hint">— +16 Strength, +16 Agility, +16 Stamina, +16 Intellect, +16 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27681" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Spirit (Priest)</a> <span class="rs-hint">— +40 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21564" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Fortitude (Priest)</a> <span class="rs-hint">— +70 Stamina</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10497" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mana Spring Totem (Shaman)</a> <span class="rs-hint">— +25 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24907" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonkin Aura (Balance Druid)</a> <span class="rs-hint">— +3% spell crit</span></li></ul>
@@ -498,22 +640,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </details>
 
+</section>
 
-<h2 class="fiche-section-title">Assumptions</h2>
-<p class="wow-note">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
 
-<h2 class="fiche-section-title">Go further</h2>
-<div class="rs-links">
-  <a class="wh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/guides/mage/frost/">Spec guide <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/talents/mage/">Talent calculator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">Assumptions</h2></div>
+  <p class="gs-lede">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
+  <div class="rk-links">
+    <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/guides/mage/frost/">Spec guide <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/talents/mage/">Talent calculator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="Rank">
+    <a href="../../../../wow-forever/classement/warlock-destruction/">← Warlock Destruction</a>
+    <a href="../../../../wow-forever/classement/shaman-enhancement/">Shaman Enhancement →</a>
+  </nav>
+</section>
+
 </div>
-<nav class="rs-pn" aria-label="Rank">
-  <a href="../../../../wow-forever/classement/warlock-destruction/">← Warlock Destruction</a>
-  <a href="../../../../wow-forever/classement/shaman-enhancement/">Shaman Enhancement →</a>
-</nav>
 <p class="wow-note">World of Warcraft, Warcraft and Blizzard Entertainment are trademarks of Blizzard Entertainment, Inc. BrokenMeta.gg is an independent site: it is not affiliated with, endorsed or sponsored by Blizzard.</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 
 </div>
 <footer>
@@ -561,10 +718,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/site-search.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/favorites.js?v=07174e313f" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/site-search.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/favorites.js?v=1dd2d7bc9c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

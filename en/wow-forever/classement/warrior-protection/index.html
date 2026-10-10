@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Warrior Protection level 60: build, rotation, threat">
 <meta name="twitter:description" content="Level 60 Warrior Protection build in WoW: Forever: talents, gear, rotation and threat and damage by ability, computed by simulation.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=07174e313f">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=07174e313f">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=1dd2d7bc9c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=1dd2d7bc9c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=07174e313f">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=1dd2d7bc9c">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,31 +297,45 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">LEVEL 60 RANKING</div>
-    <h1 class="ph-title">Warrior Protection: level 60 build, talents, rotation and threat</h1>
-    <p class="ph-lede">This is what our simulator gets for the Warrior Protection at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
-    
-    
+
+<section class="gh-hero is-flat" style="--cc: #c69b6d">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="../../../../assets/img/spec/warrior-protection.png" alt="Warrior Protection" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">LEVEL 60 RANKING</div>
+      <h1 class="gh-title">Warrior Protection: level 60 build, talents, rotation and threat</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">716 TPS</b> Threat per second</span>
+        <span class="gh-chip"><b class="nums">#1</b> Rank of 3</span>
+        
+        <span class="gh-chip"><b class="nums">1 298</b> Damage taken / s</span>
+        <span class="gh-chip"><b class="nums">5 200</b> Health</span>
+        
+      </div>
+      <p class="gh-lede">This is what our simulator gets for the Warrior Protection at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/guides/warrior/protection/">Spec guide <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator</a>
+    </div>
   </div>
 </section>
 
-<div class="rs-head" style="--rc: #c69b6d">
-  <img class="rs-icon" src="../../../../assets/img/spec/warrior-protection.png" alt="" width="56" height="56">
-  <div class="rs-kpis">
-    <div class="rs-kpi"><span class="rs-kpi-v nums">716 TPS</span><span class="rs-kpi-l">Threat per second</span></div>
-    <div class="rs-kpi"><span class="rs-kpi-v nums">#1</span><span class="rs-kpi-l">Rank of 3</span></div>
-    
-    <div class="rs-kpi"><span class="rs-kpi-v nums">1 298</span><span class="rs-kpi-l">Damage taken / s</span></div>
-    <div class="rs-kpi"><span class="rs-kpi-v nums">5 200</span><span class="rs-kpi-l">Health</span></div>
-    
-  </div>
-</div>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-rotation">Rotation and damage</a>
+  <a href="#rk-stats">Stats</a>
+  <a href="#rk-gear">Gear</a>
+  <a href="#rk-hyp">Assumptions</a>
+</nav>
 
-<h2 class="fiche-section-title">Talents chosen</h2>
+<div class="gs-grid">
 
 
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talents chosen</h2></div>
+  
+  
 <div class="wg-legend"><span class="wg-key is-reco"></span>Talent taken by the build</div>
 <div class="wg-trees">
 <div class="wg-tree-wrap">
@@ -398,84 +412,214 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-
-<h2 class="fiche-section-title">Why these talents</h2>
-<p class="page-intro" style="margin-top:0">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
-<ul class="gd-list"><li>Arms: 11 points. The deepest talent, Improved Charge, is in tier 2 and needs 5 points in the tree.</li><li>Protection: 40 points. The deepest talent, Shield Slam, is in tier 7 and needs 30 points in the tree.</li></ul>
-<p class="page-intro">40 points in Protection and 11 in Arms. For a tank the score measures useful threat while staying alive: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a> (−184 points, 12%) and Defiance (−74, threat) count the most, with Bastion (−49) and Anticipation, Toughness and Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a> (−18 to −21 each) next.</p><p class="page-intro"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12975" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Last Stand</a>, Vanguard and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=12809" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Concussion Blow</a> are survival or control utility that is not simulated; Shield Specialization, Master of Defense, Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> and Focused Rage measure at zero. The 11 Arms points are Deflection (parry, −23), gate points and Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a>.</p>
-<p class="page-intro">The talents that pay the most: Shield Slam (−184.4 score), Defiance (−80.4 score), Bastion (−53.6 score).</p>
-<p class="page-intro">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Improved Charge, Improved Tactical Mastery, Last Stand, Vanguard, Concussion Blow.</p>
-<p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
-
+  <details class="gs-more"><summary>Why these talents</summary>
+    <p class="gs-lede">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
+    <ul class="gd-list"><li>Arms: 11 points. The deepest talent, Improved Charge, is in tier 2 and needs 5 points in the tree.</li><li>Protection: 40 points. The deepest talent, Shield Slam, is in tier 7 and needs 30 points in the tree.</li></ul>
+    <p class="gs-lede">40 points in Protection and 11 in Arms. For a tank the score measures useful threat while staying alive: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a> (−184 points, 12%) and Defiance (−74, threat) count the most, with Bastion (−49) and Anticipation, Toughness and Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a> (−18 to −21 each) next.</p><p class="gs-lede"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12975" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Last Stand</a>, Vanguard and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=12809" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Concussion Blow</a> are survival or control utility that is not simulated; Shield Specialization, Master of Defense, Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> and Focused Rage measure at zero. The 11 Arms points are Deflection (parry, −23), gate points and Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a>.</p>
+    <p class="gs-lede">The talents that pay the most: Shield Slam (−184.4 score), Defiance (−80.4 score), Bastion (−53.6 score).</p>
+    <p class="gs-lede">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Improved Charge, Improved Tactical Mastery, Last Stand, Vanguard, Concussion Blow.</p>
+    <p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
+    
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Talent</th><th class="nums">Tier</th><th>Measured value</th></tr></thead>
   <tbody><tr><td><b>Shield Slam</b> <span class="nums">1/1</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Slam the target with your shield, causing 430 damage, increased by your Block Value, and has a 50% chance of dispelling 1 magic effect on the target. Causes a very high amount of threat.</span></td><td class="nums">7</td><td class="rs-v-value">−184.4 score without it (12.2%)</td></tr><tr><td><b>Defiance</b> <span class="nums">3/3</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases all threat generated in Defensive stance by an additional 15% while a shield is equipped.</span></td><td class="nums">3</td><td class="rs-v-value">−80.4 score without it (5.3%)</td></tr><tr><td><b>Bastion</b> <span class="nums">5/5</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases all damage you deal by 10% while a shield is equipped.</span></td><td class="nums">5</td><td class="rs-v-value">−53.6 score without it (3.5%)</td></tr><tr><td><b>Improved Revenge</b> <span class="nums">3/3</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases damage dealt by your Revenge ability by 60%.</span></td><td class="nums">3</td><td class="rs-v-value">−21.4 score without it (1.4%)</td></tr><tr><td><b>Deflection</b> <span class="nums">5/5</span> <span class="rs-hint">Arms</span><span class="rs-tdesc">Increases your Parry chance by 5%.</span></td><td class="nums">1</td><td class="rs-v-value">−18.8 score without it (1.2%)</td></tr><tr><td><b>Anticipation</b> <span class="nums">5/5</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases your Defense Skill by 20.</span></td><td class="nums">1</td><td class="rs-v-value">−17.8 score without it (1.2%)</td></tr><tr><td><b>Toughness</b> <span class="nums">5/5</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases your Armor value from items by 10%.</span></td><td class="nums">2</td><td class="rs-v-value">−16.6 score without it (1.1%)</td></tr><tr><td><b>Focused Rage</b> <span class="nums">3/3</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Reduces the Rage cost of your offensive abilities by 3.</span></td><td class="nums">6</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Improved Heroic Strike</b> <span class="nums">3/3</span> <span class="rs-hint">Arms</span><span class="rs-tdesc">Reduces the cost of your Heroic Strike ability by 3 Rage.</span></td><td class="nums">1</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Improved Sunder Armor</b> <span class="nums">3/3</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Reduces the Rage cost of your Sunder Armor ability by 3.</span></td><td class="nums">4</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Master of Defense</b> <span class="nums">2/2</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Grants you a 100% chance to generate 5 Rage when you Dodge or Parry while a shield is equipped.</span></td><td class="nums">3</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Improved Charge</b> <span class="nums">2/2</span> <span class="rs-hint">Arms</span><span class="rs-tdesc">Increases the Rage generated by your Charge ability by 6.</span></td><td class="nums">2</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Improved Tactical Mastery</b> <span class="nums">1/5</span> <span class="rs-hint">Arms</span><span class="rs-tdesc">Tactical Mastery lets you retain up to an additional 3 Rage when you change stances.</span></td><td class="nums">2</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Last Stand</b> <span class="nums">1/1</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">When activated, this ability temporarily grants you 30% of your maximum health for 20 sec. After the effect expires, the health is lost.</span></td><td class="nums">3</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Vanguard</b> <span class="nums">1/1</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Your Charge ability is now usable while in Defensive Stance.</span></td><td class="nums">4</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Concussion Blow</b> <span class="nums">1/1</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Stuns the target for 5 sec.</span></td><td class="nums">5</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Improved Bloodrage</b> <span class="nums">2/2</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases all the Rage generated by your Bloodrage ability by 50%.</span></td><td class="nums">2</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Shield Specialization</b> <span class="nums">5/5</span> <span class="rs-hint">Protection</span><span class="rs-tdesc">Increases your chance to Block attacks with your shield by 5% and grants you a 100% chance to generate 5 Rage when you Block.</span></td><td class="nums">1</td><td class="rs-v-zero">negligible measured effect</td></tr></tbody>
 </table></div>
 
-
-
-
-
-
-
-<h2 class="fiche-section-title">Rotation</h2>
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a> on cooldown.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a> after a dodge, parry or block.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> with spare rage (it gives more threat per rage point).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> with the rest of the rage.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a> on cooldown.</li></ol>
-
-<h3 class="rs-sub">Observed opening</h3>
-<p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
-<div class="rs-open"><span class="rs-step"><i class="nums">1 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span><span class="rs-step"><i class="nums">3.6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">4 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></span><span class="rs-step"><i class="nums">7 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span><span class="rs-step"><i class="nums">7.2 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">10 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></span><span class="rs-step"><i class="nums">12.6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">13 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span></div>
-
-
-
-
-<h2 class="fiche-section-title">Damage by ability</h2>
-<div class="rs-table-wrap">
-<table class="rs-table">
-  <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
-  <tbody>
+  </details>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 39.0%"></span></span><span class="nums rs-share">39.0%</span></td>
-      <td class="nums">148.4</td><td class="nums">19.5</td><td class="nums">28%</td></tr>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.3%"></span></span><span class="nums rs-share">34.3%</span></td>
-      <td class="nums">130.5</td><td class="nums">10.0</td><td class="nums">28%</td></tr>
+</section>
+
+
+<section class="gs-tile gs-w7" id="rk-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation</h2></div>
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a> on cooldown.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a> after a dodge, parry or block.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> with spare rage (it gives more threat per rage point).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> with the rest of the rage.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a> on cooldown.</li></ol>
   
-  <tr><td>White (main hand)</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 16.4%"></span></span><span class="nums rs-share">16.4%</span></td>
-      <td class="nums">62.4</td><td class="nums">—</td><td class="nums">30%</td></tr>
+  <h3 class="gs-sub">Observed opening</h3>
+  <p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
+  <div class="rs-open"><span class="rs-step"><i class="nums">1 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span><span class="rs-step"><i class="nums">3.6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">4 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></span><span class="rs-step"><i class="nums">7 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span><span class="rs-step"><i class="nums">7.2 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">10 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></span><span class="rs-step"><i class="nums">12.6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></span><span class="rs-step"><i class="nums">13 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></span></div>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 9.7%"></span></span><span class="nums rs-share">9.7%</span></td>
-      <td class="nums">37</td><td class="nums">8.3</td><td class="nums">28%</td></tr>
   
-  <tr><td>Smokey&#39;s Lighter</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.5%"></span></span><span class="nums rs-share">0.5%</span></td>
-      <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
+</section>
+
+<section class="gs-tile gs-w5">
+  <div class="gs-th"><h2 class="gs-h2">Damage by ability</h2></div>
+  <div class="rs-table-wrap">
+  <table class="rs-table">
+    <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
+    <tbody>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 39.0%"></span></span><span class="nums rs-share">39.0%</span></td>
+        <td class="nums">148.4</td><td class="nums">19.5</td><td class="nums">28%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23925" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shield Slam</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.3%"></span></span><span class="nums rs-share">34.3%</span></td>
+        <td class="nums">130.5</td><td class="nums">10.0</td><td class="nums">28%</td></tr>
+    
+    <tr><td>White (main hand)</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 16.4%"></span></span><span class="nums rs-share">16.4%</span></td>
+        <td class="nums">62.4</td><td class="nums">—</td><td class="nums">30%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25288" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Revenge</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 9.7%"></span></span><span class="nums rs-share">9.7%</span></td>
+        <td class="nums">37</td><td class="nums">8.3</td><td class="nums">28%</td></tr>
+    
+    <tr><td>Smokey&#39;s Lighter</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.5%"></span></span><span class="nums rs-share">0.5%</span></td>
+        <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
+    
+    </tbody>
+  </table>
+  </div>
   
-  </tbody>
-</table>
-</div>
+</section>
 
 
 
-<h2 class="fiche-section-title">Level 60 gear</h2>
-<div class="rs-table-wrap">
-<table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=12640" rel="noopener nofollow" target="_blank">Lionheart Helm</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19695" rel="noopener nofollow" target="_blank">Darksoul Shoulders</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></td></tr><tr><td>Chest</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22196" rel="noopener nofollow" target="_blank">Thick Obsidian Breastplate</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Greater Stats</a> <span class="rs-hint">+4 Strength, +4 Agility, +4 Stamina, +4 Intellect, +4 Spirit</span></td></tr><tr><td>Wrists</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22671" rel="noopener nofollow" target="_blank">Icebane Bracers</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1248500" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Agility</a> <span class="rs-hint">+7 Agility</span></td></tr><tr><td>Hands</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22670" rel="noopener nofollow" target="_blank">Icebane Gauntlets</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></td></tr><tr><td>Waist</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19163" rel="noopener nofollow" target="_blank">Molten Belt</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22385" rel="noopener nofollow" target="_blank">Titanic Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16734" rel="noopener nofollow" target="_blank">Boots of Valor</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Kirtonos the Herald</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Boots - Greater Agility</a> <span class="rs-hint">+7 Agility</span></td></tr><tr><td>Ring 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9533" rel="noopener nofollow" target="_blank">Masons Fraternity Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a> — Divino-matic Rod</td><td>—</td></tr><tr><td>Trinket 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Main hand</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Weapon - Agility</a> <span class="rs-hint">+15 Agility</span></td></tr><tr><td>Shield</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22198" rel="noopener nofollow" target="_blank">Jagged Obsidian Shield</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</td><td>—</td></tr></tbody>
-</table>
-</div>
-
-<h3 class="rs-sub">Item effects simulated</h3>
-<div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span></div>
-
-
-<h2 class="fiche-section-title">Character stats</h2>
-<div class="rs-open"><span class="rs-step"><i class="nums">371</i>Strength</span><span class="rs-step"><i class="nums">412</i>Agility</span><span class="rs-step"><i class="nums">370</i>Stamina</span><span class="rs-step"><i class="nums">303</i>Defense</span><span class="rs-step"><i class="nums">21.4%</i>Dodge</span><span class="rs-step"><i class="nums">5.0%</i>Parry</span><span class="rs-step"><i class="nums">5.0%</i>Block</span><span class="rs-step"><i class="nums">59</i>Block value</span><span class="rs-step"><i class="nums">6 711</i>Armor</span></div>
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">Character stats</h2></div>
+  
+  
+  
+  <h3 class="gs-sub">Character stats</h3>
+  <div class="rk-cs"><div><b class="nums">371</b><span>Strength</span></div><div><b class="nums">412</b><span>Agility</span></div><div><b class="nums">370</b><span>Stamina</span></div><div><b class="nums">303</b><span>Defense</span></div><div><b class="nums">21.4%</b><span>Dodge</span></div><div><b class="nums">5.0%</b><span>Parry</span></div><div><b class="nums">5.0%</b><span>Block</span></div><div><b class="nums">59</b><span>Block value</span></div><div><b class="nums">6 711</b><span>Armor</span></div></div>
+  
+</section>
 
 
+
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Head</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=12640" rel="noopener nofollow" target="_blank">Lionheart Helm</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Neck</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shoulders</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19695" rel="noopener nofollow" target="_blank">Darksoul Shoulders</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Back</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Chest</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22196" rel="noopener nofollow" target="_blank">Thick Obsidian Breastplate</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Greater Stats</a> <span class="rs-hint">+4 Strength, +4 Agility, +4 Stamina, +4 Intellect, +4 Spirit</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Wrists</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22671" rel="noopener nofollow" target="_blank">Icebane Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1248500" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Agility</a> <span class="rs-hint">+7 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Hands</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22670" rel="noopener nofollow" target="_blank">Icebane Gauntlets</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Waist</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19163" rel="noopener nofollow" target="_blank">Molten Belt</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Legs</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22385" rel="noopener nofollow" target="_blank">Titanic Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Feet</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16734" rel="noopener nofollow" target="_blank">Boots of Valor</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Kirtonos the Herald</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Boots - Greater Agility</a> <span class="rs-hint">+7 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9533" rel="noopener nofollow" target="_blank">Masons Fraternity Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a> — Divino-matic Rod</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Trinket 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Main hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Weapon - Agility</a> <span class="rs-hint">+15 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shield</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22198" rel="noopener nofollow" target="_blank">Jagged Obsidian Shield</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+  </div>
+  
+  <details class="gs-more"><summary>Item effects simulated (1)</summary>
+    <div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span></div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Ally buffs</span><span class="alt-sum nums">12</span></summary>
 <ul class="set-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Brilliance (Mage)</a> <span class="rs-hint">— +31 Intellect</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25898" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Kings (Paladin)</a> <span class="rs-hint">— +10% to all stats</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25918" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Wisdom (Paladin)</a> <span class="rs-hint">— +40 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25916" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Might (Paladin)</a> <span class="rs-hint">— +133 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Gift of the Wild (Druid)</a> <span class="rs-hint">— +16 Strength, +16 Agility, +16 Stamina, +16 Intellect, +16 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27681" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Spirit (Priest)</a> <span class="rs-hint">— +40 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21564" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Fortitude (Priest)</a> <span class="rs-hint">— +70 Stamina</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10497" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mana Spring Totem (Shaman)</a> <span class="rs-hint">— +25 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25289" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Battle Shout (Warrior)</a> <span class="rs-hint">— +139 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25359" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Grace of Air Totem (Shaman)</a> <span class="rs-hint">— +89 Agility</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25361" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Strength of Earth Totem (Shaman)</a> <span class="rs-hint">— +53 Strength</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24932" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Leader of the Pack (Feral Druid)</a> <span class="rs-hint">— +3% crit (melee)</span></li></ul>
@@ -494,22 +638,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </details>
 
+</section>
 
-<h2 class="fiche-section-title">Assumptions</h2>
-<p class="wow-note">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
 
-<h2 class="fiche-section-title">Go further</h2>
-<div class="rs-links">
-  <a class="wh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/guides/warrior/protection/">Spec guide <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/talents/warrior/">Talent calculator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">Assumptions</h2></div>
+  <p class="gs-lede">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
+  <div class="rk-links">
+    <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/guides/warrior/protection/">Spec guide <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/talents/warrior/">Talent calculator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="Rank">
+    <span></span>
+    <a href="../../../../wow-forever/classement/paladin-protection/">Paladin Protection →</a>
+  </nav>
+</section>
+
 </div>
-<nav class="rs-pn" aria-label="Rank">
-  <span></span>
-  <a href="../../../../wow-forever/classement/paladin-protection/">Paladin Protection →</a>
-</nav>
 <p class="wow-note">World of Warcraft, Warcraft and Blizzard Entertainment are trademarks of Blizzard Entertainment, Inc. BrokenMeta.gg is an independent site: it is not affiliated with, endorsed or sponsored by Blizzard.</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 
 </div>
 <footer>
@@ -557,10 +716,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/site-search.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/favorites.js?v=07174e313f" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/site-search.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/favorites.js?v=1dd2d7bc9c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

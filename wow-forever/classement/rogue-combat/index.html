@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Voleur Combat niveau 60 : build, rotation, DPS">
 <meta name="twitter:description" content="Build niveau 60 du Voleur Combat dans WoW: Forever : talents, équipement, rotation et DPS par technique, calculés par simulation.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=07174e313f">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=07174e313f">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=1dd2d7bc9c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=1dd2d7bc9c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=07174e313f">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=1dd2d7bc9c">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,30 +297,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">CLASSEMENT NIVEAU 60</div>
-    <h1 class="ph-title">Voleur Combat : build niveau 60, talents, rotation et DPS</h1>
-    <p class="ph-lede">Voici ce que notre simulateur obtient pour le Voleur Combat au niveau 60 : l&#39;équipement que l&#39;optimiseur trouve parmi les objets connus de la bêta (donjons, raid et équipement fabriqué), les talents du préréglage, la rotation suivie et les dégâts de chaque technique sur un combat de 180 secondes contre un boss immobile.</p>
-    
-    
+
+<section class="gh-hero is-flat" style="--cc: #fff468">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="../../../assets/img/spec/rogue-combat.png" alt="Voleur Combat" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">CLASSEMENT NIVEAU 60</div>
+      <h1 class="gh-title">Voleur Combat : build niveau 60, talents, rotation et DPS</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">547 DPS</b> DPS moyen</span>
+        <span class="gh-chip"><b class="nums">#14</b> Rang sur 20</span>
+        
+        <span class="gh-chip">Critique <b class="nums">27.8 %</b></span><span class="gh-chip">Puissance d&#39;attaque <b class="nums">1 340</b></span>
+        
+      </div>
+      <p class="gh-lede">Voici ce que notre simulateur obtient pour le Voleur Combat au niveau 60 : l&#39;équipement que l&#39;optimiseur trouve parmi les objets connus de la bêta (donjons, raid et équipement fabriqué), les talents du préréglage, la rotation suivie et les dégâts de chaque technique sur un combat de 180 secondes contre un boss immobile.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../wow-forever/guides/rogue/combat/">Guide de la spécialisation <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../wow-forever/simulateur-dps/">Ouvrir dans le simulateur</a>
+    </div>
   </div>
 </section>
 
-<div class="rs-head" style="--rc: #fff468">
-  <img class="rs-icon" src="../../../assets/img/spec/rogue-combat.png" alt="" width="56" height="56">
-  <div class="rs-kpis">
-    <div class="rs-kpi"><span class="rs-kpi-v nums">547 DPS</span><span class="rs-kpi-l">DPS moyen</span></div>
-    <div class="rs-kpi"><span class="rs-kpi-v nums">#15</span><span class="rs-kpi-l">Rang sur 21</span></div>
-    
-    <div class="rs-kpi"><span class="rs-kpi-v nums">27.8 %</span><span class="rs-kpi-l">Critique</span></div><div class="rs-kpi"><span class="rs-kpi-v nums">1 340</span><span class="rs-kpi-l">Puissance d&#39;attaque</span></div>
-    
-  </div>
-</div>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-rotation">Rotation et dégâts</a>
+  <a href="#rk-stats">Statistiques</a>
+  <a href="#rk-gear">Équipement</a>
+  <a href="#rk-hyp">Hypothèses</a>
+</nav>
 
-<h2 class="fiche-section-title">Talents choisis</h2>
+<div class="gs-grid">
 
 
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talents choisis</h2></div>
+  
+  
 <div class="wg-legend"><span class="wg-key is-reco"></span>Talent pris par le build</div>
 <div class="wg-trees">
 <div class="wg-tree-wrap">
@@ -397,108 +411,236 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-
-<h2 class="fiche-section-title">Pourquoi ces talents</h2>
-<p class="page-intro" style="margin-top:0">Un build a 51 points. Un talent du palier n n&#39;est accessible qu&#39;après 5 × (n − 1) points dépensés plus haut dans le même arbre (les chiffres à gauche de chaque arbre donnent le palier et les points exigés) : certains points sont donc des points de passage, pris pour atteindre un talent plus bas.</p>
-<ul class="gd-list"><li>Assassinat : 18 points. Le talent le plus profond, Mortalité, est au palier 3 et exige 10 points dans l&#39;arbre.</li><li>Combat : 33 points. Le talent le plus profond, Poussée d&#39;adrénaline, est au palier 7 et exige 30 points dans l&#39;arbre.</li></ul>
-<p class="page-intro">33 points dans Combat et 18 dans Assassinat. Dual Wield Specialization (−45 DPS), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a> (−23), Precision (−13) et Adrenaline Rush (−15) portent la spécialisation ; Hack and Slash, Weapon Expertise et Aggression ajoutent de 8 à 12 DPS chacun.</p><p class="page-intro">Les 18 points d&#39;Assassinat sont pris pour Malice (+critique, −21), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=6774" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slice and Dice</a> (−23) et les points de passage Ruthlessness, Murder et Lethality. Puncturing Wounds est sans effet mesuré et Lightning Reflexes (esquive) n&#39;est pas simulé.</p>
-<p class="page-intro">Les talents qui rapportent le plus : Spécialisation Ambidextrie (−44,9 DPS), Attaque pernicieuse améliorée (−23,3 DPS), Malice (−23,2 DPS).</p>
-<p class="page-intro">Points sans effet mesuré dans le simulateur (passage, utilité ou effet non simulé) : Réflexes-éclairs, Meurtre.</p>
-<p class="rs-hint">La valeur d&#39;un talent est ce que la spécialisation perd en le retirant du build, sur le même personnage et la même simulation de 180 secondes.</p>
-
+  <details class="gs-more"><summary>Pourquoi ces talents</summary>
+    <p class="gs-lede">Un build a 51 points. Un talent du palier n n&#39;est accessible qu&#39;après 5 × (n − 1) points dépensés plus haut dans le même arbre (les chiffres à gauche de chaque arbre donnent le palier et les points exigés) : certains points sont donc des points de passage, pris pour atteindre un talent plus bas.</p>
+    <ul class="gd-list"><li>Assassinat : 18 points. Le talent le plus profond, Mortalité, est au palier 3 et exige 10 points dans l&#39;arbre.</li><li>Combat : 33 points. Le talent le plus profond, Poussée d&#39;adrénaline, est au palier 7 et exige 30 points dans l&#39;arbre.</li></ul>
+    <p class="gs-lede">33 points dans Combat et 18 dans Assassinat. Dual Wield Specialization (−45 DPS), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a> (−23), Precision (−13) et Adrenaline Rush (−15) portent la spécialisation ; Hack and Slash, Weapon Expertise et Aggression ajoutent de 8 à 12 DPS chacun.</p><p class="gs-lede">Les 18 points d&#39;Assassinat sont pris pour Malice (+critique, −21), Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=6774" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slice and Dice</a> (−23) et les points de passage Ruthlessness, Murder et Lethality. Puncturing Wounds est sans effet mesuré et Lightning Reflexes (esquive) n&#39;est pas simulé.</p>
+    <p class="gs-lede">Les talents qui rapportent le plus : Spécialisation Ambidextrie (−44,9 DPS), Attaque pernicieuse améliorée (−23,3 DPS), Malice (−23,2 DPS).</p>
+    <p class="gs-lede">Points sans effet mesuré dans le simulateur (passage, utilité ou effet non simulé) : Réflexes-éclairs, Meurtre.</p>
+    <p class="rs-hint">La valeur d&#39;un talent est ce que la spécialisation perd en le retirant du build, sur le même personnage et la même simulation de 180 secondes.</p>
+    
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Talent</th><th class="nums">Palier</th><th>Valeur mesurée</th></tr></thead>
   <tbody><tr><td><b>Spécialisation Ambidextrie</b> <span class="nums">5/5</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente de 25 % les dégâts infligés par votre arme tenue en main gauche.</span></td><td class="nums">4</td><td class="rs-v-value">−44,9 DPS sans lui (8,2 %)</td></tr><tr><td><b>Attaque pernicieuse améliorée</b> <span class="nums">2/2</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse.</span></td><td class="nums">1</td><td class="rs-v-value">−23,3 DPS sans lui (4,3 %)</td></tr><tr><td><b>Malice</b> <span class="nums">5/5</span> <span class="rs-hint">Assassinat</span><span class="rs-tdesc">Augmente de 5 % vos chances d’infliger un coup critique avec vos attaques et poisons.</span></td><td class="nums">1</td><td class="rs-v-value">−23,2 DPS sans lui (4,2 %)</td></tr><tr><td><b>Débiter amélioré</b> <span class="nums">3/3</span> <span class="rs-hint">Assassinat</span><span class="rs-tdesc">Augmente la durée de votre technique Débiter de 45%.</span></td><td class="nums">2</td><td class="rs-v-value">−22,8 DPS sans lui (4,2 %)</td></tr><tr><td><b>Poussée d&#39;adrénaline</b> <span class="nums">1/1</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente la vitesse de régénération de votre Energie de 100% pendant 15 s.</span></td><td class="nums">7</td><td class="rs-v-value">−15,8 DPS sans lui (2,9 %)</td></tr><tr><td><b>Précision</b> <span class="nums">3/3</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Améliore vos chances de toucher de 3 %.</span></td><td class="nums">2</td><td class="rs-v-value">−13,1 DPS sans lui (2,4 %)</td></tr><tr><td><b>Expertise en armes</b> <span class="nums">2/2</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Réduit de 2 % les chances que vos attaques soient esquivées ou parées.</span></td><td class="nums">6</td><td class="rs-v-value">−12,7 DPS sans lui (2,3 %)</td></tr><tr><td><b>Taillader et trancher</b> <span class="nums">5/5</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Confère un avantage à vos attaques avec les armes de mêlée selon l’arme utilisée. Hache/épée : vos attaques en mêlée réussies ont 5 % de chances de déclencher une attaque supplémentaire contre la cible. Dague/poing : vos chances de coup critique augmentent de 5 %. Masse : vos attaques ignorent 15 % de l’armure de la cible.</span></td><td class="nums">5</td><td class="rs-v-value">−12,6 DPS sans lui (2,3 %)</td></tr><tr><td><b>Agressivité</b> <span class="nums">3/3</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente de 6% les points de dégâts infligés par vos techniques Attaque pernicieuse, Attaque sournoise et Eviscération.</span></td><td class="nums">6</td><td class="rs-v-value">−8,2 DPS sans lui (1,5 %)</td></tr><tr><td><b>Déluge de lames</b> <span class="nums">1/1</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente votre vitesse d’attaque en mêlée de 20 % et permet à vos attaques en mêlée de toucher un personnage adverse proche supplémentaire. Dure 15 s.</span></td><td class="nums">5</td><td class="rs-v-value">−8,0 DPS sans lui (1,5 %)</td></tr><tr><td><b>Mortalité</b> <span class="nums">5/5</span> <span class="rs-hint">Assassinat</span><span class="rs-tdesc">Augmente de 20 % le bonus de dégâts des coups critiques de vos techniques Attaque pernicieuse, Suriner, Attaque sournoise, Estropier, Frappe fantomatique et Hémorragie.</span></td><td class="nums">3</td><td class="rs-v-value">−5,1 DPS sans lui (0,9 %)</td></tr><tr><td><b>Éviscération améliorée</b> <span class="nums">3/3</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente de 20 % les dégâts infligés par votre technique Eviscération.</span></td><td class="nums">1</td><td class="rs-v-value">−4,6 DPS sans lui (0,8 %)</td></tr><tr><td><b>Exécution parfaite</b> <span class="nums">1/1</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Réduit de 10 le coût en énergie de votre technique Éviscération.</span></td><td class="nums">4</td><td class="rs-v-value">−4,3 DPS sans lui (0,8 %)</td></tr><tr><td><b>Némésis</b> <span class="nums">3/3</span> <span class="rs-hint">Assassinat</span><span class="rs-tdesc">Confère à vos coups de grâce 60 % de chances de générer un point de combo sur votre cible.</span></td><td class="nums">2</td><td class="rs-v-value">−1,7 DPS sans lui (0,3 %)</td></tr><tr><td><b>Blessures transperçantes</b> <span class="nums">3/3</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente les chances de coup critique de vos techniques Attaque sournoise et Estropier respectivement de 30 % et 15 %, et confère à Attaque sournoise 45 % de chances de générer un point de combo supplémentaire.</span></td><td class="nums">2</td><td class="rs-v-zero">effet mesuré négligeable</td></tr><tr><td><b>Réflexes-éclairs</b> <span class="nums">4/5</span> <span class="rs-hint">Combat</span><span class="rs-tdesc">Augmente vos chances d’esquiver de 4 %.</span></td><td class="nums">1</td><td class="rs-v-gate">aucun effet simulé</td></tr><tr><td><b>Meurtre</b> <span class="nums">2/2</span> <span class="rs-hint">Assassinat</span><span class="rs-tdesc">Augmente de 4 % tous les dégâts infligés contre les cibles humanoïdes et géantes.</span></td><td class="nums">2</td><td class="rs-v-gate">aucun effet simulé</td></tr></tbody>
 </table></div>
 
-
-
-
-
-<h2 class="fiche-section-title">Plafonds de statistiques</h2>
-<p class="page-intro" style="margin-top:0">Chaque courbe montre le DPS du personnage simulé quand on ajoute de la statistique par-dessus son équipement : le point de gauche est l&#39;équipement actuel. Une ligne pointillée marque le plafond estimé, c&#39;est-à-dire le moment où chaque point supplémentaire rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
-<div class="cv-grid"><figure class="cv-card"><figcaption>Critique</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Critique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">538</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">566</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">594</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">622</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">650</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">27,8%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">32,8%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">37,8%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">42,8%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">47,8%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Critique</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.7 145.5,126.5 195.2,110.1 245.0,93.9 294.7,77.7 344.5,61.6 394.2,45.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.7 145.5,126.5 195.2,110.1 245.0,93.9 294.7,77.7 344.5,61.6 394.2,45.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>27,8% : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.7" r="2.6"><title>30,3% : 559 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>32,8% : 571 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.1" r="2.6"><title>35,3% : 583 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.9" r="2.6"><title>37,8% : 594 DPS</title></circle><circle class="cv-dot" cx="294.7" cy="77.7" r="2.6"><title>40,3% : 606 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.6" r="2.6"><title>42,8% : 617 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.1" r="2.6"><title>45,3% : 629 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>47,8% : 641 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Critique continue de rapporter, environ +4,66 DPS par 1 % au départ.</p></figure><figure class="cv-card is-capped"><figcaption>Toucher</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Toucher" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">543</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">558</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">574</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">590</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">605</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">8,5%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">13,0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">17,5%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">22,0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">26,5%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Toucher</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,137.9 145.5,119.1 196.4,92.3 245.0,68.9 295.9,47.8 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,137.9 145.5,119.1 196.4,92.3 245.0,68.9 295.9,47.8 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>8,5% : 548 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="137.9" r="2.6"><title>10,8% : 556 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="119.1" r="2.6"><title>13,0% : 564 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="92.3" r="2.6"><title>15,3% : 575 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="68.9" r="2.6"><title>17,5% : 584 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="47.8" r="2.6"><title>19,8% : 592 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>22,0% : 600 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>24,3% : 600 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>26,5% : 600 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text><line class="cv-cap" x1="344.5" x2="344.5" y1="16" y2="172"/><text class="cv-t cv-tcap" x="340.5" y="38" text-anchor="end">plafond ≈ 22,0%</text></svg><p class="rs-hint">Plafond estimé : environ 22,0 %. Au-delà, Toucher ne rapporte presque plus.</p></figure><figure class="cv-card"><figcaption>Hâte</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hâte" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">540</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">562</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">585</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">607</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">629</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0,0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5,0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10,0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15,0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20,0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hâte</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.4 145.5,128.3 195.2,111.7 245.0,92.2 294.8,75.2 344.5,57.8 394.2,43.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.4 145.5,128.3 195.2,111.7 245.0,92.2 294.8,75.2 344.5,57.8 394.2,43.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0,0% : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.4" r="2.6"><title>2,5% : 557 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="128.3" r="2.6"><title>5,0% : 565 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="111.7" r="2.6"><title>7,5% : 574 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="92.2" r="2.6"><title>10,0% : 586 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="75.2" r="2.6"><title>12,5% : 595 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="57.8" r="2.6"><title>15,0% : 605 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="43.0" r="2.6"><title>17,5% : 613 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20,0% : 621 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Hâte continue de rapporter, environ +3,53 DPS par 1 % au départ.</p></figure><figure class="cv-card"><figcaption>Agilité</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Agilité" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">543</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">558</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">573</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">588</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">602</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Agilité</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.5 145.5,126.9 195.2,111.3 245.0,94.7 294.8,78.8 344.5,62.0 394.2,46.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.5 145.5,126.9 195.2,111.3 245.0,94.7 294.8,78.8 344.5,62.0 394.2,46.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.5" r="2.6"><title>15 : 554 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.9" r="2.6"><title>30 : 560 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="111.3" r="2.6"><title>45 : 566 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.7" r="2.6"><title>60 : 572 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="78.8" r="2.6"><title>75 : 578 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="62.0" r="2.6"><title>90 : 585 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="46.1" r="2.6"><title>105 : 591 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 597 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Agilité continue de rapporter, environ +0,39 DPS par point au départ.</p></figure><figure class="cv-card"><figcaption>Force</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Force" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">545</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">553</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">561</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">570</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">578</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Force</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.3 145.5,126.5 195.2,109.8 245.0,94.0 294.8,77.3 344.5,61.5 394.2,44.7 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.3 145.5,126.5 195.2,109.8 245.0,94.0 294.8,77.3 344.5,61.5 394.2,44.7 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.3" r="2.6"><title>15 : 551 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>30 : 555 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="109.8" r="2.6"><title>45 : 558 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>60 : 561 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.3" r="2.6"><title>75 : 565 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>90 : 568 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="44.7" r="2.6"><title>105 : 572 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 575 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Force continue de rapporter, environ +0,23 DPS par point au départ.</p></figure><figure class="cv-card"><figcaption>Puissance d&#39;attaque</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Puissance d'attaque" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">539</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">564</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">589</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">614</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">639</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">100</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">200</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">300</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">400</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Puissance d'attaque</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.8 145.5,126.5 195.2,110.3 245.0,94.0 294.8,77.7 344.5,61.5 394.2,45.2 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.8 145.5,126.5 195.2,110.3 245.0,94.0 294.8,77.7 344.5,61.5 394.2,45.2 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.8" r="2.6"><title>50 : 558 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>100 : 568 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.3" r="2.6"><title>150 : 579 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>200 : 589 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.7" r="2.6"><title>250 : 600 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>300 : 610 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.2" r="2.6"><title>350 : 620 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>400 : 631 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Puissance d&#39;attaque continue de rapporter, environ +0,21 DPS par point au départ.</p></figure></div>
-
-<h3 class="rs-sub">Ordre de priorité des statistiques</h3>
-<p class="rs-hint">Du plus rentable au moins rentable pour une unité de statistique ajoutée à l&#39;équipement simulé. Seules les statistiques qui apportent du DPS sont listées.</p>
-<ol class="wg-stats"><li>Toucher : +0,42 DPS par point de score (jusqu&#39;à environ 22,0 %)</li><li>Agilité : +0,41 DPS par point</li><li>Hâte : +0,34 DPS par point de score</li><li>Critique : +0,33 DPS par point de score</li><li>Force : +0,23 DPS par point</li><li>Puissance d&#39;attaque : +0,21 DPS par point</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Rotation</h2>
-<ol class="rs-rot"><li>Garder <a class="rs-spell" href="https://www.wowhead.com/forever/spell=6774" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slice and Dice</a> actif.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a> pour construire les points de combo.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a> à 5 points de combo.</li><li>Adrenaline Rush et Blade Flurry à chaque fois qu&#39;ils sont prêts.</li><li>Instant Poison en main droite, Deadly Poison en main gauche.</li></ol>
-
-<h3 class="rs-sub">Ouverture observée</h3>
-<p class="rs-hint">Les 14 premières secondes du combat simulé : les coups qui infligent des dégâts directs, dans l&#39;ordre.</p>
-<div class="rs-open"><span class="rs-step"><i class="nums">1 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">4 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">8 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">10 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">12 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a></span><span class="rs-step"><i class="nums">14 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span></div>
-
-
-
-<h3 class="rs-sub">Procs et déclenchements</h3>
-<p class="page-intro" style="margin-top:0">Effets qui se déclenchent pendant la rotation, avec le nombre moyen de déclenchements par minute mesuré sur la simulation de 180 secondes.</p>
-<div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">9,9<small>par minute</small></div><div><b>Poison instantané</b><p>Chance de déclencher des dégâts de Nature à chaque coup de l&#39;arme enduite.</p></div></div><div class="cv-proc"><div class="cv-proc-n nums">18,6<small>par minute</small></div><div><b>Poison mortel</b><p>Chance d&#39;appliquer ou d&#39;empiler le poison sur la cible à chaque coup de l&#39;arme enduite.</p></div></div></div>
-
-
-<h2 class="fiche-section-title">Dégâts par technique</h2>
-<div class="rs-table-wrap">
-<table class="rs-table">
-  <thead><tr><th>Technique</th><th class="rs-bar-col">Part</th><th class="nums">DPS</th><th class="nums">Lancers / min</th><th class="nums">Critiques</th></tr></thead>
-  <tbody>
+  </details>
   
-  <tr><td>White (main hand)</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 35.5%"></span></span><span class="nums rs-share">35.5%</span></td>
-      <td class="nums">194.4</td><td class="nums">—</td><td class="nums">35%</td></tr>
   
-  <tr><td>White (off-hand)</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 24.6%"></span></span><span class="nums rs-share">24.6%</span></td>
-      <td class="nums">134.7</td><td class="nums">—</td><td class="nums">35%</td></tr>
+</section>
+
+
+<section class="gs-tile gs-w7" id="rk-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation</h2></div>
+  <ol class="rs-rot gs-rot"><li>Garder <a class="rs-spell" href="https://www.wowhead.com/forever/spell=6774" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slice and Dice</a> actif.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a> pour construire les points de combo.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a> à 5 points de combo.</li><li>Adrenaline Rush et Blade Flurry à chaque fois qu&#39;ils sont prêts.</li><li>Instant Poison en main droite, Deadly Poison en main gauche.</li></ol>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 21.6%"></span></span><span class="nums rs-share">21.6%</span></td>
-      <td class="nums">118.4</td><td class="nums">14.1</td><td class="nums">29%</td></tr>
+  <h3 class="gs-sub">Ouverture observée</h3>
+  <p class="rs-hint">Les 14 premières secondes du combat simulé : les coups qui infligent des dégâts directs, dans l&#39;ordre.</p>
+  <div class="rs-open"><span class="rs-step"><i class="nums">1 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">4 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">8 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">10 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span><span class="rs-step"><i class="nums">12 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a></span><span class="rs-step"><i class="nums">14 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></span></div>
   
-  <tr><td>Deadly Poison</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 8.0%"></span></span><span class="nums rs-share">8.0%</span></td>
-      <td class="nums">43.9</td><td class="nums">11.4</td><td class="nums">33%</td></tr>
   
-  <tr><td>Instant Poison</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 5.0%"></span></span><span class="nums rs-share">5.0%</span></td>
-      <td class="nums">27.1</td><td class="nums">9.9</td><td class="nums">33%</td></tr>
+  <h3 class="gs-sub">Procs et déclenchements</h3>
+  <p class="gs-lede">Effets qui se déclenchent pendant la rotation, avec le nombre moyen de déclenchements par minute mesuré sur la simulation de 180 secondes.</p>
+  <div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">9,9<small>par minute</small></div><div><b>Poison instantané</b><p>Chance de déclencher des dégâts de Nature à chaque coup de l&#39;arme enduite.</p></div></div><div class="cv-proc"><div class="cv-proc-n nums">18,6<small>par minute</small></div><div><b>Poison mortel</b><p>Chance d&#39;appliquer ou d&#39;empiler le poison sur la cible à chaque coup de l&#39;arme enduite.</p></div></div></div>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 4.8%"></span></span><span class="nums rs-share">4.8%</span></td>
-      <td class="nums">26.5</td><td class="nums">1.2</td><td class="nums">29%</td></tr>
+</section>
+
+<section class="gs-tile gs-w5">
+  <div class="gs-th"><h2 class="gs-h2">Dégâts par technique</h2></div>
+  <div class="rs-table-wrap">
+  <table class="rs-table">
+    <thead><tr><th>Technique</th><th class="rs-bar-col">Part</th><th class="nums">DPS</th><th class="nums">Lancers / min</th><th class="nums">Critiques</th></tr></thead>
+    <tbody>
+    
+    <tr><td>White (main hand)</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 35.5%"></span></span><span class="nums rs-share">35.5%</span></td>
+        <td class="nums">194.4</td><td class="nums">—</td><td class="nums">35%</td></tr>
+    
+    <tr><td>White (off-hand)</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 24.6%"></span></span><span class="nums rs-share">24.6%</span></td>
+        <td class="nums">134.7</td><td class="nums">—</td><td class="nums">35%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11294" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sinister Strike</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 21.6%"></span></span><span class="nums rs-share">21.6%</span></td>
+        <td class="nums">118.4</td><td class="nums">14.1</td><td class="nums">29%</td></tr>
+    
+    <tr><td>Deadly Poison</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 8.0%"></span></span><span class="nums rs-share">8.0%</span></td>
+        <td class="nums">43.9</td><td class="nums">11.4</td><td class="nums">33%</td></tr>
+    
+    <tr><td>Instant Poison</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 5.0%"></span></span><span class="nums rs-share">5.0%</span></td>
+        <td class="nums">27.1</td><td class="nums">9.9</td><td class="nums">33%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=31016" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eviscerate</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 4.8%"></span></span><span class="nums rs-share">4.8%</span></td>
+        <td class="nums">26.5</td><td class="nums">1.2</td><td class="nums">29%</td></tr>
+    
+    <tr><td>Smokey&#39;s Lighter</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.3%"></span></span><span class="nums rs-share">0.3%</span></td>
+        <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
+    
+    </tbody>
+  </table>
+  </div>
   
-  <tr><td>Smokey&#39;s Lighter</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.3%"></span></span><span class="nums rs-share">0.3%</span></td>
-      <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
+  <h3 class="gs-sub">Bonus actifs</h3>
+  <div class="rs-open"><span class="rs-step"><i class="nums">97%</i>Slice and Dice</span><span class="rs-step"><i class="nums">17%</i>Blade Flurry</span><span class="rs-step"><i class="nums">8%</i>Adrenaline Rush</span></div>
   
-  </tbody>
-</table>
-</div>
-
-<h3 class="rs-sub">Bonus actifs</h3>
-<div class="rs-open"><span class="rs-step"><i class="nums">97%</i>Slice and Dice</span><span class="rs-step"><i class="nums">17%</i>Blade Flurry</span><span class="rs-step"><i class="nums">8%</i>Adrenaline Rush</span></div>
+</section>
 
 
 
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-<div class="rs-table-wrap">
-<table class="rs-table rs-gear">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th><th>Enchantement bis</th></tr></thead>
-  <tbody><tr><td>Tête</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13404" rel="noopener nofollow" target="_blank">Mask of the Unforgiven</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Unforgiven</td><td>—</td></tr><tr><td>Cou</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Agilité)</a> <span class="rs-hint">+5 Agilité</span></td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16708" rel="noopener nofollow" target="_blank">Shadowcraft Spaulders</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a></td><td>—</td></tr><tr><td>Dos</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de cape (Agilité mineure)</a> <span class="rs-hint">+3 Agilité</span></td></tr><tr><td>Torse</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19685" rel="noopener nofollow" target="_blank">Primal Batskin Jerkin</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de plastron (Caract. supérieures)</a> <span class="rs-hint">+4 Force, +4 Agilité, +4 Endurance, +4 Intelligence, +4 Esprit</span></td></tr><tr><td>Poignets</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19687" rel="noopener nofollow" target="_blank">Primal Batskin Bracers</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1248500" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de brassards (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></td></tr><tr><td>Mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19686" rel="noopener nofollow" target="_blank">Primal Batskin Gloves</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Agilité excellente)</a> <span class="rs-hint">+15 Agilité</span></td></tr><tr><td>Taille</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19163" rel="noopener nofollow" target="_blank">Molten Belt</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td>—</td></tr><tr><td>Jambes</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15062" rel="noopener nofollow" target="_blank">Devilsaur Leggings</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste énergique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16711" rel="noopener nofollow" target="_blank">Shadowcraft Boots</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Rattlegore</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bottes (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></td><td><a class="rs-zone" href="../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Anneau 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Bijou 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Main droite</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Agilité)</a> <span class="rs-hint">+15 Agilité</span></td></tr><tr><td>Main gauche</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19166" rel="noopener nofollow" target="_blank">Black Amnesty</a></td><td><a class="rs-zone" href="../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Agilité)</a> <span class="rs-hint">+15 Agilité</span></td></tr></tbody>
-</table>
-</div>
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">Plafonds de statistiques</h2></div>
+  
+  <p class="gs-lede">Chaque courbe montre le DPS du personnage simulé quand on ajoute de la statistique par-dessus son équipement : le point de gauche est l&#39;équipement actuel. Une ligne pointillée marque le plafond estimé, c&#39;est-à-dire le moment où chaque point supplémentaire rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
+  <div class="cv-grid rk-cv"><figure class="cv-card"><figcaption>Critique</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Critique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">538</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">566</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">594</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">622</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">650</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">27,8%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">32,8%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">37,8%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">42,8%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">47,8%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Critique</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.7 145.5,126.5 195.2,110.1 245.0,93.9 294.7,77.7 344.5,61.6 394.2,45.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.7 145.5,126.5 195.2,110.1 245.0,93.9 294.7,77.7 344.5,61.6 394.2,45.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>27,8% : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.7" r="2.6"><title>30,3% : 559 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>32,8% : 571 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.1" r="2.6"><title>35,3% : 583 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.9" r="2.6"><title>37,8% : 594 DPS</title></circle><circle class="cv-dot" cx="294.7" cy="77.7" r="2.6"><title>40,3% : 606 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.6" r="2.6"><title>42,8% : 617 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.1" r="2.6"><title>45,3% : 629 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>47,8% : 641 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Critique continue de rapporter, environ +4,66 DPS par 1 % au départ.</p></figure><figure class="cv-card is-capped"><figcaption>Toucher</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Toucher" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">543</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">558</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">574</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">590</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">605</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">8,5%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">13,0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">17,5%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">22,0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">26,5%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Toucher</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,137.9 145.5,119.1 196.4,92.3 245.0,68.9 295.9,47.8 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,137.9 145.5,119.1 196.4,92.3 245.0,68.9 295.9,47.8 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>8,5% : 548 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="137.9" r="2.6"><title>10,8% : 556 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="119.1" r="2.6"><title>13,0% : 564 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="92.3" r="2.6"><title>15,3% : 575 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="68.9" r="2.6"><title>17,5% : 584 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="47.8" r="2.6"><title>19,8% : 592 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>22,0% : 600 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>24,3% : 600 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>26,5% : 600 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text><line class="cv-cap" x1="344.5" x2="344.5" y1="16" y2="172"/><text class="cv-t cv-tcap" x="340.5" y="38" text-anchor="end">plafond ≈ 22,0%</text></svg><p class="rs-hint">Plafond estimé : environ 22,0 %. Au-delà, Toucher ne rapporte presque plus.</p></figure><figure class="cv-card"><figcaption>Hâte</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hâte" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">540</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">562</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">585</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">607</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">629</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0,0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5,0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10,0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15,0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20,0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hâte</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.4 145.5,128.3 195.2,111.7 245.0,92.2 294.8,75.2 344.5,57.8 394.2,43.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.4 145.5,128.3 195.2,111.7 245.0,92.2 294.8,75.2 344.5,57.8 394.2,43.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0,0% : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.4" r="2.6"><title>2,5% : 557 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="128.3" r="2.6"><title>5,0% : 565 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="111.7" r="2.6"><title>7,5% : 574 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="92.2" r="2.6"><title>10,0% : 586 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="75.2" r="2.6"><title>12,5% : 595 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="57.8" r="2.6"><title>15,0% : 605 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="43.0" r="2.6"><title>17,5% : 613 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20,0% : 621 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Hâte continue de rapporter, environ +3,53 DPS par 1 % au départ.</p></figure><figure class="cv-card"><figcaption>Agilité</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Agilité" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">543</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">558</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">573</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">588</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">602</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Agilité</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.5 145.5,126.9 195.2,111.3 245.0,94.7 294.8,78.8 344.5,62.0 394.2,46.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.5 145.5,126.9 195.2,111.3 245.0,94.7 294.8,78.8 344.5,62.0 394.2,46.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.5" r="2.6"><title>15 : 554 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.9" r="2.6"><title>30 : 560 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="111.3" r="2.6"><title>45 : 566 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.7" r="2.6"><title>60 : 572 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="78.8" r="2.6"><title>75 : 578 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="62.0" r="2.6"><title>90 : 585 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="46.1" r="2.6"><title>105 : 591 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 597 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Agilité continue de rapporter, environ +0,39 DPS par point au départ.</p></figure><figure class="cv-card"><figcaption>Force</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Force" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">545</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">553</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">561</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">570</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">578</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Force</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.3 145.5,126.5 195.2,109.8 245.0,94.0 294.8,77.3 344.5,61.5 394.2,44.7 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.3 145.5,126.5 195.2,109.8 245.0,94.0 294.8,77.3 344.5,61.5 394.2,44.7 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.3" r="2.6"><title>15 : 551 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>30 : 555 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="109.8" r="2.6"><title>45 : 558 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>60 : 561 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.3" r="2.6"><title>75 : 565 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>90 : 568 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="44.7" r="2.6"><title>105 : 572 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 575 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Force continue de rapporter, environ +0,23 DPS par point au départ.</p></figure><figure class="cv-card"><figcaption>Puissance d&#39;attaque</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Puissance d'attaque" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">539</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">564</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">589</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">614</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">639</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">100</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">200</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">300</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">400</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Puissance d'attaque</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.8 145.5,126.5 195.2,110.3 245.0,94.0 294.8,77.7 344.5,61.5 394.2,45.2 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.8 145.5,126.5 195.2,110.3 245.0,94.0 294.8,77.7 344.5,61.5 394.2,45.2 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 548 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.8" r="2.6"><title>50 : 558 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.5" r="2.6"><title>100 : 568 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.3" r="2.6"><title>150 : 579 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.0" r="2.6"><title>200 : 589 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.7" r="2.6"><title>250 : 600 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.5" r="2.6"><title>300 : 610 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.2" r="2.6"><title>350 : 620 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>400 : 631 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">équipement actuel</text></svg><p class="rs-hint">Pas de plafond dans la plage testée : Puissance d&#39;attaque continue de rapporter, environ +0,21 DPS par point au départ.</p></figure></div>
+  
+  
+  <h3 class="gs-sub">Ordre de priorité des statistiques</h3>
+  <p class="rs-hint">Du plus rentable au moins rentable pour une unité de statistique ajoutée à l&#39;équipement simulé. Seules les statistiques qui apportent du DPS sont listées.</p>
+  <ol class="wg-stats rk-prio"><li>Toucher : +0,42 DPS par point de score (jusqu&#39;à environ 22,0 %)</li><li>Agilité : +0,41 DPS par point</li><li>Hâte : +0,34 DPS par point de score</li><li>Critique : +0,33 DPS par point de score</li><li>Force : +0,23 DPS par point</li><li>Puissance d&#39;attaque : +0,21 DPS par point</li></ol>
+  
+  
+  <h3 class="gs-sub">Statistiques du personnage</h3>
+  <div class="rk-cs"><div><b class="nums">205</b><span>Force</span></div><div><b class="nums">573</b><span>Agilité</span></div><div><b class="nums">303</b><span>Endurance</span></div><div><b class="nums">94</b><span>Intelligence</span></div><div><b class="nums">122</b><span>Esprit</span></div><div><b class="nums">1 340</b><span>Puissance d&#39;attaque</span></div><div><b class="nums">27.8 %</b><span>Critique</span></div><div><b class="nums">8.5 %</b><span>Toucher</span></div><div><b class="nums">471</b><span>Armure</span></div></div>
+  
+</section>
 
-<h3 class="rs-sub">Effets d&#39;objets simulés</h3>
-<div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span></div>
 
 
-<h2 class="fiche-section-title">Statistiques du personnage</h2>
-<div class="rs-open"><span class="rs-step"><i class="nums">205</i>Force</span><span class="rs-step"><i class="nums">573</i>Agilité</span><span class="rs-step"><i class="nums">303</i>Endurance</span><span class="rs-step"><i class="nums">94</i>Intelligence</span><span class="rs-step"><i class="nums">122</i>Esprit</span><span class="rs-step"><i class="nums">1 340</i>Puissance d&#39;attaque</span><span class="rs-step"><i class="nums">27.8 %</i>Critique</span><span class="rs-step"><i class="nums">8.5 %</i>Toucher</span><span class="rs-step"><i class="nums">471</i>Armure</span></div>
-
-
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Tête</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13404" rel="noopener nofollow" target="_blank">Mask of the Unforgiven</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Unforgiven</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Cou</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Agilité)</a> <span class="rs-hint">+5 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Épaules</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16708" rel="noopener nofollow" target="_blank">Shadowcraft Spaulders</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Dos</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de cape (Agilité mineure)</a> <span class="rs-hint">+3 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Torse</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19685" rel="noopener nofollow" target="_blank">Primal Batskin Jerkin</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de plastron (Caract. supérieures)</a> <span class="rs-hint">+4 Force, +4 Agilité, +4 Endurance, +4 Intelligence, +4 Esprit</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Poignets</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19687" rel="noopener nofollow" target="_blank">Primal Batskin Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1248500" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de brassards (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19686" rel="noopener nofollow" target="_blank">Primal Batskin Gloves</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Agilité excellente)</a> <span class="rs-hint">+15 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Taille</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19163" rel="noopener nofollow" target="_blank">Molten Belt</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Jambes</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15062" rel="noopener nofollow" target="_blank">Devilsaur Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste énergique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Pieds</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=16711" rel="noopener nofollow" target="_blank">Shadowcraft Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a> — Rattlegore</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bottes (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Main droite</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Agilité)</a> <span class="rs-hint">+15 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Main gauche</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19166" rel="noopener nofollow" target="_blank">Black Amnesty</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23800" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Agilité)</a> <span class="rs-hint">+15 Agilité</span></span>
+      </span>
+    </div>
+  </div>
+  
+  <details class="gs-more"><summary>Effets d&#39;objets simulés (1)</summary>
+    <div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span></div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Buffs alliés</span><span class="alt-sum nums">12</span></summary>
 <ul class="set-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Illumination des arcanes (Mage)</a> <span class="rs-hint">— +31 Intelligence</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25898" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bénédiction des rois supérieure (Paladin)</a> <span class="rs-hint">— +10 % à toutes les stats</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25918" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bénédiction de sagesse supérieure (Paladin)</a> <span class="rs-hint">— +40 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25916" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bénédiction de puissance supérieure (Paladin)</a> <span class="rs-hint">— +133 puissance d&#39;attaque</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Don du fauve (Druide)</a> <span class="rs-hint">— +16 Force, +16 Agilité, +16 Endurance, +16 Intelligence, +16 Esprit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27681" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prière d&#39;esprit (Prêtre)</a> <span class="rs-hint">— +40 Esprit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21564" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prière de robustesse (Prêtre)</a> <span class="rs-hint">— +70 Endurance</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10497" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Totem de source de mana (Chaman)</a> <span class="rs-hint">— +25 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25289" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Cri de guerre (Guerrier)</a> <span class="rs-hint">— +139 puissance d&#39;attaque</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25359" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Totem de grâce de l&#39;air (Chaman)</a> <span class="rs-hint">— +89 Agilité</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25361" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Totem de force de la terre (Chaman)</a> <span class="rs-hint">— +53 Force</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24932" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Chef de la meute (Druide farouche)</a> <span class="rs-hint">— +3 % de critique (mêlée)</span></li></ul>
@@ -517,22 +659,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </details>
 
+</section>
 
-<h2 class="fiche-section-title">Hypothèses</h2>
-<p class="wow-note">Simulation sur 180 secondes, boss immobile de niveau 63, buffs et consommables de raid de la famille de la classe, race standard, effets d&#39;objets activés. Les stats de base du niveau 60 et plusieurs valeurs de Classic sont des estimations signalées dans le simulateur. Les résultats bougeront avec le jeu.</p>
 
-<h2 class="fiche-section-title">Aller plus loin</h2>
-<div class="rs-links">
-  <a class="wh-btn" href="../../../wow-forever/simulateur-dps/">Ouvrir dans le simulateur <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../wow-forever/guides/rogue/combat/">Guide de la spécialisation <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../wow-forever/talents/rogue/">Calculateur de talents <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../">Retour au classement <span aria-hidden="true">→</span></a>
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">Hypothèses</h2></div>
+  <p class="gs-lede">Simulation sur 180 secondes, boss immobile de niveau 63, buffs et consommables de raid de la famille de la classe, race standard, effets d&#39;objets activés. Les stats de base du niveau 60 et plusieurs valeurs de Classic sont des estimations signalées dans le simulateur. Les résultats bougeront avec le jeu.</p>
+  <div class="rk-links">
+    <a class="gh-btn" href="../../../wow-forever/simulateur-dps/">Ouvrir dans le simulateur <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../wow-forever/guides/rogue/combat/">Guide de la spécialisation <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../wow-forever/talents/rogue/">Calculateur de talents <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../">Retour au classement <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="Rang">
+    <a href="../../../wow-forever/classement/hunter-melee/">← Chasseur Survie</a>
+    <a href="../../../wow-forever/classement/druid-feral/">Druide Combat farouche →</a>
+  </nav>
+</section>
+
 </div>
-<nav class="rs-pn" aria-label="Rang">
-  <a href="../../../wow-forever/classement/hunter-melee/">← Chasseur Survie (mêlée)</a>
-  <a href="../../../wow-forever/classement/druid-feral/">Druide Combat farouche →</a>
-</nav>
 <p class="wow-note">World of Warcraft, Warcraft et Blizzard Entertainment sont des marques de Blizzard Entertainment, Inc. BrokenMeta.gg est un site indépendant : il n&#39;est ni affilié à Blizzard, ni approuvé ou sponsorisé par elle.</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 
 </div>
 <footer>
@@ -580,10 +737,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=07174e313f" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=07174e313f" defer></script>
-<script src="../../../assets/js/site-search.js?v=07174e313f" defer></script>
-<script src="../../../assets/js/favorites.js?v=07174e313f" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../assets/js/site-search.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../assets/js/favorites.js?v=1dd2d7bc9c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

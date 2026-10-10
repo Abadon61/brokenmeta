@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Hunter Beast Mastery level 60: build, rotation, DPS">
 <meta name="twitter:description" content="Level 60 Hunter Beast Mastery build in WoW: Forever: talents, gear, rotation and DPS by ability, computed by simulation.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=07174e313f">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=07174e313f">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=1dd2d7bc9c">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=1dd2d7bc9c">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=07174e313f">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=1dd2d7bc9c">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,30 +297,44 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">LEVEL 60 RANKING</div>
-    <h1 class="ph-title">Hunter Beast Mastery: level 60 build, talents, rotation and DPS</h1>
-    <p class="ph-lede">This is what our simulator gets for the Hunter Beast Mastery at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
-    
-    
+
+<section class="gh-hero is-flat" style="--cc: #aad372">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="../../../../assets/img/spec/hunter-beast-mastery.png" alt="Hunter Beast Mastery" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">LEVEL 60 RANKING</div>
+      <h1 class="gh-title">Hunter Beast Mastery: level 60 build, talents, rotation and DPS</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">667 DPS</b> Average DPS</span>
+        <span class="gh-chip"><b class="nums">#3</b> Rank of 20</span>
+        
+        <span class="gh-chip">Crit <b class="nums">15.7%</b></span><span class="gh-chip">Attack power <b class="nums">1 003</b></span>
+        
+      </div>
+      <p class="gh-lede">This is what our simulator gets for the Hunter Beast Mastery at level 60: the gear the optimizer finds among the items known from the beta (dungeons, raid and crafted gear), the preset talents, the rotation followed and the damage of every ability over a 180-second fight against a stationary boss.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/guides/hunter/beast-mastery/">Spec guide <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator</a>
+    </div>
   </div>
 </section>
 
-<div class="rs-head" style="--rc: #aad372">
-  <img class="rs-icon" src="../../../../assets/img/spec/hunter-beast-mastery.png" alt="" width="56" height="56">
-  <div class="rs-kpis">
-    <div class="rs-kpi"><span class="rs-kpi-v nums">667 DPS</span><span class="rs-kpi-l">Average DPS</span></div>
-    <div class="rs-kpi"><span class="rs-kpi-v nums">#3</span><span class="rs-kpi-l">Rank of 21</span></div>
-    
-    <div class="rs-kpi"><span class="rs-kpi-v nums">15.7%</span><span class="rs-kpi-l">Crit</span></div><div class="rs-kpi"><span class="rs-kpi-v nums">1 003</span><span class="rs-kpi-l">Attack power</span></div>
-    
-  </div>
-</div>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-rotation">Rotation and damage</a>
+  <a href="#rk-stats">Stats</a>
+  <a href="#rk-gear">Gear</a>
+  <a href="#rk-hyp">Assumptions</a>
+</nav>
 
-<h2 class="fiche-section-title">Talents chosen</h2>
+<div class="gs-grid">
 
 
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talents chosen</h2></div>
+  
+  
 <div class="wg-legend"><span class="wg-key is-reco"></span>Talent taken by the build</div>
 <div class="wg-trees">
 <div class="wg-tree-wrap">
@@ -394,116 +408,244 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 </div>
 
-
-<h2 class="fiche-section-title">Why these talents</h2>
-<p class="page-intro" style="margin-top:0">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
-<ul class="gd-list"><li>Beast Mastery: 33 points. The deepest talent, Bestial Wrath, is in tier 7 and needs 30 points in the tree.</li><li>Marksmanship: 18 points. The deepest talent, Efficiency, is in tier 2 and needs 5 points in the tree.</li></ul>
-<p class="page-intro">33 points in Beast Mastery and 18 in Marksmanship. The pet is the engine: Frenzy (−32 DPS), Ferocity (−27), Unleashed Fury (−23), Deadly Aspects (−23), Bestial <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> (−14) and Focused Fire (−12). Bestial Swiftness, Intimidation and Endurance Training are not simulated.</p><p class="page-intro">The 18 Marksmanship points give the hunter&#39;s own shot talents: Careful Aim (−48), Efficiency (−33), Lethal Attacks (−22) and Improved Stings (−8), which count as much as half of the Beast tree.</p>
-<p class="page-intro">The talents that pay the most: Careful Aim (−48.2 DPS), Efficiency (−33.1 DPS), Frenzy (−32.2 DPS).</p>
-<p class="page-intro">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Endurance Training, Bestial Swiftness, Intimidation.</p>
-<p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
-
+  <details class="gs-more"><summary>Why these talents</summary>
+    <p class="gs-lede">A build has 51 points. A tier-n talent only unlocks after 5 × (n − 1) points spent higher in the same tree (the numbers on the left of each tree give the tier and the points required): some points are therefore gate points, taken to reach a talent further down.</p>
+    <ul class="gd-list"><li>Beast Mastery: 33 points. The deepest talent, Bestial Wrath, is in tier 7 and needs 30 points in the tree.</li><li>Marksmanship: 18 points. The deepest talent, Efficiency, is in tier 2 and needs 5 points in the tree.</li></ul>
+    <p class="gs-lede">33 points in Beast Mastery and 18 in Marksmanship. The pet is the engine: Frenzy (−32 DPS), Ferocity (−27), Unleashed Fury (−23), Deadly Aspects (−23), Bestial <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> (−14) and Focused Fire (−12). Bestial Swiftness, Intimidation and Endurance Training are not simulated.</p><p class="gs-lede">The 18 Marksmanship points give the hunter&#39;s own shot talents: Careful Aim (−48), Efficiency (−33), Lethal Attacks (−22) and Improved Stings (−8), which count as much as half of the Beast tree.</p>
+    <p class="gs-lede">The talents that pay the most: Careful Aim (−48.2 DPS), Efficiency (−33.1 DPS), Frenzy (−32.2 DPS).</p>
+    <p class="gs-lede">Points with no measured effect in the simulator (gate, utility or an effect that is not simulated): Endurance Training, Bestial Swiftness, Intimidation.</p>
+    <p class="rs-hint">A talent&#39;s value is what the specialization loses when it is taken out of the build, on the same character and the same 180-second simulation.</p>
+    
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>Talent</th><th class="nums">Tier</th><th>Measured value</th></tr></thead>
   <tbody><tr><td><b>Careful Aim</b> <span class="nums">5/5</span> <span class="rs-hint">Marksmanship</span><span class="rs-tdesc">Increases your Attack Power by 100% of your Intellect.</span></td><td class="nums">2</td><td class="rs-v-value">−48.2 DPS without it (7.2%)</td></tr><tr><td><b>Efficiency</b> <span class="nums">5/5</span> <span class="rs-hint">Marksmanship</span><span class="rs-tdesc">Reduces the Mana cost of your Shots, Stings, and melee abilities by 15%.</span></td><td class="nums">2</td><td class="rs-v-value">−33.1 DPS without it (5.0%)</td></tr><tr><td><b>Frenzy</b> <span class="nums">5/5</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Gives your pet a 100% chance to gain a 30% attack speed increase for 8 sec after dealing a critical strike.</span></td><td class="nums">6</td><td class="rs-v-value">−32.2 DPS without it (4.8%)</td></tr><tr><td><b>Ferocity</b> <span class="nums">5/5</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases the critical strike chance of your pets and hawks by 10%.</span></td><td class="nums">4</td><td class="rs-v-value">−27.3 DPS without it (4.1%)</td></tr><tr><td><b>Unleashed Fury</b> <span class="nums">5/5</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases the damage done by your pets and hawks by 15%.</span></td><td class="nums">3</td><td class="rs-v-value">−23.1 DPS without it (3.5%)</td></tr><tr><td><b>Deadly Aspects</b> <span class="nums">5/5</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">While Aspect of the Hawk is active, Auto Shot has a 10% chance of increasing ranged attack speed by 30% for 12 sec. While Aspect of the Beast is active, all melee auto attacks have a 10% chance of increasing melee attack speed by 30% for 12 sec.</span></td><td class="nums">1</td><td class="rs-v-value">−22.6 DPS without it (3.4%)</td></tr><tr><td><b>Lethal Attacks</b> <span class="nums">5/5</span> <span class="rs-hint">Marksmanship</span><span class="rs-tdesc">Increases your critical strike chance with all attacks by 5%.</span></td><td class="nums">1</td><td class="rs-v-value">−21.7 DPS without it (3.2%)</td></tr><tr><td><b>Bestial Wrath</b> <span class="nums">1/1</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Send your pet into a rage causing 50% additional damage for 18 sec. While enraged, the beast does not feel pity or remorse or fear and it cannot be stopped unless killed.</span></td><td class="nums">7</td><td class="rs-v-value">−14.4 DPS without it (2.2%)</td></tr><tr><td><b>Focused Fire</b> <span class="nums">2/2</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases all damage you and your pet deal by 2% while your pet is active.</span></td><td class="nums">2</td><td class="rs-v-value">−13.0 DPS without it (1.9%)</td></tr><tr><td><b>Summon Hawk</b> <span class="nums">1/1</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Command a hawk to dive-bomb your targeted enemy, dealing 32 (+ 5% of your ranged attack power) Physical damage and continuing its assault for 18 sec. Only 2 hawks can be active at once. Summon Hawk shares its cooldown with Arcane Shot.</span></td><td class="nums">4</td><td class="rs-v-value">−10.7 DPS without it (1.6%)</td></tr><tr><td><b>Improved Stings</b> <span class="nums">3/3</span> <span class="rs-hint">Marksmanship</span><span class="rs-tdesc">Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by -6 sec, and increases the duration of your Scorpid Sting ability by 45 sec.</span></td><td class="nums">2</td><td class="rs-v-value">−7.9 DPS without it (1.2%)</td></tr><tr><td><b>Bestial Discipline</b> <span class="nums">2/2</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases the Focus regeneration of your pets by 20% and allows 50% of your Mana regeneration to continue while casting.</span></td><td class="nums">5</td><td class="rs-v-zero">negligible measured effect</td></tr><tr><td><b>Endurance Training</b> <span class="nums">5/5</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases the Health and Armor of your pets by 15%.</span></td><td class="nums">1</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Bestial Swiftness</b> <span class="nums">1/1</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Increases the movement speed of your pets by 30%.</span></td><td class="nums">3</td><td class="rs-v-gate">no simulated effect</td></tr><tr><td><b>Intimidation</b> <span class="nums">1/1</span> <span class="rs-hint">Beast Mastery</span><span class="rs-tdesc">Command your pet to Stun the target for 3 sec on its next successful attack, which also gains 100% increased critical strike chance. Generates high threat.</span></td><td class="nums">5</td><td class="rs-v-gate">no simulated effect</td></tr></tbody>
 </table></div>
 
-
-
-
-
-<h2 class="fiche-section-title">Stat caps</h2>
-<p class="page-intro" style="margin-top:0">Each curve shows the simulated character&#39;s DPS as a stat is added on top of its gear: the left point is the current gear. A dashed line marks the estimated cap, the point where every extra point is worth less than 20% of what it gave at the start.</p>
-<div class="cv-grid"><figure class="cv-card is-capped"><figcaption>Hit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">675</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">685</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">696</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">707</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">3.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">7.5%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">12.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">16.5%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">21.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,109.8 145.5,65.4 196.4,29.8 245.0,29.5 295.9,29.3 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,109.8 145.5,65.4 196.4,29.8 245.0,29.5 295.9,29.3 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>3.0% : 668 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="109.8" r="2.6"><title>5.3% : 681 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="65.4" r="2.6"><title>7.5% : 693 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="29.8" r="2.6"><title>9.8% : 703 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="29.5" r="2.6"><title>12.0% : 703 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="29.3" r="2.6"><title>14.3% : 703 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>16.5% : 703 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>18.8% : 703 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>21.0% : 703 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="196.4" x2="196.4" y1="16" y2="172"/><text class="cv-t cv-tcap" x="192.4" y="38" text-anchor="end">cap ≈ 9.8%</text></svg><p class="rs-hint">Estimated cap: about 9.8%. Past it, hit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Crit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Crit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">659</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">685</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">711</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">736</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">762</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">15.7%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">20.7%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">25.7%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">30.7%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">35.7%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Crit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.8 145.5,126.8 195.3,110.3 245.0,94.4 294.8,78.1 344.5,61.8 394.2,45.2 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.8 145.5,126.8 195.3,110.3 245.0,94.4 294.8,78.1 344.5,61.8 394.2,45.2 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>15.7% : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.8" r="2.6"><title>18.2% : 678 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.8" r="2.6"><title>20.7% : 689 DPS</title></circle><circle class="cv-dot" cx="195.3" cy="110.3" r="2.6"><title>23.2% : 700 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.4" r="2.6"><title>25.7% : 710 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="78.1" r="2.6"><title>28.2% : 721 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.8" r="2.6"><title>30.7% : 732 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.2" r="2.6"><title>33.2% : 743 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>35.7% : 754 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Crit keeps paying, about +4.29 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Haste</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Haste" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">663</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">677</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">692</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">707</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">722</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5.0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15.0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Haste</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.1 145.5,125.3 195.2,108.3 245.0,93.3 294.8,79.8 344.5,60.8 394.2,43.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.1 145.5,125.3 195.2,108.3 245.0,93.3 294.8,79.8 344.5,60.8 394.2,43.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0.0% : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.1" r="2.6"><title>2.5% : 674 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="125.3" r="2.6"><title>5.0% : 680 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="108.3" r="2.6"><title>7.5% : 687 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.3" r="2.6"><title>10.0% : 692 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="79.8" r="2.6"><title>12.5% : 698 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="60.8" r="2.6"><title>15.0% : 705 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="43.1" r="2.6"><title>17.5% : 711 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20.0% : 717 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Haste keeps paying, about +2.39 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Intellect</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Intellect" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">676</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">688</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">701</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">713</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Intellect</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,124.1 146.8,107.9 194.6,94.9 245.0,81.1 295.4,67.2 345.8,53.7 393.6,40.3 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,124.1 146.8,107.9 194.6,94.9 245.0,81.1 295.4,67.2 345.8,53.7 393.6,40.3 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="124.1" r="2.6"><title>19 : 679 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="107.9" r="2.6"><title>38 : 684 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="94.9" r="2.6"><title>56 : 688 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="81.1" r="2.6"><title>75 : 692 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="67.2" r="2.6"><title>94 : 697 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="53.7" r="2.6"><title>113 : 701 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="40.3" r="2.6"><title>131 : 705 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>150 : 709 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Intellect keeps paying, about +0.58 DPS per point at the start.</p></figure><figure class="cv-card is-capped"><figcaption>Spirit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Spirit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">667</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">669</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">672</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">674</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">677</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Spirit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,51.4 146.8,36.6 194.6,41.9 245.0,48.1 295.4,36.9 345.8,30.9 393.6,29.0 444.0,40.8 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,51.4 146.8,36.6 194.6,41.9 245.0,48.1 295.4,36.9 345.8,30.9 393.6,29.0 444.0,40.8"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="51.4" r="2.6"><title>19 : 674 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="36.6" r="2.6"><title>38 : 675 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="41.9" r="2.6"><title>56 : 675 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="48.1" r="2.6"><title>75 : 675 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="36.9" r="2.6"><title>94 : 675 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="30.9" r="2.6"><title>113 : 676 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="29.0" r="2.6"><title>131 : 676 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="40.8" r="2.6"><title>150 : 675 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="96.4" x2="96.4" y1="16" y2="172"/><text class="cv-t cv-tcap" x="92.4" y="38" text-anchor="end">cap ≈ 19</text></svg><p class="rs-hint">Estimated cap: about 19. Past it, spirit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Agility</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Agility" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">675</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">687</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">698</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">710</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Agility</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.4 145.5,126.7 195.2,110.1 245.0,94.5 294.8,77.8 344.5,62.0 394.2,45.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.4 145.5,126.7 195.2,110.1 245.0,94.5 294.8,77.8 344.5,62.0 394.2,45.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.4" r="2.6"><title>15 : 673 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.7" r="2.6"><title>30 : 677 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.1" r="2.6"><title>45 : 682 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.5" r="2.6"><title>60 : 687 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.8" r="2.6"><title>75 : 692 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="62.0" r="2.6"><title>90 : 696 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.0" r="2.6"><title>105 : 701 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 706 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Agility keeps paying, about +0.33 DPS per point at the start.</p></figure></div>
-
-<h3 class="rs-sub">Stat priority</h3>
-<p class="rs-hint">From the most to the least profitable for one unit of stat added to the simulated gear. Only the stats that bring DPS are listed.</p>
-<ol class="wg-stats"><li>Intellect: +0.58 DPS per point</li><li>Hit: +0.56 DPS per rating point (up to about 9.8%)</li><li>Spirit: +0.35 DPS per point</li><li>Agility: +0.32 DPS per point</li><li>Crit: +0.31 DPS per rating point</li><li>Haste: +0.24 DPS per rating point</li><li>Attack power: +0.21 DPS per point</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Rotation</h2>
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> on the target before the fight (+110 ranged attack power).</li><li>Auto Shot continuously.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> on cooldown.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> up.</li><li>Bestial <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> and Rapid Fire on cooldown.</li><li>The pet attacks continuously (bite and claw).</li></ol>
-
-<h3 class="rs-sub">Observed opening</h3>
-<p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
-<div class="rs-open"><span class="rs-step"><i class="nums">0.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">1.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">1.8 s</i>Auto Shot</span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></span><span class="rs-step"><i class="nums">3.2 s</i>Auto Shot</span><span class="rs-step"><i class="nums">4.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">5.9 s</i>Auto Shot</span><span class="rs-step"><i class="nums">5.9 s</i>Keeper&#39;s Sting</span><span class="rs-step"><i class="nums">6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">7.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">8.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">9 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">9 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></span></div>
-
-
-
-<h3 class="rs-sub">Procs and triggers</h3>
-<p class="page-intro" style="margin-top:0">Effects that fire during the rotation, with the average number of triggers per minute measured in the 180-second simulation.</p>
-<div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">14.5<small>per minute</small></div><div><b>Frenzy (pet)</b><p>Gives your pet a 100% chance to gain a 30% attack speed increase for 8 sec after dealing a critical strike.</p></div></div></div>
-
-
-<h2 class="fiche-section-title">Damage by ability</h2>
-<div class="rs-table-wrap">
-<table class="rs-table">
-  <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
-  <tbody>
+  </details>
   
-  <tr><td>Auto Shot</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.0%"></span></span><span class="nums rs-share">34.0%</span></td>
-      <td class="nums">226.5</td><td class="nums">—</td><td class="nums">16%</td></tr>
   
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 17.0%"></span></span><span class="nums rs-share">17.0%</span></td>
-      <td class="nums">113.2</td><td class="nums">9.7</td><td class="nums">16%</td></tr>
-  
-  <tr><td>Pet (melee)</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 15.8%"></span></span><span class="nums rs-share">15.8%</span></td>
-      <td class="nums">105.6</td><td class="nums">—</td><td class="nums">15%</td></tr>
-  
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 15.0%"></span></span><span class="nums rs-share">15.0%</span></td>
-      <td class="nums">100.2</td><td class="nums">9.6</td><td class="nums">16%</td></tr>
-  
-  <tr><td>Pet (<a class="rs-spell" href="https://www.wowhead.com/forever/spell=9850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Claw</a>)</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 8.3%"></span></span><span class="nums rs-share">8.3%</span></td>
-      <td class="nums">55.7</td><td class="nums">—</td><td class="nums">15%</td></tr>
-  
-  <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 7.1%"></span></span><span class="nums rs-share">7.1%</span></td>
-      <td class="nums">47.3</td><td class="nums">5.2</td><td class="nums">16%</td></tr>
-  
-  <tr><td>Hawk</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 2.4%"></span></span><span class="nums rs-share">2.4%</span></td>
-      <td class="nums">15.9</td><td class="nums">—</td><td class="nums">16%</td></tr>
-  
-  <tr><td>Smokey&#39;s Lighter</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.3%"></span></span><span class="nums rs-share">0.3%</span></td>
-      <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
-  
-  <tr><td>Keeper&#39;s Sting</td>
-      <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.1%"></span></span><span class="nums rs-share">0.1%</span></td>
-      <td class="nums">0.8</td><td class="nums">2.1</td><td class="nums">—</td></tr>
-  
-  </tbody>
-</table>
-</div>
-
-<h3 class="rs-sub">Active buffs</h3>
-<div class="rs-open"><span class="rs-step"><i class="nums">8%</i>Rapid Fire</span><span class="rs-step"><i class="nums">40%</i>Deadly Aspects</span><span class="rs-step"><i class="nums">20%</i>Bestial Wrath</span><span class="rs-step"><i class="nums">84%</i>Frenzy</span></div>
+</section>
 
 
+<section class="gs-tile gs-w7" id="rk-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation</h2></div>
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> on the target before the fight (+110 ranged attack power).</li><li>Auto Shot continuously.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> on cooldown.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> up.</li><li>Bestial <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> and Rapid Fire on cooldown.</li><li>The pet attacks continuously (bite and claw).</li></ol>
+  
+  <h3 class="gs-sub">Observed opening</h3>
+  <p class="rs-hint">The first 14 seconds of the simulated fight: the hits that deal direct damage, in order.</p>
+  <div class="rs-open"><span class="rs-step"><i class="nums">0.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">1.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">1.8 s</i>Auto Shot</span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></span><span class="rs-step"><i class="nums">3.2 s</i>Auto Shot</span><span class="rs-step"><i class="nums">4.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">5.9 s</i>Auto Shot</span><span class="rs-step"><i class="nums">5.9 s</i>Keeper&#39;s Sting</span><span class="rs-step"><i class="nums">6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">7.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">8.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">9 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">9 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></span></div>
+  
+  
+  <h3 class="gs-sub">Procs and triggers</h3>
+  <p class="gs-lede">Effects that fire during the rotation, with the average number of triggers per minute measured in the 180-second simulation.</p>
+  <div class="cv-procs"><div class="cv-proc"><div class="cv-proc-n nums">14.5<small>per minute</small></div><div><b>Frenzy (pet)</b><p>Gives your pet a 100% chance to gain a 30% attack speed increase for 8 sec after dealing a critical strike.</p></div></div></div>
+  
+</section>
 
-<h2 class="fiche-section-title">Level 60 gear</h2>
-<div class="rs-table-wrap">
-<table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=6688" rel="noopener nofollow" target="_blank">Whisperwind Headdress</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a> — Earthcaller Halmgar</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=23169" rel="noopener nofollow" target="_blank">Scorn&#39;s Icy Choker</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Scorn</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=3748" rel="noopener nofollow" target="_blank">Feline Mantle</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a> — Wolf Master Nandos</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5193" rel="noopener nofollow" target="_blank">Cape of the Brotherhood</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Edwin VanCleef</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></td></tr><tr><td>Chest</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Gorosh the Dervish</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></td></tr><tr><td>Wrists</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15452" rel="noopener nofollow" target="_blank">Featherbead Bracers</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a> — Returning the Lost Satchel</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Intellect</a> <span class="rs-hint">+7 Intellect</span></td></tr><tr><td>Hands</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=1945" rel="noopener nofollow" target="_blank">Woodworking Gloves</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Goblin Woodcarver</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></td></tr><tr><td>Waist</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10403" rel="noopener nofollow" target="_blank">Blackened Defias Belt</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9414" rel="noopener nofollow" target="_blank">Oilskin Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/uldaman/">Uldaman</a> — Grimlok</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Feet</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=270013" rel="noopener nofollow" target="_blank">Miner&#39;s Workboots</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Oh Brother...</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Ring 1</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=1156" rel="noopener nofollow" target="_blank">Lavishly Jeweled Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Gilnid</td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17694" rel="noopener nofollow" target="_blank">Band of the Fist</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a> — Allegiance to the Old Gods</td><td>—</td></tr><tr><td>Trinket 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Two-hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=2042" rel="noopener nofollow" target="_blank">Staff of Westfall</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — The Defias Brotherhood</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27837" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Agility</a> <span class="rs-hint">+25 Agility</span></td></tr><tr><td>Ranged</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17753" rel="noopener nofollow" target="_blank">Verdant Keeper&#39;s Aim</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a></td><td><a class="rs-spell" href="https://www.wowhead.com/forever/item=18283" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Biznicks 247x128 Accurascope</a> <span class="rs-hint"></span></td></tr></tbody>
-</table>
-</div>
+<section class="gs-tile gs-w5">
+  <div class="gs-th"><h2 class="gs-h2">Damage by ability</h2></div>
+  <div class="rs-table-wrap">
+  <table class="rs-table">
+    <thead><tr><th>Ability</th><th class="rs-bar-col">Share</th><th class="nums">DPS</th><th class="nums">Casts / min</th><th class="nums">Crits</th></tr></thead>
+    <tbody>
+    
+    <tr><td>Auto Shot</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.0%"></span></span><span class="nums rs-share">34.0%</span></td>
+        <td class="nums">226.5</td><td class="nums">—</td><td class="nums">16%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 17.0%"></span></span><span class="nums rs-share">17.0%</span></td>
+        <td class="nums">113.2</td><td class="nums">9.7</td><td class="nums">16%</td></tr>
+    
+    <tr><td>Pet (melee)</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 15.8%"></span></span><span class="nums rs-share">15.8%</span></td>
+        <td class="nums">105.6</td><td class="nums">—</td><td class="nums">15%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 15.0%"></span></span><span class="nums rs-share">15.0%</span></td>
+        <td class="nums">100.2</td><td class="nums">9.6</td><td class="nums">16%</td></tr>
+    
+    <tr><td>Pet (<a class="rs-spell" href="https://www.wowhead.com/forever/spell=9850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Claw</a>)</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 8.3%"></span></span><span class="nums rs-share">8.3%</span></td>
+        <td class="nums">55.7</td><td class="nums">—</td><td class="nums">15%</td></tr>
+    
+    <tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 7.1%"></span></span><span class="nums rs-share">7.1%</span></td>
+        <td class="nums">47.3</td><td class="nums">5.2</td><td class="nums">16%</td></tr>
+    
+    <tr><td>Hawk</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 2.4%"></span></span><span class="nums rs-share">2.4%</span></td>
+        <td class="nums">15.9</td><td class="nums">—</td><td class="nums">16%</td></tr>
+    
+    <tr><td>Smokey&#39;s Lighter</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.3%"></span></span><span class="nums rs-share">0.3%</span></td>
+        <td class="nums">1.9</td><td class="nums">0.7</td><td class="nums">—</td></tr>
+    
+    <tr><td>Keeper&#39;s Sting</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 0.1%"></span></span><span class="nums rs-share">0.1%</span></td>
+        <td class="nums">0.8</td><td class="nums">2.1</td><td class="nums">—</td></tr>
+    
+    </tbody>
+  </table>
+  </div>
+  
+  <h3 class="gs-sub">Active buffs</h3>
+  <div class="rs-open"><span class="rs-step"><i class="nums">8%</i>Rapid Fire</span><span class="rs-step"><i class="nums">40%</i>Deadly Aspects</span><span class="rs-step"><i class="nums">20%</i>Bestial Wrath</span><span class="rs-step"><i class="nums">84%</i>Frenzy</span></div>
+  
+</section>
 
-<h3 class="rs-sub">Item effects simulated</h3>
-<div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span><span class="rs-step">Keeper&#39;s Sting</span></div>
 
 
-<h2 class="fiche-section-title">Character stats</h2>
-<div class="rs-open"><span class="rs-step"><i class="nums">158</i>Strength</span><span class="rs-step"><i class="nums">383</i>Agility</span><span class="rs-step"><i class="nums">238</i>Stamina</span><span class="rs-step"><i class="nums">234</i>Intellect</span><span class="rs-step"><i class="nums">189</i>Spirit</span><span class="rs-step"><i class="nums">1 003</i>Attack power</span><span class="rs-step"><i class="nums">15.7%</i>Crit</span><span class="rs-step"><i class="nums">3.0%</i>Hit</span><span class="rs-step"><i class="nums">471</i>Armor</span><span class="rs-step"><i class="nums">4 510</i>Mana</span></div>
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">Stat caps</h2></div>
+  
+  <p class="gs-lede">Each curve shows the simulated character&#39;s DPS as a stat is added on top of its gear: the left point is the current gear. A dashed line marks the estimated cap, the point where every extra point is worth less than 20% of what it gave at the start.</p>
+  <div class="cv-grid rk-cv"><figure class="cv-card is-capped"><figcaption>Hit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Hit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">675</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">685</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">696</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">707</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">3.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">7.5%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">12.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">16.5%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">21.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Hit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.9,109.8 145.5,65.4 196.4,29.8 245.0,29.5 295.9,29.3 344.5,29.0 395.4,29.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.9,109.8 145.5,65.4 196.4,29.8 245.0,29.5 295.9,29.3 344.5,29.0 395.4,29.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>3.0% : 668 DPS</title></circle><circle class="cv-dot" cx="96.9" cy="109.8" r="2.6"><title>5.3% : 681 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="65.4" r="2.6"><title>7.5% : 693 DPS</title></circle><circle class="cv-dot" cx="196.4" cy="29.8" r="2.6"><title>9.8% : 703 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="29.5" r="2.6"><title>12.0% : 703 DPS</title></circle><circle class="cv-dot" cx="295.9" cy="29.3" r="2.6"><title>14.3% : 703 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="29.0" r="2.6"><title>16.5% : 703 DPS</title></circle><circle class="cv-dot" cx="395.4" cy="29.0" r="2.6"><title>18.8% : 703 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>21.0% : 703 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="196.4" x2="196.4" y1="16" y2="172"/><text class="cv-t cv-tcap" x="192.4" y="38" text-anchor="end">cap ≈ 9.8%</text></svg><p class="rs-hint">Estimated cap: about 9.8%. Past it, hit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Crit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Crit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">659</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">685</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">711</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">736</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">762</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">15.7%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">20.7%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">25.7%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">30.7%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">35.7%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Crit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.8 145.5,126.8 195.3,110.3 245.0,94.4 294.8,78.1 344.5,61.8 394.2,45.2 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.8 145.5,126.8 195.3,110.3 245.0,94.4 294.8,78.1 344.5,61.8 394.2,45.2 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>15.7% : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.8" r="2.6"><title>18.2% : 678 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.8" r="2.6"><title>20.7% : 689 DPS</title></circle><circle class="cv-dot" cx="195.3" cy="110.3" r="2.6"><title>23.2% : 700 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.4" r="2.6"><title>25.7% : 710 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="78.1" r="2.6"><title>28.2% : 721 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="61.8" r="2.6"><title>30.7% : 732 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.2" r="2.6"><title>33.2% : 743 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>35.7% : 754 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Crit keeps paying, about +4.29 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Haste</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Haste" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">663</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">677</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">692</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">707</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">722</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0.0%</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">5.0%</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">10.0%</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">15.0%</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">20.0%</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Haste</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,143.1 145.5,125.3 195.2,108.3 245.0,93.3 294.8,79.8 344.5,60.8 394.2,43.1 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,143.1 145.5,125.3 195.2,108.3 245.0,93.3 294.8,79.8 344.5,60.8 394.2,43.1 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0.0% : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="143.1" r="2.6"><title>2.5% : 674 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="125.3" r="2.6"><title>5.0% : 680 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="108.3" r="2.6"><title>7.5% : 687 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="93.3" r="2.6"><title>10.0% : 692 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="79.8" r="2.6"><title>12.5% : 698 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="60.8" r="2.6"><title>15.0% : 705 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="43.1" r="2.6"><title>17.5% : 711 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>20.0% : 717 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Haste keeps paying, about +2.39 DPS per 1 % at the start.</p></figure><figure class="cv-card"><figcaption>Intellect</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Intellect" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">676</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">688</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">701</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">713</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Intellect</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,124.1 146.8,107.9 194.6,94.9 245.0,81.1 295.4,67.2 345.8,53.7 393.6,40.3 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,124.1 146.8,107.9 194.6,94.9 245.0,81.1 295.4,67.2 345.8,53.7 393.6,40.3 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="124.1" r="2.6"><title>19 : 679 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="107.9" r="2.6"><title>38 : 684 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="94.9" r="2.6"><title>56 : 688 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="81.1" r="2.6"><title>75 : 692 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="67.2" r="2.6"><title>94 : 697 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="53.7" r="2.6"><title>113 : 701 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="40.3" r="2.6"><title>131 : 705 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>150 : 709 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Intellect keeps paying, about +0.58 DPS per point at the start.</p></figure><figure class="cv-card is-capped"><figcaption>Spirit</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Spirit" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">667</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">669</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">672</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">674</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">677</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">38</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">75</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">112</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">150</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Spirit</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 96.4,51.4 146.8,36.6 194.6,41.9 245.0,48.1 295.4,36.9 345.8,30.9 393.6,29.0 444.0,40.8 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 96.4,51.4 146.8,36.6 194.6,41.9 245.0,48.1 295.4,36.9 345.8,30.9 393.6,29.0 444.0,40.8"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="96.4" cy="51.4" r="2.6"><title>19 : 674 DPS</title></circle><circle class="cv-dot" cx="146.8" cy="36.6" r="2.6"><title>38 : 675 DPS</title></circle><circle class="cv-dot" cx="194.6" cy="41.9" r="2.6"><title>56 : 675 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="48.1" r="2.6"><title>75 : 675 DPS</title></circle><circle class="cv-dot" cx="295.4" cy="36.9" r="2.6"><title>94 : 675 DPS</title></circle><circle class="cv-dot" cx="345.8" cy="30.9" r="2.6"><title>113 : 676 DPS</title></circle><circle class="cv-dot" cx="393.6" cy="29.0" r="2.6"><title>131 : 676 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="40.8" r="2.6"><title>150 : 675 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text><line class="cv-cap" x1="96.4" x2="96.4" y1="16" y2="172"/><text class="cv-t cv-tcap" x="92.4" y="38" text-anchor="end">cap ≈ 19</text></svg><p class="rs-hint">Estimated cap: about 19. Past it, spirit adds almost nothing.</p></figure><figure class="cv-card"><figcaption>Agility</figcaption><svg class="cv-svg" viewBox="0 0 460 210" role="img" aria-label="Agility" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="46" x2="444" y1="172.0" y2="172.0"/><text class="cv-t" x="40" y="175.0" text-anchor="end">664</text><line class="cv-grid" x1="46" x2="444" y1="133.0" y2="133.0"/><text class="cv-t" x="40" y="136.0" text-anchor="end">675</text><line class="cv-grid" x1="46" x2="444" y1="94.0" y2="94.0"/><text class="cv-t" x="40" y="97.0" text-anchor="end">687</text><line class="cv-grid" x1="46" x2="444" y1="55.0" y2="55.0"/><text class="cv-t" x="40" y="58.0" text-anchor="end">698</text><line class="cv-grid" x1="46" x2="444" y1="16.0" y2="16.0"/><text class="cv-t" x="40" y="19.0" text-anchor="end">710</text><text class="cv-t" x="46.0" y="187" text-anchor="middle">0</text><text class="cv-t" x="145.5" y="187" text-anchor="middle">30</text><text class="cv-t" x="245.0" y="187" text-anchor="middle">60</text><text class="cv-t" x="344.5" y="187" text-anchor="middle">90</text><text class="cv-t" x="444.0" y="187" text-anchor="middle">120</text><text class="cv-t cv-axis" x="245" y="205" text-anchor="middle">Agility</text><polygon class="cv-area" points="46.0,172.0 46.0,159.0 95.8,142.4 145.5,126.7 195.2,110.1 245.0,94.5 294.8,77.8 344.5,62.0 394.2,45.0 444.0,29.0 444.0,172.0"/><polyline class="cv-line" points="46.0,159.0 95.8,142.4 145.5,126.7 195.2,110.1 245.0,94.5 294.8,77.8 344.5,62.0 394.2,45.0 444.0,29.0"/><circle class="cv-dot" cx="46.0" cy="159.0" r="2.6"><title>0 : 668 DPS</title></circle><circle class="cv-dot" cx="95.8" cy="142.4" r="2.6"><title>15 : 673 DPS</title></circle><circle class="cv-dot" cx="145.5" cy="126.7" r="2.6"><title>30 : 677 DPS</title></circle><circle class="cv-dot" cx="195.2" cy="110.1" r="2.6"><title>45 : 682 DPS</title></circle><circle class="cv-dot" cx="245.0" cy="94.5" r="2.6"><title>60 : 687 DPS</title></circle><circle class="cv-dot" cx="294.8" cy="77.8" r="2.6"><title>75 : 692 DPS</title></circle><circle class="cv-dot" cx="344.5" cy="62.0" r="2.6"><title>90 : 696 DPS</title></circle><circle class="cv-dot" cx="394.2" cy="45.0" r="2.6"><title>105 : 701 DPS</title></circle><circle class="cv-dot" cx="444.0" cy="29.0" r="2.6"><title>120 : 706 DPS</title></circle><line class="cv-now" x1="46.0" x2="46.0" y1="16" y2="172"/><text class="cv-t cv-tnow" x="50.0" y="25">current gear</text></svg><p class="rs-hint">No cap in the tested range: Agility keeps paying, about +0.33 DPS per point at the start.</p></figure></div>
+  
+  
+  <h3 class="gs-sub">Stat priority</h3>
+  <p class="rs-hint">From the most to the least profitable for one unit of stat added to the simulated gear. Only the stats that bring DPS are listed.</p>
+  <ol class="wg-stats rk-prio"><li>Intellect: +0.58 DPS per point</li><li>Hit: +0.56 DPS per rating point (up to about 9.8%)</li><li>Spirit: +0.35 DPS per point</li><li>Agility: +0.32 DPS per point</li><li>Crit: +0.31 DPS per rating point</li><li>Haste: +0.24 DPS per rating point</li><li>Attack power: +0.21 DPS per point</li></ol>
+  
+  
+  <h3 class="gs-sub">Character stats</h3>
+  <div class="rk-cs"><div><b class="nums">158</b><span>Strength</span></div><div><b class="nums">383</b><span>Agility</span></div><div><b class="nums">238</b><span>Stamina</span></div><div><b class="nums">234</b><span>Intellect</span></div><div><b class="nums">189</b><span>Spirit</span></div><div><b class="nums">1 003</b><span>Attack power</span></div><div><b class="nums">15.7%</b><span>Crit</span></div><div><b class="nums">3.0%</b><span>Hit</span></div><div><b class="nums">471</b><span>Armor</span></div><div><b class="nums">4 510</b><span>Mana</span></div></div>
+  
+</section>
 
 
+
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Head</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=6688" rel="noopener nofollow" target="_blank">Whisperwind Headdress</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a> — Earthcaller Halmgar</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Neck</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=23169" rel="noopener nofollow" target="_blank">Scorn&#39;s Icy Choker</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Scorn</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shoulders</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=3748" rel="noopener nofollow" target="_blank">Feline Mantle</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a> — Wolf Master Nandos</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Back</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5193" rel="noopener nofollow" target="_blank">Cape of the Brotherhood</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Edwin VanCleef</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Chest</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Gorosh the Dervish</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Wrists</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15452" rel="noopener nofollow" target="_blank">Featherbead Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a> — Returning the Lost Satchel</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Intellect</a> <span class="rs-hint">+7 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Hands</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=1945" rel="noopener nofollow" target="_blank">Woodworking Gloves</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Goblin Woodcarver</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Waist</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10403" rel="noopener nofollow" target="_blank">Blackened Defias Belt</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Legs</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9414" rel="noopener nofollow" target="_blank">Oilskin Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/uldaman/">Uldaman</a> — Grimlok</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Feet</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=270013" rel="noopener nofollow" target="_blank">Miner&#39;s Workboots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Oh Brother...</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=1156" rel="noopener nofollow" target="_blank">Lavishly Jeweled Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Gilnid</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17694" rel="noopener nofollow" target="_blank">Band of the Fist</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a> — Allegiance to the Old Gods</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Trinket 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Two-hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=2042" rel="noopener nofollow" target="_blank">Staff of Westfall</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — The Defias Brotherhood</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27837" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Agility</a> <span class="rs-hint">+25 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ranged</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17753" rel="noopener nofollow" target="_blank">Verdant Keeper&#39;s Aim</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a></span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/item=18283" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Biznicks 247x128 Accurascope</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+  </div>
+  
+  <details class="gs-more"><summary>Item effects simulated (2)</summary>
+    <div class="rs-open"><span class="rs-step">Smokey&#39;s Lighter</span><span class="rs-step">Keeper&#39;s Sting</span></div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Ally buffs</span><span class="alt-sum nums">14</span></summary>
 <ul class="set-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Brilliance (Mage)</a> <span class="rs-hint">— +31 Intellect</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25898" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Kings (Paladin)</a> <span class="rs-hint">— +10% to all stats</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25918" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Wisdom (Paladin)</a> <span class="rs-hint">— +40 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25916" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Blessing of Might (Paladin)</a> <span class="rs-hint">— +133 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Gift of the Wild (Druid)</a> <span class="rs-hint">— +16 Strength, +16 Agility, +16 Stamina, +16 Intellect, +16 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27681" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Spirit (Priest)</a> <span class="rs-hint">— +40 Spirit</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21564" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prayer of Fortitude (Priest)</a> <span class="rs-hint">— +70 Stamina</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10497" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mana Spring Totem (Shaman)</a> <span class="rs-hint">— +25 mana / 5 s</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25289" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Battle Shout (Warrior)</a> <span class="rs-hint">— +139 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25359" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Grace of Air Totem (Shaman)</a> <span class="rs-hint">— +89 Agility</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25361" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Strength of Earth Totem (Shaman)</a> <span class="rs-hint">— +53 Strength</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20906" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Trueshot Aura (Hunter)</a> <span class="rs-hint">— +50 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark (Hunter)</a> <span class="rs-hint">— +110 attack power</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24932" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Leader of the Pack (Feral Druid)</a> <span class="rs-hint">— +3% crit (melee)</span></li></ul>
@@ -522,22 +664,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 </details>
 
+</section>
 
-<h2 class="fiche-section-title">Assumptions</h2>
-<p class="wow-note">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
 
-<h2 class="fiche-section-title">Go further</h2>
-<div class="rs-links">
-  <a class="wh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/guides/hunter/beast-mastery/">Spec guide <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../wow-forever/talents/hunter/">Talent calculator <span aria-hidden="true">→</span></a>
-  <a class="wh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">Assumptions</h2></div>
+  <p class="gs-lede">A 180-second fight against a stationary level-63 boss, the raid buffs and consumables of the class&#39;s family, a standard race, item effects on. Level-60 base stats and several Classic values are estimates, flagged in the simulator. Results will move with the game.</p>
+  <div class="rk-links">
+    <a class="gh-btn" href="../../../../wow-forever/simulateur-dps/">Open in the simulator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/guides/hunter/beast-mastery/">Spec guide <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../wow-forever/talents/hunter/">Talent calculator <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../../">Back to the ranking <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="Rank">
+    <a href="../../../../wow-forever/classement/warlock-affliction/">← Warlock Affliction</a>
+    <a href="../../../../wow-forever/classement/priest-shadow/">Priest Shadow →</a>
+  </nav>
+</section>
+
 </div>
-<nav class="rs-pn" aria-label="Rank">
-  <a href="../../../../wow-forever/classement/warlock-affliction/">← Warlock Affliction</a>
-  <a href="../../../../wow-forever/classement/priest-shadow/">Priest Shadow →</a>
-</nav>
 <p class="wow-note">World of Warcraft, Warcraft and Blizzard Entertainment are trademarks of Blizzard Entertainment, Inc. BrokenMeta.gg is an independent site: it is not affiliated with, endorsed or sponsored by Blizzard.</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 
 </div>
 <footer>
@@ -585,10 +742,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/site-search.js?v=07174e313f" defer></script>
-<script src="../../../../assets/js/favorites.js?v=07174e313f" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/site-search.js?v=1dd2d7bc9c" defer></script>
+<script src="../../../../assets/js/favorites.js?v=1dd2d7bc9c" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
