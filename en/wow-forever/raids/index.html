@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever raids: bosses and loot">
 <meta name="twitter:description" content="The loot and bosses of every WoW: Forever raid, with the same type/stat filter as dungeons.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=7e5338a482">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=7e5338a482">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=389afe6aa4">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=389afe6aa4">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=7e5338a482">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=389afe6aa4">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -296,29 +296,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Raids</div>
-    <h1 class="ph-title">WoW: Forever raids</h1>
-    <p class="ph-lede">The loot and bosses of every raid catalogued so far. This end-game content has likely not really been cleared during the beta yet: Wowhead&#39;s boss-by-boss loot attribution is often still incomplete.</p>
-    
-    
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Raids</div>
+      <h1 class="gh-title">WoW: Forever raids</h1>
+      <p class="gh-lede">The loot and bosses of every raid catalogued so far. This end-game content has likely not really been cleared during the beta yet: Wowhead&#39;s boss-by-boss loot attribution is often still incomplete.</p>
+    </div>
   </div>
 </section>
-
-<div class="wh-cards">
+<div class="rb-hubs">
   
-  <a class="wh-card" href="../../../wow-forever/raids/molten-core/">
-    <span class="wh-card-body"><b>Molten Core</b><span class="wh-card-specs">10 bosses</span><span class="wh-card-n nums">8 items →</span></span>
+  <a class="rb-hub" href="../../../wow-forever/raids/molten-core/">
+    <span class="rb-hub-art" style="background-image: url('https://wow.zamimg.com/uploads/screenshots/normal/5993.jpg')"></span>
+    <span class="rb-hub-body">
+      <b>Molten Core</b>
+      <span class="rb-hub-chips"><span class="gh-chip"><b class="nums">10</b> bosses</span><span class="gh-chip"><b class="nums">8</b> items</span><span class="gh-chip">Required level <b class="nums">60</b></span></span>
+      <span class="rb-hub-go">See bosses and loot →</span>
+    </span>
   </a>
   
 </div>
-<h2 class="fiche-section-title">How to use this page</h2>
-<ul class="gd-list"><li>A boss is a creature Wowhead itself classifies as a boss (a category distinct from ordinary elite enemies), not just any named creature.</li><li>Boss order and known abilities come from each boss&#39;s own Wowhead page (real game data: this raid has existed since WoW Classic and shares the same zone and creatures with Forever).</li><li>A boss&#39;s loot is whatever Wowhead names as coming from it. Many raid items don&#39;t have that attribution yet in the beta data.</li><li>Like the dungeon pages, this page does not rank items by class or specialization and offers no map or detailed strategy: no reliable source documents them for Forever.</li><li>Item names, ability names and the attunement quest are in English: their French translation is not in the data we retrieved.</li></ul>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Loot and item stats: <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops, quest rewards and NPCs)</a></li>
-</ul>
+<details class="gs-more gs-sources">
+  <summary>How to use this page</summary>
+  <ul class="gd-list"><li>A boss is a creature Wowhead itself classifies as a boss (a category distinct from ordinary elite enemies), not just any named creature.</li><li>Boss order and known abilities come from each boss&#39;s own Wowhead page (real game data: this raid has existed since WoW Classic and shares the same zone and creatures with Forever).</li><li>A boss&#39;s loot is whatever Wowhead names as coming from it. Many raid items don&#39;t have that attribution yet in the beta data.</li><li>Like the dungeon pages, this page does not rank items by class or specialization and offers no map or detailed strategy: no reliable source documents them for Forever.</li><li>Item names, ability names and the attunement quest are in English: their French translation is not in the data we retrieved.</li></ul>
+</details>
+<details class="gs-more">
+  <summary>Sources</summary>
+  <ul class="gd-list wow-sources">
+    <li>Loot and item stats: <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops, quest rewards and NPCs)</a></li>
+  </ul>
+</details>
 
 </div>
 <footer>
@@ -366,10 +374,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=7e5338a482" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=7e5338a482" defer></script>
-<script src="../../../assets/js/site-search.js?v=7e5338a482" defer></script>
-<script src="../../../assets/js/favorites.js?v=7e5338a482" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=389afe6aa4" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=389afe6aa4" defer></script>
+<script src="../../../assets/js/site-search.js?v=389afe6aa4" defer></script>
+<script src="../../../assets/js/favorites.js?v=389afe6aa4" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
