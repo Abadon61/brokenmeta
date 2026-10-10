@@ -15,90 +15,175 @@
 {% set BETA_LOCKED_MATS = ["Mageweave Cloth", "Bolt of Mageweave", "Thick Leather"] %}
 {% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {% if g.name.en.startswith('Item #') %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name[lang] }}</a>{% else %}{{ g.name[lang] }}{% endif %}{% if g.name.en in BETA_LOCKED_MATS %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</span>{% endfor %}</span>{% endmacro %}
 {% macro colors(cs) %}<span class="pf-colors nums"><span class="pf-c pf-o">{{ cs[0] or '–' }}</span><span class="pf-c pf-y">{{ cs[1] }}</span><span class="pf-c pf-g">{{ cs[2] }}</span><span class="pf-c pf-x">{{ cs[3] }}</span></span>{% endmacro %}
+{% macro step(s) %}
+<div class="pf-st">
+  <span class="pf-pill nums">{{ s['from'] }} → {{ s.to }}</span>
+  <div class="pf-st-b">
+    <div class="pf-st-t"><a href="https://www.wowhead.com/forever/spell={{ s.recipe }}" rel="noopener nofollow" target="_blank">{% if s.creates and s.creates.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ s.creates.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ s.name[lang] }}</a><small class="nums">×{{ s.crafts }}{% if s.yellow_points or s.green_points %}<span class="pf-risk" title="{{ tx.risk_note }}">*</span>{% endif %}</small></div>
+    <div class="pf-st-r">{{ reag_list(s.reagents) }}</div>
+    <div class="pf-st-g">{{ get(s.acquire) }}</div>
+  </div>
+</div>
+{% endmacro %}
 {% block content %}
 {% set T = prof.totals %}
-{{ m.page_hero(tx.p_kicker, g_h1, g_intro) }}
+{% set fr = lang == 'fr' %}
+{# Profession guide layout (maquette validée 2026-10-10): compact hero with the key figures, sticky summary, route split by rank, shopping list, tiles. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    {% if prof.icon %}<img class="pf-hero-ico" src="{{ prof.icon }}" alt="" width="84" height="84">{% endif %}
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.p_kicker }}</div>
+      <h1 class="gh-title">{{ g_h1 }}</h1>
+      <div class="gh-chips">
+        <span class="gh-chip">{{ tx.s_crafts }} <b class="nums">{{ T.crafts }}</b></span>
+        {% if prof.ah %}<span class="gh-chip is-gold">{{ tx.s_cost_ah }} <b class="nums" id="pfCostTotal">≈ {{ prof.ah.total_copper|wow_money(lang) }}</b></span>
+        <span class="gh-chip is-quiet" id="pfCostUnknown">{% if prof.ah.unknown %}{{ tx.s_cost_unknown.format(n=prof.ah.unknown) }}{% endif %}</span>
+        {% else %}<span class="gh-chip">{{ tx.s_cost }} : {{ tx.s_cost_wait }}</span>{% endif %}
+        {% if T.yellow_points or T.green_points %}<span class="gh-chip is-warn">{{ tx.s_risky }} <b class="nums">{{ T.yellow_points + T.green_points }}</b></span>{% endif %}
+        {% if T.unknown_plans %}<span class="gh-chip">{{ tx.s_unknown }} <b class="nums">{{ T.unknown_plans }}</b></span>{% endif %}
+      </div>
+      <p class="gh-lede">{{ g_intro }}</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="#pf-route">{{ 'Voir le parcours' if fr else 'See the route' }}</a>
+      <a class="gh-btn" href="#pf-shop">{{ 'Liste de courses' if fr else 'Shopping list' }}</a>
+    </div>
+  </div>
+</section>
 
-<h2 class="fiche-section-title">{{ tx.sum_h2 }}</h2>
-<dl class="wow-facts">
-  <div><dt>{{ tx.s_crafts }}</dt><dd class="nums">{{ T.crafts }}</dd></div>
-  {% if prof.ah %}<div><dt>{{ tx.s_cost_ah }}</dt><dd><span class="nums" id="pfCostTotal">≈ {{ prof.ah.total_copper|wow_money(lang) }}</span><br><small id="pfCostUnknown">{% if prof.ah.unknown %}{{ tx.s_cost_unknown.format(n=prof.ah.unknown) }}{% endif %}</small></dd></div>
-  {% else %}<div><dt>{{ tx.s_cost }}</dt><dd>{{ tx.s_cost_wait }}</dd></div>{% endif %}
-  {% if T.yellow_points or T.green_points %}<div><dt>{{ tx.s_risky }}</dt><dd class="nums">{{ T.yellow_points + T.green_points }}</dd></div>{% endif %}
-  {% if T.unknown_plans %}<div><dt>{{ tx.s_unknown }}</dt><dd class="nums">{{ T.unknown_plans }}</dd></div>{% endif %}
-</dl>
+<nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  <a href="#pf-route">{{ 'Parcours' if fr else 'Route' }}</a>
+  <a href="#pf-shop">{{ 'Liste de courses' if fr else 'Shopping list' }}</a>
+  <a href="#pf-ranks">{{ 'Rangs' if fr else 'Ranks' }}</a>
+  <a href="#pf-method">{{ 'Méthode et limites' if fr else 'Method and limits' }}</a>
+  <a href="#pf-all">{{ 'Toutes les recettes' if fr else 'All recipes' }}</a>
+</nav>
 
-<h2 class="fiche-section-title">{{ tx.route_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.route_p.format(n=prof.route|length) }}</p>
-<div class="wow-table-wrap"><table class="wow-table pf-route">
-  <thead><tr><th>{{ tx.c_skill }}</th><th>{{ tx.c_recipe }}</th><th>{{ tx.c_crafts }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.c_get }}</th></tr></thead>
-  <tbody>{% for s in prof.route %}
-  <tr>
-    <td data-first class="nums">{{ s['from'] }} → {{ s.to }}</td>
-    <td><a href="https://www.wowhead.com/forever/spell={{ s.recipe }}" rel="noopener nofollow" target="_blank">{% if s.creates and s.creates.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ s.creates.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ s.name[lang] }}</a></td>
-    <td class="nums">{{ s.crafts }}{% if s.yellow_points or s.green_points %}<span class="pf-risk" title="{{ tx.risk_note }}">*</span>{% endif %}</td>
-    <td>{{ reag_list(s.reagents) }}</td>
-    <td>{{ get(s.acquire) }}</td>
-  </tr>{% endfor %}</tbody>
-</table></div>
-{% if T.yellow_points or T.green_points %}<p class="wow-note">{{ tx.risk_note }}</p>{% endif %}
+<div class="gs-grid">
 
-<h2 class="fiche-section-title">{{ tx.shop_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.shop_p_ah if prof.ah else tx.shop_p }}</p>
-{% if prof.ah %}<p class="wow-note"><span id="pfAhNoteText">{{ tx.ah_note.format(realm=prof.ah.realm, faction=tx.factions.get(prof.ah.faction, prof.ah.faction), date=prof.ah.scanned.strftime('%d/%m/%Y' if lang == 'fr' else '%Y-%m-%d')) }} </span><a href="{{ root }}wow-forever/partager-mes-donnees/">{{ tx.ah_note_link }}</a></p>{% endif %}
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>{{ tx.m_item }}</th><th>{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th>{{ tx.m_vprice }}</th>{% if prof.ah %}<th>{{ tx.m_ahprice }}</th><th>{{ tx.m_line }}</th>{% endif %}</tr></thead>
-  <tbody>{% for i in prof.materials %}{% set a = prof.ah.rows[i.id] if prof.ah else None %}
-  <tr data-item="{{ i.id }}">
-    <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a>{% if i.name.en in BETA_LOCKED_MATS %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</td>
-    <td class="nums">{{ i.count }}</td>
-    <td>{{ tx.kinds_price[i.price.kind] }}</td>
-    <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
-    {% if prof.ah %}<td class="nums pf-ah">{% if a.ah_unit is not none %}{{ a.ah_unit|wow_money(lang) }}<br><small class="pf-listed{{ ' is-thin' if a.thin }}" {% if a.thin %}title="{{ tx.m_thin }}"{% endif %}>{{ tx.m_listed.format(n=a.listed) }}{% if a.thin %} ⚠{% endif %}</small>{% else %}{{ tx.m_none }}{% endif %}</td>
-    <td class="nums pf-line">{% if a.line is not none %}{{ a.line|wow_money(lang) }}{% if a.source == 'ah' and i.price.kind == 'vendor' %}<br><small>{{ tx.m_cheaper_ah }}</small>{% elif a.source == 'craft' %}<br><small>{{ tx.m_crafted }}</small>{% endif %}{% else %}<small>{{ tx.m_unknown }}</small>{% endif %}</td>{% endif %}
-  </tr>{% endfor %}</tbody>
-  {% if prof.ah %}<tfoot><tr><th colspan="5">{{ tx.m_total }}</th><th class="nums" id="pfReagTotal">{{ prof.ah.reagents_copper|wow_money(lang) }}</th></tr></tfoot>{% endif %}
-</table></div>
-{% if prof.ah %}<p class="wow-note" id="pfThinNote"{% if not prof.ah.rows.values()|selectattr('thin')|list %} hidden{% endif %}>{{ tx.m_thin }}</p>
-{# Live prices: reprices this list from the worker's latest aggregates on every visit (js/wow-profession-live.js). #}
-<script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
-<script type="application/json" id="pfLive">{{ pf_live|tojson }}</script>
-<script src="{{ root }}assets/js/wow-profession-live.js?v={{ js_v('wow-profession-live.js') }}" defer></script>{% endif %}
-{% if prof.materials|selectattr('name.en', 'in', BETA_LOCKED_MATS)|list %}<p class="wow-note">{{ tx.beta_locked_note }}</p>{% endif %}
+{# ---------------------------------------------------------------- Route, split by trainer rank #}
+<section class="gs-tile" id="pf-route">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.route_h2 }}</h2><span class="gs-meta">{{ prof.route|length }} {{ 'ÉTAPES' if fr else 'STEPS' }} · {{ T.crafts }} {{ 'CRÉATIONS' if fr else 'CRAFTS' }}</span></div>
+  <p class="gs-lede">{{ tx.route_p.format(n=prof.route|length) }}</p>
+  <div class="pf-phases">
+  {% if prof.ranks %}
+    {% set ns = namespace(prev=0) %}
+    {% for r in prof.ranks %}
+      {% set steps = prof.route|selectattr('from', 'ge', ns.prev)|selectattr('from', 'lt', r.cap)|list %}
+      {% if steps %}
+      <div class="pf-ph">
+        <div class="pf-ph-h"><b>{{ tx.rank_names[r.name] }} · {{ ns.prev if ns.prev else 1 }} → {{ r.cap }}</b><span class="gs-meta">{{ steps|length }} {{ 'étapes' if fr else 'steps' }} · {{ steps|sum(attribute='crafts') }} {{ 'créations' if fr else 'crafts' }}</span></div>
+        {% for s in steps %}{{ step(s) }}{% endfor %}
+      </div>
+      {% endif %}
+      {% set ns.prev = r.cap %}
+    {% endfor %}
+  {% else %}
+    <div class="pf-ph">{% for s in prof.route %}{{ step(s) }}{% endfor %}</div>
+  {% endif %}
+  </div>
+  {% if T.yellow_points or T.green_points %}<p class="wow-note">{{ tx.risk_note }}</p>{% endif %}
+</section>
 
-<h2 class="fiche-section-title">{{ tx.ranks_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.ranks_p }}</p>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>{{ tx.r_rank }}</th><th>{{ tx.r_cap }}</th><th>{{ tx.r_at }}</th><th>{{ tx.r_level }}</th><th>{{ tx.r_cost }}</th></tr></thead>
-  <tbody>{% for r in prof.ranks %}<tr><td data-first>{{ tx.rank_names[r.name] }}</td><td class="nums">{{ r.cap }}</td><td class="nums">{{ r.learn_at }}</td><td class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 30 %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</td><td class="nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</td></tr>{% endfor %}</tbody>
-</table></div>
-{% if prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 30)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
+{# ---------------------------------------------------------------- Shopping list (ids and cells are used by js/wow-profession-live.js) #}
+<section class="gs-tile" id="pf-shop">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.shop_h2 }}</h2><span class="gs-meta">{{ prof.materials|length }} {{ 'COMPOSANTS' if fr else 'REAGENTS' }}</span></div>
+  <p class="gs-lede">{{ tx.shop_p_ah if prof.ah else tx.shop_p }}</p>
+  <div class="pf-mats" id="pfMats"><div class="rs-table-wrap"><table class="pf-table">
+    <thead><tr><th>{{ tx.m_item }}</th><th class="nums">{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th class="nums">{{ tx.m_vprice }}</th>{% if prof.ah %}<th class="nums">{{ tx.m_ahprice }}</th><th class="nums">{{ tx.m_line }}</th>{% endif %}</tr></thead>
+    <tbody>{% for i in prof.materials %}{% set a = prof.ah.rows[i.id] if prof.ah else None %}
+    <tr data-item="{{ i.id }}">
+      <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a>{% if i.name.en in BETA_LOCKED_MATS %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</td>
+      <td class="nums">{{ i.count }}</td>
+      <td><span class="pf-or pf-or-{{ i.price.kind }}">{{ tx.kinds_price[i.price.kind] }}</span></td>
+      <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
+      {% if prof.ah %}<td class="nums pf-ah">{% if a.ah_unit is not none %}{{ a.ah_unit|wow_money(lang) }}<br><small class="pf-listed{{ ' is-thin' if a.thin }}" {% if a.thin %}title="{{ tx.m_thin }}"{% endif %}>{{ tx.m_listed.format(n=a.listed) }}{% if a.thin %} ⚠{% endif %}</small>{% else %}{{ tx.m_none }}{% endif %}</td>
+      <td class="nums pf-line">{% if a.line is not none %}{{ a.line|wow_money(lang) }}{% if a.source == 'ah' and i.price.kind == 'vendor' %}<br><small>{{ tx.m_cheaper_ah }}</small>{% elif a.source == 'craft' %}<br><small>{{ tx.m_crafted }}</small>{% endif %}{% else %}<small>{{ tx.m_unknown }}</small>{% endif %}</td>{% endif %}
+    </tr>{% endfor %}</tbody>
+    {% if prof.ah %}<tfoot><tr><th colspan="5">{{ tx.m_total }}</th><th class="nums" id="pfReagTotal">{{ prof.ah.reagents_copper|wow_money(lang) }}</th></tr></tfoot>{% endif %}
+  </table></div>
+  {% if prof.materials|length > 14 %}<button type="button" class="pf-more" id="pfMore" hidden data-more="{{ 'Voir les ' ~ (prof.materials|length - 14) ~ ' autres composants' if fr else 'Show the other ' ~ (prof.materials|length - 14) ~ ' reagents' }}" data-less="{{ 'Réduire la liste' if fr else 'Collapse the list' }}"></button>{% endif %}
+  </div>
+  {% if prof.ah %}<p class="wow-note"><span id="pfAhNoteText">{{ tx.ah_note.format(realm=prof.ah.realm, faction=tx.factions.get(prof.ah.faction, prof.ah.faction), date=prof.ah.scanned.strftime('%d/%m/%Y' if lang == 'fr' else '%Y-%m-%d')) }} </span><a href="{{ root }}wow-forever/partager-mes-donnees/">{{ tx.ah_note_link }}</a></p>
+  <p class="wow-note" id="pfThinNote"{% if not prof.ah.rows.values()|selectattr('thin')|list %} hidden{% endif %}>{{ tx.m_thin }}</p>
+  {# Live prices: reprices this list from the worker's latest aggregates on every visit (js/wow-profession-live.js). #}
+  <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
+  <script type="application/json" id="pfLive">{{ pf_live|tojson }}</script>
+  <script src="{{ root }}assets/js/wow-profession-live.js?v={{ js_v('wow-profession-live.js') }}" defer></script>{% endif %}
+  {% if prof.materials|selectattr('name.en', 'in', BETA_LOCKED_MATS)|list %}<p class="wow-note">{{ tx.beta_locked_note }}</p>{% endif %}
+</section>
 
-<h2 class="fiche-section-title">{{ tx.how_h2 }}</h2>
-<ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>
+{# ---------------------------------------------------------------- Ranks | method and limits #}
+<section class="gs-tile gs-w5" id="pf-ranks">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.ranks_h2 }}</h2></div>
+  <p class="gs-lede">{{ tx.ranks_p }}</p>
+  <div class="pf-ranks">
+  {% for r in prof.ranks %}
+    <div class="pf-rank">
+      <b>{{ tx.rank_names[r.name] }}</b><span class="pf-rank-p nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</span>
+      <span class="pf-rank-d">{{ tx.r_cap }} <span class="nums">{{ r.cap }}</span> · {{ tx.r_at }} <span class="nums">{{ r.learn_at }}</span> · {{ tx.r_level }} <span class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 30 %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</span></span>
+    </div>
+  {% endfor %}
+  </div>
+  {% if prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 30)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
+</section>
 
-<h2 class="fiche-section-title">{{ tx.limits_h2 }}</h2>
-<ul class="gd-list">{% for h in (tx.limits_ah if prof.ah else tx.limits) %}<li>{{ h }}</li>{% endfor %}{% if T.has_disenchant %}<li>{{ tx.limit_disenchant }}</li>{% endif %}</ul>
+<section class="gs-tile gs-w7" id="pf-method">
+  <div class="gs-th"><h2 class="gs-h2">{{ 'Méthode et limites' if fr else 'Method and limits' }}</h2></div>
+  <details class="gs-more" open><summary>{{ tx.how_h2 }}</summary>
+    <ul class="gd-list">{% for h in tx.how %}<li>{{ h }}</li>{% endfor %}</ul>
+  </details>
+  <details class="gs-more"><summary>{{ tx.limits_h2 }}</summary>
+    <ul class="gd-list">{% for h in (tx.limits_ah if prof.ah else tx.limits) %}<li>{{ h }}</li>{% endfor %}{% if T.has_disenchant %}<li>{{ tx.limit_disenchant }}</li>{% endif %}</ul>
+  </details>
+</section>
 
-<h2 class="fiche-section-title">{{ tx.all_h2 }}</h2>
-<p class="page-intro" style="margin-top:0">{{ tx.all_p.format(name=prof.name[lang]) }}</p>
-<details class="wow-faq-item"><summary>{{ tx.all_h2 }} ({{ prof.recipes|length }})</summary>
-<div class="wow-table-wrap"><table class="wow-table">
-  <thead><tr><th>{{ tx.a_recipe }}</th><th>{{ tx.a_colors }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.a_get }}</th></tr></thead>
-  <tbody>{% for r in prof.recipes %}
-  <tr>
-    <td data-first><a href="https://www.wowhead.com/forever/spell={{ r.id }}" rel="noopener nofollow" target="_blank">{{ r.name[lang] }}</a></td>
-    <td>{{ colors(r.colors) }}</td>
-    <td>{{ reag_list(r.reagents) }}</td>
-    <td>{{ get(r.acquire) }}</td>
-  </tr>{% endfor %}</tbody>
-</table></div>
+{# ---------------------------------------------------------------- All recipes #}
+<section class="gs-tile" id="pf-all">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.all_h2 }}</h2><span class="gs-meta">{{ prof.recipes|length }}</span></div>
+  <p class="gs-lede">{{ tx.all_p.format(name=prof.name[lang]) }}</p>
+  <details class="gs-more"><summary>{{ tx.all_h2 }} ({{ prof.recipes|length }})</summary>
+  <div class="rs-table-wrap"><table class="pf-table">
+    <thead><tr><th>{{ tx.a_recipe }}</th><th>{{ tx.a_colors }}</th><th>{{ tx.c_reagents }}</th><th>{{ tx.a_get }}</th></tr></thead>
+    <tbody>{% for r in prof.recipes %}
+    <tr>
+      <td data-first><a href="https://www.wowhead.com/forever/spell={{ r.id }}" rel="noopener nofollow" target="_blank">{{ r.name[lang] }}</a></td>
+      <td>{{ colors(r.colors) }}</td>
+      <td>{{ reag_list(r.reagents) }}</td>
+      <td>{{ get(r.acquire) }}</td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  </details>
+</section>
+
+</div>
+
+<details class="gs-more gs-sources">
+  <summary>{{ tx.sources }}</summary>
+  <ul class="gd-list wow-sources">
+    <li><a href="{{ prof.sources.wowhead }}" rel="noopener nofollow" target="_blank">{{ tx.sources_wh.format(name=prof.name.en) }}</a></li>
+    <li><a href="{{ prof.sources.client }}" rel="noopener nofollow" target="_blank">{{ tx.sources_client.format(build=prof.build) }}</a></li>
+    <li><a href="https://www.wow-professions.com/forever" rel="noopener nofollow" target="_blank">{{ tx.sources_wp }}</a></li>
+  </ul>
 </details>
-
-<h2 class="fiche-section-title">{{ tx.sources }}</h2>
-<ul class="gd-list wow-sources">
-  <li><a href="{{ prof.sources.wowhead }}" rel="noopener nofollow" target="_blank">{{ tx.sources_wh.format(name=prof.name.en) }}</a></li>
-  <li><a href="{{ prof.sources.client }}" rel="noopener nofollow" target="_blank">{{ tx.sources_client.format(build=prof.build) }}</a></li>
-  <li><a href="https://www.wow-professions.com/forever" rel="noopener nofollow" target="_blank">{{ tx.sources_wp }}</a></li>
-</ul>
+<script>
+(function () {
+  var box = document.getElementById('pfMats'), btn = document.getElementById('pfMore');
+  if (box && btn) {
+    // Without JS the whole shopping list stays visible; with it only the first rows show until the button is used.
+    box.classList.add('is-short'); btn.hidden = false; btn.textContent = btn.dataset.more;
+    btn.addEventListener('click', function () {
+      var short = box.classList.toggle('is-short'); btn.textContent = short ? btn.dataset.more : btn.dataset.less;
+    });
+  }
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
 {% endblock %}
