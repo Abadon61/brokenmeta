@@ -8210,9 +8210,12 @@ def main() -> None:
                                  if lang == "fr" else
                                  "WoW: Forever class guides, talent calculator, dungeon loot and DPS simulator, plus a TFT tier list and LoL guides. Real data."))
                 assert len(_home_page["title"]) <= 60 and len(_home_page["description"]) <= 155
-                render("wow_page.html", "/", lang, **{**_wow_kw, "page": _home_page, "site_schema": True,
-                                                     "article_schema": build_article_schema(_wp["h1"], canonical_for("/", lang), _home_page["description"])})
-                render("wow_page.html", _wpath, lang, **{**_wow_kw, "canonical": canonical_for("/", lang),
+                # The home no longer shows the long "everything before launch" text nor its FAQ (2026-10-10, user): no FAQPage
+                # markup either, structured data must match what the page displays. Its H1 is the ranking title (wow_page.html).
+                _home_h1 = "Classement des spécialisations WoW: Forever" if lang == "fr" else "WoW: Forever specialization ranking"
+                render("wow_page.html", "/", lang, **{**_wow_kw, "page": _home_page, "site_schema": True, "faq_schema": None,
+                                                     "article_schema": build_article_schema(_home_h1, canonical_for("/", lang), _home_page["description"])})
+                render("wow_page.html", _wpath, lang, **{**_wow_kw, "canonical": canonical_for("/", lang), "faq_schema": None,
                                                          "alt_canonical": canonical_for("/", "en" if lang == "fr" else "fr")})
             else:
                 render("wow_page.html", _wpath, lang, **_wow_kw)

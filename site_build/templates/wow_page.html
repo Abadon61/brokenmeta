@@ -30,82 +30,61 @@
 {% endmacro %}
 {% block content %}
 {% if wow_slug == '' and wt_classes %}
-<section class="ph wh-hero">
-  <div class="wh-main">
-    <div class="fiche-kicker">{{ page.kicker }}</div>
-    <h1 class="ph-title">{{ page.h1 }}</h1>
-    <p class="ph-lede">{{ page.intro }}</p>
-    <div class="wh-cta">
-      <a class="wh-btn" href="{{ root }}wow-forever/talents/">{{ wow_ui.cta_calc }} <span aria-hidden="true">→</span></a>
-      <div class="wh-icons">{% for c in wt_classes %}<a href="{{ root }}wow-forever/talents/{{ c.id }}/" title="{{ c.name[lang] }}" style="--cc: {{ c.color or '#8a6cff' }}">{% if c.icon %}<img src="{{ c.icon }}" alt="{{ c.name[lang] }}" width="36" height="36" loading="lazy">{% else %}<span>{{ c.name[lang][:2] }}</span>{% endif %}</a>{% endfor %}</div>
-    </div>
-  </div>
-  {{ countdown('wh-count') }}
-</section>
-{% if wow_ranking %}
-<section class="dash-kpis" aria-label="{{ 'Chiffres clés' if fr else 'Key figures' }}">
-  <div class="dash-kpi" style="--kc:#2a63ff"><span class="dash-kpi-k"><i></i>{{ 'Sortie de la bêta' if fr else 'Beta launch' }}</span><b class="nums" id="dashKpiDays">--</b><span class="dash-kpi-s">{{ 'jours restants' if fr else 'days left' }}</span></div>
-  <div class="dash-kpi" style="--kc:#2de6c4"><span class="dash-kpi-k"><i></i>{{ 'Spécialisations classées' if fr else 'Ranked specs' }}</span><b class="nums">{{ wow_ranking|length + (wow_ranking_tanks|length if wow_ranking_tanks else 0) }}</b><span class="dash-kpi-s">{{ 'DPS et tanks simulés' if fr else 'simulated DPS and tanks' }}</span></div>
-  <div class="dash-kpi" style="--kc:{{ wow_ranking[0].class_color or '#ffc23c' }}"><span class="dash-kpi-k"><i></i>{{ 'Meilleur DPS' if fr else 'Top DPS' }}</span><b>{{ wow_ranking[0].class_name }} {{ wow_ranking[0].spec_name }}</b><span class="dash-kpi-s nums">{{ '{:,.0f}'.format(wow_ranking[0].dps).replace(',', ' ' if fr else ',') }} DPS</span></div>
-  {% if wow_ranking_tanks %}<div class="dash-kpi" style="--kc:{{ wow_ranking_tanks[0].class_color or '#c76bff' }}"><span class="dash-kpi-k"><i></i>{{ 'Meilleur tank' if fr else 'Top tank' }}</span><b>{{ wow_ranking_tanks[0].class_name }} {{ wow_ranking_tanks[0].spec_name }}</b><span class="dash-kpi-s nums">{{ '{:,.0f}'.format(wow_ranking_tanks[0].tps).replace(',', ' ' if fr else ',') }} TPS</span></div>{% endif %}
-</section>
-{% endif %}
-<div class="dash-cols">
-<div class="dash-col-main">
+{# Accueil (maquette validée 2026-10-10) : À la une (titre + date, sans image), classement au centre, addon, professions, outils. #}
 {% if wow_featured %}
-<section class="wf" aria-labelledby="wf-h">
-  <div class="wf-head"><h2 class="lh-h2" id="wf-h">{{ 'À la une' if lang == 'fr' else 'Featured' }}</h2><a class="wf-all" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }} →</a></div>
-  <div class="wf-grid">
-  {% for c in wow_featured %}
-    <a class="wf-card{% if not c.external %} wf-ours{% endif %}{% if c.banner %} wf-has-banner{% endif %}" href="{{ c.href if c.external else root ~ c.href }}"{% if c.external %} rel="noopener nofollow" target="_blank"{% endif %} style="--ac: {{ c.color or '#8a6cff' }}">
-      {% if c.banner %}<span class="wf-banner"><img src="{{ root }}{{ c.banner }}" alt="" width="600" height="315" loading="lazy"></span>{% else %}<span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>{% endif %}
-      <span class="wf-body">
-        <span class="wf-tags">{% if c.format_label %}<span class="fmt-tag">{{ c.format_label }}</span>{% endif %}{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span>
-        <b class="wf-title">{{ c.title }}</b>
-        <span class="wf-meta">{{ c.date_label }} · {{ c.source_label }}{% if c.external %} ↗{% endif %}</span>
-      </span>
+<section class="hn" aria-labelledby="hn-h">
+  <div class="hn-head"><h2 class="hn-title" id="hn-h"><i></i>{{ 'À la une' if fr else 'Featured' }}</h2><a class="hn-all" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if fr else 'All news' }} →</a></div>
+  <div class="hn-grid">
+  {% for c in wow_featured[:6] %}
+    <a class="hn-item" href="{{ c.href if c.external else root ~ c.href }}"{% if c.external %} rel="noopener nofollow" target="_blank"{% endif %} style="--ac: {{ c.color or '#8a6cff' }}">
+      <span class="wf-tags">{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span>
+      <b class="hn-t">{{ c.title }}</b>
+      <span class="hn-d nums">{{ c.date_label }}</span>
     </a>
   {% endfor %}
   </div>
 </section>
 {% endif %}
-</div>
-<div class="dash-col-side"><section class="dash-panel">
 {% if wow_ranking %}
-<h2 class="lh-h2">{{ wow_ui.ranking_h2 }}<span class="wow-rank-wip-tag">{{ wow_ui.ranking_wip_tag }}</span></h2>
-<p class="page-intro" style="margin-top:0">{{ wow_ui.ranking_intro }}</p>
-<div class="wow-rank-list">
-  {% set max_dps = wow_ranking[0].dps %}
-  {% for r in wow_ranking %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
-    {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.dps).replace(',', ' ' if lang == 'fr' else ',') }} DPS</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_dps)|round(1) }}%"></span></span>
-    </span>
-  </a>
-  {% endfor %}
-</div>
-{% if wow_ranking_tanks %}
-<h3 class="lh-h2" style="font-size:18px">{{ wow_ui.ranking_tank_h2 }}</h3>
-<div class="wow-rank-list">
-  {% set max_tps = wow_ranking_tanks[0].dps %}
-  {% for r in wow_ranking_tanks %}
-  <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
-    {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
-    <span class="wow-rank-body">
-      <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.tps).replace(',', ' ' if lang == 'fr' else ',') }} TPS</span></span>
-      <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_tps)|round(1) }}%"></span></span>
-    </span>
-  </a>
-  {% endfor %}
-</div>
+<section class="dash-panel hr" id="wowRank" aria-labelledby="hr-h">
+  <div class="hr-head">
+    <div>
+      <div class="fiche-kicker">{{ 'Simulation · niveau 60' if fr else 'Simulation · level 60' }}</div>
+      <h1 class="hr-h1" id="hr-h">{{ 'Classement des spécialisations WoW: Forever' if fr else 'WoW: Forever specialization ranking' }}</h1>
+      <p class="hr-lede">{{ 'Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu de la bêta.' if fr else "Each specialization is simulated on a stationary boss for 180 seconds, with its family's raid buffs and the best gear known from the beta." }}</p>
+    </div>
+    <a class="wh-btn" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Ouvrir le simulateur DPS' if fr else 'Open the DPS simulator' }} <span aria-hidden="true">→</span></a>
+  </div>
+  {% if wow_ranking_tanks %}<div class="hr-tabs" role="tablist"><button type="button" role="tab" class="on" data-tab="dps" aria-selected="true">DPS</button><button type="button" role="tab" data-tab="tank" aria-selected="false">Tanks</button></div>{% endif %}
+  <div class="wow-rank-list hr-list" data-panel="dps" style="--rows: {{ ((wow_ranking|length + 1) // 2) }}">
+    {% set max_dps = wow_ranking[0].dps %}
+    {% for r in wow_ranking %}
+    <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+      {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
+      <span class="wow-rank-body">
+        <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.dps).replace(',', ' ' if fr else ',') }} DPS</span></span>
+        <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_dps)|round(1) }}%"></span></span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+  {% if wow_ranking_tanks %}
+  <div class="wow-rank-list hr-list" data-panel="tank" hidden style="--rows: {{ ((wow_ranking_tanks|length + 1) // 2) }}">
+    {% set max_tps = wow_ranking_tanks[0].dps %}
+    {% for r in wow_ranking_tanks %}
+    <a class="wow-rank-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+      {% if r.spec_icon %}<img class="wow-rank-icon" src="{{ root }}{{ r.spec_icon }}" alt="" width="28" height="28" loading="lazy">{% endif %}
+      <span class="wow-rank-body">
+        <span class="wow-rank-label"><b>{{ r.class_name }} — {{ r.spec_name }}</b><span class="wow-rank-tag" data-role="tank">{{ wow_ui.ranking_tank_tag }}</span><span class="wow-rank-val nums">{{ '{:,.0f}'.format(r.tps).replace(',', ' ' if fr else ',') }} TPS</span></span>
+        <span class="wow-rank-bar-wrap"><span class="wow-rank-bar" style="width: {{ (100 * r.dps / max_tps)|round(1) }}%"></span></span>
+      </span>
+    </a>
+    {% endfor %}
+  </div>
+  {% endif %}
+</section>
 {% endif %}
-<p class="wow-note">{{ wow_ui.ranking_note }}</p>
-{% endif %}
-</section></div>
-</div>
-<div class="dash-shares">
+<div class="dash-shares dash-shares-one">
 <aside class="wh-share">
   <img src="{{ root }}assets/img/icon-192.png" alt="" width="48" height="48" loading="lazy">
   <div class="wh-share-text">
@@ -118,32 +97,45 @@
     <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/partager-mes-donnees/">{{ wow_ui.share_cta }} <span aria-hidden="true">→</span></a>
   </div>
 </aside>
-{% if wow_profs_nav %}<aside class="wh-share wh-share-profs">
-  <div class="wh-prof-icons" aria-hidden="true">{% for p in wow_profs_nav[:6] %}{% if p.icon %}<img src="{{ p.icon }}" alt="" width="40" height="40" loading="lazy">{% endif %}{% endfor %}</div>
-  <div class="wh-share-text">
-    <p class="wh-share-hook">{{ 'Découvrez nos guides sur les professions de WoW: Forever' if fr else 'Discover our WoW: Forever profession guides' }}</p>
-    <p class="wh-share-sub">{{ 'Parcours de 1 à 300, matériaux nécessaires et coûts, métier par métier.' if fr else 'Leveling routes from 1 to 300, required materials and costs, profession by profession.' }}</p>
-  </div>
-  <div class="wh-share-actions">
-    <a class="wh-btn" href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if fr else 'All professions' }} <span aria-hidden="true">→</span></a>
-  </div>
-</aside>{% endif %}
 </div>
-<h2 class="lh-h2">{{ wow_ui.pick_spec }}</h2>
-<div class="wh-cards">
-  {% for g in wow_guides_nav %}{% for s in g.cls.specs %}
-  <a class="wh-card" href="{{ root }}wow-forever/guides/{{ g.cls.id }}/{{ s.id }}/" style="--cc: {{ g.cls.color or '#8a6cff' }}">
-    <img class="wh-card-icon" src="{{ root }}assets/img/spec/{{ g.cls.id }}-{{ s.id }}.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>{{ s.name[lang] }}</b><span class="wh-card-specs">{{ g.cls.name[lang] }}</span><span class="wh-card-n nums">{{ g.roles[s.id].role[lang] }}</span></span>
-  </a>
-  {% endfor %}{% endfor %}
-</div>
+{% if wow_profs_nav %}
+<section class="hp" aria-labelledby="hp-h">
+  <div class="hn-head"><div><h2 class="lh-h2" id="hp-h" style="margin:0">{{ 'Guides de professions' if fr else 'Profession guides' }}</h2><p class="hp-sub">{{ 'Parcours de 1 à 300, matériaux nécessaires et coûts, métier par métier.' if fr else 'Leveling routes from 1 to 300, required materials and costs, profession by profession.' }}</p></div><a class="hn-all" href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if fr else 'All professions' }} →</a></div>
+  <div class="hp-grid">
+    {% for p in wow_profs_nav %}<a class="hp-card" href="{{ root }}wow-forever/professions/{{ p.id }}/">{% if p.icon %}<img src="{{ p.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}<b>{{ p.name[lang] }}</b></a>{% endfor %}
+  </div>
+</section>
+{% endif %}
+<section class="hp" aria-labelledby="ht-h">
+  <div class="hn-head"><div><h2 class="lh-h2" id="ht-h" style="margin:0">{{ 'Outils' if fr else 'Tools' }}</h2><p class="hp-sub">{{ 'Pour régler ton personnage avant la sortie.' if fr else 'To set up your character before launch.' }}</p></div></div>
+  <div class="ht-grid">
+    <a class="ht-card" href="{{ root }}wow-forever/simulateur-dps/"><b>{{ 'Simulateur DPS' if fr else 'DPS simulator' }}</b><span>{{ "Talents et équipement d'une spé, résultat en DPS" if fr else "A spec's talents and gear, result in DPS" }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/simuler-mon-personnage/"><b>{{ 'Simuler mon personnage' if fr else 'Simulate my character' }}</b><span>{{ 'Importe ton perso, compare tes objets' if fr else 'Import your character, compare your items' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/talents/"><b>{{ wow_ui.cta_calc }}</b><span>{{ '51 points par arbre, partage de build' if fr else '51 points per tree, share your build' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/glossaire/"><b>{{ 'Glossaire des sorts' if fr else 'Spell glossary' }}</b><span>{{ 'Rangs, coûts et valeurs' if fr else 'Ranks, costs and values' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/artisans/"><b>{{ 'Artisans' if fr else 'Crafters' }}</b><span>{{ 'Trouve un artisan connecté' if fr else 'Find a connected crafter' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/addon/"><b>{{ 'Addon BrokenMeta' if fr else 'BrokenMeta addon' }}</b><span>{{ 'Valeur DPS des objets en infobulle' if fr else 'Item DPS value in tooltips' }}</span></a>
+  </div>
+</section>
+<script>
+(function () {
+  var box = document.getElementById('wowRank'); if (!box) return;
+  var tabs = box.querySelectorAll('.hr-tabs button'), panels = box.querySelectorAll('.hr-list');
+  Array.prototype.forEach.call(tabs, function (b) {
+    b.addEventListener('click', function () {
+      Array.prototype.forEach.call(tabs, function (x) { var on = x === b; x.classList.toggle('on', on); x.setAttribute('aria-selected', on ? 'true' : 'false'); });
+      Array.prototype.forEach.call(panels, function (p) { p.hidden = p.getAttribute('data-panel') !== b.getAttribute('data-tab'); });
+    });
+  });
+})();
+</script>
 {% else %}
 {{ m.page_hero(page.kicker, page.h1, page.intro) }}
 
 {% if wow_slug == '' %}{{ countdown() }}{% endif %}
 {% endif %}
 
+{% if not (wow_slug == '' and wt_classes) %}
 {% for sec in page.sections %}
 <h2 class="fiche-section-title">{{ sec.h2 }}</h2>
 {% for b in sec.blocks %}
@@ -176,7 +168,9 @@
 <p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
 <ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul>
 
-{% if wow_slug == '' %}
+{% endif %}
+
+{% if wow_slug == '' and not wt_classes %}
 <script>
 (function () {
   var g = document.querySelector('.dash-cols .wf-grid'), side = document.querySelector('.dash-col-side'); if (!g || !side) return;
