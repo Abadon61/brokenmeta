@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Paladin Sacré WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Paladin Sacré de WoW: Forever : Soigneur, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,290 +297,337 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
-    <h1 class="ph-title">Paladin Sacré : guide de spécialisation</h1>
-    <p class="ph-lede">Sacré est la spécialisation « Soigneur » du Paladin dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #f48cba">
+  <div class="gh-art" style="background-image: url('../../../../assets/img/wow-class/paladin.jpg')"></div><span class="gh-credit">Illustration : © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
+      <h1 class="gh-title">Paladin Sacré : guide de spécialisation</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">Soigneur</span>
+        
+      </div>
+      <p class="gh-lede">Sacré est la spécialisation « Soigneur » du Paladin dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/talents/paladin/">Ouvrir Paladin dans le calculateur de talents <span aria-hidden="true">→</span></a>
+      
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../assets/img/wow-class/paladin.jpg" alt="Paladin" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">En bref</h2>
-<dl class="wow-facts">
-  <div><dt>Classe</dt><dd>Paladin</dd></div>
-  <div><dt>Rôle</dt><dd>Soigneur</dd></div>
-  <div><dt>Talents dans l&#39;arbre</dt><dd class="nums">17</dd></div>
-  <div><dt>Points maximum dans l&#39;arbre</dt><dd class="nums">46</dd></div>
-  <div><dt>Palier le plus haut</dt><dd class="nums">7</dd></div>
-  <div><dt>Points nécessaires pour le dernier palier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Statistiques</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Métiers</a>
+  <a href="#gs-gear">Équipement</a>
+  <a href="#gs-cons">Consommables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Le template de talents (niveau 60)</h2>
-<p class="page-intro" style="margin-top:0">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
-<p class="wow-note">Build de soin niveau 60 (51 points) composé par BrokenMeta à partir des descriptions des talents : le simulateur ne gère pas encore les soins, ce build n&#39;est donc pas chiffré.</p>
-
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Sacré <span class="wg-own">ce guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link is-hot" x1="116" y1="246" x2="64" y2="210"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Force divine — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_golemthunderclap.jpg" alt="Force divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Intelligence divine — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Intelligence divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Lumière guérisseuse — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg" alt="Lumière guérisseuse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Focalisation spirituelle — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blink.jpg" alt="Focalisation spirituelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Sceaux améliorés — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Sceaux améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Foi inflexible — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_unyieldingfaith.jpg" alt="Foi inflexible" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Voix de la vérité — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_horn_03.jpg" alt="Voix de la vérité" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Révérence — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="Révérence" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Puissance purifiante — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_purifyingpower.jpg" alt="Puissance purifiante" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Imprégnation de lumière — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_infusionoflight.jpg" alt="Imprégnation de lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Illumination — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_greaterheal.jpg" alt="Illumination" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Faveur divine — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_heal.jpg" alt="Faveur divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 2" title="Précision divine — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_healingfocus.jpg" alt="Précision divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Horion sacré — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_searinglight.jpg" alt="Horion sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Terre consacrée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_innerfire.jpg" alt="Terre consacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Puissance sacrée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_power.jpg" alt="Puissance sacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Vigile de Lumière — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementofthepure.jpg" alt="Vigile de Lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Le template de talents (niveau 60)</h2></div>
+  <p class="gs-lede">Build de soin niveau 60 (51 points) composé par BrokenMeta à partir des descriptions des talents : le simulateur ne gère pas encore les soins, ce build n&#39;est donc pas chiffré.</p>
+  
+  <details class="gs-more"><summary>Comment lire ces arbres</summary>
+    <p class="gs-lede">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Sacré <span class="wg-own">ce guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link is-hot" x1="116" y1="246" x2="64" y2="210"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Force divine — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_golemthunderclap.jpg" alt="Force divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Intelligence divine — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Intelligence divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Lumière guérisseuse — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg" alt="Lumière guérisseuse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Focalisation spirituelle — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blink.jpg" alt="Focalisation spirituelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Sceaux améliorés — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Sceaux améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Foi inflexible — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_unyieldingfaith.jpg" alt="Foi inflexible" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Voix de la vérité — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_horn_03.jpg" alt="Voix de la vérité" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Révérence — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="Révérence" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Puissance purifiante — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_purifyingpower.jpg" alt="Puissance purifiante" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Imprégnation de lumière — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_infusionoflight.jpg" alt="Imprégnation de lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Illumination — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_greaterheal.jpg" alt="Illumination" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Faveur divine — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_heal.jpg" alt="Faveur divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 2" title="Précision divine — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_healingfocus.jpg" alt="Précision divine" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Horion sacré — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_searinglight.jpg" alt="Horion sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Terre consacrée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_innerfire.jpg" alt="Terre consacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Puissance sacrée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_power.jpg" alt="Puissance sacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Vigile de Lumière — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementofthepure.jpg" alt="Vigile de Lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Protection</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="38" x2="168" y2="106"/><line class="wg-link" x1="64" y1="142" x2="64" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Résistance — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Redoute — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_defend.jpg" alt="Redoute" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Précision — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="Précision" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Faveur du Gardien — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofprotection.jpg" alt="Faveur du Gardien" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Anticipation — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_magic_lesserinvisibilty.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sceau de fureur amélioré — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousnessaura.jpg" alt="Sceau de fureur amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Fureur vertueuse améliorée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealoffury.jpg" alt="Fureur vertueuse améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Spécialisation Bouclier — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg" alt="Spécialisation Bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Devoir sacré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineintervention.jpg" alt="Devoir sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Jugement rapide — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementred.jpg" alt="Jugement rapide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Spécialisation Arme 1M — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_20.jpg" alt="Spécialisation Arme 1M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Marteau de la justice amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofmight.jpg" alt="Marteau de la justice amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Rempart de templier — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_shieldofthetemplar.jpg" alt="Rempart de templier" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Rétribution — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg" alt="Rétribution" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Credo de fer — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_improvedresistanceauras.jpg" alt="Credo de fer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Bouclier sacré — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofprotection.jpg" alt="Bouclier sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Vindicte</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Déviation — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Déviation" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Bénédiction — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="Bénédiction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Jugement amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousfury.jpg" alt="Jugement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Conduit sacré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devineaegis.jpg" alt="Conduit sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Conviction — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_retributionaura.jpg" alt="Conviction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Justification — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_vindication.jpg" alt="Justification" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Jugement sanctifié — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementblue.jpg" alt="Jugement sanctifié" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Sceau d&#39;autorité — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg" alt="Sceau d&#39;autorité" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Poursuite de la justice — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_persuitofjustice.jpg" alt="Poursuite de la justice" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Oeil pour oeil — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_eyeforaneye.jpg" alt="Oeil pour oeil" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Sentence sacrée — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_08.jpg" alt="Sentence sacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spécialisation Arme 2M — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_hammer_04.jpg" alt="Spécialisation Arme 2M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Vengeance — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_avatar.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Repentir — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_prayerofhealing.jpg" alt="Repentir" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 3" title="Champion de la lumière — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_enlightenedjudgements.jpg" alt="Champion de la lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Instrument de la loi — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divinepurpose.jpg" alt="Instrument de la loi" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Effet de lumière — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessedresillience.jpg" alt="Effet de lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Protection</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="38" x2="168" y2="106"/><line class="wg-link" x1="64" y1="142" x2="64" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Résistance — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Redoute — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_defend.jpg" alt="Redoute" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Précision — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="Précision" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Faveur du Gardien — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofprotection.jpg" alt="Faveur du Gardien" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Anticipation — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_magic_lesserinvisibilty.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sceau de fureur amélioré — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousnessaura.jpg" alt="Sceau de fureur amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Fureur vertueuse améliorée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealoffury.jpg" alt="Fureur vertueuse améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Spécialisation Bouclier — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg" alt="Spécialisation Bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Devoir sacré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineintervention.jpg" alt="Devoir sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Jugement rapide — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementred.jpg" alt="Jugement rapide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Spécialisation Arme 1M — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_20.jpg" alt="Spécialisation Arme 1M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Marteau de la justice amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofmight.jpg" alt="Marteau de la justice amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Rempart de templier — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_shieldofthetemplar.jpg" alt="Rempart de templier" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Rétribution — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstrength.jpg" alt="Rétribution" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Credo de fer — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_improvedresistanceauras.jpg" alt="Credo de fer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Bouclier sacré — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofprotection.jpg" alt="Bouclier sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Vindicte</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Déviation — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Déviation" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Bénédiction — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="Bénédiction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Jugement amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousfury.jpg" alt="Jugement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Conduit sacré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devineaegis.jpg" alt="Conduit sacré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Conviction — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_retributionaura.jpg" alt="Conviction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Justification — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_vindication.jpg" alt="Justification" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Jugement sanctifié — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementblue.jpg" alt="Jugement sanctifié" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Sceau d&#39;autorité — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg" alt="Sceau d&#39;autorité" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Poursuite de la justice — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_persuitofjustice.jpg" alt="Poursuite de la justice" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Oeil pour oeil — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_eyeforaneye.jpg" alt="Oeil pour oeil" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Sentence sacrée — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_08.jpg" alt="Sentence sacrée" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spécialisation Arme 2M — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_hammer_04.jpg" alt="Spécialisation Arme 2M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Vengeance — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_avatar.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Repentir — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_prayerofhealing.jpg" alt="Repentir" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 3" title="Champion de la lumière — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_enlightenedjudgements.jpg" alt="Champion de la lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Instrument de la loi — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divinepurpose.jpg" alt="Instrument de la loi" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Effet de lumière — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessedresillience.jpg" alt="Effet de lumière" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
+  <details class="gs-more"><summary>Détail des talents du build (19)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Intelligence divine</b> <span class="wg-rank nums">Sacré · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente votre total d&#39;Intelligence de 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lumière guérisseuse</b> <span class="wg-rank nums">Sacré · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente de 12 % le nombre de points de vie rendus par vos sorts Lumière sacrée, Éclair lumineux et Horion sacré.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blink.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Focalisation spirituelle</b> <span class="wg-rank nums">Sacré · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Confère à vos sorts Éclair lumineux, Lumière sacrée et Vigile de lumière 70 % de chances de ne pas voir leur incantation interrompue lorsque vous subissez des dégâts.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_horn_03.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Voix de la vérité</b> <span class="wg-rank nums">Sacré · Palier 3 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Grants you immunity to Silence and Interrupt effects for 6 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Révérence</b> <span class="wg-rank nums">Sacré · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Vous confère 30 % de votre vitesse normale de récupération du mana pendant l’incantation.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_purifyingpower.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Puissance purifiante</b> <span class="wg-rank nums">Sacré · Palier 3 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Réduit de 20 % le coût en mana de vos sorts Épuration et Purification, et de 33 % le temps de recharge de vos sorts Exorcisme et Colère divine.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_infusionoflight.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Imprégnation de lumière</b> <span class="wg-rank nums">Sacré · Palier 4 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Les coups critiques de Horion sacré et Éclair lumineux réduisent de -1,0 s le temps d’incantation de votre prochain sort Lumière sacrée lancé dans les 15 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_greaterheal.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Illumination</b> <span class="wg-rank nums">Sacré · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Lorsque vous obtenez un effet critique avec Éclair lumineux, Lumière sacrée, Vigile de Lumière ou le sort de soins Horion sacré, vous avez 100 % de chances de recevoir un montant de mana égal à 50 % du coût de base du sort.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_heal.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Faveur divine</b> <span class="wg-rank nums">Sacré · Palier 4 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Une fois activé, confère 100% de chances à votre prochain sort Eclair lumineux, Lumière sacrée ou Horion sacré d&#39;avoir un effet critique.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_healingfocus.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Précision divine</b> <span class="wg-rank nums">Sacré · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Améliore de 18 % vos chances de toucher avec les sorts du sacré.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_searinglight.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Horion sacré</b> <span class="wg-rank nums">Sacré · Palier 5 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : L’énergie sacrée frappe la cible et inflige 134 points de dégâts du sacré à un adversaire, ou rend 114 points de vie à un personnage allié.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_innerfire.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Terre consacrée</b> <span class="wg-rank nums">Sacré · Palier 5 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente les dégâts de vos sorts du sacré de 10 % contre les 4 premiers adversaires qui entrent dans la zone d’effet de votre Consécration.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_power.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Puissance sacrée</b> <span class="wg-rank nums">Sacré · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Increases the critical strike chance of your Holy Shock and Holy Strike spells by 15%, and all other spells by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementofthepure.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Vigile de Lumière</b> <span class="wg-rank nums">Sacré · Palier 7 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Applies Light&#39;s Vigil to the target for 30 s. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer 182 Holy damage and refund 75% of Light&#39;s Vigil&#39;s Mana cost, or allied targets to heal their party for 324. You may only have one Light&#39;s Vigil active per party.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Résistance</b> <span class="wg-rank nums">Protection · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente le score d&#39;armure des objets de 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Déviation</b> <span class="wg-rank nums">Vindicte · Palier 1 · 5 rangs · 1 pts · Recommandé</span>
+        <p>Rang 1/5 : Augmente vos chances de Parer de 1%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Bénédiction</b> <span class="wg-rank nums">Vindicte · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit le coût en mana de tous les sorts et techniques instantanés de 10 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousfury.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Jugement amélioré</b> <span class="wg-rank nums">Vindicte · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Réduit le temps de recharge de votre technique Jugement de 2 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devineaegis.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Conduit sacré</b> <span class="wg-rank nums">Vindicte · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Réduit de 40 % le coût en mana de vos sorts Consécration, Colère divine, Exorcisme et Marteau de courroux.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Priorité de stats</h2></div>
+  
+  <p class="gs-lede">Dans l&#39;ordre d&#39;importance, d&#39;après Icy Veins (niveau 30).</p>
+  <p class="wow-note">Icy Veins : si vous ne comptez pas soigner vraiment, cherchez plutôt dégâts de l&#39;arme, toucher et critique.</p>
+  <ol class="wg-stats"><li>Puissance de soins</li><li>Intelligence</li><li>Régénération de mana (Mp5)</li><li>Coup critique</li><li>Esprit</li></ol>
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation niveau 60</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li>Flash of Light comme soin principal : 3,27 de soin par mana pour seulement 140 de mana, en 1,5 s.</li><li>Holy Light pour les gros soins quand la mana le permet (2,77 par mana, 732 de soin par seconde en 2,5 s).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> instantané et Light&#39;s Vigil pour les urgences ; Divine Favor avant un soin important pour garantir un critique (Illumination rend alors de la mana).</li><li>Lay on Hands en dernier recours.</li><li>Blessing of Might sur le groupe et une aura en permanence ; Seal of Light pour soigner davantage.</li></ol>
+  <p class="wow-note">Les soins ne sont pas simulés en combat. Cette rotation est déduite des chiffres du client (soin de base, coefficient de puissance de soin, mana, temps d&#39;incantation) à 350 de puissance de soin et sans talents : elle donne un ordre d&#39;efficacité, pas un résultat de simulation.</p>
+  <details class="gs-more"><summary>Méthode, recommandations Icy Veins et comparaison</summary>
+    <p class="gs-lede">Les soins ne sont pas encore simulés : voici la rotation de soins recommandée par Icy Veins (niveau 30), reformulée.</p>
+    
+    <h3 class="gs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
+    <ul class="gd-list"><li>Flash of Light comme soin principal (peu cher, rapide).</li><li>Holy Light pour les gros soins quand la mana le permet ; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> instantané en urgence ; Lay on Hands en dernier recours.</li><li>Blessing of Might sur le groupe et Devotion ou Retribution Aura en permanence ; Seal of Light pour soigner davantage.</li></ul>
+    <h3 class="gs-sub">Notre comparaison</h3>
+    <p class="wow-note">D&#39;accord avec Icy Veins : Flash of Light comme soin principal, Holy Light pour les gros soins, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> en urgence et Lay on Hands en dernier recours. Les chiffres le confirment : Flash of Light est à la fois le plus efficace (3,27 par mana) et le moins cher (140 de mana). Les chiffres de <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> et de Light&#39;s Vigil ne sont pas exploitables dans le client. Calcul sans simulation de combat, à 350 de puissance de soin et sans talents.</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Métiers conseillés</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Ingénierie et Minage ; ou Forge à la place du Minage ; ou double récolte ; ou Alchimie pour gagner de l&#39;or<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/blacksmithing/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="" width="22" height="22" loading="lazy">Guide Forge <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Guide Ingénierie <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Guide Alchimie <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Les autres spécialisations du Paladin</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/paladin/protection/" style="--cc: #f48cba">
+        <img src="../../../../assets/img/spec/paladin-protection.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Protection</b><span>Tank</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/paladin/retribution/" style="--cc: #f48cba">
+        <img src="../../../../assets/img/spec/paladin-retribution.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Vindicte</b><span>DPS au corps à corps</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Intelligence divine</b> <span class="wg-rank nums">Sacré · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente votre total d&#39;Intelligence de 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_holybolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lumière guérisseuse</b> <span class="wg-rank nums">Sacré · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente de 12 % le nombre de points de vie rendus par vos sorts Lumière sacrée, Éclair lumineux et Horion sacré.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_blink.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Focalisation spirituelle</b> <span class="wg-rank nums">Sacré · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Confère à vos sorts Éclair lumineux, Lumière sacrée et Vigile de lumière 70 % de chances de ne pas voir leur incantation interrompue lorsque vous subissez des dégâts.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_horn_03.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Voix de la vérité</b> <span class="wg-rank nums">Sacré · Palier 3 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Grants you immunity to Silence and Interrupt effects for 6 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_divineillumination.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Révérence</b> <span class="wg-rank nums">Sacré · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Vous confère 30 % de votre vitesse normale de récupération du mana pendant l’incantation.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_purifyingpower.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Puissance purifiante</b> <span class="wg-rank nums">Sacré · Palier 3 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Réduit de 20 % le coût en mana de vos sorts Épuration et Purification, et de 33 % le temps de recharge de vos sorts Exorcisme et Colère divine.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_infusionoflight.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Imprégnation de lumière</b> <span class="wg-rank nums">Sacré · Palier 4 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Les coups critiques de Horion sacré et Éclair lumineux réduisent de -1,0 s le temps d’incantation de votre prochain sort Lumière sacrée lancé dans les 15 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_greaterheal.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Illumination</b> <span class="wg-rank nums">Sacré · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Lorsque vous obtenez un effet critique avec Éclair lumineux, Lumière sacrée, Vigile de Lumière ou le sort de soins Horion sacré, vous avez 100 % de chances de recevoir un montant de mana égal à 50 % du coût de base du sort.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_heal.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Faveur divine</b> <span class="wg-rank nums">Sacré · Palier 4 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Une fois activé, confère 100% de chances à votre prochain sort Eclair lumineux, Lumière sacrée ou Horion sacré d&#39;avoir un effet critique.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_healingfocus.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Précision divine</b> <span class="wg-rank nums">Sacré · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Améliore de 18 % vos chances de toucher avec les sorts du sacré.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_searinglight.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Horion sacré</b> <span class="wg-rank nums">Sacré · Palier 5 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : L’énergie sacrée frappe la cible et inflige 134 points de dégâts du sacré à un adversaire, ou rend 114 points de vie à un personnage allié.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_innerfire.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Terre consacrée</b> <span class="wg-rank nums">Sacré · Palier 5 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente les dégâts de vos sorts du sacré de 10 % contre les 4 premiers adversaires qui entrent dans la zone d’effet de votre Consécration.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_power.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Puissance sacrée</b> <span class="wg-rank nums">Sacré · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Increases the critical strike chance of your Holy Shock and Holy Strike spells by 15%, and all other spells by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementofthepure.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Vigile de Lumière</b> <span class="wg-rank nums">Sacré · Palier 7 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Applies Light&#39;s Vigil to the target for 30 s. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer 182 Holy damage and refund 75% of Light&#39;s Vigil&#39;s Mana cost, or allied targets to heal their party for 324. You may only have one Light&#39;s Vigil active per party.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Résistance</b> <span class="wg-rank nums">Protection · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente le score d&#39;armure des objets de 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Déviation</b> <span class="wg-rank nums">Vindicte · Palier 1 · 5 rangs · 1 pts · Recommandé</span>
-    <p>Rang 1/5 : Augmente vos chances de Parer de 1%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Bénédiction</b> <span class="wg-rank nums">Vindicte · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit le coût en mana de tous les sorts et techniques instantanés de 10 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_righteousfury.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Jugement amélioré</b> <span class="wg-rank nums">Vindicte · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Réduit le temps de recharge de votre technique Jugement de 2 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devineaegis.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Conduit sacré</b> <span class="wg-rank nums">Vindicte · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Réduit de 40 % le coût en mana de vos sorts Consécration, Colère divine, Exorcisme et Marteau de courroux.</p></div>
-  </div>
-</div>
+
+
+<section class="gs-tile">
+  
+  <div class="gs-th"><h2 class="gs-h2">Efficacité des sorts de soin au niveau 60</h2></div>
+  <p class="rs-hint">Calculée à partir des chiffres du client à 350 de puissance de soin, sans talents. « Soin par mana » compare l&#39;efficacité en mana ; « soin par seconde » compte au moins 1,5 s par sort (le temps minimal entre deux sorts) ; les sorts de zone sont indiqués pour une cible puis pour toutes les cibles touchées.</p>
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>Sort</th><th class="nums">Incantation</th><th class="nums">Mana</th><th class="nums">Soin par sort</th><th class="nums">Soin par mana</th><th class="nums">Soin par seconde</th><th class="nums">Toutes cibles</th></tr></thead>
+    <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=19943" rel="noopener nofollow" target="_blank">Flash of Light</a></td><td class="nums">1,5 s</td><td class="nums">140</td><td class="nums">458</td><td class="nums">3,27</td><td class="nums">306</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25292" rel="noopener nofollow" target="_blank">Holy Light</a></td><td class="nums">2,5 s</td><td class="nums">660</td><td class="nums">1 830</td><td class="nums">2,77</td><td class="nums">732</td><td class="nums"></td></tr></tbody>
+  </table></div>
+  <p class="rs-hint">Sorts de talent ou sans chiffre exploitable dans le client : Holy Shock, Light&#39;s Vigil, Divine Favor, Lay on Hands.</p>
+  
+</section>
 
 
 
-
-<h2 class="fiche-section-title">Rotation niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les soins ne sont pas encore simulés : voici la rotation de soins recommandée par Icy Veins (niveau 30), reformulée.</p>
-
-<ol class="rs-rot"><li>Flash of Light comme soin principal : 3,27 de soin par mana pour seulement 140 de mana, en 1,5 s.</li><li>Holy Light pour les gros soins quand la mana le permet (2,77 par mana, 732 de soin par seconde en 2,5 s).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> instantané et Light&#39;s Vigil pour les urgences ; Divine Favor avant un soin important pour garantir un critique (Illumination rend alors de la mana).</li><li>Lay on Hands en dernier recours.</li><li>Blessing of Might sur le groupe et une aura en permanence ; Seal of Light pour soigner davantage.</li></ol>
-<p class="wow-note">Les soins ne sont pas simulés en combat. Cette rotation est déduite des chiffres du client (soin de base, coefficient de puissance de soin, mana, temps d&#39;incantation) à 350 de puissance de soin et sans talents : elle donne un ordre d&#39;efficacité, pas un résultat de simulation.</p>
-
-<h3 class="rs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
-<ul class="gd-list"><li>Flash of Light comme soin principal (peu cher, rapide).</li><li>Holy Light pour les gros soins quand la mana le permet ; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> instantané en urgence ; Lay on Hands en dernier recours.</li><li>Blessing of Might sur le groupe et Devotion ou Retribution Aura en permanence ; Seal of Light pour soigner davantage.</li></ul>
-<h3 class="rs-sub">Notre comparaison</h3>
-<p class="wow-note">D&#39;accord avec Icy Veins : Flash of Light comme soin principal, Holy Light pour les gros soins, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> en urgence et Lay on Hands en dernier recours. Les chiffres le confirment : Flash of Light est à la fois le plus efficace (3,27 par mana) et le moins cher (140 de mana). Les chiffres de <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20930" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Holy Shock</a> et de Light&#39;s Vigil ne sont pas exploitables dans le client. Calcul sans simulation de combat, à 350 de puissance de soin et sans talents.</p>
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  
+  <p class="wow-note">L&#39;équipement de soin niveau 60 n&#39;est pas encore calculé : le simulateur ne gère pas les soins. Les pages des donjons et des raids permettent de parcourir le butin par type d&#39;objet et par statistique.</p>
+  
+  <p class="gs-foot">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
+</section>
 
 
-<h3 class="rs-sub">Efficacité des sorts de soin au niveau 60</h3>
-<p class="rs-hint">Calculée à partir des chiffres du client à 350 de puissance de soin, sans talents. « Soin par mana » compare l&#39;efficacité en mana ; « soin par seconde » compte au moins 1,5 s par sort (le temps minimal entre deux sorts) ; les sorts de zone sont indiqués pour une cible puis pour toutes les cibles touchées.</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Sort</th><th class="nums">Incantation</th><th class="nums">Mana</th><th class="nums">Soin par sort</th><th class="nums">Soin par mana</th><th class="nums">Soin par seconde</th><th class="nums">Toutes cibles</th></tr></thead>
-  <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=19943" rel="noopener nofollow" target="_blank">Flash of Light</a></td><td class="nums">1,5 s</td><td class="nums">140</td><td class="nums">458</td><td class="nums">3,27</td><td class="nums">306</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25292" rel="noopener nofollow" target="_blank">Holy Light</a></td><td class="nums">2,5 s</td><td class="nums">660</td><td class="nums">1 830</td><td class="nums">2,77</td><td class="nums">732</td><td class="nums"></td></tr></tbody>
-</table></div>
-<p class="rs-hint">Sorts de talent ou sans chiffre exploitable dans le client : Holy Shock, Light&#39;s Vigil, Divine Favor, Lay on Hands.</p>
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Meilleurs consommables niveau 60</h2></div>
+  <p class="gs-lede">Les soins ne sont pas simulés : ces consommables sont ceux du client qui augmentent les soins, l&#39;intelligence, l&#39;esprit ou la mana.</p>
+  <ul class="gd-list"><li>Flacon de chagrin inflexible (+80 aux soins, régénération de mana)</li><li>Parchemin d&#39;intelligence et d&#39;esprit</li><li>Esprit de Zanza (+50 esprit)</li><li>Juju de ruse (+30 intelligence)</li><li>Potion de sang de mage (+12 mana / 5 s)</li><li>Plat de soins (+55 aux soins)</li><li>Nightfin Soup (+8 mana / 5 s) pour les longs combats</li></ul>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Priorité de stats</h2>
-
-<p class="page-intro" style="margin-top:0">Dans l&#39;ordre d&#39;importance, d&#39;après Icy Veins (niveau 30).</p>
-<p class="wow-note">Icy Veins : si vous ne comptez pas soigner vraiment, cherchez plutôt dégâts de l&#39;arme, toucher et critique.</p>
-<ol class="wg-stats"><li>Puissance de soins</li><li>Intelligence</li><li>Régénération de mana (Mp5)</li><li>Coup critique</li><li>Esprit</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les soins ne sont pas simulés : ces consommables sont ceux du client qui augmentent les soins, l&#39;intelligence, l&#39;esprit ou la mana.</p>
-<ul class="gd-list"><li>Flacon de chagrin inflexible (+80 aux soins, régénération de mana)</li><li>Parchemin d&#39;intelligence et d&#39;esprit</li><li>Esprit de Zanza (+50 esprit)</li><li>Juju de ruse (+30 intelligence)</li><li>Potion de sang de mage (+12 mana / 5 s)</li><li>Plat de soins (+55 aux soins)</li><li>Nightfin Soup (+8 mana / 5 s) pour les longs combats</li></ul>
-
-<h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list prof-list"><li>Ingénierie et Minage ; ou Forge à la place du Minage ; ou double récolte ; ou Alchimie pour gagner de l&#39;or<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/blacksmithing/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="" width="22" height="22" loading="lazy">Guide Forge <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Guide Ingénierie <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Guide Alchimie <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-
-<p class="wow-note">L&#39;équipement de soin niveau 60 n&#39;est pas encore calculé : le simulateur ne gère pas les soins. Les pages des donjons et des raids permettent de parcourir le butin par type d&#39;objet et par statistique.</p>
-
-<p class="wow-note">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
-
-
-<h2 class="fiche-section-title">Les talents du dernier palier</h2>
-<p class="page-intro" style="margin-top:0">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">Les talents du dernier palier</h2></div>
+  <p class="gs-lede">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_paladin_judgementofthepure.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Vigile de Lumière</b> <span class="wg-rank nums">Palier 7 · 1 rang</span>
   <p>Applies Light&#39;s Vigil to the target for 30 s. Your next Holy Shock cast on them triggers no cooldown and causes enemy targets to suffer 182 Holy damage and refund 75% of Light&#39;s Vigil&#39;s Mana cost, or allied targets to heal their party for 324. You may only have one Light&#39;s Vigil active per party.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../wow-forever/talents/paladin/">Ouvrir Paladin dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../wow-forever/talents/paladin/">Ouvrir Paladin dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
-
-<h2 class="fiche-section-title">Les autres spécialisations du Paladin</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/paladin/protection/" style="--cc: #f48cba">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/paladin-protection.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Protection</b><span class="wh-card-specs">Tank</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/paladin/retribution/" style="--cc: #f48cba">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/paladin-retribution.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Vindicte</b><span class="wh-card-specs">DPS au corps à corps</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/holy-paladin-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Holy Paladin</a></li>
-  <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources et méthode</summary>
+  <p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/holy-paladin-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Holy Paladin</a></li>
+    <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -593,6 +640,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -642,10 +696,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

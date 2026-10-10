@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Elemental Shaman WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Elemental Shaman guide: Ranged DPS, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,316 +297,497 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
-    <h1 class="ph-title">Elemental Shaman: specialization guide</h1>
-    <p class="ph-lede">Elemental is the Ranged DPS specialization of the Shaman in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #0070dd">
+  <div class="gh-art" style="background-image: url('../../../../../assets/img/wow-class/shaman.jpg')"></div><span class="gh-credit">Artwork: © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
+      <h1 class="gh-title">Elemental Shaman: specialization guide</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">Ranged DPS</span>
+        <span class="gh-chip">#19 in the ranking · <b class="nums">459 DPS</b></span>
+      </div>
+      <p class="gh-lede">Elemental is the Ranged DPS specialization of the Shaman in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../../wow-forever/classement/shaman-elemental/">See the ranking</a>
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../../assets/img/wow-class/shaman.jpg" alt="Shaman" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">At a glance</h2>
-<dl class="wow-facts">
-  <div><dt>Class</dt><dd>Shaman</dd></div>
-  <div><dt>Role</dt><dd>Ranged DPS</dd></div>
-  <div><dt>Talents in the tree</dt><dd class="nums">16</dd></div>
-  <div><dt>Maximum points in the tree</dt><dd class="nums">46</dd></div>
-  <div><dt>Highest tier</dt><dd class="nums">7</dd></div>
-  <div><dt>Points needed for the last tier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Stats</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Professions</a>
+  <a href="#gs-gear">Gear</a>
+  <a href="#gs-cons">Consumables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Talent template (level 60)</h2>
-<p class="page-intro" style="margin-top:0">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
-<p class="wow-note">Our level-60 simulator build (51 points), the one used for the ranking: talents, gear and rotation are on the ranking page.</p>
-<p class="page-intro" style="margin-top:0">Gear, rotation and damage by ability for this level-60 build: <a class="wg-link" href="../../../../../wow-forever/classement/shaman-elemental/">Shaman Elemental</a> →</p>
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Elemental <span class="wg-own">this guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link is-hot" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Convection — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Concussion — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Concussion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Elemental Warding — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Elemental Warding" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Reverberation — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Reverberation" width="40" height="40" loading="lazy"><span class="wg-badge nums">4/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Call of Flame — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Call of Flame" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Elemental Devastation — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Elemental Devastation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Elemental Focus — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Elemental Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Elemental Alacrity — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Elemental Alacrity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Fire Nova — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Improved Fire Nova" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Eye of the Storm — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Eye of the Storm" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Call of Thunder — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Call of Thunder" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Elemental Reach — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Elemental Reach" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Lightning Overload — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Lightning Overload" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Earthbound — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Earthbound" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Elemental Fury — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Elemental Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Lava Burst — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Lava Burst" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talent template (level 60)</h2></div>
+  <p class="gs-lede">Our level-60 simulator build (51 points), the one used for the ranking: talents, gear and rotation are on the ranking page.</p>
+  <p class="gs-lede">Gear, rotation and damage by ability for this level-60 build: <a class="wg-link" href="../../../../../wow-forever/classement/shaman-elemental/">Shaman Elemental</a> →</p>
+  <details class="gs-more"><summary>How to read these trees</summary>
+    <p class="gs-lede">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Elemental <span class="wg-own">this guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link is-hot" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Convection — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Concussion — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Concussion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Elemental Warding — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Elemental Warding" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Reverberation — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Reverberation" width="40" height="40" loading="lazy"><span class="wg-badge nums">4/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Call of Flame — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Call of Flame" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Elemental Devastation — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Elemental Devastation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Elemental Focus — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Elemental Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Elemental Alacrity — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Elemental Alacrity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Fire Nova — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Improved Fire Nova" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Eye of the Storm — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Eye of the Storm" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Call of Thunder — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Call of Thunder" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Elemental Reach — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Elemental Reach" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Lightning Overload — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Lightning Overload" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Earthbound — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Earthbound" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Elemental Fury — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Elemental Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Lava Burst — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Lava Burst" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Enhancement</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Earth&#39;s Grasp — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Earth&#39;s Grasp" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Thundering Strikes — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Thundering Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Ancestral Knowledge — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Ancestral Knowledge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Guardian Totems — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Guardian Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Mental Dexterity — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Mental Dexterity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Improved Ghost Wolf — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Improved Ghost Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Lightning Shield — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Improved Lightning Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Elemental Weapons — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Elemental Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Shamanistic Focus — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Shamanistic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Toughness — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Toughness" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Flurry — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Flurry" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Stormstrike — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Weapons — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Spirit Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Mental Quickness — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mental Quickness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Improved Stormstrike — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Improved Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maelstrom Weapon — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Maelstrom Weapon" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage of the Farseer — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage of the Farseer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Restoration</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Healing Wave — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Improved Healing Wave" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Totemic Focus — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Totemic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Mindfulness — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mindfulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Natural Grace — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Natural Grace" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Tidal Focus — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Tidal Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Reincarnation — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Improved Reincarnation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Ancestral Healing — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Ancestral Healing" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Healing Focus — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Healing Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Water Shield — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Water Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Tidal Mastery — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tidal Mastery" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Restorative Totems — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Restorative Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Mana Tide Totem — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Mana Tide Totem" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Healing Way — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Healing Way" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Nature&#39;s Swiftness — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Nature&#39;s Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Purification — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Riptide — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Riptide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Enhancement</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Earth&#39;s Grasp — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Earth&#39;s Grasp" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Thundering Strikes — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Thundering Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Ancestral Knowledge — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Ancestral Knowledge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Guardian Totems — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Guardian Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Mental Dexterity — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Mental Dexterity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Improved Ghost Wolf — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Improved Ghost Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Lightning Shield — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Improved Lightning Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Elemental Weapons — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Elemental Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Shamanistic Focus — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Shamanistic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Toughness — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Toughness" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Flurry — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Flurry" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Stormstrike — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Weapons — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Spirit Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Mental Quickness — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mental Quickness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Improved Stormstrike — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Improved Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maelstrom Weapon — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Maelstrom Weapon" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage of the Farseer — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage of the Farseer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Restoration</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Healing Wave — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Improved Healing Wave" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Totemic Focus — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Totemic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Mindfulness — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mindfulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Natural Grace — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Natural Grace" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Tidal Focus — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Tidal Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Reincarnation — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Improved Reincarnation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Ancestral Healing — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Ancestral Healing" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Healing Focus — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Healing Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Water Shield — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Water Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Tidal Mastery — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tidal Mastery" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Restorative Totems — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Restorative Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Mana Tide Totem — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Mana Tide Totem" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Healing Way — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Healing Way" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Nature&#39;s Swiftness — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Nature&#39;s Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Purification — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Riptide — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Riptide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  <details class="gs-more"><summary>Talent details of the build (15)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Convection</b> <span class="wg-rank nums">Elemental · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the mana cost of your Shock, Lightning Bolt, Lava Burst, and Chain Lightning spells by 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Concussion</b> <span class="wg-rank nums">Elemental · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Reverberation</b> <span class="wg-rank nums">Elemental · Tier 2 · 5 ranks · 4 pts · Recommended</span>
+        <p>Rank 4/5: Reduces the cooldown of your Shock spells by -0.8 sec.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Call of Flame</b> <span class="wg-rank nums">Elemental · Tier 2 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Increases the damage done by your Fire Totems and by your Flame Shock, Fire Nova, and Lava Burst spells by 15%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Elemental Focus</b> <span class="wg-rank nums">Elemental · Tier 3 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: Gives you a 10% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell. The Clearcasting state reduces the mana cost of your next damage spell by 100%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Elemental Alacrity</b> <span class="wg-rank nums">Elemental · Tier 3 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by -0.50 sec.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Call of Thunder</b> <span class="wg-rank nums">Elemental · Tier 4 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by 3%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lightning Overload</b> <span class="wg-rank nums">Elemental · Tier 5 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Gives your Lightning Bolt and Chain Lightning spells a 10% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Elemental Fury</b> <span class="wg-rank nums">Elemental · Tier 6 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 100%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lava Burst</b> <span class="wg-rank nums">Elemental · Tier 7 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: You hurl molten lava at the target, dealing 164 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Thundering Strikes</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Improves your chance to get a critical strike with all spells and attacks by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Ancestral Knowledge</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases your Intellect by 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Totemic Focus</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the Mana cost of your totems and any spells that summon or move them by 25%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Mindfulness</b> <span class="wg-rank nums">Restoration · Tier 2 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Allows 50% of your Mana regeneration to continue while casting.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Tidal Focus</b> <span class="wg-rank nums">Restoration · Tier 2 · 5 ranks · 2 pts · Recommended</span>
+        <p>Rank 2/5: Reduces the Mana cost of your healing spells by 2% and improves your chance to hit by 2%.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Level 60 stat priority</h2></div>
+  
+  <div class="gs-wb">
+    
+    <div class="gs-sc has-chart">
+      <div class="gs-sc-l">
+        <div class="rs-table-wrap"><table class="rs-table">
+          <thead><tr><th>Stat</th><th class="rs-bar-col"></th><th class="nums">DPS gained</th><th class="nums">Relative value</th></tr></thead>
+          <tbody><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Hit <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #2de6c4"></span></span></td>
+            <td class="nums">0.56</td><td class="nums">1.18</td></tr><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Spell power <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 84.8%; background: #9b82ff"></span></span></td>
+            <td class="nums">0.475</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Crit <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 47.5%; background: #ffc23c"></span></span></td>
+            <td class="nums">0.266</td><td class="nums">0.56</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intellect <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 31.1%; background: #4da3ff"></span></span></td>
+            <td class="nums">0.174</td><td class="nums">0.37</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Spirit <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 16.4%; background: #b7e36a"></span></span></td>
+            <td class="nums">0.092</td><td class="nums">0.19</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Haste <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.009</td><td class="nums">no effect</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Strength <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">no effect</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agility <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">no effect</td></tr></tbody>
+        </table></div>
+      </div>
+      
+      <div class="gs-sc-r">
+        <h3 class="gs-sub">Gain curves by stat</h3>
+        <div class="cvu">
+          <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Hit</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Crit</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Spell power</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intellect</button><button type="button" class="cvu-key" data-stat="spi" style="--c: #b7e36a"><span class="cvu-swatch"></span>Spirit</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Haste</button></div>
+          <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Gain curves by stat" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">39</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">77</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">116</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">154</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points added (rating or stat value)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gained</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,261.9 155.5,243.3 208.4,223.9 259.0,215.0 311.9,213.9 362.5,213.9 415.4,213.9 466.0,213.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="261.9" r="2.6"><title>Hit: +23 → +13 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="243.3" r="2.6"><title>Hit: +45 → +23 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="223.9" r="2.6"><title>Hit: +68 → +35 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="215.0" r="2.6"><title>Hit: +90 → +40 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="213.9" r="2.6"><title>Hit: +113 → +40 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="213.9" r="2.6"><title>Hit: +135 → +40 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="213.9" r="2.6"><title>Hit: +158 → +40 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="213.9" r="2.6"><title>Hit: +180 → +40 DPS</title></circle><circle class="cvu-cap" cx="259.0" cy="215.0" r="7"><title>Hit: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,267.5 213.0,251.3 293.5,234.6 374.0,218.6 454.5,202.5 535.0,186.5 615.5,170.6 696.0,153.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Crit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="267.5" r="2.6"><title>Crit: +35 → +9 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="251.3" r="2.6"><title>Crit: +70 → +19 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="234.6" r="2.6"><title>Crit: +105 → +28 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="218.6" r="2.6"><title>Crit: +140 → +38 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="202.5" r="2.6"><title>Crit: +175 → +47 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="186.5" r="2.6"><title>Crit: +210 → +56 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="170.6" r="2.6"><title>Crit: +245 → +65 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="153.8" r="2.6"><title>Crit: +280 → +75 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spell power: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Spell power: +38 → +18 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Spell power: +75 → +36 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Spell power: +113 → +54 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Spell power: +150 → +71 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Spell power: +188 → +90 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Spell power: +225 → +107 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Spell power: +263 → +125 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Spell power: +300 → +143 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,277.4 139.4,273.7 180.8,271.4 224.5,268.8 268.2,266.6 311.9,263.5 353.3,261.4 397.0,259.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intellect: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="277.4" r="2.6"><title>Intellect: +19 → +4 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="273.7" r="2.6"><title>Intellect: +38 → +6 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="271.4" r="2.6"><title>Intellect: +56 → +7 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="268.8" r="2.6"><title>Intellect: +75 → +9 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="266.6" r="2.6"><title>Intellect: +94 → +10 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="263.5" r="2.6"><title>Intellect: +113 → +12 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="261.4" r="2.6"><title>Intellect: +131 → +13 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="259.4" r="2.6"><title>Intellect: +150 → +14 DPS</title></circle></g><g class="cvu-curve" data-stat="spi" style="--c: #b7e36a"><polyline class="cvu-line" points="52.0,284.0 95.7,280.5 139.4,279.5 180.8,279.4 224.5,279.5 268.2,279.3 311.9,278.9 353.3,278.8 397.0,279.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spirit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="280.5" r="2.6"><title>Spirit: +19 → +2 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="279.5" r="2.6"><title>Spirit: +38 → +3 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="279.4" r="2.6"><title>Spirit: +56 → +3 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="279.5" r="2.6"><title>Spirit: +75 → +3 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="279.3" r="2.6"><title>Spirit: +94 → +3 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="278.9" r="2.6"><title>Spirit: +113 → +3 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="278.8" r="2.6"><title>Spirit: +131 → +3 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="279.4" r="2.6"><title>Spirit: +150 → +3 DPS</title></circle><circle class="cvu-cap" cx="139.4" cy="279.5" r="7"><title>Spirit: cap</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 109.5,277.9 167.0,272.8 224.5,246.0 282.0,242.6 339.5,242.4 397.0,254.5 454.5,253.9 512.0,249.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Haste: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="109.5" cy="277.9" r="2.6"><title>Haste: +25 → +3 DPS</title></circle><circle class="cvu-dot" cx="167.0" cy="272.8" r="2.6"><title>Haste: +50 → +6 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="246.0" r="2.6"><title>Haste: +75 → +22 DPS</title></circle><circle class="cvu-dot" cx="282.0" cy="242.6" r="2.6"><title>Haste: +100 → +24 DPS</title></circle><circle class="cvu-dot" cx="339.5" cy="242.4" r="2.6"><title>Haste: +125 → +24 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="254.5" r="2.6"><title>Haste: +150 → +17 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="253.9" r="2.6"><title>Haste: +175 → +17 DPS</title></circle><circle class="cvu-dot" cx="512.0" cy="249.4" r="2.6"><title>Haste: +200 → +20 DPS</title></circle></g></svg>
+        </div>
+      </div>
+      
+    </div>
+    <details class="gs-more"><summary>How to read these measures</summary>
+      <p class="gs-lede">Measured by the simulator on the character above: the DPS gained by one more point of each stat, with the same random draws on both sides. The relative value compares each stat with one point of spell power. Crit, hit and haste are counted per rating point, like Strength or Agility, so they compare directly; they respect the caps: hit at the cap adds nothing. A value near zero or negative is within the margin of error or tied to a limit (mana, cap).</p>
+      <p class="gs-lede">DPS gained when points of each stat are added on top of the simulated gear. Click a stat (or its row in the table) to bring its curve forward; the ring marks the estimated cap, past which every point is worth less than 20% of what it gave at the start.</p>
+    </details>
   </div>
+  
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 rotation</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> dropped every 55 seconds.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> up.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1238300" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lava Burst</a> on cooldown (+20% damage if <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> is up).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> as the filler; Lightning Overload adds free bolts.</li><li>Mana limits the fight: mana potion and gem as soon as they pay off, and the Mindfulness points (regeneration while casting) are worth more than any remaining damage talent.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Chain Lightning</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10414" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Earth Shock</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> cost too much mana for one target and are not cast (measured: -43 to -65 DPS).</li></ol>
+  
+  <details class="gs-more"><summary>Method, Icy Veins recommendations and comparison</summary>
+    <p class="gs-lede">Our simulator&#39;s priority at level 60, set against what Icy Veins recommends. Their guides are written for the level-30 beta and for leveling: we keep what everyone agrees on, adopt what the simulation confirmed at level 60 and say where the two differ.</p>
+    
+    <h3 class="gs-sub">What Icy Veins recommends (level 30)</h3>
+    <ul class="gd-list"><li>Put every totem down before the pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> last (shorter duration).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> to pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> then refresh it, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> until the target dies.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> on cooldown, only against 3 or more enemies.</li></ul>
+    <h3 class="gs-sub">Our comparison</h3>
+    <p class="wow-note">Agreed: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> at the start, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> kept up, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> as the filler. The simulator adds <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1238300" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lava Burst</a> (+20% under <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a>) and Lightning Overload. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Chain Lightning</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10414" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Earth Shock</a> are area tools or too expensive: on one target they cost more mana than they return (measured: -43 to -65 DPS). The Elemental&#39;s real ceiling is mana: without potion and gem it loses 30% of its damage. Talents corrected after measuring: Mindfulness (50% of the regeneration continues while casting) and Totemic Focus, from the Restoration tree, replace points with no effect (Mental Dexterity, Ghost Wolf...) and are worth +40 DPS; Tidal Focus (+2% hit) adds 9 more DPS (assumption: it applies to offensive spells).</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Suggested professions</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li><li>Herbalism + Alchemy (potions and elixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herbalism</span><a class="prof-chip" href="../../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Alchemy guide <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Other Shaman specializations</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
+        <img src="../../../../../assets/img/spec/shaman-enhancement.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Enhancement</b><span>Melee DPS</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/shaman/restoration/" style="--cc: #0070dd">
+        <img src="../../../../../assets/img/spec/shaman-restoration.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Restoration</b><span>Healer</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Convection</b> <span class="wg-rank nums">Elemental · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the mana cost of your Shock, Lightning Bolt, Lava Burst, and Chain Lightning spells by 10%.</p></div>
+
+
+
+
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  
+  
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Head</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/engineering/">Engineering</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Neck</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Spell Power</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shoulders</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15067" rel="noopener nofollow" target="_blank">Ironfeather Shoulders</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 270</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Back</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11623" rel="noopener nofollow" target="_blank">Spritecaster Cape</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Houndmaster Grebmar</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Chest</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19682" rel="noopener nofollow" target="_blank">Bloodvine Vest</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Wrists</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15092" rel="noopener nofollow" target="_blank">Runic Leather Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 275</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Intellect</a> <span class="rs-hint">+7 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Hands</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Healing Power</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Waist</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Legs</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Feet</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19138" rel="noopener nofollow" target="_blank">Band of Sulfuras</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Trinket 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Trinket 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Two-hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Major Intellect</a> <span class="rs-hint">+9 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Held in off hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249455" rel="noopener nofollow" target="_blank">Truesilver Conduit</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Concussion</b> <span class="wg-rank nums">Elemental · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the damage done by your Lightning Bolt, Chain Lightning, and Earth Shock spells by 5%.</p></div>
+  <details class="gs-more"><summary>Method and enchant notes</summary>
+    <p class="gs-lede">The gear our optimizer picks for this specialization among the items known from the beta (dungeons, the few raid items already known and crafted gear, which can be bought or made for you: prices and materials are not taken into account), with item effects simulated. Nothing is hand-picked: it is the result of the ranking&#39;s computation, and it will change as new items are discovered.</p>
+    <p class="gs-lede">Enchantments up to skill 300, valued by the simulator when they give flat stats or flat weapon damage. The character does not need the profession: they can be bought or applied by an enchanter; Leatherworking armor kits (chest, legs, feet, hands) and Engineering scopes are counted too. A kit and an enchantment share the same permanent slot: a piece carries one or the other, and the legs, which have no enchantment, get the kit; spell-proc enchants (Crusader, Fiery Weapon...) and school damage are not simulated. The beta data has no ring enchantment up to skill 300.</p>
+  </details>
+  
+  <p class="gs-foot">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
+</section>
+
+
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Best level 60 consumables</h2><span class="gs-meta">simulated set ●</span></div>
+  
+  <div class="gs-cons">
+  
+    <div>
+      <h3 class="gs-sub">Scrolls</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Intellect</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+4.4</span><span class="nums">+1.0 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12177" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Spirit</a></span><span class="nums gs-gain">+2.5</span><span class="nums">+0.5 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Elixirs and flasks</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flask of Ancient Knowledge</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+85.6</span><span class="nums">+22.9 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Mage-Lord</a></span><span class="nums gs-gain">+19.0</span><span class="nums">+5.1 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Arcane Elixir</a></span><span class="nums gs-gain">+16.6</span><span class="nums">+4.5 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Potions, food and others</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Brilliant Wizard Oil</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+20.7</span><span class="nums">+4.7 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Brilliant Mana Oil</a></span><span class="nums gs-gain">+14.0</span><span class="nums">+3.2 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Well Fed (spell power food)</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+11.9</span><span class="nums">+2.7 %</span></div>
+    </div>
+  
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Reverberation</b> <span class="wg-rank nums">Elemental · Tier 2 · 5 ranks · 4 pts · Recommended</span>
-    <p>Rank 4/5: Reduces the cooldown of your Shock spells by -0.8 sec.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Call of Flame</b> <span class="wg-rank nums">Elemental · Tier 2 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Increases the damage done by your Fire Totems and by your Flame Shock, Fire Nova, and Lava Burst spells by 15%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Elemental Focus</b> <span class="wg-rank nums">Elemental · Tier 3 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: Gives you a 10% chance to enter a Clearcasting state after casting any Fire, Frost, or Nature damage spell. The Clearcasting state reduces the mana cost of your next damage spell by 100%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Elemental Alacrity</b> <span class="wg-rank nums">Elemental · Tier 3 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Reduces the cast time of your Lightning Bolt, Chain Lightning, and Lava Burst spells by -0.50 sec.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Call of Thunder</b> <span class="wg-rank nums">Elemental · Tier 4 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: Increases the critical strike chance of your Lightning Bolt and Chain Lightning spells by 3%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lightning Overload</b> <span class="wg-rank nums">Elemental · Tier 5 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Gives your Lightning Bolt and Chain Lightning spells a 10% chance to cast a second, similar spell on the same target at no additional cost that causes half damage and no threat.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Elemental Fury</b> <span class="wg-rank nums">Elemental · Tier 6 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the critical strike damage bonus of your Searing and Magma Totems and your Fire, Frost, and Nature spells by 100%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lava Burst</b> <span class="wg-rank nums">Elemental · Tier 7 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: You hurl molten lava at the target, dealing 164 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Thundering Strikes</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Improves your chance to get a critical strike with all spells and attacks by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Ancestral Knowledge</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases your Intellect by 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Totemic Focus</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the Mana cost of your totems and any spells that summon or move them by 25%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Mindfulness</b> <span class="wg-rank nums">Restoration · Tier 2 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Allows 50% of your Mana regeneration to continue while casting.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Tidal Focus</b> <span class="wg-rank nums">Restoration · Tier 2 · 5 ranks · 2 pts · Recommended</span>
-    <p>Rank 2/5: Reduces the Mana cost of your healing spells by 2% and improves your chance to hit by 2%.</p></div>
-  </div>
-</div>
+  
+  <details class="gs-more"><summary>How to read these gains</summary><p class="gs-lede">The three best of each category, measured by the simulator on the character above. Only one scroll and one elixir or flask can be worn at a time: each gain is the DPS this consumable brings alone, compared with an empty slot, the rest of the set unchanged. Gains in the same category therefore do not add up. The row marked with a dot is the one in the simulated set.</p></details>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Level 60 rotation</h2>
-<p class="page-intro" style="margin-top:0">Our simulator&#39;s priority at level 60, set against what Icy Veins recommends. Their guides are written for the level-30 beta and for leveling: we keep what everyone agrees on, adopt what the simulation confirmed at level 60 and say where the two differ.</p>
-
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> dropped every 55 seconds.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> up.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1238300" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lava Burst</a> on cooldown (+20% damage if <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> is up).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> as the filler; Lightning Overload adds free bolts.</li><li>Mana limits the fight: mana potion and gem as soon as they pay off, and the Mindfulness points (regeneration while casting) are worth more than any remaining damage talent.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Chain Lightning</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10414" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Earth Shock</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> cost too much mana for one target and are not cast (measured: -43 to -65 DPS).</li></ol>
-
-
-<h3 class="rs-sub">What Icy Veins recommends (level 30)</h3>
-<ul class="gd-list"><li>Put every totem down before the pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> last (shorter duration).</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> to pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> then refresh it, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> until the target dies.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> on cooldown, only against 3 or more enemies.</li></ul>
-<h3 class="rs-sub">Our comparison</h3>
-<p class="wow-note">Agreed: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> at the start, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a> kept up, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> as the filler. The simulator adds <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1238300" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lava Burst</a> (+20% under <a class="rs-spell" href="https://www.wowhead.com/forever/spell=29228" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flame Shock</a>) and Lightning Overload. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Chain Lightning</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10414" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Earth Shock</a> are area tools or too expensive: on one target they cost more mana than they return (measured: -43 to -65 DPS). The Elemental&#39;s real ceiling is mana: without potion and gem it loses 30% of its damage. Talents corrected after measuring: Mindfulness (50% of the regeneration continues while casting) and Totemic Focus, from the Restoration tree, replace points with no effect (Mental Dexterity, Ghost Wolf...) and are worth +40 DPS; Tidal Focus (+2% hit) adds 9 more DPS (assumption: it applies to offensive spells).</p>
-
-
-
-
-
-<h2 class="fiche-section-title">Level 60 stat priority</h2>
-
-
-<p class="page-intro" style="margin-top:0">Measured by the simulator on the character above: the DPS gained by one more point of each stat, with the same random draws on both sides. The relative value compares each stat with one point of spell power. Crit, hit and haste are counted per rating point, like Strength or Agility, so they compare directly; they respect the caps: hit at the cap adds nothing. A value near zero or negative is within the margin of error or tied to a limit (mana, cap).</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Stat</th><th class="rs-bar-col"></th><th class="nums">DPS gained</th><th class="nums">Relative value</th></tr></thead>
-  <tbody><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Hit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #2de6c4"></span></span></td>
-    <td class="nums">0.56</td><td class="nums">1.18</td></tr><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Spell power <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 84.8%; background: #9b82ff"></span></span></td>
-    <td class="nums">0.475</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Crit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 47.5%; background: #ffc23c"></span></span></td>
-    <td class="nums">0.266</td><td class="nums">0.56</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intellect <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 31.1%; background: #4da3ff"></span></span></td>
-    <td class="nums">0.174</td><td class="nums">0.37</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Spirit <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 16.4%; background: #b7e36a"></span></span></td>
-    <td class="nums">0.092</td><td class="nums">0.19</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Haste <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.009</td><td class="nums">no effect</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Strength <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">no effect</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agility <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">no effect</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Gain curves by stat</h3>
-<p class="rs-hint">DPS gained when points of each stat are added on top of the simulated gear. Click a stat (or its row in the table) to bring its curve forward; the ring marks the estimated cap, past which every point is worth less than 20% of what it gave at the start.</p>
-<div class="cvu">
-  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Hit</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Crit</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Spell power</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intellect</button><button type="button" class="cvu-key" data-stat="spi" style="--c: #b7e36a"><span class="cvu-swatch"></span>Spirit</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Haste</button></div>
-  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Gain curves by stat" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">39</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">77</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">116</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">154</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points added (rating or stat value)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gained</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,261.9 155.5,243.3 208.4,223.9 259.0,215.0 311.9,213.9 362.5,213.9 415.4,213.9 466.0,213.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="261.9" r="2.6"><title>Hit: +23 → +13 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="243.3" r="2.6"><title>Hit: +45 → +23 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="223.9" r="2.6"><title>Hit: +68 → +35 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="215.0" r="2.6"><title>Hit: +90 → +40 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="213.9" r="2.6"><title>Hit: +113 → +40 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="213.9" r="2.6"><title>Hit: +135 → +40 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="213.9" r="2.6"><title>Hit: +158 → +40 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="213.9" r="2.6"><title>Hit: +180 → +40 DPS</title></circle><circle class="cvu-cap" cx="259.0" cy="215.0" r="7"><title>Hit: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,267.5 213.0,251.3 293.5,234.6 374.0,218.6 454.5,202.5 535.0,186.5 615.5,170.6 696.0,153.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Crit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="267.5" r="2.6"><title>Crit: +35 → +9 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="251.3" r="2.6"><title>Crit: +70 → +19 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="234.6" r="2.6"><title>Crit: +105 → +28 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="218.6" r="2.6"><title>Crit: +140 → +38 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="202.5" r="2.6"><title>Crit: +175 → +47 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="186.5" r="2.6"><title>Crit: +210 → +56 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="170.6" r="2.6"><title>Crit: +245 → +65 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="153.8" r="2.6"><title>Crit: +280 → +75 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spell power: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Spell power: +38 → +18 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Spell power: +75 → +36 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Spell power: +113 → +54 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Spell power: +150 → +71 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Spell power: +188 → +90 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Spell power: +225 → +107 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Spell power: +263 → +125 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Spell power: +300 → +143 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,277.4 139.4,273.7 180.8,271.4 224.5,268.8 268.2,266.6 311.9,263.5 353.3,261.4 397.0,259.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intellect: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="277.4" r="2.6"><title>Intellect: +19 → +4 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="273.7" r="2.6"><title>Intellect: +38 → +6 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="271.4" r="2.6"><title>Intellect: +56 → +7 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="268.8" r="2.6"><title>Intellect: +75 → +9 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="266.6" r="2.6"><title>Intellect: +94 → +10 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="263.5" r="2.6"><title>Intellect: +113 → +12 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="261.4" r="2.6"><title>Intellect: +131 → +13 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="259.4" r="2.6"><title>Intellect: +150 → +14 DPS</title></circle></g><g class="cvu-curve" data-stat="spi" style="--c: #b7e36a"><polyline class="cvu-line" points="52.0,284.0 95.7,280.5 139.4,279.5 180.8,279.4 224.5,279.5 268.2,279.3 311.9,278.9 353.3,278.8 397.0,279.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spirit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="280.5" r="2.6"><title>Spirit: +19 → +2 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="279.5" r="2.6"><title>Spirit: +38 → +3 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="279.4" r="2.6"><title>Spirit: +56 → +3 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="279.5" r="2.6"><title>Spirit: +75 → +3 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="279.3" r="2.6"><title>Spirit: +94 → +3 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="278.9" r="2.6"><title>Spirit: +113 → +3 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="278.8" r="2.6"><title>Spirit: +131 → +3 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="279.4" r="2.6"><title>Spirit: +150 → +3 DPS</title></circle><circle class="cvu-cap" cx="139.4" cy="279.5" r="7"><title>Spirit: cap</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 109.5,277.9 167.0,272.8 224.5,246.0 282.0,242.6 339.5,242.4 397.0,254.5 454.5,253.9 512.0,249.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Haste: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="109.5" cy="277.9" r="2.6"><title>Haste: +25 → +3 DPS</title></circle><circle class="cvu-dot" cx="167.0" cy="272.8" r="2.6"><title>Haste: +50 → +6 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="246.0" r="2.6"><title>Haste: +75 → +22 DPS</title></circle><circle class="cvu-dot" cx="282.0" cy="242.6" r="2.6"><title>Haste: +100 → +24 DPS</title></circle><circle class="cvu-dot" cx="339.5" cy="242.4" r="2.6"><title>Haste: +125 → +24 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="254.5" r="2.6"><title>Haste: +150 → +17 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="253.9" r="2.6"><title>Haste: +175 → +17 DPS</title></circle><circle class="cvu-dot" cx="512.0" cy="249.4" r="2.6"><title>Haste: +200 → +20 DPS</title></circle></g></svg>
-</div>
-
-
-
-
-
-
-<h2 class="fiche-section-title">Best level 60 consumables</h2>
-<p class="page-intro" style="margin-top:0">The three best of each category, measured by the simulator on the character above. Only one scroll and one elixir or flask can be worn at a time: each gain is the DPS this consumable brings alone, compared with an empty slot, the rest of the set unchanged. Gains in the same category therefore do not add up. The row marked with a dot is the one in the simulated set.</p>
-
-
-<h3 class="rs-sub">Scrolls</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Intellect</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+4.4</td><td class="nums">+1.0 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12177" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Spirit</a></td><td class="nums">+2.5</td><td class="nums">+0.5 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Elixirs and flasks</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flask of Ancient Knowledge</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+85.6</td><td class="nums">+22.9 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Mage-Lord</a></td><td class="nums">+19.0</td><td class="nums">+5.1 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Greater Arcane Elixir</a></td><td class="nums">+16.6</td><td class="nums">+4.5 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Potions, food and others</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Brilliant Wizard Oil</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+20.7</td><td class="nums">+4.7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Brilliant Mana Oil</a></td><td class="nums">+14.0</td><td class="nums">+3.2 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Well Fed (spell power food)</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+11.9</td><td class="nums">+2.7 %</td></tr></tbody>
-</table></div>
-
-
-
-<h2 class="fiche-section-title">Suggested professions</h2>
-<ul class="gd-list prof-list"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li><li>Herbalism + Alchemy (potions and elixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herbalism</span><a class="prof-chip" href="../../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Alchemy guide <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Level 60 gear</h2>
-
-<p class="page-intro" style="margin-top:0">The gear our optimizer picks for this specialization among the items known from the beta (dungeons, the few raid items already known and crafted gear, which can be bought or made for you: prices and materials are not taken into account), with item effects simulated. Nothing is hand-picked: it is the result of the ranking&#39;s computation, and it will change as new items are discovered.</p>
-
-<div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/engineering/">Engineering</a> — skill 300</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Spell Power</a> <span class="rs-hint"></span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15067" rel="noopener nofollow" target="_blank">Ironfeather Shoulders</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 270</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=11623" rel="noopener nofollow" target="_blank">Spritecaster Cape</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Houndmaster Grebmar</td><td>—</td></tr><tr><td>Chest</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19682" rel="noopener nofollow" target="_blank">Bloodvine Vest</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></td></tr><tr><td>Wrists</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15092" rel="noopener nofollow" target="_blank">Runic Leather Bracers</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 275</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Greater Intellect</a> <span class="rs-hint">+7 Intellect</span></td></tr><tr><td>Hands</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Healing Power</a> <span class="rs-hint"></span></td></tr><tr><td>Waist</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/tailoring/">Tailoring</a> — skill 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Mystic Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Ring 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19138" rel="noopener nofollow" target="_blank">Band of Sulfuras</a></td><td><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td>—</td></tr><tr><td>Trinket 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td><a class="rs-zone" href="../../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Trinket 2</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Two-hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Major Intellect</a> <span class="rs-hint">+9 Intellect</span></td></tr><tr><td>Held in off hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249455" rel="noopener nofollow" target="_blank">Truesilver Conduit</a></td><td><a class="rs-zone" href="../../../../../wow-forever/professions/enchanting/">Enchanting</a> — skill 225</td><td>—</td></tr></tbody>
-</table></div>
-<p class="rs-hint">Enchantments up to skill 300, valued by the simulator when they give flat stats or flat weapon damage. The character does not need the profession: they can be bought or applied by an enchanter; Leatherworking armor kits (chest, legs, feet, hands) and Engineering scopes are counted too. A kit and an enchantment share the same permanent slot: a piece carries one or the other, and the legs, which have no enchantment, get the kit; spell-proc enchants (Crusader, Fiery Weapon...) and school damage are not simulated. The beta data has no ring enchantment up to skill 300.</p>
-
-<p class="wow-note">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
-
-
-<h2 class="fiche-section-title">The last-tier talents</h2>
-<p class="page-intro" style="margin-top:0">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">The last-tier talents</h2></div>
+  <p class="gs-lede">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Lava Burst</b> <span class="wg-rank nums">Tier 7 · 1 rank</span>
   <p>You hurl molten lava at the target, dealing 164 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Spend your 51 points, compare the three specializations and share your build by link.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Spend your 51 points, compare the three specializations and share your build by link.</p>
-
-<h2 class="fiche-section-title">Other Shaman specializations</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/shaman-enhancement.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Enhancement</b><span class="wh-card-specs">Melee DPS</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/shaman/restoration/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/shaman-restoration.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Restoration</b><span class="wh-card-specs">Healer</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Role: <a href="https://www.icy-veins.com/wow-forever/elemental-shaman-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Elemental Shaman</a></li>
-  <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources and method</summary>
+  <p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Role: <a href="https://www.icy-veins.com/wow-forever/elemental-shaman-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Elemental Shaman</a></li>
+    <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -619,6 +800,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -668,10 +856,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

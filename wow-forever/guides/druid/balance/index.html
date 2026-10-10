@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Druide Equilibre WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Druide Equilibre de WoW: Forever : DPS à distance, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,323 +297,504 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
-    <h1 class="ph-title">Druide Equilibre : guide de spécialisation</h1>
-    <p class="ph-lede">Equilibre est la spécialisation « DPS à distance » du Druide dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #ff7c0a">
+  <div class="gh-art" style="background-image: url('../../../../assets/img/wow-class/druid.jpg')"></div><span class="gh-credit">Illustration : © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
+      <h1 class="gh-title">Druide Equilibre : guide de spécialisation</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">DPS à distance</span>
+        <span class="gh-chip">N°13 du classement · <b class="nums">569 DPS</b></span>
+      </div>
+      <p class="gh-lede">Equilibre est la spécialisation « DPS à distance » du Druide dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/talents/druid/">Ouvrir Druide dans le calculateur de talents <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/classement/druid-balance/">Voir le classement</a>
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../assets/img/wow-class/druid.jpg" alt="Druide" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">En bref</h2>
-<dl class="wow-facts">
-  <div><dt>Classe</dt><dd>Druide</dd></div>
-  <div><dt>Rôle</dt><dd>DPS à distance</dd></div>
-  <div><dt>Talents dans l&#39;arbre</dt><dd class="nums">16</dd></div>
-  <div><dt>Points maximum dans l&#39;arbre</dt><dd class="nums">46</dd></div>
-  <div><dt>Palier le plus haut</dt><dd class="nums">7</dd></div>
-  <div><dt>Points nécessaires pour le dernier palier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Statistiques</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Métiers</a>
+  <a href="#gs-gear">Équipement</a>
+  <a href="#gs-cons">Consommables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Le template de talents (niveau 60)</h2>
-<p class="page-intro" style="margin-top:0">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
-<p class="wow-note">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
-<p class="page-intro" style="margin-top:0">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/druid-balance/">Druide Equilibre</a> →</p>
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Equilibre <span class="wg-own">ce guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="90" x2="168" y2="106"/><line class="wg-link is-hot" x1="116" y1="90" x2="116" y2="158"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Colère améliorée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="Colère améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Genèse — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg" alt="Genèse" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Lueur de la lune — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg" alt="Lueur de la lune" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Eclat lunaire amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg" alt="Eclat lunaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Majesté de la nature — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg" alt="Majesté de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 5" title="Allonge de la Nature — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg" alt="Allonge de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sarments améliorés — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Sarments améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Splendeur de la nature — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg" alt="Splendeur de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Essaim d&#39;insectes — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg" alt="Essaim d&#39;insectes" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Vengeance — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Feu stellaire amélioré — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg" alt="Feu stellaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Lacis — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_15.jpg" alt="Lacis" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Grâce de la nature — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg" alt="Grâce de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Éclipse — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg" alt="Éclipse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 3" title="Fureur lunaire — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Fureur lunaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Forme de sélénien — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="Forme de sélénien" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Le template de talents (niveau 60)</h2></div>
+  <p class="gs-lede">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
+  <p class="gs-lede">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/druid-balance/">Druide Equilibre</a> →</p>
+  <details class="gs-more"><summary>Comment lire ces arbres</summary>
+    <p class="gs-lede">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Equilibre <span class="wg-own">ce guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="90" x2="168" y2="106"/><line class="wg-link is-hot" x1="116" y1="90" x2="116" y2="158"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Colère améliorée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="Colère améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Genèse — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg" alt="Genèse" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Lueur de la lune — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg" alt="Lueur de la lune" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Eclat lunaire amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg" alt="Eclat lunaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Majesté de la nature — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg" alt="Majesté de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 5" title="Allonge de la Nature — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg" alt="Allonge de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sarments améliorés — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Sarments améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Splendeur de la nature — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg" alt="Splendeur de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Essaim d&#39;insectes — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg" alt="Essaim d&#39;insectes" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Vengeance — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Feu stellaire amélioré — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg" alt="Feu stellaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Lacis — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_herb_15.jpg" alt="Lacis" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Grâce de la nature — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg" alt="Grâce de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Éclipse — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg" alt="Éclipse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 3" title="Fureur lunaire — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Fureur lunaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Forme de sélénien — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="Forme de sélénien" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Combat farouche</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="142" x2="64" y2="158"/><line class="wg-link" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link" x1="220" y1="142" x2="220" y2="158"/><line class="wg-link" x1="64" y1="194" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Férocité — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_hyena.jpg" alt="Férocité" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Cœur de fauve — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg" alt="Cœur de fauve" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Célérité farouche — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Célérité farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Instinct farouche — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg" alt="Instinct farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Impact brutal — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_bash.jpg" alt="Impact brutal" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Peau épaisse — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_bear_03.jpg" alt="Peau épaisse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Attaques lacérantes — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg" alt="Attaques lacérantes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Furie sauvage — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg" alt="Furie sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Charge farouche — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_bear.jpg" alt="Charge farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Griffes aiguisées — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg" alt="Griffes aiguisées" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Shifting Power — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_displacement.jpg" alt="Shifting Power" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Primal Bite — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_cannibalize.jpg" alt="Primal Bite" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Frappes de prédateur — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_cat.jpg" alt="Frappes de prédateur" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Blood Frenzy — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Blood Frenzy" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Improved Shifting Power — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectmastery.jpg" alt="Improved Shifting Power" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Chef de la meute — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_unyeildingstamina.jpg" alt="Chef de la meute" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Instincts prédateurs — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_predatoryinstincts.jpg" alt="Instincts prédateurs" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Réaction naturelle — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" alt="Réaction naturelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Pourfendre et déchirer — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_primalagression.jpg" alt="Pourfendre et déchirer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Berserk — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" alt="Berserk" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Restauration</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Focalisation de la nature — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavegreater.jpg" alt="Focalisation de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Fureur — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="Fureur" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Naturaliste — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Naturaliste" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Discrétion — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_eyeoftheowl.jpg" alt="Discrétion" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Changeforme naturel — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Changeforme naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Renvoi — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="Renvoi" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Don de la Nature — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_protectionformnature.jpg" alt="Don de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Don de la Terre-mère — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Don de la Terre-mère" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Tranquillité de l&#39;esprit — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_elunesgrace.jpg" alt="Tranquillité de l&#39;esprit" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Récupération améliorée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg" alt="Récupération améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Prompte guérison — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_relics_idolofrejuvenation.jpg" alt="Prompte guérison" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Rapidité de la nature — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Rapidité de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Esprit vif — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_giftofthewaterspirit.jpg" alt="Esprit vif" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Tranquillité améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tranquillité améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rétablissement amélioré — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_resistnature.jpg" alt="Rétablissement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Croissance sauvage — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_flourish.jpg" alt="Croissance sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Combat farouche</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="142" x2="64" y2="158"/><line class="wg-link" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link" x1="220" y1="142" x2="220" y2="158"/><line class="wg-link" x1="64" y1="194" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Férocité — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_hyena.jpg" alt="Férocité" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Cœur de fauve — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofagility.jpg" alt="Cœur de fauve" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Célérité farouche — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Célérité farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Instinct farouche — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ambush.jpg" alt="Instinct farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Impact brutal — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_bash.jpg" alt="Impact brutal" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Peau épaisse — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_bear_03.jpg" alt="Peau épaisse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Attaques lacérantes — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_vampiricaura.jpg" alt="Attaques lacérantes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Furie sauvage — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ravage.jpg" alt="Furie sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Charge farouche — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_bear.jpg" alt="Charge farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Griffes aiguisées — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg" alt="Griffes aiguisées" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Shifting Power — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_druid_displacement.jpg" alt="Shifting Power" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Primal Bite — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_cannibalize.jpg" alt="Primal Bite" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Frappes de prédateur — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_cat.jpg" alt="Frappes de prédateur" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Blood Frenzy — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Blood Frenzy" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Improved Shifting Power — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectmastery.jpg" alt="Improved Shifting Power" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Chef de la meute — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_unyeildingstamina.jpg" alt="Chef de la meute" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Instincts prédateurs — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_predatoryinstincts.jpg" alt="Instincts prédateurs" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Réaction naturelle — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" alt="Réaction naturelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Pourfendre et déchirer — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_primalagression.jpg" alt="Pourfendre et déchirer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Berserk — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_berserk.jpg" alt="Berserk" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Restauration</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Focalisation de la nature — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavegreater.jpg" alt="Focalisation de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Fureur — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="Fureur" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Naturaliste — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Naturaliste" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Discrétion — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_eyeoftheowl.jpg" alt="Discrétion" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Changeforme naturel — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Changeforme naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Renvoi — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_windwalkon.jpg" alt="Renvoi" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Don de la Nature — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_protectionformnature.jpg" alt="Don de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Don de la Terre-mère — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Don de la Terre-mère" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Tranquillité de l&#39;esprit — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_elunesgrace.jpg" alt="Tranquillité de l&#39;esprit" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Récupération améliorée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_rejuvenation.jpg" alt="Récupération améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Prompte guérison — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_relics_idolofrejuvenation.jpg" alt="Prompte guérison" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Rapidité de la nature — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Rapidité de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Esprit vif — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_giftofthewaterspirit.jpg" alt="Esprit vif" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Tranquillité améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tranquillité améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rétablissement amélioré — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_resistnature.jpg" alt="Rétablissement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Croissance sauvage — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_flourish.jpg" alt="Croissance sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  <details class="gs-more"><summary>Détail des talents du build (16)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Colère améliorée</b> <span class="wg-rank nums">Equilibre · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Colère de 0,5 s et son coût en mana de 50 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Genèse</b> <span class="wg-rank nums">Equilibre · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 5 % les dégâts et les soins périodiques produits par vos sorts et techniques.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lueur de la lune</b> <span class="wg-rank nums">Equilibre · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Réduit de 25 % le coût en mana de vos sorts de dégâts.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Eclat lunaire amélioré</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente les points de dégâts et les chances de porter un coup critique avec votre sort Eclat lunaire de 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Majesté de la nature</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente les chances de coup critique de vos sorts et attaques de mêlée de 4 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Allonge de la Nature</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente de 20 % la portée de vos sorts d’Équilibre offensifs et améliore de 4 % vos chances de toucher.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Splendeur de la nature</b> <span class="wg-rank nums">Equilibre · Palier 3 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Augmente la durée de vos sorts Éclat lunaire et Récupération de 3 s, celle de Rétablissement de 6 s et celle d’Essaim d’insectes de 2 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Essaim d&#39;insectes</b> <span class="wg-rank nums">Equilibre · Palier 4 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : La cible adverse est assaillie par des insectes. Ses chances de toucher avec les attaques sont réduites de 2 % et elle subit 48 points de dégâts de nature en 12 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Vengeance</b> <span class="wg-rank nums">Equilibre · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 100 % le bonus de dégâts des coups critiques de vos sorts des arcanes et de nature.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Feu stellaire amélioré</b> <span class="wg-rank nums">Equilibre · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit le temps d’incantation de Feu stellaire de 0,5 s. Feu stellaire a 15 % de chances d’étourdir la cible pendant 3 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Grâce de la nature</b> <span class="wg-rank nums">Equilibre · Palier 5 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Tous les coups critiques non périodiques des sorts vous confèrent une bénédiction de la nature, qui augmente votre vitesse d’incantation des sorts et réduit votre temps de recharge global de 10 % pendant 3 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Éclipse</b> <span class="wg-rank nums">Equilibre · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Votre sort Colère réduit le temps d’incantation de vos 2 prochains sorts Feu stellaire de -0,50 s. Vous pouvez cumuler jusqu’à 4 charges. Dure 15 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Fureur lunaire</b> <span class="wg-rank nums">Equilibre · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente les dégâts infligés par vos sorts des arcanes et de nature de 10 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Forme de sélénien</b> <span class="wg-rank nums">Equilibre · Palier 7 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Shapeshift into Moonkin Form, increasing Omen of Clarity&#39;s chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Fureur</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Vous confère 100 % de chances de gagner 10 points de rage lorsque vous adoptez la forme d’ours ou d’ours redoutable. Lorsque vous adoptez la forme de félin, vous regagnez 100 % de l’énergie que vous possédiez lors de votre dernière forme de félin, plus 10 points d’énergie pour chaque seconde que vous n’avez pas passée sous forme d’ours, de félin ou d’ours redoutable, jusqu’à un bonus maximum de 100 points d’énergie.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Naturaliste</b> <span class="wg-rank nums">Restauration · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Toucher guérisseur de 0,5 s et augmente tous les dégâts que vous infligez de 5 %.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Priorité de statistiques niveau 60</h2></div>
+  
+  <div class="gs-wb">
+    
+    <div class="gs-sc has-chart">
+      <div class="gs-sc-l">
+        <div class="rs-table-wrap"><table class="rs-table">
+          <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
+          <tbody><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance des sorts <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #9b82ff"></span></span></td>
+            <td class="nums">0.601</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 98.2%; background: #2de6c4"></span></span></td>
+            <td class="nums">0.59</td><td class="nums">0.98</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 51.4%; background: #ffc23c"></span></span></td>
+            <td class="nums">0.309</td><td class="nums">0.52</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 45.4%; background: #4da3ff"></span></span></td>
+            <td class="nums">0.273</td><td class="nums">0.45</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.001</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">-0.011</td><td class="nums">aucun effet</td></tr></tbody>
+        </table></div>
+      </div>
+      
+      <div class="gs-sc-r">
+        <h3 class="gs-sub">Courbes de gain par statistique</h3>
+        <div class="cvu">
+          <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance des sorts</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intelligence</button></div>
+          <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">49</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">97</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">146</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">195</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,265.5 155.5,249.6 208.4,233.2 259.0,224.0 311.9,223.9 362.5,223.8 415.4,223.8 466.0,223.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="265.5" r="2.6"><title>Toucher: +23 → +13 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="249.6" r="2.6"><title>Toucher: +45 → +25 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="233.2" r="2.6"><title>Toucher: +68 → +37 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="224.0" r="2.6"><title>Toucher: +90 → +44 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="223.9" r="2.6"><title>Toucher: +113 → +44 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="223.8" r="2.6"><title>Toucher: +135 → +44 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="223.8" r="2.6"><title>Toucher: +158 → +44 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="223.8" r="2.6"><title>Toucher: +180 → +44 DPS</title></circle><circle class="cvu-cap" cx="259.0" cy="224.0" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,267.9 213.0,253.4 293.5,236.1 374.0,220.2 454.5,204.7 535.0,189.4 615.5,172.6 696.0,156.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="267.9" r="2.6"><title>Critique: +35 → +12 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="253.4" r="2.6"><title>Critique: +70 → +22 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="236.1" r="2.6"><title>Critique: +105 → +35 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="220.2" r="2.6"><title>Critique: +140 → +46 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="204.7" r="2.6"><title>Critique: +175 → +58 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="189.4" r="2.6"><title>Critique: +210 → +69 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="172.6" r="2.6"><title>Critique: +245 → +81 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="156.8" r="2.6"><title>Critique: +280 → +92 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance des sorts: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Puissance des sorts: +38 → +23 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Puissance des sorts: +75 → +45 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Puissance des sorts: +113 → +68 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Puissance des sorts: +150 → +90 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Puissance des sorts: +188 → +113 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Puissance des sorts: +225 → +135 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Puissance des sorts: +263 → +158 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Puissance des sorts: +300 → +180 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,276.5 139.4,272.5 180.8,269.8 224.5,267.2 268.2,264.3 311.9,262.2 353.3,260.2 397.0,257.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intelligence: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="276.5" r="2.6"><title>Intelligence: +19 → +5 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="272.5" r="2.6"><title>Intelligence: +38 → +8 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="269.8" r="2.6"><title>Intelligence: +56 → +10 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="267.2" r="2.6"><title>Intelligence: +75 → +12 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="264.3" r="2.6"><title>Intelligence: +94 → +14 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="262.2" r="2.6"><title>Intelligence: +113 → +16 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="260.2" r="2.6"><title>Intelligence: +131 → +17 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="257.8" r="2.6"><title>Intelligence: +150 → +19 DPS</title></circle></g></svg>
+        </div>
+      </div>
+      
+    </div>
+    <details class="gs-more"><summary>Comment lire ces mesures</summary>
+      <p class="gs-lede">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance des sorts. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
+      <p class="gs-lede">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
+    </details>
   </div>
+  
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation niveau 60</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a> toujours actifs.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25298" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Starfire</a> comme sort de base.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> pour alterner et profiter d&#39;Eclipse.</li><li>Potions et gemme de mana.</li></ol>
+  
+  <details class="gs-more"><summary>Méthode, recommandations Icy Veins et comparaison</summary>
+    <p class="gs-lede">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
+    
+    <h3 class="gs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
+    <ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> toujours actif, puis <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> ; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a> après <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> à partir du niveau 25.</li><li>Hurricane (zone) n&#39;est pas disponible dans la bêta.</li></ul>
+    <h3 class="gs-sub">Notre comparaison</h3>
+    <p class="wow-note">D&#39;accord sur <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a>. Au niveau 60, le simulateur lance surtout <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25298" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Starfire</a> (environ 210 DPS contre 56 pour <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a>, voir la page du classement), avec <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> en complément.</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Métiers conseillés</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Dépeçage + Travail du cuir (équipement)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Dépeçage</span><a class="prof-chip" href="../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Guide Travail du cuir <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Les autres spécialisations du Druide</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/druid/feral-combat/" style="--cc: #ff7c0a">
+        <img src="../../../../assets/img/spec/druid-feral-combat.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Combat farouche</b><span>DPS au corps à corps et tank</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/druid/restoration/" style="--cc: #ff7c0a">
+        <img src="../../../../assets/img/spec/druid-restoration.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Restauration</b><span>Soigneur</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Colère améliorée</b> <span class="wg-rank nums">Equilibre · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Colère de 0,5 s et son coût en mana de 50 %.</p></div>
+
+
+
+
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  
+  
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Tête</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Ingénierie</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Cou</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Puissance des sorts)</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Épaules</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Dos</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Torse</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14152" rel="noopener nofollow" target="_blank">Robe of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Poignets</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15092" rel="noopener nofollow" target="_blank">Runic Leather Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 275</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Intelligence supérieure)</a> <span class="rs-hint">+7 Intelligence</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Pouvoir de guérison)</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Taille</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Jambes</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Pieds</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19138" rel="noopener nofollow" target="_blank">Band of Sulfuras</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Deux mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme 2M (Intelligence majeure)</a> <span class="rs-hint">+9 Intelligence</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Tenu en main gauche</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249455" rel="noopener nofollow" target="_blank">Truesilver Conduit</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_arcane03.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Genèse</b> <span class="wg-rank nums">Equilibre · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 5 % les dégâts et les soins périodiques produits par vos sorts et techniques.</p></div>
+  <details class="gs-more"><summary>Méthode et notes sur les enchantements</summary>
+    <p class="gs-lede">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
+    <p class="gs-lede">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
+  </details>
+  
+  <p class="gs-foot">Guide Icy Veins daté du 2026-09-18, lu le 21 septembre 2026.</p>
+</section>
+
+
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Meilleurs consommables niveau 60</h2><span class="gs-meta">lot simulé ●</span></div>
+  
+  <div class="gs-cons">
+  
+    <div>
+      <h3 class="gs-sub">Parchemins</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;intelligence</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+6,1</span><span class="nums">+1,1 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Élixirs et flacons</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de connaissance ancienne</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+108,2</span><span class="nums">+23,5 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du seigneur mage</a></span><span class="nums gs-gain">+24,0</span><span class="nums">+5,2 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir des arcanes supérieur</a></span><span class="nums gs-gain">+21,0</span><span class="nums">+4,6 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Potions, plats et autres</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier brillante</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+26,1</span><span class="nums">+4,8 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de mana brillante</a></span><span class="nums gs-gain">+19,3</span><span class="nums">+3,6 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (puissance des sorts)</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+15,0</span><span class="nums">+2,7 %</span></div>
+    </div>
+  
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sentinal.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lueur de la lune</b> <span class="wg-rank nums">Equilibre · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Réduit de 25 % le coût en mana de vos sorts de dégâts.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_starfall.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Eclat lunaire amélioré</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente les points de dégâts et les chances de porter un coup critique avec votre sort Eclat lunaire de 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_staff_01.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Majesté de la nature</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente les chances de coup critique de vos sorts et attaques de mêlée de 4 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturetouchgrow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Allonge de la Nature</b> <span class="wg-rank nums">Equilibre · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente de 20 % la portée de vos sorts d’Équilibre offensifs et améliore de 4 % vos chances de toucher.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_natureresistancetotem.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Splendeur de la nature</b> <span class="wg-rank nums">Equilibre · Palier 3 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Augmente la durée de vos sorts Éclat lunaire et Récupération de 3 s, celle de Rétablissement de 6 s et celle d’Essaim d’insectes de 2 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_insectswarm.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Essaim d&#39;insectes</b> <span class="wg-rank nums">Equilibre · Palier 4 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : La cible adverse est assaillie par des insectes. Ses chances de toucher avec les attaques sont réduites de 2 % et elle subit 48 points de dégâts de nature en 12 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Vengeance</b> <span class="wg-rank nums">Equilibre · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 100 % le bonus de dégâts des coups critiques de vos sorts des arcanes et de nature.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_arcane_starfire.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Feu stellaire amélioré</b> <span class="wg-rank nums">Equilibre · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit le temps d’incantation de Feu stellaire de 0,5 s. Feu stellaire a 15 % de chances d’étourdir la cible pendant 3 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_naturesblessing.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Grâce de la nature</b> <span class="wg-rank nums">Equilibre · Palier 5 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Tous les coups critiques non périodiques des sorts vous confèrent une bénédiction de la nature, qui augmente votre vitesse d’incantation des sorts et réduit votre temps de recharge global de 10 % pendant 3 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_eclipse.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Éclipse</b> <span class="wg-rank nums">Equilibre · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Votre sort Colère réduit le temps d’incantation de vos 2 prochains sorts Feu stellaire de -0,50 s. Vous pouvez cumuler jusqu’à 4 charges. Dure 15 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Fureur lunaire</b> <span class="wg-rank nums">Equilibre · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente les dégâts infligés par vos sorts des arcanes et de nature de 10 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Forme de sélénien</b> <span class="wg-rank nums">Equilibre · Palier 7 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Shapeshift into Moonkin Form, increasing Omen of Clarity&#39;s chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Fureur</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Vous confère 100 % de chances de gagner 10 points de rage lorsque vous adoptez la forme d’ours ou d’ours redoutable. Lorsque vous adoptez la forme de félin, vous regagnez 100 % de l’énergie que vous possédiez lors de votre dernière forme de félin, plus 10 points d’énergie pour chaque seconde que vous n’avez pas passée sous forme d’ours, de félin ou d’ours redoutable, jusqu’à un bonus maximum de 100 points d’énergie.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Naturaliste</b> <span class="wg-rank nums">Restauration · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Toucher guérisseur de 0,5 s et augmente tous les dégâts que vous infligez de 5 %.</p></div>
-  </div>
-</div>
+  
+  <details class="gs-more"><summary>Comment lire ces gains</summary><p class="gs-lede">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p></details>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Rotation niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
-
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a> toujours actifs.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25298" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Starfire</a> comme sort de base.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> pour alterner et profiter d&#39;Eclipse.</li><li>Potions et gemme de mana.</li></ol>
-
-
-<h3 class="rs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
-<ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> toujours actif, puis <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> ; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a> après <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> à partir du niveau 25.</li><li>Hurricane (zone) n&#39;est pas disponible dans la bêta.</li></ul>
-<h3 class="rs-sub">Notre comparaison</h3>
-<p class="wow-note">D&#39;accord sur <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Moonfire</a> et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Insect Swarm</a>. Au niveau 60, le simulateur lance surtout <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25298" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Starfire</a> (environ 210 DPS contre 56 pour <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a>, voir la page du classement), avec <a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Wrath</a> en complément.</p>
-
-
-
-
-
-<h2 class="fiche-section-title">Priorité de statistiques niveau 60</h2>
-
-
-<p class="page-intro" style="margin-top:0">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance des sorts. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
-  <tbody><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance des sorts <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #9b82ff"></span></span></td>
-    <td class="nums">0.601</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 98.2%; background: #2de6c4"></span></span></td>
-    <td class="nums">0.59</td><td class="nums">0.98</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 51.4%; background: #ffc23c"></span></span></td>
-    <td class="nums">0.309</td><td class="nums">0.52</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 45.4%; background: #4da3ff"></span></span></td>
-    <td class="nums">0.273</td><td class="nums">0.45</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.001</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">-0.011</td><td class="nums">aucun effet</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Courbes de gain par statistique</h3>
-<p class="rs-hint">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
-<div class="cvu">
-  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance des sorts</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intelligence</button></div>
-  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">49</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">97</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">146</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">195</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,265.5 155.5,249.6 208.4,233.2 259.0,224.0 311.9,223.9 362.5,223.8 415.4,223.8 466.0,223.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="265.5" r="2.6"><title>Toucher: +23 → +13 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="249.6" r="2.6"><title>Toucher: +45 → +25 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="233.2" r="2.6"><title>Toucher: +68 → +37 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="224.0" r="2.6"><title>Toucher: +90 → +44 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="223.9" r="2.6"><title>Toucher: +113 → +44 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="223.8" r="2.6"><title>Toucher: +135 → +44 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="223.8" r="2.6"><title>Toucher: +158 → +44 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="223.8" r="2.6"><title>Toucher: +180 → +44 DPS</title></circle><circle class="cvu-cap" cx="259.0" cy="224.0" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,267.9 213.0,253.4 293.5,236.1 374.0,220.2 454.5,204.7 535.0,189.4 615.5,172.6 696.0,156.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="267.9" r="2.6"><title>Critique: +35 → +12 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="253.4" r="2.6"><title>Critique: +70 → +22 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="236.1" r="2.6"><title>Critique: +105 → +35 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="220.2" r="2.6"><title>Critique: +140 → +46 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="204.7" r="2.6"><title>Critique: +175 → +58 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="189.4" r="2.6"><title>Critique: +210 → +69 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="172.6" r="2.6"><title>Critique: +245 → +81 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="156.8" r="2.6"><title>Critique: +280 → +92 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance des sorts: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Puissance des sorts: +38 → +23 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Puissance des sorts: +75 → +45 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Puissance des sorts: +113 → +68 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Puissance des sorts: +150 → +90 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Puissance des sorts: +188 → +113 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Puissance des sorts: +225 → +135 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Puissance des sorts: +263 → +158 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Puissance des sorts: +300 → +180 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,276.5 139.4,272.5 180.8,269.8 224.5,267.2 268.2,264.3 311.9,262.2 353.3,260.2 397.0,257.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intelligence: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="276.5" r="2.6"><title>Intelligence: +19 → +5 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="272.5" r="2.6"><title>Intelligence: +38 → +8 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="269.8" r="2.6"><title>Intelligence: +56 → +10 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="267.2" r="2.6"><title>Intelligence: +75 → +12 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="264.3" r="2.6"><title>Intelligence: +94 → +14 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="262.2" r="2.6"><title>Intelligence: +113 → +16 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="260.2" r="2.6"><title>Intelligence: +131 → +17 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="257.8" r="2.6"><title>Intelligence: +150 → +19 DPS</title></circle></g></svg>
-</div>
-
-
-
-
-
-
-<h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p>
-
-
-<h3 class="rs-sub">Parchemins</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;intelligence</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+6,1</td><td class="nums">+1,1 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Élixirs et flacons</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de connaissance ancienne</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+108,2</td><td class="nums">+23,5 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du seigneur mage</a></td><td class="nums">+24,0</td><td class="nums">+5,2 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir des arcanes supérieur</a></td><td class="nums">+21,0</td><td class="nums">+4,6 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Potions, plats et autres</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier brillante</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+26,1</td><td class="nums">+4,8 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de mana brillante</a></td><td class="nums">+19,3</td><td class="nums">+3,6 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (puissance des sorts)</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+15,0</td><td class="nums">+2,7 %</td></tr></tbody>
-</table></div>
-
-
-
-<h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list prof-list"><li>Dépeçage + Travail du cuir (équipement)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Dépeçage</span><a class="prof-chip" href="../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Guide Travail du cuir <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-
-<p class="page-intro" style="margin-top:0">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
-
-<div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th><th>Enchantement bis</th></tr></thead>
-  <tbody><tr><td>Tête</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19999" rel="noopener nofollow" target="_blank">Bloodvine Goggles</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Ingénierie</a> — niveau 300</td><td>—</td></tr><tr><td>Cou</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Puissance des sorts)</a> <span class="rs-hint"></span></td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td>—</td></tr><tr><td>Dos</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td>—</td></tr><tr><td>Torse</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14152" rel="noopener nofollow" target="_blank">Robe of the Archmage</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Poignets</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15092" rel="noopener nofollow" target="_blank">Runic Leather Bracers</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 275</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Intelligence supérieure)</a> <span class="rs-hint">+7 Intelligence</span></td></tr><tr><td>Mains</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Pouvoir de guérison)</a> <span class="rs-hint"></span></td></tr><tr><td>Taille</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td>—</td></tr><tr><td>Jambes</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Anneau 2</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19138" rel="noopener nofollow" target="_blank">Band of Sulfuras</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td>—</td></tr><tr><td>Bijou 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Bijou 2</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Deux mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme 2M (Intelligence majeure)</a> <span class="rs-hint">+9 Intelligence</span></td></tr><tr><td>Tenu en main gauche</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249455" rel="noopener nofollow" target="_blank">Truesilver Conduit</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</td><td>—</td></tr></tbody>
-</table></div>
-<p class="rs-hint">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
-
-<p class="wow-note">Guide Icy Veins daté du 2026-09-18, lu le 21 septembre 2026.</p>
-
-
-<h2 class="fiche-section-title">Les talents du dernier palier</h2>
-<p class="page-intro" style="margin-top:0">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">Les talents du dernier palier</h2></div>
+  <p class="gs-lede">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_forceofnature.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Forme de sélénien</b> <span class="wg-rank nums">Palier 7 · 1 rang</span>
   <p>Shapeshift into Moonkin Form, increasing Omen of Clarity&#39;s chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../wow-forever/talents/druid/">Ouvrir Druide dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../wow-forever/talents/druid/">Ouvrir Druide dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
-
-<h2 class="fiche-section-title">Les autres spécialisations du Druide</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/druid/feral-combat/" style="--cc: #ff7c0a">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/druid-feral-combat.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Combat farouche</b><span class="wh-card-specs">DPS au corps à corps et tank</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/druid/restoration/" style="--cc: #ff7c0a">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/druid-restoration.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Restauration</b><span class="wh-card-specs">Soigneur</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/balance-druid-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Balance Druid</a></li>
-  <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources et méthode</summary>
+  <p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/balance-druid-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Balance Druid</a></li>
+    <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -626,6 +807,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -675,10 +863,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

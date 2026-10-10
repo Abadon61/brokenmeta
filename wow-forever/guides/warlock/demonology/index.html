@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Démoniste Démonologie WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Démoniste Démonologie de WoW: Forever : DPS à distance, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,192 +297,206 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
-    <h1 class="ph-title">Démoniste Démonologie : guide de spécialisation</h1>
-    <p class="ph-lede">Démonologie est la spécialisation « DPS à distance » du Démoniste dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #8788ee">
+  <div class="gh-art" style="background-image: url('../../../../assets/img/wow-class/warlock.jpg')"></div><span class="gh-credit">Illustration : © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
+      <h1 class="gh-title">Démoniste Démonologie : guide de spécialisation</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">DPS à distance</span>
+        <span class="gh-chip">N°10 du classement · <b class="nums">626 DPS</b></span>
+      </div>
+      <p class="gh-lede">Démonologie est la spécialisation « DPS à distance » du Démoniste dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/talents/warlock/">Ouvrir Démoniste dans le calculateur de talents <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/classement/warlock-demonology/">Voir le classement</a>
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../assets/img/wow-class/warlock.jpg" alt="Démoniste" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">En bref</h2>
-<dl class="wow-facts">
-  <div><dt>Classe</dt><dd>Démoniste</dd></div>
-  <div><dt>Rôle</dt><dd>DPS à distance</dd></div>
-  <div><dt>Talents dans l&#39;arbre</dt><dd class="nums">19</dd></div>
-  <div><dt>Points maximum dans l&#39;arbre</dt><dd class="nums">50</dd></div>
-  <div><dt>Palier le plus haut</dt><dd class="nums">7</dd></div>
-  <div><dt>Points nécessaires pour le dernier palier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Statistiques</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Métiers</a>
+  <a href="#gs-gear">Équipement</a>
+  <a href="#gs-cons">Consommables</a>
+</nav>
 
-
-<h2 class="fiche-section-title">Le template de talents (niveau 60)</h2>
-<p class="page-intro" style="margin-top:0">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
-<p class="wow-note">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
-<p class="page-intro" style="margin-top:0">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/warlock-demonology/">Démoniste Démonologie</a> →</p>
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Démonologie <span class="wg-own">ce guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 2" title="Captation de vie améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg" alt="Captation de vie améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Diablotin amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="Diablotin amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Baiser démoniaque — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg" alt="Baiser démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 5" title="Puissance impie — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg" alt="Puissance impie" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Égide démoniaque — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ragingscream.jpg" alt="Égide démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Marcheur du Vide amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonvoidwalker.jpg" alt="Marcheur du Vide amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Vitalité gangrenée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg" alt="Vitalité gangrenée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Énergie démoniaque — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_felmending.jpg" alt="Énergie démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sayaad amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warlock_randomizesuccubusincubus.jpg" alt="Sayaad amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Sacrifice démoniaque — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg" alt="Sacrifice démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Maître invocateur — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg" alt="Maître invocateur" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Décimation — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg" alt="Décimation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Domination corrompue — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_removecurse.jpg" alt="Domination corrompue" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Marque démoniaque — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_demonhunter_chaoticimprint_fire.jpg" alt="Marque démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Chasseur corrompu amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonfelhunter.jpg" alt="Chasseur corrompu amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Lien spirituel — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_gathershadows.jpg" alt="Lien spirituel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Connaissance démoniaque — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_improvedvampiricembrace.jpg" alt="Connaissance démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Maître démonologue — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowpact.jpg" alt="Maître démonologue" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Pacte démoniaque — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_ability_soulharvesterwarlock_demonicsoul.jpg" alt="Pacte démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Affliction</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Connexion améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_burningspirit.jpg" alt="Connexion améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Suppression — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg" alt="Suppression" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Corruption améliorée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg" alt="Corruption améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Malédiction — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofachimonde.jpg" alt="Malédiction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Soul Harvest — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_elemental_primal_shadow.jpg" alt="Soul Harvest" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Drains améliorés — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_haunting.jpg" alt="Drains améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Plaie d’agonie améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg" alt="Plaie d’agonie améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Concentration corrompue — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_fingerofdeath.jpg" alt="Concentration corrompue" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Malédiction amplifiée — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_contagion.jpg" alt="Malédiction amplifiée" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Pandémie — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unstableaffliction_2.jpg" alt="Pandémie" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Malveillance — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_focusedpower.jpg" alt="Malveillance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Crépuscule — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg" alt="Crépuscule" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Malédiction de fatigue — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Malédiction de fatigue" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Siphon de vie — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_requiem.jpg" alt="Siphon de vie" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Siphon d’âme — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain02.jpg" alt="Siphon d’âme" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maîtrise de l&#39;ombre — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadetruesight.jpg" alt="Maîtrise de l&#39;ombre" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Calvaire — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_deathknight_hemorrhagicfever.jpg" alt="Calvaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Destruction</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="194" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Allonge de destruction — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_corpseexplode.jpg" alt="Allonge de destruction" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Trait de l&#39;ombre amélioré — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg" alt="Trait de l&#39;ombre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Fléau — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="Fléau" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Peau de la fournaise — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mage_moltenarmor.jpg" alt="Peau de la fournaise" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Cataclysme — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg" alt="Cataclysme" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Conséquences — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg" alt="Conséquences" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Ruine — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg" alt="Ruine" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Brûlure de l&#39;ombre — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_scourgebuild.jpg" alt="Brûlure de l&#39;ombre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Intensité — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_lavaspawn.jpg" alt="Intensité" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Flammes déchirantes — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg" alt="Flammes déchirantes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Conflagration — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball.jpg" alt="Conflagration" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Pyroclasme — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Pyroclasme" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Plaie de tumulte — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warlock_baneofhavoc.jpg" alt="Plaie de tumulte" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Feu et soufre — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_meteorstorm.jpg" alt="Feu et soufre" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Ombre et flammes — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_playingwithfire.jpg" alt="Ombre et flammes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Incinérer — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_burnout.jpg" alt="Incinérer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Captation de vie améliorée</b> <span class="wg-rank nums">Démonologie · Palier 1 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente le nombre de points de vie transférés par votre sort Captation de vie de 40 %, réduit de 30 % son coût en points de vie et réduit de 100 % le niveau de menace qu’il génère. Vous pouvez utiliser Captation de vie quel que soit le nombre de points de vie de votre familier.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Diablotin amélioré</b> <span class="wg-rank nums">Démonologie · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente les dégâts du sort Éclair de feu de votre diablotin de 30 % et l’effet de son Bouclier de feu de 30 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Baiser démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente votre total d&#39;Endurance de 15%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Puissance impie</b> <span class="wg-rank nums">Démonologie · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 10 % les dégâts infligés par vos familiers Diablotin, Marcheur du Vide, Succube, Incube et Chasseur corrompu.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ragingscream.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Égide démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Augmente de 30 % l’efficacité de vos sorts Peau de démon et Armure démoniaque.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Vitalité gangrenée</b> <span class="wg-rank nums">Démonologie · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente de 15 % le maximum de points de vie et de mana de vos diablotins, marcheurs du Vide, succubes, incubes et chasseurs corrompus. De plus, augmente votre maximum de mana de 15 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Maître invocateur</b> <span class="wg-rank nums">Démonologie · Palier 3 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Réduit le temps d’incantation de vos sorts d’invocations de diablotin, de succube, d’incube, de marcheur du Vide ou de chasseur corrompu de 4 s et leur coût en mana de 40%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_improvedvampiricembrace.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Connaissance démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente les dégâts de vos sorts et ceux des sorts de votre familier démon d’un montant pouvant atteindre 100 % de votre niveau tant que vous avez un familier démon invoqué actif.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowpact.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Maître démonologue</b> <span class="wg-rank nums">Démonologie · Palier 6 · 5 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/5 : Fait bénéficier le personnage démoniste et le démon invoqué d’un effet aussi longtemps que le démon est actif. Diablotin : augmente les dégâts de feu infligés de 6 %. Marcheur du Vide : réduit les dégâts physiques subis de 6 %. Succube/Incube : augmente les dégâts d’ombre infligés de 6 %. Chasseur corrompu : réduit les dégâts magiques subis de 6 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Trait de l&#39;ombre amélioré</b> <span class="wg-rank nums">Destruction · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Les coups critiques de votre Trait de l’ombre augmentent les dégâts d’ombre subis par la cible de vos attaques de 20 % pendant 12 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Fléau</b> <span class="wg-rank nums">Destruction · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit de 0,5 s le temps d’incantation de vos sorts Trait de l’ombre, Immolation et Incinérer, et de 2 s celui de votre sort Feu de l’âme.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Cataclysme</b> <span class="wg-rank nums">Destruction · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Réduit le coût en mana de vos sorts de Destruction de 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Conséquences</b> <span class="wg-rank nums">Destruction · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente les dégâts initiaux infligés par votre Immolation de 50 % et votre Conflagration a 100 % de chances d’hébéter la cible, ce qui réduit sa vitesse de déplacement de 50 % pendant 5 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Ruine</b> <span class="wg-rank nums">Destruction · Palier 3 · 5 rangs · 1 pts · Recommandé</span>
-    <p>Rang 1/5 : Augmente de 20% les points de dégâts supplémentaires infligés par les coups critiques de vos sorts de Destruction.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_scourgebuild.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Brûlure de l&#39;ombre</b> <span class="wg-rank nums">Destruction · Palier 3 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Frappe instantanément la cible et lui inflige 66 points de dégâts d’ombre. Si une cible non négligeable meurt dans les 8 s après avoir été touchée par Brûlure de l’ombre, le lanceur ou la lanceuse gagne un éclat d’âme.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Flammes déchirantes</b> <span class="wg-rank nums">Destruction · Palier 4 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente de 10 % les chances de coup critique de votre sort Douleur brûlante. De plus, augmente de 10 % les dégâts infligés par tous vos sorts de destruction.</p></div>
-  </div>
-</div>
+<div class="gs-grid">
 
 
-
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Le template de talents (niveau 60)</h2></div>
+  <p class="gs-lede">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
+  <p class="gs-lede">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/warlock-demonology/">Démoniste Démonologie</a> →</p>
+  <details class="gs-more"><summary>Comment lire ces arbres</summary>
+    <p class="gs-lede">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Démonologie <span class="wg-own">ce guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 2" title="Captation de vie améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg" alt="Captation de vie améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Diablotin amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="Diablotin amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Baiser démoniaque — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg" alt="Baiser démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 5" title="Puissance impie — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg" alt="Puissance impie" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Égide démoniaque — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ragingscream.jpg" alt="Égide démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Marcheur du Vide amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonvoidwalker.jpg" alt="Marcheur du Vide amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Vitalité gangrenée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg" alt="Vitalité gangrenée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Énergie démoniaque — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_felmending.jpg" alt="Énergie démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sayaad amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warlock_randomizesuccubusincubus.jpg" alt="Sayaad amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Sacrifice démoniaque — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_psychicscream.jpg" alt="Sacrifice démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Maître invocateur — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg" alt="Maître invocateur" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Décimation — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball02.jpg" alt="Décimation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Domination corrompue — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_removecurse.jpg" alt="Domination corrompue" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Marque démoniaque — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_demonhunter_chaoticimprint_fire.jpg" alt="Marque démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Chasseur corrompu amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonfelhunter.jpg" alt="Chasseur corrompu amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Lien spirituel — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_gathershadows.jpg" alt="Lien spirituel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Connaissance démoniaque — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_improvedvampiricembrace.jpg" alt="Connaissance démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Maître démonologue — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowpact.jpg" alt="Maître démonologue" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Pacte démoniaque — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_ability_soulharvesterwarlock_demonicsoul.jpg" alt="Pacte démoniaque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Affliction</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Connexion améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_burningspirit.jpg" alt="Connexion améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Suppression — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unsummonbuilding.jpg" alt="Suppression" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Corruption améliorée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_abominationexplosion.jpg" alt="Corruption améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Malédiction — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofachimonde.jpg" alt="Malédiction" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Soul Harvest — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_elemental_primal_shadow.jpg" alt="Soul Harvest" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Drains améliorés — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_haunting.jpg" alt="Drains améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Plaie d’agonie améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_curseofsargeras.jpg" alt="Plaie d’agonie améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Concentration corrompue — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_fingerofdeath.jpg" alt="Concentration corrompue" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Malédiction amplifiée — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_contagion.jpg" alt="Malédiction amplifiée" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Pandémie — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unstableaffliction_2.jpg" alt="Pandémie" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Malveillance — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_focusedpower.jpg" alt="Malveillance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Crépuscule — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg" alt="Crépuscule" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Malédiction de fatigue — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Malédiction de fatigue" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Siphon de vie — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_requiem.jpg" alt="Siphon de vie" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Siphon d’âme — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain02.jpg" alt="Siphon d’âme" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maîtrise de l&#39;ombre — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadetruesight.jpg" alt="Maîtrise de l&#39;ombre" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Calvaire — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_deathknight_hemorrhagicfever.jpg" alt="Calvaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Destruction</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="194" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Allonge de destruction — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_corpseexplode.jpg" alt="Allonge de destruction" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Trait de l&#39;ombre amélioré — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg" alt="Trait de l&#39;ombre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Fléau — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="Fléau" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Peau de la fournaise — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mage_moltenarmor.jpg" alt="Peau de la fournaise" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Cataclysme — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg" alt="Cataclysme" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Conséquences — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg" alt="Conséquences" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Ruine — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg" alt="Ruine" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Brûlure de l&#39;ombre — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_scourgebuild.jpg" alt="Brûlure de l&#39;ombre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Intensité — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_lavaspawn.jpg" alt="Intensité" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Flammes déchirantes — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg" alt="Flammes déchirantes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Conflagration — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fireball.jpg" alt="Conflagration" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Pyroclasme — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Pyroclasme" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Plaie de tumulte — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warlock_baneofhavoc.jpg" alt="Plaie de tumulte" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Feu et soufre — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_meteorstorm.jpg" alt="Feu et soufre" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Ombre et flammes — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_playingwithfire.jpg" alt="Ombre et flammes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Incinérer — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_burnout.jpg" alt="Incinérer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div>
+  </div>
+  <details class="gs-more"><summary>Détail des talents du build (16)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_lifedrain.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Captation de vie améliorée</b> <span class="wg-rank nums">Démonologie · Palier 1 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente le nombre de points de vie transférés par votre sort Captation de vie de 40 %, réduit de 30 % son coût en points de vie et réduit de 100 % le niveau de menace qu’il génère. Vous pouvez utiliser Captation de vie quel que soit le nombre de points de vie de votre familier.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Diablotin amélioré</b> <span class="wg-rank nums">Démonologie · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente les dégâts du sort Éclair de feu de votre diablotin de 30 % et l’effet de son Bouclier de feu de 30 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_metamorphosis.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Baiser démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente votre total d&#39;Endurance de 15%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowworddominate.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Puissance impie</b> <span class="wg-rank nums">Démonologie · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 10 % les dégâts infligés par vos familiers Diablotin, Marcheur du Vide, Succube, Incube et Chasseur corrompu.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_ragingscream.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Égide démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 2 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Augmente de 30 % l’efficacité de vos sorts Peau de démon et Armure démoniaque.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_demonictactics.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Vitalité gangrenée</b> <span class="wg-rank nums">Démonologie · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente de 15 % le maximum de points de vie et de mana de vos diablotins, marcheurs du Vide, succubes, incubes et chasseurs corrompus. De plus, augmente votre maximum de mana de 15 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_impphaseshift.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Maître invocateur</b> <span class="wg-rank nums">Démonologie · Palier 3 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Réduit le temps d’incantation de vos sorts d’invocations de diablotin, de succube, d’incube, de marcheur du Vide ou de chasseur corrompu de 4 s et leur coût en mana de 40%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_improvedvampiricembrace.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Connaissance démoniaque</b> <span class="wg-rank nums">Démonologie · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente les dégâts de vos sorts et ceux des sorts de votre familier démon d’un montant pouvant atteindre 100 % de votre niveau tant que vous avez un familier démon invoqué actif.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowpact.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Maître démonologue</b> <span class="wg-rank nums">Démonologie · Palier 6 · 5 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/5 : Fait bénéficier le personnage démoniste et le démon invoqué d’un effet aussi longtemps que le démon est actif. Diablotin : augmente les dégâts de feu infligés de 6 %. Marcheur du Vide : réduit les dégâts physiques subis de 6 %. Succube/Incube : augmente les dégâts d’ombre infligés de 6 %. Chasseur corrompu : réduit les dégâts magiques subis de 6 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowbolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Trait de l&#39;ombre amélioré</b> <span class="wg-rank nums">Destruction · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Les coups critiques de votre Trait de l’ombre augmentent les dégâts d’ombre subis par la cible de vos attaques de 20 % pendant 12 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Fléau</b> <span class="wg-rank nums">Destruction · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit de 0,5 s le temps d’incantation de vos sorts Trait de l’ombre, Immolation et Incinérer, et de 2 s celui de votre sort Feu de l’âme.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_windsofwoe.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Cataclysme</b> <span class="wg-rank nums">Destruction · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Réduit le coût en mana de vos sorts de Destruction de 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_fire.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Conséquences</b> <span class="wg-rank nums">Destruction · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente les dégâts initiaux infligés par votre Immolation de 50 % et votre Conflagration a 100 % de chances d’hébéter la cible, ce qui réduit sa vitesse de déplacement de 50 % pendant 5 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_shadowwordpain.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Ruine</b> <span class="wg-rank nums">Destruction · Palier 3 · 5 rangs · 1 pts · Recommandé</span>
+        <p>Rang 1/5 : Augmente de 20% les points de dégâts supplémentaires infligés par les coups critiques de vos sorts de Destruction.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_scourgebuild.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Brûlure de l&#39;ombre</b> <span class="wg-rank nums">Destruction · Palier 3 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Frappe instantanément la cible et lui inflige 66 points de dégâts d’ombre. Si une cible non négligeable meurt dans les 8 s après avoir été touchée par Brûlure de l’ombre, le lanceur ou la lanceuse gagne un éclat d’âme.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_soulburn.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Flammes déchirantes</b> <span class="wg-rank nums">Destruction · Palier 4 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente de 10 % les chances de coup critique de votre sort Douleur brûlante. De plus, augmente de 10 % les dégâts infligés par tous vos sorts de destruction.</p></div>
+      </div>
+    </div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Variante avec Conflagrate</span><span class="alt-sum nums">599,5 DPS · −26,4</span></summary>
 <p class="page-intro" style="margin-top:10px">Le classement garde le build qui fait le plus de DPS (625,9 DPS). Voici la même spécialisation avec Conflagrate, sur le même équipement et la même simulation de 180 secondes : 599,5 DPS, soit −26,4 DPS (−4,2 %) par rapport au build classé.</p>
@@ -579,139 +593,306 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="rs-open"><span class="rs-step"><i class="nums">1.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a></span><span class="rs-step"><i class="nums">6.5 s</i>Conflagrate</span><span class="rs-step"><i class="nums">9.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a></span><span class="rs-step"><i class="nums">13.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25307" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shadow Bolt</a></span></div>
 </details>
 
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Priorité de statistiques niveau 60</h2></div>
+  
+  <div class="gs-wb">
+    
+    <div class="gs-sc has-chart">
+      <div class="gs-sc-l">
+        <div class="rs-table-wrap"><table class="rs-table">
+          <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
+          <tbody><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance des sorts <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #9b82ff"></span></span></td>
+            <td class="nums">0.496</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 91.5%; background: #2de6c4"></span></span></td>
+            <td class="nums">0.454</td><td class="nums">0.92</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 47.4%; background: #ffc23c"></span></span></td>
+            <td class="nums">0.235</td><td class="nums">0.47</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 28.0%; background: #4da3ff"></span></span></td>
+            <td class="nums">0.139</td><td class="nums">0.28</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 11.5%; background: #ff6b8b"></span></span></td>
+            <td class="nums">0.057</td><td class="nums">0.11</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr></tbody>
+        </table></div>
+      </div>
+      
+      <div class="gs-sc-r">
+        <h3 class="gs-sub">Courbes de gain par statistique</h3>
+        <div class="cvu">
+          <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Hâte</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance des sorts</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intelligence</button></div>
+          <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">40</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">80</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">120</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">160</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,264.5 155.5,250.1 208.4,233.8 259.0,216.7 311.9,199.0 362.5,185.9 415.4,185.8 466.0,185.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="264.5" r="2.6"><title>Toucher: +23 → +12 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="250.1" r="2.6"><title>Toucher: +45 → +20 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="233.8" r="2.6"><title>Toucher: +68 → +30 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="216.7" r="2.6"><title>Toucher: +90 → +40 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="199.0" r="2.6"><title>Toucher: +113 → +51 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="185.9" r="2.6"><title>Toucher: +135 → +59 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="185.8" r="2.6"><title>Toucher: +158 → +59 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="185.8" r="2.6"><title>Toucher: +180 → +59 DPS</title></circle><circle class="cvu-cap" cx="362.5" cy="185.9" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,270.5 213.0,257.1 293.5,242.9 374.0,229.4 454.5,215.8 535.0,202.3 615.5,189.3 696.0,176.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="270.5" r="2.6"><title>Critique: +35 → +8 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="257.1" r="2.6"><title>Critique: +70 → +16 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="242.9" r="2.6"><title>Critique: +105 → +25 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="229.4" r="2.6"><title>Critique: +140 → +33 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="215.8" r="2.6"><title>Critique: +175 → +41 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="202.3" r="2.6"><title>Critique: +210 → +49 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="189.3" r="2.6"><title>Critique: +245 → +57 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="176.0" r="2.6"><title>Critique: +280 → +65 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 109.5,278.1 167.0,270.1 224.5,270.7 282.0,263.5 339.5,250.2 397.0,247.3 454.5,238.9 512.0,228.3"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hâte: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="109.5" cy="278.1" r="2.6"><title>Hâte: +25 → +4 DPS</title></circle><circle class="cvu-dot" cx="167.0" cy="270.1" r="2.6"><title>Hâte: +50 → +8 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="270.7" r="2.6"><title>Hâte: +75 → +8 DPS</title></circle><circle class="cvu-dot" cx="282.0" cy="263.5" r="2.6"><title>Hâte: +100 → +12 DPS</title></circle><circle class="cvu-dot" cx="339.5" cy="250.2" r="2.6"><title>Hâte: +125 → +20 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="247.3" r="2.6"><title>Hâte: +150 → +22 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="238.9" r="2.6"><title>Hâte: +175 → +27 DPS</title></circle><circle class="cvu-dot" cx="512.0" cy="228.3" r="2.6"><title>Hâte: +200 → +33 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance des sorts: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Puissance des sorts: +38 → +19 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Puissance des sorts: +75 → +37 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Puissance des sorts: +113 → +56 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Puissance des sorts: +150 → +74 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Puissance des sorts: +188 → +93 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Puissance des sorts: +225 → +111 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Puissance des sorts: +263 → +130 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Puissance des sorts: +300 → +149 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,278.7 139.4,273.6 180.8,269.9 224.5,263.8 268.2,257.8 311.9,251.8 353.3,248.5 397.0,242.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intelligence: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="278.7" r="2.6"><title>Intelligence: +19 → +3 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="273.6" r="2.6"><title>Intelligence: +38 → +6 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="269.9" r="2.6"><title>Intelligence: +56 → +8 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="263.8" r="2.6"><title>Intelligence: +75 → +12 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="257.8" r="2.6"><title>Intelligence: +94 → +16 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="251.8" r="2.6"><title>Intelligence: +113 → +19 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="248.5" r="2.6"><title>Intelligence: +131 → +21 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="242.2" r="2.6"><title>Intelligence: +150 → +25 DPS</title></circle></g></svg>
+        </div>
+      </div>
+      
+    </div>
+    <details class="gs-more"><summary>Comment lire ces mesures</summary>
+      <p class="gs-lede">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance des sorts. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
+      <p class="gs-lede">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
+    </details>
+  </div>
+  
+  
+  
+</section>
 
 
 
-<h2 class="fiche-section-title">Rotation niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation niveau 60</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li>Le diablotin reste en jeu : Firebolt en continu, boosté par Demonic Knowledge, Unholy Power et Master Demonologist.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> et Bane of Agony toujours actifs.</li><li>Shadowburn à chaque fois qu&#39;il est prêt.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25307" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shadow Bolt</a> comme sort de base ; Life Tap quand la mana baisse.</li><li>Conflagrate n&#39;est pas pris : en Démonologie il consomme <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a> et fait perdre environ 3 % de DPS.</li></ol>
+  
+  <details class="gs-more"><summary>Méthode, recommandations Icy Veins et comparaison</summary>
+    <p class="gs-lede">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
+    
+    <h3 class="gs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
+    <ul class="gd-list"><li>Le démon attaque en permanence (Demonic Energies le soigne), Soul Link actif.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, Bane of Agony, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> ; Drain Life (qui soigne aussi le démon), baguette pour finir.</li></ul>
+    <h3 class="gs-sub">Notre comparaison</h3>
+    <p class="wow-note">D&#39;accord : le diablotin reste en jeu avec Demonic Knowledge et Unholy Power (le sacrifier fait perdre environ 80 DPS dans le simulateur), <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> et Bane of Agony (+12 DPS par rapport à Doom, mesuré).</p>
+    
+  </details>
+</section>
 
-<ol class="rs-rot"><li>Le diablotin reste en jeu : Firebolt en continu, boosté par Demonic Knowledge, Unholy Power et Master Demonologist.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> et Bane of Agony toujours actifs.</li><li>Shadowburn à chaque fois qu&#39;il est prêt.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25307" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Shadow Bolt</a> comme sort de base ; Life Tap quand la mana baisse.</li><li>Conflagrate n&#39;est pas pris : en Démonologie il consomme <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a> et fait perdre environ 3 % de DPS.</li></ol>
-
-
-<h3 class="rs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
-<ul class="gd-list"><li>Le démon attaque en permanence (Demonic Energies le soigne), Soul Link actif.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, Bane of Agony, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> ; Drain Life (qui soigne aussi le démon), baguette pour finir.</li></ul>
-<h3 class="rs-sub">Notre comparaison</h3>
-<p class="wow-note">D&#39;accord : le diablotin reste en jeu avec Demonic Knowledge et Unholy Power (le sacrifier fait perdre environ 80 DPS dans le simulateur), <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25309" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Immolate</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25311" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Corruption</a> et Bane of Agony (+12 DPS par rapport à Doom, mesuré).</p>
-
-
-
-
-
-<h2 class="fiche-section-title">Priorité de statistiques niveau 60</h2>
-
-
-<p class="page-intro" style="margin-top:0">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance des sorts. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
-  <tbody><tr class="cvu-row" data-stat="splpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance des sorts <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #9b82ff"></span></span></td>
-    <td class="nums">0.496</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 91.5%; background: #2de6c4"></span></span></td>
-    <td class="nums">0.454</td><td class="nums">0.92</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 47.4%; background: #ffc23c"></span></span></td>
-    <td class="nums">0.235</td><td class="nums">0.47</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 28.0%; background: #4da3ff"></span></span></td>
-    <td class="nums">0.139</td><td class="nums">0.28</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 11.5%; background: #ff6b8b"></span></span></td>
-    <td class="nums">0.057</td><td class="nums">0.11</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Courbes de gain par statistique</h3>
-<p class="rs-hint">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
-<div class="cvu">
-  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Hâte</button><button type="button" class="cvu-key" data-stat="splpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance des sorts</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intelligence</button></div>
-  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">40</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">80</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">120</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">160</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">60</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">120</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">180</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">300</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 104.9,264.5 155.5,250.1 208.4,233.8 259.0,216.7 311.9,199.0 362.5,185.9 415.4,185.8 466.0,185.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="104.9" cy="264.5" r="2.6"><title>Toucher: +23 → +12 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="250.1" r="2.6"><title>Toucher: +45 → +20 DPS</title></circle><circle class="cvu-dot" cx="208.4" cy="233.8" r="2.6"><title>Toucher: +68 → +30 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="216.7" r="2.6"><title>Toucher: +90 → +40 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="199.0" r="2.6"><title>Toucher: +113 → +51 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="185.9" r="2.6"><title>Toucher: +135 → +59 DPS</title></circle><circle class="cvu-dot" cx="415.4" cy="185.8" r="2.6"><title>Toucher: +158 → +59 DPS</title></circle><circle class="cvu-dot" cx="466.0" cy="185.8" r="2.6"><title>Toucher: +180 → +59 DPS</title></circle><circle class="cvu-cap" cx="362.5" cy="185.9" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 132.5,270.5 213.0,257.1 293.5,242.9 374.0,229.4 454.5,215.8 535.0,202.3 615.5,189.3 696.0,176.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="132.5" cy="270.5" r="2.6"><title>Critique: +35 → +8 DPS</title></circle><circle class="cvu-dot" cx="213.0" cy="257.1" r="2.6"><title>Critique: +70 → +16 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="242.9" r="2.6"><title>Critique: +105 → +25 DPS</title></circle><circle class="cvu-dot" cx="374.0" cy="229.4" r="2.6"><title>Critique: +140 → +33 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="215.8" r="2.6"><title>Critique: +175 → +41 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="202.3" r="2.6"><title>Critique: +210 → +49 DPS</title></circle><circle class="cvu-dot" cx="615.5" cy="189.3" r="2.6"><title>Critique: +245 → +57 DPS</title></circle><circle class="cvu-dot" cx="696.0" cy="176.0" r="2.6"><title>Critique: +280 → +65 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 109.5,278.1 167.0,270.1 224.5,270.7 282.0,263.5 339.5,250.2 397.0,247.3 454.5,238.9 512.0,228.3"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hâte: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="109.5" cy="278.1" r="2.6"><title>Hâte: +25 → +4 DPS</title></circle><circle class="cvu-dot" cx="167.0" cy="270.1" r="2.6"><title>Hâte: +50 → +8 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="270.7" r="2.6"><title>Hâte: +75 → +8 DPS</title></circle><circle class="cvu-dot" cx="282.0" cy="263.5" r="2.6"><title>Hâte: +100 → +12 DPS</title></circle><circle class="cvu-dot" cx="339.5" cy="250.2" r="2.6"><title>Hâte: +125 → +20 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="247.3" r="2.6"><title>Hâte: +150 → +22 DPS</title></circle><circle class="cvu-dot" cx="454.5" cy="238.9" r="2.6"><title>Hâte: +175 → +27 DPS</title></circle><circle class="cvu-dot" cx="512.0" cy="228.3" r="2.6"><title>Hâte: +200 → +33 DPS</title></circle></g><g class="cvu-curve" data-stat="splpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 139.4,252.6 224.5,222.0 311.9,190.5 397.0,159.9 484.4,128.5 569.5,97.9 656.9,66.5 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance des sorts: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="252.6" r="2.6"><title>Puissance des sorts: +38 → +19 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="222.0" r="2.6"><title>Puissance des sorts: +75 → +37 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="190.5" r="2.6"><title>Puissance des sorts: +113 → +56 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="159.9" r="2.6"><title>Puissance des sorts: +150 → +74 DPS</title></circle><circle class="cvu-dot" cx="484.4" cy="128.5" r="2.6"><title>Puissance des sorts: +188 → +93 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="97.9" r="2.6"><title>Puissance des sorts: +225 → +111 DPS</title></circle><circle class="cvu-dot" cx="656.9" cy="66.5" r="2.6"><title>Puissance des sorts: +263 → +130 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Puissance des sorts: +300 → +149 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 95.7,278.7 139.4,273.6 180.8,269.9 224.5,263.8 268.2,257.8 311.9,251.8 353.3,248.5 397.0,242.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intelligence: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.7" cy="278.7" r="2.6"><title>Intelligence: +19 → +3 DPS</title></circle><circle class="cvu-dot" cx="139.4" cy="273.6" r="2.6"><title>Intelligence: +38 → +6 DPS</title></circle><circle class="cvu-dot" cx="180.8" cy="269.9" r="2.6"><title>Intelligence: +56 → +8 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="263.8" r="2.6"><title>Intelligence: +75 → +12 DPS</title></circle><circle class="cvu-dot" cx="268.2" cy="257.8" r="2.6"><title>Intelligence: +94 → +16 DPS</title></circle><circle class="cvu-dot" cx="311.9" cy="251.8" r="2.6"><title>Intelligence: +113 → +19 DPS</title></circle><circle class="cvu-dot" cx="353.3" cy="248.5" r="2.6"><title>Intelligence: +131 → +21 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="242.2" r="2.6"><title>Intelligence: +150 → +25 DPS</title></circle></g></svg>
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Métiers conseillés</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Couture + Enchantement<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/tailoring/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_tailoring.jpg" alt="" width="22" height="22" loading="lazy">Guide Couture <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/enchanting/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg" alt="" width="22" height="22" loading="lazy">Guide Enchantement <span aria-hidden="true">→</span></a></span></li><li>Secourisme (secondaire)</li><li>Cuisine (secondaire)<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Guide Cuisine <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Les autres spécialisations du Démoniste</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/warlock/affliction/" style="--cc: #8788ee">
+        <img src="../../../../assets/img/spec/warlock-affliction.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Affliction</b><span>DPS à distance</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/warlock/destruction/" style="--cc: #8788ee">
+        <img src="../../../../assets/img/spec/warlock-destruction.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Destruction</b><span>DPS à distance</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
 
 
 
 
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  
+  
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Tête</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15999" rel="noopener nofollow" target="_blank">Spellpower Goggles Xtreme Plus</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Ingénierie</a> — niveau 270</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Cou</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Puissance des sorts)</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Épaules</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Dos</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Torse</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14152" rel="noopener nofollow" target="_blank">Robe of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Poignets</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22655" rel="noopener nofollow" target="_blank">Glacial Wrists</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Intelligence supérieure)</a> <span class="rs-hint">+7 Intelligence</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Pouvoir de guérison)</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Taille</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Jambes</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Pieds</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Deux mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme 2M (Intelligence majeure)</a> <span class="rs-hint">+9 Intelligence</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Tenu en main gauche</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Bloodmage Thalnos</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+  </div>
+  <details class="gs-more"><summary>Méthode et notes sur les enchantements</summary>
+    <p class="gs-lede">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
+    <p class="gs-lede">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
+  </details>
+  
+  <p class="gs-foot">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
+</section>
 
 
-<h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p>
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Meilleurs consommables niveau 60</h2><span class="gs-meta">lot simulé ●</span></div>
+  
+  <div class="gs-cons">
+  
+    <div>
+      <h3 class="gs-sub">Parchemins</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;intelligence</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+2,5</span><span class="nums">+0,4 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Élixirs et flacons</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de connaissance ancienne</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+89,2</span><span class="nums">+16,6 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du seigneur mage</a></span><span class="nums gs-gain">+19,8</span><span class="nums">+3,7 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir des arcanes supérieur</a></span><span class="nums gs-gain">+17,4</span><span class="nums">+3,2 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Potions, plats et autres</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier brillante</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+21,0</span><span class="nums">+3,5 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de mana brillante</a></span><span class="nums gs-gain">+14,4</span><span class="nums">+2,4 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (puissance des sorts)</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+12,4</span><span class="nums">+2,0 %</span></div>
+    </div>
+  
+  </div>
+  
+  <details class="gs-more"><summary>Comment lire ces gains</summary><p class="gs-lede">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p></details>
+  
+</section>
 
 
-<h3 class="rs-sub">Parchemins</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;intelligence</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+2,5</td><td class="nums">+0,4 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Élixirs et flacons</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213892" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de connaissance ancienne</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+89,2</td><td class="nums">+16,6 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213914" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du seigneur mage</a></td><td class="nums">+19,8</td><td class="nums">+3,7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17539" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir des arcanes supérieur</a></td><td class="nums">+17,4</td><td class="nums">+3,2 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Potions, plats et autres</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25129" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier brillante</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+21,0</td><td class="nums">+3,5 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25130" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de mana brillante</a></td><td class="nums">+14,4</td><td class="nums">+2,4 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225780" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (puissance des sorts)</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+12,4</td><td class="nums">+2,0 %</td></tr></tbody>
-</table></div>
-
-
-
-<h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list prof-list"><li>Couture + Enchantement<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/tailoring/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_tailoring.jpg" alt="" width="22" height="22" loading="lazy">Guide Couture <span aria-hidden="true">→</span></a><a class="prof-chip" href="../../../../wow-forever/professions/enchanting/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg" alt="" width="22" height="22" loading="lazy">Guide Enchantement <span aria-hidden="true">→</span></a></span></li><li>Secourisme (secondaire)</li><li>Cuisine (secondaire)<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Guide Cuisine <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-
-<p class="page-intro" style="margin-top:0">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
-
-<div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th><th>Enchantement bis</th></tr></thead>
-  <tbody><tr><td>Tête</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=15999" rel="noopener nofollow" target="_blank">Spellpower Goggles Xtreme Plus</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/engineering/">Ingénierie</a> — niveau 270</td><td>—</td></tr><tr><td>Cou</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18814" rel="noopener nofollow" target="_blank">Choker of the Fire Lord</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a> — Ragnaros</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249057" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Puissance des sorts)</a> <span class="rs-hint"></span></td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19050" rel="noopener nofollow" target="_blank">Mantle of the Timbermaw</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td>—</td></tr><tr><td>Dos</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18510" rel="noopener nofollow" target="_blank">Hide of the Wild</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td>—</td></tr><tr><td>Torse</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14152" rel="noopener nofollow" target="_blank">Robe of the Archmage</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Poignets</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22655" rel="noopener nofollow" target="_blank">Glacial Wrists</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20008" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Intelligence supérieure)</a> <span class="rs-hint">+7 Intelligence</span></td></tr><tr><td>Mains</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=14146" rel="noopener nofollow" target="_blank">Gloves of Spell Mastery</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25079" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de gants (Pouvoir de guérison)</a> <span class="rs-hint"></span></td></tr><tr><td>Taille</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Belt of the Archmage</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td>—</td></tr><tr><td>Jambes</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19683" rel="noopener nofollow" target="_blank">Bloodvine Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19684" rel="noopener nofollow" target="_blank">Bloodvine Boots</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/tailoring/">Couture</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252487" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste mystique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19147" rel="noopener nofollow" target="_blank">Ring of Spell Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Anneau 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Bijou 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18820" rel="noopener nofollow" target="_blank">Talisman of Ephemeral Power</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Bijou 2</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Deux mains</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=249453" rel="noopener nofollow" target="_blank">Radiant Staff</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/enchanting/">Enchantement</a> — niveau 225</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20036" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme 2M (Intelligence majeure)</a> <span class="rs-hint">+9 Intelligence</span></td></tr><tr><td>Tenu en main gauche</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=7685" rel="noopener nofollow" target="_blank">Orb of the Forgotten Seer</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Bloodmage Thalnos</td><td>—</td></tr></tbody>
-</table></div>
-<p class="rs-hint">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
-
-<p class="wow-note">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
-
-
-<h2 class="fiche-section-title">Les talents du dernier palier</h2>
-<p class="page-intro" style="margin-top:0">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">Les talents du dernier palier</h2></div>
+  <p class="gs-lede">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_ability_soulharvesterwarlock_demonicsoul.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Pacte démoniaque</b> <span class="wg-rank nums">Palier 7 · 1 rang</span>
   <p>Votre effet de Sacrifice démoniaque ne s’annule plus lorsque vous invoquez un autre familier démon. L’effet sera toujours annulé si vous réinvoquez le familier sacrifié.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../wow-forever/talents/warlock/">Ouvrir Démoniste dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../wow-forever/talents/warlock/">Ouvrir Démoniste dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
-
-<h2 class="fiche-section-title">Les autres spécialisations du Démoniste</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/warlock/affliction/" style="--cc: #8788ee">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/warlock-affliction.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Affliction</b><span class="wh-card-specs">DPS à distance</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/warlock/destruction/" style="--cc: #8788ee">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/warlock-destruction.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Destruction</b><span class="wh-card-specs">DPS à distance</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/demonology-warlock-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Demonology Warlock</a></li>
-  <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources et méthode</summary>
+  <p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/demonology-warlock-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Demonology Warlock</a></li>
+    <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -724,6 +905,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -773,10 +961,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

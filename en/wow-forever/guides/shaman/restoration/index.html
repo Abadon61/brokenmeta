@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Restoration Shaman WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Restoration Shaman guide: Healer, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,270 +297,317 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
-    <h1 class="ph-title">Restoration Shaman: specialization guide</h1>
-    <p class="ph-lede">Restoration is the Healer specialization of the Shaman in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #0070dd">
+  <div class="gh-art" style="background-image: url('../../../../../assets/img/wow-class/shaman.jpg')"></div><span class="gh-credit">Artwork: © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
+      <h1 class="gh-title">Restoration Shaman: specialization guide</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">Healer</span>
+        
+      </div>
+      <p class="gh-lede">Restoration is the Healer specialization of the Shaman in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a>
+      
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../../assets/img/wow-class/shaman.jpg" alt="Shaman" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">At a glance</h2>
-<dl class="wow-facts">
-  <div><dt>Class</dt><dd>Shaman</dd></div>
-  <div><dt>Role</dt><dd>Healer</dd></div>
-  <div><dt>Talents in the tree</dt><dd class="nums">16</dd></div>
-  <div><dt>Maximum points in the tree</dt><dd class="nums">51</dd></div>
-  <div><dt>Highest tier</dt><dd class="nums">7</dd></div>
-  <div><dt>Points needed for the last tier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Stats</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Professions</a>
+  <a href="#gs-gear">Gear</a>
+  <a href="#gs-cons">Consumables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Talent template (level 60)</h2>
-<p class="page-intro" style="margin-top:0">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
-<p class="wow-note">Level-60 healing build (51 points) put together by BrokenMeta from the talent descriptions: the simulator does not model healing yet, so this build is not simulated.</p>
-
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Restoration <span class="wg-own">this guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Improved Healing Wave — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Improved Healing Wave" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Totemic Focus — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Totemic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Mindfulness — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mindfulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Natural Grace — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Natural Grace" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Tidal Focus — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Tidal Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Reincarnation — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Improved Reincarnation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Ancestral Healing — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Ancestral Healing" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Healing Focus — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Healing Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Water Shield — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Water Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Tidal Mastery — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tidal Mastery" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Restorative Totems — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Restorative Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Mana Tide Totem — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Mana Tide Totem" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Healing Way — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Healing Way" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Nature&#39;s Swiftness — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Nature&#39;s Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Purification — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Riptide — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Riptide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talent template (level 60)</h2></div>
+  <p class="gs-lede">Level-60 healing build (51 points) put together by BrokenMeta from the talent descriptions: the simulator does not model healing yet, so this build is not simulated.</p>
+  
+  <details class="gs-more"><summary>How to read these trees</summary>
+    <p class="gs-lede">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Restoration <span class="wg-own">this guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Improved Healing Wave — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Improved Healing Wave" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Totemic Focus — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Totemic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Mindfulness — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mindfulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Natural Grace — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Natural Grace" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Tidal Focus — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Tidal Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Reincarnation — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Improved Reincarnation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Ancestral Healing — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Ancestral Healing" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Healing Focus — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Healing Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Water Shield — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Water Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Tidal Mastery — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Tidal Mastery" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Restorative Totems — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Restorative Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Mana Tide Totem — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Mana Tide Totem" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Healing Way — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Healing Way" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Nature&#39;s Swiftness — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Nature&#39;s Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Purification — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Riptide — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Riptide" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Elemental</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Convection — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Concussion — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Concussion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Elemental Warding — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Elemental Warding" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Reverberation — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Reverberation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Call of Flame — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Call of Flame" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Elemental Devastation — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Elemental Devastation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Elemental Focus — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Elemental Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Elemental Alacrity — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Elemental Alacrity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Fire Nova — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Improved Fire Nova" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Eye of the Storm — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Eye of the Storm" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Call of Thunder — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Call of Thunder" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Elemental Reach — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Elemental Reach" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Lightning Overload — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Lightning Overload" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Earthbound — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Earthbound" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Elemental Fury — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Elemental Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Lava Burst — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Lava Burst" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Enhancement</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Earth&#39;s Grasp — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Earth&#39;s Grasp" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Thundering Strikes — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Thundering Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Ancestral Knowledge — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Ancestral Knowledge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Guardian Totems — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Guardian Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Mental Dexterity — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Mental Dexterity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Improved Ghost Wolf — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Improved Ghost Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Lightning Shield — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Improved Lightning Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Elemental Weapons — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Elemental Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Shamanistic Focus — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Shamanistic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Toughness — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Toughness" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Flurry — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Flurry" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Stormstrike — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Weapons — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Spirit Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Mental Quickness — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mental Quickness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Improved Stormstrike — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Improved Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maelstrom Weapon — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Maelstrom Weapon" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage of the Farseer — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage of the Farseer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Elemental</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Convection — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Concussion — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Concussion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Elemental Warding — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Elemental Warding" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Reverberation — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Reverberation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Call of Flame — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Call of Flame" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Elemental Devastation — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Elemental Devastation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Elemental Focus — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Elemental Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Elemental Alacrity — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Elemental Alacrity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Fire Nova — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Improved Fire Nova" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Eye of the Storm — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Eye of the Storm" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Call of Thunder — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Call of Thunder" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Elemental Reach — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Elemental Reach" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Lightning Overload — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Lightning Overload" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Earthbound — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Earthbound" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Elemental Fury — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Elemental Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Lava Burst — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Lava Burst" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Enhancement</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Earth&#39;s Grasp — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Earth&#39;s Grasp" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Thundering Strikes — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Thundering Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Ancestral Knowledge — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Ancestral Knowledge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Guardian Totems — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Guardian Totems" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Mental Dexterity — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Mental Dexterity" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Improved Ghost Wolf — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Improved Ghost Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Lightning Shield — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Improved Lightning Shield" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Elemental Weapons — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Elemental Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Shamanistic Focus — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Shamanistic Focus" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Toughness — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Toughness" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Flurry — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Flurry" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Stormstrike — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Weapons — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Spirit Weapons" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Mental Quickness — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Mental Quickness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Improved Stormstrike — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Improved Stormstrike" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Maelstrom Weapon — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Maelstrom Weapon" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage of the Farseer — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage of the Farseer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
+  <details class="gs-more"><summary>Talent details of the build (15)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Improved Healing Wave</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the casting time of your Healing Wave spell by -0.5 sec.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Totemic Focus</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the Mana cost of your totems and any spells that summon or move them by 25%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Mindfulness</b> <span class="wg-rank nums">Restoration · Tier 2 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Allows 50% of your Mana regeneration to continue while casting.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Tidal Focus</b> <span class="wg-rank nums">Restoration · Tier 2 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the Mana cost of your healing spells by 5% and improves your chance to hit by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Healing Focus</b> <span class="wg-rank nums">Restoration · Tier 3 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Gives you a 70% chance to avoid interruption caused by damage while casting any healing spell.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Water Shield</b> <span class="wg-rank nums">Restoration · Tier 3 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: The caster is surrounded by 3 globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster&#39;s healing spells gets a critical result, 2% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts 10 min. Only one Elemental Shield can be active on the Shaman at any one time.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Tidal Mastery</b> <span class="wg-rank nums">Restoration · Tier 4 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the critical effect chance of your healing spells by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Restorative Totems</b> <span class="wg-rank nums">Restoration · Tier 4 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the effect of your Mana Spring Totem by 25% and increases the effect of your Healing Stream Totem by 50%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Mana Tide Totem</b> <span class="wg-rank nums">Restoration · Tier 4 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 88 mana every 3 seconds to group members within 30 yards.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Healing Way</b> <span class="wg-rank nums">Restoration · Tier 5 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Increases the amount healed by your Healing Wave spell by 25%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Nature&#39;s Swiftness</b> <span class="wg-rank nums">Restoration · Tier 5 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: When activated, your next Nature spell with a casting time less than 10 sec. becomes an instant cast spell.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Purification</b> <span class="wg-rank nums">Restoration · Tier 6 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the effectiveness of your healing spells by 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Riptide</b> <span class="wg-rank nums">Restoration · Tier 7 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: Heals a friendly target for 480, an additional 445 over 15 sec, and increases the effectiveness of your Chain Heal casts directly on that target by 25%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Thundering Strikes</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/5: Improves your chance to get a critical strike with all spells and attacks by 3%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Ancestral Knowledge</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases your Intellect by 10%.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Stat priority</h2></div>
+  
+  <p class="gs-lede">In order of importance, according to Icy Veins (level 30).</p>
+  <p class="wow-note">Icy Veins: aim for healing and/or Mana sustain so you heal more, and for longer.</p>
+  <ol class="wg-stats"><li>Healing Power</li><li>Critical Strike</li><li>Haste</li><li>Intellect</li><li>Mp5</li><li>Spirit</li><li>Stamina</li></ol>
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 rotation</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li>Riptide on cooldown (6 s cooldown): 4.9 healing per mana and instant, the most efficient heal.</li><li>Healing Wave as the main heal (3.09 per mana, 638 healing per second).</li><li>Lesser Healing Wave to catch up or save someone (2.71 per mana, 687 per second, 1.5 s cast).</li><li>Chain Heal against groups only (1.87 per mana on a single target).</li><li>Water Shield at all times and Mana Tide Totem for mana; Nature&#39;s Swiftness for an instant emergency heal; Healing Stream Totem down.</li></ol>
+  <p class="wow-note">Healing is not simulated in combat. This rotation is derived from the client numbers (base heal, healing-power coefficient, mana, cast time) at 350 healing power and without talents: it gives an efficiency order, not a simulation result.</p>
+  <details class="gs-more"><summary>Method, Icy Veins recommendations and comparison</summary>
+    <p class="gs-lede">Healing is not simulated yet: this is the healing rotation Icy Veins recommends (level 30), reworded.</p>
+    
+    <h3 class="gs-sub">What Icy Veins recommends (level 30)</h3>
+    <ul class="gd-list"><li>Put every totem down before the pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> last.</li><li>Healing Wave on injured targets, downranked when the damage does not justify the top rank.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> against a group, or <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> on one target, when no heal is urgent.</li><li>Keep the buff totems up: it is your best contribution to the party&#39;s damage.</li></ul>
+    <h3 class="gs-sub">Our comparison</h3>
+    <p class="wow-note">Agreed with Icy Veins: totems down before the fight, Healing Wave as the base heal and Chain Heal for groups. The numbers add Riptide (4.9 per mana, the most efficient heal, which the level-30 guide could not mention: it is a last-tier talent) and show Chain Heal is worth little on a single target. Computed without a combat simulation, at 350 healing power and without talents.</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Suggested professions</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li><li>Herbalism + Alchemy (potions and elixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herbalism</span><a class="prof-chip" href="../../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Alchemy guide <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Other Shaman specializations</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/shaman/elemental/" style="--cc: #0070dd">
+        <img src="../../../../../assets/img/spec/shaman-elemental.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Elemental</b><span>Ranged DPS</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
+        <img src="../../../../../assets/img/spec/shaman-enhancement.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Enhancement</b><span>Melee DPS</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Improved Healing Wave</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the casting time of your Healing Wave spell by -0.5 sec.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Totemic Focus</b> <span class="wg-rank nums">Restoration · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the Mana cost of your totems and any spells that summon or move them by 25%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Mindfulness</b> <span class="wg-rank nums">Restoration · Tier 2 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Allows 50% of your Mana regeneration to continue while casting.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Tidal Focus</b> <span class="wg-rank nums">Restoration · Tier 2 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the Mana cost of your healing spells by 5% and improves your chance to hit by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Healing Focus</b> <span class="wg-rank nums">Restoration · Tier 3 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Gives you a 70% chance to avoid interruption caused by damage while casting any healing spell.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Water Shield</b> <span class="wg-rank nums">Restoration · Tier 3 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: The caster is surrounded by 3 globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster&#39;s healing spells gets a critical result, 2% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts 10 min. Only one Elemental Shield can be active on the Shaman at any one time.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Tidal Mastery</b> <span class="wg-rank nums">Restoration · Tier 4 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the critical effect chance of your healing spells by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Restorative Totems</b> <span class="wg-rank nums">Restoration · Tier 4 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the effect of your Mana Spring Totem by 25% and increases the effect of your Healing Stream Totem by 50%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Mana Tide Totem</b> <span class="wg-rank nums">Restoration · Tier 4 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 88 mana every 3 seconds to group members within 30 yards.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Healing Way</b> <span class="wg-rank nums">Restoration · Tier 5 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Increases the amount healed by your Healing Wave spell by 25%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Nature&#39;s Swiftness</b> <span class="wg-rank nums">Restoration · Tier 5 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: When activated, your next Nature spell with a casting time less than 10 sec. becomes an instant cast spell.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Purification</b> <span class="wg-rank nums">Restoration · Tier 6 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the effectiveness of your healing spells by 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Riptide</b> <span class="wg-rank nums">Restoration · Tier 7 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: Heals a friendly target for 480, an additional 445 over 15 sec, and increases the effectiveness of your Chain Heal casts directly on that target by 25%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Thundering Strikes</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/5: Improves your chance to get a critical strike with all spells and attacks by 3%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Ancestral Knowledge</b> <span class="wg-rank nums">Enhancement · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases your Intellect by 10%.</p></div>
-  </div>
-</div>
+
+
+<section class="gs-tile">
+  
+  <div class="gs-th"><h2 class="gs-h2">Healing spell efficiency at level 60</h2></div>
+  <p class="rs-hint">Computed from the client numbers at 350 healing power, without talents. &#34;Healing per mana&#34; compares mana efficiency; &#34;healing per second&#34; counts at least 1.5 s per spell (the minimum time between two spells); area spells are shown for one target, then for all targets hit.</p>
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>Spell</th><th class="nums">Cast</th><th class="nums">Mana</th><th class="nums">Healing per cast</th><th class="nums">Healing per mana</th><th class="nums">Healing per second</th><th class="nums">All targets</th></tr></thead>
+    <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=1239243" rel="noopener nofollow" target="_blank">Riptide</a> <span class="rs-hint">with heals over time</span></td><td class="nums">instant</td><td class="nums">385</td><td class="nums">1,896</td><td class="nums">4.92</td><td class="nums">1,264</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25357" rel="noopener nofollow" target="_blank">Healing Wave</a></td><td class="nums">3 s</td><td class="nums">620</td><td class="nums">1,915</td><td class="nums">3.09</td><td class="nums">638</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27624" rel="noopener nofollow" target="_blank">Lesser Healing Wave</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,030</td><td class="nums">2.71</td><td class="nums">687</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=10623" rel="noopener nofollow" target="_blank">Chain Heal</a></td><td class="nums">2.5 s</td><td class="nums">405</td><td class="nums">756</td><td class="nums">1.87</td><td class="nums">303</td><td class="nums"></td></tr></tbody>
+  </table></div>
+  <p class="rs-hint">Talent spells or spells without a usable number in the client: Water Shield, Mana Tide Totem, Healing Stream Totem, Nature&#39;s Swiftness.</p>
+  
+</section>
 
 
 
-
-<h2 class="fiche-section-title">Level 60 rotation</h2>
-<p class="page-intro" style="margin-top:0">Healing is not simulated yet: this is the healing rotation Icy Veins recommends (level 30), reworded.</p>
-
-<ol class="rs-rot"><li>Riptide on cooldown (6 s cooldown): 4.9 healing per mana and instant, the most efficient heal.</li><li>Healing Wave as the main heal (3.09 per mana, 638 healing per second).</li><li>Lesser Healing Wave to catch up or save someone (2.71 per mana, 687 per second, 1.5 s cast).</li><li>Chain Heal against groups only (1.87 per mana on a single target).</li><li>Water Shield at all times and Mana Tide Totem for mana; Nature&#39;s Swiftness for an instant emergency heal; Healing Stream Totem down.</li></ol>
-<p class="wow-note">Healing is not simulated in combat. This rotation is derived from the client numbers (base heal, healing-power coefficient, mana, cast time) at 350 healing power and without talents: it gives an efficiency order, not a simulation result.</p>
-
-<h3 class="rs-sub">What Icy Veins recommends (level 30)</h3>
-<ul class="gd-list"><li>Put every totem down before the pull, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> last.</li><li>Healing Wave on injured targets, downranked when the damage does not justify the top rank.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> against a group, or <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> on one target, when no heal is urgent.</li><li>Keep the buff totems up: it is your best contribution to the party&#39;s damage.</li></ul>
-<h3 class="rs-sub">Our comparison</h3>
-<p class="wow-note">Agreed with Icy Veins: totems down before the fight, Healing Wave as the base heal and Chain Heal for groups. The numbers add Riptide (4.9 per mana, the most efficient heal, which the level-30 guide could not mention: it is a last-tier talent) and show Chain Heal is worth little on a single target. Computed without a combat simulation, at 350 healing power and without talents.</p>
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  
+  <p class="wow-note">Level-60 healing gear is not computed yet: the simulator does not model healing. The dungeon and raid pages let you browse loot by item type and stat.</p>
+  
+  <p class="gs-foot">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
+</section>
 
 
-<h3 class="rs-sub">Healing spell efficiency at level 60</h3>
-<p class="rs-hint">Computed from the client numbers at 350 healing power, without talents. &#34;Healing per mana&#34; compares mana efficiency; &#34;healing per second&#34; counts at least 1.5 s per spell (the minimum time between two spells); area spells are shown for one target, then for all targets hit.</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Spell</th><th class="nums">Cast</th><th class="nums">Mana</th><th class="nums">Healing per cast</th><th class="nums">Healing per mana</th><th class="nums">Healing per second</th><th class="nums">All targets</th></tr></thead>
-  <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=1239243" rel="noopener nofollow" target="_blank">Riptide</a> <span class="rs-hint">with heals over time</span></td><td class="nums">instant</td><td class="nums">385</td><td class="nums">1,896</td><td class="nums">4.92</td><td class="nums">1,264</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25357" rel="noopener nofollow" target="_blank">Healing Wave</a></td><td class="nums">3 s</td><td class="nums">620</td><td class="nums">1,915</td><td class="nums">3.09</td><td class="nums">638</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27624" rel="noopener nofollow" target="_blank">Lesser Healing Wave</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,030</td><td class="nums">2.71</td><td class="nums">687</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=10623" rel="noopener nofollow" target="_blank">Chain Heal</a></td><td class="nums">2.5 s</td><td class="nums">405</td><td class="nums">756</td><td class="nums">1.87</td><td class="nums">303</td><td class="nums"></td></tr></tbody>
-</table></div>
-<p class="rs-hint">Talent spells or spells without a usable number in the client: Water Shield, Mana Tide Totem, Healing Stream Totem, Nature&#39;s Swiftness.</p>
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Best level 60 consumables</h2></div>
+  <p class="gs-lede">Healing is not simulated: these are the client consumables that raise healing, intellect, spirit or mana.</p>
+  <ul class="gd-list"><li>Flask of Unyielding Sorrow (+80 healing, mana regeneration)</li><li>Scroll of Intellect and Spirit</li><li>Spirit of Zanza (+50 spirit)</li><li>Juju Guile (+30 intellect)</li><li>Mageblood Potion (+12 mana / 5 s)</li><li>Healing food (+55 healing)</li><li>Nightfin Soup (+8 mana / 5 s) for long fights</li></ul>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Stat priority</h2>
-
-<p class="page-intro" style="margin-top:0">In order of importance, according to Icy Veins (level 30).</p>
-<p class="wow-note">Icy Veins: aim for healing and/or Mana sustain so you heal more, and for longer.</p>
-<ol class="wg-stats"><li>Healing Power</li><li>Critical Strike</li><li>Haste</li><li>Intellect</li><li>Mp5</li><li>Spirit</li><li>Stamina</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Best level 60 consumables</h2>
-<p class="page-intro" style="margin-top:0">Healing is not simulated: these are the client consumables that raise healing, intellect, spirit or mana.</p>
-<ul class="gd-list"><li>Flask of Unyielding Sorrow (+80 healing, mana regeneration)</li><li>Scroll of Intellect and Spirit</li><li>Spirit of Zanza (+50 spirit)</li><li>Juju Guile (+30 intellect)</li><li>Mageblood Potion (+12 mana / 5 s)</li><li>Healing food (+55 healing)</li><li>Nightfin Soup (+8 mana / 5 s) for long fights</li></ul>
-
-<h2 class="fiche-section-title">Suggested professions</h2>
-<ul class="gd-list prof-list"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li><li>Herbalism + Alchemy (potions and elixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herbalism</span><a class="prof-chip" href="../../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Alchemy guide <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Level 60 gear</h2>
-
-<p class="wow-note">Level-60 healing gear is not computed yet: the simulator does not model healing. The dungeon and raid pages let you browse loot by item type and stat.</p>
-
-<p class="wow-note">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
-
-
-<h2 class="fiche-section-title">The last-tier talents</h2>
-<p class="page-intro" style="margin-top:0">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">The last-tier talents</h2></div>
+  <p class="gs-lede">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Riptide</b> <span class="wg-rank nums">Tier 7 · 1 rank</span>
   <p>Heals a friendly target for 480, an additional 445 over 15 sec, and increases the effectiveness of your Chain Heal casts directly on that target by 25%.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Spend your 51 points, compare the three specializations and share your build by link.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../../wow-forever/talents/shaman/">Open Shaman in the talent calculator <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Spend your 51 points, compare the three specializations and share your build by link.</p>
-
-<h2 class="fiche-section-title">Other Shaman specializations</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/shaman/elemental/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/shaman-elemental.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Elemental</b><span class="wh-card-specs">Ranged DPS</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/shaman-enhancement.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Enhancement</b><span class="wh-card-specs">Melee DPS</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Role: <a href="https://www.icy-veins.com/wow-forever/restoration-shaman-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Restoration Shaman</a></li>
-  <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources and method</summary>
+  <p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Role: <a href="https://www.icy-veins.com/wow-forever/restoration-shaman-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Restoration Shaman</a></li>
+    <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -573,6 +620,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -622,10 +676,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

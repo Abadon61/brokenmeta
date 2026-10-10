@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Guerrier Fureur WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Guerrier Fureur de WoW: Forever : DPS au corps à corps, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,324 +297,497 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
-    <h1 class="ph-title">Guerrier Fureur : guide de spécialisation</h1>
-    <p class="ph-lede">Fureur est la spécialisation « DPS au corps à corps » du Guerrier dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #c69b6d">
+  <div class="gh-art" style="background-image: url('../../../../assets/img/wow-class/warrior.jpg')"></div><span class="gh-credit">Illustration : © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
+      <h1 class="gh-title">Guerrier Fureur : guide de spécialisation</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">DPS au corps à corps</span>
+        <span class="gh-chip">N°6 du classement · <b class="nums">652 DPS</b></span>
+      </div>
+      <p class="gh-lede">Fureur est la spécialisation « DPS au corps à corps » du Guerrier dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/talents/warrior/">Ouvrir Guerrier dans le calculateur de talents <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../wow-forever/classement/warrior-fury/">Voir le classement</a>
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../assets/img/wow-class/warrior.jpg" alt="Guerrier" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">En bref</h2>
-<dl class="wow-facts">
-  <div><dt>Classe</dt><dd>Guerrier</dd></div>
-  <div><dt>Rôle</dt><dd>DPS au corps à corps</dd></div>
-  <div><dt>Talents dans l&#39;arbre</dt><dd class="nums">18</dd></div>
-  <div><dt>Points maximum dans l&#39;arbre</dt><dd class="nums">57</dd></div>
-  <div><dt>Palier le plus haut</dt><dd class="nums">7</dd></div>
-  <div><dt>Points nécessaires pour le dernier palier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Statistiques</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Métiers</a>
+  <a href="#gs-gear">Équipement</a>
+  <a href="#gs-cons">Consommables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Le template de talents (niveau 60)</h2>
-<p class="page-intro" style="margin-top:0">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
-<p class="wow-note">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
-<p class="page-intro" style="margin-top:0">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/warrior-fury/">Guerrier Fureur</a> →</p>
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Fureur <span class="wg-own">ce guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Voix tonitruante — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="Voix tonitruante" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Cruauté — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg" alt="Cruauté" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Volonté de fer — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_magic_magearmor.jpg" alt="Volonté de fer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Colère déchaînée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Colère déchaînée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Enchaînement amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg" alt="Enchaînement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Hurlement perçant — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathscream.jpg" alt="Hurlement perçant" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Folie sanguinaire — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="Folie sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 5" title="Rage infinie — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_intensifyrage.jpg" alt="Rage infinie" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Spécialisation Ambidextrie — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="Spécialisation Ambidextrie" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Coups déchaînés — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="Coups déchaînés" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Enrager — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg" alt="Enrager" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 5" title="Exécution améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg" alt="Exécution améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 2" title="Précision — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg" alt="Précision" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Souhait mortel — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="Souhait mortel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Interception améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg" alt="Interception améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 2" title="Rage berserker améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ancestralguardian.jpg" alt="Rage berserker améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Rafale — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Rafale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Sanguinaire — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Le template de talents (niveau 60)</h2></div>
+  <p class="gs-lede">Build de notre simulateur niveau 60 (51 points), celui utilisé pour le classement : talents choisis, équipement et rotation sur la page du classement.</p>
+  <p class="gs-lede">Équipement, rotation et dégâts par technique de ce build au niveau 60 : <a class="wg-link" href="../../../../wow-forever/classement/warrior-fury/">Guerrier Fureur</a> →</p>
+  <details class="gs-more"><summary>Comment lire ces arbres</summary>
+    <p class="gs-lede">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Fureur <span class="wg-own">ce guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Voix tonitruante — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_purge.jpg" alt="Voix tonitruante" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Cruauté — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg" alt="Cruauté" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Volonté de fer — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_magic_magearmor.jpg" alt="Volonté de fer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Colère déchaînée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Colère déchaînée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Enchaînement amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg" alt="Enchaînement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Hurlement perçant — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathscream.jpg" alt="Hurlement perçant" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Folie sanguinaire — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_summonimp.jpg" alt="Folie sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 5" title="Rage infinie — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_intensifyrage.jpg" alt="Rage infinie" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Spécialisation Ambidextrie — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="Spécialisation Ambidextrie" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Coups déchaînés — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="Coups déchaînés" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Enrager — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg" alt="Enrager" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 5" title="Exécution améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg" alt="Exécution améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 2" title="Précision — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg" alt="Précision" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Souhait mortel — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="Souhait mortel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Interception améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_sprint.jpg" alt="Interception améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 2" title="Rage berserker améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ancestralguardian.jpg" alt="Rage berserker améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Rafale — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Rafale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Sanguinaire — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Armes</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="106"/><line class="wg-link" x1="168" y1="38" x2="168" y2="106"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 2" title="Frappe héroïque améliorée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="Frappe héroïque améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Déviation — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Déviation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Pourfendre amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="Pourfendre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Charge améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg" alt="Charge améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Maîtrise tactique améliorée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg" alt="Maîtrise tactique améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">4/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Fulgurance améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_05.jpg" alt="Fulgurance améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Maîtrise de la Rage — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="Maîtrise de la Rage" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Blessures profondes — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg" alt="Blessures profondes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Frappe transperçante — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_spear_01.jpg" alt="Frappe transperçante" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Spécialisation Arme 2M — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_09.jpg" alt="Spécialisation Arme 2M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Empaler — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="Empaler" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Exaltation sanguinaire — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_01.jpg" alt="Exaltation sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Attaques circulaires — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg" alt="Attaques circulaires" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Maître d’armes — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/garrison_weaponupgrade.jpg" alt="Maître d’armes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Heurtoir amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_decisivestrike.jpg" alt="Heurtoir amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Brise-genou amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shockwave.jpg" alt="Brise-genou amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Frappe mortelle — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg" alt="Frappe mortelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Protection</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="106"/><line class="wg-link" x1="116" y1="38" x2="116" y2="106"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Spécialisation Bouclier — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg" alt="Spécialisation Bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Anticipation — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Rage sanguinaire améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg" alt="Rage sanguinaire améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Résistance — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Coup de tonnerre amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderclap.jpg" alt="Coup de tonnerre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Dernier rempart — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_ashestoashes.jpg" alt="Dernier rempart" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Maîtrise de la défense — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldguard.jpg" alt="Maîtrise de la défense" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Vengeance améliorée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_revenge.jpg" alt="Vengeance améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Défi — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg" alt="Défi" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Fracasser armure amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_sunder.jpg" alt="Fracasser armure amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Désarmement amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_disarm.jpg" alt="Désarmement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Avant-garde — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldcharge.jpg" alt="Avant-garde" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Mur protecteur amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg" alt="Mur protecteur amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Bourrasque — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Bourrasque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Coup de bouclier amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldbash.jpg" alt="Coup de bouclier amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Bastion — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg" alt="Bastion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rage focalisée — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_focusedrage.jpg" alt="Rage focalisée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Heurt de bouclier — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_05.jpg" alt="Heurt de bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Armes</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="106"/><line class="wg-link" x1="168" y1="38" x2="168" y2="106"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 2" title="Frappe héroïque améliorée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="Frappe héroïque améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Déviation — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Déviation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Pourfendre amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="Pourfendre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Charge améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_charge.jpg" alt="Charge améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Maîtrise tactique améliorée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg" alt="Maîtrise tactique améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">4/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Fulgurance améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_05.jpg" alt="Fulgurance améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Maîtrise de la Rage — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_blessingofstamina.jpg" alt="Maîtrise de la Rage" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Blessures profondes — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_backstab.jpg" alt="Blessures profondes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Frappe transperçante — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_spear_01.jpg" alt="Frappe transperçante" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Spécialisation Arme 2M — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_axe_09.jpg" alt="Spécialisation Arme 2M" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Empaler — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="Empaler" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Exaltation sanguinaire — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_01.jpg" alt="Exaltation sanguinaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Attaques circulaires — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_slicedice.jpg" alt="Attaques circulaires" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Maître d’armes — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/garrison_weaponupgrade.jpg" alt="Maître d’armes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Heurtoir amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_decisivestrike.jpg" alt="Heurtoir amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Brise-genou amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shockwave.jpg" alt="Brise-genou amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Frappe mortelle — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_savageblow.jpg" alt="Frappe mortelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Protection</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="106"/><line class="wg-link" x1="116" y1="38" x2="116" y2="106"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Spécialisation Bouclier — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_06.jpg" alt="Spécialisation Bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Anticipation — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Rage sanguinaire améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg" alt="Rage sanguinaire améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Résistance — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Coup de tonnerre amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderclap.jpg" alt="Coup de tonnerre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Dernier rempart — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_ashestoashes.jpg" alt="Dernier rempart" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Maîtrise de la défense — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldguard.jpg" alt="Maîtrise de la défense" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Vengeance améliorée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_revenge.jpg" alt="Vengeance améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Défi — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_innerrage.jpg" alt="Défi" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Fracasser armure amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_sunder.jpg" alt="Fracasser armure amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Désarmement amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_disarm.jpg" alt="Désarmement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Avant-garde — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldcharge.jpg" alt="Avant-garde" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Mur protecteur amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldwall.jpg" alt="Mur protecteur amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Bourrasque — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Bourrasque" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Coup de bouclier amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_shieldbash.jpg" alt="Coup de bouclier amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Bastion — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_04.jpg" alt="Bastion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rage focalisée — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_focusedrage.jpg" alt="Rage focalisée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Heurt de bouclier — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_shield_05.jpg" alt="Heurt de bouclier" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  <details class="gs-more"><summary>Détail des talents du build (16)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Cruauté</b> <span class="wg-rank nums">Fureur · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 5 % vos chances d’infliger un coup critique avec vos attaques en mêlée.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Colère déchaînée</b> <span class="wg-rank nums">Fureur · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Donne 60 % de chances de générer 1 point de rage supplémentaire quand vous infligez des dégâts en mêlée avec une arme. Cet effet passe à 2 points de rage si vous utilisez une arme à deux mains.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Enchaînement amélioré</b> <span class="wg-rank nums">Fureur · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Réduit le coût en rage de votre prochaine technique Enchaînement de -3.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_intensifyrage.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Rage infinie</b> <span class="wg-rank nums">Fureur · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente votre maximum de points de rage de 30.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Spécialisation Ambidextrie</b> <span class="wg-rank nums">Fureur · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Increases your off-hand weapon damage by 25% and chance to hit with off-hand attacks by 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Coups déchaînés</b> <span class="wg-rank nums">Fureur · Palier 4 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Causes your Whirlwind to also strike with your Off Hand weapon, and reduces the Rage cost of your Cleave ability by -2.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Enrager</b> <span class="wg-rank nums">Fureur · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Vous confère 30 % de chances d’infliger 10 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Exécution améliorée</b> <span class="wg-rank nums">Fureur · Palier 4 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Réduit le coût en rage de votre technique Exécution de 5.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Précision</b> <span class="wg-rank nums">Fureur · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Améliore vos chances de toucher de 3 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Souhait mortel</b> <span class="wg-rank nums">Fureur · Palier 5 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : À l’activation, augmente de 20 % les dégâts physiques que vous infligez et vous rend insensible aux effets de peur, mais augmente de 5 % les dégâts que vous subissez. Dure 30 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ancestralguardian.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Rage berserker améliorée</b> <span class="wg-rank nums">Fureur · Palier 6 · 2 rangs · 2 pts · Recommandé</span>
+        <p>Rang 2/2 : Votre technique Rage de berserker génère désormais instantanément 10 points de rage et a 100 % de chances d’annuler tous les effets affectant le déplacement quand elle est active.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Rafale</b> <span class="wg-rank nums">Fureur · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente votre vitesse d’attaque en mêlée de 25 % pour vos 3 prochaines attaques après avoir infligé un coup critique en mêlée.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Sanguinaire</b> <span class="wg-rank nums">Fureur · Palier 7 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Attaque instantanément la cible, lui infligeant des dégâts d’un montant égal à 35 % de votre puissance d’attaque plus 30, et augmente votre vitesse de déplacement de 10 % pendant 10 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Frappe héroïque améliorée</b> <span class="wg-rank nums">Armes · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Réduit le coût de votre technique Frappe héroïque de 3 points de rage.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Pourfendre amélioré</b> <span class="wg-rank nums">Armes · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente de 35 % les dégâts de saignement infligés par votre technique Pourfendre.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Maîtrise tactique améliorée</b> <span class="wg-rank nums">Armes · Palier 2 · 5 rangs · 4 pts · Recommandé</span>
+        <p>Rang 4/5 : Votre Maîtrise tactique vous permet de conserver jusqu’à 12 points de rage supplémentaires lorsque vous changez de posture.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Priorité de statistiques niveau 60</h2></div>
+  
+  <div class="gs-wb">
+    
+    <div class="gs-sc has-chart">
+      <div class="gs-sc-l">
+        <div class="rs-table-wrap"><table class="rs-table">
+          <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
+          <tbody><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #ff6b8b"></span></span></td>
+            <td class="nums">0.597</td><td class="nums">2.15</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 90.5%; background: #ffc23c"></span></span></td>
+            <td class="nums">0.54</td><td class="nums">1.94</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 89.4%; background: #ff8a3d"></span></span></td>
+            <td class="nums">0.534</td><td class="nums">1.92</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 69.8%; background: #6be3ff"></span></span></td>
+            <td class="nums">0.417</td><td class="nums">1.5</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 65.0%; background: #2de6c4"></span></span></td>
+            <td class="nums">0.388</td><td class="nums">1.4</td></tr><tr class="cvu-row" data-stat="atkpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance d&#39;attaque <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 46.6%; background: #9b82ff"></span></span></td>
+            <td class="nums">0.278</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">aucun effet</td></tr></tbody>
+        </table></div>
+      </div>
+      
+      <div class="gs-sc-r">
+        <h3 class="gs-sub">Courbes de gain par statistique</h3>
+        <div class="cvu">
+          <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Hâte</button><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="str" style="--c: #ff8a3d"><span class="cvu-swatch"></span>Force</button><button type="button" class="cvu-key" data-stat="agi" style="--c: #6be3ff"><span class="cvu-swatch"></span>Agilité</button><button type="button" class="cvu-key" data-stat="atkpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance d&#39;attaque</button></div>
+          <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">38</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">76</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">115</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">153</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">80</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">160</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">320</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">400</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 112.4,251.8 172.8,220.6 233.1,188.0 293.5,157.2 353.9,125.7 414.2,94.7 474.6,64.3 535.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="112.4" cy="251.8" r="2.6"><title>Critique: +35 → +18 DPS</title></circle><circle class="cvu-dot" cx="172.8" cy="220.6" r="2.6"><title>Critique: +70 → +36 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="188.0" r="2.6"><title>Critique: +105 → +55 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="157.2" r="2.6"><title>Critique: +140 → +72 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="125.7" r="2.6"><title>Critique: +175 → +90 DPS</title></circle><circle class="cvu-dot" cx="414.2" cy="94.7" r="2.6"><title>Critique: +210 → +108 DPS</title></circle><circle class="cvu-dot" cx="474.6" cy="64.3" r="2.6"><title>Critique: +245 → +125 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="35.9" r="2.6"><title>Critique: +280 → +142 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 95.1,255.7 138.2,235.3 181.4,210.7 224.5,184.4 267.6,158.8 310.8,136.2 353.9,112.2 397.0,91.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hâte: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.1" cy="255.7" r="2.6"><title>Hâte: +25 → +16 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="235.3" r="2.6"><title>Hâte: +50 → +28 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="210.7" r="2.6"><title>Hâte: +75 → +42 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="184.4" r="2.6"><title>Hâte: +100 → +57 DPS</title></circle><circle class="cvu-dot" cx="267.6" cy="158.8" r="2.6"><title>Hâte: +125 → +71 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="136.2" r="2.6"><title>Hâte: +150 → +84 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="112.2" r="2.6"><title>Hâte: +175 → +98 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="91.0" r="2.6"><title>Hâte: +200 → +110 DPS</title></circle></g><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 91.7,263.2 129.6,242.3 169.3,228.4 207.2,218.6 246.9,210.9 284.9,203.1 324.6,194.2 362.5,193.3"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="91.7" cy="263.2" r="2.6"><title>Toucher: +23 → +12 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="242.3" r="2.6"><title>Toucher: +45 → +24 DPS</title></circle><circle class="cvu-dot" cx="169.3" cy="228.4" r="2.6"><title>Toucher: +68 → +32 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="218.6" r="2.6"><title>Toucher: +90 → +37 DPS</title></circle><circle class="cvu-dot" cx="246.9" cy="210.9" r="2.6"><title>Toucher: +113 → +42 DPS</title></circle><circle class="cvu-dot" cx="284.9" cy="203.1" r="2.6"><title>Toucher: +135 → +46 DPS</title></circle><circle class="cvu-dot" cx="324.6" cy="194.2" r="2.6"><title>Toucher: +158 → +51 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="193.3" r="2.6"><title>Toucher: +180 → +52 DPS</title></circle><circle class="cvu-cap" cx="324.6" cy="194.2" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="str" style="--c: #ff8a3d"><polyline class="cvu-line" points="52.0,284.0 77.9,266.9 103.8,249.5 129.6,235.9 155.5,220.0 181.4,203.8 207.2,187.5 233.1,173.6 259.0,156.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Force: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="266.9" r="2.6"><title>Force: +15 → +10 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="249.5" r="2.6"><title>Force: +30 → +20 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="235.9" r="2.6"><title>Force: +45 → +27 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="220.0" r="2.6"><title>Force: +60 → +37 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="203.8" r="2.6"><title>Force: +75 → +46 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="187.5" r="2.6"><title>Force: +90 → +55 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="173.6" r="2.6"><title>Force: +105 → +63 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="156.8" r="2.6"><title>Force: +120 → +73 DPS</title></circle></g><g class="cvu-curve" data-stat="agi" style="--c: #6be3ff"><polyline class="cvu-line" points="52.0,284.0 77.9,272.8 103.8,261.8 129.6,251.8 155.5,241.4 181.4,230.3 207.2,221.5 233.1,208.2 259.0,197.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Agilité: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="272.8" r="2.6"><title>Agilité: +15 → +6 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="261.8" r="2.6"><title>Agilité: +30 → +13 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="251.8" r="2.6"><title>Agilité: +45 → +18 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="241.4" r="2.6"><title>Agilité: +60 → +24 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="230.3" r="2.6"><title>Agilité: +75 → +31 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="221.5" r="2.6"><title>Agilité: +90 → +36 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="208.2" r="2.6"><title>Agilité: +105 → +43 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="197.8" r="2.6"><title>Agilité: +120 → +49 DPS</title></circle></g><g class="cvu-curve" data-stat="atkpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 138.2,260.5 224.5,235.9 310.8,211.5 397.0,185.5 483.2,162.8 569.5,141.2 655.8,116.5 742.0,93.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance d'attaque: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="260.5" r="2.6"><title>Puissance d'attaque: +50 → +13 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="235.9" r="2.6"><title>Puissance d'attaque: +100 → +27 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="211.5" r="2.6"><title>Puissance d'attaque: +150 → +41 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="185.5" r="2.6"><title>Puissance d'attaque: +200 → +56 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="162.8" r="2.6"><title>Puissance d'attaque: +250 → +69 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="141.2" r="2.6"><title>Puissance d'attaque: +300 → +82 DPS</title></circle><circle class="cvu-dot" cx="655.8" cy="116.5" r="2.6"><title>Puissance d'attaque: +350 → +96 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="93.8" r="2.6"><title>Puissance d'attaque: +400 → +109 DPS</title></circle></g></svg>
+        </div>
+      </div>
+      
+    </div>
+    <details class="gs-more"><summary>Comment lire ces mesures</summary>
+      <p class="gs-lede">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance d&#39;attaque. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
+      <p class="gs-lede">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
+    </details>
   </div>
+  
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation niveau 60</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23894" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodthirst</a> dès qu&#39;il est disponible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a> (et le <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a> de Raging Blows) à chaque fois qu&#39;il est prêt.</li><li>Execute sous 20 % de vie de la cible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> sur la prochaine attaque avec le rage en surplus.</li><li>Berserker Rage, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=12328" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Death Wish</a> et Recklessness à chaque fois qu&#39;ils sont prêts.</li></ol>
+  
+  <details class="gs-more"><summary>Méthode, recommandations Icy Veins et comparaison</summary>
+    <p class="gs-lede">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
+    
+    <h3 class="gs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
+    <ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25289" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Battle Shout</a> toujours actif, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a> entre les combats, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11578" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Charge</a> pour ouvrir, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11556" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Demoralizing Shout</a> sur la cible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=402927" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Victory Rush</a> après une mort, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11574" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rend</a> tôt, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11585" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Overpower</a> après une esquive, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> une ou deux fois.</li><li>Execute déconseillé pendant la montée en niveau.</li></ul>
+    <h3 class="gs-sub">Notre comparaison</h3>
+    <p class="wow-note">Sur un boss de niveau 60, ce sont <a class="rs-spell" href="https://www.wowhead.com/forever/spell=23894" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodthirst</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> et Execute (sous 20 % de vie) qui font les dégâts. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=402927" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Victory Rush</a> (après une mort) et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11556" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Demoralizing Shout</a> ne servent pas contre un boss. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11574" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rend</a> ne rapporte que pour les Armes avec Bloodthrill (mesuré).</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Métiers conseillés</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Minage + Forge<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/blacksmithing/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="" width="22" height="22" loading="lazy">Guide Forge <span aria-hidden="true">→</span></a></span></li><li>Ingénierie (alternative au Minage plus tard)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Guide Ingénierie <span aria-hidden="true">→</span></a></span></li><li>Cuisine + Pêche ; Secourisme<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Guide Cuisine <span aria-hidden="true">→</span></a><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_fishing.jpg" alt="" width="22" height="22" loading="lazy">Pêche</span></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Les autres spécialisations du Guerrier</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/warrior/arms/" style="--cc: #c69b6d">
+        <img src="../../../../assets/img/spec/warrior-arms.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Armes</b><span>DPS au corps à corps</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/warrior/protection/" style="--cc: #c69b6d">
+        <img src="../../../../assets/img/spec/warrior-protection.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Protection</b><span>Tank</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_eviscerate.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Cruauté</b> <span class="wg-rank nums">Fureur · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 5 % vos chances d’infliger un coup critique avec vos attaques en mêlée.</p></div>
+
+
+
+
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  
+  
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Tête</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=12640" rel="noopener nofollow" target="_blank">Lionheart Helm</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Cou</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249019" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Force)</a> <span class="rs-hint">+5 Force</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Épaules</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22241" rel="noopener nofollow" target="_blank">Dark Warder&#39;s Pauldrons</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Warder Stilgiss</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Dos</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de cape (Agilité mineure)</a> <span class="rs-hint">+3 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Torse</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22191" rel="noopener nofollow" target="_blank">Obsidian Mail Tunic</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de plastron (Caract. supérieures)</a> <span class="rs-hint">+4 Force, +4 Agilité, +4 Endurance, +4 Intelligence, +4 Esprit</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Poignets</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13400" rel="noopener nofollow" target="_blank">Vambraces of the Sadist</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Timmy the Cruel</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20010" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Force excellente)</a> <span class="rs-hint">+9 Force</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Mains</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19157" rel="noopener nofollow" target="_blank">Chromatic Gauntlets</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20013" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de gants (Force supérieure)</a> <span class="rs-hint">+10 Force</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Taille</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19044" rel="noopener nofollow" target="_blank">Might of the Timbermaw</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 290</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Jambes</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22385" rel="noopener nofollow" target="_blank">Titanic Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste énergique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Pieds</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=275627" rel="noopener nofollow" target="_blank">Clutchlord&#39;s Stompers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 295</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bottes (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Anneau 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Bijou 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Main droite</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19170" rel="noopener nofollow" target="_blank">Ebon Hand</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Force)</a> <span class="rs-hint">+15 Force</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Main gauche</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Force)</a> <span class="rs-hint">+15 Force</span></span>
+      </span>
+    </div>
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Colère déchaînée</b> <span class="wg-rank nums">Fureur · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Donne 60 % de chances de générer 1 point de rage supplémentaire quand vous infligez des dégâts en mêlée avec une arme. Cet effet passe à 2 points de rage si vous utilisez une arme à deux mains.</p></div>
+  <details class="gs-more"><summary>Méthode et notes sur les enchantements</summary>
+    <p class="gs-lede">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
+    <p class="gs-lede">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
+  </details>
+  
+  <p class="gs-foot">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
+</section>
+
+
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Meilleurs consommables niveau 60</h2><span class="gs-meta">lot simulé ●</span></div>
+  
+  <div class="gs-cons">
+  
+    <div>
+      <h3 class="gs-sub">Parchemins</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12179" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin de force</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+11,1</span><span class="nums">+1,7 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12174" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;agilité</a></span><span class="nums gs-gain">+7,1</span><span class="nums">+1,1 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Élixirs et flacons</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250986" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du grizzly</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+30,1</span><span class="nums">+4,8 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du ratel</a></span><span class="nums gs-gain">+26,0</span><span class="nums">+4,2 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17538" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir de la mangouste</a></span><span class="nums gs-gain">+24,5</span><span class="nums">+3,9 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Potions, plats et autres</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16323" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju de puissance</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+17,8</span><span class="nums">+2,7 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225778" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (force)</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+15,7</span><span class="nums">+2,5 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=22756" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Pierre d&#39;affûtage élémentaire</a> <span class="rs-hint" title="lot simulé">●</span></span><span class="nums gs-gain">+14,7</span><span class="nums">+2,3 %</span></div>
+    </div>
+  
   </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_cleave.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Enchaînement amélioré</b> <span class="wg-rank nums">Fureur · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Réduit le coût en rage de votre prochaine technique Enchaînement de -3.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_intensifyrage.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Rage infinie</b> <span class="wg-rank nums">Fureur · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente votre maximum de points de rage de 30.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Spécialisation Ambidextrie</b> <span class="wg-rank nums">Fureur · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Increases your off-hand weapon damage by 25% and chance to hit with off-hand attacks by 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Coups déchaînés</b> <span class="wg-rank nums">Fureur · Palier 4 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Causes your Whirlwind to also strike with your Off Hand weapon, and reduces the Rage cost of your Cleave ability by -2.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_unholyfrenzy.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Enrager</b> <span class="wg-rank nums">Fureur · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Vous confère 30 % de chances d’infliger 10 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_sword_48.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Exécution améliorée</b> <span class="wg-rank nums">Fureur · Palier 4 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Réduit le coût en rage de votre technique Exécution de 5.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_marksmanship.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Précision</b> <span class="wg-rank nums">Fureur · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Améliore vos chances de toucher de 3 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_deathpact.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Souhait mortel</b> <span class="wg-rank nums">Fureur · Palier 5 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : À l’activation, augmente de 20 % les dégâts physiques que vous infligez et vous rend insensible aux effets de peur, mais augmente de 5 % les dégâts que vous subissez. Dure 30 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ancestralguardian.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Rage berserker améliorée</b> <span class="wg-rank nums">Fureur · Palier 6 · 2 rangs · 2 pts · Recommandé</span>
-    <p>Rang 2/2 : Votre technique Rage de berserker génère désormais instantanément 10 points de rage et a 100 % de chances d’annuler tous les effets affectant le déplacement quand elle est active.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Rafale</b> <span class="wg-rank nums">Fureur · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente votre vitesse d’attaque en mêlée de 25 % pour vos 3 prochaines attaques après avoir infligé un coup critique en mêlée.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Sanguinaire</b> <span class="wg-rank nums">Fureur · Palier 7 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Attaque instantanément la cible, lui infligeant des dégâts d’un montant égal à 35 % de votre puissance d’attaque plus 30, et augmente votre vitesse de déplacement de 10 % pendant 10 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_ambush.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Frappe héroïque améliorée</b> <span class="wg-rank nums">Armes · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Réduit le coût de votre technique Frappe héroïque de 3 points de rage.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Pourfendre amélioré</b> <span class="wg-rank nums">Armes · Palier 1 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente de 35 % les dégâts de saignement infligés par votre technique Pourfendre.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_enchantarmor.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Maîtrise tactique améliorée</b> <span class="wg-rank nums">Armes · Palier 2 · 5 rangs · 4 pts · Recommandé</span>
-    <p>Rang 4/5 : Votre Maîtrise tactique vous permet de conserver jusqu’à 12 points de rage supplémentaires lorsque vous changez de posture.</p></div>
-  </div>
-</div>
+  
+  <details class="gs-more"><summary>Comment lire ces gains</summary><p class="gs-lede">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p></details>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Rotation niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Priorité de notre simulateur au niveau 60, comparée à ce que recommande Icy Veins. Leurs guides sont écrits pour la bêta niveau 30 et pour la montée en niveau : nous gardons ce sur quoi tout le monde s&#39;accorde, nous adoptons ce que la simulation a confirmé au niveau 60 et nous disons où les deux diffèrent.</p>
-
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23894" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodthirst</a> dès qu&#39;il est disponible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a> (et le <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a> de Raging Blows) à chaque fois qu&#39;il est prêt.</li><li>Execute sous 20 % de vie de la cible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> sur la prochaine attaque avec le rage en surplus.</li><li>Berserker Rage, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=12328" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Death Wish</a> et Recklessness à chaque fois qu&#39;ils sont prêts.</li></ol>
-
-
-<h3 class="rs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
-<ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25289" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Battle Shout</a> toujours actif, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2687" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodrage</a> entre les combats, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11578" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Charge</a> pour ouvrir, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11556" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Demoralizing Shout</a> sur la cible.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=402927" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Victory Rush</a> après une mort, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11574" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rend</a> tôt, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11585" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Overpower</a> après une esquive, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11597" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Sunder Armor</a> une ou deux fois.</li><li>Execute déconseillé pendant la montée en niveau.</li></ul>
-<h3 class="rs-sub">Notre comparaison</h3>
-<p class="wow-note">Sur un boss de niveau 60, ce sont <a class="rs-spell" href="https://www.wowhead.com/forever/spell=23894" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bloodthirst</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=1680" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Whirlwind</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25286" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Heroic Strike</a> et Execute (sous 20 % de vie) qui font les dégâts. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=402927" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Victory Rush</a> (après une mort) et <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11556" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Demoralizing Shout</a> ne servent pas contre un boss. <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11574" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rend</a> ne rapporte que pour les Armes avec Bloodthrill (mesuré).</p>
-
-
-
-
-
-<h2 class="fiche-section-title">Priorité de statistiques niveau 60</h2>
-
-
-<p class="page-intro" style="margin-top:0">Mesurée par le simulateur sur le personnage ci-dessus : le DPS gagné par un point supplémentaire de chaque statistique, avec les mêmes tirages aléatoires de chaque côté. La valeur relative compare chaque statistique à un point de puissance d&#39;attaque. Critique, toucher et hâte sont comptés par point de score, comme la Force ou l&#39;Agilité, pour être comparables ; ils tiennent compte des plafonds : un toucher au plafond ne rapporte plus rien. Une valeur proche de zéro ou négative est dans la marge d&#39;erreur ou liée à une limite (mana, plafond).</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Statistique</th><th class="rs-bar-col"></th><th class="nums">DPS gagné</th><th class="nums">Valeur relative</th></tr></thead>
-  <tbody><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Hâte <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #ff6b8b"></span></span></td>
-    <td class="nums">0.597</td><td class="nums">2.15</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Critique <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 90.5%; background: #ffc23c"></span></span></td>
-    <td class="nums">0.54</td><td class="nums">1.94</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Force <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 89.4%; background: #ff8a3d"></span></span></td>
-    <td class="nums">0.534</td><td class="nums">1.92</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agilité <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 69.8%; background: #6be3ff"></span></span></td>
-    <td class="nums">0.417</td><td class="nums">1.5</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Toucher <span class="rs-hint">par point de score</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 65.0%; background: #2de6c4"></span></span></td>
-    <td class="nums">0.388</td><td class="nums">1.4</td></tr><tr class="cvu-row" data-stat="atkpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Puissance d&#39;attaque <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 46.6%; background: #9b82ff"></span></span></td>
-    <td class="nums">0.278</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intelligence <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Esprit <span class="rs-hint">par point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">aucun effet</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Courbes de gain par statistique</h3>
-<p class="rs-hint">DPS gagné quand on ajoute des points de chaque statistique par-dessus l&#39;équipement simulé. Cliquez sur une statistique (ou sur sa ligne dans le tableau) pour mettre sa courbe en avant ; le rond marque le plafond estimé, après lequel chaque point rapporte moins de 20 % de ce qu&#39;il rapportait au départ.</p>
-<div class="cvu">
-  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Critique</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Hâte</button><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Toucher</button><button type="button" class="cvu-key" data-stat="str" style="--c: #ff8a3d"><span class="cvu-swatch"></span>Force</button><button type="button" class="cvu-key" data-stat="agi" style="--c: #6be3ff"><span class="cvu-swatch"></span>Agilité</button><button type="button" class="cvu-key" data-stat="atkpwr" style="--c: #9b82ff"><span class="cvu-swatch"></span>Puissance d&#39;attaque</button></div>
-  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Courbes de gain par statistique" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">38</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">76</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">115</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">153</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">80</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">160</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">240</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">320</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">400</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points ajoutés (score ou valeur de la statistique)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gagné</text><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 112.4,251.8 172.8,220.6 233.1,188.0 293.5,157.2 353.9,125.7 414.2,94.7 474.6,64.3 535.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Critique: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="112.4" cy="251.8" r="2.6"><title>Critique: +35 → +18 DPS</title></circle><circle class="cvu-dot" cx="172.8" cy="220.6" r="2.6"><title>Critique: +70 → +36 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="188.0" r="2.6"><title>Critique: +105 → +55 DPS</title></circle><circle class="cvu-dot" cx="293.5" cy="157.2" r="2.6"><title>Critique: +140 → +72 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="125.7" r="2.6"><title>Critique: +175 → +90 DPS</title></circle><circle class="cvu-dot" cx="414.2" cy="94.7" r="2.6"><title>Critique: +210 → +108 DPS</title></circle><circle class="cvu-dot" cx="474.6" cy="64.3" r="2.6"><title>Critique: +245 → +125 DPS</title></circle><circle class="cvu-dot" cx="535.0" cy="35.9" r="2.6"><title>Critique: +280 → +142 DPS</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 95.1,255.7 138.2,235.3 181.4,210.7 224.5,184.4 267.6,158.8 310.8,136.2 353.9,112.2 397.0,91.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hâte: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="95.1" cy="255.7" r="2.6"><title>Hâte: +25 → +16 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="235.3" r="2.6"><title>Hâte: +50 → +28 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="210.7" r="2.6"><title>Hâte: +75 → +42 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="184.4" r="2.6"><title>Hâte: +100 → +57 DPS</title></circle><circle class="cvu-dot" cx="267.6" cy="158.8" r="2.6"><title>Hâte: +125 → +71 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="136.2" r="2.6"><title>Hâte: +150 → +84 DPS</title></circle><circle class="cvu-dot" cx="353.9" cy="112.2" r="2.6"><title>Hâte: +175 → +98 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="91.0" r="2.6"><title>Hâte: +200 → +110 DPS</title></circle></g><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 91.7,263.2 129.6,242.3 169.3,228.4 207.2,218.6 246.9,210.9 284.9,203.1 324.6,194.2 362.5,193.3"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Toucher: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="91.7" cy="263.2" r="2.6"><title>Toucher: +23 → +12 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="242.3" r="2.6"><title>Toucher: +45 → +24 DPS</title></circle><circle class="cvu-dot" cx="169.3" cy="228.4" r="2.6"><title>Toucher: +68 → +32 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="218.6" r="2.6"><title>Toucher: +90 → +37 DPS</title></circle><circle class="cvu-dot" cx="246.9" cy="210.9" r="2.6"><title>Toucher: +113 → +42 DPS</title></circle><circle class="cvu-dot" cx="284.9" cy="203.1" r="2.6"><title>Toucher: +135 → +46 DPS</title></circle><circle class="cvu-dot" cx="324.6" cy="194.2" r="2.6"><title>Toucher: +158 → +51 DPS</title></circle><circle class="cvu-dot" cx="362.5" cy="193.3" r="2.6"><title>Toucher: +180 → +52 DPS</title></circle><circle class="cvu-cap" cx="324.6" cy="194.2" r="7"><title>Toucher: cap</title></circle></g><g class="cvu-curve" data-stat="str" style="--c: #ff8a3d"><polyline class="cvu-line" points="52.0,284.0 77.9,266.9 103.8,249.5 129.6,235.9 155.5,220.0 181.4,203.8 207.2,187.5 233.1,173.6 259.0,156.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Force: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="266.9" r="2.6"><title>Force: +15 → +10 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="249.5" r="2.6"><title>Force: +30 → +20 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="235.9" r="2.6"><title>Force: +45 → +27 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="220.0" r="2.6"><title>Force: +60 → +37 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="203.8" r="2.6"><title>Force: +75 → +46 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="187.5" r="2.6"><title>Force: +90 → +55 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="173.6" r="2.6"><title>Force: +105 → +63 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="156.8" r="2.6"><title>Force: +120 → +73 DPS</title></circle></g><g class="cvu-curve" data-stat="agi" style="--c: #6be3ff"><polyline class="cvu-line" points="52.0,284.0 77.9,272.8 103.8,261.8 129.6,251.8 155.5,241.4 181.4,230.3 207.2,221.5 233.1,208.2 259.0,197.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Agilité: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="77.9" cy="272.8" r="2.6"><title>Agilité: +15 → +6 DPS</title></circle><circle class="cvu-dot" cx="103.8" cy="261.8" r="2.6"><title>Agilité: +30 → +13 DPS</title></circle><circle class="cvu-dot" cx="129.6" cy="251.8" r="2.6"><title>Agilité: +45 → +18 DPS</title></circle><circle class="cvu-dot" cx="155.5" cy="241.4" r="2.6"><title>Agilité: +60 → +24 DPS</title></circle><circle class="cvu-dot" cx="181.4" cy="230.3" r="2.6"><title>Agilité: +75 → +31 DPS</title></circle><circle class="cvu-dot" cx="207.2" cy="221.5" r="2.6"><title>Agilité: +90 → +36 DPS</title></circle><circle class="cvu-dot" cx="233.1" cy="208.2" r="2.6"><title>Agilité: +105 → +43 DPS</title></circle><circle class="cvu-dot" cx="259.0" cy="197.8" r="2.6"><title>Agilité: +120 → +49 DPS</title></circle></g><g class="cvu-curve" data-stat="atkpwr" style="--c: #9b82ff"><polyline class="cvu-line" points="52.0,284.0 138.2,260.5 224.5,235.9 310.8,211.5 397.0,185.5 483.2,162.8 569.5,141.2 655.8,116.5 742.0,93.8"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Puissance d'attaque: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="260.5" r="2.6"><title>Puissance d'attaque: +50 → +13 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="235.9" r="2.6"><title>Puissance d'attaque: +100 → +27 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="211.5" r="2.6"><title>Puissance d'attaque: +150 → +41 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="185.5" r="2.6"><title>Puissance d'attaque: +200 → +56 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="162.8" r="2.6"><title>Puissance d'attaque: +250 → +69 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="141.2" r="2.6"><title>Puissance d'attaque: +300 → +82 DPS</title></circle><circle class="cvu-dot" cx="655.8" cy="116.5" r="2.6"><title>Puissance d'attaque: +350 → +96 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="93.8" r="2.6"><title>Puissance d'attaque: +400 → +109 DPS</title></circle></g></svg>
-</div>
-
-
-
-
-
-
-<h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les trois meilleurs de chaque catégorie, mesurés par le simulateur sur le personnage ci-dessus. On ne porte qu&#39;un parchemin et qu&#39;un élixir ou flacon à la fois : chaque gain est le DPS apporté par ce consommable seul, par rapport à un emplacement vide, le reste du lot restant identique. Les gains d&#39;une même catégorie ne s&#39;additionnent donc pas. La ligne marquée d&#39;un point est celle du lot simulé.</p>
-
-
-<h3 class="rs-sub">Parchemins</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12179" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin de force</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+11,1</td><td class="nums">+1,7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12174" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Parchemin d&#39;agilité</a></td><td class="nums">+7,1</td><td class="nums">+1,1 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Élixirs et flacons</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250986" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du grizzly</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+30,1</td><td class="nums">+4,8 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir du ratel</a></td><td class="nums">+26,0</td><td class="nums">+4,2 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17538" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir de la mangouste</a></td><td class="nums">+24,5</td><td class="nums">+3,9 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Potions, plats et autres</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consommable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16323" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju de puissance</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+17,8</td><td class="nums">+2,7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1225778" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Plat (force)</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+15,7</td><td class="nums">+2,5 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=22756" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Pierre d&#39;affûtage élémentaire</a> <span class="rs-hint" title="lot simulé">●</span></td><td class="nums">+14,7</td><td class="nums">+2,3 %</td></tr></tbody>
-</table></div>
-
-
-
-<h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list prof-list"><li>Minage + Forge<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/blacksmithing/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="" width="22" height="22" loading="lazy">Guide Forge <span aria-hidden="true">→</span></a></span></li><li>Ingénierie (alternative au Minage plus tard)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_mining.jpg" alt="" width="22" height="22" loading="lazy">Minage</span><a class="prof-chip" href="../../../../wow-forever/professions/engineering/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="" width="22" height="22" loading="lazy">Guide Ingénierie <span aria-hidden="true">→</span></a></span></li><li>Cuisine + Pêche ; Secourisme<span class="prof-chips"><a class="prof-chip" href="../../../../wow-forever/professions/cooking/"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="" width="22" height="22" loading="lazy">Guide Cuisine <span aria-hidden="true">→</span></a><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_fishing.jpg" alt="" width="22" height="22" loading="lazy">Pêche</span></span></li></ul>
-
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-
-<p class="page-intro" style="margin-top:0">L&#39;équipement que notre optimiseur retient pour cette spécialisation parmi les objets connus de la bêta (donjons, rares objets de raid déjà connus et équipement fabriqué par les métiers, que l&#39;on peut acheter ou se faire fabriquer : prix et matériaux ne sont pas pris en compte), avec les effets d&#39;objets simulés. Aucun objet n&#39;est choisi à la main : c&#39;est le résultat du calcul du classement, et il changera quand de nouveaux objets seront découverts.</p>
-
-<div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Emplacement</th><th>Objet</th><th>Provenance</th><th>Enchantement bis</th></tr></thead>
-  <tbody><tr><td>Tête</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=12640" rel="noopener nofollow" target="_blank">Lionheart Helm</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td>—</td></tr><tr><td>Cou</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249019" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchantement de collier (Force)</a> <span class="rs-hint">+5 Force</span></td></tr><tr><td>Épaules</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22241" rel="noopener nofollow" target="_blank">Dark Warder&#39;s Pauldrons</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Warder Stilgiss</td><td>—</td></tr><tr><td>Dos</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de cape (Agilité mineure)</a> <span class="rs-hint">+3 Agilité</span></td></tr><tr><td>Torse</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22191" rel="noopener nofollow" target="_blank">Obsidian Mail Tunic</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20025" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de plastron (Caract. supérieures)</a> <span class="rs-hint">+4 Force, +4 Agilité, +4 Endurance, +4 Intelligence, +4 Esprit</span></td></tr><tr><td>Poignets</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13400" rel="noopener nofollow" target="_blank">Vambraces of the Sadist</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Timmy the Cruel</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20010" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bracelets (Force excellente)</a> <span class="rs-hint">+9 Force</span></td></tr><tr><td>Mains</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19157" rel="noopener nofollow" target="_blank">Chromatic Gauntlets</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20013" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de gants (Force supérieure)</a> <span class="rs-hint">+10 Force</span></td></tr><tr><td>Taille</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19044" rel="noopener nofollow" target="_blank">Might of the Timbermaw</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/leatherworking/">Travail du cuir</a> — niveau 290</td><td>—</td></tr><tr><td>Jambes</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22385" rel="noopener nofollow" target="_blank">Titanic Leggings</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Renfort d’armure robuste énergique</a> <span class="rs-hint">40 d&#39;armure de la cible</span></div></td></tr><tr><td>Pieds</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=275627" rel="noopener nofollow" target="_blank">Clutchlord&#39;s Stompers</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 295</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. de bottes (Agilité supérieure)</a> <span class="rs-hint">+7 Agilité</span></td></tr><tr><td>Anneau 1</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=18821" rel="noopener nofollow" target="_blank">Quick Strike Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/raids/molten-core/">Molten Core</a></td><td>—</td></tr><tr><td>Anneau 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</td><td>—</td></tr><tr><td>Bijou 1</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></td><td><a class="rs-zone" href="../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</td><td>—</td></tr><tr><td>Main droite</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19170" rel="noopener nofollow" target="_blank">Ebon Hand</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Force)</a> <span class="rs-hint">+15 Force</span></td></tr><tr><td>Main gauche</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19168" rel="noopener nofollow" target="_blank">Blackguard</a></td><td><a class="rs-zone" href="../../../../wow-forever/professions/blacksmithing/">Forge</a> — niveau 300</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23799" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ench. d&#39;arme (Force)</a> <span class="rs-hint">+15 Force</span></td></tr></tbody>
-</table></div>
-<p class="rs-hint">Enchantements jusqu&#39;au niveau 300 de métier, valorisés par le simulateur quand ils donnent une statistique ou des dégâts d&#39;arme fixes. Le personnage n&#39;a pas besoin du métier : on les achète ou on se les fait poser par un enchanteur ; les renforts d&#39;armure du Travail du cuir (torse, jambes, pieds, mains) et les lunettes de l&#39;Ingénierie sont comptés aussi. Un renfort et un enchantement occupent le même emplacement permanent : une pièce porte l&#39;un ou l&#39;autre, et les jambes, qui n&#39;ont pas d&#39;enchantement, reçoivent le renfort ; les enchantements qui déclenchent un sort (Crusader, Fiery Weapon...) et les dégâts d&#39;école ne sont pas simulés. Il n&#39;existe aucun enchantement d&#39;anneau dans les données de la bêta jusqu&#39;au niveau 300 de métier.</p>
-
-<p class="wow-note">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
-
-
-<h2 class="fiche-section-title">Les talents du dernier palier</h2>
-<p class="page-intro" style="margin-top:0">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">Les talents du dernier palier</h2></div>
+  <p class="gs-lede">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Sanguinaire</b> <span class="wg-rank nums">Palier 7 · 1 rang</span>
   <p>Attaque instantanément la cible, lui infligeant des dégâts d’un montant égal à 35 % de votre puissance d’attaque plus 30, et augmente votre vitesse de déplacement de 10 % pendant 10 s.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../wow-forever/talents/warrior/">Ouvrir Guerrier dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../wow-forever/talents/warrior/">Ouvrir Guerrier dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
-
-<h2 class="fiche-section-title">Les autres spécialisations du Guerrier</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/warrior/arms/" style="--cc: #c69b6d">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/warrior-arms.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Armes</b><span class="wh-card-specs">DPS au corps à corps</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/warrior/protection/" style="--cc: #c69b6d">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/warrior-protection.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Protection</b><span class="wh-card-specs">Tank</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/fury-warrior-melee-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Fury Warrior</a></li>
-  <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources et méthode</summary>
+  <p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/fury-warrior-melee-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Fury Warrior</a></li>
+    <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -627,6 +800,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -676,10 +856,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

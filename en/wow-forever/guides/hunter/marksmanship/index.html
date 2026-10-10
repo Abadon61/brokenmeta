@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Marksmanship Hunter WoW: Forever: guide and talents">
 <meta name="twitter:description" content="WoW: Forever Marksmanship Hunter guide: Ranged DPS, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,180 +297,194 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
-    <h1 class="ph-title">Marksmanship Hunter: specialization guide</h1>
-    <p class="ph-lede">Marksmanship is the Ranged DPS specialization of the Hunter in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #aad372">
+  <div class="gh-art" style="background-image: url('../../../../../assets/img/wow-class/hunter.jpg')"></div><span class="gh-credit">Artwork: © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Class guide</div>
+      <h1 class="gh-title">Marksmanship Hunter: specialization guide</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">Ranged DPS</span>
+        <span class="gh-chip">#5 in the ranking · <b class="nums">661 DPS</b></span>
+      </div>
+      <p class="gh-lede">Marksmanship is the Ranged DPS specialization of the Hunter in WoW: Forever. This page summarizes its talent tree as it appears in the beta client (build 1.60.1.70170); the role is the one stated by the Icy Veins guide for the specialization.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../../wow-forever/talents/hunter/">Open Hunter in the talent calculator <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../../../wow-forever/classement/hunter-marksmanship/">See the ranking</a>
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../../assets/img/wow-class/hunter.jpg" alt="Hunter" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">At a glance</h2>
-<dl class="wow-facts">
-  <div><dt>Class</dt><dd>Hunter</dd></div>
-  <div><dt>Role</dt><dd>Ranged DPS</dd></div>
-  <div><dt>Talents in the tree</dt><dd class="nums">16</dd></div>
-  <div><dt>Maximum points in the tree</dt><dd class="nums">52</dd></div>
-  <div><dt>Highest tier</dt><dd class="nums">7</dd></div>
-  <div><dt>Points needed for the last tier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Contents">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Stats</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Professions</a>
+  <a href="#gs-gear">Gear</a>
+  <a href="#gs-cons">Consumables</a>
+</nav>
 
-
-<h2 class="fiche-section-title">Talent template (level 60)</h2>
-<p class="page-intro" style="margin-top:0">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
-<p class="wow-note">Our level-60 simulator build (51 points), the one used for the ranking: talents, gear and rotation are on the ranking page.</p>
-<p class="page-intro" style="margin-top:0">Gear, rotation and damage by ability for this level-60 build: <a class="wg-link" href="../../../../../wow-forever/classement/hunter-marksmanship/">Hunter Marksmanship</a> →</p>
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Marksmanship <span class="wg-own">this guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="90" x2="168" y2="158"/><line class="wg-link" x1="64" y1="142" x2="64" y2="210"/><line class="wg-link" x1="116" y1="194" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Hawk Eye — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_townwatch.jpg" alt="Hawk Eye" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Concussive Shot — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg" alt="Improved Concussive Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Lethal Attacks — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="Lethal Attacks" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Improved Stings — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg" alt="Improved Stings" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Efficiency — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Efficiency" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Careful Aim — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg" alt="Careful Aim" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Rapid Killing — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg" alt="Rapid Killing" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Improved Arcane Shot — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg" alt="Improved Arcane Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 5" title="Lone Wolf — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg" alt="Lone Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Trueshot Aura — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg" alt="Trueshot Aura" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Mortal Shots — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg" alt="Mortal Shots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Rapid Recuperation — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidregeneration.jpg" alt="Rapid Recuperation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Barrage — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_upgrademoonglaive.jpg" alt="Barrage" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Scatter Shot — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_golemstormbolt.jpg" alt="Scatter Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Ranged Weapon Specialization — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_06.jpg" alt="Ranged Weapon Specialization" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Sniper Shot — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/hunter_pvp_snipershot.jpg" alt="Sniper Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Beast Mastery</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Deadly Aspects — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Deadly Aspects" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Endurance Training — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Endurance Training" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Focused Fire — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_crossbow_10.jpg" alt="Focused Fire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Improved Aspect of the Monkey — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectofthemonkey.jpg" alt="Improved Aspect of the Monkey" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Pathfinding — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_jungletiger.jpg" alt="Pathfinding" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Revive Pet — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastsoothe.jpg" alt="Improved Revive Pet" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Bestial Swiftness — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_dash.jpg" alt="Bestial Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Unleashed Fury — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" alt="Unleashed Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Mend Pet — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_mendpet.jpg" alt="Improved Mend Pet" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Ferocity — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg" alt="Ferocity" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Summon Hawk — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_animalhandler.jpg" alt="Summon Hawk" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Bond — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_demoralizingroar.jpg" alt="Spirit Bond" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Intimidation — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_devour.jpg" alt="Intimidation" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Bestial Discipline — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="Bestial Discipline" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Frenzy — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_03.jpg" alt="Frenzy" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Bestial Wrath — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ferociousbite.jpg" alt="Bestial Wrath" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Survival</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Tracking — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_black.jpg" alt="Improved Tracking" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Deflection — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Deflection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Entrapment — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Entrapment" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Savage Strikes — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg" alt="Savage Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Survivalist — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg" alt="Survivalist" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Wing Clip — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_trip.jpg" alt="Improved Wing Clip" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Clever Traps — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_timestop.jpg" alt="Clever Traps" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Surefooted — 3 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_kick.jpg" alt="Surefooted" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Deterrence — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="Deterrence" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Survival Tactics — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ensnare.jpg" alt="Survival Tactics" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Predator&#39;s Edge — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="Predator&#39;s Edge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Counterattack — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_challange.jpg" alt="Counterattack" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Resourcefulness — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_resourcefulness.jpg" alt="Resourcefulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Expose Prey — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_swiftstrike.jpg" alt="Expose Prey" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Survivalist&#39;s Discipline — 2 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_mastertactitian.jpg" alt="Survivalist&#39;s Discipline" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Strider Kick — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_tallstrider.jpg" alt="Strider Kick" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Lightning Reflexes — 5 ranks">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_invisibilty.jpg" alt="Lightning Reflexes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Lacerating Strikes — 1 rank">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="Lacerating Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
-</div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lethal Attacks</b> <span class="wg-rank nums">Marksmanship · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases your critical strike chance with all attacks by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Improved Stings</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by -6 sec, and increases the duration of your Scorpid Sting ability by 45 sec.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Efficiency</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the Mana cost of your Shots, Stings, and melee abilities by 15%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Careful Aim</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases your Attack Power by 100% of your Intellect.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Rapid Killing</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 2 ranks · 2 pts · Recommended</span>
-    <p>Rank 2/2: Reduces the cooldown on your Rapid Fire ability by -2 min. In addition, when you kill a non-trivial enemy or it dies while afflicted by your Serpent Sting, you gain Rapid Killing, increasing the damage of your next Shot ability within 20 sec by 20%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Improved Arcane Shot</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Reduces the cooldown of your Arcane Shot by 1.5 sec. Does not affect the cooldown of abilities which share a cooldown with Arcane Shot.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Lone Wolf</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: You deal 20% increased damage with all attacks while you do not have an active pet.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Trueshot Aura</b> <span class="wg-rank nums">Marksmanship · Tier 4 · 1 rank · 1 pts · Recommended</span>
-    <p>Rank 1/1: Increases the Ranged Attack Power of party members within 45 yds by 30.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Mortal Shots</b> <span class="wg-rank nums">Marksmanship · Tier 4 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the critical strike damage bonus on all ranged abilities by 30%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_upgrademoonglaive.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Barrage</b> <span class="wg-rank nums">Marksmanship · Tier 5 · 3 ranks · 3 pts · Recommended</span>
-    <p>Rank 3/3: Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by 10%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_06.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Ranged Weapon Specialization</b> <span class="wg-rank nums">Marksmanship · Tier 6 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the damage you deal with ranged weapons by 5%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Deadly Aspects</b> <span class="wg-rank nums">Beast Mastery · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: While Aspect of the Hawk is active, Auto Shot has a 10% chance of increasing ranged attack speed by 30% for 12 sec. While Aspect of the Beast is active, all melee auto attacks have a 10% chance of increasing melee attack speed by 30% for 12 sec.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Endurance Training</b> <span class="wg-rank nums">Beast Mastery · Tier 1 · 5 ranks · 5 pts · Recommended</span>
-    <p>Rank 5/5: Increases the Health and Armor of your pets by 15%.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_crossbow_10.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Focused Fire</b> <span class="wg-rank nums">Beast Mastery · Tier 2 · 2 ranks · 1 pts · Recommended</span>
-    <p>Rank 1/2: Increases all damage you and your pet deal by 1% while your pet is active.</p></div>
-  </div>
-</div>
+<div class="gs-grid">
 
 
-
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talent template (level 60)</h2></div>
+  <p class="gs-lede">Our level-60 simulator build (51 points), the one used for the ranking: talents, gear and rotation are on the ranking page.</p>
+  <p class="gs-lede">Gear, rotation and damage by ability for this level-60 build: <a class="wg-link" href="../../../../../wow-forever/classement/hunter-marksmanship/">Hunter Marksmanship</a> →</p>
+  <details class="gs-more"><summary>How to read these trees</summary>
+    <p class="gs-lede">The class&#39;s three trees, with the talents of the level-60 build (51 points) in colour and all the others in grey. The small number on the left of each row is the points you must have spent in the tree to reach it, and each talent&#39;s badge shows the points invested. This section is fixed: it does not move and does not depend on the calculator.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommended <span class="wg-key is-option"></span>Optional</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Marksmanship <span class="wg-own">this guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="90" x2="168" y2="158"/><line class="wg-link" x1="64" y1="142" x2="64" y2="210"/><line class="wg-link" x1="116" y1="194" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Hawk Eye — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_townwatch.jpg" alt="Hawk Eye" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Concussive Shot — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_stun.jpg" alt="Improved Concussive Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Lethal Attacks — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="Lethal Attacks" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Improved Stings — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg" alt="Improved Stings" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Efficiency — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Efficiency" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Careful Aim — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg" alt="Careful Aim" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 2" title="Rapid Killing — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg" alt="Rapid Killing" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Improved Arcane Shot — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg" alt="Improved Arcane Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 5" title="Lone Wolf — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg" alt="Lone Wolf" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Trueshot Aura — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg" alt="Trueshot Aura" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Mortal Shots — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg" alt="Mortal Shots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Rapid Recuperation — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidregeneration.jpg" alt="Rapid Recuperation" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Barrage — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_upgrademoonglaive.jpg" alt="Barrage" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Scatter Shot — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_golemstormbolt.jpg" alt="Scatter Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Ranged Weapon Specialization — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_06.jpg" alt="Ranged Weapon Specialization" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Sniper Shot — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/hunter_pvp_snipershot.jpg" alt="Sniper Shot" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Beast Mastery</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Deadly Aspects — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Deadly Aspects" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Endurance Training — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Endurance Training" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Focused Fire — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_crossbow_10.jpg" alt="Focused Fire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Improved Aspect of the Monkey — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_aspectofthemonkey.jpg" alt="Improved Aspect of the Monkey" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Pathfinding — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_jungletiger.jpg" alt="Pathfinding" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Revive Pet — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_beastsoothe.jpg" alt="Improved Revive Pet" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Bestial Swiftness — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_dash.jpg" alt="Bestial Swiftness" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Unleashed Fury — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_bullrush.jpg" alt="Unleashed Fury" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Improved Mend Pet — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_mendpet.jpg" alt="Improved Mend Pet" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Ferocity — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_04.jpg" alt="Ferocity" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Summon Hawk — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_animalhandler.jpg" alt="Summon Hawk" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Spirit Bond — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_demoralizingroar.jpg" alt="Spirit Bond" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Intimidation — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_devour.jpg" alt="Intimidation" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Bestial Discipline — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_abolishmagic.jpg" alt="Bestial Discipline" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Frenzy — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_monsterclaw_03.jpg" alt="Frenzy" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Bestial Wrath — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_druid_ferociousbite.jpg" alt="Bestial Wrath" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Survival</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Improved Tracking — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_head_dragon_black.jpg" alt="Improved Tracking" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Deflection — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Deflection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Entrapment — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Entrapment" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Savage Strikes — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_racial_bloodrage.jpg" alt="Savage Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Survivalist — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_twilight.jpg" alt="Survivalist" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Improved Wing Clip — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_rogue_trip.jpg" alt="Improved Wing Clip" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Clever Traps — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_timestop.jpg" alt="Clever Traps" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Surefooted — 3 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_kick.jpg" alt="Surefooted" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Deterrence — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_whirlwind.jpg" alt="Deterrence" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Survival Tactics — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ensnare.jpg" alt="Survival Tactics" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Predator&#39;s Edge — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg" alt="Predator&#39;s Edge" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Counterattack — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_warrior_challange.jpg" alt="Counterattack" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Resourcefulness — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_resourcefulness.jpg" alt="Resourcefulness" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Expose Prey — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_swiftstrike.jpg" alt="Expose Prey" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Survivalist&#39;s Discipline — 2 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_mastertactitian.jpg" alt="Survivalist&#39;s Discipline" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Strider Kick — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_pet_tallstrider.jpg" alt="Strider Kick" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Lightning Reflexes — 5 ranks">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_invisibilty.jpg" alt="Lightning Reflexes" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Lacerating Strikes — 1 rank">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_gouge.jpg" alt="Lacerating Strikes" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div>
+  </div>
+  <details class="gs-more"><summary>Talent details of the build (14)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_searingarrow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lethal Attacks</b> <span class="wg-rank nums">Marksmanship · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases your critical strike chance with all attacks by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_quickshot.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Improved Stings</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Increases the damage of your Serpent Sting ability by 20%, reduces the cooldown of your Viper Sting ability by -6 sec, and increases the duration of your Scorpid Sting ability by 45 sec.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Efficiency</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the Mana cost of your Shots, Stings, and melee abilities by 15%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_zenarchery.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Careful Aim</b> <span class="wg-rank nums">Marksmanship · Tier 2 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases your Attack Power by 100% of your Intellect.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_hunter_rapidkilling.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Rapid Killing</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 2 ranks · 2 pts · Recommended</span>
+        <p>Rank 2/2: Reduces the cooldown on your Rapid Fire ability by -2 min. In addition, when you kill a non-trivial enemy or it dies while afflicted by your Serpent Sting, you gain Rapid Killing, increasing the damage of your next Shot ability within 20 sec by 20%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_impalingbolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Improved Arcane Shot</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Reduces the cooldown of your Arcane Shot by 1.5 sec. Does not affect the cooldown of abilities which share a cooldown with Arcane Shot.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_mount_whitedirewolf.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Lone Wolf</b> <span class="wg-rank nums">Marksmanship · Tier 3 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: You deal 20% increased damage with all attacks while you do not have an active pet.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_trueshot.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Trueshot Aura</b> <span class="wg-rank nums">Marksmanship · Tier 4 · 1 rank · 1 pts · Recommended</span>
+        <p>Rank 1/1: Increases the Ranged Attack Power of party members within 45 yds by 30.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_piercedamage.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Mortal Shots</b> <span class="wg-rank nums">Marksmanship · Tier 4 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the critical strike damage bonus on all ranged abilities by 30%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_upgrademoonglaive.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Barrage</b> <span class="wg-rank nums">Marksmanship · Tier 5 · 3 ranks · 3 pts · Recommended</span>
+        <p>Rank 3/3: Increases the damage done by your Multi-Shot, Aimed Shot, and Volley abilities by 10%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_rifle_06.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Ranged Weapon Specialization</b> <span class="wg-rank nums">Marksmanship · Tier 6 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the damage you deal with ranged weapons by 5%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Deadly Aspects</b> <span class="wg-rank nums">Beast Mastery · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: While Aspect of the Hawk is active, Auto Shot has a 10% chance of increasing ranged attack speed by 30% for 12 sec. While Aspect of the Beast is active, all melee auto attacks have a 10% chance of increasing melee attack speed by 30% for 12 sec.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Endurance Training</b> <span class="wg-rank nums">Beast Mastery · Tier 1 · 5 ranks · 5 pts · Recommended</span>
+        <p>Rank 5/5: Increases the Health and Armor of your pets by 15%.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_weapon_crossbow_10.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Focused Fire</b> <span class="wg-rank nums">Beast Mastery · Tier 2 · 2 ranks · 1 pts · Recommended</span>
+        <p>Rank 1/2: Increases all damage you and your pet deal by 1% while your pet is active.</p></div>
+      </div>
+    </div>
+  </details>
+  
+  
 <details class="alt-details">
 <summary><span class="fiche-section-title">Variant with Sniper Shot</span><span class="alt-sum nums">610.6 DPS · −50.6</span></summary>
 <p class="page-intro" style="margin-top:10px">The ranking keeps the build that does the most DPS (661.2 DPS). Here is the same specialization with Sniper Shot, on the same gear and the same 180-second simulation: 610.6 DPS, −50.6 DPS (−7.7%) compared with the ranked build.</p>
@@ -565,139 +579,290 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="rs-open"><span class="rs-step"><i class="nums">0.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">2.2 s</i>Auto Shot</span><span class="rs-step"><i class="nums">3 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">5.5 s</i>Sniper Shot</span><span class="rs-step"><i class="nums">5.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a></span><span class="rs-step"><i class="nums">5.5 s</i>Auto Shot</span><span class="rs-step"><i class="nums">6 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">7 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">7.2 s</i>Auto Shot</span><span class="rs-step"><i class="nums">9 s</i>Auto Shot</span><span class="rs-step"><i class="nums">9 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span><span class="rs-step"><i class="nums">10.7 s</i>Auto Shot</span><span class="rs-step"><i class="nums">11.5 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a></span><span class="rs-step"><i class="nums">12 s</i><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a></span></div>
 </details>
 
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Level 60 stat priority</h2></div>
+  
+  <div class="gs-wb">
+    
+    <div class="gs-sc has-chart">
+      <div class="gs-sc-l">
+        <div class="rs-table-wrap"><table class="rs-table">
+          <thead><tr><th>Stat</th><th class="rs-bar-col"></th><th class="nums">DPS gained</th><th class="nums">Relative value</th></tr></thead>
+          <tbody><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intellect <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #4da3ff"></span></span></td>
+            <td class="nums">0.757</td><td class="nums">3.44</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Hit <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 87.5%; background: #2de6c4"></span></span></td>
+            <td class="nums">0.662</td><td class="nums">3.01</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Crit <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 67.8%; background: #ffc23c"></span></span></td>
+            <td class="nums">0.513</td><td class="nums">2.33</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Spirit <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 66.6%; background: #b7e36a"></span></span></td>
+            <td class="nums">0.504</td><td class="nums">2.29</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agility <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 52.6%; background: #6be3ff"></span></span></td>
+            <td class="nums">0.398</td><td class="nums">1.81</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Haste <span class="rs-hint">per rating point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.6%; background: #ff6b8b"></span></span></td>
+            <td class="nums">0.262</td><td class="nums">1.19</td></tr><tr class="cvu-row" data-stat="atkpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Attack power <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 29.1%; background: #9b82ff"></span></span></td>
+            <td class="nums">0.22</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Strength <span class="rs-hint">per point</span></td>
+            <td class="rs-bar-col"></td>
+            <td class="nums">0.0</td><td class="nums">no effect</td></tr></tbody>
+        </table></div>
+      </div>
+      
+      <div class="gs-sc-r">
+        <h3 class="gs-sub">Gain curves by stat</h3>
+        <div class="cvu">
+          <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Crit</button><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Hit</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Haste</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intellect</button><button type="button" class="cvu-key" data-stat="spi" style="--c: #b7e36a"><span class="cvu-swatch"></span>Spirit</button><button type="button" class="cvu-key" data-stat="agi" style="--c: #6be3ff"><span class="cvu-swatch"></span>Agility</button></div>
+          <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Gain curves by stat" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">38</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">76</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">114</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">152</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">56</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">112</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">168</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">224</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">280</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points added (rating or stat value)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gained</text><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 138.2,252.5 224.5,220.6 310.8,189.4 397.0,158.5 483.2,127.8 569.5,96.3 655.8,66.4 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Crit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="252.5" r="2.6"><title>Crit: +35 → +18 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="220.6" r="2.6"><title>Crit: +70 → +36 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="189.4" r="2.6"><title>Crit: +105 → +54 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="158.5" r="2.6"><title>Crit: +140 → +71 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="127.8" r="2.6"><title>Crit: +175 → +88 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="96.3" r="2.6"><title>Crit: +210 → +106 DPS</title></circle><circle class="cvu-dot" cx="655.8" cy="66.4" r="2.6"><title>Crit: +245 → +123 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Crit: +280 → +141 DPS</title></circle></g><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 108.7,254.6 162.9,224.7 219.6,206.3 273.8,206.2 330.5,206.2 384.7,206.2 441.4,206.2 495.6,206.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="108.7" cy="254.6" r="2.6"><title>Hit: +23 → +17 DPS</title></circle><circle class="cvu-dot" cx="162.9" cy="224.7" r="2.6"><title>Hit: +45 → +34 DPS</title></circle><circle class="cvu-dot" cx="219.6" cy="206.3" r="2.6"><title>Hit: +68 → +44 DPS</title></circle><circle class="cvu-dot" cx="273.8" cy="206.2" r="2.6"><title>Hit: +90 → +44 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="206.2" r="2.6"><title>Hit: +113 → +44 DPS</title></circle><circle class="cvu-dot" cx="384.7" cy="206.2" r="2.6"><title>Hit: +135 → +44 DPS</title></circle><circle class="cvu-dot" cx="441.4" cy="206.2" r="2.6"><title>Hit: +158 → +44 DPS</title></circle><circle class="cvu-dot" cx="495.6" cy="206.2" r="2.6"><title>Hit: +180 → +44 DPS</title></circle><circle class="cvu-cap" cx="219.6" cy="206.3" r="7"><title>Hit: cap</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 113.6,269.6 175.2,256.5 236.8,242.7 298.4,226.8 360.0,214.1 421.6,200.6 483.2,184.9 544.9,169.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Haste: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="113.6" cy="269.6" r="2.6"><title>Haste: +25 → +8 DPS</title></circle><circle class="cvu-dot" cx="175.2" cy="256.5" r="2.6"><title>Haste: +50 → +16 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="242.7" r="2.6"><title>Haste: +75 → +23 DPS</title></circle><circle class="cvu-dot" cx="298.4" cy="226.8" r="2.6"><title>Haste: +100 → +32 DPS</title></circle><circle class="cvu-dot" cx="360.0" cy="214.1" r="2.6"><title>Haste: +125 → +40 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="200.6" r="2.6"><title>Haste: +150 → +47 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="184.9" r="2.6"><title>Haste: +175 → +56 DPS</title></circle><circle class="cvu-dot" cx="544.9" cy="169.9" r="2.6"><title>Haste: +200 → +65 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 98.8,259.4 145.6,238.2 190.0,228.8 236.8,218.9 283.6,210.5 330.5,202.9 374.8,192.9 421.6,187.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intellect: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="98.8" cy="259.4" r="2.6"><title>Intellect: +19 → +14 DPS</title></circle><circle class="cvu-dot" cx="145.6" cy="238.2" r="2.6"><title>Intellect: +38 → +26 DPS</title></circle><circle class="cvu-dot" cx="190.0" cy="228.8" r="2.6"><title>Intellect: +56 → +31 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="218.9" r="2.6"><title>Intellect: +75 → +37 DPS</title></circle><circle class="cvu-dot" cx="283.6" cy="210.5" r="2.6"><title>Intellect: +94 → +42 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="202.9" r="2.6"><title>Intellect: +113 → +46 DPS</title></circle><circle class="cvu-dot" cx="374.8" cy="192.9" r="2.6"><title>Intellect: +131 → +52 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="187.4" r="2.6"><title>Intellect: +150 → +55 DPS</title></circle></g><g class="cvu-curve" data-stat="spi" style="--c: #b7e36a"><polyline class="cvu-line" points="52.0,284.0 98.8,269.3 145.6,255.0 190.0,252.6 236.8,252.7 283.6,253.3 330.5,254.0 374.8,253.5 421.6,253.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spirit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="98.8" cy="269.3" r="2.6"><title>Spirit: +19 → +8 DPS</title></circle><circle class="cvu-dot" cx="145.6" cy="255.0" r="2.6"><title>Spirit: +38 → +16 DPS</title></circle><circle class="cvu-dot" cx="190.0" cy="252.6" r="2.6"><title>Spirit: +56 → +18 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="252.7" r="2.6"><title>Spirit: +75 → +18 DPS</title></circle><circle class="cvu-dot" cx="283.6" cy="253.3" r="2.6"><title>Spirit: +94 → +17 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="254.0" r="2.6"><title>Spirit: +113 → +17 DPS</title></circle><circle class="cvu-dot" cx="374.8" cy="253.5" r="2.6"><title>Spirit: +131 → +17 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="253.0" r="2.6"><title>Spirit: +150 → +18 DPS</title></circle><circle class="cvu-cap" cx="145.6" cy="255.0" r="7"><title>Spirit: cap</title></circle></g><g class="cvu-curve" data-stat="agi" style="--c: #6be3ff"><polyline class="cvu-line" points="52.0,284.0 89.0,273.7 125.9,263.0 162.9,253.0 199.9,242.5 236.8,232.5 273.8,221.3 310.8,211.0 347.7,199.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Agility: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="89.0" cy="273.7" r="2.6"><title>Agility: +15 → +6 DPS</title></circle><circle class="cvu-dot" cx="125.9" cy="263.0" r="2.6"><title>Agility: +30 → +12 DPS</title></circle><circle class="cvu-dot" cx="162.9" cy="253.0" r="2.6"><title>Agility: +45 → +18 DPS</title></circle><circle class="cvu-dot" cx="199.9" cy="242.5" r="2.6"><title>Agility: +60 → +23 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="232.5" r="2.6"><title>Agility: +75 → +29 DPS</title></circle><circle class="cvu-dot" cx="273.8" cy="221.3" r="2.6"><title>Agility: +90 → +35 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="211.0" r="2.6"><title>Agility: +105 → +41 DPS</title></circle><circle class="cvu-dot" cx="347.7" cy="199.9" r="2.6"><title>Agility: +120 → +48 DPS</title></circle></g></svg>
+        </div>
+      </div>
+      
+    </div>
+    <details class="gs-more"><summary>How to read these measures</summary>
+      <p class="gs-lede">Measured by the simulator on the character above: the DPS gained by one more point of each stat, with the same random draws on both sides. The relative value compares each stat with one point of attack power. Crit, hit and haste are counted per rating point, like Strength or Agility, so they compare directly; they respect the caps: hit at the cap adds nothing. A value near zero or negative is within the margin of error or tied to a limit (mana, cap).</p>
+      <p class="gs-lede">DPS gained when points of each stat are added on top of the simulated gear. Click a stat (or its row in the table) to bring its curve forward; the ring marks the estimated cap, past which every point is worth less than 20% of what it gave at the start.</p>
+    </details>
+  </div>
+  
+  
+  
+</section>
 
 
 
-<h2 class="fiche-section-title">Level 60 rotation</h2>
-<p class="page-intro" style="margin-top:0">Our simulator&#39;s priority at level 60, set against what Icy Veins recommends. Their guides are written for the level-30 beta and for leveling: we keep what everyone agrees on, adopt what the simulation confirmed at level 60 and say where the two differ.</p>
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 rotation</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> on the target before the fight (+110 ranged attack power).</li><li>Auto Shot continuously.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> on cooldown.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> up.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> on cooldown.</li><li>Rapid Fire on cooldown.</li><li>Sniper Shot is not taken: its 4-second cast stops Auto Shot and costs about 4% of the DPS.</li></ol>
+  
+  <details class="gs-more"><summary>Method, Icy Veins recommendations and comparison</summary>
+    <p class="gs-lede">Our simulator&#39;s priority at level 60, set against what Icy Veins recommends. Their guides are written for the level-30 beta and for leveling: we keep what everyone agrees on, adopt what the simulation confirmed at level 60 and say where the two differ.</p>
+    
+    <h3 class="gs-sub">What Icy Veins recommends (level 30)</h3>
+    <ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> first, pet sent in first.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Aimed Shot</a> on cooldown, Auto Shot in between; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> if mana is capped.</li></ul>
+    <h3 class="gs-sub">Our comparison</h3>
+    <p class="wow-note">Agreed, and added: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> (+110 ranged attack power, client value), <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a>. Different: at level 60 on one target <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> does about 4% better than <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Aimed Shot</a> (2-second cast) in the simulator, and Sniper Shot (a 4-second cast that stops Auto Shot) costs about 4%: the build does not take it.</p>
+    
+  </details>
+</section>
 
-<ol class="rs-rot"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> on the target before the fight (+110 ranged attack power).</li><li>Auto Shot continuously.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> on cooldown.</li><li>Keep <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> up.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> on cooldown.</li><li>Rapid Fire on cooldown.</li><li>Sniper Shot is not taken: its 4-second cast stops Auto Shot and costs about 4% of the DPS.</li></ol>
-
-
-<h3 class="rs-sub">What Icy Veins recommends (level 30)</h3>
-<ul class="gd-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> and <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a> first, pet sent in first.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Aimed Shot</a> on cooldown, Auto Shot in between; <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a> if mana is capped.</li></ul>
-<h3 class="rs-sub">Our comparison</h3>
-<p class="wow-note">Agreed, and added: <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14325" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Hunter&#39;s Mark</a> (+110 ranged attack power, client value), <a class="rs-spell" href="https://www.wowhead.com/forever/spell=25295" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Serpent Sting</a>, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=14287" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Arcane Shot</a>. Different: at level 60 on one target <a class="rs-spell" href="https://www.wowhead.com/forever/spell=2643" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Multi-Shot</a> does about 4% better than <a class="rs-spell" href="https://www.wowhead.com/forever/spell=20904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Aimed Shot</a> (2-second cast) in the simulator, and Sniper Shot (a 4-second cast that stops Auto Shot) costs about 4%: the build does not take it.</p>
-
-
-
-
-
-<h2 class="fiche-section-title">Level 60 stat priority</h2>
-
-
-<p class="page-intro" style="margin-top:0">Measured by the simulator on the character above: the DPS gained by one more point of each stat, with the same random draws on both sides. The relative value compares each stat with one point of attack power. Crit, hit and haste are counted per rating point, like Strength or Agility, so they compare directly; they respect the caps: hit at the cap adds nothing. A value near zero or negative is within the margin of error or tied to a limit (mana, cap).</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Stat</th><th class="rs-bar-col"></th><th class="nums">DPS gained</th><th class="nums">Relative value</th></tr></thead>
-  <tbody><tr class="cvu-row" data-stat="int" style="--c: #4da3ff"><td><span class="cvu-swatch"></span>Intellect <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%; background: #4da3ff"></span></span></td>
-    <td class="nums">0.757</td><td class="nums">3.44</td></tr><tr class="cvu-row" data-stat="hitrtng" style="--c: #2de6c4"><td><span class="cvu-swatch"></span>Hit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 87.5%; background: #2de6c4"></span></span></td>
-    <td class="nums">0.662</td><td class="nums">3.01</td></tr><tr class="cvu-row" data-stat="critstrkrtng" style="--c: #ffc23c"><td><span class="cvu-swatch"></span>Crit <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 67.8%; background: #ffc23c"></span></span></td>
-    <td class="nums">0.513</td><td class="nums">2.33</td></tr><tr class="cvu-row" data-stat="spi" style="--c: #b7e36a"><td><span class="cvu-swatch"></span>Spirit <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 66.6%; background: #b7e36a"></span></span></td>
-    <td class="nums">0.504</td><td class="nums">2.29</td></tr><tr class="cvu-row" data-stat="agi" style="--c: #6be3ff"><td><span class="cvu-swatch"></span>Agility <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 52.6%; background: #6be3ff"></span></span></td>
-    <td class="nums">0.398</td><td class="nums">1.81</td></tr><tr class="cvu-row" data-stat="hastertng" style="--c: #ff6b8b"><td><span class="cvu-swatch"></span>Haste <span class="rs-hint">per rating point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 34.6%; background: #ff6b8b"></span></span></td>
-    <td class="nums">0.262</td><td class="nums">1.19</td></tr><tr class="cvu-row" data-stat="atkpwr" style="--c: #9b82ff"><td><span class="cvu-swatch"></span>Attack power <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 29.1%; background: #9b82ff"></span></span></td>
-    <td class="nums">0.22</td><td class="nums">1.0</td></tr><tr class="cvu-row" data-stat="str" style="--c: #ff8a3d"><td><span class="cvu-swatch"></span>Strength <span class="rs-hint">per point</span></td>
-    <td class="rs-bar-col"></td>
-    <td class="nums">0.0</td><td class="nums">no effect</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Gain curves by stat</h3>
-<p class="rs-hint">DPS gained when points of each stat are added on top of the simulated gear. Click a stat (or its row in the table) to bring its curve forward; the ring marks the estimated cap, past which every point is worth less than 20% of what it gave at the start.</p>
-<div class="cvu">
-  <div class="cvu-legend"><button type="button" class="cvu-key" data-stat="critstrkrtng" style="--c: #ffc23c"><span class="cvu-swatch"></span>Crit</button><button type="button" class="cvu-key" data-stat="hitrtng" style="--c: #2de6c4"><span class="cvu-swatch"></span>Hit</button><button type="button" class="cvu-key" data-stat="hastertng" style="--c: #ff6b8b"><span class="cvu-swatch"></span>Haste</button><button type="button" class="cvu-key" data-stat="int" style="--c: #4da3ff"><span class="cvu-swatch"></span>Intellect</button><button type="button" class="cvu-key" data-stat="spi" style="--c: #b7e36a"><span class="cvu-swatch"></span>Spirit</button><button type="button" class="cvu-key" data-stat="agi" style="--c: #6be3ff"><span class="cvu-swatch"></span>Agility</button></div>
-  <svg class="cvu-svg" viewBox="0 0 760 330" role="img" aria-label="Gain curves by stat" xmlns="http://www.w3.org/2000/svg"><line class="cv-grid" x1="52" x2="742" y1="284.0" y2="284.0"/><text class="cv-t" x="46" y="287.0" text-anchor="end">0</text><line class="cv-grid" x1="52" x2="742" y1="217.0" y2="217.0"/><text class="cv-t" x="46" y="220.0" text-anchor="end">38</text><line class="cv-grid" x1="52" x2="742" y1="150.0" y2="150.0"/><text class="cv-t" x="46" y="153.0" text-anchor="end">76</text><line class="cv-grid" x1="52" x2="742" y1="83.0" y2="83.0"/><text class="cv-t" x="46" y="86.0" text-anchor="end">114</text><line class="cv-grid" x1="52" x2="742" y1="16.0" y2="16.0"/><text class="cv-t" x="46" y="19.0" text-anchor="end">152</text><text class="cv-t" x="52.0" y="299" text-anchor="middle">0</text><text class="cv-t" x="190.0" y="299" text-anchor="middle">56</text><text class="cv-t" x="328.0" y="299" text-anchor="middle">112</text><text class="cv-t" x="466.0" y="299" text-anchor="middle">168</text><text class="cv-t" x="604.0" y="299" text-anchor="middle">224</text><text class="cv-t" x="742.0" y="299" text-anchor="middle">280</text><text class="cv-t cv-axis" x="397" y="324" text-anchor="middle">points added (rating or stat value)</text><text class="cv-t cv-axis" transform="translate(13 150) rotate(-90)" text-anchor="middle">DPS gained</text><g class="cvu-curve" data-stat="critstrkrtng" style="--c: #ffc23c"><polyline class="cvu-line" points="52.0,284.0 138.2,252.5 224.5,220.6 310.8,189.4 397.0,158.5 483.2,127.8 569.5,96.3 655.8,66.4 742.0,35.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Crit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="138.2" cy="252.5" r="2.6"><title>Crit: +35 → +18 DPS</title></circle><circle class="cvu-dot" cx="224.5" cy="220.6" r="2.6"><title>Crit: +70 → +36 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="189.4" r="2.6"><title>Crit: +105 → +54 DPS</title></circle><circle class="cvu-dot" cx="397.0" cy="158.5" r="2.6"><title>Crit: +140 → +71 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="127.8" r="2.6"><title>Crit: +175 → +88 DPS</title></circle><circle class="cvu-dot" cx="569.5" cy="96.3" r="2.6"><title>Crit: +210 → +106 DPS</title></circle><circle class="cvu-dot" cx="655.8" cy="66.4" r="2.6"><title>Crit: +245 → +123 DPS</title></circle><circle class="cvu-dot" cx="742.0" cy="35.9" r="2.6"><title>Crit: +280 → +141 DPS</title></circle></g><g class="cvu-curve" data-stat="hitrtng" style="--c: #2de6c4"><polyline class="cvu-line" points="52.0,284.0 108.7,254.6 162.9,224.7 219.6,206.3 273.8,206.2 330.5,206.2 384.7,206.2 441.4,206.2 495.6,206.2"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Hit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="108.7" cy="254.6" r="2.6"><title>Hit: +23 → +17 DPS</title></circle><circle class="cvu-dot" cx="162.9" cy="224.7" r="2.6"><title>Hit: +45 → +34 DPS</title></circle><circle class="cvu-dot" cx="219.6" cy="206.3" r="2.6"><title>Hit: +68 → +44 DPS</title></circle><circle class="cvu-dot" cx="273.8" cy="206.2" r="2.6"><title>Hit: +90 → +44 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="206.2" r="2.6"><title>Hit: +113 → +44 DPS</title></circle><circle class="cvu-dot" cx="384.7" cy="206.2" r="2.6"><title>Hit: +135 → +44 DPS</title></circle><circle class="cvu-dot" cx="441.4" cy="206.2" r="2.6"><title>Hit: +158 → +44 DPS</title></circle><circle class="cvu-dot" cx="495.6" cy="206.2" r="2.6"><title>Hit: +180 → +44 DPS</title></circle><circle class="cvu-cap" cx="219.6" cy="206.3" r="7"><title>Hit: cap</title></circle></g><g class="cvu-curve" data-stat="hastertng" style="--c: #ff6b8b"><polyline class="cvu-line" points="52.0,284.0 113.6,269.6 175.2,256.5 236.8,242.7 298.4,226.8 360.0,214.1 421.6,200.6 483.2,184.9 544.9,169.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Haste: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="113.6" cy="269.6" r="2.6"><title>Haste: +25 → +8 DPS</title></circle><circle class="cvu-dot" cx="175.2" cy="256.5" r="2.6"><title>Haste: +50 → +16 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="242.7" r="2.6"><title>Haste: +75 → +23 DPS</title></circle><circle class="cvu-dot" cx="298.4" cy="226.8" r="2.6"><title>Haste: +100 → +32 DPS</title></circle><circle class="cvu-dot" cx="360.0" cy="214.1" r="2.6"><title>Haste: +125 → +40 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="200.6" r="2.6"><title>Haste: +150 → +47 DPS</title></circle><circle class="cvu-dot" cx="483.2" cy="184.9" r="2.6"><title>Haste: +175 → +56 DPS</title></circle><circle class="cvu-dot" cx="544.9" cy="169.9" r="2.6"><title>Haste: +200 → +65 DPS</title></circle></g><g class="cvu-curve" data-stat="int" style="--c: #4da3ff"><polyline class="cvu-line" points="52.0,284.0 98.8,259.4 145.6,238.2 190.0,228.8 236.8,218.9 283.6,210.5 330.5,202.9 374.8,192.9 421.6,187.4"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Intellect: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="98.8" cy="259.4" r="2.6"><title>Intellect: +19 → +14 DPS</title></circle><circle class="cvu-dot" cx="145.6" cy="238.2" r="2.6"><title>Intellect: +38 → +26 DPS</title></circle><circle class="cvu-dot" cx="190.0" cy="228.8" r="2.6"><title>Intellect: +56 → +31 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="218.9" r="2.6"><title>Intellect: +75 → +37 DPS</title></circle><circle class="cvu-dot" cx="283.6" cy="210.5" r="2.6"><title>Intellect: +94 → +42 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="202.9" r="2.6"><title>Intellect: +113 → +46 DPS</title></circle><circle class="cvu-dot" cx="374.8" cy="192.9" r="2.6"><title>Intellect: +131 → +52 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="187.4" r="2.6"><title>Intellect: +150 → +55 DPS</title></circle></g><g class="cvu-curve" data-stat="spi" style="--c: #b7e36a"><polyline class="cvu-line" points="52.0,284.0 98.8,269.3 145.6,255.0 190.0,252.6 236.8,252.7 283.6,253.3 330.5,254.0 374.8,253.5 421.6,253.0"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Spirit: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="98.8" cy="269.3" r="2.6"><title>Spirit: +19 → +8 DPS</title></circle><circle class="cvu-dot" cx="145.6" cy="255.0" r="2.6"><title>Spirit: +38 → +16 DPS</title></circle><circle class="cvu-dot" cx="190.0" cy="252.6" r="2.6"><title>Spirit: +56 → +18 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="252.7" r="2.6"><title>Spirit: +75 → +18 DPS</title></circle><circle class="cvu-dot" cx="283.6" cy="253.3" r="2.6"><title>Spirit: +94 → +17 DPS</title></circle><circle class="cvu-dot" cx="330.5" cy="254.0" r="2.6"><title>Spirit: +113 → +17 DPS</title></circle><circle class="cvu-dot" cx="374.8" cy="253.5" r="2.6"><title>Spirit: +131 → +17 DPS</title></circle><circle class="cvu-dot" cx="421.6" cy="253.0" r="2.6"><title>Spirit: +150 → +18 DPS</title></circle><circle class="cvu-cap" cx="145.6" cy="255.0" r="7"><title>Spirit: cap</title></circle></g><g class="cvu-curve" data-stat="agi" style="--c: #6be3ff"><polyline class="cvu-line" points="52.0,284.0 89.0,273.7 125.9,263.0 162.9,253.0 199.9,242.5 236.8,232.5 273.8,221.3 310.8,211.0 347.7,199.9"/><circle class="cvu-dot" cx="52.0" cy="284.0" r="2.6"><title>Agility: +0 → +0 DPS</title></circle><circle class="cvu-dot" cx="89.0" cy="273.7" r="2.6"><title>Agility: +15 → +6 DPS</title></circle><circle class="cvu-dot" cx="125.9" cy="263.0" r="2.6"><title>Agility: +30 → +12 DPS</title></circle><circle class="cvu-dot" cx="162.9" cy="253.0" r="2.6"><title>Agility: +45 → +18 DPS</title></circle><circle class="cvu-dot" cx="199.9" cy="242.5" r="2.6"><title>Agility: +60 → +23 DPS</title></circle><circle class="cvu-dot" cx="236.8" cy="232.5" r="2.6"><title>Agility: +75 → +29 DPS</title></circle><circle class="cvu-dot" cx="273.8" cy="221.3" r="2.6"><title>Agility: +90 → +35 DPS</title></circle><circle class="cvu-dot" cx="310.8" cy="211.0" r="2.6"><title>Agility: +105 → +41 DPS</title></circle><circle class="cvu-dot" cx="347.7" cy="199.9" r="2.6"><title>Agility: +120 → +48 DPS</title></circle></g></svg>
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Suggested professions</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Other Hunter specializations</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/hunter/beast-mastery/" style="--cc: #aad372">
+        <img src="../../../../../assets/img/spec/hunter-beast-mastery.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Beast Mastery</b><span>Ranged DPS</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../../wow-forever/guides/hunter/survival/" style="--cc: #aad372">
+        <img src="../../../../../assets/img/spec/hunter-survival.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Survival</b><span>Melee DPS</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
 
 
 
 
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Level 60 gear</h2></div>
+  
+  
+  <div class="gs-gear">
+    
+    <div class="gs-gr">
+      <span class="gs-slot">Head</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=6688" rel="noopener nofollow" target="_blank">Whisperwind Headdress</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a> — Earthcaller Halmgar</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Neck</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=23169" rel="noopener nofollow" target="_blank">Scorn&#39;s Icy Choker</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Scorn</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Shoulders</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=3748" rel="noopener nofollow" target="_blank">Feline Mantle</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a> — Wolf Master Nandos</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Back</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5193" rel="noopener nofollow" target="_blank">Cape of the Brotherhood</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Edwin VanCleef</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Chest</span>
+      <span class="gs-gi">
+        <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Gorosh the Dervish</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Wrists</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15452" rel="noopener nofollow" target="_blank">Featherbead Bracers</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a> — Returning the Lost Satchel</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20009" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Superior Spirit</a> <span class="rs-hint">+9 Spirit</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Hands</span>
+      <span class="gs-gi">
+        <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=1945" rel="noopener nofollow" target="_blank">Woodworking Gloves</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Goblin Woodcarver</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Waist</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10403" rel="noopener nofollow" target="_blank">Blackened Defias Belt</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Legs</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9414" rel="noopener nofollow" target="_blank">Oilskin Leggings</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a> — Grimlok</span>
+        <span class="gs-ench"><span class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Feet</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10402" rel="noopener nofollow" target="_blank">Blackened Defias Boots</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Defias Strip Miner</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Boots - Greater Agility</a> <span class="rs-hint">+7 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 1</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=1156" rel="noopener nofollow" target="_blank">Lavishly Jeweled Ring</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Gilnid</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ring 2</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17694" rel="noopener nofollow" target="_blank">Band of the Fist</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a> — Allegiance to the Old Gods</span>
+        <span class="gs-ench"><span class="rs-hint">—</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Two-hand</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5200" rel="noopener nofollow" target="_blank">Impaling Harpoon</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27837" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Agility</a> <span class="rs-hint">+25 Agility</span></span>
+      </span>
+    </div>
+    <div class="gs-gr">
+      <span class="gs-slot">Ranged</span>
+      <span class="gs-gi">
+        <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17753" rel="noopener nofollow" target="_blank">Verdant Keeper&#39;s Aim</a></span>
+        <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a></span>
+        <span class="gs-ench"><a class="rs-spell" href="https://www.wowhead.com/forever/item=18283" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Biznicks 247x128 Accurascope</a> <span class="rs-hint"></span></span>
+      </span>
+    </div>
+  </div>
+  <details class="gs-more"><summary>Method and enchant notes</summary>
+    <p class="gs-lede">The gear our optimizer picks for this specialization among the items known from the beta (dungeons, the few raid items already known and crafted gear, which can be bought or made for you: prices and materials are not taken into account), with item effects simulated. Nothing is hand-picked: it is the result of the ranking&#39;s computation, and it will change as new items are discovered.</p>
+    <p class="gs-lede">Enchantments up to skill 300, valued by the simulator when they give flat stats or flat weapon damage. The character does not need the profession: they can be bought or applied by an enchanter; Leatherworking armor kits (chest, legs, feet, hands) and Engineering scopes are counted too. A kit and an enchantment share the same permanent slot: a piece carries one or the other, and the legs, which have no enchantment, get the kit; spell-proc enchants (Crusader, Fiery Weapon...) and school damage are not simulated. The beta data has no ring enchantment up to skill 300.</p>
+  </details>
+  
+  <p class="gs-foot">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
+</section>
 
 
-<h2 class="fiche-section-title">Best level 60 consumables</h2>
-<p class="page-intro" style="margin-top:0">The three best of each category, measured by the simulator on the character above. Only one scroll and one elixir or flask can be worn at a time: each gain is the DPS this consumable brings alone, compared with an empty slot, the rest of the set unchanged. Gains in the same category therefore do not add up. The row marked with a dot is the one in the simulated set.</p>
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Best level 60 consumables</h2><span class="gs-meta">simulated set ●</span></div>
+  
+  <div class="gs-cons">
+  
+    <div>
+      <h3 class="gs-sub">Scrolls</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Intellect</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+14.3</span><span class="nums">+2.2 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12177" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Spirit</a></span><span class="nums gs-gain">+10.2</span><span class="nums">+1.6 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12174" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Agility</a></span><span class="nums gs-gain">+6.3</span><span class="nums">+1.0 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Elixirs and flasks</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250940" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Owl</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+35.8</span><span class="nums">+5.7 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Honey Badger</a></span><span class="nums gs-gain">+24.8</span><span class="nums">+4.0 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17538" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Mongoose</a></span><span class="nums gs-gain">+22.8</span><span class="nums">+3.6 %</span></div>
+    </div>
+  
+    <div>
+      <h3 class="gs-sub">Potions, food and others</h3>
+      <div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16327" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju Guile</a></span><span class="nums gs-gain">+22.0</span><span class="nums">+3.3 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24382" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Spirit of Zanza</a></span><span class="nums gs-gain">+18.3</span><span class="nums">+2.8 %</span></div><div class="gs-cr"><span><a class="rs-spell" href="https://www.wowhead.com/forever/spell=22756" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elemental Sharpening Stone</a> <span class="rs-hint" title="simulated set">●</span></span><span class="nums gs-gain">+14.0</span><span class="nums">+2.2 %</span></div>
+    </div>
+  
+  </div>
+  
+  <details class="gs-more"><summary>How to read these gains</summary><p class="gs-lede">The three best of each category, measured by the simulator on the character above. Only one scroll and one elixir or flask can be worn at a time: each gain is the DPS this consumable brings alone, compared with an empty slot, the rest of the set unchanged. Gains in the same category therefore do not add up. The row marked with a dot is the one in the simulated set.</p></details>
+  
+</section>
 
 
-<h3 class="rs-sub">Scrolls</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12176" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Intellect</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+14.3</td><td class="nums">+2.2 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12177" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Spirit</a></td><td class="nums">+10.2</td><td class="nums">+1.6 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12174" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Agility</a></td><td class="nums">+6.3</td><td class="nums">+1.0 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Elixirs and flasks</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250940" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Owl</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+35.8</td><td class="nums">+5.7 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1213904" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Honey Badger</a></td><td class="nums">+24.8</td><td class="nums">+4.0 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=17538" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Mongoose</a></td><td class="nums">+22.8</td><td class="nums">+3.6 %</td></tr></tbody>
-</table></div>
-
-<h3 class="rs-sub">Potions, food and others</h3>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Consumable</th><th class="nums">DPS</th><th class="nums">Gain</th></tr></thead>
-  <tbody><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16327" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju Guile</a></td><td class="nums">+22.0</td><td class="nums">+3.3 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24382" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Spirit of Zanza</a></td><td class="nums">+18.3</td><td class="nums">+2.8 %</td></tr><tr><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=22756" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elemental Sharpening Stone</a> <span class="rs-hint" title="simulated set">●</span></td><td class="nums">+14.0</td><td class="nums">+2.2 %</td></tr></tbody>
-</table></div>
-
-
-
-<h2 class="fiche-section-title">Suggested professions</h2>
-<ul class="gd-list prof-list"><li>Skinning + Leatherworking (gear)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Skinning</span><a class="prof-chip" href="../../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Leatherworking guide <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Level 60 gear</h2>
-
-<p class="page-intro" style="margin-top:0">The gear our optimizer picks for this specialization among the items known from the beta (dungeons, the few raid items already known and crafted gear, which can be bought or made for you: prices and materials are not taken into account), with item effects simulated. Nothing is hand-picked: it is the result of the ranking&#39;s computation, and it will change as new items are discovered.</p>
-
-<div class="rs-table-wrap"><table class="rs-table rs-gear">
-  <thead><tr><th>Slot</th><th>Item</th><th>Source</th><th>Best enchant</th></tr></thead>
-  <tbody><tr><td>Head</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=6688" rel="noopener nofollow" target="_blank">Whisperwind Headdress</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/razorfen-kraul/">Razorfen Kraul</a> — Earthcaller Halmgar</td><td>—</td></tr><tr><td>Neck</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=23169" rel="noopener nofollow" target="_blank">Scorn&#39;s Icy Choker</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/scarlet-monastery/">Scarlet Monastery</a> — Scorn</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1249059" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Necklace - Agility</a> <span class="rs-hint">+5 Agility</span></td></tr><tr><td>Shoulders</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=3748" rel="noopener nofollow" target="_blank">Feline Mantle</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/shadowfang-keep/">Shadowfang Keep</a> — Wolf Master Nandos</td><td>—</td></tr><tr><td>Back</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5193" rel="noopener nofollow" target="_blank">Cape of the Brotherhood</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Edwin VanCleef</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=13419" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Cloak - Minor Agility</a> <span class="rs-hint">+3 Agility</span></td></tr><tr><td>Chest</td><td class="rs-item q4"><a href="https://www.wowhead.com/forever/item=11726" rel="noopener nofollow" target="_blank">Savage Gladiator Chain</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackrock-depths/">Blackrock Depths</a> — Gorosh the Dervish</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Chest - Major Intellect</a> <span class="rs-hint">+10 Intellect</span></td></tr><tr><td>Wrists</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=15452" rel="noopener nofollow" target="_blank">Featherbead Bracers</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/ragefire-chasm/">Ragefire Chasm</a> — Returning the Lost Satchel</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20009" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Bracer - Superior Spirit</a> <span class="rs-hint">+9 Spirit</span></td></tr><tr><td>Hands</td><td class="rs-item q2"><a href="https://www.wowhead.com/forever/item=1945" rel="noopener nofollow" target="_blank">Woodworking Gloves</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Goblin Woodcarver</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25080" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Gloves - Superior Agility</a> <span class="rs-hint">+15 Agility</span></td></tr><tr><td>Waist</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10403" rel="noopener nofollow" target="_blank">Blackened Defias Belt</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</td><td>—</td></tr><tr><td>Legs</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=9414" rel="noopener nofollow" target="_blank">Oilskin Leggings</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/uldaman/">Uldaman</a> — Grimlok</td><td><div class="rs-kit"><a class="rs-spell" href="https://www.wowhead.com/forever/item=252488" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Forceful Rugged Armor Kit</a> <span class="rs-hint">40 target armor</span></div></td></tr><tr><td>Feet</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=10402" rel="noopener nofollow" target="_blank">Blackened Defias Boots</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Defias Strip Miner</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20023" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant Boots - Greater Agility</a> <span class="rs-hint">+7 Agility</span></td></tr><tr><td>Ring 1</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=1156" rel="noopener nofollow" target="_blank">Lavishly Jeweled Ring</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Gilnid</td><td>—</td></tr><tr><td>Ring 2</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17694" rel="noopener nofollow" target="_blank">Band of the Fist</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/blackfathom-deeps/">Blackfathom Deeps</a> — Allegiance to the Old Gods</td><td>—</td></tr><tr><td>Two-hand</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=5200" rel="noopener nofollow" target="_blank">Impaling Harpoon</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/deadmines/">Deadmines</a> — Captain Greenskin</td><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27837" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Enchant 2H Weapon - Agility</a> <span class="rs-hint">+25 Agility</span></td></tr><tr><td>Ranged</td><td class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17753" rel="noopener nofollow" target="_blank">Verdant Keeper&#39;s Aim</a></td><td><a class="rs-zone" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a></td><td><a class="rs-spell" href="https://www.wowhead.com/forever/item=18283" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Biznicks 247x128 Accurascope</a> <span class="rs-hint"></span></td></tr></tbody>
-</table></div>
-<p class="rs-hint">Enchantments up to skill 300, valued by the simulator when they give flat stats or flat weapon damage. The character does not need the profession: they can be bought or applied by an enchanter; Leatherworking armor kits (chest, legs, feet, hands) and Engineering scopes are counted too. A kit and an enchantment share the same permanent slot: a piece carries one or the other, and the legs, which have no enchantment, get the kit; spell-proc enchants (Crusader, Fiery Weapon...) and school damage are not simulated. The beta data has no ring enchantment up to skill 300.</p>
-
-<p class="wow-note">Icy Veins guide dated 2026-10-02, read on September 21, 2026.</p>
-
-
-<h2 class="fiche-section-title">The last-tier talents</h2>
-<p class="page-intro" style="margin-top:0">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">The last-tier talents</h2></div>
+  <p class="gs-lede">These are the deepest talents in the tree: they require 30 points already spent in the specialization. Official game text, at maximum rank.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/hunter_pvp_snipershot.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Sniper Shot</b> <span class="wg-rank nums">Tier 7 · 1 rank</span>
   <p>A long-range shot that deals ranged damage plus 160 and increases the range of your next 3 Shots by 10 yards for 10 sec.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../../wow-forever/talents/hunter/">Open Hunter in the talent calculator <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Spend your 51 points, compare the three specializations and share your build by link.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../../wow-forever/talents/hunter/">Open Hunter in the talent calculator <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Spend your 51 points, compare the three specializations and share your build by link.</p>
-
-<h2 class="fiche-section-title">Other Hunter specializations</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/hunter/beast-mastery/" style="--cc: #aad372">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/hunter-beast-mastery.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Beast Mastery</b><span class="wh-card-specs">Ranged DPS</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../../wow-forever/guides/hunter/survival/" style="--cc: #aad372">
-    <img class="wh-card-icon" src="../../../../../assets/img/spec/hunter-survival.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Survival</b><span class="wh-card-specs">Melee DPS</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Role: <a href="https://www.icy-veins.com/wow-forever/marksmanship-hunter-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Marksmanship Hunter</a></li>
-  <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources and method</summary>
+  <p class="wow-note">Talent data comes from the beta client. The level-60 build, gear, stats and rotation come from our simulator and are validated by DPS measurements; the rotation is compared with the Icy Veins guides, written for the level-30 beta. Healing is not simulated. This data will change with the beta and with the game&#39;s launch on November 4, 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Role: <a href="https://www.icy-veins.com/wow-forever/marksmanship-hunter-ranged-dps-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Marksmanship Hunter</a></li>
+    <li>Talents: <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -710,6 +875,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -759,10 +931,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

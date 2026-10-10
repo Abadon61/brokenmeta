@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Chaman Restauration WoW: Forever : guide et talents">
 <meta name="twitter:description" content="Guide Chaman Restauration de WoW: Forever : Soigneur, talents du dernier palier et arbre complet, lus dans les données du client bêta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=0a790181ed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=0a790181ed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8d5583f53e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8d5583f53e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=0a790181ed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=8d5583f53e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,270 +297,317 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
-    <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
-    <h1 class="ph-title">Chaman Restauration : guide de spécialisation</h1>
-    <p class="ph-lede">Restauration est la spécialisation « Soigneur » du Chaman dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
-    
-    
+
+<section class="gh-hero" style="--cc: #0070dd">
+  <div class="gh-art" style="background-image: url('../../../../assets/img/wow-class/shaman.jpg')"></div><span class="gh-credit">Illustration : © Blizzard Entertainment</span>
+  <div class="gh-in">
+    <div class="gh-main">
+      <div class="fiche-kicker">World of Warcraft: Forever · Guide de classe</div>
+      <h1 class="gh-title">Chaman Restauration : guide de spécialisation</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role">Soigneur</span>
+        
+      </div>
+      <p class="gh-lede">Restauration est la spécialisation « Soigneur » du Chaman dans WoW: Forever. Cette page résume son arbre de talents tel qu&#39;il figure dans le client bêta (build 1.60.1.70170) ; le rôle est celui indiqué par le guide Icy Veins de la spécialisation.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../../wow-forever/talents/shaman/">Ouvrir Chaman dans le calculateur de talents <span aria-hidden="true">→</span></a>
+      
+    </div>
   </div>
 </section>
 
-<figure class="art-banner"><img src="../../../../assets/img/wow-class/shaman.jpg" alt="Chaman" width="1200" height="630" loading="eager"><figcaption>Illustration : © Blizzard Entertainment</figcaption></figure>
 
-<h2 class="fiche-section-title">En bref</h2>
-<dl class="wow-facts">
-  <div><dt>Classe</dt><dd>Chaman</dd></div>
-  <div><dt>Rôle</dt><dd>Soigneur</dd></div>
-  <div><dt>Talents dans l&#39;arbre</dt><dd class="nums">16</dd></div>
-  <div><dt>Points maximum dans l&#39;arbre</dt><dd class="nums">51</dd></div>
-  <div><dt>Palier le plus haut</dt><dd class="nums">7</dd></div>
-  <div><dt>Points nécessaires pour le dernier palier</dt><dd class="nums">30</dd></div>
-</dl>
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#gs-talents">Talents</a>
+  <a href="#gs-stats">Statistiques</a>
+  <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-prof">Métiers</a>
+  <a href="#gs-gear">Équipement</a>
+  <a href="#gs-cons">Consommables</a>
+</nav>
+
+<div class="gs-grid">
 
 
-<h2 class="fiche-section-title">Le template de talents (niveau 60)</h2>
-<p class="page-intro" style="margin-top:0">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
-<p class="wow-note">Build de soin niveau 60 (51 points) composé par BrokenMeta à partir des descriptions des talents : le simulateur ne gère pas encore les soins, ce build n&#39;est donc pas chiffré.</p>
-
-<div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
-<div class="wg-trees">
-<div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Restauration <span class="wg-own">ce guide</span></h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Vague de soins améliorée — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Vague de soins améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Focalisation totémique — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Focalisation totémique" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Pleine conscience — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Pleine conscience" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Grâce naturelle — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Grâce naturelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Focalisation des flots — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Focalisation des flots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Réincarnation améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Réincarnation améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Guérison des anciens — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Guérison des anciens" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Focalisation des soins — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Focalisation des soins" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Bouclier d’eau — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Bouclier d’eau" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Maîtrise des flots — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Maîtrise des flots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Totems de restauration — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Totems de restauration" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Totem de Vague de mana — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Totem de Vague de mana" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Flots de soins — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Flots de soins" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Rapidité de la nature — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Rapidité de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Purification — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Remous — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Remous" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">Le template de talents (niveau 60)</h2></div>
+  <p class="gs-lede">Build de soin niveau 60 (51 points) composé par BrokenMeta à partir des descriptions des talents : le simulateur ne gère pas encore les soins, ce build n&#39;est donc pas chiffré.</p>
+  
+  <details class="gs-more"><summary>Comment lire ces arbres</summary>
+    <p class="gs-lede">Les trois arbres de la classe, avec les talents du build niveau 60 (51 points) en couleur et tous les autres en grisé. Le chiffre à gauche de chaque ligne est le nombre de points à avoir dépensé dans l&#39;arbre pour y accéder, et le badge de chaque talent donne les points investis. Cette section est figée : elle ne bouge pas et ne dépend pas du calculateur.</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>Recommandé <span class="wg-key is-option"></span>Au choix</div>
+  <div class="wg-trees">
+  <div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Restauration <span class="wg-own">ce guide</span></h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Vague de soins améliorée — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="Vague de soins améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Focalisation totémique — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="Focalisation totémique" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Pleine conscience — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Pleine conscience" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Grâce naturelle — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingtouch.jpg" alt="Grâce naturelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Focalisation des flots — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="Focalisation des flots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Réincarnation améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_reincarnation.jpg" alt="Réincarnation améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Guérison des anciens — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_undyingstrength.jpg" alt="Guérison des anciens" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Focalisation des soins — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="Focalisation des soins" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Bouclier d’eau — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="Bouclier d’eau" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Maîtrise des flots — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="Maîtrise des flots" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Totems de restauration — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="Totems de restauration" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 4" title="Totem de Vague de mana — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="Totem de Vague de mana" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Flots de soins — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="Flots de soins" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Rapidité de la nature — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="Rapidité de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 4" title="Purification — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="Purification" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Remous — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="Remous" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Elémentaire</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Convection — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Commotion — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Commotion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Protection contre les éléments — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Protection contre les éléments" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Réverbération — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Réverbération" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Appel des flammes — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Appel des flammes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Dévastation élémentaire — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Dévastation élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Focalisation élémentaire — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Focalisation élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Empressement élémentaire — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Empressement élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Nova de feu améliorée — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Nova de feu améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Oeil du cyclone — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Oeil du cyclone" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Appel de la foudre — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Appel de la foudre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Allonge élémentaire — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Allonge élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Surcharge de foudre — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Surcharge de foudre" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Lien terrestre — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Lien terrestre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Fureur élémentaire — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Fureur élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Explosion de lave — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Explosion de lave" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
+  </div><div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">Amélioration</h3>
+    <div class="wg-tree" style="--rows: 7">
+      <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+      <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Emprise de la terre — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Emprise de la terre" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Frappe foudroyante — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Frappe foudroyante" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Connaissance ancestrale — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Connaissance ancestrale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Totems gardiens — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Totems gardiens" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Dextérité mentale — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Dextérité mentale" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Loup fantôme amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Loup fantôme amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Bouclier de foudre amélioré — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Bouclier de foudre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Armes élémentaires — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Armes élémentaires" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Focalisation chamanique — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Focalisation chamanique" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Résistance — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Rafale — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Rafale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Courroux naturel — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Courroux naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Armes spirituelles — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Armes spirituelles" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Rapidité mentale — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Rapidité mentale" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Frappe-tempête amélioré — 2 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Frappe-tempête amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Arme du Maelström — 5 rangs">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Arme du Maelström" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage long-voyante — 1 rang">
+        <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage long-voyante" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+    </div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Elémentaire</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="168" y1="142" x2="168" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Convection — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_wispsplode.jpg" alt="Convection" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Commotion — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_earthshock.jpg" alt="Commotion" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Protection contre les éléments — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritarmor.jpg" alt="Protection contre les éléments" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Réverbération — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_frostward.jpg" alt="Réverbération" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Appel des flammes — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_immolation.jpg" alt="Appel des flammes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Dévastation élémentaire — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_elementaldevastation.jpg" alt="Dévastation élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Focalisation élémentaire — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_manaburn.jpg" alt="Focalisation élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Empressement élémentaire — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_lightning_lightningbolt01.jpg" alt="Empressement élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Nova de feu améliorée — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_sealoffire.jpg" alt="Nova de feu améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Oeil du cyclone — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_eyeofthestorm.jpg" alt="Oeil du cyclone" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Appel de la foudre — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_callstorm.jpg" alt="Appel de la foudre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Allonge élémentaire — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stormreach.jpg" alt="Allonge élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Surcharge de foudre — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningoverload.jpg" alt="Surcharge de foudre" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Lien terrestre — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stranglevines.jpg" alt="Lien terrestre" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Fureur élémentaire — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_volcano.jpg" alt="Fureur élémentaire" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Explosion de lave — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_lavaburst.jpg" alt="Explosion de lave" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
   </div>
-</div><div class="wg-tree-wrap">
-  <h3 class="wg-tree-title">Amélioration</h3>
-  <div class="wg-tree" style="--rows: 7">
-    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="90" x2="116" y2="158"/><line class="wg-link" x1="168" y1="194" x2="168" y2="210"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
-    <div class="wg-cell" style="grid-row: 1; grid-column: 2" title="Emprise de la terre — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneclawtotem.jpg" alt="Emprise de la terre" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Frappe foudroyante — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="Frappe foudroyante" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Connaissance ancestrale — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="Connaissance ancestrale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Totems gardiens — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_stoneskintotem.jpg" alt="Totems gardiens" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Dextérité mentale — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mentalquickness.jpg" alt="Dextérité mentale" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Loup fantôme amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_spiritwolf.jpg" alt="Loup fantôme amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Bouclier de foudre amélioré — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_lightningshield.jpg" alt="Bouclier de foudre amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Armes élémentaires — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_fire_flametounge.jpg" alt="Armes élémentaires" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Focalisation chamanique — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_elementalabsorption.jpg" alt="Focalisation chamanique" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Anticipation — 3 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_mirrorimage.jpg" alt="Anticipation" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Résistance — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_devotion.jpg" alt="Résistance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Rafale — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_ghoulfrenzy.jpg" alt="Rafale" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Courroux naturel — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_stormstrike.jpg" alt="Courroux naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Armes spirituelles — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/ability_parry.jpg" alt="Armes spirituelles" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Rapidité mentale — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="Rapidité mentale" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 4" title="Frappe-tempête amélioré — 2 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_improvedstormstrike.jpg" alt="Frappe-tempête amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Arme du Maelström — 5 rangs">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_shaman_maelstromweapon.jpg" alt="Arme du Maelström" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Rage long-voyante — 1 rang">
-      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_bloodlust.jpg" alt="Rage long-voyante" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
-  </div>
+  <details class="gs-more"><summary>Détail des talents du build (15)</summary>
+    <div class="wg-talents">
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Vague de soins améliorée</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Vague de soins de -0,5 s.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Focalisation totémique</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit de 25 % le coût en mana de vos totems et des sorts qui permettent de les invoquer ou de les déplacer.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Pleine conscience</b> <span class="wg-rank nums">Restauration · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Vous confère 50 % de votre vitesse normale de récupération du mana pendant l’incantation.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Focalisation des flots</b> <span class="wg-rank nums">Restauration · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Réduit de 5 % le coût en mana de vos sorts de soins et améliore de 5 % vos chances de toucher.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Focalisation des soins</b> <span class="wg-rank nums">Restauration · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Vous confère 70 % de chances d’éviter l’interruption de vos incantations par des dégâts lorsque vous lancez un sort de soins.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Bouclier d’eau</b> <span class="wg-rank nums">Restauration · Palier 3 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Le lanceur ou la lanceuse s’entoure de 3 globes d’eau. Si une attaque en mêlée, à distance ou un sort touche le lanceur ou la lanceuse, ou si l’un de ses sorts de soins obtient un effet critique, un globe d’eau est dépensé pour restaurer 2 % de son maximum de mana. Un seul globe peut s’activer toutes les quelques secondes. Dure 10 min. Un seul bouclier élémentaire peut être actif sur le chaman ou la chamane à la fois.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Maîtrise des flots</b> <span class="wg-rank nums">Restauration · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 5 % les chances d’effet critique de vos sorts de soins.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Totems de restauration</b> <span class="wg-rank nums">Restauration · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 25 % les effets de votre totem Fontaine de mana et de 50 % celui de votre totem guérisseur.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Totem de Vague de mana</b> <span class="wg-rank nums">Restauration · Palier 4 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Invoque un Totem de Vague de mana aux pieds du lanceur de sorts ; le Totem dispose de 5 points de vie. Agit pendant 12 s. Il rend 88 points de mana toutes les 3 secondes, à tous les membres du groupe qui se trouvent dans une zone de 30 mètres.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Flots de soins</b> <span class="wg-rank nums">Restauration · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/3 : Augmente le montant de points de vie rendus par votre Vague de soins de 25 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Rapidité de la nature</b> <span class="wg-rank nums">Restauration · Palier 5 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Activé, votre prochain sort de Nature dont le temps d&#39;incantation est inférieur à 10 secondes devient un sort instantané.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Purification</b> <span class="wg-rank nums">Restauration · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente de 10 % l’efficacité de vos sorts de soins.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Remous</b> <span class="wg-rank nums">Restauration · Palier 7 · 1 rang · 1 pts · Recommandé</span>
+        <p>Rang 1/1 : Rend 480 points de vie à une cible alliée, puis 445 points de vie supplémentaires en 15 s. Augmente l’efficacité de votre sort Salve de guérison de 25 % lorsqu’il est lancé directement sur cette cible.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Frappe foudroyante</b> <span class="wg-rank nums">Amélioration · Palier 1 · 5 rangs · 3 pts · Recommandé</span>
+        <p>Rang 3/5 : Améliore vos chances de coup critique des sorts et attaques de 3 %.</p></div>
+      </div>
+      <div class="wg-talent">
+        <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
+        <div><b>Connaissance ancestrale</b> <span class="wg-rank nums">Amélioration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
+        <p>Rang 5/5 : Augmente votre intelligence de 10 %.</p></div>
+      </div>
+    </div>
+  </details>
+  
+</section>
+
+
+<section class="gs-tile" id="gs-stats">
+  
+  <div class="gs-th"><h2 class="gs-h2">Priorité de stats</h2></div>
+  
+  <p class="gs-lede">Dans l&#39;ordre d&#39;importance, d&#39;après Icy Veins (niveau 30).</p>
+  <p class="wow-note">Icy Veins : viser les soins et/ou la régénération de mana pour soigner plus, et plus longtemps.</p>
+  <ol class="wg-stats"><li>Puissance de soins</li><li>Coup critique</li><li>Hâte</li><li>Intelligence</li><li>Régénération de mana (Mp5)</li><li>Esprit</li><li>Endurance</li></ol>
+  
+  
+</section>
+
+
+
+<section class="gs-tile gs-w7" id="gs-rotation">
+  <div class="gs-th"><h2 class="gs-h2">Rotation niveau 60</h2></div>
+  
+  <ol class="rs-rot gs-rot"><li>Riptide dès qu&#39;il est prêt (recharge de 6 s) : 4,9 de soin par mana et instantané, c&#39;est le soin le plus efficace.</li><li>Healing Wave comme soin principal (3,09 par mana, 638 de soin par seconde).</li><li>Lesser Healing Wave pour rattraper un retard ou sauver quelqu&#39;un (2,71 par mana, 687 par seconde, incantation de 1,5 s).</li><li>Chain Heal contre des groupes seulement (1,87 par mana sur une seule cible).</li><li>Water Shield en permanence et Mana Tide Totem pour la mana ; Nature&#39;s Swiftness pour un soin d&#39;urgence instantané ; Healing Stream Totem posé.</li></ol>
+  <p class="wow-note">Les soins ne sont pas simulés en combat. Cette rotation est déduite des chiffres du client (soin de base, coefficient de puissance de soin, mana, temps d&#39;incantation) à 350 de puissance de soin et sans talents : elle donne un ordre d&#39;efficacité, pas un résultat de simulation.</p>
+  <details class="gs-more"><summary>Méthode, recommandations Icy Veins et comparaison</summary>
+    <p class="gs-lede">Les soins ne sont pas encore simulés : voici la rotation de soins recommandée par Icy Veins (niveau 30), reformulée.</p>
+    
+    <h3 class="gs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
+    <ul class="gd-list"><li>Poser tous les totems avant le combat, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> en dernier.</li><li>Healing Wave sur les blessés, en rang réduit quand les dégâts ne justifient pas le rang maximum.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> contre un groupe, ou <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> sur une cible, quand aucun soin n&#39;est urgent.</li><li>Garder les totems de bonus en place : c&#39;est votre meilleure contribution aux dégâts du groupe.</li></ul>
+    <h3 class="gs-sub">Notre comparaison</h3>
+    <p class="wow-note">D&#39;accord avec Icy Veins : totems posés avant le combat, Healing Wave comme soin de base et Chain Heal en groupe. Les chiffres ajoutent Riptide (4,9 par mana, le soin le plus efficace, que le guide niveau 30 ne pouvait pas citer : c&#39;est un talent de dernier palier) et montrent que Chain Heal ne vaut rien sur une seule cible. Calcul sans simulation de combat, à 350 de puissance de soin et sans talents.</p>
+    
+  </details>
+</section>
+
+<div class="gs-stack">
+  
+  <section class="gs-tile" id="gs-prof">
+    <div class="gs-th"><h2 class="gs-h2">Métiers conseillés</h2></div>
+    <ul class="gd-list prof-list gs-prof"><li>Dépeçage + Travail du cuir (équipement)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Dépeçage</span><a class="prof-chip" href="../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Guide Travail du cuir <span aria-hidden="true">→</span></a></span></li><li>Herboristerie + Alchimie (potions et élixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herboristerie</span><a class="prof-chip" href="../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Guide Alchimie <span aria-hidden="true">→</span></a></span></li></ul>
+  </section>
+  
+  <section class="gs-tile">
+    <div class="gs-th"><h2 class="gs-h2">Les autres spécialisations du Chaman</h2></div>
+    <div class="gs-others">
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/shaman/elemental/" style="--cc: #0070dd">
+        <img src="../../../../assets/img/spec/shaman-elemental.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Elémentaire</b><span>DPS à distance</span></span>
+      </a>
+      
+      <a class="gs-other" href="../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
+        <img src="../../../../assets/img/spec/shaman-enhancement.png" alt="" width="40" height="40" loading="lazy">
+        <span><b>Amélioration</b><span>DPS au corps à corps</span></span>
+      </a>
+      
+    </div>
+  </section>
 </div>
-</div>
-<div class="wg-talents">
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_magicimmunity.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Vague de soins améliorée</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit le temps d’incantation de votre sort Vague de soins de -0,5 s.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_moonglow.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Focalisation totémique</b> <span class="wg-rank nums">Restauration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit de 25 % le coût en mana de vos totems et des sorts qui permettent de les invoquer ou de les déplacer.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_sleep.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Pleine conscience</b> <span class="wg-rank nums">Restauration · Palier 2 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Vous confère 50 % de votre vitesse normale de récupération du mana pendant l’incantation.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_manarecharge.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Focalisation des flots</b> <span class="wg-rank nums">Restauration · Palier 2 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Réduit de 5 % le coût en mana de vos sorts de soins et améliore de 5 % vos chances de toucher.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingwavelesser.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Focalisation des soins</b> <span class="wg-rank nums">Restauration · Palier 3 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Vous confère 70 % de chances d’éviter l’interruption de vos incantations par des dégâts lorsque vous lancez un sort de soins.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_shaman_watershield.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Bouclier d’eau</b> <span class="wg-rank nums">Restauration · Palier 3 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Le lanceur ou la lanceuse s’entoure de 3 globes d’eau. Si une attaque en mêlée, à distance ou un sort touche le lanceur ou la lanceuse, ou si l’un de ses sorts de soins obtient un effet critique, un globe d’eau est dépensé pour restaurer 2 % de son maximum de mana. Un seul globe peut s’activer toutes les quelques secondes. Dure 10 min. Un seul bouclier élémentaire peut être actif sur le chaman ou la chamane à la fois.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_tranquility.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Maîtrise des flots</b> <span class="wg-rank nums">Restauration · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 5 % les chances d’effet critique de vos sorts de soins.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_manaregentotem.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Totems de restauration</b> <span class="wg-rank nums">Restauration · Palier 4 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 25 % les effets de votre totem Fontaine de mana et de 50 % celui de votre totem guérisseur.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_summonwaterelemental.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Totem de Vague de mana</b> <span class="wg-rank nums">Restauration · Palier 4 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Invoque un Totem de Vague de mana aux pieds du lanceur de sorts ; le Totem dispose de 5 points de vie. Agit pendant 12 s. Il rend 88 points de mana toutes les 3 secondes, à tous les membres du groupe qui se trouvent dans une zone de 30 mètres.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_healingway.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Flots de soins</b> <span class="wg-rank nums">Restauration · Palier 5 · 3 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/3 : Augmente le montant de points de vie rendus par votre Vague de soins de 25 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_ravenform.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Rapidité de la nature</b> <span class="wg-rank nums">Restauration · Palier 5 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Activé, votre prochain sort de Nature dont le temps d&#39;incantation est inférieur à 10 secondes devient un sort instantané.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_frost_wizardmark.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Purification</b> <span class="wg-rank nums">Restauration · Palier 6 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente de 10 % l’efficacité de vos sorts de soins.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Remous</b> <span class="wg-rank nums">Restauration · Palier 7 · 1 rang · 1 pts · Recommandé</span>
-    <p>Rang 1/1 : Rend 480 points de vie à une cible alliée, puis 445 points de vie supplémentaires en 15 s. Augmente l’efficacité de votre sort Salve de guérison de 25 % lorsqu’il est lancé directement sur cette cible.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/ability_thunderbolt.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Frappe foudroyante</b> <span class="wg-rank nums">Amélioration · Palier 1 · 5 rangs · 3 pts · Recommandé</span>
-    <p>Rang 3/5 : Améliore vos chances de coup critique des sorts et attaques de 3 %.</p></div>
-  </div>
-  <div class="wg-talent">
-    <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_shadow_grimward.jpg" alt="" width="44" height="44" loading="lazy">
-    <div><b>Connaissance ancestrale</b> <span class="wg-rank nums">Amélioration · Palier 1 · 5 rangs · 5 pts · Recommandé</span>
-    <p>Rang 5/5 : Augmente votre intelligence de 10 %.</p></div>
-  </div>
-</div>
+
+
+<section class="gs-tile">
+  
+  <div class="gs-th"><h2 class="gs-h2">Efficacité des sorts de soin au niveau 60</h2></div>
+  <p class="rs-hint">Calculée à partir des chiffres du client à 350 de puissance de soin, sans talents. « Soin par mana » compare l&#39;efficacité en mana ; « soin par seconde » compte au moins 1,5 s par sort (le temps minimal entre deux sorts) ; les sorts de zone sont indiqués pour une cible puis pour toutes les cibles touchées.</p>
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>Sort</th><th class="nums">Incantation</th><th class="nums">Mana</th><th class="nums">Soin par sort</th><th class="nums">Soin par mana</th><th class="nums">Soin par seconde</th><th class="nums">Toutes cibles</th></tr></thead>
+    <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=1239243" rel="noopener nofollow" target="_blank">Riptide</a> <span class="rs-hint">avec soins sur la durée</span></td><td class="nums">instantané</td><td class="nums">385</td><td class="nums">1 896</td><td class="nums">4,92</td><td class="nums">1 264</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25357" rel="noopener nofollow" target="_blank">Healing Wave</a></td><td class="nums">3 s</td><td class="nums">620</td><td class="nums">1 915</td><td class="nums">3,09</td><td class="nums">638</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27624" rel="noopener nofollow" target="_blank">Lesser Healing Wave</a></td><td class="nums">1,5 s</td><td class="nums">380</td><td class="nums">1 030</td><td class="nums">2,71</td><td class="nums">687</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=10623" rel="noopener nofollow" target="_blank">Chain Heal</a></td><td class="nums">2,5 s</td><td class="nums">405</td><td class="nums">756</td><td class="nums">1,87</td><td class="nums">303</td><td class="nums"></td></tr></tbody>
+  </table></div>
+  <p class="rs-hint">Sorts de talent ou sans chiffre exploitable dans le client : Water Shield, Mana Tide Totem, Healing Stream Totem, Nature&#39;s Swiftness.</p>
+  
+</section>
 
 
 
-
-<h2 class="fiche-section-title">Rotation niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les soins ne sont pas encore simulés : voici la rotation de soins recommandée par Icy Veins (niveau 30), reformulée.</p>
-
-<ol class="rs-rot"><li>Riptide dès qu&#39;il est prêt (recharge de 6 s) : 4,9 de soin par mana et instantané, c&#39;est le soin le plus efficace.</li><li>Healing Wave comme soin principal (3,09 par mana, 638 de soin par seconde).</li><li>Lesser Healing Wave pour rattraper un retard ou sauver quelqu&#39;un (2,71 par mana, 687 par seconde, incantation de 1,5 s).</li><li>Chain Heal contre des groupes seulement (1,87 par mana sur une seule cible).</li><li>Water Shield en permanence et Mana Tide Totem pour la mana ; Nature&#39;s Swiftness pour un soin d&#39;urgence instantané ; Healing Stream Totem posé.</li></ol>
-<p class="wow-note">Les soins ne sont pas simulés en combat. Cette rotation est déduite des chiffres du client (soin de base, coefficient de puissance de soin, mana, temps d&#39;incantation) à 350 de puissance de soin et sans talents : elle donne un ordre d&#39;efficacité, pas un résultat de simulation.</p>
-
-<h3 class="rs-sub">Ce que recommande Icy Veins (niveau 30)</h3>
-<ul class="gd-list"><li>Poser tous les totems avant le combat, <a class="rs-spell" href="https://www.wowhead.com/forever/spell=10438" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Searing Totem</a> en dernier.</li><li>Healing Wave sur les blessés, en rang réduit quand les dégâts ne justifient pas le rang maximum.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408345" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Fire Nova</a> contre un groupe, ou <a class="rs-spell" href="https://www.wowhead.com/forever/spell=15208" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Lightning Bolt</a> sur une cible, quand aucun soin n&#39;est urgent.</li><li>Garder les totems de bonus en place : c&#39;est votre meilleure contribution aux dégâts du groupe.</li></ul>
-<h3 class="rs-sub">Notre comparaison</h3>
-<p class="wow-note">D&#39;accord avec Icy Veins : totems posés avant le combat, Healing Wave comme soin de base et Chain Heal en groupe. Les chiffres ajoutent Riptide (4,9 par mana, le soin le plus efficace, que le guide niveau 30 ne pouvait pas citer : c&#39;est un talent de dernier palier) et montrent que Chain Heal ne vaut rien sur une seule cible. Calcul sans simulation de combat, à 350 de puissance de soin et sans talents.</p>
+<section class="gs-tile" id="gs-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement niveau 60</h2></div>
+  
+  <p class="wow-note">L&#39;équipement de soin niveau 60 n&#39;est pas encore calculé : le simulateur ne gère pas les soins. Les pages des donjons et des raids permettent de parcourir le butin par type d&#39;objet et par statistique.</p>
+  
+  <p class="gs-foot">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
+</section>
 
 
-<h3 class="rs-sub">Efficacité des sorts de soin au niveau 60</h3>
-<p class="rs-hint">Calculée à partir des chiffres du client à 350 de puissance de soin, sans talents. « Soin par mana » compare l&#39;efficacité en mana ; « soin par seconde » compte au moins 1,5 s par sort (le temps minimal entre deux sorts) ; les sorts de zone sont indiqués pour une cible puis pour toutes les cibles touchées.</p>
-<div class="rs-table-wrap"><table class="rs-table">
-  <thead><tr><th>Sort</th><th class="nums">Incantation</th><th class="nums">Mana</th><th class="nums">Soin par sort</th><th class="nums">Soin par mana</th><th class="nums">Soin par seconde</th><th class="nums">Toutes cibles</th></tr></thead>
-  <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=1239243" rel="noopener nofollow" target="_blank">Riptide</a> <span class="rs-hint">avec soins sur la durée</span></td><td class="nums">instantané</td><td class="nums">385</td><td class="nums">1 896</td><td class="nums">4,92</td><td class="nums">1 264</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25357" rel="noopener nofollow" target="_blank">Healing Wave</a></td><td class="nums">3 s</td><td class="nums">620</td><td class="nums">1 915</td><td class="nums">3,09</td><td class="nums">638</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27624" rel="noopener nofollow" target="_blank">Lesser Healing Wave</a></td><td class="nums">1,5 s</td><td class="nums">380</td><td class="nums">1 030</td><td class="nums">2,71</td><td class="nums">687</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=10623" rel="noopener nofollow" target="_blank">Chain Heal</a></td><td class="nums">2,5 s</td><td class="nums">405</td><td class="nums">756</td><td class="nums">1,87</td><td class="nums">303</td><td class="nums"></td></tr></tbody>
-</table></div>
-<p class="rs-hint">Sorts de talent ou sans chiffre exploitable dans le client : Water Shield, Mana Tide Totem, Healing Stream Totem, Nature&#39;s Swiftness.</p>
+<section class="gs-tile" id="gs-cons">
+  
+  <div class="gs-th"><h2 class="gs-h2">Meilleurs consommables niveau 60</h2></div>
+  <p class="gs-lede">Les soins ne sont pas simulés : ces consommables sont ceux du client qui augmentent les soins, l&#39;intelligence, l&#39;esprit ou la mana.</p>
+  <ul class="gd-list"><li>Flacon de chagrin inflexible (+80 aux soins, régénération de mana)</li><li>Parchemin d&#39;intelligence et d&#39;esprit</li><li>Esprit de Zanza (+50 esprit)</li><li>Juju de ruse (+30 intelligence)</li><li>Potion de sang de mage (+12 mana / 5 s)</li><li>Plat de soins (+55 aux soins)</li><li>Nightfin Soup (+8 mana / 5 s) pour les longs combats</li></ul>
+  
+</section>
 
 
-
-
-<h2 class="fiche-section-title">Priorité de stats</h2>
-
-<p class="page-intro" style="margin-top:0">Dans l&#39;ordre d&#39;importance, d&#39;après Icy Veins (niveau 30).</p>
-<p class="wow-note">Icy Veins : viser les soins et/ou la régénération de mana pour soigner plus, et plus longtemps.</p>
-<ol class="wg-stats"><li>Puissance de soins</li><li>Coup critique</li><li>Hâte</li><li>Intelligence</li><li>Régénération de mana (Mp5)</li><li>Esprit</li><li>Endurance</li></ol>
-
-
-
-
-<h2 class="fiche-section-title">Meilleurs consommables niveau 60</h2>
-<p class="page-intro" style="margin-top:0">Les soins ne sont pas simulés : ces consommables sont ceux du client qui augmentent les soins, l&#39;intelligence, l&#39;esprit ou la mana.</p>
-<ul class="gd-list"><li>Flacon de chagrin inflexible (+80 aux soins, régénération de mana)</li><li>Parchemin d&#39;intelligence et d&#39;esprit</li><li>Esprit de Zanza (+50 esprit)</li><li>Juju de ruse (+30 intelligence)</li><li>Potion de sang de mage (+12 mana / 5 s)</li><li>Plat de soins (+55 aux soins)</li><li>Nightfin Soup (+8 mana / 5 s) pour les longs combats</li></ul>
-
-<h2 class="fiche-section-title">Métiers conseillés</h2>
-<ul class="gd-list prof-list"><li>Dépeçage + Travail du cuir (équipement)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_pelt_wolf_01.jpg" alt="" width="22" height="22" loading="lazy">Dépeçage</span><a class="prof-chip" href="../../../../wow-forever/professions/leatherworking/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="" width="22" height="22" loading="lazy">Guide Travail du cuir <span aria-hidden="true">→</span></a></span></li><li>Herboristerie + Alchimie (potions et élixirs)<span class="prof-chips"><span class="prof-chip is-static"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg" alt="" width="22" height="22" loading="lazy">Herboristerie</span><a class="prof-chip" href="../../../../wow-forever/professions/alchemy/"><img src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="" width="22" height="22" loading="lazy">Guide Alchimie <span aria-hidden="true">→</span></a></span></li></ul>
-
-<h2 class="fiche-section-title">Équipement niveau 60</h2>
-
-<p class="wow-note">L&#39;équipement de soin niveau 60 n&#39;est pas encore calculé : le simulateur ne gère pas les soins. Les pages des donjons et des raids permettent de parcourir le butin par type d&#39;objet et par statistique.</p>
-
-<p class="wow-note">Guide Icy Veins daté du 2026-10-02, lu le 21 septembre 2026.</p>
-
-
-<h2 class="fiche-section-title">Les talents du dernier palier</h2>
-<p class="page-intro" style="margin-top:0">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
-<div class="wg-talents">
+<section class="gs-tile">
+  <div class="gs-th"><h2 class="gs-h2">Les talents du dernier palier</h2></div>
+  <p class="gs-lede">Ce sont les talents les plus profonds de l&#39;arbre : ils demandent d&#39;avoir déjà investi 30 points dans la spécialisation. Textes officiels du jeu, au rang maximum.</p>
+  <div class="wg-talents">
 <div class="wg-talent">
   <img class="wg-talent-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_nature_riptide.jpg" alt="" width="44" height="44" loading="lazy">
   <div><b>Remous</b> <span class="wg-rank nums">Palier 7 · 1 rang</span>
   <p>Rend 480 points de vie à une cible alliée, puis 445 points de vie supplémentaires en 15 s. Augmente l’efficacité de votre sort Salve de guérison de 25 % lorsqu’il est lancé directement sur cette cible.</p></div>
 </div>
 </div>
+  <p style="margin:14px 0 0"><a class="gh-btn is-primary" href="../../../../wow-forever/talents/shaman/">Ouvrir Chaman dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
+  <p class="gs-lede" style="margin-top:8px">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
+</section>
 
-<p><a class="wh-btn" href="../../../../wow-forever/talents/shaman/">Ouvrir Chaman dans le calculateur de talents <span aria-hidden="true">→</span></a></p>
-<p class="wow-note">Répartissez vos 51 points, comparez les trois spécialisations et partagez votre build par lien.</p>
-
-<h2 class="fiche-section-title">Les autres spécialisations du Chaman</h2>
-<div class="wh-cards">
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/shaman/elemental/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/shaman-elemental.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Elémentaire</b><span class="wh-card-specs">DPS à distance</span></span>
-  </a>
-  
-  <a class="wh-card" href="../../../../wow-forever/guides/shaman/enhancement/" style="--cc: #0070dd">
-    <img class="wh-card-icon" src="../../../../assets/img/spec/shaman-enhancement.png" alt="" width="56" height="56" loading="lazy">
-    <span class="wh-card-body"><b>Amélioration</b><span class="wh-card-specs">DPS au corps à corps</span></span>
-  </a>
-  
 </div>
 
-<p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
-<h2 class="fiche-section-title">Sources</h2>
-<ul class="gd-list wow-sources">
-  <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/restoration-shaman-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Restoration Shaman</a></li>
-  <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
-</ul>
+
+<details class="gs-more gs-sources">
+  <summary>Sources et méthode</summary>
+  <p class="wow-note">Les données de talents viennent du client bêta. Le build, l&#39;équipement, les statistiques et la rotation niveau 60 viennent de notre simulateur et sont validés par des mesures de DPS ; la rotation est comparée à celle des guides Icy Veins, écrits pour la bêta niveau 30. Les soins ne sont pas simulés. Ces données évolueront avec la bêta et avec la sortie du jeu le 4 novembre 2026.</p>
+  <ul class="gd-list wow-sources">
+    <li>Rôle : <a href="https://www.icy-veins.com/wow-forever/restoration-shaman-healer-pve-guide" rel="noopener nofollow" target="_blank">Icy Veins — Restoration Shaman</a></li>
+    <li>Talents : <a href="https://wago.tools/" rel="noopener nofollow" target="_blank">WoW: Forever beta client data, build 1.60.1.70170 (tables via wago.tools)</a></li>
+  </ul>
+</details>
 <script>
 (function () {
   document.querySelectorAll('.cvu').forEach(function (box) {
-    var sec = box.parentElement, focus = null;
+    var sec = box.closest('.gs-wb') || box.parentElement, focus = null;
     function apply() {
       box.querySelectorAll('.cvu-curve').forEach(function (g) {
         var on = !focus || g.dataset.stat === focus;
@@ -573,6 +620,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     box.addEventListener('click', function (e) { var k = e.target.closest('.cvu-key, .cvu-curve'); if (k) pick(k.dataset.stat); else if (focus) pick(focus); });
     sec.querySelectorAll('.cvu-row').forEach(function (r) { r.addEventListener('click', function () { pick(r.dataset.stat); }); });
   });
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
 })();
 </script>
 
@@ -622,10 +676,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=0a790181ed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=0a790181ed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/site-search.js?v=8d5583f53e" defer></script>
+<script src="../../../../assets/js/favorites.js?v=8d5583f53e" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
