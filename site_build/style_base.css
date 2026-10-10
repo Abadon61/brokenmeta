@@ -3146,6 +3146,26 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Simulateur niveau 60 (2026-10-10) ---------- */
+  .sm-beta { margin: 12px 0; padding: 10px 14px; border: 1px dashed var(--border-bright); border-radius: 12px; color: var(--text-dim); font-size: 13.5px; }
+  .sm-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr); gap: 16px; align-items: start; }
+  .sm-left { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .sm-right { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .sm-layout .gs-tile { margin: 0; }
+  .sm-layout .s60-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); margin: 8px 0 10px; }
+  .sm-layout .s60-cols { grid-template-columns: 1fr; gap: 12px; }
+  .sm-layout .s60-row select, .sm-layout .s60-row input { border-radius: 10px; background: var(--bg); padding: 8px 10px; }
+  .sm-layout .s60-check { padding: 3px 0; }
+  .sm-layout .ms-btn { border-radius: 10px; background: var(--magenta); border-color: var(--magenta); font: 600 13.5px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; padding: 9px 16px; }
+  .sm-run .ms-actions { margin: 4px 0 0; }
+  .sm-run #s60Run { flex: 1 1 100%; }
+  .sm-run #s60Weights, .sm-run #s60Opt { background: var(--bg-2); border-color: var(--border-bright); }
+  .sm-res .ms-result { margin: 0; }
+  .sm-res .s60-dps b { font-size: 44px; }
+  .sm-layout .s60-manual { margin: 6px 0 10px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); }
+  .sm-layout .wow-table-wrap { overflow-x: auto; }
+  @media (max-width: 1000px) { .sm-layout { grid-template-columns: 1fr; } .sm-right { position: static; order: -1; } }
+
   /* ---------- Calculateur de talents (2026-10-10) ---------- */
   .tc-classes { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
   .tc-class { display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-2); color: var(--text-dim); font-size: 13.5px; font-weight: 600; text-decoration: none; }

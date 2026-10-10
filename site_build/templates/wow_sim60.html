@@ -8,14 +8,23 @@
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.kicker, g_h1, g_intro) }}
-<p class="wow-note">{{ tx.beta_note }}</p>
+{# Simulator page (maquette validée 2026-10-10): compact hero, inputs in tiles on the left, sticky run + results on the right. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">22</b> {{ 'spécialisations' if lang == 'fr' else 'specializations' }}</span><span class="gh-chip"><b class="nums">5 000</b> {{ 'combats par simulation' if lang == 'fr' else 'fights per simulation' }}</span><span class="gh-chip">{{ 'DPS · poids de stats · meilleur équipement' if lang == 'fr' else 'DPS · stat weights · best gear' }}</span></div>
+    <p class="gh-lede">{{ 'Choisissez votre équipement, vos buffs et vos talents, lancez des milliers de combats : DPS, poids de stats et meilleur équipement, directement dans votre navigateur.' if lang == 'fr' else 'Pick your gear, buffs and talents, run thousands of fights: DPS, stat weights and best gear, right in your browser.' }}</p>
+  </div></div>
+</section>
+<p class="sm-beta">{{ tx.beta_note }}</p>
 
 <div id="s60App" data-base="{{ root }}assets/sim60/" data-v="{{ s60.data_v }}" data-lang="{{ lang }}"
      data-worker="{{ root }}assets/sim60/{{ s60.worker }}">
   <p id="s60Loading" class="wow-note">…</p>
   <div id="s60Form" hidden>
-    <h2 class="fiche-section-title">{{ tx.h_char }}</h2>
+    <div class="sm-layout"><div class="sm-left">
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_char }}</h2></div>
     <div class="s60-grid">
       <label class="s60-row"><span>{{ tx.class_spec }}</span>
         <select id="s60Spec"><option value="warrior_fury">{{ 'Guerrier · Fureur' if lang == 'fr' else 'Warrior · Fury' }}</option><option value="warrior_arms">{{ 'Guerrier · Armes' if lang == 'fr' else 'Warrior · Arms' }}</option>
@@ -37,7 +46,8 @@
       <div id="s60Base" class="s60-grid"></div>
     </details>
 
-    <h2 class="fiche-section-title">{{ tx.h_gear }}</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_gear }}</h2></div>
     <div id="s60Gear" class="s60-grid"></div>
     <details class="s60-manual"><summary>{{ tx.manual }}</summary>
       <p class="wow-note">{{ tx.manual_hint }}</p>
@@ -50,10 +60,12 @@
 
     <label class="s60-check"><input type="checkbox" id="s60Fx" checked> {{ tx.fx_label }}</label>
 
-    <h2 class="fiche-section-title">{{ tx.h_buffs }}</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_buffs }}</h2></div>
     <div class="s60-cols"><div id="s60Buffs" class="s60-checks"></div><div id="s60Cons" class="s60-checks"></div><div id="s60Debuffs" class="s60-checks"></div></div>
 
-    <h2 class="fiche-section-title">{{ tx.h_talents }}</h2>
+    </section>
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_talents }}</h2></div>
     <div class="s60-grid">
       <label class="s60-row"><span>{{ tx.t_preset }}</span><button type="button" id="s60Preset" class="ms-btn">{{ tx.t_preset_btn }}</button></label>
       <label class="s60-row"><span>{{ tx.t_import }}</span><input id="s60TalentLink" type="text" placeholder="https://brokenmeta.gg/wow-forever/talents/warrior/#b=..." autocomplete="off"></label>
@@ -89,7 +101,9 @@
       <p class="wow-note" data-tank hidden>{{ tx.tank_note }}</p>
     </div>
 
-    <h2 class="fiche-section-title">{{ tx.h_run }}</h2>
+    </section>
+    </div><aside class="sm-right">
+    <section class="gs-tile sm-run"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_run }}</h2></div>
     <div class="ms-actions">
       <button type="button" id="s60Run" class="ms-btn">{{ tx.run }}</button>
       <button type="button" id="s60Weights" class="ms-btn">{{ tx.weights }}</button>
@@ -98,16 +112,19 @@
     </div>
     <div id="s60Bar" class="s60-bar" hidden><i></i></div>
 
-    <h2 class="fiche-section-title">{{ tx.h_results }}</h2>
+    </section>
+    <section class="gs-tile sm-res"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_results }}</h2></div>
     <section id="s60Result" class="ms-result" hidden></section>
     <section id="s60Weights2" class="ms-result" hidden></section>
     <section id="s60Opt2" class="ms-result" hidden></section>
+    </section>
+    </aside></div>
   </div>
 </div>
 <script type="application/json" id="s60I18n">{{ tx_js|tojson }}</script>
 <script src="{{ root }}assets/sim60/{{ s60.lib }}" defer></script>
 <script src="{{ root }}assets/js/wow-sim60.js?v={{ js_v('wow-sim60.js') }}" defer></script>
 
-<h2 class="fiche-section-title">{{ tx.h_limits }}</h2>
-<ul class="ms-limits">{% for item in tx.limits %}<li>{{ item }}</li>{% endfor %}</ul>
+<details class="gs-more gs-sources"><summary>{{ tx.h_limits }}</summary>
+<ul class="ms-limits">{% for item in tx.limits %}<li>{{ item }}</li>{% endfor %}</ul></details>
 {% endblock %}
