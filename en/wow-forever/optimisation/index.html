@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever Item builder">
 <meta name="twitter:description" content="Pick your armor type and stats, then find the best items per slot across every WoW: Forever dungeon and raid.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=04215db23f">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=04215db23f">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=0d6f15e394">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=0d6f15e394">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=04215db23f">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=0d6f15e394">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,27 +297,21 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Item builder</div>
-    <h1 class="ph-title">Item builder</h1>
-    <p class="ph-lede">Click a gear slot to pick an item from every catalogued dungeon and raid, filterable by type and stats. Build out your full loadout and track your total stats, with no hidden per-specialization ranking.</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Item builder</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">17</b> slots</span><span class="gh-chip">Race and class</span><span class="gh-chip">Stat total and average item level</span><span class="gh-chip">Share link</span></div>
+    <p class="gh-lede">Click a gear slot to pick an item from every catalogued dungeon and raid, filterable by type and stats. Build out your full loadout and track your total stats, with no hidden per-specialization ranking.</p>
+  </div></div>
 </section>
 
 
 
 
-
-<div class="op-toolbar">
-  <button type="button" id="opReset" class="dg-reset">Reset loadout</button>
-  <button type="button" id="opShare" class="dg-reset">Share</button>
-  <span id="opShareStatus" class="metascope-status" hidden></span>
-  <span class="wow-note nums op-completion" id="opCompletion"></span>
-</div>
-
+<div class="ob-layout">
+  <div class="ob-main">
+    <section class="gs-tile ob-doll"><div class="gs-th"><h2 class="gs-h2">Gear</h2><span class="wow-note nums op-completion" id="opCompletion"></span></div>
 <div class="op-paperdoll" id="opAvatar">
   <div class="op-silhouette">
     <button type="button" class="op-identity-slot" id="opRaceSlot">
@@ -490,6 +484,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </div>
 
+    </section>
 <div class="op-picker op-race-picker" id="opRacePicker" hidden>
   <div class="op-picker-head">
     <span>Choose a race</span>
@@ -597,14 +592,6 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <button type="button" id="opClassRemove" class="dg-reset" hidden>Remove class</button>
 </div>
 
-<div class="op-summary" id="opSummary">
-  <div class="op-summary-title">Total stats</div>
-  <p class="op-summary-empty" id="opSummaryEmpty">Pick items to see your total stats.</p>
-  <p class="wow-note nums" id="opSummaryIlvl" hidden></p>
-  <div class="op-summary-stats" id="opSummaryStats" hidden></div>
-  <p class="wow-note" id="opSummaryNote" hidden>Includes the starting (level 1) stats of the chosen race and class: the real race + class values, but without the level 1-60 growth curves, which aren&#39;t in public data.</p>
-</div>
-
 <div class="op-picker" id="opPicker" hidden>
   <div class="op-picker-head">
     <span id="opPickerTitle"></span>
@@ -660,15 +647,38 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="op-picker-list" id="opPickerList"></div>
   <p class="op-slot-none" id="opPickerNone" hidden>No item matches these filters.</p>
 </div>
+  </div>
+  <aside class="ob-side">
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Total stats</h2></div>
+<div class="op-summary" id="opSummary">
+  <div class="op-summary-title">Total stats</div>
+  <p class="op-summary-empty" id="opSummaryEmpty">Pick items to see your total stats.</p>
+  <p class="wow-note nums" id="opSummaryIlvl" hidden></p>
+  <div class="op-summary-stats" id="opSummaryStats" hidden></div>
+  <p class="wow-note" id="opSummaryNote" hidden>Includes the starting (level 1) stats of the chosen race and class: the real race + class values, but without the level 1-60 growth curves, which aren&#39;t in public data.</p>
+</div>
 
-<h2 class="fiche-section-title">How to use this page</h2>
+    <div class="ob-actions">
+<div class="op-toolbar">
+  <button type="button" id="opReset" class="dg-reset">Reset loadout</button>
+  <button type="button" id="opShare" class="dg-reset">Share</button>
+  <span id="opShareStatus" class="metascope-status" hidden></span>
+</div>
+
+    </div>
+    </section>
+    <details class="gs-more gs-sources"><summary>How to use this page</summary>
 <ul class="gd-list"><li>Click a slot to open the list of dungeon and raid items that can go there, with the same filters as the dungeon and raid pages: item type, primary stat, secondary stats and required level.</li><li>This page does not pick an item for you and does not rank anything by specialization: it shows each item&#39;s real stats and lets you compare and build your loadout.</li><li>The stat total at the bottom of the page is the raw sum of the items you picked: it does not account for set bonuses or special effects, which aren&#39;t in the public data.</li><li>An item that exists in both a dungeon and a raid only appears once, with every source listed.</li><li>The Share button encodes your loadout into the page&#39;s link: send it as-is to show it to someone else.</li></ul>
-<h2 class="fiche-section-title">Sources</h2>
+    </details>
+    <details class="gs-more gs-sources"><summary>Sources</summary>
 <ul class="gd-list wow-sources">
   <li>Loot and item stats: <a href="https://www.wowhead.com/forever/zones/dungeons" rel="noopener nofollow" target="_blank">Wowhead — Forever zone pages (drops and quest rewards)</a></li>
   <li>Race icons: <a href="https://www.wowhead.com/" rel="noopener nofollow" target="_blank">Icons: Wowhead image network</a></li>
   <li>Base stats by race and class: <a href="https://rankedboost.com/world-of-warcraft/classic-stats/" rel="noopener nofollow" target="_blank">RankedBoost — WoW Classic Stats</a></li>
 </ul>
+    </details>
+  </aside>
+</div>
 <script>
 window.OP_I18N = {
   sourceDungeon: "Dungeon: {name}",
@@ -688,7 +698,7 @@ window.OP_I18N = {
   lang: "en"
 };
 </script>
-<script src="../../../assets/js/wow-optimizer.js?v=04215db23f" defer></script>
+<script src="../../../assets/js/wow-optimizer.js?v=0d6f15e394" defer></script>
 
 </div>
 <footer>
@@ -736,10 +746,10 @@ window.OP_I18N = {
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=04215db23f" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=04215db23f" defer></script>
-<script src="../../../assets/js/site-search.js?v=04215db23f" defer></script>
-<script src="../../../assets/js/favorites.js?v=04215db23f" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=0d6f15e394" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=0d6f15e394" defer></script>
+<script src="../../../assets/js/site-search.js?v=0d6f15e394" defer></script>
+<script src="../../../assets/js/favorites.js?v=0d6f15e394" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

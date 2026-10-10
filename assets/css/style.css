@@ -3146,6 +3146,25 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Item builder (2026-10-10) ---------- */
+  .ob-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
+  .ob-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .ob-side { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .ob-doll .op-completion { margin-left: auto; padding: 4px 10px; border: 1px solid var(--gold); border-radius: 999px; color: var(--gold); font: 600 12px 'Space Mono', monospace; }
+  .ob-doll .op-paperdoll { margin: 6px 0 0; }
+  .ob-actions .op-toolbar { margin: 12px 0 0; }
+  .ob-actions .dg-reset { border-radius: 10px; padding: 8px 14px; font: 600 13px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; }
+  .ob-side .op-summary { margin: 0; padding: 0; border: 0; background: none; }
+  .ob-side .op-summary-title { display: none; }
+  .ob-side .op-summary-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 14px; }
+  .ob-layout .op-slot { border: 1px solid var(--border); border-radius: 12px; background: var(--bg-2); padding: 7px 10px; margin-bottom: 6px; }
+  .ob-layout .op-slot:hover, .ob-layout .op-slot.is-active { border-color: var(--border-bright); }
+  .ob-layout .op-item-icon, .ob-layout .op-slot-icon-empty { border-radius: 9px; }
+  .ob-layout .op-identity-slot, .ob-layout .op-weapon-slot { border-radius: 12px; }
+  .ob-layout .op-picker { border-radius: var(--dash-radius); border-color: var(--border-bright); position: static; }
+  .ob-layout .op-race-option, .ob-layout .op-picker-row { border-radius: 10px; }
+  @media (max-width: 1000px) { .ob-layout { grid-template-columns: 1fr; } .ob-side { position: static; } }
+
   /* ---------- Simulateur niveau 60 (2026-10-10) ---------- */
   .sm-beta { margin: 12px 0; padding: 10px 14px; border: 1px dashed var(--border-bright); border-radius: 12px; color: var(--text-dim); font-size: 13.5px; }
   .sm-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(320px, 1fr); gap: 16px; align-items: start; }
