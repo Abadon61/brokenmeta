@@ -8223,6 +8223,7 @@ def main() -> None:
             else:
                 render("wow_page.html", _wpath, lang, **_wow_kw)
         if wt_classes:
+            _builds60 = json.loads((PROJECT / "data" / "wow_guides" / "builds60.json").read_text(encoding="utf-8"))["builds"]
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
             _rules_src = wow_content.SOURCES["icy_talents"]
             _tbase = [(_wow_ui["section"], canonical_for("/", lang)),
@@ -8240,9 +8241,27 @@ def main() -> None:
                     _desc = _wt["class_desc_short"].format(name=_cname)
                 assert len(_title) <= 60 and len(_desc) <= 155, (_title, len(_title), len(_desc))
                 _cpath = f"/wow-forever/talents/{_c['id']}/"
-                _json = json.dumps(wow_talents.payload(_c, lang), ensure_ascii=False).replace("</", "<\\/")
+                _pl = wow_talents.payload(_c, lang)
+                _json = json.dumps(_pl, ensure_ascii=False).replace("</", "<\\/")
+                # "Start from a ranking build": the level-60 build of each spec (data/wow_guides/builds60.json, the guides' builds) as a share link
+                # of the calculator itself (#b=<rev>.<ranks of tree 1>.<tree 2>.<tree 3>, same encoding as wow-talents.js).
+                _presets = []
+                for _ps in _c["specs"]:
+                    _pb = (_builds60.get(_c["id"]) or {}).get(_ps["id"])
+                    if not _pb:
+                        continue
+                    _pr = {t["id"]: t["points"] for t in _pb["talents"]}
+                    _hash = "#b=" + _pl["rev"] + "".join("." + "".join(str(_pr.get(t["id"], 0)) for t in sorted(sp["talents"], key=lambda t: (t["row"], t["col"]))) for sp in _pl["specs"])
+                    _prow = next((r for r in (_wow_ranking + _wow_ranking_tanks) if r["class_id"] == _c["id"] and r["guide_spec"] == _ps["id"]), None)
+                    if _prow:
+                        _is_tank = _prow["role"] == "tank"
+                        _role = _wt["role_tank"] if _is_tank else _wt["role_dps"]
+                        _sub = _wt["preset_rank"].format(v=_fmt_int(_prow["dps"]) + (" TPS" if _is_tank else " DPS"))
+                    else:
+                        _role, _sub = _wt["role_heal"], _wt["preset_guide"]
+                    _presets.append({"label": _ps["name"][lang], "role": _role, "sub": _sub, "hash": _hash, "color": _c.get("color")})
                 render("wow_talents_class.html", _cpath, lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
-                       wt_class=_c, wt_json=_json, wt_title=_title, wt_desc=_desc, wt_h1=_wt["class_h1"].format(name=_cname),
+                       wt_class=_c, wt_classes=wt_classes, wt_presets=_presets, wt_json=_json, wt_title=_title, wt_desc=_desc, wt_h1=_wt["class_h1"].format(name=_cname),
                        wt_intro=_wt["class_intro"].format(specs=_specs), wt_n_talents=sum(len(s["talents"]) for s in _c["specs"]),
                        rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))

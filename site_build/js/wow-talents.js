@@ -271,6 +271,14 @@
   window.addEventListener('load', layoutArrows);
   if (window.ResizeObserver) { var ro = new ResizeObserver(layoutArrows); treeEls.forEach(function (te) { ro.observe(te.grid); }); }
 
+  /* a share link (a ranking build) clicked on the page: same page, only the hash changes */
+  window.addEventListener('hashchange', function () {
+    var res = decode(location.hash);
+    if (res === 'ok') { notice.hidden = true; changedFromLink(); }
+    else if (res === 'rev' || res === 'bad') { notice.textContent = res === 'rev' ? ui.linkOld : ui.linkBad; notice.hidden = false; }
+  });
+  function changedFromLink() { update(); }
+
   var loaded = decode(location.hash);
   if (loaded === 'rev' || loaded === 'bad') { notice.textContent = loaded === 'rev' ? ui.linkOld : ui.linkBad; notice.hidden = false; }
   update();

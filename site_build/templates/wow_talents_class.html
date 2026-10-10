@@ -9,14 +9,50 @@
 {% endblock %}
 {% block content %}
 {% if wt_fixture %}<p class="wt-fixture" data-marker="WOW-TALENTS-FIXTURE">{{ wt.fixture }}</p>{% endif %}
-{{ m.page_hero(wt.kicker, wt_h1, wt_intro, [(wt_class.specs|length, wt.specs), (wt_n_talents, wt.talents)]) }}
-<p><a class="fiche-link" href="{{ root }}wow-forever/talents/">← {{ wt.back }}</a></p>
-{% if wt_class.icon %}<p class="wt-class-badge" style="--cc: {{ wt_class.color or '#8a6cff' }}"><img src="{{ wt_class.icon }}" alt="" width="40" height="40"><span>{{ wt_class.name[lang] }}</span></p>{% endif %}
+{# Calculator class page (maquette validée 2026-10-10): compact hero, class switcher, the calculator, builds of the ranking as share links. #}
+<section class="gh-hero is-flat" style="--cc: {{ wt_class.color or '#8a6cff' }}">
+  <div class="gh-in">
+    {% if wt_class.icon %}<img class="pf-hero-ico gl-ico" src="{{ wt_class.icon }}" alt="{{ wt_class.name[lang] }}" width="84" height="84">{% endif %}
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ wt.kicker }}</div>
+      <h1 class="gh-title">{{ wt_h1 }}</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-role"><b class="nums">{{ wt_class.specs|length }}</b> {{ wt.specs }}</span>
+        <span class="gh-chip"><b class="nums">{{ wt_n_talents }}</b> {{ wt.talents }}</span>
+        <span class="gh-chip"><b class="nums">51</b> {{ wt.points_chip }}</span>
+      </div>
+      <p class="gh-lede">{{ wt_intro }}</p>
+    </div>
+  </div>
+</section>
+<nav class="tc-classes" aria-label="{{ wt.classes_nav }}">
+  {% for c in wt_classes %}<a class="tc-class{{ ' is-on' if c.id == wt_class.id }}" href="{{ root }}wow-forever/talents/{{ c.id }}/" style="--cc: {{ c.color or '#8a6cff' }}"{% if c.id == wt_class.id %} aria-current="page"{% endif %}>{% if c.icon %}<img src="{{ c.icon }}" alt="{{ c.name[lang] }}" width="28" height="28" loading="lazy">{% endif %}{{ c.name[lang] }}</a>{% endfor %}
+</nav>
 <div id="wowTalents" class="wt"></div>
 <script id="wowTalentData" type="application/json">{{ wt_json|safe }}</script>
 <noscript><p class="wow-note">JavaScript is required for the calculator.</p></noscript>
-<h2 class="fiche-section-title">{{ wt.sources }}</h2>
-<p class="wow-note">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a>{% if wt_class.source %} · <a href="{{ wt_class.source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.source.label }}</a>{% endif %}{% if wt_class.icons_source %} · <a href="{{ wt_class.icons_source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.icons_source.label }}</a>{% endif %}</p>
+{% if wt_presets %}
+<section class="gs-tile" style="margin-top:18px" id="tcPresets">
+  <div class="gs-th"><h2 class="gs-h2">{{ wt.presets_h2 }}</h2><span class="gs-meta">{{ wt.presets_meta }}</span></div>
+  <div class="tc-presets">
+    {% for p in wt_presets %}<a class="tc-preset" href="{{ p.hash }}" style="--cc: {{ p.color or '#8a6cff' }}"><em>{{ p.role }}</em><b>{{ p.label }}</b><span>{{ p.sub }}</span></a>{% endfor %}
+  </div>
+  <p class="tc-note">{{ wt.presets_note }}</p>
+</section>
+{% endif %}
+<details class="gs-more gs-sources">
+  <summary>{{ wt.sources }}</summary>
+  <p class="gs-lede">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a>{% if wt_class.source %} · <a href="{{ wt_class.source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.source.label }}</a>{% endif %}{% if wt_class.icons_source %} · <a href="{{ wt_class.icons_source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.icons_source.label }}</a>{% endif %}</p>
+</details>
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('.tc-preset'), function (a) {
+    a.addEventListener('click', function () {
+      setTimeout(function () { var r = document.getElementById('wowTalents'); if (r) window.scrollTo({ top: r.getBoundingClientRect().top + window.scrollY - 120, behavior: 'smooth' }); }, 30);
+    });
+  });
+})();
+</script>
 {% endblock %}
 {% block extra_body %}
 <script src="{{ root }}assets/js/wow-talents.js?v={{ css_v }}" defer></script>
