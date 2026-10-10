@@ -3146,6 +3146,36 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Calculateur de talents (2026-10-10) ---------- */
+  .tc-classes { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0 4px; }
+  .tc-class { display: flex; align-items: center; gap: 8px; padding: 6px 12px 6px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-2); color: var(--text-dim); font-size: 13.5px; font-weight: 600; text-decoration: none; }
+  .tc-class img { width: 28px; height: 28px; border-radius: 8px; border: 1px solid var(--cc); }
+  .tc-class:hover { border-color: var(--cc); color: var(--cream); }
+  .tc-class.is-on { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+  .wt-bar { position: sticky; top: 66px; z-index: 6; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); box-shadow: var(--dash-glow); padding: 10px 14px; gap: 8px 12px; margin: 12px 0; }
+  .wt-stat { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); font: 600 12.5px 'Space Mono', monospace; letter-spacing: .02em; text-transform: none; }
+  .wt-stat:first-child { border-color: var(--gold); color: var(--gold); }
+  .wt-btn { border-radius: 10px; padding: 9px 14px; font: 600 13px 'Afacad Flux', sans-serif; letter-spacing: 0; text-transform: none; }
+  .wt-btn-main { background: var(--magenta); border-color: var(--magenta); }
+  .wt-tree { border-radius: var(--dash-radius); border-color: var(--border); box-shadow: var(--dash-glow); background: linear-gradient(180deg, #101650, #0b0f3d); padding: 14px 14px 16px; }
+  .wt-tree-head { padding-bottom: 10px; border-bottom: 1px solid var(--border); margin-bottom: 12px; }
+  .wt-tree-title { font-size: 16px; }
+  .wt-tree-icon { width: 34px; height: 34px; border-radius: 9px; border-color: var(--cc, var(--border-bright)); }
+  .wt-tree-count { padding: 3px 9px; border-radius: 999px; background: rgba(255, 194, 60, .12); }
+  .wt-tree-reset { padding: 4px 8px; border-radius: 8px; border: 1px solid var(--border) !important; }
+  .wt-node { border-radius: 12px; max-width: 62px; }
+  .wt-icon { border-radius: 9px; }
+  .wt-rank { border-radius: 6px; }
+  .wt-hint { margin: 12px 0 0; padding: 10px 14px; border: 1px dashed var(--border-bright); border-radius: 12px; color: var(--text-dim); }
+  .tc-presets { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
+  .tc-preset { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border: 1px solid var(--border); border-left: 3px solid var(--cc); border-radius: 12px; background: var(--bg-2); color: var(--cream); text-decoration: none; transition: background .15s ease, border-color .15s ease; }
+  .tc-preset:hover { border-color: var(--border-bright); border-left-color: var(--cc); background: var(--row-hover); }
+  .tc-preset b { font: 700 15px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
+  .tc-preset span { font-size: 12.5px; color: var(--text-faint); }
+  .tc-preset em { align-self: flex-start; padding: 3px 8px; border-radius: 6px; background: var(--magenta-dim); color: var(--cyan); font: 600 11px 'Space Mono', monospace; font-style: normal; }
+  .tc-note { margin: 10px 0 0; font-size: 13px; color: var(--text-faint); }
+  @media (max-width: 900px) { .wt-bar { top: 0; } }
+
   /* ---------- Page de détail du classement (2026-10-10) ---------- */
   .gh-chip.rk-big { padding: 7px 16px; font-size: 17px; }
   .gh-chip.rk-big b { font-size: 19px; }
