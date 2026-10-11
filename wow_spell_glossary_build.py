@@ -61,6 +61,10 @@ class GlossaryRenderer(imp.Renderer):
     - `$<name>` description variables (talent multipliers, level polynomials) are evaluated with those same assumptions and $PL = 60;
     - `$a1` radius = the first non-zero radius of the effect (a shout's area sits in the second radius slot);
     - `$b1` = the effect's points per combo point, `$AP`/`$SP`/`$RAP` are read like their lowercase forms, `$@spellicon` is dropped;
+    - `$i` / `$v` = the spell's maximum number of targets / maximum target level (SpellTargetRestrictions: Whirlwind 4, Intimidating
+      Shout 5), `$r` = its maximum range in yards (SpellMisc.RangeIndex -> SpellRange: Searing Totem 20), `$q1` = the effect's MiscValue
+      (the mana a resurrection restores: Redemption rank 1 = 65 health and 120 mana, as in Classic), `$e1` = the effect's multiple
+      (EffectAmplitude: Mana Shield drains 2 mana per damage); `$g<male>:<female>;` is written "male/female";
     - a minimum/maximum (`$m1`/`$M1`) of an effect with a damage range is NOT rendered (the client's rounding of the range is not
       verified): that text stays unresolved and the page falls back to the Wowhead tooltip."""
     PL = 60
@@ -68,6 +72,8 @@ class GlossaryRenderer(imp.Renderer):
     def __init__(self, sp, names, lang, descs, var_defs):
         super().__init__(sp, names, lang, descs)
         self.var_defs = var_defs                    # spell id -> {variable name: expression text}
+        self.targets = {}                           # spell id -> (max targets, max target level)
+        self.range_yd = {}                          # spell id -> maximum range in yards
 
     # ---- radius: first non-zero of the two radius slots
     def _value(self, letter, sid, idx, overrides, decimals=None, numeric=False):
@@ -196,11 +202,32 @@ class GlossaryRenderer(imp.Renderer):
             i += 1
         return "".join(out)
 
+    # ---- values read straight from a table row (nothing computed)
+    def _table_value(self, kind, spell, idx):
+        if kind in ("i", "v"):
+            v = self.targets.get(spell, (0, 0))[0 if kind == "i" else 1]
+        elif kind == "r":
+            v = self.range_yd.get(spell, 0)
+        else:
+            e = self.sp.effects.get(spell, {}).get(idx - 1)
+            if not e:
+                raise Unresolvable(f"${kind}: no effect")
+            v = abs(float(e["EffectMiscValue_0"] or 0)) if kind == "q" else float(e["EffectAmplitude"] or 0)
+        if not v:
+            raise Unresolvable(f"${kind}: no value")
+        return imp.fmt_num(v, None, self.lang)
+
+    def _read_table_values(self, text, sid):
+        # "$ghimself:herself;" -> "himself/herself": the character's gender is not known to a public page
+        text = re.sub(r"\$[gG]([^:;$]*):([^;$]*);", lambda m: f"{m.group(1)}/{m.group(2)}", text)
+        return re.sub(r"\$(\d+)?([ivrqe])(\d)?(?![A-Za-z])", lambda m: self._table_value(m.group(2), m.group(1) or sid, int(m.group(3) or 1)), text)
+
     # ---- entry point
     def render(self, template, sid, overrides, depth=0):
         text = template
         try:
             text = re.sub(r"\$@spellicon\d+", "", text)
+            text = self._read_table_values(text, sid)
             text = re.sub(r"\$(AP|SP|RAP)(?![A-Za-z])", lambda m: "$" + m.group(1).lower(), text)
             text = self._resolve_conditionals(text)
             text = self._evaluate_formulas(text, sid)
@@ -249,6 +276,14 @@ def main():
     for r in tt.SpellMisc:
         if r.get("DifficultyID", "0") in ("0", ""):
             misc.setdefault(r["SpellID"], r)
+    max_targets = {}
+    for r in rd(args.text_build, "SpellTargetRestrictions"):
+        if r["DifficultyID"] in ("0", ""):
+            max_targets.setdefault(r["SpellID"], (int(r["MaxTargets"] or 0), int(r["MaxTargetLevel"] or 0)))
+    range_max = {r["ID"]: float(r["RangeMax_0"] or 0) for r in rd(args.text_build, "SpellRange")}
+    range_yd = {sid_: range_max.get(m_.get("RangeIndex"), 0) for sid_, m_ in misc.items()}
+    for rr in renderers.values():
+        rr.targets, rr.range_yd = max_targets, range_yd
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     for cls, mask in CLASS_MASK.items():
         rows = [r for r in S["sla"] if rb.num(r.get("ClassMask"), int) == mask]
