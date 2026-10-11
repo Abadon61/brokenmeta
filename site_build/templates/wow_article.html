@@ -15,19 +15,26 @@
 {% endblock %}
 {% block content %}
 {% if draft %}<p class="art-draft">{{ "Brouillon : non publié, non indexé. Relisez puis passez draft à False dans wow_articles.py." if fr else "Draft: not published, not indexed. Proof-read, then set draft to False in wow_articles.py." }}</p>{% endif %}
-<article class="art">
+{# Article page (maquette validée 2026-10-10): short banner, compact header, readable column + sticky "on this page" side column. #}
+<article class="art art2">
   {% if banner %}<figure class="art-banner"><img src="{{ root }}{{ banner }}" alt="{{ art.h1 }}" width="1200" height="630" fetchpriority="high"><figcaption>{{ 'Illustration' }} : © Blizzard Entertainment</figcaption></figure>{% endif %}
-  <header class="art-head" style="--ac: {{ color or '#8a6cff' }}">
-    <img class="art-img" src="{{ image if image.startswith('http') else root ~ image }}" alt="" width="96" height="96">
-    <div>
-      <div class="fiche-kicker"><span class="fmt-tag fmt-{{ fmt }}">{{ format_label }}</span> {% if kind %}<span class="chg chg-{{ kind }}">{{ ('{' ~ kind ~ '}')|artfmt(lang)|striptags }}</span> {% endif %}<span class="news-tag" data-tag="{{ tag }}">{{ tag_label }}</span> · World of Warcraft: Forever</div>
-      <h1 class="ph-title">{{ art.h1 }}</h1>
-      <p class="art-meta">{{ 'Par' if fr else 'By' }} BrokenMeta.gg · <time datetime="{{ date }}">{{ date_label }}</time>{% if updated != date %} · {{ 'mis à jour le' if fr else 'updated' }} <time datetime="{{ updated }}">{{ updated_label }}</time>{% endif %}</p>
+  <section class="gh-hero is-flat" style="--cc: {{ color or '#8a6cff' }}">
+    <div class="gh-in">
+      <img class="pf-hero-ico gl-ico" src="{{ image if image.startswith('http') else root ~ image }}" alt="" width="84" height="84">
+      <div class="gh-main">
+        <div class="fiche-kicker"><span class="fmt-tag fmt-{{ fmt }}">{{ format_label }}</span> {% if kind %}<span class="chg chg-{{ kind }}">{{ ('{' ~ kind ~ '}')|artfmt(lang)|striptags }}</span> {% endif %}<span class="news-tag" data-tag="{{ tag }}">{{ tag_label }}</span> · World of Warcraft: Forever</div>
+        <h1 class="gh-title">{{ art.h1 }}</h1>
+        <p class="art2-meta">{{ 'Par' if fr else 'By' }} BrokenMeta.gg · <time datetime="{{ date }}">{{ date_label }}</time>{% if updated != date %} · {{ 'mis à jour le' if fr else 'updated' }} <time datetime="{{ updated }}">{{ updated_label }}</time>{% endif %}</p>
+      </div>
     </div>
-  </header>
-  <p class="art-lede">{{ art.lede|artfmt(lang) }}</p>
+  </section>
+  <div class="art2-layout">
+  <div class="art2-main">
+  <p class="art2-lede">{{ art.lede|artfmt(lang) }}</p>
+  <div class="art2-body">
+  {% set hn = namespace(n=0) %}
   {% for kind_, x in art.body %}
-    {% if kind_ == 'h2' %}<h2 class="fiche-section-title">{{ x }}</h2>
+    {% if kind_ == 'h2' %}{% set hn.n = hn.n + 1 %}<h2 class="fiche-section-title" id="s{{ hn.n }}">{{ x }}</h2>
     {% elif kind_ == 'p' %}<p class="art-p">{{ x|artfmt(lang) }}</p>
     {% elif kind_ == 'list' %}<ul class="gd-list art-list">{% for li in x %}<li>{{ li|artfmt(lang) }}</li>{% endfor %}</ul>
     {% elif kind_ == 'note' %}<p class="wow-note art-note">{{ x|artfmt(lang) }}</p>
@@ -45,16 +52,23 @@
     </div>
     {% endif %}
   {% endfor %}
+  </div>
   {% if art.faq %}
-  <h2 class="fiche-section-title">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</h2>
-  {% for q, a in art.faq %}<div class="faq-block"><h3 class="gd-sub">{{ q }}</h3><p class="page-intro" style="margin-top:0">{{ a }}</p></div>{% endfor %}
+  <section class="gs-tile art2-faq" id="faq"><div class="gs-th"><h2 class="gs-h2">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</h2></div>
+  {% for q, a in art.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</section>
   {% endif %}
-  {% if art.links %}
-  <h2 class="fiche-section-title">{{ 'Pour aller plus loin' if fr else 'Go further' }}</h2>
-  <div class="lh-cards">{% for label, path in art.links %}<a class="lh-card" href="{{ root }}{{ path }}"><span class="lh-card-k">BrokenMeta.gg</span><b>{{ label }}</b></a>{% endfor %}</div>
-  {% endif %}
-  <h2 class="fiche-section-title">Sources</h2>
-  <ul class="gd-list wow-sources">{% for label, url in sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul>
-  <p style="margin-top:22px"><a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if fr else 'All news' }} <span aria-hidden="true">→</span></a></p>
+  </div>
+  <aside class="art2-side">
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ 'Sur cette page' if fr else 'On this page' }}</h2></div>
+    <nav class="art2-toc">{% set tn = namespace(n=0) %}{% for kind_, x in art.body if kind_ == 'h2' %}{% set tn.n = tn.n + 1 %}<a href="#s{{ tn.n }}">{{ x }}</a>{% endfor %}{% if art.faq %}<a href="#faq">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</a>{% endif %}</nav></section>
+    {% if art.links %}
+    <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ 'Pour aller plus loin' if fr else 'Go further' }}</h2></div>
+    <div class="lh-cards">{% for label, path in art.links %}<a class="lh-card" href="{{ root }}{{ path }}"><span class="lh-card-k">BrokenMeta.gg</span><b>{{ label }}</b></a>{% endfor %}</div></section>
+    {% endif %}
+    <details class="gs-more gs-sources"><summary>Sources</summary>
+    <ul class="gd-list wow-sources">{% for label, url in sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul></details>
+    <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/actualites/">{{ 'Toutes les actualités' if fr else 'All news' }} <span aria-hidden="true">→</span></a>
+  </aside>
+  </div>
 </article>
 {% endblock %}
