@@ -173,6 +173,13 @@ for (const [id, S] of Object.entries(SPECS)) {
       const per = (runOf(c2) - baseMean) / (unit === 'pct' ? 1 : amount);
       list.push({ stat: key, per: +per.toFixed(3), unit });
     }
+    // ADDON_WDPS=1 (BrokenDPS weights, written to RANK_OUT only): DPS gained by +1 weapon DPS on each melee weapon, same random draws
+    if (process.env.ADDON_WDPS) {
+      for (const w of weapons) {
+        const W2 = weapons.map((x) => (x === w ? { ...x, min: x.min + x.speed, max: x.max + x.speed } : x));
+        list.push({ stat: 'wdps_' + wslot(w), per: +(runOf(buildCharacter({ ...character, gear, weapons: W2 })) - baseMean).toFixed(3), unit: 'wdps' });
+      }
+    }
     const ref = list.find((x) => x.stat === main).per || 1;
     weights = list.map((x) => ({ ...x, rel: +(x.per / ref).toFixed(2) })).sort((a, b) => b.per - a.per);
   }

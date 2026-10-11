@@ -72,6 +72,10 @@ ns.WEIGHTS = {
     name = { frFR = "Maîtrise des bêtes", enUS = "Beast Mastery" },
     w = { str = 0.0, agi = 0.23, int = 0.0, ap = 0.1083, sp = 0.0, crit = 0.7074, hit = 0.8548, wdps_mh = 0.0, wdps_oh = 0.0, wdps_r = 1.2981 },
     intap = { node = 105008, assumed = 0.0, ranks = {0.2000, 0.4000, 0.6000, 0.8000, 1.0000} } },
+  hunter_survival = { class = "HUNTER", spec = "survival", role = "dps", tab = 3, ranged = false, caster = false, dps = 549.00,
+    name = { frFR = "Survie", enUS = "Survival" },
+    w = { str = 0.258, agi = 0.415, int = 0.258, ap = 0.235, sp = 0.0, crit = 5.705, hit = 4.789, wdps_mh = 2.283, wdps_oh = 0.858, wdps_r = 0.0 },
+    intap = { node = 105008, assumed = 1.0, ranks = {0.2000, 0.4000, 0.6000, 0.8000, 1.0000} } },
 }
 
 -- Talent tree index per talent node id (the client's TraitNode ids), from data/wow_talents.

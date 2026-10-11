@@ -1,0 +1,11 @@
+{
+ "_source": "Stat weights of specs the level-20 engine (site_build/wow_dps_sim.py) cannot play, measured with the level-60 simulator (site_build/sim60, the one behind the ranking): the spec's ranking character (best known gear, ranking talent build, raid buffs), DPS gained by one more point of each stat with the same random draws on both sides. crit/hit are per percentage point, wdps_* per +1 weapon DPS on that weapon. Regenerate with: cd site_build/sim60 && ADDON_WDPS=1 RANK_ONLY=<ranking spec> RANK_OUT=../../scratch_rank.json node ranking.mjs 180 6000, then copy the numbers of detail.weights here.",
+ "specs": {
+  "hunter_survival": {
+   "class": "hunter", "spec": "survival", "ranking_spec": "hunter_melee", "role": "dps", "ranged": false, "caster": false,
+   "dps": 549, "date": "2026-10-11",
+   "w": {"str": 0.258, "agi": 0.415, "int": 0.258, "ap": 0.235, "sp": 0.0, "crit": 5.705, "hit": 4.789, "wdps_mh": 2.283, "wdps_oh": 0.858, "wdps_r": 0.0},
+   "intap": {"node": 105008, "assumed": 1.0, "ranks_from": "hunter_marksmanship"}
+  }
+ }
+}

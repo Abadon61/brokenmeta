@@ -90,6 +90,33 @@ def lua_table(rows):
     return "\n".join(lines)
 
 
+LEVEL60_WEIGHTS = ROOT / "data" / "wow_addon_weights60.json"
+
+
+def level60_specs():
+    """Specs the level-20 engine cannot play (the melee Survival hunter): their weights come from the level-60 simulator, see the file."""
+    return json.loads(LEVEL60_WEIGHTS.read_text(encoding="utf-8"))["specs"] if LEVEL60_WEIGHTS.exists() else {}
+
+
+def lua_level60_rows():
+    lines = []
+    for spec_id, e in level60_specs().items():
+        tab, names = talent_specs(e["class"])[e["spec"]]
+        stats = ", ".join(f"{k} = {e['w'][k]}" for k in ("str", "agi", "int", "ap", "sp", "crit", "hit", "wdps_mh", "wdps_oh", "wdps_r"))
+        ia = e.get("intap")
+        intap = ""
+        if ia:
+            ranks = sim.INT_AP_TALENTS[ia["ranks_from"]]["ranks"]
+            intap = f",\n    intap = {{ node = {ia['node']}, assumed = {ia['assumed']}, ranks = {{" + ", ".join(f"{r:.4f}" for r in ranks) + "} }"
+        lines.append(
+            f'  {spec_id} = {{ class = "{e["class"].upper()}", spec = "{e["spec"]}", role = "{e["role"]}", tab = {tab}, '
+            f'ranged = {"true" if e["ranged"] else "false"}, caster = {"true" if e["caster"] else "false"}, dps = {e["dps"]:.2f},\n'
+            f"    name = {{ frFR = {lua_str(names['fr'])}, enUS = {lua_str(names['en'])} }},\n"
+            f"    w = {{ {stats} }}{intap} }},"
+        )
+    return "\n".join(lines)
+
+
 # ------------------------------------------------------------------------------------ Data.lua
 DUNGEON_SLOTS = {1: "INVTYPE_HEAD", 2: "INVTYPE_NECK", 3: "INVTYPE_SHOULDER", 5: "INVTYPE_CHEST", 20: "INVTYPE_ROBE",
                  6: "INVTYPE_WAIST", 7: "INVTYPE_LEGS", 8: "INVTYPE_FEET", 9: "INVTYPE_WRIST", 10: "INVTYPE_HAND",
@@ -217,8 +244,9 @@ def talent_builds():
     to the guide for the details (user decision: keep the full guide on the site, 2026-09-26)."""
     content = json.loads((ROOT / "data" / "wow_guides" / "content.json").read_text(encoding="utf-8"))
     out = {}
-    for spec_id, prof in sim.ROTATIONS.items():
-        cls, spec = prof.get("glossary", spec_id), sim.SPEC_ID_MAP.get(spec_id)
+    specs = [(spec_id, prof.get("glossary", spec_id), sim.SPEC_ID_MAP.get(spec_id)) for spec_id, prof in sim.ROTATIONS.items()]
+    specs += [(spec_id, e["class"], e["spec"]) for spec_id, e in level60_specs().items()]
+    for spec_id, cls, spec in specs:
         build = content.get(cls, {}).get(spec, {}).get("build") or {}
         out[spec_id] = {
             "guide": f"wow-forever/guides/{cls}/{spec}/",
@@ -391,7 +419,7 @@ def main():
         f"-- {date.today().isoformat()}, {args.iterations} fights x {args.fight_len:.0f}s per point, level-20 BiS gear.\n"
         "-- w = simulated DPS gained per +1 of: str/agi/int/ap/sp (points), crit/hit (percentage points).\n"
         "local ns = BrokenMetaNS -- BrokenDPS, part of the Broken Meta suite\n"
-        "ns.WEIGHTS = {\n" + lua_table(rows) + "\n}\n\n"
+        "ns.WEIGHTS = {\n" + lua_table(rows) + "\n" + lua_level60_rows() + "\n}\n\n"
         "-- Talent tree index per talent node id (the client's TraitNode ids), from data/wow_talents.\n"
         + talent_nodes_lua() + "\n",
         encoding="utf-8",
