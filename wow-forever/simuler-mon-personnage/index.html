@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Simuler mon personnage WoW: Forever (DPS)">
 <meta name="twitter:description" content="Collez l&#39;export de l&#39;addon BrokenMeta et simulez le DPS de votre vrai personnage WoW: Forever, comparé au meilleur équipement niveau 30.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=0d6f15e394">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=0d6f15e394">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=2278bfc855">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=2278bfc855">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=0d6f15e394">
+<link rel="stylesheet" href="../../assets/css/style.css?v=2278bfc855">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -297,25 +297,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Simuler mon personnage</div>
-    <h1 class="ph-title">Simuler mon personnage</h1>
-    <p class="ph-lede">Collez l&#39;export de l&#39;addon Broken Meta : la page simule le DPS de votre personnage avec ses vraies stats et ses armes, puis le compare au meilleur équipement (BiS) niveau 30 de sa spécialisation. Même moteur que notre classement DPS.</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Simuler mon personnage</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">3</b> étapes</span><span class="gh-chip">Addon Broken Meta : Hub</span><span class="gh-chip">Calcul dans votre navigateur</span><span class="gh-chip">Aucune donnée envoyée</span></div>
+    <p class="gh-lede">Collez l&#39;export de l&#39;addon Broken Meta : la page simule le DPS de votre personnage avec ses vraies stats et ses armes, puis le compare au meilleur équipement (BiS) niveau 30 de sa spécialisation. Même moteur que notre classement DPS.</p>
+  </div></div>
 </section>
-
-
-<h2 class="fiche-section-title">Comment faire</h2>
+<section class="gs-tile ms2-steps"><div class="gs-th"><h2 class="gs-h2">Comment faire</h2></div>
 <ol class="ms-steps">
   <li>Installez l'addon <strong>Broken Meta : Hub</strong> depuis CurseForge (application CurseForge, ou fichier .zip de sa page), puis relancez le jeu.
     <a class="ms-dl" href="https://www.curseforge.com/wow/addons/broken-meta-hub" target="_blank" rel="noopener">Télécharger l&#39;addon sur CurseForge</a></li><li>En jeu, retirez vos buffs temporaires (ils gonflent les stats de la feuille de personnage), puis tapez <code>/bmw export</code>.</li><li>Copiez le texte avec Ctrl+C, collez-le ci-dessous et lancez la simulation.</li>
 </ol>
+</section>
 
 <div id="msApp" data-base="../../assets/wowsim/" data-lang="fr" data-manifest="495b5b1898" data-addon="0.19.1"
      data-worker="../../assets/js/wow-mysim-worker.js?v=11fdfd7e66">
+  <section class="gs-tile ms2-run"><div class="gs-th"><h2 class="gs-h2">Votre export</h2><span class="gs-meta">/BMW EXPORT</span></div>
   <div class="tc-field">
     <label for="msExport">Export de l&#39;addon (/bmw export)</label>
     <textarea id="msExport" class="ms-export" rows="8" spellcheck="false" autocomplete="off"
@@ -326,7 +325,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <label class="ms-spec-pick" hidden>Spécialisation : <select id="msSpec"></select></label>
     <span id="msStatus" class="ms-status" role="status" aria-live="polite"></span>
   </div>
-  <p class="wow-note">La simulation tourne entièrement dans votre navigateur : l&#39;export n&#39;est envoyé à aucun serveur. Il ne contient ni nom de personnage ni royaume. Le premier lancement télécharge le moteur Python (environ 11 Mo), les suivants sont immédiats. Pour aider à améliorer le simulateur, vous pouvez partager anonymement les mesures de l&#39;addon : <a href="../../wow-forever/partager-mes-donnees/">Partager mes données →</a></p>
+  <p class="ms2-priv">La simulation tourne entièrement dans votre navigateur : l&#39;export n&#39;est envoyé à aucun serveur. Il ne contient ni nom de personnage ni royaume. Le premier lancement télécharge le moteur Python (environ 11 Mo), les suivants sont immédiats. Pour aider à améliorer le simulateur, vous pouvez partager anonymement les mesures de l&#39;addon : <a href="../../wow-forever/partager-mes-donnees/">Partager mes données →</a></p>
+  </section>
   <section id="msResult" class="ms-result" hidden></section>
 </div>
 
@@ -334,10 +334,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script type="application/json" id="msSpecs">{"warrior_fury": {"class_name": "Guerrier", "spec_name": "Fureur", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d", "spec_icon": "assets/img/spec/warrior-fury.png"}, "warrior_arms": {"class_name": "Guerrier", "spec_name": "Armes", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d", "spec_icon": "assets/img/spec/warrior-arms.png"}, "warrior_protection": {"class_name": "Guerrier", "spec_name": "Protection", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warrior.jpg", "class_color": "#c69b6d", "spec_icon": "assets/img/spec/warrior-protection.png"}, "rogue_combat": {"class_name": "Voleur", "spec_name": "Combat", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468", "spec_icon": "assets/img/spec/rogue-combat.png"}, "rogue_assassination": {"class_name": "Voleur", "spec_name": "Assassinat", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468", "spec_icon": "assets/img/spec/rogue-assassination.png"}, "rogue_subtlety": {"class_name": "Voleur", "spec_name": "Finesse", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_rogue.jpg", "class_color": "#fff468", "spec_icon": "assets/img/spec/rogue-subtlety.png"}, "paladin_retribution": {"class_name": "Paladin", "spec_name": "Vindicte", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_paladin.jpg", "class_color": "#f48cba", "spec_icon": "assets/img/spec/paladin-retribution.png"}, "paladin_protection": {"class_name": "Paladin", "spec_name": "Protection", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_paladin.jpg", "class_color": "#f48cba", "spec_icon": "assets/img/spec/paladin-protection.png"}, "shaman_enhancement": {"class_name": "Chaman", "spec_name": "Am\u00e9lioration", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_shaman.jpg", "class_color": "#0070dd", "spec_icon": "assets/img/spec/shaman-enhancement.png"}, "shaman_elemental": {"class_name": "Chaman", "spec_name": "El\u00e9mentaire", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_shaman.jpg", "class_color": "#0070dd", "spec_icon": "assets/img/spec/shaman-elemental.png"}, "mage_fire": {"class_name": "Mage", "spec_name": "Feu", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb", "spec_icon": "assets/img/spec/mage-fire.png"}, "mage_arcane": {"class_name": "Mage", "spec_name": "Arcanes", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb", "spec_icon": "assets/img/spec/mage-arcane.png"}, "mage_frost": {"class_name": "Mage", "spec_name": "Givre", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_mage.jpg", "class_color": "#3fc7eb", "spec_icon": "assets/img/spec/mage-frost.png"}, "priest_shadow": {"class_name": "Pr\u00eatre", "spec_name": "Ombre", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_priest.jpg", "class_color": "#ffffff", "spec_icon": "assets/img/spec/priest-shadow.png"}, "druid_balance": {"class_name": "Druide", "spec_name": "Equilibre", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a", "spec_icon": "assets/img/spec/druid-balance.png"}, "druid_feral": {"class_name": "Druide", "spec_name": "Combat farouche", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a", "spec_icon": "assets/img/spec/druid-feral-combat.png"}, "druid_feral_tank": {"class_name": "Druide", "spec_name": "Combat farouche", "role": "tank", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_druid.jpg", "class_color": "#ff7c0a", "spec_icon": "assets/img/spec/druid-feral-combat.png"}, "warlock_affliction": {"class_name": "D\u00e9moniste", "spec_name": "Affliction", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee", "spec_icon": "assets/img/spec/warlock-affliction.png"}, "warlock_demonology": {"class_name": "D\u00e9moniste", "spec_name": "D\u00e9monologie", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee", "spec_icon": "assets/img/spec/warlock-demonology.png"}, "warlock_destruction": {"class_name": "D\u00e9moniste", "spec_name": "Destruction", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_warlock.jpg", "class_color": "#8788ee", "spec_icon": "assets/img/spec/warlock-destruction.png"}, "hunter_marksmanship": {"class_name": "Chasseur", "spec_name": "Pr\u00e9cision", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg", "class_color": "#aad372", "spec_icon": "assets/img/spec/hunter-marksmanship.png"}, "hunter_beast_mastery": {"class_name": "Chasseur", "spec_name": "Ma\u00eetrise des b\u00eates", "role": "dps", "class_icon": "https://wow.zamimg.com/images/wow/icons/large/classicon_hunter.jpg", "class_color": "#aad372", "spec_icon": "assets/img/spec/hunter-beast-mastery.png"}}</script>
 <script src="../../assets/js/wow-mysim.js?v=459a55b1d0" defer></script>
 
-<h2 class="fiche-section-title">Ce que la simulation ne prend pas encore en compte</h2>
+<details class="gs-more gs-sources"><summary>Ce que la simulation ne prend pas encore en compte</summary>
 <ul class="ms-limits">
   <li>Les sorts sont simulés au rang correspondant à votre niveau (tables du client bêta), mais les rotations sont celles modélisées pour le niveau 30 : les capacités apprises plus tard n&#39;y sont pas encore.</li><li>L&#39;export contient tous vos talents, mais le simulateur n&#39;applique que les quelques talents dont l&#39;effet chiffré est sourcé.</li><li>Pas de régénération ni de pénurie de mana, pas de baguette, pas de familier de Démoniste : les mêmes limites que notre classement DPS.</li><li>Les stats viennent de la feuille de personnage au moment de l&#39;export : un buff actif les fausse.</li>
-</ul>
+</ul></details>
 
 </div>
 <footer>
@@ -385,10 +385,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=0d6f15e394" defer></script>
-<script src="../../assets/js/champ-icons.js?v=0d6f15e394" defer></script>
-<script src="../../assets/js/site-search.js?v=0d6f15e394" defer></script>
-<script src="../../assets/js/favorites.js?v=0d6f15e394" defer></script>
+<script src="../../assets/js/copy-comp.js?v=2278bfc855" defer></script>
+<script src="../../assets/js/champ-icons.js?v=2278bfc855" defer></script>
+<script src="../../assets/js/site-search.js?v=2278bfc855" defer></script>
+<script src="../../assets/js/favorites.js?v=2278bfc855" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

@@ -3146,6 +3146,58 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Actualités (2026-10-10) ---------- */
+  .nw-feat { margin-top: 14px; }
+  .nw-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 14px 0; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }
+  .nw-bar .news-filters { margin: 0; flex: 1 1 auto; }
+  .nw-bar .search-row { flex: 0 1 260px; margin: 0; }
+  .nw-bar .news-chip { border-radius: 999px; font: 600 12.5px 'Space Mono', monospace; padding: 6px 12px; }
+  .nw-day { margin-bottom: 6px; }
+  .nw-day[hidden], .nw-more[hidden], .nw-none[hidden] { display: none; }
+  .nw-day .news-day { margin: 20px 0 10px; display: flex; align-items: center; gap: 10px; }
+  .nw-day .news-day::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+  .nw-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .nw-grid .news-item { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; margin: 0; padding: 12px 14px; border-radius: 12px; }
+  .nw-grid .news-item[hidden] { display: none; }
+  .nw-grid .news-src { margin-top: auto; }
+  .nw-more { display: block; margin: 18px auto; cursor: pointer; }
+  .nw-none { padding: 14px; color: var(--text-faint); }
+  @media (max-width: 800px) { .nw-grid { grid-template-columns: 1fr; } .nw-bar { top: 0; } .nw-feat .hn-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- FAQ (2026-10-10) ---------- */
+  .fq-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 14px 0; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }
+  .fq-bar .search-row { flex: 1 1 260px; margin: 0; }
+  .fq-toc { display: flex; gap: 8px; flex-wrap: wrap; }
+  .fq-toc a { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text-dim); font-size: 13px; text-decoration: none; }
+  .fq-toc a:hover { border-color: var(--cyan); color: var(--cream); }
+  .fq-group { margin-top: 14px; scroll-margin-top: 130px; }
+  .fq-group[hidden], .fq-item[hidden] { display: none; }
+  .fq-item { border: 1px solid var(--border); border-radius: 12px; background: var(--bg-2); margin-bottom: 8px; }
+  .fq-item summary { cursor: pointer; padding: 13px 16px; font: 600 15px 'Afacad Flux', sans-serif; color: var(--cream); list-style: none; display: flex; justify-content: space-between; gap: 12px; }
+  .fq-item summary::-webkit-details-marker { display: none; }
+  .fq-item summary::after { content: '+'; color: var(--cyan); font: 700 18px 'Space Mono', monospace; }
+  .fq-item[open] summary::after { content: '\2212'; }
+  .fq-item[open] { border-color: var(--border-bright); }
+  .fq-item p { margin: 0; padding: 0 16px 14px; color: var(--text-dim); line-height: 1.6; }
+  .fq-none { padding: 14px; color: var(--text-faint); }
+  @media (max-width: 900px) { .fq-bar { top: 0; } }
+
+  /* ---------- Simuler mon personnage (2026-10-10) ---------- */
+  .ms2-steps { margin-top: 14px; }
+  .ms2-steps .ms-steps { list-style: none; counter-reset: s; padding: 0; margin: 8px 0 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .ms2-steps .ms-steps li { counter-increment: s; position: relative; padding: 14px 14px 14px 56px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg-2); color: var(--text-dim); line-height: 1.5; font-size: 14px; }
+  .ms2-steps .ms-steps li::before { content: counter(s); position: absolute; left: 14px; top: 14px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--magenta); color: #fff; font: 700 14px 'Cal Sans', sans-serif; }
+  .ms2-steps .ms-dl { display: inline-block; margin-top: 10px; padding: 7px 14px; border-radius: 10px; background: var(--magenta); border-color: var(--magenta); color: #fff; font-weight: 600; }
+  .ms2-run { margin-top: 14px; }
+  .ms2-run .ms-export { border-radius: 12px; background: var(--bg); }
+  .ms2-run .ms-btn { border-radius: 10px; background: var(--magenta); border-color: var(--magenta); font: 600 14px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; padding: 10px 22px; }
+  .ms2-priv { margin: 10px 0 0; font-size: 13px; color: var(--text-faint); }
+  #msApp .ms-result { margin: 14px 0 0; padding: 16px; border: 1px solid var(--border); border-radius: var(--dash-radius); background: linear-gradient(180deg, #101650, #0b0f3d); box-shadow: var(--dash-glow); }
+  #msApp .ms-result[hidden] { display: none; }
+  #msApp .ms-result .fiche-section-title { font-size: 16px; margin: 18px 0 8px; }
+  #msApp .ms-head, #msApp .ms-compare { border-radius: 12px; }
+  @media (max-width: 900px) { .ms2-steps .ms-steps { grid-template-columns: 1fr; } }
+
   /* ---------- Item builder (2026-10-10) ---------- */
   .ob-layout { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
   .ob-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
