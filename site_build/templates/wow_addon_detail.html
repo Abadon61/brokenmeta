@@ -7,14 +7,32 @@
 <script type="application/ld+json">{{ faq_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-<p class="ad-back"><a href="{{ root }}wow-forever/addon/">← {{ adx.home }}</a></p>
-{{ m.page_hero(tx.ad_kicker, g_h1, g_intro) }}
+{# Addon page (maquette validée 2026-10-10): hero with the download button, sticky section shortcuts, one tile per section. #}
 {% set secs = ad.sections if ad.sections is defined else ['prof', 'dps', 'eco', 'dg'] %}
-
-<p class="ad-cta"><a class="wh-btn" href="{{ ad.cf }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a></p>
+<p class="ao-back ad-back"><a href="{{ root }}wow-forever/addon/">← {{ adx.home }}</a></p>
+<section class="gh-hero is-flat">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="{{ root }}assets/img/addon/{{ ad.id }}.png" alt="{{ ad.name }}" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.ad_kicker }}</div>
+      <h1 class="gh-title">{{ g_h1 }}</h1>
+      <div class="gh-chips"><span class="gh-chip is-role">{{ 'Gratuit' if lang == 'fr' else 'Free' }}</span><span class="gh-chip">CurseForge</span><span class="gh-chip">Retail Forever</span></div>
+      <p class="gh-lede">{{ g_intro }}</p>
+      <a class="gh-btn" href="{{ ad.cf }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a>
+    </div>
+  </div>
+</section>
+<nav class="ao-bar" aria-label="{{ 'Sections' if lang == 'fr' else 'Sections' }}">
+  {% if 'prof' in secs %}<a href="#ad-prof">{{ tx.ad_prof_h2 }}</a>{% endif %}
+  {% if 'dps' in secs %}<a href="#ad-dps">{{ tx.ad_dps_h2 }}</a>{% endif %}
+  {% if 'eco' in secs %}<a href="#ad-eco">{{ tx.ad_eco_h2 }}</a>{% endif %}
+  {% if 'dg' in secs %}<a href="#ad-dg">{{ tx.ad_dg_h2 }}</a>{% endif %}
+  <a href="#ad-install">{{ tx.ad_install_h2 }}</a><a href="#ad-faq">{{ tx.ad_faq_h2 }}</a>
+</nav>
 
 {% if 'prof' in secs %}
-<h2 class="fiche-section-title">{{ tx.ad_prof_h2 }}</h2>
+<section class="gs-tile ao-sec" id="ad-prof"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_prof_h2 }}</h2></div>
+<div class="ao-prof"><div>
 {% set mk = tx.ad_mock %}
 <figure class="bmh">
   <div class="bmh-win" aria-hidden="true">
@@ -38,39 +56,40 @@
   <figcaption>{{ tx.ad_mock_caption }}</figcaption>
 </figure>
 
-<h3 class="ad-h3">{{ tx.ad_find_h3 }}</h3>
-<ul class="ms-limits">{% for item in tx.ad_find %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
-<h3 class="ad-h3">{{ tx.ad_offer_h3 }}</h3>
-<ol class="ms-steps">{% for item in tx.ad_offer %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ol>
-<h3 class="ad-h3">{{ tx.ad_level_h3 }}</h3>
-<ul class="ms-limits">{% for item in tx.ad_level %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
-
+</div><div>
+<div class="ao-sub"><h3 class="ad-h3">{{ tx.ad_find_h3 }}</h3>
+<ul class="ms-limits">{% for item in tx.ad_find %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul></div>
+<div class="ao-sub"><h3 class="ad-h3">{{ tx.ad_offer_h3 }}</h3>
+<ol class="ms-steps">{% for item in tx.ad_offer %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ol></div>
+<div class="ao-sub"><h3 class="ad-h3">{{ tx.ad_level_h3 }}</h3>
+<ul class="ms-limits">{% for item in tx.ad_level %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul></div>
+</div></div>
+</section>
 {% endif %}
 
 {% if 'dps' in secs %}
-<h2 class="fiche-section-title">{{ tx.ad_dps_h2 }}</h2>
-<ul class="ms-limits">{% for item in tx.ad_dps %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul>
+<section class="gs-tile ao-sec" id="ad-dps"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_dps_h2 }}</h2></div>
+<ul class="ms-limits">{% for item in tx.ad_dps %}<li>{{ item.replace('{root}', root)|safe }}</li>{% endfor %}</ul></section>
 
 {% endif %}
 
 {% if 'eco' in secs %}
-<h2 class="fiche-section-title">{{ tx.ad_eco_h2 }}</h2>
-<ul class="ms-limits">{% for item in tx.ad_eco %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+<section class="gs-tile ao-sec" id="ad-eco"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_eco_h2 }}</h2></div>
+<ul class="ms-limits">{% for item in tx.ad_eco %}<li>{{ item|safe }}</li>{% endfor %}</ul></section>
 
 {% endif %}
 
 {% if 'dg' in secs %}
-<h2 class="fiche-section-title">{{ tx.ad_dg_h2 }}</h2>
-<ul class="ms-limits">{% for item in tx.ad_dg %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+<section class="gs-tile ao-sec" id="ad-dg"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_dg_h2 }}</h2></div>
+<ul class="ms-limits">{% for item in tx.ad_dg %}<li>{{ item|safe }}</li>{% endfor %}</ul></section>
 
 {% endif %}
 
-<h2 class="fiche-section-title">{{ tx.ad_install_h2 }}</h2>
-<ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol>
-<p class="ad-cta"><a class="wh-btn" href="{{ ad.cf }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a></p>
-
-<h2 class="fiche-section-title">{{ tx.ad_faq_h2 }}</h2>
-<div class="ad-faq">
-  {% for q, a in tx.ad_faq %}<details><summary>{{ q }}</summary><p>{{ a.replace('{root}', root)|safe }}</p></details>{% endfor %}
+<div class="ao-two">
+  <section class="gs-tile" id="ad-install"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_install_h2 }}</h2></div>
+  <ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol>
+  <p class="ad-cta"><a class="wh-btn" href="{{ ad.cf }}" target="_blank" rel="noopener">{{ tx.ad_download }} <span aria-hidden="true">↗</span></a></p></section>
+  <section class="gs-tile" id="ad-faq"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_faq_h2 }}</h2></div>
+  {% for q, a in tx.ad_faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a.replace('{root}', root)|safe }}</p></details>{% endfor %}</section>
 </div>
 {% endblock %}

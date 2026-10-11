@@ -7,27 +7,34 @@
 <script type="application/ld+json">{{ faq_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.ad_kicker, g_h1, g_intro) }}
-
-<div class="ad-tiles">
+{# Addons list (maquette validée 2026-10-10): compact hero, 2x2 addon cards, install and FAQ side by side. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.ad_kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">{{ addons|length }}</b> addons</span><span class="gh-chip">{{ 'Gratuits sur CurseForge' if lang == 'fr' else 'Free on CurseForge' }}</span><span class="gh-chip">{{ 'Une fenêtre commune' if lang == 'fr' else 'One shared window' }}</span></div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+<div class="ao-grid">
 {% for a in addons %}
-  <article class="ad-tile">
-    <img class="ad-tile-img" src="{{ root }}assets/img/addon/{{ a.id }}.png" alt="{{ a.name }}" width="96" height="96" loading="lazy">
-    <h2 class="ad-tile-name">{{ a.name }}</h2>
-    <p class="ad-tile-tag">{{ a.tag[lang] }}</p>
-    <div class="ad-tile-actions">
-      <a class="wh-btn" href="{{ a.cf }}" target="_blank" rel="noopener">{{ adx.download }} <span aria-hidden="true">↗</span></a>
-      <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/addon/{{ a.id }}/">{{ adx.more }}</a>
+  <article class="ao-card">
+    <img src="{{ root }}assets/img/addon/{{ a.id }}.png" alt="{{ a.name }}" width="72" height="72" loading="lazy">
+    <div>
+      <h2>{{ a.name }}</h2>
+      <p>{{ a.tag[lang] }}</p>
+      <div class="acts">
+        <a class="wh-btn" href="{{ a.cf }}" target="_blank" rel="noopener">{{ adx.download }} <span aria-hidden="true">↗</span></a>
+        <a class="wh-btn wh-btn-ghost" href="{{ root }}wow-forever/addon/{{ a.id }}/">{{ adx.more }}</a>
+      </div>
     </div>
   </article>
 {% endfor %}
 </div>
-
-<h2 class="fiche-section-title">{{ tx.ad_install_h2 }}</h2>
-<ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol>
-
-<h2 class="fiche-section-title">{{ tx.ad_faq_h2 }}</h2>
-<div class="ad-faq">
-  {% for q, a in tx.ad_faq %}<details><summary>{{ q }}</summary><p>{{ a.replace('{root}', root)|safe }}</p></details>{% endfor %}
+<div class="ao-two">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_install_h2 }}</h2></div>
+  <ol class="ms-steps">{% for step in tx.ad_install %}<li>{{ step|safe }}</li>{% endfor %}</ol></section>
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.ad_faq_h2 }}</h2></div>
+  {% for q, a in tx.ad_faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a.replace('{root}', root)|safe }}</p></details>{% endfor %}</section>
 </div>
 {% endblock %}
