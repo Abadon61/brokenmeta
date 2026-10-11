@@ -8,22 +8,34 @@
 <script type="application/ld+json">{{ news_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(nw.kicker, nw.h1, nw.intro) }}
+{# News page (maquette validée 2026-10-10): compact hero, our latest articles, sticky filters + search, days in two columns. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ nw.kicker }}</div>
+    <h1 class="gh-title">{{ nw.h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">{{ items|length }}</b> {{ 'actualités' if lang == 'fr' else 'news items' }}</span><span class="gh-chip"><b class="nums">{{ days|length }}</b> {{ 'jours couverts' if lang == 'fr' else 'days covered' }}</span><span class="gh-chip">{{ 'Mises à jour tous les jours' if lang == 'fr' else 'Updated daily' }}</span></div>
+    <p class="gh-lede">{{ nw.intro }}</p>
+  </div></div>
+</section>
 {% if articles %}
-<h2 class="lh-h2">{{ 'Sur BrokenMeta' if lang == 'fr' else 'On BrokenMeta' }}</h2>
-<div class="wf-grid">{% for c in articles %}<a class="wf-card wf-ours{% if c.banner %} wf-has-banner{% endif %}" href="{{ root }}{{ c.href }}" style="--ac: {{ c.color or '#8a6cff' }}">
-  {% if c.banner %}<span class="wf-banner"><img src="{{ root }}{{ c.banner }}" alt="" width="600" height="315" loading="lazy"></span>{% else %}<span class="wf-img"><img src="{{ c.image if c.image.startswith('http') else root ~ c.image }}" alt="" width="64" height="64" loading="lazy"></span>{% endif %}
-  <span class="wf-body"><span class="wf-tags">{% if c.format_label %}<span class="fmt-tag">{{ c.format_label }}</span>{% endif %}{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span><b class="wf-title">{{ c.title }}</b><span class="wf-meta">{{ c.date_label }} · BrokenMeta.gg</span></span>
-</a>{% endfor %}</div>
-<h2 class="lh-h2">{{ 'Toutes les actualités' if lang == 'fr' else 'All news' }}</h2>
+<section class="hn dash-panel nw-feat"><div class="hn-head"><h2 class="hn-title"><i></i>{{ 'Sur BrokenMeta' if lang == 'fr' else 'On BrokenMeta' }}</h2></div>
+<div class="hn-grid">{% for c in articles[:6] %}<a class="hn-item" href="{{ root }}{{ c.href }}" style="--ac: {{ c.color or '#8a6cff' }}">
+  <span class="wf-tags">{% if c.format_label %}<span class="fmt-tag">{{ c.format_label }}</span>{% endif %}{% if c.kind %}<span class="chg chg-{{ c.kind }}">{{ ('{' ~ c.kind ~ '}')|artfmt(lang)|striptags }}</span>{% endif %}<span class="news-tag" data-tag="{{ c.tag }}">{{ c.tag_label }}</span></span>
+  <b class="hn-t">{{ c.title }}</b><span class="hn-d nums">{{ c.date_label }} · BrokenMeta.gg</span>
+</a>{% endfor %}</div></section>
 {% endif %}
-<div class="news-filters" role="group" aria-label="{{ nw.filter_label }}">
-  <button type="button" class="news-chip is-on" data-tag="">{{ nw.all }} <span class="nums">{{ items|length }}</span></button>
-  {% for t in tags if t.n %}<button type="button" class="news-chip" data-tag="{{ t.id }}">{{ t.label }} <span class="nums">{{ t.n }}</span></button>{% endfor %}
+<div class="nw-bar">
+  <div class="news-filters" role="group" aria-label="{{ nw.filter_label }}">
+    <button type="button" class="news-chip is-on" data-tag="">{{ nw.all }} <span class="nums">{{ items|length }}</span></button>
+    {% for t in tags if t.n %}<button type="button" class="news-chip" data-tag="{{ t.id }}">{{ t.label }} <span class="nums">{{ t.n }}</span></button>{% endfor %}
+  </div>
+  <div class="search-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="search" id="nwSearch" class="search-input" placeholder="{{ 'Rechercher une actualité…' if lang == 'fr' else 'Search the news…' }}" aria-label="{{ 'Rechercher une actualité' if lang == 'fr' else 'Search the news' }}" autocomplete="off"></div>
 </div>
 <div class="news-list" id="news-list">
   {% for day, rows in days %}
+  <section class="nw-day{{ ' is-late' if loop.index > 7 }}">
   <h2 class="news-day">{{ day }}</h2>
+  <div class="nw-grid">
   {% for i in rows %}
   <a class="news-item{% if i.own_href %} news-own{% endif %}" href="{% if i.own_href %}{{ root }}{{ i.own_href }}{% else %}{{ i.url }}{% endif %}"{% if not i.own_href %} rel="noopener nofollow" target="_blank"{% endif %} data-tag="{{ i.tag }}">
     <span class="news-tag" data-tag="{{ i.tag }}">{{ i.tag_label }}</span>
@@ -31,20 +43,35 @@
     <span class="news-src">{{ i.source_label }}{% if not i.own_href %} ↗{% endif %}</span>
   </a>
   {% endfor %}
+  </div>
+  </section>
   {% endfor %}
 </div>
+<p class="nw-none" id="nwNone" hidden>{{ 'Aucune actualité ne correspond.' if lang == 'fr' else 'No news item matches.' }}</p>
+<button type="button" class="gh-btn nw-more" id="nwMore">{{ 'Afficher les jours précédents' if lang == 'fr' else 'Show earlier days' }}</button>
 <p class="wow-note">{{ nw.note }}</p>
 <script>
 (function () {
-  var chips = document.querySelectorAll('.news-chip'), items = document.querySelectorAll('.news-item'), days = document.querySelectorAll('.news-day');
-  chips.forEach(function (c) {
-    c.addEventListener('click', function () {
-      var tag = c.getAttribute('data-tag');
-      chips.forEach(function (x) { x.classList.toggle('is-on', x === c); });
-      items.forEach(function (i) { i.hidden = !!tag && i.getAttribute('data-tag') !== tag; });
-      days.forEach(function (d) { var n = d.nextElementSibling, any = false; while (n && n.classList.contains('news-item')) { if (!n.hidden) any = true; n = n.nextElementSibling; } d.hidden = !any; });
+  var chips = document.querySelectorAll('.news-chip'), days = document.querySelectorAll('.nw-day'), q = document.getElementById('nwSearch'), more = document.getElementById('nwMore'), none = document.getElementById('nwNone');
+  var tag = '', all = false;
+  function apply() {
+    var s = q.value.trim().toLowerCase(), any = false, filtering = !!tag || !!s;
+    days.forEach(function (d) {
+      var c = 0;
+      d.querySelectorAll('.news-item').forEach(function (i) {
+        var m = (!tag || i.getAttribute('data-tag') === tag) && (!s || i.textContent.toLowerCase().indexOf(s) > -1);
+        i.hidden = !m; if (m) c++;
+      });
+      d.hidden = !c || (!filtering && !all && d.classList.contains('is-late'));
+      if (c) any = true;
     });
-  });
+    more.hidden = filtering || all || !document.querySelector('.nw-day.is-late');
+    none.hidden = any;
+  }
+  chips.forEach(function (c) { c.addEventListener('click', function () { tag = c.getAttribute('data-tag'); chips.forEach(function (x) { x.classList.toggle('is-on', x === c); }); apply(); }); });
+  q.addEventListener('input', apply);
+  more.addEventListener('click', function () { all = true; apply(); });
+  apply();
 })();
 </script>
 {% endblock %}
