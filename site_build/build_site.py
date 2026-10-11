@@ -7376,6 +7376,8 @@ def main() -> None:
     # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
     if wow_spell_classes:
         _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
+    # BrokenLogs (2026-10-11): combat log analysis in the browser.
+    _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
     _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
@@ -7398,7 +7400,7 @@ def main() -> None:
             _game_news[_g] = game_news.load(_g)
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
-    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "simulateur-dps"]
+    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "logs", "simulateur-dps"]
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -8703,6 +8705,11 @@ def main() -> None:
             render("wow_crafters.html", _crpath, lang, active_nav="wow", active_sub="wow-artisans", tx=_gx,
                    g_title=_gx["cr_title"], g_desc=_gx["cr_desc"], g_h1=_gx["cr_h1"], g_intro=_gx["cr_intro"],
                    breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["cr_h1"], canonical_for(_crpath, lang))]))
+            _lgpath = "/wow-forever/logs/"
+            assert len(_gx["lg_title"]) <= 60 and len(_gx["lg_desc"]) <= 155
+            render("wow_logs.html", _lgpath, lang, active_nav="wow", active_sub="wow-logs", tx=_gx,
+                   g_title=_gx["lg_title"], g_desc=_gx["lg_desc"], g_h1=_gx["lg_h1"], g_intro=_gx["lg_intro"],
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["lg_h1"], canonical_for(_lgpath, lang))]))
             _shpath = "/wow-forever/partager-mes-donnees/"
             assert len(_gx["sh_title"]) <= 60 and len(_gx["sh_desc"]) <= 155
             render("wow_share.html", _shpath, lang, active_nav="wow", active_sub="wow-partager-mes-donnees", tx=_gx,
@@ -9648,7 +9655,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"

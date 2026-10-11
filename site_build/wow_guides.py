@@ -856,6 +856,103 @@ _SHARE = {
 for _lang, _txt in _SHARE.items():
     TXT[_lang].update(_txt)
 
+# ---------------------------------------------------------------------------------------------------- BrokenLogs (2026-10-11)
+# Combat log analysis page (/wow-forever/logs/): the file is read in the visitor's browser, nothing is uploaded.
+_LOGS = {
+    "fr": {
+        "lg_title": "BrokenLogs : analyse tes logs de combat WoW",
+        "lg_desc": "Dépose ton WoWCombatLog.txt : DPS, soins, morts et courbes de chaque rencontre, calculés dans ton navigateur. Rien n'est envoyé.",
+        "lg_h1": "BrokenLogs : analyse de logs de combat",
+        "lg_kicker": "World of Warcraft: Forever · BrokenLogs",
+        "lg_intro": "Dépose ton fichier de log de combat : le site découpe les rencontres, calcule les DPS, les soins et les morts, puis te dit en quelques phrases ce qui t'a fait perdre du temps. Tout est calculé dans ton navigateur : le fichier ne quitte pas ton ordinateur.",
+        "lg_how_h2": "Comment faire",
+        "lg_steps": [
+            "Dans le jeu, active <b>Options → Réseau → Journalisation avancée du combat</b>, puis tape <code>/combatlog</code> avant le combat.",
+            "Joue ton donjon ou ton raid, puis retape <code>/combatlog</code> pour arrêter. Le fichier <code>WoWCombatLog-….txt</code> est dans le dossier <code>Logs</code> du jeu.",
+            "Dépose-le ci-dessous. Même un fichier de plusieurs centaines de Mo se lit en quelques secondes.",
+        ],
+        "lg_drop_h2": "Ton log de combat",
+        "lg_drop": "Dépose ton fichier WoWCombatLog.txt ici",
+        "lg_drop_sub": "ou clique pour le choisir. Il reste sur ton ordinateur.",
+        "lg_chips": ["Calculé dans ton navigateur", "Aucun envoi", "Gros fichiers acceptés"],
+        "lg_meth_h2": "Comment sont calculés les chiffres",
+        "lg_meth": [
+            "<b>Dégâts</b> = montant - dégâts excédentaires + dégâts absorbés par un bouclier (ils comptent comme infligés). Les familiers et gardiens sont ajoutés à leur propriétaire.",
+            "<b>Soins</b> = montant - soins excédentaires. Le détail des soins excédentaires est affiché à part.",
+            "<b>DPS</b> = dégâts / durée de la rencontre. Le <b>DPS actif</b> divise par le temps pendant lequel le joueur agit vraiment (un écart de plus de 3 s entre deux actions n'est pas compté).",
+            "Une <b>rencontre</b> va de ENCOUNTER_START à ENCOUNTER_END. En dehors, un combat commence au premier coup entre un joueur et une créature et finit après 12 s sans dégâts.",
+            "Chaque coup est enregistré deux fois par le jeu (côté attaquant et côté cible) : on ne garde qu'un des deux. Les morts « feintes » ne sont pas comptées.",
+            "La classe et la spécialisation viennent de la ligne COMBATANT_INFO du log. Si le jeu ne les donne pas, le joueur s'affiche sans classe.",
+        ],
+        "lg_js": {
+            "reading": "Lecture du log…", "lines": "{n} lignes lues", "done": "Log lu en {s} s : {f} rencontres trouvées.",
+            "bad": "Ce fichier ne ressemble pas à un log de combat WoW (aucune ligne de combat trouvée). Choisis un fichier WoWCombatLog-….txt.",
+            "nofight": "Aucune rencontre trouvée dans ce log. Vérifie que la journalisation avancée du combat était activée.",
+            "noadv": "La journalisation avancée du combat n'était pas activée : certains détails peuvent manquer.",
+            "another": "Analyser un autre fichier", "fights": "Rencontres de ce log", "hint_fight": "CLIQUE UNE RENCONTRE",
+            "kill": "Victoire", "wipe": "Échec", "combat": "Combat", "players": "joueurs", "min": "min", "s": "s",
+            "t_over": "Aperçu", "t_dmg": "Dégâts", "t_heal": "Soins", "t_death": "Morts", "t_taken": "Dégâts subis",
+            "hide": "Masquer les pseudos", "k_dps": "DPS du groupe", "k_dur": "Durée du combat", "k_deaths": "Morts", "k_ilvl": "Niveau d'objet moyen", "k_dmg": "Dégâts totaux",
+            "ins_h": "Ce qui a fait la différence", "ins_sub": "SYNTHÈSE AUTOMATIQUE", "chart_h": "DPS du groupe dans le temps", "dmg_h": "Dégâts infligés", "dmg_sub": "CLIQUE UN JOUEUR POUR LE DÉTAIL",
+            "heal_h": "Soins prodigués", "heal_note": "Soins efficaces. Les soins excédentaires sont indiqués à côté de chaque soigneur.", "taken_h": "Dégâts subis", "no_deaths": "Personne n'est mort pendant cette rencontre.",
+            "death_at": "mort à {t}", "recap": "Derniers événements", "best": "Meilleur du groupe", "your_dps": "Ton DPS", "active": "temps actif", "ab_h": "Détail par sort", "heal_ab_h": "Détail des soins",
+            "col_spell": "Sort", "col_dps": "DPS", "col_hits": "Coups", "col_crit": "Crit.", "col_max": "Max", "col_casts": "Lancers", "col_heal": "Soins", "col_over": "Excédent",
+            "imp_h": "À retenir", "overall": "Dégâts totaux", "ilvl": "niveau d'objet", "idle": "Inactif", "unknown": "Classe inconnue", "pet": "Familier",
+            "i_active_ok": "Actif {p} % du combat : très bien.", "i_active_low": "Actif seulement {p} % du combat : {s} s sans attaquer.", "i_top_spell": "Ton sort principal est {n} ({p} % de tes dégâts).",
+            "i_vs_best": "Ton DPS est à {p} % de celui du meilleur du groupe.", "i_death": "Tu es mort {n} fois ; le dernier coup venait de {w} ({sp}).", "i_nodeath": "Aucune mort : bien joué.",
+            "i_pets": "Les familiers ont fait {p} % de tes dégâts.", "i_overheal": "{p} % de tes soins étaient excédentaires.", "i_hps_best": "Tes soins sont à {p} % de ceux du meilleur soigneur.",
+            "g_dead": "{n} mort(s) pendant la rencontre.", "g_best": "{who} a fait le plus de dégâts ({v} DPS).", "g_idle": "Le groupe a été actif en moyenne {p} % du temps.",
+        },
+    },
+    "en": {
+        "lg_title": "BrokenLogs: analyze your WoW combat logs",
+        "lg_desc": "Drop your WoWCombatLog.txt: DPS, healing, deaths and charts for every encounter, computed in your browser. Nothing is uploaded.",
+        "lg_h1": "BrokenLogs: combat log analysis",
+        "lg_kicker": "World of Warcraft: Forever · BrokenLogs",
+        "lg_intro": "Drop your combat log file: the site splits the encounters, computes DPS, healing and deaths, then tells you in a few sentences what cost you time. Everything is computed in your browser: the file never leaves your computer.",
+        "lg_how_h2": "How to do it",
+        "lg_steps": [
+            "In game, turn on <b>Options → Network → Advanced Combat Logging</b>, then type <code>/combatlog</code> before the fight.",
+            "Play your dungeon or raid, then type <code>/combatlog</code> again to stop. The <code>WoWCombatLog-….txt</code> file is in the game's <code>Logs</code> folder.",
+            "Drop it below. Even a file of several hundred MB is read in a few seconds.",
+        ],
+        "lg_drop_h2": "Your combat log",
+        "lg_drop": "Drop your WoWCombatLog.txt file here",
+        "lg_drop_sub": "or click to choose it. It stays on your computer.",
+        "lg_chips": ["Computed in your browser", "Nothing uploaded", "Large files accepted"],
+        "lg_meth_h2": "How the numbers are computed",
+        "lg_meth": [
+            "<b>Damage</b> = amount - overkill + damage absorbed by a shield (it counts as dealt). Pets and guardians are added to their owner.",
+            "<b>Healing</b> = amount - overhealing. Overhealing is shown separately.",
+            "<b>DPS</b> = damage / encounter duration. <b>Active DPS</b> divides by the time the player is really acting (a gap longer than 3 s between two actions is not counted).",
+            "An <b>encounter</b> runs from ENCOUNTER_START to ENCOUNTER_END. Outside of those, a combat starts at the first hit between a player and a creature and ends after 12 s without damage.",
+            "The game logs every hit twice (attacker side and target side): only one is kept. Feigned deaths are not counted.",
+            "Class and specialization come from the log's COMBATANT_INFO line. If the game does not provide them, the player is shown without a class.",
+        ],
+        "lg_js": {
+            "reading": "Reading the log…", "lines": "{n} lines read", "done": "Log read in {s} s: {f} encounters found.",
+            "bad": "This file does not look like a WoW combat log (no combat line found). Pick a WoWCombatLog-….txt file.",
+            "nofight": "No encounter found in this log. Check that Advanced Combat Logging was on.",
+            "noadv": "Advanced Combat Logging was not on: some details may be missing.",
+            "another": "Analyze another file", "fights": "Encounters in this log", "hint_fight": "CLICK AN ENCOUNTER",
+            "kill": "Kill", "wipe": "Wipe", "combat": "Combat", "players": "players", "min": "min", "s": "s",
+            "t_over": "Overview", "t_dmg": "Damage", "t_heal": "Healing", "t_death": "Deaths", "t_taken": "Damage taken",
+            "hide": "Hide player names", "k_dps": "Group DPS", "k_dur": "Fight duration", "k_deaths": "Deaths", "k_ilvl": "Average item level", "k_dmg": "Total damage",
+            "ins_h": "What made the difference", "ins_sub": "AUTOMATIC SUMMARY", "chart_h": "Group DPS over time", "dmg_h": "Damage done", "dmg_sub": "CLICK A PLAYER FOR DETAILS",
+            "heal_h": "Healing done", "heal_note": "Effective healing. Overhealing is shown next to each healer.", "taken_h": "Damage taken", "no_deaths": "Nobody died during this encounter.",
+            "death_at": "died at {t}", "recap": "Last events", "best": "Best in the group", "your_dps": "Your DPS", "active": "active time", "ab_h": "Breakdown by spell", "heal_ab_h": "Healing breakdown",
+            "col_spell": "Spell", "col_dps": "DPS", "col_hits": "Hits", "col_crit": "Crit", "col_max": "Max", "col_casts": "Casts", "col_heal": "Healing", "col_over": "Overheal",
+            "imp_h": "Takeaways", "overall": "Total damage", "ilvl": "item level", "idle": "Idle", "unknown": "Unknown class", "pet": "Pet",
+            "i_active_ok": "Active {p}% of the fight: very good.", "i_active_low": "Active only {p}% of the fight: {s} s without attacking.", "i_top_spell": "Your main spell is {n} ({p}% of your damage).",
+            "i_vs_best": "Your DPS is {p}% of the group's best.", "i_death": "You died {n} time(s); the last hit came from {w} ({sp}).", "i_nodeath": "No death: well played.",
+            "i_pets": "Pets did {p}% of your damage.", "i_overheal": "{p}% of your healing was overhealing.", "i_hps_best": "Your healing is at {p}% of the best healer's.",
+            "g_dead": "{n} death(s) during the encounter.", "g_best": "{who} did the most damage ({v} DPS).", "g_idle": "The group was active {p}% of the time on average.",
+        },
+    },
+}
+for _lang, _txt in _LOGS.items():
+    TXT[_lang].update(_txt)
+
 
 # Profession pages with auction prices shared through the BrokenMeta addon (see wow_ah.py).
 _AH_TXT = {

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{# BrokenLogs (2026-10-11): combat log analysis, entirely in the browser (a worker reads the file by chunks). #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.lg_kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.lg_chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+<section class="gs-tile ms2-steps"><div class="gs-th"><h2 class="gs-h2">{{ tx.lg_how_h2 }}</h2></div>
+<ol class="ms-steps">{% for step in tx.lg_steps %}<li>{{ step|safe }}</li>{% endfor %}</ol>
+</section>
+
+<div id="lgApp" data-lang="{{ lang }}" data-worker="{{ root }}assets/js/wow-logs-worker.js?v={{ js_v('wow-logs-worker.js') }}" data-core="{{ root }}assets/js/wow-logs-core.js?v={{ js_v('wow-logs-core.js') }}">
+  <label id="lgDrop" class="lg-drop" for="lgFile">
+    <b>{{ tx.lg_drop }}</b>
+    <span>{{ tx.lg_drop_sub }}</span>
+    <input type="file" id="lgFile" accept=".txt,text/plain">
+  </label>
+  <div id="lgProgress" class="lg-progress" hidden><div class="lg-pbar"><i id="lgBar"></i></div><p id="lgProgTxt" role="status" aria-live="polite"></p></div>
+  <p id="lgError" class="lg-error" role="alert" hidden></p>
+  <div id="lgNote" class="lg-note" hidden><span id="lgNoteTxt"></span><button type="button" id="lgAgain" class="gh-btn">{{ tx.lg_js.another }}</button></div>
+  <div id="lgReport" hidden></div>
+</div>
+
+<details class="gs-more gs-sources"><summary>{{ tx.lg_meth_h2 }}</summary>
+<ul class="gd-list">{% for item in tx.lg_meth %}<li>{{ item|safe }}</li>{% endfor %}</ul></details>
+
+<script type="application/json" id="lgI18n">{{ tx.lg_js|tojson }}</script>
+<script src="{{ root }}assets/js/wow-logs.js?v={{ js_v('wow-logs.js') }}" defer></script>
+{% endblock %}
