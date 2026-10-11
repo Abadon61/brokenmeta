@@ -80,8 +80,9 @@
 {{ m.scope_filter_bar(region_chips, rank_chips, lang, rank_filter_data) }}
 {{ m.search_bar(lang) }}
 
+<nav class="tl-nav" aria-label="{{ 'Tiers' if fr else 'Tiers' }}">{% for group in tier_groups %}<a href="#tier-{{ group.tier }}" data-tier="{{ group.tier }}">{% if group.tier == 'HM' %}{{ t(lang, 'tier_hors_meta') }}{% else %}{{ t(lang, 'tier_word') }} {{ group.tier }}{% endif %} <b class="nums">{{ group.total }}</b></a>{% endfor %}</nav>
 {% for group in tier_groups %}
-<div class="tier-group" data-tier-group="{{ group.tier }}">
+<div class="tier-group" id="tier-{{ group.tier }}" data-tier-group="{{ group.tier }}">
   <div style="display:flex;align-items:baseline;justify-content:space-between;gap:14px;margin:30px 0 14px;{% if loop.first %}margin-top:0;{% endif %}">
     <h2 class="fiche-section-title" style="margin:0;padding-bottom:0;border-bottom:none">{% if group.tier == 'HM' %}{{ t(lang, 'tier_hors_meta') }}{% else %}{{ t(lang, 'tier_word') }} {{ group.tier }}{% endif %}</h2>
     <a href="{{ tier_href(group.tier) }}" class="fiche-link see-full-tier-link" style="margin-top:0">{% if group.tier == 'HM' %}{{ t(lang, 'see_full_hors_meta', group.total) }}{% else %}{{ t(lang, 'see_full_tier', group.total, group.tier) }}{% endif %}</a>

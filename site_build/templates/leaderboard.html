@@ -10,14 +10,15 @@
    'Classement réel Challenger, Grandmaster et Master par région, via l\'API officielle de Riot.' if fr else 'Real Challenger, Grandmaster and Master standings by region, via Riot\'s official API.',
    [(regions|length, 'régions' if fr else 'regions'), (ns.players, 'joueurs classés' if fr else 'ranked players'), (ns.top ~ ' LP', 'plus haut LP' if fr else 'highest LP')],
    (root ~ 'leaderboard/world-stat/', t(lang, 'see_worldstat'))) }}
+<nav class="lb-nav" aria-label="{{ 'Régions' if fr else 'Regions' }}">{% for region in regions %}<a href="#lb-{{ region.code|lower }}">{{ region.name }} <b class="nums">{{ region.rows|length }}</b></a>{% endfor %}</nav>
 {% for region in regions %}
-<h2 class="fiche-section-title">{{ region.name }}</h2>
-<div class="lb-table-wrap">
+<h2 class="fiche-section-title" id="lb-{{ region.code|lower }}">{{ region.name }}</h2>
+<div class="lb-table-wrap" data-lb-region>
   <table class="lb-table">
     <thead><tr><th class="num">{{ t(lang, 'th_rank') }}</th><th>{{ t(lang, 'th_player') }}</th><th>{{ t(lang, 'th_tier') }}</th><th class="num">LP</th><th>{{ t(lang, 'th_form') }}</th></tr></thead>
     <tbody>
       {% for p in region.rows %}
-      <tr onclick="location.href='{{ root }}player/{{ region.code|lower }}/{{ p.slug }}/'">
+      <tr{% if loop.index > 25 %} class="lb-late" hidden{% endif %} onclick="location.href='{{ root }}player/{{ region.code|lower }}/{{ p.slug }}/'">
         <td class="num"><span class="lb-rank" data-top="{{ p.rank <= 3 }}">#{{ p.rank }}</span></td>
         <td><a class="lb-player-cell" href="{{ root }}player/{{ region.code|lower }}/{{ p.slug }}/"><span class="lb-riotid">{{ p.riot_id }}</span>{% if p.hot_streak %}<span class="lb-hot" title="{{ t(lang, 'hot_streak_title') }}">🔥</span>{% endif %}</a></td>
         <td><span class="lb-tier-tag" data-tier="{{ p.tier }}">{{ p.tier }}</span></td>
@@ -30,6 +31,18 @@
     </tbody>
   </table>
 </div>
+{% if region.rows|length > 25 %}<button type="button" class="gh-btn lb-more" data-lb-more>{{ ('Afficher les ' ~ (region.rows|length) ~ ' joueurs') if fr else ('Show all ' ~ (region.rows|length) ~ ' players') }}</button>{% endif %}
 {% endfor %}
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[data-lb-more]'), function (b) {
+    b.addEventListener('click', function () {
+      var w = b.previousElementSibling;
+      Array.prototype.forEach.call(w.querySelectorAll('tr.lb-late'), function (r) { r.hidden = false; });
+      b.hidden = true;
+    });
+  });
+})();
+</script>
 <div class="lb-note">{{ t(lang, 'lb_note')|safe }}</div>
 {% endblock %}
