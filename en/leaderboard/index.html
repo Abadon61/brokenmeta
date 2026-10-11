@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Leaderboard — TFT Set 18 | BrokenMeta.gg">
 <meta name="twitter:description" content="Real Challenger/Grandmaster/Master standings by region (EUW, NA, BR, KR) on Teamfight Tactics Set 18, via Riot's League-v1 API.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=cce3c7f51d">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=cce3c7f51d">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=ddd58e6a98">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=ddd58e6a98">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=cce3c7f51d">
+<link rel="stylesheet" href="../../assets/css/style.css?v=ddd58e6a98">
 
 
 </head>
@@ -231,9 +231,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </section>
 
+<nav class="lb-nav" aria-label="Regions"><a href="#lb-euw">West Europe (EUW) <b class="nums">100</b></a><a href="#lb-na">North America (NA) <b class="nums">100</b></a><a href="#lb-br">Brazil (BR) <b class="nums">100</b></a><a href="#lb-kr">Korea (KR) <b class="nums">100</b></a></nav>
 
-<h2 class="fiche-section-title">West Europe (EUW)</h2>
-<div class="lb-table-wrap">
+<h2 class="fiche-section-title" id="lb-euw">West Europe (EUW)</h2>
+<div class="lb-table-wrap" data-lb-region>
   <table class="lb-table">
     <thead><tr><th class="num">Rank</th><th>Player</th><th>Tier</th><th class="num">LP</th><th>Form (last 5)</th></tr></thead>
     <tbody>
@@ -488,7 +489,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/26-xus0o/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/26-xus0o/'">
         <td class="num"><span class="lb-rank" data-top="False">#26</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/26-xus0o/"><span class="lb-riotid">xus0o#2c2w</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -498,7 +499,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/27-kurfuzzled/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/27-kurfuzzled/'">
         <td class="num"><span class="lb-rank" data-top="False">#27</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/27-kurfuzzled/"><span class="lb-riotid">KURFUZZLED#EUW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -508,7 +509,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/28-haze/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/28-haze/'">
         <td class="num"><span class="lb-rank" data-top="False">#28</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/28-haze/"><span class="lb-riotid">Haze#131</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -518,7 +519,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/29-yatora1/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/29-yatora1/'">
         <td class="num"><span class="lb-rank" data-top="False">#29</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/29-yatora1/"><span class="lb-riotid">yatora1#wawa</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -528,7 +529,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/30-blah-blah-blah/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/30-blah-blah-blah/'">
         <td class="num"><span class="lb-rank" data-top="False">#30</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/30-blah-blah-blah/"><span class="lb-riotid">blah blah blah#tft</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -538,7 +539,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/31-n03/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/31-n03/'">
         <td class="num"><span class="lb-rank" data-top="False">#31</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/31-n03/"><span class="lb-riotid">N03#TFTKC</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -548,7 +549,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/32-audition/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/32-audition/'">
         <td class="num"><span class="lb-rank" data-top="False">#32</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/32-audition/"><span class="lb-riotid">Audition#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -558,7 +559,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/33-flowders/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/33-flowders/'">
         <td class="num"><span class="lb-rank" data-top="False">#33</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/33-flowders/"><span class="lb-riotid">FlowDeRs#1203</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -568,7 +569,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/34-mih-bensac/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/34-mih-bensac/'">
         <td class="num"><span class="lb-rank" data-top="False">#34</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/34-mih-bensac/"><span class="lb-riotid">MIH bensac#WTB</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -578,7 +579,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/35-otto/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/35-otto/'">
         <td class="num"><span class="lb-rank" data-top="False">#35</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/35-otto/"><span class="lb-riotid">OTTO#aras</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -588,7 +589,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/36-g1nkgo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/36-g1nkgo/'">
         <td class="num"><span class="lb-rank" data-top="False">#36</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/36-g1nkgo/"><span class="lb-riotid">G1nkgo#2002</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -598,7 +599,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/37-para/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/37-para/'">
         <td class="num"><span class="lb-rank" data-top="False">#37</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/37-para/"><span class="lb-riotid">para#liv</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -608,7 +609,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/38-cackleprikelcakl/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/38-cackleprikelcakl/'">
         <td class="num"><span class="lb-rank" data-top="False">#38</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/38-cackleprikelcakl/"><span class="lb-riotid">Cackleprikelcakl#EUWW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -618,7 +619,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/39-mkoi-dalesom/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/39-mkoi-dalesom/'">
         <td class="num"><span class="lb-rank" data-top="False">#39</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/39-mkoi-dalesom/"><span class="lb-riotid">MKOI Dalesom#EUW2</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -628,7 +629,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/40-guzikson/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/40-guzikson/'">
         <td class="num"><span class="lb-rank" data-top="False">#40</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/40-guzikson/"><span class="lb-riotid">Guzikson#EUWE</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -638,7 +639,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/41-pmk-stinkyabuser/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/41-pmk-stinkyabuser/'">
         <td class="num"><span class="lb-rank" data-top="False">#41</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/41-pmk-stinkyabuser/"><span class="lb-riotid">PMK stinkyabuser#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -648,7 +649,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/42-papyscotch/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/42-papyscotch/'">
         <td class="num"><span class="lb-rank" data-top="False">#42</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/42-papyscotch/"><span class="lb-riotid">PapyScotch#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -658,7 +659,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/43-br0ken99/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/43-br0ken99/'">
         <td class="num"><span class="lb-rank" data-top="False">#43</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/43-br0ken99/"><span class="lb-riotid">br0ken99#HR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -668,7 +669,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/44-pmk-paingetsreal/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/44-pmk-paingetsreal/'">
         <td class="num"><span class="lb-rank" data-top="False">#44</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/44-pmk-paingetsreal/"><span class="lb-riotid">PMK PainGetsReal#PMK</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -678,7 +679,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/45-spoti/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/45-spoti/'">
         <td class="num"><span class="lb-rank" data-top="False">#45</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/45-spoti/"><span class="lb-riotid">Spoti#2137</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -688,7 +689,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/46-mih-toontv/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/46-mih-toontv/'">
         <td class="num"><span class="lb-rank" data-top="False">#46</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/46-mih-toontv/"><span class="lb-riotid">MIH ToonTv#MIH</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -698,7 +699,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/47-ken-kitade/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/47-ken-kitade/'">
         <td class="num"><span class="lb-rank" data-top="False">#47</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/47-ken-kitade/"><span class="lb-riotid">Ken Kitade#Kash</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -708,7 +709,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/48-kimchaewon676767/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/48-kimchaewon676767/'">
         <td class="num"><span class="lb-rank" data-top="False">#48</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/48-kimchaewon676767/"><span class="lb-riotid">KimChaewon676767#NERV</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -718,7 +719,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/49-tsundere-deinal/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/49-tsundere-deinal/'">
         <td class="num"><span class="lb-rank" data-top="False">#49</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/49-tsundere-deinal/"><span class="lb-riotid">Tsundere DeinaL#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -728,7 +729,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/50-bastida/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/50-bastida/'">
         <td class="num"><span class="lb-rank" data-top="False">#50</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/50-bastida/"><span class="lb-riotid">Bastida#DUMMY</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -738,7 +739,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/51-vomendeth/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/51-vomendeth/'">
         <td class="num"><span class="lb-rank" data-top="False">#51</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/51-vomendeth/"><span class="lb-riotid">Vomendeth#EUWW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -748,7 +749,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/52-mkoi-safo20/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/52-mkoi-safo20/'">
         <td class="num"><span class="lb-rank" data-top="False">#52</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/52-mkoi-safo20/"><span class="lb-riotid">MKOI Safo20#BAD</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -758,7 +759,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/53-desper/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/53-desper/'">
         <td class="num"><span class="lb-rank" data-top="False">#53</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/53-desper/"><span class="lb-riotid">Desper#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -768,7 +769,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/54-nuryy7/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/54-nuryy7/'">
         <td class="num"><span class="lb-rank" data-top="False">#54</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/54-nuryy7/"><span class="lb-riotid">Nuryy7#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -778,7 +779,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/55-russian-criminal/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/55-russian-criminal/'">
         <td class="num"><span class="lb-rank" data-top="False">#55</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/55-russian-criminal/"><span class="lb-riotid">Russian Criminal#mean</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -788,7 +789,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/56-shain22/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/56-shain22/'">
         <td class="num"><span class="lb-rank" data-top="False">#56</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/56-shain22/"><span class="lb-riotid">shain22#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -798,7 +799,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/57-higa/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/57-higa/'">
         <td class="num"><span class="lb-rank" data-top="False">#57</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/57-higa/"><span class="lb-riotid">Higa#gmgn</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -808,7 +809,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/58-settios/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/58-settios/'">
         <td class="num"><span class="lb-rank" data-top="False">#58</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/58-settios/"><span class="lb-riotid">Settios#ABBA</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -818,7 +819,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/59-tehgeo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/59-tehgeo/'">
         <td class="num"><span class="lb-rank" data-top="False">#59</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/59-tehgeo/"><span class="lb-riotid">TEHGEO#5468</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -828,7 +829,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/60-catalyst-tft/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/60-catalyst-tft/'">
         <td class="num"><span class="lb-rank" data-top="False">#60</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/60-catalyst-tft/"><span class="lb-riotid">Catalyst TFT#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -838,7 +839,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/61-sologesang/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/61-sologesang/'">
         <td class="num"><span class="lb-rank" data-top="False">#61</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/61-sologesang/"><span class="lb-riotid">Sologesang#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -848,7 +849,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/62-whyyoumadpro/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/62-whyyoumadpro/'">
         <td class="num"><span class="lb-rank" data-top="False">#62</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/62-whyyoumadpro/"><span class="lb-riotid">whyyoumadpro#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -858,7 +859,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/63-justjohnny/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/63-justjohnny/'">
         <td class="num"><span class="lb-rank" data-top="False">#63</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/63-justjohnny/"><span class="lb-riotid">JustJohnny#tft</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -868,7 +869,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/64-garkes/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/64-garkes/'">
         <td class="num"><span class="lb-rank" data-top="False">#64</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/64-garkes/"><span class="lb-riotid">Garkes#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -878,7 +879,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/65-mkoi-odesza/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/65-mkoi-odesza/'">
         <td class="num"><span class="lb-rank" data-top="False">#65</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/65-mkoi-odesza/"><span class="lb-riotid">MKOI ODESZA#000</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -888,7 +889,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/66-m0tiv/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/66-m0tiv/'">
         <td class="num"><span class="lb-rank" data-top="False">#66</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/66-m0tiv/"><span class="lb-riotid">m0tiv#surf</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -898,7 +899,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/67-g2-enzosx/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/67-g2-enzosx/'">
         <td class="num"><span class="lb-rank" data-top="False">#67</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/67-g2-enzosx/"><span class="lb-riotid">G2 Enzosx#3566</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -908,7 +909,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/68-sxy-dirtydog/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/68-sxy-dirtydog/'">
         <td class="num"><span class="lb-rank" data-top="False">#68</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/68-sxy-dirtydog/"><span class="lb-riotid">SXY DirtyDog#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -918,7 +919,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/69-princess-lele/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/69-princess-lele/'">
         <td class="num"><span class="lb-rank" data-top="False">#69</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/69-princess-lele/"><span class="lb-riotid">Princess Lele#ART</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -928,7 +929,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/70-kezman22/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/70-kezman22/'">
         <td class="num"><span class="lb-rank" data-top="False">#70</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/70-kezman22/"><span class="lb-riotid">Kezman22#EUW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -938,7 +939,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/71-godl-gobosteur/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/71-godl-gobosteur/'">
         <td class="num"><span class="lb-rank" data-top="False">#71</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/71-godl-gobosteur/"><span class="lb-riotid">GodL Gobosteur#WTB</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -948,7 +949,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/72-lloydd/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/72-lloydd/'">
         <td class="num"><span class="lb-rank" data-top="False">#72</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/72-lloydd/"><span class="lb-riotid">Lloydd#237</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -958,7 +959,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/73-y-y/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/73-y-y/'">
         <td class="num"><span class="lb-rank" data-top="False">#73</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/73-y-y/"><span class="lb-riotid">Y Y#1312</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -968,7 +969,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/74-max/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/74-max/'">
         <td class="num"><span class="lb-rank" data-top="False">#74</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/74-max/"><span class="lb-riotid">Max#xdxd</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -978,7 +979,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/75-vi113/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/75-vi113/'">
         <td class="num"><span class="lb-rank" data-top="False">#75</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/75-vi113/"><span class="lb-riotid">vi113#5751</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -988,7 +989,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/76-clemou/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/76-clemou/'">
         <td class="num"><span class="lb-rank" data-top="False">#76</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/76-clemou/"><span class="lb-riotid">Clemou#WTB</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -998,7 +999,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/77-bliss/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/77-bliss/'">
         <td class="num"><span class="lb-rank" data-top="False">#77</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/77-bliss/"><span class="lb-riotid">bliss#22322</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1008,7 +1009,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/78-mouz-wet-jungler/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/78-mouz-wet-jungler/'">
         <td class="num"><span class="lb-rank" data-top="False">#78</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/78-mouz-wet-jungler/"><span class="lb-riotid">MOUZ Wet Jungler#123</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1018,7 +1019,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/79-rubic/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/79-rubic/'">
         <td class="num"><span class="lb-rank" data-top="False">#79</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/79-rubic/"><span class="lb-riotid">Rubic#1453</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1028,7 +1029,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/80-mih-tarteman/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/80-mih-tarteman/'">
         <td class="num"><span class="lb-rank" data-top="False">#80</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/80-mih-tarteman/"><span class="lb-riotid">MIH TarteMan#QLF</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1038,7 +1039,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/81-daerondas/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/81-daerondas/'">
         <td class="num"><span class="lb-rank" data-top="False">#81</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/81-daerondas/"><span class="lb-riotid">Daerondas#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1048,7 +1049,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/82-impetuouspanda/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/82-impetuouspanda/'">
         <td class="num"><span class="lb-rank" data-top="False">#82</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/82-impetuouspanda/"><span class="lb-riotid">ImpetuousPanda#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1058,7 +1059,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/83-jigoa/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/83-jigoa/'">
         <td class="num"><span class="lb-rank" data-top="False">#83</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/83-jigoa/"><span class="lb-riotid">Jigoa#xdd</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1068,7 +1069,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/84-hive-king-ttv/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/84-hive-king-ttv/'">
         <td class="num"><span class="lb-rank" data-top="False">#84</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/84-hive-king-ttv/"><span class="lb-riotid">hive king Ι TTV#twtv</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1078,7 +1079,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/85-rayan-cherki/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/85-rayan-cherki/'">
         <td class="num"><span class="lb-rank" data-top="False">#85</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/85-rayan-cherki/"><span class="lb-riotid">Rayan Cherki#PAWS</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1088,7 +1089,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/86-nonameguy/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/86-nonameguy/'">
         <td class="num"><span class="lb-rank" data-top="False">#86</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/86-nonameguy/"><span class="lb-riotid">NoNameGuy#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1098,7 +1099,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/87-l1ns/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/87-l1ns/'">
         <td class="num"><span class="lb-rank" data-top="False">#87</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/87-l1ns/"><span class="lb-riotid">L1ns#TTV</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1108,7 +1109,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/88-fin0han/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/88-fin0han/'">
         <td class="num"><span class="lb-rank" data-top="False">#88</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/88-fin0han/"><span class="lb-riotid">FIN0HAN#EUWW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1118,7 +1119,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/89-pmk-h4udrauf/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/89-pmk-h4udrauf/'">
         <td class="num"><span class="lb-rank" data-top="False">#89</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/89-pmk-h4udrauf/"><span class="lb-riotid">PMK h4udrauf#7777</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1128,7 +1129,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/90-stormy/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/90-stormy/'">
         <td class="num"><span class="lb-rank" data-top="False">#90</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/90-stormy/"><span class="lb-riotid">Stormy#88888</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1138,7 +1139,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/91-vatiii-x3/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/91-vatiii-x3/'">
         <td class="num"><span class="lb-rank" data-top="False">#91</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/91-vatiii-x3/"><span class="lb-riotid">Vatiii x3#EUW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1148,7 +1149,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/92-climber/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/92-climber/'">
         <td class="num"><span class="lb-rank" data-top="False">#92</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/92-climber/"><span class="lb-riotid">Climber#2137</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1158,7 +1159,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/93-waab/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/93-waab/'">
         <td class="num"><span class="lb-rank" data-top="False">#93</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/93-waab/"><span class="lb-riotid">Waab#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1168,7 +1169,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/94-hashida/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/94-hashida/'">
         <td class="num"><span class="lb-rank" data-top="False">#94</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/94-hashida/"><span class="lb-riotid">HASHIDA#EUW</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1178,7 +1179,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/95-i-miss-thex/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/95-i-miss-thex/'">
         <td class="num"><span class="lb-rank" data-top="False">#95</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/95-i-miss-thex/"><span class="lb-riotid">i miss thex#prime</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1188,7 +1189,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/96-klicornen/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/96-klicornen/'">
         <td class="num"><span class="lb-rank" data-top="False">#96</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/96-klicornen/"><span class="lb-riotid">KlicorneN#4444</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1198,7 +1199,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/97-lumperich007/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/97-lumperich007/'">
         <td class="num"><span class="lb-rank" data-top="False">#97</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/97-lumperich007/"><span class="lb-riotid">Lumperich007#EUW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1208,7 +1209,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/98-af-lorus/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/98-af-lorus/'">
         <td class="num"><span class="lb-rank" data-top="False">#98</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/98-af-lorus/"><span class="lb-riotid">AF Lorus#roll</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1218,7 +1219,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/99-igothaxxxeuw/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/99-igothaxxxeuw/'">
         <td class="num"><span class="lb-rank" data-top="False">#99</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/99-igothaxxxeuw/"><span class="lb-riotid">IgotHAXXXeuw#EUW</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1228,7 +1229,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/euw/100-sxy-banawest/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/euw/100-sxy-banawest/'">
         <td class="num"><span class="lb-rank" data-top="False">#100</span></td>
         <td><a class="lb-player-cell" href="../../player/euw/100-sxy-banawest/"><span class="lb-riotid">SXY BanaWest#SXY</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1241,9 +1242,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </tbody>
   </table>
 </div>
+<button type="button" class="gh-btn lb-more" data-lb-more>Show all 100 players</button>
 
-<h2 class="fiche-section-title">North America (NA)</h2>
-<div class="lb-table-wrap">
+<h2 class="fiche-section-title" id="lb-na">North America (NA)</h2>
+<div class="lb-table-wrap" data-lb-region>
   <table class="lb-table">
     <thead><tr><th class="num">Rank</th><th>Player</th><th>Tier</th><th class="num">LP</th><th>Form (last 5)</th></tr></thead>
     <tbody>
@@ -1498,7 +1500,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/26-j-or-c/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/26-j-or-c/'">
         <td class="num"><span class="lb-rank" data-top="False">#26</span></td>
         <td><a class="lb-player-cell" href="../../player/na/26-j-or-c/"><span class="lb-riotid">J or C#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1508,7 +1510,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/27-ctg-dankmemes01/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/27-ctg-dankmemes01/'">
         <td class="num"><span class="lb-rank" data-top="False">#27</span></td>
         <td><a class="lb-player-cell" href="../../player/na/27-ctg-dankmemes01/"><span class="lb-riotid">CTG dankmemes01#001</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1518,7 +1520,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/28-pun/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/28-pun/'">
         <td class="num"><span class="lb-rank" data-top="False">#28</span></td>
         <td><a class="lb-player-cell" href="../../player/na/28-pun/"><span class="lb-riotid">Pun#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1528,7 +1530,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/29-joopsakid/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/29-joopsakid/'">
         <td class="num"><span class="lb-rank" data-top="False">#29</span></td>
         <td><a class="lb-player-cell" href="../../player/na/29-joopsakid/"><span class="lb-riotid">Joopsakid#227</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1538,7 +1540,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/30-darth-nub/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/30-darth-nub/'">
         <td class="num"><span class="lb-rank" data-top="False">#30</span></td>
         <td><a class="lb-player-cell" href="../../player/na/30-darth-nub/"><span class="lb-riotid">Darth Nub#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1548,7 +1550,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/31-jasonjava/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/31-jasonjava/'">
         <td class="num"><span class="lb-rank" data-top="False">#31</span></td>
         <td><a class="lb-player-cell" href="../../player/na/31-jasonjava/"><span class="lb-riotid">jasonjava#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1558,7 +1560,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/32-chuyen2311/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/32-chuyen2311/'">
         <td class="num"><span class="lb-rank" data-top="False">#32</span></td>
         <td><a class="lb-player-cell" href="../../player/na/32-chuyen2311/"><span class="lb-riotid">Chuyen2311#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1568,7 +1570,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/33-dasxly/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/33-dasxly/'">
         <td class="num"><span class="lb-rank" data-top="False">#33</span></td>
         <td><a class="lb-player-cell" href="../../player/na/33-dasxly/"><span class="lb-riotid">Dasxly#TTV</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1578,7 +1580,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/34-usi-insurance/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/34-usi-insurance/'">
         <td class="num"><span class="lb-rank" data-top="False">#34</span></td>
         <td><a class="lb-player-cell" href="../../player/na/34-usi-insurance/"><span class="lb-riotid">USI Insurance#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1588,7 +1590,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/35-voids1n/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/35-voids1n/'">
         <td class="num"><span class="lb-rank" data-top="False">#35</span></td>
         <td><a class="lb-player-cell" href="../../player/na/35-voids1n/"><span class="lb-riotid">VOIDS1N#NA1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1598,7 +1600,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/36-kiyoon/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/36-kiyoon/'">
         <td class="num"><span class="lb-rank" data-top="False">#36</span></td>
         <td><a class="lb-player-cell" href="../../player/na/36-kiyoon/"><span class="lb-riotid">Kiyoon#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1608,7 +1610,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/37-meta-spencer/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/37-meta-spencer/'">
         <td class="num"><span class="lb-rank" data-top="False">#37</span></td>
         <td><a class="lb-player-cell" href="../../player/na/37-meta-spencer/"><span class="lb-riotid">META Spencer#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1618,7 +1620,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/38-silencer142/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/38-silencer142/'">
         <td class="num"><span class="lb-rank" data-top="False">#38</span></td>
         <td><a class="lb-player-cell" href="../../player/na/38-silencer142/"><span class="lb-riotid">silencer142#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1628,7 +1630,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/39-hotdog123/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/39-hotdog123/'">
         <td class="num"><span class="lb-rank" data-top="False">#39</span></td>
         <td><a class="lb-player-cell" href="../../player/na/39-hotdog123/"><span class="lb-riotid">hotdog123#456</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1638,7 +1640,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/40-acad-dishsoap/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/40-acad-dishsoap/'">
         <td class="num"><span class="lb-rank" data-top="False">#40</span></td>
         <td><a class="lb-player-cell" href="../../player/na/40-acad-dishsoap/"><span class="lb-riotid">ACAD Dishsoap#NA3</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1648,7 +1650,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/41-jdzielinski/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/41-jdzielinski/'">
         <td class="num"><span class="lb-rank" data-top="False">#41</span></td>
         <td><a class="lb-player-cell" href="../../player/na/41-jdzielinski/"><span class="lb-riotid">jdzielinski#PMD1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1658,7 +1660,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/42-maple/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/42-maple/'">
         <td class="num"><span class="lb-rank" data-top="False">#42</span></td>
         <td><a class="lb-player-cell" href="../../player/na/42-maple/"><span class="lb-riotid">Maple#Arrow</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1668,7 +1670,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/43-phoenixaa/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/43-phoenixaa/'">
         <td class="num"><span class="lb-rank" data-top="False">#43</span></td>
         <td><a class="lb-player-cell" href="../../player/na/43-phoenixaa/"><span class="lb-riotid">Phoenixaa#159</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1678,7 +1680,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/44-zmjjkk1/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/44-zmjjkk1/'">
         <td class="num"><span class="lb-rank" data-top="False">#44</span></td>
         <td><a class="lb-player-cell" href="../../player/na/44-zmjjkk1/"><span class="lb-riotid">ZmjjKK1#4316</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1688,7 +1690,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/45-artixrx/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/45-artixrx/'">
         <td class="num"><span class="lb-rank" data-top="False">#45</span></td>
         <td><a class="lb-player-cell" href="../../player/na/45-artixrx/"><span class="lb-riotid">ArtixRx#che</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1698,7 +1700,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/46-grea/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/46-grea/'">
         <td class="num"><span class="lb-rank" data-top="False">#46</span></td>
         <td><a class="lb-player-cell" href="../../player/na/46-grea/"><span class="lb-riotid">grea#melt</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1708,7 +1710,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/47-sistemi-burgije/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/47-sistemi-burgije/'">
         <td class="num"><span class="lb-rank" data-top="False">#47</span></td>
         <td><a class="lb-player-cell" href="../../player/na/47-sistemi-burgije/"><span class="lb-riotid">sistemi burgije#NA1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1718,7 +1720,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/48-acad-wasian/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/48-acad-wasian/'">
         <td class="num"><span class="lb-rank" data-top="False">#48</span></td>
         <td><a class="lb-player-cell" href="../../player/na/48-acad-wasian/"><span class="lb-riotid">ACAD wasian#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1728,7 +1730,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/49-crazycat/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/49-crazycat/'">
         <td class="num"><span class="lb-rank" data-top="False">#49</span></td>
         <td><a class="lb-player-cell" href="../../player/na/49-crazycat/"><span class="lb-riotid">CrazyCat#Kitty</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1738,7 +1740,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/50-vit-k3soju/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/50-vit-k3soju/'">
         <td class="num"><span class="lb-rank" data-top="False">#50</span></td>
         <td><a class="lb-player-cell" href="../../player/na/50-vit-k3soju/"><span class="lb-riotid">VIT k3soju#000</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1748,7 +1750,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/51-4kaden/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/51-4kaden/'">
         <td class="num"><span class="lb-rank" data-top="False">#51</span></td>
         <td><a class="lb-player-cell" href="../../player/na/51-4kaden/"><span class="lb-riotid">4kaden#pee</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1758,7 +1760,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/52-fl-cambulee/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/52-fl-cambulee/'">
         <td class="num"><span class="lb-rank" data-top="False">#52</span></td>
         <td><a class="lb-player-cell" href="../../player/na/52-fl-cambulee/"><span class="lb-riotid">FL Cambulee#PMD</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1768,7 +1770,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/53-title/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/53-title/'">
         <td class="num"><span class="lb-rank" data-top="False">#53</span></td>
         <td><a class="lb-player-cell" href="../../player/na/53-title/"><span class="lb-riotid">title#1951</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1778,7 +1780,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/54-anx/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/54-anx/'">
         <td class="num"><span class="lb-rank" data-top="False">#54</span></td>
         <td><a class="lb-player-cell" href="../../player/na/54-anx/"><span class="lb-riotid">Anx#TWICE</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1788,7 +1790,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/55-kiting-is-hard/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/55-kiting-is-hard/'">
         <td class="num"><span class="lb-rank" data-top="False">#55</span></td>
         <td><a class="lb-player-cell" href="../../player/na/55-kiting-is-hard/"><span class="lb-riotid">Kiting is Hard#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1798,7 +1800,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/56-ashemoo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/56-ashemoo/'">
         <td class="num"><span class="lb-rank" data-top="False">#56</span></td>
         <td><a class="lb-player-cell" href="../../player/na/56-ashemoo/"><span class="lb-riotid">Ashemoo#XDD</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1808,7 +1810,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/57-kyivix/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/57-kyivix/'">
         <td class="num"><span class="lb-rank" data-top="False">#57</span></td>
         <td><a class="lb-player-cell" href="../../player/na/57-kyivix/"><span class="lb-riotid">Kyivix#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1818,7 +1820,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/58-ripple-overdrive/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/58-ripple-overdrive/'">
         <td class="num"><span class="lb-rank" data-top="False">#58</span></td>
         <td><a class="lb-player-cell" href="../../player/na/58-ripple-overdrive/"><span class="lb-riotid">Ripple Overdrive#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1828,7 +1830,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/59-dreynox/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/59-dreynox/'">
         <td class="num"><span class="lb-rank" data-top="False">#59</span></td>
         <td><a class="lb-player-cell" href="../../player/na/59-dreynox/"><span class="lb-riotid">Dreynox#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1838,7 +1840,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/60-jjchen101/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/60-jjchen101/'">
         <td class="num"><span class="lb-rank" data-top="False">#60</span></td>
         <td><a class="lb-player-cell" href="../../player/na/60-jjchen101/"><span class="lb-riotid">Jjchen101#101</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1848,7 +1850,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/61-inflames/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/61-inflames/'">
         <td class="num"><span class="lb-rank" data-top="False">#61</span></td>
         <td><a class="lb-player-cell" href="../../player/na/61-inflames/"><span class="lb-riotid">inflames#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1858,7 +1860,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/62-ebic-gamer/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/62-ebic-gamer/'">
         <td class="num"><span class="lb-rank" data-top="False">#62</span></td>
         <td><a class="lb-player-cell" href="../../player/na/62-ebic-gamer/"><span class="lb-riotid">EBIC GAMER#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1868,7 +1870,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/63-be-kind-errday/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/63-be-kind-errday/'">
         <td class="num"><span class="lb-rank" data-top="False">#63</span></td>
         <td><a class="lb-player-cell" href="../../player/na/63-be-kind-errday/"><span class="lb-riotid">be kind errday#jebs</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1878,7 +1880,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/64-crushings/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/64-crushings/'">
         <td class="num"><span class="lb-rank" data-top="False">#64</span></td>
         <td><a class="lb-player-cell" href="../../player/na/64-crushings/"><span class="lb-riotid">Crushings#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1888,7 +1890,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/65-luqun/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/65-luqun/'">
         <td class="num"><span class="lb-rank" data-top="False">#65</span></td>
         <td><a class="lb-player-cell" href="../../player/na/65-luqun/"><span class="lb-riotid">Luqun#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1898,7 +1900,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/66-jcuuub/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/66-jcuuub/'">
         <td class="num"><span class="lb-rank" data-top="False">#66</span></td>
         <td><a class="lb-player-cell" href="../../player/na/66-jcuuub/"><span class="lb-riotid">jcuuub#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1908,7 +1910,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/67-spethom/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/67-spethom/'">
         <td class="num"><span class="lb-rank" data-top="False">#67</span></td>
         <td><a class="lb-player-cell" href="../../player/na/67-spethom/"><span class="lb-riotid">spethom#him</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1918,7 +1920,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/68-mjs-deleted/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/68-mjs-deleted/'">
         <td class="num"><span class="lb-rank" data-top="False">#68</span></td>
         <td><a class="lb-player-cell" href="../../player/na/68-mjs-deleted/"><span class="lb-riotid">MJS Deleted#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1928,7 +1930,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/69-shoma/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/69-shoma/'">
         <td class="num"><span class="lb-rank" data-top="False">#69</span></td>
         <td><a class="lb-player-cell" href="../../player/na/69-shoma/"><span class="lb-riotid">shoma#INT1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1938,7 +1940,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/70-cool-guy-dom/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/70-cool-guy-dom/'">
         <td class="num"><span class="lb-rank" data-top="False">#70</span></td>
         <td><a class="lb-player-cell" href="../../player/na/70-cool-guy-dom/"><span class="lb-riotid">Cool Guy Dom#dom</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1948,7 +1950,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/71-roc-lilbear/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/71-roc-lilbear/'">
         <td class="num"><span class="lb-rank" data-top="False">#71</span></td>
         <td><a class="lb-player-cell" href="../../player/na/71-roc-lilbear/"><span class="lb-riotid">ROC Lilbear#1122</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1958,7 +1960,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/72-godlydestroyer9/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/72-godlydestroyer9/'">
         <td class="num"><span class="lb-rank" data-top="False">#72</span></td>
         <td><a class="lb-player-cell" href="../../player/na/72-godlydestroyer9/"><span class="lb-riotid">GodlyDestroyer9#3004</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1968,7 +1970,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/73-cookiesop/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/73-cookiesop/'">
         <td class="num"><span class="lb-rank" data-top="False">#73</span></td>
         <td><a class="lb-player-cell" href="../../player/na/73-cookiesop/"><span class="lb-riotid">CookiesOP#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1978,7 +1980,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/74-lc-laharl/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/74-lc-laharl/'">
         <td class="num"><span class="lb-rank" data-top="False">#74</span></td>
         <td><a class="lb-player-cell" href="../../player/na/74-lc-laharl/"><span class="lb-riotid">LC Laharl#3836</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1988,7 +1990,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/75-turtleduckling/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/75-turtleduckling/'">
         <td class="num"><span class="lb-rank" data-top="False">#75</span></td>
         <td><a class="lb-player-cell" href="../../player/na/75-turtleduckling/"><span class="lb-riotid">turtleduckling#NA1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -1998,7 +2000,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/76-fl-chunington/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/76-fl-chunington/'">
         <td class="num"><span class="lb-rank" data-top="False">#76</span></td>
         <td><a class="lb-player-cell" href="../../player/na/76-fl-chunington/"><span class="lb-riotid">FL Chunington#intt</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2008,7 +2010,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/77-roc-jazlatte/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/77-roc-jazlatte/'">
         <td class="num"><span class="lb-rank" data-top="False">#77</span></td>
         <td><a class="lb-player-cell" href="../../player/na/77-roc-jazlatte/"><span class="lb-riotid">ROC JazLatte#latte</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2018,7 +2020,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/78-rety/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/78-rety/'">
         <td class="num"><span class="lb-rank" data-top="False">#78</span></td>
         <td><a class="lb-player-cell" href="../../player/na/78-rety/"><span class="lb-riotid">rety#0530</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2028,7 +2030,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/79-dehua/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/79-dehua/'">
         <td class="num"><span class="lb-rank" data-top="False">#79</span></td>
         <td><a class="lb-player-cell" href="../../player/na/79-dehua/"><span class="lb-riotid">dehua#one</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2038,7 +2040,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/80-cheche/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/80-cheche/'">
         <td class="num"><span class="lb-rank" data-top="False">#80</span></td>
         <td><a class="lb-player-cell" href="../../player/na/80-cheche/"><span class="lb-riotid">Cheche#tefet</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2048,7 +2050,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/81-jukeyou/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/81-jukeyou/'">
         <td class="num"><span class="lb-rank" data-top="False">#81</span></td>
         <td><a class="lb-player-cell" href="../../player/na/81-jukeyou/"><span class="lb-riotid">JukeYou#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2058,7 +2060,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/82-wutpu/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/82-wutpu/'">
         <td class="num"><span class="lb-rank" data-top="False">#82</span></td>
         <td><a class="lb-player-cell" href="../../player/na/82-wutpu/"><span class="lb-riotid">WutPu#moc</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2068,7 +2070,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/83-deadlyco2/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/83-deadlyco2/'">
         <td class="num"><span class="lb-rank" data-top="False">#83</span></td>
         <td><a class="lb-player-cell" href="../../player/na/83-deadlyco2/"><span class="lb-riotid">DeadlyCO2#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2078,7 +2080,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/84-picklesucker/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/84-picklesucker/'">
         <td class="num"><span class="lb-rank" data-top="False">#84</span></td>
         <td><a class="lb-player-cell" href="../../player/na/84-picklesucker/"><span class="lb-riotid">Picklesucker#Slorp</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2088,7 +2090,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/85-notrth/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/85-notrth/'">
         <td class="num"><span class="lb-rank" data-top="False">#85</span></td>
         <td><a class="lb-player-cell" href="../../player/na/85-notrth/"><span class="lb-riotid">Notrth#6968</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2098,7 +2100,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/86-tactictorn/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/86-tactictorn/'">
         <td class="num"><span class="lb-rank" data-top="False">#86</span></td>
         <td><a class="lb-player-cell" href="../../player/na/86-tactictorn/"><span class="lb-riotid">TacticTorn#NA1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2108,7 +2110,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/87-pitzy/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/87-pitzy/'">
         <td class="num"><span class="lb-rank" data-top="False">#87</span></td>
         <td><a class="lb-player-cell" href="../../player/na/87-pitzy/"><span class="lb-riotid">pitzy#2676</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2118,7 +2120,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/88-mrbombastic/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/88-mrbombastic/'">
         <td class="num"><span class="lb-rank" data-top="False">#88</span></td>
         <td><a class="lb-player-cell" href="../../player/na/88-mrbombastic/"><span class="lb-riotid">MrBombastic#NA1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2128,7 +2130,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/89-bopster/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/89-bopster/'">
         <td class="num"><span class="lb-rank" data-top="False">#89</span></td>
         <td><a class="lb-player-cell" href="../../player/na/89-bopster/"><span class="lb-riotid">bopster#PMD</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2138,7 +2140,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/90-big-fish/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/90-big-fish/'">
         <td class="num"><span class="lb-rank" data-top="False">#90</span></td>
         <td><a class="lb-player-cell" href="../../player/na/90-big-fish/"><span class="lb-riotid">big fish#1517</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2148,7 +2150,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/91-yoni/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/91-yoni/'">
         <td class="num"><span class="lb-rank" data-top="False">#91</span></td>
         <td><a class="lb-player-cell" href="../../player/na/91-yoni/"><span class="lb-riotid">yoni#7601</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2158,7 +2160,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/92-lc-dominus/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/92-lc-dominus/'">
         <td class="num"><span class="lb-rank" data-top="False">#92</span></td>
         <td><a class="lb-player-cell" href="../../player/na/92-lc-dominus/"><span class="lb-riotid">LC Dominus#CAPO</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2168,7 +2170,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/93-gambagoblin/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/93-gambagoblin/'">
         <td class="num"><span class="lb-rank" data-top="False">#93</span></td>
         <td><a class="lb-player-cell" href="../../player/na/93-gambagoblin/"><span class="lb-riotid">GambaGoblin#1649</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2178,7 +2180,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/94-torontokyoarkjow/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/94-torontokyoarkjow/'">
         <td class="num"><span class="lb-rank" data-top="False">#94</span></td>
         <td><a class="lb-player-cell" href="../../player/na/94-torontokyoarkjow/"><span class="lb-riotid">torontokyoArkjow#NA2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2188,7 +2190,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/95-shabamoon/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/95-shabamoon/'">
         <td class="num"><span class="lb-rank" data-top="False">#95</span></td>
         <td><a class="lb-player-cell" href="../../player/na/95-shabamoon/"><span class="lb-riotid">Shabamoon#0954</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2198,7 +2200,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/96-cawluhn/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/96-cawluhn/'">
         <td class="num"><span class="lb-rank" data-top="False">#96</span></td>
         <td><a class="lb-player-cell" href="../../player/na/96-cawluhn/"><span class="lb-riotid">cawluhn#91709</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2208,7 +2210,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/97-senso/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/97-senso/'">
         <td class="num"><span class="lb-rank" data-top="False">#97</span></td>
         <td><a class="lb-player-cell" href="../../player/na/97-senso/"><span class="lb-riotid">senso#bub</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2218,7 +2220,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/98-fw-aq1h/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/98-fw-aq1h/'">
         <td class="num"><span class="lb-rank" data-top="False">#98</span></td>
         <td><a class="lb-player-cell" href="../../player/na/98-fw-aq1h/"><span class="lb-riotid">FW AQ1H#6406</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2228,7 +2230,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/99-cthin/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/99-cthin/'">
         <td class="num"><span class="lb-rank" data-top="False">#99</span></td>
         <td><a class="lb-player-cell" href="../../player/na/99-cthin/"><span class="lb-riotid">CtHin#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2238,7 +2240,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/na/100-i-coinflip-lane/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/na/100-i-coinflip-lane/'">
         <td class="num"><span class="lb-rank" data-top="False">#100</span></td>
         <td><a class="lb-player-cell" href="../../player/na/100-i-coinflip-lane/"><span class="lb-riotid">I coinflip lane#NA1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2251,9 +2253,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </tbody>
   </table>
 </div>
+<button type="button" class="gh-btn lb-more" data-lb-more>Show all 100 players</button>
 
-<h2 class="fiche-section-title">Brazil (BR)</h2>
-<div class="lb-table-wrap">
+<h2 class="fiche-section-title" id="lb-br">Brazil (BR)</h2>
+<div class="lb-table-wrap" data-lb-region>
   <table class="lb-table">
     <thead><tr><th class="num">Rank</th><th>Player</th><th>Tier</th><th class="num">LP</th><th>Form (last 5)</th></tr></thead>
     <tbody>
@@ -2508,7 +2511,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/26-polar1zed/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/26-polar1zed/'">
         <td class="num"><span class="lb-rank" data-top="False">#26</span></td>
         <td><a class="lb-player-cell" href="../../player/br/26-polar1zed/"><span class="lb-riotid">polar1zed#011</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2518,7 +2521,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/27-tttango/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/27-tttango/'">
         <td class="num"><span class="lb-rank" data-top="False">#27</span></td>
         <td><a class="lb-player-cell" href="../../player/br/27-tttango/"><span class="lb-riotid">TTTango#tango</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2528,7 +2531,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/28-sakishow/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/28-sakishow/'">
         <td class="num"><span class="lb-rank" data-top="False">#28</span></td>
         <td><a class="lb-player-cell" href="../../player/br/28-sakishow/"><span class="lb-riotid">sakishow#may</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2538,7 +2541,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/29-dusk-kabessaaun/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/29-dusk-kabessaaun/'">
         <td class="num"><span class="lb-rank" data-top="False">#29</span></td>
         <td><a class="lb-player-cell" href="../../player/br/29-dusk-kabessaaun/"><span class="lb-riotid">DUSK Kabessaaun#BR01</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2548,7 +2551,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/30-n-o-pivoto/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/30-n-o-pivoto/'">
         <td class="num"><span class="lb-rank" data-top="False">#30</span></td>
         <td><a class="lb-player-cell" href="../../player/br/30-n-o-pivoto/"><span class="lb-riotid">NÃO PIVOTO#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2558,7 +2561,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/31-santojamaicano/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/31-santojamaicano/'">
         <td class="num"><span class="lb-rank" data-top="False">#31</span></td>
         <td><a class="lb-player-cell" href="../../player/br/31-santojamaicano/"><span class="lb-riotid">santojamaicano#777</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2568,7 +2571,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/32-ryt-hardpuzzle/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/32-ryt-hardpuzzle/'">
         <td class="num"><span class="lb-rank" data-top="False">#32</span></td>
         <td><a class="lb-player-cell" href="../../player/br/32-ryt-hardpuzzle/"><span class="lb-riotid">RYT Hardpuzzle#3356</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2578,7 +2581,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/33-four-zak/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/33-four-zak/'">
         <td class="num"><span class="lb-rank" data-top="False">#33</span></td>
         <td><a class="lb-player-cell" href="../../player/br/33-four-zak/"><span class="lb-riotid">FOUR zak#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2588,7 +2591,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/34-dobz/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/34-dobz/'">
         <td class="num"><span class="lb-rank" data-top="False">#34</span></td>
         <td><a class="lb-player-cell" href="../../player/br/34-dobz/"><span class="lb-riotid">DobZ#1987</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2598,7 +2601,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/35-impagnat/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/35-impagnat/'">
         <td class="num"><span class="lb-rank" data-top="False">#35</span></td>
         <td><a class="lb-player-cell" href="../../player/br/35-impagnat/"><span class="lb-riotid">ImpagnaT#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2608,7 +2611,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/36-gvidigal/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/36-gvidigal/'">
         <td class="num"><span class="lb-rank" data-top="False">#36</span></td>
         <td><a class="lb-player-cell" href="../../player/br/36-gvidigal/"><span class="lb-riotid">GVidigal#br1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2618,7 +2621,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/37-j-v/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/37-j-v/'">
         <td class="num"><span class="lb-rank" data-top="False">#37</span></td>
         <td><a class="lb-player-cell" href="../../player/br/37-j-v/"><span class="lb-riotid">J V#FORJA</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2628,7 +2631,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/38-caomei/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/38-caomei/'">
         <td class="num"><span class="lb-rank" data-top="False">#38</span></td>
         <td><a class="lb-player-cell" href="../../player/br/38-caomei/"><span class="lb-riotid">caoMei#2942</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2638,7 +2641,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/39-fsn/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/39-fsn/'">
         <td class="num"><span class="lb-rank" data-top="False">#39</span></td>
         <td><a class="lb-player-cell" href="../../player/br/39-fsn/"><span class="lb-riotid">fsn#BR2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2648,7 +2651,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/40-midoriya/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/40-midoriya/'">
         <td class="num"><span class="lb-rank" data-top="False">#40</span></td>
         <td><a class="lb-player-cell" href="../../player/br/40-midoriya/"><span class="lb-riotid">Midoriya#midu</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2658,7 +2661,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/41-exfumante/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/41-exfumante/'">
         <td class="num"><span class="lb-rank" data-top="False">#41</span></td>
         <td><a class="lb-player-cell" href="../../player/br/41-exfumante/"><span class="lb-riotid">exfumante#666</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2668,7 +2671,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/42-four-vakio/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/42-four-vakio/'">
         <td class="num"><span class="lb-rank" data-top="False">#42</span></td>
         <td><a class="lb-player-cell" href="../../player/br/42-four-vakio/"><span class="lb-riotid">FOUR vakio#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2678,7 +2681,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/43-phimas/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/43-phimas/'">
         <td class="num"><span class="lb-rank" data-top="False">#43</span></td>
         <td><a class="lb-player-cell" href="../../player/br/43-phimas/"><span class="lb-riotid">Phimas#no Mi</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2688,7 +2691,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/44-koke/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/44-koke/'">
         <td class="num"><span class="lb-rank" data-top="False">#44</span></td>
         <td><a class="lb-player-cell" href="../../player/br/44-koke/"><span class="lb-riotid">koke#four</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2698,7 +2701,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/45-high-hatsu/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/45-high-hatsu/'">
         <td class="num"><span class="lb-rank" data-top="False">#45</span></td>
         <td><a class="lb-player-cell" href="../../player/br/45-high-hatsu/"><span class="lb-riotid">HIGH Hatsu#3030</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2708,7 +2711,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/46-four-bala/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/46-four-bala/'">
         <td class="num"><span class="lb-rank" data-top="False">#46</span></td>
         <td><a class="lb-player-cell" href="../../player/br/46-four-bala/"><span class="lb-riotid">FOUR Bala#FOUR</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2718,7 +2721,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/47-lionel-messi/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/47-lionel-messi/'">
         <td class="num"><span class="lb-rank" data-top="False">#47</span></td>
         <td><a class="lb-player-cell" href="../../player/br/47-lionel-messi/"><span class="lb-riotid">Lionel Messi#BeTo</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2728,7 +2731,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/48-frey/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/48-frey/'">
         <td class="num"><span class="lb-rank" data-top="False">#48</span></td>
         <td><a class="lb-player-cell" href="../../player/br/48-frey/"><span class="lb-riotid">frey#sky</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2738,7 +2741,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/49-fora-checkmate/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/49-fora-checkmate/'">
         <td class="num"><span class="lb-rank" data-top="False">#49</span></td>
         <td><a class="lb-player-cell" href="../../player/br/49-fora-checkmate/"><span class="lb-riotid">FORA CheckMate#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2748,7 +2751,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/50-teteuso10/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/50-teteuso10/'">
         <td class="num"><span class="lb-rank" data-top="False">#50</span></td>
         <td><a class="lb-player-cell" href="../../player/br/50-teteuso10/"><span class="lb-riotid">Teteuso10#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2758,7 +2761,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/51-princesval/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/51-princesval/'">
         <td class="num"><span class="lb-rank" data-top="False">#51</span></td>
         <td><a class="lb-player-cell" href="../../player/br/51-princesval/"><span class="lb-riotid">priNcesval#777</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2768,7 +2771,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/52-slooper/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/52-slooper/'">
         <td class="num"><span class="lb-rank" data-top="False">#52</span></td>
         <td><a class="lb-player-cell" href="../../player/br/52-slooper/"><span class="lb-riotid">Slooper#BR2</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2778,7 +2781,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/53-high-guioliveira/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/53-high-guioliveira/'">
         <td class="num"><span class="lb-rank" data-top="False">#53</span></td>
         <td><a class="lb-player-cell" href="../../player/br/53-high-guioliveira/"><span class="lb-riotid">HIGH GuiOliveira#0709</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2788,7 +2791,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/54-jinx/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/54-jinx/'">
         <td class="num"><span class="lb-rank" data-top="False">#54</span></td>
         <td><a class="lb-player-cell" href="../../player/br/54-jinx/"><span class="lb-riotid">Jinx#levis</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2798,7 +2801,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/55-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/55-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#55</span></td>
         <td><a class="lb-player-cell" href="../../player/br/55-x/"><span class="lb-riotid">Подпольность#Nihil</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -2808,7 +2811,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/56-monster-flames/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/56-monster-flames/'">
         <td class="num"><span class="lb-rank" data-top="False">#56</span></td>
         <td><a class="lb-player-cell" href="../../player/br/56-monster-flames/"><span class="lb-riotid">monster flames#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2818,7 +2821,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/57-paulo-brif-cadu/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/57-paulo-brif-cadu/'">
         <td class="num"><span class="lb-rank" data-top="False">#57</span></td>
         <td><a class="lb-player-cell" href="../../player/br/57-paulo-brif-cadu/"><span class="lb-riotid">Paulo Brif Cadu#5345</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -2828,7 +2831,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/58-alberoni/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/58-alberoni/'">
         <td class="num"><span class="lb-rank" data-top="False">#58</span></td>
         <td><a class="lb-player-cell" href="../../player/br/58-alberoni/"><span class="lb-riotid">Alberoni#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2838,7 +2841,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/59-verus/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/59-verus/'">
         <td class="num"><span class="lb-rank" data-top="False">#59</span></td>
         <td><a class="lb-player-cell" href="../../player/br/59-verus/"><span class="lb-riotid">Verus#tft</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2848,7 +2851,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/60-majorana/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/60-majorana/'">
         <td class="num"><span class="lb-rank" data-top="False">#60</span></td>
         <td><a class="lb-player-cell" href="../../player/br/60-majorana/"><span class="lb-riotid">Majorana#RAI</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2858,7 +2861,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/61-sagedesempregada/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/61-sagedesempregada/'">
         <td class="num"><span class="lb-rank" data-top="False">#61</span></td>
         <td><a class="lb-player-cell" href="../../player/br/61-sagedesempregada/"><span class="lb-riotid">sagedesempregada#twtch</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2868,7 +2871,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/62-hugo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/62-hugo/'">
         <td class="num"><span class="lb-rank" data-top="False">#62</span></td>
         <td><a class="lb-player-cell" href="../../player/br/62-hugo/"><span class="lb-riotid">Hugo#gag</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2878,7 +2881,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/63-deka/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/63-deka/'">
         <td class="num"><span class="lb-rank" data-top="False">#63</span></td>
         <td><a class="lb-player-cell" href="../../player/br/63-deka/"><span class="lb-riotid">deka#tftgg</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2888,7 +2891,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/64-flameguiistatft/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/64-flameguiistatft/'">
         <td class="num"><span class="lb-rank" data-top="False">#64</span></td>
         <td><a class="lb-player-cell" href="../../player/br/64-flameguiistatft/"><span class="lb-riotid">FlameguiistaTFT#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2898,7 +2901,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/65-anklam/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/65-anklam/'">
         <td class="num"><span class="lb-rank" data-top="False">#65</span></td>
         <td><a class="lb-player-cell" href="../../player/br/65-anklam/"><span class="lb-riotid">Anklam#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2908,7 +2911,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/66-hop/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/66-hop/'">
         <td class="num"><span class="lb-rank" data-top="False">#66</span></td>
         <td><a class="lb-player-cell" href="../../player/br/66-hop/"><span class="lb-riotid">Hop#TFT3</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2918,7 +2921,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/67-r1uku/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/67-r1uku/'">
         <td class="num"><span class="lb-rank" data-top="False">#67</span></td>
         <td><a class="lb-player-cell" href="../../player/br/67-r1uku/"><span class="lb-riotid">R1uku#br1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2928,7 +2931,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/68-pedhf/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/68-pedhf/'">
         <td class="num"><span class="lb-rank" data-top="False">#68</span></td>
         <td><a class="lb-player-cell" href="../../player/br/68-pedhf/"><span class="lb-riotid">Pedhf#Pedhf</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2938,7 +2941,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/69-tl-castanha/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/69-tl-castanha/'">
         <td class="num"><span class="lb-rank" data-top="False">#69</span></td>
         <td><a class="lb-player-cell" href="../../player/br/69-tl-castanha/"><span class="lb-riotid">TL Castanha#BR01</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2948,7 +2951,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/70-brunoopro/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/70-brunoopro/'">
         <td class="num"><span class="lb-rank" data-top="False">#70</span></td>
         <td><a class="lb-player-cell" href="../../player/br/70-brunoopro/"><span class="lb-riotid">BrunooPRO#RAGE</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2958,7 +2961,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/71-dolly/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/71-dolly/'">
         <td class="num"><span class="lb-rank" data-top="False">#71</span></td>
         <td><a class="lb-player-cell" href="../../player/br/71-dolly/"><span class="lb-riotid">Dolly#SP1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2968,7 +2971,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/72-alelo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/72-alelo/'">
         <td class="num"><span class="lb-rank" data-top="False">#72</span></td>
         <td><a class="lb-player-cell" href="../../player/br/72-alelo/"><span class="lb-riotid">Aleloツ#podre</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2978,7 +2981,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/73-right-mistake/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/73-right-mistake/'">
         <td class="num"><span class="lb-rank" data-top="False">#73</span></td>
         <td><a class="lb-player-cell" href="../../player/br/73-right-mistake/"><span class="lb-riotid">right mistake#goat</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -2988,7 +2991,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/74-destroyerhunter9/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/74-destroyerhunter9/'">
         <td class="num"><span class="lb-rank" data-top="False">#74</span></td>
         <td><a class="lb-player-cell" href="../../player/br/74-destroyerhunter9/"><span class="lb-riotid">DestroyerHunter9#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -2998,7 +3001,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/75-sali-sali/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/75-sali-sali/'">
         <td class="num"><span class="lb-rank" data-top="False">#75</span></td>
         <td><a class="lb-player-cell" href="../../player/br/75-sali-sali/"><span class="lb-riotid">Sali Sali#aq2a7</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3008,7 +3011,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/76-hikki/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/76-hikki/'">
         <td class="num"><span class="lb-rank" data-top="False">#76</span></td>
         <td><a class="lb-player-cell" href="../../player/br/76-hikki/"><span class="lb-riotid">Hikki#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3018,7 +3021,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/77-tanjo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/77-tanjo/'">
         <td class="num"><span class="lb-rank" data-top="False">#77</span></td>
         <td><a class="lb-player-cell" href="../../player/br/77-tanjo/"><span class="lb-riotid">Tanjo#Café</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3028,7 +3031,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/78-ai-ce-toma/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/78-ai-ce-toma/'">
         <td class="num"><span class="lb-rank" data-top="False">#78</span></td>
         <td><a class="lb-player-cell" href="../../player/br/78-ai-ce-toma/"><span class="lb-riotid">AI CE TOMA#genio</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3038,7 +3041,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/79-ciulla/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/79-ciulla/'">
         <td class="num"><span class="lb-rank" data-top="False">#79</span></td>
         <td><a class="lb-player-cell" href="../../player/br/79-ciulla/"><span class="lb-riotid">Ciulla#666</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3048,7 +3051,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/80-o-vasco/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/80-o-vasco/'">
         <td class="num"><span class="lb-rank" data-top="False">#80</span></td>
         <td><a class="lb-player-cell" href="../../player/br/80-o-vasco/"><span class="lb-riotid">O VASCO#VAS</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -3058,7 +3061,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/81-gabymar10/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/81-gabymar10/'">
         <td class="num"><span class="lb-rank" data-top="False">#81</span></td>
         <td><a class="lb-player-cell" href="../../player/br/81-gabymar10/"><span class="lb-riotid">Gabymar10#br1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3068,7 +3071,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/82-yetti/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/82-yetti/'">
         <td class="num"><span class="lb-rank" data-top="False">#82</span></td>
         <td><a class="lb-player-cell" href="../../player/br/82-yetti/"><span class="lb-riotid">Yetti#000</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3078,7 +3081,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/83-nobunarga/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/83-nobunarga/'">
         <td class="num"><span class="lb-rank" data-top="False">#83</span></td>
         <td><a class="lb-player-cell" href="../../player/br/83-nobunarga/"><span class="lb-riotid">Nobunarga#Oda</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3088,7 +3091,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/84-fossan/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/84-fossan/'">
         <td class="num"><span class="lb-rank" data-top="False">#84</span></td>
         <td><a class="lb-player-cell" href="../../player/br/84-fossan/"><span class="lb-riotid">Fossan#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3098,7 +3101,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/85-amor-fati/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/85-amor-fati/'">
         <td class="num"><span class="lb-rank" data-top="False">#85</span></td>
         <td><a class="lb-player-cell" href="../../player/br/85-amor-fati/"><span class="lb-riotid">Amor Fati#bby5</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3108,7 +3111,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/86-four-bieul/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/86-four-bieul/'">
         <td class="num"><span class="lb-rank" data-top="False">#86</span></td>
         <td><a class="lb-player-cell" href="../../player/br/86-four-bieul/"><span class="lb-riotid">FOUR BieuL#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3118,7 +3121,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/87-aura-erza/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/87-aura-erza/'">
         <td class="num"><span class="lb-rank" data-top="False">#87</span></td>
         <td><a class="lb-player-cell" href="../../player/br/87-aura-erza/"><span class="lb-riotid">AURA Erza#BR10</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3128,7 +3131,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/88-levelmaximo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/88-levelmaximo/'">
         <td class="num"><span class="lb-rank" data-top="False">#88</span></td>
         <td><a class="lb-player-cell" href="../../player/br/88-levelmaximo/"><span class="lb-riotid">levelmaximo#tft</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3138,7 +3141,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/89-fell/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/89-fell/'">
         <td class="num"><span class="lb-rank" data-top="False">#89</span></td>
         <td><a class="lb-player-cell" href="../../player/br/89-fell/"><span class="lb-riotid">Fell#Feii</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3148,7 +3151,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/90-beleza-l-oz-o/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/90-beleza-l-oz-o/'">
         <td class="num"><span class="lb-rank" data-top="False">#90</span></td>
         <td><a class="lb-player-cell" href="../../player/br/90-beleza-l-oz-o/"><span class="lb-riotid">Beleza Léozão#007</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -3158,7 +3161,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/91-m4-digs/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/91-m4-digs/'">
         <td class="num"><span class="lb-rank" data-top="False">#91</span></td>
         <td><a class="lb-player-cell" href="../../player/br/91-m4-digs/"><span class="lb-riotid">M4 Digs#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3168,7 +3171,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/92-allan-tailon/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/92-allan-tailon/'">
         <td class="num"><span class="lb-rank" data-top="False">#92</span></td>
         <td><a class="lb-player-cell" href="../../player/br/92-allan-tailon/"><span class="lb-riotid">Allan Tailon#Allan</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3178,7 +3181,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/93-rdg-txucas/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/93-rdg-txucas/'">
         <td class="num"><span class="lb-rank" data-top="False">#93</span></td>
         <td><a class="lb-player-cell" href="../../player/br/93-rdg-txucas/"><span class="lb-riotid">RDG Txucas#BAGRE</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3188,7 +3191,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/94-sr-kapiroto/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/94-sr-kapiroto/'">
         <td class="num"><span class="lb-rank" data-top="False">#94</span></td>
         <td><a class="lb-player-cell" href="../../player/br/94-sr-kapiroto/"><span class="lb-riotid">Sr Kapiroto#LEITE</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -3198,7 +3201,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/95-the-manhieco/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/95-the-manhieco/'">
         <td class="num"><span class="lb-rank" data-top="False">#95</span></td>
         <td><a class="lb-player-cell" href="../../player/br/95-the-manhieco/"><span class="lb-riotid">The Manhieco#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3208,7 +3211,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/96-zicoo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/96-zicoo/'">
         <td class="num"><span class="lb-rank" data-top="False">#96</span></td>
         <td><a class="lb-player-cell" href="../../player/br/96-zicoo/"><span class="lb-riotid">ZicoO#br1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -3218,7 +3221,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/97-deafen/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/97-deafen/'">
         <td class="num"><span class="lb-rank" data-top="False">#97</span></td>
         <td><a class="lb-player-cell" href="../../player/br/97-deafen/"><span class="lb-riotid">Deafen#NSNP</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3228,7 +3231,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/98-guiguilson/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/98-guiguilson/'">
         <td class="num"><span class="lb-rank" data-top="False">#98</span></td>
         <td><a class="lb-player-cell" href="../../player/br/98-guiguilson/"><span class="lb-riotid">GuiGuilson#eevee</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3238,7 +3241,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/99-sanninzera/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/99-sanninzera/'">
         <td class="num"><span class="lb-rank" data-top="False">#99</span></td>
         <td><a class="lb-player-cell" href="../../player/br/99-sanninzera/"><span class="lb-riotid">Sanninzera#live</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="MASTER">MASTER</span></td>
@@ -3248,7 +3251,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/br/100-erith/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/br/100-erith/'">
         <td class="num"><span class="lb-rank" data-top="False">#100</span></td>
         <td><a class="lb-player-cell" href="../../player/br/100-erith/"><span class="lb-riotid">Erith#BR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="GRANDMASTER">GRANDMASTER</span></td>
@@ -3261,9 +3264,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </tbody>
   </table>
 </div>
+<button type="button" class="gh-btn lb-more" data-lb-more>Show all 100 players</button>
 
-<h2 class="fiche-section-title">Korea (KR)</h2>
-<div class="lb-table-wrap">
+<h2 class="fiche-section-title" id="lb-kr">Korea (KR)</h2>
+<div class="lb-table-wrap" data-lb-region>
   <table class="lb-table">
     <thead><tr><th class="num">Rank</th><th>Player</th><th>Tier</th><th class="num">LP</th><th>Form (last 5)</th></tr></thead>
     <tbody>
@@ -3518,7 +3522,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/26-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/26-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#26</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/26-x/"><span class="lb-riotid">강선종#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3528,7 +3532,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/27-lisitsa/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/27-lisitsa/'">
         <td class="num"><span class="lb-rank" data-top="False">#27</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/27-lisitsa/"><span class="lb-riotid">Lisitsa#XXX</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3538,7 +3542,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/28-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/28-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#28</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/28-x/"><span class="lb-riotid">종 범#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3548,7 +3552,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/29-juri/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/29-juri/'">
         <td class="num"><span class="lb-rank" data-top="False">#29</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/29-juri/"><span class="lb-riotid">JURI#2002</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3558,7 +3562,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/30-ssiel/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/30-ssiel/'">
         <td class="num"><span class="lb-rank" data-top="False">#30</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/30-ssiel/"><span class="lb-riotid">Ssiel#3132</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3568,7 +3572,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/31-steelo-of-bora/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/31-steelo-of-bora/'">
         <td class="num"><span class="lb-rank" data-top="False">#31</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/31-steelo-of-bora/"><span class="lb-riotid">steelo of bora#azika</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3578,7 +3582,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/32-drain-gang-lover/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/32-drain-gang-lover/'">
         <td class="num"><span class="lb-rank" data-top="False">#32</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/32-drain-gang-lover/"><span class="lb-riotid">drain gang lover#Prime</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3588,7 +3592,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/33-kanata/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/33-kanata/'">
         <td class="num"><span class="lb-rank" data-top="False">#33</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/33-kanata/"><span class="lb-riotid">Kanata#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3598,7 +3602,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/34-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/34-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#34</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/34-x/"><span class="lb-riotid">피부미인드록바#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3608,7 +3612,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/35-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/35-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#35</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/35-x/"><span class="lb-riotid">김준민#0213</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3618,7 +3622,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/36-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/36-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#36</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/36-x/"><span class="lb-riotid">필보고챌#KR712</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3628,7 +3632,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/37-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/37-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#37</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/37-x/"><span class="lb-riotid">머희루#111</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3638,7 +3642,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/38-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/38-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#38</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/38-x/"><span class="lb-riotid">세훈에몽#KR11</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3648,7 +3652,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/39-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/39-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#39</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/39-x/"><span class="lb-riotid">클레스메이트#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3658,7 +3662,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/40-baobao-fan/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/40-baobao-fan/'">
         <td class="num"><span class="lb-rank" data-top="False">#40</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/40-baobao-fan/"><span class="lb-riotid">baobao fan#xuxu</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3668,7 +3672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/41-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/41-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#41</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/41-x/"><span class="lb-riotid">개소리 한소리#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3678,7 +3682,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/42-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/42-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#42</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/42-x/"><span class="lb-riotid">키리기리#kiri</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3688,7 +3692,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/43-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/43-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#43</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/43-x/"><span class="lb-riotid">발 명#1234</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3698,7 +3702,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/44-simjoo/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/44-simjoo/'">
         <td class="num"><span class="lb-rank" data-top="False">#44</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/44-simjoo/"><span class="lb-riotid">simjoo#2330</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3708,7 +3712,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/45-1/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/45-1/'">
         <td class="num"><span class="lb-rank" data-top="False">#45</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/45-1/"><span class="lb-riotid">뿜뿜이1#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3718,7 +3722,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/46-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/46-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#46</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/46-x/"><span class="lb-riotid">미래지양적사고#123</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3728,7 +3732,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/47-ronaldooftft/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/47-ronaldooftft/'">
         <td class="num"><span class="lb-rank" data-top="False">#47</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/47-ronaldooftft/"><span class="lb-riotid">RonaldoOfTFT#KRSIU</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3738,7 +3742,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/48-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/48-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#48</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/48-x/"><span class="lb-riotid">난 슬플때 풀캠을 돌아#매일매일</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3748,7 +3752,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/49-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/49-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#49</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/49-x/"><span class="lb-riotid">오박사#Dr OH</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3758,7 +3762,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/50-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/50-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#50</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/50-x/"><span class="lb-riotid">챌린저 문단속#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3768,7 +3772,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/51-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/51-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#51</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/51-x/"><span class="lb-riotid">작은거인#SOOP</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3778,7 +3782,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/52-sanchess/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/52-sanchess/'">
         <td class="num"><span class="lb-rank" data-top="False">#52</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/52-sanchess/"><span class="lb-riotid">SanChess#king</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3788,7 +3792,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/53-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/53-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#53</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/53-x/"><span class="lb-riotid">너무멋있어영#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3798,7 +3802,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/54-crazymoving/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/54-crazymoving/'">
         <td class="num"><span class="lb-rank" data-top="False">#54</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/54-crazymoving/"><span class="lb-riotid">CrazyMoving#111</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3808,7 +3812,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/55-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/55-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#55</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/55-x/"><span class="lb-riotid">수 민#김정모</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3818,7 +3822,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/56-stily/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/56-stily/'">
         <td class="num"><span class="lb-rank" data-top="False">#56</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/56-stily/"><span class="lb-riotid">Stily#KR1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3828,7 +3832,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/57-pad0/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/57-pad0/'">
         <td class="num"><span class="lb-rank" data-top="False">#57</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/57-pad0/"><span class="lb-riotid">pad0#파 도</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3838,7 +3842,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/58-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/58-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#58</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/58-x/"><span class="lb-riotid">너가 좀 알려줘#Chzzk</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3848,7 +3852,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/59-abcdef/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/59-abcdef/'">
         <td class="num"><span class="lb-rank" data-top="False">#59</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/59-abcdef/"><span class="lb-riotid">abcdef#0423</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3858,7 +3862,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/60-parryberry/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/60-parryberry/'">
         <td class="num"><span class="lb-rank" data-top="False">#60</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/60-parryberry/"><span class="lb-riotid">Parryberry#1111</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3868,7 +3872,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/61-coldplay/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/61-coldplay/'">
         <td class="num"><span class="lb-rank" data-top="False">#61</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/61-coldplay/"><span class="lb-riotid">coldplay#1105</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3878,7 +3882,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/62-midnightchess/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/62-midnightchess/'">
         <td class="num"><span class="lb-rank" data-top="False">#62</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/62-midnightchess/"><span class="lb-riotid">MidnightChess#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3888,7 +3892,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/63-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/63-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#63</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/63-x/"><span class="lb-riotid">리 키#4080</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3898,7 +3902,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/64-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/64-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#64</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/64-x/"><span class="lb-riotid">빈 틈#123</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3908,7 +3912,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/65-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/65-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#65</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/65-x/"><span class="lb-riotid">요리왕짬뽕달#KR 1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3918,7 +3922,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/66-s0n4g1/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/66-s0n4g1/'">
         <td class="num"><span class="lb-rank" data-top="False">#66</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/66-s0n4g1/"><span class="lb-riotid">S0N4G1#고윤하</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3928,7 +3932,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/67-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/67-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#67</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/67-x/"><span class="lb-riotid">밀 책#Check</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3938,7 +3942,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/68-soos/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/68-soos/'">
         <td class="num"><span class="lb-rank" data-top="False">#68</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/68-soos/"><span class="lb-riotid">Soos#7777</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3948,7 +3952,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/69-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/69-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#69</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/69-x/"><span class="lb-riotid">도사 삼#LHN</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3958,7 +3962,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/70-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/70-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#70</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/70-x/"><span class="lb-riotid">눈송이#000</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3968,7 +3972,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/71-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/71-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#71</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/71-x/"><span class="lb-riotid">썬더소환사#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3978,7 +3982,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/72-reddice/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/72-reddice/'">
         <td class="num"><span class="lb-rank" data-top="False">#72</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/72-reddice/"><span class="lb-riotid">REDDICE#KR11</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3988,7 +3992,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/73-you-kn0w-what/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/73-you-kn0w-what/'">
         <td class="num"><span class="lb-rank" data-top="False">#73</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/73-you-kn0w-what/"><span class="lb-riotid">You Kn0w What#8173</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -3998,7 +4002,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/74-maladjust/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/74-maladjust/'">
         <td class="num"><span class="lb-rank" data-top="False">#74</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/74-maladjust/"><span class="lb-riotid">Maladjust#1rdie</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4008,7 +4012,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/75-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/75-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#75</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/75-x/"><span class="lb-riotid">자신있는 도박#LTZ</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4018,7 +4022,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/76-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/76-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#76</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/76-x/"><span class="lb-riotid">지구걸어#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4028,7 +4032,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/77-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/77-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#77</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/77-x/"><span class="lb-riotid">재스이#123</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4038,7 +4042,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/78-miss-the-rage/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/78-miss-the-rage/'">
         <td class="num"><span class="lb-rank" data-top="False">#78</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/78-miss-the-rage/"><span class="lb-riotid">Miss The Rage#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4048,7 +4052,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/79-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/79-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#79</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/79-x/"><span class="lb-riotid">뽀뇨뽀뇨#1218</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4058,7 +4062,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/80-gambler/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/80-gambler/'">
         <td class="num"><span class="lb-rank" data-top="False">#80</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/80-gambler/"><span class="lb-riotid">Gambler#RU6</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4068,7 +4072,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/81-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/81-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#81</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/81-x/"><span class="lb-riotid">서은지#롤좀하는가</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4078,7 +4082,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/82-nodme/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/82-nodme/'">
         <td class="num"><span class="lb-rank" data-top="False">#82</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/82-nodme/"><span class="lb-riotid">Nodme#111</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4088,7 +4092,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/83-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/83-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#83</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/83-x/"><span class="lb-riotid">연수사랑해#개얼짱훈녀</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4098,7 +4102,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/84-2783946045236480/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/84-2783946045236480/'">
         <td class="num"><span class="lb-rank" data-top="False">#84</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/84-2783946045236480/"><span class="lb-riotid">2783946045236480#KR1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4108,7 +4112,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/85-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/85-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#85</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/85-x/"><span class="lb-riotid">록 달#0908</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4118,7 +4122,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/86-9dan/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/86-9dan/'">
         <td class="num"><span class="lb-rank" data-top="False">#86</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/86-9dan/"><span class="lb-riotid">9DAN#TFT</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4128,7 +4132,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/87-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/87-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#87</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/87-x/"><span class="lb-riotid">귤 임#귤 임</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4138,7 +4142,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/88-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/88-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#88</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/88-x/"><span class="lb-riotid">이리스#3331</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4148,7 +4152,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/89-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/89-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#89</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/89-x/"><span class="lb-riotid">북조선틱톡커진우#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4158,7 +4162,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/90-kast/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/90-kast/'">
         <td class="num"><span class="lb-rank" data-top="False">#90</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/90-kast/"><span class="lb-riotid">KAST#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4168,7 +4172,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/91-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/91-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#91</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/91-x/"><span class="lb-riotid">인성파탄난쓰레기#1234</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4178,7 +4182,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/92-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/92-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#92</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/92-x/"><span class="lb-riotid">토라오니#253</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4188,7 +4192,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/93-ruoved/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/93-ruoved/'">
         <td class="num"><span class="lb-rank" data-top="False">#93</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/93-ruoved/"><span class="lb-riotid">ruoved#디바우어</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4198,7 +4202,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/94-congdae/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/94-congdae/'">
         <td class="num"><span class="lb-rank" data-top="False">#94</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/94-congdae/"><span class="lb-riotid">congdae#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4208,7 +4212,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/95-i-love-you-3000/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/95-i-love-you-3000/'">
         <td class="num"><span class="lb-rank" data-top="False">#95</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/95-i-love-you-3000/"><span class="lb-riotid">I Love You 3000#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4218,7 +4222,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/96-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/96-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#96</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/96-x/"><span class="lb-riotid">궁디궁딩#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4228,7 +4232,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/97-x/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/97-x/'">
         <td class="num"><span class="lb-rank" data-top="False">#97</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/97-x/"><span class="lb-riotid">림 푸#KR1</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4238,7 +4242,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/98-ez-clap/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/98-ez-clap/'">
         <td class="num"><span class="lb-rank" data-top="False">#98</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/98-ez-clap/"><span class="lb-riotid">EZ Clap#TFT</span><span class="lb-hot" title="On a streak">🔥</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4248,7 +4252,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/99-chess-is-cold/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/99-chess-is-cold/'">
         <td class="num"><span class="lb-rank" data-top="False">#99</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/99-chess-is-cold/"><span class="lb-riotid">Chess is cold#KR1</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4258,7 +4262,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         </div></td>
       </tr>
       
-      <tr onclick="location.href='../../player/kr/100-b00n/'">
+      <tr class="lb-late" hidden onclick="location.href='../../player/kr/100-b00n/'">
         <td class="num"><span class="lb-rank" data-top="False">#100</span></td>
         <td><a class="lb-player-cell" href="../../player/kr/100-b00n/"><span class="lb-riotid">b00n#뜬구름</span></a></td>
         <td><span class="lb-tier-tag" data-tier="CHALLENGER">CHALLENGER</span></td>
@@ -4271,7 +4275,19 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </tbody>
   </table>
 </div>
+<button type="button" class="gh-btn lb-more" data-lb-more>Show all 100 players</button>
 
+<script>
+(function () {
+  Array.prototype.forEach.call(document.querySelectorAll('[data-lb-more]'), function (b) {
+    b.addEventListener('click', function () {
+      var w = b.previousElementSibling;
+      Array.prototype.forEach.call(w.querySelectorAll('tr.lb-late'), function (r) { r.hidden = false; });
+      b.hidden = true;
+    });
+  });
+})();
+</script>
 <div class="lb-note">Real standings (League-v1, Challenger topped up with Grandmaster/Master if the server has fewer than 100), sorted by LP. TFT doesn't have a strict win/loss: <b style="color:var(--good)">W</b> = top 4 that game, <b style="color:var(--warn)">L</b> = 5th-8th — a display convention, not a Riot-provided stat.</div>
 
 </div>
@@ -4320,10 +4336,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=cce3c7f51d" defer></script>
-<script src="../../assets/js/champ-icons.js?v=cce3c7f51d" defer></script>
-<script src="../../assets/js/site-search.js?v=cce3c7f51d" defer></script>
-<script src="../../assets/js/favorites.js?v=cce3c7f51d" defer></script>
+<script src="../../assets/js/copy-comp.js?v=ddd58e6a98" defer></script>
+<script src="../../assets/js/champ-icons.js?v=ddd58e6a98" defer></script>
+<script src="../../assets/js/site-search.js?v=ddd58e6a98" defer></script>
+<script src="../../assets/js/favorites.js?v=ddd58e6a98" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
