@@ -91,7 +91,7 @@
   <summary class="nav-link">Professions</summary>
   <div class="nav-dropdown-menu">
     <a href="{{ root }}wow-forever/professions/">{{ 'Toutes les professions' if lang == 'fr' else 'All professions' }}</a>
-    {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{% if p.icon %}<img class="nav-sub-icon" src="{{ p.icon }}" alt="" width="20" height="20" loading="lazy">{% endif %}<span>{{ p.name[lang] }}</span></a>{% endfor %}
+    {% for p in wow_profs_nav %}<a href="{{ root }}wow-forever/professions/{{ p.id }}/">{% if p.icon %}<img class="nav-sub-icon" src="{{ p.icon }}" alt="{{ p.name[lang] }}" width="20" height="20" loading="lazy">{% endif %}<span>{{ p.name[lang] }}</span></a>{% endfor %}
   </div>
 </details>{% endif %}
 {% if wow_dungeons_nav %}<details class="nav-dropdown" {% if active_sub == 'wow-dungeons' %}data-active="true"{% endif %}>
