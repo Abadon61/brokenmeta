@@ -7,15 +7,23 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.p_kicker, tx.p_hub_h1, tx.p_hub_intro) }}
-<h2 class="fiche-section-title">{{ tx.professions }}</h2>
-<div class="wh-cards">
+{# Professions hub (maquette validée 2026-10-10): compact hero, one tile with the profession cards, note folded. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.p_kicker }}</div>
+    <h1 class="gh-title">{{ tx.p_hub_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">{{ profs|length }}</b> {{ 'métiers' if lang == 'fr' else 'professions' }}</span><span class="gh-chip">{{ 'Niveau 1 → 300' if lang == 'fr' else 'Level 1 → 300' }}</span><span class="gh-chip">{{ 'Liste de courses et table des recettes' if lang == 'fr' else 'Shopping list and recipe table' }}</span></div>
+    <p class="gh-lede">{{ tx.p_hub_intro }}</p>
+  </div></div>
+</section>
+<section class="gs-tile pv-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.professions }}</h2><span class="gs-meta">{{ 'CLIQUE UN MÉTIER POUR SON GUIDE' if lang == 'fr' else 'CLICK A PROFESSION FOR ITS GUIDE' }}</span></div>
+<div class="pv-grid">
   {% for p in profs %}
-  <a class="wh-card" href="{{ root }}wow-forever/professions/{{ p.id }}/">
-    {% if p.icon %}<img class="wh-card-icon" src="{{ p.icon }}" alt="" width="56" height="56" loading="lazy">{% endif %}
-    <span class="wh-card-body"><b>{{ p.name[lang] }}</b><span class="wh-card-specs">1 → {{ p.cap }}</span><span class="wh-card-n nums">{{ p.totals.crafts }} →</span></span>
+  <a class="pv-card" href="{{ root }}wow-forever/professions/{{ p.id }}/">
+    {% if p.icon %}<img class="pv-ico" src="{{ p.icon }}" alt="" width="52" height="52" loading="lazy">{% endif %}
+    <span><b>{{ p.name[lang] }}</b><span class="pv-sub">1 → {{ p.cap }}</span><span class="pv-n nums">{{ p.totals.crafts }} {{ 'recettes' if lang == 'fr' else 'recipes' }}</span></span>
   </a>
   {% endfor %}
-</div>
-<p class="wow-note">{{ tx.note }}</p>
+</div></section>
+<details class="gs-more gs-sources"><summary>{{ 'À savoir' if lang == 'fr' else 'Good to know' }}</summary><p class="wow-note">{{ tx.note }}</p></details>
 {% endblock %}
