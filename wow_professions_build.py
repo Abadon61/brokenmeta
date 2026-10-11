@@ -150,9 +150,10 @@ def main(prof: str = "alchemy") -> None:
                 continue
             npcs = [m for m in (p[5] or []) if m.get("t") == 1 and m.get("n")]
             vend = {"npc": npcs[0]["n"] if len(npcs) == 1 else None, "npc_id": npcs[0]["ti"] if len(npcs) == 1 else None,
+                    "zone": npcs[0].get("z") if len(npcs) == 1 else None,
                     "item_id": p[0], "cost": items.get(p[0], {}).get("buy", 0)}
         if vend and vend["cost"] > 0 and (fixed is None or vend["cost"] < fixed):
-            acquire = {"type": "vendor", "npc": vend["npc"], "npc_id": vend["npc_id"], "item_id": vend["item_id"], "cost": vend["cost"]}
+            acquire = {"type": "vendor", "npc": vend["npc"], "npc_id": vend["npc_id"], "zone": vend.get("zone"), "item_id": vend["item_id"], "cost": vend["cost"]}
             fixed = vend["cost"]
         if acquire is None and not source and learnedat <= 1:
             acquire = {"type": "start", "cost": 0}       # no source listed for a skill-1 recipe: treated as known from the start (to confirm in beta)
@@ -162,7 +163,12 @@ def main(prof: str = "alchemy") -> None:
             for code, label in ((2, "drop"), (4, "quest"), (16, "fished"), (21, "pickpocket"), (5, "vendor")):
                 if code in source:
                     kinds.append(label)
-            acquire = {"type": "other", "kinds": kinds}
+            zones = []
+            for p in pl:
+                for m in (p[5] or []):
+                    if m.get("z") and m["z"] not in zones:
+                        zones.append(m["z"])
+            acquire = {"type": "other", "kinds": kinds, "zones": zones[:3]}
         cr = None
         if creates:
             cr = {"id": creates[0], "count": creates[1], "name": item_name(creates[0]), "icon": (items.get(creates[0]) or {}).get("icon")}

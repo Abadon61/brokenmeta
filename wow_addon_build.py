@@ -334,6 +334,12 @@ def all_recipes():
                 e["ac"] = acq["cost"]
             if acq.get("npc"):
                 e["np"] = acq["npc"]
+            # where to learn it: zone (AreaTable id, named in game) of the plan's vendor, or of the drop / quest
+            zone = acq.get("zone") or (acq.get("zones") or [None])[0]
+            if zone:
+                e["z"] = zone
+            if acq.get("kinds"):
+                e["ak"] = ",".join({"drop": "d", "quest": "q", "fished": "f", "pickpocket": "p", "vendor": "v"}.get(k, k) for k in acq["kinds"])
             for g in regs:
                 names.setdefault(g["id"], [g["name"]["frFR"], g["name"]["enUS"]])
             out[key] = e
