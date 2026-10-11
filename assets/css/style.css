@@ -3146,6 +3146,26 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Pages de contenu (2026-10-10) ---------- */
+  .ct-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }
+  .ct-bar a { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text-dim); font-size: 13px; text-decoration: none; }
+  .ct-bar a:hover { border-color: var(--cyan); color: var(--cream); }
+  .ct-layout { display: grid; grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr); gap: 16px; align-items: start; }
+  .ct-main { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+  .ct-main .gs-tile { margin: 0; scroll-margin-top: 130px; }
+  .ct-side { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .ct-nav { display: flex; flex-direction: column; gap: 4px; margin-top: 6px; }
+  .ct-nav a { padding: 9px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-2); color: var(--text-dim); font-size: 14px; text-decoration: none; }
+  .ct-nav a:hover { border-color: var(--border-bright); color: var(--cream); }
+  .ct-nav a.is-on { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+  .ct-main .page-intro { line-height: 1.65; }
+  .ct-main .gd-list { margin: 6px 0 0; }
+  .ct-main .wow-table-wrap { margin-top: 8px; }
+  .ct-main .wow-note { margin-top: 10px; }
+  .ct-main .wh-cards { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+  .ct-main .wr-cards { grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+  @media (max-width: 1000px) { .ct-layout { grid-template-columns: 1fr; } .ct-side { position: static; order: -1; } .ct-bar { top: 0; } }
+
   /* ---------- Articles (2026-10-10) ---------- */
   .art2 .art-banner { margin: 0 0 14px; border-radius: var(--dash-radius); overflow: hidden; position: relative; max-height: 260px; border: 1px solid var(--border); }
   .art2 .art-banner img { width: 100%; height: 260px; object-fit: cover; object-position: center 30%; display: block; }
