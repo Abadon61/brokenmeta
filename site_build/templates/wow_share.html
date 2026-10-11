@@ -6,19 +6,24 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.sh_kicker, g_h1, g_intro) }}
-
-<h2 class="fiche-section-title">{{ tx.sh_why_h2 }}</h2>
-<ul class="ms-limits">
-  {% for item in tx.sh_why %}<li>{{ item }}</li>{% endfor %}
-</ul>
-
-<h2 class="fiche-section-title">{{ tx.ms_how_h2 }}</h2>
+{# Share-my-data page (maquette validée 2026-10-10): compact hero, step cards, send tile on the left, why / privacy / removal on the right. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.sh_kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">{{ 'Anonyme' if lang == 'fr' else 'Anonymous' }}</span><span class="gh-chip">{{ 'Sans nom de personnage ni royaume' if lang == 'fr' else 'No character name or realm' }}</span><span class="gh-chip">{{ 'Suppression à tout moment' if lang == 'fr' else 'Delete at any time' }}</span></div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+<section class="gs-tile ms2-steps sd-steps"><div class="gs-th"><h2 class="gs-h2">{{ tx.ms_how_h2 }}</h2></div>
 <ol class="ms-steps">
   {% for step in tx.sh_steps %}<li>{{ step|safe }}</li>{% endfor %}
 </ol>
+</section>
 
-<div id="shApp">
+<div class="sd-layout">
+<div id="shApp" class="sd-main">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ 'Envoyer mes mesures' if lang == 'fr' else 'Send my measurements' }}</h2><span class="gs-meta">{{ 'FICHIER .LUA OU TEXTE' if lang == 'fr' else '.LUA FILE OR TEXT' }}</span></div>
   <label id="shDrop" class="sh-drop" for="shFile">
     <span>{{ tx.sh_drop }}</span>
     <input type="file" id="shFile" accept=".lua,text/plain">
@@ -34,17 +39,24 @@
     <span id="shStatus" class="ms-status" role="status" aria-live="polite"></span>
   </div>
   <section id="shResult" class="ms-result" hidden></section>
-
-  <h2 class="fiche-section-title">{{ tx.sh_delete_h2 }}</h2>
-  <p>{{ tx.sh_delete_p }}</p>
-  <div class="ms-actions">
-    <input type="text" id="shDeleteCode" class="sh-code-input" placeholder="0123456789abcdef0123456789abcdef" maxlength="32" autocomplete="off" spellcheck="false">
-    <button type="button" id="shDelete" class="ms-btn">{{ tx.sh_delete_btn }}</button>
-    <span id="shDeleteStatus" class="ms-status" role="status" aria-live="polite"></span>
-  </div>
+  </section>
 </div>
-
-<p class="wow-note">{{ tx.sh_privacy|safe }}</p>
+<aside class="sd-side">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.sh_why_h2 }}</h2></div>
+  <ul class="ms-limits">
+    {% for item in tx.sh_why %}<li>{{ item }}</li>{% endfor %}
+  </ul></section>
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ 'Confidentialité' if lang == 'fr' else 'Privacy' }}</h2></div><p class="sd-priv">{{ tx.sh_privacy|safe }}</p></section>
+  <details class="gs-more gs-sources"><summary>{{ tx.sh_delete_h2 }}</summary>
+    <p>{{ tx.sh_delete_p }}</p>
+    <div class="ms-actions">
+      <input type="text" id="shDeleteCode" class="sh-code-input" placeholder="0123456789abcdef0123456789abcdef" maxlength="32" autocomplete="off" spellcheck="false">
+      <button type="button" id="shDelete" class="ms-btn">{{ tx.sh_delete_btn }}</button>
+      <span id="shDeleteStatus" class="ms-status" role="status" aria-live="polite"></span>
+    </div>
+  </details>
+</aside>
+</div>
 
 <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
 <script type="application/json" id="shI18n">{{ tx.sh_js|tojson }}</script>

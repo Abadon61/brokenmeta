@@ -3146,6 +3146,19 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Partager mes données (2026-10-10) ---------- */
+  .ms2-steps.sd-steps .ms-steps { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+  .sd-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
+  .sd-main { min-width: 0; }
+  .sd-side { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .sd-side .ms-limits { margin: 6px 0 0; font-size: 14px; }
+  .sd-priv { margin: 6px 0 0; font-size: 13.5px; line-height: 1.6; color: var(--text-dim); }
+  .sd-main .sh-drop { border-radius: 14px; }
+  .sd-main .ms-export { border-radius: 12px; background: var(--bg); }
+  .sd-main .ms-btn, .sd-side .ms-btn { border-radius: 10px; background: var(--magenta); border-color: var(--magenta); font: 600 13.5px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; padding: 9px 16px; }
+  .sd-side .sh-code-input { border-radius: 10px; min-width: 0; width: 100%; }
+  @media (max-width: 1000px) { .sd-layout { grid-template-columns: 1fr; } .sd-side { position: static; } }
+
   /* ---------- Addons (2026-10-10) ---------- */
   .ao-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
   .ao-card { display: flex; gap: 16px; align-items: flex-start; padding: 18px; border: 1px solid var(--border); border-top: 3px solid var(--magenta); border-radius: var(--dash-radius); background: linear-gradient(180deg, #101650, #0b0f3d); box-shadow: var(--dash-glow); }
