@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Partager les données de l&#39;addon BrokenMeta">
 <meta name="twitter:description" content="Envoyez anonymement les mesures et les prix d&#39;hôtel des ventes relevés par l&#39;addon BrokenMeta pour améliorer le simulateur et les guides WoW: Forever.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=3485fc12d0">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=3485fc12d0">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=477cfaa632">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=477cfaa632">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=3485fc12d0">
+<link rel="stylesheet" href="../../assets/css/style.css?v=477cfaa632">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -296,28 +296,23 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Partager mes données</div>
-    <h1 class="ph-title">Partager mes données</h1>
-    <p class="ph-lede">L&#39;addon BrokenMeta relève en jeu ce que les sites ne peuvent pas obtenir autrement : les vraies valeurs de WoW: Forever et les prix de l&#39;hôtel des ventes. En les partageant, vous aidez à corriger le simulateur et à remettre des prix dans les guides de métiers. C&#39;est facultatif et anonyme.</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Partager mes données</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">Anonyme</span><span class="gh-chip">Sans nom de personnage ni royaume</span><span class="gh-chip">Suppression à tout moment</span></div>
+    <p class="gh-lede">L&#39;addon BrokenMeta relève en jeu ce que les sites ne peuvent pas obtenir autrement : les vraies valeurs de WoW: Forever et les prix de l&#39;hôtel des ventes. En les partageant, vous aidez à corriger le simulateur et à remettre des prix dans les guides de métiers. C&#39;est facultatif et anonyme.</p>
+  </div></div>
 </section>
-
-
-<h2 class="fiche-section-title">À quoi servent ces données</h2>
-<ul class="ms-limits">
-  <li>Mesures de la feuille de personnage (critique, régénération de mana, esquive…) : remplacer les valeurs encore approximatives du simulateur DPS par les vraies valeurs du jeu.</li><li>Stats des familiers : calculer la vraie part de puissance d&#39;attaque que le Chasseur transmet à son familier.</li><li>Conversion des cotes (critique, toucher, hâte) par niveau : pondérer correctement les objets.</li><li>Prix de l&#39;hôtel des ventes : afficher le coût réel des guides de métiers, par royaume et faction.</li>
-</ul>
-
-<h2 class="fiche-section-title">Comment faire</h2>
+<section class="gs-tile ms2-steps sd-steps"><div class="gs-th"><h2 class="gs-h2">Comment faire</h2></div>
 <ol class="ms-steps">
   <li>En jeu, activez le partage : <code>/bmw share on</code> (ou onglet Data du hub).</li><li>Le plus simple : onglet Data du hub > « Copier pour le site », Ctrl+C, puis collez le texte ci-dessous. Sinon, après un <code>/reload</code>, déposez le fichier <code>BrokenMetaWeights.lua</code> de <code>World of Warcraft\_classic_beta_\WTF\Account\&lt;votre compte&gt;\SavedVariables\</code>.</li><li>Vérifiez l'aperçu, cochez la case de consentement et envoyez.</li>
 </ol>
+</section>
 
-<div id="shApp">
+<div class="sd-layout">
+<div id="shApp" class="sd-main">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Envoyer mes mesures</h2><span class="gs-meta">FICHIER .LUA OU TEXTE</span></div>
   <label id="shDrop" class="sh-drop" for="shFile">
     <span>Glissez BrokenMetaWeights.lua ici, ou cliquez pour le choisir</span>
     <input type="file" id="shFile" accept=".lua,text/plain">
@@ -333,17 +328,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <span id="shStatus" class="ms-status" role="status" aria-live="polite"></span>
   </div>
   <section id="shResult" class="ms-result" hidden></section>
-
-  <h2 class="fiche-section-title">Supprimer des données envoyées</h2>
-  <p>Chaque envoi donne un code de suppression. Collez-le ici pour effacer définitivement cet envoi de nos serveurs.</p>
-  <div class="ms-actions">
-    <input type="text" id="shDeleteCode" class="sh-code-input" placeholder="0123456789abcdef0123456789abcdef" maxlength="32" autocomplete="off" spellcheck="false">
-    <button type="button" id="shDelete" class="ms-btn">Supprimer</button>
-    <span id="shDeleteStatus" class="ms-status" role="status" aria-live="polite"></span>
-  </div>
+  </section>
 </div>
-
-<p class="wow-note">Le fichier est lu dans votre navigateur : seules les mesures et les prix partent, jamais les noms de vos personnages ni vos réglages. Votre adresse IP n'est pas conservée. Détails : <a href="../../confidentialite/#addon-wow">politique de confidentialité</a>.</p>
+<aside class="sd-side">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">À quoi servent ces données</h2></div>
+  <ul class="ms-limits">
+    <li>Mesures de la feuille de personnage (critique, régénération de mana, esquive…) : remplacer les valeurs encore approximatives du simulateur DPS par les vraies valeurs du jeu.</li><li>Stats des familiers : calculer la vraie part de puissance d&#39;attaque que le Chasseur transmet à son familier.</li><li>Conversion des cotes (critique, toucher, hâte) par niveau : pondérer correctement les objets.</li><li>Prix de l&#39;hôtel des ventes : afficher le coût réel des guides de métiers, par royaume et faction.</li>
+  </ul></section>
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Confidentialité</h2></div><p class="sd-priv">Le fichier est lu dans votre navigateur : seules les mesures et les prix partent, jamais les noms de vos personnages ni vos réglages. Votre adresse IP n'est pas conservée. Détails : <a href="../../confidentialite/#addon-wow">politique de confidentialité</a>.</p></section>
+  <details class="gs-more gs-sources"><summary>Supprimer des données envoyées</summary>
+    <p>Chaque envoi donne un code de suppression. Collez-le ici pour effacer définitivement cet envoi de nos serveurs.</p>
+    <div class="ms-actions">
+      <input type="text" id="shDeleteCode" class="sh-code-input" placeholder="0123456789abcdef0123456789abcdef" maxlength="32" autocomplete="off" spellcheck="false">
+      <button type="button" id="shDelete" class="ms-btn">Supprimer</button>
+      <span id="shDeleteStatus" class="ms-status" role="status" aria-live="polite"></span>
+    </div>
+  </details>
+</aside>
+</div>
 
 <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
 <script type="application/json" id="shI18n">{"err_file": "Ce fichier n'a pas pu \u00eatre lu. Choisissez bien BrokenMetaWeights.lua (dans SavedVariables).", "err_nodata": "Ce fichier ne contient encore aucune mesure ni aucun scan. Jouez un peu avec l'addon 0.5 ou plus, puis /reload.", "err_network": "Envoi impossible (r\u00e9seau). R\u00e9essayez dans un instant.", "err_server": "Le serveur a refus\u00e9 l'envoi. R\u00e9essayez plus tard.", "err_rate_limited": "Trop d'envois depuis votre connexion : r\u00e9essayez dans une heure.", "err_empty": "Aucune donn\u00e9e valide dans ce fichier.", "err_too_large": "Fichier trop volumineux.", "sending": "Envoi\u2026", "preview_h2": "Ce qui sera envoy\u00e9", "p_meas": "{n} mesures", "kind_stats": "feuille de personnage", "kind_pet": "familier", "kind_rating": "conversion des cotes", "p_ah": "{n} scan(s) de l'h\u00f4tel des ventes, {p} prix", "items": "objets", "p_not_sent": "Non envoy\u00e9 : les noms de personnages ({n} dans le fichier) et vos r\u00e9glages.", "p_version": "Addon {v}, client {c}", "share_off": "Le partage est d\u00e9sactiv\u00e9 dans l'addon. Tapez /bmw share on en jeu, puis /reload, et red\u00e9posez le fichier.", "sent": "Merci ! {m} mesures et {p} prix envoy\u00e9s.", "code_intro": "Votre code de suppression (gardez-le si vous voulez effacer cet envoi plus tard) :", "del_bad": "Code invalide (32 caract\u00e8res).", "del_ok": "Envoi supprim\u00e9.", "del_notfound": "Aucun envoi ne correspond \u00e0 ce code."}</script>
@@ -395,10 +397,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=3485fc12d0" defer></script>
-<script src="../../assets/js/champ-icons.js?v=3485fc12d0" defer></script>
-<script src="../../assets/js/site-search.js?v=3485fc12d0" defer></script>
-<script src="../../assets/js/favorites.js?v=3485fc12d0" defer></script>
+<script src="../../assets/js/copy-comp.js?v=477cfaa632" defer></script>
+<script src="../../assets/js/champ-icons.js?v=477cfaa632" defer></script>
+<script src="../../assets/js/site-search.js?v=477cfaa632" defer></script>
+<script src="../../assets/js/favorites.js?v=477cfaa632" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
