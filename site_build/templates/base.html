@@ -169,6 +169,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <p class="footer-disclaimer">{% if active_nav == 'wow' %}{{ wow_disclaimer }}{% else %}{{ t(lang, 'footer_disclaimer') }}{% endif %}</p>
 </footer>
 <div id="tooltip" data-visible="false"></div>
+{% if active_nav not in ('wow', 'league') %}<script src="{{ root }}assets/js/tft-page-tools.js?v={{ js_v('tft-page-tools.js') }}" defer></script>{% endif %}
 {% block extra_body %}{% endblock %}
 <script>
 /* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */

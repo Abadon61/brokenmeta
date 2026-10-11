@@ -3161,6 +3161,9 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .lb-more { display: block; margin: 14px auto 22px; cursor: pointer; }
   .lb-more[hidden] { display: none; }
   .tier-group, #lb-euw, .fiche-section-title[id^="lb-"] { scroll-margin-top: 130px; }
+  .ts-bar { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; }
+  .ts-bar .tf-chip { flex: none; max-width: 24ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .augment-tier-title[hidden], .augment-grid[hidden], .augment-card[hidden] { display: none; }
   @media (max-width: 800px) { .tf-bar, .lb-nav, .tl-nav { top: 0; } .tf-search { max-width: none; margin-left: 0; } }
 
   /* ---------- Hub des métiers (2026-10-10) ---------- */
