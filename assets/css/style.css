@@ -3146,6 +3146,50 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Addons (2026-10-10) ---------- */
+  .ao-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+  .ao-card { display: flex; gap: 16px; align-items: flex-start; padding: 18px; border: 1px solid var(--border); border-top: 3px solid var(--magenta); border-radius: var(--dash-radius); background: linear-gradient(180deg, #101650, #0b0f3d); box-shadow: var(--dash-glow); }
+  .ao-card img { flex: none; width: 72px; height: 72px; border-radius: 14px; object-fit: cover; }
+  .ao-card h2 { margin: 0 0 4px; font: 700 20px 'Cal Sans', sans-serif; text-transform: uppercase; color: var(--cream); }
+  .ao-card p { margin: 0 0 12px; color: var(--text-dim); line-height: 1.5; font-size: 14px; }
+  .ao-card .acts { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ao-card .wh-btn { padding: 8px 14px; border-radius: 10px; font-size: 13px; }
+  .ao-two { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 14px; align-items: start; }
+  .ao-two .gs-tile { margin: 0; }
+  .ao-two .ms-steps { margin: 8px 0 0; padding-left: 20px; line-height: 1.65; font-size: 14px; }
+  .ao-two .fq-item summary { font-size: 14.5px; }
+  .ao-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 14px 0; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }
+  .ao-bar a { padding: 6px 12px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg); color: var(--text-dim); font-size: 13px; text-decoration: none; }
+  .ao-bar a:hover { border-color: var(--cyan); color: var(--cream); }
+  .ao-sec { margin-top: 14px; scroll-margin-top: 130px; }
+  .ao-sec .ms-limits { margin: 6px 0 0; }
+  .ao-prof { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+  .ao-prof .ad-h3 { margin: 0 0 6px; }
+  .ao-prof .ao-sub { margin-bottom: 16px; }
+  .ao-back { margin: 0 0 8px; }
+  @media (max-width: 1000px) { .ao-grid, .ao-two, .ao-prof { grid-template-columns: 1fr; } .ao-bar { top: 0; } }
+
+  /* ---------- Annuaire des artisans (2026-10-10) ---------- */
+  .cr-layout { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(300px, 1fr); gap: 16px; align-items: start; margin-top: 14px; }
+  .cr-main { min-width: 0; }
+  .cr-side { position: sticky; top: 78px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+  .cr-filters.cr-bar { position: sticky; top: 66px; z-index: 6; margin: 0 0 14px; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }
+  .cr-bar select, .cr-bar input { background: var(--bg); color: var(--cream); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; font: 14px 'Afacad Flux', sans-serif; }
+  .cr-bar input { flex: 1 1 160px; min-width: 140px; }
+  .cr-bar .cr-count { margin-left: auto; padding: 4px 10px; border: 1px solid var(--gold); border-radius: 999px; color: var(--gold); font: 600 12px 'Space Mono', monospace; }
+  .cr-bar .cr-count:empty { display: none; }
+  .cr-main .cr-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; max-width: none; }
+  .cr-list .bmh-card { margin: 0; padding: 12px 14px; border-radius: 12px; background: var(--bg-2); flex-wrap: wrap; }
+  .cr-list .bmh-card .bmh-portrait { border-radius: 10px; border-color: var(--cc); }
+  .cr-list .cr-actions { flex-direction: row; width: 100%; margin-top: 4px; }
+  .cr-list .cr-empty { grid-column: 1 / -1; }
+  .cr-main .cr-note { max-width: none; margin: 14px 0 0; }
+  .cr-side .ms-steps { margin: 8px 0 12px; padding-left: 20px; font-size: 13.5px; line-height: 1.6; }
+  .cr-side .ms-export { border-radius: 12px; background: var(--bg); }
+  .cr-side .ms-btn { border-radius: 10px; background: var(--magenta); border-color: var(--magenta); font: 600 13.5px 'Afacad Flux', sans-serif; text-transform: none; letter-spacing: 0; padding: 9px 16px; }
+  .cr-side .sh-consent { display: block; margin: 10px 0; font-size: 13px; color: var(--text-dim); }
+  @media (max-width: 1000px) { .cr-layout { grid-template-columns: 1fr; } .cr-side { position: static; } .cr-main .cr-list { grid-template-columns: 1fr; } .cr-filters.cr-bar { top: 0; } }
+
   /* ---------- Actualités (2026-10-10) ---------- */
   .nw-feat { margin-top: 14px; }
   .nw-bar { position: sticky; top: 66px; z-index: 6; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin: 14px 0; padding: 10px 14px; border: 1px solid var(--border-bright); border-radius: 14px; background: rgba(13, 18, 69, .95); backdrop-filter: blur(8px); }

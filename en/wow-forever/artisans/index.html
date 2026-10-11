@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever crafters directory">
 <meta name="twitter:description" content="Find a WoW: Forever crafter on your realm: blacksmiths, tailors, alchemists… with their recipes, published from the BrokenMeta addon.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=2278bfc855">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=2278bfc855">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=3485fc12d0">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=3485fc12d0">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=2278bfc855">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=3485fc12d0">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -296,18 +296,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Crafters directory</div>
-    <h1 class="ph-title">Crafters directory</h1>
-    <p class="ph-lede">Crafters who use the BrokenMeta addon and chose to appear here. To know who is online and available right now, use the addon&#39;s in-game directory (Broken Meta : Professions).</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Crafters directory</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">Community directory</span><span class="gh-chip">Via the Broken Meta: Professions addon</span><span class="gh-chip">Whisper in one click</span></div>
+    <p class="gh-lede">Crafters who use the BrokenMeta addon and chose to appear here. To know who is online and available right now, use the addon&#39;s in-game directory (Broken Meta : Professions).</p>
+  </div></div>
 </section>
+<div class="cr-layout">
+<div class="cr-main">
 
-
-<div class="cr-filters">
+<div class="cr-filters cr-bar">
   <select id="crRealm" aria-label="All realms"><option value="">All realms</option></select>
   <select id="crFaction" aria-label="Faction">
     <option value="">All factions</option>
@@ -320,8 +320,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <div id="crList" class="cr-list"><p class="cr-empty">Loading…</p></div>
 <p class="cr-note">Only crafters who chose it in the addon appear here, and anyone can remove their card at any time. The favourite count is reported by the crafter's addon. A card disappears after 60 days without an update. An abusive card, or one in your name? Write to <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
-
-<h2 class="fiche-section-title">Publish my crafter card</h2>
+</div>
+<aside class="cr-side">
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Publish my crafter card</h2></div>
 <ol class="ms-steps"><li>In the addon (version 0.15 or later): Broken Meta : Professions > My profile, tick "Show me on brokenmeta.gg".</li><li>Open your profession window once so your recipes are included.</li><li>Click "Copy my card for the site", Ctrl+C, then paste it below. Do it again now and then to update it.</li></ol>
 <div class="tc-field">
   <label for="crCard">My card (&#34;BMC1;…&#34; text copied in the addon)</label>
@@ -333,8 +334,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span id="crStatus" class="ms-status" role="status" aria-live="polite"></span>
 </div>
 <p id="crCodeBox" class="cr-code" hidden>Deletion code (keep it, or simply paste your card again below to remove it): <code id="crCode"></code></p>
-
-<h2 class="fiche-section-title">Remove my card</h2>
+</section>
+<details class="gs-more gs-sources"><summary>Remove my card</summary>
 <p>Paste your card (&#34;BMC1;…&#34; text from the addon) or your deletion code, then click Remove.</p>
 <div class="tc-field">
   <textarea id="crDel" class="ms-export" rows="2" spellcheck="false" autocomplete="off" aria-label="Remove my card"></textarea>
@@ -342,6 +343,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="ms-actions">
   <button type="button" id="crDelete" class="ms-btn">Remove my card</button>
   <span id="crDelStatus" class="ms-status" role="status" aria-live="polite"></span>
+</div>
+</details>
+</aside>
 </div>
 
 <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
@@ -394,10 +398,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=2278bfc855" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=2278bfc855" defer></script>
-<script src="../../../assets/js/site-search.js?v=2278bfc855" defer></script>
-<script src="../../../assets/js/favorites.js?v=2278bfc855" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=3485fc12d0" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=3485fc12d0" defer></script>
+<script src="../../../assets/js/site-search.js?v=3485fc12d0" defer></script>
+<script src="../../../assets/js/favorites.js?v=3485fc12d0" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

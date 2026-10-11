@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Annuaire des artisans WoW: Forever">
 <meta name="twitter:description" content="Trouvez un artisan WoW: Forever sur votre royaume : forgerons, couturiers, alchimistes… avec leurs recettes, publiés depuis l&#39;addon BrokenMeta.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=2278bfc855">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=2278bfc855">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=3485fc12d0">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=3485fc12d0">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=2278bfc855">
+<link rel="stylesheet" href="../../assets/css/style.css?v=3485fc12d0">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -296,18 +296,18 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 
-<section class="ph">
-  <div class="ph-text">
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">World of Warcraft: Forever · Annuaire des artisans</div>
-    <h1 class="ph-title">Annuaire des artisans</h1>
-    <p class="ph-lede">Les artisans qui utilisent l&#39;addon BrokenMeta et ont choisi d&#39;apparaître ici. Pour savoir qui est connecté et disponible en ce moment, utilisez l&#39;annuaire en jeu de l&#39;addon (Broken Meta : Profession).</p>
-    
-    
-  </div>
+    <h1 class="gh-title">Annuaire des artisans</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">Annuaire communautaire</span><span class="gh-chip">Via l&#39;addon Broken Meta : Professions</span><span class="gh-chip">Chuchoter en un clic</span></div>
+    <p class="gh-lede">Les artisans qui utilisent l&#39;addon BrokenMeta et ont choisi d&#39;apparaître ici. Pour savoir qui est connecté et disponible en ce moment, utilisez l&#39;annuaire en jeu de l&#39;addon (Broken Meta : Profession).</p>
+  </div></div>
 </section>
+<div class="cr-layout">
+<div class="cr-main">
 
-
-<div class="cr-filters">
+<div class="cr-filters cr-bar">
   <select id="crRealm" aria-label="Tous les royaumes"><option value="">Tous les royaumes</option></select>
   <select id="crFaction" aria-label="Faction">
     <option value="">Toutes les factions</option>
@@ -320,8 +320,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </div>
 <div id="crList" class="cr-list"><p class="cr-empty">Chargement…</p></div>
 <p class="cr-note">Seuls les artisans qui l'ont choisi dans l'addon apparaissent ici, et chacun peut retirer sa fiche à tout moment. Le nombre de favoris est déclaré par l'addon de l'artisan. Une fiche disparaît après 60 jours sans mise à jour. Une fiche abusive ou publiée à votre nom ? Écrivez à <a href="mailto:contact@brokenmeta.gg">contact@brokenmeta.gg</a>.</p>
-
-<h2 class="fiche-section-title">Publier ma fiche d&#39;artisan</h2>
+</div>
+<aside class="cr-side">
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Publier ma fiche d&#39;artisan</h2></div>
 <ol class="ms-steps"><li>Dans l'addon (version 0.15 ou plus) : Broken Meta : Profession > Mon profil, cochez « Apparaître sur brokenmeta.gg ».</li><li>Ouvrez une fois votre fenêtre de métier pour que vos recettes soient incluses.</li><li>Cliquez sur « Copier ma fiche pour le site », Ctrl+C, puis collez-la ci-dessous. Recommencez de temps en temps pour la mettre à jour.</li></ol>
 <div class="tc-field">
   <label for="crCard">Ma fiche (texte « BMC1;… » copié dans l&#39;addon)</label>
@@ -333,8 +334,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <span id="crStatus" class="ms-status" role="status" aria-live="polite"></span>
 </div>
 <p id="crCodeBox" class="cr-code" hidden>Code de suppression (gardez-le, ou recollez simplement votre fiche plus bas pour la retirer) : <code id="crCode"></code></p>
-
-<h2 class="fiche-section-title">Retirer ma fiche</h2>
+</section>
+<details class="gs-more gs-sources"><summary>Retirer ma fiche</summary>
 <p>Collez votre fiche (texte « BMC1;… » de l&#39;addon) ou votre code de suppression, puis cliquez sur Retirer.</p>
 <div class="tc-field">
   <textarea id="crDel" class="ms-export" rows="2" spellcheck="false" autocomplete="off" aria-label="Retirer ma fiche"></textarea>
@@ -342,6 +343,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <div class="ms-actions">
   <button type="button" id="crDelete" class="ms-btn">Retirer ma fiche</button>
   <span id="crDelStatus" class="ms-status" role="status" aria-live="polite"></span>
+</div>
+</details>
+</aside>
 </div>
 
 <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
@@ -394,10 +398,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=2278bfc855" defer></script>
-<script src="../../assets/js/champ-icons.js?v=2278bfc855" defer></script>
-<script src="../../assets/js/site-search.js?v=2278bfc855" defer></script>
-<script src="../../assets/js/favorites.js?v=2278bfc855" defer></script>
+<script src="../../assets/js/copy-comp.js?v=3485fc12d0" defer></script>
+<script src="../../assets/js/champ-icons.js?v=3485fc12d0" defer></script>
+<script src="../../assets/js/site-search.js?v=3485fc12d0" defer></script>
+<script src="../../assets/js/favorites.js?v=3485fc12d0" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
