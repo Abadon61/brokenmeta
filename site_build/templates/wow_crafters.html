@@ -6,9 +6,19 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
-{{ m.page_hero(tx.cr_kicker, g_h1, g_intro) }}
+{# Crafters directory (maquette validée 2026-10-10): compact hero, directory + sticky filters on the left, publish / remove on the right. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.cr_kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">{{ 'Annuaire communautaire' if lang == 'fr' else 'Community directory' }}</span><span class="gh-chip">{{ "Via l'addon Broken Meta : Professions" if lang == 'fr' else 'Via the Broken Meta: Professions addon' }}</span><span class="gh-chip">{{ 'Chuchoter en un clic' if lang == 'fr' else 'Whisper in one click' }}</span></div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+<div class="cr-layout">
+<div class="cr-main">
 
-<div class="cr-filters">
+<div class="cr-filters cr-bar">
   <select id="crRealm" aria-label="{{ tx.cr_js.all_realms }}"><option value="">{{ tx.cr_js.all_realms }}</option></select>
   <select id="crFaction" aria-label="{{ tx.cr_faction }}">
     <option value="">{{ tx.cr_js.all_factions }}</option>
@@ -21,8 +31,9 @@
 </div>
 <div id="crList" class="cr-list"><p class="cr-empty">{{ tx.cr_js.loading }}</p></div>
 <p class="cr-note">{{ tx.cr_note|safe }}</p>
-
-<h2 class="fiche-section-title">{{ tx.cr_pub_h2 }}</h2>
+</div>
+<aside class="cr-side">
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.cr_pub_h2 }}</h2></div>
 <ol class="ms-steps">{% for step in tx.cr_pub_steps %}<li>{{ step|safe }}</li>{% endfor %}</ol>
 <div class="tc-field">
   <label for="crCard">{{ tx.cr_card_label }}</label>
@@ -34,8 +45,8 @@
   <span id="crStatus" class="ms-status" role="status" aria-live="polite"></span>
 </div>
 <p id="crCodeBox" class="cr-code" hidden>{{ tx.cr_code_intro }} <code id="crCode"></code></p>
-
-<h2 class="fiche-section-title">{{ tx.cr_del_h2 }}</h2>
+</section>
+<details class="gs-more gs-sources"><summary>{{ tx.cr_del_h2 }}</summary>
 <p>{{ tx.cr_del_p }}</p>
 <div class="tc-field">
   <textarea id="crDel" class="ms-export" rows="2" spellcheck="false" autocomplete="off" aria-label="{{ tx.cr_del_h2 }}"></textarea>
@@ -43,6 +54,9 @@
 <div class="ms-actions">
   <button type="button" id="crDelete" class="ms-btn">{{ tx.cr_delete }}</button>
   <span id="crDelStatus" class="ms-status" role="status" aria-live="polite"></span>
+</div>
+</details>
+</aside>
 </div>
 
 <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
