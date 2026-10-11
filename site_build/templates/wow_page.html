@@ -140,6 +140,17 @@
     <p class="gh-lede">{{ page.intro }}</p>
   </div></div>
 </section>
+{% elif wow_slug %}
+{# Content pages (maquette validée 2026-10-10): compact hero, sticky section shortcuts, one tile per section, sibling pages + sources in a side column. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ page.kicker }}</div>
+    <h1 class="gh-title">{{ page.h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role"><b class="nums">{{ page.sections|length }}</b> {{ 'rubriques' if fr else 'sections' }}</span><span class="gh-chip">{{ 'Sources officielles citées' if fr else 'Official sources cited' }}</span></div>
+    <p class="gh-lede">{{ page.intro }}</p>
+  </div></div>
+</section>
+<nav class="ct-bar" aria-label="{{ 'Rubriques' if fr else 'Sections' }}">{% for sec in page.sections %}<a href="#c{{ loop.index }}">{{ sec.h2 }}</a>{% endfor %}</nav>
 {% else %}
 {{ m.page_hero(page.kicker, page.h1, page.intro) }}
 {% endif %}
@@ -148,8 +159,9 @@
 {% endif %}
 
 {% if not (wow_slug == '' and wt_classes) %}
+{% if wow_slug and not page.faq %}<div class="ct-layout"><div class="ct-main">{% endif %}
 {% for sec in page.sections %}
-<h2 class="fiche-section-title">{{ sec.h2 }}</h2>
+{% if wow_slug and not page.faq %}<section class="gs-tile" id="c{{ loop.index }}"><div class="gs-th"><h2 class="gs-h2">{{ sec.h2 }}</h2></div>{% else %}<h2 class="fiche-section-title">{{ sec.h2 }}</h2>{% endif %}
 {% for b in sec.blocks %}
 {% if b.type == 'p' %}<p class="page-intro" style="margin-top:0">{{ b.text }}</p>
 {% elif b.type == 'note' %}<p class="wow-note">{{ b.text }}</p>
@@ -166,7 +178,17 @@
 </table></div>
 {% endif %}
 {% endfor %}
+{% if wow_slug and not page.faq %}</section>{% endif %}
 {% endfor %}
+{% if wow_slug and not page.faq %}</div>
+<aside class="ct-side">
+  <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">World of Warcraft: Forever</h2></div>
+  <nav class="ct-nav">{% for sl, lf, le in (('sortie', 'Sortie', 'Release'), ('beta', 'Bêta', 'Beta'), ('editions', 'Éditions et prix', 'Editions & prices'), ('classes', 'Classes et races', 'Classes & races'), ('progression', 'Progression 1-60', 'Leveling 1-60'), ('faq', 'FAQ', 'FAQ')) %}<a href="{{ root }}wow-forever/{{ sl }}/"{% if sl == wow_slug %} class="is-on" aria-current="page"{% endif %}>{{ lf if fr else le }}</a>{% endfor %}</nav></section>
+  <details class="gs-more gs-sources"><summary>{{ wow_ui.sources }}</summary>
+  <p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
+  <ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul></details>
+</aside>
+</div>{% endif %}
 
 {% if page.faq %}
 {# the questions are in the same order in FR and EN (asserted in wow_content.py); groups are lists of positions #}
@@ -201,7 +223,7 @@
   });
 })();
 </script>
-{% else %}
+{% elif not wow_slug %}
 <h2 class="fiche-section-title">{{ wow_ui.sources }}</h2>
 <p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
 <ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul>
