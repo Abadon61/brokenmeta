@@ -1,38 +1,62 @@
 {% extends "base.html" %}
+{% import "wow_related.html" as rel %}
 {% import "macros.html" as m %}
-{% block title %}{{ tx.dg_title_hub }}{% endblock %}
-{% block description %}{{ tx.dg_desc_hub }}{% endblock %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
 {% block og_type %}article{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
 {% set fr = lang == 'fr' %}
+{# Hub "Donjons par niveau" (2026-10-13): level + spec finder, bands (static, for the search engines), then the dungeon cards. Data: build_site.py (_hub_json), js/wow-dungeon-finder.js. #}
 <section class="gh-hero is-flat">
   <div class="gh-in">
     <div class="gh-main">
       <div class="fiche-kicker">{{ tx.dg_kicker }}</div>
-      <h1 class="gh-title">{{ tx.dg_h1_hub }}</h1>
-      <p class="gh-lede">{{ tx.dg_intro_hub }}</p>
+      <h1 class="gh-title">{{ g_h1 }}</h1>
+      <p class="gh-lede">{{ g_intro }}</p>
     </div>
     <div class="gh-cta">
       <a class="gh-btn is-primary" href="{{ root }}wow-forever/dungeons/tous-les-objets/">{{ tx.dg_all_card }}</a>
     </div>
   </div>
 </section>
+
+<section class="gs-tile dfd" id="dfd" data-lang="{{ lang }}" data-root="{{ root }}{{ 'en/' if lang == 'en' else '' }}">
+  <div class="gs-th"><h2 class="gs-h2">{{ dgx.f_h }}</h2></div>
+  <div class="dfd-form">
+    <label>{{ dgx.f_level }} <input type="number" id="dfdLevel" min="1" max="60" value="20" inputmode="numeric"></label>
+    <label>{{ dgx.f_spec }} <select id="dfdSpec"><option value="">{{ dgx.f_any }}</option>{% for s in hub.specs %}<option value="{{ s.key }}">{{ s.label }}</option>{% endfor %}</select></label>
+  </div>
+  <div id="dfdOut" aria-live="polite"></div>
+</section>
+<script type="application/json" id="dfdData">{{ {'d': hub.dungeons, 'i18n': {'now': dgx.f_now, 'soon': dgx.f_soon, 'none': dgx.f_none, 'best': dgx.f_best, 'nobest': dgx.f_nobest, 'where': dgx.f_where, 'see': dgx.f_see, 'levels': tx.dg_levels, 'thin': dgx.thin_short}}|tojson }}</script>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ dgx.bands_h }}</h2></div>
+<p class="gs-lede">{{ dgx.bands_p }}</p>
+{% for b in hub_bands if b.rows %}
+<h3 class="gs-sub">{{ dgx.band.format(lo=b.lo, hi=b.hi) }}</h3>
+<div class="dh-grid">
+  {% for r in b.rows %}
+  <a class="dh-card" href="{{ root }}{{ r.path }}">
+    <b>{{ r.name }}</b>
+    <span class="dh-chips">{% if r.range %}<span class="gh-chip is-gold">{{ tx.dg_levels }} <b class="nums">{{ r.range }}</b></span>{% endif %}{% if r.loc %}<span class="gh-chip">{{ r.loc }}</span>{% endif %}<span class="gh-chip"><b class="nums">{{ r.n }}</b> {{ tx.dg_items_n }}</span>{% if r.thin %}<span class="gh-chip">{{ dgx.thin_short }}</span>{% endif %}</span>
+    <span class="dh-go">{{ 'Voir le butin' if fr else 'See the loot' }} →</span>
+  </a>
+  {% endfor %}
+</div>
+{% endfor %}
+<p class="wow-note">{{ dgx.note }}</p>
+</section>
+
 <div class="dh-grid">
   <a class="dh-card is-all" href="{{ root }}wow-forever/dungeons/tous-les-objets/">
     <b>{{ tx.dg_all_card }}</b>
     <span class="dh-chips"><span class="gh-chip"><b class="nums">{{ dd.dungeons|map(attribute='items')|map('length')|sum }}</b> {{ tx.dg_all_card_n }}</span><span class="gh-chip"><b class="nums">{{ dd.dungeons|length }}</b> {{ 'donjons' if fr else 'dungeons' }}</span></span>
     <span class="dh-go">{{ 'Filtrer tout le butin' if fr else 'Filter all the loot' }} →</span>
   </a>
-  {% for d in dd.dungeons %}
-  <a class="dh-card" href="{{ root }}wow-forever/dungeons/{{ d.id }}/">
-    <b>{{ d.name[lang] }}</b>
-    <span class="dh-chips">{% if d.levels %}<span class="gh-chip is-gold">{{ tx.dg_levels }} <b class="nums">{{ d.levels }}</b></span>{% endif %}<span class="gh-chip"><b class="nums">{{ d['items']|length }}</b> {{ tx.dg_items_n }}</span></span>
-    <span class="dh-go">{{ 'Voir le butin' if fr else 'See the loot' }} →</span>
-  </a>
-  {% endfor %}
 </div>
 <details class="gs-more gs-sources">
   <summary>{{ tx.dg_method_h2 }}</summary>
@@ -45,4 +69,6 @@
     <li>{{ tx.dg_src2 }}<a href="https://wago.tools/" rel="noopener nofollow" target="_blank">{{ wow_ui_sources_client }}</a></li>
   </ul>
 </details>
+{{ rel.related(root, lang == 'fr', ['leveling', 'tier', 'races']) }}
+<script src="{{ root }}assets/js/wow-dungeon-finder.js?v={{ js_v('wow-dungeon-finder.js') }}" defer></script>
 {% endblock %}
