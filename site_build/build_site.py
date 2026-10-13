@@ -54,6 +54,7 @@ import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
 import wow_launch  # noqa: E402
+import wow_leveling  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
@@ -7381,6 +7382,7 @@ def main() -> None:
     # BrokenLogs (2026-10-11): combat log analysis in the browser.
     _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("tier-list", "Tier list", "Tier list"))   # 2026-10-13
+    _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("leveling", "Leveling 1-60", "Leveling 1-60"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
     _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
@@ -8737,6 +8739,18 @@ def main() -> None:
                 render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
+            _lvx = wow_leveling.TX[lang]
+            assert len(_lvx["title"]) <= 60 and len(_lvx["desc"]) <= 155, (len(_lvx["title"]), len(_lvx["desc"]))
+            _lvpath = "/wow-forever/leveling/"
+            _lv = wow_leveling.build(lang)
+            _lv["date_txt"] = _news_date(_lv["updated"], lang)
+            _lvfmt = dict(j=_lv["lev"]["journeyman"], e=_lv["lev"]["expert"], a=_lv["lev"]["artisan"])
+            _lv["faq"] = [(q, a.format(**_lvfmt)) for q, a in _lvx["faq"]]
+            _lvfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _lv["faq"]]}
+            render("wow_leveling.html", _lvpath, lang, active_nav="wow", active_sub="wow-leveling", tx=_lvx, lv=_lv,
+                   g_title=_lvx["title"], g_desc=_lvx["desc"], g_h1=_lvx["h1"], g_intro=_lvx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_lvfaq,
+                   article_schema=build_article_schema(_lvx["h1"], canonical_for(_lvpath, lang), _lvx["desc"]),
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_lvx["h1"], canonical_for(_lvpath, lang))]))
             _lgpath = "/wow-forever/logs/"
             assert len(_gx["lg_title"]) <= 60 and len(_gx["lg_desc"]) <= 155
             render("wow_logs.html", _lgpath, lang, active_nav="wow", active_sub="wow-logs", tx=_gx,

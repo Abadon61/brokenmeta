@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+{# Guide de leveling 1-60 (2026-10-13): dungeons and profession ranks from the beta data, zones from Classic (flagged), see wow_leveling.py. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(date=lv.date_txt) }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+<nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  {% for b in lv.bands %}<a href="#lvg-{{ b.lo }}">{{ b.lo }}-{{ b.hi }}</a>{% endfor %}
+  <a href="#lvg-prof">{{ tx.col_prof }}</a>
+  <a href="#lvg-faq">FAQ</a>
+</nav>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.legend_h }}</h2></div>
+<ul class="gd-list">{% for item in tx.legend %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+</section>
+
+{% for b in lv.bands %}
+<section class="gs-tile lvg-band" id="lvg-{{ b.lo }}">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.band_h.format(lo=b.lo, hi=b.hi) }}</h2></div>
+  <div class="lvg-cols">
+    <div class="lvg-col">
+      <h3 class="gs-sub">{{ tx.zones }}</h3>
+      <ul class="lvg-list">{% for z in b.zones %}<li><span>{{ z.name }}</span><em class="nums">{{ tx.lvl.format(lo=z.lo, hi=z.hi) }}</em></li>{% endfor %}</ul>
+      {% if loop.first %}<p class="lvg-note">{{ tx.start_p }}</p>{% endif %}
+    </div>
+    <div class="lvg-col">
+      <h3 class="gs-sub">{{ tx.dungeons }}</h3>
+      {% if b.dungeons %}<ul class="lvg-list">{% for d in b.dungeons %}<li><a href="{{ root }}{{ d.path }}">{{ d.name }}</a><em class="nums">{{ tx.lvl.format(lo=d.lo, hi=d.hi) }}</em></li>{% endfor %}</ul>
+      {% else %}<p class="lvg-note">{{ tx.no_dungeon }}</p>{% endif %}
+      <h3 class="gs-sub">{{ tx.profs }}</h3>
+      {% if b.ranks %}<ul class="lvg-list">{% for idx, lvl in b.ranks %}<li><span>{{ tx.rank_text[idx].format(lvl=lvl) }}</span></li>{% endfor %}</ul>
+      {% else %}<p class="lvg-note">{{ tx.rank_none }}</p>{% endif %}
+    </div>
+  </div>
+  {% if loop.first %}
+  <h3 class="gs-sub">{{ tx.new_h }}</h3>
+  <p class="lvg-note">{{ tx.new_p }}</p>
+  <ul class="gd-list">{% for item in tx.new %}<li>{{ item }}</li>{% endfor %}</ul>
+  {% endif %}
+</section>
+{% endfor %}
+<p class="wow-note">{{ tx.band_zones_note }}</p>
+
+<section class="gs-tile" id="lvg-prof"><div class="gs-th"><h2 class="gs-h2">{{ tx.prof_h }}</h2></div>
+<p class="gs-lede">{{ tx.prof_p.format(j=lv.lev.journeyman, e=lv.lev.expert, a=lv.lev.artisan) }}</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ tx.col_prof }}</th><th class="nums">{{ tx.col_j }}</th><th class="nums">{{ tx.col_e }}</th><th class="nums">{{ tx.col_a }}</th><th class="nums">{{ tx.col_cost }}</th></tr></thead>
+  <tbody>{% for p in lv.profs %}<tr>
+    <td><a href="{{ root }}{{ p.path }}">{{ p.name }}</a></td>
+    <td class="nums">{{ tx.lvl_short.format(n=p.journeyman) }}</td>
+    <td class="nums">{% if p.expert %}{{ tx.lvl_short.format(n=p.expert) }}{% else %}—{% endif %}{{ ' *' if not p.trainer_expert }}</td>
+    <td class="nums">{{ tx.lvl_short.format(n=p.artisan) }}{{ ' *' if not p.trainer_artisan }}</td>
+    <td class="nums">{{ tx.gold.format(g=p.gold, s=p.silver) }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="wow-note">* {{ tx.trainer_no }}</p>
+<p class="lvg-note">{{ tx.pb_note }}</p>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.dung_h }}</h2></div>
+<p class="gs-lede">{{ tx.dung_p.format(n=lv.n_dungeons) }}</p>
+<div class="gh-chips">{% for b in lv.bands %}{% for d in b.dungeons %}<a class="gh-chip" href="{{ root }}{{ d.path }}">{{ d.name }} · {{ d.lo }}-{{ d.hi }}</a>{% endfor %}{% endfor %}</div>
+</section>
+
+<section class="gs-tile" id="lvg-faq"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
+{% for q, a in lv.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
+<div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/tier-list/">{{ tx.l_tier }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ tx.l_dung }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/professions/">{{ tx.l_prof }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/progression/">{{ tx.l_prog }}</a>
+</div>
+</section>
+
+<details class="gs-more gs-sources"><summary>{{ tx.src_h }}</summary>
+<ul class="gd-list">{% for item in tx.src %}<li>{{ item }}</li>{% endfor %}</ul></details>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}

@@ -3146,6 +3146,16 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Guide de leveling 1-60 (2026-10-13) ---------- */
+  .lvg-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 4px; }
+  .lvg-col .gs-sub { margin-top: 12px; }
+  .lvg-col .gs-sub:first-child { margin-top: 0; }
+  .lvg-list { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+  .lvg-list li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 12px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-2); font-size: 14px; }
+  .lvg-list em { font: 12px 'Space Mono', monospace; font-style: normal; color: var(--text-faint); white-space: nowrap; }
+  .lvg-note { margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; color: var(--text-dim); }
+  @media (max-width: 800px) { .lvg-cols { grid-template-columns: 1fr; } }
+
   /* ---------- Guides: "Au lancement" tile (2026-10-13) ---------- */
   .lch-tile { margin-top: 14px; border-top: 3px solid var(--cc, var(--magenta)); }
   .lch-meta { margin: 0 0 12px; font: 12px 'Space Mono', monospace; color: var(--text-faint); }
