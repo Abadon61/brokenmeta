@@ -28,6 +28,7 @@
       </div>
       {% endif %}
       <p class="gh-lede">{{ g_intro }}</p>
+      {% if thin_note %}<p class="wow-note dg-thin">{{ thin_note }}</p>{% endif %}
       {% if bosses is defined %}<p class="gh-updated">{{ 'Mis à jour le' if fr else 'Updated' }} <time datetime="{{ updated }}">{{ short_date(updated, lang) ~ ' ' ~ updated[:4] }}</time>{% if dloc %} · {{ "emplacement de WoW Classic" if fr else "WoW Classic location" }}{% endif %}</p>{% endif %}
     </div>
     {% if bosses is defined %}<div class="gh-cta">
@@ -61,6 +62,7 @@
       <div class="dp-spec">
         <a class="dp-spec-n" href="{{ root }}{{ p.guide }}"><img src="{{ root }}{{ p.icon }}" alt="{{ p.class_name ~ ' ' ~ p.spec_name if fr else p.spec_name ~ ' ' ~ p.class_name }}" width="20" height="20" loading="lazy">{{ p.spec_name }}</a>
         <div class="dp-items">{% for it in p['items'] %}<span><em>{{ loop.index }}</em>{{ dm.item_link(it, lang, 18) }}</span>{% endfor %}</div>
+        {% if p.items40 %}<div class="dp-items dp-items40"><small>{{ dgx.from40 }}</small>{% for it in p.items40 %}<span><em>{{ loop.index }}</em>{{ dm.item_link(it, lang, 18) }}</span>{% endfor %}</div>{% endif %}
       </div>
       {% endfor %}
     </div>
@@ -71,9 +73,10 @@
 
 {% if bosses %}
 <section class="gs-tile" id="boss">
-  <div class="gs-th"><h2 class="gs-h2">{{ 'Les boss de ' ~ dname ~ ' et leur butin' if fr else dname ~ ' bosses and their loot' }}</h2><span class="gs-meta">{{ bosses|length }} BOSS · {{ "DANS L'ORDRE DES RENCONTRES" if fr else "IN ENCOUNTER ORDER" }}</span></div>
+  <div class="gs-th"><h2 class="gs-h2">{{ 'Les boss de ' ~ dname ~ ' et leur butin' if fr else dname ~ ' bosses and their loot' }}</h2><span class="gs-meta">{{ bosses|length }} BOSS · {% if has_wings %}{{ dgx.wings_meta }}{% else %}{{ "DANS L'ORDRE DES RENCONTRES" if fr else "IN ENCOUNTER ORDER" }}{% endif %}</span></div>
   <div class="db-grid">
   {% for b in bosses %}
+    {% if b.wing %}<h3 class="db-wing">{{ b.wing }}</h3>{% endif %}
     <div class="db-card">
       <h3>{{ b.name }}<span class="nums">#{{ loop.index }}{% if b['items'] %} · {{ b['items']|length }}{% endif %}</span></h3>
       {% if b['items'] %}{% for it in b['items'] %}<div class="db-it">{{ dm.item_link(it, lang, 24) }}<small>{{ dd.slots[it.slot|string][lang] }}{% if it.type[lang] and it.type[lang] != dd.slots[it.slot|string][lang] %} · {{ it.type[lang] }}{% endif %}</small></div>{% endfor %}
@@ -81,6 +84,7 @@
     </div>
   {% endfor %}
   </div>
+  {% if has_wings %}<p class="gs-lede">{{ dgx.wings_note }}</p>{% endif %}
   {% if others %}
   <div class="db-others"><b>{{ 'Autres créatures' if fr else 'Other creatures' }}</b>
     {% for name, its in others %}<div class="db-ot"><span>{{ name }}</span><div>{% for it in its %}{{ dm.item_link(it, lang, 20) }}{% if not loop.last %}, {% endif %}{% endfor %}</div></div>{% endfor %}
