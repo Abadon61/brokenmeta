@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "wow_related.html" as rel %}
 {% import "macros.html" as m %}
 {% block title %}{{ g_title }}{% endblock %}
 {% block description %}{{ g_desc }}{% endblock %}
@@ -50,4 +51,5 @@
 <ul class="ms-limits">
   {% for item in tx.ms_limits %}<li>{{ item }}</li>{% endfor %}
 </ul></details>
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling']) }}
 {% endblock %}

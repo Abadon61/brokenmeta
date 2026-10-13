@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "wow_related.html" as rel %}
 {% import "macros.html" as m %}
 {% block title %}{{ wt_title }}{% endblock %}
 {% block description %}{{ wt_desc }}{% endblock %}
@@ -6,6 +7,7 @@
 {% block extra_head %}
 {% if wt_fixture %}<meta name="robots" content="noindex,nofollow">{% endif %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
 {% if wt_fixture %}<p class="wt-fixture" data-marker="WOW-TALENTS-FIXTURE">{{ wt.fixture }}</p>{% endif %}
@@ -53,6 +55,7 @@
   });
 })();
 </script>
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling'], wt_class.id, wt_class.name[lang]) }}
 {% endblock %}
 {% block extra_body %}
 <script src="{{ root }}assets/js/wow-talents.js?v={{ css_v }}" defer></script>

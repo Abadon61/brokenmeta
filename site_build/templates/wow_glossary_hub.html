@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "wow_related.html" as rel %}
 {% import "macros.html" as m %}
 {% block title %}{{ tx.hub_title }}{% endblock %}
 {% block description %}{{ tx.hub_desc }}{% endblock %}
@@ -25,4 +26,5 @@
   </a>
   {% endif %}{% endfor %}
 </div>
+{{ rel.related(root, lang == 'fr', ['tier', 'races']) }}
 {% endblock %}

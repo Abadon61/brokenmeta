@@ -6,6 +6,7 @@
 {% block extra_head %}
 {% if wt_fixture %}<meta name="robots" content="noindex,nofollow">{% endif %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% endblock %}
 {% block content %}
 {% if wt_fixture %}<p class="wt-fixture" data-marker="WOW-TALENTS-FIXTURE">{{ wt.fixture }}</p>{% endif %}

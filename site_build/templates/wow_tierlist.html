@@ -4,6 +4,7 @@
 {% block description %}{{ g_desc }}{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
 <script type="application/ld+json">{{ faq_schema|tojson }}</script>
 {% endblock %}
 {% macro num(v) %}{{ '{:,.0f}'.format(v).replace(',', ' ' if lang == 'fr' else ',') }}{% endmacro %}
@@ -87,6 +88,8 @@
   <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ tx.l_dung }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/simuler-mon-personnage/">{{ tx.l_mysim }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/races/">{{ tx.l_races }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/leveling/">{{ tx.l_level }}</a>
 </div>
 </section>
 

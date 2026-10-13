@@ -414,7 +414,12 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
                 pg[k] = pg[k].replace(x, y)
     path = "/wow-forever/" + "classement/" + r["slug"] + "/"
     url = canonical_for(path, lang)
-    assert len(pg["title"]) <= 70, pg["title"]
+    # SEO limits (2026-10-13): title <= 60, description <= 155; the longest tank names overflow, so drop the least useful words
+    if len(pg["title"]) > 60:
+        pg["title"] = pg["title"].replace(", rotation", "")
+    if len(pg["desc"]) > 155:
+        pg["desc"] = pg["desc"].replace(", calculés par simulation", ", simulés").replace(", calculated by simulation", ", simulated")
+    assert len(pg["title"]) <= 60 and len(pg["desc"]) <= 155, (pg["title"], len(pg["title"]), len(pg["desc"]))
     render("wow_rank_spec.html", path, lang, active_nav="wow", active_sub="wow-index", rx=rx, pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
            breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
            article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
@@ -8243,6 +8248,7 @@ def main() -> None:
             assert len(_wt["hub_title"]) <= 60 and len(_wt["hub_desc"]) <= 155
             render("wow_talents_hub.html", "/wow-forever/talents/", lang, active_nav="wow", active_sub="wow-talents", wt=_wt, wt_fixture=wt_fixture,
                    wt_classes=wt_classes, rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
+                   article_schema=build_article_schema(_wt["hub_title"], canonical_for("/wow-forever/talents/", lang), _wt["hub_desc"]),
                    breadcrumb_schema=breadcrumb_schema(_tbase))
             for _c in wt_classes:
                 _cname = _c["name"][lang]
@@ -8276,6 +8282,7 @@ def main() -> None:
                        wt_class=_c, wt_classes=wt_classes, wt_presets=_presets, wt_json=_json, wt_title=_title, wt_desc=_desc, wt_h1=_wt["class_h1"].format(name=_cname),
                        wt_intro=_wt["class_intro"].format(specs=_specs), wt_n_talents=sum(len(s["talents"]) for s in _c["specs"]),
                        rules_source=_rules_src, wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       article_schema=build_article_schema(_title, canonical_for(_cpath, lang), _desc),
                        breadcrumb_schema=breadcrumb_schema(_tbase + [(_cname, canonical_for(_cpath, lang))]))
         if wow_spell_classes:
             _gsx = wow_spells.TXT[lang]
@@ -8741,6 +8748,7 @@ def main() -> None:
                 _tfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _tl["faq"]]}
                 render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
+                       article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
             if wow_racepick.available():
                 # "Which race?": a hub and one page per class (client racials + simulator), see wow_racepick.py
