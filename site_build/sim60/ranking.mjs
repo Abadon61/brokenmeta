@@ -15,7 +15,11 @@ import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, CONSUMABLE_SLOT
 const FIGHT = +process.argv[2] || 180, FINAL = +process.argv[3] || 6000;
 const here = new URL('.', import.meta.url);
 const rd = (f) => JSON.parse(readFileSync(new URL('data/' + f, here)));
-const pool = new ItemPool(rd('items.json'), rd('proficiency.json'));
+// RANK_NORAID=1: pre-raid pool (no raid drops); write it elsewhere with RANK_OUT (data/wow_prebis60.json, read by the guides' "at launch" tile)
+const NORAID = !!process.env.RANK_NORAID;
+const itemsJson = rd('items.json');
+if (NORAID) itemsJson.items = itemsJson.items.filter((i) => i.from !== 'raid');
+const pool = new ItemPool(itemsJson, rd('proficiency.json'));
 const ALL_ENCH = rd('enchants60.json').enchants.filter((e) => Object.keys(e.stats).length);
 const ENCHANTS = ALL_ENCH.filter((e) => e.kind !== 'kit'), ARMOR_KITS = ALL_ENCH.filter((e) => e.kind === 'kit');
 const data = rd('spells60.json'), fx = rd('effects.json'), tal = rd('talents.json');
@@ -36,7 +40,7 @@ const SPECS = {
 };
 const FAMILY = { caster: PRESET_CASTER, hunter: PRESET_HUNTER };
 
-const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT, iterations: FINAL, build: rd('items.json').build, specs: [] };
+const out = { generated: new Date().toISOString().slice(0, 10), fightLen: FIGHT, iterations: FINAL, build: rd('items.json').build, preRaid: NORAID, specs: [] };
 const objectiveTank = (r, ch) => { const len = FIGHT, thr = r.counters.threat / len, dt = r.counters.dmgTaken / len, raw = ch.target.boss.dmg / ch.target.boss.speed; return Math.sqrt(Math.max(0, thr) * Math.max(0, raw - dt)); };
 
 const stat = (d) => { const o = { sid: d.sid }; for (const k of ['str', 'agi', 'sta', 'int', 'spi', 'ap', 'sp', 'crit', 'spCrit', 'mp5', 'statMult', 'armor', 'spellTaken']) if (d[k]) o[k] = d[k]; if (d.meleeOnly) o.meleeOnly = true; return o; };
@@ -319,7 +323,7 @@ for (const [id, S] of Object.entries(SPECS)) {
   out.specs.push(row);
   console.log(id.padEnd(22), S.tank ? 'TPS ' + row.tps : 'DPS ' + row.dps, '±' + row.sem, ((Date.now() - t0) / 1000).toFixed(0) + 's');
 }
-if (ONLY) {                                         // merge the recomputed rows into the existing file, in its order
+if (ONLY && !NORAID) {                              // merge the recomputed rows into the existing file, in its order
   const prev = JSON.parse(readFileSync(new URL('../../data/wow_ranking60.json', here)));
   const fresh = new Map(out.specs.map((r) => [r.spec, r]));
   out.specs = prev.specs.map((r) => fresh.get(r.spec) || r);

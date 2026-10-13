@@ -38,6 +38,7 @@
 
 {% if content %}
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  {% if launch %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
   <a href="#gs-talents">Talents</a>
   <a href="#gs-stats">{{ 'Statistiques' if fr else 'Stats' }}</a>
   {% if lvl60.rot %}<a href="#gs-rotation">Rotation</a>{% endif %}
@@ -45,6 +46,49 @@
   <a href="#gs-gear">{{ 'Équipement' if fr else 'Gear' }}</a>
   <a href="#gs-cons">{{ 'Consommables' if fr else 'Consumables' }}</a>
 </nav>
+
+{% if launch %}
+{# "Au lancement" (2026-10-13): the short answer, every figure from the simulator's pre-raid run (wow_launch.py). #}
+<section class="gs-tile lch-tile" id="gs-launch">
+  <div class="gs-th"><h2 class="gs-h2">{{ lx.h2.format(patch=launch.patch) }}</h2></div>
+  <p class="lch-meta">{{ lx.meta.format(date=launch.date_txt, build=launch.build, fight=launch.meta.fight, iters=launch.meta.iters) }}</p>
+  <div class="lch-grid">
+    <div class="lch-card">
+      <h3 class="gs-sub">{{ lx.talents }}</h3>
+      {% if launch.split %}<p>{{ lx.t_points.format(total=launch.total, split=launch.split_txt) }}</p>{% endif %}
+      {% if launch.top %}<p>{{ lx.t_top.format(top=launch.top|map(attribute=0)|join(', ')) }}</p>{% endif %}
+      <a class="wg-link" href="#gs-talents">{{ lx.t_link }} →</a>
+    </div>
+    {% if launch.has_rot %}
+    <div class="lch-card">
+      <h3 class="gs-sub">{{ lx.rot }}</h3>
+      <ol class="lch-list">{% for step in launch.rot %}<li>{{ step|sl }}</li>{% endfor %}</ol>
+      <a class="wg-link" href="#gs-rotation">{{ lx.rot_link }} →</a>
+    </div>
+    {% endif %}
+    <div class="lch-card">
+      <h3 class="gs-sub">{{ lx.cons if launch.blocks else lx.cons_heal }}</h3>
+      {% if launch.blocks %}{% for b in launch.blocks %}{% if b.label %}<p class="lch-var">{{ b.label }}</p>{% endif %}
+      <ul class="lch-list">{% for title, rows_c in b.cats %}{% for c in rows_c[:1] %}<li>{% if c.sid %}<a class="rs-spell" href="https://www.wowhead.com/forever/spell={{ c.sid }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ c.name }}</a>{% else %}{{ c.name }}{% endif %}<span class="rs-hint"> {{ title }}</span></li>{% endfor %}{% endfor %}</ul>{% endfor %}
+      {% elif launch.cons_heal %}<ul class="lch-list">{% for c in launch.cons_heal %}<li>{{ c }}</li>{% endfor %}</ul>{% endif %}
+      <a class="wg-link" href="#gs-cons">{{ lx.cons_link }} →</a>
+    </div>
+  </div>
+  <h3 class="gs-sub lch-gear-h">{{ lx.gear }}</h3>
+  {% if launch.blocks %}
+  {% for b in launch.blocks %}
+  {% if b.label %}<h4 class="lch-var">{{ b.label }}</h4>{% endif %}
+  <p class="gs-lede">{% if b.delta_txt %}{{ lx.gear_p.format(value=('{:,.0f}'.format(b.value).replace(',', ' ' if fr else ',')), unit=b.unit, delta=b.delta_txt, full=('{:,.0f}'.format(b.full).replace(',', ' ' if fr else ','))) }}{% else %}{{ lx.gear_p_nodelta.format(value=('{:,.0f}'.format(b.value).replace(',', ' ' if fr else ',')), unit=b.unit) }}{% endif %}</p>
+  <div class="lch-gear">
+    {% for g in b['items'] %}<div class="lch-gr"><span class="gs-slot">{{ g.slot_label }}</span>
+      <span class="rs-item q{{ g.q or 1 }}">{% if g.id and g.id > 0 %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name }}</a>{% else %}{{ g.name }}{% endif %}</span>
+      <span class="gs-src">{% if g.zone_path %}<a class="rs-zone" href="{{ root }}{{ g.zone_path }}">{{ g.zone }}</a>{% else %}{{ g.zone }}{% endif %}{% if g.boss %}{{ ' — ' if g.zone }}{{ g.boss }}{% endif %}</span></div>{% endfor %}
+  </div>{% endfor %}
+  <p><a class="wg-link" href="#gs-gear">{{ lx.gear_link }} →</a></p>
+  {% elif launch.healer %}<p class="wow-note">{{ lx.gear_none }}</p>{% endif %}
+  <p class="gs-foot">{{ lx.source_note }}</p>
+</section>
+{% endif %}
 
 <div class="gs-grid">
 

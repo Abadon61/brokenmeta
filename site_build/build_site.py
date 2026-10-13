@@ -53,6 +53,7 @@ import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
+import wow_launch  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
@@ -104,10 +105,10 @@ SIM60_RANK_SPECS = {
 SIM60_SUFFIX = {"fr": {"ranged": " (distance)", "melee": " (mêlée)", "bear": " (ours)"}, "en": {"ranged": " (ranged)", "melee": " (melee)", "bear": " (bear)"}}
 
 
-def build_wow_ranking60(wt_classes, lang):
+def build_wow_ranking60(wt_classes, lang, fname="wow_ranking60.json"):
     """Rows of the hub's DPS ranking (and, apart, the tanks by threat per second) from the level-60 simulator's data/wow_ranking60.json.
     Returns ([], []) when the file does not exist, so the caller can fall back to the older engine."""
-    path = PROJECT / "data" / "wow_ranking60.json"
+    path = PROJECT / "data" / fname
     if not path.exists():
         return [], []
     data = json.loads(path.read_text(encoding="utf-8"))
@@ -8154,6 +8155,8 @@ def main() -> None:
         # formulas): computed once per language since spec/class names are localized, sits at the
         # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
         _wow_ranking, _wow_ranking_tanks = build_wow_ranking60(wt_classes, lang) if wt_classes else ([], [])
+        _pre_meta = wow_launch.load_meta()          # pre-raid simulator run (data/wow_prebis60.json), for the guides' "at launch" tile
+        _pre_all = (lambda a, b: a + b)(*build_wow_ranking60(wt_classes, lang, "wow_prebis60.json")) if (wt_classes and _pre_meta) else []
         if wt_classes and not _wow_ranking:          # no simulator ranking file yet: the older level-30 engine
             _wow_ranking = wow_dps_sim.build_ranking(wt_classes, lang, iterations=200, fight_len=300.0)
         # Per-slot BIS gear (data/wow_items/bis_gear_by_slot.json) keyed by our own ROTATIONS spec
@@ -8413,10 +8416,19 @@ def main() -> None:
                         for _rpos, _rr2 in enumerate(_rlist2):
                             if _rank_info is None and _rr2["class_id"] == _cls["id"] and _rr2["guide_spec"] == _s["id"]:
                                 _rank_info = {"pos": _rpos + 1, "val": _rr2["tps"] if _runit == "TPS" else _rr2["dps"], "unit": _runit}
-                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s,
+                    _own_rows = [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]
+                    _own_pre = [_rr for _rr in _pre_all if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]
+                    _lvl60 = _guide_level60(lang, _cls["id"], _s["id"], _own_rows, _cls)
+                    _launch = None
+                    if _pre_meta and _g["content"].get(_s["id"]) and (_own_pre or _lvl60.get("rot")):
+                        _launch = wow_launch.build(lang, _cls, _own_rows, _own_pre, _lvl60, _guide_level60(lang, _cls["id"], _s["id"], _own_pre, _cls) if _own_pre else {}, (_builds60.get(_cls["id"]) or {}).get(_s["id"]), _pre_meta)
+                        _launch["date_txt"] = _news_date(_pre_meta["generated"], lang)
+                        _st = wow_launch.title(lang, _cn, _sn, _launch["patch"])
+                        assert len(_st) <= 60, _st
+                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang],
                            rank_info=_rank_info, rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
-                           banner=class_banner(_cls["id"]), lvl60=_guide_level60(lang, _cls["id"], _s["id"], [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]], _cls),
+                           banner=class_banner(_cls["id"]), lvl60=_lvl60,
                            rot_tx=wow_guide_rotation.TX[lang], g60=wow_guide_rotation.G60[lang],
                            rank_links=[{"path": _rr["page_path"], "label": _rr["class_name"] + " " + _rr["spec_name"]} for _rr in (_wow_ranking + _wow_ranking_tanks)
                                        if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"] and _rr.get("detail")],
