@@ -12,7 +12,7 @@ LAUNCH_ARTICLE = {
     "format": "guide",
     "date": "2026-10-13",
     "updated": "2026-10-13",
-    "draft": True,
+    "draft": False,
     "tag": "release",
     "kind": None,
     "class": None,
