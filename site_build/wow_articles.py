@@ -1733,6 +1733,118 @@ ARTICLES = [
             ],
         },
     },
+    {
+        "slug": "double-specialisation-niveau-40-wow-forever",
+        "format": "brief",
+        "date": "2026-10-13",
+        "updated": "2026-10-13",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/ability_dualwield.jpg",
+        "sources": [
+            ("Wowhead : Blizzard Teases Possible Change to Unlock Level of Dual Spec in WoW: Forever (10 Oct. 2026)",
+             "https://www.wowhead.com/news=383320/blizzard-teases-possible-change-to-unlock-level-of-dual-spec-in-wow-forever"),
+        ],
+        "fr": {
+            "title": "WoW Forever : double spécialisation plus tôt ?",
+            "description": "Blizzard réfléchit à débloquer la double spécialisation de WoW Forever avant le niveau 40, peut-être au niveau 30. Rien n'est décidé.",
+            "h1": "WoW Forever : la double spécialisation pourrait arriver plus tôt",
+            "lede": "Dans le troisième épisode du podcast officiel de **WoW Forever**, un développeur a expliqué que la **double spécialisation** se débloque pour l'instant au **niveau 40**. L'équipe se demande quel est le bon niveau et a évoqué, sur le ton de la plaisanterie, un déblocage au **niveau 30**. Rien n'est confirmé : c'est une piste de discussion, pas un changement de la bêta. L'idée vient d'un débat sur les tanks : avec un déblocage plus tôt, on pourrait garder une build dédiée aux donjons sans changer de talents à chaque fois.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Aujourd'hui** : la double spécialisation arrive au niveau 40, donc après les premiers donjons.",
+                    "**Piste évoquée** : le niveau 30, mais **rien n'est décidé**.",
+                    "**Pour les tanks et les soigneurs** : une build de donjon séparée de la build de quête serait disponible plus tôt.",
+                    "**À faire** : prépare tes deux builds avec le calculateur de talents en attendant la décision.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Calculateur de talents", "wow-forever/talents/"),
+                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Dual Spec Unlocking Earlier?",
+            "description": "Blizzard is considering unlocking dual spec in WoW Forever before level 40, possibly at level 30. Nothing is decided yet.",
+            "h1": "WoW Forever: dual spec could unlock earlier",
+            "lede": "In episode 3 of the official **WoW Forever** podcast, a developer explained that **dual spec** currently unlocks at **level 40**. The team is discussing what the right level is and jokingly floated **level 30**. Nothing is confirmed: it is a talking point, not a beta change. The idea came up in a talk about tanks: with an earlier unlock, you could keep a dedicated dungeon build without respeccing every time.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Today**: dual spec unlocks at level 40, after the first dungeons.",
+                    "**Idea floated**: level 30, but **nothing is decided**.",
+                    "**For tanks and healers**: a dungeon build separate from the questing build would be available sooner.",
+                    "**To do**: plan your two builds with the talent calculator while waiting.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Talent calculator", "wow-forever/talents/"),
+                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+            ],
+        },
+    },
+    {
+        "slug": "pelle-fossoyeur-mousse-des-tombes-wow-forever",
+        "format": "brief",
+        "date": "2026-10-13",
+        "updated": "2026-10-13",
+        "draft": False,
+        "tag": "news",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/trade_herbalism.jpg",
+        "sources": [
+            ("Wowhead : New Item Makes Gravemoss Farming Easier in WoW: Forever (12 Oct. 2026)",
+             "https://www.wowhead.com/news=383371/new-item-makes-gravemoss-farming-easier-in-wow-forever"),
+        ],
+        "fr": {
+            "title": "WoW Forever : farmer la Mousse des tombes",
+            "description": "Dans la bêta de WoW Forever, la Graverobber's Shovel permet de déterrer de la Mousse des tombes dans les cimetières.",
+            "h1": "WoW Forever : la Graverobber's Shovel pour farmer la Mousse des tombes",
+            "lede": "La bêta de **WoW Forever** ajoute des armes aux effets uniques, dont la **Graverobber's Shovel**. Un joueur l'a utilisée dans les cimetières de Raven Hill (Bois de la Pénombre) et du Monastère écarlate : en dépensant ses **20 charges**, il a fait apparaître plusieurs goules de niveau 30 qui donnent de l'expérience sans rien lâcher, et il a obtenu **9 Mousses des tombes**. C'est un seul essai rapporté par un joueur, donc le rendement moyen reste à confirmer. Cette herbe sert en alchimie, par exemple pour les potions de protection contre l'Ombre, utiles contre certains boss de raid.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Nouveau moyen de farmer** : creuser les tombes d'un cimetière plutôt que chercher l'herbe sur la carte.",
+                    "**Attention** : chaque utilisation fait apparaître des goules de **niveau 30**, prévois de quoi les affronter.",
+                    "**Alchimie** : la Mousse des tombes sert aux potions de protection contre l'Ombre, utiles en raid.",
+                    "**Résultat à confirmer** : 9 herbes pour 20 charges, d'après un seul retour de joueur.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Guide de l'alchimie", "wow-forever/professions/alchemy/"),
+                ("Toutes les professions", "wow-forever/professions/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Farming Grave Moss Faster",
+            "description": "In the WoW Forever beta, the Graverobber's Shovel lets you dig up Grave Moss in graveyards. One player got 9 from 20 charges.",
+            "h1": "WoW Forever: the Graverobber's Shovel for farming Grave Moss",
+            "lede": "The **WoW Forever** beta adds weapons with unique effects, including the **Graverobber's Shovel**. One player used it in the Raven Hill Cemetery (Duskwood) and Scarlet Monastery graveyards: spending all **20 charges** spawned several level 30 ghouls that give experience but drop nothing, and yielded **9 Grave Moss**. That is a single run reported by one player, so the average yield is still to be confirmed. The herb is used in Alchemy, for example for Shadow Protection Potions, which help against some raid bosses.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**A new way to farm**: dig up graves in a cemetery instead of searching the map for the herb.",
+                    "**Careful**: each use spawns **level 30** ghouls, so be ready to fight them.",
+                    "**Alchemy**: Grave Moss goes into Shadow Protection Potions, useful in raids.",
+                    "**To be confirmed**: 9 herbs for 20 charges, from one player report.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Alchemy guide", "wow-forever/professions/alchemy/"),
+                ("All professions", "wow-forever/professions/"),
+            ],
+        },
+    },
 ]
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
