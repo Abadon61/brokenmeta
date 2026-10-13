@@ -555,6 +555,34 @@ const CONSUMABLE_SLOTS = {
 };
 for (const [slot, ids] of Object.entries(CONSUMABLE_SLOTS)) for (const id of ids) if (CONSUMABLES[id]) CONSUMABLES[id].slot = slot;
 
+// ---- racials.js ----
+// Racial abilities of WoW: Forever as the simulator applies them (spec.racialModel === 'forever').
+// Every number is read from the beta client tables (data/wow_racials.json, build 1.60.1.70170; spell ids in the comments): Forever reworked the
+// racials of WoW Classic (weapon specializations now give critical strike chance instead of weapon skill, new racials such as Elune's Light).
+// Racial effects that do not change damage on a single target (resistances, movement, escapes, stealth detection, gathering) are not listed.
+// NOT simulated: Gnome Eureka! (next 3 damaging abilities +10% damage, 120 s) and the Gnome's +5% maximum energy / rage, Undead Touch of the Grave
+// (health drain), Tauren +5% health, bonuses against Beasts (Troll Beast Slaying, Dwarf Big Game Hunter) and Elementals (Skyborne Elemental Insight):
+// the fight is against a single humanoid-like boss.
+const FOREVER_RACIALS = {
+  human: { weaponCrit: { types: ['sword', 'two-handed sword'], crit: 0.02 }, spiritMult: 1.05 },                                    // 20597 Sword Specialization, 20598 The Human Spirit
+  orc: { weaponCrit: { types: ['axe', 'two-handed axe'], crit: 0.01 }, use: { name: 'Blood Fury', cd: 120, duration: 15, apMult: 1.10, spMult: 1.10 } },   // 20574, 20572
+  dwarf: { weaponCrit: { types: ['mace', 'two-handed mace'], crit: 0.01 } },                                                          // 1259719 Mace Specialization
+  nightelf: { use: { name: "Elune's Light", cd: 180, duration: 15, crit: 0.10 } },                                                    // 1259799
+  tauren: { hit: 0.01 },                                                                                                              // 20550 Endurance (+1% chance to hit; the +5% health is not simulated)
+  gnome: { manaMult: 1.05 },                                                                                                          // 20591 Expansive Mind (maximum mana)
+  troll: { use: { name: 'Berserking', cd: 180, duration: 10, haste: 1.10 } },                                                         // 20554 (spellcasting and attack speed +10% for 10 s)
+  skyborne: { haste: 1.01 },                                                                                                          // 1259710 Wind Blessed
+  undead: {},
+};
+
+/** The part of a race's model that applies to this character: flat crit (needs a matching weapon), hit, haste, spirit, mana and the on-use racial. */
+function racialsFor(race, weaponTypes) {
+  const r = FOREVER_RACIALS[race] || {};
+  const types = weaponTypes || [];
+  const crit = r.weaponCrit && types.some((t) => r.weaponCrit.types.includes(t)) ? r.weaponCrit.crit : 0;
+  return { crit, hit: r.hit || 0, haste: r.haste || 1, spiritMult: r.spiritMult || 1, manaMult: r.manaMult || 1, use: r.use || null };
+}
+
 // ---- character.js ----
 // Turns "base stats + gear + enchants + buffs + consumables + talents" into the player object the
 // engine consumes. Also accepts a pre-computed stat block (addon export) via `totals`.
@@ -642,6 +670,10 @@ function sumGear(gear) {
  */
 function buildCharacter(spec) {
   const cls = spec.class || 'warrior', race = spec.race || 'human';
+  // The racials are the ones read from the beta client (racials.js), which replace the Classic weapon-skill bonus (Forever's weapon specializations give
+  // critical strike chance instead); spec.racialModel === 'classic' brings the old Classic model back (tests, comparisons). spec.weaponTypes lists the equipped weapon types.
+  const rm = spec.racialModel !== 'classic' ? racialsFor(race, spec.weaponTypes || (spec.weapons || []).map((w) => w.type)) : null;
+  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use });
   const rules = CLASS_RULES[spec.variant ? cls + '_' + spec.variant : cls] || CLASS_RULES[cls];
   const base = spec.base || (() => {
     const h = BASE_L60_HUMAN[cls], m = RACE_MODS[race] || RACE_MODS.human, o = {};
@@ -678,6 +710,7 @@ function buildCharacter(spec) {
     if (b.apMult) apMult *= b.apMult;
   }
   for (const k of PRIMARY) prim[k] = Math.floor(prim[k] * statMult);
+  if (rm) { prim.spi = Math.floor(prim.spi * rm.spiritMult); buffHaste *= rm.haste; }
 
   let ap, crit, hit, haste;
   if (spec.totals) {                      // pre-computed in game (addon export): trust it
@@ -698,7 +731,7 @@ function buildCharacter(spec) {
 
   // Weapon skill for the attack table: 300 + racial bonus for the main-hand weapon type + gear skill.
   const mh = weapons[0];
-  const racial = (RACIAL_SKILL[race] || []).includes((mh && mh.type) || '') ? 5 : 0;
+  const racial = !rm && (RACIAL_SKILL[race] || []).includes((mh && mh.type) || '') ? 5 : 0;
   const weaponSkill = BASE_WEAPON_SKILL + racial + gear.skill;
 
   let armor = spec.targetArmor !== undefined ? spec.targetArmor : 3731;
@@ -710,17 +743,23 @@ function buildCharacter(spec) {
     dodge: rules.tank.dodgeBase + prim.agi / rules.tank.agiPerDodge / 100 + gear.dodgePct / 100, parry: rules.tank.parry, block: rules.tank.block,
     blockValue: gear.shield ? rules.tank.bvBase + prim.str / 20 : 0, shield: gear.shield, stamina: prim.sta,
   } : undefined;
-  const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: rules.baseMana + rules.manaPerInt * (prim.int - 20), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
+  const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: (rules.baseMana + rules.manaPerInt * (prim.int - 20)) * (spec.racialManaMult || 1), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
   return {
     player: {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
-      effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined, tank,
+      effects: effectsOf(fxr, spec), tank,
     },
     target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
+}
+
+// item effects plus the on-use racial of the Forever racial model (Blood Fury, Elune's Light, Berserking), as the engine's list of on-use effects
+function effectsOf(fxr, spec) {
+  const u = spec.racialUse ? [{ source: 'race', name: spec.racialUse.name, payload: Object.assign({ kind: 'racial' }, spec.racialUse), cd: spec.racialUse.cd, start: spec.racialUse.start }] : [];
+  return fxr || u.length ? { uses: (fxr ? fxr.uses : []).concat(u), procs: fxr ? fxr.procs : [] } : undefined;
 }
 
 // Caster stat block. Spell hit is a separate table from melee hit (Classic: 83% base against a level-63 boss,
@@ -732,12 +771,12 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   const hit = totals ? totals.hit : gear.hitRating / RATING_PER_PCT.hit / 100 + b.buffHit + b.buffSpHit + (spec.flatHit || 0);
   const haste = totals ? (totals.haste || 1) : b.buffHaste * (1 + gear.hasteRating / RATING_PER_PCT.haste / 100);
   const mp5 = totals && totals.mp5 !== undefined ? totals.mp5 : gear.mp5 + b.buffMp5;
-  const mana = totals && totals.mana ? totals.mana : rules.baseMana + rules.manaPerInt * (prim.int - 20);
+  const mana = totals && totals.mana ? totals.mana : (rules.baseMana + rules.manaPerInt * (prim.int - 20)) * (spec.racialManaMult || 1);
   let resist = spec.targetSpellMitigation !== undefined ? spec.targetSpellMitigation : TARGET_SPELL_MITIGATION;
   let taken = 1;
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
-    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined },
+    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec) },
     target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };
@@ -1801,6 +1840,15 @@ function attachEffects(sim) {
   // returns a function that applies one payload
   const makeApply = (name, p) => {
     if (p.kind === 'buff') { const a = buffAura(name, p); return () => { sim.entry(name).casts++; a.apply(); }; }
+    if (p.kind === 'racial') {          // racials.js: percentage buffs (attack power / spell power, haste, critical strike chance)
+      const mods = {};
+      if (p.apMult) mods.apMult = p.apMult;
+      if (p.haste) mods.hasteMult = p.haste;
+      if (p.crit) mods.critBonus = p.crit;
+      let spGain = 0;
+      const a = sim.addAura({ name, duration: p.duration, mods, onApply: p.spMult ? () => { spGain = stats.sp * (p.spMult - 1); stats.sp += spGain; } : null, onExpire: p.spMult ? () => { stats.sp -= spGain; } : null });
+      return () => { sim.entry(name).casts++; a.apply(); };
+    }
     if (p.kind === 'damage') return () => { const e = sim.entry(name); e.casts++; if (!landed(p)) { e.misses++; return; } sim.record(name, mit(p, p.dmg), 'hit'); };
     if (p.kind === 'dot') return () => { const e = sim.entry(name); e.casts++; if (!landed(p)) { e.misses++; return; } applyDot(sim, name, mit(p, p.perTick * p.ticks), p.ticks, p.interval); };
     if (p.kind === 'energize') return () => {
@@ -1813,7 +1861,7 @@ function attachEffects(sim) {
   eff.uses.forEach((u, i) => {
     const run = makeApply(u.name, u.payload);
     const loop = () => { run(); sim.schedule(u.cd, loop); };
-    sim.schedule(0.2 + 0.01 * i, loop);
+    sim.schedule((u.start !== undefined ? u.start : 0.2) + 0.01 * i, loop);
   });
   const hitProcs = eff.procs.filter((p) => p.event === 'hit'), castProcs = eff.procs.filter((p) => p.event === 'cast');
   const compiled = (list) => list.map((p) => ({ p, run: makeApply(p.name, p.payload) }));
