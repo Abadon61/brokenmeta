@@ -1623,6 +1623,116 @@ ARTICLES = [
             "links": [('WoW Forever FAQ', 'wow-forever/faq/'), ('WoW Forever raids', 'wow-forever/raids/'), ('WoW Forever release date', 'wow-forever/sortie/')],
         },
     },
+    {
+        "slug": "classes-pas-modernisees-interview-techradar-wow-forever",
+        "format": "brief",
+        "date": "2026-10-13",
+        "updated": "2026-10-13",
+        "draft": False,
+        "tag": "dev",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_book_09.jpg",
+        "sources": [
+            ("Wowhead : WoW: Forever Classes Won't Be Modernized - TechRadar Interview with Blizzard (12 Oct. 2026)",
+             "https://www.wowhead.com/news=383378/wow-forever-classes-wont-be-modernized-techradar-interview-with-blizzard"),
+        ],
+        "fr": {
+            "title": "WoW Forever : classes non modernisées, respec chère",
+            "description": "Interview de Blizzard sur WoW Forever : classes Classic conservées, respec au prix croissant, pas de races Retail, pas de pierres de rencontre.",
+            "h1": "WoW Forever : Blizzard ne modernisera pas les classes",
+            "lede": "Dans une série d'interviews avec TechRadar, Blizzard détaille sa vision de **WoW Forever**. Les **classes Classic** ne seront pas refondues : elles doivent rester simples, mais avec une vraie profondeur, et le rythme du combat d'origine est conservé. Le changement de spécialisation ne sera pas bon marché : son prix grimpe vite et se réinitialise une fois par semaine. Les races de Retail ne sont pas prévues, et les pierres de rencontre ne sont pas souhaitées, car les téléportations rapides rétrécissent le monde.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Classes** : les talents et les rotations que tu connais de Classic restent la base, pas de refonte à la Retail.",
+                    "**Respec** : prévois de l'or, le coût augmente rapidement et retombe une fois par semaine. Choisis ton build avant de payer.",
+                    "**Races** : seules les races du lore d'origine, pas de races Retail.",
+                    "**Voyage** : pas de pierres de rencontre, ce qui garde son identité de classe au Démoniste.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Calculateur de talents", "wow-forever/talents/"),
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Classes Not Modernized, Pricey Respec",
+            "description": "Blizzard interview on WoW Forever: Classic classes kept, rising respec price, no Retail races, no Summoning Stones.",
+            "h1": "WoW Forever: Blizzard will not modernize the classes",
+            "lede": "In a series of interviews with TechRadar, Blizzard lays out its vision for **WoW Forever**. The **Classic classes** will not be overhauled: they should stay simple but with real depth, and the original combat pacing is kept. Respeccing will not be cheap: the price climbs quickly and resets once a week. Retail races are not planned, and Summoning Stones are not wanted because quick teleports shrink the world.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Classes**: the Classic talents and rotations you know remain the base, no Retail-style overhaul.",
+                    "**Respec**: bring gold, the cost rises fast and drops back once a week. Settle on your build before paying.",
+                    "**Races**: only the original lore races, no Retail races.",
+                    "**Travel**: no Summoning Stones, which keeps part of the Warlock class identity.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Talent calculator", "wow-forever/talents/"),
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+            ],
+        },
+    },
+    {
+        "slug": "interview-jackediq-chaman-tank-collections-wow-forever",
+        "format": "brief",
+        "date": "2026-10-13",
+        "updated": "2026-10-13",
+        "draft": False,
+        "tag": "dev",
+        "kind": None,
+        "class": "shaman",
+        "image": "assets/img/spec/shaman-enhancement.png",
+        "sources": [
+            ("Wowhead : Shaman Tanks, Collections and Zones - JackedIQ Interview on WoW: Forever (13 Oct. 2026)",
+             "https://www.wowhead.com/news=383381/shaman-tanks-collections-and-zones-jackediq-interview-on-wow-forever"),
+        ],
+        "fr": {
+            "title": "WoW Forever : chaman tank, collections et zones",
+            "description": "Interview de Blizzard par JackedIQ : chaman tank discuté mais pas prévu, collections cachées, objets qui changent le style de jeu, nouvelles zones.",
+            "h1": "WoW Forever : ce que Blizzard dit du chaman tank et des zones",
+            "lede": "Lors d'une interview menée par JackedIQ, des développeurs de **WoW Forever** ont abordé plusieurs sujets chers à la communauté. Le **chaman tank** est beaucoup discuté dans l'équipe, mais ce n'est pas un projet officiel pour l'instant. Le menu des **collections** n'affichera que ce que tu as déjà trouvé, pour garder les secrets du monde. Certains objets cachés, comme une épée qui fait du mage un combattant plus proche du corps à corps, pourraient changer ton style de jeu après la sortie. Côté **nouvelles zones**, rien n'est exclu (Norfendre, Pandarie), mais l'équipe se concentre d'abord sur la meilleure histoire à raconter.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Chaman** : ne compte pas sur un rôle de tank au lancement, il n'est pas officiellement prévu.",
+                    "**Collections** : explore, tu ne verras une entrée qu'une fois l'objet obtenu.",
+                    "**Objets cachés** : d'autres objets qui modifient ton style de jeu pourraient apparaître après la sortie.",
+                    "**Zones** : pas d'annonce de nouveau continent, rien n'est exclu à long terme.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Talents du chaman", "wow-forever/talents/shaman/"),
+                ("Date de sortie et éditions", "wow-forever/sortie/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Shaman Tanks, Collections, Zones",
+            "description": "Blizzard on JackedIQ's interview: Shaman tanks discussed but not planned, hidden collections, playstyle items, possible new zones.",
+            "h1": "WoW Forever: what Blizzard says about Shaman tanks and zones",
+            "lede": "In an interview led by JackedIQ, **WoW Forever** developers covered several community favorites. **Shaman tanks** are a popular topic inside the team, but not something officially being pursued for now. The **collections** menu will only show what you have already found, to keep the world's secrets. Some hidden items, like a sword that turns Mages into more of a battle-mage, may change how you play after launch. On **new zones**, nothing is off the table (Northrend, Pandaria), but the team is first asking what the best story to tell is.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Shaman**: do not count on a tank role at launch, it is not officially planned.",
+                    "**Collections**: explore, an entry appears only once you have the item.",
+                    "**Hidden items**: more playstyle-changing items may turn up after release.",
+                    "**Zones**: no new continent announced, nothing ruled out long term.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Shaman talents", "wow-forever/talents/shaman/"),
+                ("Release date and editions", "wow-forever/sortie/"),
+            ],
+        },
+    },
 ]
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
