@@ -1847,14 +1847,17 @@ ARTICLES = [
     },
 ]
 
+from wow_article_launch import LAUNCH_ARTICLE  # noqa: E402  (launch-day guide, kept in its own file)
+ARTICLES.insert(0, LAUNCH_ARTICLE)
+
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
-FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief")}
+FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}
 
 
 def check():
     for a in ARTICLES:
         assert a.get("format", "article") in FORMAT_LABEL, a["slug"]
-        assert a["kind"] in KIND_LABEL or (a.get("format") == "brief" and a["kind"] is None), a["slug"]
+        assert a["kind"] in KIND_LABEL or (a.get("format") in ("brief", "guide") and a["kind"] is None), a["slug"]
         for lang in ("fr", "en"):
             t = a[lang]
             assert len(t["title"]) <= 60, (a["slug"], lang, len(t["title"]))
