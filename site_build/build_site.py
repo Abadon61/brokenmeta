@@ -5718,6 +5718,42 @@ def addon_version():
     return m.group(1) if m else None
 
 
+def localize_en_links(dist: Path) -> int:
+    """Point the relative page links of every /en/ page at the /en/ twin of their target (2026-10-13 audit).
+    The pages are rendered with root = "../" * depth, and for an /en/ page that depth counts the "en" segment, so root climbs to the SITE root:
+    every relative page link of an English page (menu, chips, cards) led to the French page. The language switch uses absolute URLs and is not touched.
+    A link is rewritten only when its target is a French page that has an /en/ twin; assets, files and pages without a twin are left alone."""
+    import posixpath
+    en_dir = dist / "en"
+    twins = {p.parent.relative_to(en_dir).as_posix() for p in en_dir.rglob("index.html")}      # "wow-forever/tier-list"; "." is the English home
+    href_re = re.compile(r'(\shref=")(?!https?:|//|mailto:|tel:|#|data:|javascript:)([^"#?]*)([^"]*)(")')
+    rewritten = 0
+    for f in en_dir.rglob("*.html"):
+        rel_dir = f.parent.relative_to(dist).as_posix()
+        text = f.read_text(encoding="utf-8")
+        count = 0
+
+        def fix(m):
+            nonlocal count
+            href = m.group(2)
+            if not href:
+                return m.group(0)
+            resolved = posixpath.normpath(posixpath.join(rel_dir, href))
+            if resolved == "en" or resolved.startswith("en/") or resolved.startswith(".."):
+                return m.group(0)
+            if resolved not in twins:
+                return m.group(0)
+            target = "en" if resolved == "." else "en/" + resolved
+            count += 1
+            return m.group(1) + posixpath.relpath(target, rel_dir) + "/" + m.group(3) + m.group(4)
+
+        new_text = href_re.sub(fix, text)
+        if count:
+            f.write_text(new_text, encoding="utf-8")
+            rewritten += count
+    return rewritten
+
+
 def main() -> None:
     combined = load("tierlist.json")
     champion_stats = load("champion_stats.json")
@@ -9952,6 +9988,7 @@ def main() -> None:
     # (2026-09-09). Belt-and-suspenders with the meta tag, not the only
     # signal. Still real, linkable pages -- cross-links between a lobby's
     # players, a profile's "analyze this game" link, are untouched.
+    print(f"English pages: {localize_en_links(DIST)} relative links now point at their /en/ twin")
     urls = sorted(
         url_for_index(p) for p in DIST.rglob("index.html")
         # A real path-segment check, not a substring one: the FR (root-
