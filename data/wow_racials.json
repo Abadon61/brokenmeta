@@ -1,0 +1,883 @@
+{
+ "_source": "WoW: Forever client tables (via wago.tools): structure build 1.60.1.70291, texts build 1.60.1.70170",
+ "races": {
+  "human": {
+   "race_id": 1,
+   "classes": [
+    "hunter",
+    "mage",
+    "paladin",
+    "priest",
+    "rogue",
+    "warlock",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20600,
+     "name": {
+      "en": "Perception",
+      "fr": "Perception"
+     },
+     "icon": "spell_nature_sleep",
+     "cooldown_s": 180.0,
+     "duration_s": 20.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Dramatically increases stealth detection for 20 sec.",
+      "fr": "Augmente considérablement votre Détection du camouflage pendant 20 s."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20597,
+     "name": {
+      "en": "Sword Specialization",
+      "fr": "Spécialisation Epée"
+     },
+     "icon": "ability_meleedamage",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your critical strike chance with all spells and attacks by 2% while you have a sword or two-handed sword equipped.",
+      "fr": "Augmente vos chances de coup critique des sorts et attaques de 2 % lorsque vous portez une épée ou une épée à deux mains."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20598,
+     "name": {
+      "en": "The Human Spirit",
+      "fr": "L'esprit humain"
+     },
+     "icon": "inv_enchant_shardbrilliantsmall",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Spirit increased by 5%.",
+      "fr": "Esprit amélioré de 5%."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259718,
+     "name": {
+      "en": "Will to Survive",
+      "fr": "Volonté de survie"
+     },
+     "icon": "spell_shadow_charm",
+     "cooldown_s": 180.0,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Instantly removes all Stun effects.",
+      "fr": "Dissipe instantanément tous les effets d’étourdissement."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "orc": {
+   "race_id": 2,
+   "classes": [
+    "hunter",
+    "mage",
+    "rogue",
+    "shaman",
+    "warlock",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20572,
+     "name": {
+      "en": "Blood Fury",
+      "fr": "Fureur sanguinaire"
+     },
+     "icon": "racial_orc_berserkerstrength",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases Attack Power and Spell Power by 10% for 15 sec.",
+      "fr": "Augmente la puissance d’attaque et la puissance des sorts de 10 % pendant 15 s."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20573,
+     "name": {
+      "en": "Hardiness",
+      "fr": "Solidité"
+     },
+     "icon": "inv_helmet_23",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Duration of Stun effects on you reduced by 20%.",
+      "fr": "Réduit la durée des effets d’étourdissement dont vous êtes victime de 20 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20574,
+     "name": {
+      "en": "Axe Specialization",
+      "fr": "Spécialisation Hache"
+     },
+     "icon": "inv_axe_02",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your critical strike chance with all spells and abilities by 1% while you have an axe or a two-handed axe equipped.",
+      "fr": "Augmente vos chances de coup critique des sorts et techniques de 1 % lorsque vous portez une hache ou une hache à deux mains."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1299026,
+     "name": {
+      "en": "Shatter Curse",
+      "fr": "Bris de malédictions"
+     },
+     "icon": "spell_nature_removecurse",
+     "cooldown_s": 180.0,
+     "duration_s": 8.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Instantly removes and grants immunity to all Curses and Banes, and reduces all Magical damage taken by 15% for 8 sec.",
+      "fr": "Dissipe instantanément toutes les malédictions et plaies, vous rend insensible à ces types d’effet et réduit les dégâts magiques subis de 15 % pendant 8 s."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "dwarf": {
+   "race_id": 3,
+   "classes": [
+    "hunter",
+    "paladin",
+    "priest",
+    "rogue",
+    "shaman",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 2481,
+     "name": {
+      "en": "Find Treasure",
+      "fr": "Découverte de trésors"
+     },
+     "icon": "racial_dwarf_findtreasure",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": null,
+      "fr": null
+     },
+     "desc_ok": false
+    },
+    {
+     "id": 20594,
+     "name": {
+      "en": "Stoneform",
+      "fr": "Forme de pierre"
+     },
+     "icon": "spell_shadow_unholystrength",
+     "cooldown_s": 180.0,
+     "duration_s": 8.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Instantly removes and grants immunity to all Bleed, Poison, and Disease effects, and reduces all Physical damage taken by 10% for 8 sec.",
+      "fr": "Dissipe instantanément tous les effets de saignement, de poison et de maladie, vous rend insensible à ces types d’effet et réduit les dégâts physiques subis de 10 % pendant 8 s."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259719,
+     "name": {
+      "en": "Mace Specialization",
+      "fr": "Spécialisation Masse"
+     },
+     "icon": "inv_hammer_05",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your critical strike chance with all spells and attacks by 1% while you have a mace or two-handed mace equipped.",
+      "fr": "Augmente vos chances de coup critique des sorts et attaques de 1 % lorsque vous portez une masse ou une masse à deux mains."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259721,
+     "name": {
+      "en": "Big Game Hunter",
+      "fr": "Chasseur de gros gibier"
+     },
+     "icon": "inv_weapon_rifle_05",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Damage dealt versus Beasts increased by 5%.",
+      "fr": "Augmente les dégâts infligés aux bêtes de 5 %."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "nightelf": {
+   "race_id": 4,
+   "classes": [
+    "druid",
+    "hunter",
+    "priest",
+    "rogue",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20580,
+     "name": {
+      "en": "Shadowmeld",
+      "fr": "Camouflage dans l'ombre"
+     },
+     "icon": "ability_ambush",
+     "cooldown_s": 10.0,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Activate to slip into the shadows, reducing the chance for enemies to detect your presence. Lasts until cancelled or upon moving. Using this ability in combat discourages enemies from attacking you, but increases the cooldown to 2 min.",
+      "fr": "Activez pour vous fondre dans les ombres et réduire les chances des ennemis de détecter votre présence. Dure jusqu’à ce que vous l’annuliez ou vous déplaciez. Lorsque vous utilisez cette technique en combat, vous dissuadez les adversaires de vous attaquer, mais le temps de recharge de la technique est porté à 2 min."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20582,
+     "name": {
+      "en": "Quickness",
+      "fr": "Rapidité"
+     },
+     "icon": "ability_racial_shadowmeld",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Dodge chance increased by 1% and movement speed increased by 2%. Night Elf Rogues and Druids are harder to detect in Stealth as if they were 1 level higher.",
+      "fr": "Augmente les chances d’esquive de 1 % et la vitesse de déplacement de 2 %. Les personnages elfes de la nuit voleurs et druides camouflés sont plus difficiles à détecter et sont considérés comme étant d’un niveau supplémentaire."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20585,
+     "name": {
+      "en": "Wisp Spirit",
+      "fr": "Esprit feu follet"
+     },
+     "icon": "spell_nature_wispsplode",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Transform into a wisp upon death, increasing movement speed by 75%.",
+      "fr": "Transformation en feu follet lors de la mort, augmente la vitesse de déplacement de 75 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259799,
+     "name": {
+      "en": "Elune's Light",
+      "fr": "Lumière d’Élune"
+     },
+     "icon": "spell_nature_moonglow",
+     "cooldown_s": 180.0,
+     "duration_s": 15.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your critical strike chance with all spells and attacks by 10% for 15 sec.",
+      "fr": "Augmente vos chances de coup critique des sorts et attaques de 10 % pendant 15 s."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "undead": {
+   "race_id": 5,
+   "classes": [
+    "mage",
+    "paladin",
+    "priest",
+    "rogue",
+    "warlock",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 5227,
+     "name": {
+      "en": "Underwater Breathing",
+      "fr": "Respiration aquatique"
+     },
+     "icon": "spell_shadow_demonbreath",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Underwater breath lasts 300% longer than normal.",
+      "fr": "Respiration aquatique dure 300% plus longtemps que la normale."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 7744,
+     "name": {
+      "en": "Will of the Forsaken",
+      "fr": "Volonté des Réprouvés"
+     },
+     "icon": "spell_shadow_raisedead",
+     "cooldown_s": 120.0,
+     "duration_s": 0.1,
+     "class_mask": 0,
+     "desc": {
+      "en": "Instantly removes all Charm, Fear and Sleep effects.",
+      "fr": "Dissipe instantanément tous les effets de charme, de peur et de sommeil."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20577,
+     "name": {
+      "en": "Cannibalize",
+      "fr": "Cannibalisme"
+     },
+     "icon": "ability_racial_cannibalize",
+     "cooldown_s": 120.0,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "When activated, regenerates 7% of total Health and 7% of total Mana every 2 sec for 10 sec. Only works on Humanoid or Undead corpses within 5 yds. Any movement, action, or damage taken while Cannibalizing will cancel the effect.",
+      "fr": "Une fois activé, rend 7 % du total des points de vie et 7 % du total des points de mana toutes les 2 s pendant 10 s. Ne fonctionne que sur les corps des personnages morts-vivants et humanoïdes se trouvant à moins de 5 m. Les déplacements, les actions et les dégâts subis annulent l’effet Cannibalisme."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1260189,
+     "name": {
+      "en": "Touch of the Grave",
+      "fr": "Toucher du tombeau"
+     },
+     "icon": "spell_shadow_fingerofdeath",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 11,
+     "desc": {
+      "en": "Your spells and attacks have a 5% chance to drain Health from the target, up to 5% of your maximum Health.",
+      "fr": "Vos attaques et sorts ont 5 % de chances de drainer des points de vie de la cible, jusqu’à 5 % de votre maximum de points de vie."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1260201,
+     "name": {
+      "en": "Touch of the Grave",
+      "fr": "Toucher du tombeau"
+     },
+     "icon": "spell_shadow_fingerofdeath",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 400,
+     "desc": {
+      "en": "Your spells and attacks have a 10% chance to drain Health from the target, up to 5% of your maximum Health.",
+      "fr": "Vos attaques et sorts ont 10 % de chances de drainer des points de vie de la cible, jusqu’à 5 % de votre maximum de points de vie."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "tauren": {
+   "race_id": 6,
+   "classes": [
+    "druid",
+    "hunter",
+    "shaman",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20549,
+     "name": {
+      "en": "War Stomp",
+      "fr": "Choc martial"
+     },
+     "icon": "ability_warstomp",
+     "cooldown_s": 120.0,
+     "duration_s": 2.0,
+     "class_mask": 0,
+     "desc": {
+      "en": null,
+      "fr": null
+     },
+     "desc_ok": false
+    },
+    {
+     "id": 20550,
+     "name": {
+      "en": "Endurance",
+      "fr": "Endurance"
+     },
+     "icon": "spell_nature_unyeildingstamina",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Total Health increased by 5% and chance to hit increased by 1%.",
+      "fr": "Augmente le total de points de vie de 5 % et les chances de toucher de 1 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20552,
+     "name": {
+      "en": "Cultivation",
+      "fr": "Culture"
+     },
+     "icon": "inv_misc_flower_01",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Cultivate a nearby herb, growing a duplicate you can harvest without requiring Herbalism skill. Each herb may only be cultivated once.",
+      "fr": "Vous cultivez une herbe à proximité et créez un doublon que vous pouvez cueillir sans la compétence Herboristerie. Chaque herbe ne peut être cultivée qu’une seule fois."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259918,
+     "name": {
+      "en": "Plainsrunning",
+      "fr": "Course dans les plaines"
+     },
+     "icon": "achievement_zone_barrens_01",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Gain 1% increased movement speed every 5 sec spent moving, up to a maximum of 30% increase. Taking damage or standing still will reduce this effect.",
+      "fr": "Vous gagnez un bonus de 1 % à la vitesse de déplacement toutes les 5 s où vous êtes en mouvement, jusqu’à un bonus maximum de 30 %. Cet effet se réduira si vous subissez des dégâts ou restez immobile."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "gnome": {
+   "race_id": 7,
+   "classes": [
+    "mage",
+    "priest",
+    "rogue",
+    "warlock",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20589,
+     "name": {
+      "en": "Escape Artist",
+      "fr": "Maître de l'évasion"
+     },
+     "icon": "ability_rogue_trip",
+     "cooldown_s": 120.0,
+     "duration_s": 3.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Instantly escape the effects of any movement impairing effect and gain immunity to those effects for 3 sec.",
+      "fr": "Vous échappez immédiatement aux effets affectant le déplacement et devenez insensible à ces effets pendant 3 s."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20591,
+     "name": {
+      "en": "Expansive Mind",
+      "fr": "Pensée expansive"
+     },
+     "icon": "inv_enchant_essenceeternallarge",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 400,
+     "desc": {
+      "en": "Maximum Mana increased by 5%.",
+      "fr": "Augmente le maximum de points de mana de 5 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20593,
+     "name": {
+      "en": "Engineering Specialization",
+      "fr": "Spécialisation (Ingénierie)"
+     },
+     "icon": "inv_misc_gear_01",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Your gnomish ingenuity reduces the rate of engineering devices failing or backfiring when you use them by 20%.",
+      "fr": "Votre ingéniosité, propre aux Gnomes, réduit de 20 % les taux de défaillances et d’effets contre-productifs des dispositifs d’ingénierie que vous utilisez."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259803,
+     "name": {
+      "en": "Expansive Mind",
+      "fr": "Pensée expansive"
+     },
+     "icon": "inv_enchant_essenceeternallarge",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 8,
+     "desc": {
+      "en": "Maximum Energy increased by 5%.",
+      "fr": "Augmente le maximum de points d’énergie de 5 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259802,
+     "name": {
+      "en": "Expansive Mind",
+      "fr": "Pensée expansive"
+     },
+     "icon": "inv_enchant_essenceeternallarge",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 1,
+     "desc": {
+      "en": "Maximum Rage increased by 5%.",
+      "fr": "Augmente le maximum de points de rage de 5 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259812,
+     "name": {
+      "en": "Eureka!",
+      "fr": "Eurêka !"
+     },
+     "icon": "inv_gnometoy",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 8,
+     "desc": {
+      "en": "Your next 3 non-periodic damaging abilities have their Energy cost reduced by 10% and deal 10% more damage.",
+      "fr": "Your next 3 non-periodic damaging abilities have their Energy cost reduced by 10% and deal 10% more damage."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259821,
+     "name": {
+      "en": "Eureka!",
+      "fr": "Eurêka !"
+     },
+     "icon": "inv_gnometoy",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 256,
+     "desc": {
+      "en": "Your next 3 non-periodic damaging abilities have their Mana cost reduced by 10% and deal 10% more damage.",
+      "fr": "Your next 3 non-periodic damaging abilities have their Mana cost reduced by 10% and deal 10% more damage."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259823,
+     "name": {
+      "en": "Eureka!",
+      "fr": "Eurêka !"
+     },
+     "icon": "inv_gnometoy",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 16,
+     "desc": {
+      "en": "Your next 3 non-periodic damaging or healing abilities have their Mana cost reduced by 10% and deal 10% more damage or healing.",
+      "fr": "Your next 3 non-periodic damaging or healing abilities have their Mana cost reduced by 10% and deal 10% more damage or healing."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259817,
+     "name": {
+      "en": "Eureka!",
+      "fr": "Eurêka !"
+     },
+     "icon": "inv_gnometoy",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 128,
+     "desc": {
+      "en": "Your next 3 damaging abilities have their Mana cost reduced by 10% and deal 10% more damage.",
+      "fr": "Vos 3 prochaines capacités infligeant des dégâts voient leur coût en mana réduit de 10 % et elles infligent 10 % de dégâts supplémentaires."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259813,
+     "name": {
+      "en": "Eureka!",
+      "fr": "Eurêka !"
+     },
+     "icon": "inv_gnometoy",
+     "cooldown_s": 120.0,
+     "duration_s": 15.0,
+     "class_mask": 1,
+     "desc": {
+      "en": "Your next 3 non-periodic damaging abilities have their Rage cost reduced by 10% and deal 10% more damage.",
+      "fr": "Your next 3 non-periodic damaging abilities have their Rage cost reduced by 10% and deal 10% more damage."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "troll": {
+   "race_id": 8,
+   "classes": [
+    "hunter",
+    "mage",
+    "priest",
+    "rogue",
+    "shaman",
+    "warlock",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 20554,
+     "name": {
+      "en": "Berserking",
+      "fr": "Berserker"
+     },
+     "icon": "racial_troll_berserk",
+     "cooldown_s": 180.0,
+     "duration_s": 10.0,
+     "class_mask": -1,
+     "desc": {
+      "en": null,
+      "fr": null
+     },
+     "desc_ok": false
+    },
+    {
+     "id": 20555,
+     "name": {
+      "en": "Regeneration",
+      "fr": "Régénération"
+     },
+     "icon": "spell_nature_regenerate",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Health regeneration rate increased by 10%. In addition, 10% of total Health regeneration will continue during combat.",
+      "fr": "Vitesse de récupération des points de vie augmentée de 10 %. De plus, 10 % de la vitesse de récupération des points de vie sont actifs pendant les combats."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 20557,
+     "name": {
+      "en": "Beast Slaying",
+      "fr": "Tueur de bêtes"
+     },
+     "icon": "inv_misc_pelt_bear_ruin_02",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Damage dealt versus Beasts increased by 5%.",
+      "fr": "Augmente de 5% les points de dégâts infligés aux bêtes."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1260270,
+     "name": {
+      "en": "Rapid Regeneration",
+      "fr": "Régénération rapide"
+     },
+     "icon": "ability_racial_regeneratin",
+     "cooldown_s": 180.0,
+     "duration_s": 6.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Regenerate 50% of your maximum Health over 6 sec. Any movement, action, or damage taken will cancel the effect.",
+      "fr": "Vous récupérez 50 % de votre maximum de points de vie en 6 s. Cet effet sera annulé en cas de déplacement, d’action ou de dégâts subis."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "skyborne-alliance": {
+   "race_id": 95,
+   "classes": [
+    "druid",
+    "hunter",
+    "mage",
+    "rogue",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 1259705,
+     "name": {
+      "en": "Read Ley Line",
+      "fr": "Lecture des lignes telluriques"
+     },
+     "icon": "ability_mage_incantersabsorbtion",
+     "cooldown_s": 120.0,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Attempt to tap into the power of a nearby ley line, increasing your Health and Mana regeneration by 100%. Lasts 15 sec if no ley line is nearby, and 900 sec if one is found.",
+      "fr": "Vous tentez de puiser dans le pouvoir d’une ligne tellurique proche, ce qui augmente votre régénération de points de vie et de mana de 100 %. Dure 15 s s’il n’y a pas de ligne tellurique à proximité et 900 s dans le cas contraire."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259416,
+     "name": {
+      "en": "Walk on Air",
+      "fr": "Marche sur l’air"
+     },
+     "icon": "inv_elemental_primal_air",
+     "cooldown_s": 120.0,
+     "duration_s": 10.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Glide downward through the air for 10 sec while controlling your direction of travel.",
+      "fr": "Vous planez dans les airs en perdant régulièrement de l’altitude pendant 10 s tout en contrôlant votre trajectoire."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259707,
+     "name": {
+      "en": "Elemental Insight",
+      "fr": "Connaissance élémentaire"
+     },
+     "icon": "achievement_raidprimalist_windelemental",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Damage dealt versus Elementals increased by 5%.",
+      "fr": "Dégâts infligés aux élémentaires augmentés de 5 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259710,
+     "name": {
+      "en": "Wind Blessed",
+      "fr": "Bénédiction du vent"
+     },
+     "icon": "inv_misc_volatileair",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your spellcasting, melee, and ranged Haste by 1%.",
+      "fr": "Augmente la Hâte en mêlée, à distance et des sorts de 1 %."
+     },
+     "desc_ok": true
+    }
+   ]
+  },
+  "skyborne-horde": {
+   "race_id": 96,
+   "classes": [
+    "druid",
+    "hunter",
+    "rogue",
+    "shaman",
+    "warrior"
+   ],
+   "spells": [
+    {
+     "id": 1259416,
+     "name": {
+      "en": "Walk on Air",
+      "fr": "Marche sur l’air"
+     },
+     "icon": "inv_elemental_primal_air",
+     "cooldown_s": 120.0,
+     "duration_s": 10.0,
+     "class_mask": 0,
+     "desc": {
+      "en": "Glide downward through the air for 10 sec while controlling your direction of travel.",
+      "fr": "Vous planez dans les airs en perdant régulièrement de l’altitude pendant 10 s tout en contrôlant votre trajectoire."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259707,
+     "name": {
+      "en": "Elemental Insight",
+      "fr": "Connaissance élémentaire"
+     },
+     "icon": "achievement_raidprimalist_windelemental",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Damage dealt versus Elementals increased by 5%.",
+      "fr": "Dégâts infligés aux élémentaires augmentés de 5 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259710,
+     "name": {
+      "en": "Wind Blessed",
+      "fr": "Bénédiction du vent"
+     },
+     "icon": "inv_misc_volatileair",
+     "cooldown_s": null,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Increases your spellcasting, melee, and ranged Haste by 1%.",
+      "fr": "Augmente la Hâte en mêlée, à distance et des sorts de 1 %."
+     },
+     "desc_ok": true
+    },
+    {
+     "id": 1259686,
+     "name": {
+      "en": "Skysight",
+      "fr": "Vue céleste"
+     },
+     "icon": "ability_skyreach_lens_flare",
+     "cooldown_s": 120.0,
+     "duration_s": null,
+     "class_mask": 0,
+     "desc": {
+      "en": "Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement and mounted movement speeds by 10%. Lasts 30 sec if no elemental convergence is nearby, and 900 sec if one is found.",
+      "fr": "Vous tentez de puiser dans le pouvoir d’une convergence élémentaire et recevez sa bénédiction, ce qui augmente votre vitesse de déplacement et celle de votre monture de 10 %. Dure 30 s s’il n’y a pas de convergence élémentaire à proximité et 900 s dans le cas contraire."
+     },
+     "desc_ok": true
+    }
+   ]
+  }
+ }
+}

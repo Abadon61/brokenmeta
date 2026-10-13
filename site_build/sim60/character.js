@@ -2,6 +2,7 @@
 // engine consumes. Also accepts a pre-computed stat block (addon export) via `totals`.
 import { RATING_PER_PCT, PLAYER_LEVEL, BASE_WEAPON_SKILL, BOSS_DEFENSE } from './constants.js';
 import { BUFFS, CONSUMABLES, DEBUFFS, RACIAL_SKILL } from './presets.js';
+import { racialsFor } from './racials.js';
 import { resolveEffects } from './effects.js';
 
 // Level-63 boss vs level-60 caster (Classic, ASSUMED): 17% base spell miss; average partial-resist loss 3.75%.
@@ -87,6 +88,10 @@ function sumGear(gear) {
  */
 export function buildCharacter(spec) {
   const cls = spec.class || 'warrior', race = spec.race || 'human';
+  // The racials are the ones read from the beta client (racials.js), which replace the Classic weapon-skill bonus (Forever's weapon specializations give
+  // critical strike chance instead); spec.racialModel === 'classic' brings the old Classic model back (tests, comparisons). spec.weaponTypes lists the equipped weapon types.
+  const rm = spec.racialModel !== 'classic' ? racialsFor(race, spec.weaponTypes || (spec.weapons || []).map((w) => w.type)) : null;
+  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use });
   const rules = CLASS_RULES[spec.variant ? cls + '_' + spec.variant : cls] || CLASS_RULES[cls];
   const base = spec.base || (() => {
     const h = BASE_L60_HUMAN[cls], m = RACE_MODS[race] || RACE_MODS.human, o = {};
@@ -123,6 +128,7 @@ export function buildCharacter(spec) {
     if (b.apMult) apMult *= b.apMult;
   }
   for (const k of PRIMARY) prim[k] = Math.floor(prim[k] * statMult);
+  if (rm) { prim.spi = Math.floor(prim.spi * rm.spiritMult); buffHaste *= rm.haste; }
 
   let ap, crit, hit, haste;
   if (spec.totals) {                      // pre-computed in game (addon export): trust it
@@ -143,7 +149,7 @@ export function buildCharacter(spec) {
 
   // Weapon skill for the attack table: 300 + racial bonus for the main-hand weapon type + gear skill.
   const mh = weapons[0];
-  const racial = (RACIAL_SKILL[race] || []).includes((mh && mh.type) || '') ? 5 : 0;
+  const racial = !rm && (RACIAL_SKILL[race] || []).includes((mh && mh.type) || '') ? 5 : 0;
   const weaponSkill = BASE_WEAPON_SKILL + racial + gear.skill;
 
   let armor = spec.targetArmor !== undefined ? spec.targetArmor : 3731;
@@ -155,17 +161,23 @@ export function buildCharacter(spec) {
     dodge: rules.tank.dodgeBase + prim.agi / rules.tank.agiPerDodge / 100 + gear.dodgePct / 100, parry: rules.tank.parry, block: rules.tank.block,
     blockValue: gear.shield ? rules.tank.bvBase + prim.str / 20 : 0, shield: gear.shield, stamina: prim.sta,
   } : undefined;
-  const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: rules.baseMana + rules.manaPerInt * (prim.int - 20), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
+  const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: (rules.baseMana + rules.manaPerInt * (prim.int - 20)) * (spec.racialManaMult || 1), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
   return {
     player: {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
-      effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined, tank,
+      effects: effectsOf(fxr, spec), tank,
     },
     target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
+}
+
+// item effects plus the on-use racial of the Forever racial model (Blood Fury, Elune's Light, Berserking), as the engine's list of on-use effects
+function effectsOf(fxr, spec) {
+  const u = spec.racialUse ? [{ source: 'race', name: spec.racialUse.name, payload: Object.assign({ kind: 'racial' }, spec.racialUse), cd: spec.racialUse.cd, start: spec.racialUse.start }] : [];
+  return fxr || u.length ? { uses: (fxr ? fxr.uses : []).concat(u), procs: fxr ? fxr.procs : [] } : undefined;
 }
 
 // Caster stat block. Spell hit is a separate table from melee hit (Classic: 83% base against a level-63 boss,
@@ -177,12 +189,12 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   const hit = totals ? totals.hit : gear.hitRating / RATING_PER_PCT.hit / 100 + b.buffHit + b.buffSpHit + (spec.flatHit || 0);
   const haste = totals ? (totals.haste || 1) : b.buffHaste * (1 + gear.hasteRating / RATING_PER_PCT.haste / 100);
   const mp5 = totals && totals.mp5 !== undefined ? totals.mp5 : gear.mp5 + b.buffMp5;
-  const mana = totals && totals.mana ? totals.mana : rules.baseMana + rules.manaPerInt * (prim.int - 20);
+  const mana = totals && totals.mana ? totals.mana : (rules.baseMana + rules.manaPerInt * (prim.int - 20)) * (spec.racialManaMult || 1);
   let resist = spec.targetSpellMitigation !== undefined ? spec.targetSpellMitigation : TARGET_SPELL_MITIGATION;
   let taken = 1;
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
-    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: fxr ? { uses: fxr.uses, procs: fxr.procs } : undefined },
+    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec) },
     target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };

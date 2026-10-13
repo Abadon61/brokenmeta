@@ -133,6 +133,15 @@ export function attachEffects(sim) {
   // returns a function that applies one payload
   const makeApply = (name, p) => {
     if (p.kind === 'buff') { const a = buffAura(name, p); return () => { sim.entry(name).casts++; a.apply(); }; }
+    if (p.kind === 'racial') {          // racials.js: percentage buffs (attack power / spell power, haste, critical strike chance)
+      const mods = {};
+      if (p.apMult) mods.apMult = p.apMult;
+      if (p.haste) mods.hasteMult = p.haste;
+      if (p.crit) mods.critBonus = p.crit;
+      let spGain = 0;
+      const a = sim.addAura({ name, duration: p.duration, mods, onApply: p.spMult ? () => { spGain = stats.sp * (p.spMult - 1); stats.sp += spGain; } : null, onExpire: p.spMult ? () => { stats.sp -= spGain; } : null });
+      return () => { sim.entry(name).casts++; a.apply(); };
+    }
     if (p.kind === 'damage') return () => { const e = sim.entry(name); e.casts++; if (!landed(p)) { e.misses++; return; } sim.record(name, mit(p, p.dmg), 'hit'); };
     if (p.kind === 'dot') return () => { const e = sim.entry(name); e.casts++; if (!landed(p)) { e.misses++; return; } applyDot(sim, name, mit(p, p.perTick * p.ticks), p.ticks, p.interval); };
     if (p.kind === 'energize') return () => {
@@ -145,7 +154,7 @@ export function attachEffects(sim) {
   eff.uses.forEach((u, i) => {
     const run = makeApply(u.name, u.payload);
     const loop = () => { run(); sim.schedule(u.cd, loop); };
-    sim.schedule(0.2 + 0.01 * i, loop);
+    sim.schedule((u.start !== undefined ? u.start : 0.2) + 0.01 * i, loop);
   });
   const hitProcs = eff.procs.filter((p) => p.event === 'hit'), castProcs = eff.procs.filter((p) => p.event === 'cast');
   const compiled = (list) => list.map((p) => ({ p, run: makeApply(p.name, p.payload) }));

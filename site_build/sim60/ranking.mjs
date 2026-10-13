@@ -7,7 +7,7 @@ import { ItemPool, toWeapon } from './items.js';
 import { optimizeGear } from './optimizer.js';
 import { runBatch } from './run.js';
 import { Sim } from './engine.js';
-import { buildCharacter } from './character.js';
+import { buildCharacter, BASE_L60_HUMAN } from './character.js';
 import { makeKit, KITS } from './kits.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
 import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, CONSUMABLE_SLOTS, BUFFS, DEBUFFS } from './presets.js';
@@ -65,6 +65,13 @@ const ALTS = {
   hunter_marksmanship: { spell: 'Sniper Shot', names: { 'Focused Fire': 0, 'Sniper Shot': 1 } },
   warlock_demonology: { spell: 'Conflagrate', names: { 'Ruin': 0, 'Conflagrate': 1 } },
 };
+// RANK_RACES=1: no ranking, only the race table (data/wow_races60.json): the final character of each spec played by every race its class can play,
+// with the racials read from the beta client (racials.js) and the human base stats (the race stat bonuses are not in the client tables). RACE_ITERS runs
+// per race, cut into 5 batches for the error bar; RACE_OUT writes elsewhere than data/wow_races60.json (parallel runs, merged afterwards).
+const RACES = !!process.env.RANK_RACES, RACES_ONLY = !!process.env.RANK_RACES_ONLY;   // RACES_ONLY: no ranking rows, only the race table
+const RACE_ITERS = +process.env.RACE_ITERS || 10000;
+const racialsData = RACES ? JSON.parse(readFileSync(new URL('../../data/wow_racials.json', here))).races : null;
+const racesOut = {};
 // RANK_ONLY=spec_a,spec_b recomputes only those specs and keeps the other rows of the existing file
 const ONLY = process.env.RANK_ONLY ? process.env.RANK_ONLY.split(',') : null;
 for (const [id, S] of Object.entries(SPECS)) {
@@ -162,6 +169,39 @@ for (const [id, S] of Object.entries(SPECS)) {
   {
     const c = buildCharacter({ ...character, gear: best.gear, weapons: best.weapons });
     best.ch = c; best.r = runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, FINAL, 7);
+  }
+  if (RACES) {
+    const wtypes = best.done.weapons.map((w) => toWeapon(pool.byId.get(w.id), false).type);
+    const humanBase = BASE_L60_HUMAN[S.cls];
+    const { FOREVER_RACIALS } = await import('./racials.js');
+    // every race has the human base stats (the race stat bonuses are not in the client tables), so the table isolates what the racials change
+    const measure = (race, n = RACE_ITERS) => {
+      const c = buildCharacter({ ...character, race, gear: best.gear, weapons: best.weapons, racialModel: 'forever', weaponTypes: wtypes, base: humanBase });
+      const vals = [];
+      for (let b = 0; b < 5; b++) { const rr = runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, n / 5, 11 + b * 100000); vals.push(S.tank ? objectiveTank(rr, c) : rr.mean); }
+      const mean = vals.reduce((a, x) => a + x, 0) / 5, sem = Math.sqrt(vals.reduce((a, x) => a + (x - mean) ** 2, 0) / 4 / 5);
+      return { mean: +mean.toFixed(2), sem: +sem.toFixed(2) };
+    };
+    const rows = [];
+    for (const [key, rd2] of Object.entries(racialsData)) {
+      if (!rd2.classes.includes(S.cls)) continue;
+      const engineRace = key.startsWith('skyborne') ? 'skyborne' : key;
+      if (key === 'skyborne-horde' && rows.some((x) => x.race === 'skyborne')) { rows.find((x) => x.race === 'skyborne').factions.push('horde'); continue; }
+      const use = FOREVER_RACIALS[engineRace].use;
+      let res, start = null;
+      if (use) {
+        // an on-use racial is used when it helps most (a player lines it up with the damage cooldowns): the best of a few start times, so that it does not
+        // overlap a window where the crit chance is already capped (Recklessness opens the fight at 0.2 s)
+        // (or not at all: a player would not press a racial that costs damage, as Berserking does for Arms, whose Slam weave does not like a haste burst)
+        FOREVER_RACIALS[engineRace].use = null; res = measure(engineRace); start = 'never'; FOREVER_RACIALS[engineRace].use = use;
+        for (const st of [0.2, 20, 60, 120]) { use.start = st; const m = measure(engineRace); if (m.mean > res.mean) { res = m; start = st; } }
+        use.start = start === 'never' ? 0.2 : start;
+      } else res = measure(engineRace);
+      rows.push({ race: engineRace, factions: key.startsWith('skyborne') ? [key.split('-')[1]] : [], racials: res, ...(use ? { useStart: start } : {}) });
+    }
+    racesOut[id] = { cls: S.cls, tank: !!S.tank, weaponTypes: wtypes, rows };
+    console.log(id.padEnd(22), 'races:', rows.map((x) => x.race + ' ' + x.racials.mean).join(' | '), ((Date.now() - t0) / 1000).toFixed(0) + 's');
+    if (RACES_ONLY) continue;
   }
   const { done, gear, weapons, ch, r } = best;
   // ---- stat weights at level 60 (DPS specs): DPS gained by one more point of each stat on the final character, same random draws on both sides ----
@@ -322,6 +362,11 @@ for (const [id, S] of Object.entries(SPECS)) {
   row.detail = detail;
   out.specs.push(row);
   console.log(id.padEnd(22), S.tank ? 'TPS ' + row.tps : 'DPS ' + row.dps, '±' + row.sem, ((Date.now() - t0) / 1000).toFixed(0) + 's');
+}
+if (RACES) {
+  writeFileSync(new URL(process.env.RACE_OUT || '../../data/wow_races60.json', here), JSON.stringify({ generated: new Date().toISOString().slice(0, 10), build: out.build, fightLen: FIGHT, iterations: RACE_ITERS, specs: racesOut }, null, 1));
+  console.log('written races for', Object.keys(racesOut).length, 'specs');
+  if (RACES_ONLY) process.exit(0);
 }
 if (ONLY && !NORAID) {                              // merge the recomputed rows into the existing file, in its order
   const prev = JSON.parse(readFileSync(new URL('../../data/wow_ranking60.json', here)));

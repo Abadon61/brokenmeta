@@ -19,12 +19,21 @@ test('Blessing of Kings multiplies primary stats; racial modifiers apply', () =>
   assert.equal(k.summary.prim.str, Math.floor((120 + 3) * 1.1));
 });
 
-test('debuffs lower the boss armor (floored at 0) and the racial weapon skill is added', () => {
+test('debuffs lower the boss armor (floored at 0)', () => {
   const c = buildCharacter({ ...SAMPLE_FURY });
   assert.equal(c.target.armor, 3731 - 2250 - 505 - 505);
-  assert.equal(c.player.stats.weaponSkill, 305);        // human + sword
-  const o = buildCharacter({ ...SAMPLE_FURY, race: 'orc' });
-  assert.equal(o.player.stats.weaponSkill, 300);        // orc + sword: no bonus
+});
+
+test('racials follow the beta client: no weapon-skill bonus, weapon specializations give critical strike chance', () => {
+  const base = { str: 100, agi: 100, sta: 100, int: 30, spi: 50 };
+  const human = buildCharacter({ ...SAMPLE_FURY, base });                     // human + sword: Sword Specialization, +2% crit (spell 20597)
+  const gnome = buildCharacter({ ...SAMPLE_FURY, race: 'gnome', base });      // no weapon racial
+  const orc = buildCharacter({ ...SAMPLE_FURY, race: 'orc', base });          // orc + sword: no bonus (Axe Specialization needs an axe)
+  assert.equal(human.player.stats.weaponSkill, 300);
+  assert.ok(Math.abs(human.player.stats.crit - gnome.player.stats.crit - 0.02) < 1e-9);
+  assert.ok(Math.abs(orc.player.stats.crit - gnome.player.stats.crit) < 1e-9);
+  const classic = buildCharacter({ ...SAMPLE_FURY, racialModel: 'classic' });  // the old Classic model: +5 weapon skill for human + sword
+  assert.equal(classic.player.stats.weaponSkill, 305);
 });
 
 test('the addon-export path trusts the pre-computed totals', () => {
