@@ -29,7 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      opens a second, separate connection for the real font request. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<title>Arms Warrior WoW: Forever: guide and talents</title>
+<title>Arms Warrior WoW: Forever 1.60.1: guide, talents, BiS</title>
 <meta name="description" content="WoW: Forever Arms Warrior guide: Melee DPS, last-tier talents and the full tree, read from the beta client data.">
 <link rel="canonical" href="https://brokenmeta.gg/en/wow-forever/guides/warrior/arms/">
 <link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/guides/warrior/arms/">
@@ -37,7 +37,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/guides/warrior/arms/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="BrokenMeta.gg">
-<meta property="og:title" content="Arms Warrior WoW: Forever: guide and talents">
+<meta property="og:title" content="Arms Warrior WoW: Forever 1.60.1: guide, talents, BiS">
 <meta property="og:description" content="WoW: Forever Arms Warrior guide: Melee DPS, last-tier talents and the full tree, read from the beta client data.">
 <meta property="og:url" content="https://brokenmeta.gg/en/wow-forever/guides/warrior/arms/">
 <meta property="og:locale" content="en_US">
@@ -45,11 +45,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Arms Warrior WoW: Forever: guide and talents">
+<meta name="twitter:title" content="Arms Warrior WoW: Forever 1.60.1: guide, talents, BiS">
 <meta name="twitter:description" content="WoW: Forever Arms Warrior guide: Melee DPS, last-tier talents and the full tree, read from the beta client data.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=5d138e9ea5">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=5d138e9ea5">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=8a2868025b">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=8a2868025b">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=5d138e9ea5">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=8a2868025b">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -179,6 +179,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../../../wow-forever/simulateur-dps/" >Level 60 DPS simulator</a>
 
 <a class="nav-link" href="../../../../../wow-forever/tier-list/" >Tier list</a>
+<a class="nav-link" href="../../../../../wow-forever/leveling/" >Leveling 1-60</a>
 <a class="nav-link" href="../../../../../wow-forever/glossaire/" >Spell glossary</a>
 <a class="nav-link" href="../../../../../wow-forever/faq/" >FAQ</a>
 <a class="nav-link" href="../../../../../wow-forever/artisans/" >Crafters</a>
@@ -250,6 +251,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   </div>
 </details>
 <a class="nav-link" href="../../../../../wow-forever/tier-list/" >Tier list</a>
+<a class="nav-link" href="../../../../../wow-forever/leveling/" >Leveling 1-60</a>
 <a class="nav-link" href="../../../../../wow-forever/glossaire/" >Spell glossary</a>
 <a class="nav-link" href="../../../../../wow-forever/faq/" >FAQ</a>
 <a class="nav-link" href="../../../../../wow-forever/artisans/" >Crafters</a>
@@ -323,6 +325,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <nav class="gs-toc" aria-label="Contents">
+  <a href="#gs-launch">At launch</a>
   <a href="#gs-talents">Talents</a>
   <a href="#gs-stats">Stats</a>
   <a href="#gs-rotation">Rotation</a>
@@ -330,6 +333,75 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <a href="#gs-gear">Gear</a>
   <a href="#gs-cons">Consumables</a>
 </nav>
+
+
+
+<section class="gs-tile lch-tile" id="gs-launch">
+  <div class="gs-th"><h2 class="gs-h2">At launch: level 60, build 1.60.1</h2></div>
+  <p class="lch-meta">Updated October 13, 2026 · simulator data build 1.60.1.69913 · 180-second simulation, 6000 runs</p>
+  <div class="lch-grid">
+    <div class="lch-card">
+      <h3 class="gs-sub">Recommended talents</h3>
+      <p>51 points: Arms 35 / Fury 16</p>
+      <p>The talents that weigh the most in the simulation: Improved Slam, Impale, Bloodthrill.</p>
+      <a class="wg-link" href="#gs-talents">See the full tree →</a>
+    </div>
+    
+    <div class="lch-card">
+      <h3 class="gs-sub">Spell order</h3>
+      <ol class="lch-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slam</a> as the main strike, right after the main-hand swing, without delaying the next one (Improved <a class="rs-spell" href="https://www.wowhead.com/forever/spell=11605" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Slam</a>): at 15 rage it pays more per rage than Mortal Strike.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11585" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Overpower</a> when it lights up: after a target dodge, or from Bloodthrill.</li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11574" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rend</a> every 21 seconds to feed Bloodthrill.</li></ol>
+      <a class="wg-link" href="#gs-rotation">Full rotation →</a>
+    </div>
+    
+    <div class="lch-card">
+      <h3 class="gs-sub">Consumables</h3>
+      
+      <ul class="lch-list"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=12179" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Scroll of Strength</a><span class="rs-hint"> Scrolls</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=1250986" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir of the Grizzly</a><span class="rs-hint"> Elixirs and flasks</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16323" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Juju Power</a><span class="rs-hint"> Potions, food and others</span></li></ul>
+      
+      <a class="wg-link" href="#gs-cons">All consumables →</a>
+    </div>
+  </div>
+  <h3 class="gs-sub lch-gear-h">Pre-raid gear (no raid items)</h3>
+  
+  
+  
+  <p class="gs-lede">The best set the simulator finds among the beta&#39;s dungeon and profession items, raid excluded: 654 DPS, −4.3% against the set that includes raid items (683 DPS).</p>
+  <div class="lch-gear">
+    <div class="lch-gr"><span class="gs-slot">Head</span>
+      <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=12640" rel="noopener nofollow" target="_blank">Lionheart Helm</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Neck</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=22150" rel="noopener nofollow" target="_blank">Beads of Ogre Might</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/dire-maul/">Dire Maul</a> — Falrin&#39;s Vendetta</span></div><div class="lch-gr"><span class="gs-slot">Shoulders</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19058" rel="noopener nofollow" target="_blank">Golden Mantle of the Dawn</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Back</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13340" rel="noopener nofollow" target="_blank">Cape of the Black Baron</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Baron Rivendare</span></div><div class="lch-gr"><span class="gs-slot">Chest</span>
+      <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22191" rel="noopener nofollow" target="_blank">Obsidian Mail Tunic</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Wrists</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19687" rel="noopener nofollow" target="_blank">Primal Batskin Bracers</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Hands</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19686" rel="noopener nofollow" target="_blank">Primal Batskin Gloves</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Waist</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=19044" rel="noopener nofollow" target="_blank">Might of the Timbermaw</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 290</span></div><div class="lch-gr"><span class="gs-slot">Legs</span>
+      <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=22385" rel="noopener nofollow" target="_blank">Titanic Leggings</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span></div><div class="lch-gr"><span class="gs-slot">Feet</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=275618" rel="noopener nofollow" target="_blank">Scalegut Treaders</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/leatherworking/">Leatherworking</a> — skill 295</span></div><div class="lch-gr"><span class="gs-slot">Ring 1</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=13217" rel="noopener nofollow" target="_blank">Band of the Penitent</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — Houses of the Holy</span></div><div class="lch-gr"><span class="gs-slot">Ring 2</span>
+      <span class="rs-item q3"><a href="https://www.wowhead.com/forever/item=17713" rel="noopener nofollow" target="_blank">Blackstone Ring</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/maraudon/">Maraudon</a> — Princess Theradras</span></div><div class="lch-gr"><span class="gs-slot">Trinket 1</span>
+      <span class="rs-item q2"><a href="https://www.wowhead.com/forever/item=13171" rel="noopener nofollow" target="_blank">Smokey&#39;s Lighter</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/dungeons/stratholme/">Stratholme</a> — The Great Fras Siabi</span></div><div class="lch-gr"><span class="gs-slot">Two-hand</span>
+      <span class="rs-item q4"><a href="https://www.wowhead.com/forever/item=19169" rel="noopener nofollow" target="_blank">Nightfall</a></span>
+      <span class="gs-src"><a class="rs-zone" href="../../../../../wow-forever/professions/blacksmithing/">Blacksmithing</a> — skill 300</span></div>
+  </div>
+  <p><a class="wg-link" href="#gs-gear">Full gear, enchantments included →</a></p>
+  
+  <p class="gs-foot">Figures come from our simulator, not from players: they move with beta patches.</p>
+</section>
+
 
 <div class="gs-grid">
 
@@ -957,10 +1029,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=5d138e9ea5" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=5d138e9ea5" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=5d138e9ea5" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=5d138e9ea5" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=8a2868025b" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=8a2868025b" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=8a2868025b" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=8a2868025b" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
