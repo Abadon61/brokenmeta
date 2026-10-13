@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% macro num(v) %}{{ '{:,.0f}'.format(v).replace(',', ' ' if lang == 'fr' else ',') }}{% endmacro %}
+{% macro tier_block(groups, unit) %}
+{% for g in groups %}
+<div class="tlw-tier" data-tier="{{ g.tier }}">
+  <div class="tlw-badge"><b>{{ g.tier }}</b><span>{% if g.min > 0 %}{{ tx.tier_rule.format(lo=g.min|int) }}{% else %}{{ tx.tier_rule_d.format(hi=(groups[loop.index0 - 1].min if loop.index0 else 72)|int) }}{% endif %}</span></div>
+  <div class="tlw-rows">
+    {% for r in g.rows %}
+    <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+      {% if r.spec_icon %}<img src="{{ root }}{{ r.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
+      <span class="tlw-name"><b>{{ r.spec_name }}</b><small>{{ r.class_name }}</small></span>
+      <span class="tlw-val nums">{{ num(r.value) }} {{ unit }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }}</small></span>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endmacro %}
+{% block content %}
+{# Tier list niveau 60 (2026-10-13): every tier comes from data/wow_ranking60.json, see wow_tierlist.py. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt) }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+    <p class="gh-lede"><b>{{ tx.best.format(name=tl.top.class_name ~ ' ' ~ tl.top.spec_name, dps=num(tl.top.value)) }}</b></p>
+  </div></div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_dps }}</h2></div>
+{{ tier_block(tl.dps, tx.unit_dps) }}
+</section>
+
+{% if tl.tank %}
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_tank }}</h2></div>
+<div class="tlw-rows tlw-flat">
+  {% for r in tl.tank %}
+  <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+    {% if r.spec_icon %}<img src="{{ root }}{{ r.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
+    <span class="tlw-name"><b>{{ r.spec_name }}</b><small>{{ r.class_name }}</small></span>
+    <span class="tlw-val nums">{{ num(r.value) }} {{ tx.unit_tps }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }}</small></span>
+  </a>
+  {% endfor %}
+</div>
+<p class="tlw-note">{{ tx.tank_note }}</p>
+</section>
+{% endif %}
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_class }}</h2></div>
+<div class="tlw-classes">
+  {% for c in tl.classes %}
+  <article class="tlw-class" style="--cc: {{ c.color or '#8a6cff' }}">
+    {% if c.banner %}<div class="tlw-art" style="background-image: url('{{ root }}{{ c.banner }}')"></div>{% endif %}
+    <div class="tlw-class-in">
+      <h3>{{ c.name }}</h3>
+      <ul>
+        {% for r in c.specs %}
+        <li><a href="{{ root }}{{ r.page_path }}"><span class="tlw-t" data-tier="{{ r.tier }}">{{ r.tier }}</span>{{ r.spec_name }}<em class="nums">{{ num(r.value) }} {{ tx.unit_tps if r.tier == 'T' else tx.unit_dps }}</em></a></li>
+        {% endfor %}
+      </ul>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+<p class="tlw-note">{{ tx.art_credit }}</p>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.heal_h }}</h2></div>
+<p>{{ tx.heal_p }} <a href="{{ root }}wow-forever/classes/">{{ tx.heal_link }}</a>.</p>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
+{% for q, a in tl.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
+<div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.l_sim }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ tx.l_dung }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/simuler-mon-personnage/">{{ tx.l_mysim }}</a>
+</div>
+</section>
+
+<details class="gs-more gs-sources" open><summary>{{ tx.meth_h }}</summary>
+<ul class="gd-list">{% for item in tl.meth %}<li>{{ item|safe }}</li>{% endfor %}</ul></details>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}

@@ -52,6 +52,7 @@ import wow_sim60_texts  # noqa: E402
 import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
+import wow_tierlist  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
@@ -7378,6 +7379,7 @@ def main() -> None:
         _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # BrokenLogs (2026-10-11): combat log analysis in the browser.
     _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
+    _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("tier-list", "Tier list", "Tier list"))   # 2026-10-13
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
     _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
@@ -8705,6 +8707,24 @@ def main() -> None:
             render("wow_crafters.html", _crpath, lang, active_nav="wow", active_sub="wow-artisans", tx=_gx,
                    g_title=_gx["cr_title"], g_desc=_gx["cr_desc"], g_h1=_gx["cr_h1"], g_intro=_gx["cr_intro"],
                    breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["cr_h1"], canonical_for(_crpath, lang))]))
+            _tl = wow_tierlist.build(_wow_ranking, _wow_ranking_tanks, wt_classes, lang) if _wow_ranking else None
+            if _tl:
+                _tx = wow_tierlist.TX[lang]
+                assert len(_tx["title"]) <= 60 and len(_tx["desc"]) <= 155, (len(_tx["title"]), len(_tx["desc"]))
+                _tlpath = "/wow-forever/tier-list/"
+                _th = dict(wow_tierlist.THRESHOLDS)
+                _tfmt = dict(S=int(_th["S"]), A=int(_th["A"]), B=int(_th["B"]), C=int(_th["C"]))
+                _top = _tl["top"]
+                _topv = _fmt_int(_top["value"])
+                _tl["date_txt"] = _news_date(_tl["generated"], lang)
+                for _c in _tl["classes"]:
+                    _c["banner"] = class_banner(_c["id"])
+                _tl["meth"] = [x.format(url='<a href="' + canonical_for("/wow-forever/simulateur-dps/", lang) + '">BrokenMeta.gg</a>', build=_tl["build"], fight=_tl["fight"], iters=_tl["iters"], **_tfmt) for x in _tx["meth"]]
+                _tl["faq"] = [(q, a.format(name=_top["class_name"] + " " + _top["spec_name"], dps=_topv, build=_tl["build"], n=_tl["n_dps"], **_tfmt)) for q, a in _tx["faq"]]
+                _tfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _tl["faq"]]}
+                render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
+                       g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
             _lgpath = "/wow-forever/logs/"
             assert len(_gx["lg_title"]) <= 60 and len(_gx["lg_desc"]) <= 155
             render("wow_logs.html", _lgpath, lang, active_nav="wow", active_sub="wow-logs", tx=_gx,
