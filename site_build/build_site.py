@@ -55,6 +55,8 @@ import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
 import wow_launch  # noqa: E402
 import wow_leveling  # noqa: E402
+import wow_racepick  # noqa: E402
+import wow_racepick_tx  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
 import sim60_bundle  # noqa: E402
@@ -7383,6 +7385,7 @@ def main() -> None:
     _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("tier-list", "Tier list", "Tier list"))   # 2026-10-13
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("leveling", "Leveling 1-60", "Leveling 1-60"))
+    _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("races", "Quelle race", "Which race"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
     _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
@@ -8739,6 +8742,32 @@ def main() -> None:
                 render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
+            if wow_racepick.available():
+                # "Which race?": a hub and one page per class (client racials + simulator), see wow_racepick.py
+                _rx = wow_racepick_tx.TX[lang]
+                _rhub = []
+                for _c in wt_classes:
+                    _rp = wow_racepick.build(lang, _c, _wow_ranking + _wow_ranking_tanks)
+                    if not _rp["races"]:
+                        continue
+                    _cn2 = _c["name"][lang]
+                    _rpath = f"/wow-forever/races/{_c['id']}/"
+                    _rt, _rd = _rx["title"].format(cls=_cn2), _rx["desc"].format(cls=_cn2, n=len(_rp["races"]))
+                    assert len(_rt) <= 60 and len(_rd) <= 155, (_rt, len(_rt), len(_rd))
+                    _rp["date_txt"] = _news_date(_rp["meta"]["generated"], lang)
+                    _rp = wow_racepick_tx.finish(lang, _c, _rp, [{"path": r["path"], "label": r["name"]} for r in _rp["specs"]])
+                    _rfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _rp["faq"]]}
+                    _rh1 = _rx["h1"].format(cls=_cn2)
+                    render("wow_racepick.html", _rpath, lang, active_nav="wow", active_sub="wow-races", tx=_rx, cls=_c, rp=_rp, banner=class_banner(_c["id"]),
+                           g_title=_rt, g_desc=_rd, g_h1=_rh1, g_intro=_rx["intro"].format(cls=_cn2, n=len(_rp["races"])), wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_rfaq,
+                           article_schema=build_article_schema(_rh1, canonical_for(_rpath, lang), _rd),
+                           breadcrumb_schema=breadcrumb_schema(_gbase + [(_rx["hub_h1"], canonical_for("/wow-forever/races/", lang)), (_cn2, canonical_for(_rpath, lang))]))
+                    _rhub.append({"id": _c["id"], "name": _cn2, "color": _c.get("color"), "banner": class_banner(_c["id"]), "n": len(_rp["races"]), "path": f"wow-forever/races/{_c['id']}/",
+                                  "best": [{"spec": s["name"], "races": s["best"][:3]} for s in _rp["specs"] if not s["tank"]]})
+                assert len(_rx["hub_title"]) <= 60 and len(_rx["hub_desc"]) <= 155
+                render("wow_racepick_hub.html", "/wow-forever/races/", lang, active_nav="wow", active_sub="wow-races", tx=_rx, classes=_rhub,
+                       g_title=_rx["hub_title"], g_desc=_rx["hub_desc"], g_h1=_rx["hub_h1"], g_intro=_rx["hub_intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_rx["hub_h1"], canonical_for("/wow-forever/races/", lang))]))
             _lvx = wow_leveling.TX[lang]
             assert len(_lvx["title"]) <= 60 and len(_lvx["desc"]) <= 155, (len(_lvx["title"]), len(_lvx["desc"]))
             _lvpath = "/wow-forever/leveling/"

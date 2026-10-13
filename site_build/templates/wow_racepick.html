@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% macro pct(v) %}{% if v|abs < 0.05 %}0{{ ',0' if lang == 'fr' else '.0' }} %{% else %}{{ ('{:+.1f}'.format(v)).replace('-', '−').replace('.', ',' if lang == 'fr' else '.') }} %{% endif %}{% endmacro %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+{# "Quelle race choisir" (2026-10-13): client racials + simulator, see wow_racepick.py. #}
+<section class="gh-hero" style="--cc: {{ cls.color or '#8a6cff' }}">
+  {% if banner %}<div class="gh-art" style="background-image: url('{{ root }}{{ banner }}')"></div><span class="gh-credit">{{ 'Illustration : © Blizzard Entertainment' if fr else 'Artwork: © Blizzard Entertainment' }}</span>{% endif %}
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(n=rp.races|length, build=rp.meta.build, date=rp.date_txt) }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+{% if rp.specs %}
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.verdict_h }}</h2></div>
+<p class="gs-lede">{{ tx.verdict_p }}</p>
+{% for s in rp.specs %}
+<h3 class="gs-sub">{{ s.name }}{% if s.tank %} <span class="rs-hint">({{ tx.tank_hint }})</span>{% endif %}</h3>
+<div class="rs-table-wrap"><table class="rs-table rpk-table">
+  <thead><tr><th>{{ tx.col_race }}</th><th class="nums">{{ tx.col_racials }}</th></tr></thead>
+  <tbody>{% for l in s.lines %}<tr class="{{ 'is-best' if l.equiv }}">
+    <td><span class="rpk-race">{% if l.icon %}<img src="{{ l.icon }}" alt="" width="24" height="24" loading="lazy">{% endif %}{{ l.name }}</span> <span class="rs-hint">{% for f in l.factions %}{{ tx.fac[f] }}{{ ' / ' if not loop.last }}{% endfor %}</span>{% if l.equiv %} <span class="rpk-tag">{{ tx.best_tag if loop.first else tx.equiv_tag }}</span>{% endif %}</td>
+    <td class="nums">{{ pct(l.delta) }}<span class="rs-hint"> ± {{ ('{:.2f}'.format(l.err)).replace('.', ',' if fr else '.') }}</span>{% if l.never %}<span class="rs-hint"> · {{ tx.never_hint }}</span>{% endif %}</td></tr>{% endfor %}</tbody>
+</table></div>
+{% endfor %}
+<p class="wow-note">{{ tx.table_note }}</p>
+<details class="gs-more"><summary>{{ tx.method_h }}</summary>
+  <ul class="gd-list">{% for item in rp.method %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+</details>
+</section>
+{% endif %}
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.races_h.format(cls=cls.name[lang]) }}</h2></div>
+<p class="gs-lede">{{ tx.races_p }}</p>
+<div class="rpk-cards">
+{% for r in rp.races %}
+<article class="rpk-card" data-faction="{{ r.faction }}">
+  <h3>{% if r.icon %}<img src="{{ r.icon }}" alt="" width="40" height="40" loading="lazy">{% endif %}{{ r.name }} <small>{{ tx.fac[r.faction] }}</small></h3>
+  <ul class="rpk-spells">
+  {% for s in r.spells %}<li>
+    <b>{{ s.name }}</b> <span class="rpk-tag is-{{ s.tag }}">{{ tx.tags[s.tag] }}</span>
+    {% if s.desc %}<p>{{ s.desc }}</p>{% endif %}
+    {% if s.cd or s.dur %}<span class="rs-hint">{% if s.dur %}{{ tx.dur }} {{ ('{:g}'.format(s.dur)) }} s{% endif %}{% if s.dur and s.cd %} · {% endif %}{% if s.cd %}{{ tx.cd }} {{ ('{:g}'.format(s.cd)) }} s{% endif %}</span>{% endif %}
+  </li>{% endfor %}
+  </ul>
+</article>
+{% endfor %}
+</div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
+{% for q, a in rp.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
+<div class="gh-chips">
+  {% for g in rp.guides %}<a class="gh-chip" href="{{ root }}{{ g.path }}">{{ g.label }}</a>{% endfor %}
+  <a class="gh-chip" href="{{ root }}wow-forever/tier-list/">{{ tx.l_tier }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/talents/{{ cls.id }}/">{{ tx.l_talents.format(cls=cls.name[lang]) }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.l_sim }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/races/">{{ tx.l_hub }}</a>
+</div>
+</section>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}

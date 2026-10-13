@@ -3146,6 +3146,25 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- Quelle race choisir (2026-10-13) ---------- */
+  .rpk-race { display: inline-flex; align-items: center; gap: 8px; }
+  .rpk-race img { border-radius: 6px; }
+  .rpk-table tr.is-best td { background: rgba(94, 224, 138, .07); }
+  .rpk-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border-bright); font: 600 10.5px 'Space Mono', monospace; text-transform: uppercase; letter-spacing: .04em; color: var(--text-dim); }
+  .rpk-tag.is-sim { color: #5ee08a; border-color: rgba(94, 224, 138, .45); }
+  .rpk-tag.is-dmg { color: var(--gold); border-color: rgba(255, 194, 60, .45); }
+  .rpk-cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; margin-top: 10px; }
+  .rpk-card { padding: 14px 16px; border: 1px solid var(--border); border-top: 3px solid var(--border-bright); border-radius: 12px; background: var(--bg-2); }
+  .rpk-card[data-faction="alliance"] { border-top-color: #4d8dff; }
+  .rpk-card[data-faction="horde"] { border-top-color: #ff6b6b; }
+  .rpk-card h3 { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; font: 700 17px 'Cal Sans', sans-serif; text-transform: uppercase; }
+  .rpk-card h3 img { border-radius: 8px; }
+  .rpk-card h3 small { font: 11px 'Space Mono', monospace; color: var(--text-faint); }
+  .rpk-spells { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+  .rpk-spells p { margin: 3px 0 2px; font-size: 13.5px; line-height: 1.5; color: var(--text-dim); }
+  .rpk-n { margin: 0 0 6px; font: 12px 'Space Mono', monospace; color: var(--text-dim); }
+  .rpk-spec { font-weight: 600; }
+
   /* ---------- Guide de leveling 1-60 (2026-10-13) ---------- */
   .lvg-cols { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 4px; }
   .lvg-col .gs-sub { margin-top: 12px; }

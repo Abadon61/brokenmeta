@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+{# Hub "Quelle race choisir" (2026-10-13): one tile per class, see wow_racepick.py. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.hub_classes }}</h2></div>
+<div class="tlw-classes">
+  {% for c in classes %}
+  <article class="tlw-class" style="--cc: {{ c.color or '#8a6cff' }}">
+    {% if c.banner %}<div class="tlw-art" style="background-image: url('{{ root }}{{ c.banner }}')"></div>{% endif %}
+    <div class="tlw-class-in">
+      <h3><a href="{{ root }}{{ c.path }}">{{ c.name }}</a></h3>
+      <p class="rpk-n">{{ tx.hub_n.format(n=c.n) }}</p>
+      <ul>{% for b in c.best %}<li><a href="{{ root }}{{ c.path }}"><span class="rpk-spec">{{ b.spec }}</span> <em>{{ b.races|join(', ') }}</em></a></li>{% endfor %}</ul>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+<p class="tlw-note">{{ tx.hub_note }}</p>
+</section>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}
