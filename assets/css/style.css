@@ -3147,6 +3147,21 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .rb-hub-body b { font: 700 24px 'Cal Sans', sans-serif; text-transform: uppercase; letter-spacing: .02em; }
   .rb-hub-chips { display: flex; flex-wrap: wrap; gap: 6px; }
   .rb-hub-go { font-size: 13.5px; font-weight: 600; color: var(--cyan); }
+  /* ---------- LoL guides: role blocks (2026-10-14) ---------- */
+  .rl-table td, .rl-table th { white-space: nowrap; }
+  .rl-up { color: #5ee08a; } .rl-down { color: #ff7b7b; }
+  .rl-bars { display: flex; flex-direction: column; gap: 8px; margin: 8px 0; }
+  .rl-bar { display: grid; grid-template-columns: minmax(150px, 220px) 1fr 64px 80px; gap: 10px; align-items: center; font-size: 14px; }
+  .rl-bar small { color: var(--text-faint); font: 11px 'Space Mono', monospace; }
+  .rl-bw { height: 10px; background: var(--bg); border-radius: 5px; overflow: hidden; } .rl-bw i { display: block; height: 100%; background: var(--cyan); border-radius: 5px; }
+  .rl-bar.is-best .rl-bw i { background: #5ee08a; }
+  .rl-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 12px; }
+  .rl-chip { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px 5px 6px; border: 1px solid var(--border); border-radius: 999px; background: var(--bg-2); color: var(--cream); text-decoration: none; font-size: 14px; }
+  .rl-chip:hover { border-color: var(--border-bright); background: var(--row-hover); }
+  .rl-chip img { border-radius: 50%; }
+  .rl-chip small { color: var(--text-faint); }
+  @media (max-width: 600px) { .rl-bar { grid-template-columns: 1fr 1fr; } .rl-bw { grid-column: 1 / -1; order: 3; } }
+
   /* ---------- LoL combo pages: illustrated sequence (2026-10-14) ---------- */
   .sq-wrap { margin-bottom: 12px; }
   .sq { display: flex; flex-wrap: wrap; gap: 14px 18px; list-style: none; margin: 0 0 10px; padding: 0; }
