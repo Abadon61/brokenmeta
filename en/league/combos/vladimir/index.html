@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Vladimir Combos (Patch 26.20): key order &amp; cooldowns">
 <meta name="twitter:description" content="Vladimir combos (patch 26.20): 3 combos explained key by key (main one: Q › E › AA), when to cast them, plus every ability&#39;s cooldown, cost and range.">
 <meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vladimir_0.jpg">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8e014d7b9b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8e014d7b9b">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=dd76a87f56">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=dd76a87f56">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=8e014d7b9b">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=dd76a87f56">
 
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}, {"@type": "ListItem", "position": 3, "name": "Combos", "item": "https://brokenmeta.gg/en/league/combos/"}, {"@type": "ListItem", "position": 4, "name": "Vladimir combos", "item": "https://brokenmeta.gg/en/league/combos/vladimir/"}]}</script>
@@ -204,6 +204,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </ol></nav>
 
 
+
 <div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Vladimir_0.jpg')">
   <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Vladimir.png" alt="Vladimir" width="120" height="120" fetchpriority="high">
   <div class="champ-fiche-info">
@@ -230,81 +231,126 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">Harassment</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Transfusion">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="44" height="44" loading="lazy">
-          <b>Q</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Tides of Blood">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirE.png" alt="Tides of Blood" width="44" height="44" loading="lazy">
-          <b>E</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Basic attack">
-          <span class="gd-aa">AA</span>
-          <b>AA</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Transfusion" data-key="Q" data-cd="9/7.9/6.8/5.7/4.6">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="56" height="56" loading="lazy"><b>Q</b></span>
+      <span class="sq-name">Transfusion</span>
+      <span class="sq-meta"><span>9/7.9/6.8/5.7/4.6 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Tides of Blood" data-key="E" data-cd="13/11/9/7/5">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirE.png" alt="Tides of Blood" width="56" height="56" loading="lazy"><b>E</b></span>
+      <span class="sq-name">Tides of Blood</span>
+      <span class="sq-meta"><span>13/11/9/7/5 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Basic attack" data-key="AA">
+      <span class="sq-n">3</span>
+      <span class="sq-ico"><span class="sq-aa">AA</span><b>AA</b></span>
+      <span class="sq-name">Basic attack</span>
+      <span class="sq-meta"><span>Basic attack</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> An enemy is within Transfusion range.</p>
     <p class="gd-how">Transfusion steals health, Tides of Blood deals area damage (it can be blocked by enemy units), your attacks finish.</p>
   </div>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">The team-fight combo</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Hemoplague">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirHemoplague.png" alt="Hemoplague" width="44" height="44" loading="lazy">
-          <b>R</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Tides of Blood">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirE.png" alt="Tides of Blood" width="44" height="44" loading="lazy">
-          <b>E</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Transfusion">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="44" height="44" loading="lazy">
-          <b>Q</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Sanguine Pool">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirSanguinePool.png" alt="Sanguine Pool" width="44" height="44" loading="lazy">
-          <b>W</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Hemoplague" data-key="R" data-cd="120">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirHemoplague.png" alt="Hemoplague" width="56" height="56" loading="lazy"><b>R</b></span>
+      <span class="sq-name">Hemoplague</span>
+      <span class="sq-meta"><span>120 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Tides of Blood" data-key="E" data-cd="13/11/9/7/5">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirE.png" alt="Tides of Blood" width="56" height="56" loading="lazy"><b>E</b></span>
+      <span class="sq-name">Tides of Blood</span>
+      <span class="sq-meta"><span>13/11/9/7/5 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Transfusion" data-key="Q" data-cd="9/7.9/6.8/5.7/4.6">
+      <span class="sq-n">3</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="56" height="56" loading="lazy"><b>Q</b></span>
+      <span class="sq-name">Transfusion</span>
+      <span class="sq-meta"><span>9/7.9/6.8/5.7/4.6 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Sanguine Pool" data-key="W" data-cd="28/25/22/19/16">
+      <span class="sq-n">4</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirSanguinePool.png" alt="Sanguine Pool" width="56" height="56" loading="lazy"><b>W</b></span>
+      <span class="sq-name">Sanguine Pool</span>
+      <span class="sq-meta"><span>28/25/22/19/16 s</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> Several enemies are grouped.</p>
     <p class="gd-how">Hemoplague infects the area: enemies take more damage, then take magic damage and heal you for each champion hit. Sanguine Pool makes you untouchable for 2 seconds.</p>
   </div>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">The escape</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Sanguine Pool">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirSanguinePool.png" alt="Sanguine Pool" width="44" height="44" loading="lazy">
-          <b>W</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Transfusion">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="44" height="44" loading="lazy">
-          <b>Q</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Sanguine Pool" data-key="W" data-cd="28/25/22/19/16">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirSanguinePool.png" alt="Sanguine Pool" width="56" height="56" loading="lazy"><b>W</b></span>
+      <span class="sq-name">Sanguine Pool</span>
+      <span class="sq-meta"><span>28/25/22/19/16 s</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Transfusion" data-key="Q" data-cd="9/7.9/6.8/5.7/4.6">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/VladimirQ.png" alt="Transfusion" width="56" height="56" loading="lazy"><b>Q</b></span>
+      <span class="sq-name">Transfusion</span>
+      <span class="sq-meta"><span>9/7.9/6.8/5.7/4.6 s</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> Several enemies are engaging you.</p>
     <p class="gd-how">Sanguine Pool makes you untargetable and slows the enemies in the pool; you can drain their life.</p>
   </div>
@@ -420,7 +466,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <div id="tooltip" data-visible="false"></div>
 
-
+<script src="../../../../assets/js/lol-combo-seq.js?v=a854aefcf5" defer></script>
 <script>
 /* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
 (function () {
@@ -444,10 +490,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/site-search.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/favorites.js?v=8e014d7b9b" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/site-search.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/favorites.js?v=dd76a87f56" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

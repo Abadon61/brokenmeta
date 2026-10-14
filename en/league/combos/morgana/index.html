@@ -48,8 +48,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Morgana Combos (Patch 26.20): key order &amp; cooldowns">
 <meta name="twitter:description" content="Morgana combos (patch 26.20): 3 combos explained key by key (main one: Q › W › AA), when to cast them, plus every ability&#39;s cooldown, cost and range.">
 <meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Morgana_0.jpg">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=8e014d7b9b">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=8e014d7b9b">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=dd76a87f56">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=dd76a87f56">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -59,7 +59,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=8e014d7b9b">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=dd76a87f56">
 
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}, {"@type": "ListItem", "position": 3, "name": "Combos", "item": "https://brokenmeta.gg/en/league/combos/"}, {"@type": "ListItem", "position": 4, "name": "Morgana combos", "item": "https://brokenmeta.gg/en/league/combos/morgana/"}]}</script>
@@ -204,6 +204,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </ol></nav>
 
 
+
 <div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Morgana_0.jpg')">
   <img class="champ-fiche-icon" src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/champion/Morgana.png" alt="Morgana" width="120" height="120" fetchpriority="high">
   <div class="champ-fiche-info">
@@ -230,75 +231,118 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">The pick</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Dark Binding">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaQ.png" alt="Dark Binding" width="44" height="44" loading="lazy">
-          <b>Q</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Tormented Shadow">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="44" height="44" loading="lazy">
-          <b>W</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Basic attack">
-          <span class="gd-aa">AA</span>
-          <b>AA</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Dark Binding" data-key="Q" data-cd="10" data-cost="50/55/60/65/70 Mana">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaQ.png" alt="Dark Binding" width="56" height="56" loading="lazy"><b>Q</b></span>
+      <span class="sq-name">Dark Binding</span>
+      <span class="sq-meta"><span>10 s</span><span>50/55/60/65/70 Mana</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Tormented Shadow" data-key="W" data-cd="12" data-cost="70/80/90/100/110 Mana">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="56" height="56" loading="lazy"><b>W</b></span>
+      <span class="sq-name">Tormented Shadow</span>
+      <span class="sq-meta"><span>12 s</span><span>70/80/90/100/110 Mana</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Basic attack" data-key="AA">
+      <span class="sq-n">3</span>
+      <span class="sq-ico"><span class="sq-aa">AA</span><b>AA</b></span>
+      <span class="sq-name">Basic attack</span>
+      <span class="sq-meta"><span>Basic attack</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> An enemy is within binding range.</p>
     <p class="gd-how">Dark Binding roots and deals damage; place Tormented Shadow on them: its damage increases with their missing health.</p>
   </div>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">Protection</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Black Shield">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaE.png" alt="Black Shield" width="44" height="44" loading="lazy">
-          <b>E</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Tormented Shadow">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="44" height="44" loading="lazy">
-          <b>W</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Black Shield" data-key="E" data-cd="26/23.5/21/18.5/16" data-cost="80 Mana">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaE.png" alt="Black Shield" width="56" height="56" loading="lazy"><b>E</b></span>
+      <span class="sq-name">Black Shield</span>
+      <span class="sq-meta"><span>26/23.5/21/18.5/16 s</span><span>80 Mana</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Tormented Shadow" data-key="W" data-cd="12" data-cost="70/80/90/100/110 Mana">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="56" height="56" loading="lazy"><b>W</b></span>
+      <span class="sq-name">Tormented Shadow</span>
+      <span class="sq-meta"><span>12 s</span><span>70/80/90/100/110 Mana</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> An ally is about to take a crowd control effect.</p>
     <p class="gd-how">Black Shield absorbs magic damage and crowd control until it breaks: place it before the enemy&#39;s engage.</p>
   </div>
   
   <div class="gd-combo">
     <h3 class="gd-combo-name">The team ultimate</h3>
-    <div class="gd-keys">
-      
-        
-        <span class="gd-key" title="Soul Shackles">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaR.png" alt="Soul Shackles" width="44" height="44" loading="lazy">
-          <b>R</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Tormented Shadow">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="44" height="44" loading="lazy">
-          <b>W</b>
-        </span>
-      
-        <span class="gd-arrow" aria-hidden="true">›</span>
-        <span class="gd-key" title="Dark Binding">
-          <img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaQ.png" alt="Dark Binding" width="44" height="44" loading="lazy">
-          <b>Q</b>
-        </span>
-      
-    </div>
+    
+
+<div class="sq-wrap">
+  <ol class="sq">
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Soul Shackles" data-key="R" data-cd="120/110/100" data-cost="100 Mana">
+      <span class="sq-n">1</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaR.png" alt="Soul Shackles" width="56" height="56" loading="lazy"><b>R</b></span>
+      <span class="sq-name">Soul Shackles</span>
+      <span class="sq-meta"><span>120/110/100 s</span><span>100 Mana</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Tormented Shadow" data-key="W" data-cd="12" data-cost="70/80/90/100/110 Mana">
+      <span class="sq-n">2</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaW.png" alt="Tormented Shadow" width="56" height="56" loading="lazy"><b>W</b></span>
+      <span class="sq-name">Tormented Shadow</span>
+      <span class="sq-meta"><span>12 s</span><span>70/80/90/100/110 Mana</span></span>
+    </li>
+  
+    
+    <li class="sq-step" tabindex="0" data-name="Dark Binding" data-key="Q" data-cd="10" data-cost="50/55/60/65/70 Mana">
+      <span class="sq-n">3</span>
+      <span class="sq-ico"><img src="https://ddragon.leagueoflegends.com/cdn/16.20.1/img/spell/MorganaQ.png" alt="Dark Binding" width="56" height="56" loading="lazy"><b>Q</b></span>
+      <span class="sq-name">Dark Binding</span>
+      <span class="sq-meta"><span>10 s</span><span>50/55/60/65/70 Mana</span></span>
+    </li>
+  
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="▶ Play the sequence" data-replay="↻ Replay" data-step="Step" data-cd="cooldown" data-cost="cost" data-done="Sequence finished">▶ Play the sequence</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+
     <p class="gd-when"><b>When:</b> Enemies are grouped around you.</p>
     <p class="gd-how">Soul Shackles slow and damage nearby enemy champions; after a delay, those who have not broken the chains are stunned.</p>
   </div>
@@ -414,7 +458,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </footer>
 <div id="tooltip" data-visible="false"></div>
 
-
+<script src="../../../../assets/js/lol-combo-seq.js?v=a854aefcf5" defer></script>
 <script>
 /* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
 (function () {
@@ -438,10 +482,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/site-search.js?v=8e014d7b9b" defer></script>
-<script src="../../../../assets/js/favorites.js?v=8e014d7b9b" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/site-search.js?v=dd76a87f56" defer></script>
+<script src="../../../../assets/js/favorites.js?v=dd76a87f56" defer></script>
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
