@@ -16,6 +16,7 @@
     <div class="fiche-kicker">Combos · {{ g.role_label }}</div>
     <h1 class="champ-fiche-name">{{ 'Combos ' ~ g.name if fr else g.name ~ ' combos' }}</h1>
     <div class="champ-fiche-ability-name">{{ g.title }}</div>
+    <div class="gd-updated">{{ ('Mis à jour le ' if fr else 'Updated ') ~ short_date(updated, lang) ~ ' ' ~ updated[:4] }}{% if g.patch %} · {{ 'Patch ' ~ g.patch }}{% endif %}</div>
   </div>
 </div>
 

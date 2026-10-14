@@ -11,6 +11,8 @@ what this module hands it (g.ui for labels, g.* for prose).
 """
 from __future__ import annotations
 
+import re
+
 ROLE_LABEL = {"top": "Top", "jungle": "Jungle", "mid": "Mid", "adc": "ADC", "support": "Support"}
 SHARD_NAMES = {   # stat shards are not in Data Dragon's runesReforged: (fr, en)
     5001: ("Vie évolutive", "Health scaling"), 5005: ("Vitesse d'attaque", "Attack speed"),
@@ -35,11 +37,11 @@ STR = {
         "difficulty": ("plutôt simple à prendre en main", "de difficulté moyenne", "exigeant à maîtriser"),
         "stats": ("KDA moyen", "ratio", "Dégâts / min", "CS / min", "Or / min", "Participation aux kills", "Vision / min"),
         "ui": {
-            "guide": "Guide", "h1": "Guide {name}", "toc_aria": "Sommaire du guide", "toc_combos": "Combos", "toc_build": "Build",
+            "guide": "Guide", "h1": "Guide {name}", "toc_aria": "Sommaire du guide", "toc_combos": "Aperçu des combos", "toc_build": "Build",
             "toc_adverse": "Objets selon l'ennemi", "toc_contres": "Contres", "toc_abilities": "Capacités", "toc_faq": "FAQ",
             "tier_badge": "Tier {tier} {role}",
             "avg_note": "Moyennes mesurées sur {games} parties {role} jouées avec {name}, issues de notre collecte (file classée Solo/Duo).",
-            "combos_title": "Combos et façon de jouer", "editorial_tag": "Guide rédigé · d'après les textes officiels des capacités",
+            "combos_title": "Façon de jouer et aperçu des combos", "editorial_tag": "Guide rédigé · d'après les textes officiels des capacités",
             "strengths": "Points forts de {name}", "weaknesses": "Points faibles de {name}", "teamfight": "Rôle en combat d'équipe",
             "when": "Quand :", "laning": "Phase de lane", "mistakes": "Erreurs fréquentes", "riot_play": "Conseils officiels de Riot pour jouer {name}",
             "build_title": "Build, runes et sorts d'invocateur", "top_items_title": "Objets les plus construits",
@@ -62,12 +64,16 @@ STR = {
             "lane_title": "Phase de lane (moyennes)",
         },
         "lane_text": "À 10 min : {g10} or, {c10} CS, {x10} XP. À 15 min : {g15} or, {c15} CS, {x15} XP.",
-        "seo_title": ("{name} {role} : {kw} | BrokenMeta.gg", "{name} : {kw} | BrokenMeta.gg", "{name} : combos et build | BrokenMeta.gg", "{name} | BrokenMeta.gg"),
-        "seo_title_prefix": "Guide ",
-        "seo_kw": ("combos, build, contres", "combos et build"),
-        "seo_desc": ("Guide {name} {role} : combos, build, runes, contres et objets selon l'équipe adverse, mesurés sur {n} parties {role}.",
-                     "Guide {name} {role} : combos, build, runes, contres et objets selon l'équipe adverse.",
-                     "Guide {name} : combos, build, runes et contres."),
+        # 2026-10-14 (Search Console: 179 "<champion> combo" queries landed on the guides): no "combos" in a guide's title or description, the combos page owns that
+        # query. Longest variant first; the first one that fits in 60 (title) / 155 (description) characters wins. {kw} / {counters}: only what the page really has.
+        "seo_title": ("{name} {role} Build & Guide (Patch {patch}) : {kw}", "{name} {role} Build & Guide (Patch {patch}) : {kw2}", "{name} {role} Build & Guide (Patch {patch})",
+                      "{name} {role} Build & Guide : {kw2}", "{name} {role} Build & Guide", "{name} Build & Guide"),
+        "seo_kw": ("runes, objets, contres", "runes et objets"), "seo_kw2": ("runes, contres", "runes"),
+        "seo_desc": ("Guide {name} {role} (patch {patch}) : runes, build et objets selon l'équipe adverse{counters}, mesurés sur {n} parties {role}.",
+                     "Guide {name} {role} (patch {patch}) : runes, build et objets{counters}.",
+                     "Guide {name} {role} : runes, build et objets{counters}.",
+                     "Guide {name} : runes, build et objets."),
+        "seo_counters": " et contres",
     },
     "en": {
         "role_in": {"top": "in Top", "jungle": "in the Jungle", "mid": "in Mid", "adc": "as ADC", "support": "as Support"},
@@ -81,11 +87,11 @@ STR = {
         "difficulty": ("that is easy to pick up", "of medium difficulty", "that is demanding to master"),
         "stats": ("Average KDA", "ratio", "Damage / min", "CS / min", "Gold / min", "Kill participation", "Vision / min"),
         "ui": {
-            "guide": "Guide", "h1": "{name} Guide", "toc_aria": "Guide contents", "toc_combos": "Combos", "toc_build": "Build",
+            "guide": "Guide", "h1": "{name} Guide", "toc_aria": "Guide contents", "toc_combos": "Combo preview", "toc_build": "Build",
             "toc_adverse": "Items by enemy team", "toc_contres": "Counters", "toc_abilities": "Abilities", "toc_faq": "FAQ",
             "tier_badge": "Tier {tier} {role}",
             "avg_note": "Averages measured over {games} {role} games played with {name}, from our ranked Solo/Duo data collection.",
-            "combos_title": "Combos and how to play", "editorial_tag": "Written guide · based on the official ability texts",
+            "combos_title": "How to play and combo preview", "editorial_tag": "Written guide · based on the official ability texts",
             "strengths": "{name}'s strengths", "weaknesses": "{name}'s weaknesses", "teamfight": "Role in team fights",
             "when": "When:", "laning": "Laning phase", "mistakes": "Common mistakes", "riot_play": "Riot's official tips for playing {name}",
             "build_title": "Build, runes and summoner spells", "top_items_title": "Most-built items",
@@ -108,12 +114,14 @@ STR = {
             "lane_title": "Laning phase (averages)",
         },
         "lane_text": "At 10 min: {g10} gold, {c10} CS, {x10} XP. At 15 min: {g15} gold, {c15} CS, {x15} XP.",
-        "seo_title": ("{name} {role} Guide: {kw} | BrokenMeta.gg", "{name} Guide: {kw} | BrokenMeta.gg", "{name} Guide: combos and build | BrokenMeta.gg", "{name} Guide | BrokenMeta.gg"),
-        "seo_title_prefix": "",
-        "seo_kw": ("combos, build, counters", "combos and build"),
-        "seo_desc": ("{name} {role} guide: combos, build, runes, counters and items by enemy team, measured over {n} {role} games.",
-                     "{name} {role} guide: combos, build, runes, counters and items by enemy team.",
-                     "{name} guide: combos, build, runes and counters."),
+        "seo_title": ("{name} {role} Build & Guide (Patch {patch}): {kw}", "{name} {role} Build & Guide (Patch {patch}): {kw2}", "{name} {role} Build & Guide (Patch {patch})",
+                      "{name} {role} Build & Guide: {kw2}", "{name} {role} Build & Guide", "{name} Build & Guide"),
+        "seo_kw": ("runes, items, counters", "runes and items"), "seo_kw2": ("runes, counters", "runes"),
+        "seo_desc": ("{name} {role} guide (patch {patch}): runes, build and items by enemy team{counters}, measured over {n} {role} games.",
+                     "{name} {role} guide (patch {patch}): runes, build and items{counters}.",
+                     "{name} {role} guide: runes, build and items{counters}.",
+                     "{name} guide: runes, build and items."),
+        "seo_counters": " and counters",
     },
 }
 
@@ -144,8 +152,8 @@ def resolve_item(item_id: int, lookup: dict, lang: str) -> dict | None:
 def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial: dict | None, items_lookup: dict,
                      spells_by_key: dict, champ_by_slug: dict, tier_info: dict | None,
                      matchups_for_role: list[dict], rune_pages: list[dict],
-                     rune_by_id: dict | None = None, tree_by_id: dict | None = None) -> dict | None:
-    """d: lol_champion_detail_view(...) output in `lang`. guide: this champion's entry of lol_champion_guide.json.
+                     rune_by_id: dict | None = None, tree_by_id: dict | None = None, patch: str = "") -> dict | None:
+    """d: lol_champion_detail_view(...) output in `lang`. patch: the public patch name ("26.20", see patch_label), shown in the titles. guide: this champion's entry of lol_champion_guide.json.
     tier_info: {"tier", "rank", "of"} or None. matchups_for_role: enemies of the main role (already localized)."""
     S = STR[lang]
     fr = lang == "fr"
@@ -434,24 +442,17 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
             } for cb in editorial.get("combos", [])],
         }
 
-    kw = S["seo_kw"][0 if has_contres else 1]
-    prefix = S["seo_title_prefix"]
-    seo_title = next(t for t in (
-        (S["seo_title"][0].format(name=name, role=role_label, kw=kw)),
-        (S["seo_title"][1].format(name=name, kw=kw)),
-        S["seo_title"][2].format(name=name), S["seo_title"][3].format(name=name),
-    ) if len(prefix + t) <= 60)
-    seo_title = prefix + seo_title
-    seo_description = next(t for t in (
-        S["seo_desc"][0].format(name=name, role=role_label, n=main["games"]),
-        S["seo_desc"][1].format(name=name, role=role_label),
-        S["seo_desc"][2].format(name=name),
-    ) if len(t) <= 155)
+    kwi = 0 if has_contres else 1
+    tfmt = dict(name=name, role=role_label, patch=patch, kw=S["seo_kw"][kwi], kw2=S["seo_kw2"][kwi])
+    seo_title = next(t for t in (v.format(**tfmt) for v in S["seo_title"] if patch or "{patch}" not in v) if len(t) <= 60)
+    seo_title = "BrokenMeta.gg | " + seo_title       # build_site.py's seo_title filter moves the brand to the end, and only when it still fits in 60 characters
+    dfmt = dict(name=name, role=role_label, n=main["games"], patch=patch, counters=S["seo_counters"] if has_contres else "")
+    seo_description = next(t for t in (v.format(**dfmt) for v in S["seo_desc"] if patch or "{patch}" not in v) if len(t) <= 155)
 
     ui = {k: v.format(name=name, role=role_label, role_in=role_in[main_role], games=main["games"], tier=(tier_info or {}).get("tier", ""), enemy="{enemy}", tl_games="{tl_games}")
           for k, v in S["ui"].items()}
     return {
-        "lang": lang, "ui": ui, "id": d["id"], "seo_title": seo_title, "seo_description": seo_description,
+        "lang": lang, "ui": ui, "id": d["id"], "patch": patch, "seo_title": seo_title, "seo_description": seo_description,
         "name": name, "title": d["title"], "slug": d["slug"], "icon_file": d["icon_file"], "classes": d["classes"],
         "main_role": main_role, "role_label": role_label, "roles": [{"role": r, "label": ROLE_LABEL.get(r, r), "games": v["games"], "win_rate": v["win_rate"]}
                                                                     for r, v in sorted(roles.items(), key=lambda kv: -kv[1]["games"])],
@@ -467,7 +468,14 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
     }
 
 
-def build_combo_view(g: dict, lang: str) -> dict | None:
+def patch_label(dd_version: str) -> str:
+    """The public patch name read from the Data Dragon version: "16.20.1" -> "26.20". Data Dragon's major is the year minus 2010 while Riot's patch names use
+    the year minus 2000 since 2025 (26.18 on 2026-09-09 on the patch notes page, Data Dragon 16.20.1 in October). "" when the version cannot be read."""
+    m = re.match(r"(\d+)\.(\d+)", dd_version or "")
+    return f"{int(m.group(1)) + 10}.{m.group(2)}" if m else ""
+
+
+def build_combo_view(g: dict, lang: str, patch: str = "") -> dict | None:
     """Extra bits for /league/combos/<champion>/, built on top of a guide view `g`.
 
     Search Console (2026-09-26): '<champion> combo' is the League query family the guides
@@ -485,19 +493,20 @@ def build_combo_view(g: dict, lang: str) -> dict | None:
     first = ed["combos"][0]
     seq = " › ".join(k["key"] for k in first["seq"])
     n = len(ed["combos"])
-    ttl = (f"BrokenMeta.gg | Combos {name} LoL : enchaînements et temps de recharge",
-           f"BrokenMeta.gg | Combos {name} LoL : enchaînements",
-           f"BrokenMeta.gg | Combos {name}") if fr else (
-           f"BrokenMeta.gg | {name} Combos: key order, cooldowns and tips",
-           f"BrokenMeta.gg | {name} Combos: key order and cooldowns",
-           f"BrokenMeta.gg | {name} Combos")
-    title = next(t for t in ttl if len(t) - len("BrokenMeta.gg | ") <= 60 or t is ttl[-1])
-    dsc = (f"Combos {name} sur League of Legends : {n} enchaînements expliqués (le principal : {seq}), quand les lancer, "
-           f"et le temps de recharge, le coût et la portée de chaque sort.",
-           f"Combos {name} sur League of Legends : {n} enchaînements expliqués, et le temps de recharge et le coût de chaque sort.") if fr else (
-           f"{name} combos in League of Legends: {n} combos explained (main one: {seq}), when to use them, "
-           f"plus every ability's cooldown, cost and range.",
-           f"{name} combos in League of Legends: {n} combos explained, plus every ability's cooldown and cost.")
+    # 2026-10-14: "<Champion> Combos (Patch X.Y) : touches et temps de recharge" (the page has the key order with the ability icons, when to cast each combo and
+    # every ability's cooldown, cost and range; no videos: promise nothing else). Longest first, the first that fits in 60 characters wins; the seo_title filter
+    # of build_site.py then appends the brand only if it still fits.
+    pp = f" (Patch {patch})" if patch else ""
+    ttl = (f"{name} Combos{pp} : touches et temps de recharge", f"{name} Combos{pp} : touches", f"{name} Combos{pp}", f"{name} Combos") if fr else (
+           f"{name} Combos{pp}: key order & cooldowns", f"{name} Combos{pp}: key order", f"{name} Combos{pp}", f"{name} Combos")
+    title = "BrokenMeta.gg | " + next(t for t in ttl if len(t) <= 60 or t is ttl[-1])
+    pd = f" (patch {patch})" if patch else ""
+    dsc = (f"Combos {name}{pd} : {n} enchaînements expliqués touche par touche (le principal : {seq}), quand les lancer, et le temps de recharge, le coût et la portée de chaque sort.",
+           f"Combos {name}{pd} : {n} enchaînements expliqués touche par touche, et le temps de recharge et le coût de chaque sort.",
+           f"Combos {name} : {n} enchaînements expliqués, temps de recharge de chaque sort.") if fr else (
+           f"{name} combos{pd}: {n} combos explained key by key (main one: {seq}), when to cast them, plus every ability's cooldown, cost and range.",
+           f"{name} combos{pd}: {n} combos explained key by key, plus every ability's cooldown and cost.",
+           f"{name} combos: {n} combos explained, with every ability's cooldown.")
     description = next((d for d in dsc if len(d) <= 155), dsc[-1][:155])
 
     faq = []

@@ -33,6 +33,7 @@
 </nav>
 
 <p class="page-intro">{{ g.intro }} {{ g.damage }} {{ g.timing }}</p>
+<p class="gd-updated">{{ ('Mis à jour le ' if lang == 'fr' else 'Updated ') ~ short_date(updated, lang) ~ ' ' ~ updated[:4] }}{% if g.patch %} · {{ 'Patch ' ~ g.patch }}{% endif %}</p>
 
 <div class="gd-stats">
   {% for s in g.stats %}<div class="gd-stat"><div class="p-label">{{ s.label }}</div><div class="p-value nums">{{ s.value }}</div>{% if s.sub %}<div class="gd-stat-sub">{{ s.sub }}</div>{% endif %}</div>{% endfor %}
@@ -51,7 +52,7 @@
 {% endif %}
 {% if g.editorial.teamfight %}<h3 class="gd-sub">{{ ui.teamfight }}</h3><p class="page-intro" style="margin-top:0">{{ g.editorial.teamfight }}</p>{% endif %}
 <div class="gd-combos">
-  {% for cb in g.editorial.combos %}
+  {% for cb in g.editorial.combos[:2] %}
   <div class="gd-combo">
     <div class="gd-combo-name">{{ cb.name }}</div>
     <div class="gd-keys">
@@ -68,7 +69,7 @@
   </div>
   {% endfor %}
 </div>
-<p class="profile-section-note" style="display:block"><a href="{{ root }}league/combos/{{ g.slug }}/">{{ ('Tous les combos de ' ~ g.name ~ ', avec les temps de recharge de chaque sort →') if lang == 'fr' else ('All ' ~ g.name ~ ' combos, with every ability cooldown →') }}</a></p>
+<p class="gd-combos-all"><a class="gh-btn is-primary" href="{{ root }}league/combos/{{ g.slug }}/">{{ ('Voir les ' ~ g.editorial.combos|length ~ ' combos de ' ~ g.name ~ ' : touches, quand les lancer, temps de recharge →') if lang == 'fr' else ('See all ' ~ g.editorial.combos|length ~ ' ' ~ g.name ~ ' combos: key order, when to cast them, cooldowns →') }}</a></p>
 <h3 class="gd-sub">{{ ui.laning }}</h3>
 <p class="page-intro" style="margin-top:0">{{ g.editorial.laning }}</p>
 <h3 class="gd-sub">{{ ui.mistakes }}</h3>

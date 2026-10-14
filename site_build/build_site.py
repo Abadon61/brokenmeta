@@ -39,7 +39,7 @@ from tft_tracker.champion_images import (  # noqa: E402
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
 from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
-from lol_guide_view import build_guide_view, build_combo_view  # noqa: E402
+from lol_guide_view import build_guide_view, build_combo_view, patch_label  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
@@ -7641,6 +7641,7 @@ def main() -> None:
 
     print("Fetching League of Legends glossary data (Data Dragon)...")
     ddragon_version = fetch_ddragon_version()
+    lol_patch = patch_label(ddragon_version)        # "26.20", shown in the LoL guide and combo titles
     lol_items, lol_items_lookup, lol_champions, lol_rune_trees, lol_summoner_spells = fetch_lol_glossary_data(ddragon_version)
     print(f"League glossary: {len(lol_items)} items, {len(lol_champions)} champions, "
           f"{len(lol_rune_trees)} rune trees, {len(lol_summoner_spells)} summoner spells (Data Dragon {ddragon_version}).")
@@ -8020,7 +8021,7 @@ def main() -> None:
             _gv = build_guide_view(lang=lang, d=_gd, champ=c, guide=_gguide, editorial=(LOL_GUIDE_EDITORIAL.get(c["id"]) or {}).get(lang),
                                    items_lookup=lol_items_lookup, spells_by_key=lol_spells_by_key[lang], champ_by_slug=lol_champ_by_slug,
                                    tier_info=_tier_lookup.get((c["slug"], _grole)), matchups_for_role=_gmatch,
-                                   rune_pages=_gd["rune_pages"], rune_by_id=lol_rune_by_id, tree_by_id=lol_tree_by_id)
+                                   rune_pages=_gd["rune_pages"], rune_by_id=lol_rune_by_id, tree_by_id=lol_tree_by_id, patch=lol_patch)
             if not _gv:
                 continue
             lol_guide_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
@@ -8032,7 +8033,7 @@ def main() -> None:
                 # no English twin yet: no hreflang, and the EN toggle falls back to the English champion sheet
                 _g_extra = {"no_hreflang": True, "alt_canonical": canonical_for(f"/league/glossaire/champions/{c['slug']}/", "en")}
             render("lol_guide.html", f"/league/guide/{c['slug']}/", lang, active_nav="league", active_sub="lol-guides",
-                   ddragon_version=ddragon_version, g=_gv, has_counters=bool(_gd["matchups"]), **_g_extra,
+                   ddragon_version=ddragon_version, g=_gv, has_counters=bool(_gd["matchups"]), updated=combined["generated_at"][:10], **_g_extra,
                    breadcrumb_schema=breadcrumb_schema([
                        (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                        ("League of Legends", canonical_for("/league/", lang)),
@@ -8047,14 +8048,14 @@ def main() -> None:
                                "mainEntity": [{"@type": "Question", "name": f["q"], "acceptedAnswer": {"@type": "Answer", "text": f["a"]}}
                                               for f in _gv["faq"]]} if _gv["faq"] else None)
             # ---- combo page (/league/combos/<slug>/): see build_combo_view for why it exists
-            _cv = build_combo_view(_gv, lang)
+            _cv = build_combo_view(_gv, lang, patch=lol_patch)
             if _cv:
                 _c_url = canonical_for(f"/league/combos/{c['slug']}/", lang)
                 _c_h1 = f"Combos {_gv['name']}" if lang == "fr" else f"{_gv['name']} combos"
                 lol_combo_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],
                                         "games": _gv["games"], "main_seq": _cv["main_seq"]})
                 render("lol_combos.html", f"/league/combos/{c['slug']}/", lang, active_nav="league", active_sub="lol-combos",
-                       ddragon_version=ddragon_version, g=_gv, cv=_cv, **_g_extra,
+                       ddragon_version=ddragon_version, g=_gv, cv=_cv, updated=combined["generated_at"][:10], **_g_extra,
                        breadcrumb_schema=breadcrumb_schema([
                            (translate(lang, "breadcrumb_home"), canonical_for("/", lang)),
                            ("League of Legends", canonical_for("/league/", lang)),
