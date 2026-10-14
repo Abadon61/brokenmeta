@@ -39,7 +39,7 @@ from tft_tracker.champion_images import (  # noqa: E402
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
 from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
-from lol_guide_view import build_guide_view, build_combo_view, patch_label  # noqa: E402
+from lol_guide_view import build_guide_view, build_combo_view, patch_label, build_role_context  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
@@ -8007,6 +8007,7 @@ def main() -> None:
         for _role, _rows in build_lol_tier_list(lol_role_stats_by_champion, lol_champions, "fr").items():
             for _i, _r in enumerate(_rows):
                 _tier_lookup[(_r["slug"], _role)] = {"tier": _r.get("tier"), "rank": _i + 1, "of": len(_rows)}
+        _role_ctx = build_role_context(lol_guide_by_champion, lol_champ_by_id, lang)
         lol_guide_index: list[dict] = []
         lol_combo_index: list[dict] = []
         for c in lol_champions:
@@ -8021,7 +8022,8 @@ def main() -> None:
             _gv = build_guide_view(lang=lang, d=_gd, champ=c, guide=_gguide, editorial=(LOL_GUIDE_EDITORIAL.get(c["id"]) or {}).get(lang),
                                    items_lookup=lol_items_lookup, spells_by_key=lol_spells_by_key[lang], champ_by_slug=lol_champ_by_slug,
                                    tier_info=_tier_lookup.get((c["slug"], _grole)), matchups_for_role=_gmatch,
-                                   rune_pages=_gd["rune_pages"], rune_by_id=lol_rune_by_id, tree_by_id=lol_tree_by_id, patch=lol_patch)
+                                   rune_pages=_gd["rune_pages"], rune_by_id=lol_rune_by_id, tree_by_id=lol_tree_by_id, patch=lol_patch,
+                                   role_ctx=_role_ctx, guide_slugs=lol_guide_slugs_by_lang[lang])
             if not _gv:
                 continue
             lol_guide_index.append({"slug": c["slug"], "name": _gv["name"], "icon_file": _gv["icon_file"], "role": _gv["main_role"],

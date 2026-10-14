@@ -74,6 +74,17 @@ STR = {
                      "Guide {name} {role} : runes, build et objets{counters}.",
                      "Guide {name} : runes, build et objets."),
         "seo_counters": " et contres",
+        "role": {
+            "title": "{name} {role} : ce que disent nos parties", "toc": "Poste",
+            "lane_h": "Phase de lane face à la moyenne des {role}", "col_measure": "Mesure", "col_avg": "Moyenne {role}", "col_diff": "Écart",
+            "lane_labels": {"gold_at10": "Or à 10 min", "cs_at10": "CS à 10 min", "xp_at10": "XP à 10 min", "gold_at15": "Or à 15 min", "cs_at15": "CS à 15 min", "xp_at15": "XP à 15 min"},
+            "lane_note": "Mesuré sur {games} parties de {name} avec chronologie ; la moyenne regroupe {champs} champions jouant {role} dans nos parties classées.",
+            "spikes_h": "Taux de victoire selon la durée de la partie", "spikes_best": "Meilleur résultat : {name} ({label}).",
+            "spikes_note": "Seuls les groupes d'au moins 30 parties sont affichés. Un écart de plusieurs points indique la phase où le champion est le plus fiable.",
+            "others_h": "{name} à un autre poste", "col_role": "Poste", "col_games": "Parties", "col_wr": "Victoires", "col_cs": "CS/min", "col_gold": "Or/min", "col_items": "Objets les plus construits",
+            "others_note": "Postes où nous avons au moins 40 parties de {name}.",
+            "same_h": "Autres {role} à connaître", "same_played": "Les plus joués", "same_strong": "Les plus efficaces (au moins 100 parties)",
+        },
     },
     "en": {
         "role_in": {"top": "in Top", "jungle": "in the Jungle", "mid": "in Mid", "adc": "as ADC", "support": "as Support"},
@@ -122,6 +133,17 @@ STR = {
                      "{name} {role} guide: runes, build and items{counters}.",
                      "{name} guide: runes, build and items."),
         "seo_counters": " and counters",
+        "role": {
+            "title": "{name} {role}: what our games say", "toc": "Role",
+            "lane_h": "Laning phase against the {role} average", "col_measure": "Measure", "col_avg": "{role} average", "col_diff": "Gap",
+            "lane_labels": {"gold_at10": "Gold at 10 min", "cs_at10": "CS at 10 min", "xp_at10": "XP at 10 min", "gold_at15": "Gold at 15 min", "cs_at15": "CS at 15 min", "xp_at15": "XP at 15 min"},
+            "lane_note": "Measured over {games} {name} games with a timeline; the average covers {champs} champions played {role} in our ranked games.",
+            "spikes_h": "Win rate by game length", "spikes_best": "Best result: {name} ({label}).",
+            "spikes_note": "Only groups of at least 30 games are shown. A gap of several points shows the phase where the champion is the most reliable.",
+            "others_h": "{name} in another role", "col_role": "Role", "col_games": "Games", "col_wr": "Win rate", "col_cs": "CS/min", "col_gold": "Gold/min", "col_items": "Most-built items",
+            "others_note": "Roles where we have at least 40 {name} games.",
+            "same_h": "Other {role} champions to know", "same_played": "Most played", "same_strong": "Strongest (at least 100 games)",
+        },
     },
 }
 
@@ -149,10 +171,92 @@ def resolve_item(item_id: int, lookup: dict, lang: str) -> dict | None:
             "slug": ref["slug"], "has_page": ref["has_page"]}
 
 
+
+LANE_KEYS = ("gold_at10", "cs_at10", "xp_at10", "gold_at15", "cs_at15", "xp_at15")
+MIN_TL_GAMES = 30         # timeline games a champion needs for its lane figures to be compared with the role average
+MIN_BASELINE_CHAMPS = 10  # champions a role average is built from
+MIN_BUCKET_GAMES = 30     # games a game-length group needs to be shown
+
+
+def build_role_context(guide_by_champion: dict, champ_by_id: dict, lang: str) -> dict:
+    """Role-level context of the guides (2026-10-14, Search Console: "<champion> <role>" queries sit at positions 11-17): the average lane figures of every
+    role (weighted by timeline games, champions with at least MIN_TL_GAMES of them) and, per role, the champions that play it, for the "other <role>" links.
+    Everything is read from data/output/lol_champion_guide.json (our ranked games)."""
+    sums: dict[str, dict] = {}
+    lists: dict[str, list] = {}
+    for cid, g in guide_by_champion.items():
+        c = champ_by_id.get(cid)
+        if not c:
+            continue
+        for role, r in (g.get("roles") or {}).items():
+            lists.setdefault(role, []).append({"id": cid, "slug": c["slug"], "name": c["name_fr"] if lang == "fr" else c["name_en"], "icon_file": c["icon_file"],
+                                               "games": r["games"], "win_rate": r["win_rate"]})
+            tl = r.get("timeline") or {}
+            lane = tl.get("lane") or {}
+            w = tl.get("games") or 0
+            if w >= MIN_TL_GAMES and all(lane.get(k) is not None for k in LANE_KEYS):
+                s = sums.setdefault(role, {"w": 0, "n": 0, **{k: 0.0 for k in LANE_KEYS}})
+                s["w"] += w
+                s["n"] += 1
+                for k in LANE_KEYS:
+                    s[k] += lane[k] * w
+    baseline = {role: {"n": s["n"], **{k: s[k] / s["w"] for k in LANE_KEYS}} for role, s in sums.items() if s["n"] >= MIN_BASELINE_CHAMPS}
+    return {"baseline": baseline, "lists": lists}
+
+
+def build_role_view(*, S: dict, fr: bool, name: str, roles: dict, main_role: str, main: dict, role_ctx: dict | None, items_lookup: dict, guide_slugs: set | None,
+                    champ_id: str, lang: str) -> dict | None:
+    """The "what our games say about this role" blocks of a guide: lane against the role average, win rate by game length, the other roles of the champion
+    and the other champions of the same role. Returns None when there is nothing to show."""
+    R_ = S["role"]
+    role_label = ROLE_LABEL.get(main_role, main_role)
+    out: dict = {}
+    # lane against the role average
+    tl = main.get("timeline") or {}
+    lane = tl.get("lane") or {}
+    base = ((role_ctx or {}).get("baseline") or {}).get(main_role)
+    if base and (tl.get("games") or 0) >= MIN_TL_GAMES and all(lane.get(k) is not None for k in LANE_KEYS):
+        rows = []
+        for k in LANE_KEYS:
+            v, a = lane[k], base[k]
+            rows.append({"label": R_["lane_labels"][k], "value": f"{v:.0f}", "avg": f"{a:.0f}", "diff": v - a, "diff_txt": f"{v - a:+.0f}".replace("-", "\u2212")})
+        out["lane"] = {"rows": rows, "games": tl["games"], "champs": base["n"], "note": R_["lane_note"].format(games=tl["games"], name=name, champs=base["n"], role=role_label)}
+    # win rate by game length
+    buckets = [dict(x, label=S["bucket"][x["bucket"]][1], name=S["bucket"][x["bucket"]][0], pct=round(x["win_rate"] * 100, 1)) for x in main.get("duration", []) if x["games"] >= MIN_BUCKET_GAMES]
+    if len(buckets) >= 2:
+        best = max(buckets, key=lambda x: x["win_rate"])
+        out["spikes"] = {"rows": buckets, "best": best["bucket"], "best_txt": R_["spikes_best"].format(name=best["name"], label=best["label"])}
+    # the other roles of the champion
+    others = []
+    for role, r in sorted(roles.items(), key=lambda kv: -kv[1]["games"]):
+        if role == main_role:
+            continue
+        its = [resolve_item(x["item_id"], items_lookup, lang) for x in (r.get("top_items") or [])[:3]]
+        avg = r.get("avg") or {}
+        others.append({"role": ROLE_LABEL.get(role, role), "games": r["games"], "win_rate": r["win_rate"], "cs": avg.get("cs_per_min"), "gold": avg.get("gold_per_min"),
+                       "items": [i for i in its if i]})
+    if others:
+        out["others"] = others
+    # the other champions of the same role
+    pool = [x for x in ((role_ctx or {}).get("lists") or {}).get(main_role, []) if x["id"] != champ_id and (guide_slugs is None or x["slug"] in guide_slugs)]
+    if len(pool) >= 6:
+        played = sorted(pool, key=lambda x: -x["games"])[:8]
+        seen = {x["id"] for x in played}
+        strong = [x for x in sorted(pool, key=lambda x: -x["win_rate"]) if x["games"] >= 100 and x["id"] not in seen][:8]
+        out["same_role"] = {"role": role_label, "played": played, "strong": strong}
+    if not out:
+        return None
+    out["role_label"] = role_label
+    out["t"] = {k: v.format(name=name, role=role_label) for k, v in R_.items() if isinstance(v, str) and k not in ("lane_note", "spikes_best")}
+    out["has_main"] = bool(out.get("lane") or out.get("spikes") or out.get("others"))
+    return out
+
+
+
 def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial: dict | None, items_lookup: dict,
                      spells_by_key: dict, champ_by_slug: dict, tier_info: dict | None,
                      matchups_for_role: list[dict], rune_pages: list[dict],
-                     rune_by_id: dict | None = None, tree_by_id: dict | None = None, patch: str = "") -> dict | None:
+                     rune_by_id: dict | None = None, tree_by_id: dict | None = None, patch: str = "", role_ctx: dict | None = None, guide_slugs: set | None = None) -> dict | None:
     """d: lol_champion_detail_view(...) output in `lang`. patch: the public patch name ("26.20", see patch_label), shown in the titles. guide: this champion's entry of lol_champion_guide.json.
     tier_info: {"tier", "rank", "of"} or None. matchups_for_role: enemies of the main role (already localized)."""
     S = STR[lang]
@@ -452,6 +556,8 @@ def build_guide_view(*, lang: str, d: dict, champ: dict, guide: dict, editorial:
     ui = {k: v.format(name=name, role=role_label, role_in=role_in[main_role], games=main["games"], tier=(tier_info or {}).get("tier", ""), enemy="{enemy}", tl_games="{tl_games}")
           for k, v in S["ui"].items()}
     return {
+        "role_view": build_role_view(S=S, fr=fr, name=name, roles=roles, main_role=main_role, main=main, role_ctx=role_ctx, items_lookup=items_lookup,
+                                     guide_slugs=guide_slugs, champ_id=champ["id"], lang=lang),
         "lang": lang, "ui": ui, "id": d["id"], "patch": patch, "seo_title": seo_title, "seo_description": seo_description,
         "name": name, "title": d["title"], "slug": d["slug"], "icon_file": d["icon_file"], "classes": d["classes"],
         "main_role": main_role, "role_label": role_label, "roles": [{"role": r, "label": ROLE_LABEL.get(r, r), "games": v["games"], "win_rate": v["win_rate"]}

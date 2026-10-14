@@ -28,6 +28,7 @@
   <a href="#build">{{ ui.toc_build }}</a>
   {% if g.vs_enemy %}<a href="#adverse">{{ ui.toc_adverse }}</a>{% endif %}
   {% if g.has_contres %}<a href="#contres">{{ ui.toc_contres }}</a>{% endif %}
+  {% if g.role_view and g.role_view.has_main %}<a href="#poste">{{ g.role_view.t.toc }}</a>{% endif %}
   <a href="#capacites">{{ ui.toc_abilities }}</a>
   {% if g.faq %}<a href="#faq">{{ ui.toc_faq }}</a>{% endif %}
 </nav>
@@ -223,6 +224,32 @@
 <p class="profile-section-note" style="display:block">{{ ui.matchup_note }}{% if has_counters %} <a href="{{ root }}league/glossaire/champions/{{ g.slug }}/contres/">{{ ui.all_matchups }}</a>.{% endif %}</p>
 {% endif %}
 
+{% set rv = g.role_view %}
+{% if rv and rv.has_main %}
+<h2 class="fiche-section-title" id="poste">{{ rv.t.title }}</h2>
+{% if rv.lane %}
+<h3 class="gd-sub">{{ rv.t.lane_h }}</h3>
+<div class="gd-skill-scroll"><table class="gd-cd-table rl-table">
+  <thead><tr><th scope="col">{{ rv.t.col_measure }}</th><th scope="col">{{ g.name }}</th><th scope="col">{{ rv.t.col_avg }}</th><th scope="col">{{ rv.t.col_diff }}</th></tr></thead>
+  <tbody>{% for r in rv.lane.rows %}<tr><th scope="row">{{ r.label }}</th><td class="nums">{{ r.value }}</td><td class="nums">{{ r.avg }}</td><td class="nums {{ 'rl-up' if r.diff > 0 else 'rl-down' }}">{{ r.diff_txt }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="profile-section-note" style="display:block">{{ rv.lane.note }}</p>
+{% endif %}
+{% if rv.spikes %}
+<h3 class="gd-sub">{{ rv.t.spikes_h }}</h3>
+<div class="rl-bars">{% for b in rv.spikes.rows %}<div class="rl-bar{{ ' is-best' if b.bucket == rv.spikes.best }}"><span class="rl-bl">{{ b.name }} <small>{{ b.label }}</small></span><span class="rl-bw"><i style="width: {{ b.pct }}%"></i></span><b class="nums">{{ ('%.1f'|format(b.pct)).replace('.', ',' if lang == 'fr' else '.') }} %</b><small>{{ b.games }} {{ ui.games }}</small></div>{% endfor %}</div>
+<p class="profile-section-note" style="display:block">{{ rv.spikes.best_txt }} {{ rv.t.spikes_note }}</p>
+{% endif %}
+{% if rv.others %}
+<h3 class="gd-sub">{{ rv.t.others_h }}</h3>
+<div class="gd-skill-scroll"><table class="gd-cd-table rl-table">
+  <thead><tr><th scope="col">{{ rv.t.col_role }}</th><th scope="col">{{ rv.t.col_games }}</th><th scope="col">{{ rv.t.col_wr }}</th><th scope="col">{{ rv.t.col_cs }}</th><th scope="col">{{ rv.t.col_gold }}</th><th scope="col">{{ rv.t.col_items }}</th></tr></thead>
+  <tbody>{% for o in rv.others %}<tr><th scope="row">{{ o.role }}</th><td class="nums">{{ o.games }}</td><td class="nums">{{ ('%.1f'|format(o.win_rate * 100)).replace('.', ',' if lang == 'fr' else '.') }} %</td><td class="nums">{{ ('%.1f'|format(o.cs)).replace('.', ',' if lang == 'fr' else '.') if o.cs else '\—' }}</td><td class="nums">{{ o.gold|round|int if o.gold else '\—' }}</td><td>{% for it in o['items'] %}<a href="{{ root }}league/glossaire/objets/{{ it.slug }}/" title="{{ it.name }}"><img src="{{ dd }}item/{{ it.icon_file }}" alt="{{ it.name }}" width="28" height="28" loading="lazy"></a>{% endfor %}</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="profile-section-note" style="display:block">{{ rv.t.others_note }}</p>
+{% endif %}
+{% endif %}
+
 <h2 class="fiche-section-title" id="capacites">{{ ui.abilities }}</h2>
 <div class="lol-ability-list">
   <div class="lol-ability-row">
@@ -236,6 +263,14 @@
   </div>
   {% endfor %}
 </div>
+
+{% if rv and rv.same_role %}
+<h2 class="fiche-section-title" id="meme-role">{{ rv.t.same_h }}</h2>
+<h3 class="gd-sub">{{ rv.t.same_played }}</h3>
+<div class="rl-chips">{% for x in rv.same_role.played %}<a class="rl-chip" href="{{ root }}league/guide/{{ x.slug }}/"><img src="{{ dd }}champion/{{ x.icon_file }}" alt="" width="32" height="32" loading="lazy"><span>{{ x.name }}</span><small class="nums">{{ ('%.1f'|format(x.win_rate * 100)).replace('.', ',' if lang == 'fr' else '.') }} %</small></a>{% endfor %}</div>
+{% if rv.same_role.strong %}<h3 class="gd-sub">{{ rv.t.same_strong }}</h3>
+<div class="rl-chips">{% for x in rv.same_role.strong %}<a class="rl-chip" href="{{ root }}league/guide/{{ x.slug }}/"><img src="{{ dd }}champion/{{ x.icon_file }}" alt="" width="32" height="32" loading="lazy"><span>{{ x.name }}</span><small class="nums">{{ ('%.1f'|format(x.win_rate * 100)).replace('.', ',' if lang == 'fr' else '.') }} %</small></a>{% endfor %}</div>{% endif %}
+{% endif %}
 
 {% if g.faq %}
 <h2 class="fiche-section-title" id="faq">{{ ui.faq_title }}</h2>
