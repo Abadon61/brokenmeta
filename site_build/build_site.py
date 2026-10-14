@@ -9808,7 +9808,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js"):
+    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     _simdir = DIST / "assets" / "wowsim"

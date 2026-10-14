@@ -1,0 +1,22 @@
+{# Illustrated combo sequence (2026-10-14, option B: no Riot video): numbered steps with the ability icon, key, name, cooldown and cost, plus a "play" button that
+   lights the steps one after the other (js/lol-combo-seq.js). Without JavaScript the strip is complete and static. #}
+{% macro seq(cb, abilities, dd, fr) %}
+{% set abm = namespace(m={}) %}{% for a in abilities %}{% set _ = abm.m.update({a.key: a}) %}{% endfor %}
+<div class="sq-wrap">
+  <ol class="sq">
+  {% for k in cb.seq %}
+    {% set a = abm.m.get(k.key) %}
+    <li class="sq-step" tabindex="0" data-name="{{ k.name }}" data-key="{{ k.key }}"{% if a and a.cooldown and a.cooldown != '0' %} data-cd="{{ a.cooldown }}"{% endif %}{% if a and a.cost and a.cost != '0' %} data-cost="{{ a.cost }} {{ a.cost_type|trim }}"{% endif %}>
+      <span class="sq-n">{{ loop.index }}</span>
+      <span class="sq-ico">{% if k.icon %}<img src="{{ dd }}spell/{{ k.icon }}" alt="{{ k.name }}" width="56" height="56" loading="lazy">{% else %}<span class="sq-aa">AA</span>{% endif %}<b>{{ k.key }}</b></span>
+      <span class="sq-name">{{ k.name }}</span>
+      <span class="sq-meta">{% if a and a.cooldown and a.cooldown != '0' %}<span>{{ a.cooldown }} s</span>{% endif %}{% if a and a.cost and a.cost != '0' %}<span>{{ a.cost }} {{ a.cost_type|trim }}</span>{% endif %}{% if not a %}<span>{{ 'Attaque de base' if fr else 'Basic attack' }}</span>{% endif %}</span>
+    </li>
+  {% endfor %}
+  </ol>
+  <div class="sq-bar">
+    <button type="button" class="sq-play" data-play="{{ '▶ Lire la séquence' if fr else '▶ Play the sequence' }}" data-replay="{{ '↻ Rejouer' if fr else '↻ Replay' }}" data-step="{{ 'Étape' if fr else 'Step' }}" data-cd="{{ 'recharge' if fr else 'cooldown' }}" data-cost="{{ 'coût' if fr else 'cost' }}" data-done="{{ 'Séquence terminée' if fr else 'Sequence finished' }}">{{ '▶ Lire la séquence' if fr else '▶ Play the sequence' }}</button>
+    <span class="sq-cap" aria-live="polite"></span>
+  </div>
+</div>
+{% endmacro %}

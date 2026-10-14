@@ -10,6 +10,7 @@
 <meta property="og:image:height" content="717">{% endblock %}
 {% macro pct(x) %}{{ (x * 100)|round(1) }}{{ ' %' if fr else '%' }}{% endmacro %}
 {% block content %}
+{% import "lol_seq.html" as sq %}
 <div class="champ-fiche-header ph-fiche" style="--fiche-art: url('https://ddragon.leagueoflegends.com/cdn/img/champion/splash/{{ g.id }}_0.jpg')">
   <img class="champ-fiche-icon" src="{{ dd }}champion/{{ g.icon_file }}" alt="{{ g.name }}" width="120" height="120" fetchpriority="high">
   <div class="champ-fiche-info">
@@ -36,15 +37,7 @@
   {% for cb in g.editorial.combos %}
   <div class="gd-combo">
     <h3 class="gd-combo-name">{{ cb.name }}</h3>
-    <div class="gd-keys">
-      {% for k in cb.seq %}
-        {% if not loop.first %}<span class="gd-arrow" aria-hidden="true">›</span>{% endif %}
-        <span class="gd-key" title="{{ k.name }}">
-          {% if k.icon %}<img src="{{ dd }}spell/{{ k.icon }}" alt="{{ k.name }}" width="44" height="44" loading="lazy">{% else %}<span class="gd-aa">AA</span>{% endif %}
-          <b>{{ k.key }}</b>
-        </span>
-      {% endfor %}
-    </div>
+    {{ sq.seq(cb, cv.abilities, dd, fr) }}
     <p class="gd-when"><b>{{ ui.when }}</b> {{ cb.when }}</p>
     <p class="gd-how">{{ cb.how }}</p>
   </div>
@@ -107,6 +100,7 @@
 
 <p class="profile-section-note" style="display:block;margin-top:28px">{% if fr %}Build, runes et contres : <a href="{{ root }}league/guide/{{ g.slug }}/">guide complet de {{ g.name }}</a> · <a href="{{ root }}league/combos/">combos de tous les champions</a> · <a href="{{ root }}league/tier-list/">tier list</a>{% else %}Build, runes and counters: <a href="{{ root }}league/guide/{{ g.slug }}/">full {{ g.name }} guide</a> · <a href="{{ root }}league/combos/">every champion's combos</a> · <a href="{{ root }}league/tier-list/">tier list</a>{% endif %}</p>
 {% endblock %}
+{% block extra_body %}<script src="{{ root }}assets/js/lol-combo-seq.js?v={{ js_v('lol-combo-seq.js') }}" defer></script>{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
