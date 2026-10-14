@@ -7929,7 +7929,9 @@ def main() -> None:
         for it in lol_items:
             _lit = lol_item_detail_view(it, lang, lol_items_lookup)
             _lit_url = canonical_for(f"/league/glossaire/objets/{it['slug']}/", lang)
-            render("lol_glossary_item_detail.html", f"/league/glossaire/objets/{it['slug']}/", lang,
+            # 2026-10-14 (Search Console: 0 clicks in 28 days, 82 % of these pages under 80 words, copies of Riot's data, and they fill the "discovered, not indexed" backlog):
+            # item pages stay reachable for the visitors but are noindex,follow and out of the sitemap.
+            render("lol_glossary_item_detail.html", f"/league/glossaire/objets/{it['slug']}/", lang, robots_noindex=True,
                    active_nav="league", active_sub="lol-glossary-items",
                    ddragon_version=ddragon_version, it=_lit,
                    breadcrumb_schema=breadcrumb_schema([
@@ -7985,7 +7987,8 @@ def main() -> None:
                         "q": translate(lang, "lol_counters_faq_easiest_q", _lcv["name"]),
                         "a": translate(lang, "lol_counters_faq_easiest_a", _lcv["name"], em["name"], em["role_label"], f"{em['win_rate'] * 100:.1f}"),
                     })
-                render("lol_champion_counters.html", f"/league/glossaire/champions/{c['slug']}/contres/", lang,
+                # French counters pages: 63 impressions at position 48.9 in 28 days -> noindex,follow, out of the sitemap (the English ones stay, see the 2026-10-14 glossary review)
+                render("lol_champion_counters.html", f"/league/glossaire/champions/{c['slug']}/contres/", lang, robots_noindex=(lang == "fr"),
                        active_nav="league", active_sub="lol-glossary-champions",
                        ddragon_version=ddragon_version, d=_lcv, faq=_counters_faq,
                        guide_available=(c["slug"] in lol_guide_slugs_by_lang[lang]),
@@ -10040,6 +10043,8 @@ def main() -> None:
         and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html")
         # article drafts (wow_articles.py) carry noindex: never in the sitemap
         and not ("actualites" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
+        # glossary pages marked noindex (robots_noindex): never in the sitemap
+        and not ("glossaire" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
         # test-only talent pages (WOW_TALENTS_FIXTURE=1) never belong in a sitemap
         and not (wt_fixture and "talents" in p.relative_to(DIST).parts and "wow-forever" in p.relative_to(DIST).parts)
     )

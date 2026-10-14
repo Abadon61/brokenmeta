@@ -29,6 +29,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
      opens a second, separate connection for the real font request. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+{% if robots_noindex %}<meta name="robots" content="noindex,follow">{% endif %}
 <title>{{ self.title()|seo_title }}</title>{% if false %}{% block title %}BrokenMeta.gg — Tier list TFT Set 18{% endblock %}{% endif %}
 <meta name="description" content="{% block description %}Tier list Teamfight Tactics Set 18 basée sur de vraies données de match Riot : compositions, objets, matchups et classement, sans données inventées.{% endblock %}">
 <link rel="canonical" href="{{ canonical }}">
