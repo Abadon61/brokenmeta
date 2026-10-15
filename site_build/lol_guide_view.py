@@ -204,6 +204,70 @@ def build_role_context(guide_by_champion: dict, champ_by_id: dict, lang: str) ->
     return {"baseline": baseline, "lists": lists}
 
 
+ITEM_USE_MIN_GAMES = 20      # a champion + role row needs this many games with the item to be listed
+ITEM_USE_ROWS = 12
+
+ITEM_USE_STR = {
+    "fr": {
+        "title": "Qui l'achète, et ce que disent nos parties",
+        "intro": "{n} parties classées où {name} figure parmi les 6 objets les plus achetés du champion à son poste.",
+        "pill_games": "Parties", "pill_wr": "Taux de victoire", "pill_lift": "Écart avec la moyenne du poste", "pill_champs": "Champions",
+        "col_champ": "Champion", "col_role": "Poste", "col_games": "Parties", "col_wr": "Victoires", "col_diff": "Écart au poste",
+        "note": "Échantillon : nos parties classées. Seuls les 6 objets les plus achetés de chaque champion à chaque poste sont comptés, "
+                "et un objet acheté tard l'est surtout dans des parties longues, donc déjà bien engagées : l'écart est un indice, pas une preuve que l'objet fait gagner.",
+        "diff_unit": "pt",
+    },
+    "en": {
+        "title": "Who buys it, and what our games say",
+        "intro": "{n} ranked games where {name} is one of the champion's 6 most bought items in their role.",
+        "pill_games": "Games", "pill_wr": "Win rate", "pill_lift": "Gap to the role average", "pill_champs": "Champions",
+        "col_champ": "Champion", "col_role": "Role", "col_games": "Games", "col_wr": "Win rate", "col_diff": "Gap to role",
+        "note": "Sample: our ranked games. Only each champion's 6 most bought items in each role are counted, and an item bought late is mostly bought in "
+                "long games that were already going somewhere, so the gap is a hint, not proof that the item wins games.",
+        "diff_unit": "pt",
+    },
+}
+
+
+def build_item_usage_index(guide_by_champion: dict) -> dict:
+    """item id (str) -> [{cid, role, games, wins_rate, role_wr, role_games}] from the "top_items" of every champion + role of the guide data."""
+    idx: dict[str, list] = {}
+    for cid, g in guide_by_champion.items():
+        for role, r in (g.get("roles") or {}).items():
+            for t in r.get("top_items") or []:
+                idx.setdefault(str(t["item_id"]), []).append({"cid": cid, "role": role, "games": t["games"], "win_rate": t["win_rate"],
+                                                                "role_wr": r["win_rate"], "role_games": r["games"]})
+    return idx
+
+
+def item_usage_view(index: dict, item_id: str, item_name: str, champ_by_id: dict, lang: str, guide_slugs: set | None) -> dict | None:
+    """The "who buys this item" block of a glossary item page, or None when no champion + role reaches ITEM_USE_MIN_GAMES games with it."""
+    S = ITEM_USE_STR[lang]
+    rows = [r for r in index.get(str(item_id), []) if r["games"] >= ITEM_USE_MIN_GAMES and r["cid"] in champ_by_id]
+    if not rows:
+        return None
+    total = sum(r["games"] for r in rows)
+    wr = sum(r["games"] * r["win_rate"] for r in rows) / total
+    base = sum(r["games"] * r["role_wr"] for r in rows) / total
+    fr = lang == "fr"
+
+    def pct(x):
+        return ("%.1f" % (x * 100)).replace(".", "," if fr else ".")
+
+    def signed(x):
+        return ("%+.1f" % (x * 100)).replace(".", "," if fr else ".").replace("-", "−")
+
+    out_rows = []
+    for r in sorted(rows, key=lambda r: -r["games"])[:ITEM_USE_ROWS]:
+        c = champ_by_id[r["cid"]]
+        d = r["win_rate"] - r["role_wr"]
+        out_rows.append({"name": c["name_fr"] if fr else c["name_en"], "slug": c["slug"], "icon_file": c["icon_file"], "has_guide": bool(guide_slugs and c["slug"] in guide_slugs),
+                         "role": ROLE_LABEL.get(r["role"], r["role"]), "games": r["games"], "wr": pct(r["win_rate"]), "diff": d, "diff_txt": signed(d)})
+    champs = len({r["cid"] for r in rows})
+    return {"t": S, "intro": S["intro"].format(n=f"{total:,}".replace(",", " " if fr else ","), name=item_name), "rows": out_rows,
+            "games": total, "wr": pct(wr), "lift": signed(wr - base), "lift_pos": wr - base > 0, "champs": champs}
+
+
 def build_role_view(*, S: dict, fr: bool, name: str, roles: dict, main_role: str, main: dict, role_ctx: dict | None, items_lookup: dict, guide_slugs: set | None,
                     champ_id: str, lang: str) -> dict | None:
     """The "what our games say about this role" blocks of a guide: lane against the role average, win rate by game length, the other roles of the champion

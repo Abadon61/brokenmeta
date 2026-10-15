@@ -39,7 +39,7 @@ from tft_tracker.champion_images import (  # noqa: E402
 from tft_tracker import config as tft_config  # noqa: E402 -- MIN_SAMPLE_FOR_TIER, shared with the rank filter's client-side re-tiering (see rank_filter_data below)
 from tft_tracker.tierlist import TIER_BUCKETS, SHRINKAGE_PRIOR_GAMES  # noqa: E402 -- same reason
 
-from lol_guide_view import build_guide_view, build_combo_view, patch_label, build_role_context  # noqa: E402
+from lol_guide_view import build_guide_view, build_combo_view, patch_label, build_role_context, build_item_usage_index, item_usage_view  # noqa: E402
 from lol_guides_editorial import EDITORIAL as LOL_GUIDE_EDITORIAL  # noqa: E402
 import wow_content  # noqa: E402
 import wow_talents  # noqa: E402
@@ -7683,6 +7683,7 @@ def main() -> None:
         "en": {c["slug"] for c in lol_champions if c["id"] in lol_guide_by_champion and "en" in (LOL_GUIDE_EDITORIAL.get(c["id"]) or {})},
     }
     env.globals["lol_guide_slugs_by_lang"] = lol_guide_slugs_by_lang
+    lol_item_usage = build_item_usage_index(lol_guide_by_champion)
 
     # ---- /league/tendances/: biggest real win-rate movers since the
     # previous data refresh, same "need 2+ real snapshots" pattern as TFT's
@@ -7928,6 +7929,8 @@ def main() -> None:
                ddragon_version=ddragon_version, items=[localize_lol_item(it, lang) for it in lol_items])
         for it in lol_items:
             _lit = lol_item_detail_view(it, lang, lol_items_lookup)
+            # who buys this item in our ranked games (2026-10-15): data of the guides, same source as the build tables
+            _lit["usage"] = item_usage_view(lol_item_usage, it["id"], _lit["name"], lol_champ_by_id, lang, lol_guide_slugs_by_lang[lang])
             _lit_url = canonical_for(f"/league/glossaire/objets/{it['slug']}/", lang)
             # 2026-10-14 (Search Console: 0 clicks in 28 days, 82 % of these pages under 80 words, copies of Riot's data, and they fill the "discovered, not indexed" backlog):
             # item pages stay reachable for the visitors but are noindex,follow and out of the sitemap.

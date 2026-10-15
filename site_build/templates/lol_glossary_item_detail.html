@@ -20,6 +20,22 @@
 <h2 class="fiche-section-title">{{ t(lang, 'lol_item_stats_title') }}</h2>
 {% if it.desc %}<div class="item-fiche-desc">{{ it.desc|safe }}</div>{% else %}<div class="matchup-empty">{{ it.plaintext }}</div>{% endif %}
 
+{% if it.usage %}{% set u = it.usage %}
+<h2 class="fiche-section-title" id="usage">{{ u.t.title }}</h2>
+<p class="profile-section-note" style="display:block">{{ u.intro }}</p>
+<div class="pill-row">
+  <div class="pill"><div class="p-label">{{ u.t.pill_games }}</div><div class="p-value nums">{{ u.games }}</div></div>
+  <div class="pill"><div class="p-label">{{ u.t.pill_wr }}</div><div class="p-value nums">{{ u.wr }} %</div></div>
+  <div class="pill"><div class="p-label">{{ u.t.pill_lift }}</div><div class="p-value nums {{ 'rl-up' if u.lift_pos else 'rl-down' }}">{{ u.lift }} {{ u.t.diff_unit }}</div></div>
+  <div class="pill"><div class="p-label">{{ u.t.pill_champs }}</div><div class="p-value nums">{{ u.champs }}</div></div>
+</div>
+<div class="gd-skill-scroll"><table class="gd-cd-table rl-table">
+  <thead><tr><th scope="col">{{ u.t.col_champ }}</th><th scope="col">{{ u.t.col_role }}</th><th scope="col">{{ u.t.col_games }}</th><th scope="col">{{ u.t.col_wr }}</th><th scope="col">{{ u.t.col_diff }}</th></tr></thead>
+  <tbody>{% for r in u.rows %}<tr><th scope="row"><a href="{{ root }}league/{{ 'guide' if r.has_guide else 'glossaire/champions' }}/{{ r.slug }}/" style="display:inline-flex;align-items:center;gap:8px;color:inherit;text-decoration:none"><img src="https://ddragon.leagueoflegends.com/cdn/{{ ddragon_version }}/img/champion/{{ r.icon_file }}" alt="" width="28" height="28" loading="lazy">{{ r.name }}</a></th><td>{{ r.role }}</td><td class="nums">{{ r.games }}</td><td class="nums">{{ r.wr }} %</td><td class="nums {{ 'rl-up' if r.diff > 0 else 'rl-down' }}">{{ r.diff_txt }} {{ u.t.diff_unit }}</td></tr>{% endfor %}</tbody>
+</table></div>
+<p class="profile-section-note" style="display:block">{{ u.t.note }}</p>
+{% endif %}
+
 <h2 class="fiche-section-title">{{ t(lang, 'lol_item_composition_title') }}</h2>
 {% if it['from'] %}
 <div class="item-composition-row">
