@@ -1,5 +1,5 @@
 {
- "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70291, texts from build 1.60.1.70170. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
+ "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70425, texts from build 1.60.1.70425. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
  "class": "shaman",
  "abilities": [
   {
@@ -58,6 +58,40 @@
    "desc": {
     "en": "Casts a bolt of lightning at the target for 98 Nature damage.",
     "fr": "Lance un éclair de foudre sur la cible et lui inflige 98 points de dégâts de nature."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1325256,
+   "name": {
+    "en": "Mana Tide Totem",
+    "fr": "Totem de vague de mana"
+   },
+   "line": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "level": 1,
+   "max_rank_level": 58,
+   "ranks": 4,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": 300.0,
+   "duration_s": 13.0,
+   "icon": "spell_frost_summonwaterelemental",
+   "school": "frost",
+   "talent": {
+    "en": "Restoration",
+    "fr": "Restauration"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 290 mana every 3 seconds to group members within 30 yards.",
+    "fr": "Invoque un totem de Vague de mana aux pieds du personnage lanceur. Le totem dispose de 5 points de vie et agit pendant 12 s. Il rend 290 points de mana toutes les 3 s, aux membres du groupe à moins de 30 m."
    },
    "desc_ok": true
   },
@@ -332,8 +366,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Summons a Strength of Earth Totem with 5 health at the feet of the caster. The totem increases the strength of party members within 30 yards by 53. Lasts 5 min.",
-    "fr": "Invoque un Totem de Force de la Terre aux pieds du lanceur de sorts. Il dispose de 5 points de vie et augmente de 53 la Force de tous les membres du groupe qui se trouvent dans une zone de 30 mètres de rayon autour de lui. Dure 5 min."
+    "en": "Summons a Strength of Earth Totem with 5 health at the feet of the caster. The totem increases the strength of party or raid members within 30 yards by 53. Lasts 5 min.",
+    "fr": "Invoque un totem de Force de la terre aux pieds du personnage lanceur. Il dispose de 5 points de vie et augmente de 53 la Force de tous les membres du groupe ou du raid qui se trouvent dans un rayon de 30 m autour de lui. Dure 5 min."
    },
    "desc_ok": true
   },
@@ -381,7 +415,7 @@
    "engraved": false,
    "cost": {
     "type": "mana",
-    "amount": 520
+    "amount": 375
    },
    "cast_s": 0,
    "cooldown_s": 10.0,
@@ -391,8 +425,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Instantly inflicts 419 fire damage to enemies within 10 yd of your active Fire totem.",
-    "fr": "Inflige instantanément 419 points de dégâts de feu aux ennemis à moins de 10 mètres de votre Totem de feu actif."
+    "en": "Instantly inflicts 239 fire damage to enemies within 10 yd of your active Fire totem.",
+    "fr": "Inflige instantanément 239 points de dégâts de feu aux ennemis à moins de 10 mètres de votre Totem de feu actif."
    },
    "desc_ok": true
   },
@@ -689,8 +723,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "The caster is surrounded by 3 globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster's healing spells gets a critical result, 2% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts 10 min. Only one Elemental Shield can be active on the Shaman at any one time.",
-    "fr": "Le lanceur ou la lanceuse s’entoure de 3 globes d’eau. Si une attaque en mêlée, à distance ou un sort touche le lanceur ou la lanceuse, ou si l’un de ses sorts de soins obtient un effet critique, un globe d’eau est dépensé pour restaurer 2 % de son maximum de mana. Un seul globe peut s’activer toutes les quelques secondes. Dure 10 min. Un seul bouclier élémentaire peut être actif sur le chaman ou la chamane à la fois."
+    "en": "The caster is surrounded by 3 globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster's spells gets a critical result, 2% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts 10 min. Only one Elemental Shield can be active on the Shaman at any one time.",
+    "fr": "The caster is surrounded by 3 globes of water. When a spell, melee, or ranged attack hits the caster or when one of the caster's spells gets a critical result, 2% of maximum mana is restored to the caster, expending one water globe. Only one globe will activate every few seconds. Lasts 10 min. Only one Elemental Shield can be active on the Shaman at any one time."
    },
    "desc_ok": true
   },
@@ -810,40 +844,6 @@
    "desc_ok": true
   },
   {
-   "id": 17359,
-   "name": {
-    "en": "Mana Tide Totem",
-    "fr": "Totem de Vague de mana"
-   },
-   "line": {
-    "en": "Restoration",
-    "fr": "Restauration"
-   },
-   "level": 25,
-   "max_rank_level": 58,
-   "ranks": 3,
-   "engraved": false,
-   "cost": {
-    "type": "mana",
-    "amount": 60
-   },
-   "cast_s": 0,
-   "cooldown_s": 300.0,
-   "duration_s": 13.0,
-   "icon": "spell_frost_summonwaterelemental",
-   "school": "frost",
-   "talent": {
-    "en": "Restoration",
-    "fr": "Restauration"
-   },
-   "channeled": false,
-   "desc": {
-    "en": "Summons a Mana Tide Totem with 5 health at the feet of the caster for 12 sec that restores 290 mana every 3 seconds to group members within 30 yards.",
-    "fr": "Invoque un Totem de Vague de mana aux pieds du lanceur de sorts ; le Totem dispose de 5 points de vie. Agit pendant 12 s. Il rend 290 points de mana toutes les 3 secondes, à tous les membres du groupe qui se trouvent dans une zone de 30 mètres."
-   },
-   "desc_ok": true
-  },
-  {
    "id": 10587,
    "name": {
     "en": "Magma Totem",
@@ -931,8 +931,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Summons a Fire Resistance Totem with 5 health at the feet of the caster for 5 min that increases the fire resistance of party and raid members within 30 yards by 60.",
-    "fr": "Invoque un Totem de résistance au Feu pendant 5 min. Il dispose de 5 points de vie et augmente de 60 la résistance au Feu des membres du groupe ou du raid qui se trouvent dans un rayon de 30 mètres."
+    "en": "Summons a Fire Resistance Totem with 5 health at the feet of the caster for 5 min that increases the fire resistance of party or raid members within 30 yards by 60.",
+    "fr": "Invoque un totem de résistance au feu aux pieds du personnage lanceur pendant 5 min. Le totem dispose de 5 points de vie et augmente de 60 la résistance au feu des membres du groupe ou du raid à moins de 30 m."
    },
    "desc_ok": true
   },
@@ -1020,6 +1020,40 @@
    "desc": {
     "en": "Summons a Grounding Totem with 5 health at the feet of the caster that will redirect one harmful spell cast on a nearby party member to itself every 10 seconds. Will not redirect area of effect spells. Lasts 45 sec.",
     "fr": "Invoque un Totem de Glèbe. Il dispose de 5 points de vie et redirige sur lui-même un sort offensif lancé sur un membre du groupe proche toutes les 10 secondes. Il ne redirige pas les sorts de zone. Dure 45 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1326047,
+   "name": {
+    "en": "Lava Burst",
+    "fr": "Explosion de lave"
+   },
+   "line": {
+    "en": "Elemental Combat",
+    "fr": "Combat élémentaire"
+   },
+   "level": 30,
+   "max_rank_level": 60,
+   "ranks": 7,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 265
+   },
+   "cast_s": 2.5,
+   "cooldown_s": 10.0,
+   "duration_s": null,
+   "icon": "spell_shaman_lavaburst",
+   "school": "fire",
+   "talent": {
+    "en": "Elemental",
+    "fr": "Elémentaire"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "You hurl molten lava at the target, dealing 220 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage.",
+    "fr": "Vous lancez de la lave en fusion sur la cible, lui infligeant 220 points de dégâts de feu. Si Horion de flammes est actif sur la cible, Explosion de lave inflige 20 % de dégâts supplémentaires."
    },
    "desc_ok": true
   },
@@ -1139,8 +1173,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Summons a Windfury Totem with 5 health at the feet of the caster. The totem enhances the melee attacks of all party members within 30 yards. Each main hand hit has a 20% chance of granting the attacker 1 extra attack with 246 extra melee attack power. Lasts 5 min.",
-    "fr": "Invoque un totem Furie-des-vents aux pieds de la lanceuse ou du lanceur. Il dispose de 5 points de vie et améliore les attaques en mêlée des membres du groupe à moins de 30 m de lui. Chaque coup porté avec votre arme principale a 20 % de chances de vous octroyer 1 attaque supplémentaire avec un bonus de 246 à la puissance d’attaque en mêlée. Dure 5 min."
+    "en": "Summons a Windfury Totem with 5 health at the feet of the caster. The totem enhances the melee attacks of all party or raid members within 30 yards. Each main hand hit has a 20% chance of granting the attacker 1 extra attack with 246 extra melee attack power. Lasts 5 min.",
+    "fr": "Invoque un totem Furie-des-vents aux pieds du personnage lanceur. Le totem dispose de 5 points de vie et améliore les attaques en mêlée des membres du groupe ou du raid à moins de 30 m. Chaque coup porté par l’arme tenue en main droite a 20 % de chances d’octroyer au personnage attaquant 1 attaque supplémentaire avec une puissance d’attaque en mêlée accrue de 246. Dure 5 min."
    },
    "desc_ok": true
   },
@@ -1170,8 +1204,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Summons an immobile Sentry Totem with 100 health at your feet for 5 min that allows vision of nearby area and warns of enemies that attack it. Right-Click on buff to switch back and forth between totem sight and shaman sight.",
-    "fr": "Invoque à vos pieds un totem sentinelle immobile disposant de 100 points de vie pendant 5 min. Le totem permet de voir la zone environnante et prévient lorsque des adversaires l’attaquent. Clic droit sur l’amélioration pour alterner entre la vision du totem et celle du personnage chaman."
+    "en": "Summons an immobile Sentry Totem with 100 health at your feet for 5 min that allows vision of nearby area and warns of enemies that attack it. Right-Click on buff to switch back and forth between totem sight and Shaman sight.",
+    "fr": "Summons an immobile Sentry Totem with 100 health at your feet for 5 min that allows vision of nearby area and warns of enemies that attack it. Right-Click on buff to switch back and forth between totem sight and Shaman sight."
    },
    "desc_ok": true
   },
@@ -1294,37 +1328,6 @@
    "desc_ok": true
   },
   {
-   "id": 1238376,
-   "name": {
-    "en": "Lava Burst",
-    "fr": "Explosion de lave"
-   },
-   "line": {
-    "en": "Elemental Combat",
-    "fr": "Combat élémentaire"
-   },
-   "level": 40,
-   "max_rank_level": 60,
-   "ranks": 6,
-   "engraved": false,
-   "cost": null,
-   "cast_s": 0,
-   "cooldown_s": null,
-   "duration_s": null,
-   "icon": "spell_shaman_lavaburst",
-   "school": "fire",
-   "talent": {
-    "en": "Elemental",
-    "fr": "Elémentaire"
-   },
-   "channeled": false,
-   "desc": {
-    "en": "You hurl molten lava at the target, dealing 110 Fire damage. If your Flame Shock is on the target, Lava Burst deals 20% increased damage.",
-    "fr": "Vous lancez de la lave en fusion sur la cible, lui infligeant 110 points de dégâts de feu. Si Horion de flammes est actif sur la cible, Explosion de lave inflige 20 % de dégâts supplémentaires."
-   },
-   "desc_ok": true
-  },
-  {
    "id": 1239243,
    "name": {
     "en": "Riptide",
@@ -1384,8 +1387,8 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Summons a Grace of Air Totem with 5 health at the feet of the caster. The totem increases the agility of party members within 30 yards by 89. Lasts 5 min.",
-    "fr": "Invoque un Totem de Grâce aérienne aux pieds du lanceur de sorts. Il dispose de 5 points de vie. Le Totem augmente de 89 l'Agilité des membres du groupe qui se trouvent dans une zone de 30 mètres de rayon. Dure 5 min."
+    "en": "Summons a Grace of Air Totem with 5 health at the feet of the caster. The totem increases the agility of party or raid members within 30 yards by 89. Lasts 5 min.",
+    "fr": "Invoque un totem de Grâce aérienne aux pieds du personnage lanceur. Le totem dispose de 5 points de vie et augmente de 89 l’Agilité des membres du groupe ou du raid à moins de 30 m. Dure 5 min."
    },
    "desc_ok": true
   },
@@ -1412,10 +1415,10 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": null,
-    "fr": null
+    "en": "Increases your armor value from items by 8%.",
+    "fr": "Augmente le score d’armure des objets de 8 %."
    },
-   "desc_ok": false
+   "desc_ok": true
   },
   {
    "id": 409337,
@@ -1617,8 +1620,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Your offensive spell critical strikes will increase your chance to get a critical strike with melee attacks by 0% for 10 sec.",
-    "fr": "Vos coups critiques avec des sorts offensifs augmentent de 0 % vos chances d’infliger un coup critique avec vos attaques en mêlée pendant 10 s."
+    "en": "Your Critical Strikes with direct damage spells increase your chance to get a Critical Strike with melee attacks by 0% for 10 sec.",
+    "fr": "Les coups critiques infligés avec vos sorts de dégâts directs augmentent vos chances d’infliger un coup critique avec vos attaques en mêlée de 0 % pendant 10 s."
    },
    "desc_ok": true
   },
@@ -1648,8 +1651,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Increases the range of your Lightning Bolt, Chain Lightning, Fire Nova, and Lava Burst spells by 6 yards, and increases the range of your Flame Shock spell by 15 yards.",
-    "fr": "Augmente la portée de vos sorts Éclair, Chaîne d’éclairs, Nova de feu et Explosion de lave de 6 m et augmente la portée de votre sort Horion de flamme de 15 m."
+    "en": "Increases the range of your Lightning Bolt, Chain Lightning, Fire Nova, and Lava Burst spells by 6 yards and reduces the cooldown of Totemic Projection by -20 sec.",
+    "fr": "Increases the range of your Lightning Bolt, Chain Lightning, Fire Nova, and Lava Burst spells by 6 yards and reduces the cooldown of Totemic Projection by -20 sec."
    },
    "desc_ok": true
   },
@@ -1804,7 +1807,7 @@
    "channeled": false,
    "desc": {
     "en": "Imbue the Shaman's weapon with fire. Each hit causes 31.4 to 99.9 additional Fire damage, based on the speed of the weapon. Slower weapons cause more fire damage per swing. When applied to main hand, disables any benefit you personally receive from Flametongue Totem. Lasts for 60 minutes.",
-    "fr": "Imbue the Shaman's weapon with fire. Each hit causes 31,4 to 99,9 additional Fire damage, based on the speed of the weapon. Slower weapons cause more fire damage per swing. When applied to main hand, disables any benefit you personally receive from Flametongue Totem. Lasts for 60 minutes."
+    "fr": "Imprègne de feu l’arme du chaman ou de la chamane. Chaque coup inflige de 31,4 à 99,9 points de dégâts de feu supplémentaires, en fonction de la vitesse de l’arme. Les armes plus lentes infligent plus de dégâts de feu à chaque coup. Appliqué à votre arme en main droite, cet effet annule les bonus que vous octroie Totem Langue de feu. Dure 60 minutes."
    },
    "desc_ok": true
   },

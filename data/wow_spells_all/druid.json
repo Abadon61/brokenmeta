@@ -1,5 +1,5 @@
 {
- "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70291, texts from build 1.60.1.70170. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
+ "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70425, texts from build 1.60.1.70425. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
  "class": "druid",
  "abilities": [
   {
@@ -99,7 +99,7 @@
    "id": 1322605,
    "name": {
     "en": "Shifting Power",
-    "fr": "Shifting Power"
+    "fr": "Puissance fluctuante"
    },
    "line": {
     "en": "Feral Combat",
@@ -273,10 +273,10 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": "Thorns sprout from the friendly target causing 22 Nature damage to attackers when hit. Lasts 10 min.",
-    "fr": "Des épines poussent sur le corps de la cible. Elles infligent 22 points de dégâts de Nature aux attaquants qui touchent la cible. Dure 10 min."
+    "en": null,
+    "fr": null
    },
-   "desc_ok": true
+   "desc_ok": false
   },
   {
    "id": 9853,
@@ -333,7 +333,7 @@
    "channeled": false,
    "desc": {
     "en": "Shapeshift into Bear Form, increasing Attack Power by 30, Armor contribution from items by 180%, and Health by 180. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Bear Form, increasing Attack Power by 30, Armor contribution from items by 180%, and Health by 180. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "fr": "Vous adoptez votre forme d’ours, qui augmente votre puissance d’attaque de 30, le score d’armure de vos objets de 180 % et les points de vie de 180. Cet effet vous protège des effets de métamorphose et vous permet d’utiliser les techniques de l’ours. La transformation vous libère des métamorphoses et des effets qui affectent le déplacement."
    },
    "desc_ok": true
   },
@@ -659,7 +659,7 @@
    "channeled": false,
    "desc": {
     "en": "Shapeshift into Aquatic Form, increasing swim speed by 50% and allowing the druid to breathe underwater. Also protects the caster from Polymorph effects. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Aquatic Form, increasing swim speed by 50% and allowing the druid to breathe underwater. Also protects the caster from Polymorph effects. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "fr": "Transformation en forme aquatique qui augmente la vitesse de nage de 50% et permet au druide de respirer sous l'eau. Protège le lanceur de sorts des effets de métamorphose. La transformation libère le lanceur de sorts des effets qui le ralentissent et des métamorphoses."
    },
    "desc_ok": true
   },
@@ -808,7 +808,7 @@
    "channeled": false,
    "desc": {
     "en": "Shapeshift into Cat Form, increasing Attack Power by 12 plus Agility. Also protects the caster from Polymorph effects and allows the use of various cat abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Cat Form, increasing Attack Power by 12 plus Agility. Also protects the caster from Polymorph effects and allows the use of various cat abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "fr": "Vous adoptez votre forme de félin, qui augmente votre puissance d’attaque de 12 ainsi que votre Agilité. Cet effet vous protège aussi des effets de métamorphose et vous permet d’utiliser les techniques de félin. La transformation vous libère des métamorphoses et des effets qui affectent le déplacement."
    },
    "desc_ok": true
   },
@@ -999,6 +999,37 @@
    "desc_ok": true
   },
   {
+   "id": 9830,
+   "name": {
+    "en": "Shred",
+    "fr": "Lambeau"
+   },
+   "line": {
+    "en": "Feral Combat",
+    "fr": "Combat farouche"
+   },
+   "level": 20,
+   "max_rank_level": 54,
+   "ranks": 5,
+   "engraved": false,
+   "cost": {
+    "type": "energy",
+    "amount": 60
+   },
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_shadow_vampiricaura",
+   "school": "physical",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Shred the target, causing 155% damage plus 80 to the target. Must be behind the target. Awards 1 combo point.",
+    "fr": "Met la cible en lambeaux et lui inflige 155 % de dégâts plus 80. Il faut se trouver derrière la cible. Vous gagnez 1 point de combo."
+   },
+   "desc_ok": true
+  },
+  {
    "id": 25298,
    "name": {
     "en": "Starfire",
@@ -1026,37 +1057,6 @@
    "desc": {
     "en": "Causes 381 Arcane damage to the target.",
     "fr": "Inflige 381 points de dégâts des Arcanes à la cible."
-   },
-   "desc_ok": true
-  },
-  {
-   "id": 9830,
-   "name": {
-    "en": "Shred",
-    "fr": "Lambeau"
-   },
-   "line": {
-    "en": "Feral Combat",
-    "fr": "Combat farouche"
-   },
-   "level": 22,
-   "max_rank_level": 54,
-   "ranks": 5,
-   "engraved": false,
-   "cost": {
-    "type": "energy",
-    "amount": 60
-   },
-   "cast_s": 0,
-   "cooldown_s": null,
-   "duration_s": null,
-   "icon": "spell_shadow_vampiricaura",
-   "school": "physical",
-   "talent": null,
-   "channeled": false,
-   "desc": {
-    "en": "Shred the target, causing 155% damage plus 180 to the target. Must be behind the target. Awards 1 combo point.",
-    "fr": "Met la cible en lambeaux et inflige 155% points de dégâts plus 180 à la cible. Il faut se trouver derrière la cible. Vous gagnez 1 point de combo."
    },
    "desc_ok": true
   },
@@ -1154,7 +1154,7 @@
    "id": 1238073,
    "name": {
     "en": "Primal Bite",
-    "fr": "Primal Bite"
+    "fr": "Morsure primordiale"
    },
    "line": {
     "en": "Feral Combat",
@@ -1180,7 +1180,7 @@
    "channeled": false,
    "desc": {
     "en": "Bite the target, dealing 100% normal damage plus 77 and generating a high amount of threat.",
-    "fr": "Bite the target, dealing 100% normal damage plus 77 and generating a high amount of threat."
+    "fr": "Vous mordez la cible, ce qui lui inflige 100 % des dégâts normaux et 77 points de dégâts supplémentaires tout en générant une quantité considérable de menace."
    },
    "desc_ok": true
   },
@@ -1329,7 +1329,7 @@
    "channeled": false,
    "desc": {
     "en": "Shapeshift into Travel Form, increasing movement speed by 40%. Also protects the caster from Polymorph effects. Only useable outdoors. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Travel Form, increasing movement speed by 40%. Also protects the caster from Polymorph effects. Only useable outdoors. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "fr": "Vous adoptez une forme de voyage qui augmente votre vitesse de déplacement de 40 %. Cet effet vous protège des effets de métamorphose. Utilisable uniquement en extérieur. La transformation vous libère des métamorphoses et des sorts qui affectent le déplacement."
    },
    "desc_ok": true
   },
@@ -1478,7 +1478,7 @@
    "channeled": false,
    "desc": {
     "en": "Shapeshift into Dire Bear Form, increasing Attack Power by 120, Armor contribution from items by 360%, and Health by 600. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Dire Bear Form, increasing Attack Power by 120, Armor contribution from items by 360%, and Health by 600. Also protects the caster from Polymorph effects and allows the use of various bear abilities. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "fr": "Vous adoptez votre forme d’ours redoutable, qui augmente votre puissance d’attaque de 120, le score d’armure de vos objets de 360 % et les points de vie de 600. Cet effet vous protège des effets de métamorphose et vous permet d’utiliser les techniques de l’ours. La transformation vous libère des métamorphoses et des effets qui affectent le déplacement."
    },
    "desc_ok": true
   },
@@ -1536,10 +1536,10 @@
    "talent": null,
    "channeled": false,
    "desc": {
-    "en": null,
-    "fr": null
+    "en": "Increases spell Critical Strike chance by 3%.",
+    "fr": "Increases spell Critical Strike chance by 3%."
    },
-   "desc_ok": false
+   "desc_ok": true
   },
   {
    "id": 24858,
@@ -1567,8 +1567,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
-    "fr": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party members within 45 yards have their Critical Strike chance increased by 3%, exclusive with Leader of the Pack. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects."
+    "en": "Shapeshift into Moonkin Form, increasing Omen of Clarity's chance to trigger by 100%, Armor contribution from items by 360%, and all party or raid members within 45 yards have their spell Critical Strike chance increased by 3%. Also protects the caster from Polymorph effects and prevents the use of healing spells. The act of shapeshifting frees the caster of Polymorph and Movement Impairing effects.",
+    "fr": "Vous adoptez votre forme de sélénien, qui augmente de 100 % les chances de déclenchement d’Augure de clarté, de 360 % la contribution des objets à l’armure et de 3 % les chances de coup critique des sorts des membres du groupe ou du raid à moins de 45 m. Cet effet vous protège des effets de métamorphose et empêche l’utilisation de sorts de soins. La transformation vous libère des métamorphoses et des effets affectant le déplacement."
    },
    "desc_ok": true
   },
@@ -1602,7 +1602,7 @@
    "channeled": false,
    "desc": {
     "en": "Heals the target and their party for 679 over 7 sec. Party members must be within 43.5 yds of target. The amount healed is applied quickly at first, and slows down as Wild Growth reaches its full duration.",
-    "fr": "Heals the target and their party for 679 over 7 s. Party members must be within 43,5 yds of target. The amount healed is applied quickly at first, and slows down as Wild Growth reaches its full duration."
+    "fr": "Rend 679 points de vie en 7 s à la cible et aux membres de son groupe se trouvant à moins de 43,5 m d’elle. La quantité de soins prodiguée est importante au début, puis diminue à mesure que Croissance sauvage atteint sa durée maximale."
    },
    "desc_ok": true
   },
@@ -1692,7 +1692,7 @@
    "channeled": false,
    "desc": {
     "en": "Requires Cat Form, Bear Form, Dire Bear Form Causes your Primal Bite ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 sec.",
-    "fr": "Requires Cat Form, Bear Form, Dire Bear Form Causes your Primal Bite ability to strike up to 3 targets, removes its cooldown, and increases the critical strike chance of your Combo Point-generating abilities by 100%. Clears and grants immunity to Fear effects for the duration. Lasts 15 s."
+    "fr": "Nécessite la forme de félin, la forme d’ours ou la forme d’ours redoutable Permet à votre technique Morsure primordiale de toucher jusqu’à 3 cibles, supprime son temps de recharge et augmente de 100 % les chances de coup critique de vos techniques générant des points de combo. Dissipe les effets de peur et rend insensible à ces effets jusqu’à la fin. Dure 15 s."
    },
    "desc_ok": true
   },
@@ -1893,8 +1893,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the critical strike chance of all party members within 45 yards by 3%, exclusive with Moonkin Aura.",
-    "fr": "Pendant qu’il est en forme de félin, d’ours ou d’ours redoutable, le Chef de la meute augmente de 3 % les chances de tous les membres du groupe se trouvant à moins de 45 m d’obtenir un coup critique. Incompatible avec Aura de sélénien."
+    "en": "While in Cat Form, Bear Form, or Dire Bear Form, the Leader of the Pack increases the melee and ranged Critical Strike chance of all party or raid members within 45 yards by 3%.",
+    "fr": "Pendant qu’il est en forme de félin, d’ours ou d’ours redoutable, le chef de la meute augmente de 3 % les chances de coup critique des attaques à distance ou en mêlée des membres du groupe ou du raid à moins de 45 m."
    },
    "desc_ok": true
   },

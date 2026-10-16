@@ -1,5 +1,5 @@
 {
- "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70291, texts from build 1.60.1.70170. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
+ "_source": "WoW: Forever client tables (via wago.tools): structure from build 1.60.1.70425, texts from build 1.60.1.70425. Every ability of the class's spec skill lines learned at levels 1-60, highest rank available at level 60.",
  "class": "mage",
  "abilities": [
   {
@@ -242,8 +242,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Increases the damage done by your Fire spells by 2%.",
-    "fr": "Augmente de 2% les points de dégâts infligés par vos sorts de Feu."
+    "en": "Increases the damage done by your Fire spells by 3% per your Fire effects on the target, up to a maximum increase of 12%. Effects which mix multiple schools of magic do not qualify.",
+    "fr": "Increases the damage done by your Fire spells by 3% per your Fire effects on the target, up to a maximum increase of 12%. Effects which mix multiple schools of magic do not qualify."
    },
    "desc_ok": true
   },
@@ -558,6 +558,37 @@
    "desc_ok": true
   },
   {
+   "id": 11078,
+   "name": {
+    "en": "Improved Fire Blast",
+    "fr": "Improved Fire Blast"
+   },
+   "line": {
+    "en": "Fire",
+    "fr": "Feu"
+   },
+   "level": 1,
+   "max_rank_level": 1,
+   "ranks": 1,
+   "engraved": false,
+   "cost": null,
+   "cast_s": 0,
+   "cooldown_s": null,
+   "duration_s": null,
+   "icon": "spell_fire_lavaspawn",
+   "school": "physical",
+   "talent": {
+    "en": "Fire",
+    "fr": "Feu"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Reduces the cooldown of your Fire Blast spell by -2 sec and increases its range by 15 yards.",
+    "fr": "Reduces the cooldown of your Fire Blast spell by -2 sec and increases its range by 15 yards."
+   },
+   "desc_ok": true
+  },
+  {
    "id": 11069,
    "name": {
     "en": "Improved Fireball",
@@ -676,8 +707,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Reduces the casting time of your Frostbolt spell by 0.1 sec.",
-    "fr": "Réduit le temps d’incantation de votre sort Éclair de givre de 0,1 s."
+    "en": "Reduces the casting time of your Frostbolt and Frost Blast spells by 0.1 sec.",
+    "fr": "Reduces the casting time of your Frostbolt and Frost Blast spells by 0,1 sec."
    },
    "desc_ok": true
   },
@@ -837,37 +868,6 @@
    "desc_ok": true
   },
   {
-   "id": 11078,
-   "name": {
-    "en": "Wake of Fire",
-    "fr": "Sillage de feu"
-   },
-   "line": {
-    "en": "Fire",
-    "fr": "Feu"
-   },
-   "level": 1,
-   "max_rank_level": 1,
-   "ranks": 1,
-   "engraved": false,
-   "cost": null,
-   "cast_s": 0,
-   "cooldown_s": null,
-   "duration_s": null,
-   "icon": "spell_fire_lavaspawn",
-   "school": "physical",
-   "talent": {
-    "en": "Fire",
-    "fr": "Feu"
-   },
-   "channeled": false,
-   "desc": {
-    "en": "Reduces the cooldown of your Fire Blast spell by -2 sec. Killing a non-trivial target increases the critical strike chance of your next Fire Blast cast within 30 sec by 50%.",
-    "fr": "Réduit le temps de recharge de votre sort Trait de feu de -2 s. L’élimination d’une cible non négligeable augmente de 50 % les chances de coup critique de votre sort Trait de feu lancé dans les 30 s."
-   },
-   "desc_ok": true
-  },
-  {
    "id": 11180,
    "name": {
     "en": "Winter's Chill",
@@ -893,8 +893,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Gives your Frost damage spells a 0% chance to apply the Winter's Chill effect, which increases the chance your Ice Lance and Frostbolt spells will critically hit the target by 2% for 15 sec. Stacks up to 5 times.",
-    "fr": "Confère à vos sorts de givre 0 % de chances d’appliquer l’effet Froid de l’hiver, qui augmente de 2 % les chances que vos sorts Javelot de glace et Éclair de givre infligent un coup critique à la cible pendant 15 s. Cumulable jusqu’à 5 fois."
+    "en": "Gives your Frost damage spells a 0% chance to apply the Winter's Chill effect, which increases the damage done by your Cone of Cold spell to the target by 40%, stacking up to 5 times.",
+    "fr": "Gives your Frost damage spells a 0% chance to apply the Winter's Chill effect, which increases the damage done by your Cone of Cold spell to the target by 40%, stacking up to 5 times."
    },
    "desc_ok": true
   },
@@ -1347,7 +1347,7 @@
    "ranks": 5,
    "engraved": false,
    "cost": null,
-   "cast_s": 2.5,
+   "cast_s": 1.5,
    "cooldown_s": null,
    "duration_s": null,
    "icon": "spell_arcane_blast",
@@ -1358,8 +1358,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Blasts the target with energy, dealing 394 Arcane damage. Each time you cast Arcane Blast, the damage of all your other spells is increased by 10% and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 8 sec or until any other damage spell is cast.",
-    "fr": "Frappe la cible avec de l’énergie et lui inflige 394 points de dégâts des arcanes. Chaque fois que vous lancez Déflagration des arcanes, les dégâts de tous vos autres sorts augmentent de 10 %, mais le coût en mana de Déflagration des arcanes augmente de 175 %. Effet cumulable jusqu’à 4 fois. Dure 8 s ou jusqu’à ce que vous lanciez un autre sort de dégâts."
+    "en": "Blasts the target with energy, dealing 236 Arcane damage. Each time you cast Arcane Blast, you gain 15% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 15 sec from time of initial application.",
+    "fr": "Blasts the target with energy, dealing 236 Arcane damage. Each time you cast Arcane Blast, you gain 15% of your Intellect as Spell Damage and the mana cost of Arcane Blast is increased by 175%. Effect stacks up to 4 times and lasts 15 s from time of initial application."
    },
    "desc_ok": true
   },
@@ -1482,8 +1482,8 @@
    },
    "channeled": false,
    "desc": {
-    "en": "Deals 145 Frost damage to an enemy target. Deals 300% increased damage to Frozen targets.",
-    "fr": "Inflige 145 points de dégâts de givre à une cible ennemie. Inflige 300 % de dégâts de givre supplémentaires aux cibles gelées."
+    "en": "Deals 145 Frost damage to an enemy target. Deals 200% increased damage to Frozen targets.",
+    "fr": "Inflige 145 points de dégâts de givre à une cible ennemie. Inflige 200 % de dégâts de givre supplémentaires aux cibles gelées."
    },
    "desc_ok": true
   },
@@ -1556,7 +1556,7 @@
    "id": 3562,
    "name": {
     "en": "Teleport: Ironforge",
-    "fr": "Téléportation : Ironforge"
+    "fr": "Téléportation : Forgefer"
    },
    "line": {
     "en": "Arcane",
@@ -1579,7 +1579,7 @@
    "channeled": false,
    "desc": {
     "en": "Teleports the caster to Ironforge.",
-    "fr": "Téléporte le lanceur de sorts à Ironforge."
+    "fr": "Téléporte le lanceur de sorts à Forgefer."
    },
    "desc_ok": true
   },
@@ -1649,7 +1649,7 @@
    "id": 3563,
    "name": {
     "en": "Teleport: Undercity",
-    "fr": "Téléportation : Undercity"
+    "fr": "Téléportation : Fossoyeuse"
    },
    "line": {
     "en": "Arcane",
@@ -1672,7 +1672,7 @@
    "channeled": false,
    "desc": {
     "en": "Teleports the caster to Undercity.",
-    "fr": "Téléporte le lanceur de sorts à Undercity."
+    "fr": "Téléporte le lanceur de sorts à Fossoyeuse."
    },
    "desc_ok": true
   },
@@ -1766,6 +1766,71 @@
    "desc": {
     "en": "Counters the enemy's spellcast, preventing any spell from that school of magic from being cast for 10 sec. Generates a high amount of threat.",
     "fr": "Contre l'incantation de sort de l'ennemi et l'empêche de lancer des sorts de cette école de magie pendant 10 s. Génère un niveau élevé de menace."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1326055,
+   "name": {
+    "en": "Frost Blast",
+    "fr": "Frost Blast"
+   },
+   "line": {
+    "en": "Frost",
+    "fr": "Givre"
+   },
+   "level": 24,
+   "max_rank_level": 48,
+   "ranks": 3,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 90
+   },
+   "cast_s": 1.5,
+   "cooldown_s": null,
+   "duration_s": 9.0,
+   "icon": "spell_frost_frostbolt",
+   "school": "frost",
+   "talent": null,
+   "channeled": false,
+   "desc": {
+    "en": "Quickly launch a weak blast of frost at the enemy, causing 77 Frost damage and slowing movement speed by 40% for 9 sec.",
+    "fr": "Quickly launch a weak blast of frost at the enemy, causing 77 Frost damage and slowing movement speed by 40% for 9 s."
+   },
+   "desc_ok": true
+  },
+  {
+   "id": 1326079,
+   "name": {
+    "en": "Arcane Wrath",
+    "fr": "Arcane Wrath"
+   },
+   "line": {
+    "en": "Arcane",
+    "fr": "Arcane"
+   },
+   "level": 25,
+   "max_rank_level": 25,
+   "ranks": 1,
+   "engraved": false,
+   "cost": {
+    "type": "mana",
+    "amount": 140
+   },
+   "cast_s": 3.5,
+   "cooldown_s": 6.0,
+   "duration_s": null,
+   "icon": "ability_mage_netherwindpresence",
+   "school": "arcane",
+   "talent": {
+    "en": "Arcane",
+    "fr": "Arcanes"
+   },
+   "channeled": false,
+   "desc": {
+    "en": "Launches a projectile of pure Arcane energy at the enemy target, causing 120 Arcane damage. This spell gains additional Spell Damage equal to 5% of your maximum Mana.",
+    "fr": "Launches a projectile of pure Arcane energy at the enemy target, causing 120 Arcane damage. This spell gains additional Spell Damage equal to 5% of your maximum Mana."
    },
    "desc_ok": true
   },
@@ -2120,7 +2185,7 @@
    "id": 11416,
    "name": {
     "en": "Portal: Ironforge",
-    "fr": "Portail : Ironforge"
+    "fr": "Portail : Forgefer"
    },
    "line": {
     "en": "Arcane",
@@ -2143,7 +2208,7 @@
    "channeled": false,
    "desc": {
     "en": "Creates a portal, teleporting group members that use it to Ironforge.",
-    "fr": "Crée un portail qui téléporte les membres du groupe qui l'empruntent à Ironforge."
+    "fr": "Crée un portail qui téléporte les membres du groupe qui l'empruntent à Forgefer."
    },
    "desc_ok": true
   },
@@ -2213,7 +2278,7 @@
    "id": 11418,
    "name": {
     "en": "Portal: Undercity",
-    "fr": "Portail : Undercity"
+    "fr": "Portail : Fossoyeuse"
    },
    "line": {
     "en": "Arcane",
@@ -2236,7 +2301,7 @@
    "channeled": false,
    "desc": {
     "en": "Creates a portal, teleporting group members that use it to Undercity.",
-    "fr": "Crée un portail qui téléporte les membres du groupe qui l'empruntent à Undercity."
+    "fr": "Crée un portail qui téléporte les membres du groupe qui l'empruntent à Fossoyeuse."
    },
    "desc_ok": true
   },
