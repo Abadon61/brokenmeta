@@ -4,6 +4,8 @@
 //   spirit regen per second (outside the five-second rule) = 0.009327 * sqrt(Int) * Spirit
 //   spell crit multiplier 1.5, global cooldown 1.5 s (not reduced by haste), spell miss 17% vs a level-63 boss.
 export const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
+/** Damage multiplier of a spell critical strike: the bonus part (+50%) is scaled by the talents' critBonus and the racial critical damage (Tauren / Dwarf). */
+export const spellCritMult = (sim, critBonus = 0) => 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus + ((sim.player && sim.player.racialCritDmg) || 0));
 
 export function spiritRegenPerSec(stats) { return 0.009327 * Math.sqrt(Math.max(0, stats.int || 0)) * (stats.spi || 0); }
 
@@ -62,7 +64,8 @@ export function resolveSpell(sim, name, raw, m) {
   const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
   const crit = sim.rng() < c;
   let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
-  if (crit) d *= 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
+  d *= sim.mods.dmgMult;                                   // temporary +x% damage auras (Eureka!)
+  if (crit) d *= spellCritMult(sim, m.critBonus || 0);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
   return { outcome: crit ? 'crit' : 'hit', dmg: d };

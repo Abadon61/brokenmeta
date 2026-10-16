@@ -1,7 +1,7 @@
 // Generic caster kit used by the Priest, Shaman and Druid casters: a spell table built from the client's rank records, a
 // priority function and a few modifier hooks. Mana, the five-second rule, spell hit/crit/mitigation, crit-capable damage over
 // time and channels come from spells.js. ASSUMED values are flagged where the kits define them.
-import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, SPELL_GCD, SPELL_CRIT_MULT } from './spells.js';
+import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, SPELL_GCD, SPELL_CRIT_MULT, spellCritMult } from './spells.js';
 
 // ---- rank record (data/spells60.json: top / extra) -> spell definition ----
 export function levelPoints(e, rec) {
@@ -28,7 +28,7 @@ export function spellHit(sim, m) {
 }
 export function tickDamage(sim, name, raw, m) {
   const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0))), crit = sim.rng() < c;
-  const d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken * (crit ? 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0)) : 1);
+  const d = raw * (m.dmg || 1) * sim.mods.dmgMult * (1 - t.spellMitigation) * t.spellTaken * (crit ? spellCritMult(sim, m.critBonus || 0) : 1);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
   return { crit, dmg: d };
@@ -103,7 +103,7 @@ function casterDot(sim, def, s) {
   const d = s.dot, m = def.mods(sim, s, 'dot');
   const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
   const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
-  const critMult = 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
+  const critMult = spellCritMult(sim, m.critBonus || 0);
   const ticks = s.dotTicks ? s.dotTicks(sim) : d.ticks;
   applyDotCrit(sim, s.name, per, ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, def.onTick ? (r) => def.onTick(sim, s, r) : null);
 }
@@ -119,7 +119,7 @@ function channel(sim, def, s, cost) {
   if (!hit) sim.entry(s.name).misses++;
   for (let i = 1; i <= total; i++) sim.schedule(interval * i, () => {
     if (!hit) return;
-    const raw = ch.perTick + (sim.stats.sp + (sim.spBonus || 0)) * ch.coeff;
+    const raw = (ch.perTick + (sim.stats.sp + (sim.spBonus || 0)) * ch.coeff) * (def.tickMult ? def.tickMult(sim, s, i) : 1);   // tickMult: Improved Mind Flay (each tick deals x% more than the previous one)
     const r = tickDamage(sim, s.name, raw, def.mods(sim, s, 'channel'));
     if (def.afterHit) def.afterHit(sim, s, r.crit ? 'crit' : 'hit', r.dmg);
   });

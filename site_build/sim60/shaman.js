@@ -35,12 +35,15 @@ export function dropTotem(sim, T, mods) {
 
 export const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, callOfThunder: { crit: 0.03 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
   improvedFireNova: { dmg: 0.1, cd: 2 }, mentalQuickness: { sp: 0.15 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+  // build 1.60.1.70425: Call of Thunder is gone; Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
+  // Call of Flame also lengthens Flame Shock by 3 s per rank
+  elementalMastery: { cd: 180, dur: 15, cast: 0.5 }, callOfFlameShock: { sec: 3 },
 };
 
 export const SHAMAN_ELE_DEFAULT_BUILD = {
-  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, callOfThunder: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
+  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
   improvedFireNova: 0, mentalQuickness: 0, burnMana: 0, mindfulness: 0, totemicFocus: 0, tidalFocus: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
@@ -65,19 +68,24 @@ export function shamanElementalKit(build = {}, data = null) {
     keep: () => b.mindfulness / 6,                          // Mindfulness: 17 / 33 / 50 % of the regeneration continues while casting
     setup(sim) {
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
+      sim.aEM = sim.addAura({ name: 'Elemental Mastery', duration: H.elementalMastery.dur });
+      if (S.fs && S.fs.dot && b.callOfFlame) S.fs.dotTicks = () => S.fs.dot.ticks + Math.round(H.callOfFlameShock.sec * b.callOfFlame / S.fs.dot.interval);
       sim.spBonus = Math.floor(((sim.stats.int || 0) * (1 + H.ancestralKnowledge.int * b.ancestralKnowledge)) * H.mentalQuickness.sp * b.mentalQuickness);   // Mental Quickness: spell power from Intellect
       sim.critBase = H.thunderingStrikes.crit * b.thunderingStrikes + Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge) / 59.5 / 100;
     },
     mods(sim, s, kind) {
       let hit = 0.01 * b.tidalFocus, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
-      if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
+      if (s === S.lb || s === S.cl) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
       if (s === S.lvb && dotActive(sim, S.fs ? S.fs.name : '')) dmg *= H.lavaBurstFs;
       return { hit, crit, dmg, critBonus };
     },
-    castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity) : s.cast),
+    castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity - ((s === S.lb || s === S.lvb) && sim.aEM.active ? H.elementalMastery.cast : 0)) : s.cast),
+    offGcd(sim) {          // Elemental Mastery on cooldown (3 minutes): used when it comes up
+      if (b.elementalMastery && b.useCooldowns && sim.now >= (sim.cdAt.em || 0)) { sim.cdAt.em = sim.now + H.elementalMastery.cd; sim.entry('Elemental Mastery').casts++; sim.aEM.apply(); }
+    },
     cost(sim, s) {
       if (s.totem) return Math.round(s.cost * (1 - 0.05 * b.totemicFocus));
       if (sim.aClear.active) return 0;
@@ -106,6 +114,11 @@ export function shamanElementalKit(build = {}, data = null) {
       if (S.es && b.earthShock && rich && shockReady) return S.es;
       if (S.fn && b.fireNova && rich && ready(S.fn)) return S.fn;
       if (S.cl && b.chainLightning && ready(S.cl)) return S.cl;
+      if (S.cl && S.lb && sim.aEM.active) {            // Elemental Mastery: Chain Lightning has no cooldown, cast it when it deals more per second than Lightning Bolt
+        const sp = (sim.stats.sp || 0) + (sim.spBonus || 0), dmgOf = (x) => (x.direct.min + x.direct.max) / 2 + sp * x.direct.coeff;
+        const t = (x) => Math.max(0.5, x.cast - H.elementalAlacrity.cast * b.elementalAlacrity - (x === S.lb ? H.elementalMastery.cast : 0));
+        if (dmgOf(S.cl) / t(S.cl) > dmgOf(S.lb) / t(S.lb)) return S.cl;
+      }
       return S.lb;
     },
   };
@@ -144,7 +157,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
   const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
   const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
   if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
-  if (ss) { E.stormstrike.cost = ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }
+  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
   return {
     name: 'shaman_enhancement', build: b, E,
     setup(sim) {

@@ -14,7 +14,7 @@ const cfg = (build, sample = SAMPLE_WARLOCK, len = 180) => { const ch = buildCha
 
 test('warlock stat block uses the caster path with Warlock crit and mana', () => {
   const c = buildCharacter({ class: 'warlock', race: 'human', gear: [], weapons: [], buffs: [], consumables: [], debuffs: [] });
-  assert.ok(Math.abs(c.summary.crit - 115 / 60.6 / 100) < 1e-9);
+  assert.ok(Math.abs(c.summary.crit - 115 / 60.6 / 100 - 0.02) < 1e-9);
   assert.equal(c.summary.mana, 1200 + 15 * (115 - 20));
 });
 
@@ -37,7 +37,7 @@ test('Destruction uses Immolate, Conflagrate and Incinerate; the capstone needs 
 test('talents and spell power move the DPS; Demonic Sacrifice adds shadow damage', () => {
   const aff = preset('warlock_affliction'), base = runBatch(cfg(aff), 1500, 1).mean;
   assert.ok(base > runBatch(cfg({ ...aff, shadowMastery: 0 }), 1500, 1).mean * 1.02, 'Shadow Mastery');
-  assert.ok(base > runBatch(cfg({ ...aff, malediction: 0 }), 1500, 1).mean, 'Malediction');
+  assert.ok(base > runBatch(cfg({ ...aff, pandemic: 0 }), 1500, 1).mean, 'Pandemic');   // Malediction was removed in build 1.60.1.70425
   const more = { ...SAMPLE_WARLOCK, gear: SAMPLE_WARLOCK.gear.concat([{ slot: 'neck', name: 'x', st: { splpwr: 100 } }]) };
   assert.ok(runBatch(cfg(aff, more), 1500, 1).mean > base * 1.05, 'spell power');
   const sac = { ...aff, demonicSacrifice: 1, sacrifice: 'imp' };

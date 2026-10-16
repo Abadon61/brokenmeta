@@ -7,9 +7,11 @@ import { makeCaster, fromRank, pickRank } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
 
 export const PRIEST = {
-  shadowFocus: { hit: 0.01 }, improvedSwp: { ticks: 1 }, improvedMindBlast: { cd: 0.5 }, improvedMindFlay: { dmg: 0.10 }, shadowWeaving: { dmg: 0.02, max: 5, dur: 15 },
+  shadowFocus: { hit: 0.01 }, improvedSwp: { ticks: 1 }, improvedMindBlast: { cd: 0.5 }, improvedMindFlay: { ramp: 0.10 },   // build 1.60.1.70425: each Mind Flay tick deals 10% / 20% more than the previous tick (was +10% / +20% on the whole channel)
+   shadowWeaving: { dmg: 0.02, max: 5, dur: 15 },
   darkness: { dmg: 0.02 }, shadowform: { dmg: 0.10, cost: 0.5, critBonus: 1 }, devouringContagion: { cost: 0.25 }, twinDisciplines: { dmg: 0.01 }, mentalAgility: { cost: 1 / 30 },
-  mentalStrength: { int: 0.03 }, meditation: { keep: 1 / 6 }, powerInfusion: { dmg: 1.2, dur: 15, cd: 180 }, innerFocus: { crit: 0.25, cd: 180 },   // cooldowns ASSUMED
+  mentalStrength: { int: 0.02 },     // build 70425: +2% Intellect per rank (was 3%)
+  meditation: { keep: 1 / 6 }, powerInfusion: { dmg: 1.2, dur: 15, cd: 180 }, innerFocus: { crit: 0.25, cd: 180 },   // cooldowns ASSUMED
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -53,11 +55,11 @@ export function priestKit(build = {}, data = null) {
         if (b.shadowform) critBonus += P.shadowform.critBonus;
       }
       if (s.instant) dmg *= 1 + P.twinDisciplines.dmg * b.twinDisciplines;
-      if (s === def.S.mf) dmg *= 1 + P.improvedMindFlay.dmg * b.improvedMindFlay;
       if (sim.aPI.active) dmg *= P.powerInfusion.dmg;
       if (sim.innerFocus && s.direct) crit += P.innerFocus.crit;
       return { hit, crit, dmg, critBonus };
     },
+    tickMult: (sim, s, i) => (s === def.S.mf && b.improvedMindFlay ? Math.pow(1 + P.improvedMindFlay.ramp * b.improvedMindFlay, i - 1) : 1),
     castTime: (sim, s) => s.cast,
     cost(sim, s) {
       if (sim.innerFocus) return 0;

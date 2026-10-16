@@ -221,7 +221,7 @@ export class Sim {
   }
 
   weaponRoll(w) { return w.min + (w.max - w.min) * this.rng(); }
-  critMult(extra = 0) { return CRIT_MULT_PHYSICAL + this.mods.critDmgBonus + extra; }
+  critMult(extra = 0) { return CRIT_MULT_PHYSICAL + this.mods.critDmgBonus + extra + (this.player.racialCritDmg || 0) * (CRIT_MULT_PHYSICAL - 1); }   // racialCritDmg: Tauren / Dwarf
 
   // A melee/ranged outcome hook: spec & procs react (Flurry, Unbridled Wrath, weapon enchants...).
   onMeleeHit(outcome, source, isOffHand, isWhite) {

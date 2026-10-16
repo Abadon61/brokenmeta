@@ -94,7 +94,7 @@ export function rogueKit(build = {}, data = null) {
       const pcrit = () => Math.min(1, Math.max(0, sim.stats.crit + sim.mods.critBonus));
       const pdmg = (name, base) => {
         const crit = sim.rng() < pcrit();
-        const d = base * pmult() * (crit ? R.poison.critMult : 1);
+        const d = base * pmult() * (crit ? 1 + (R.poison.critMult - 1) * (1 + (sim.player.racialCritDmg || 0)) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
       };
       const dkTick = () => {

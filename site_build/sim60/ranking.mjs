@@ -61,7 +61,6 @@ const CURVE_RANGE = { hitrtng: 180, critstrkrtng: 280, hastertng: 200, atkpwr: 4
 const RATING_PCT = { hitrtng: 10, critstrkrtng: 14, hastertng: 10 };
 // specs whose page also shows the build with a spell the ranking build does not take (the ranking keeps the one with more DPS)
 const ALTS = {
-  warrior_arms: { spell: 'Mortal Strike', names: { 'Improved Execute': 0, 'Mortal Strike': 1 } },
   hunter_marksmanship: { spell: 'Sniper Shot', names: { 'Focused Fire': 0, 'Sniper Shot': 1 } },
   warlock_demonology: { spell: 'Conflagrate', names: { 'Ruin': 0, 'Conflagrate': 1 } },
 };

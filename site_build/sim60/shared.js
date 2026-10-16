@@ -8,7 +8,7 @@ export function yellowAttack(sim, name, rawFn, opts = {}) {
   if (out === 'miss') { e.misses++; sim.onMeleeHit('miss', name, false, false); return out; }
   if (out === 'dodge') { e.dodges++; sim.overpowerUntil = sim.now + OVERPOWER_WINDOW; sim.onMeleeHit('dodge', name, false, false); return out; }
   let raw = rawFn();
-  if (out === 'crit') raw *= sim.critMult(opts.critDmgBonus || 0);
+  if (out === 'crit') raw *= sim.critMult((opts.critDmgBonus || 0) + (sim.abilityCritDmg || 0));
   const dmg = sim.mitigate(raw * sim.mods.dmgMult * (opts.dmgMult || 1), true);
   sim.record(name, dmg, out); sim.onMeleeHit(out, name, false, false);
   return out;

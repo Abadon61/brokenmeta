@@ -4,7 +4,7 @@
 // 1.12 value kept until Forever's table is sourced: Bane of Agony, Shadowburn, Life Tap, the Imp's Firebolt, Demonic Rune
 // style mana items, spell hit/crit/mana formulas (character.js), Soul Shards (not limited: shards are assumed available).
 // Periodic effects use the client's per-tick spell coefficient (sp_coeff x number of ticks) and can crit (can_crit).
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, dotActive, dotLeft, cancelDot, SPELL_GCD, SPELL_CRIT_MULT } from './spells.js';
+import { setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, dotActive, dotLeft, cancelDot, SPELL_GCD, SPELL_CRIT_MULT, spellCritMult } from './spells.js';
 
 export const WARLOCK = {
   shadowBolt: { name: 'Shadow Bolt', schools: ['shadow'], destruction: true, cast: 3, cost: 380, min: 253.3, max: 282.7, coeff: 0.857 },
@@ -24,8 +24,8 @@ export const WARLOCK = {
   imp: { cast: 2, min: 105, max: 115, spCoeff: 0.15, crit: 0.05, miss: 0.06 },                                  // ASSUMED (Classic Firebolt rank 7, pet scaling)
   sacrifice: 0.15,
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
-  suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, malediction: { dmg: 0.01 }, improvedLifeTap: { restore: 0.10 },
-  pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.01 }, improvedBaneOfAgony: { dmg: 0.05 },
+  suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, improvedLifeTap: { restore: 0.10 },
+  pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.02 }, improvedBaneOfAgony: { dmg: 0.05 },
   improvedShadowBolt: { dmg: 0.04, dur: 12 }, bane: { cast: 0.1, soulFire: 0.4 }, cataclysm: { cost: 0.10 / 3 }, aftermath: { dmg: 0.10 }, ruin: { critBonus: 0.2 },
   agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.02, dur: 20 }, decimation: { cd: 0.45 },
   demonicKnowledge: { sp: 20 }, masterDemonologist: { dmg: 0.02 }, unholyPower: { pet: 0.02 }, improvedImp: { pet: 0.10 }, felVitality: { mana: 0.05 },
@@ -33,7 +33,7 @@ export const WARLOCK = {
 };
 
 export const WARLOCK_DEFAULT_BUILD = {
-  suppression: 0, improvedCorruption: 0, malediction: 0, improvedLifeTap: 0, pandemic: 0, malevolence: 0, nightfall: 0, shadowMastery: 0, improvedBaneOfAgony: 0,
+  suppression: 0, improvedCorruption: 0, improvedLifeTap: 0, pandemic: 0, malevolence: 0, nightfall: 0, shadowMastery: 0, improvedBaneOfAgony: 0,
   siphonLife: 0, wrack: 0, soulSiphon: 0,
   improvedShadowBolt: 0, bane: 0, cataclysm: 0, aftermath: 0, ruin: 0, shadowburn: 0, agonizingFlames: 0, conflagrate: 0, fireAndBrimstone: 0, shadowAndFlame: 0, incinerate: 0,
   decimation: 0, demonicKnowledge: 0, masterDemonologist: 0, unholyPower: 0, improvedImp: 0, felVitality: 0, demonicSacrifice: 0,
@@ -120,7 +120,7 @@ function mods(sim, s, noAuras, periodic) {
   if (shadow) { crit += W.malevolence.crit * b.malevolence; dmg *= 1 + W.shadowMastery.dmg * b.shadowMastery; if (sim.sacrificed === 'imp') dmg *= 1 + W.sacrifice; }
   if (fire && sim.sacrificed === 'succubus') dmg *= 1 + W.sacrifice;
   if (s.destruction) { critBonus += W.ruin.critBonus * b.ruin; dmg *= 1 + W.agonizingFlames.dmg * b.agonizingFlames; }
-  if (periodic) { dmg *= 1 + W.malediction.dmg * b.malediction; if (shadow) critBonus += W.pandemic.critBonus * b.pandemic; }
+  if (periodic) { if (shadow) critBonus += W.pandemic.critBonus * b.pandemic; }
   if (s === W.conflagrate) crit += W.fireAndBrimstone.crit * b.fireAndBrimstone;
   if (!noAuras) {
     if (shadow) {
@@ -188,7 +188,7 @@ function startDot(sim, s) {
   if (s === W.agony) per *= 1 + W.improvedBaneOfAgony.dmg * b.improvedBaneOfAgony;
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
   const critChance = Math.max(0, Math.min(1, st.crit + m.crit));
-  const critMult = 1 + (SPELL_CRIT_MULT - 1) * (1 + m.critBonus);
+  const critMult = spellCritMult(sim, m.critBonus);
   const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);
 }

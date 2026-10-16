@@ -6,7 +6,7 @@
 // (2.0 s, 9000 damage, +-15%), Seal of Righteousness' per-swing damage, Holy Shield's 8 charges, the bear's natural weapon, block value 40 + Strength / 20.
 // Not simulated: Taunt, Concussion Blow, Shield Wall / Last Stand / Templar's Bulwark (emergency cooldowns), threat of Thunder Clap and Consecration (area).
 import { yellowAttack, castGcd } from './shared.js';
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, SPELL_CRIT_MULT } from './spells.js';
+import { setupMana, gainMana, spendMana, spiritRegenPerSec, spellCritMult } from './spells.js';
 import { pickRank } from './caster.js';
 
 const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
@@ -135,7 +135,7 @@ export function paladinProtKit(build = {}, data = null) {
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
       const holy = (name, raw) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus)), crit = sim.rng() < c;
-        sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? SPELL_CRIT_MULT : 1), crit ? 'crit' : 'hit');
+        sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? spellCritMult(sim) : 1), crit ? 'crit' : 'hit');
       };
       sim.holy = holy;
       sim.bossHooks.push((s, out, dmg) => {

@@ -138,6 +138,7 @@ export function attachEffects(sim) {
       if (p.apMult) mods.apMult = p.apMult;
       if (p.haste) mods.hasteMult = p.haste;
       if (p.crit) mods.critBonus = p.crit;
+      if (p.dmgMult) mods.dmgMult = p.dmgMult;             // Eureka!: +10% damage
       let spGain = 0;
       const a = sim.addAura({ name, duration: p.duration, mods, onApply: p.spMult ? () => { spGain = stats.sp * (p.spMult - 1); stats.sp += spGain; } : null, onExpire: p.spMult ? () => { stats.sp -= spGain; } : null });
       return () => { sim.entry(name).casts++; a.apply(); };

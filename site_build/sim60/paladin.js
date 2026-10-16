@@ -4,7 +4,7 @@
 // points at another spell), Vindication's proc chance, mana items, base mana, two-handed weapon speed normalisation (3.3).
 // Not simulated: Exorcism and Consecration (low value on one target), blessings, Divine Favor, Holy Shock.
 import { yellowAttack } from './shared.js';
-import { setupMana, gainMana, spendMana, spiritRegenPerSec, SPELL_CRIT_MULT } from './spells.js';
+import { setupMana, gainMana, spendMana, spiritRegenPerSec, spellCritMult } from './spells.js';
 import { pickRank } from './caster.js';
 
 export const PALADIN = {
@@ -13,7 +13,7 @@ export const PALADIN = {
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429, norm: 3.3 },
   hammerOfWrath: { cost: 425, cd: 6, cast: 1, dmg: 498, spCoeff: 0.429 },
   conviction: { crit: 0.01 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 3, dur: 30 },
-  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.2 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
+  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.10 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
   benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.05 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
@@ -48,7 +48,7 @@ export function paladinRetKit(build = {}, data = null) {
       const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit)), crit = sim.rng() < c;
-        const d = raw * holyMult() * (crit ? 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus) : 1);
+        const d = raw * holyMult() * (crit ? spellCritMult(sim, critBonus) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
         return crit;
       };

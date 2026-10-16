@@ -213,7 +213,8 @@ function hunterRotate(sim, b, H) {
 // ASSUMED (Classic style): Raptor Strike off the global cooldown, Mongoose Bite / Strider Kick on a 1.5 s global cooldown, base mana 1300, the pet as above.
 // Serpent Sting, Arcane Shot and Aimed Shot are not used (they need the ranged weapon and range).
 export const HUNTER_MELEE = {
-  raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 5 }, strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
+  raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 10 },   // window: Expose Prey lasts 10 s since build 1.60.1.70425 (was 5 s)
+   strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
   savageStrikes: { crit: 0.02 }, surefooted: { hit: 0.01 }, predatorsEdge: { critDmg: 0.06, oh: 0.10 }, lightningReflexes: { agi: 0.02 }, exposePrey: { chance: 0.05 },
   lacerating: { frac: 0.40, ticks: 7, interval: 3 }, resourcefulness: { cost: 0.30 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, lethalAttacks: { crit: 0.01 },
   norm: { dw: 2.4, twoHand: 3.3 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
@@ -238,7 +239,7 @@ export function hunterMeleeKit(build = {}, data = null) {
       mods.apBonus += extraAgi + (b.carefulAim ? Math.floor((st.int || 0) * M.carefulAim.intToAp * b.carefulAim) : 0);
       mods.critBonus += extraAgi / 53 / 100 + M.lethalAttacks.crit * b.lethalAttacks;
       mods.hitBonus += M.surefooted.hit * b.surefooted;
-      mods.critDmgBonus += M.predatorsEdge.critDmg * b.predatorsEdge;
+      sim.abilityCritDmg = M.predatorsEdge.critDmg * b.predatorsEdge;            // build 70425: Predator's Edge only raises the critical damage of melee ABILITIES (not white swings)
       if (sim.player.dualWield) mods.ohDmgBonus = (mods.ohDmgBonus || 0) + M.predatorsEdge.oh * b.predatorsEdge;
       sim.petOn = b.pet !== 'none';
       sim.dmgGlobal = sim.petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1;
