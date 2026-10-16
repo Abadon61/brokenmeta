@@ -74,7 +74,7 @@ ns.WEIGHTS = {
     intap = { node = 105008, assumed = 0.0, ranks = {0.2000, 0.4000, 0.6000, 0.8000, 1.0000} } },
   hunter_survival = { class = "HUNTER", spec = "survival", role = "dps", tab = 3, ranged = false, caster = false, dps = 489.00,
     name = { frFR = "Survie", enUS = "Survival" },
-    w = { str = 0.226, agi = 0.351, int = 0.226, ap = 0.205, sp = 0.0, crit = 4.582, hit = 5.341, wdps_mh = 2.023, wdps_oh = 0.691, wdps_r = 0.0 },
+    w = { str = 0.226, agi = 0.351, int = 0.226, ap = 0.205, sp = 0.0, crit = 4.577, hit = 5.332, wdps_mh = 2.023, wdps_oh = 0.691, wdps_r = 0.0 },
     intap = { node = 105008, assumed = 1.0, ranks = {0.2000, 0.4000, 0.6000, 0.8000, 1.0000} } },
 }
 
