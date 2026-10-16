@@ -1,31 +1,46 @@
+/* BrokenMeta social cards -- DA "dashboard" (refonte du site, oct. 2026).
+   Tokens, panneaux et tuiles KPI recopiés de site_build/style_base.css
+   (surcouche "Thème dashboard"): bleu nuit profond, panneaux arrondis à fine
+   bordure bleue, accent bleu électrique, pastilles lumineuses.
+   L'ancienne DA (magenta/cyan + coins en L) est conservée dans
+   brand-legacy-2026-09.css si un ancien visuel doit être regénéré à l'identique. */
 @import url('https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  --bg: #0b0221;
-  --row: #170a3d;
-  --border: #3d1f7a;
-  --border-bright: #6b3fc9;
-  --magenta: #ff2d95;
-  --magenta-dark: #8a1160;
-  --cyan: #05d9e8;
-  --red: #ff3864;
+  --bg: #070a2b;
+  --bg-2: #0d1245;
+  --row: #0d1245;
+  --row-hover: #172073;
+  --border: #1e2772;
+  --border-bright: #34419f;
+  --accent: #2a63ff;          /* "--magenta" du site depuis la refonte */
+  --accent-btn: #1f5bff;      /* boutons / CTA */
+  --accent-text: #8db0ff;     /* accent lisible sur fond sombre (texte) */
+  --pale: #cfe0ff;            /* "--cyan" du site depuis la refonte */
+  --cream: #e9eeff;
+  --text-dim: #a6b2e6;
+  --text-faint: #7785cb;
+  --red: #ff5a6b;
   --gold: #ffc23c;
   --teal: #2de6c4;
-  --gray: #9a8fc4;
-  --cream: #f3eeff;
-  --text-dim: #b7a9e0;
-  --text-faint: #6f5fa8;
+  --gray: #9a92bd;
+  --violet: #c76bff;
+  --warn: #ff3864;
+  --good: #2de6c4;
   --cost-1: #9aa4af;
   --cost-2: #2de6c4;
-  --cost-3: #05d9e8;
+  --cost-3: #f0e7d8;
   --cost-4: #c76bff;
   --cost-5: #ffc23c;
-  --good: #2de6c4;
-  --warn: #ff3864;
+  /* alias pour les gabarits écrits avant la refonte (magenta/cyan -> bleu) */
+  --magenta: var(--accent);
+  --cyan: var(--pale);
+  --panel: linear-gradient(180deg, #101650 0%, #0b0f3d 100%);
+  --panel-hero: radial-gradient(120% 160% at 0% 0%, rgba(42,99,255,.22), transparent 60%), linear-gradient(180deg, #111852 0%, #0a0e3a 100%);
+  --glow: 0 0 0 1px rgba(80,110,255,.06), 0 10px 30px rgba(2,4,30,.55);
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
-
 body { background: #000; }
 
 .card {
@@ -33,66 +48,84 @@ body { background: #000; }
   height: 1350px;
   position: relative;
   overflow: hidden;
-  --tc: var(--magenta);
   padding: 60px 56px 44px;
   display: flex;
   flex-direction: column;
   font-family: 'Afacad Flux', system-ui, sans-serif;
   color: var(--cream);
   background:
-    repeating-linear-gradient(0deg, rgba(5,217,232,0.035) 0px, rgba(5,217,232,0.035) 1px, transparent 1px, transparent 26px),
-    repeating-linear-gradient(90deg, rgba(5,217,232,0.035) 0px, rgba(5,217,232,0.035) 1px, transparent 1px, transparent 26px),
-    radial-gradient(ellipse 900px 620px at 50% -8%, rgba(255,45,149,0.24), transparent 60%),
-    radial-gradient(ellipse 700px 500px at 100% 100%, rgba(5,217,232,0.14), transparent 60%),
+    radial-gradient(1000px 640px at 88% -6%, rgba(42,99,255,.26), transparent 62%),
+    radial-gradient(820px 620px at 0% 100%, rgba(120,60,255,.20), transparent 62%),
     var(--bg);
 }
 
 .nums { font-family: 'Space Mono', monospace; font-variant-numeric: tabular-nums; }
 
-/* header */
+/* header -- logo-mark + BROKEN/META/.gg en texte vivant comme sur le site
+   (aucun dégradé depuis la refonte: META est un bleu uni, donc html2canvas le rend) */
 .brand-header { display: flex; align-items: center; justify-content: space-between; }
 .brand-wordmark { display: flex; align-items: center; gap: 14px; }
-.brand-wordmark .icon { height: 42px; width: auto; display: block; }
-.brand-wordmark .word { height: 34px; width: auto; display: block; }
-/* NOTE: the "META" half of the wordmark is a CSS background-clip:text
-   gradient on the live site, but html2canvas (used to export these cards
-   to PNG) can't rasterize that -- it just paints a solid box. So here the
-   whole wordmark is the pre-rendered brokenmeta_wordmark.png instead of
-   live text; keep using that image rather than reintroducing gradient text. */
+.brand-wordmark .icon { height: 44px; width: 44px; display: block; }
+.wm { font-family: 'Cal Sans', sans-serif; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; white-space: nowrap; display: inline-flex; align-items: baseline; }
+.wm .b1 { color: var(--cream); }
+.wm .b2 { color: var(--accent); }
+.wm .b3 { color: var(--text-faint); font-family: 'Space Mono', monospace; font-weight: 400; text-transform: none; letter-spacing: 0; margin-left: 2px; }
+.brand-wordmark .wm { font-size: 38px; }
+.brand-wordmark .wm .b3 { font-size: 19px; }
+.brand-footer .wm { font-size: 24px; }
+.brand-footer .wm .b3 { font-size: 13px; }
 
 .pill {
   font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px;
-  letter-spacing: 0.08em; text-transform: uppercase; color: var(--cyan);
-  border: 2px solid var(--border-bright); border-radius: 999px; padding: 8px 20px;
-  background: rgba(5,217,232,0.06);
+  letter-spacing: 0.08em; text-transform: uppercase; color: var(--pale);
+  border: 1px solid var(--border-bright); border-radius: 999px; padding: 9px 22px;
+  background: rgba(42,99,255,.14);
 }
 
-/* title ribbon */
+/* bandeau titre -- le rose d'avant devient le bleu électrique des CTA du site */
 .ribbon-wrap { position: relative; display: inline-block; margin: 34px 0 6px; }
 .ribbon-front {
-  position: relative; z-index: 1; background: var(--magenta); color: #fff;
+  position: relative; z-index: 1; background: var(--accent-btn); color: #fff;
   font-family: 'Cal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.01em; padding: 20px 38px; font-size: 48px; line-height: 1.05;
-  display: inline-block; max-width: 920px;
+  display: inline-block; max-width: 920px; border-radius: 12px;
+  box-shadow: 0 0 34px rgba(31,91,255,.5);
 }
-.subtitle { font-size: 29px; color: var(--text-dim); margin: 22px 0 8px; max-width: 920px; line-height: 1.4; }
+.subtitle { font-size: 29px; color: var(--text-dim); margin: 24px 0 8px; max-width: 940px; line-height: 1.4; }
 .subtitle strong, .lead-text strong { color: var(--cream); font-weight: 700; }
 
-/* body fills remaining space */
+/* corps: occupe l'espace restant */
 .content { flex: 1; display: flex; flex-direction: column; justify-content: center; min-height: 0; }
 
-/* footer */
+/* pied de page */
 .brand-footer {
   margin-top: auto; padding-top: 26px; border-top: 1px solid var(--border);
   display: flex; align-items: center; justify-content: space-between;
 }
 .brand-footer .lead { color: var(--text-faint); font-size: 20px; display: flex; align-items: center; gap: 12px; }
-.brand-footer img { height: 30px; width: auto; }
-.brand-footer .favicon { height: 40px; width: 40px; }
+.brand-footer .favicon { height: 42px; width: 42px; }
 
-/* icon chips */
+/* panneaux (= toutes les "cartes" du site) */
+.panel {
+  border-radius: 14px; border: 1px solid var(--border);
+  background: var(--panel); box-shadow: var(--glow);
+}
+.panel.hero { border-color: var(--border-bright); background: var(--panel-hero); }
+
+/* titre de section façon widget: petite capitale + pastille lumineuse */
+.section-title {
+  display: flex; align-items: center; gap: 12px;
+  font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px;
+  letter-spacing: .14em; text-transform: uppercase; color: var(--pale);
+}
+.section-title::before {
+  content: ''; width: 10px; height: 10px; border-radius: 50%; flex: none;
+  background: var(--accent); box-shadow: 0 0 12px 3px rgba(42,99,255,.7);
+}
+
+/* pastilles d'icônes */
 .chip {
-  border-radius: 16px; overflow: hidden; background: var(--row); flex: none;
+  border-radius: 12px; overflow: hidden; background: var(--row); flex: none;
   border: 3px solid var(--border-bright); display: flex; align-items: center; justify-content: center;
 }
 .chip img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -101,41 +134,41 @@ body { background: #000; }
 .chip.cost-3 { border-color: var(--cost-3); }
 .chip.cost-4 { border-color: var(--cost-4); }
 .chip.cost-5 { border-color: var(--cost-5); box-shadow: 0 0 34px rgba(255,194,60,0.35); }
-
-.chip.trait { border-radius: 999px; padding: 10px; border-color: var(--cyan); background: rgba(5,217,232,0.08); }
-.chip.trait img { object-fit: contain; filter: drop-shadow(0 0 6px rgba(5,217,232,0.4)); }
-
-.chip.item { border-radius: 14px; border-color: var(--border-bright); background: #0e0530; }
+.chip.trait { border-radius: 999px; padding: 10px; border-color: var(--border-bright); background: rgba(42,99,255,.12); }
+.chip.trait img { object-fit: contain; }
+.chip.item { border-radius: 12px; border-color: var(--border-bright); background: #0a0e3a; }
 .chip.item img { object-fit: contain; padding: 10px; }
 
-/* HUD frame -- the site's own corner-bracket treatment (comp-row / tier
-   cards): 4 small L-shaped brackets at the corners of a box, colored via
-   --tc, plus an optional glowing accent line along the bottom edge. Wrap
-   any box that should get this look in `.frame` (position:relative, sets
-   --tc), keep the box's own rounded/clipped background on a child so the
-   corners -- positioned just outside the box -- never get clipped. Corner
-   size via modifier: .corner.sm (site's own 11px) / .md / .lg. */
-.frame { position: relative; }
-.corner { position: absolute; pointer-events: none; opacity: 0.9; }
-.corner.sm { width: 11px; height: 11px; border-width: 2px; }
-.corner.md { width: 18px; height: 18px; border-width: 2px; }
-.corner.lg { width: 30px; height: 30px; border-width: 3px; }
-.corner.xl { width: 40px; height: 40px; border-width: 3px; }
-/* longhand (not the `border-top:` shorthand) so each corner only sets
-   style+color on its two visible sides, leaving border-width alone -- the
-   shorthand would silently reset that side's width back to the 3px default. */
-.corner.tl { top: -2px; left: -2px; border-top-style: solid; border-left-style: solid; border-top-color: var(--tc); border-left-color: var(--tc); }
-.corner.tr { top: -2px; right: -2px; border-top-style: solid; border-right-style: solid; border-top-color: var(--tc); border-right-color: var(--tc); }
-.corner.bl { bottom: -2px; left: -2px; border-bottom-style: solid; border-left-style: solid; border-bottom-color: var(--tc); border-left-color: var(--tc); }
-.corner.br { bottom: -2px; right: -2px; border-bottom-style: solid; border-right-style: solid; border-bottom-color: var(--tc); border-right-color: var(--tc); }
-.frame-glow {
-  position: absolute; left: 14%; right: 14%; bottom: -2px; height: 2px;
-  background: var(--tc); box-shadow: 0 2px 10px 0 var(--tc); opacity: 0.85; pointer-events: none;
+/* tuiles de stats = tuiles KPI du site (pastille lumineuse + valeur + trait d'accent en bas) */
+.stat-tile {
+  position: relative; overflow: hidden; text-align: center; padding: 22px 26px 26px;
+  border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--glow);
+  background: var(--panel);
+  --kc: var(--accent);
 }
-
-/* stat tiles */
-.stat-tile { text-align: center; }
-.stat-tile .num { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 58px; color: var(--cream); line-height: 1; }
+/* teinte en pseudo-élément (html2canvas déforme un fond à plusieurs couches avec border-radius) */
+.stat-tile::before, .tint::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: inherit; pointer-events: none;
+  background: var(--tint-bg, radial-gradient(120% 120% at 100% 0%, rgba(42,99,255,.22), transparent 60%));
+}
+.stat-tile .num, .stat-tile .label { position: relative; }
+.tint { position: relative; overflow: hidden; }
+.tint > * { position: relative; }
+.stat-tile::after {
+  content: ''; position: absolute; left: 22px; right: 22px; bottom: 0; height: 4px;
+  border-radius: 4px 4px 0 0; background: var(--kc); box-shadow: 0 0 16px var(--kc);
+}
+.stat-tile .num { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 58px; color: #fff; line-height: 1; }
 .stat-tile .num.good { color: var(--teal); }
 .stat-tile .num.warn { color: var(--red); }
-.stat-tile .label { font-family: 'Space Mono', monospace; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); margin-top: 10px; }
+.stat-tile .label { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 15px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-faint); margin-top: 12px; }
+.stat-tile.t-good { --kc: var(--teal); }
+.stat-tile.t-warn { --kc: var(--red); }
+.stat-tile.t-gold { --kc: var(--gold); }
+
+/* barres de classement (comme .wow-rank-bar du site) */
+.bar-wrap { height: 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+.bar-fill { height: 100%; background: var(--rc, var(--accent)); }
+
+/* mention légale des cartes WoW (art/icônes Blizzard) -- même règle que sur le site */
+.credit { font-size: 15px; line-height: 1.35; color: var(--text-faint); margin: 0 0 14px; }

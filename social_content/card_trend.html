@@ -7,12 +7,15 @@
 <style>
   .trend { display: flex; flex-direction: column; gap: 0; height: 100%; justify-content: center; }
   .trend-block {
-    display: flex; align-items: center; gap: 40px;
-    padding: 56px 48px; background: rgba(23,10,61,0.5);
-    border: 1px solid var(--border);
+    position: relative; overflow: hidden; display: flex; align-items: center; gap: 40px;
+    padding: 56px 48px; border-radius: 14px; border: 1px solid var(--border); box-shadow: var(--glow);
+    background: var(--panel);
   }
-  .trend-block.up { background: rgba(45,230,196,0.07); }
-  .trend-block.down { background: rgba(255,56,100,0.07); }
+  .trend-block::before { content: ""; position: absolute; top: 0; left: 0; right: 0; bottom: 0; border-radius: inherit; background: var(--tint-bg); pointer-events: none; }
+  .trend-block > * { position: relative; }
+  .trend-block::after { content: ""; position: absolute; left: 28px; right: 28px; bottom: 0; height: 5px; border-radius: 5px 5px 0 0; background: var(--tc); box-shadow: 0 0 18px var(--tc); }
+  .trend-block.up { --tint-bg: radial-gradient(120% 140% at 0% 0%, rgba(45,230,196,.18), transparent 60%); }
+  .trend-block.down { --tint-bg: radial-gradient(120% 140% at 0% 0%, rgba(255,90,107,.18), transparent 60%); }
   .trend-icons { display: flex; align-items: center; gap: 18px; flex: none; }
   .chip.trend-trait { width: 86px; height: 86px; }
   .chip.trend-champ { width: 150px; height: 150px; }
@@ -37,14 +40,10 @@
 </head>
 <body>
 <div class="card" id="card" data-filename="brokenmeta-trend-amumu-zyra">
-  <div class="corner tl xl"></div>
-  <div class="corner tr xl"></div>
-  <div class="corner bl xl"></div>
-  <div class="corner br xl"></div>
   <div class="brand-header">
     <div class="brand-wordmark">
       <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
-      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
     </div>
     <div class="pill">Patch 18.2</div>
   </div>
@@ -57,10 +56,6 @@
   <div class="content">
     <div class="trend">
       <div class="trend-block up frame" style="--tc: var(--teal);">
-        <div class="corner tl xl"></div>
-        <div class="corner tr xl"></div>
-        <div class="corner bl xl"></div>
-        <div class="corner br xl"></div>
         <div class="trend-icons">
           <div class="chip trend-champ cost-4"><img src="https://brokenmeta.gg/assets/champions/amumu.png" alt="" crossorigin="anonymous"></div>
         </div>
@@ -74,10 +69,6 @@
       <div class="vs-sep">VS</div>
 
       <div class="trend-block down frame" style="--tc: var(--red);">
-        <div class="corner tl xl"></div>
-        <div class="corner tr xl"></div>
-        <div class="corner bl xl"></div>
-        <div class="corner br xl"></div>
         <div class="trend-icons">
           <div class="chip trend-champ cost-4"><img src="https://brokenmeta.gg/assets/champions/zyra.png" alt="" crossorigin="anonymous"></div>
         </div>
@@ -91,7 +82,7 @@
   </div>
 
   <div class="brand-footer">
-    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
     <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
   </div>
 </div>

@@ -114,3 +114,11 @@ les annotations "— N caractères" des blocs X, et ne jamais dépasser 280.
    chiffres exacts dans `digest.json` (jamais de chiffre inventé/arrondi
    différemment de ce qui est affiché sur le visuel).
 3. Livrer les deux fichiers ensemble.
+
+## WoW: Forever (ajout oct. 2026)
+
+- **Hashtags Instagram WoW** : `#WoWForever #WoW #WorldofWarcraft #WoWClassic #BrokenMeta` (5 tags, comme pour TFT). Sur X : 1 seul, `#WoWForever`.
+- **Tout chiffre issu du simulateur niveau 60 est une SIMULATION, pas de vrais logs** : le dire dans le post (X comme Instagram) et ne jamais présenter un DPS/TPS simulé comme un résultat de combat réel.
+- **Citer ce que voient les visiteurs** : les chiffres du classement viennent de la version déployée (`build_wow_digest.py`, source `live` par défaut), pas du dernier recalcul local non déployé.
+- **Posts datés** (compte à rebours « J-N ») : écrire la date de validité en tête du fichier `.txt`.
+- Source du patch citée quand le contenu vient d'une annonce (ex. Wowhead pour les changements de la bêta) ; aucune mécanique inventée.

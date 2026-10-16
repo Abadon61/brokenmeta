@@ -15,6 +15,8 @@ from pathlib import Path
 
 OUT_DIR = Path("D:/Site internet/RS")
 OUT_DIR.mkdir(exist_ok=True, parents=True)
+PREVIEW_DIR = Path(__file__).resolve().parent / "out"        # git-ignored; ?preview exports land here, not in RS
+PREVIEW_DIR.mkdir(exist_ok=True)
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -25,7 +27,7 @@ class Handler(SimpleHTTPRequestHandler):
         length = int(self.headers.get("Content-Length", 0))
         body = json.loads(self.rfile.read(length))
         filename = re.sub(r"[^a-zA-Z0-9_-]", "", body["filename"]) + ".png"
-        target = OUT_DIR / filename
+        target = (PREVIEW_DIR if body.get("preview") else OUT_DIR) / filename
         import base64
         import os
         import time

@@ -7,15 +7,16 @@
 <style>
   .rows { display: flex; flex-direction: column; gap: 22px; }
   .row-card {
-    display: flex; align-items: stretch; background: rgba(23,10,61,0.55);
-    border: 1px solid var(--border);
+    display: flex; align-items: stretch; background: var(--panel); border: 1px solid var(--border);
+    border-radius: 14px; box-shadow: var(--glow); overflow: hidden;
   }
-  .row-card.standout { background: rgba(255,194,60,0.08); }
+  .row-card.standout { --tint-bg: radial-gradient(120% 160% at 0% 0%, rgba(255,194,60,.18), transparent 60%); border-color: rgba(255,194,60,.45); }
+  .row-card[data-region="EUW"] .region-badge { color: #fff; }
   .region-badge { width: 96px; flex: none; display: flex; align-items: center; justify-content: center;
-    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 26px; color: #0b0221; }
+    font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 26px; color: #070a2b; }
   .row-card[data-region="KR"] { --tc: #2de6c4; }
-  .row-card[data-region="EUW"] { --tc: #ff2d95; }
-  .row-card[data-region="NA"] { --tc: #05d9e8; }
+  .row-card[data-region="EUW"] { --tc: #2a63ff; }
+  .row-card[data-region="NA"] { --tc: #cfe0ff; }
   .row-card[data-region="BR"] { --tc: #ffc23c; }
   .region-badge { background: var(--tc); }
   .row-body { flex: 1; min-width: 0; padding: 26px 32px; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
@@ -30,14 +31,10 @@
 </head>
 <body>
 <div class="card" id="card" data-filename="brokenmeta-worldstats-top1-mondial">
-  <div class="corner tl xl"></div>
-  <div class="corner tr xl"></div>
-  <div class="corner bl xl"></div>
-  <div class="corner br xl"></div>
   <div class="brand-header">
     <div class="brand-wordmark">
       <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
-      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
     </div>
     <div class="pill">World Stats</div>
   </div>
@@ -49,11 +46,7 @@
 
   <div class="content">
     <div class="rows">
-      <div class="row-card frame standout" data-region="BR" style="--tc: #ffc23c;">
-        <div class="corner tl lg"></div>
-        <div class="corner tr lg"></div>
-        <div class="corner bl lg"></div>
-        <div class="corner br lg"></div>
+      <div class="row-card tint standout" data-region="BR" style="--tc: #ffc23c;">
         <div class="region-badge">BR</div>
         <div class="row-body">
           <div>
@@ -64,10 +57,6 @@
         </div>
       </div>
       <div class="row-card frame" data-region="KR" style="--tc: #2de6c4;">
-        <div class="corner tl lg"></div>
-        <div class="corner tr lg"></div>
-        <div class="corner bl lg"></div>
-        <div class="corner br lg"></div>
         <div class="region-badge">KR</div>
         <div class="row-body">
           <div>
@@ -77,11 +66,7 @@
           <div class="lp-block"><div class="lp-val">1597</div><div class="lp-label">LP</div></div>
         </div>
       </div>
-      <div class="row-card frame" data-region="EUW" style="--tc: #ff2d95;">
-        <div class="corner tl lg"></div>
-        <div class="corner tr lg"></div>
-        <div class="corner bl lg"></div>
-        <div class="corner br lg"></div>
+      <div class="row-card frame" data-region="EUW" style="--tc: #2a63ff;">
         <div class="region-badge">EUW</div>
         <div class="row-body">
           <div>
@@ -91,11 +76,7 @@
           <div class="lp-block"><div class="lp-val">1450</div><div class="lp-label">LP</div></div>
         </div>
       </div>
-      <div class="row-card frame" data-region="NA" style="--tc: #05d9e8;">
-        <div class="corner tl lg"></div>
-        <div class="corner tr lg"></div>
-        <div class="corner bl lg"></div>
-        <div class="corner br lg"></div>
+      <div class="row-card frame" data-region="NA" style="--tc: #cfe0ff;">
         <div class="region-badge">NA</div>
         <div class="row-body">
           <div>
@@ -111,7 +92,7 @@
   </div>
 
   <div class="brand-footer">
-    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
     <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
   </div>
 </div>

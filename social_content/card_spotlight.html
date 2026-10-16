@@ -8,9 +8,9 @@
   .spotlight { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0; }
   .portrait-col { flex: none; display: flex; flex-direction: column; align-items: center; gap: 22px; }
   .portrait-frame { width: 400px; height: 400px; }
-  .chip.portrait { width: 400px; height: 400px; border-radius: 10px; border-width: 5px; }
+  .chip.portrait { width: 400px; height: 400px; border-radius: 16px; border-width: 5px; }
   .trait-tag {
-    display: flex; align-items: center; gap: 10px; background: rgba(5,217,232,0.08);
+    display: flex; align-items: center; gap: 10px; background: rgba(42,99,255,.14);
     border: 2px solid var(--border-bright); border-radius: 999px; padding: 9px 22px 9px 9px;
   }
   .trait-tag img { width: 34px; height: 34px; }
@@ -19,22 +19,17 @@
   .headline { font-family: 'Cal Sans', sans-serif; font-size: 50px; line-height: 1.14; text-transform: uppercase; color: var(--cream); }
   .headline .accent { color: var(--red); }
   .lead-text { font-size: 26px; color: var(--text-dim); margin-top: 20px; line-height: 1.4; }
-  .stats-row { display: flex; justify-content: center; gap: 0; margin-top: 38px; }
-  .stats-row .stat-tile { width: 280px; border-left: 1px solid var(--border); }
-  .stats-row .stat-tile:first-child { border-left: none; }
+  .stats-row { display: flex; justify-content: center; gap: 24px; margin-top: 38px; }
+  .stats-row .stat-tile { width: 280px; }
   .stats-row .stat-tile .num { font-size: 60px; }
 </style>
 </head>
 <body>
 <div class="card" id="card" data-filename="brokenmeta-spotlight-sentinel">
-  <div class="corner tl xl"></div>
-  <div class="corner tr xl"></div>
-  <div class="corner bl xl"></div>
-  <div class="corner br xl"></div>
   <div class="brand-header">
     <div class="brand-wordmark">
       <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
-      <img class="word" src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
     </div>
     <div class="pill">Patch 18.2</div>
   </div>
@@ -47,10 +42,6 @@
     <div class="spotlight">
       <div class="portrait-col">
         <div class="portrait-frame frame" style="--tc: #c76bff;">
-          <div class="corner tl lg"></div>
-          <div class="corner tr lg"></div>
-          <div class="corner bl lg"></div>
-          <div class="corner br lg"></div>
           <div class="chip portrait cost-4"><img src="https://brokenmeta.gg/assets/champions/sentinel.png" alt="Sentinel" crossorigin="anonymous"></div>
         </div>
         <div class="trait-tag"><img src="https://brokenmeta.gg/assets/traits/vanguard.png" alt="" crossorigin="anonymous"><span>Vanguard</span></div>
@@ -59,7 +50,7 @@
         <div class="headline">Sentinel, le champion<br>le plus <span class="accent">surjoué</span><br>du patch</div>
         <div class="lead-text"><strong>34,7% de pick rate</strong> — largement le plus joué du patch, tous champions confondus — pour seulement <strong>4,32 de placement moyen</strong> en retour.</div>
         <div class="stats-row">
-          <div class="stat-tile"><div class="num warn">34,7%</div><div class="label">Pick rate</div></div>
+          <div class="stat-tile t-warn"><div class="num warn">34,7%</div><div class="label">Pick rate</div></div>
           <div class="stat-tile"><div class="num">4,32</div><div class="label">Placement moyen</div></div>
         </div>
       </div>
@@ -67,7 +58,7 @@
   </div>
 
   <div class="brand-footer">
-    <div class="lead">Plus d'infos sur <img src="../logo/brokenmeta_wordmark.png" alt="BrokenMeta.gg"></div>
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
     <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
   </div>
 </div>
