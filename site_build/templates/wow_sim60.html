@@ -127,6 +127,6 @@
 <script src="{{ root }}assets/js/wow-sim60.js?v={{ js_v('wow-sim60.js') }}" defer></script>
 
 <details class="gs-more gs-sources"><summary>{{ tx.h_limits }}</summary>
-<ul class="ms-limits">{% for item in tx.limits %}<li>{{ item }}</li>{% endfor %}</ul></details>
+<ul class="ms-limits">{% for item in tx.limits %}<li>{{ item }}</li>{% endfor %}<li>{{ tx.wowsims }} <a href="https://github.com/wowsims/classic" target="_blank" rel="noopener">github.com/wowsims/classic</a></li></ul></details>
 {{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling']) }}
 {% endblock %}
