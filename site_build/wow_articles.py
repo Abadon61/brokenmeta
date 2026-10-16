@@ -1849,6 +1849,8 @@ ARTICLES = [
 
 from wow_article_launch import LAUNCH_ARTICLE  # noqa: E402  (launch-day guide, kept in its own file)
 ARTICLES.insert(0, LAUNCH_ARTICLE)
+from wow_articles_patch1015 import PATCH1015_ARTICLES  # noqa: E402  (full articles from the 15 Oct 2026 beta build)
+ARTICLES[1:1] = PATCH1015_ARTICLES
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
 FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}
