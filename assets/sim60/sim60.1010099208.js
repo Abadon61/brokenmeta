@@ -292,7 +292,7 @@ class Sim {
   }
 
   weaponRoll(w) { return w.min + (w.max - w.min) * this.rng(); }
-  critMult(extra = 0) { return CRIT_MULT_PHYSICAL + this.mods.critDmgBonus + extra; }
+  critMult(extra = 0) { return CRIT_MULT_PHYSICAL + this.mods.critDmgBonus + extra + (this.player.racialCritDmg || 0) * (CRIT_MULT_PHYSICAL - 1); }   // racialCritDmg: Tauren / Dwarf
 
   // A melee/ranged outcome hook: spec & procs react (Flurry, Unbridled Wrath, weapon enchants...).
   onMeleeHit(outcome, source, isOffHand, isWhite) {
@@ -557,30 +557,29 @@ for (const [slot, ids] of Object.entries(CONSUMABLE_SLOTS)) for (const id of ids
 
 // ---- racials.js ----
 // Racial abilities of WoW: Forever as the simulator applies them (spec.racialModel === 'forever').
-// Every number is read from the beta client tables (data/wow_racials.json, build 1.60.1.70170; spell ids in the comments): Forever reworked the
-// racials of WoW Classic (weapon specializations now give critical strike chance instead of weapon skill, new racials such as Elune's Light).
+// Every number is read from the beta client tables (data/wow_racials.json, build 1.60.1.70425 = the beta patch of 2026-10-16, which reworked the racials; spell ids in
+// the comments): Forever replaced the Classic weapon-skill bonuses (weapon specializations) by flat critical strike chance or critical damage, and added racials such as Elune's Light.
 // Racial effects that do not change damage on a single target (resistances, movement, escapes, stealth detection, gathering) are not listed.
-// NOT simulated: Gnome Eureka! (next 3 damaging abilities +10% damage, 120 s) and the Gnome's +5% maximum energy / rage, Undead Touch of the Grave
-// (health drain), Tauren +5% health, bonuses against Beasts (Troll Beast Slaying, Dwarf Big Game Hunter) and Elementals (Skyborne Elemental Insight):
-// the fight is against a single humanoid-like boss.
+// NOT simulated: the Gnome's +5% maximum energy / rage and the -10% resource cost of Eureka! (only its +10% damage on direct hits is), the Undead Touch of the Grave (it drains
+// health: 30% / 20% chance, 25 s internal cooldown, up to 5% of the player's maximum health, so a few DPS at most), Tauren +5% health, bonuses against Beasts (Troll Beast Slaying,
+// Dwarf Big Game Hunter) and Elementals (Skyborne Elemental Insight): the fight is against a single humanoid-like boss.
+// critDmg = "critical strike bonus to damage increased by X%": scales the bonus part of a critical strike (physical 2.0 -> 2.0 + X, spell 1.5 -> 1.5 + X / 2), like Impale / Ice Shards.
 const FOREVER_RACIALS = {
-  human: { weaponCrit: { types: ['sword', 'two-handed sword'], crit: 0.02 }, spiritMult: 1.05 },                                    // 20597 Sword Specialization, 20598 The Human Spirit
-  orc: { weaponCrit: { types: ['axe', 'two-handed axe'], crit: 0.01 }, use: { name: 'Blood Fury', cd: 120, duration: 15, apMult: 1.10, spMult: 1.10 } },   // 20574, 20572
-  dwarf: { weaponCrit: { types: ['mace', 'two-handed mace'], crit: 0.01 } },                                                          // 1259719 Mace Specialization
+  human: { crit: 0.02, spiritMult: 1.05 },                                                                                           // 20597 Ruthless (+2% critical strike chance, any weapon), 20598 The Human Spirit
+  orc: { crit: 0.01, use: { name: 'Blood Fury', cd: 180, duration: 15, apMult: 1.10, spMult: 1.10 } },                                // 20574 Savage (+1% crit), 20572 Blood Fury (cooldown 3 min since 2026-10-16)
+  dwarf: { critDmg: 0.02 },                                                                                                           // 1259719 Earth Fury (+2% critical damage and healing)
   nightelf: { use: { name: "Elune's Light", cd: 180, duration: 15, crit: 0.10 } },                                                    // 1259799
-  tauren: { hit: 0.01 },                                                                                                              // 20550 Endurance (+1% chance to hit; the +5% health is not simulated)
-  gnome: { manaMult: 1.05 },                                                                                                          // 20591 Expansive Mind (maximum mana)
+  tauren: { critDmg: 0.02 },                                                                                                          // 20550 Endurance (+2% critical damage and healing; the +5% health is not simulated)
+  gnome: { manaMult: 1.05, use: { name: 'Eureka!', cd: 120, duration: 8, dmgMult: 1.10 } },                                           // 20591 Expansive Mind (maximum mana), 1259812 Eureka! (8 s, +10% damage, -10% cost)
   troll: { use: { name: 'Berserking', cd: 180, duration: 10, haste: 1.10 } },                                                         // 20554 (spellcasting and attack speed +10% for 10 s)
-  skyborne: { haste: 1.01 },                                                                                                          // 1259710 Wind Blessed
+  skyborne: { haste: 1.03 },                                                                                                          // 1259710 Wind Blessed (3% haste since 2026-10-16)
   undead: {},
 };
 
-/** The part of a race's model that applies to this character: flat crit (needs a matching weapon), hit, haste, spirit, mana and the on-use racial. */
+/** The part of a race's model that applies to this character: flat crit, critical damage, hit, haste, spirit, mana and the on-use racial. `weaponTypes` is kept for callers that still pass it. */
 function racialsFor(race, weaponTypes) {
   const r = FOREVER_RACIALS[race] || {};
-  const types = weaponTypes || [];
-  const crit = r.weaponCrit && types.some((t) => r.weaponCrit.types.includes(t)) ? r.weaponCrit.crit : 0;
-  return { crit, hit: r.hit || 0, haste: r.haste || 1, spiritMult: r.spiritMult || 1, manaMult: r.manaMult || 1, use: r.use || null };
+  return { crit: r.crit || 0, critDmg: r.critDmg || 0, hit: r.hit || 0, haste: r.haste || 1, spiritMult: r.spiritMult || 1, manaMult: r.manaMult || 1, use: r.use || null };
 }
 
 // ---- character.js ----
@@ -673,7 +672,7 @@ function buildCharacter(spec) {
   // The racials are the ones read from the beta client (racials.js), which replace the Classic weapon-skill bonus (Forever's weapon specializations give
   // critical strike chance instead); spec.racialModel === 'classic' brings the old Classic model back (tests, comparisons). spec.weaponTypes lists the equipped weapon types.
   const rm = spec.racialModel !== 'classic' ? racialsFor(race, spec.weaponTypes || (spec.weapons || []).map((w) => w.type)) : null;
-  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use });
+  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use, racialCritDmg: rm.critDmg });
   const rules = CLASS_RULES[spec.variant ? cls + '_' + spec.variant : cls] || CLASS_RULES[cls];
   const base = spec.base || (() => {
     const h = BASE_L60_HUMAN[cls], m = RACE_MODS[race] || RACE_MODS.human, o = {};
@@ -749,7 +748,7 @@ function buildCharacter(spec) {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
-      effects: effectsOf(fxr, spec), tank,
+      effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0,
     },
     target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
@@ -776,7 +775,7 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   let taken = 1;
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
-    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec) },
+    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec), racialCritDmg: spec.racialCritDmg || 0 },
     target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };
@@ -847,8 +846,8 @@ function toWeapon(item, offHand = false) {
 const NAME_TO_KEY = {
   warrior: {
     // Fury
-    'Cruelty': 'cruelty', 'Unbridled Wrath': 'unbridledWrath', 'Boundless Rage': 'boundlessRage', 'Dual Wield Specialization': 'dualWieldSpec',
-    'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Precision': 'precision', 'Death Wish': 'deathWish',
+    'Cruelty': 'cruelty', 'Unbridled Wrath': 'unbridledWrath', 'Furious Precision': 'furiousPrecision', 'Dual Wield Specialization': 'dualWieldSpec',
+    'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
     'Improved Berserker Rage': 'improvedBerserkerRage', 'Flurry': 'flurry', 'Bloodthirst': 'bloodthirst',
     // Arms
     'Improved Heroic Strike': 'improvedHeroicStrike', 'Improved Rend': 'improvedRend', 'Bloodthrill': 'bloodthrill', 'Improved Overpower': 'improvedOverpower',
@@ -882,15 +881,15 @@ const NAME_TO_KEY = {
   shaman: {
     'Mindfulness': 'mindfulness', 'Totemic Focus': 'totemicFocus', 'Tidal Focus': 'tidalFocus',
     'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
-    'Elemental Alacrity': 'elementalAlacrity', 'Call of Thunder': 'callOfThunder', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst',
+    'Elemental Alacrity': 'elementalAlacrity', 'Elemental Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst',
     'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
-    'Rage of the Farseer': 'rageOfTheFarseer', 'Improved Fire Nova': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
+    'Rage of the Farseer': 'rageOfTheFarseer', 'Trial by Fire': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
   },
   druid: {
     'Improved Wrath': 'improvedWrath', 'Genesis': 'genesis', 'Moonglow': 'moonglow', 'Improved Moonfire': 'improvedMoonfire', "Nature's Majesty": 'naturesMajesty', "Nature's Reach": 'naturesReach',
     "Nature's Splendor": 'naturesSplendor', 'Insect Swarm': 'insectSwarm', 'Vengeance': 'vengeance', 'Improved Starfire': 'improvedStarfire', "Nature's Grace": 'naturesGrace', 'Eclipse': 'eclipse',
     'Moonfury': 'moonfury', 'Moonkin Form': 'moonkinForm', 'Naturalist': 'naturalist', 'Ferocity': 'ferocity', 'Shredding Attacks': 'shreddingAttacks', 'Savage Fury': 'savageFury',
-    'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Predatory Instincts': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
+    'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Natural Instinct': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
     'Leader of the Pack': 'leaderOfThePack', 'Shifting Power': 'shiftingPower', 'Improved Shifting Power': 'improvedShiftingPower', 'Berserk': 'berserk', 'Natural Reaction': 'naturalReaction', 'Feral Swiftness': 'feralSwiftness', 'Thick Hide': 'thickHide', 'Feral Instinct': 'feralInstinct', 'Blood Frenzy': 'bloodFrenzy',
   },
   hunter: {
@@ -901,7 +900,7 @@ const NAME_TO_KEY = {
     'Focused Fire': 'focusedFire', 'Deadly Aspects': 'deadlyAspects', 'Summon Hawk': 'summonHawk', 'Bestial Discipline': 'bestialDiscipline',
   },
   warlock: {
-    'Suppression': 'suppression', 'Improved Corruption': 'improvedCorruption', 'Malediction': 'malediction', 'Improved Life Tap': 'improvedLifeTap', 'Pandemic': 'pandemic',
+    'Suppression': 'suppression', 'Improved Corruption': 'improvedCorruption', 'Improved Life Tap': 'improvedLifeTap', 'Pandemic': 'pandemic',
     'Malevolence': 'malevolence', 'Nightfall': 'nightfall', 'Shadow Mastery': 'shadowMastery', 'Improved Bane of Agony': 'improvedBaneOfAgony', 'Siphon Life': 'siphonLife', 'Wrack': 'wrack',
     'Soul Siphon': 'soulSiphon', 'Improved Shadow Bolt': 'improvedShadowBolt', 'Bane': 'bane', 'Cataclysm': 'cataclysm', 'Aftermath': 'aftermath', 'Ruin': 'ruin', 'Shadowburn': 'shadowburn',
     'Agonizing Flames': 'agonizingFlames', 'Conflagrate': 'conflagrate', 'Fire and Brimstone': 'fireAndBrimstone', 'Shadow and Flame': 'shadowAndFlame', 'Incinerate': 'incinerate',
@@ -910,9 +909,9 @@ const NAME_TO_KEY = {
   },
   mage: {
     'Arcane Focus': 'arcaneFocus', 'Arcane Concentration': 'arcaneConcentration', 'Arcane Impact': 'arcaneImpact', 'Arcane Meditation': 'arcaneMeditation',
-    'Arcane Mind': 'arcaneMind', 'Arcane Instability': 'arcaneInstability', 'Arcane Power': 'arcanePower', 'Presence of Mind': 'presenceOfMind', 'Missile Barrage': 'missileBarrage',
+    'Arcane Mind': 'arcaneMind', 'Arcane Instability': 'arcaneInstability', 'Arcane Power': 'arcanePower', 'Presence of Mind': 'presenceOfMind', 'Missile Barrage': 'missileBarrage', 'Arcane Wrath': 'arcaneWrath', 'Arcane Blast': 'arcaneBlast',
     'Incineration': 'incineration', 'Improved Fireball': 'improvedFireball', 'Ignite': 'ignite', 'Improved Scorch': 'improvedScorch', 'Heating Up': 'heatingUp',
-    'Master of Elements': 'masterOfElements', 'Critical Mass': 'criticalMass', 'Fire Power': 'firePower', 'Combustion': 'combustion', 'Pyroblast': 'pyroblast', 'Wake of Fire': 'wakeOfFire',
+    'Master of Elements': 'masterOfElements', 'Critical Mass': 'criticalMass', 'Fire Power': 'firePower', 'Combustion': 'combustion', 'Pyroblast': 'pyroblast', 'Improved Fire Blast': 'wakeOfFire',
     'Improved Frostbolt': 'improvedFrostbolt', 'Elemental Precision': 'elementalPrecision', 'Ice Shards': 'iceShards', 'Piercing Ice': 'piercingIce', 'Frost Channeling': 'frostChanneling',
     'Ice Lance': 'iceLance', 'Shatter': 'shatter', 'Fingers of Frost': 'fingersOfFrost', "Winter's Chill": 'wintersChill',
   },
@@ -995,26 +994,26 @@ const PRESETS = {
     'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 4, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 5,
   },
   mage_fire: {
-    'Wake of Fire': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
-    'Critical Mass': 3, 'Fire Power': 5, 'Combustion': 1,
+    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
+    'Critical Mass': 5, 'Fire Power': 3, 'Combustion': 1,
     'Elemental Precision': 5, 'Ice Shards': 5, 'Frost Channeling': 3, 'Piercing Ice': 3, 'Improved Frostbolt': 3,
   },
   mage_frost: {
-    'Improved Frostbolt': 5, 'Elemental Precision': 5, 'Ice Shards': 5, 'Piercing Ice': 3, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2, "Winter's Chill": 5,
-    'Wand Specialization': 1, 'Arcane Focus': 5, 'Arcane Subtlety': 2, 'Arcane Concentration': 5, 'Arcane Impact': 3, 'Arcane Meditation': 3,
+    'Improved Frostbolt': 5, 'Elemental Precision': 5, 'Ice Shards': 5, 'Piercing Ice': 3, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2,   // Winter's Chill no longer adds crit (build 70425)
+    'Wand Specialization': 2, 'Arcane Focus': 5, 'Arcane Subtlety': 2, 'Arcane Concentration': 5, 'Arcane Impact': 3, 'Arcane Meditation': 3, 'Arcane Resilience': 1, 'Arcane Mind': 3,
   },
-  mage_arcane: {
-    'Arcane Focus': 5, 'Improved Channeling': 1, 'Arcane Concentration': 5, 'Arcane Subtlety': 2, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 1,
+  mage_arcane: {   // build 70425: Arcane Wrath (new gold talent), Missile Barrage has 2 ranks
+    'Arcane Focus': 5, 'Improved Channeling': 1, 'Arcane Concentration': 5, 'Arcane Subtlety': 2, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 2,
     'Presence of Mind': 1, 'Arcane Mind': 5, 'Arcane Instability': 3, 'Arcane Power': 1,
-    'Wake of Fire': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Improved Scorch': 2,
+    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Improved Scorch': 1,   // Arcane Wrath tested: Arcane Missiles (with Missile Barrage) deals more, so the point goes elsewhere
   },
   warlock_affliction: {
-    'Suppression': 5, 'Improved Corruption': 5, 'Malediction': 5, 'Pandemic': 3, 'Malevolence': 5, 'Nightfall': 2, 'Siphon Life': 1, 'Shadow Mastery': 5, 'Wrack': 1,
-    'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Ruin': 5, 'Shadowburn': 1,
+    'Suppression': 5, 'Improved Corruption': 5, 'Grim Reach': 2, 'Improved Bane of Agony': 2, 'Pandemic': 3, 'Malevolence': 5, 'Nightfall': 2, 'Siphon Life': 1, 'Shadow Mastery': 5, 'Wrack': 1,
+    'Improved Life Tap': 1, 'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Ruin': 5, 'Shadowburn': 1,
   },
   warlock_destruction: {
     'Improved Shadow Bolt': 5, 'Bane': 5, 'Cataclysm': 3, 'Aftermath': 5, 'Ruin': 5, 'Shadowburn': 1, 'Agonizing Flames': 3, 'Conflagrate': 1, 'Fire and Brimstone': 3,
-    'Shadow and Flame': 5, 'Bane of Havoc': 1, 'Incinerate': 1, 'Suppression': 5, 'Improved Corruption': 5, 'Malediction': 3,
+    'Shadow and Flame': 5, 'Bane of Havoc': 1, 'Incinerate': 1, 'Suppression': 5, 'Improved Corruption': 5, 'Improved Life Tap': 2, 'Soul Harvest': 1,
   },
   warlock_demonology: {
     'Demonic Embrace': 5, 'Improved Imp': 3, 'Improved Health Funnel': 2, 'Unholy Power': 5, 'Fel Vitality': 3, 'Demonic Aegis': 2, 'Master Summoner': 2, 'Demonic Knowledge': 3, 'Master Demonologist': 3,
@@ -1038,9 +1037,9 @@ const PRESETS = {
     'Twin Disciplines': 5, 'Power in Light': 5, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 2,
   },
   shaman_elemental: {
-    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Call of Thunder': 1, 'Lightning Overload': 3,
+    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Elemental Mastery': 1, 'Lightning Overload': 3,
     'Elemental Fury': 5, 'Lava Burst': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
-    'Totemic Focus': 5, 'Mindfulness': 3, 'Tidal Focus': 2,       // Restoration: 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totem, +2 % hit
+    'Tidal Focus': 5, 'Mindfulness': 3, 'Totemic Focus': 2,       // Restoration: +5 % hit (Tidal Focus, row 1 since build 70425), 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totems
   },
   druid_balance: {
     'Improved Wrath': 5, 'Genesis': 5, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Majesty": 2, "Nature's Reach": 2, "Nature's Splendor": 1, 'Insect Swarm': 1, 'Vengeance': 5,
@@ -1058,11 +1057,11 @@ const PRESETS = {
   },
   druid_feral: {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Shifting Power': 1,
-    'Leader of the Pack': 1, 'Predatory Instincts': 2, 'Improved Shifting Power': 2, 'Rend and Tear': 5, 'Berserk': 1,
+    'Leader of the Pack': 1, 'Natural Instinct': 2, 'Improved Shifting Power': 2, 'Rend and Tear': 5, 'Berserk': 1,
     'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, "Nature's Reach": 2,
   },
   warrior_protection: {
-    'Shield Specialization': 5, 'Anticipation': 5, 'Toughness': 5, 'Improved Bloodrage': 2, 'Master of Defense': 2, 'Improved Revenge': 3, 'Defiance': 3, 'Last Stand': 1, 'Improved Sunder Armor': 3,
+    'Shield Specialization': 5, 'Anticipation': 5, 'Iron Will': 5, 'Improved Bloodrage': 2, 'Master of Defense': 2, 'Improved Revenge': 3, 'Defiance': 3, 'Last Stand': 1, 'Improved Sunder Armor': 3,
     'Vanguard': 1, 'Bastion': 5, 'Focused Rage': 3, 'Shield Slam': 1,
     'Deflection': 5, 'Improved Heroic Strike': 3, 'Improved Charge': 2, 'Improved Tactical Mastery': 1, 'Concussion Blow': 1,
   },
@@ -1073,18 +1072,18 @@ const PRESETS = {
   },
   druid_bear: {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Feral Swiftness': 2, 'Thick Hide': 3, 'Feral Instinct': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2,
-    'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Leader of the Pack': 1, 'Predatory Instincts': 2, 'Natural Reaction': 5, 'Berserk': 1,
+    'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Leader of the Pack': 1, 'Natural Instinct': 2, 'Natural Reaction': 5, 'Berserk': 1,
     'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
-  warrior_fury: {
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Improved Cleave': 3, 'Boundless Rage': 3, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,
-    'Improved Execute': 2, 'Precision': 3, 'Death Wish': 1, 'Improved Berserker Rage': 2, 'Flurry': 5, 'Bloodthirst': 1,
-    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 4,
+  warrior_fury: {   // build 70425: Bloodthirst needs 30 points in Fury; Precision, Improved Cleave and Boundless Rage are gone (Furious Precision = off-hand hit)
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,
+    'Improved Execute': 2, 'Death Wish': 1, 'Improved Berserker Rage': 2, 'Flurry': 5, 'Bloodthirst': 1,
+    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 5, 'Improved Overpower': 2, 'Anger Management': 1,
   },
   warrior_arms: {
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,
-    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Improved Execute': 1,
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Boundless Rage': 3, 'Improved Cleave': 2,
+    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1,   // Slam's 18 s cooldown makes Mortal Strike the better spender (+52 DPS measured, 2026-10-16)
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Furious Precision': 3, 'Blood Craze': 2,
   },
 };
 
@@ -1098,7 +1097,7 @@ function yellowAttack(sim, name, rawFn, opts = {}) {
   if (out === 'miss') { e.misses++; sim.onMeleeHit('miss', name, false, false); return out; }
   if (out === 'dodge') { e.dodges++; sim.overpowerUntil = sim.now + OVERPOWER_WINDOW; sim.onMeleeHit('dodge', name, false, false); return out; }
   let raw = rawFn();
-  if (out === 'crit') raw *= sim.critMult(opts.critDmgBonus || 0);
+  if (out === 'crit') raw *= sim.critMult((opts.critDmgBonus || 0) + (sim.abilityCritDmg || 0));
   const dmg = sim.mitigate(raw * sim.mods.dmgMult * (opts.dmgMult || 1), true);
   sim.record(name, dmg, out); sim.onMeleeHit(out, name, false, false);
   return out;
@@ -1117,10 +1116,10 @@ function castGcd(sim, spell, fn, gcd = 1.5) {
 // level-60 table for that spell is sourced.
 
 const WARRIOR = {
-  bloodthirst: { cost: 30, cd: 6, apCoeff: 0.35, flat: 48 },           // glossary at L60: 35% AP + 48
+  bloodthirst: { cost: 30, cd: 6, apCoeff: 0.45, flat: 48 },           // client table (build 1.60.1.70425, spell 23894 at L60): 45% AP (was 35%) + 48
   whirlwind: { cost: 25, cd: 10, flat: 0, normSpeed1H: 2.4, normSpeed2H: 3.3 }, // 100% normalized weapon damage (normalization speeds ASSUMED Classic)
   heroicStrike: { cost: 15, flat: 157 },
-  slam: { cost: 15, cd: 0, flat: 87, cast: 1.5 },
+  slam: { cost: 15, cd: 18, flat: 87, cast: 1.5 },                     // client: 18 s cooldown (the kit ignored it before 2026-10-16); Improved Slam shortens it
   overpower: { cost: 5, cd: 5, flat: 35 },
   rend: { cost: 10, total: 147, duration: 21, tick: 3 },
   mortalStrike: { cost: 30, cd: 6, flat: 160, normSpeed2H: 3.3 },      // client table (spell 21553 at L60): weapon damage + 160
@@ -1130,14 +1129,14 @@ const WARRIOR = {
   bloodrage: { cd: 60, immediate: 10, overTime: 10, overTimeSec: 10 },
   flurry: { perRank: 0.05, charges: 3, expire: 15 },
   unbridledWrath: { chancePerRank: 0.12 },
-  dualWieldSpec: { ohDmgPerRank: 0.05, ohHitPerRank: 0.02 },
+  dualWieldSpec: { ohDmgPerRank: 0.05, ohRagePerRank: 0.10 },          // build 70425: off-hand damage +5% and Rage from off-hand attacks +10% per rank (the +2% off-hand hit moved to Furious Precision)
+  furiousPrecision: { ohHit: [0, 0.04, 0.07, 0.10] },                  // build 70425: replaces Boundless Rage; +4 / 7 / 10% off-hand hit chance
+  ragingBlows: { whirlwindCost: 3 },                                   // build 70425: -3 Rage on Whirlwind and Cleave (no more off-hand Whirlwind strike)
   cruelty: { critPerRank: 0.01 },
-  precision: { hitPerRank: 0.01 },
   improvedHeroicStrike: { costPerRank: 1 },
   improvedExecute: { cost: [0, 3, 5] },                                // Forever: -3 Rage at rank 1, -5 at rank 2
   improvedOverpower: { critPerRank: 0.25 },                            // Forever: +25% Overpower crit chance per rank
-  improvedSlam: { castReductionPerRank: 0.25 },                        // Forever: -0.25 s cast time per rank; no swing delay at rank 2
-  boundlessRage: { capPerRank: 10 },
+  improvedSlam: { castReductionPerRank: 0.25, cdReduction: [0, 3, 3] },  // Forever: -0.25 s cast time per rank; no swing delay at rank 2; build 70425 text: Slam cooldown -3.0 s at both ranks
   angerManagement: { interval: 3, amount: 1 },
   deepWounds: { pctPerRank: 0.20, duration: 12, tick: 3 },             // 3 ranks, 60% of average weapon damage over 12 s
   twoHandSpec: { dmgPerRank: 0.01 },
@@ -1157,7 +1156,9 @@ function warriorFromData(spells60) {
   const eff = (id, kind) => (a[id] && a[id].effects || []).find((e) => e.kind === kind);
   const cost = (id) => a[id] && a[id].resource_cost && a[id].resource_cost.rage;
   const bt = eff('warrior_bloodthirst', 'direct_damage');
-  if (bt) { W.bloodthirst.apCoeff = bt.ap_coeff; W.bloodthirst.flat = bt.flat || 0; }
+  if (bt) { W.bloodthirst.apCoeff = bt.ap_coeff; W.bloodthirst.flat = bt.flat || 0; }   // (the glossary entry is the Wowhead one: stale since build 70425)
+  const btTop = spells60 && spells60.warrior && spells60.warrior.top && spells60.warrior.top.warrior_bloodthirst;     // the client's own rank record: effect 0 = damage, effect 1 = the AP percentage
+  if (btTop && btTop.effects && btTop.effects[1] && btTop.effects[1].effect === 3) { W.bloodthirst.apCoeff = btTop.effects[1].base / 100; W.bloodthirst.flat = btTop.effects[0].base; }
   if (cost('warrior_bloodthirst')) W.bloodthirst.cost = cost('warrior_bloodthirst');
   const hs = eff('warrior_heroic_strike', 'flat_bonus_on_next_swing'); if (hs) W.heroicStrike.flat = hs.flat;
   const sl = eff('warrior_slam', 'normalized_weapon_damage'); if (sl) W.slam.flat = sl.flat;
@@ -1176,14 +1177,14 @@ function warriorFromData(spells60) {
 }
 
 const FURY_DEFAULT_BUILD = {
-  cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, precision: 3, improvedHeroicStrike: 0,
-  improvedExecute: 2, boundlessRage: 3, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
+  cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, furiousPrecision: 3, improvedHeroicStrike: 0,
+  improvedExecute: 2, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
 };
 const ARMS_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, improvedHeroicStrike: 3, improvedOverpower: 2, angerManagement: 1, deepWounds: 3,
-  twoHandSpec: 3, impale: 2, weaponmaster: 5, improvedSlam: 2, improvedExecute: 0, boundlessRage: 0, precision: 0,
+  twoHandSpec: 3, impale: 2, weaponmaster: 5, improvedSlam: 2, improvedExecute: 0,
   mortalStrike: 1, useSlam: true, useRend: true, hsRageReserve: 20, useRecklessness: true, executePhase: true, flurry: 0,
 };
 
@@ -1192,9 +1193,7 @@ function commonSetup(sim, b, W) {
   const mods = sim.mods;
   sim.kitBuild = b;
   sim.player.resource = 'rage';
-  sim.rageCap = 100 + W.boundlessRage.capPerRank * (b.boundlessRage || 0);
   mods.critBonus += W.cruelty.critPerRank * (b.cruelty || 0);
-  mods.hitBonus += W.precision.hitPerRank * (b.precision || 0);
   sim.reckAura = sim.addAura({ name: 'Recklessness', duration: W.recklessness.duration, mods: { critBonus: W.recklessness.crit } });
   sim.sRK = sim.addSpell({ name: 'Recklessness', cost: () => 0, cd: W.recklessness.cd });
   sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
@@ -1244,7 +1243,8 @@ function furyKit(build = {}, data = null) {
       const mods = sim.mods;
       if (sim.player.dualWield) {
         mods.ohDmgBonus = W.dualWieldSpec.ohDmgPerRank * b.dualWieldSpec;
-        mods.ohHitBonus = W.dualWieldSpec.ohHitPerRank * b.dualWieldSpec;
+        mods.ohRageMult = 1 + W.dualWieldSpec.ohRagePerRank * b.dualWieldSpec;
+        mods.ohHitBonus = W.furiousPrecision.ohHit[b.furiousPrecision || 0];
       }
       if (b.enrage > 0 && b.enrageUptime > 0) mods.dmgMult *= 1 + W.enrage.dmgPerRank * b.enrage * b.enrageUptime;
       const twoHanded = !sim.player.dualWield && sim.player.weapons[0] && sim.player.weapons[0].twoHand;
@@ -1255,7 +1255,8 @@ function furyKit(build = {}, data = null) {
       sim.flurryAura = sim.addAura({ name: 'Flurry', duration: W.flurry.expire, mods: { hasteMult: 1 + W.flurry.perRank * b.flurry } });
       sim.flurryAura.charges = 0;
       sim.sBT = sim.addSpell({ name: 'Bloodthirst', cost: () => W.bloodthirst.cost, cd: W.bloodthirst.cd });
-      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: () => W.whirlwind.cost, cd: W.whirlwind.cd });
+      const wwCost = () => W.whirlwind.cost - (b.ragingBlows ? W.ragingBlows.whirlwindCost : 0);
+      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd });
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
 
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
@@ -1263,7 +1264,7 @@ function furyKit(build = {}, data = null) {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = W.flurry.charges; s.flurryAura.apply(1); }
-        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(twoHanded ? 2 : 1);
+        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
       });
     },
     rotate(sim) {
@@ -1279,15 +1280,11 @@ function furyKit(build = {}, data = null) {
         yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
       });
       if (sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {
-        sim.spendRage(W.whirlwind.cost);
+        sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];
         yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat);
-        if (b.ragingBlows && sim.player.dualWield) {
-          const oh = sim.player.weapons[1];
-          yellowAttack(sim, 'Whirlwind (Raging Blows)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm) * (0.5 + (sim.mods.ohDmgBonus || 0)));
-        }
       });
-      const reserve = ((sim.sBT.readyAt - now) < 1.5 ? W.bloodthirst.cost : 0) + ((sim.sWW.readyAt - now) < 1.5 ? W.whirlwind.cost : 0) + b.hsRageReserve;
+      const reserve = ((sim.sBT.readyAt - now) < 1.5 ? W.bloodthirst.cost : 0) + ((sim.sWW.readyAt - now) < 1.5 ? sim.sWW.cost() : 0) + b.hsRageReserve;
       if (!sim.mhQueued && sim.rage >= sim.sHS.cost() + reserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
       return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt) - now);
     },
@@ -1315,7 +1312,7 @@ function armsKit(build = {}, data = null) {
       if (b.enrage > 0 && b.enrageUptime > 0) mods.dmgMult *= 1 + W.enrage.dmgPerRank * b.enrage * b.enrageUptime;
       sim.sMS = sim.addSpell({ name: 'Mortal Strike', cost: () => W.mortalStrike.cost, cd: W.mortalStrike.cd });
       sim.sOP = sim.addSpell({ name: 'Overpower', cost: () => W.overpower.cost, cd: W.overpower.cd });
-      sim.sSL = sim.addSpell({ name: 'Slam', cost: () => W.slam.cost, cd: 0 });
+      sim.sSL = sim.addSpell({ name: 'Slam', cost: () => W.slam.cost, cd: Math.max(0, W.slam.cd - W.improvedSlam.cdReduction[Math.min(2, b.improvedSlam || 0)]) });
       sim.sRD = sim.addSpell({ name: 'Rend', cost: () => W.rend.cost, cd: 0 });
       sim.rendEndsAt = -1;
       sim.slamUntil = -1;
@@ -1332,7 +1329,7 @@ function armsKit(build = {}, data = null) {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds(s);
         if (b.bloodthrill && !isOH && s.now < s.rendEndsAt && s.rng() < 0.04 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill: 20% at five ranks, Overpower usable for 6 s
-        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(sim.twoHanded ? 2 : 1);
+        if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
         if (isWhite && s.swordExtraAttack && outcome !== 'glance' && s.rng() < s.swordExtraAttack) s.whiteAttack(s.swings[0]);
       });
       if (b.angerManagement) {
@@ -1474,7 +1471,7 @@ function rogueKit(build = {}, data = null) {
       const pcrit = () => Math.min(1, Math.max(0, sim.stats.crit + sim.mods.critBonus));
       const pdmg = (name, base) => {
         const crit = sim.rng() < pcrit();
-        const d = base * pmult() * (crit ? R.poison.critMult : 1);
+        const d = base * pmult() * (crit ? 1 + (R.poison.critMult - 1) * (1 + (sim.player.racialCritDmg || 0)) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
       };
       const dkTick = () => {
@@ -1606,6 +1603,8 @@ function rogueKit(build = {}, data = null) {
 //   spirit regen per second (outside the five-second rule) = 0.009327 * sqrt(Int) * Spirit
 //   spell crit multiplier 1.5, global cooldown 1.5 s (not reduced by haste), spell miss 17% vs a level-63 boss.
 const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
+/** Damage multiplier of a spell critical strike: the bonus part (+50%) is scaled by the talents' critBonus and the racial critical damage (Tauren / Dwarf). */
+const spellCritMult = (sim, critBonus = 0) => 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus + ((sim.player && sim.player.racialCritDmg) || 0));
 
 function spiritRegenPerSec(stats) { return 0.009327 * Math.sqrt(Math.max(0, stats.int || 0)) * (stats.spi || 0); }
 
@@ -1664,7 +1663,8 @@ function resolveSpell(sim, name, raw, m) {
   const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
   const crit = sim.rng() < c;
   let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
-  if (crit) d *= 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
+  d *= sim.mods.dmgMult;                                   // temporary +x% damage auras (Eureka!)
+  if (crit) d *= spellCritMult(sim, m.critBonus || 0);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
   return { outcome: crit ? 'crit' : 'hit', dmg: d };
@@ -1845,6 +1845,7 @@ function attachEffects(sim) {
       if (p.apMult) mods.apMult = p.apMult;
       if (p.haste) mods.hasteMult = p.haste;
       if (p.crit) mods.critBonus = p.crit;
+      if (p.dmgMult) mods.dmgMult = p.dmgMult;             // Eureka!: +10% damage
       let spGain = 0;
       const a = sim.addAura({ name, duration: p.duration, mods, onApply: p.spMult ? () => { spGain = stats.sp * (p.spMult - 1); stats.sp += spGain; } : null, onExpire: p.spMult ? () => { stats.sp -= spGain; } : null });
       return () => { sim.entry(name).casts++; a.apply(); };
@@ -1912,7 +1913,7 @@ function spellHit(sim, m) {
 }
 function tickDamage(sim, name, raw, m) {
   const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0))), crit = sim.rng() < c;
-  const d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken * (crit ? 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0)) : 1);
+  const d = raw * (m.dmg || 1) * sim.mods.dmgMult * (1 - t.spellMitigation) * t.spellTaken * (crit ? spellCritMult(sim, m.critBonus || 0) : 1);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
   return { crit, dmg: d };
@@ -1987,7 +1988,7 @@ function casterDot(sim, def, s) {
   const d = s.dot, m = def.mods(sim, s, 'dot');
   const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
   const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
-  const critMult = 1 + (SPELL_CRIT_MULT - 1) * (1 + (m.critBonus || 0));
+  const critMult = spellCritMult(sim, m.critBonus || 0);
   const ticks = s.dotTicks ? s.dotTicks(sim) : d.ticks;
   applyDotCrit(sim, s.name, per, ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, def.onTick ? (r) => def.onTick(sim, s, r) : null);
 }
@@ -2003,7 +2004,7 @@ function channel(sim, def, s, cost) {
   if (!hit) sim.entry(s.name).misses++;
   for (let i = 1; i <= total; i++) sim.schedule(interval * i, () => {
     if (!hit) return;
-    const raw = ch.perTick + (sim.stats.sp + (sim.spBonus || 0)) * ch.coeff;
+    const raw = (ch.perTick + (sim.stats.sp + (sim.spBonus || 0)) * ch.coeff) * (def.tickMult ? def.tickMult(sim, s, i) : 1);   // tickMult: Improved Mind Flay (each tick deals x% more than the previous one)
     const r = tickDamage(sim, s.name, raw, def.mods(sim, s, 'channel'));
     if (def.afterHit) def.afterHit(sim, s, r.crit ? 'crit' : 'hit', r.dmg);
   });
@@ -2029,8 +2030,10 @@ const MAGE = {
   frostbolt: { name: 'Frostbolt', schools: ['frost'], cast: 3, cost: 290, min: 457.2, max: 492.8, coeff: 0.814 },
   frostfireBolt: { name: 'Frostfire Bolt', schools: ['fire', 'frost'], cast: 3, cost: 370, min: 247, max: 337, coeff: 0.814, dot: { total: 57, ticks: 3, interval: 3, coeff: 0 }, heat: true },
   iceLance: { name: 'Ice Lance', schools: ['frost'], cast: 0, cost: 150, min: 173, max: 200, coeff: 0.143, incin: true },       // ASSUMED (Classic TBC-era value)
+  arcaneWrath: { name: 'Arcane Wrath', schools: ['arcane'], cast: 3.5, cost: 395, min: 405.7, max: 496.3, coeff: 1, cd: 6, manaSp: 0.05, incin: false },   // build 70425 (spell 1326082): damage like Fireball plus spell power worth 5% of the maximum mana
   arcaneMissiles: { name: 'Arcane Missiles', schools: ['arcane'], cast: 5, cost: 655, total: 1085, coeff: 0.714, ticks: 5 },     // ASSUMED (Classic rank 8)
-  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 2.5, cost: 195, min: 470, max: 540, coeff: 0.714, incin: true, stackDmg: 0.10, stackCost: 1.75, maxStacks: 4, dur: 8 },   // damage/cast/cost ASSUMED (TBC-style)
+  // build 1.60.1.70425: Arcane Blast is a 1.5 s cast (damage and coefficient -40%); each cast gives 15% of the mage's Intellect as spell damage, stacking 4 times for 15 s from the FIRST cast, and raises its own cost
+  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 1.5, cost: 195, min: 218.2, max: 253.8, coeff: 0.429, incin: true, spPerInt: 0.15, stackCost: 1.75, maxStacks: 4, dur: 15 },
   combustion: { cd: 180 },
   manaGem: { cd: 120, min: 1073, max: 1127 },                                                                                    // ASSUMED (Mana Ruby)
   innervate: { cd: 360, dur: 20, mult: 5 },                                                                                      // ASSUMED (Classic, cast by a druid)
@@ -2041,17 +2044,17 @@ const MAGE = {
   manaPotion: { cd: 120, min: 1350, max: 2250 },                                                                                // ASSUMED (Major Mana Potion)
   // talents, per rank (Forever tooltips)
   arcaneFocus: { hit: 0.01 }, arcaneConcentration: { chance: 0.02 }, arcaneImpact: { crit: 0.02 }, arcaneMeditation: { keep: 1 / 6 },
-  arcaneMind: { int: 0.02, critBonus: 0.2 }, arcaneInstability: { dmg: 0.01, crit: 0.01 }, missileBarrage: { am: 0.2, ab: 0.4 },
+  arcaneMind: { int: 0.02, critBonus: 0.2 }, arcaneInstability: { dmg: 0.01, crit: 0.01 }, missileBarrage: { ab: 0.2, am: 0.05, other: 0.10 },   // per rank (2 ranks since build 70425): Arcane Blast, each Arcane Missiles hit, Arcane Wrath / Fireball / Frostbolt / Frostfire Bolt
   incineration: { crit: 0.02 }, improvedFireball: { cast: 0.1 }, ignite: { frac: 0.08 }, improvedScorch: { chance: 0.33, perStack: 0.03, max: 5, dur: 30 },
-  masterOfElements: { refund: 0.10 }, criticalMass: { crit: 0.02 }, firePower: { dmg: 0.02 }, wakeOfFire: { cd: 1 },
+  masterOfElements: { refund: 0.10 }, criticalMass: { crit: 0.02 }, firePower: { perEffect: 0.01, maxEffects: 4 }, wakeOfFire: { cd: 1 },   // Fire Power (3 ranks): +1% per rank for each Fire effect on the target (Ignite, Fire Vulnerability, Fireball and Pyroblast DoTs), up to 4 effects
   improvedFrostbolt: { cast: 0.1 }, elementalPrecision: { hit: 0.01 }, iceShards: { critBonus: 0.2 }, piercingIce: { dmg: 0.02 },
-  frostChanneling: { cost: 0.05 }, shatter: { crit: 0.5 / 3 }, fingersOfFrost: { chance: 0.15 }, wintersChill: { chance: 0.2, crit: 0.02, max: 5 },
-  iceLanceFrozen: 4,
+  frostChanneling: { cost: 0.05 }, shatter: { crit: 0.5 / 3 }, fingersOfFrost: { chance: 0.15 }, wintersChill: { chance: 0.2, crit: 0, max: 5 },   // build 70425: Winter's Chill only boosts Cone of Cold now (no crit on Frostbolt / Ice Lance)
+  iceLanceFrozen: 3,                                                                    // build 70425: +200% against Frozen targets (was +300%)
 };
 
 const MAGE_DEFAULT_BUILD = {
   arcaneFocus: 0, arcaneConcentration: 0, arcaneImpact: 0, arcaneMeditation: 0, arcaneMind: 0, arcaneInstability: 0, arcanePower: 0, presenceOfMind: 0, missileBarrage: 0,
-  incineration: 0, improvedFireball: 0, ignite: 0, improvedScorch: 0, heatingUp: 0, masterOfElements: 0, criticalMass: 0, firePower: 0, combustion: 0, pyroblast: 0, wakeOfFire: 0,
+  incineration: 0, improvedFireball: 0, ignite: 0, improvedScorch: 0, heatingUp: 0, masterOfElements: 0, criticalMass: 0, firePower: 0, combustion: 0, pyroblast: 0, wakeOfFire: 0, arcaneWrath: 0,
   improvedFrostbolt: 0, elementalPrecision: 0, iceShards: 0, piercingIce: 0, frostChanneling: 0, iceLance: 0, shatter: 0, fingersOfFrost: 0, wintersChill: 0,
   rotation: 'fire', filler: 'auto', useCooldowns: true, usePotion: true, useEvocation: true, useGem: true, innervate: false, movement: 0, arcaneBlast: 0,
 };
@@ -2086,7 +2089,13 @@ function mageKit(build = {}, data = null) {
     if (ex['Arcane Blast']) {
       const r = ex['Arcane Blast'], e = r.effects.find((x) => x.effect === 2), mid = e.base + e.per_level * Math.max(0, Math.min(60, r.max_level || 60) - r.spell_level);
       Object.assign(M.arcaneBlast, { min: mid * (1 - e.variance / 2), max: mid * (1 + e.variance / 2), coeff: e.sp_coeff, cast: r.cast_ms / 1000, cost: Math.round(r.cost_pct / 100 * 1213) });
+      const st = ex['Arcane Blast Stacks']; if (st) { const sp = st.effects.find((x) => x.aura === 174); if (sp) M.arcaneBlast.spPerInt = sp.base / 100; M.arcaneBlast.dur = st.duration_ms / 1000; }
     }
+    if (ex['Arcane Wrath']) {
+      const r = ex['Arcane Wrath'], e = r.effects.find((x) => x.effect === 2), m = r.effects.find((x) => x.effect === 3), mid = e.base + e.per_level * Math.max(0, Math.min(60, r.max_level || 60) - r.spell_level);
+      Object.assign(M.arcaneWrath, { min: mid * (1 - e.variance / 2), max: mid * (1 + e.variance / 2), coeff: e.sp_coeff, cast: r.cast_ms / 1000, cd: r.cooldown_ms / 1000, cost: r.cost.amount || Math.round(r.cost_pct / 100 * 1213), manaSp: m ? m.base / 100 : 0.05 });
+    }
+    if (ex['Ice Lance']) { const f = ex['Ice Lance'].effects.find((x) => x.effect === 3 && x.base >= 100); if (f) M.iceLanceFrozen = 1 + f.base / 100; }
   }
 
   return {
@@ -2098,7 +2107,8 @@ function mageKit(build = {}, data = null) {
       sim.critBase = extraInt / 59.5 / 100;                                         // Arcane Mind's extra Intellect -> crit (ASSUMED Classic ratio)
       sim.manaMaxExtra = 15 * extraInt;
       setupMana(sim, { manaMax: st.mana + sim.manaMaxExtra, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: (st.int || 0) + extraInt, spi: st.spi }), castingFraction: M.arcaneMeditation.keep * b.arcaneMeditation });
-      sim.cd = { gem: 0, innervate: 0, fireBlast: 0, combustion: 0, arcanePower: 0, presenceOfMind: 0, evocation: 0, potion: 0 };
+      sim.cd = { gem: 0, innervate: 0, fireBlast: 0, combustion: 0, arcanePower: 0, presenceOfMind: 0, evocation: 0, potion: 0, arcaneWrath: 0 };
+      sim.abInt = (st.int || 0) + extraInt;
       sim.pom = false; sim.cc = false; sim.mb = false; sim.fof = 0; sim.combCrits = 0; sim.heatStacks = 0;
       sim.aScorch = sim.addAura({ name: 'Fire Vulnerability', duration: M.improvedScorch.dur, maxStacks: M.improvedScorch.max });
       sim.aHeat = sim.addAura({ name: 'Heating Up', duration: 20, maxStacks: 3 });
@@ -2125,7 +2135,7 @@ function mageKit(build = {}, data = null) {
         return ((mid + sp) * (1 + crit * (0.5 * (1 + m.critBonus))) * hit + dot) * m.dmg / Math.max(mageCastTime(sim, s, true), SPELL_GCD);
       };
     },
-    start(sim) { sim.arcaneBurst = arcaneBurstBetter(sim, M, b); },
+    start(sim) { sim.arcaneBurst = arcaneBurstBetter(sim, M, b); sim.awBetter = arcaneWrathBetter(sim, M, b); },
     rotate(sim) { return mageRotate(sim, b, M); },
   };
 }
@@ -2138,7 +2148,7 @@ function specMods(sim, s, noAuras, extra = 1) {
   const fire = schoolHas(s, 'fire'), frost = schoolHas(s, 'frost'), arcane = schoolHas(s, 'arcane');
   if (fire || frost) hit += M.elementalPrecision.hit * b.elementalPrecision;
   if (arcane) { hit += M.arcaneFocus.hit * b.arcaneFocus; crit += M.arcaneImpact.crit * b.arcaneImpact; critBonus += M.arcaneMind.critBonus * b.arcaneMind; }
-  if (fire) { crit += M.criticalMass.crit * b.criticalMass; dmg *= 1 + M.firePower.dmg * b.firePower; }
+  if (fire) { crit += M.criticalMass.crit * b.criticalMass; if (!noAuras && b.firePower) dmg *= 1 + M.firePower.perEffect * b.firePower * Math.min(M.firePower.maxEffects, fireEffects(sim)); }
   if (frost) { dmg *= 1 + M.piercingIce.dmg * b.piercingIce; critBonus += M.iceShards.critBonus * b.iceShards; }
   if (s.incin) crit += M.incineration.crit * b.incineration;
   crit += M.arcaneInstability.crit * b.arcaneInstability; dmg *= 1 + M.arcaneInstability.dmg * b.arcaneInstability;
@@ -2149,6 +2159,17 @@ function specMods(sim, s, noAuras, extra = 1) {
     if (sim.aFoF.active) { crit += M.shatter.crit * b.shatter; if (s === M.iceLance) dmg *= M.iceLanceFrozen; }
   }
   return { hit, crit: crit + sim.critBase, dmg, critBonus };
+}
+// Fire effects on the target for Fire Power (build 70425): Ignite, Fire Vulnerability (Improved Scorch), the Fireball and Pyroblast damage over time
+function fireEffects(sim) {
+  const e = sim.fxEnds || {};
+  return (e.Ignite > sim.now ? 1 : 0) + (sim.aScorch.active ? 1 : 0) + (e.Fireball > sim.now ? 1 : 0) + (e.Pyroblast > sim.now ? 1 : 0);
+}
+const markFx = (sim, name, dur) => { (sim.fxEnds || (sim.fxEnds = {}))[name] = sim.now + dur; };
+// Arcane Blast stacks: 15% of the Intellect as spell damage per stack (build 70425)
+function abSpell(sim, s) {
+  const M = sim.spec.M;
+  return M.arcaneBlast.spPerInt * (sim.abInt || 0) * (sim.aAB.active ? sim.aAB.stacks : 0) + (s === M.arcaneWrath ? M.arcaneWrath.manaSp * sim.manaMax : 0);
 }
 function mageCastTime(sim, s, noAuras) {
   const b = sim.kitBuild, M = sim.spec.M;
@@ -2176,20 +2197,21 @@ function mageCast(sim, s, instant) {
   const pomUsed = sim.pom && s.cast >= 1.5 && s !== M.arcaneMissiles; if (pomUsed) sim.pom = false;
   let ct = instant ? 0 : mageCastTime(sim, s);
   if (pomUsed) ct = 0;
-  if (s === M.pyroblast) sim.aHeat.expire();
-  let extra = 1;
-  if (s !== M.arcaneBlast && sim.aAB.active) { extra = 1 + M.arcaneBlast.stackDmg * sim.aAB.stacks; sim.aAB.expire(); }
+  if (s === M.pyroblast && !pomUsed) sim.aHeat.expire();         // build 70425: Heating Up is not consumed by a Presence of Mind Pyroblast
+  const extra = 1;
+  if (s === M.arcaneWrath) sim.cd.arcaneWrath = sim.now + M.arcaneWrath.cd;
   if (s === M.arcaneMissiles) return channelMissiles(sim, s, cost, extra);
   const baseCost = s.cost;
   return beginCast(sim, s, ct, cost, () => {
     const m = specMods(sim, s, false, extra);
-    const raw = s.min + (s.max - s.min) * sim.rng() + sim.stats.sp * s.coeff;
+    const raw = s.min + (s.max - s.min) * sim.rng() + (sim.stats.sp + abSpell(sim, s)) * s.coeff;
     const r = resolveSpell(sim, s.name, raw, m);
     afterHit(sim, s, r, m, baseCost);
-    if (s === M.arcaneBlast && r.outcome !== 'miss') sim.aAB.apply(1);
+    if (s === M.arcaneBlast && r.outcome !== 'miss') sim.aAB.apply(1, sim.aAB.active ? sim.aAB.endsAt - sim.now : undefined);   // the 15 s run from the first cast
     if (r.outcome !== 'miss' && s.dot) {
       const total = s.dot.total + sim.stats.sp * (s.dot.coeff || 0);
       applyDot(sim, s.name + ' (DoT)', total * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken, s.dot.ticks, s.dot.interval);
+      if (s === M.fireball) markFx(sim, 'Fireball', s.dot.ticks * s.dot.interval); else if (s === M.pyroblast) markFx(sim, 'Pyroblast', s.dot.ticks * s.dot.interval);
     }
   });
 }
@@ -2202,17 +2224,21 @@ function afterHit(sim, s, r, m, baseCost) {
   if (crit && (fire || frost) && b.masterOfElements) gainMana(sim, baseCost * M.masterOfElements.refund * b.masterOfElements);
   if (fire) {
     if (sim.aComb.active) { sim.aComb.apply(1); if (crit && ++sim.combCrits >= 3) { sim.aComb.expire(); sim.combCrits = 0; } }
-    if (crit && b.ignite) { const total = r.dmg * M.ignite.frac * b.ignite; applyDot(sim, 'Ignite', total, 2, 2); }
+    if (crit && b.ignite) { const total = r.dmg * M.ignite.frac * b.ignite; applyDot(sim, 'Ignite', total, 2, 2); markFx(sim, 'Ignite', 4); }
   }
   if (crit && s.heat && b.heatingUp) sim.aHeat.apply(1);
+  if (s === M.fireBlast && b.heatingUp) sim.aHeat.apply(1);      // build 70425: Fire Blast always adds a charge (two on a critical strike)
   if (s === M.scorch && b.improvedScorch && sim.rng() < Math.min(1, M.improvedScorch.chance * b.improvedScorch)) sim.aScorch.apply(1);
   if (frost && b.wintersChill && sim.rng() < M.wintersChill.chance * b.wintersChill) sim.aWC.apply(1);
   if (s === M.frostbolt && b.fingersOfFrost && sim.rng() < M.fingersOfFrost.chance) { sim.fof = b.fingersOfFrost; sim.aFoF.apply(); }
-  if (b.missileBarrage && (s === M.fireball || s === M.frostbolt || s === M.frostfireBolt) && sim.rng() < M.missileBarrage.am) sim.aMB.apply();
+  if (b.missileBarrage) {                                       // build 70425: 2 ranks; Arcane Blast 20% / 40%, each Arcane Missiles hit 5% / 10%, Arcane Wrath / Fireball / Frostbolt / Frostfire Bolt 10% / 20%
+    const p = s === M.arcaneBlast ? M.missileBarrage.ab : s === M.arcaneMissiles ? M.missileBarrage.am : (s === M.fireball || s === M.frostbolt || s === M.frostfireBolt || s === M.arcaneWrath) ? M.missileBarrage.other : 0;
+    if (p && sim.rng() < p * b.missileBarrage) sim.aMB.apply();
+  }
 }
 function channelMissiles(sim, s, cost, extra = 1) {
   const M = sim.spec.M, barrage = sim.aMB.active; if (barrage) sim.aMB.expire();
-  const total = s.total + sim.stats.sp * s.coeff, per = total / s.ticks, step = barrage ? 0.5 : 1;
+  const total = s.total + (sim.stats.sp + abSpell(sim, s)) * s.coeff, per = total / s.ticks, step = barrage ? 0.5 : 1;
   const dur = step * s.ticks / sim.hasteMult();
   const m0 = specMods(sim, s, false, extra);
   sim.gcdReadyAt = sim.now + SPELL_GCD; spendMana(sim, cost); sim.entry(s.name).casts++;
@@ -2253,8 +2279,9 @@ function mageRotate(sim, b, M) {
   const pick = () => {
     if (rotation === 'frost') return (b.iceLance && sim.aFoF.active) ? M.iceLance : M.frostbolt;
     if (rotation === 'arcane') {
-      // burst: stack Arcane Blast to the cap, then spend the stacks on one Arcane Missiles channel
+      // build 70425: stack Arcane Blast to the cap (15% of the Intellect as spell damage each, 15 s from the first cast), spend the stacks on Arcane Wrath (every 6 s) and Arcane Missiles
       if (b.arcaneBlast && sim.arcaneBurst && sim.aAB.stacks < M.arcaneBlast.maxStacks) return M.arcaneBlast;
+      if (b.arcaneWrath && sim.awBetter && now >= sim.cd.arcaneWrath) return M.arcaneWrath;
       return M.arcaneMissiles;
     }
     // fire
@@ -2288,21 +2315,38 @@ function mageRotate(sim, b, M) {
   return mageCast(sim, s, s.cast === 0);
 }
 
-// Arcane: is "four Arcane Blasts, then one Arcane Missiles with the stacks" better than Arcane Missiles alone?
-// Compared on damage per second with the mana cost folded in (damage per second of mana-limited play: dmg / max(time, mana / manaRate)).
+// Arcane Wrath (3.5 s cast, 6 s cooldown) is only cast when it deals more per second than Arcane Missiles (mana folded in the same way as for the burst).
+function arcaneWrathBetter(sim, M, b) {
+  if (!b.arcaneWrath || b.rotation !== 'arcane') return false;
+  const st = sim.stats, aw = M.arcaneWrath, am = M.arcaneMissiles, h = sim.hasteMult();
+  const dmgOf = (s, spExtra, mid) => { const m = specMods(sim, s, true); const crit = 1 + Math.min(1, st.crit + m.crit) * 0.5 * (1 + m.critBonus), hit = Math.min(0.99, 1 - sim.target.spellMiss + st.hit + m.hit); return (mid + (st.sp + spExtra) * s.coeff) * crit * hit * m.dmg; };
+  const awD = dmgOf(aw, aw.manaSp * sim.manaMax, (aw.min + aw.max) / 2), amD = dmgOf(am, 0, am.total);
+  const budget = sim.manaMax / 180 + (st.mp5 || 0) / 5 + 8;
+  return awD / Math.max(aw.cast / h, aw.cost / budget) > amD / Math.max(am.cast / h, am.cost / budget);
+}
+
+// Arcane (build 1.60.1.70425): is "four Arcane Blasts, then Arcane Wrath and Arcane Missiles with the stacks" better than Arcane Wrath + Arcane Missiles alone?
+// Each Arcane Blast stack gives 15% of the Intellect as spell damage for 15 s. Compared on damage per second with the mana cost folded in
+// (damage per second of mana-limited play: dmg / max(time, mana / manaRate)).
 function arcaneBurstBetter(sim, M, b) {
   if (!b.arcaneBlast || b.rotation !== 'arcane') return false;
-  const st = sim.stats, ab = M.arcaneBlast, am = M.arcaneMissiles;
-  const mA = specMods(sim, ab, true), mM = specMods(sim, am, true);
-  const crit = (m) => 1 + Math.min(1, st.crit + m.crit) * 0.5 * (1 + m.critBonus), hit = (m) => Math.min(0.99, 1 - sim.target.spellMiss + st.hit + m.hit);
-  const abHit = ((ab.min + ab.max) / 2 + st.sp * ab.coeff) * crit(mA) * hit(mA) * mA.dmg, amHit = (am.total + st.sp * am.coeff) * crit(mM) * hit(mM) * mM.dmg;
+  const st = sim.stats, ab = M.arcaneBlast, am = M.arcaneMissiles, aw = b.arcaneWrath ? M.arcaneWrath : null;
+  const boost = ab.spPerInt * (sim.abInt || st.int || 0), h = sim.hasteMult();
+  const dmgOf = (s, spExtra, mid) => {
+    const m = specMods(sim, s, true);
+    const crit = 1 + Math.min(1, st.crit + m.crit) * 0.5 * (1 + m.critBonus), hit = Math.min(0.99, 1 - sim.target.spellMiss + st.hit + m.hit);
+    return (mid + (st.sp + spExtra) * s.coeff) * crit * hit * m.dmg;
+  };
+  const abMid = (ab.min + ab.max) / 2, awMid = aw ? (aw.min + aw.max) / 2 : 0, awExtra = aw ? aw.manaSp * sim.manaMax : 0;
   let dmg = 0, mana = 0, time = 0;
-  for (let i = 0; i < ab.maxStacks; i++) { dmg += abHit; mana += ab.cost * (1 + ab.stackCost * i); time += ab.cast / sim.hasteMult(); }
-  dmg += amHit * (1 + ab.stackDmg * ab.maxStacks); mana += am.cost; time += am.cast / sim.hasteMult();
+  for (let i = 0; i < ab.maxStacks; i++) { dmg += dmgOf(ab, boost * i, abMid); mana += ab.cost * (1 + ab.stackCost * i); time += ab.cast / h; }
+  if (aw) { dmg += dmgOf(aw, boost * ab.maxStacks + awExtra, awMid); mana += aw.cost; time += aw.cast / h; }
+  dmg += dmgOf(am, boost * ab.maxStacks, am.total); mana += am.cost; time += am.cast / h;
+  let pd = dmgOf(am, 0, am.total), pm = am.cost, pt = am.cast / h;
+  if (aw) { pd += dmgOf(aw, awExtra, awMid); pm += aw.cost; pt += aw.cast / h; }
   const rate = (st.mp5 || 0) / 5 + 0.0;                       // mana regained per second while casting (gear only)
   const budget = sim.manaMax / 180 + rate + 8;                // rough sustainable mana per second over a 3-minute fight (pool + potions + regen)
-  const burst = dmg / Math.max(time, mana / budget), plain = amHit / Math.max(am.cast / sim.hasteMult(), am.cost / budget);
-  return burst > plain * 1.05;
+  return dmg / Math.max(time, mana / budget) > (pd / Math.max(pt, pm / budget)) * 1.05;
 }
 
 // ---- warlock.js ----
@@ -2331,8 +2375,8 @@ const WARLOCK = {
   imp: { cast: 2, min: 105, max: 115, spCoeff: 0.15, crit: 0.05, miss: 0.06 },                                  // ASSUMED (Classic Firebolt rank 7, pet scaling)
   sacrifice: 0.15,
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
-  suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, malediction: { dmg: 0.01 }, improvedLifeTap: { restore: 0.10 },
-  pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.01 }, improvedBaneOfAgony: { dmg: 0.05 },
+  suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, improvedLifeTap: { restore: 0.10 },
+  pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.02 }, improvedBaneOfAgony: { dmg: 0.05 },
   improvedShadowBolt: { dmg: 0.04, dur: 12 }, bane: { cast: 0.1, soulFire: 0.4 }, cataclysm: { cost: 0.10 / 3 }, aftermath: { dmg: 0.10 }, ruin: { critBonus: 0.2 },
   agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.02, dur: 20 }, decimation: { cd: 0.45 },
   demonicKnowledge: { sp: 20 }, masterDemonologist: { dmg: 0.02 }, unholyPower: { pet: 0.02 }, improvedImp: { pet: 0.10 }, felVitality: { mana: 0.05 },
@@ -2340,7 +2384,7 @@ const WARLOCK = {
 };
 
 const WARLOCK_DEFAULT_BUILD = {
-  suppression: 0, improvedCorruption: 0, malediction: 0, improvedLifeTap: 0, pandemic: 0, malevolence: 0, nightfall: 0, shadowMastery: 0, improvedBaneOfAgony: 0,
+  suppression: 0, improvedCorruption: 0, improvedLifeTap: 0, pandemic: 0, malevolence: 0, nightfall: 0, shadowMastery: 0, improvedBaneOfAgony: 0,
   siphonLife: 0, wrack: 0, soulSiphon: 0,
   improvedShadowBolt: 0, bane: 0, cataclysm: 0, aftermath: 0, ruin: 0, shadowburn: 0, agonizingFlames: 0, conflagrate: 0, fireAndBrimstone: 0, shadowAndFlame: 0, incinerate: 0,
   decimation: 0, demonicKnowledge: 0, masterDemonologist: 0, unholyPower: 0, improvedImp: 0, felVitality: 0, demonicSacrifice: 0,
@@ -2427,7 +2471,7 @@ function mods(sim, s, noAuras, periodic) {
   if (shadow) { crit += W.malevolence.crit * b.malevolence; dmg *= 1 + W.shadowMastery.dmg * b.shadowMastery; if (sim.sacrificed === 'imp') dmg *= 1 + W.sacrifice; }
   if (fire && sim.sacrificed === 'succubus') dmg *= 1 + W.sacrifice;
   if (s.destruction) { critBonus += W.ruin.critBonus * b.ruin; dmg *= 1 + W.agonizingFlames.dmg * b.agonizingFlames; }
-  if (periodic) { dmg *= 1 + W.malediction.dmg * b.malediction; if (shadow) critBonus += W.pandemic.critBonus * b.pandemic; }
+  if (periodic) { if (shadow) critBonus += W.pandemic.critBonus * b.pandemic; }
   if (s === W.conflagrate) crit += W.fireAndBrimstone.crit * b.fireAndBrimstone;
   if (!noAuras) {
     if (shadow) {
@@ -2495,7 +2539,7 @@ function startDot(sim, s) {
   if (s === W.agony) per *= 1 + W.improvedBaneOfAgony.dmg * b.improvedBaneOfAgony;
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
   const critChance = Math.max(0, Math.min(1, st.crit + m.crit));
-  const critMult = 1 + (SPELL_CRIT_MULT - 1) * (1 + m.critBonus);
+  const critMult = spellCritMult(sim, m.critBonus);
   const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);
 }
@@ -2767,7 +2811,8 @@ function hunterRotate(sim, b, H) {
 // ASSUMED (Classic style): Raptor Strike off the global cooldown, Mongoose Bite / Strider Kick on a 1.5 s global cooldown, base mana 1300, the pet as above.
 // Serpent Sting, Arcane Shot and Aimed Shot are not used (they need the ranged weapon and range).
 const HUNTER_MELEE = {
-  raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 5 }, strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
+  raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 10 },   // window: Expose Prey lasts 10 s since build 1.60.1.70425 (was 5 s)
+   strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
   savageStrikes: { crit: 0.02 }, surefooted: { hit: 0.01 }, predatorsEdge: { critDmg: 0.06, oh: 0.10 }, lightningReflexes: { agi: 0.02 }, exposePrey: { chance: 0.05 },
   lacerating: { frac: 0.40, ticks: 7, interval: 3 }, resourcefulness: { cost: 0.30 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, lethalAttacks: { crit: 0.01 },
   norm: { dw: 2.4, twoHand: 3.3 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
@@ -2792,7 +2837,7 @@ function hunterMeleeKit(build = {}, data = null) {
       mods.apBonus += extraAgi + (b.carefulAim ? Math.floor((st.int || 0) * M.carefulAim.intToAp * b.carefulAim) : 0);
       mods.critBonus += extraAgi / 53 / 100 + M.lethalAttacks.crit * b.lethalAttacks;
       mods.hitBonus += M.surefooted.hit * b.surefooted;
-      mods.critDmgBonus += M.predatorsEdge.critDmg * b.predatorsEdge;
+      sim.abilityCritDmg = M.predatorsEdge.critDmg * b.predatorsEdge;            // build 70425: Predator's Edge only raises the critical damage of melee ABILITIES (not white swings)
       if (sim.player.dualWield) mods.ohDmgBonus = (mods.ohDmgBonus || 0) + M.predatorsEdge.oh * b.predatorsEdge;
       sim.petOn = b.pet !== 'none';
       sim.dmgGlobal = sim.petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1;
@@ -2857,9 +2902,11 @@ function hunterMeleeKit(build = {}, data = null) {
 // Silence, the Holy and Discipline spells other than the ones listed.
 
 const PRIEST = {
-  shadowFocus: { hit: 0.01 }, improvedSwp: { ticks: 1 }, improvedMindBlast: { cd: 0.5 }, improvedMindFlay: { dmg: 0.10 }, shadowWeaving: { dmg: 0.02, max: 5, dur: 15 },
+  shadowFocus: { hit: 0.01 }, improvedSwp: { ticks: 1 }, improvedMindBlast: { cd: 0.5 }, improvedMindFlay: { ramp: 0.10 },   // build 1.60.1.70425: each Mind Flay tick deals 10% / 20% more than the previous tick (was +10% / +20% on the whole channel)
+   shadowWeaving: { dmg: 0.02, max: 5, dur: 15 },
   darkness: { dmg: 0.02 }, shadowform: { dmg: 0.10, cost: 0.5, critBonus: 1 }, devouringContagion: { cost: 0.25 }, twinDisciplines: { dmg: 0.01 }, mentalAgility: { cost: 1 / 30 },
-  mentalStrength: { int: 0.03 }, meditation: { keep: 1 / 6 }, powerInfusion: { dmg: 1.2, dur: 15, cd: 180 }, innerFocus: { crit: 0.25, cd: 180 },   // cooldowns ASSUMED
+  mentalStrength: { int: 0.02 },     // build 70425: +2% Intellect per rank (was 3%)
+  meditation: { keep: 1 / 6 }, powerInfusion: { dmg: 1.2, dur: 15, cd: 180 }, innerFocus: { crit: 0.25, cd: 180 },   // cooldowns ASSUMED
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -2903,11 +2950,11 @@ function priestKit(build = {}, data = null) {
         if (b.shadowform) critBonus += P.shadowform.critBonus;
       }
       if (s.instant) dmg *= 1 + P.twinDisciplines.dmg * b.twinDisciplines;
-      if (s === def.S.mf) dmg *= 1 + P.improvedMindFlay.dmg * b.improvedMindFlay;
       if (sim.aPI.active) dmg *= P.powerInfusion.dmg;
       if (sim.innerFocus && s.direct) crit += P.innerFocus.crit;
       return { hit, crit, dmg, critBonus };
     },
+    tickMult: (sim, s, i) => (s === def.S.mf && b.improvedMindFlay ? Math.pow(1 + P.improvedMindFlay.ramp * b.improvedMindFlay, i - 1) : 1),
     castTime: (sim, s) => s.cast,
     cost(sim, s) {
       if (sim.innerFocus) return 0;
@@ -2977,12 +3024,15 @@ function dropTotem(sim, T, mods) {
 
 const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, callOfThunder: { crit: 0.03 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
   improvedFireNova: { dmg: 0.1, cd: 2 }, mentalQuickness: { sp: 0.15 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
+  // build 1.60.1.70425: Call of Thunder is gone; Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
+  // Call of Flame also lengthens Flame Shock by 3 s per rank
+  elementalMastery: { cd: 180, dur: 15, cast: 0.5 }, callOfFlameShock: { sec: 3 },
 };
 
 const SHAMAN_ELE_DEFAULT_BUILD = {
-  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, callOfThunder: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
+  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
   improvedFireNova: 0, mentalQuickness: 0, burnMana: 0, mindfulness: 0, totemicFocus: 0, tidalFocus: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
@@ -3007,19 +3057,24 @@ function shamanElementalKit(build = {}, data = null) {
     keep: () => b.mindfulness / 6,                          // Mindfulness: 17 / 33 / 50 % of the regeneration continues while casting
     setup(sim) {
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
+      sim.aEM = sim.addAura({ name: 'Elemental Mastery', duration: H.elementalMastery.dur });
+      if (S.fs && S.fs.dot && b.callOfFlame) S.fs.dotTicks = () => S.fs.dot.ticks + Math.round(H.callOfFlameShock.sec * b.callOfFlame / S.fs.dot.interval);
       sim.spBonus = Math.floor(((sim.stats.int || 0) * (1 + H.ancestralKnowledge.int * b.ancestralKnowledge)) * H.mentalQuickness.sp * b.mentalQuickness);   // Mental Quickness: spell power from Intellect
       sim.critBase = H.thunderingStrikes.crit * b.thunderingStrikes + Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge) / 59.5 / 100;
     },
     mods(sim, s, kind) {
       let hit = 0.01 * b.tidalFocus, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
-      if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
+      if (s === S.lb || s === S.cl) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
       if (s === S.lvb && dotActive(sim, S.fs ? S.fs.name : '')) dmg *= H.lavaBurstFs;
       return { hit, crit, dmg, critBonus };
     },
-    castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity) : s.cast),
+    castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity - ((s === S.lb || s === S.lvb) && sim.aEM.active ? H.elementalMastery.cast : 0)) : s.cast),
+    offGcd(sim) {          // Elemental Mastery on cooldown (3 minutes): used when it comes up
+      if (b.elementalMastery && b.useCooldowns && sim.now >= (sim.cdAt.em || 0)) { sim.cdAt.em = sim.now + H.elementalMastery.cd; sim.entry('Elemental Mastery').casts++; sim.aEM.apply(); }
+    },
     cost(sim, s) {
       if (s.totem) return Math.round(s.cost * (1 - 0.05 * b.totemicFocus));
       if (sim.aClear.active) return 0;
@@ -3048,6 +3103,11 @@ function shamanElementalKit(build = {}, data = null) {
       if (S.es && b.earthShock && rich && shockReady) return S.es;
       if (S.fn && b.fireNova && rich && ready(S.fn)) return S.fn;
       if (S.cl && b.chainLightning && ready(S.cl)) return S.cl;
+      if (S.cl && S.lb && sim.aEM.active) {            // Elemental Mastery: Chain Lightning has no cooldown, cast it when it deals more per second than Lightning Bolt
+        const sp = (sim.stats.sp || 0) + (sim.spBonus || 0), dmgOf = (x) => (x.direct.min + x.direct.max) / 2 + sp * x.direct.coeff;
+        const t = (x) => Math.max(0.5, x.cast - H.elementalAlacrity.cast * b.elementalAlacrity - (x === S.lb ? H.elementalMastery.cast : 0));
+        if (dmgOf(S.cl) / t(S.cl) > dmgOf(S.lb) / t(S.lb)) return S.cl;
+      }
       return S.lb;
     },
   };
@@ -3084,7 +3144,7 @@ function shamanEnhancementKit(build = {}, data = null) {
   const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
   const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
   if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
-  if (ss) { E.stormstrike.cost = ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }
+  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
   return {
     name: 'shaman_enhancement', build: b, E,
     setup(sim) {
@@ -3433,7 +3493,7 @@ const PALADIN = {
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429, norm: 3.3 },
   hammerOfWrath: { cost: 425, cd: 6, cast: 1, dmg: 498, spCoeff: 0.429 },
   conviction: { crit: 0.01 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 3, dur: 30 },
-  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.2 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
+  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.10 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
   benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.05 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
@@ -3468,7 +3528,7 @@ function paladinRetKit(build = {}, data = null) {
       const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit)), crit = sim.rng() < c;
-        const d = raw * holyMult() * (crit ? 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus) : 1);
+        const d = raw * holyMult() * (crit ? spellCritMult(sim, critBonus) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
         return crit;
       };
@@ -3672,7 +3732,7 @@ function paladinProtKit(build = {}, data = null) {
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
       const holy = (name, raw) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus)), crit = sim.rng() < c;
-        sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? SPELL_CRIT_MULT : 1), crit ? 'crit' : 'hit');
+        sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? spellCritMult(sim) : 1), crit ? 'crit' : 'hit');
       };
       sim.holy = holy;
       sim.bossHooks.push((s, out, dmg) => {
