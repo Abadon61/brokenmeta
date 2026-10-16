@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>WoW Forever — Top 10 DPS niveau 60</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .dps-panel { padding: 24px 28px; display: flex; flex-direction: column; gap: 6px; }
+  .rk { display: grid; grid-template-columns: 38px 56px 1fr; align-items: center; gap: 16px; padding: 6px 0; }
+  .rk-n { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 24px; color: var(--text-faint); text-align: center; }
+  .rk:first-child .rk-n { color: var(--gold); }
+  .rk-i { width: 56px; height: 56px; border-radius: 10px; border: 2px solid var(--rc); display: block; }
+  .rk-l { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 9px; }
+  .rk-l b { font-weight: 600; font-size: 27px; color: var(--cream); }
+  .rk-l span { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 24px; color: var(--pale); }
+  .note { font-size: 20px; color: var(--text-dim); margin-top: 16px; line-height: 1.4; }
+  .note strong { color: var(--cream); }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-wow-dps-niveau-60">
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
+    </div>
+    <div class="pill">WoW: Forever</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">TOP 10 DPS NIVEAU 60</div>
+  </div>
+  <div class="subtitle" id="sub">Classement par <strong>simulation</strong> : boss immobile, 3 minutes, meilleur équipement connu de la bêta.</div>
+
+  <div class="content">
+    <div class="panel dps-panel" id="rows"></div>
+    <div class="note"><strong>Simulation, pas de vrais logs</strong> — le classement bougera avec le jeu.</div>
+  </div>
+
+  <div class="credit">Icônes © Blizzard Entertainment — BrokenMeta.gg n'est pas affilié à Blizzard.</div>
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="wow-common.js"></script>
+<script>
+  window.__ready = WOW.digest.then(function (d) {
+    var top = d.dps.slice(0, 10), max = top[0].value;
+    document.getElementById('rows').innerHTML = top.map(function (r, i) {
+      return '<div class="rk" style="--rc:' + r.class_color + '">' +
+        '<span class="rk-n">' + (i + 1) + '</span>' +
+        '<img class="rk-i" src="' + r.icon + '" alt="">' +
+        '<div><div class="rk-l"><b>' + r.label + '</b><span>' + WOW.n0(r.value) + ' DPS</span></div>' +
+        '<div class="bar-wrap"><div class="bar-fill" style="width:' + (r.value / max * 100).toFixed(1) + '%"></div></div></div>' +
+        '</div>';
+    }).join('');
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

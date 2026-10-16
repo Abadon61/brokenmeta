@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>WoW Forever — compte à rebours</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  .hero-img { position: relative; height: 470px; border-radius: 14px; overflow: hidden; border: 1px solid var(--border-bright); box-shadow: var(--glow); }
+  .hero-img img { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; display: block; }
+  .hero-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 330px; background: linear-gradient(180deg, rgba(7,10,43,0) 0%, rgba(7,10,43,.88) 62%, #070a2b 100%); }
+  .hero-txt { position: absolute; left: 36px; right: 36px; bottom: 26px; display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; }
+  .jday { font-family: 'Cal Sans', sans-serif; font-weight: 700; font-size: 150px; line-height: .9; color: #fff; text-shadow: 0 0 40px rgba(42,99,255,.75); }
+  .jday small { font-size: 150px; color: var(--accent-text); }
+  .hero-side { text-align: right; padding-bottom: 8px; }
+  .hero-side .k { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 16px; letter-spacing: .14em; text-transform: uppercase; color: var(--text-faint); }
+  .hero-side .v { font-family: 'Cal Sans', sans-serif; font-size: 36px; text-transform: uppercase; color: var(--cream); margin-top: 6px; line-height: 1.1; }
+  .hero-side .s { font-size: 21px; color: var(--text-dim); margin-top: 6px; }
+  .tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 22px; }
+  .tiles .stat-tile { text-align: left; padding: 20px 24px 26px; }
+  .stat-tile .k { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 14px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); position: relative; display: flex; align-items: center; gap: 9px; }
+  .stat-tile .k i { width: 9px; height: 9px; border-radius: 50%; background: var(--kc); box-shadow: 0 0 10px var(--kc); display: block; }
+  .stat-tile .v { font-family: 'Cal Sans', sans-serif; font-size: 40px; line-height: 1.1; color: #fff; margin-top: 10px; position: relative; }
+  .stat-tile .s { font-size: 21px; color: var(--text-dim); margin-top: 6px; position: relative; }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-wow-forever-compte-a-rebours">
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
+    </div>
+    <div class="pill">WoW: Forever</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">SORTIE : 4 NOVEMBRE</div>
+  </div>
+  <div class="subtitle">La bêta est ouverte. <strong>Voici l'essentiel</strong> avant le lancement.</div>
+
+  <div class="content">
+    <div class="hero-img">
+      <img src="../logo/wow_class_art/forever-plain.jpg" alt="">
+      <div class="hero-fade"></div>
+      <div class="hero-txt">
+        <div class="jday" id="jday">J-<span id="jn">--</span></div>
+        <div class="hero-side">
+          <div class="k">Lancement</div>
+          <div class="v">4 nov. 2026</div>
+          <div class="s">15 h (Pacifique) · minuit à Paris</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <div class="stat-tile" style="--kc: var(--accent)"><div class="k"><i></i>Bêta</div><div class="v">17 sept. → 21 oct.</div><div class="s">dates annoncées par Blizzard</div></div>
+      <div class="stat-tile t-good"><div class="k"><i></i>Niveau maximum</div><div class="v">60</div><div class="s">branche distincte de Classic</div></div>
+      <div class="stat-tile t-gold"><div class="k"><i></i>Contenu annoncé</div><div class="v">1 000+ quêtes</div><div class="s">9 donjons · 2 raids</div></div>
+      <div class="stat-tile" style="--kc: var(--violet)"><div class="k"><i></i>Accès</div><div class="v">Abonnement WoW</div><div class="s">ou temps de jeu</div></div>
+    </div>
+  </div>
+
+  <div class="credit">Illustration © Blizzard Entertainment — BrokenMeta.gg n'est pas affilié à Blizzard.</div>
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="wow-common.js"></script>
+<script>
+  window.__ready = WOW.digest.then(function (d) {
+    document.getElementById('jn').textContent = d.countdown.days_left;
+  });
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>

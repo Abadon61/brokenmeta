@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>WoW Forever — Buff Guerrier Fureur</title>
+<link rel="stylesheet" href="brand.css">
+<style>
+  /* Source: article brokenmeta.gg "guerrier-fureur-buff-bloodthirst" (4 oct. 2026) --
+     patch de la bêta du 2 oct. 2026 (Wowhead) + simulateur niveau 60 BrokenMeta, avant/après sur les mêmes tirages. */
+  .head { display: flex; align-items: center; gap: 28px; }
+  .head img { width: 130px; height: 130px; border-radius: 16px; border: 4px solid #c69b6d; flex: none; }
+  .head .t { font-family: 'Cal Sans', sans-serif; font-size: 52px; line-height: 1.05; text-transform: uppercase; }
+  .head .t .up { color: var(--teal); }
+  .head .s { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 17px; letter-spacing: .12em; text-transform: uppercase; color: var(--text-faint); margin-top: 10px; }
+  .chg { margin-top: 30px; padding: 8px 30px; }
+  .chg-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 20px 0; }
+  .chg-row + .chg-row { border-top: 1px solid var(--border); }
+  .chg-row .n { font-size: 32px; font-weight: 600; color: var(--cream); }
+  .chg-row .n small { display: block; font-size: 19px; font-weight: 400; color: var(--text-faint); margin-top: 2px; }
+  .chg-row .v { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 38px; color: var(--teal); white-space: nowrap; }
+  .chg-row .v em { font-style: normal; color: var(--text-faint); margin: 0 10px; }
+  .chg-row .v i { font-style: normal; color: var(--teal); }
+  .sim-title { margin: 34px 0 16px; }
+  .section-title .lg { margin-left: auto; display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-dim); letter-spacing: .08em; }
+  .section-title .lg i { width: 26px; height: 8px; border-radius: 4px; display: block; }
+  .section-title .lg i.b { background: var(--text-faint); }
+  .section-title .lg i.a { background: #c69b6d; margin-left: 10px; }
+  .ba { padding: 22px 28px 26px; }
+  .ba-row + .ba-row { margin-top: 22px; }
+  .ba-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+  .ba-top b { font-size: 27px; font-weight: 600; color: var(--cream); }
+  .ba-top span { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 24px; color: var(--pale); }
+  .ba-top span i { font-style: normal; color: var(--teal); margin-left: 12px; }
+  .ba .bar-wrap { margin-top: 7px; }
+  .ba .bar-fill.before { background: var(--text-faint); }
+  .ba .bar-fill.after { background: #c69b6d; }
+  .ba .tag { font-family: 'Space Mono', monospace; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-faint); }
+</style>
+</head>
+<body>
+<div class="card" id="card" data-filename="brokenmeta-wow-buff-guerrier-fureur">
+  <div class="brand-header">
+    <div class="brand-wordmark">
+      <img class="icon" src="../logo/couponicone-clair-carre.png" alt="">
+      <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span>
+    </div>
+    <div class="pill">WoW: Forever</div>
+  </div>
+
+  <div class="ribbon-wrap">
+    <div class="ribbon-front">CHANGEMENT DE LA BÊTA</div>
+  </div>
+  <div class="subtitle">Un <strong>buff pour le Guerrier Fureur</strong> : un Sanguinaire plus fort et plus de rage sur les coups critiques.</div>
+
+  <div class="content">
+    <div class="head">
+      <img src="../logo/wow_spec_icons/warrior-fury.png" alt="">
+      <div>
+        <div class="t">Guerrier Fureur<br><span class="up">+3,9 % de DPS</span></div>
+        <div class="s">Patch de la bêta du 2 octobre 2026</div>
+      </div>
+    </div>
+
+    <div class="panel chg">
+      <div class="chg-row"><div class="n">Sanguinaire <small>(Bloodthirst) — ratio de puissance d'attaque</small></div><div class="v">35 %<em>→</em><i>45 %</i></div></div>
+      <div class="chg-row"><div class="n">Rage des coups critiques <small>rage rendue par un critique</small></div><div class="v">75 %<em>→</em><i>100 %</i></div></div>
+    </div>
+
+    <div class="section-title sim-title">Simulation niveau 60<span class="lg"><i class="b"></i>avant<i class="a"></i>après</span></div>
+    <div class="panel ba">
+      <div class="ba-row">
+        <div class="ba-top"><b>Guerrier Fureur</b><span>497,9 → 517,4<i>+3,9 %</i></span></div>
+        <div class="bar-wrap"><div class="bar-fill before" style="width:96.2%"></div></div>
+        <div class="bar-wrap"><div class="bar-fill after" style="width:100%"></div></div>
+      </div>
+      <div class="ba-row">
+        <div class="ba-top"><b>Guerrier Armes</b><span>490,3 → 494,8<i>+0,9 %</i></span></div>
+        <div class="bar-wrap"><div class="bar-fill before" style="width:94.8%"></div></div>
+        <div class="bar-wrap"><div class="bar-fill after" style="width:95.6%"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="credit">Icône © Blizzard Entertainment — BrokenMeta.gg n'est pas affilié à Blizzard. Source du patch : Wowhead. Simulation BrokenMeta, pas de vrais logs.</div>
+  <div class="brand-footer">
+    <div class="lead">Plus d'infos sur <span class="wm"><span class="b1">Broken</span><span class="b2">Meta</span><span class="b3">.gg</span></span></div>
+    <img class="favicon" src="../logo/couponicone-clair-carre.png" alt="">
+  </div>
+</div>
+
+<div style="padding:24px;font-family:sans-serif">
+  <button id="exportBtn" style="font-size:18px;padding:10px 20px;cursor:pointer">Exporter en PNG</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="export.js"></script>
+</body>
+</html>
