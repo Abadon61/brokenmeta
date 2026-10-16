@@ -9,8 +9,9 @@ from pathlib import Path
 PROJECT = Path(__file__).resolve().parent.parent
 CLASS_BIT = {"warrior": 1, "paladin": 2, "hunter": 4, "rogue": 8, "priest": 16, "shaman": 64, "mage": 128, "warlock": 256, "druid": 1024}
 # racial spell id -> how the simulator treats it
-SIMULATED = {20597, 20598, 20574, 20572, 1259719, 1259799, 20550, 20591, 20554, 1259710}
-DAMAGE_NOT_SIMULATED = {1259812, 1259821, 1259823, 1259817, 1259813, 1260189, 1260201, 20557, 1259721, 1259707, 1259803, 1259802}
+SIMULATED = {20597, 20598, 20574, 20572, 1259719, 1259799, 20550, 20591, 20554, 1259710,
+             1259812, 1259821, 1259823, 1259817, 1259813}   # Eureka! (all five class versions): its +10% damage for 8 s every 120 s is simulated since the 2026-10-15 rework, not its -10% cost
+DAMAGE_NOT_SIMULATED = {1260189, 1260201, 20557, 1259721, 1259707, 1259803, 1259802}
 EQUIV_SIGMA = 2.0      # a race within 2 error bars of the best one is called equivalent
 
 

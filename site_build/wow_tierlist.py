@@ -75,7 +75,7 @@ TX = {
             "Combat : {fight} secondes contre un boss immobile de niveau 63, {iters} répétitions par spécialisation ; le DPS affiché est la moyenne, l'incertitude (± erreur standard) est donnée sur la page de détail.",
             "Équipement : le meilleur ensemble que l'optimiseur trouve parmi les objets connus de la bêta (donjons, raid, équipement fabriqué). Aucun objet n'est ajouté à la main.",
             "Paliers : S = au moins {S} % du DPS de la meilleure spécialisation, A = {A} %, B = {B} %, C = {C} %, D = en dessous. Les tanks sont comparés entre eux, sur la menace par seconde.",
-            "Race : humain (orc pour le chaman), avec les racials lus dans le client bêta ; la maîtrise d'arme de WoW Classic n'existe plus dans Forever, où les spécialisations d'armes donnent du critique. Pour la mêlée, la table d'attaque de Classic (maîtrise 300 contre une défense de 315 pour un boss de niveau 63) est supposée valable : Forever ne le confirme pas, et si elle diffère, les spécialisations de mêlée bougeront.",
+            "Race : humain (orc pour le chaman), avec les racials lus dans le client bêta (refonte du 15 octobre, build 1.60.1.70425) ; la maîtrise d'arme de WoW Classic n'existe plus dans Forever, où les spécialisations d'armes ont été remplacées par du critique. Pour la mêlée, la table d'attaque de Classic (maîtrise 300 contre une défense de 315 pour un boss de niveau 63) est supposée valable : Forever ne le confirme pas, et si elle diffère, les spécialisations de mêlée bougeront.",
             "Limites : un combat sur cible unique, sans déplacements ni mécaniques de boss ; certaines valeurs de WoW Classic servent d'estimation quand Forever ne les donne pas encore (signalées dans le simulateur). Le classement bougera avec les correctifs.",
         ],
         "faq_h": "Questions fréquentes", "faq": [
@@ -106,7 +106,7 @@ TX = {
             "Fight: {fight} seconds against a stationary level 63 boss, {iters} runs per spec; the DPS shown is the mean, with its standard error on the detail page.",
             "Gear: the best set the optimizer finds among the items known from the beta (dungeons, raid, crafted gear). No item is added by hand.",
             "Tiers: S = at least {S}% of the best spec's DPS, A = {A}%, B = {B}%, C = {C}%, D = below. Tanks are compared with each other, on threat per second.",
-            "Race: Human (Orc for Shaman), with the racials read from the beta client; WoW Classic's weapon skill no longer exists in Forever, where weapon specializations give critical strike chance. For melee, Classic's attack table (skill 300 against a defense of 315 for a level 63 boss) is assumed to apply: Forever does not confirm it, and if it differs, the melee specs will move.",
+            "Race: Human (Orc for Shaman), with the racials read from the beta client (October 15 rework, build 1.60.1.70425); WoW Classic's weapon skill no longer exists in Forever, where weapon specializations were replaced by critical strike chance. For melee, Classic's attack table (skill 300 against a defense of 315 for a level 63 boss) is assumed to apply: Forever does not confirm it, and if it differs, the melee specs will move.",
             "Limits: a single-target fight with no movement or boss mechanics; some WoW Classic values stand in when Forever does not give them yet (flagged in the simulator). The ranking will move with patches.",
         ],
         "faq_h": "Frequently asked questions", "faq": [
