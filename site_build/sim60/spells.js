@@ -7,7 +7,9 @@ export const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
 /** Damage multiplier of a spell critical strike: the bonus part (+50%) is scaled by the talents' critBonus and the racial critical damage (Tauren / Dwarf). */
 export const spellCritMult = (sim, critBonus = 0) => 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus + ((sim.player && sim.player.racialCritDmg) || 0));
 
-export function spiritRegenPerSec(stats) { return 0.009327 * Math.sqrt(Math.max(0, stats.int || 0)) * (stats.spi || 0); }
+// Spirit mana regeneration outside the five-second rule, per second (WoWSims, sim/core/mana.go and the Mage / Priest sims): Mage and Priest 6.25 + Spirit / 8, every other class 7.5 + Spirit / 10
+// (that is 12.5 + Spirit / 4 and 15 + Spirit / 5 per two-second tick). Replaces the TBC formula 0.009327 * sqrt(Int) * Spirit used before 2026-10-16.
+export function spiritRegenPerSec(stats, mageLike = false) { const spi = stats.spi || 0; return mageLike ? 6.25 + spi / 8 : 7.5 + spi / 10; }
 
 // opts: { manaMax, mp5, spiritRegen, castingFraction }  (castingFraction = share of spirit regen kept inside the five-second rule)
 export function setupMana(sim, opts) {
@@ -61,7 +63,7 @@ export function resolveSpell(sim, name, raw, m) {
   const t = sim.target, e = sim.entry(name);
   const hit = Math.min(0.99, 1 - t.spellMiss + sim.stats.hit + (m.hit || 0));
   if (sim.rng() >= hit) { e.misses++; return { outcome: 'miss', dmg: 0 }; }
-  const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
+  const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (t.spellCritSuppression || 0)));      // 2.1% spell crit suppression against the level-63 boss (WoWSims)
   const crit = sim.rng() < c;
   let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
   d *= sim.mods.dmgMult;                                   // temporary +x% damage auras (Eureka!)

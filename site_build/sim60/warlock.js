@@ -183,11 +183,12 @@ function afterDirect(sim, s, r) {
 function startDot(sim, s) {
   const b = sim.kitBuild, W = sim.spec.W, st = sim.stats, d = s.dot;
   const m = mods(sim, s, false, true);
-  let per = (d.total / d.ticks + (st.sp + sim.spBonus) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
+  const mit = s === W.immolate ? sim.target.spellMitigation : sim.target.spellMitigation / 10;       // Immolate has a direct hit; the other curses and afflictions are pure damage over time (WoWSims)
+  let per = (d.total / d.ticks + (st.sp + sim.spBonus) * d.coeff) * m.dmg * (1 - mit) * sim.target.spellTaken;
   if (s === W.corruption) per *= 1 + W.improvedCorruption.dmg * b.improvedCorruption;
   if (s === W.agony) per *= 1 + W.improvedBaneOfAgony.dmg * b.improvedBaneOfAgony;
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
-  const critChance = Math.max(0, Math.min(1, st.crit + m.crit));
+  const critChance = Math.max(0, Math.min(1, st.crit + m.crit - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus);
   const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);

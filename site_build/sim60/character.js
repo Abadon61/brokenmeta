@@ -5,36 +5,33 @@ import { BUFFS, CONSUMABLES, DEBUFFS, RACIAL_SKILL } from './presets.js';
 import { racialsFor } from './racials.js';
 import { resolveEffects } from './effects.js';
 
-// Level-63 boss vs level-60 caster (Classic, ASSUMED): 17% base spell miss; average partial-resist loss 3.75%.
-export const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.0375;
+// Level-63 boss vs level-60 caster (WoWSims, sim/core/target.go and spell_resistances.go): 17% base spell miss, 2.1% spell crit suppression, average partial-resist loss
+// 0.02 per level of difference x 4/3 x 3 levels / ... = 6% for a spell with a direct hit (a pure damage-over-time spell loses a tenth of it: 0.6%).
+export const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.06, SPELL_CRIT_SUPPRESSION = 0.021;
 
-// Level-60 Human base stats per class (str/agi/sta/int/spi) + racial modifiers.
-// warrior: Classic 1.12 values, kept as is. Every other class is an ESTIMATE (Classic-style, flagged
-// assumed): the Forever planner's sourced LEVEL-30 base (data/wow_items/base_stats_level30.json, race
-// removed to Human) pushed to level 60 with L60 = L30 + 1.5 * (L30 - L1). The 1.5 factor is calibrated on
-// the Classic warrior (120/80/110/30/46 vs 120/80/110/30/50 known). Shaman has no L30 source: mean growth
-// of paladin and druid. The sim page lets the user override them, and the addon import replaces them with
-// the real in-game totals.
+// Level-60 Human base stats per class (str/agi/sta/int/spi) and race offsets: the Classic values of WoWSims (sim/core/base_stats.go, ClassBaseStats and RaceOffsets,
+// MIT licence, github.com/wowsims/classic), adopted 2026-10-16 in place of the earlier estimates (level-30 planner data pushed to level 60). Forever has not published its own
+// level-60 base stats: the page lets the user override them, and the addon import replaces them with the real in-game totals. The Skyborne have no offsets (human stats).
 export const BASE_L60_HUMAN = {
-  warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 50 },
-  rogue: { str: 79, agi: 131, sta: 74, int: 35, spi: 51 },
-  hunter: { str: 55, agi: 126, sta: 89, int: 65, spi: 70 },
-  mage: { str: 30, agi: 35, sta: 45, int: 126, spi: 126 },
-  priest: { str: 35, agi: 40, sta: 50, int: 120, spi: 127 },
-  warlock: { str: 45, agi: 50, sta: 64, int: 115, spi: 116 },
-  paladin: { str: 105, agi: 65, sta: 100, int: 70, spi: 77 },
-  druid: { str: 64, agi: 60, sta: 70, int: 100, spi: 111 },
-  shaman: { str: 84, agi: 63, sta: 85, int: 85, spi: 94 },
+  warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 45 },
+  rogue: { str: 80, agi: 130, sta: 75, int: 35, spi: 50 },
+  hunter: { str: 55, agi: 125, sta: 90, int: 65, spi: 70 },
+  mage: { str: 30, agi: 35, sta: 45, int: 125, spi: 120 },
+  priest: { str: 35, agi: 40, sta: 50, int: 120, spi: 125 },
+  warlock: { str: 45, agi: 50, sta: 65, int: 110, spi: 115 },
+  paladin: { str: 105, agi: 65, sta: 100, int: 70, spi: 75 },
+  druid: { str: 65, agi: 60, sta: 70, int: 100, spi: 110 },
+  shaman: { str: 85, agi: 55, sta: 95, int: 90, spi: 100 },
 };
 export const RACE_MODS = {
   human: { str: 0, agi: 0, sta: 0, int: 0, spi: 0 },
-  dwarf: { str: 5, agi: -4, sta: 1, int: -1, spi: -1 },
-  nightelf: { str: -4, agi: 4, sta: 0, int: 0, spi: 0 },
-  orc: { str: 3, agi: -3, sta: 1, int: -3, spi: 2 },
-  tauren: { str: 5, agi: -4, sta: 1, int: -4, spi: 2 },
-  undead: { str: -1, agi: -2, sta: 0, int: -2, spi: 5 },
-  gnome: { str: -5, agi: 2, sta: 0, int: 3, spi: 0 },
-  troll: { str: 1, agi: 2, sta: 0, int: -4, spi: 1 },
+  dwarf: { str: 2, agi: -4, sta: 3, int: -1, spi: -1 },
+  nightelf: { str: -3, agi: 5, sta: -1, int: 0, spi: 0 },
+  orc: { str: 3, agi: -3, sta: 2, int: -3, spi: 3 },
+  tauren: { str: 5, agi: -5, sta: 2, int: -5, spi: 2 },
+  undead: { str: -1, agi: -2, sta: 1, int: -2, spi: 5 },
+  gnome: { str: -5, agi: 3, sta: -1, int: 3, spi: 0 },
+  troll: { str: 1, agi: 2, sta: 1, int: -4, spi: 1 },
 };
 
 const PRIMARY = ['str', 'agi', 'sta', 'int', 'spi'];
@@ -45,21 +42,22 @@ const CLASS_RULES = {
   rogue: { apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 29, baseCrit: 0, resource: 'energy' },
   // Casters (Classic): spell crit from Intellect, mana from Intellect. baseMana/intPerCrit are ASSUMED Classic values.
   // Hunter: ranged attack power = 2*level - 10 + Agility, crit from Agility (1 per 53), mana from Intellect (ASSUMED Classic values)
-  hunter: { ranged: true, apPerStr: 0, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 10, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
+  hunter: { ranged: true, apPerStr: 0, apPerAgi: 2, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 52.9, baseCrit: 0, resource: 'mana', baseMana: 1720, manaPerInt: 15 },   // WoWSims: 2 ranged attack power per Agility, base 100
   // Tanks: attack power like the DPS version, plus the defensive block (ASSUMED Classic-style values: base health 1500 + 10 per Stamina, 5% parry/block with a
   // shield, dodge from Agility, block value 40 + Strength / 20 when a shield is worn).
   warrior_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
-  paladin_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
+  paladin_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 19.8, baseCrit: 0.007, resource: 'mana', baseMana: 1512, manaPerInt: 15 },
   druid_bear: { tank: { parry: 0, block: 0, dodgeBase: 0, agiPerDodge: 14.7, baseHealth: 1500, bvBase: 0 }, stick: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
   // Melee classes with mana (Paladin, Enhancement) and the cat: attack power 2 per Strength (+3 per level for the Paladin), crit from Agility 1/20
-  paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
-  shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
-  druid_feral: { stick: true, manaUser: true, baseMana: 1300, manaPerInt: 15, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'energy' },
-  priest: { caster: true, intPerCrit: 59.2, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },       // ASSUMED Classic values
-  shaman: { caster: true, intPerCrit: 59.5, baseCrit: 0, baseMana: 1250, manaPerInt: 15, resource: 'mana' },
-  druid: { caster: true, intPerCrit: 60, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },
-  hunter_melee: { manaUser: true, apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
-  warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0, baseMana: 1200, manaPerInt: 15, resource: 'mana' },   // ASSUMED Classic values
+  paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 19.8, baseCrit: 0.007, resource: 'mana', baseMana: 1512, manaPerInt: 15 },
+  shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 19.7, baseCrit: 0.017, resource: 'mana', baseMana: 1520, manaPerInt: 15 },
+  druid_feral: { stick: true, manaUser: true, baseMana: 1244, manaPerInt: 15, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0.009, resource: 'energy' },
+  // Caster values (WoWSims: ClassBaseStats mana, ClassBaseCrit spell crit, CritPerIntAtLevel)
+  priest: { caster: true, intPerCrit: 59.5, baseCrit: 0.008, baseMana: 1376, manaPerInt: 15, resource: 'mana' },
+  shaman: { caster: true, intPerCrit: 59.2, baseCrit: 0.023, baseMana: 1520, manaPerInt: 15, resource: 'mana' },
+  druid: { caster: true, intPerCrit: 59.9, baseCrit: 0.018, baseMana: 1244, manaPerInt: 15, resource: 'mana' },
+  hunter_melee: { manaUser: true, apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 52.9, baseCrit: 0, resource: 'mana', baseMana: 1720, manaPerInt: 15 },
+  warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0.017, baseMana: 1373, manaPerInt: 15, resource: 'mana' },
   mage: { caster: true, intPerCrit: 59.5, baseCrit: 0.002, baseMana: 1213, manaPerInt: 15, resource: 'mana' },
 };
 
@@ -169,7 +167,7 @@ export function buildCharacter(spec) {
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
       effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0,
     },
-    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
+    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
 }
@@ -195,7 +193,7 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
     player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec), racialCritDmg: spec.racialCritDmg || 0 },
-    target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
+    target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };
 }

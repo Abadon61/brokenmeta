@@ -14,8 +14,8 @@ const cfg = (build, sample = SAMPLE_WARLOCK, len = 180) => { const ch = buildCha
 
 test('warlock stat block uses the caster path with Warlock crit and mana', () => {
   const c = buildCharacter({ class: 'warlock', race: 'human', gear: [], weapons: [], buffs: [], consumables: [], debuffs: [] });
-  assert.ok(Math.abs(c.summary.crit - 115 / 60.6 / 100 - 0.02) < 1e-9);
-  assert.equal(c.summary.mana, 1200 + 15 * (115 - 20));
+  assert.ok(Math.abs(c.summary.crit - 110 / 60.6 / 100 - 0.017 - 0.02) < 1e-9);
+  assert.equal(c.summary.mana, 1373 + 15 * (110 - 20));
 });
 
 test('Affliction keeps its damage-over-time effects up and Life Tap pays for the mana', () => {

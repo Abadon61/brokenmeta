@@ -277,8 +277,8 @@ export class Sim {
   rageFromHit(dmg, speed, isOH, crit) {
     const f = (isOH ? HIT_FACTOR.oh : HIT_FACTOR.mh)[crit ? 'crit' : 'normal'];
     const c = this.rageC;
-    let r = 15 * dmg / (4 * c) + f * speed / 2;
-    const cap = 15 * dmg / c; if (r > cap) r = cap;
+    // WoWSims (sim/core/rage.go): rage from an auto attack = damage * 7.5 / conversion (the TBC formula 15d/4c + f*s/2 was used before 2026-10-16)
+    let r = 7.5 * dmg / c;
     if (isOH && this.mods.ohRageMult) r *= this.mods.ohRageMult;
     this.gainRage(r);
   }

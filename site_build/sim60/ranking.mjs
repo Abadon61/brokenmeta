@@ -7,7 +7,7 @@ import { ItemPool, toWeapon } from './items.js';
 import { optimizeGear } from './optimizer.js';
 import { runBatch } from './run.js';
 import { Sim } from './engine.js';
-import { buildCharacter, BASE_L60_HUMAN } from './character.js';
+import { buildCharacter, BASE_L60_HUMAN, RACE_MODS } from './character.js';
 import { makeKit, KITS } from './kits.js';
 import { ranksToBuild, ranksFromNames, PRESETS } from './talents.js';
 import { PRESET_RAID, PRESET_CASTER, PRESET_HUNTER, CONSUMABLES, CONSUMABLE_SLOTS, BUFFS, DEBUFFS } from './presets.js';
@@ -173,9 +173,10 @@ for (const [id, S] of Object.entries(SPECS)) {
     const wtypes = best.done.weapons.map((w) => toWeapon(pool.byId.get(w.id), false).type);
     const humanBase = BASE_L60_HUMAN[S.cls];
     const { FOREVER_RACIALS } = await import('./racials.js');
-    // every race has the human base stats (the race stat bonuses are not in the client tables), so the table isolates what the racials change
+    // each race starts from the human base stats plus its stat offsets (Classic values of WoWSims, character.js RACE_MODS: Forever has not published its own; the Skyborne have none)
+    const baseOf2 = (race) => Object.fromEntries(Object.entries(humanBase).map(([k, v]) => [k, v + ((RACE_MODS[race] || {})[k] || 0)]));
     const measure = (race, n = RACE_ITERS) => {
-      const c = buildCharacter({ ...character, race, gear: best.gear, weapons: best.weapons, racialModel: 'forever', weaponTypes: wtypes, base: humanBase });
+      const c = buildCharacter({ ...character, race, gear: best.gear, weapons: best.weapons, racialModel: 'forever', weaponTypes: wtypes, base: baseOf2(race) });
       const vals = [];
       for (let b = 0; b < 5; b++) { const rr = runBatch({ fightLen: FIGHT, player: c.player, target: c.target, kitFactory: kit }, n / 5, 11 + b * 100000); vals.push(S.tank ? objectiveTank(rr, c) : rr.mean); }
       const mean = vals.reduce((a, x) => a + x, 0) / 5, sem = Math.sqrt(vals.reduce((a, x) => a + (x - mean) ** 2, 0) / 4 / 5);

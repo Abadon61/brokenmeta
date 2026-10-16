@@ -27,7 +27,7 @@ export function spellHit(sim, m) {
   return sim.rng() < Math.min(0.99, 1 - t.spellMiss + sim.stats.hit + (m.hit || 0));
 }
 export function tickDamage(sim, name, raw, m) {
-  const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0))), crit = sim.rng() < c;
+  const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (t.spellCritSuppression || 0))), crit = sim.rng() < c;
   const d = raw * (m.dmg || 1) * sim.mods.dmgMult * (1 - t.spellMitigation) * t.spellTaken * (crit ? spellCritMult(sim, m.critBonus || 0) : 1);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
@@ -49,7 +49,7 @@ export function makeCaster(def) {
     setup(sim) {
       sim.player.resource = 'mana'; sim.kitBuild = b;
       const st = sim.stats;
-      setupMana(sim, { manaMax: def.baseMana(sim), mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: def.keep ? def.keep(sim) : 0 });
+      setupMana(sim, { manaMax: def.baseMana(sim), mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }, /^(priest|mage)/.test(def.name)), castingFraction: def.keep ? def.keep(sim) : 0 });
       sim.critBase = 0; sim.regenMult = 1; sim.cdAt = Object.create(null);
       def.setup(sim);
     },
@@ -101,8 +101,9 @@ function cast(sim, def, s, cost) {
 
 function casterDot(sim, def, s) {
   const d = s.dot, m = def.mods(sim, s, 'dot');
-  const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
-  const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
+  // a pure damage-over-time spell loses a tenth of the average partial resist (WoWSims, spell_resistances.go)
+  const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation / 10) * sim.target.spellTaken;
+  const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus || 0);
   const ticks = s.dotTicks ? s.dotTicks(sim) : d.ticks;
   applyDotCrit(sim, s.name, per, ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, def.onTick ? (r) => def.onTick(sim, s, r) : null);

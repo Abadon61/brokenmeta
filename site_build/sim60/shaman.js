@@ -99,7 +99,7 @@ export function shamanElementalKit(build = {}, data = null) {
       if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload) {
         const e = sim.entry(s.name + ' (Overload)'), m = def.mods(sim, s, 'direct');
         const raw = (s.direct.min + (s.direct.max - s.direct.min) * sim.rng() + sim.stats.sp * s.direct.coeff) * H.lightningOverload.dmg;
-        const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit));
+        const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit - (sim.target.spellCritSuppression || 0)));
         const d = raw * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (c ? 1 + 0.5 * (1 + m.critBonus) : 1);
         e.casts++; sim.record(s.name + ' (Overload)', d, c ? 'crit' : 'hit');
       }
@@ -187,10 +187,14 @@ export function shamanEnhancementKit(build = {}, data = null) {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = E.flurry.charges; s.flurryAura.apply(1); }
         if (b.maelstromWeapon && s.rng() < E.maelstrom.chance) s.aMW.apply(1);
-        if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.rng() < E.windfury.chance) {
-          const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons);
+        // WoWSims (sim/shaman/windfury_weapon.go): 20% per landed main-hand hit, 1.5 s internal cooldown, two extra YELLOW attacks (they cannot glance) with the weapon's attack power bonus
+        if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.now >= (s.wfIcd || 0) && s.rng() < E.windfury.chance) {
+          const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons), wmh = s.player.weapons[0];
+          s.wfIcd = s.now + 1.5;
           s.entry('Windfury').casts++;
-          s.inWindfury = true; s.mods.apBonus += bonus; s.whiteLabel = 'Windfury'; for (let i = 0; i < E.windfury.extra; i++) s.whiteAttack(s.swings[0]); s.whiteLabel = null; s.mods.apBonus -= bonus; s.inWindfury = false;
+          s.inWindfury = true; s.mods.apBonus += bonus;
+          for (let i = 0; i < E.windfury.extra; i++) yellowAttack(s, 'Windfury', () => s.weaponRoll(wmh) + s.ap() / 14 * wmh.speed);
+          s.mods.apBonus -= bonus; s.inWindfury = false;
         }
       });
     },

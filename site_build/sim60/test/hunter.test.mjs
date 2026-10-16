@@ -12,9 +12,9 @@ const tal = JSON.parse(readFileSync(new URL('../data/talents.json', import.meta.
 const preset = (k, over = {}) => Object.assign(ranksToBuild('hunter', tal, ranksFromNames(tal, PRESETS[k])), k.endsWith('marksmanship') ? { pet: 'none' } : {}, over);
 const cfg = (build, sample = SAMPLE_HUNTER, len = 180) => { const ch = buildCharacter(sample); return { fightLen: len, player: ch.player, target: ch.target, kitFactory: () => hunterKit(build, spells) }; };
 
-test('hunter stat block: ranged attack power from Agility, crit from Agility / 53, ranged weapon kept apart', () => {
+test('hunter stat block: ranged attack power 2 per Agility (WoWSims), crit from Agility / 52.9, ranged weapon kept apart', () => {
   const c = buildCharacter({ class: 'hunter', race: 'human', gear: [], weapons: [{ min: 50, max: 90, speed: 2.5, type: 'bow' }], buffs: [], consumables: [], debuffs: [] });
-  assert.equal(c.summary.ap, 2 * 60 - 10 + 126);
+  assert.equal(c.summary.ap, 2 * 60 - 20 + 2 * 125);
   assert.ok(c.player.ranged && c.player.weapons.length === 0 && !c.player.dualWield);
   assert.ok(c.player.stats.mana > 1300);
 });

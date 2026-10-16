@@ -134,7 +134,7 @@ export function paladinProtKit(build = {}, data = null) {
       sim.baseBlock = t.block; sim.hsUntil = -1; sim.hsCharges = 0; sim.redoubtBlocks = 0; sim.redoubtUntil = -1; sim.sealUntil = -1;
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
       const holy = (name, raw) => {
-        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus)), crit = sim.rng() < c;
+        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
         sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? spellCritMult(sim) : 1), crit ? 'crit' : 'hit');
       };
       sim.holy = holy;
