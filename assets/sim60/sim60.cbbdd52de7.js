@@ -348,8 +348,8 @@ class Sim {
   rageFromHit(dmg, speed, isOH, crit) {
     const f = (isOH ? HIT_FACTOR.oh : HIT_FACTOR.mh)[crit ? 'crit' : 'normal'];
     const c = this.rageC;
-    let r = 15 * dmg / (4 * c) + f * speed / 2;
-    const cap = 15 * dmg / c; if (r > cap) r = cap;
+    // WoWSims (sim/core/rage.go): rage from an auto attack = damage * 7.5 / conversion (the TBC formula 15d/4c + f*s/2 was used before 2026-10-16)
+    let r = 7.5 * dmg / c;
     if (isOH && this.mods.ohRageMult) r *= this.mods.ohRageMult;
     this.gainRage(r);
   }
@@ -586,36 +586,33 @@ function racialsFor(race, weaponTypes) {
 // Turns "base stats + gear + enchants + buffs + consumables + talents" into the player object the
 // engine consumes. Also accepts a pre-computed stat block (addon export) via `totals`.
 
-// Level-63 boss vs level-60 caster (Classic, ASSUMED): 17% base spell miss; average partial-resist loss 3.75%.
-const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.0375;
+// Level-63 boss vs level-60 caster (WoWSims, sim/core/target.go and spell_resistances.go): 17% base spell miss, 2.1% spell crit suppression, average partial-resist loss
+// 0.02 per level of difference x 4/3 x 3 levels / ... = 6% for a spell with a direct hit (a pure damage-over-time spell loses a tenth of it: 0.6%).
+const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.06, SPELL_CRIT_SUPPRESSION = 0.021;
 
-// Level-60 Human base stats per class (str/agi/sta/int/spi) + racial modifiers.
-// warrior: Classic 1.12 values, kept as is. Every other class is an ESTIMATE (Classic-style, flagged
-// assumed): the Forever planner's sourced LEVEL-30 base (data/wow_items/base_stats_level30.json, race
-// removed to Human) pushed to level 60 with L60 = L30 + 1.5 * (L30 - L1). The 1.5 factor is calibrated on
-// the Classic warrior (120/80/110/30/46 vs 120/80/110/30/50 known). Shaman has no L30 source: mean growth
-// of paladin and druid. The sim page lets the user override them, and the addon import replaces them with
-// the real in-game totals.
+// Level-60 Human base stats per class (str/agi/sta/int/spi) and race offsets: the Classic values of WoWSims (sim/core/base_stats.go, ClassBaseStats and RaceOffsets,
+// MIT licence, github.com/wowsims/classic), adopted 2026-10-16 in place of the earlier estimates (level-30 planner data pushed to level 60). Forever has not published its own
+// level-60 base stats: the page lets the user override them, and the addon import replaces them with the real in-game totals. The Skyborne have no offsets (human stats).
 const BASE_L60_HUMAN = {
-  warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 50 },
-  rogue: { str: 79, agi: 131, sta: 74, int: 35, spi: 51 },
-  hunter: { str: 55, agi: 126, sta: 89, int: 65, spi: 70 },
-  mage: { str: 30, agi: 35, sta: 45, int: 126, spi: 126 },
-  priest: { str: 35, agi: 40, sta: 50, int: 120, spi: 127 },
-  warlock: { str: 45, agi: 50, sta: 64, int: 115, spi: 116 },
-  paladin: { str: 105, agi: 65, sta: 100, int: 70, spi: 77 },
-  druid: { str: 64, agi: 60, sta: 70, int: 100, spi: 111 },
-  shaman: { str: 84, agi: 63, sta: 85, int: 85, spi: 94 },
+  warrior: { str: 120, agi: 80, sta: 110, int: 30, spi: 45 },
+  rogue: { str: 80, agi: 130, sta: 75, int: 35, spi: 50 },
+  hunter: { str: 55, agi: 125, sta: 90, int: 65, spi: 70 },
+  mage: { str: 30, agi: 35, sta: 45, int: 125, spi: 120 },
+  priest: { str: 35, agi: 40, sta: 50, int: 120, spi: 125 },
+  warlock: { str: 45, agi: 50, sta: 65, int: 110, spi: 115 },
+  paladin: { str: 105, agi: 65, sta: 100, int: 70, spi: 75 },
+  druid: { str: 65, agi: 60, sta: 70, int: 100, spi: 110 },
+  shaman: { str: 85, agi: 55, sta: 95, int: 90, spi: 100 },
 };
 const RACE_MODS = {
   human: { str: 0, agi: 0, sta: 0, int: 0, spi: 0 },
-  dwarf: { str: 5, agi: -4, sta: 1, int: -1, spi: -1 },
-  nightelf: { str: -4, agi: 4, sta: 0, int: 0, spi: 0 },
-  orc: { str: 3, agi: -3, sta: 1, int: -3, spi: 2 },
-  tauren: { str: 5, agi: -4, sta: 1, int: -4, spi: 2 },
-  undead: { str: -1, agi: -2, sta: 0, int: -2, spi: 5 },
-  gnome: { str: -5, agi: 2, sta: 0, int: 3, spi: 0 },
-  troll: { str: 1, agi: 2, sta: 0, int: -4, spi: 1 },
+  dwarf: { str: 2, agi: -4, sta: 3, int: -1, spi: -1 },
+  nightelf: { str: -3, agi: 5, sta: -1, int: 0, spi: 0 },
+  orc: { str: 3, agi: -3, sta: 2, int: -3, spi: 3 },
+  tauren: { str: 5, agi: -5, sta: 2, int: -5, spi: 2 },
+  undead: { str: -1, agi: -2, sta: 1, int: -2, spi: 5 },
+  gnome: { str: -5, agi: 3, sta: -1, int: 3, spi: 0 },
+  troll: { str: 1, agi: 2, sta: 1, int: -4, spi: 1 },
 };
 
 const PRIMARY = ['str', 'agi', 'sta', 'int', 'spi'];
@@ -626,21 +623,22 @@ const CLASS_RULES = {
   rogue: { apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 29, baseCrit: 0, resource: 'energy' },
   // Casters (Classic): spell crit from Intellect, mana from Intellect. baseMana/intPerCrit are ASSUMED Classic values.
   // Hunter: ranged attack power = 2*level - 10 + Agility, crit from Agility (1 per 53), mana from Intellect (ASSUMED Classic values)
-  hunter: { ranged: true, apPerStr: 0, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 10, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
+  hunter: { ranged: true, apPerStr: 0, apPerAgi: 2, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 52.9, baseCrit: 0, resource: 'mana', baseMana: 1720, manaPerInt: 15 },   // WoWSims: 2 ranged attack power per Agility, base 100
   // Tanks: attack power like the DPS version, plus the defensive block (ASSUMED Classic-style values: base health 1500 + 10 per Stamina, 5% parry/block with a
   // shield, dodge from Agility, block value 40 + Strength / 20 when a shield is worn).
   warrior_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
-  paladin_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
+  paladin_protection: { tank: { parry: 0.05, block: 0.05, dodgeBase: 0.0075, agiPerDodge: 20, baseHealth: 1500, bvBase: 40 }, manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 19.8, baseCrit: 0.007, resource: 'mana', baseMana: 1512, manaPerInt: 15 },
   druid_bear: { tank: { parry: 0, block: 0, dodgeBase: 0, agiPerDodge: 14.7, baseHealth: 1500, bvBase: 0 }, stick: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'rage' },
   // Melee classes with mana (Paladin, Enhancement) and the cat: attack power 2 per Strength (+3 per level for the Paladin), crit from Agility 1/20
-  paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
-  shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'mana', baseMana: 1250, manaPerInt: 15 },
-  druid_feral: { stick: true, manaUser: true, baseMana: 1300, manaPerInt: 15, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0, resource: 'energy' },
-  priest: { caster: true, intPerCrit: 59.2, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },       // ASSUMED Classic values
-  shaman: { caster: true, intPerCrit: 59.5, baseCrit: 0, baseMana: 1250, manaPerInt: 15, resource: 'mana' },
-  druid: { caster: true, intPerCrit: 60, baseCrit: 0, baseMana: 1300, manaPerInt: 15, resource: 'mana' },
-  hunter_melee: { manaUser: true, apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 53, baseCrit: 0, resource: 'mana', baseMana: 1300, manaPerInt: 15 },
-  warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0, baseMana: 1200, manaPerInt: 15, resource: 'mana' },   // ASSUMED Classic values
+  paladin: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 3 - 20, agiPerCrit: 19.8, baseCrit: 0.007, resource: 'mana', baseMana: 1512, manaPerInt: 15 },
+  shaman_enhancement: { manaUser: true, apPerStr: 2, apPerAgi: 0, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 19.7, baseCrit: 0.017, resource: 'mana', baseMana: 1520, manaPerInt: 15 },
+  druid_feral: { stick: true, manaUser: true, baseMana: 1244, manaPerInt: 15, apPerStr: 2, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 20, baseCrit: 0.009, resource: 'energy' },
+  // Caster values (WoWSims: ClassBaseStats mana, ClassBaseCrit spell crit, CritPerIntAtLevel)
+  priest: { caster: true, intPerCrit: 59.5, baseCrit: 0.008, baseMana: 1376, manaPerInt: 15, resource: 'mana' },
+  shaman: { caster: true, intPerCrit: 59.2, baseCrit: 0.023, baseMana: 1520, manaPerInt: 15, resource: 'mana' },
+  druid: { caster: true, intPerCrit: 59.9, baseCrit: 0.018, baseMana: 1244, manaPerInt: 15, resource: 'mana' },
+  hunter_melee: { manaUser: true, apPerStr: 1, apPerAgi: 1, apBase: PLAYER_LEVEL * 2 - 20, agiPerCrit: 52.9, baseCrit: 0, resource: 'mana', baseMana: 1720, manaPerInt: 15 },
+  warlock: { caster: true, intPerCrit: 60.6, baseCrit: 0.017, baseMana: 1373, manaPerInt: 15, resource: 'mana' },
   mage: { caster: true, intPerCrit: 59.5, baseCrit: 0.002, baseMana: 1213, manaPerInt: 15, resource: 'mana' },
 };
 
@@ -750,7 +748,7 @@ function buildCharacter(spec) {
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
       effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0,
     },
-    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellTaken: 1 },
+    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
 }
@@ -776,7 +774,7 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
     player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec), racialCritDmg: spec.racialCritDmg || 0 },
-    target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellTaken: taken },
+    target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };
 }
@@ -1606,7 +1604,9 @@ const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
 /** Damage multiplier of a spell critical strike: the bonus part (+50%) is scaled by the talents' critBonus and the racial critical damage (Tauren / Dwarf). */
 const spellCritMult = (sim, critBonus = 0) => 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus + ((sim.player && sim.player.racialCritDmg) || 0));
 
-function spiritRegenPerSec(stats) { return 0.009327 * Math.sqrt(Math.max(0, stats.int || 0)) * (stats.spi || 0); }
+// Spirit mana regeneration outside the five-second rule, per second (WoWSims, sim/core/mana.go and the Mage / Priest sims): Mage and Priest 6.25 + Spirit / 8, every other class 7.5 + Spirit / 10
+// (that is 12.5 + Spirit / 4 and 15 + Spirit / 5 per two-second tick). Replaces the TBC formula 0.009327 * sqrt(Int) * Spirit used before 2026-10-16.
+function spiritRegenPerSec(stats, mageLike = false) { const spi = stats.spi || 0; return mageLike ? 6.25 + spi / 8 : 7.5 + spi / 10; }
 
 // opts: { manaMax, mp5, spiritRegen, castingFraction }  (castingFraction = share of spirit regen kept inside the five-second rule)
 function setupMana(sim, opts) {
@@ -1660,7 +1660,7 @@ function resolveSpell(sim, name, raw, m) {
   const t = sim.target, e = sim.entry(name);
   const hit = Math.min(0.99, 1 - t.spellMiss + sim.stats.hit + (m.hit || 0));
   if (sim.rng() >= hit) { e.misses++; return { outcome: 'miss', dmg: 0 }; }
-  const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
+  const c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (t.spellCritSuppression || 0)));      // 2.1% spell crit suppression against the level-63 boss (WoWSims)
   const crit = sim.rng() < c;
   let d = raw * (m.dmg || 1) * (1 - t.spellMitigation) * t.spellTaken;
   d *= sim.mods.dmgMult;                                   // temporary +x% damage auras (Eureka!)
@@ -1912,7 +1912,7 @@ function spellHit(sim, m) {
   return sim.rng() < Math.min(0.99, 1 - t.spellMiss + sim.stats.hit + (m.hit || 0));
 }
 function tickDamage(sim, name, raw, m) {
-  const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0))), crit = sim.rng() < c;
+  const t = sim.target, c = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (t.spellCritSuppression || 0))), crit = sim.rng() < c;
   const d = raw * (m.dmg || 1) * sim.mods.dmgMult * (1 - t.spellMitigation) * t.spellTaken * (crit ? spellCritMult(sim, m.critBonus || 0) : 1);
   sim.record(name, d, crit ? 'crit' : 'hit');
   if (sim.spellProcs.length) for (let i = 0; i < sim.spellProcs.length; i++) sim.spellProcs[i](sim, name, crit ? 'crit' : 'hit');
@@ -1934,7 +1934,7 @@ function makeCaster(def) {
     setup(sim) {
       sim.player.resource = 'mana'; sim.kitBuild = b;
       const st = sim.stats;
-      setupMana(sim, { manaMax: def.baseMana(sim), mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: def.keep ? def.keep(sim) : 0 });
+      setupMana(sim, { manaMax: def.baseMana(sim), mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }, /^(priest|mage)/.test(def.name)), castingFraction: def.keep ? def.keep(sim) : 0 });
       sim.critBase = 0; sim.regenMult = 1; sim.cdAt = Object.create(null);
       def.setup(sim);
     },
@@ -1986,8 +1986,9 @@ function cast(sim, def, s, cost) {
 
 function casterDot(sim, def, s) {
   const d = s.dot, m = def.mods(sim, s, 'dot');
-  const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
-  const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0)));
+  // a pure damage-over-time spell loses a tenth of the average partial resist (WoWSims, spell_resistances.go)
+  const per = (d.perTick * (s.dotScale || 1) + (sim.stats.sp + (sim.spBonus || 0)) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation / 10) * sim.target.spellTaken;
+  const critChance = Math.max(0, Math.min(1, sim.stats.crit + (m.crit || 0) - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus || 0);
   const ticks = s.dotTicks ? s.dotTicks(sim) : d.ticks;
   applyDotCrit(sim, s.name, per, ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, def.onTick ? (r) => def.onTick(sim, s, r) : null);
@@ -2106,7 +2107,7 @@ function mageKit(build = {}, data = null) {
       const extraInt = Math.floor((st.int || 0) * intBonus);
       sim.critBase = extraInt / 59.5 / 100;                                         // Arcane Mind's extra Intellect -> crit (ASSUMED Classic ratio)
       sim.manaMaxExtra = 15 * extraInt;
-      setupMana(sim, { manaMax: st.mana + sim.manaMaxExtra, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: (st.int || 0) + extraInt, spi: st.spi }), castingFraction: M.arcaneMeditation.keep * b.arcaneMeditation });
+      setupMana(sim, { manaMax: st.mana + sim.manaMaxExtra, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: (st.int || 0) + extraInt, spi: st.spi }, true), castingFraction: M.arcaneMeditation.keep * b.arcaneMeditation });
       sim.cd = { gem: 0, innervate: 0, fireBlast: 0, combustion: 0, arcanePower: 0, presenceOfMind: 0, evocation: 0, potion: 0, arcaneWrath: 0 };
       sim.abInt = (st.int || 0) + extraInt;
       sim.pom = false; sim.cc = false; sim.mb = false; sim.fof = 0; sim.combCrits = 0; sim.heatStacks = 0;
@@ -2534,11 +2535,12 @@ function afterDirect(sim, s, r) {
 function startDot(sim, s) {
   const b = sim.kitBuild, W = sim.spec.W, st = sim.stats, d = s.dot;
   const m = mods(sim, s, false, true);
-  let per = (d.total / d.ticks + (st.sp + sim.spBonus) * d.coeff) * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
+  const mit = s === W.immolate ? sim.target.spellMitigation : sim.target.spellMitigation / 10;       // Immolate has a direct hit; the other curses and afflictions are pure damage over time (WoWSims)
+  let per = (d.total / d.ticks + (st.sp + sim.spBonus) * d.coeff) * m.dmg * (1 - mit) * sim.target.spellTaken;
   if (s === W.corruption) per *= 1 + W.improvedCorruption.dmg * b.improvedCorruption;
   if (s === W.agony) per *= 1 + W.improvedBaneOfAgony.dmg * b.improvedBaneOfAgony;
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
-  const critChance = Math.max(0, Math.min(1, st.crit + m.crit));
+  const critChance = Math.max(0, Math.min(1, st.crit + m.crit - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus);
   const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);
@@ -3088,7 +3090,7 @@ function shamanElementalKit(build = {}, data = null) {
       if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload) {
         const e = sim.entry(s.name + ' (Overload)'), m = def.mods(sim, s, 'direct');
         const raw = (s.direct.min + (s.direct.max - s.direct.min) * sim.rng() + sim.stats.sp * s.direct.coeff) * H.lightningOverload.dmg;
-        const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit));
+        const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit - (sim.target.spellCritSuppression || 0)));
         const d = raw * m.dmg * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (c ? 1 + 0.5 * (1 + m.critBonus) : 1);
         e.casts++; sim.record(s.name + ' (Overload)', d, c ? 'crit' : 'hit');
       }
@@ -3174,10 +3176,14 @@ function shamanEnhancementKit(build = {}, data = null) {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = E.flurry.charges; s.flurryAura.apply(1); }
         if (b.maelstromWeapon && s.rng() < E.maelstrom.chance) s.aMW.apply(1);
-        if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.rng() < E.windfury.chance) {
-          const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons);
+        // WoWSims (sim/shaman/windfury_weapon.go): 20% per landed main-hand hit, 1.5 s internal cooldown, two extra YELLOW attacks (they cannot glance) with the weapon's attack power bonus
+        if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.now >= (s.wfIcd || 0) && s.rng() < E.windfury.chance) {
+          const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons), wmh = s.player.weapons[0];
+          s.wfIcd = s.now + 1.5;
           s.entry('Windfury').casts++;
-          s.inWindfury = true; s.mods.apBonus += bonus; s.whiteLabel = 'Windfury'; for (let i = 0; i < E.windfury.extra; i++) s.whiteAttack(s.swings[0]); s.whiteLabel = null; s.mods.apBonus -= bonus; s.inWindfury = false;
+          s.inWindfury = true; s.mods.apBonus += bonus;
+          for (let i = 0; i < E.windfury.extra; i++) yellowAttack(s, 'Windfury', () => s.weaponRoll(wmh) + s.ap() / 14 * wmh.speed);
+          s.mods.apBonus -= bonus; s.inWindfury = false;
         }
       });
     },
@@ -3527,7 +3533,7 @@ function paladinRetKit(build = {}, data = null) {
       sim.aVind = sim.addAura({ name: 'Vindication', duration: P.vindication.dur, mods: { apMult: 1 + P.vindication.ap * b.vindication } });
       const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
-        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit)), crit = sim.rng() < c;
+        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
         const d = raw * holyMult() * (crit ? spellCritMult(sim, critBonus) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
         return crit;
@@ -3731,7 +3737,7 @@ function paladinProtKit(build = {}, data = null) {
       sim.baseBlock = t.block; sim.hsUntil = -1; sim.hsCharges = 0; sim.redoubtBlocks = 0; sim.redoubtUntil = -1; sim.sealUntil = -1;
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
       const holy = (name, raw) => {
-        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus)), crit = sim.rng() < c;
+        const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
         sim.record(name, raw * (sim.mods.dmgMult) * (1 - sim.target.spellMitigation) * sim.target.spellTaken * (crit ? spellCritMult(sim) : 1), crit ? 'crit' : 'hit');
       };
       sim.holy = holy;
