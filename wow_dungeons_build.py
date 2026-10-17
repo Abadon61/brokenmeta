@@ -89,7 +89,7 @@ def main():
                            "icon": it["icon"], "st": st, "src": it["src"][:3], "kind": it["kind"]})
         dungeons.append({"id": SLUG[zone], "zone": zone, "name": {"en": maps_en[map_id[mapname]], "fr": maps_fr[map_id[mapname]]}, "levels": levels, "items": items})
     OUT.mkdir(parents=True, exist_ok=True)
-    data = {"build": BUILD, "generated": "2026-09-23", "slots": {str(k): {"en": v[0], "fr": v[1]} for k, v in SLOTS.items()}, "slot_order": SLOT_ORDER,
+    data = {"build": BUILD, "generated": "2026-10-17", "slots": {str(k): {"en": v[0], "fr": v[1]} for k, v in SLOTS.items()}, "slot_order": SLOT_ORDER,
             "primary_stats": PRIMARY_STATS, "secondary_stats": SECONDARY_STATS, "dungeons": dungeons,
             "source": {"label": "Wowhead — Forever zone pages (drops and quest rewards)", "url": "https://www.wowhead.com/forever/zones/dungeons"}}
     (OUT / "dungeons.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

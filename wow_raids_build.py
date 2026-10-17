@@ -167,7 +167,7 @@ def main():
             r["name"]["fr"] = maps_fr[map_id[r["name"]["en"]]]
 
     OUT.mkdir(parents=True, exist_ok=True)
-    data = {"build": BUILD, "generated": "2026-09-22", "slots": {str(k): {"en": v[0], "fr": v[1]} for k, v in SLOTS.items()}, "slot_order": SLOT_ORDER,
+    data = {"build": BUILD, "generated": "2026-10-17", "slots": {str(k): {"en": v[0], "fr": v[1]} for k, v in SLOTS.items()}, "slot_order": SLOT_ORDER,
             "primary_stats": PRIMARY_STATS, "secondary_stats": SECONDARY_STATS, "raids": raids,
             "source": {"label": "Wowhead — Forever zone pages (drops, quest rewards and NPCs)", "url": "https://www.wowhead.com/forever/zones/dungeons"}}
     (OUT / "raids.json").write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
