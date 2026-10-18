@@ -869,7 +869,7 @@ const NAME_TO_KEY = {
     'Anticipation': 'anticipation', 'Toughness': 'toughness', 'Precision': 'precision', 'One-Handed Weapon Specialization': 'oneHandWeaponSpecialization', 'Improved Righteous Fury': 'improvedRighteousFury',
     'Reckoning': 'reckoning', 'Redoubt': 'redoubt', 'Iron Creed': 'ironCreed', 'Sacred Duty': 'sacredDuty', 'Holy Shield': 'holyShield', 'Swift Judgement': 'swiftJudgement',
     'Vengeance': 'vengeance', 'Seal of Command': 'sealOfCommand', 'Sacred Arbiter': 'sacredArbiter', 'Champion of the Light': 'championOfLight', 'Divine Strength': 'divineStrength',
-    'Divine Intellect': 'divineIntellect', 'Benediction': 'benediction', 'Holy Power': 'holyPower', 'Improved Seals': 'improvedSeals', 'Instrument of Law': 'instrumentOfLaw', 'Twist of Light': 'twistOfLight',
+    'Divine Intellect': 'divineIntellect', 'Deflection': 'deflection', 'Benediction': 'benediction', 'Holy Power': 'holyPower', 'Improved Seals': 'improvedSeals', 'Instrument of Law': 'instrumentOfLaw', 'Twist of Light': 'twistOfLight',
   },
   priest: {
     'Shadow Focus': 'shadowFocus', 'Improved Shadow Word: Pain': 'improvedSwp', 'Improved Mind Blast': 'improvedMindBlast', 'Mind Flay': 'mindFlay', 'Improved Mind Flay': 'improvedMindFlay',
@@ -1066,7 +1066,7 @@ const PRESETS = {
   paladin_protection: {
     'Toughness': 5, 'Redoubt': 5, 'Precision': 3, 'Anticipation': 5, 'Improved Righteous Fury': 3, 'Shield Specialization': 3, 'Sacred Duty': 2, 'Improved Seal of Fury': 1, 'Swift Judgement': 1,
     'One-Handed Weapon Specialization': 3, 'Reckoning': 5, "Templar's Bulwark": 1, 'Iron Creed': 5, 'Holy Shield': 1,
-    'Divine Strength': 5, 'Divine Intellect': 3,
+    'Deflection': 5, 'Divine Intellect': 3,
   },
   druid_bear: {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Feral Swiftness': 2, 'Thick Hide': 3, 'Feral Instinct': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2,
@@ -3711,7 +3711,7 @@ const PALADIN_PROT = {
   manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
 const PALADIN_PROT_DEFAULT_BUILD = {
-  anticipation: 0, toughness: 0, precision: 0, oneHandWeaponSpecialization: 0, improvedRighteousFury: 0, reckoning: 0, redoubt: 0, ironCreed: 0, sacredDuty: 0, holyShield: 0, swiftJudgement: 0,
+  anticipation: 0, toughness: 0, deflection: 0, precision: 0, oneHandWeaponSpecialization: 0, improvedRighteousFury: 0, reckoning: 0, redoubt: 0, ironCreed: 0, sacredDuty: 0, holyShield: 0, swiftJudgement: 0,
   usePotion: true,
 };
 
@@ -3727,7 +3727,7 @@ function paladinProtKit(build = {}, data = null) {
     setup(sim) {
       sim.kitBuild = b; sim.player.resource = 'mana';
       const t = sim.tank, mods = sim.mods, st = sim.stats;
-      t.defense += P.anticipation.def * b.anticipation; t.armor *= 1 + P.toughness.armor * b.toughness;
+      t.defense += P.anticipation.def * b.anticipation; t.armor *= 1 + P.toughness.armor * b.toughness; t.parry += 0.01 * b.deflection;
       mods.hitBonus += P.precision.hit * b.precision;
       mods.dmgMult *= 1 + P.oneHand.dmg * b.oneHandWeaponSpecialization;
       sim.takenMult *= 1 - P.improvedRf.taken * b.improvedRighteousFury;
