@@ -39,14 +39,50 @@
 
 {% if content %}
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
-  {% if launch %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
   <a href="#gs-talents">Talents</a>
+  {% if launch %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
   <a href="#gs-stats">{{ 'Statistiques' if fr else 'Stats' }}</a>
   {% if lvl60.rot %}<a href="#gs-rotation">Rotation</a>{% endif %}
   {% if content.professions %}<a href="#gs-prof">{{ 'Métiers' if fr else 'Professions' }}</a>{% endif %}
   <a href="#gs-gear">{{ 'Équipement' if fr else 'Gear' }}</a>
   <a href="#gs-cons">{{ 'Consommables' if fr else 'Consumables' }}</a>
 </nav>
+
+{# Talent tree first (2026-10-18): the page was read by visitors looking for the build, and the tree sat 2.6 screens down (GA4 bounce 72 %). #}
+<div class="gs-grid gs-first">
+{# ---------------------------------------------------------------- Talents #}
+<section class="gs-tile" id="gs-talents">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.tpl_h2.format(level=content.build.level) }}</h2></div>
+  {% if content.build.note %}<p class="gs-lede">{{ content.build.note[lang] }}</p>{% endif %}
+  {% if rank_links %}<p class="gs-lede">{{ tx.rank_see }} {% for l in rank_links %}<a class="wg-link" href="{{ root }}{{ l.path }}">{{ l.label }}</a>{{ ' · ' if not loop.last }}{% endfor %} →</p>{% endif %}
+  <details class="gs-more"><summary>{{ 'Comment lire ces arbres' if fr else 'How to read these trees' }}</summary>
+    <p class="gs-lede">{{ (tx.tpl_p60 if content.build.level == 60 else tx.tpl_p.format(level=content.build.level)) }}</p>
+  </details>
+  <div class="wg-legend"><span class="wg-key is-reco"></span>{{ tx.tpl_reco }} <span class="wg-key is-option"></span>{{ tx.tpl_option }}</div>
+  <div class="wg-trees">
+  {% for tr in tpl.trees %}<div class="wg-tree-wrap">
+    <h3 class="wg-tree-title">{{ tr.spec.name[lang] }}{% if tr.own %} <span class="wg-own">{{ tx.tree_own }}</span>{% endif %}</h3>
+    <div class="wg-tree" style="--rows: {{ tr.rows }}">
+      {{ tr.svg }}
+      {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col + 1 }}" title="{{ c.t.name[lang] }} — {{ c.t.max_rank }} {{ tx.rank_word if c.t.max_rank == 1 else tx.ranks_word }}">
+        <span class="wg-ico">{% if c.t.icon %}<img src="{{ c.t.icon }}" alt="{{ c.t.name[lang] }}" width="40" height="40" loading="lazy">{% endif %}<span class="wg-badge nums">{% if c.points %}{{ c.points }}/{{ c.t.max_rank }}{% else %}{{ c.t.max_rank }}{% endif %}</span></span></div>{% endfor %}
+    </div>
+  </div>{% endfor %}
+  </div>
+  <details class="gs-more"><summary>{{ 'Détail des talents du build' if fr else 'Talent details of the build' }} ({{ tpl['items']|length }})</summary>
+    <div class="wg-talents">{% for i in tpl['items'] %}
+      <div class="wg-talent{{ ' is-option' if i.option else '' }}">
+        {% if i.t.icon %}<img class="wg-talent-icon" src="{{ i.t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
+        <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ i.tree[lang] }} · {{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · {{ 'Icy Veins : ' if content.build.level != 60 }}{{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
+        <p>{{ i.why[lang] }}</p></div>
+      </div>{% endfor %}
+    </div>
+  </details>
+  {% if lvl60.alts %}{% import "wow_talent_macros.html" as tm %}
+  {% for lab, a in lvl60.alts %}{% if a %}{% if lab %}<h3 class="rs-sub">{{ lab }}</h3>{% endif %}{{ tm.variant(a, lang) }}{% endif %}{% endfor %}
+  {% endif %}
+</section>
+</div>
 
 {% if launch %}
 {# "Au lancement" (2026-10-13): the short answer, every figure from the simulator's pre-raid run (wow_launch.py). #}
@@ -92,39 +128,6 @@
 {% endif %}
 
 <div class="gs-grid">
-
-{# ---------------------------------------------------------------- Talents #}
-<section class="gs-tile" id="gs-talents">
-  <div class="gs-th"><h2 class="gs-h2">{{ tx.tpl_h2.format(level=content.build.level) }}</h2></div>
-  {% if content.build.note %}<p class="gs-lede">{{ content.build.note[lang] }}</p>{% endif %}
-  {% if rank_links %}<p class="gs-lede">{{ tx.rank_see }} {% for l in rank_links %}<a class="wg-link" href="{{ root }}{{ l.path }}">{{ l.label }}</a>{{ ' · ' if not loop.last }}{% endfor %} →</p>{% endif %}
-  <details class="gs-more"><summary>{{ 'Comment lire ces arbres' if fr else 'How to read these trees' }}</summary>
-    <p class="gs-lede">{{ (tx.tpl_p60 if content.build.level == 60 else tx.tpl_p.format(level=content.build.level)) }}</p>
-  </details>
-  <div class="wg-legend"><span class="wg-key is-reco"></span>{{ tx.tpl_reco }} <span class="wg-key is-option"></span>{{ tx.tpl_option }}</div>
-  <div class="wg-trees">
-  {% for tr in tpl.trees %}<div class="wg-tree-wrap">
-    <h3 class="wg-tree-title">{{ tr.spec.name[lang] }}{% if tr.own %} <span class="wg-own">{{ tx.tree_own }}</span>{% endif %}</h3>
-    <div class="wg-tree" style="--rows: {{ tr.rows }}">
-      {{ tr.svg }}
-      {% for c in tr.cells %}<div class="wg-cell{{ ' is-' ~ c.mark if c.mark }}" style="grid-row: {{ c.t.row }}; grid-column: {{ c.t.col + 1 }}" title="{{ c.t.name[lang] }} — {{ c.t.max_rank }} {{ tx.rank_word if c.t.max_rank == 1 else tx.ranks_word }}">
-        <span class="wg-ico">{% if c.t.icon %}<img src="{{ c.t.icon }}" alt="{{ c.t.name[lang] }}" width="40" height="40" loading="lazy">{% endif %}<span class="wg-badge nums">{% if c.points %}{{ c.points }}/{{ c.t.max_rank }}{% else %}{{ c.t.max_rank }}{% endif %}</span></span></div>{% endfor %}
-    </div>
-  </div>{% endfor %}
-  </div>
-  <details class="gs-more"><summary>{{ 'Détail des talents du build' if fr else 'Talent details of the build' }} ({{ tpl['items']|length }})</summary>
-    <div class="wg-talents">{% for i in tpl['items'] %}
-      <div class="wg-talent{{ ' is-option' if i.option else '' }}">
-        {% if i.t.icon %}<img class="wg-talent-icon" src="{{ i.t.icon }}" alt="" width="44" height="44" loading="lazy">{% endif %}
-        <div><b>{{ i.t.name[lang] }}</b> <span class="wg-rank nums">{{ i.tree[lang] }} · {{ tx.tpl_tier }} {{ i.t.row }} · {{ i.t.max_rank }} {{ tx.rank_word if i.t.max_rank == 1 else tx.ranks_word }}{% if i.points %} · {{ 'Icy Veins : ' if content.build.level != 60 }}{{ i.points }} {{ tx.pts_word }}{% endif %} · {{ tx.tpl_option if i.option else tx.tpl_reco }}</span>
-        <p>{{ i.why[lang] }}</p></div>
-      </div>{% endfor %}
-    </div>
-  </details>
-  {% if lvl60.alts %}{% import "wow_talent_macros.html" as tm %}
-  {% for lab, a in lvl60.alts %}{% if a %}{% if lab %}<h3 class="rs-sub">{{ lab }}</h3>{% endif %}{{ tm.variant(a, lang) }}{% endif %}{% endfor %}
-  {% endif %}
-</section>
 
 {# ---------------------------------------------------------------- Stats : table + gain curves side by side #}
 <section class="gs-tile" id="gs-stats">

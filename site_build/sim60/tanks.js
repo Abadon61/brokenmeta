@@ -108,7 +108,7 @@ export const PALADIN_PROT = {
   manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
 export const PALADIN_PROT_DEFAULT_BUILD = {
-  anticipation: 0, toughness: 0, precision: 0, oneHandWeaponSpecialization: 0, improvedRighteousFury: 0, reckoning: 0, redoubt: 0, ironCreed: 0, sacredDuty: 0, holyShield: 0, swiftJudgement: 0,
+  anticipation: 0, toughness: 0, deflection: 0, precision: 0, oneHandWeaponSpecialization: 0, improvedRighteousFury: 0, reckoning: 0, redoubt: 0, ironCreed: 0, sacredDuty: 0, holyShield: 0, swiftJudgement: 0,
   usePotion: true,
 };
 
@@ -124,7 +124,7 @@ export function paladinProtKit(build = {}, data = null) {
     setup(sim) {
       sim.kitBuild = b; sim.player.resource = 'mana';
       const t = sim.tank, mods = sim.mods, st = sim.stats;
-      t.defense += P.anticipation.def * b.anticipation; t.armor *= 1 + P.toughness.armor * b.toughness;
+      t.defense += P.anticipation.def * b.anticipation; t.armor *= 1 + P.toughness.armor * b.toughness; t.parry += 0.01 * b.deflection;
       mods.hitBonus += P.precision.hit * b.precision;
       mods.dmgMult *= 1 + P.oneHand.dmg * b.oneHandWeaponSpecialization;
       sim.takenMult *= 1 - P.improvedRf.taken * b.improvedRighteousFury;
