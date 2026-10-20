@@ -5639,22 +5639,6 @@ def localize_lol_runes_page(rune_trees: list[dict], summoner_spells: list[dict],
     return trees, spells
 
 
-def wowsim_manifest():
-    """The files the "simulate my character" page loads into Pyodide, each with a content hash
-    (its cache-buster), plus a hash of the whole manifest. The page carries that manifest hash in
-    its own HTML -- always fetched from the network -- because the site's service worker serves
-    every other asset cache-first: without it, a returning visitor kept an old simulator."""
-    files = [ROOT / "wow_mysim.py", ROOT / "wow_dps_sim.py", ROOT / "wow_spells.py", ROOT / "wow_weights.py",
-             PROJECT / "data" / "wow_dungeons" / "dungeons.json", PROJECT / "data" / "wow_items" / "proficiency.json",
-             PROJECT / "data" / "wow_items" / "bis_level30_stats.json",
-             *sorted((PROJECT / "data" / "wow_spells").glob("*.json")),
-             *sorted((PROJECT / "data" / "wow_spells_ranks").glob("*.json"))]
-    body = json.dumps({"files": [{"path": f.relative_to(PROJECT).as_posix(),
-                                  "hash": hashlib.sha256(f.read_bytes()).hexdigest()[:10]} for f in files]},
-                      separators=(",", ":"))
-    return body, hashlib.sha256(body.encode("utf-8")).hexdigest()[:10]
-
-
 ADDON_DIR = PROJECT / "wow_addon" / "BrokenMetaWeights"
 
 
@@ -7415,14 +7399,6 @@ def main() -> None:
         _wnav.insert([s for s, _, _ in _wnav].index("talents" if wt_classes else "classes") + 1, ("glossaire", "Glossaire des sorts", "Spell glossary"))
     if wow_dungeons or wow_raids:
         _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("optimisation", "Item builder", "Item builder"))
-    # Rebuilt 2026-09-25 around the real level-20 kit (data/wow_spells/warrior.json) instead of the
-    # speculative level-60 one removed 2026-09-23 -- see wow_warrior_sim.html / wow-warrior-sim.js.
-    # The manual-input Fury calculator (/wow-forever/simulateur/) was replaced 2026-09-26 by the
-    # export-based page below (personal stat weights + Top gear); its URL redirects there (.htaccess).
-    # "Simulate my character" (2026-09-26): paste the BrokenMeta addon export, simulated in the
-    # browser by the same wow_dps_sim.py engine via Pyodide (wow_mysim.py / wow-mysim*.js).
-    if wow_spell_classes:
-        _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("simuler-mon-personnage", "Simuler mon personnage", "Simulate my character"))
     # BrokenLogs (2026-10-11): combat log analysis in the browser.
     _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("tier-list", "Tier list", "Tier list"))   # 2026-10-13
@@ -7450,7 +7426,7 @@ def main() -> None:
             _game_news[_g] = game_news.load(_g)
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
-    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "simuler-mon-personnage", "logs", "simulateur-dps"]
+    env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "logs", "simulateur-dps"]
     env.globals["trait_label"] = trait_label
     env.globals["gameplan_tab_label"] = gameplan_tab_label
     env.globals["short_date"] = short_date
@@ -8745,28 +8721,6 @@ def main() -> None:
                        g_title=_gx["op_title"], g_desc=_gx["op_desc"], g_h1=_gx["op_h1"], g_intro=_gx["op_intro"],
                        breadcrumb_schema=breadcrumb_schema(_ocrumb),
                        article_schema=build_article_schema(_gx["op_h1"], canonical_for(_oppath, lang), _gx["op_desc"]))
-            if wow_spell_classes and wt_classes:
-                _mspath = "/wow-forever/simuler-mon-personnage/"
-                _mscrumb = _gbase + [(_gx["ms_h1"], canonical_for(_mspath, lang))]
-                assert len(_gx["ms_title"]) <= 60 and len(_gx["ms_desc"]) <= 155
-                _ms_cls = {c["id"]: c for c in wt_classes}
-                _ms_specs = {}
-                for _sid, _sprof in wow_dps_sim.ROTATIONS.items():
-                    _scls = _ms_cls.get(_sprof.get("glossary", _sid))
-                    _sname = next((sp["name"][lang] for sp in (_scls or {}).get("specs", [])
-                                   if sp["id"] == wow_dps_sim.SPEC_ID_MAP.get(_sid)), _sid)
-                    _ms_specs[_sid] = {"class_name": _scls["name"][lang] if _scls else _sid, "spec_name": _sname,
-                                       "role": _sprof.get("role", "dps"),
-                                       "class_icon": _scls.get("icon") if _scls else None,
-                                       "class_color": _scls.get("color") if _scls else None,
-                                       "spec_icon": (f"assets/img/spec/{_scls['id']}-{wow_dps_sim.SPEC_ID_MAP[_sid]}.png"
-                                                     if _scls and wow_dps_sim.SPEC_ID_MAP.get(_sid) else None)}
-                render("wow_mysim.html", _mspath, lang, active_nav="wow", active_sub="wow-simuler-mon-personnage", tx=_gx,
-                       ms_i18n=_gx["ms_js"], ms_specs=_ms_specs, ms_manifest_hash=wowsim_manifest()[1],
-                       addon_version=addon_version(),
-                       g_title=_gx["ms_title"], g_desc=_gx["ms_desc"], g_h1=_gx["ms_h1"], g_intro=_gx["ms_intro"],
-                       breadcrumb_schema=breadcrumb_schema(_mscrumb),
-                       article_schema=build_article_schema(_gx["ms_h1"], canonical_for(_mspath, lang), _gx["ms_desc"]))
             # Level-60 DPS simulator (2026-10-02): JavaScript engine in sim60/, bundled by sim60_bundle.py.
             _s60path = "/wow-forever/simulateur-dps/"
             _s60 = wow_sim60_texts.TXT[lang]
@@ -9816,16 +9770,9 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-mysim.js", "wow-mysim-worker.js", "wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js"):
+    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
-    _simdir = DIST / "assets" / "wowsim"
-    _manifest_json, _ = wowsim_manifest()
-    for _f in json.loads(_manifest_json)["files"]:
-        _dst = _simdir / _f["path"]
-        _dst.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy(PROJECT / _f["path"], _dst)
-    (_simdir / "manifest.json").write_text(_manifest_json, encoding="utf-8")
     # The addon is no longer zipped here: it is distributed on CurseForge (ADDON_CURSEFORGE_URL), and
     # the old /assets/downloads/BrokenMeta-<version>.zip links redirect there (.htaccess below).
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
@@ -9968,10 +9915,12 @@ def main() -> None:
     (DIST / ".htaccess").write_text(
         "ErrorDocument 404 /404.html\n"
         "\n"
-        "# Old manual-input DPS calculator, replaced 2026-09-26 by the export-based simulation page.\n"
-        "Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/\n"
+        "# Old manual-input DPS calculator and the level-20 \"simulate my character\" page (removed 2026-10-20) follow the level-60 simulator.\n"
+        "Redirect 301 /wow-forever/simulateur/ /wow-forever/simulateur-dps/\n"
+        "Redirect 301 /wow-forever/simuler-mon-personnage/ /wow-forever/simulateur-dps/\n"
         "RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub\n"
-        "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/\n"
+        "Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simulateur-dps/\n"
+        "Redirect 301 /en/wow-forever/simuler-mon-personnage/ /en/wow-forever/simulateur-dps/\n"
         "# Ranged Survival ranking page removed 2026-10-10 (Survival is melee): its pages follow the melee one.\n"
         "Redirect 301 /wow-forever/classement/hunter-survival/ /wow-forever/classement/hunter-melee/\n"
         "Redirect 301 /en/wow-forever/classement/hunter-survival/ /en/wow-forever/classement/hunter-melee/\n"

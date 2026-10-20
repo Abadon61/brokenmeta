@@ -88,7 +88,7 @@ TX = {
             ("La tier list va-t-elle changer ?", "Oui : le jeu est encore en bêta et les valeurs bougent avec les correctifs. La date de mise à jour et le build du jeu sont affichés en haut de page, et le simulateur est relancé à chaque changement important."),
             ("Pourquoi les soigneurs ne sont-ils pas classés ?", "Le simulateur ne modélise pas encore les soins sur un combat complet. Plutôt que d'afficher un chiffre inventé, nous les laissons hors classement pour l'instant."),
         ],
-        "links_h": "Aller plus loin", "l_sim": "Simulateur DPS niveau 60", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_mysim": "Simuler mon personnage", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
+        "links_h": "Aller plus loin", "l_sim": "Simulateur DPS niveau 60", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
         "art_credit": "Illustrations : © Blizzard Entertainment",
     },
     "en": {
@@ -119,7 +119,7 @@ TX = {
             ("Will the tier list change?", "Yes: the game is still in beta and values move with patches. The update date and the game build are shown at the top of the page, and the simulator is rerun after every major change."),
             ("Why are healers not ranked?", "The simulator does not model healing over a full fight yet. Rather than show an invented number, we leave them out for now."),
         ],
-        "links_h": "Go further", "l_sim": "Level 60 DPS simulator", "l_calc": "Talent calculator", "l_dung": "Dungeons", "l_mysim": "Simulate my character", "l_races": "Which race to pick", "l_level": "1-60 leveling guide",
+        "links_h": "Go further", "l_sim": "Level 60 DPS simulator", "l_calc": "Talent calculator", "l_dung": "Dungeons", "l_races": "Which race to pick", "l_level": "1-60 leveling guide",
         "art_credit": "Artwork: © Blizzard Entertainment",
     },
 }
