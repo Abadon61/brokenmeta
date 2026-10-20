@@ -1,9 +1,11 @@
 ErrorDocument 404 /404.html
 
-# Old manual-input DPS calculator, replaced 2026-09-26 by the export-based simulation page.
-Redirect 301 /wow-forever/simulateur/ /wow-forever/simuler-mon-personnage/
+# Old manual-input DPS calculator and the level-20 "simulate my character" page (removed 2026-10-20) follow the level-60 simulator.
+Redirect 301 /wow-forever/simulateur/ /wow-forever/simulateur-dps/
+Redirect 301 /wow-forever/simuler-mon-personnage/ /wow-forever/simulateur-dps/
 RedirectMatch 301 ^/assets/downloads/BrokenMeta-.*\.zip$ https://www.curseforge.com/wow/addons/broken-meta-hub
-Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simuler-mon-personnage/
+Redirect 301 /en/wow-forever/simulateur/ /en/wow-forever/simulateur-dps/
+Redirect 301 /en/wow-forever/simuler-mon-personnage/ /en/wow-forever/simulateur-dps/
 # Ranged Survival ranking page removed 2026-10-10 (Survival is melee): its pages follow the melee one.
 Redirect 301 /wow-forever/classement/hunter-survival/ /wow-forever/classement/hunter-melee/
 Redirect 301 /en/wow-forever/classement/hunter-survival/ /en/wow-forever/classement/hunter-melee/
