@@ -24,6 +24,14 @@
      data-worker="{{ root }}assets/sim60/{{ s60.worker }}">
   <p id="s60Loading" class="wow-note">…</p>
   <div id="s60Form" hidden>
+    <section class="gs-tile s60-import" id="s60ImportTile"><div class="gs-th"><h2 class="gs-h2">{{ tx.imp_h }}</h2></div>
+      <p class="wow-note">{{ tx.imp_intro }}</p>
+      <ol class="s60-steps">{% for st in tx.imp_steps %}<li>{{ st }}</li>{% endfor %}</ol>
+      <textarea id="s60Export" class="s60-export" rows="6" spellcheck="false" placeholder="{{ tx.imp_ph }}"></textarea>
+      <div class="ms-actions"><button type="button" id="s60Import" class="ms-btn">{{ tx.imp_btn }}</button><button type="button" id="s60ImportClear" class="ms-btn is-ghost">{{ tx.imp_clear }}</button></div>
+      <div id="s60ImportStatus" class="wow-note" aria-live="polite"></div>
+      <p class="wow-note">{{ tx.imp_privacy }}</p>
+    </section>
     <div class="sm-layout"><div class="sm-left">
     <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_char }}</h2></div>
     <div class="s60-grid">

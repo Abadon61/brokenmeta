@@ -7405,7 +7405,7 @@ def main() -> None:
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("leveling", "Leveling 1-60", "Leveling 1-60"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("races", "Quelle race", "Which race"))
     # Addon page (2026-09-27): BrokenMeta Hub, DPS + Profession sections, download button.
-    _wnav.append(("simulateur-dps", "Simulateur DPS niveau 60", "Level 60 DPS simulator"))
+    _wnav.append(("simulateur-dps", "Simulateur DPS", "DPS simulator"))
     _wnav.append(("artisans", "Artisans", "Crafters"))
     # "addon" is no longer a menu link: the pink bar CTA (macros.nav_cta) points there since 2026-10-02.
     env.globals["wow_nav"] = _wnav

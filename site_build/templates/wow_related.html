@@ -9,7 +9,7 @@
 {% elif k == 'races' %}<a class="gh-chip" href="{{ root }}wow-forever/races/">{{ 'Quelle race choisir' if fr else 'Which race to pick' }}</a>
 {% elif k == 'launch' %}<a class="gh-chip" href="{{ root }}wow-forever/actualites/lancement-wow-forever-heure-noms-serveurs/">{{ 'Lancement : heure, noms, serveurs' if fr else 'Launch: time, names, realms' }}</a>
 {% elif k == 'leveling' %}<a class="gh-chip" href="{{ root }}wow-forever/leveling/">{{ 'Guide de leveling 1-60' if fr else '1-60 leveling guide' }}</a>
-{% elif k == 'sim' %}<a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Simulateur DPS niveau 60' if fr else 'Level 60 DPS simulator' }}</a>
+{% elif k == 'sim' %}<a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Simulateur DPS' if fr else 'DPS simulator' }}</a>
 {% elif k == 'dungeons' %}<a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if fr else 'All dungeons' }}</a>
 {% elif k == 'talents' and cls_id %}<a class="gh-chip" href="{{ root }}wow-forever/talents/{{ cls_id }}/">{{ ('Talents : ' if fr else 'Talents: ') ~ cls_name }}</a>
 {% endif %}

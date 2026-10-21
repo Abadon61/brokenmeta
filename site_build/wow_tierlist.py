@@ -75,7 +75,7 @@ TX = {
         "heal_h": "Et les soigneurs ?", "heal_p": "Les soigneurs ne sont pas classés : le simulateur ne modélise pas encore les soins sur un combat complet, et nous refusons d'afficher un chiffre inventé. Leurs guides restent disponibles dans la section des classes.",
         "heal_link": "Voir les guides de spécialisation",
         "meth_h": "Comment est calculée cette tier list", "meth": [
-            "Simulateur : le moteur niveau 60 de BrokenMeta.gg ({url}), le même que celui de la page « Simulateur DPS niveau 60 ». Les tables de sorts et de statistiques viennent du client de la bêta (build {build}). Les objets (butin des donjons, du raid et équipement fabriqué) viennent des pages Wowhead Forever lues le 17 octobre 2026.",
+            "Simulateur : le moteur niveau 60 de BrokenMeta.gg ({url}), le même que celui de la page « Simulateur DPS ». Les tables de sorts et de statistiques viennent du client de la bêta (build {build}). Les objets (butin des donjons, du raid et équipement fabriqué) viennent des pages Wowhead Forever lues le 17 octobre 2026.",
             "Combat : {fight} secondes contre un boss immobile de niveau 63, {iters} répétitions par spécialisation ; le DPS affiché est la moyenne, l'incertitude (± erreur standard) est donnée sur la page de détail.",
             "Équipement : le meilleur ensemble que l'optimiseur trouve parmi les objets connus de la bêta (donjons, raid, équipement fabriqué). Aucun objet n'est ajouté à la main.",
             "Paliers : S = au moins {S} % du DPS de la meilleure spécialisation, A = {A} %, B = {B} %, C = {C} %, D = en dessous. Les tanks sont comparés entre eux, sur la menace par seconde.",
@@ -88,7 +88,7 @@ TX = {
             ("La tier list va-t-elle changer ?", "Oui : le jeu est encore en bêta et les valeurs bougent avec les correctifs. La date de mise à jour et le build du jeu sont affichés en haut de page, et le simulateur est relancé à chaque changement important."),
             ("Pourquoi les soigneurs ne sont-ils pas classés ?", "Le simulateur ne modélise pas encore les soins sur un combat complet. Plutôt que d'afficher un chiffre inventé, nous les laissons hors classement pour l'instant."),
         ],
-        "links_h": "Aller plus loin", "l_sim": "Simulateur DPS niveau 60", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
+        "links_h": "Aller plus loin", "l_sim": "Simulateur DPS", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
         "art_credit": "Illustrations : © Blizzard Entertainment",
     },
     "en": {
@@ -106,7 +106,7 @@ TX = {
         "heal_h": "What about healers?", "heal_p": "Healers are not ranked: the simulator does not model healing over a full fight yet, and we will not show an invented number. Their guides remain available in the classes section.",
         "heal_link": "See the spec guides",
         "meth_h": "How this tier list is computed", "meth": [
-            "Simulator: BrokenMeta.gg's level 60 engine ({url}), the same as the \"Level 60 DPS simulator\" page. Spell and stat tables come from the beta client (build {build}). Items (dungeon, raid and crafted gear) come from the Wowhead Forever pages read on October 17, 2026.",
+            "Simulator: BrokenMeta.gg's level 60 engine ({url}), the same as the \"DPS simulator\" page. Spell and stat tables come from the beta client (build {build}). Items (dungeon, raid and crafted gear) come from the Wowhead Forever pages read on October 17, 2026.",
             "Fight: {fight} seconds against a stationary level 63 boss, {iters} runs per spec; the DPS shown is the mean, with its standard error on the detail page.",
             "Gear: the best set the optimizer finds among the items known from the beta (dungeons, raid, crafted gear). No item is added by hand.",
             "Tiers: S = at least {S}% of the best spec's DPS, A = {A}%, B = {B}%, C = {C}%, D = below. Tanks are compared with each other, on threat per second.",
@@ -119,7 +119,7 @@ TX = {
             ("Will the tier list change?", "Yes: the game is still in beta and values move with patches. The update date and the game build are shown at the top of the page, and the simulator is rerun after every major change."),
             ("Why are healers not ranked?", "The simulator does not model healing over a full fight yet. Rather than show an invented number, we leave them out for now."),
         ],
-        "links_h": "Go further", "l_sim": "Level 60 DPS simulator", "l_calc": "Talent calculator", "l_dung": "Dungeons", "l_races": "Which race to pick", "l_level": "1-60 leveling guide",
+        "links_h": "Go further", "l_sim": "DPS simulator", "l_calc": "Talent calculator", "l_dung": "Dungeons", "l_races": "Which race to pick", "l_level": "1-60 leveling guide",
         "art_credit": "Artwork: © Blizzard Entertainment",
     },
 }
