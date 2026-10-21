@@ -187,6 +187,7 @@
       boss: { dmg: num('s60BossDmg') || 9000, speed: num('s60BossSpeed') || 2 }, targetArmor: num('s60Armor') == null ? 3731 : num('s60Armor'), executeFrac: $('s60Exec').checked ? 0.2 : 0 };
     var ap = num('s60Ap'), cr = num('s60Crit'), hi = num('s60Hit');
     if (ap != null && cr != null && hi != null) spec.totals = isCaster() ? { sp: ap, crit: cr / 100, hit: hi / 100 } : { ap: ap, crit: cr / 100, hit: hi / 100 };
+    if (state.impWeapons) spec.weapons = state.impWeapons;
     var build = Object.assign(S.ranksToBuild(curCls(), state.tdata, state.ranks), { useCooldowns: $('s60CD').checked, useGem: $('s60Gem').checked, pet: isRanged() ? $('s60HPet').value : $('s60Pet').value, shots: $('s60Shots').value, aspect: $('s60Aspect').checked, quiver: $('s60Quiver').checked, sacrifice: $('s60Sac').value, curse: $('s60Curse').value, innervate: $('s60Inn').checked, movement: (num('s60Move') || 0) / 100, executePhase: $('s60Exec').checked, useDeathWish: $('s60DW').checked, useRecklessness: $('s60Reck').checked, enrageUptime: num('s60Enrage') || 0 });
     return { spec: spec, build: build };
   }
@@ -343,6 +344,103 @@
     if (!r.revMatches) { st.textContent = T.t_rev + ' ' + st.textContent; }
   }
 
+  // ---------- import of the addon export (/bmw export, format BMW1) ----------
+  var EXPORT_SLOTS = { 1: 'head', 2: 'neck', 3: 'shoulder', 15: 'back', 5: 'chest', 9: 'wrist', 10: 'hands', 6: 'waist', 7: 'legs', 8: 'feet', 11: 'ring1', 12: 'ring2', 13: 'trinket1', 14: 'trinket2' };
+  var EXPORT_RACES = { human: 'human', dwarf: 'dwarf', nightelf: 'nightelf', gnome: 'gnome', orc: 'orc', scourge: 'undead', undead: 'undead', tauren: 'tauren', troll: 'troll' };
+  var PRIMARY_KEYS = ['str', 'agi', 'sta', 'int', 'spi'];
+  function parseExport(text) {
+    var d = {};
+    String(text || '').split(/\r?\n/).forEach(function (line) { var i = line.indexOf('='); if (i > 0) d[line.slice(0, i).trim()] = line.slice(i + 1).trim(); });
+    return d;
+  }
+  function nm(d, k, def) { var v = parseFloat(d[k]); return isFinite(v) ? v : (def === undefined ? 0 : def); }
+  function idOf(d, slot) { var v = d['slot' + slot]; return v ? (parseInt(v.split(':')[0], 10) || 0) : 0; }
+  // weapon rebuilt from the character sheet: the sheet's min/max include the attack-power bonus (AP / 14 per second of speed) and the % damage modifier
+  function sheetWeapon(d, which, off) {
+    var ranged = which === 'r', ap = ranged ? nm(d, 'rap') : nm(d, 'ap'), pct = (ranged ? nm(d, 'r_pct', 1) : nm(d, 'dmg_pct', 1)) || 1, speed, lo, hi;
+    if (ranged) { speed = nm(d, 'r_speed'); lo = nm(d, 'r_min'); hi = nm(d, 'r_max'); }
+    else if (which === 'mh') { speed = nm(d, 'speed_mh'); lo = nm(d, 'mh_min'); hi = nm(d, 'mh_max'); }
+    else { speed = nm(d, 'speed_oh'); lo = nm(d, 'oh_min'); hi = nm(d, 'oh_max'); }
+    if (!(speed > 0 && hi > 0)) return null;
+    var avg = (lo + hi) / 2 / pct; if (which === 'oh') avg /= 0.5;
+    avg = Math.max(0, avg - ap / 14 * speed);
+    return { min: avg * 0.75, max: avg * 1.25, speed: speed, type: '', offHand: !!off, twoHand: false, itemId: 0, st: {} };
+  }
+  function dropImport() {
+    if (!state.imported || state.importing) return;
+    state.imported = false; state.impWeapons = null;
+    ['s60Ap', 's60Crit', 's60Hit'].forEach(function (id) { $(id).value = ''; });
+    fillBase();
+    var st = $('s60ImportStatus'); st.className = 'wow-note'; st.textContent = T.imp_off;
+  }
+  function importCharacter() {
+    var st = $('s60ImportStatus'), notes = [], d = parseExport($('s60Export').value);
+    function fail(msg) { st.className = 'wow-note s60-warn'; st.textContent = msg; }
+    if (d.format !== 'BMW1') return fail(T.imp_bad_format);
+    var cls = (d['class'] || '').toLowerCase();
+    if (!cls) return fail(T.imp_no_class);
+    var cands = Object.keys(SPECS).filter(function (k) { return SPECS[k].cls === cls; });
+    if (!cands.length) return fail(fmt(T.imp_class_bad, { cls: d['class'] }));
+    var sid = d.spec === 'hunter_survival' ? 'hunter_melee' : d.spec, guessed = false;
+    if (!SPECS[sid] || SPECS[sid].cls !== cls) { sid = cands[0]; guessed = true; }
+    state.importing = true;
+    $('s60Spec').value = sid; $('s60Spec').dispatchEvent(new Event('change'));
+    var specName = $('s60Spec').options[$('s60Spec').selectedIndex].textContent;
+    if (guessed) notes.push(fmt(T.imp_spec_guess, { spec: specName }));
+    var race = EXPORT_RACES[(d.race || '').toLowerCase()];
+    if (race) { $('s60Race').value = race; fillBase(); } else notes.push(T.imp_race_bad);
+    var lvl = nm(d, 'level', 60);
+    if (lvl !== 60) notes.push(fmt(T.imp_level, { lvl: lvl }));
+    // talents: "node:rank" pairs with the talent calculator's own node ids
+    if (d.talents) {
+      var ranks = {};
+      d.talents.split(',').forEach(function (p) { var a = p.split(':'), n = String(a[0]).replace(/^n/, ''), r = parseInt(a[1], 10); if (/^\d+$/.test(n) && r) ranks['n' + n] = r; });
+      var v = S.validateRanks(state.tdata, ranks);
+      if (v.ok) { state.ranks = ranks; renderTalents(); notes.push(fmt(T.imp_talents, { pts: v.total })); }
+      else notes.push(fmt(T.imp_talents_bad, { err: v.errors.slice(0, 2).join(' · ') }));
+    }
+    // raid buffs and consumables are already inside the sheet's stats: uncheck them so they are not counted twice (the boss debuffs stay)
+    var nbuffs = nm(d, 'buffs');
+    ['buff', 'cons'].forEach(function (g) { var defs = g === 'buff' ? S.BUFFS : S.CONSUMABLES; Object.keys(defs).forEach(function (k) { var c = $('s60b_' + g + '_' + k); if (c) c.checked = false; }); });
+    if (nbuffs > 0) notes.push(fmt(T.imp_buffs, { n: nbuffs }));
+    // gear: every item the simulator knows is selected (its effects are simulated); the others are already in the sheet's totals
+    slots().forEach(function (slot) { var sel = $('s60g_' + slot); if (sel) sel.value = ''; });
+    ['s60w_mh', 's60w_oh', 's60w_th', 's60w_rng'].forEach(function (id) { if ($(id)) $(id).value = ''; });
+    var known = 0, unknown = 0;
+    Object.keys(EXPORT_SLOTS).forEach(function (n) {
+      var id = idOf(d, n); if (!id) return;
+      var sel = $('s60g_' + EXPORT_SLOTS[n]); if (!sel) return;
+      if (state.pool.byId.get(id)) sel.value = String(id);
+      if (sel.value === String(id)) known++; else unknown++;
+    });
+    var mode = curMode(), id16 = idOf(d, 16), id17 = idOf(d, 17), id18 = idOf(d, 18), W = [];
+    function pick(id, which, off) { var it = id && state.pool.byId.get(id); if (id) { if (it) known++; else unknown++; } return it ? S.toWeapon(it, off) : sheetWeapon(d, which, off); }
+    if (mode === 'dw') W.push(pick(id16, 'mh', false), pick(id17, 'oh', true));
+    else if (mode === '2h') { var w2 = pick(id16, 'mh', false); if (w2) w2.twoHand = true; W.push(w2); }
+    else if (mode === 'tank') W.push(pick(id16, 'mh', false));
+    else if (mode === 'ranged') W.push(pick(id18, 'r', false));
+    if ((mode === 'caster' || mode === 'stick' || mode === 'ranged') && id16 && state.pool.byId.get(id16)) { var th = $('s60w_th'); th.value = String(id16); }
+    state.impWeapons = W.filter(Boolean);
+    // sheet totals (power, critical strike, hit): trusted as they are by the engine
+    var caster = mode === 'caster', ranged = mode === 'ranged';
+    $('s60Ap').value = String(caster ? nm(d, 'sp') : ranged ? nm(d, 'rap') : nm(d, 'ap'));
+    $('s60Crit').value = String(caster ? nm(d, 'crit_spell') : ranged ? nm(d, 'crit_ranged') : nm(d, 'crit_melee'));
+    $('s60Hit').value = String(caster ? nm(d, 'hit_spell') : ranged ? nm(d, 'hit_ranged') : nm(d, 'hit_melee'));
+    // base stats = sheet stats minus what the recognized items bring, so that mana and regeneration (Intellect, Spirit) match the sheet
+    var c0 = collect(), sum = {};
+    PRIMARY_KEYS.forEach(function (k) { sum[k] = 0; });
+    (c0.spec.gear || []).concat(c0.spec.weapons || []).forEach(function (g) { PRIMARY_KEYS.forEach(function (k) { sum[k] += (g.st && g.st[k]) || 0; }); });
+    PRIMARY_KEYS.forEach(function (k) { if (d[k] !== undefined && d[k] !== '') $('s60base_' + k).value = String(Math.max(0, Math.round(nm(d, k) - sum[k]))); });
+    state.importing = false; state.imported = true;
+    notes.unshift(fmt(T.imp_gear, { k: known, u: unknown }));
+    var race_label = $('s60Race').options[$('s60Race').selectedIndex].textContent;
+    st.className = 'wow-note';
+    st.innerHTML = '';
+    st.appendChild(document.createTextNode(fmt(T.imp_ok, { spec: specName, race: race_label, lvl: lvl })));
+    var ul = el('ul'); notes.forEach(function (n) { ul.appendChild(el('li', { text: n })); }); st.appendChild(ul);
+    doRun();
+  }
+
   // ---------- boot ----------
   Promise.all(['items.json', 'proficiency.json', 'spells60.json', 'talents.json', 'effects.json'].map(function (f) { return fetch(base + f + '?v=' + dv).then(function (r) { return r.json(); }); })).then(function (all) {
     state.items = all[0]; state.prof = all[1]; state.data = all[2]; state.talentsAll = all[3]; state.effects = all[4];
@@ -354,6 +452,11 @@
     $('s60Spec').addEventListener('change', function () { buildGearSelects(); refreshWeapons(); pickDefaultWeapons(); loadPreset(); fillBase(); showClassOptions(); applyRaidPreset(); });
     $('s60Preset').addEventListener('click', loadPreset);
     $('s60TalentLink').addEventListener('change', importLink);
+    $('s60Import').addEventListener('click', importCharacter);
+    $('s60ImportClear').addEventListener('click', function () { $('s60Export').value = ''; $('s60ImportStatus').textContent = ''; });
+    $('s60Gear').addEventListener('change', dropImport);
+    ['s60w_mh', 's60w_oh', 's60w_th', 's60w_rng', 's60Race'].forEach(function (id) { if ($(id)) $(id).addEventListener('change', dropImport); });
+    $('s60Spec').addEventListener('change', function () { if (!state.importing) dropImport(); });
     $('s60Run').addEventListener('click', doRun);
     $('s60Weights').addEventListener('click', doWeights);
     $('s60Opt').addEventListener('click', doOptimize);
