@@ -61,13 +61,26 @@ def build(dps_rows, tank_rows, wt_classes, lang):
 
 TX = {
     "fr": {
-        "title": "Tier list WoW Forever niveau 60 : meilleures classes",
-        "desc": "Tier list des classes et spécialisations de WoW: Forever au niveau 60, classées par DPS simulé. Méthode, données et build du jeu affichés.",
-        "kicker": "TIER LIST NIVEAU 60", "h1": "Tier list WoW: Forever niveau 60 : quelle est la meilleure classe ?",
+        "title": "Tier list WoW Forever : meilleures classes et spés",
+        "desc": "Quelle est la meilleure classe de WoW Forever ? Tier list DPS et tanks simulée au niveau 60, mise à jour le {date} (build {build}).",
+        "kicker": "TIER LIST WOW FOREVER", "h1": "Tier list WoW Forever niveau 60 : quelle est la meilleure classe ?",
         "intro": "Chaque spécialisation est simulée au niveau 60 avec le meilleur équipement connu de la bêta, ses talents optimisés et les buffs d'un raid. Les paliers S à D viennent de l'écart avec la meilleure spécialisation de son rôle : rien n'est placé à la main.",
         "chips": ["Données du simulateur", "Build du jeu {build}", "Mise à jour le {date}"],
         "best": "Le meilleur DPS simulé aujourd'hui est {name} avec {dps} DPS ; les paliers se calculent à partir de cette valeur.",
-        "h_dps": "Tier list DPS", "h_tank": "Tier list tanks", "h_class": "Les classes de WoW: Forever, du mieux au moins bien placé",
+        "quick_h": "En bref : quelle est la meilleure classe ?",
+        "quick_top": "{top_name} est la spécialisation DPS la plus forte de notre simulation ({top_dps} DPS).",
+        "quick_s": "Palier S : {s_list}.", "quick_a": "Palier A : {a_list}.",
+        "quick_tank": "En tank, {tank_name} arrive en tête ({tank_val} TPS).",
+        "choose_h": "Quelle classe choisir selon votre style de jeu ?",
+        "choose_intro": "Notre simulation mesure la puissance sur une cible, pas le plaisir de jeu. Voici la meilleure spécialisation de chaque style d'après nos mesures, et ce que nous ne pouvons pas encore dire.",
+        "style_labels": {"melee": "Au corps à corps", "ranged": "À distance", "caster": "Lanceur de sorts"},
+        "choose_tank": "Tank", "choose_tank_p": "classé à la menace par seconde : la survie n'est pas encore simulée.",
+        "choose_versa": "Polyvalence", "choose_versa_p": "{versatile} proposent à la fois une spécialisation DPS et une spécialisation tank dans nos mesures (les soins ne sont pas simulés).",
+        "choose_solo": "Solo et montée de niveau", "choose_solo_p": "nous ne simulons pas le jeu en solo ; voyez le", "choose_solo_link": "guide de leveling 1-60",
+        "choose_dung": "Donjons", "choose_dung_p": "notre simulation porte sur une cible unique, sans dégâts de zone ; le butin et les boss sont dans les", "choose_dung_link": "pages des donjons",
+        "choose_begin": "Débutant", "choose_begin_p": "nous ne classons pas la difficulté de jeu, faute de donnée fiable. Partez d'une classe des paliers S ou A qui vous plaît, puis lisez le guide de sa spécialisation.",
+        "open_guide": "Guide", "guides_h": "Les guides de chaque spécialisation",
+        "h_dps": "Tier list DPS", "h_tank": "Tier list tanks", "h_class": "Les classes de WoW Forever, de la mieux à la moins bien placée",
         "tier_word": "Palier", "tier_rule": "{lo} % ou plus du meilleur", "tier_rule_d": "moins de {hi} % du meilleur",
         "unit_dps": "DPS", "unit_tps": "TPS", "of_top": "du meilleur", "best_spec": "Meilleure spécialisation",
         "open_rank": "Détail du build", "open_guide": "Guide",
@@ -83,9 +96,11 @@ TX = {
             "Limites : un combat sur cible unique, sans déplacements ni mécaniques de boss ; certaines valeurs de WoW Classic servent d'estimation quand Forever ne les donne pas encore (signalées dans le simulateur). Le classement bougera avec les correctifs.",
         ],
         "faq_h": "Questions fréquentes", "faq": [
-            ("Quelle est la meilleure classe de WoW: Forever au niveau 60 ?", "Dans notre simulation, la spécialisation DPS la plus haute est {name} ({dps} DPS, build {build}). Le classement complet des {n} spécialisations DPS est sur cette page, avec la méthode."),
-            ("Comment sont construits les paliers de la tier list ?", "Chaque spécialisation est comparée à la meilleure de son rôle : S à partir de {S} % de son DPS, A à partir de {A} %, B à partir de {B} %, C à partir de {C} %, D en dessous. Aucun placement manuel."),
-            ("La tier list va-t-elle changer ?", "Oui : le jeu est encore en bêta et les valeurs bougent avec les correctifs. La date de mise à jour et le build du jeu sont affichés en haut de page, et le simulateur est relancé à chaque changement important."),
+            ("Quelle est la meilleure classe de WoW Forever au niveau 60 ?", "Dans notre simulation, la spécialisation DPS la plus haute est {name} ({dps} DPS, build {build}). Le palier S compte : {s_list}. Le classement complet des {n} spécialisations DPS est sur cette page, avec la méthode."),
+            ("Quelle classe choisir pour débuter dans WoW Forever ?", "Nous ne classons pas la difficulté de jeu, faute de donnée fiable : notre tier list mesure la puissance. Choisissez une classe qui vous plaît parmi les paliers S et A ({s_list}), lisez le guide de sa spécialisation, puis comparez les races sur la page « Quelle race choisir »."),
+            ("Quelle est la classe la plus forte, en DPS et en tank ?", "En DPS, {name} ({dps} DPS) ; en tank, {tank_name} ({tank_val} TPS, menace par seconde). Ces valeurs viennent de combats simulés sur une cible avec le meilleur équipement connu de la bêta ; la survie des tanks n'est pas encore simulée."),
+            ("Quelle est la classe la plus polyvalente ?", "{versatile} proposent à la fois une spécialisation DPS et une spécialisation tank dans nos mesures. Les soigneurs ne sont pas simulés, nous ne pouvons donc pas comparer la polyvalence complète (DPS, tank et soins)."),
+            ("La tier list de WoW Forever va-t-elle changer ?", "Oui : le jeu est encore en bêta et les valeurs bougent avec les correctifs. La date de mise à jour et le build du jeu sont affichés en haut de page, et le simulateur est relancé à chaque changement important."),
             ("Pourquoi les soigneurs ne sont-ils pas classés ?", "Le simulateur ne modélise pas encore les soins sur un combat complet. Plutôt que d'afficher un chiffre inventé, nous les laissons hors classement pour l'instant."),
         ],
         "links_h": "Aller plus loin", "l_sim": "Simulateur DPS", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
@@ -98,6 +113,19 @@ TX = {
         "intro": "Each spec is simulated at level 60 with the best gear known from the beta, optimized talents and raid buffs. Tiers S to D come from the gap to the best spec of the same role: nothing is placed by hand.",
         "chips": ["Simulator data", "Game build {build}", "Updated {date}"],
         "best": "The highest simulated DPS today is {name} with {dps} DPS; the tiers are computed from that value.",
+        "quick_h": "In short: which class is the best?",
+        "quick_top": "{top_name} is the strongest DPS spec in our simulation ({top_dps} DPS).",
+        "quick_s": "S tier: {s_list}.", "quick_a": "A tier: {a_list}.",
+        "quick_tank": "For tanking, {tank_name} comes first ({tank_val} TPS).",
+        "choose_h": "Which class should you pick for your playstyle?",
+        "choose_intro": "Our simulation measures single-target power, not how fun a class is. Here is the best spec of each style according to our measures, and what we cannot say yet.",
+        "style_labels": {"melee": "Melee", "ranged": "Ranged", "caster": "Spellcaster"},
+        "choose_tank": "Tank", "choose_tank_p": "ranked by threat per second: survival is not simulated yet.",
+        "choose_versa": "Versatility", "choose_versa_p": "{versatile} offer both a DPS spec and a tank spec in our measures (healing is not simulated).",
+        "choose_solo": "Solo and leveling", "choose_solo_p": "we do not simulate solo play; see the", "choose_solo_link": "1-60 leveling guide",
+        "choose_dung": "Dungeons", "choose_dung_p": "our simulation is single target, with no area damage; loot and bosses are in the", "choose_dung_link": "dungeon pages",
+        "choose_begin": "Beginner", "choose_begin_p": "we do not rank how hard a class is to play, for lack of reliable data. Start from an S or A tier class you like, then read its spec guide.",
+        "open_guide": "Guide", "guides_h": "Guides for every spec",
         "h_dps": "DPS tier list", "h_tank": "Tank tier list", "h_class": "WoW: Forever classes, from best to least well placed",
         "tier_word": "Tier", "tier_rule": "{lo}% or more of the best", "tier_rule_d": "under {hi}% of the best",
         "unit_dps": "DPS", "unit_tps": "TPS", "of_top": "of the best", "best_spec": "Best spec",
@@ -123,3 +151,62 @@ TX = {
         "art_credit": "Artwork: © Blizzard Entertainment",
     },
 }
+
+
+# How a spec fights: a game fact, not a measure (used only to group the measured DPS by style)
+STYLE = {
+    "warrior_fury": "melee", "warrior_arms": "melee", "rogue_combat": "melee", "rogue_assassination": "melee", "rogue_subtlety": "melee",
+    "hunter_melee": "melee", "shaman_enhancement": "melee", "druid_feral": "melee", "paladin_retribution": "melee",
+    "hunter_marksmanship": "ranged", "hunter_beastmastery": "ranged",
+    "mage_fire": "caster", "mage_frost": "caster", "mage_arcane": "caster", "warlock_affliction": "caster", "warlock_destruction": "caster",
+    "warlock_demonology": "caster", "priest_shadow": "caster", "shaman_elemental": "caster", "druid_balance": "caster",
+}
+
+
+def _join(names, lang):
+    names = list(names)
+    if len(names) <= 1:
+        return "".join(names)
+    return ", ".join(names[:-1]) + (" et " if lang == "fr" else " and ") + names[-1]
+
+
+def _num(v, lang):
+    return "{:,.0f}".format(v).replace(",", " " if lang == "fr" else ",")
+
+
+def add_content(tl, lang):
+    """Summary, "which class for your playstyle" list and the values the FAQ texts need, all computed from the tiers (nothing hand-written)."""
+    tx = TX[lang]
+    nm = lambda r: r["class_name"] + " " + r["spec_name"]
+    tiers = {g["tier"]: g["rows"] for g in tl["dps"]}
+    dps_rows = [r for g in tl["dps"] for r in g["rows"]]
+    s_list = _join([nm(r) for r in tiers.get("S", [])], lang)
+    a_list = _join([nm(r) for r in tiers.get("A", [])], lang)
+    tank = tl["tank"][0] if tl["tank"] else None
+    versatile = [c["name"] for c in tl["classes"] if any(r["tier"] == "T" for r in c["specs"]) and any(r["tier"] != "T" for r in c["specs"])]
+    fmt = {"s_list": s_list, "a_list": a_list, "versatile": _join(versatile, lang), "tank_name": nm(tank) if tank else "", "tank_val": _num(tank["value"], lang) if tank else ""}
+    top = tl["top"]
+    quick = [tx["quick_top"].format(top_name=nm(top), top_dps=_num(top["value"], lang))]
+    if s_list:
+        quick.append(tx["quick_s"].format(**fmt))
+    if a_list:
+        quick.append(tx["quick_a"].format(**fmt))
+    if tank:
+        quick.append(tx["quick_tank"].format(**fmt))
+    tl["quick"] = " ".join(quick)
+    choose = []
+    for style in ("melee", "ranged", "caster"):
+        rows = [r for r in dps_rows if STYLE.get(r["spec_id"]) == style]
+        if rows:
+            r = rows[0]
+            choose.append({"h": tx["style_labels"][style], "row": r, "val": _num(r["value"], lang), "unit": tx["unit_dps"], "p": "", "link": None})
+    if tank:
+        choose.append({"h": tx["choose_tank"], "row": tank, "val": _num(tank["value"], lang), "unit": tx["unit_tps"], "p": tx["choose_tank_p"], "link": None})
+    if versatile:
+        choose.append({"h": tx["choose_versa"], "row": None, "p": tx["choose_versa_p"].format(**fmt), "link": None})
+    choose.append({"h": tx["choose_solo"], "row": None, "p": tx["choose_solo_p"], "link": ("wow-forever/leveling/", tx["choose_solo_link"])})
+    choose.append({"h": tx["choose_dung"], "row": None, "p": tx["choose_dung_p"], "link": ("wow-forever/dungeons/", tx["choose_dung_link"])})
+    choose.append({"h": tx["choose_begin"], "row": None, "p": tx["choose_begin_p"], "link": None})
+    tl["choose"] = choose
+    tl["fmt"] = fmt
+    return tl

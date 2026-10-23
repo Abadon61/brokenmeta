@@ -54,7 +54,10 @@
       <h1 class="hr-h1" id="hr-h">{{ 'Classement des spécialisations WoW: Forever' if fr else 'WoW: Forever specialization ranking' }}</h1>
       <p class="hr-lede">{{ 'Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu de la bêta.' if fr else "Each specialization is simulated on a stationary boss for 180 seconds, with its family's raid buffs and the best gear known from the beta." }}</p>
     </div>
-    <a class="wh-btn" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Ouvrir le simulateur DPS' if fr else 'Open the DPS simulator' }} <span aria-hidden="true">→</span></a>
+    <div class="hr-btns" style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="wh-btn" href="{{ root }}wow-forever/tier-list/">{{ 'Voir la tier list' if fr else 'See the tier list' }} <span aria-hidden="true">→</span></a>
+      <a class="wh-btn" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Ouvrir le simulateur DPS' if fr else 'Open the DPS simulator' }} <span aria-hidden="true">→</span></a>
+    </div>
   </div>
   {% if wow_ranking_tanks %}<div class="hr-tabs" role="tablist"><button type="button" role="tab" class="on" data-tab="dps" aria-selected="true">DPS</button><button type="button" role="tab" data-tab="tank" aria-selected="false">Tanks</button></div>{% endif %}
   <div class="wow-rank-list hr-list" data-panel="dps" style="--rows: {{ ((wow_ranking|length + 1) // 2) }}">

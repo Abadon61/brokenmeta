@@ -36,6 +36,10 @@
   </div></div>
 </section>
 
+<section class="gs-tile tlw-quick"><div class="gs-th"><h2 class="gs-h2">{{ tx.quick_h }}</h2></div>
+<p class="tlw-quick-p">{{ tl.quick }}</p>
+</section>
+
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_dps }}</h2></div>
 {{ tier_block(tl.dps, tx.unit_dps) }}
 </section>
@@ -55,6 +59,15 @@
 </section>
 {% endif %}
 
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.choose_h }}</h2></div>
+<p>{{ tx.choose_intro }}</p>
+<ul class="tlw-choose">
+  {% for c in tl.choose %}
+  <li><b>{{ c.h }}</b> : {% if c.row %}<a href="{{ root }}{{ c.row.page_path }}">{{ c.row.class_name }} {{ c.row.spec_name }}</a> ({{ c.val }} {{ c.unit }}){% if c.p %}, {{ c.p }}{% endif %}{% else %}{{ c.p }}{% endif %}{% if c.link %} <a href="{{ root }}{{ c.link[0] }}">{{ c.link[1] }}</a>.{% endif %}</li>
+  {% endfor %}
+</ul>
+</section>
+
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_class }}</h2></div>
 <div class="tlw-classes">
   {% for c in tl.classes %}
@@ -64,7 +77,7 @@
       <h3>{{ c.name }}</h3>
       <ul>
         {% for r in c.specs %}
-        <li><a href="{{ root }}{{ r.page_path }}"><span class="tlw-t" data-tier="{{ r.tier }}">{{ r.tier }}</span>{{ r.spec_name }}<em class="nums">{{ num(r.value) }} {{ tx.unit_tps if r.tier == 'T' else tx.unit_dps }}</em></a></li>
+        <li><a href="{{ root }}{{ r.page_path }}"><span class="tlw-t" data-tier="{{ r.tier }}">{{ r.tier }}</span>{{ r.spec_name }}<em class="nums">{{ num(r.value) }} {{ tx.unit_tps if r.tier == 'T' else tx.unit_dps }}</em></a><a class="tlw-g" href="{{ root }}{{ r.guide_path }}">{{ tx.open_guide }}</a></li>
         {% endfor %}
       </ul>
     </div>

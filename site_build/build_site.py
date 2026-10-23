@@ -5502,7 +5502,7 @@ LOL_CRUMB_LABEL = {
 }
 
 
-def build_article_schema(headline: str, url: str, description: str, image: str | None = None) -> dict:
+def build_article_schema(headline: str, url: str, description: str, image: str | None = None, date_published: str | None = None, date_modified: str | None = None) -> dict:
     """schema.org Article for a real content page (champion/item sheet) --
     same shape comp.html's own article_schema dict already uses, factored
     out so champion/item detail pages (both games) can get the same rich-
@@ -5520,6 +5520,10 @@ def build_article_schema(headline: str, url: str, description: str, image: str |
     }
     if image:
         schema["image"] = image
+    if date_published:                       # only for pages with a real, known date (the WoW tier list: simulator run date)
+        schema["datePublished"] = date_published
+    if date_modified:
+        schema["dateModified"] = date_modified
     return schema
 
 
@@ -8377,6 +8381,9 @@ def main() -> None:
                 _aurl = canonical_for(_apath, lang)
                 _acls = next((c for c in wt_classes or [] if c["id"] == _a.get("class")), None)
                 _atx = _a[lang]
+                # every article that touches class balance links to the tier list (automatic: new articles need nothing in their own `links`)
+                if (_a.get("kind") or _a.get("tag") == "tuning") and not any(p.endswith("tier-list/") for _l, p in _atx.get("links", [])):
+                    _atx = dict(_atx, links=list(_atx.get("links", [])) + [("Tier list WoW Forever : meilleures classes" if lang == "fr" else "WoW Forever tier list: best classes", "wow-forever/tier-list/")])
                 _aimg = BASE_URL + class_banner(_a.get("class")) if class_banner(_a.get("class")) else (_a["image"] if _a["image"].startswith("http") else BASE_URL + _a["image"])
                 _afaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
                     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _atx.get("faq", [])]} if _atx.get("faq") else None
@@ -8765,22 +8772,24 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema(_gbase + [(_gx["cr_h1"], canonical_for(_crpath, lang))]))
             _tl = wow_tierlist.build(_wow_ranking, _wow_ranking_tanks, wt_classes, lang) if _wow_ranking else None
             if _tl:
-                _tx = wow_tierlist.TX[lang]
+                _tx = dict(wow_tierlist.TX[lang])
+                _tl["date_txt"] = _news_date(_tl["generated"], lang)
+                _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"])
                 assert len(_tx["title"]) <= 60 and len(_tx["desc"]) <= 155, (len(_tx["title"]), len(_tx["desc"]))
                 _tlpath = "/wow-forever/tier-list/"
                 _th = dict(wow_tierlist.THRESHOLDS)
                 _tfmt = dict(S=int(_th["S"]), A=int(_th["A"]), B=int(_th["B"]), C=int(_th["C"]))
                 _top = _tl["top"]
                 _topv = _fmt_int(_top["value"])
-                _tl["date_txt"] = _news_date(_tl["generated"], lang)
+                wow_tierlist.add_content(_tl, lang)
                 for _c in _tl["classes"]:
                     _c["banner"] = class_banner(_c["id"])
                 _tl["meth"] = [x.format(url='<a href="' + canonical_for("/wow-forever/simulateur-dps/", lang) + '">BrokenMeta.gg</a>', build=_tl["build"], fight=_tl["fight"], iters=_tl["iters"], **_tfmt) for x in _tx["meth"]]
-                _tl["faq"] = [(q, a.format(name=_top["class_name"] + " " + _top["spec_name"], dps=_topv, build=_tl["build"], n=_tl["n_dps"], **_tfmt)) for q, a in _tx["faq"]]
+                _tl["faq"] = [(q, a.format(name=_top["class_name"] + " " + _top["spec_name"], dps=_topv, build=_tl["build"], n=_tl["n_dps"], **_tfmt, **_tl["fmt"])) for q, a in _tx["faq"]]
                 _tfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _tl["faq"]]}
                 render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
-                       article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"]),
+                       article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"], date_published="2026-10-13", date_modified=_tl["generated"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
             if wow_racepick.available():
                 # "Which race?": a hub and one page per class (client racials + simulator), see wow_racepick.py
