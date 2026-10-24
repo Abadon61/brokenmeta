@@ -45,6 +45,7 @@ off-hand"). This optimizer only chooses which REAL item fills each of those alre
 slots; it does not decide whether a spec dual-wields, uses a shield, or goes two-handed.
 """
 import json
+import random
 
 import wow_dps_sim
 import wow_spells
@@ -418,16 +419,24 @@ def _cached_weights(spec_id, baseline_stats):
     per build (optimize_spec runs once per language; the simulation does not need to)."""
     key = spec_id
     if key not in _WEIGHTS:
-        weights, dps0 = _stat_weights(spec_id, baseline_stats)
-        profile = wow_dps_sim.ROTATIONS[spec_id]
-        wdps = 0.0
-        weapons = profile.get("weapons") or []
-        if weapons and weapons[0].get("speed"):
-            bumped = [dict(w) for w in weapons]
-            bumped[0]["dmg"] = bumped[0]["dmg"] + 5.0 * bumped[0]["speed"]       # +5 weapon DPS on the main weapon
-            dps1, _ = wow_dps_sim.run_class(spec_id, iterations=80, fight_len=120.0, stats=baseline_stats,
-                                            profile_override={**profile, "weapons": bumped})
-            wdps = max(0.0, (dps1 - dps0) / 5.0)
+        # wow_dps_sim draws from the global `random` module: without a seed the weights (80 iterations each) differ from one build to the next and the
+        # 2nd / 3rd best item of a spec flips between near-equal items (2026-10-24: Fury on Deadmines gave three different lists in three runs).
+        # A fixed seed per spec makes the dungeon picks reproducible; the global generator is put back afterwards.
+        rng_state = random.getstate()
+        random.seed(f"dungeon-picks:{spec_id}")
+        try:
+            weights, dps0 = _stat_weights(spec_id, baseline_stats)
+            profile = wow_dps_sim.ROTATIONS[spec_id]
+            wdps = 0.0
+            weapons = profile.get("weapons") or []
+            if weapons and weapons[0].get("speed"):
+                bumped = [dict(w) for w in weapons]
+                bumped[0]["dmg"] = bumped[0]["dmg"] + 5.0 * bumped[0]["speed"]       # +5 weapon DPS on the main weapon
+                dps1, _ = wow_dps_sim.run_class(spec_id, iterations=80, fight_len=120.0, stats=baseline_stats,
+                                                profile_override={**profile, "weapons": bumped})
+                wdps = max(0.0, (dps1 - dps0) / 5.0)
+        finally:
+            random.setstate(rng_state)
         _WEIGHTS[key] = {"stats": weights, "wdps": wdps, "baseline": baseline_stats}
     return _WEIGHTS[key]
 
