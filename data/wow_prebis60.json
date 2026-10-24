@@ -10617,19 +10617,24 @@
    "spec": "mage_arcane",
    "class": "mage",
    "role": "dps",
-   "dps": 463.2,
-   "sem": 0.19,
+   "dps": 513,
+   "sem": 0.4,
    "name": "Arcane Mage",
    "spells": [
     [
      "Arcane Missiles",
-     458.1,
-     35
+     285.5,
+     22
+    ],
+    [
+     "Arcane Wrath",
+     223.1,
+     22.8
     ],
     [
      "Ignition",
-     3,
-     8.2
+     2.3,
+     6.3
     ],
     [
      "Smokey's Lighter",
@@ -10946,27 +10951,27 @@
       }
      },
      {
-      "tree": "fire",
+      "tree": "arcane",
       "tree_name": {
-       "en": "Fire",
-       "fr": "Feu"
+       "en": "Arcane",
+       "fr": "Arcanes"
       },
       "name": {
-       "en": "Improved Scorch",
-       "fr": "Brûlure améliorée"
+       "en": "Arcane Wrath",
+       "fr": "Arcane Wrath"
       },
       "rank": 1,
-      "max": 3,
+      "max": 1,
       "row": 4,
       "desc": {
-       "en": "Your Scorch spell has a 33% chance to cause your target to be vulnerable to Fire damage. This vulnerability increases all Fire damage you deal to your target by 3% and lasts 30 sec, stacking up to 5 times.",
-       "fr": "Votre sort Brûlure a 33 % de chances de rendre votre cible vulnérable aux dégâts de feu. Cette vulnérabilité augmente tous les dégâts de feu que vous infligez à votre cible de 3 % et dure 30 s. Cumulable jusqu’à 5 fois."
+       "en": "Launches a projectile of pure Arcane energy at the enemy target, causing 120 Arcane damage. This spell gains additional Spell Damage equal to 5% of your maximum Mana.",
+       "fr": "Launches a projectile of pure Arcane energy at the enemy target, causing 120 Arcane damage. This spell gains additional Spell Damage equal to 5% of your maximum Mana."
       }
      }
     ],
     "trees": {
-     "arcane": 32,
-     "fire": 19
+     "arcane": 33,
+     "fire": 18
     },
     "items": [
      {
@@ -10982,12 +10987,12 @@
      },
      {
       "slot": "neck",
-      "id": 23125,
-      "name": "Chains of the Lich",
-      "zone": "Stratholme",
+      "id": 22149,
+      "name": "Beads of Ogre Mojo",
+      "zone": "Dire Maul",
       "from": "dungeon",
-      "src": "Balzaphon",
-      "ilvl": 60,
+      "src": "Falrin's Vendetta",
+      "ilvl": 63,
       "q": 3
      },
      {
@@ -11090,13 +11095,13 @@
      },
      {
       "slot": "ring2",
-      "id": 13217,
-      "name": "Band of the Penitent",
-      "zone": "Stratholme",
+      "id": 6750,
+      "name": "Snake Hoop",
+      "zone": "Razorfen Kraul",
       "from": "dungeon",
-      "src": "Houses of the Holy",
-      "ilvl": 61,
-      "q": 3
+      "src": "Willix the Importer",
+      "ilvl": 32,
+      "q": 2
      },
      {
       "slot": "trinket1",
@@ -11110,22 +11115,23 @@
      },
      {
       "slot": "trinket2",
-      "id": 273643,
-      "name": "Worgenbane Talisman",
-      "zone": "Shadowfang Keep",
+      "id": 274152,
+      "name": "Roogug's Severed Head",
+      "zone": "Razorfen Kraul",
       "from": "dungeon",
-      "src": "Commander Springvale",
-      "ilvl": 26,
+      "src": "Roogug",
+      "ilvl": 30,
       "q": 3
      },
      {
       "slot": "held",
-      "id": 7685,
-      "name": "Orb of the Forgotten Seer",
-      "zone": "Scarlet Monastery",
-      "from": "dungeon",
-      "src": "Bloodmage Thalnos",
-      "ilvl": 37,
+      "id": 249455,
+      "name": "Truesilver Conduit",
+      "zone": "enchanting",
+      "from": "craft",
+      "skill": 225,
+      "src": "Truesilver Conduit",
+      "ilvl": 45,
       "q": 3
      },
      {
@@ -11150,6 +11156,18 @@
       "effect": "Intellect +9",
       "stats": {
        "int": 9
+      }
+     },
+     "chest": {
+      "id": 20028,
+      "kind": "enchant",
+      "name": {
+       "en": "Enchant Chest - Major Intellect",
+       "fr": "Enchantement de plastron (Intelligence majeure)"
+      },
+      "effect": "Intellect +10",
+      "stats": {
+       "int": 10
       }
      },
      "wrist": {
@@ -11200,7 +11218,6 @@
       "splpwr": 6
      },
      "slots": [
-      "chest",
       "legs",
       "feet"
      ]
@@ -11208,33 +11225,33 @@
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 4.984,
+      "per": 6.367,
       "unit": "pct",
-      "rel": 13.65
+      "rel": 16.08
      },
      {
       "stat": "critstrkrtng",
-      "per": 3.64,
+      "per": 3.954,
       "unit": "pct",
-      "rel": 9.97
-     },
-     {
-      "stat": "hastertng",
-      "per": 3.309,
-      "unit": "pct",
-      "rel": 9.07
+      "rel": 9.98
      },
      {
       "stat": "splpwr",
-      "per": 0.365,
+      "per": 0.396,
       "unit": "pt",
       "rel": 1
      },
      {
       "stat": "int",
+      "per": 0.368,
+      "unit": "pt",
+      "rel": 0.93
+     },
+     {
+      "stat": "spi",
       "per": 0.076,
       "unit": "pt",
-      "rel": 0.21
+      "rel": 0.19
      },
      {
       "stat": "str",
@@ -11249,10 +11266,10 @@
       "rel": 0
      },
      {
-      "stat": "spi",
-      "per": -0.001,
-      "unit": "pt",
-      "rel": 0
+      "stat": "hastertng",
+      "per": -3.984,
+      "unit": "pct",
+      "rel": -10.06
      }
     ],
     "consumables": {
@@ -11263,16 +11280,16 @@
         "sid": 12176,
         "name": "Scroll of Intellect",
         "chosen": true,
-        "gain": 1.85,
-        "pct": 0.4
+        "gain": 5.85,
+        "pct": 1.15
        },
        {
         "id": "scroll_spirit",
         "sid": 12177,
         "name": "Scroll of Spirit",
         "chosen": false,
-        "gain": 0.34,
-        "pct": 0.07
+        "gain": 1.64,
+        "pct": 0.32
        },
        {
         "id": "scroll_strength",
@@ -11305,56 +11322,56 @@
         "sid": 1213892,
         "name": "Flask of Ancient Knowledge",
         "chosen": true,
-        "gain": 65.73,
-        "pct": 16.55
+        "gain": 71.27,
+        "pct": 16.14
        },
        {
         "id": "elixir_mage_lord",
         "sid": 1213914,
         "name": "Elixir of the Mage-Lord",
         "chosen": false,
-        "gain": 14.61,
-        "pct": 3.68
-       },
-       {
-        "id": "greater_arcane_elixir",
-        "sid": 17539,
-        "name": "Greater Arcane Elixir",
-        "chosen": false,
-        "gain": 12.78,
-        "pct": 3.22
+        "gain": 15.84,
+        "pct": 3.59
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 7.63,
-        "pct": 1.92
+        "gain": 14.81,
+        "pct": 3.36
+       },
+       {
+        "id": "greater_arcane_elixir",
+        "sid": 17539,
+        "name": "Greater Arcane Elixir",
+        "chosen": false,
+        "gain": 13.86,
+        "pct": 3.14
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 6.14,
-        "pct": 1.54
+        "gain": 6.83,
+        "pct": 1.55
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 6.14,
-        "pct": 1.54
+        "gain": 6.83,
+        "pct": 1.55
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 6.14,
-        "pct": 1.54
+        "gain": 6.83,
+        "pct": 1.55
        },
        {
         "id": "flask_madness",
@@ -11371,8 +11388,16 @@
         "sid": 1225780,
         "name": "Well Fed (spell power food)",
         "chosen": true,
-        "gain": 9.13,
-        "pct": 2.01
+        "gain": 9.9,
+        "pct": 1.97
+       },
+       {
+        "id": "nightfin_soup",
+        "sid": 18194,
+        "name": "Nightfin Soup",
+        "chosen": false,
+        "gain": 1.89,
+        "pct": 0.38
        },
        {
         "id": "food_strength",
@@ -11389,14 +11414,6 @@
         "chosen": false,
         "gain": 0,
         "pct": 0
-       },
-       {
-        "id": "nightfin_soup",
-        "sid": 18194,
-        "name": "Nightfin Soup",
-        "chosen": false,
-        "gain": -0.03,
-        "pct": -0.01
        }
       ],
       "oil": [
@@ -11405,16 +11422,16 @@
         "sid": 25129,
         "name": "Brilliant Wizard Oil",
         "chosen": true,
-        "gain": 16.6,
-        "pct": 3.72
+        "gain": 18.12,
+        "pct": 3.66
        },
        {
         "id": "brilliant_mana_oil",
         "sid": 25130,
         "name": "Brilliant Mana Oil",
         "chosen": false,
-        "gain": 9.03,
-        "pct": 2.02
+        "gain": 12.55,
+        "pct": 2.54
        },
        {
         "id": "dense_stone",
@@ -11440,24 +11457,24 @@
        "sid": 16327,
        "name": "Juju Guile",
        "chosen": true,
-       "gain": 5.91,
-       "pct": 1.28
+       "gain": 11.37,
+       "pct": 2.22
       },
       {
        "id": "spirit_of_zanza",
        "sid": 24382,
        "name": "Spirit of Zanza",
        "chosen": true,
-       "gain": 0.75,
-       "pct": 0.16
+       "gain": 4.72,
+       "pct": 0.92
       },
       {
        "id": "mageblood_potion",
        "sid": 24363,
        "name": "Mageblood Potion",
        "chosen": true,
-       "gain": 0.3,
-       "pct": 0.06
+       "gain": 2.63,
+       "pct": 0.51
       },
       {
        "id": "juju_power",
@@ -11485,47 +11502,47 @@
       "points": [
        [
         7,
-        463.17,
+        512.76,
         0
        ],
        [
         9.3,
-        474.33,
+        525.86,
         23
        ],
        [
         11.5,
-        483.12,
+        537.17,
         45
        ],
        [
         13.8,
-        483.27,
+        537.3,
         68
        ],
        [
         16,
-        483.39,
+        537.42,
         90
        ],
        [
         18.3,
-        483.45,
+        537.47,
         113
        ],
        [
         20.5,
-        483.45,
+        537.47,
         135
        ],
        [
         22.8,
-        483.45,
+        537.47,
         158
        ],
        [
         25,
-        483.45,
+        537.47,
         180
        ]
       ],
@@ -11535,110 +11552,56 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 19.42,
+      "base": 19.07,
       "points": [
        [
-        19.42,
-        463.17,
+        19.07,
+        512.76,
         0
        ],
        [
-        21.92,
-        472.04,
+        21.57,
+        522.6,
         35
        ],
        [
-        24.42,
-        480.67,
+        24.07,
+        532.16,
         70
        ],
        [
-        26.92,
-        489.28,
+        26.57,
+        541.96,
         105
        ],
        [
-        29.42,
-        498.09,
+        29.07,
+        551.89,
         140
        ],
        [
-        31.92,
-        507.07,
+        31.57,
+        562.03,
         175
        ],
        [
-        34.42,
-        516.08,
+        34.07,
+        572.11,
         210
        ],
        [
-        36.92,
-        525.08,
+        36.57,
+        581.81,
         245
        ],
        [
-        39.42,
-        534.07,
+        39.07,
+        591.66,
         280
        ]
       ],
       "cap": null,
       "capAdd": null
-     },
-     {
-      "stat": "hastertng",
-      "unit": "pct",
-      "base": 0,
-      "points": [
-       [
-        0,
-        463.17,
-        0
-       ],
-       [
-        2.5,
-        474.32,
-        25
-       ],
-       [
-        5,
-        482.03,
-        50
-       ],
-       [
-        7.5,
-        489.61,
-        75
-       ],
-       [
-        10,
-        507.42,
-        100
-       ],
-       [
-        12.5,
-        511.37,
-        125
-       ],
-       [
-        15,
-        513.88,
-        150
-       ],
-       [
-        17.5,
-        514.01,
-        175
-       ],
-       [
-        20,
-        514.59,
-        200
-       ]
-      ],
-      "cap": 15,
-      "capAdd": 150
      },
      {
       "stat": "splpwr",
@@ -11647,47 +11610,47 @@
       "points": [
        [
         0,
-        463.17,
+        512.76,
         0
        ],
        [
         38,
-        477.05,
+        527.81,
         38
        ],
        [
         75,
-        490.57,
+        542.46,
         75
        ],
        [
         113,
-        504.46,
+        557.51,
         113
        ],
        [
         150,
-        517.97,
+        572.16,
         150
        ],
        [
         188,
-        531.86,
+        587.2,
         188
        ],
        [
         225,
-        545.38,
+        601.85,
         225
        ],
        [
         263,
-        559.26,
+        616.9,
         263
        ],
        [
         300,
-        572.78,
+        631.55,
         300
        ]
       ],
@@ -11701,97 +11664,156 @@
       "points": [
        [
         0,
-        463.17,
+        512.76,
         0
        ],
        [
         19,
-        464.63,
+        520.02,
         19
        ],
        [
         38,
-        466,
+        526.12,
         38
        ],
        [
         56,
-        467.32,
+        530.96,
         56
        ],
        [
         75,
-        468.66,
+        536.24,
         75
        ],
        [
         94,
-        469.99,
+        541.03,
         94
        ],
        [
         113,
-        471.34,
+        545.67,
         113
        ],
        [
         131,
-        473.41,
+        550.03,
         131
        ],
        [
         150,
-        475.43,
+        554.5,
         150
        ]
       ],
       "cap": null,
       "capAdd": null
+     },
+     {
+      "stat": "spi",
+      "unit": "pt",
+      "base": 0,
+      "points": [
+       [
+        0,
+        512.76,
+        0
+       ],
+       [
+        19,
+        514.06,
+        19
+       ],
+       [
+        38,
+        515.41,
+        38
+       ],
+       [
+        56,
+        516.67,
+        56
+       ],
+       [
+        75,
+        517.58,
+        75
+       ],
+       [
+        94,
+        518.16,
+        94
+       ],
+       [
+        113,
+        518.42,
+        113
+       ],
+       [
+        131,
+        518.35,
+        131
+       ],
+       [
+        150,
+        518.59,
+        150
+       ]
+      ],
+      "cap": 94,
+      "capAdd": 94
      }
     ],
-    "procs": [],
+    "procs": [
+     {
+      "name": "Clearcasting",
+      "perMin": 0.7
+     }
+    ],
     "talentValues": {
      "Arcane Focus": {
-      "gain": 24.02,
-      "pct": 5.19
+      "gain": 29.7,
+      "pct": 5.79
      },
      "Improved Channeling": null,
      "Arcane Concentration": {
-      "gain": 0,
-      "pct": 0
+      "gain": 8.56,
+      "pct": 1.67
      },
      "Arcane Subtlety": null,
      "Arcane Impact": {
-      "gain": 21.05,
-      "pct": 4.55
+      "gain": 23.11,
+      "pct": 4.51
      },
      "Arcane Blast": {
       "gain": 0,
       "pct": 0
      },
      "Arcane Meditation": {
-      "gain": 18.12,
-      "pct": 3.91
+      "gain": 13.3,
+      "pct": 2.59
      },
      "Missile Barrage": {
-      "gain": 0,
-      "pct": 0
+      "gain": 37.49,
+      "pct": 7.31
      },
      "Presence of Mind": {
       "gain": 0,
       "pct": 0
      },
      "Arcane Mind": {
-      "gain": 55.85,
-      "pct": 12.06
+      "gain": 66.74,
+      "pct": 13.01
      },
      "Arcane Instability": {
-      "gain": 23.67,
-      "pct": 5.11
+      "gain": 26.03,
+      "pct": 5.07
      },
      "Arcane Power": {
-      "gain": 10.75,
-      "pct": 2.32
+      "gain": 9.08,
+      "pct": 1.77
      },
      "Improved Fire Blast": {
       "gain": 0,
@@ -11813,9 +11835,9 @@
       "gain": 0,
       "pct": 0
      },
-     "Improved Scorch": {
-      "gain": 0,
-      "pct": 0
+     "Arcane Wrath": {
+      "gain": 55.78,
+      "pct": 10.87
      }
     },
     "alt": null,
@@ -11940,15 +11962,15 @@
      "prim": {
       "str": 50,
       "agi": 56,
-      "sta": 266,
-      "int": 370,
-      "spi": 266
+      "sta": 271,
+      "int": 409,
+      "spi": 273
      },
-     "sp": 523,
-     "crit": 0.19418487394957984,
+     "sp": 510,
+     "crit": 0.19073949579831934,
      "hit": 0.07,
      "haste": 1,
-     "mana": 6463
+     "mana": 7048
     },
     "effects": [
      "Ignition",
@@ -11963,16 +11985,23 @@
     "abilities": [
      {
       "name": "Arcane Missiles",
-      "dps": 458.1,
-      "casts": 35,
-      "hits": 163.3,
-      "crit": 0.29
+      "dps": 285.5,
+      "casts": 22,
+      "hits": 103.4,
+      "crit": 0.287
+     },
+     {
+      "name": "Arcane Wrath",
+      "dps": 223.1,
+      "casts": 22.8,
+      "hits": 21.2,
+      "crit": 0.286
      },
      {
       "name": "Ignition",
-      "dps": 3,
-      "casts": 8.2,
-      "hits": 7.4,
+      "dps": 2.3,
+      "casts": 6.3,
+      "hits": 5.6,
       "crit": 0
      },
      {
@@ -11985,52 +12014,42 @@
     ],
     "opening": [
      {
-      "t": 2,
+      "t": 3.5,
+      "n": "Arcane Wrath",
+      "x": 1
+     },
+     {
+      "t": 4.5,
       "n": "Arcane Missiles",
       "x": 1
      },
      {
-      "t": 4,
+      "t": 5.5,
       "n": "Arcane Missiles",
       "x": 1
      },
      {
-      "t": 5,
+      "t": 6.5,
       "n": "Arcane Missiles",
       "x": 1
      },
      {
-      "t": 6,
+      "t": 7.5,
       "n": "Arcane Missiles",
       "x": 1
      },
      {
-      "t": 7,
-      "n": "Arcane Missiles",
-      "x": 1
-     },
-     {
-      "t": 8,
-      "n": "Arcane Missiles",
-      "x": 1
-     },
-     {
-      "t": 9,
-      "n": "Arcane Missiles",
-      "x": 1
-     },
-     {
-      "t": 10,
-      "n": "Arcane Missiles",
-      "x": 1
-     },
-     {
-      "t": 11,
+      "t": 8.5,
       "n": "Arcane Missiles",
       "x": 1
      },
      {
       "t": 12,
+      "n": "Arcane Wrath",
+      "x": 1
+     },
+     {
+      "t": 12.5,
       "n": "Arcane Missiles",
       "x": 1
      },

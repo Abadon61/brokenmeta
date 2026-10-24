@@ -163,7 +163,7 @@ export const PRESETS = {
   mage_arcane: {   // build 70425: Arcane Wrath (new gold talent), Missile Barrage has 2 ranks
     'Arcane Focus': 5, 'Improved Channeling': 1, 'Arcane Concentration': 5, 'Arcane Subtlety': 2, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 2,
     'Presence of Mind': 1, 'Arcane Mind': 5, 'Arcane Instability': 3, 'Arcane Power': 1,
-    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Improved Scorch': 1,   // Arcane Wrath tested: Arcane Missiles (with Missile Barrage) deals more, so the point goes elsewhere
+    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Arcane Wrath': 1,   // 2026-10-24: Arcane Missiles no longer gives itself Missile Barrage (Forever), and Arcane Wrath + Missiles beats Missiles alone by 11 % on the same character
   },
   warlock_affliction: {
     'Suppression': 5, 'Improved Corruption': 5, 'Grim Reach': 2, 'Improved Bane of Agony': 2, 'Pandemic': 3, 'Malevolence': 5, 'Nightfall': 2, 'Siphon Life': 1, 'Shadow Mastery': 5, 'Wrack': 1,
