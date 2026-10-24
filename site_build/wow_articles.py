@@ -1764,6 +1764,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("Calculateur de talents", "wow-forever/talents/"),
+                ("Donjons par niveau", "wow-forever/dungeons/"),
                 ("Bêta de WoW Forever", "wow-forever/beta/"),
                 ("FAQ WoW Forever", "wow-forever/faq/"),
             ],
@@ -1785,6 +1786,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("Talent calculator", "wow-forever/talents/"),
+                ("Dungeons by level", "wow-forever/dungeons/"),
                 ("WoW Forever beta", "wow-forever/beta/"),
                 ("WoW Forever FAQ", "wow-forever/faq/"),
             ],

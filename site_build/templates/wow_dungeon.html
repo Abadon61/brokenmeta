@@ -163,6 +163,18 @@
 </section>
 {% endif %}
 
+{% if dg_prev is defined and (dg_prev or dg_next) %}
+<section class="gs-tile dg-order" id="ordre">
+  <div class="gs-th"><h2 class="gs-h2">{{ 'Quel donjon faire ensuite ?' if fr else 'Which dungeon next?' }}</h2></div>
+  <p class="gs-lede">{{ 'Les donjons de WoW: Forever dans l\'ordre de leur niveau.' if fr else 'The WoW: Forever dungeons in level order.' }}</p>
+  <div class="gh-chips">
+    {% if dg_prev %}<a class="gh-chip" href="{{ root }}{{ dg_prev.path }}">← {{ 'Avant : ' if fr else 'Before: ' }}{{ dg_prev.name }}{% if dg_prev.range %} · {{ dg_prev.range }}{% endif %}</a>{% endif %}
+    {% if dg_next %}<a class="gh-chip is-gold" href="{{ root }}{{ dg_next.path }}">{{ 'Ensuite : ' if fr else 'Next: ' }}{{ dg_next.name }}{% if dg_next.range %} · {{ dg_next.range }}{% endif %} →</a>{% endif %}
+    <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ 'Donjons par niveau' if fr else 'Dungeons by level' }}</a>
+  </div>
+</section>
+{% endif %}
+
 </div>
 
 <details class="gs-more gs-sources">
@@ -188,5 +200,5 @@
   }
 })();
 </script>
-{{ rel.related(root, lang == 'fr', ['leveling', 'tier', 'races']) }}
+{{ rel.related(root, lang == 'fr', ['dungeons', 'leveling', 'tier', 'races']) }}
 {% endblock %}

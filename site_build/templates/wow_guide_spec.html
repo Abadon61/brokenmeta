@@ -335,5 +335,5 @@
   }
 })();
 </script>
-{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling', 'sim', 'dungeons'], cls.id, cls.name[lang]) }}
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling', 'sim', 'dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang])) }}
 {% endblock %}

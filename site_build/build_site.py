@@ -8477,13 +8477,17 @@ def main() -> None:
                     _own_rows = [_rr for _rr in (_wow_ranking + _wow_ranking_tanks) if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]
                     _own_pre = [_rr for _rr in _pre_all if _rr["class_id"] == _cls["id"] and _rr["guide_spec"] == _s["id"]]
                     _lvl60 = _guide_level60(lang, _cls["id"], _s["id"], _own_rows, _cls)
+                    # the spec has a "best dungeon items" entry in the dungeons hub finder (tanks do not): same keys as the hub's spec list
+                    _dg_keys = {f"wow-forever/guides/{wow_dps_sim.ROTATIONS[_x].get('glossary', _x)}/{wow_dps_sim.SPEC_ID_MAP[_x]}/" for _x in wow_dps_sim.ROTATIONS
+                                if _x not in ("warrior_protection", "paladin_protection", "druid_feral_tank") and wow_dps_sim.SPEC_ID_MAP.get(_x)}
+                    _dg_spec_key = _spath.strip("/") + "/" if _spath.strip("/") + "/" in _dg_keys else None
                     _launch = None
                     if _pre_meta and _g["content"].get(_s["id"]) and (_own_pre or _lvl60.get("rot")):
                         _launch = wow_launch.build(lang, _cls, _own_rows, _own_pre, _lvl60, _guide_level60(lang, _cls["id"], _s["id"], _own_pre, _cls) if _own_pre else {}, (_builds60.get(_cls["id"]) or {}).get(_s["id"]), _pre_meta)
                         _launch["date_txt"] = _news_date(_pre_meta["generated"], lang)
                         _st = wow_launch.title(lang, _cn, _sn, _launch["patch"])
                         assert len(_st) <= 60, _st
-                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang],
+                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key,
                            rank_info=_rank_info, rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            banner=class_banner(_cls["id"]), lvl60=_lvl60,
@@ -8500,8 +8504,15 @@ def main() -> None:
             if wow_dungeons:
                 _dcrumb = _gbase + [("Donjons" if lang == "fr" else "Dungeons", canonical_for("/wow-forever/dungeons/", lang))]
                 _hub_rows = []
+                # dungeons in the order of their first level (ties by name): each page links the previous and the next one
+                def _dg_lv(_x):
+                    return _x["levels"] or wow_leveling.EXTRA_LEVELS.get(_x["id"], "")
+                _dg_order = sorted(wow_dungeons["dungeons"], key=lambda _x: (int(str(_dg_lv(_x)).split("-")[0]) if _dg_lv(_x) else 60, _x["name"]["en"]))
                 for _d in wow_dungeons["dungeons"]:
                     _dpath = f"/wow-forever/dungeons/{_d['id']}/"
+                    _oi = next(i for i, _x in enumerate(_dg_order) if _x["id"] == _d["id"])
+                    _dg_nb = {k: ({"name": _dg_order[_j]["name"][lang], "range": _dg_lv(_dg_order[_j]), "path": f"wow-forever/dungeons/{_dg_order[_j]['id']}/"} if 0 <= _j < len(_dg_order) else None)
+                              for k, _j in (("prev", _oi - 1), ("next", _oi + 1))}
                     _dn = _d["name"][lang]
                     _dlv = _d["levels"] or wow_leveling.EXTRA_LEVELS.get(_d["id"], "")      # Hall of Thanes / Ruins of Lordaeron: levels announced by Blizzard
                     # Search Console (2026-09-26): these pages sit around position 8-9 for
@@ -8624,7 +8635,7 @@ def main() -> None:
                                       "specs": [(pk["guide"], f"{pk['class_name']} {pk['spec_name']}" if lang == "fr" else f"{pk['spec_name']} {pk['class_name']}") for pk in _picks]})
                     render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
-                           dname=_dn, dlevels=_dlv, dloc=_loc, dabbr=_abbr, thin_note=(_dgtx["thin"].format(name=_dn) if _thin else None), has_wings=_has_wings, dgx=_dgtx, bosses=_bosses, others=_others, quests=_quests, picks=_picks, picks_by_class=_picks_by_class,
+                           dname=_dn, dlevels=_dlv, dloc=_loc, dabbr=_abbr, dg_prev=_dg_nb["prev"], dg_next=_dg_nb["next"], thin_note=(_dgtx["thin"].format(name=_dn) if _thin else None), has_wings=_has_wings, dgx=_dgtx, bosses=_bosses, others=_others, quests=_quests, picks=_picks, picks_by_class=_picks_by_class,
                            updated=_updated, dg_faq=_faq,
                            faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                        "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _faq]},

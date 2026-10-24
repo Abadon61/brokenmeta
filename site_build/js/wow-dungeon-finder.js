@@ -56,6 +56,11 @@
 
   levelEl.addEventListener('input', render);
   specEl.addEventListener('change', render);
-  try { var q = new URLSearchParams(location.search); if (q.get('niveau') || q.get('level')) levelEl.value = q.get('niveau') || q.get('level'); } catch (e) { /* no query string */ }
+  try {      // ?niveau=20 and ?spec=wow-forever/guides/<class>/<spec>/ (the spec guides link here with their own spec)
+    var q = new URLSearchParams(location.search);
+    if (q.get('niveau') || q.get('level')) levelEl.value = q.get('niveau') || q.get('level');
+    var sp = q.get('spec');
+    if (sp && Array.prototype.some.call(specEl.options, function (o) { return o.value === sp; })) specEl.value = sp;
+  } catch (e) { /* no query string */ }
   render();
 })();

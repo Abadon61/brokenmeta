@@ -110,6 +110,14 @@
   </div>
 </section>
 {% endif %}
+<section class="hp" aria-labelledby="hd-h">
+  <div class="hn-head"><div><h2 class="lh-h2" id="hd-h" style="margin:0">{{ 'Donjons par niveau' if fr else 'Dungeons by level' }}</h2><p class="hp-sub">{{ 'Quel donjon faire à ton niveau, avec le meilleur objet à y chercher pour ta spécialisation.' if fr else 'Which dungeon to run at your level, with the best item to look for there for your spec.' }}</p></div><a class="hn-all" href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if fr else 'All dungeons' }} →</a></div>
+  <div class="ht-grid">
+    <a class="ht-card" href="{{ root }}wow-forever/dungeons/"><b>{{ 'Donjons par niveau' if fr else 'Dungeons by level' }}</b><span>{{ 'Indique ton niveau et ta spé' if fr else 'Enter your level and spec' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/dungeons/tous-les-objets/"><b>{{ 'Tous les objets de donjon' if fr else 'All dungeon items' }}</b><span>{{ 'Filtre par type, stats et niveau' if fr else 'Filter by type, stats and level' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/leveling/"><b>{{ 'Guide de leveling 1-60' if fr else '1-60 leveling guide' }}</b><span>{{ 'Zones, donjons et métiers par tranche' if fr else 'Zones, dungeons and professions by band' }}</span></a>
+  </div>
+</section>
 <section class="hp" aria-labelledby="ht-h">
   <div class="hn-head"><div><h2 class="lh-h2" id="ht-h" style="margin:0">{{ 'Outils' if fr else 'Tools' }}</h2><p class="hp-sub">{{ 'Pour régler ton personnage avant la sortie.' if fr else 'To set up your character before launch.' }}</p></div></div>
   <div class="ht-grid">
