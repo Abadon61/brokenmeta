@@ -40,13 +40,16 @@ export function armorDR(armor, attackerLevel = PLAYER_LEVEL) {
 // Dual-wield adds a flat 19% miss to WHITE swings only (specials are unaffected).
 export function meleeTable(weaponSkill, targetDefense = BOSS_DEFENSE) {
   const D = Math.max(0, targetDefense - weaponSkill);
-  const miss = D <= 10 ? 0.05 + D * 0.001 : 0.07 + (D - 10) * 0.004;
+  const miss = D <= 10 ? 0.05 + D * 0.001 : 0.05 + D * 0.002;   // WoWSims Forever target.go (8 % at D = 15; was 9 %)
   const dodge = 0.05 + D * 0.001;
   const glance = Math.max(0, 0.10 + D * 0.02);
   const low = Math.max(0.01, Math.min(0.91, 1.3 - 0.05 * D));
   const high = Math.max(low, Math.min(0.99, 1.2 - 0.03 * D));
-  const critSuppression = D > 0 ? 0.002 * D + 0.018 : 0;
-  return { miss, dodge, glance, glanceLow: low, glanceHigh: high, critSuppression };
+  const critSuppression = D > 0 ? 0.002 * D : 0;   // WoWSims Forever target.go (3.0 % at D = 15; was 4.8 %)
+  // Forever (core/spell_result.go physicalCritSuppression): the hand's skill part above, plus the crit beyond base + Agility crit (gear rating, buffs, talents, racials)
+  // up to 1.8 %, against a target 3 or more levels higher
+  const auraCritSuppression = targetDefense >= 315 ? 0.018 : 0;
+  return { miss, dodge, glance, glanceLow: low, glanceHigh: high, critSuppression, auraCritSuppression };
 }
 export const DUAL_WIELD_MISS_PENALTY = 0.19;
 export const OVERPOWER_WINDOW = 5.0;

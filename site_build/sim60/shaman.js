@@ -107,6 +107,7 @@ export function shamanElementalKit(build = {}, data = null) {
     choose(sim) {
       const now = sim.now, ready = (s) => now >= (sim.cdAt[s.name] || 0) - 1e-9, rem = sim.fightLen - now;
       const shockReady = now >= (sim.cdAt.shock || 0) - 1e-9;
+      if (b.lbOnly && S.lb) return S.lb;      // harness layer
       if (S.totem && rem > 8 && now >= (sim.totemUntil || 0) - 1.0) return S.totem;
       if (S.fs && shockReady && rem > 6 && dotLeft(sim, S.fs.name) < 1.0) return S.fs;
       if (S.lvb && b.lavaBurst && ready(S.lvb)) return S.lvb;
@@ -200,6 +201,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
     },
     rotate(sim) {
       const now = sim.now, rem = sim.fightLen - now;
+      if (b.autosOnly) return 5;      // harness layer
       if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + E.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, E.manaPotion.min + (E.manaPotion.max - E.manaPotion.min) * sim.rng()); }
       if (b.useGem && now >= sim.cd.gem && sim.mana <= sim.manaMax - 1100 && rem > 15) { sim.cd.gem = now + E.manaGem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, E.manaGem.min + (E.manaGem.max - E.manaGem.min) * sim.rng()); }
       useRune(sim, b);

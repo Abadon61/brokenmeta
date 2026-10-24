@@ -19,9 +19,9 @@ test('Blessing of Kings multiplies primary stats; racial modifiers apply', () =>
   assert.equal(k.summary.prim.str, Math.floor((120 + 3) * 1.1));
 });
 
-test('debuffs lower the boss armor (floored at 0)', () => {
+test('debuffs lower the boss armor (floored at 0); armor debuffs of one family do not stack (WoWSims Forever: Sunder + Faerie Fire + Curse of Recklessness = -2250 - 505)', () => {
   const c = buildCharacter({ ...SAMPLE_FURY });
-  assert.equal(c.target.armor, 3731 - 2250 - 505 - 505);
+  assert.equal(c.target.armor, 3731 - 2250 - 505);
 });
 
 test('racials follow the beta client: no weapon-skill bonus, Ruthless / Savage give critical strike chance, Tauren / Dwarf critical damage', () => {

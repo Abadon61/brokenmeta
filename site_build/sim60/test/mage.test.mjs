@@ -61,8 +61,9 @@ test('Mana Gem and Innervate help a long fight; movement costs DPS; Arcane Blast
   assert.ok(ab.mean > 100);
 });
 
-test('Arcane Missiles uses the client numbers: a missile is 209 + 0.286 spell power, five per channel', () => {
+test('Arcane Missiles is Rank 7 (WoWSims Forever): a missile is 171 + 0.9 a level above 56 + 0.286 spell power, five per channel; Arcane Wrath replaces the Missiles every 6 s', () => {
   const r = runBatch(cfg(preset('mage_arcane'), SAMPLE_MAGE, 60), 300, 1);
-  assert.ok(r.breakdown['Arcane Missiles'].casts >= 8);
+  assert.ok(r.breakdown['Arcane Missiles'].casts >= 5);
+  assert.ok(r.breakdown['Arcane Wrath'].casts >= 5);
   assert.ok(r.mean > 380, 'arcane dps ' + r.mean);
 });

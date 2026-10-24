@@ -17,7 +17,7 @@ export const HUNTER = {
   rapidFire: { name: 'Rapid Fire', cost: 100, cd: 300, duration: 15, haste: 1.4 },
   aspectHawk: { rap: 155 },                                                         // ASSUMED (Classic rank 7)
   quiver: { haste: 1.15 },                                                          // ASSUMED (Classic quiver)
-  ammoDps: 20.5,                                                                    // ASSUMED (Classic Thorium Headed Arrow class ammo)
+  ammoDps: 17.5,                                                                    // Forever ammo_auto_gen.go: Thorium Headed Arrow 17.5 DPS (was 20.5 ASSUMED)
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
   pet: { speed: 1.0, min: 44, max: 56, apFrac: 0.22, miss: 0.09, dodge: 0.05, crit: 0.05, special: { name: 'Claw', flat: 54, every: 2.0 } },   // ASSUMED (Classic cat)
   bestialWrath: { cd: 120, duration: 18, dmg: 1.5 },                                // cooldown ASSUMED
@@ -30,7 +30,7 @@ export const HUNTER = {
 };
 
 export const HUNTER_DEFAULT_BUILD = {
-  lethalAttacks: 0, efficiency: 0, carefulAim: 0, rapidKilling: 0, improvedArcane: 0, loneWolf: 0, mortalShots: 0, barrage: 0, rangedSpec: 0, improvedStings: 0, sniperShot: 0,
+  lethalAttacks: 0, efficiency: 0, carefulAim: 0, rapidKilling: 0, improvedArcane: 0, loneWolf: 0, mortalShots: 0, barrage: 0, rangedSpec: 0, improvedStings: 0, sniperShot: 0, improvedTracking: 0,
   surefooted: 0, lightningReflexes: 0, unleashedFury: 0, ferocity: 0, frenzy: 0, bestialWrath: 0, focusedFire: 0, deadlyAspects: 0, summonHawk: 0, bestialDiscipline: 0,
   pet: 'cat', useCooldowns: true, usePotion: true, useGem: true, aspect: true, quiver: true, shots: 'auto',
 };
@@ -66,7 +66,7 @@ export function hunterKit(build = {}, data = null) {
       if (b.quiver) sim.mods.hasteMult *= H.quiver.haste;
       const petOn = b.pet !== 'none';
       sim.petOn = petOn;
-      sim.dmgGlobal = (petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1) * (petOn ? 1 : 1 + H.loneWolf.dmg * b.loneWolf) * (1 + H.rangedSpec.dmg * b.rangedSpec);
+      sim.dmgGlobal = (petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1) * (petOn ? 1 : 1 + H.loneWolf.dmg * b.loneWolf) * (1 + H.rangedSpec.dmg * b.rangedSpec) * (1 + 0.01 * b.improvedTracking);      // Improved Tracking: +1 %/rank on all damage (Forever talents_survival.go: the hunter is taken to track the target)
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: H.bestialDiscipline.keep * b.bestialDiscipline });
       sim.cd = { shared: 0, arcane: 0, sniper: 0, rapid: 0, potion: 0, gem: 0, wrath: 0, hawk: 0 };
       sim.aRapid = sim.addAura({ name: 'Rapid Fire', duration: H.rapidFire.duration, mods: { hasteMult: H.rapidFire.haste } });
@@ -90,7 +90,7 @@ export function hunterKit(build = {}, data = null) {
         this.autoNext = this.now + rest; this.schedule(rest, () => { if (this.autoToken === my) fire(); });
       };
       sim.schedule(0.5, fire);
-      if (petOn) startPet(sim, b, H);
+      if (petOn) (b.petModel === 'classic' ? startPet : startPetForever)(sim, b, H);
     },
     start() {},
     rotate(sim) { return hunterRotate(sim, b, H); },
@@ -98,10 +98,11 @@ export function hunterKit(build = {}, data = null) {
 }
 
 // one ranged hit (Auto Shot or a shot): two rolls, no dodge, armor-mitigated; recorded under `name`
-function shot(sim, name, flat, dmgMult, critBonus, isAuto) {
+function shot(sim, name, flat, dmgMult, critBonus, isAuto, apShare) {
   const b = sim.kitBuild, H = sim.spec.H, rw = sim.rw;
-  const rawFn = () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1);
-  const o = yellowAttack(sim, name, rawFn, { canDodge: false, bonusCrit: critBonus || 0 });
+  // Arcane Shot is not a weapon strike: its damage is the spell's own plus a share of ranged attack power (Forever arcane_shot.go: 10 %)
+  const rawFn = apShare ? () => (flat + apShare * sim.ap()) * dmgMult * sim.dmgGlobal : () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1);
+  const o = yellowAttack(sim, name, rawFn, { canDodge: false, bonusCrit: critBonus || 0, magic: !!apShare });      // Arcane Shot is an arcane school hit: no armor
   if (isAuto && b.deadlyAspects && b.aspect && o !== 'miss' && sim.rng() < H.deadlyAspects.chance * b.deadlyAspects) sim.aDeadly.apply();
   return o;
 }
@@ -126,9 +127,79 @@ function startPet(sim, b, H) {
   sim.schedule(0.8, swing); sim.schedule(1.2, special);
 }
 
+// ---- pet, Forever model (sim/hunter/pets.go, pet_families_auto_gen.go, ammo_auto_gen.go) ----
+// Swing: the creature dps for the level (60.45) over 2.0 s, +-20 %, plus pet attack power / 14 x 2.0; the Faster Attack passive speeds it up with the damage a swing
+// divided by the same factor (damage a second unchanged), Cobra Reflexes adds +30 % speed and x0.85 damage. Pet attack power: 0.3 x 14 x 60.45 + 10 % of the owner's.
+// Multipliers: tamed-pet passive of the family (Raptor +10 %), happiness x1.25, Pet Aggression rank 5 +8 %, Unleashed Fury, Focused Fire, Bestial Wrath. Crit and hit are the owner's
+// (+ Ferocity), the table is the usual melee table of a level 60 against the level 63 boss. Raptor abilities, longest cooldown first and waiting for focus when one is ready but
+// short of it: Savage Rend (50 focus, 60 s, 26 bleed x 6 ticks of 3 s), Bite (35 focus, 10 s, 90 +-20 %), Claw (25 focus, 51 +-31 %). Focus: 100 max, 25 per 5 s, x(1 + 0.1 per Bestial Discipline rank).
+// Frenzy: +30 % attack speed for 8 s on a crit. ASSUMED: every family uses the Raptor numbers.
+const PET_F = { dps: 60.45291519165039, apBase: 0.3 * 14 * 60.45291519165039, apOwner: 0.1, speed: 2.0, fasterAttack: 0.25, cobra: { speed: 0.30, dmg: 0.85 }, happiness: 1.25, family: 1.10, aggression: 1.08,
+  bite: { cost: 35, cd: 10, base: 90, var: 0.2 }, claw: { cost: 25, cd: 0, base: 51, var: 0.3137 }, rend: { cost: 50, cd: 60, tick: 26, ticks: 6, every: 3 }, focus: { max: 100, regen: 25, every: 5 } };
+function startPetForever(sim, b, H) {
+  const F = PET_F, t = sim.table;
+  const sw = F.dps * 2, mhStats = sim.stats;
+  const mult = () => F.family * F.happiness * F.aggression * (1 + H.unleashedFury.pet * b.unleashedFury) * (1 + H.focusedFire.dmg * b.focusedFire) * (sim.aWrath.active ? H.bestialWrath.dmg : 1) * sim.mods.petMult0;
+  const swingSpeed = () => F.speed / ((1 + F.fasterAttack) * (1 + F.cobra.speed) * (sim.aFrenzy.active ? H.frenzy.haste : 1));
+  const petAp = () => F.apBase + F.apOwner * Math.max(sim.ap(), 0);
+  const crit = () => Math.max(0, Math.min(1, mhStats.crit + sim.mods.critBonus + sim.mods.meleeCritBonus + H.ferocity.petCrit * b.ferocity - t.critSuppression));
+  const missChance = () => Math.max(0, t.miss - (mhStats.hit + sim.mods.hitBonus));
+  const onCrit = () => { if (b.frenzy && sim.rng() < 0.2 * b.frenzy) sim.aFrenzy.apply(); };
+  const fin = (name, raw, kind, c) => { const d = sim.mitigate(raw * mult(), true); sim.record(name, d, c ? 'crit' : kind); if (c) onCrit(); };
+  // white swing: one roll (miss, dodge, glance, crit, hit)
+  const swing = () => {
+    const e = sim.entry('Pet (melee)'), r = sim.rng(), miss = missChance();
+    if (r < miss) e.misses++;
+    else if (r < miss + t.dodge) e.dodges++;
+    else {
+      const base = sw * (0.8 + 0.4 * sim.rng()) + petAp() / 14 * F.speed;
+      const norm = base / (1 + F.fasterAttack) * F.cobra.dmg;
+      if (r < miss + t.dodge + t.glance) fin('Pet (melee)', norm * (t.glanceLow + (t.glanceHigh - t.glanceLow) * sim.rng()), 'glance', false);
+      else { const c = r < miss + t.dodge + t.glance + crit(); fin('Pet (melee)', norm * (c ? 2 : 1), 'hit', c); }
+    }
+    sim.schedule(swingSpeed(), swing);
+  };
+  // abilities
+  sim.petFocus = F.focus.max;
+  const regen = F.focus.regen * (1 + 0.1 * (b.bestialDiscipline || 0));
+  const focusTick = () => { sim.petFocus = Math.min(F.focus.max, sim.petFocus + regen); sim.schedule(F.focus.every, focusTick); };
+  sim.schedule(F.focus.every, focusTick);
+  const ready = { rend: 0, bite: 0 };
+  const special = (name, A) => {
+    const e = sim.entry(name), r = sim.rng(), miss = missChance();
+    e.casts++;
+    if (r < miss) { e.misses++; return; }
+    if (r < miss + t.dodge) { e.dodges++; return; }
+    const raw = A.base * (1 + A.var * (sim.rng() - 0.5));
+    const c = sim.rng() < crit();
+    fin(name, raw * (c ? 2 : 1), 'hit', c);
+  };
+  const act = () => {
+    const now = sim.now;
+    if (now >= ready.rend) {
+      if (sim.petFocus >= F.rend.cost) {
+        sim.petFocus -= F.rend.cost; ready.rend = now + F.rend.cd; sim.entry('Pet (Savage Rend)').casts++;
+        const r = sim.rng(), miss = missChance();
+        if (r >= miss + t.dodge) for (let i = 1; i <= F.rend.ticks; i++) sim.schedule(i * F.rend.every, () => sim.record('Pet (Savage Rend)', F.rend.tick * mult(), 'hit'));
+        sim.schedule(1.0, act); return;
+      }
+      sim.schedule(0.5, act); return;      // up but short of focus: wait
+    }
+    if (now >= ready.bite) {
+      if (sim.petFocus >= F.bite.cost) { sim.petFocus -= F.bite.cost; ready.bite = now + F.bite.cd; special('Pet (Bite)', F.bite); sim.schedule(1.0, act); return; }
+      sim.schedule(0.5, act); return;
+    }
+    if (sim.petFocus >= F.claw.cost) { sim.petFocus -= F.claw.cost; special('Pet (Claw)', F.claw); sim.schedule(1.0, act); return; }
+    sim.schedule(0.5, act);
+  };
+  sim.mods.petMult0 = sim.mods.petMult0 || 1;
+  sim.schedule(0.8, swing); sim.schedule(1.0, act);
+}
+
 // ---- rotation ----
 function hunterRotate(sim, b, H) {
   const now = sim.now, rem = sim.fightLen - now;
+  if (b.autosOnly) return 5;
   if (sim.casting) return sim.casting.endsAt - now;
   if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - (H.manaPotion.min + H.manaPotion.max) / 2 && rem > 20) {
     sim.cd.potion = now + H.manaPotion.cd; sim.entry('Mana Potion').casts++;
@@ -162,7 +233,7 @@ function hunterRotate(sim, b, H) {
   const cast = (s, flat, extraMult = 1, onLand) => {
     sim.gcdReadyAt = now + 1.5; spendMana(sim, cost(s)); sim.entry(s.name).casts++;
     const run = () => {
-      const o = shot(sim, s.name, flat, extraMult, 0, false);
+      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.1 : 0);
       if (onLand) onLand(o);
     };
     if (s.cast) {
@@ -181,11 +252,11 @@ function hunterRotate(sim, b, H) {
     if (o === 'miss') sim.entry(H.serpent.name).misses++;
     else {
       sim.serpentEnds = now + H.serpent.ticks * H.serpent.interval;
-      const per = H.serpent.total / H.serpent.ticks * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;
+      const per = (H.serpent.total / H.serpent.ticks + 0.02 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
       const critP = sim.critChance(0), cm = sim.critMult();
       const my = (sim.stingToken = (sim.stingToken || 0) + 1);
       let n = 0;
-      const tick = () => { if (sim.stingToken !== my) return; const c = sim.rng() < critP; sim.record(H.serpent.name, per * (c ? cm : 1) * (1 - sim.dr), c ? 'crit' : 'hit'); if (++n < H.serpent.ticks) sim.schedule(H.serpent.interval, tick); };
+      const tick = () => { if (sim.stingToken !== my) return; const c = sim.rng() < critP; sim.record(H.serpent.name, per * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < H.serpent.ticks) sim.schedule(H.serpent.interval, tick); };
       sim.schedule(H.serpent.interval, tick);
     }
     return 1.5;
@@ -214,7 +285,7 @@ function hunterRotate(sim, b, H) {
 // Serpent Sting, Arcane Shot and Aimed Shot are not used (they need the ranged weapon and range).
 export const HUNTER_MELEE = {
   raptor: { cost: 100, cd: 6, flat: 70 }, mongoose: { cost: 65, cd: 5, flat: 57, window: 10 },   // window: Expose Prey lasts 10 s since build 1.60.1.70425 (was 5 s)
-   strider: { costPct: 0.05, cd: 8, pct: 1.0, baseMana: 1300 },
+   strider: { costPct: 0.0581, cd: 8, pct: 1.0, baseMana: 1720 },
   savageStrikes: { crit: 0.02 }, surefooted: { hit: 0.01 }, predatorsEdge: { critDmg: 0.06, oh: 0.10 }, lightningReflexes: { agi: 0.02 }, exposePrey: { chance: 0.05 },
   lacerating: { frac: 0.40, ticks: 7, interval: 3 }, resourcefulness: { cost: 0.30 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, lethalAttacks: { crit: 0.01 },
   norm: { dw: 2.4, twoHand: 3.3 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
@@ -251,11 +322,12 @@ export function hunterMeleeKit(build = {}, data = null) {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (b.exposePrey && s.rng() < M.exposePrey.chance * b.exposePrey) s.mbUntil = s.now + M.mongoose.window;
       });
-      if (sim.petOn) startPet(sim, b, H);
+      if (sim.petOn) (b.petModel === 'classic' ? startPet : startPetForever)(sim, b, H);
     },
     start() {},
     rotate(sim) {
       const now = sim.now, rem = sim.fightLen - now, st = sim.stats;
+      if (b.autosOnly) return 5;      // harness layer
       if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + M.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, M.manaPotion.min + (M.manaPotion.max - M.manaPotion.min) * sim.rng()); }
       if (b.useGem && now >= sim.cd.gem && sim.mana <= sim.manaMax - 1100 && rem > 15) { sim.cd.gem = now + M.manaGem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, M.manaGem.min + (M.manaGem.max - M.manaGem.min) * sim.rng()); }
       const cost = (c) => Math.round(c * (1 - M.resourcefulness.cost * b.resourcefulness) * (1 - M.efficiency.cost * b.efficiency));
@@ -270,12 +342,13 @@ export function hunterMeleeKit(build = {}, data = null) {
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       const striderCost = Math.round(M.strider.costPct * M.strider.baseMana);
-      if (mh && b.striderKick && now >= sim.cd.strider && sim.mana >= cost(striderCost)) {
+      const mbNow = (now < sim.mbUntil) && now >= sim.cd.mongoose && sim.mana >= cost(M.mongoose.cost);      // Forever APL: Mongoose Bite before Strider Kick
+      if (mh && b.striderKick && !mbNow && now >= sim.cd.strider && sim.mana >= cost(striderCost)) {
         sim.cd.strider = now + M.strider.cd; spendMana(sim, cost(striderCost)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Strider Kick').casts++;
         yellowAttack(sim, 'Strider Kick', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * M.strider.pct, { critDmgBonus: sim.mods.critDmgBonus, bonusCrit: sa });
         return 1.5;
       }
-      const window = now < sim.overpowerUntil || now < sim.mbUntil;
+      const window = now < sim.mbUntil;      // Forever: the dodge window is the HUNTER's own dodge (boss attacks on the hunter), none against a tank-tanked boss; only Expose Prey opens it
       if (mh && window && now >= sim.cd.mongoose && sim.mana >= cost(M.mongoose.cost)) {
         sim.cd.mongoose = now + M.mongoose.cd; spendMana(sim, cost(M.mongoose.cost)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Mongoose Bite').casts++;
         sim.overpowerUntil = -1; sim.mbUntil = -1;

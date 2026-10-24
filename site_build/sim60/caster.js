@@ -71,8 +71,8 @@ export function makeCaster(def) {
       const s = def.choose(sim);
       if (!s) return 0.25;
       const cost = def.cost(sim, s);
-      if (cost > sim.mana) return 0.5;               // out of mana: wait for the regeneration
-      if (s.cd) sim.cdAt[s.name] = now + s.cd;
+      if (cost > sim.mana) return 0.1;               // out of mana: wait for the regeneration
+      if (s.cd) sim.cdAt[s.name] = now + (s.channel ? 0 : (def.castTime(sim, s) || 0) / sim.hasteMult()) + s.cd;      // the cooldown starts when the cast completes (Forever: Mind Blast is cast every 1.5 s + 5.5 s)
       if (def.beforeCast) def.beforeCast(sim, s);
       return cast(sim, def, s, cost);
     },

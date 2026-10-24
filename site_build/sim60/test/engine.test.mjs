@@ -12,13 +12,14 @@ const player = (over = {}) => ({
 });
 const cfgFor = (p, build = {}, len = 180) => ({ fightLen: len, player: p, target: { armor: 3731, defense: 315, executeFrac: 0.2 }, kitFactory: () => furyKit(build) });
 
-test('attack table vs a level-63 boss matches the Classic 1.12 values', () => {
+test('attack table vs a level-63 boss matches WoWSims Forever', () => {
   const t = meleeTable(300, 315);
-  assert.ok(Math.abs(t.miss - 0.09) < 1e-9, 'miss 9%');
+  assert.ok(Math.abs(t.miss - 0.08) < 1e-9, 'miss 8% (WoWSims Forever target.go: 5% + 0.2% a point of skill difference above 10)');
   assert.ok(Math.abs(t.dodge - 0.065) < 1e-9, 'dodge 6.5%');
   assert.ok(Math.abs(t.glance - 0.40) < 1e-9, 'glance 40%');
   assert.ok(Math.abs(t.glanceLow - 0.55) < 1e-9 && Math.abs(t.glanceHigh - 0.75) < 1e-9, 'glance damage 55-75%');
-  assert.ok(Math.abs(t.critSuppression - 0.048) < 1e-9, 'crit suppression 4.8%');
+  assert.ok(Math.abs(t.critSuppression - 0.03) < 1e-9, 'hand crit suppression 3.0%');
+  assert.ok(Math.abs(t.auraCritSuppression - 0.018) < 1e-9, 'plus up to 1.8% of the crit beyond base and Agility crit');
   // 5 extra weapon skill shrinks every term
   const t5 = meleeTable(305, 315);
   assert.ok(t5.miss < t.miss && t5.dodge < t.dodge && t5.glance < t.glance);

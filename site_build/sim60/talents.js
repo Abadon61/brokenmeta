@@ -8,7 +8,7 @@ export const NAME_TO_KEY = {
     'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
     'Improved Berserker Rage': 'improvedBerserkerRage', 'Flurry': 'flurry', 'Bloodthirst': 'bloodthirst',
     // Arms
-    'Improved Heroic Strike': 'improvedHeroicStrike', 'Improved Rend': 'improvedRend', 'Bloodthrill': 'bloodthrill', 'Improved Overpower': 'improvedOverpower',
+    'Improved Heroic Strike': 'improvedHeroicStrike', 'Spearing Strike': 'spearingStrike', 'Improved Rend': 'improvedRend', 'Bloodthrill': 'bloodthrill', 'Improved Overpower': 'improvedOverpower',
     'Anger Management': 'angerManagement', 'Deep Wounds': 'deepWounds',
     'Two-Handed Weapon Specialization': 'twoHandSpec', 'Impale': 'impale', 'Weaponmaster': 'weaponmaster', 'Improved Slam': 'improvedSlam',
     'Mortal Strike': 'mortalStrike',
@@ -47,7 +47,7 @@ export const NAME_TO_KEY = {
     'Improved Wrath': 'improvedWrath', 'Genesis': 'genesis', 'Moonglow': 'moonglow', 'Improved Moonfire': 'improvedMoonfire', "Nature's Majesty": 'naturesMajesty', "Nature's Reach": 'naturesReach',
     "Nature's Splendor": 'naturesSplendor', 'Insect Swarm': 'insectSwarm', 'Vengeance': 'vengeance', 'Improved Starfire': 'improvedStarfire', "Nature's Grace": 'naturesGrace', 'Eclipse': 'eclipse',
     'Moonfury': 'moonfury', 'Moonkin Form': 'moonkinForm', 'Naturalist': 'naturalist', 'Ferocity': 'ferocity', 'Shredding Attacks': 'shreddingAttacks', 'Savage Fury': 'savageFury',
-    'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Natural Instinct': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
+    'Sharpened Claws': 'sharpenedClaws', 'Predatory Strikes': 'predatoryStrikes', 'Rend and Tear': 'rendAndTear', 'Natural Instinct': 'predatoryInstincts', 'Rend and Tear': 'rendAndTear', 'Heart of the Wild': 'heartOfTheWild',
     'Leader of the Pack': 'leaderOfThePack', 'Shifting Power': 'shiftingPower', 'Improved Shifting Power': 'improvedShiftingPower', 'Berserk': 'berserk', 'Natural Reaction': 'naturalReaction', 'Feral Swiftness': 'feralSwiftness', 'Thick Hide': 'thickHide', 'Feral Instinct': 'feralInstinct', 'Blood Frenzy': 'bloodFrenzy',
   },
   hunter: {
@@ -55,7 +55,7 @@ export const NAME_TO_KEY = {
     'Mortal Shots': 'mortalShots', 'Barrage': 'barrage', 'Ranged Weapon Specialization': 'rangedSpec', 'Improved Stings': 'improvedStings', 'Sniper Shot': 'sniperShot',
     'Surefooted': 'surefooted', 'Lightning Reflexes': 'lightningReflexes', 'Unleashed Fury': 'unleashedFury', 'Ferocity': 'ferocity', 'Frenzy': 'frenzy', 'Bestial Wrath': 'bestialWrath',
     'Strider Kick': 'striderKick', 'Savage Strikes': 'savageStrikes', "Predator's Edge": 'predatorsEdge', 'Expose Prey': 'exposePrey', 'Lacerating Strikes': 'lacerationStrikes', 'Resourcefulness': 'resourcefulness',
-    'Focused Fire': 'focusedFire', 'Deadly Aspects': 'deadlyAspects', 'Summon Hawk': 'summonHawk', 'Bestial Discipline': 'bestialDiscipline',
+    'Improved Tracking': 'improvedTracking', 'Focused Fire': 'focusedFire', 'Deadly Aspects': 'deadlyAspects', 'Summon Hawk': 'summonHawk', 'Bestial Discipline': 'bestialDiscipline',
   },
   warlock: {
     'Suppression': 'suppression', 'Improved Corruption': 'improvedCorruption', 'Improved Life Tap': 'improvedLifeTap', 'Pandemic': 'pandemic',
@@ -163,7 +163,7 @@ export const PRESETS = {
   mage_arcane: {   // build 70425: Arcane Wrath (new gold talent), Missile Barrage has 2 ranks
     'Arcane Focus': 5, 'Improved Channeling': 1, 'Arcane Concentration': 5, 'Arcane Subtlety': 2, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 2,
     'Presence of Mind': 1, 'Arcane Mind': 5, 'Arcane Instability': 3, 'Arcane Power': 1,
-    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Improved Scorch': 1,   // Arcane Wrath tested: Arcane Missiles (with Missile Barrage) deals more, so the point goes elsewhere
+    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Arcane Wrath': 1,   // 2026-10-24: Arcane Missiles no longer gives itself Missile Barrage (Forever), and Arcane Wrath + Missiles beats Missiles alone by 11 % on the same character
   },
   warlock_affliction: {
     'Suppression': 5, 'Improved Corruption': 5, 'Grim Reach': 2, 'Improved Bane of Agony': 2, 'Pandemic': 3, 'Malevolence': 5, 'Nightfall': 2, 'Siphon Life': 1, 'Shadow Mastery': 5, 'Wrack': 1,

@@ -9,28 +9,28 @@ import { yellowAttack, castGcd } from './shared.js';
 
 export const ROGUE = {
   sinisterStrike: { cost: 45, flat: 68, pct: 1.0 },
-  backstab: { cost: 60, flat: 150, pct: 1.5 },
+  backstab: { cost: 60, flat: 140, pct: 1.5 },
   eviscerate: { cost: 35, table: { 1: [224, 332], 2: [394, 502], 3: [564, 672], 4: [734, 842], 5: [904, 1012] } },
   sliceAndDice: { cost: 25, base: 6, perPoint: 3, haste: 1.2 },
   hemorrhage: { cost: 35, pct: 1.0, pctDagger: 1.45 },          // cost ASSUMED (Classic); damage from the Forever talent tooltip
-  mutilate: { cost: 60, pct: 0.75, flat: 17.2, cp: 2 },         // client table + talent tooltip
+  mutilate: { cost: 60, pct: 0.75, flat: 67, cp: 2 },         // client table + talent tooltip
   bladeFlurry: { cost: 25, cd: 120, duration: 15, haste: 1.2 },  // cost/cooldown ASSUMED (Classic)
   adrenalineRush: { cd: 300, duration: 15, regenMult: 2 },      // cooldown ASSUMED (Classic)
   coldBlood: { cd: 180 },                                       // cooldown ASSUMED (Classic)
-  energy: { cap: 100, tick: 2, perTick: 20 },
+  energy: { cap: 100, tick: 0.1, perTick: 1 },      // Forever core/energy.go: one energy every 0.1 s (same average as 20 per 2 s, no waiting for a big tick)
   normSpeed: { other: 2.4, dagger: 1.7 },                       // Classic weapon-speed normalization (ASSUMED)
   // talents (per rank, from the Forever tooltips)
-  improvedSinisterStrike: { costPerRank: 3 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 10 },
+  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 10 },
   aggression: { perRank: 0.02 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.04 },
-  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.05 }, relentlessStrikes: { chancePerCp: 0.2, energy: 25 },
+  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.06 }, relentlessStrikes: { chancePerCp: 0.2, energy: 25 },
   ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.2 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
   hackAndSlash: { perRank: 0.01, armorPerRank: 0.03 }, weaponExpertise: { dodgePerRank: 0.01 },
   opportunity: { perRank: 0.05 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
   puncturingWounds: { bsCritPerRank: 0.10, mutCritPerRank: 0.05 },
   // poisons: Classic 1.12 rank VII / V (ASSUMED). Nature damage: no armor, no AP scaling, 1.5x on crit, resisted like a spell.
   poison: { resist: 0.17, critMult: 1.5, mutilateBonus: 1.2 },
-  instantPoison: { min: 146, max: 194, chance: 0.20 },
-  deadlyPoison: { total: 136, duration: 12, tick: 3, maxStacks: 5, chance: 0.30 },
+  instantPoison: { min: 75.8, max: 100.2, chance: 0.20, apCoeff: 0.005 },      // Forever Instant Poison VI: 88 +-13.8 % + 0.5 % of attack power (was Classic 146-194)
+  deadlyPoison: { total: 92, duration: 12, tick: 3, maxStacks: 5, chance: 0.30, apTotal: 0.0045 },      // Forever Deadly Poison V: 23 a tick x 4 + 0.45 % of attack power in all, per stack (was Classic 136)
   improvedPoisons: { chancePerRank: 0.02 }, vilePoisons: { dmgPerRank: 0.04 },
 };
 
@@ -66,12 +66,15 @@ export function rogueKit(build = {}, data = null) {
       sim.table.dodge = Math.max(0, sim.table.dodge - R.weaponExpertise.dodgePerRank * b.weaponExpertise);
       const type = mh.type || '';
       sim.dagger = /dagger/.test(type);
-      if (b.hackAndSlash) {
-        if (/dagger|fist/.test(type)) mods.critBonus += R.hackAndSlash.perRank * b.hackAndSlash;
-        if (/mace/.test(type)) sim.dr *= 1 - R.hackAndSlash.armorPerRank * b.hackAndSlash;
+      const ohType = (oh && oh.type) || '';
+      if (b.hackAndSlash) {      // per hand (Forever talents_combat.go): dagger/fist crit on that hand's attacks, mace armor ignore from either hand, sword/axe extra attacks from either hand
+        if (/dagger|fist/.test(type)) mods.mhCritBonus = (mods.mhCritBonus || 0) + R.hackAndSlash.perRank * b.hackAndSlash;
+        if (/dagger|fist/.test(ohType)) mods.ohCritBonus = (mods.ohCritBonus || 0) + R.hackAndSlash.perRank * b.hackAndSlash;
+        if (/mace/.test(type) || /mace/.test(ohType)) sim.dr *= 1 - R.hackAndSlash.armorPerRank * b.hackAndSlash;
       }
       if (b.serratedBlades) sim.dr *= 1 - R.serratedBlades.armorPerRank * b.serratedBlades;
-      sim.extraAttack = (/sword|axe/.test(type) ? R.hackAndSlash.perRank * b.hackAndSlash : 0);
+      sim.extraAttackMH = /sword|axe/.test(type), sim.extraAttackOH = /sword|axe/.test(ohType);
+      sim.extraAttack = (sim.extraAttackMH || sim.extraAttackOH ? R.hackAndSlash.perRank * b.hackAndSlash : 0); sim.extraIcd = 0.2; sim.extraReady = 0;
       sim.cp = 0; sim.cbReady = false; sim.arUntil = -1;
       sim.sndAura = sim.addAura({ name: 'Slice and Dice', duration: 30, mods: { hasteMult: R.sliceAndDice.haste } });
       sim.bfAura = sim.addAura({ name: 'Blade Flurry', duration: R.bladeFlurry.duration, mods: { hasteMult: R.bladeFlurry.haste } });
@@ -86,12 +89,12 @@ export function rogueKit(build = {}, data = null) {
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
-        if (isWhite && sim.extraAttack && outcome !== 'glance' && s.rng() < sim.extraAttack) s.whiteAttack(s.swings[0]);
+        if (sim.extraAttack && outcome !== 'glance' && (isOH ? sim.extraAttackOH : sim.extraAttackMH) && s.now >= sim.extraReady && s.rng() < sim.extraAttack) { sim.extraReady = s.now + sim.extraIcd; s.whiteAttack(s.swings[0]); }      // any landed hit of a sword/axe hand, 0.2 s ICD
       });
       // poisons: each landed weapon hit may apply the poison on that weapon
       const dk = sim.deadly = { stacks: 0, endsAt: 0, ticking: false };
       const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult;
-      const pcrit = () => Math.min(1, Math.max(0, sim.stats.crit + sim.mods.critBonus));
+      const pcrit = () => Math.min(1, Math.max(0, sim.stats.racialCrit || 0));      // poisons are spells: the rogue's spell crit is the racial only
       const pdmg = (name, base) => {
         const crit = sim.rng() < pcrit();
         const d = base * pmult() * (crit ? 1 + (R.poison.critMult - 1) * (1 + (sim.player.racialCritDmg || 0)) : 1);
@@ -99,7 +102,7 @@ export function rogueKit(build = {}, data = null) {
       };
       const dkTick = () => {
         if (sim.now > dk.endsAt + 1e-9) { dk.stacks = 0; dk.ticking = false; return; }
-        pdmg('Deadly Poison', dk.stacks * R.deadlyPoison.total / (R.deadlyPoison.duration / R.deadlyPoison.tick));
+        pdmg('Deadly Poison', dk.stacks * (R.deadlyPoison.total / (R.deadlyPoison.duration / R.deadlyPoison.tick) + R.deadlyPoison.apTotal * sim.ap() / (R.deadlyPoison.duration / R.deadlyPoison.tick)));
         sim.schedule(R.deadlyPoison.tick, dkTick);
       };
       const applyPoison = (kind) => {
@@ -107,8 +110,8 @@ export function rogueKit(build = {}, data = null) {
         if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons) return;
         const name = kind === 'deadly' ? 'Deadly Poison' : 'Instant Poison';
         sim.entry(name).casts++;
-        if (sim.rng() < R.poison.resist) { sim.entry(name).misses++; return; }
-        if (kind === 'instant') { pdmg(name, p.min + (p.max - p.min) * sim.rng()); return; }
+        if (sim.rng() < Math.max(0, R.poison.resist - sim.hitFrac())) { sim.entry(name).misses++; return; }      // the rogue's hit chance counts as spell hit (Forever: miss 17 % - hit)
+        if (kind === 'instant') { pdmg(name, p.min + (p.max - p.min) * sim.rng() + p.apCoeff * sim.ap()); return; }
         dk.stacks = Math.min(p.maxStacks, dk.stacks + 1); dk.endsAt = sim.now + p.duration;
         if (!dk.ticking) { dk.ticking = true; sim.schedule(p.tick, dkTick); }
       };
@@ -155,27 +158,31 @@ export function rogueKit(build = {}, data = null) {
         if (b.coldBlood && now >= sim.sCB.readyAt && sim.cp >= 4) { sim.sCB.readyAt = now + R.coldBlood.cd; sim.entry('Cold Blood').casts++; sim.cbReady = true; }
       }
       if (gcdLeft > 0) return gcdLeft;
+      if (b.autosOnly) return nextTickWait;
       if (b.useCooldowns && b.bladeFlurry && now >= sim.sBF.readyAt && energy >= R.bladeFlurry.cost) {
         return castGcd(sim, sim.sBF, () => { sim.spendRage(R.bladeFlurry.cost); sim.bfAura.apply(); }, GCD);
       }
       const sndLeft = sim.sndAura.active ? sim.sndAura.endsAt - now : 0;
       // Slice and Dice: keep it up (1+ combo points when down, 2+ to refresh early)
-      if (!nearEnd && energy >= sim.cost.snd() && ((sndLeft <= 0 && sim.cp >= 1) || (sndLeft < 2 && sim.cp >= 2))) {
+      if (b.useSnd !== false && !nearEnd && energy >= sim.cost.snd() && ((sndLeft <= 0 && sim.cp >= 1) || (sndLeft < 2 && sim.cp >= 2))) {
         return castGcd(sim, { name: 'Slice and Dice', cd: 0, readyAt: 0, casts: 0 }, () => {
           sim.spendRage(sim.cost.snd());
           const dur = (R.sliceAndDice.base + R.sliceAndDice.perPoint * sim.cp) * (1 + R.improvedSliceAndDice.perRank * b.improvedSliceAndDice);
-          sim.sndAura.apply(1, dur); sim.cp = 0;
+          sim.sndAura.apply(1, dur);
+          const spent = sim.cp; sim.cp = 0;      // a finisher: Relentless Strikes and Ruthlessness apply to Slice and Dice too (Forever ApplyFinisher)
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * spent) sim.gainRage(R.relentlessStrikes.energy);
+          if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
         }, GCD);
       }
       // Eviscerate at 5 combo points (or earlier at the very end of the fight)
-      if ((sim.cp >= 5 || (nearEnd && sim.cp >= 2)) && energy >= sim.cost.ev()) {
+      if (b.useEv !== false && (sim.cp >= 5 || (nearEnd && sim.cp >= 2)) && energy >= sim.cost.ev()) {
         return castGcd(sim, { name: 'Eviscerate', cd: 0, readyAt: 0, casts: 0 }, () => {
           const cp = sim.cp; sim.spendRage(sim.cost.ev()); sim.cp = 0;
           const tb = R.eviscerate.table[cp];
           const bonus = cbBonus(); spendCb();
-          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng()) * (1 + R.improvedEviscerate.perRank * b.improvedEviscerate) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
+          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.perRank * b.improvedEviscerate) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
-          if (b.relentlessStrikes) for (let i = 0; i < cp; i++) if (sim.rng() < R.relentlessStrikes.chancePerCp) { sim.gainRage(R.relentlessStrikes.energy); break; }
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * cp) sim.gainRage(R.relentlessStrikes.energy);
         }, GCD);
       }
       // never build past 5 combo points, and never starve Slice and Dice: wait for the energy instead
@@ -194,9 +201,9 @@ export function rogueKit(build = {}, data = null) {
       });
       else if (builder === 'backstab') w = doBuilder('Backstab', sim.cost.bs(), () => {
         const bonus = cbBonus() + R.puncturingWounds.bsCritPerRank * b.puncturingWounds; spendCb();
-        const o = yellowAttack(sim, 'Backstab', () => ((sim.weaponRoll(mh) + sim.ap() / 14 * norm) * R.backstab.pct + R.backstab.flat) * (1 + R.aggression.perRank * b.aggression) * (1 + R.opportunity.perRank * b.opportunity),
-          { bonusCrit: bonus, critDmgBonus: lethal() });
-        if (o !== 'miss' && o !== 'dodge') addCp(1, o === 'crit', true);
+        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.aggression.perRank * b.aggression) * (1 + R.opportunity.perRank * b.opportunity),
+          { bonusCrit: bonus, critDmgBonus: lethal(), canDodge: false });      // Forever backstab.go: Rank 8, (140 + normalized weapon) x 150 %, cannot be dodged or parried
+        if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); if (b.puncturingWounds && sim.rng() < 0.05 * b.puncturingWounds) sim.cp = Math.min(5, sim.cp + 1); }
       });
       else if (builder === 'hemorrhage') w = doBuilder('Hemorrhage', sim.cost.hemo(), () => {
         const bonus = cbBonus(); spendCb();
@@ -206,8 +213,8 @@ export function rogueKit(build = {}, data = null) {
       else if (builder === 'mutilate') w = doBuilder('Mutilate', sim.cost.mut(), () => {
         const bonus = cbBonus() + R.puncturingWounds.mutCritPerRank * b.puncturingWounds; spendCb();
         const o = yellowAttack(sim, 'Mutilate', () => {
-          const mhPart = (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * R.mutilate.pct + R.mutilate.flat;
-          const ohPart = ((sim.weaponRoll(oh) + sim.ap() / 14 * norm) * R.mutilate.pct + R.mutilate.flat) * ohMult();
+          const mhPart = (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct;      // Forever: the 67 flat is inside the 75 % multiplier
+          const ohPart = (sim.weaponRoll(oh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct * ohMult();
           return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1);
         }, { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(R.mutilate.cp, o === 'crit', true);

@@ -2,7 +2,7 @@
 // tables/tooltips (data/spells60.json, exported by wow_sim60_export.py) when `data` is passed, and from
 // the constants below otherwise. Values marked ASSUMED are Classic 1.12 numbers kept until Forever's
 // level-60 table for that spell is sourced.
-import { yellowAttack, castGcd } from './shared.js';
+import { yellowAttack, castGcd, makeDeepWounds } from './shared.js';
 
 export const WARRIOR = {
   bloodthirst: { cost: 30, cd: 6, apCoeff: 0.45, flat: 48 },           // client table (build 1.60.1.70425, spell 23894 at L60): 45% AP (was 35%) + 48
@@ -130,6 +130,7 @@ export function furyKit(build = {}, data = null) {
     setup(sim) {
       commonSetup(sim, b, W);
       const mods = sim.mods;
+      mods.critBonus += 0.03;   // Berserker Stance passive (client spell 7381, aura 290 = +3 % crit chance), the stance the Fury preset of WoWSims Forever fights in
       if (sim.player.dualWield) {
         mods.ohDmgBonus = W.dualWieldSpec.ohDmgPerRank * b.dualWieldSpec;
         mods.ohRageMult = 1 + W.dualWieldSpec.ohRagePerRank * b.dualWieldSpec;
@@ -163,18 +164,24 @@ export function furyKit(build = {}, data = null) {
       if (gcdLeft > 0) return gcdLeft;
       if (b.useDeathWish && b.deathWish && sim.canCast(sim.sDW)) return castGcd(sim, sim.sDW, () => { sim.spendRage(W.deathWish.cost); sim.deathWishAura.apply(); });
       if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
-      if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
       if (b.bloodthirst && sim.canCast(sim.sBT)) return castGcd(sim, sim.sBT, () => {
         sim.spendRage(W.bloodthirst.cost);
         yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
       });
-      if (sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {
+      if (b.useWhirlwind !== false && (!b.bloodthirst || sim.sBT.readyAt - now >= 1.5) && sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {   // their APL: Whirlwind when Bloodthirst is 1.5 s or more from ready
         sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];
         yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat);
+        // client tooltip of Whirlwind (spell 1680): "weapon damage from both melee weapons"; WoWSims Forever strikes with the off-hand too (off-hand halved, Dual Wield Specialization on top)
+        const oh = sim.player.dualWield && sim.player.weapons[1];
+        if (oh) yellowAttack(sim, 'Whirlwind (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat) * 0.5 * (1 + (sim.mods.ohDmgBonus || 0)));
       });
-      const reserve = ((sim.sBT.readyAt - now) < 1.5 ? W.bloodthirst.cost : 0) + ((sim.sWW.readyAt - now) < 1.5 ? sim.sWW.cost() : 0) + b.hsRageReserve;
-      if (!sim.mhQueued && sim.rage >= sim.sHS.cost() + reserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
+      // their Fury APL order: Death Wish, Recklessness, Bloodthirst, Whirlwind, then Execute in the execute phase, then Heroic Strike
+      if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
+      // their Fury APL (rules 21 and 22): queue Heroic Strike at 40 rage outside the execute phase, and at more than 60 rage in any phase
+      const exec = b.executePhase && sim.inExecute();
+      const hsAt = b.hsRageReserve >= 900 ? Infinity : (exec ? 60.001 : 40);
+      if (!sim.mhQueued && sim.rage >= Math.max(sim.sHS.cost(), hsAt) && sim.player.weapons.length) sim.mhQueued = sim.sHS;
       return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt) - now);
     },
   };
@@ -205,19 +212,12 @@ export function armsKit(build = {}, data = null) {
       sim.sRD = sim.addSpell({ name: 'Rend', cost: () => W.rend.cost, cd: 0 });
       sim.rendEndsAt = -1;
       sim.slamUntil = -1;
-      // Deep Wounds: a crit applies a bleed worth (20% x ranks) of the average weapon damage over 12 s (refreshes, no stacking).
-      sim.deepWoundsAt = -1; sim.deepWoundsTick = 0;
-      const applyDeepWounds = (s) => {
-        const total = (mh.min + mh.max) / 2 * W.deepWounds.pctPerRank * b.deepWounds * 1.0;
-        const ticks = Math.round(W.deepWounds.duration / W.deepWounds.tick);
-        const per = total / ticks; s.deepWoundsAt = s.now + W.deepWounds.duration;
-        const my = ++s.deepWoundsTick;
-        for (let i = 1; i <= ticks; i++) s.schedule(i * W.deepWounds.tick, () => { if (s.deepWoundsTick === my && s.now <= s.deepWoundsAt + 1e-9) s.record('Deep Wounds', per * s.mods.dmgMult, 'hit'); });
-      };
+      // Deep Wounds: see makeDeepWounds (Forever rolling bleed)
+      const applyDeepWounds = makeDeepWounds(sim, (mh.min + mh.max) / 2, W.deepWounds.pctPerRank * b.deepWounds);
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
-        if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds(s);
-        if (b.bloodthrill && !isOH && s.now < s.rendEndsAt && s.rng() < 0.04 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill: 20% at five ranks, Overpower usable for 6 s
+        if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds();
+        if (b.bloodthrill && !isOH && (isWhite || source === 'Heroic Strike') && s.now < s.rendEndsAt && s.rng() < 0.04 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill: 20% at five ranks, Overpower usable for 6 s
         if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
         if (isWhite && s.swordExtraAttack && outcome !== 'glance' && s.rng() < s.swordExtraAttack) s.whiteAttack(s.swings[0]);
       });
@@ -231,24 +231,35 @@ export function armsKit(build = {}, data = null) {
       offGcd(sim, W);
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
+      const exec = b.executePhase && sim.inExecute();
+      // priority of the Arms APL of WoWSims Forever (single target, Battle Stance): Recklessness, Rend (not in the execute phase), Overpower, Mortal Strike, Spearing Strike, Slam, Execute, Heroic Strike at 90 rage
       if (b.useRecklessness && now >= sim.sRK.readyAt) return castGcd(sim, sim.sRK, () => sim.reckAura.apply());
-      if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
-      if (b.mortalStrike && sim.canCast(sim.sMS)) return castGcd(sim, sim.sMS, () => {
-        sim.spendRage(W.mortalStrike.cost);
-        yellowAttack(sim, 'Mortal Strike', () => sim.weaponRoll(mh) + sim.ap() / 14 * W.mortalStrike.normSpeed2H + W.mortalStrike.flat);
+      if (b.useRend && (b.bloodthrill > 0 || b.rendAlways) && !exec && now >= sim.rendEndsAt - 1.5 && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
+        sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
+        const ticks = Math.round(W.rend.duration / W.rend.tick), my = sim.rendEndsAt;
+        // client row of Rend rank 7: 21 per tick + 2 % of attack power per tick (APCoef 0.02), Improved Rend on top
+        const per = (W.rend.total / ticks + 0.02 * sim.ap()) * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0));
+        for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
       });
-      if (now <= sim.overpowerUntil && sim.canCast(sim.sOP)) return castGcd(sim, sim.sOP, () => {
+      if (b.useOverpower !== false && now <= sim.overpowerUntil && sim.canCast(sim.sOP)) return castGcd(sim, sim.sOP, () => {
         sim.spendRage(W.overpower.cost); sim.overpowerUntil = -1;
         yellowAttack(sim, 'Overpower', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.overpower.flat,
           { canDodge: false, bonusCrit: W.improvedOverpower.critPerRank * (b.improvedOverpower || 0) });
       });
-      if (b.useRend && (b.bloodthrill > 0 || b.rendAlways) && now >= sim.rendEndsAt && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
-        sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
-        const ticks = Math.round(W.rend.duration / W.rend.tick), per = W.rend.total * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0)) / ticks, my = sim.rendEndsAt;
-        for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
+      if (b.mortalStrike && sim.canCast(sim.sMS)) return castGcd(sim, sim.sMS, () => {
+        sim.spendRage(W.mortalStrike.cost);
+        yellowAttack(sim, 'Mortal Strike', () => sim.weaponRoll(mh) + sim.ap() / 14 * W.mortalStrike.normSpeed2H + W.mortalStrike.flat);
       });
+      // Spearing Strike (talent, client spell 1310222): 15 rage, 20 s cooldown, 40 % of the normalized weapon damage
+      if (b.spearingStrike && !exec) {
+        sim.sSP = sim.sSP || sim.addSpell({ name: 'Spearing Strike', cost: () => 15, cd: 20 });
+        if (sim.canCast(sim.sSP)) return castGcd(sim, sim.sSP, () => {
+          sim.spendRage(15);
+          yellowAttack(sim, 'Spearing Strike', () => 0.4 * (sim.weaponRoll(mh) + sim.ap() / 14 * norm));
+        });
+      }
       // Slam: a cast that resets the swing timer; only worth it right after the main-hand swing (weaving).
-      if (b.useSlam && sim.canCast(sim.sSL) && sim.swings[0] && sim.swings[0].next - now > mh.speed * 0.55) {
+      if (b.useSlam && !exec && sim.canCast(sim.sSL) && sim.swings[0] && sim.swings[0].next - now > mh.speed * 0.55) {
         const cast = Math.max(0.1, W.slam.cast - W.improvedSlam.castReductionPerRank * (b.improvedSlam || 0));
         return castGcd(sim, sim.sSL, () => {
           sim.spendRage(W.slam.cost);
@@ -257,8 +268,9 @@ export function armsKit(build = {}, data = null) {
           if (!(b.improvedSlam >= 2)) sim._scheduleSwing(sim.swings[0], cast + mh.speed / sim.hasteMult());
         });
       }
-      const reserve = ((sim.sMS.readyAt - now) < 1.5 ? W.mortalStrike.cost : 0) + b.hsRageReserve;
-      if (!sim.mhQueued && sim.rage >= sim.sHS.cost() + reserve && mh) sim.mhQueued = sim.sHS;
+      if (exec) { const w = executePhase(sim, W); if (w !== null) return w; }
+      const hsAt = b.hsRageReserve >= 900 ? Infinity : 90;
+      if (!sim.mhQueued && !exec && sim.rage >= Math.max(sim.sHS.cost(), hsAt) && mh) sim.mhQueued = sim.sHS;
       return Math.max(0.05, Math.min(sim.sMS.readyAt, sim.sBR.readyAt, sim.overpowerUntil > now ? sim.sOP.readyAt : Infinity) - now);
     },
   };

@@ -30,10 +30,10 @@ export const MAGE = {
   manaPotion: { cd: 120, min: 1350, max: 2250 },                                                                                // ASSUMED (Major Mana Potion)
   // talents, per rank (Forever tooltips)
   arcaneFocus: { hit: 0.01 }, arcaneConcentration: { chance: 0.02 }, arcaneImpact: { crit: 0.02 }, arcaneMeditation: { keep: 1 / 6 },
-  arcaneMind: { int: 0.02, critBonus: 0.2 }, arcaneInstability: { dmg: 0.01, crit: 0.01 }, missileBarrage: { ab: 0.2, am: 0.05, other: 0.10 },   // per rank (2 ranks since build 70425): Arcane Blast, each Arcane Missiles hit, Arcane Wrath / Fireball / Frostbolt / Frostfire Bolt
+  arcaneMind: { int: 0.02, critBonus: 0.2 }, arcaneInstability: { dmg: 0.01, crit: 0.01 }, missileBarrage: { ab: 0.2, am: 0, other: 0.10 },   // per rank (2 ranks since build 70425): Arcane Blast, each Arcane Missiles hit, Arcane Wrath / Fireball / Frostbolt / Frostfire Bolt
   incineration: { crit: 0.02 }, improvedFireball: { cast: 0.1 }, ignite: { frac: 0.08 }, improvedScorch: { chance: 0.33, perStack: 0.03, max: 5, dur: 30 },
   masterOfElements: { refund: 0.10 }, criticalMass: { crit: 0.02 }, firePower: { perEffect: 0.01, maxEffects: 4 }, wakeOfFire: { cd: 1 },   // Fire Power (3 ranks): +1% per rank for each Fire effect on the target (Ignite, Fire Vulnerability, Fireball and Pyroblast DoTs), up to 4 effects
-  improvedFrostbolt: { cast: 0.1 }, elementalPrecision: { hit: 0.01 }, iceShards: { critBonus: 0.2 }, piercingIce: { dmg: 0.02 },
+  improvedFrostbolt: { cast: 0.1 }, elementalPrecision: { hit: 0.02 }, iceShards: { critBonus: 0.2 }, piercingIce: { dmg: 0.02 },
   frostChanneling: { cost: 0.05 }, shatter: { crit: 0.5 / 3 }, fingersOfFrost: { chance: 0.15 }, wintersChill: { chance: 0.2, crit: 0, max: 5 },   // build 70425: Winter's Chill only boosts Cone of Cold now (no crit on Frostbolt / Ice Lance)
   iceLanceFrozen: 3,                                                                    // build 70425: +200% against Frozen targets (was +300%)
 };
@@ -61,6 +61,10 @@ export function mageKit(build = {}, data = null) {
       s.cast = mageParseCast(x.cast_time); if (x.cooldown_sec) s.cd = x.cooldown_sec;
     };
     pull('fireball', 'mage_fireball'); pull('fireBlast', 'mage_fire_blast'); pull('pyroblast', 'mage_pyroblast'); pull('frostbolt', 'mage_frostbolt');
+    // Forever casts Frostbolt Rank 10 ("last trainer taught spell", mage/frostbolt.go) and Fireball Rank 11 (mage/fireball.go), not the highest rank the client lists
+    Object.assign(M.frostbolt, { min: 382.4, max: 412.8, cost: 260 });      // 386 + 2.9 per level above the spell's level 56
+    Object.assign(M.fireball, { min: 396.6, max: 505.4, cost: 395 }); M.fireball.dot.total = 56;
+    Object.assign(M.arcaneMissiles, { cost: 595, ticks: 5, cast: 5, total: 5 * 174.6, coeff: 5 * 0.286 });      // Arcane Missiles Rank 7 (mage/arcane_missiles.go): 171 + 0.9 per level above 56 a missile
     const fut = (n) => (data.mage.future || []).find((f) => f.name === n);
     const range = (r) => { const e = r.effects.find((x) => x.effect === 2); const mid = e.base + e.per_level * Math.max(0, 60 - r.spell_level) + 1; return [mid * (1 - e.variance / 2), mid * (1 + e.variance / 2), e.sp_coeff]; };
     const sc = fut('Scorch'); if (sc) { const [lo, hi, co] = range(sc.rank); Object.assign(M.scorch, { min: lo, max: hi, coeff: co, cost: sc.rank.cost.amount, cast: sc.rank.cast_ms / 1000 }); }
@@ -206,7 +210,7 @@ function afterHit(sim, s, r, m, baseCost) {
   if (sim.aFoF.active && s !== M.arcaneMissiles && --sim.fof <= 0) sim.aFoF.expire();   // Fingers of Frost: each spell uses a charge
   if (r.outcome === 'miss') return;
   const crit = r.outcome === 'crit', fire = schoolHas(s, 'fire'), frost = schoolHas(s, 'frost');
-  if (b.arcaneConcentration && sim.rng() < M.arcaneConcentration.chance * b.arcaneConcentration) sim.aCC.apply();
+  if (b.arcaneConcentration && s !== sim.spec.M.arcaneMissiles && sim.rng() < M.arcaneConcentration.chance * b.arcaneConcentration) sim.aCC.apply();
   if (crit && (fire || frost) && b.masterOfElements) gainMana(sim, baseCost * M.masterOfElements.refund * b.masterOfElements);
   if (fire) {
     if (sim.aComb.active) { sim.aComb.apply(1); if (crit && ++sim.combCrits >= 3) { sim.aComb.expire(); sim.combCrits = 0; } }
@@ -271,6 +275,7 @@ function mageRotate(sim, b, M) {
       return M.arcaneMissiles;
     }
     // fire
+    if (b.onlyFiller) return b.filler === 'frostfire' ? M.frostfireBolt : M.fireball;      // harness layer: filler only
     if (b.improvedScorch && !sim.aScorch.active || (b.improvedScorch && sim.aScorch.stacks < M.improvedScorch.max) || (b.improvedScorch && sim.aScorch.endsAt - now < 6)) return M.scorch;
     if (now >= sim.cd.fireBlast) return M.fireBlast;
     if (b.pyroblast && (sim.pom || sim.aHeat.stacks >= 2)) return M.pyroblast;
@@ -294,8 +299,8 @@ function mageRotate(sim, b, M) {
       sim.schedule(M.evocation.duration, () => { sim.casting = null; sim.lastCastAt = sim.now; sim.poke(0); });
       return M.evocation.duration;
     }
-    sim.manaOom += 0.5;
-    return 0.5;
+    sim.manaOom += 0.1;
+    return 0.1;
   }
   if (s === M.fireBlast) sim.cd.fireBlast = now + M.fireBlast.cd - M.wakeOfFire.cd * b.wakeOfFire;
   return mageCast(sim, s, s.cast === 0);

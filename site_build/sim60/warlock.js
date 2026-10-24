@@ -210,6 +210,7 @@ function warlockRotate(sim, b, W) {
   const gcdLeft = sim.gcdReadyAt - now;
   if (gcdLeft > 1e-9) return gcdLeft;
   const destro = b.rotation === 'destruction';
+  if (b.fillerOnly) { const s0 = W.shadowBolt; const need0 = warlockManaCost(sim, s0); if (need0 > sim.mana) { sim.gcdReadyAt = now + SPELL_GCD; sim.entry('Life Tap').casts++; gainMana(sim, (W.lifeTap.restore + (sim.stats.spi || 0)) * (1 + W.improvedLifeTap.restore * b.improvedLifeTap)); return SPELL_GCD; } return warlockCast(sim, s0); }      // harness layer
   const useDoom = b.curse === 'doom';             // 'auto' = Bane of Agony: it beats Bane of Doom over a 180 s fight (and it is Icy Veins' choice)
   const filler = (() => {
     const cands = [W.shadowBolt];
@@ -225,7 +226,7 @@ function warlockRotate(sim, b, W) {
   {
     if (wantImmolate && refresh(W.immolate, 1.5) && rem > 8) s = W.immolate;
     else if (refresh(W.corruption, 1.0) && rem > 8) s = W.corruption;
-    else if (useDoom ? (now >= sim.cd.doom && refresh(W.doom, 0) && rem > 62) : (refresh(W.agony, 1.5) && rem > 8)) s = useDoom ? W.doom : W.agony;
+    else if (!b.noAgony && (useDoom ? (now >= sim.cd.doom && refresh(W.doom, 0) && rem > 62) : (refresh(W.agony, 1.5) && rem > 8))) s = useDoom ? W.doom : W.agony;
     else if (b.siphonLife && refresh(W.siphonLife, 1.5) && rem > 8) s = W.siphonLife;
     else if (b.wrack && refresh(W.wrack, 0.5)) s = W.wrack;
   }
@@ -237,7 +238,7 @@ function warlockRotate(sim, b, W) {
   const need = warlockManaCost(sim, s);
   if (need > sim.mana || sim.mana < 0.12 * sim.manaMax) {
     sim.gcdReadyAt = now + SPELL_GCD; sim.entry('Life Tap').casts++;
-    gainMana(sim, W.lifeTap.restore * (1 + W.improvedLifeTap.restore * b.improvedLifeTap));
+    gainMana(sim, (W.lifeTap.restore + (sim.stats.spi || 0)) * (1 + W.improvedLifeTap.restore * b.improvedLifeTap));
     return SPELL_GCD;
   }
   if (s === W.conflagrate) sim.cd.conflagrate = now + W.conflagrate.cd;
