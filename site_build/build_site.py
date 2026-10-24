@@ -712,8 +712,24 @@ DUNGEON_LOCATION = {
     "stratholme": {"en": "the Eastern Plaguelands", "fr": "Maleterres de l'Est"},
     "scholomance": {"en": "Caer Darrow, Western Plaguelands", "fr": "Caer Darrow, Maleterres de l'Ouest"},
 }
+# Whose territory the entrance zone is (WoW Classic, flagged as such on the page; to check against the Territory field of the Wowhead Forever
+# zone pages at the post-launch collection). Only the zone's side, nothing about the travel time.
+DUNGEON_SIDE = {
+    "ragefire-chasm": "horde", "deadmines": "alliance", "wailing-caverns": "horde", "shadowfang-keep": "horde", "blackfathom-deeps": "contested",
+    "stockade": "alliance", "gnomeregan": "alliance", "scarlet-monastery": "horde", "razorfen-kraul": "horde", "razorfen-downs": "horde",
+    "uldaman": "contested", "zulfarrak": "contested", "maraudon": "contested", "sunken-temple": "contested", "blackrock-depths": "contested",
+    "dire-maul": "contested", "stratholme": "contested", "scholomance": "contested",
+}
+DUNGEON_SIDE_TX = {
+    "fr": {"alliance": " Cette zone est en territoire de l'Alliance dans WoW Classic : un groupe de la Horde doit traverser des terres ennemies pour s'y rendre.",
+           "horde": " Cette zone est en territoire de la Horde dans WoW Classic : un groupe de l'Alliance doit traverser des terres ennemies pour s'y rendre.",
+           "contested": " Cette zone est contestée dans WoW Classic : les deux factions peuvent s'y rendre."},
+    "en": {"alliance": " This zone is Alliance territory in WoW Classic, so a Horde group has to cross enemy land to get there.",
+           "horde": " This zone is Horde territory in WoW Classic, so an Alliance group has to cross enemy land to get there.",
+           "contested": " This zone is contested in WoW Classic: both factions can reach it."},
+}
 # Last time the dungeon page content itself changed (the page date is the later of this and the data's own date).
-WOW_DUNGEON_CONTENT_DATE = "2026-10-13"
+WOW_DUNGEON_CONTENT_DATE = "2026-10-24"
 # the short names players search with ("sfk loot table wow forever"), shown in dungeon snippets
 DUNGEON_ABBR = {"ragefire-chasm": "RFC", "deadmines": "VC", "wailing-caverns": "WC", "shadowfang-keep": "SFK",
                 "blackfathom-deeps": "BFD", "stockade": "Stocks", "gnomeregan": "Gnomer", "scarlet-monastery": "SM",
@@ -8560,6 +8576,7 @@ def main() -> None:
                             _picks_by_class.append({"class_name": _pk["class_name"], "class_color": _pk["class_color"], "specs": []})
                         _picks_by_class[-1]["specs"].append(_pk)
                     _loc = DUNGEON_LOCATION.get(_d["id"])
+                    _reqs = [it["req"] for it in _ditems if it.get("req")]
                     _updated = max(wow_dungeons.get("generated", "")[:10], WOW_DUNGEON_CONTENT_DATE)
                     _ndrop = sum(1 for it in _ditems if it.get("kind") == "drop")
                     _nquest = len(_ditems) - _ndrop
@@ -8569,24 +8586,34 @@ def main() -> None:
                     _faq = []
                     if lang == "fr":
                         if _loc:
-                            _faq.append((f"Où se trouve {_dn} dans WoW: Forever ?", f"L'entrée de {_dn} est en {_loc['fr']} (emplacement de WoW Classic)."))
+                            _faq.append((f"Où se trouve {_dn} dans WoW: Forever ?", f"L'entrée de {_dn} est en {_loc['fr']} (emplacement de WoW Classic)." + DUNGEON_SIDE_TX["fr"].get(DUNGEON_SIDE.get(_d["id"]), "")))
                         _faq.append((f"Quel butin trouve-t-on dans {_dn} sur WoW: Forever ?",
                                      f"{len(_ditems)} objets équipables : {_ndrop} lâchés par les boss et créatures, et {_nquest} récompenses de quête."
                                      + (f" {_last['name']} lâche " + ", ".join(i["name"] for i in _last["items"][:5]) + "." if _last else "")))
                         if _bosses:
                             _faq.append((f"Combien de boss y a-t-il dans {_dn} ?", f"{len(_bosses)} rencontres, dans cet ordre : " + ", ".join(b["name"] for b in _bosses) + "."))
                         if _dlv:
-                            _faq.append((f"À quel niveau faire {_dn} sur WoW: Forever ?", f"{_dn} est prévu pour les niveaux {_dlv}."))
+                            _faq.append((f"À quel niveau faire {_dn} sur WoW: Forever ?", f"{_dn} est prévu pour les niveaux {_dlv} (fourchette de la base de données Wowhead Forever)."))
+                            if _reqs and not _thin and _maxlvl < 60:      # not for the thin dungeons (a handful of items says nothing) nor the level-60 ones
+                                _faq.append((f"À quel niveau est-il trop tard pour faire {_dn} ?",
+                                             f"{_dn} est prévu pour les niveaux {_dlv} et son butin demande les niveaux {min(_reqs)} à {max(_reqs)} (d'après nos {len(_ditems)} objets). Au-delà du niveau {_maxlvl}, vous dépassez la fourchette du donjon : la page « Donjons par niveau » classe tous les donjons selon votre niveau."))
+                        if _abbr:
+                            _faq.append((f"Que veut dire {_abbr} dans WoW: Forever ?", f"{_abbr} est le nom court de {_dn}, celui qu'on tape pour chercher un groupe ou un guide."))
                     else:
                         if _loc:
-                            _faq.append((f"Where is {_dn} in WoW: Forever?", f"The {_dn} entrance is in {_loc['en']} (WoW Classic location)."))
+                            _faq.append((f"Where is {_dn} in WoW: Forever?", f"The {_dn} entrance is in {_loc['en']} (WoW Classic location)." + DUNGEON_SIDE_TX["en"].get(DUNGEON_SIDE.get(_d["id"]), "")))
                         _faq.append((f"What loot drops in {_dn} in WoW: Forever?",
                                      f"{len(_ditems)} equippable items: {_ndrop} dropped by bosses and creatures, and {_nquest} quest rewards."
                                      + (f" {_last['name']} drops " + ", ".join(i["name"] for i in _last["items"][:5]) + "." if _last else "")))
                         if _bosses:
                             _faq.append((f"How many bosses are in {_dn}?", f"{len(_bosses)} encounters, in this order: " + ", ".join(b["name"] for b in _bosses) + "."))
                         if _dlv:
-                            _faq.append((f"What level is {_dn} in WoW: Forever?", f"{_dn} is meant for levels {_dlv}."))
+                            _faq.append((f"What level is {_dn} in WoW: Forever?", f"{_dn} is meant for levels {_dlv} (range from the Wowhead Forever database)."))
+                            if _reqs and not _thin and _maxlvl < 60:
+                                _faq.append((f"What level is too high for {_dn}?",
+                                             f"{_dn} is meant for levels {_dlv} and its loot requires levels {min(_reqs)} to {max(_reqs)} (from our {len(_ditems)} items). Past level {_maxlvl} you are above the dungeon's range: the \"Dungeons by level\" page ranks every dungeon for your level."))
+                        if _abbr:
+                            _faq.append((f"What does {_abbr} stand for in WoW: Forever?", f"{_abbr} is the short name of {_dn}, the one players type to look for a group or a guide."))
                     if _thin:
                         _faq.append((_dgtx["thin_faq_q"].format(name=_dn), _dgtx["thin_faq_a"].format(n=_ndrop)))
                     _durl = canonical_for(_dpath, lang)
@@ -8596,7 +8623,7 @@ def main() -> None:
                                       "specs": [(pk["guide"], f"{pk['class_name']} {pk['spec_name']}" if lang == "fr" else f"{pk['spec_name']} {pk['class_name']}") for pk in _picks]})
                     render("wow_dungeon.html", _dpath, lang, active_nav="wow", active_sub="wow-dungeons", tx=_gx, dd=wow_dungeons,
                            items=_ditems, g_title=_dt, g_desc=_dd_, g_h1=_dh1, g_intro=_di,
-                           dname=_dn, dlevels=_dlv, dloc=_loc, thin_note=(_dgtx["thin"].format(name=_dn) if _thin else None), has_wings=_has_wings, dgx=_dgtx, bosses=_bosses, others=_others, quests=_quests, picks=_picks, picks_by_class=_picks_by_class,
+                           dname=_dn, dlevels=_dlv, dloc=_loc, dabbr=_abbr, thin_note=(_dgtx["thin"].format(name=_dn) if _thin else None), has_wings=_has_wings, dgx=_dgtx, bosses=_bosses, others=_others, quests=_quests, picks=_picks, picks_by_class=_picks_by_class,
                            updated=_updated, dg_faq=_faq,
                            faq_schema={"@context": "https://schema.org", "@type": "FAQPage",
                                        "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _faq]},

@@ -22,6 +22,7 @@
       <div class="gh-chips">
         {% if dlevels %}<span class="gh-chip is-gold">{{ 'Niveaux' if fr else 'Levels' }} <b class="nums">{{ dlevels }}</b></span>{% endif %}
         {% if dloc %}<span class="gh-chip">{{ dloc[lang][:1]|upper ~ dloc[lang][1:] }}</span>{% endif %}
+        {% if dabbr %}<span class="gh-chip">{{ 'Aussi appelé' if fr else 'Also called' }} <b>{{ dabbr }}</b></span>{% endif %}
         {% if bosses %}<span class="gh-chip"><b class="nums">{{ bosses|length }}</b> boss</span>{% endif %}
         <span class="gh-chip"><b class="nums">{{ items|length }}</b> {{ 'objets' if fr else 'items' }}</span>
         {% if quests %}<span class="gh-chip"><b class="nums">{{ quests|length }}</b> {{ 'quêtes' if fr else 'quests' }}</span>{% endif %}
