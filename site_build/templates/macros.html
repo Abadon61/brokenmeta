@@ -21,7 +21,7 @@
 <a class="nav-link mobile-nav-sublink" href="{{ root }}tft/" {% if active_nav not in ('league', 'wow') %}data-active="true"{% endif %}>Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="{{ root }}league/" {% if active_nav == 'league' %}data-active="true"{% endif %}>League of Legends</a>
 {% if active_nav == 'wow' %}
-<div class="mobile-nav-group-title">{{ 'Bêta : Forever' if lang == 'fr' else 'Beta: Forever' }}</div>
+<div class="mobile-nav-group-title">{{ 'Forever' if wow_launched else ('Bêta : Forever' if lang == 'fr' else 'Beta: Forever') }}</div>
 {% for want in wow_beta_group %}{% for slug, fr_label, en_label in wow_nav if slug == want %}<a class="nav-link mobile-nav-sublink" href="{{ root }}{{ 'wow-forever/' ~ slug ~ '/' if slug else ('' if root else './') }}" {% if active_sub == 'wow-' ~ (slug or 'index') %}data-active="true"{% endif %}>{{ fr_label if lang == 'fr' else en_label }}</a>
 {% endfor %}{% endfor %}
 {# 2026-10-02: no more "Guides de classe" group -- the spec banner (base.html .wow-specbar, also shown on mobile, scrolls sideways) links straight to every spec guide. #}
@@ -79,7 +79,7 @@
 {% endif %}
 {% elif active_nav == 'wow' %}
 <details class="nav-dropdown" {% if active_sub in ('wow-index', 'wow-beta', 'wow-sortie', 'wow-editions', 'wow-classes') %}data-active="true"{% endif %}>
-  <summary class="nav-link">{{ 'Bêta : Forever' if lang == 'fr' else 'Beta: Forever' }}</summary>
+  <summary class="nav-link">{{ 'Forever' if wow_launched else ('Bêta : Forever' if lang == 'fr' else 'Beta: Forever') }}</summary>
   <div class="nav-dropdown-menu">
     {% for want in wow_beta_group %}{% for slug, fr_label, en_label in wow_nav if slug == want %}<a href="{{ root }}{{ 'wow-forever/' ~ slug ~ '/' if slug else ('' if root else './') }}">{{ fr_label if lang == 'fr' else en_label }}</a>
     {% endfor %}{% endfor %}

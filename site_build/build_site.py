@@ -7445,6 +7445,7 @@ def main() -> None:
             print(f"[game_news] {_g} refresh failed, using the stored archive: {_e}")
             _game_news[_g] = game_news.load(_g)
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
+    env.globals["wow_launched"] = wow_content.launched()      # after the launch the menu group is just "Forever" (BM_FORCE_LAUNCHED=1 previews it)
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
     env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "logs", "simulateur-dps"]
     env.globals["trait_label"] = trait_label

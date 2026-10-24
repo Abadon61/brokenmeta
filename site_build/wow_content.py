@@ -10,6 +10,17 @@ Block types: p (text) / list (items) / table (head, rows) / facts (items: [(labe
 
 LAUNCH_UTC = "2026-11-04T23:00:00Z"   # 15:00 PST, as stated by Blizzard
 
+
+def launched():
+    """True once the game is out: every build made at or after LAUNCH_UTC drops the beta wording (a static site, so it takes a rebuild
+    and a deploy right after the launch). BM_FORCE_LAUNCHED=1 / 0 forces the answer, for a local preview of either side."""
+    import os
+    from datetime import datetime, timezone
+    forced = os.environ.get("BM_FORCE_LAUNCHED")
+    if forced in ("0", "1"):
+        return forced == "1"
+    return datetime.now(timezone.utc) >= datetime.fromisoformat(LAUNCH_UTC.replace("Z", "+00:00"))
+
 SOURCES = {
     "blizz_beta": ("Blizzard — The World of Warcraft: Forever Beta Now Live",
                    "https://news.blizzard.com/en-us/article/24304160/the-world-of-warcraft-forever-beta-now-live"),

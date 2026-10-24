@@ -70,6 +70,29 @@ TX = {
     },
 }
 
+# After the launch (wow_content.launched()) nothing on the dungeon pages talks about the beta. The data is still the one of the client until the
+# post-launch collection, so the texts say "being completed" rather than "complete": no claim the data cannot back.
+_AFTER_LAUNCH = {
+    "fr": {
+        "thin": "Le butin de {name} est encore partiel dans nos données : la liste est en cours de complétion avec les données du jeu sorti. Les boss et les quêtes affichés viennent du client de Forever.",
+        "thin_faq_a": "Pas encore : {n} objets lâchés par les boss et les créatures sont connus à ce jour. Nous complétons la liste avec les données du jeu sorti.",
+        "desc_nodrop": "Guide de {name}{abbr} dans WoW: Forever : les boss dans l'ordre, les quêtes et leurs récompenses ; le butin est en cours de complétion.",
+        "hub_intro": "Indiquez votre niveau et votre spécialisation : la page vous dit quels donjons faire maintenant, et quel est le meilleur objet à y chercher pour vous. Les niveaux viennent des données du client de Forever ; le meilleur objet vient de notre simulateur.",
+        "note": "Le meilleur objet est calculé par notre simulateur avec les statistiques réelles de Forever. Pour le Temple englouti, Dire Maul, Uldaman et Razorfen Downs, le butin est encore partiel : il est en cours de complétion.",
+    },
+    "en": {
+        "thin": "{name}'s loot is still partial in our data: the list is being completed with the data of the released game. The bosses and quests shown come from Forever's client.",
+        "thin_faq_a": "Not yet: {n} items dropped by bosses and creatures are known so far. We are completing the list with the data of the released game.",
+        "desc_nodrop": "{name}{abbr} guide for WoW: Forever: the bosses in order, the quests and their rewards; the loot is being completed.",
+        "hub_intro": "Enter your level and your spec: the page tells you which dungeons to run now and the best item to look for in each. Levels come from Forever's client data; the best item comes from our simulator.",
+        "note": "The best item is computed by our simulator with Forever's real stats. For Sunken Temple, Dire Maul, Uldaman and Razorfen Downs the loot is still partial: it is being completed.",
+    },
+}
+import wow_content as _wc  # noqa: E402
+if _wc.launched():
+    for _l, _tx in _AFTER_LAUNCH.items():
+        TX[_l].update(_tx)
+
 BANDS = [(10, 20), (20, 30), (30, 40), (40, 50), (50, 60)]
 
 
