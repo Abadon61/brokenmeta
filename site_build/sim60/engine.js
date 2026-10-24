@@ -101,6 +101,7 @@ export class Sim {
     this.target = cfg.target;                       // {armor, defense, executeFrac}
     this.table = meleeTable(this.stats.weaponSkill || 300, cfg.target.defense);
     this.dr = armorDR(cfg.target.armor);
+    if (this.stats.expertise) this.table.dodge = Math.max(0, this.table.dodge - this.stats.expertise / 1000);      // Forever: 0.1 % dodge/parry per point of expertise (measured: 20 = 2 %)
     this.rageC = rageConversion(this.level);
     // dynamic modifiers (auras & talents write into this)
     this.mods = { critBonus: 0, meleeCritBonus: 0, hitBonus: 0, apBonus: 0, apMult: 1, hasteMult: 1, dmgMult: 1, spellDmgMult: 1, critDmgBonus: 0 };
@@ -115,7 +116,7 @@ export class Sim {
     this.spellProcs = [];
     // tanking: a per-run copy of the defensive stats, the counters the batch runner averages, a threat hook
     this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
-    this.threatMult = null; this.takenMult = 1; this.bossHooks = [];
+    this.threatMult = null; this.takenMult = 1; this.bossHooks = []; this.blockBonus = null;
     this.spec = cfg.spec; this.spec.setup(this);
     attachEffects(this);
   }
@@ -140,7 +141,8 @@ export class Sim {
   hasteMult() { return (this.stats.haste || 1) * this.mods.hasteMult; }
   ap() { return (this.stats.ap + this.mods.apBonus) * this.mods.apMult; }
   critChance(extra = 0) {
-    const c = this.stats.crit + this.mods.critBonus + this.mods.meleeCritBonus + extra - this.table.critSuppression;     // meleeCritBonus: melee only (Elemental Devastation)
+    const aura = (this.stats.critAura || 0) + this.mods.critBonus + this.mods.meleeCritBonus + extra;     // crit beyond base + Agility crit: suppressed up to table.auraCritSuppression
+    const c = this.stats.crit + this.mods.critBonus + this.mods.meleeCritBonus + extra - this.table.critSuppression - (this.table.auraCritSuppression ? Math.min(Math.max(aura, 0), this.table.auraCritSuppression) : 0);     // meleeCritBonus: melee only (Elemental Devastation)
     return c < 0 ? 0 : c > 1 ? 1 : c;
   }
   hitFrac() { return this.stats.hit + this.mods.hitBonus; }
@@ -155,7 +157,9 @@ export class Sim {
     this.rage += n;
     this.poke(0);
   }
-  spendRage(n) { this.rage -= n; if (this.rage < 0) this.rage = 0; }
+  spendRage(n) { this.rage -= n; if (this.rage < 0) this.rage = 0; this.lastRageSpend = n; this.lastRageSpendAt = this.now; }
+  // a special attack that misses or is dodged gives back 80 % of its rage cost (Forever: client flag Discount Power On Miss)
+  refundRage() { if (this.lastRageSpendAt === this.now && this.lastRageSpend > 0) { this.gainRage(0.8 * this.lastRageSpend); this.lastRageSpend = 0; } }
 
   // -------- damage bookkeeping --------
   entry(source) {
@@ -175,7 +179,7 @@ export class Sim {
   // The raid boss swings at the tank (Classic attack table of a level-63 mob against a level-60 player; ASSUMED where noted).
   _bossSwing(boss) {
     const t = this.tank, adj = (t.defense - 5 * boss.level) * 0.0004;       // each defense point above the boss skill: 0.04% on every roll
-    const miss = Math.max(0, 0.05 + adj), dodge = Math.max(0, t.dodge + adj), parry = Math.max(0, t.parry + adj), block = t.shield ? Math.max(0, t.block + adj) : 0;
+    const miss = Math.max(0, 0.05 + adj), dodge = Math.max(0, t.dodge + adj), parry = Math.max(0, t.parry + adj), block = t.shield ? Math.max(0, t.block + adj + (this.blockBonus ? this.blockBonus() : 0)) : 0;
     const crush = Math.max(0, 0.15 * (415 - t.defense) / 115), crit = Math.max(0, 0.05 - adj);         // crushing blows ASSUMED: 15% at 300 defense, none from 415
     const r = this.rng(); let out = 'hit', c = miss;
     if (r < c) out = 'miss'; else if (r < (c += dodge)) out = 'dodge'; else if (r < (c += parry)) out = 'parry'; else if (r < (c += block)) out = 'block'; else if (r < (c += crush)) out = 'crush'; else if (r < (c += crit)) out = 'crit';
@@ -206,7 +210,7 @@ export class Sim {
     if (r < miss) return 'miss';
     if (r < miss + t.dodge) return 'dodge';
     if (r < miss + t.dodge + t.glance) return 'glance';
-    const crit = this.critChance(bonusCrit);
+    const crit = this.critChance(bonusCrit + (isOffHand ? (this.mods.ohCritBonus || 0) : (this.mods.mhCritBonus || 0)));      // hand-scoped crit (weapon specializations)
     if (r < miss + t.dodge + t.glance + crit) return 'crit';
     return 'hit';
   }
@@ -217,7 +221,7 @@ export class Sim {
     const r = this.rng();
     if (r < miss) return 'miss';
     if (canDodge && r < miss + t.dodge) return 'dodge';
-    return this.rng() < this.critChance(bonusCrit) ? 'crit' : 'hit';
+    return this.rng() < this.critChance(bonusCrit + (this.mods.mhCritBonus || 0)) ? 'crit' : 'hit';      // specials are main-hand attacks
   }
 
   weaponRoll(w) { return w.min + (w.max - w.min) * this.rng(); }
@@ -264,21 +268,23 @@ export class Sim {
     if (outcome === 'miss') { e.misses++; this.onMeleeHit('miss', 'white', isOH, true); return; }
     if (outcome === 'dodge') { e.dodges++; this.overpowerUntil = this.now + OVERPOWER_WINDOW; this.onMeleeHit('dodge', 'white', isOH, true); return; }
     let raw = this.weaponRoll(w) + this.ap() / 14 * w.speed;
-    if (isOH) raw *= 0.5 + (this.mods.ohDmgBonus || 0);
+    if (isOH) raw *= 0.5 * (1 + (this.mods.ohDmgBonus || 0));   // WoWSims Forever: off-hand halved, then Dual Wield Specialization +5 % per rank multiplies (was additive: 0.75 at rank 5, now 0.625)
     let kind = 'hit';
     if (outcome === 'glance') { raw *= this.table.glanceLow + (this.table.glanceHigh - this.table.glanceLow) * this.rng(); kind = 'glance'; }
     else if (outcome === 'crit') { raw *= this.critMult(); kind = 'crit'; }
     const dmg = this.mitigate(raw * this.mods.dmgMult, true);
     this.record(name, dmg, kind);
-    if (this.player.resource === 'rage') this.rageFromHit(dmg, w.speed, isOH, kind === 'crit');
+    if (this.player.resource === 'rage') this.rageFromHit(dmg, w.speed, isOH, kind === 'crit', !!w.twoHand);
     this.onMeleeHit(kind, 'white', isOH, true);
   }
   // Classic rage formula: R = 15*d/(4c) + f*s/2, capped at 15*d/c.
-  rageFromHit(dmg, speed, isOH, crit) {
+  rageFromHit(dmg, speed, isOH, crit, twoHand) {
     const f = (isOH ? HIT_FACTOR.oh : HIT_FACTOR.mh)[crit ? 'crit' : 'normal'];
     const c = this.rageC;
-    // WoWSims (sim/core/rage.go): rage from an auto attack = damage * 7.5 / conversion (the TBC formula 15d/4c + f*s/2 was used before 2026-10-16)
-    let r = 7.5 * dmg / c;
+    // WoWSims Forever (sim/core/rage.go): rage from an auto attack = 3.46 x swing speed (off-hand halved), x4.5/3.46 for a two-hander, plus 100 % of the swing's rage on a crit
+    // (before 2026-10-24: damage * 7.5 / conversion)
+    const sw = 3.46 * speed * (isOH ? 0.5 : 1);
+    let r = sw * (twoHand ? 4.5 / 3.46 : 1) + (crit ? sw : 0);
     if (isOH && this.mods.ohRageMult) r *= this.mods.ohRageMult;
     this.gainRage(r);
   }

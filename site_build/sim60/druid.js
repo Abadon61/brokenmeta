@@ -63,6 +63,7 @@ export function druidBalanceKit(build = {}, data = null) {
     },
     choose(sim) {
       const now = sim.now, rem = sim.fightLen - now;
+      if (b.layer) { const l = b.layer; if (l.includes('swarm') && S.swarm && rem > 6 && dotLeft(sim, S.swarm.name) < 0.8) return S.swarm; if (l.includes('moon') && S.moonfire && rem > 6 && dotLeft(sim, S.moonfire.name) < 0.8) return S.moonfire; return S.wrath; }      // harness layer
       if (S.swarm && b.insectSwarm && rem > 6 && dotLeft(sim, S.swarm.name) < 0.8) return S.swarm;
       if (S.moonfire && rem > 6 && dotLeft(sim, S.moonfire.name) < 0.8) return S.moonfire;
       if (sim.aEclipse.active && S.starfire) return S.starfire;
@@ -120,7 +121,7 @@ export function druidFeralKit(build = {}, data = null) {
     setup(sim) {
       sim.player.resource = 'energy'; sim.kitBuild = b;
       const mods = sim.mods;
-      sim.player = Object.assign({}, sim.player, { weapons: [{ min: F.natural.min, max: F.natural.max, speed: F.natural.speed, type: '' }], dualWield: false });
+      sim.player = Object.assign({}, sim.player, { weapons: [{ min: sim.stats.catMax ? sim.stats.catMin : F.natural.min, max: sim.stats.catMax || F.natural.max, speed: F.natural.speed, type: '' }], dualWield: false });
       mods.apBonus += F.predatoryStrikes.ap * b.predatoryStrikes + Math.floor((sim.stats.str || 0) * F.heartOfTheWild.str * b.heartOfTheWild) * 2;
       mods.critBonus += F.sharpenedClaws.crit * b.sharpenedClaws + F.leaderOfThePack.crit * b.leaderOfThePack + F.naturesMajesty.crit * b.naturesMajesty;
       mods.critDmgBonus = F.predatoryInstincts.critDmg * b.predatoryInstincts;
@@ -138,6 +139,7 @@ export function druidFeralKit(build = {}, data = null) {
     start(sim) { sim.rage = sim.rageCap; },
     rotate(sim) {
       const now = sim.now, rem = sim.fightLen - now, energy = sim.rage, gcd = 1.0;
+      if (b.autosOnly) return 5;      // harness layer
       if (b.usePotion && sim.manaMax && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + F.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, F.manaPotion.min + (F.manaPotion.max - F.manaPotion.min) * sim.rng()); }
       if (b.useCooldowns) {
         if (now >= sim.cd.tf && energy <= 100 - F.tigersFury.energy + 20) { sim.cd.tf = now + F.tigersFury.cd; sim.entry("Tiger's Fury").casts++; sim.aTF.apply(); sim.gainRage(F.tigersFury.energy); }
@@ -172,7 +174,7 @@ export function druidFeralKit(build = {}, data = null) {
             sim.ripUntil = now + F.rip.ticks * F.rip.interval;
             const my = (sim.ripToken = (sim.ripToken || 0) + 1); let n = 0;
             const critP = sim.critChance(0), cm = sim.critMult(sim.mods.critDmgBonus);
-            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', per * sim.mods.dmgMult * (c ? cm : 1) * (1 - sim.dr), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
+            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
             sim.schedule(F.rip.interval, step);
           }, gcd);
         }
@@ -198,7 +200,7 @@ export function druidFeralKit(build = {}, data = null) {
           if (o !== 'miss' && o !== 'dodge') {
             sim.rakeUntil = now + F.rake.ticks * F.rake.interval;
             const my = (sim.rakeToken = (sim.rakeToken || 0) + 1); let n = 0;
-            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 - sim.dr) * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
+            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
             sim.schedule(F.rake.interval, step);
           }
         }, gcd);

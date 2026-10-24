@@ -7,7 +7,7 @@ import { resolveEffects } from './effects.js';
 
 // Level-63 boss vs level-60 caster (WoWSims, sim/core/target.go and spell_resistances.go): 17% base spell miss, 2.1% spell crit suppression, average partial-resist loss
 // 0.02 per level of difference x 4/3 x 3 levels / ... = 6% for a spell with a direct hit (a pure damage-over-time spell loses a tenth of it: 0.6%).
-export const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.06, SPELL_CRIT_SUPPRESSION = 0.021;
+export const TARGET_SPELL_MISS = 0.17, TARGET_SPELL_MITIGATION = 0.06, SPELL_CRIT_SUPPRESSION = 0;      // Forever core/spell_result.go SpellCritChance has no level suppression (was 2.1 %)
 
 // Level-60 Human base stats per class (str/agi/sta/int/spi) and race offsets: the Classic values of WoWSims (sim/core/base_stats.go, ClassBaseStats and RaceOffsets,
 // MIT licence, github.com/wowsims/classic), adopted 2026-10-16 in place of the earlier estimates (level-30 planner data pushed to level 60). Forever has not published its own
@@ -71,7 +71,7 @@ function sumGear(gear) {
     t.hitRating += s.hitrtng || 0;
     t.hasteRating += s.hastertng || 0;
     t.armor += (s.armor || 0) + (s.armorbonus || 0);
-    t.defRating += s.defrtng || 0; t.dodgePct += s.dodgepct || 0;
+    t.bv = (t.bv || 0) + (s.blockvalue || 0); t.exp = (t.exp || 0) + (s.exprtng || 0); t.catMin = (t.catMin || 0) + (s.catMin || 0); t.catMax = (t.catMax || 0) + (s.catMax || 0); t.defRating += s.defrtng || 0; t.dodgePct += s.dodgepct || 0;
     if (it.slot === 'shield') t.shield = true;
     t.skill += s.skill || 0;
     t.sp += (s.splpwr || 0) + (s.spldmg || 0);
@@ -96,7 +96,8 @@ export function buildCharacter(spec) {
     for (const k of PRIMARY) o[k] = h[k] + m[k];
     return o;
   })();
-  const gear = sumGear(spec.gear || []);
+  // the stats of the weapons (Strength, Agility, crit, hit...) count like any other item; they were left out when the weapons were passed apart from the gear
+  const gear = sumGear([...(spec.gear || []), ...(spec.weapons || []).filter((w) => w.st).map((w) => ({ slot: 'weapon', st: w.st }))]);
   // item effects (spec.effects = data/effects.json): passive stats now, on-use buffs and procs handed to the engine
   const fxIds = [...(spec.gear || []).map((g) => g.id), ...(spec.weapons || []).map((w) => w.itemId)].filter(Boolean);
   const weaponOf = {};
@@ -151,23 +152,28 @@ export function buildCharacter(spec) {
   const weaponSkill = BASE_WEAPON_SKILL + racial + gear.skill;
 
   let armor = spec.targetArmor !== undefined ? spec.targetArmor : 3731;
-  for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.armor) armor += d.armor; }
+  // armor debuffs of one family do not stack (measured on WoWSims Forever: Sunder + Faerie Fire + Curse of Recklessness = -2250 - 505, not -3260):
+  // the strongest of Sunder Armor / Expose Armor, plus the strongest of Faerie Fire / Curse of Recklessness
+  { const fam = { sunder_armor_5: 'major', expose_armor: 'major', faerie_fire: 'minor', curse_of_recklessness: 'minor' }, best = {};
+    for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (!d || !d.armor) continue; const f = fam[id] || id; if (!best[f] || d.armor < best[f]) best[f] = d.armor; }
+    for (const v of Object.values(best)) armor += v;
+    var majorArmorDebuff = !!best.major; }
   armor = Math.max(0, armor);
 
   const tank = rules.tank ? {
     armor: gear.armor, health: rules.tank.baseHealth + 10 * prim.sta, defense: 300 + Math.floor(gear.defRating / RATING_PER_PCT.defense),
     dodge: rules.tank.dodgeBase + prim.agi / rules.tank.agiPerDodge / 100 + gear.dodgePct / 100, parry: rules.tank.parry, block: rules.tank.block,
-    blockValue: gear.shield ? rules.tank.bvBase + prim.str / 20 : 0, shield: gear.shield, stamina: prim.sta,
+    blockValue: gear.shield ? rules.tank.bvBase + prim.str / 20 + (gear.bv || 0) : 0, shield: gear.shield, stamina: prim.sta,
   } : undefined;
   const extra = rules.ranged || rules.manaUser ? { int: prim.int, spi: prim.spi, mana: (rules.baseMana + rules.manaPerInt * (prim.int - 20)) * (spec.racialManaMult || 1), mp5: gear.mp5 + buffMp5, sp: gear.sp + buffSp } : {};
   return {
     player: {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
-      stats: { ap, crit, hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
+      stats: { catMin: gear.catMin || 0, catMax: gear.catMax || 0, racialCrit: spec.flatCrit || 0, expertise: gear.exp || 0, ap, crit, critAura: Math.max(0, crit - prim.agi / rules.agiPerCrit / 100 - rules.baseCrit), hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
       effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0,
     },
-    target: { boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
+    target: { majorArmorDebuff: typeof majorArmorDebuff === 'undefined' ? false : majorArmorDebuff, boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
   };
 }

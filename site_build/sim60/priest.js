@@ -78,6 +78,7 @@ export function priestKit(build = {}, data = null) {
     },
     choose(sim) {
       const now = sim.now, ready = (s) => now >= (sim.cdAt[s.name] || 0) - 1e-9, rem = sim.fightLen - now;
+      if (b.layer) { const l = b.layer; if (l.includes('swp') && S.swp && rem > 6 && dotLeft(sim, S.swp.name) < 0.6) return S.swp; if (l.includes('mb') && S.mb && ready(S.mb)) return S.mb; if (l.includes('mf') && S.mf) return S.mf; return null; }      // harness layer
       if (S.swp && rem > 6 && dotLeft(sim, S.swp.name) < 0.6) return S.swp;
       if (S.dp && b.devouringPlague && ready(S.dp) && rem > 12 && !dotActive(sim, S.dp.name)) return S.dp;
       if (S.mb && ready(S.mb)) return S.mb;

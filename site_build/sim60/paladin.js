@@ -42,13 +42,14 @@ export function paladinRetKit(build = {}, data = null) {
       sim.spBonus = Math.floor((st.int || 0) * P.championOfLight.sp * b.championOfLight);
       setupMana(sim, { manaMax: st.mana + 15 * extraInt, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0.1 * 0 });
       sim.cd = { judgement: 0, holyStrike: 0, how: 0, potion: 0, gem: 0 };
-      sim.sealUntil = -1; sim.sealCommand = false;
+      sim.sealUntil = -1; sim.sealCommand = false; sim.sealRight = false;
       sim.aVeng = sim.addAura({ name: 'Vengeance', duration: P.vengeance.dur, maxStacks: P.vengeance.stacks, mods: { dmgMult: 1 + P.vengeance.dmg * b.vengeance } });
       sim.aVind = sim.addAura({ name: 'Vindication', duration: P.vindication.dur, mods: { apMult: 1 + P.vindication.ap * b.vindication } });
       const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
-        const d = raw * holyMult() * (crit ? spellCritMult(sim, critBonus) : 1);
+        const melee = /Seal|Judgement|Holy Strike/.test(name);      // Forever: the seal hits, judgements and Holy Strike are melee specials, they crit for double
+        const d = raw * holyMult() * (crit ? (melee ? sim.critMult(critBonus) : spellCritMult(sim, critBonus)) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
         return crit;
       };
@@ -58,6 +59,10 @@ export function paladinRetKit(build = {}, data = null) {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.vengeance) s.aVeng.apply(1);
         if (b.vindication && s.rng() < P.vindication.chance) s.aVind.apply();
+        if (isWhite && s.sealRight && s.now < s.sealUntil) {      // Seal of Righteousness rank 8 (Forever seal_of_righteousness.go): 18.8 x speed x hand + coefficient x spell power on every landed white hit, crit only
+          const w = s.player.weapons[0], two = w.twoHand, hand = two ? 1.2 : 0.85 - 0.2 * Math.max(0, 2.0 - w.speed), coef = two ? 0.12 : 0.1;
+          s.entry('Seal of Righteousness').casts++; s.holyHit('Seal of Righteousness', 18.8 * w.speed * hand + coef * (s.stats.sp + s.spBonus));
+        }
         if (isWhite && s.sealCommand && s.now < s.sealUntil) {
           const w = s.player.weapons[0], chance = P.sealOfCommand.ppm * w.speed / 60;
           if (s.rng() < chance) { s.entry('Seal of Command').casts++; s.holyHit('Seal of Command', (s.weaponRoll(w) + s.ap() / 14 * w.speed) * P.sealOfCommand.wpn); }
@@ -66,22 +71,35 @@ export function paladinRetKit(build = {}, data = null) {
     },
     rotate(sim) {
       const now = sim.now, rem = sim.fightLen - now;
+      if (b.autosOnly) return 5;      // harness layer
       const st = sim.stats;
       if (b.usePotion && now >= sim.cd.potion && sim.mana <= sim.manaMax - 1800 && rem > 20) { sim.cd.potion = now + P.manaPotion.cd; sim.entry('Mana Potion').casts++; gainMana(sim, P.manaPotion.min + (P.manaPotion.max - P.manaPotion.min) * sim.rng()); }
       if (b.useGem && now >= sim.cd.gem && sim.mana <= sim.manaMax - 1100 && rem > 15) { sim.cd.gem = now + P.manaGem.cd; sim.entry('Mana Gem').casts++; gainMana(sim, P.manaGem.min + (P.manaGem.max - P.manaGem.min) * sim.rng()); }
       const cost = (c) => Math.round(c * (1 - P.benediction.cost * b.benediction));
       const judgeCost = Math.round(P.judgement.costPct * P.judgement.baseMana);
       // Judgement (no global cooldown): unleash the Seal of Command
-      if (now >= sim.cd.judgement && sim.sealCommand && now < sim.sealUntil && sim.mana >= judgeCost) {
+      if (now >= sim.cd.judgement && (sim.sealCommand || sim.sealRight) && now < sim.sealUntil && sim.mana >= judgeCost) {
         sim.cd.judgement = now + P.judgement.cd - P.improvedJudgement.cd * b.improvedJudgement; spendMana(sim, judgeCost); sim.lastCastAt = now;
+        if (sim.sealRight) {      // Judgement of Righteousness rank 8: 178.2 +-4.7 % + 0.429 spell power, rolled on the melee table without dodge or parry
+          sim.entry('Judgement of Righteousness').casts++;
+          const miss = Math.max(0, sim.table.miss - sim.hitFrac());
+          if (sim.rng() < miss) sim.entry('Judgement of Righteousness').misses++;
+          else sim.holyHit('Judgement of Righteousness', 178.2 * (1 + 0.094 * (sim.rng() - 0.5)) + (st.sp + sim.spBonus) * 0.429);
+        } else {
         sim.entry('Judgement of Command').casts++;
         const e = sim.entry('Judgement of Command');
         sim.holyHit('Judgement of Command', P.judgement.dmg + (st.sp + sim.spBonus) * P.judgement.spCoeff);
+        }
         if (b.sanctifiedJudgement) gainMana(sim, P.sealOfCommand.cost * P.sanctifiedJudgement.mana * b.sanctifiedJudgement);
       }
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       // keep the Seal up
+      if (b.seal === 'righteousness' && (!sim.sealRight || sim.sealUntil - now < 1.5) && sim.mana >= cost(200) && rem > 3) {
+        spendMana(sim, cost(200)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5;
+        sim.sealRight = true; sim.sealUntil = now + 30;
+        return 1.5;
+      }
       if (b.sealOfCommand && (!sim.sealCommand || sim.sealUntil - now < 1.5) && sim.mana >= cost(P.sealOfCommand.cost) && rem > 3) {
         spendMana(sim, cost(P.sealOfCommand.cost)); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Seal of Command').casts += 0;
         sim.sealCommand = true; sim.sealUntil = now + P.sealOfCommand.duration;
@@ -105,7 +123,7 @@ export function paladinRetKit(build = {}, data = null) {
         else if (out === 'dodge') { e.dodges++; sim.onMeleeHit('dodge', 'Holy Strike', false, false); }
         else {
           const flat = P.holyStrike.flat * (1 + v * (sim.rng() - 0.5));
-          const raw = ((sim.weaponRoll(w) + sim.ap() / 14 * sim.norm) * P.holyStrike.wpnPct + flat + (sim.stats.sp + sim.spBonus) * P.holyStrike.spCoeff) * (1 + P.sacredArbiter.dmg * b.sacredArbiter);
+          const raw = (sim.weaponRoll(w) + sim.ap() / 14 * sim.norm + flat + (sim.stats.sp + sim.spBonus) * P.holyStrike.spCoeff) * P.holyStrike.wpnPct * (1 + P.sacredArbiter.dmg * b.sacredArbiter);      // Forever holy_strike.go: the 50 % weapon percent scales the flat part and the spell power too
           const crit = sim.holyHit('Holy Strike', raw, P.holyPower.hs * 0, 0);
           sim.onMeleeHit(crit ? 'crit' : 'hit', 'Holy Strike', false, false);
         }

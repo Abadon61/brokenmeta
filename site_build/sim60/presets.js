@@ -68,7 +68,7 @@ export const DEBUFFS = {
   faerie_fire: { name: 'Faerie Fire', armor: -505 },
   curse_of_recklessness: { name: 'Curse of Recklessness', armor: -505 },
   curse_of_elements: { name: 'Curse of the Elements', spellTaken: 1.10 },
-  expose_armor: { name: 'Expose Armor (5 pts)', armor: -1700, assumed: true },
+  expose_armor: { name: 'Expose Armor (5 pts)', armor: -2250 },   // measured on WoWSims Forever (same effect as five Sunder Armor)
 };
 
 // What a 20-player raid gives one player: every ally buff its classes can cast + the consumables of that role (scrolls, flask/elixirs, juju, food).

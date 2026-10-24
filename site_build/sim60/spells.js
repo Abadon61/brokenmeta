@@ -3,13 +3,13 @@
 // formulas where Forever has no table (ASSUMED, flagged in the kits that use them):
 //   spirit regen per second (outside the five-second rule) = 0.009327 * sqrt(Int) * Spirit
 //   spell crit multiplier 1.5, global cooldown 1.5 s (not reduced by haste), spell miss 17% vs a level-63 boss.
-export const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 2;
+export const SPELL_GCD = 1.5, SPELL_CRIT_MULT = 1.5, FSR = 5, REGEN_TICK = 0.1;      // Forever core/mana.go manaTickDuration = 0.1 s (was 2 s)
 /** Damage multiplier of a spell critical strike: the bonus part (+50%) is scaled by the talents' critBonus and the racial critical damage (Tauren / Dwarf). */
 export const spellCritMult = (sim, critBonus = 0) => 1 + (SPELL_CRIT_MULT - 1) * (1 + critBonus + ((sim.player && sim.player.racialCritDmg) || 0));
 
 // Spirit mana regeneration outside the five-second rule, per second (WoWSims, sim/core/mana.go and the Mage / Priest sims): Mage and Priest 6.25 + Spirit / 8, every other class 7.5 + Spirit / 10
 // (that is 12.5 + Spirit / 4 and 15 + Spirit / 5 per two-second tick). Replaces the TBC formula 0.009327 * sqrt(Int) * Spirit used before 2026-10-16.
-export function spiritRegenPerSec(stats, mageLike = false) { const spi = stats.spi || 0; return mageLike ? 6.25 + spi / 8 : 7.5 + spi / 10; }
+export function spiritRegenPerSec(stats, mageLike = false) { const spi = stats.spi || 0; return 6.25 + spi / 8; }      // Forever core/mana.go gives every class 6.25 + Spirit / 8 (SetSpiritManaRegen has no caller); was 7.5 + Spirit / 10 outside Mage / Priest
 
 // opts: { manaMax, mp5, spiritRegen, castingFraction }  (castingFraction = share of spirit regen kept inside the five-second rule)
 export function setupMana(sim, opts) {
@@ -40,7 +40,7 @@ export function gainMana(sim, n) {
   const room = sim.manaMax - sim.mana; if (n > room) n = room;
   if (n > 0) { sim.mana += n; sim.manaGained += n; }
 }
-export function spendMana(sim, n) { sim.mana -= n; if (sim.mana < 0) sim.mana = 0; sim.manaSpent += n; }
+export function spendMana(sim, n) { sim.mana -= n; if (sim.mana < 0) sim.mana = 0; sim.manaSpent += n; if (n > 0) sim.lastCastAt = sim.now; }      // any mana spend refreshes the five-second rule (Forever mana.go SpendCost)
 
 export function castHaste(sim) { return sim.hasteMult(); }
 

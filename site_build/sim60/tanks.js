@@ -5,9 +5,10 @@
 // and dealt), Righteous Fury (+60% holy threat: from the client), Dire Bear Form threat +30%, the flat threat of Shield Slam, the boss swing
 // (2.0 s, 9000 damage, +-15%), Seal of Righteousness' per-swing damage, Holy Shield's 8 charges, the bear's natural weapon, block value 40 + Strength / 20.
 // Not simulated: Taunt, Concussion Blow, Shield Wall / Last Stand / Templar's Bulwark (emergency cooldowns), threat of Thunder Clap and Consecration (area).
-import { yellowAttack, castGcd } from './shared.js';
+import { yellowAttack, castGcd, makeDeepWounds } from './shared.js';
 import { setupMana, gainMana, spendMana, spiritRegenPerSec, spellCritMult } from './spells.js';
 import { pickRank } from './caster.js';
+import { armorDR } from './constants.js';
 
 const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
 
@@ -15,15 +16,15 @@ const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
 // Protection Warrior
 export const WARRIOR_PROT = {
   stance: { threat: 1.3, taken: 0.9, dealt: 0.9 },
-  shieldSlam: { cost: 20, cd: 6, dmg: 655, var: 0.05, threat: 250 },        // flat threat ASSUMED ("very high threat" in the tooltip)
-  revenge: { cost: 5, cd: 5, dmg: 153, var: 0.2, window: 5 },
-  sunder: { cost: 15, threat: 206 }, heroicStrike: { cost: 15, flat: 157 }, bloodrage: { immediate: 10, overTime: 10, cd: 60 },
+  shieldSlam: { cost: 20, cd: 6, dmg: 655, var: 0.05, threat: 0 },          // no flat threat (Forever: 0 until measured in game)
+  revenge: { cost: 5, cd: 5, dmg: 153, var: 0.2, window: 5, threatMult: 2.25, apCoeff: 0.28 },   // threat = 2.25 x damage (Forever, measured in game on rank 2)
+  sunder: { cost: 15, threat: 206, apCoeff: 0.05, armor: 450, maxStacks: 5, dur: 30 }, shieldBlock: { cost: 10, cd: 5, dur: 7, charges: 2, block: 0.75 }, heroicStrike: { cost: 15, flat: 157, threat: 152.4 }, bloodrage: { immediate: 10, overTime: 10, cd: 60 },
   shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.05 },
   bastion: { dmg: 0.02 }, focusedRage: { cost: 1 }, masterOfDefense: { rage: 5, chance: 0.5 }, improvedSunder: { cost: 1 },
 };
 export const WARRIOR_PROT_DEFAULT_BUILD = {
   deflection: 0, improvedHeroicStrike: 0, shieldSpec: 0, anticipation: 0, toughness: 0, improvedRevenge: 0, defiance: 0, bastion: 0, focusedRage: 0, masterOfDefense: 0, improvedSunder: 0, shieldSlam: 0, improvedBloodrage: 0,
-  useHeroicStrike: true, hsRageReserve: 25,
+  useHeroicStrike: true, hsRageReserve: 25, useSunder: true, useRevenge: true, useShieldBlock: true,
 };
 
 export function warriorProtKit(build = {}, data = null) {
@@ -42,53 +43,82 @@ export function warriorProtKit(build = {}, data = null) {
       t.defense += W.anticipation.def * b.anticipation; t.armor *= 1 + W.toughness.armor * b.toughness; t.block += W.shieldSpec.block * b.shieldSpec; t.parry += 0.01 * b.deflection;
       sim.takenMult *= W.stance.taken;
       mods.dmgMult *= W.stance.dealt * (t.shield ? 1 + W.bastion.dmg * b.bastion : 1);
-      const tm = W.stance.threat + (t.shield ? W.defiance.threat * b.defiance : 0);
-      sim.threatMult = () => tm;
+      const tm = W.stance.threat * (1 + (t.shield ? W.defiance.threat * b.defiance : 0));   // Defiance multiplies the stance threat (Forever: 1.3 x 1.15 = 1.494 measured on white hits)
+      sim.threatMult = (name) => (name === 'Revenge' ? tm * W.revenge.threatMult : tm);
       sim.rageCap = 100;
+      mods.critBonus += 0.01 * (b.cruelty || 0);
+      // Deep Wounds (Forever rolling bleed, see shared.js)
+      if (b.deepWounds > 0 && sim.player.weapons[0]) {
+        const mh0 = sim.player.weapons[0], dw = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, 0.2 * b.deepWounds);
+        sim.procs.push((s, outcome) => { if (outcome === 'crit') dw(); });
+      }
       sim.sSS = sim.addSpell({ name: 'Shield Slam', cd: W.shieldSlam.cd, cost: () => Math.max(0, W.shieldSlam.cost - W.focusedRage.cost * b.focusedRage) });
       sim.sRV = sim.addSpell({ name: 'Revenge', cd: W.revenge.cd, cost: () => Math.max(0, W.revenge.cost - W.focusedRage.cost * b.focusedRage) });
       sim.sBR = sim.addSpell({ name: 'Bloodrage', cd: W.bloodrage.cd, cost: () => 0 });
       const hsCost = () => Math.max(0, W.heroicStrike.cost - W.focusedRage.cost * b.focusedRage - b.improvedHeroicStrike);
       sim.sHS = sim.addSpell({ name: 'Heroic Strike', cost: hsCost, onSwing(s, sw) {
         s.spendRage(hsCost()); s.entry('Heroic Strike').casts++;
-        yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
+        const o = yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
+        if (o !== 'miss' && o !== 'dodge') s.threat(W.heroicStrike.threat * s.threatMult());      // flat threat of the client row (Forever)
       } });
+      sim.rageThreat = (x) => { sim.gainRage(x); sim.threat(5 * x * sim.threatMult()); };      // rage not made by hitting or being hit makes 5 threat each (Forever ThreatPerRageGained)
       sim.revengeUntil = -1;
+      // Shield Block (client row 2565): off the global cooldown, +75 % block chance for 7 s or 2 blocks
+      sim.sSB = sim.addSpell({ name: 'Shield Block', cd: W.shieldBlock.cd, cost: () => W.shieldBlock.cost });
+      sim.sbUntil = -1; sim.sbCharges = 0;
+      sim.blockBonus = () => (sim.sbCharges > 0 && sim.now < sim.sbUntil ? W.shieldBlock.block : 0);
+      // Sunder Armor stacks (-450 armor each, 30 s, refreshed by every cast); the armor is recomputed on the target when no major armor debuff is already assumed
+      sim.sunderStacks = 0; sim.sunderUntil = -1; sim.sunderBaseArmor = sim.target.armor;
+      sim.setSunder = (stacks) => { sim.sunderStacks = stacks; if (!sim.target.majorArmorDebuff) sim.dr = armorDR(Math.max(0, sim.sunderBaseArmor - W.sunder.armor * stacks)); };
       sim.bossHooks.push((s, out, dmg) => {
+        if (out === 'block' && s.sbCharges > 0 && s.now < s.sbUntil) s.sbCharges--;
         if (dmg > 0) s.gainRage(2.5 * dmg / s.rageC);
         if (out === 'dodge' || out === 'parry' || out === 'block') s.revengeUntil = s.now + W.revenge.window;
-        if (out === 'block' && b.shieldSpec && s.rng() < W.shieldSpec.chance * b.shieldSpec) s.gainRage(W.shieldSpec.rage);
-        if ((out === 'dodge' || out === 'parry') && b.masterOfDefense && t.shield && s.rng() < W.masterOfDefense.chance * b.masterOfDefense) s.gainRage(W.masterOfDefense.rage);
+        if (out === 'block' && b.shieldSpec && s.rng() < W.shieldSpec.chance * b.shieldSpec) s.rageThreat(W.shieldSpec.rage);
+        if ((out === 'dodge' || out === 'parry') && b.masterOfDefense && t.shield && s.rng() < W.masterOfDefense.chance * b.masterOfDefense) s.rageThreat(W.masterOfDefense.rage);
       });
     },
     rotate(sim) {
       const now = sim.now, W2 = W;
-      if (now >= sim.sBR.readyAt) {
+      if (now >= sim.sBR.readyAt && sim.rage < 90) {      // Forever: Bloodrage whenever the rage is under 90
         sim.sBR.readyAt = now + W.bloodrage.cd; sim.entry('Bloodrage').casts++;
         const extra = 1 + 0.5 * b.improvedBloodrage / 2;
-        sim.gainRage(W.bloodrage.immediate * extra);
-        for (let i = 1; i <= 10; i++) sim.schedule(i, () => sim.gainRage(W.bloodrage.overTime * extra / 10));
+        sim.rageThreat(W.bloodrage.immediate * extra);
+        for (let i = 1; i <= 10; i++) sim.schedule(i, () => sim.rageThreat(W.bloodrage.overTime * extra / 10));
       }
+      if (sim.sunderStacks && now >= sim.sunderUntil) sim.setSunder(0);
+      if (b.useShieldBlock && sim.tank.shield && now >= sim.sSB.readyAt && sim.rage >= W.shieldBlock.cost
+        && (sim.rage >= 40 || (!(now < sim.revengeUntil) && sim.sRV.readyAt - now <= 1.5))) {      // Forever APL: at 40 rage, or to open the Revenge window
+        sim.spendRage(W.shieldBlock.cost); sim.sSB.readyAt = now + W.shieldBlock.cd; sim.entry('Shield Block').casts++;
+        sim.sbUntil = now + W.shieldBlock.dur; sim.sbCharges = W.shieldBlock.charges;
+      }
+      if (b.useHeroicStrike && !sim.mhQueued && sim.rage >= sim.sHS.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       const rage = sim.rage, ssCost = sim.sSS.cost(), rvCost = sim.sRV.cost(), suCost = Math.max(0, W.sunder.cost - W.improvedSunder.cost * b.improvedSunder);
       if (b.shieldSlam && sim.tank.shield && now >= sim.sSS.readyAt && rage >= ssCost) {
         return castGcd(sim, sim.sSS, () => {
           sim.spendRage(ssCost);
-          const o = yellowAttack(sim, 'Shield Slam', () => W.shieldSlam.dmg * (1 + W.shieldSlam.var * (sim.rng() - 0.5)) + sim.tank.blockValue);
+          const o = yellowAttack(sim, 'Shield Slam', () => W.shieldSlam.dmg * (1 + W.shieldSlam.var * (sim.rng() - 0.5)) + sim.tank.blockValue, { bonusCrit: -0.01 * (b.cruelty || 0) });   // Cruelty is a weapon crit mod: the shield attack does not get it (Forever)
           if (o !== 'miss' && o !== 'dodge') sim.threat(W.shieldSlam.threat * sim.threatMult());
         });
       }
-      if (now < sim.revengeUntil && now >= sim.sRV.readyAt && rage >= rvCost) {
+      if (b.useRevenge && now < sim.revengeUntil && now >= sim.sRV.readyAt && rage >= rvCost) {
         return castGcd(sim, sim.sRV, () => {
           sim.spendRage(rvCost); sim.revengeUntil = -1;
-          yellowAttack(sim, 'Revenge', () => W.revenge.dmg * (1 + W.revenge.var * (sim.rng() - 0.5)) * (1 + W.improvedRevenge.dmg * b.improvedRevenge));
+          yellowAttack(sim, 'Revenge', () => (W.revenge.dmg * (1 + W.revenge.var * (sim.rng() - 0.5)) + W.revenge.apCoeff * sim.ap()) * (1 + W.improvedRevenge.dmg * b.improvedRevenge));
         });
       }
-      const reserve = (now >= sim.sSS.readyAt - 1.5 && b.shieldSlam ? ssCost : 0);
-      if (b.useHeroicStrike && !sim.mhQueued && rage >= sim.sHS.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
-      if (rage >= suCost + reserve) {
-        return castGcd(sim, spell('Sunder Armor'), () => { sim.spendRage(suCost); sim.threat(W.sunder.threat * sim.threatMult()); });
+      // Sunder Armor: until five stacks, then refreshed in the last 10 s when Shield Slam is not within 1.5 s (Forever APL "Delay Check")
+      const sunderDue = sim.sunderStacks < W.sunder.maxStacks || (sim.sSS.readyAt - now >= 1.5 && sim.sunderUntil - now <= 10);
+      if (b.useSunder && sunderDue && rage >= suCost) {
+        return castGcd(sim, spell('Sunder Armor'), () => {
+          sim.spendRage(suCost);
+          const o = sim.resolveYellow(0, true);
+          if (o === 'miss' || o === 'dodge') { sim.gainRage(suCost); return; }      // a missed Sunder is refunded
+          sim.sunderUntil = now + W.sunder.dur; sim.setSunder(Math.min(W.sunder.maxStacks, sim.sunderStacks + 1));
+          sim.threat((W.sunder.threat + W.sunder.apCoeff * sim.ap()) * sim.threatMult());
+        });
       }
       const next = Math.min(b.shieldSlam ? sim.sSS.readyAt : Infinity, sim.sRV.readyAt, sim.sBR.readyAt);
       return Math.max(0.1, Math.min(0.5, next - now));
@@ -190,14 +220,14 @@ export function paladinProtKit(build = {}, data = null) {
 // ---------------------------------------------------------------------------------------------------------------------------
 // Bear Druid (Dire Bear Form)
 export const DRUID_BEAR = {
-  armorMult: 4.6, threat: 1.3, natural: { min: 45, max: 70, speed: 2.5 },                         // armor +360% from the client; the rest ASSUMED
+  armorMult: 4.6, threat: 1.5, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
   maul: { cost: 15, flat: 128 }, swipe: { cost: 20, dmg: 83 }, lacerate: { cost: 15, tick: 15, ticks: 5, interval: 3, hit: 10 }, enrage: { rage: 10, cd: 60 },
   naturalReaction: { dodge: 0.01, rage: 5 }, feralSwiftness: { dodge: 0.02 }, thickHide: { armor: 60 }, heartOfTheWild: { sta: 0.04 }, sharpenedClaws: { crit: 0.03 },
   predatoryStrikes: { ap: 30 }, savageFury: { dmg: 0.05 }, feralInstinct: { dmg: 0.10 }, ferocity: { cost: 1 }, shreddingAttacks: { cost: 1 }, bloodFrenzy: { rage: 5, chance: 0.5 },
   leaderOfThePack: { crit: 0.03 },
 };
 export const DRUID_BEAR_DEFAULT_BUILD = {
-  naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true, usePrimalBite: true, primalBiteThreat: 1,
+  rendAndTear: 0, naturalReaction: 0, feralSwiftness: 0, thickHide: 0, heartOfTheWild: 0, sharpenedClaws: 0, predatoryStrikes: 0, savageFury: 0, feralInstinct: 0, ferocity: 0, shreddingAttacks: 0, bloodFrenzy: 0, leaderOfThePack: 0, useSwipe: true, usePrimalBite: true, primalBiteThreat: 1,
 };
 
 export function druidBearKit(build = {}, data = null) {
@@ -214,32 +244,48 @@ export function druidBearKit(build = {}, data = null) {
     setup(sim) {
       sim.kitBuild = b; sim.player.resource = 'rage';
       const t = sim.tank, mods = sim.mods;
-      sim.player = Object.assign({}, sim.player, { weapons: [{ min: B.natural.min, max: B.natural.max, speed: B.natural.speed, type: '' }], dualWield: false });
+      sim.player = Object.assign({}, sim.player, { weapons: [{ min: sim.stats.catMax ? sim.stats.catMin * B.natural.speed : B.natural.min, max: sim.stats.catMax ? sim.stats.catMax * B.natural.speed : B.natural.max, speed: B.natural.speed, type: '' }], dualWield: false });      // the paw swings the equipped weapon's damage per second at the form's speed
       t.armor = t.armor * B.armorMult + B.thickHide.armor * b.thickHide; t.dodge += B.naturalReaction.dodge * b.naturalReaction + B.feralSwiftness.dodge * b.feralSwiftness;
       t.health += 10 * Math.floor((t.stamina || 0) * B.heartOfTheWild.sta * b.heartOfTheWild);
       mods.apBonus += B.predatoryStrikes.ap * b.predatoryStrikes; mods.critBonus += B.sharpenedClaws.crit * b.sharpenedClaws + B.leaderOfThePack.crit * b.leaderOfThePack;
       sim.threatMult = () => B.threat;
+      sim.rageThreat = (x) => { sim.gainRage(x); sim.threat(5 * x * sim.threatMult()); };      // rage not made by hitting or being hit: 5 threat each (Forever)
       sim.rageCap = 100;
       sim.sEN = sim.addSpell({ name: 'Enrage', cd: B.enrage.cd, cost: () => 0 });
       const maulCost = () => Math.max(0, B.maul.cost - B.ferocity.cost * b.ferocity);
       sim.sMaul = sim.addSpell({ name: 'Maul', cost: maulCost, onSwing(s, sw2) {
         s.spendRage(maulCost()); s.entry('Maul').casts++;
-        yellowAttack(s, 'Maul', () => (s.weaponRoll(sw2.w) + s.ap() / 14 * sw2.w.speed + B.maul.flat) * (1 + B.savageFury.dmg * b.savageFury));
+        yellowAttack(s, 'Maul', () => (s.weaponRoll(sw2.w) + s.ap() / 14 * sw2.w.speed + B.maul.flat) * (1 + B.savageFury.dmg * b.savageFury) * s.rt());
       } });
       sim.lacerateUntil = -1; sim.lacerateStacks = 0;
+      sim.rt = () => (b.rendAndTear && sim.lacerateStacks > 0 && sim.now < sim.lacerateUntil ? 1 + 0.04 * b.rendAndTear : 1);      // Rend and Tear: +4 %/rank on specials and bleed ticks against a bleeding target (Forever feral.go)
       sim.bossHooks.push((s, out, dmg) => {
         if (dmg > 0) s.gainRage(2.5 * dmg / s.rageC);
-        if (out === 'dodge' && b.naturalReaction && s.rng() < b.naturalReaction / 5) s.gainRage(B.naturalReaction.rage);
+        if (out === 'dodge' && b.naturalReaction && s.rng() < b.naturalReaction / 5) s.rageThreat(B.naturalReaction.rage);
       });
       sim.procs.push((s, outcome) => { if (outcome === 'crit' && b.bloodFrenzy && s.rng() < B.bloodFrenzy.chance * b.bloodFrenzy) s.gainRage(B.bloodFrenzy.rage); });
     },
     rotate(sim) {
       const now = sim.now, rem = sim.fightLen - now;
-      if (now >= sim.sEN.readyAt) { sim.sEN.readyAt = now + B.enrage.cd; sim.entry('Enrage').casts++; sim.gainRage(B.enrage.rage); }
+      if (now >= sim.sEN.readyAt) { sim.sEN.readyAt = now + B.enrage.cd; sim.entry('Enrage').casts++; sim.rageThreat(B.enrage.rage); }
+      if (b.alwaysLacerate && !sim.mhQueued && sim.rage >= sim.sMaul.cost() + 5) sim.mhQueued = sim.sMaul;      // Forever APL: Maul queues (off the global cooldown) at 20 rage
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       const rage = sim.rage, lacCost = Math.max(0, B.lacerate.cost - B.shreddingAttacks.cost * b.shreddingAttacks), swCost = Math.max(0, B.swipe.cost - B.ferocity.cost * b.ferocity);
-      if (rage >= lacCost && (now >= sim.lacerateUntil - 2 || sim.lacerateStacks < 5) && rem > 4) {
+      if (b.alwaysLacerate && rage >= lacCost && !(b.usePrimalBite && B.primalBite && now >= (sim.pbAt || 0) && rage >= B.primalBite.cost + 2)) {      // Forever APL: Lacerate whenever the rage allows (the stacks refresh the bleed)
+        const w0 = sim.player.weapons[0];
+        return castGcd(sim, spell('Lacerate'), () => {
+          sim.spendRage(lacCost);
+          const ex = sim.lacerateStacks;
+          const o = yellowAttack(sim, 'Lacerate', () => (sim.weaponRoll(w0) + sim.ap() / 14 * w0.speed) * (B.lacerate.hit / 100) * ex * sim.rt());
+          if (o === 'miss' || o === 'dodge') return;
+          sim.lacerateStacks = Math.min(5, sim.lacerateStacks + 1); sim.lacerateUntil = now + B.lacerate.ticks * B.lacerate.interval;
+          const my = (sim.lacToken = (sim.lacToken || 0) + 1); let n = 0;
+          const step = () => { if (sim.lacToken !== my) return; sim.record('Lacerate (bleed)', B.lacerate.tick * sim.lacerateStacks * sim.mods.dmgMult * sim.rt(), 'hit'); if (++n < B.lacerate.ticks) sim.schedule(B.lacerate.interval, step); else sim.lacerateStacks = 0; };
+          sim.schedule(B.lacerate.interval, step);
+        }, 1.5);
+      }
+      if (!b.alwaysLacerate && rage >= lacCost && (now >= sim.lacerateUntil - 2 || sim.lacerateStacks < 5) && rem > 4) {
         return castGcd(sim, spell('Lacerate'), () => {
           sim.spendRage(lacCost);
           const o = yellowAttack(sim, 'Lacerate', () => B.lacerate.hit * (1 + 0));
@@ -255,7 +301,7 @@ export function druidBearKit(build = {}, data = null) {
         return castGcd(sim, spell('Primal Bite'), () => {
           sim.spendRage(B.primalBite.cost); sim.pbAt = now + B.primalBite.cd;
           const w = sim.player.weapons[0];
-          const o = yellowAttack(sim, 'Primal Bite', () => (w ? sim.weaponRoll(w) + sim.ap() / 14 * w.speed : 0) + B.primalBite.flat);
+          const o = yellowAttack(sim, 'Primal Bite', () => ((w ? sim.weaponRoll(w) + sim.ap() / 14 * w.speed : 0) + B.primalBite.flat) * sim.rt());
           if (o !== 'miss' && o !== 'dodge' && b.primalBiteThreat > 1) sim.threat(B.primalBite.flat * (b.primalBiteThreat - 1) * sim.threatMult());
         }, 1.5);
       }
