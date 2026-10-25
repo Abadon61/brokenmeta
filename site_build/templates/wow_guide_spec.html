@@ -367,5 +367,12 @@
   }
 })();
 </script>
-{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling', 'sim', 'dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang])) }}
+{% if class_news %}
+{# Articles about the class (wow_articles.py, indexable ones, newest first): the guide links them and each article links its class's guides back (2026-10-25). #}
+<section class="gs-tile" id="gs-news">
+  <div class="gs-th"><h2 class="gs-h2">{{ ('Actualités ' ~ cls.name[lang]) if fr else (cls.name[lang] ~ ' news') }}</h2></div>
+  <ul class="gd-list">{% for n in class_news %}<li><a class="wg-link" href="{{ root }}{{ n.path }}">{{ n.title }}</a> <span class="nums">· {{ n.date }}</span></li>{% endfor %}</ul>
+</section>
+{% endif %}
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling'] + (['sim_spec'] if sim_id else ['sim']) + ['dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang]), sim_id) }}
 {% endblock %}

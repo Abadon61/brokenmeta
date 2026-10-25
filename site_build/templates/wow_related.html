@@ -1,7 +1,8 @@
 {# "Pour aller plus loin" (2026-10-13, SEO pass): contextual links between the tier list, the race pages, the leveling guide, the simulator, the talents and the dungeons.
    keys: tier, races (the class's page when cls_id is given, else the hub), leveling, sim, dungeons, talents (needs cls_id). #}
 {# dungeons_spec (spec guides): the hub with the finder already set to this spec (spec_key = the guide path, spec_name = its label). #}
-{% macro related(root, fr, keys, cls_id=none, cls_name='', spec_key=none, spec_name='') %}
+{# sim_spec (spec guides): the simulator with the spec already chosen (sim_id = the simulator's spec id, ?spec= in js/wow-sim60.js). #}
+{% macro related(root, fr, keys, cls_id=none, cls_name='', spec_key=none, spec_name='', sim_id=none) %}
 <section class="gs-tile wrel"><div class="gs-th"><h2 class="gs-h2">{{ 'Pour aller plus loin' if fr else 'Go further' }}</h2></div>
 <div class="gh-chips">
 {% for k in keys %}
@@ -11,6 +12,7 @@
 {% elif k == 'launch' %}<a class="gh-chip" href="{{ root }}wow-forever/actualites/lancement-wow-forever-heure-noms-serveurs/">{{ 'Lancement : heure, noms, serveurs' if fr else 'Launch: time, names, realms' }}</a>
 {% elif k == 'leveling' %}<a class="gh-chip" href="{{ root }}wow-forever/leveling/">{{ 'Guide de leveling 1-60' if fr else '1-60 leveling guide' }}</a>
 {% elif k == 'sim' %}<a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Simulateur DPS' if fr else 'DPS simulator' }}</a>
+{% elif k == 'sim_spec' and sim_id %}<a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/?spec={{ sim_id }}">{{ ('Simuler : ' if fr else 'Simulate: ') ~ spec_name }}</a>
 {% elif k == 'dungeons_spec' and spec_key %}<a class="gh-chip" href="{{ root }}wow-forever/dungeons/?spec={{ spec_key }}#dfd">{{ ('Meilleurs objets de donjon : ' if fr else 'Best dungeon items: ') ~ spec_name }}</a>
 {% elif k == 'dungeons' %}<a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if fr else 'All dungeons' }}</a>
 {% elif k == 'talents' and cls_id %}<a class="gh-chip" href="{{ root }}wow-forever/talents/{{ cls_id }}/">{{ ('Talents : ' if fr else 'Talents: ') ~ cls_name }}</a>

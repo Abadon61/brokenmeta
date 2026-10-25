@@ -8403,6 +8403,10 @@ def main() -> None:
                 # every article that touches class balance links to the tier list (automatic: new articles need nothing in their own `links`)
                 if (_a.get("kind") or _a.get("tag") == "tuning") and not any(p.endswith("tier-list/") for _l, p in _atx.get("links", [])):
                     _atx = dict(_atx, links=list(_atx.get("links", [])) + [("Tier list WoW Forever : meilleures classes" if lang == "fr" else "WoW Forever tier list: best classes", "wow-forever/tier-list/")])
+                # an article about a class links that class's spec guides unless it already links one of them (automatic, like the tier list above)
+                if _acls and not any(f"wow-forever/guides/{_acls['id']}/" in p for _l, p in _atx.get("links", [])):
+                    _atx = dict(_atx, links=list(_atx.get("links", [])) + [((f"Guide {_acls['name'][lang]} {_sp['name'][lang]}" if lang == "fr" else f"{_sp['name'][lang]} {_acls['name'][lang]} guide"),
+                                                                           f"wow-forever/guides/{_acls['id']}/{_sp['id']}/") for _sp in _acls["specs"]])
                 _aimg = BASE_URL + class_banner(_a.get("class")) if class_banner(_a.get("class")) else (_a["image"] if _a["image"].startswith("http") else BASE_URL + _a["image"])
                 _afaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
                     {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a_}} for q, a_ in _atx.get("faq", [])]} if _atx.get("faq") else None
@@ -8498,6 +8502,10 @@ def main() -> None:
                     _rk_data = json.loads(_rk_file.read_text(encoding="utf-8")) if _rk_file.exists() else {}
                     _rk_generated = _rk_data.get("generated")
                     _quick = _leveling = None
+                    # simulator preset (?spec=) and the latest articles about the class, for the guide's links
+                    _sim_page_id = next((r["spec_id"] for r in (_wow_ranking + _wow_ranking_tanks) if r["class_id"] == _cls["id"] and r["guide_spec"] == _s["id"]), None)
+                    _class_news = [{"title": a[lang]["title"], "path": f"wow-forever/actualites/{a['slug']}/", "date": _news_date(a["date"], lang)}
+                                   for a in sorted(wow_articles.ARTICLES, key=lambda a: a["date"], reverse=True) if a.get("class") == _cls["id"] and wow_articles.indexable(a)][:3]
                     if _pre_meta and _rk_generated:
                         _st = wow_guide_seo.title(lang, _cn, _sn)
                         _sd = wow_guide_seo.description(lang, _cn, _sn, _rank_info, wow_launch.patch_of(_pre_meta["build"]), _rk_generated)
@@ -8549,7 +8557,7 @@ def main() -> None:
                             {"talents": _tal_href, "gear": "#gs-gear" if _g["content"].get(_s["id"]) else None, "rot": "#gs-rotation" if _lvl60.get("rot") else None,
                              "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
                              "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")}, leveling=bool(_leveling))
-                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key,
+                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key, sim_id=_sim_page_id, class_news=_class_news,
                            quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling,
                            faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
                                         "mainEntity": [{"@type": "Question", "name": x["q"], "acceptedAnswer": {"@type": "Answer", "text": x["a"]}} for x in _quick]} if _quick else None),
