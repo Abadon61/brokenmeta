@@ -55,6 +55,7 @@ import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
 import wow_launch  # noqa: E402
 import wow_guide_seo  # noqa: E402
+import wow_guide_leveling  # noqa: E402
 import wow_leveling  # noqa: E402
 import wow_racepick  # noqa: E402
 import wow_racepick_tx  # noqa: E402
@@ -8436,7 +8437,10 @@ def main() -> None:
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]
-            _pl_cache, _rp_cache = {}, {}          # per class: calculator payload (share links) and race tables, for the guides' "En bref" block
+            _pl_cache, _rp_cache, _pl_en_cache = {}, {}, {}          # per class: calculator payload (share links, English names for the simulator's talent values) and race tables, for the guides' "En bref" and leveling blocks
+            # (class id, guide spec id) -> the simulator's id of the spec, for the dungeon picks; tanks have no gear advice (the engine only simulates a tank's damage)
+            _SIM_BY_GUIDE = {(wow_dps_sim.ROTATIONS[_x].get("glossary", _x), wow_dps_sim.SPEC_ID_MAP[_x]): _x for _x in wow_dps_sim.ROTATIONS
+                             if _x not in ("warrior_protection", "paladin_protection", "druid_feral_tank") and wow_dps_sim.SPEC_ID_MAP.get(_x)}
             for _g in wow_guide_list:
                 _cls, _roles = _g["cls"], _g["roles"]
                 _cn = _cls["name"][lang]
@@ -8493,7 +8497,7 @@ def main() -> None:
                     _rk_file = PROJECT / "data" / "wow_ranking60.json"
                     _rk_data = json.loads(_rk_file.read_text(encoding="utf-8")) if _rk_file.exists() else {}
                     _rk_generated = _rk_data.get("generated")
-                    _quick = None
+                    _quick = _leveling = None
                     if _pre_meta and _rk_generated:
                         _st = wow_guide_seo.title(lang, _cn, _sn)
                         _sd = wow_guide_seo.description(lang, _cn, _sn, _rank_info, wow_launch.patch_of(_pre_meta["build"]), _rk_generated)
@@ -8508,6 +8512,32 @@ def main() -> None:
                             _plc = _pl_cache.setdefault(_cls["id"], wow_talents.payload(_cls, lang))
                             _ppts = {t["id"]: t["points"] for t in _pbuild["talents"]}
                             _tal_href = f"wow-forever/talents/{_cls['id']}/#b=" + _plc["rev"] + "".join("." + "".join(str(_ppts.get(t["id"], 0)) for t in sorted(sp["talents"], key=lambda t: (t["row"], t["col"]))) for sp in _plc["specs"])
+                            # "Monter de 1 à 60" (wow_guide_leveling.py): the order of the build's points (derived, said so on the page), the dungeons of each level band and the best item for the spec
+                            _pen = _pl_en_cache.setdefault(_cls["id"], wow_talents.payload(_cls, "en"))
+                            _en_name = {t["id"]: t["name"] for sp in _pen["specs"] for t in sp["talents"]}
+                            _det = next((r["detail"] for r in _own_rows if r.get("detail")), None)
+                            _tvals = {}
+                            if _det:
+                                for _tid, _pts in _ppts.items():
+                                    _pv = (_det["talentValues"].get(_en_name.get(_tid)) or {}).get("pct", 0)
+                                    if _pv > 0:
+                                        _tvals[_tid] = _pv / max(1, _pts)
+                            _lv_steps = wow_guide_leveling.steps(lang, _plc, _ppts, _tvals)
+                            if _lv_steps:
+                                _sim_key = _SIM_BY_GUIDE.get((_cls["id"], _s["id"]))
+
+                                def _best_of(d, minlvl, _k=_sim_key):
+                                    if not _k:
+                                        return None
+                                    top = wow_bis_optimizer.dungeon_picks(_k, d["items"], minlvl, OP_RACE_BASE_STATS, OP_CLASS_BONUS_STATS)
+                                    return top[0][0] if top else None
+                                _lvx = wow_guide_leveling.TX[lang]
+                                for _st_ in _lv_steps:
+                                    _st_["take_txt"] = ", ".join(f"{n} ×{c}" if c > 1 else n for n, c in _st_["added"])
+                                    _st_["hub"] = f"wow-forever/dungeons/?niveau={_st_['level']}" + (f"&spec={_dg_spec_key}" if _dg_spec_key else "") + "#dfd"
+                                _leveling = {"steps": _lv_steps, "tx": _lvx, "cls": _cls["id"], "h2": _lvx["h2"].format(cls=_cn, spec=_sn), "note": _lvx["note_sim"] if _tvals else _lvx["note_rows"],
+                                             "bands": (wow_guide_leveling.dungeon_bands(wow_dungeons["dungeons"], lang, lambda d: d["levels"] or wow_leveling.EXTRA_LEVELS.get(d["id"], ""),
+                                                                                         DUNGEON_ABBR.get, _best_of) if wow_dungeons else {})}
                         _race_best = []
                         if wow_racepick.available() and _rank_info:
                             _rpd = _rp_cache.setdefault(_cls["id"], wow_racepick.build(lang, _cls, _wow_ranking + _wow_ranking_tanks))
@@ -8518,9 +8548,9 @@ def main() -> None:
                             lang, _cn, _sn, _rank_info, _leader, len(_qlist), _rk_data.get("fightLen", 180), _launch, _stat_names, _race_best,
                             {"talents": _tal_href, "gear": "#gs-gear" if _g["content"].get(_s["id"]) else None, "rot": "#gs-rotation" if _lvl60.get("rot") else None,
                              "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
-                             "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")})
+                             "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")}, leveling=bool(_leveling))
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key,
-                           quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None),
+                           quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling,
                            faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
                                         "mainEntity": [{"@type": "Question", "name": x["q"], "acceptedAnswer": {"@type": "Answer", "text": x["a"]}} for x in _quick]} if _quick else None),
                            rank_info=_rank_info, rotation_steps=_rotation_steps,

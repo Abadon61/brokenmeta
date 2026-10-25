@@ -49,6 +49,7 @@
 {% if content %}
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
   <a href="#gs-talents">Talents</a>
+  {% if leveling %}<a href="#gs-leveling">Leveling</a>{% endif %}
   {% if launch %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
   <a href="#gs-stats">{{ 'Statistiques' if fr else 'Stats' }}</a>
   {% if lvl60.rot %}<a href="#gs-rotation">Rotation</a>{% endif %}
@@ -92,6 +93,28 @@
   {% endif %}
 </section>
 </div>
+
+{% if leveling %}
+{# "Monter de 1 à 60" (2026-10-25, wow_guide_leveling.py): points per level are the client's rules; the ORDER of the talents is derived from the level-60 build and said so. #}
+<section class="gs-tile" id="gs-leveling">
+  <div class="gs-th"><h2 class="gs-h2">{{ leveling.h2 }}</h2></div>
+  <p class="gs-lede">{{ leveling.tx.intro }}</p>
+  <p class="wow-note">{{ leveling.note }}</p>
+  <p class="gs-lede">{{ leveling.tx.none }}</p>
+  {% for st in leveling.steps %}
+  <h3 class="gs-sub">{% if st.level == 60 %}{{ leveling.tx.step_h60.format(pts=st.points) }}{% else %}{{ leveling.tx.step_h.format(lv=st.level, pts=st.points, s=('s' if st.points > 1 else '')) }} {{ leveling.tx.step_levels.format(lo=st.level, hi=st.hi) }}{% endif %}</h3>
+  <p class="gs-lede">{{ leveling.tx.take.format(list=st.take_txt) }} <a class="wg-link" href="{{ root }}wow-forever/talents/{{ leveling.cls }}/{{ st.hash }}">{{ leveling.tx.tree }} →</a></p>
+  {% if st.level < 60 %}
+  {% set dl = leveling.bands.get(st.level) %}
+  {% if dl %}<details class="gs-more"><summary>{{ leveling.tx.dung }} ({{ dl[:6]|length }})</summary>
+  <div class="gh-chips">{% for d in dl[:6] %}<a class="gh-chip" href="{{ root }}{{ d.path }}">{{ d.name }}{% if d.abbr %} ({{ d.abbr }}){% endif %} · {{ leveling.tx.lvl.format(lo=d.range.split('-')[0], hi=d.range.split('-')[-1]) }}</a>{% if d.best %}<a class="gh-chip is-gold" href="https://www.wowhead.com/forever/item={{ d.best.id }}" rel="noopener nofollow" target="_blank">{{ leveling.tx.best }} : {{ d.best.name }}</a>{% endif %}{% endfor %}</div></details>
+  {% else %}<p class="gs-lede">{{ leveling.tx.no_dung }}</p>{% endif %}
+  <p class="gs-lede"><a class="wg-link" href="{{ root }}{{ st.hub }}">{{ leveling.tx.dung_all }} →</a></p>
+  {% endif %}
+  {% endfor %}
+  <div class="gh-chips"><a class="gh-chip" href="{{ root }}wow-forever/leveling/">{{ leveling.tx.guide }}</a><a class="gh-chip" href="{{ root }}wow-forever/talents/{{ leveling.cls }}/">{{ leveling.tx.calc_all }}</a></div>
+</section>
+{% endif %}
 
 {% if launch %}
 {# "Au lancement" (2026-10-13): the short answer, every figure from the simulator's pre-raid run (wow_launch.py). #}

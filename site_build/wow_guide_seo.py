@@ -96,6 +96,9 @@ QA = {
         "a_race_many": "Les races en tête dans notre simulation : {races} (à égalité statistique).", "l_race": "Toutes les races de la classe",
         "q_dung": "Où trouver l'équipement de {cls} {spec} avant le niveau 60 ?",
         "a_dung": "Notre sélecteur de donjons indique, pour chaque donjon, le meilleur objet de cette spécialisation d'après les poids de stats du simulateur.", "l_dung": "Meilleurs objets de donjon",
+        "q_lvl": "Comment monter {cls} {spec} de 1 à 60 ?",
+        "a_lvl": "Le premier point de talent arrive au niveau 10, puis un par niveau jusqu'à 51 au niveau 60. Le guide donne l'ordre des talents palier par palier (déduit du build niveau 60, non testé en leveling), les donjons de chaque tranche de niveau et le meilleur objet de la spécialisation dans chacun.",
+        "l_lvl": "Voir le leveling",
         "and": " et ",
     },
     "en": {
@@ -117,6 +120,9 @@ QA = {
         "a_race_many": "The top races in our simulation: {races} (statistically tied).", "l_race": "All races of the class",
         "q_dung": "Where can {spec} {cls} find gear before level 60?",
         "a_dung": "Our dungeon finder shows, for every dungeon, the best item for this spec according to the simulator's stat weights.", "l_dung": "Best dungeon items",
+        "q_lvl": "How do I level {spec} {cls} from 1 to 60?",
+        "a_lvl": "The first talent point comes at level 10, then one per level up to 51 at level 60. The guide gives the talent order step by step (derived from the level-60 build, not tested while leveling), the dungeons of each level band and the spec's best item in each.",
+        "l_lvl": "See the leveling",
         "and": " and ",
     },
 }
@@ -133,7 +139,7 @@ def _join(items, lang):
     return ", ".join(items[:-1]) + QA[lang]["and"] + items[-1]
 
 
-def quick_answers(lang, cls, spec, rank, leader, n_ranked, fight, launch, stats, races, links):
+def quick_answers(lang, cls, spec, rank, leader, n_ranked, fight, launch, stats, races, links, leveling=False):
     """[{q, a, link: {href, label} | None}]: the top-of-page block and the FAQPage data.
     rank = {pos, val, unit} | None; leader = {name, val} of the first spec of the same ranking list; launch = the guide's 'at launch' data or None;
     stats = stat names in priority order; races = names of the best races (statistically tied) or []; links = hrefs (no site root) for talents, gear, rot, race, dung."""
@@ -170,6 +176,8 @@ def quick_answers(lang, cls, spec, rank, leader, n_ranked, fight, launch, stats,
         top3 = races[:3]
         out.append({"q": t["q_race"].format(**f), "a": t["a_race_one" if len(top3) == 1 else "a_race_many"].format(races=_join(top3, lang)),
                     "link": {"href": links["race"], "label": t["l_race"]} if links.get("race") else None})
+    if leveling:
+        out.append({"q": t["q_lvl"].format(**f), "a": t["a_lvl"], "link": {"href": "#gs-leveling", "label": t["l_lvl"]}})
     if links.get("dung"):
         out.append({"q": t["q_dung"].format(**f), "a": t["a_dung"], "link": {"href": links["dung"], "label": t["l_dung"]}})
     return out
