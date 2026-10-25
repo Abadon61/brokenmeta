@@ -54,6 +54,7 @@ import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
 import wow_launch  # noqa: E402
+import wow_guide_seo  # noqa: E402
 import wow_leveling  # noqa: E402
 import wow_racepick  # noqa: E402
 import wow_racepick_tx  # noqa: E402
@@ -8487,6 +8488,12 @@ def main() -> None:
                         _launch["date_txt"] = _news_date(_pre_meta["generated"], lang)
                         _st = wow_launch.title(lang, _cn, _sn, _launch["patch"])
                         assert len(_st) <= 60, _st
+                    # Title and description of the snippet (2026-10-25, wow_guide_seo.py): the words players type, the rank and the simulated DPS / TPS of the guide's chip, patch and date
+                    _rk_file = PROJECT / "data" / "wow_ranking60.json"
+                    _rk_generated = json.loads(_rk_file.read_text(encoding="utf-8")).get("generated") if _rk_file.exists() else None
+                    if _pre_meta and _rk_generated:
+                        _st = wow_guide_seo.title(lang, _cn, _sn)
+                        _sd = wow_guide_seo.description(lang, _cn, _sn, _rank_info, wow_launch.patch_of(_pre_meta["build"]), _rk_generated)
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key,
                            rank_info=_rank_info, rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
@@ -8500,7 +8507,7 @@ def main() -> None:
                            bis_dps=(_bis_optimized.get(_bspec_id, (None, None, None))[2] if _bspec_id else None),
                            bis_credit_url=_bis_gear_data["credit_url_by_class"].get(_cls["id"]),
                            breadcrumb_schema=breadcrumb_schema(_ccrumb + [(f"{_cn} · {_sn}", canonical_for(_spath, lang))]),
-                           article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd))
+                           article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sd, date_modified=_rk_generated))
             if wow_dungeons:
                 _dcrumb = _gbase + [("Donjons" if lang == "fr" else "Dungeons", canonical_for("/wow-forever/dungeons/", lang))]
                 _hub_rows = []
