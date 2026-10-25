@@ -21,6 +21,51 @@ def launched():
         return forced == "1"
     return datetime.now(timezone.utc) >= datetime.fromisoformat(LAUNCH_UTC.replace("Z", "+00:00"))
 
+
+# ---- spec guides after the launch (2026-10-25) ----
+# The guides' texts live in several modules and quote the beta in a fixed set of phrases. Once the game is out the page is rewritten phrase by phrase
+# (render() in build_site.py, guides only): the facts stay what they are (the data still comes from the client until the post-launch collection), only the
+# word "beta" goes. Apostrophes arrive escaped (&#39;) in the HTML, hence the `A` group. leftover_beta() lists what the rules did not catch.
+import re as _re
+
+_A = r"(?:'|&#39;|&rsquo;|’)"
+LAUNCH_RULES = {
+    "fr": [
+        (r"du client b[êe]ta", "du client du jeu"), (r"le client b[êe]ta", "le client du jeu"),
+        (r"écrits pour la bêta niveau (\d+) et pour la montée en niveau", r"écrits avant la sortie, pour le niveau \1 et pour la montée en niveau"),
+        (r"écrits pour la bêta niveau (\d+)", r"écrits avant la sortie, pour le niveau \1"),
+        (r"Ces données évolueront avec la bêta et avec la sortie du jeu le \d+ \w+ \d{4}\.", "Ces données évolueront avec les correctifs du jeu."),
+        (r"objets connus de la bêta", "objets connus à ce jour"), (r"dans les données de la bêta", "dans les données du client"),
+        (r"avec les correctifs de la bêta", "avec les correctifs du jeu"), (r"objets de donjons et de métiers de la bêta", "objets de donjons et de métiers connus"),
+        (r"n" + _A + r"est pas disponible dans la bêta", "n'est pas dans les données du client"), (r"Forever beta client data", "Forever client data"),
+    ],
+    "en": [
+        (r"the beta client", "the game client"),
+        (r"written for the level-(\d+) beta and for leveling", r"written before launch, for level \1 and for leveling"),
+        (r"written for the level-(\d+) beta", r"written before launch for level \1"),
+        (r"will change with the beta and with the game" + _A + r"s launch on [A-Za-z]+ \d+, \d{4}\.", "will change with future patches."),
+        (r"items known from the beta", "items known so far"), (r"The beta data has no", "The client data has no"),
+        (r"move with beta patches", "move with patches"), (r"among the beta" + _A + r"s dungeon and profession items", "among the known dungeon and profession items"),
+        (r"is not available in the beta", "is not in the client data"), (r"Forever beta client data", "Forever client data"),
+    ],
+}
+_LAUNCH_RE = {lang: [(_re.compile(p), r) for p, r in rules] for lang, rules in LAUNCH_RULES.items()}
+
+
+def launch_wording(html, lang):
+    """The page with the beta phrases of LAUNCH_RULES rewritten (call it only once launched())."""
+    for rx, repl in _LAUNCH_RE[lang]:
+        html = rx.sub(repl, html)
+    return html
+
+
+def leftover_beta(html):
+    """Short contexts of the word beta still in the visible text of the page (menu, header and footer left out, they are handled by their own switch)."""
+    body = _re.sub(r"<script.*?</script>|<style.*?</style>|<nav.*?</nav>|<header.*?</header>|<footer.*?</footer>", " ", html, flags=_re.S)
+    txt = _re.sub(r"\s+", " ", _re.sub(r"<[^>]+>", " ", body))
+    return [txt[max(0, m.start() - 40):m.end() + 40] for m in _re.finditer(r"(?i)b[êe]ta", txt)]
+
+
 SOURCES = {
     "blizz_beta": ("Blizzard — The World of Warcraft: Forever Beta Now Live",
                    "https://news.blizzard.com/en-us/article/24304160/the-world-of-warcraft-forever-beta-now-live"),

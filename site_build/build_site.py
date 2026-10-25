@@ -7557,6 +7557,11 @@ def main() -> None:
         page_ctx = {"canonical": canonical_for(url_path, lang), "alt_canonical": canonical_for(url_path, other), "alt_lang": other, **ctx}
         html = tpl.render(root=rel_prefix_for(url_path, lang), lang=lang,
                            generated_at=combined["generated_at"][:10], set_name=combined["set"], **page_ctx)
+        if wow_content.launched() and url_path.startswith("/wow-forever/guides/"):      # spec guides once the game is out: no more beta wording (wow_content.LAUNCH_RULES)
+            html = wow_content.launch_wording(html, lang)
+            _left = wow_content.leftover_beta(html)
+            if _left:
+                print(f"[launch] {url_path} ({lang}) still mentions the beta: {_left[0]!r} (+{len(_left) - 1})")
         out_path = dist_path_for(url_path, lang)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(html, encoding="utf-8")
