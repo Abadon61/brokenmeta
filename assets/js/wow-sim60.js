@@ -460,6 +460,10 @@
     $('s60Run').addEventListener('click', doRun);
     $('s60Weights').addEventListener('click', doWeights);
     $('s60Opt').addEventListener('click', doOptimize);
+    try {      // ?spec=<simulator spec id> (the spec guides link here with their own spec, e.g. ?spec=priest_shadow)
+      var qSpec = new URLSearchParams(location.search).get('spec'), selSpec = $('s60Spec');
+      if (qSpec && Array.prototype.some.call(selSpec.options, function (o) { return o.value === qSpec; })) { selSpec.value = qSpec; selSpec.dispatchEvent(new Event('change')); }
+    } catch (e) { /* no query string */ }
     app.classList.add('ready'); $('s60Loading').hidden = true; $('s60Form').hidden = false;
   }).catch(function (e) { $('s60Loading').textContent = 'Error: ' + e; });
 })();
