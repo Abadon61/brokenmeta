@@ -7551,17 +7551,27 @@ def main() -> None:
         crumbs += [(LOL_CRUMB_LABEL[lang][key], canonical_for(path, lang)) for key, path in levels]
         return breadcrumb_schema(crumbs)
 
+    _launch_manual: dict[str, list[int]] = {}          # page family -> [pages, mentions] that still say beta after the launch and need a human pass (printed at the end)
+
     def render(template_name: str, url_path: str, lang: str, **ctx) -> None:
         tpl = env.get_template(template_name)
         other = "en" if lang == "fr" else "fr"
         page_ctx = {"canonical": canonical_for(url_path, lang), "alt_canonical": canonical_for(url_path, other), "alt_lang": other, **ctx}
         html = tpl.render(root=rel_prefix_for(url_path, lang), lang=lang,
                            generated_at=combined["generated_at"][:10], set_name=combined["set"], **page_ctx)
-        if wow_content.launched() and url_path.startswith("/wow-forever/guides/"):      # spec guides once the game is out: no more beta wording (wow_content.LAUNCH_RULES)
-            html = wow_content.launch_wording(html, lang)
-            _left = wow_content.leftover_beta(html)
-            if _left:
-                print(f"[launch] {url_path} ({lang}) still mentions the beta: {_left[0]!r} (+{len(_left) - 1})")
+        if wow_content.launched() and (url_path.startswith("/wow-forever") or url_path == "/"):      # once the game is out: no more beta wording where it only says where the data comes from
+            if url_path.startswith(wow_content.LAUNCH_REWRITE_PREFIXES):
+                html = wow_content.launch_wording(html, lang)
+                _left = wow_content.leftover_beta(html)
+                if _left:
+                    print(f"[launch] {url_path} ({lang}) still mentions the beta: {_left[0]!r} (+{len(_left) - 1})")
+            elif not url_path.startswith(wow_content.LAUNCH_HISTORY_PREFIXES):      # facts about the beta (level cap, auction house...): a human pass with the post-launch data, listed at the end of the build
+                _left = wow_content.leftover_beta(html)
+                if _left:
+                    _fam = (url_path.split("/")[2] if url_path.startswith("/wow-forever/") and url_path.count("/") > 2 else "(hub)") or "(hub)"
+                    _lm = _launch_manual.setdefault(_fam, [0, 0])
+                    _lm[0] += 1
+                    _lm[1] += len(_left)
         out_path = dist_path_for(url_path, lang)
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(html, encoding="utf-8")
@@ -10133,6 +10143,10 @@ def main() -> None:
 
     n_files = sum(1 for _ in DIST.rglob("*") if _.is_file())
     size_mb = sum(f.stat().st_size for f in DIST.rglob("*") if f.is_file()) / 1e6
+    if _launch_manual:
+        print("[launch][manual] pages that still mention the beta and need a human pass with the post-launch data:")
+        for _fam, (_np, _nm) in sorted(_launch_manual.items(), key=lambda kv: -kv[1][1]):
+            print(f"[launch][manual]   {_fam}: {_np} pages, {_nm} mentions")
     print(f"Done: {n_files} files, {size_mb:.1f} MB total, in {DIST}")
     print(f"{len(urls)} URLs in sitemap.xml")
 

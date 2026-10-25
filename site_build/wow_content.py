@@ -38,6 +38,9 @@ LAUNCH_RULES = {
         (r"objets connus de la bêta", "objets connus à ce jour"), (r"dans les données de la bêta", "dans les données du client"),
         (r"avec les correctifs de la bêta", "avec les correctifs du jeu"), (r"objets de donjons et de métiers de la bêta", "objets de donjons et de métiers connus"),
         (r"n" + _A + r"est pas disponible dans la bêta", "n'est pas dans les données du client"), (r"Forever beta client data", "Forever client data"),
+        # data-origin wording of the other data pages (ranking, tier list, races, glossary, talents, simulator)
+        (r"client de la bêta", "client du jeu"), (r"données connues de la bêta", "données connues"), (r"équipement connu de la bêta", "équipement connu"),
+        (r"le jeu est encore en bêta et les valeurs bougent", "les valeurs bougent"), (r"client b[êe]ta", "client du jeu"),
     ],
     "en": [
         (r"the beta client", "the game client"),
@@ -47,8 +50,16 @@ LAUNCH_RULES = {
         (r"items known from the beta", "items known so far"), (r"The beta data has no", "The client data has no"),
         (r"move with beta patches", "move with patches"), (r"among the beta" + _A + r"s dungeon and profession items", "among the known dungeon and profession items"),
         (r"is not available in the beta", "is not in the client data"), (r"Forever beta client data", "Forever client data"),
+        (r"the beta" + _A + r"s own client data", "the client data"), (r"known from the beta", "known so far"), (r"the game is still in beta and values move", "values move"),
+        (r"beta client", "game client"),
     ],
 }
+# Pages whose beta mentions only say where the data comes from: rewritten once launched. Everything else under /wow-forever/ (professions, leveling, raids, release,
+# editions, FAQ, progression...) states facts about the beta (level cap, no auction house, "to confirm in beta") that stop being true at launch: they cannot be
+# reworded, they need the post-launch data and a human pass, so the build only lists them ([launch][manual]). News articles and the beta page itself are history.
+LAUNCH_REWRITE_PREFIXES = ("/wow-forever/guides/", "/wow-forever/tier-list/", "/wow-forever/simulateur-dps/", "/wow-forever/races/", "/wow-forever/glossaire/",
+                           "/wow-forever/classement/", "/wow-forever/talents/")
+LAUNCH_HISTORY_PREFIXES = ("/wow-forever/actualites/", "/wow-forever/beta/")
 _LAUNCH_RE = {lang: [(_re.compile(p), r) for p, r in rules] for lang, rules in LAUNCH_RULES.items()}
 
 
@@ -63,7 +74,7 @@ def leftover_beta(html):
     """Short contexts of the word beta still in the visible text of the page (menu, header and footer left out, they are handled by their own switch)."""
     body = _re.sub(r"<script.*?</script>|<style.*?</style>|<nav.*?</nav>|<header.*?</header>|<footer.*?</footer>", " ", html, flags=_re.S)
     txt = _re.sub(r"\s+", " ", _re.sub(r"<[^>]+>", " ", body))
-    return [txt[max(0, m.start() - 40):m.end() + 40] for m in _re.finditer(r"(?i)b[êe]ta", txt)]
+    return [txt[max(0, m.start() - 40):m.end() + 40] for m in _re.finditer(r"(?i)(?<!Loyal )(?<!Loyauté de )b[êe]ta", txt)]      # "Loyal Beta" / "Loyauté de bêta" is a spell of the glossary
 
 
 SOURCES = {
