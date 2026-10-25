@@ -10,7 +10,8 @@
 {% endblock %}
 {% block content %}
 {% set fr = lang == 'fr' %}
-{# Guide de leveling 1-60 (2026-10-13): dungeons and profession ranks from the beta data, zones from Classic (flagged), see wow_leveling.py. #}
+{# Guide de leveling 1-60 (2026-10-13, restructured 2026-10-25): quick answers on top (same text in the FAQPage data), index of the spec leveling sections, zones by side (Classic), news,
+   then the bands, the professions and the dungeons; dungeons and profession ranks from the client data, zones from Classic (flagged), see wow_leveling.py. #}
 <section class="gh-hero is-flat">
   <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">{{ tx.kicker }}</div>
@@ -21,13 +22,38 @@
 </section>
 
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  <a href="#lvg-quick">{{ 'En bref' if fr else 'Quick answers' }}</a>
+  <a href="#lvg-classes">{{ 'Par classe' if fr else 'By class' }}</a>
   {% for b in lv.bands %}<a href="#lvg-{{ b.lo }}">{{ b.lo }}-{{ b.hi }}</a>{% endfor %}
   <a href="#lvg-prof">{{ tx.col_prof }}</a>
-  <a href="#lvg-faq">FAQ</a>
+  <a href="#lvg-news">{{ 'Nouveautés' if fr else 'News' }}</a>
 </nav>
+
+<section class="gs-tile dq-faq" id="lvg-quick"><div class="gs-th"><h2 class="gs-h2">{{ tx.quick_h }}</h2></div>
+{% for q, a, link in lv.quick %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ q }}</summary><p class="gs-lede">{{ a }}{% if link %} <a class="wg-link" href="{{ root ~ lv.quick_hrefs[link] if not lv.quick_hrefs[link].startswith('#') else lv.quick_hrefs[link] }}">{{ tx.quick_links[link] }} →</a>{% endif %}</p></details>{% endfor %}
+</section>
 
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.legend_h }}</h2></div>
 <ul class="gd-list">{% for item in tx.legend %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+</section>
+
+<section class="gs-tile" id="lvg-classes"><div class="gs-th"><h2 class="gs-h2">{{ tx.cls_h }}</h2></div>
+<p class="gs-lede">{{ tx.cls_p }}</p>
+<div class="dp-grid">{% for c in lv.classes %}
+  <div class="dp-card" style="--c: {{ c.color or '#8a6cff' }}"><h3>{{ c.name }}</h3>
+    {% for s in c.specs %}<div class="dp-spec"><a class="dp-spec-n" href="{{ root }}{{ s.href }}">{{ tx.cls_link.format(spec=s.name) }}</a><small>{{ s.role }}</small></div>{% endfor %}
+  </div>{% endfor %}
+</div>
+<p class="gs-lede"><a class="wg-link" href="{{ root }}wow-forever/leveling/meilleure-classe/">{{ tx.best_h }} →</a></p>
+</section>
+
+<section class="gs-tile" id="lvg-fac"><div class="gs-th"><h2 class="gs-h2">{{ tx.fac_h }}</h2></div>
+<div class="gh-chips" id="lvgFac" role="group" aria-label="{{ tx.fac_h }}">
+  <button type="button" class="gh-chip is-gold" data-side="all">{{ tx.fac_all }}</button>
+  <button type="button" class="gh-chip" data-side="alliance">{{ tx.fac_a }}</button>
+  <button type="button" class="gh-chip" data-side="horde">{{ tx.fac_h_ }}</button>
+</div>
+<p class="lvg-note">{{ tx.fac_note }}</p>
 </section>
 
 {% for b in lv.bands %}
@@ -36,7 +62,7 @@
   <div class="lvg-cols">
     <div class="lvg-col">
       <h3 class="gs-sub">{{ tx.zones }}</h3>
-      <ul class="lvg-list">{% for z in b.zones %}<li><span>{{ z.name }}</span><em class="nums">{{ tx.lvl.format(lo=z.lo, hi=z.hi) }}</em></li>{% endfor %}</ul>
+      <ul class="lvg-list">{% for z in b.zones %}<li class="lvg-zone" data-side="{{ z.side }}"><span>{{ z.name }}</span><em class="nums">{{ tx.lvl.format(lo=z.lo, hi=z.hi) }}{% if z.side != 'shared' %} · {{ tx.side[z.side] }}{% endif %}</em></li>{% endfor %}</ul>
       {% if loop.first %}<p class="lvg-note">{{ tx.start_p }}</p>{% endif %}
     </div>
     <div class="lvg-col">
@@ -77,12 +103,16 @@
 <div class="gh-chips">{% for b in lv.bands %}{% for d in b.dungeons %}<a class="gh-chip" href="{{ root }}{{ d.path }}">{{ d.name }} · {{ d.lo }}-{{ d.hi }}</a>{% endfor %}{% endfor %}</div>
 </section>
 
-<section class="gs-tile" id="lvg-faq"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
-{% for q, a in lv.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+{% if lv.news %}
+<section class="gs-tile" id="lvg-news"><div class="gs-th"><h2 class="gs-h2">{{ tx.news_h }}</h2></div>
+<p class="gs-lede">{{ tx.news_p }}</p>
+<ul class="gd-list">{% for n in lv.news %}<li><a class="wg-link" href="{{ root }}{{ n.path }}">{{ n.title }}</a> <span class="nums">· {{ n.date }}</span></li>{% endfor %}</ul>
 </section>
+{% endif %}
 
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
 <div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/leveling/meilleure-classe/">{{ tx.best_h }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/tier-list/">{{ tx.l_tier }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/races/">{{ 'Quelle race choisir' if fr else 'Which race to pick' }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
@@ -95,4 +125,17 @@
 <details class="gs-more gs-sources"><summary>{{ tx.src_h }}</summary>
 <ul class="gd-list">{% for item in tx.src %}<li>{{ item }}</li>{% endfor %}</ul></details>
 <p class="wow-note">{{ wow_disclaimer }}</p>
+<script>
+(function () {
+  var bar = document.getElementById('lvgFac'); if (!bar) return;
+  var btns = bar.querySelectorAll('button'), zones = document.querySelectorAll('.lvg-zone');
+  Array.prototype.forEach.call(btns, function (b) {
+    b.addEventListener('click', function () {
+      var v = b.getAttribute('data-side');
+      Array.prototype.forEach.call(btns, function (x) { x.classList.toggle('is-gold', x === b); });
+      Array.prototype.forEach.call(zones, function (li) { var s = li.getAttribute('data-side'); li.style.display = (v === 'all' || s === v || s === 'shared') ? '' : 'none'; });
+    });
+  });
+})();
+</script>
 {% endblock %}

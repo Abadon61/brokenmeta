@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+{# "Which class levels fast?" (2026-10-25): what we measure kept apart from what is an opinion; no leveling ranking of our own (wow_leveling_class.py). #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(date=date_txt) }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.know_h }}</h2></div>
+<ul class="gd-list">{% for item in tx.know %}<li>{{ item|safe }}</li>{% endfor %}</ul>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.tbl_h }}</h2></div>
+<p class="gs-lede">{{ tx.tbl_p }}</p>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ tx.col_cls }}</th><th>{{ tx.col_roles }}</th><th>{{ tx.col_best }}</th><th>{{ tx.col_lvl }}</th></tr></thead>
+  <tbody>{% for c in rows %}<tr>
+    <td><b>{{ c.name }}</b></td>
+    <td>{{ c.roles|join(' · ') }}</td>
+    <td>{% if c.best %}<a class="wg-link" href="{{ root }}{{ c.best.path }}">{{ tx.best_cell.format(spec=c.best.spec, val=c.best.val, pos=c.best.pos) }}</a>{% else %}—{% endif %}</td>
+    <td><a class="wg-link" href="{{ root }}{{ c.lvl_href }}">{{ tx.lvl_link.format(cls=c.name) }}</a></td></tr>{% endfor %}</tbody>
+</table></div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.views_h }}</h2></div>
+<p class="gs-lede">{{ tx.views_p }}</p>
+<ul class="gd-list">{% for v in views %}<li>{{ v.text }} <a class="wg-link" href="{{ v.url }}" rel="noopener nofollow" target="_blank">{{ v.name }} →</a></li>{% endfor %}</ul>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.go_h }}</h2></div>
+<div class="gh-chips">{% for label, href in tx.go %}<a class="gh-chip" href="{{ root }}{{ href }}">{{ label }}</a>{% endfor %}</div>
+</section>
+
+<section class="gs-tile dq-faq" id="lvg-faq"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
+{% for q, a in tx.faq %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ q }}</summary><p class="gs-lede">{{ a }}</p></details>{% endfor %}
+</section>
+
+<details class="gs-more gs-sources"><summary>{{ tx.src_h }}</summary>
+<ul class="gd-list">{% for item in tx.src %}<li>{{ item }}</li>{% endfor %}</ul></details>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}

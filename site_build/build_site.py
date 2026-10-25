@@ -57,6 +57,7 @@ import wow_launch  # noqa: E402
 import wow_guide_seo  # noqa: E402
 import wow_guide_leveling  # noqa: E402
 import wow_leveling  # noqa: E402
+import wow_leveling_class  # noqa: E402
 import wow_racepick  # noqa: E402
 import wow_racepick_tx  # noqa: E402
 import wow_dungeon_extras as dgx  # noqa: E402
@@ -8944,18 +8945,42 @@ def main() -> None:
                 render("wow_racepick_hub.html", "/wow-forever/races/", lang, active_nav="wow", active_sub="wow-races", tx=_rx, classes=_rhub,
                        g_title=_rx["hub_title"], g_desc=_rx["hub_desc"], g_h1=_rx["hub_h1"], g_intro=_rx["hub_intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_rx["hub_h1"], canonical_for("/wow-forever/races/", lang))]))
-            _lvx = wow_leveling.TX[lang]
+            _lvx = wow_leveling.texts(lang, wow_content.launched())
             assert len(_lvx["title"]) <= 60 and len(_lvx["desc"]) <= 155, (len(_lvx["title"]), len(_lvx["desc"]))
             _lvpath = "/wow-forever/leveling/"
             _lv = wow_leveling.build(lang)
             _lv["date_txt"] = _news_date(_lv["updated"], lang)
             _lvfmt = dict(j=_lv["lev"]["journeyman"], e=_lv["lev"]["expert"], a=_lv["lev"]["artisan"])
-            _lv["faq"] = [(q, a.format(**_lvfmt)) for q, a in _lvx["faq"]]
-            _lvfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _lv["faq"]]}
+            # quick answers on top of the page (same wording in the FAQPage data); the links of the answers are paths of this site ("#..." = on this page)
+            _lv["quick"] = [(q, a.format(**_lvfmt), link) for q, a, link in _lvx["quick"]]
+            _lv["quick_hrefs"] = {"dung": "wow-forever/dungeons/", "cls": "#lvg-classes", "best": "wow-forever/leveling/meilleure-classe/", "prof": "wow-forever/professions/"}
+            _lv["classes"] = [{"name": _g["cls"]["name"][lang], "color": _g["cls"].get("color"),
+                               "specs": [{"name": _s["name"][lang], "role": _g["roles"][_s["id"]]["role"][lang], "href": f"wow-forever/guides/{_g['cls']['id']}/{_s['id']}/#gs-leveling"} for _s in _g["cls"]["specs"]]}
+                              for _g in wow_guide_list]
+            _lv["news"] = [{"title": _a[lang]["title"], "path": f"wow-forever/actualites/{_a['slug']}/", "date": _news_date(_a["date"], lang)}
+                           for _sl in wow_leveling.NEWS_SLUGS for _a in wow_articles.ARTICLES if _a["slug"] == _sl and wow_articles.indexable(_a)]
+            _lvfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a, _l in _lv["quick"]]}
             render("wow_leveling.html", _lvpath, lang, active_nav="wow", active_sub="wow-leveling", tx=_lvx, lv=_lv,
                    g_title=_lvx["title"], g_desc=_lvx["desc"], g_h1=_lvx["h1"], g_intro=_lvx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_lvfaq,
-                   article_schema=build_article_schema(_lvx["h1"], canonical_for(_lvpath, lang), _lvx["desc"]),
+                   article_schema=build_article_schema(_lvx["h1"], canonical_for(_lvpath, lang), _lvx["desc"], date_modified=_lv["updated"]),
                    breadcrumb_schema=breadcrumb_schema(_gbase + [(_lvx["h1"], canonical_for(_lvpath, lang))]))
+            # "Which class levels fast?": what we measure kept apart from the opinions we cite (wow_leveling_class.py)
+            _bx = wow_leveling_class.TX[lang]
+            assert len(_bx["title"]) <= 60 and len(_bx["desc"]) <= 155, (len(_bx["title"]), len(_bx["desc"]))
+            _bpath = "/wow-forever/leveling/meilleure-classe/"
+            _brows = []
+            for _g in wow_guide_list:
+                _bc = _g["cls"]
+                _best = next((r for r in _wow_ranking if r["class_id"] == _bc["id"]), None)
+                _brows.append({"name": _bc["name"][lang], "roles": list(dict.fromkeys(_g["roles"][_s["id"]]["role"][lang] for _s in _bc["specs"])),
+                               "best": ({"spec": _best["spec_name"], "val": _fmt_int(_best["dps"]), "pos": _wow_ranking.index(_best) + 1, "path": _best["page_path"]} if _best else None),
+                               "lvl_href": f"wow-forever/guides/{_bc['id']}/{_bc['specs'][0]['id']}/#gs-leveling"})
+            _bviews = [{"name": s["name"], "url": s["url"], "text": _bx["views"][s["key"]].format(name=s["name"], date=_news_date(s["date"], lang) if s["date"] else "")} for s in wow_leveling_class.SOURCES]
+            _bfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _bx["faq"]]}
+            render("wow_leveling_class.html", _bpath, lang, active_nav="wow", active_sub="wow-leveling", tx=_bx, rows=_brows, views=_bviews, date_txt=_news_date(wow_leveling.UPDATED, lang),
+                   g_title=_bx["title"], g_desc=_bx["desc"], g_h1=_bx["h1"], g_intro=_bx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_bfaq,
+                   article_schema=build_article_schema(_bx["h1"], canonical_for(_bpath, lang), _bx["desc"], date_modified=wow_leveling.UPDATED),
+                   breadcrumb_schema=breadcrumb_schema(_gbase + [(_lvx["h1"], canonical_for(_lvpath, lang)), (_bx["h1"], canonical_for(_bpath, lang))]))
             _lgpath = "/wow-forever/logs/"
             assert len(_gx["lg_title"]) <= 60 and len(_gx["lg_desc"]) <= 155
             render("wow_logs.html", _lgpath, lang, active_nav="wow", active_sub="wow-logs", tx=_gx,
