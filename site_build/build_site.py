@@ -8436,6 +8436,7 @@ def main() -> None:
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]
+            _pl_cache, _rp_cache = {}, {}          # per class: calculator payload (share links) and race tables, for the guides' "En bref" block
             for _g in wow_guide_list:
                 _cls, _roles = _g["cls"], _g["roles"]
                 _cn = _cls["name"][lang]
@@ -8490,11 +8491,38 @@ def main() -> None:
                         assert len(_st) <= 60, _st
                     # Title and description of the snippet (2026-10-25, wow_guide_seo.py): the words players type, the rank and the simulated DPS / TPS of the guide's chip, patch and date
                     _rk_file = PROJECT / "data" / "wow_ranking60.json"
-                    _rk_generated = json.loads(_rk_file.read_text(encoding="utf-8")).get("generated") if _rk_file.exists() else None
+                    _rk_data = json.loads(_rk_file.read_text(encoding="utf-8")) if _rk_file.exists() else {}
+                    _rk_generated = _rk_data.get("generated")
+                    _quick = None
                     if _pre_meta and _rk_generated:
                         _st = wow_guide_seo.title(lang, _cn, _sn)
                         _sd = wow_guide_seo.description(lang, _cn, _sn, _rank_info, wow_launch.patch_of(_pre_meta["build"]), _rk_generated)
+                        # "En bref" block and FAQPage data: the questions players type, answered with the guide's own figures (wow_guide_seo.quick_answers)
+                        _qlist = _wow_ranking_tanks if (_rank_info and _rank_info["unit"] == "TPS") else _wow_ranking
+                        _q0 = _qlist[0] if (_rank_info and _qlist) else None
+                        _leader = {"name": (f"{_q0['class_name']} {_q0['spec_name']}" if lang == "fr" else f"{_q0['spec_name']} {_q0['class_name']}"),
+                                   "val": _q0["tps"] if _rank_info["unit"] == "TPS" else _q0["dps"]} if _q0 else None
+                        _tal_href = None
+                        _pbuild = (_builds60.get(_cls["id"]) or {}).get(_s["id"])
+                        if _pbuild:       # the calculator opened on this guide's build (same share-link encoding as /wow-forever/talents/<class>/ presets)
+                            _plc = _pl_cache.setdefault(_cls["id"], wow_talents.payload(_cls, lang))
+                            _ppts = {t["id"]: t["points"] for t in _pbuild["talents"]}
+                            _tal_href = f"wow-forever/talents/{_cls['id']}/#b=" + _plc["rev"] + "".join("." + "".join(str(_ppts.get(t["id"], 0)) for t in sorted(sp["talents"], key=lambda t: (t["row"], t["col"]))) for sp in _plc["specs"])
+                        _race_best = []
+                        if wow_racepick.available() and _rank_info:
+                            _rpd = _rp_cache.setdefault(_cls["id"], wow_racepick.build(lang, _cls, _wow_ranking + _wow_ranking_tanks))
+                            _sim_sid = next((r["spec_id"] for r in (_wow_ranking + _wow_ranking_tanks) if r["class_id"] == _cls["id"] and r["guide_spec"] == _s["id"]), None)
+                            _race_best = next((x["best"] for x in _rpd["specs"] if x["id"] == _sim_sid), [])
+                        _stat_names = [x[lang] for x in ((_g["content"].get(_s["id"]) or {}).get("stats") or {}).get("order", [])]
+                        _quick = wow_guide_seo.quick_answers(
+                            lang, _cn, _sn, _rank_info, _leader, len(_qlist), _rk_data.get("fightLen", 180), _launch, _stat_names, _race_best,
+                            {"talents": _tal_href, "gear": "#gs-gear" if _g["content"].get(_s["id"]) else None, "rot": "#gs-rotation" if _lvl60.get("rot") else None,
+                             "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
+                             "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")})
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key,
+                           quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None),
+                           faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
+                                        "mainEntity": [{"@type": "Question", "name": x["q"], "acceptedAnswer": {"@type": "Answer", "text": x["a"]}} for x in _quick]} if _quick else None),
                            rank_info=_rank_info, rotation_steps=_rotation_steps,
                            role=_role, roles=_roles, facts=wow_guides.spec_facts(_s),
                            banner=class_banner(_cls["id"]), lvl60=_lvl60,

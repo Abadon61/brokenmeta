@@ -7,6 +7,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
 {% endblock %}
 {% macro talent_card(t) %}
 <div class="wg-talent">
@@ -36,6 +37,14 @@
     </div>
   </div>
 </section>
+
+{% if quick %}
+{# "En bref" (2026-10-25): the questions players type, answered with the guide's own figures; same wording in the FAQPage data. First answer open, the others fold so the talent tree stays close to the top. #}
+<section class="gs-tile dq-faq" id="en-bref">
+  <div class="gs-th"><h2 class="gs-h2">{{ quick_h2 }}</h2></div>
+  {% for it in quick %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ it.q }}</summary><p class="gs-lede">{{ it.a }}{% if it.link %} <a class="wg-link" href="{{ it.link.href if it.link.href.startswith('#') else root ~ it.link.href }}">{{ it.link.label }} →</a>{% endif %}</p></details>{% endfor %}
+</section>
+{% endif %}
 
 {% if content %}
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
