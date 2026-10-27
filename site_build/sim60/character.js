@@ -89,7 +89,7 @@ export function buildCharacter(spec) {
   // The racials are the ones read from the beta client (racials.js), which replace the Classic weapon-skill bonus (Forever's weapon specializations give
   // critical strike chance instead); spec.racialModel === 'classic' brings the old Classic model back (tests, comparisons). spec.weaponTypes lists the equipped weapon types.
   const rm = spec.racialModel !== 'classic' ? racialsFor(race, spec.weaponTypes || (spec.weapons || []).map((w) => w.type)) : null;
-  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use, racialCritDmg: rm.critDmg });
+  if (rm) spec = Object.assign({}, spec, { flatCrit: (spec.flatCrit || 0) + rm.crit, flatHit: (spec.flatHit || 0) + rm.hit, racialManaMult: rm.manaMult, racialUse: rm.use, racialCritDmg: rm.critDmg, racialPetDmg: rm.petDmg });
   const rules = CLASS_RULES[spec.variant ? cls + '_' + spec.variant : cls] || CLASS_RULES[cls];
   const base = spec.base || (() => {
     const h = BASE_L60_HUMAN[cls], m = RACE_MODS[race] || RACE_MODS.human, o = {};
@@ -171,7 +171,7 @@ export function buildCharacter(spec) {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { catMin: gear.catMin || 0, catMax: gear.catMax || 0, racialCrit: spec.flatCrit || 0, expertise: gear.exp || 0, ap, crit, critAura: Math.max(0, crit - prim.agi / rules.agiPerCrit / 100 - rules.baseCrit), hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
       weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
-      effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0,
+      effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0, racialPetDmg: spec.racialPetDmg || 0,
     },
     target: { majorArmorDebuff: typeof majorArmorDebuff === 'undefined' ? false : majorArmorDebuff, boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
     summary: { prim, ap, crit, hit, haste, weaponSkill, armor, gearArmor: gear.armor, mana: extra.mana, mp5: extra.mp5, int: prim.int, effects: fxr ? fxr.applied : [], tank },
@@ -198,7 +198,7 @@ function buildCaster(spec, rules, prim, gear, fxr, b) {
   let taken = 1;
   for (const id of spec.debuffs || []) { const d = DEBUFFS[id]; if (d && d.spellTaken) taken *= d.spellTaken; }
   return {
-    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec), racialCritDmg: spec.racialCritDmg || 0 },
+    player: { level: PLAYER_LEVEL, resource: 'mana', dualWield: false, stats: { sp, crit, hit, haste, int: prim.int, spi: prim.spi, mana, mp5, weaponSkill: BASE_WEAPON_SKILL, ap: 0 }, weapons: [], effects: effectsOf(fxr, spec), racialCritDmg: spec.racialCritDmg || 0, racialPetDmg: spec.racialPetDmg || 0 },
     target: { armor: 0, defense: BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMitigation: Math.max(0, resist), spellMiss: TARGET_SPELL_MISS, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: taken },
     summary: { prim, sp, crit, hit, haste, mana, mp5, spirit: prim.spi, int: prim.int, spellMitigation: Math.max(0, resist), effects: fxr ? fxr.applied : [] },
   };

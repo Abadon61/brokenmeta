@@ -90,7 +90,7 @@ export function warlockKit(build = {}, data = null) {
           if (sim.rng() < I.miss) { e.misses++; } else {
             const sp = ((st.sp || 0) + sim.spBonus) * I.spCoeff;
             let d = I.min + (I.max - I.min) * sim.rng() + sp;
-            d *= (1 + W.improvedImp.pet * b.improvedImp) * (1 + W.unholyPower.pet * b.unholyPower) * (1 + W.masterDemonologist.dmg * b.masterDemonologist);
+            d *= (1 + W.improvedImp.pet * b.improvedImp) * (1 + W.unholyPower.pet * b.unholyPower) * (1 + W.masterDemonologist.dmg * b.masterDemonologist) * (1 + (sim.player.racialPetDmg || 0));      // Orc Command: +5% pet damage (announced 2026-10-26/27)
             const crit = sim.rng() < I.crit; if (crit) d *= SPELL_CRIT_MULT;
             sim.record('Imp Firebolt', d * (1 - sim.target.spellMitigation) * sim.target.spellTaken, crit ? 'crit' : 'hit');
           }

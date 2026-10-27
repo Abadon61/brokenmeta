@@ -139,7 +139,7 @@ const PET_F = { dps: 60.45291519165039, apBase: 0.3 * 14 * 60.45291519165039, ap
 function startPetForever(sim, b, H) {
   const F = PET_F, t = sim.table;
   const sw = F.dps * 2, mhStats = sim.stats;
-  const mult = () => F.family * F.happiness * F.aggression * (1 + H.unleashedFury.pet * b.unleashedFury) * (1 + H.focusedFire.dmg * b.focusedFire) * (sim.aWrath.active ? H.bestialWrath.dmg : 1) * sim.mods.petMult0;
+  const mult = () => F.family * F.happiness * F.aggression * (1 + H.unleashedFury.pet * b.unleashedFury) * (1 + H.focusedFire.dmg * b.focusedFire) * (sim.aWrath.active ? H.bestialWrath.dmg : 1) * sim.mods.petMult0 * (1 + (sim.player.racialPetDmg || 0));      // Orc Command: +5% pet damage (announced 2026-10-26/27)
   const swingSpeed = () => F.speed / ((1 + F.fasterAttack) * (1 + F.cobra.speed) * (sim.aFrenzy.active ? H.frenzy.haste : 1));
   const petAp = () => F.apBase + F.apOwner * Math.max(sim.ap(), 0);
   const crit = () => Math.max(0, Math.min(1, mhStats.crit + sim.mods.critBonus + sim.mods.meleeCritBonus + H.ferocity.petCrit * b.ferocity - t.critSuppression));

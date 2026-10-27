@@ -1,0 +1,152 @@
+{
+  "_source": {
+    "label": "Blizzard, « Racial Ability Tuning Pass for WoW: Forever » (26 octobre 2026) et « More Racial Ability Tuning on WoW: Forever » (27 octobre 2026, mis à jour à 10 h), publiés par Blizzard et relayés par Wowhead",
+    "urls": [
+      "https://www.wowhead.com/forever/news/racial-ability-tuning-pass-for-wow-forever-383597",
+      "https://www.wowhead.com/forever/news/more-racial-ability-tuning-on-wow-forever-383602"
+    ],
+    "note": "Overlay applied on top of data/wow_racials.json (client tables, build 1.60.1.70425). These changes are announced for the launch and are not in the client tables we read: wow_racepick.py and the simulator (sim60/racials.js) apply them, the tests compare racials.js with the client tables plus this file. Remove this file (and its uses) once a client build carries the values.",
+    "date": "2026-10-27",
+    "synthetic_ids": "ids from 9000001 up are not game spell ids: they stand for abilities the announcement names and the client tables we read do not have yet (Orc Command, Dwarf Artisan's Precision)",
+    "faction_note": "Read Leyline is the Alliance Skyborne's ability and Skysight the Horde Skyborne's (client tables): each change is applied to its own faction; Wind Blessed to both."
+  },
+  "races": {
+    "human": {
+      "set": {
+        "20597": {
+          "desc": {
+            "en": "Increases your critical strike chance with all spells and attacks by 1%.",
+            "fr": "Augmente vos chances de coup critique des sorts et attaques de 1 %."
+          }
+        },
+        "20598": {
+          "desc": {
+            "en": "Spirit increased by 10%.",
+            "fr": "Esprit amélioré de 10 %."
+          }
+        }
+      }
+    },
+    "orc": {
+      "set": {
+        "20572": {
+          "cooldown_s": 120
+        }
+      },
+      "remove": [
+        20574
+      ],
+      "add": [
+        {
+          "id": 9000001,
+          "name": {
+            "en": "Command",
+            "fr": "Commandement"
+          },
+          "icon": "inv_misc_questionmark",
+          "cooldown_s": null,
+          "duration_s": null,
+          "class_mask": 260,
+          "desc": {
+            "en": "Increases the damage of your Warlock and Hunter pets by 5%.",
+            "fr": "Augmente de 5 % les dégâts des familiers du démoniste et du chasseur."
+          },
+          "desc_ok": true
+        }
+      ]
+    },
+    "dwarf": {
+      "remove": [
+        1259719
+      ],
+      "add": [
+        {
+          "id": 9000002,
+          "name": {
+            "en": "Artisan's Precision",
+            "fr": "Artisan's Precision"
+          },
+          "icon": "inv_misc_questionmark",
+          "cooldown_s": null,
+          "duration_s": null,
+          "class_mask": 0,
+          "desc": {
+            "en": "Increases your chance to hit with spells and attacks by 1%.",
+            "fr": "Augmente de 1 % vos chances de toucher avec les sorts et les attaques."
+          },
+          "desc_ok": true
+        }
+      ]
+    },
+    "tauren": {
+      "set": {
+        "20550": {
+          "desc": {
+            "en": "Total Health increased by 5%.",
+            "fr": "Total de points de vie augmenté de 5 %."
+          }
+        },
+        "1259918": {
+          "desc": {
+            "en": "Gain 2% increased movement speed every 5 sec spent moving, up to a maximum of 60% increase. Taking damage or standing still will reduce this effect. It no longer increases the speed of your mount.",
+            "fr": "Vous gagnez un bonus de 2 % à la vitesse de déplacement toutes les 5 s où vous êtes en mouvement, jusqu'à un bonus maximum de 60 %. Cet effet se réduira si vous subissez des dégâts ou restez immobile. Il n'augmente plus la vitesse de votre monture."
+          }
+        }
+      }
+    },
+    "troll": {
+      "set": {
+        "20554": {
+          "duration_s": 15
+        }
+      }
+    },
+    "undead": {
+      "set": {
+        "1260189": {
+          "desc": {
+            "en": "Your spells and attacks have a 20% chance to drain Health from the target, up to 5% of your maximum Health. Internal cooldown 15 sec.",
+            "fr": "Vos attaques et sorts ont 20 % de chances de drainer des points de vie de la cible, jusqu'à 5 % de votre maximum de points de vie. Délai de récupération interne : 15 s."
+          }
+        },
+        "1260201": {
+          "desc": {
+            "en": "Your spells and attacks have a 30% chance to drain Health from the target, up to 5% of your maximum Health. Internal cooldown 15 sec.",
+            "fr": "Vos attaques et sorts ont 30 % de chances de drainer des points de vie de la cible, jusqu'à 5 % de votre maximum de points de vie. Délai de récupération interne : 15 s."
+          }
+        }
+      }
+    },
+    "skyborne": {
+      "set": {
+        "1259710": {
+          "desc": {
+            "en": "Increases your spellcasting, melee, and ranged Haste by 2%.",
+            "fr": "Augmente la Hâte en mêlée, à distance et des sorts de 2 %."
+          }
+        }
+      }
+    },
+    "skyborne-alliance": {
+      "set": {
+        "1259705": {
+          "desc": {
+            "en": "Tap into the power of a nearby leyline, increasing your Health and Mana regeneration by 50% for 15 sec. It cannot be used while Innervate is active, and Innervate replaces it as the stronger effect. Used at a Ley Line, it also grants Attuned for 1 hour: while Attuned, Read Leyline increases regeneration by 100%. Attuned persists through death and is removed upon entering a raid.",
+            "fr": "Vous puisez dans la puissance d'une ligne de force proche : votre régénération de vie et de mana augmente de 50 % pendant 15 s. Impossible à utiliser sous l'effet d'Innervation, qui la remplace comme effet plus puissant. Utilisée sur une ligne de force, elle accorde aussi Harmonisé pendant 1 heure : tant que vous êtes Harmonisé, Read Leyline augmente la régénération de 100 %. Harmonisé persiste après la mort et disparaît quand vous entrez dans un raid."
+          }
+        }
+      }
+    },
+    "skyborne-horde": {
+      "set": {
+        "1259686": {
+          "desc": {
+            "en": "Attempt to draw power from a convergence of elements and receive its blessing, increasing your movement speed by 15% for 15 sec. Used at an elemental convergence, it also grants Charged for 1 hour: while Charged, Skysight increases movement speed by 30%. Charged persists through death and is removed upon entering a raid.",
+            "fr": "Vous tentez de puiser dans le pouvoir d'une convergence élémentaire et recevez sa bénédiction : votre vitesse de déplacement augmente de 15 % pendant 15 s. Utilisée sur une convergence élémentaire, elle accorde aussi Chargé pendant 1 heure : tant que vous êtes Chargé, Skysight augmente la vitesse de déplacement de 30 %. Chargé persiste après la mort et disparaît quand vous entrez dans un raid."
+          },
+          "duration_s": 15
+        }
+      }
+    }
+  }
+}

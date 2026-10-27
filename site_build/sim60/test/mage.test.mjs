@@ -15,7 +15,7 @@ const cfg = (build, sample = SAMPLE_MAGE, len = 180) => { const ch = buildCharac
 test('caster stat block: spell power, spell crit from Intellect, mana from Intellect', () => {
   const c = buildCharacter({ class: 'mage', race: 'human', gear: [], weapons: [], buffs: [], consumables: [], debuffs: [] });
   assert.equal(c.summary.sp, 0);
-  assert.ok(Math.abs(c.summary.crit - (125 / 59.5 / 100 + 0.002 + 0.02)) < 1e-9);
+  assert.ok(Math.abs(c.summary.crit - (125 / 59.5 / 100 + 0.002 + 0.01)) < 1e-9);
   assert.equal(c.summary.mana, 1213 + 15 * (125 - 20));
   assert.ok(c.target.spellMiss > 0.1 && c.target.spellMitigation > 0);
 });
