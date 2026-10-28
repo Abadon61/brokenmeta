@@ -10045,6 +10045,8 @@ def main() -> None:
 
     # ---- robots.txt + sitemap.xml ----
     (DIST / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {BASE_URL}sitemap.xml\n", encoding="utf-8")
+    # ads.txt: authorizes Google AdSense (publisher pub-4788078780190427) to sell this site's ad space; read by ad buyers
+    (DIST / "ads.txt").write_text("google.com, pub-4788078780190427, DIRECT, f08c47fec0942fa0\n", encoding="utf-8")
 
     # Hostinger (Apache/LiteSpeed) needs this to actually serve dist/404.html
     # on a real 404 instead of its own generic error page -- site-audit

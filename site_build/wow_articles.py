@@ -2297,6 +2297,8 @@ from wow_article_launch import LAUNCH_ARTICLE  # noqa: E402  (launch-day guide, 
 ARTICLES.insert(0, LAUNCH_ARTICLE)
 from wow_articles_patch1015 import PATCH1015_ARTICLES  # noqa: E402  (full articles from the 15 Oct 2026 beta build)
 ARTICLES[1:1] = PATCH1015_ARTICLES
+from wow_articles_racials1027 import RACIALS_TUNING  # noqa: E402  (racial tuning pass of 26-27 Oct 2026, a draft until proof-read)
+ARTICLES.insert(1, RACIALS_TUNING)
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
 FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}
