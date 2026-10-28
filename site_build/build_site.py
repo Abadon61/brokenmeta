@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import zipfile
 import re
 import shutil
@@ -7481,6 +7482,10 @@ def main() -> None:
     env.globals["addon_urls"] = ADDON_CURSEFORGE_URLS
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
+    # Ads (2026-10-28): off by default. BM_ADS=1 turns the placements on, and a placement only renders when it has an AdSense ad-unit id here (create the units in AdSense, paste the ids).
+    env.globals["ads_enabled"] = os.environ.get("BM_ADS") == "1"
+    env.globals["ads_client"] = "ca-pub-4788078780190427"
+    env.globals["ads_slots"] = {"article": "", "tierlist": "", "guide": ""}
     # Not a builtin on a plain jinja2.Environment (only Flask registers this)
     # -- needed to safely embed a translated string inside an inline <script>.
     # Must return Markup (safe), not a plain str: with autoescape=True a
@@ -9917,6 +9922,8 @@ def main() -> None:
     (DIST / "assets" / "js" / "list-filters.js").write_text(LIST_FILTERS_JS, encoding="utf-8")
     if wt_classes:
         shutil.copy(ROOT / "js" / "wow-talents.js", DIST / "assets" / "js" / "wow-talents.js")
+    for _js in ("consent.js", "ads.js"):
+        shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     if (ROOT / "js" / "wow-dungeons.js").exists():
         shutil.copy(ROOT / "js" / "wow-dungeons.js", DIST / "assets" / "js" / "wow-dungeons.js")
     if (ROOT / "js" / "wow-optimizer.js").exists():

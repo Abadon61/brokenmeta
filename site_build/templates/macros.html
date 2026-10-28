@@ -1,3 +1,6 @@
+{# Ad placement (2026-10-28): renders nothing unless the build has ads on (BM_ADS=1) AND an AdSense ad-unit id for this placement (ADS_SLOTS in build_site.py). Hidden until the visitor accepted advertising (js/ads.js). #}
+{% macro ad_slot(name, lang) %}{% if ads_enabled and ads_slots.get(name) %}<aside class="bm-ad" data-client="{{ ads_client }}" data-slot="{{ ads_slots[name] }}" style="display:none;min-height:250px;margin:18px 0;text-align:center" aria-label="{{ 'Publicité' if lang == 'fr' else 'Advertisement' }}"></aside>{% endif %}{% endmacro %}
+
 {# Single source for the site nav's links, rendered once for the desktop
    row (.nav-menu) and again inside the mobile hamburger panel (below
    ~780px, where the full row no longer fits and used to wrap into a messy

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% import "macros.html" as m %}
 {% set fr = lang == 'fr' %}
 {% set I = 'https://wow.zamimg.com/images/wow/icons/large/' %}
 {% block title %}{{ art.title }}{% endblock %}
@@ -53,6 +54,7 @@
     {% endif %}
   {% endfor %}
   </div>
+  {{ m.ad_slot('article', lang) }}
   {% if art.faq %}
   <section class="gs-tile art2-faq" id="faq"><div class="gs-th"><h2 class="gs-h2">{{ 'Questions fréquentes' if fr else 'Frequently asked questions' }}</h2></div>
   {% for q, a in art.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}</section>

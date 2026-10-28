@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -165,6 +175,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="{{ root }}methodologie/">{{ t(lang, 'nav_methodology') }}</a>
       <a href="{{ root }}confidentialite/">{{ t(lang, 'nav_privacy') }}</a>
       <a href="{{ root }}cgu/">{{ t(lang, 'nav_terms') }}</a>
+      <a href="{{ root }}confidentialite/#cookies" data-bm-consent>{{ 'Gérer les cookies' if lang == 'fr' else 'Manage cookies' }}</a>
       <a href="{{ root }}sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">{{ t(lang, 'footer_generated', generated_at, set_name) }}</span>
@@ -201,6 +212,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <script src="{{ root }}assets/js/champ-icons.js?v={{ css_v }}" defer></script>
 <script src="{{ root }}assets/js/site-search.js?v={{ css_v }}" defer></script>
 <script src="{{ root }}assets/js/favorites.js?v={{ css_v }}" defer></script>
+<script src="{{ root }}assets/js/consent.js?v={{ js_v('consent.js') }}" defer></script>
+{% if ads_enabled %}<script src="{{ root }}assets/js/ads.js?v={{ js_v('ads.js') }}" defer></script>{% endif %}
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
