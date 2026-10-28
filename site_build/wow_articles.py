@@ -2299,6 +2299,8 @@ from wow_articles_patch1015 import PATCH1015_ARTICLES  # noqa: E402  (full artic
 ARTICLES[1:1] = PATCH1015_ARTICLES
 from wow_articles_racials1027 import RACIALS_TUNING  # noqa: E402  (racial tuning pass of 26-27 Oct 2026, a draft until proof-read)
 ARTICLES.insert(1, RACIALS_TUNING)
+from wow_articles_hunter1028 import HUNTER_HOTFIX  # noqa: E402  (Hunter hotfixes seen on live servers, 28 Oct 2026)
+ARTICLES.insert(1, HUNTER_HOTFIX)
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
 FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}

@@ -1,0 +1,112 @@
+"""BrokenMeta article on the Hunter hotfixes seen on live Forever servers on 28 Oct 2026 (Aspect of the Hawk, Trueshot Aura).
+
+Facts rewritten from the cited Wowhead news; the DPS numbers come from our level-60 simulator (site_build/sim60,
+20000 fights per point, same seeds before/after) and say so. Format: see the module docstring of wow_articles.py.
+"""
+
+_SRC = ("Wowhead : New Class and Item Tuning on WoW: Forever - Hunter Changes (28 Oct. 2026)",
+        "https://www.wowhead.com/forever/news/new-class-and-item-tuning-on-wow-forever-hunter-changes-383641")
+
+HUNTER_HOTFIX = {
+    "slug": "chasseur-nerf-aspect-faucon-aura-precision-wow-forever",
+    "date": "2026-10-28",
+    "updated": "2026-10-28",
+    "draft": False,
+    "tag": "tuning",
+    "kind": "nerf",
+    "class": "hunter",
+    "image": "assets/img/spec/hunter-marksmanship.png",
+    "sources": [_SRC],
+    "fr": {
+        "title": "Nerf Chasseur WoW Forever : Aspect du faucon, Aura",
+        "description": "WoW Forever : Aspect du faucon et Aura de précision du Chasseur presque divisés par deux. Simulé niveau 60 : -2,4 % de DPS en Précision, -1,8 % en Bêtes.",
+        "h1": "Nerf du Chasseur dans WoW Forever : Aspect du faucon et Aura de précision, simulé",
+        "lede": "Pendant la réservation des noms de **WoW Forever**, Blizzard a corrigé en direct deux sorts du **Chasseur** : l'**Aspect du faucon** (Aspect of the Hawk) et l'**Aura de précision** (Trueshot Aura) perdent presque la moitié de leur puissance d'attaque. Dans notre simulateur niveau 60, ce nerf coûte [nerf]-2,4 % de DPS en Précision[/nerf] et [nerf]-1,8 % en Maîtrise des bêtes[/nerf]. Ce sont des correctifs vus sur les serveurs, pas encore confirmés dans des notes de développement.",
+        "body": [
+            ("cards", [("spell_nature_ravenform", "Aspect du faucon", "Rang 5 : 90 → 47 de puissance d'attaque à distance", "nerf"),
+                       ("ability_trueshot", "Aura de précision", "Rang 4 : 75 → 40 de puissance d'attaque", "nerf"),
+                       ("ability_marksmanship", "Chasseur Précision", "-2,4 % de DPS simulé", "nerf"),
+                       ("inv_potion_97", "Elixir de sagesse", "Intelligence 6 → 3, 1 h → 30 min", "nerf")]),
+            ("h2", "Patch du Chasseur dans WoW Forever : toutes les valeurs"),
+            ("list", [
+                "{nerf} **Aspect du faucon** : rang 1 de 22 à [nerf]15[/nerf], rang 2 de 35 à [nerf]22[/nerf], rang 3 de 50 à [nerf]30[/nerf], rang 4 de 78 à [nerf]38[/nerf], rang 5 de 90 à [nerf]47[/nerf].",
+                "{nerf} **Aura de précision** (le buff de raid du Chasseur) : rang 1 de 30 à [nerf]15[/nerf], rang 2 de 40 à [nerf]22[/nerf], rang 3 de 50 à [nerf]30[/nerf], rang 4 de 75 à [nerf]40[/nerf].",
+                "{nerf} **Elixir de sagesse** (potion d'alchimie de bas niveau, recette de marchand à 90 en Alchimie) : [nerf]+3 d'Intelligence au lieu de +6[/nerf], pendant 30 minutes au lieu d'une heure.",
+                "Statut : ces valeurs ont été appliquées en correctif sur les serveurs Forever pendant la réservation des noms. Elles ne figurent pas encore dans des notes de développement et peuvent changer.",
+            ]),
+            ("h2", "Combien de DPS perd le Chasseur : la simulation niveau 60"),
+            ("p", "Nous avons passé les rangs les plus hauts, avant puis après, dans notre simulateur DPS niveau 60 avec le même personnage et les mêmes graines aléatoires (20 000 combats par point, cible de 180 s). Hypothèse : un Chasseur niveau 60 utilise le rang 5 de l'Aspect du faucon et le rang 4 de l'Aura de précision, ce que nous n'avons pas pu vérifier niveau par niveau."),
+            ("bars", {"unit": "DPS simulé", "before": "Avant", "after": "Après",
+                      "rows": [("Précision", 596.3, 582.1), ("Maîtrise des bêtes", 726.2, 713.4)]}),
+            ("table", {"head": ["Changement isolé", "Précision", "Maîtrise des bêtes"],
+                       "rows": [["**Aspect du faucon seul** (90 → 47)", "[nerf]-1,3 %[/nerf]", "[nerf]-1,0 %[/nerf]"],
+                                ["**Aura de précision seule** (75 → 40)", "[nerf]-1,1 %[/nerf]", "[nerf]-0,8 %[/nerf]"],
+                                ["**Les deux ensemble**", "[nerf]-2,4 %[/nerf]", "[nerf]-1,8 %[/nerf]"]]}),
+            ("p", "Le nerf est modéré : environ 14 DPS de moins sur un Chasseur proche de 600. L'Aura de précision profite aussi à tout le groupe, donc un raid avec un Chasseur perd cette puissance d'attaque pour les autres classes : nous ne l'avons pas simulée pour elles."),
+            ("h2", "Ce que ça change pour ton Chasseur"),
+            ("list", [
+                "**Garde l'Aspect du faucon actif** : il reste un gain de DPS, simplement plus petit. Aucune raison de s'en passer.",
+                "**Le classement des Chasseurs bouge peu** : -2 % de DPS ne change pas à lui seul la place de la classe, mais mérite d'être suivi dans la tier list.",
+                "**L'Elixir de sagesse** : +3 d'Intelligence ne vaut plus grand-chose, sauf aux tout premiers niveaux. Non simulé.",
+                "**À surveiller** : ce sont des correctifs non confirmés. Si Blizzard les annule ou les ajuste dans les notes de développement, nous recalculons.",
+            ]),
+            ("note", "Méthode : simulateur niveau 60 de BrokenMeta (personnage Chasseur de test, buffs et consommables de raid, 180 s), 20 000 combats avant et après avec les mêmes graines. Valeurs avant/après de Wowhead ; le rang disponible au niveau 60 est supposé être le plus haut. Le Chasseur de mêlée (Survie), les pièges et le buff sur les autres classes ne sont pas simulés."),
+        ],
+        "faq": [
+            ("L'Aspect du faucon est-il nerfé dans WoW Forever ?", "Oui. Selon les correctifs vus sur les serveurs le 28 octobre 2026, le rang 5 passe de 90 à 47 de puissance d'attaque à distance. L'Aura de précision est réduite de façon comparable (rang 4 : 75 à 40)."),
+            ("Combien de DPS le Chasseur perd-il avec ce nerf ?", "Dans notre simulateur niveau 60, environ -2,4 % en Précision et -1,8 % en Maîtrise des bêtes, en supposant que les rangs les plus hauts sont ceux utilisés."),
+        ],
+        "links": [
+            ("Guide Chasseur Précision", "wow-forever/guides/hunter/marksmanship/"),
+            ("Guide Chasseur Maîtrise des bêtes", "wow-forever/guides/hunter/beast-mastery/"),
+            ("Calculateur de talents Chasseur", "wow-forever/talents/hunter/"),
+            ("Tier list WoW Forever : meilleures classes", "wow-forever/tier-list/"),
+        ],
+    },
+    "en": {
+        "title": "WoW Forever Hunter Nerf: Aspect of the Hawk, Trueshot",
+        "description": "WoW Forever: Hunter Aspect of the Hawk and Trueshot Aura cut almost in half. Simulated at level 60: -2.4% DPS Marksmanship, -1.8% Beast Mastery.",
+        "h1": "WoW Forever Hunter nerf: Aspect of the Hawk and Trueshot Aura, simulated",
+        "lede": "During name reservations in **WoW Forever**, Blizzard hotfixed two **Hunter** spells on the live servers: **Aspect of the Hawk** and **Trueshot Aura** lose almost half of their attack power. In our level 60 simulator this nerf costs [nerf]-2.4% DPS for Marksmanship[/nerf] and [nerf]-1.8% for Beast Mastery[/nerf]. These are changes seen on the servers, not yet confirmed in development notes.",
+        "body": [
+            ("cards", [("spell_nature_ravenform", "Aspect of the Hawk", "Rank 5: 90 → 47 ranged attack power", "nerf"),
+                       ("ability_trueshot", "Trueshot Aura", "Rank 4: 75 → 40 attack power", "nerf"),
+                       ("ability_marksmanship", "Marksmanship Hunter", "-2.4% simulated DPS", "nerf"),
+                       ("inv_potion_97", "Elixir of Wisdom", "Intellect 6 → 3, 1 h → 30 min", "nerf")]),
+            ("h2", "WoW Forever Hunter patch: every value"),
+            ("list", [
+                "{nerf} **Aspect of the Hawk**: rank 1 from 22 to [nerf]15[/nerf], rank 2 from 35 to [nerf]22[/nerf], rank 3 from 50 to [nerf]30[/nerf], rank 4 from 78 to [nerf]38[/nerf], rank 5 from 90 to [nerf]47[/nerf].",
+                "{nerf} **Trueshot Aura** (the Hunter raid buff): rank 1 from 30 to [nerf]15[/nerf], rank 2 from 40 to [nerf]22[/nerf], rank 3 from 50 to [nerf]30[/nerf], rank 4 from 75 to [nerf]40[/nerf].",
+                "{nerf} **Elixir of Wisdom** (low-level Alchemy potion, vendor recipe at Alchemy 90): [nerf]+3 Intellect instead of +6[/nerf], for 30 minutes instead of an hour.",
+                "Status: these values were hotfixed on the Forever servers during name reservations. They are not in development notes yet and may change.",
+            ]),
+            ("h2", "How much DPS Hunters lose: the level 60 simulation"),
+            ("p", "We ran the top ranks, before and after, through our level 60 DPS simulator with the same character and the same random seeds (20,000 fights per point, 180 s target). Assumption: a level 60 Hunter uses rank 5 of Aspect of the Hawk and rank 4 of Trueshot Aura, which we could not check level by level."),
+            ("bars", {"unit": "simulated DPS", "before": "Before", "after": "After",
+                      "rows": [("Marksmanship", 596.3, 582.1), ("Beast Mastery", 726.2, 713.4)]}),
+            ("table", {"head": ["Change on its own", "Marksmanship", "Beast Mastery"],
+                       "rows": [["**Aspect of the Hawk only** (90 → 47)", "[nerf]-1.3%[/nerf]", "[nerf]-1.0%[/nerf]"],
+                                ["**Trueshot Aura only** (75 → 40)", "[nerf]-1.1%[/nerf]", "[nerf]-0.8%[/nerf]"],
+                                ["**Both together**", "[nerf]-2.4%[/nerf]", "[nerf]-1.8%[/nerf]"]]}),
+            ("p", "The nerf is moderate: about 14 DPS lost on a Hunter near 600. Trueshot Aura also helps the whole group, so a raid with a Hunter loses that attack power for other classes: we did not simulate that."),
+            ("h2", "What it means for your Hunter"),
+            ("list", [
+                "**Keep Aspect of the Hawk up**: it is still a DPS gain, just a smaller one. No reason to drop it.",
+                "**Hunter ranking barely moves**: -2% DPS alone does not change the class's place, but it is worth following in the tier list.",
+                "**Elixir of Wisdom**: +3 Intellect is no longer worth much, except for the very first levels. Not simulated.",
+                "**Watch this**: these are unconfirmed hotfixes. If Blizzard reverts or adjusts them in the development notes, we recompute.",
+            ]),
+            ("note", "Method: BrokenMeta level 60 simulator (test Hunter character, raid buffs and consumables, 180 s), 20,000 fights before and after with the same seeds. Before/after values from Wowhead; the rank available at level 60 is assumed to be the highest. Melee Hunter (Survival), traps and the buff on other classes are not simulated."),
+        ],
+        "faq": [
+            ("Is Aspect of the Hawk nerfed in WoW Forever?", "Yes. According to the hotfixes seen on the servers on October 28, 2026, rank 5 goes from 90 to 47 ranged attack power. Trueshot Aura is cut similarly (rank 4: 75 to 40)."),
+            ("How much DPS does the Hunter lose from this nerf?", "In our level 60 simulator, about -2.4% for Marksmanship and -1.8% for Beast Mastery, assuming the top ranks are the ones in use."),
+        ],
+        "links": [
+            ("Marksmanship Hunter guide", "wow-forever/guides/hunter/marksmanship/"),
+            ("Beast Mastery Hunter guide", "wow-forever/guides/hunter/beast-mastery/"),
+            ("Hunter talent calculator", "wow-forever/talents/hunter/"),
+            ("WoW Forever tier list: best classes", "wow-forever/tier-list/"),
+        ],
+    },
+}
