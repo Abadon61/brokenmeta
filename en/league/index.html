@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -20,6 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
 <!-- Warm the connection to Google Fonts as early as possible -- the
      stylesheet below is render-blocking and lives on a third-party origin,
      so the DNS+TLS handshake it needs is pure dead time if it only starts
@@ -49,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="League of Legends — Analyze your profile | BrokenMeta.gg">
 <meta name="twitter:description" content="Real analysis of your League of Legends profile: rank, match history, roles, comparison to your rank and activity, via Riot's official API.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=97a3dab0d8">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=97a3dab0d8">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=1d5b417fed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=1d5b417fed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -60,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=97a3dab0d8">
+<link rel="stylesheet" href="../../assets/css/style.css?v=1d5b417fed">
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/en/league/"}]}</script>
 </head>
@@ -237,7 +249,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <h2 class="lh-h2">Latest news</h2>
-<div class="news-list"><a class="news-item" href="https://news.google.com/rss/articles/CBMitgFBVV95cUxPaUNNLWE3RXRjTWE4NW5ISkZDLVFUUVNxX1Y1VzlYbWRuc1gzMXJoQ0JUQzBXWHQ2ZHBhM2xSY0FReDV5XzNTdlBucG5OTlJzWHpEdE81OGt0SmI5M25NNnRRZTdtM0ppM0lJdXRkUlJCUEFhMmkwOG5BTjI1MXhOVHZfUkNEMDBYMXlGa0h4b2paRHZackwzSHlONmREU0hmY1JHb2FxZVdOT1NpMjUwTmI2ZWV5Z9IBvgFBVV95cUxOaWo2SlVILWV0b2pkWl9Ba2FleXNaeV9TYXZQb2IzbE9nckI0Z2pJbmVpT3lHV3U5RTdFSncycjNfNm5TU1RUY0cwOUE1b1hOd25mcjdWMVJEWVA1QjI3NUtGZzFJS3VWV1lMdGhSUDY5QWRqTTlDTzJiS29LZE1CRmI4SVI4TnIydmlQcEhJMFJYTnp5ZTdQUnUyVmJET0pYV0lENDhsNHR6bkFHUHd0dTBiOFMtWjFPSFJFTEpB?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta"><span class="news-tag" data-tag="meta">October 21, 2026</span><span class="news-title">League of Legends fans criticise upcoming Mel rework for removing her unique W</span><span class="news-src">The Express Tribune ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMijgFBVV95cUxPS1p0Q1pNNV9NQjNKRUxsRGg1anFtQmY0TjdmSF8wRGxvd0lKOWJuVE9XZ0dnR1h2czJYcnVCQ3ZjS1VaZ1VJbUN4UHZnYi1PNmVuOXdHdS11Q1RwVVFXN1JLbDctbm42ajJjREc1QlJ2TVB5bXU0Z1VkLXNkak1vNXZCOWI1andadnF1bEln?oc=5" rel="noopener nofollow" target="_blank" data-tag="meta"><span class="news-tag" data-tag="meta">October 20, 2026</span><span class="news-title">League of Legends Mel Midscope Rework Removes Her Reflect</span><span class="news-src">Insider Gaming ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMilwFBVV95cUxPdTNzc1IwM2FZNEh0Ti0zdzRfNDBoTXF2elNfbzAwczh6UVBTTnU5MUZjNV9Dckw0WXY4dGp1S3p3YVRfLVAtTHlzbXYta3V5WS1TSEZBalVYSXZCU2Z5NVRpQl96eFhqbVZtRlZqRFJkOHhTZDFuejJXdWtfenpQeXllZUZIYXpGUzdxUkx6TUNUYkZlaGxn?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch"><span class="news-tag" data-tag="patch">October 20, 2026</span><span class="news-title">League of Legends Patch 26.21 Notes</span><span class="news-src">League of Legends ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMi-wFBVV95cUxQSlZ3dzZSSUFHNGw3ZEpXNmJKLWticVZTTm92bmQzNFM4OG1fQTF2Tld4dDYyZXJXbHFraUI3aFljVnVfTTE0dVZWSkQ4TXBxd1ZvYXE2WkRFTXB2QVZibVRuNE1JVTFhVFR6aUR4WkEzd2dmenpXY3l4UlYwTFk3NHdoNmVPTGdqdVNjRFVHNUFRY0NNTFdEWXBaWEtKTVlrMmo5RGUyX2hSRzJXekludHhuaWl5cFhxU0tqT2ZjaU51WTdPWFIzcWktdm5JbGNNb1MxRHBfdS14aFRYQkNXSW1GTGhZbU56QWxJeHJXN09TOFRXbDdvUGxKaw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news"><span class="news-tag" data-tag="news">October 15, 2026</span><span class="news-title">League of Legends Classic will become a thing of the past in January 2027, though it may one day be resurrected as a limited-time event</span><span class="news-src">Rock Paper Shotgun ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMikgFBVV95cUxPWGhHZldvMzRkV3VreC13S3h3dzJrTDFuWGtJbDR3ZmZiSUVSZXF2UG85aHNZQXkzQU9MaDBJeTVIdWtETUZLVHVISVhrY3laUVhMZk4xSzA5Qk9Id09LTjZUUjJBV2x1TWtaZE9FRm95ZXpuVVlGSzd5LVcyWE1mb1JhSTQ1bEZYcGR6UEFhOXZrZw?oc=5" rel="noopener nofollow" target="_blank" data-tag="news"><span class="news-tag" data-tag="news">October 14, 2026</span><span class="news-title">League of Legends Worlds 2026 Power Rankings</span><span class="news-src">Sheep Esports ↗</span></a></div>
+<div class="news-list"><a class="news-item" href="https://news.google.com/rss/articles/CBMitAFBVV95cUxPQWJZcUJZM0hic1o5TTFaOFVTSF9CbFNOMTE3RTVuT210RWo2YmwyV0VTRDZwSEdCYkE3RURFdk1iX3dGN0M4aVNXNU9wcUFpdzFLeklTUXl2bjc2TmprZDVSOVVPUnpLMVRXM0dtWFVrcTl4eThtbkxfVlp0QWxBMTkyc3JtOTE5Z2p0dE91dFgzbWN5ZUJrMFNRbktydzJKV2lsTnVxV3V3dXBjdG5sSGd5eVA?oc=5" rel="noopener nofollow" target="_blank" data-tag="news"><span class="news-tag" data-tag="news">October 28, 2026</span><span class="news-title">&#34;You can&#39;t stop an avalanche&#34;: League of Legends LoLdle answers 1575 (Thursday, October 29, 2026)</span><span class="news-src">Sportskeeda ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMihAFBVV95cUxPNjRFRXBZTVpzSWpVWHhFWFRkNWk3blNhX2NBVGJPS3FUeVJvU1FCbVJVSDhaNVR0eWdyVUxiSVBWTDdkU2dmRFl1VnhkRUEyVnZ1TlJFb0R0aXRaUFlZUGt4WFV1TDlFcm5xUDBQZ1BQZzF4bm9lemxBMGw1TWRfTmtLOGM?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch"><span class="news-tag" data-tag="patch">October 28, 2026</span><span class="news-title">Mel’s W Reflect Gets Reworked in League Patch 26.22 Preview</span><span class="news-src">Happy Gamer ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMiqgFBVV95cUxNbHN4MTdOS1QwSmJQQlQtcmd6OFJVdXBhc25PVnY5MTNoWUE0Sk1EY2dQNENJbVBVeGJOY3ZQcnJrdldwVGN1LVhySzRqMmtaR1NFa1k5UlBoQVdUZUYxV016UHM5ekRoZ183Mk5tT0tsV3llYzg4bWR5dnZWaEdJTlR4aGZwY1NyUkNaTzQ1aURjc2dFTjBad0hKYkU3LVpBRkwtX0tGdEhmUQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch"><span class="news-tag" data-tag="patch">October 28, 2026</span><span class="news-title">LoL Patch 26.22 Preview: Locke nerfed as Mel midscope goes live</span><span class="news-src">Sheep Esports ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMiwAFBVV95cUxPaHdicklNNW9JX3JEbUhJalFwQXFiUVZsRzZMWFJhRnZZSHFweDNHU3dCN2hmcE85UUdaYnRnZFhfWFZsTWp4OXhpVko0T3RqSWFzNTlIaWVNcVhKM2JueUVSVElVQXVHQ3lDZzF1ZnBPZ0JmLTdzQnc5UU1iQ1hzNEV1VlZkZ0ttZE1GdTd2UTM1WkRBWjlFbVVDLVNiZkEybWdLRDlmMmZkZFlzeU5RUHVINnphcEI1OF8zbERtVDQ?oc=5" rel="noopener nofollow" target="_blank" data-tag="news"><span class="news-tag" data-tag="news">October 28, 2026</span><span class="news-title">T1 vs MKOI in League of Legends Worlds 2026 Swiss Stage: Prediction, head-to-head, and starting time</span><span class="news-src">Sportskeeda ↗</span></a><a class="news-item" href="https://news.google.com/rss/articles/CBMi3gFBVV95cUxOemY1eEVfX0lrWDJOcUxfcTFZUFFrc0ZOMkhHLVg0Rkc0dTBsMUNUbzg1bE9HZXhNMHlQS3UzVzRqcTV3eU84M2FvZ2hnYm9aNllKdGF4d0c3NG14aUQ5dGRZRnhjZkRwTFJZM09sODJUY3V1aXY3bXE4Sm5ocTNpOHpLeGt1cWY0YW5DUktNMnlUdDRPQXM1OC1YU0RwVGV5UjhmOGxPQUN3R1JZdUNNRlVYdktFZ2wxOHFCdWRfWlZBMmg0TWNJeE5XRmZXemNVSFZlSmJ3RjIzN293ZEE?oc=5" rel="noopener nofollow" target="_blank" data-tag="patch"><span class="news-tag" data-tag="patch">October 28, 2026</span><span class="news-title">League of Legends full patch notes 26.22 (16:22): Locke, Thresh, Yasuo nerfs, Viktor, Aurelion Sol, Zaahen buffs</span><span class="news-src">escorenews.com ↗</span></a></div>
 <p class="lh-more"><a href="actualites/">All news →</a></p>
 
 
@@ -364,6 +376,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="../methodologie/">Methodology</a>
       <a href="../confidentialite/">Privacy</a>
       <a href="../cgu/">Terms</a>
+      <a href="../confidentialite/#cookies" data-bm-consent>Manage cookies</a>
       <a href="../../sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">Generated on 2026-10-10 · Set TFTSet18</span>
@@ -378,7 +391,7 @@ window.BM_LEAGUE_API = "https://lol-worker.brokenmeta.workers.dev";
 window.BM_I18N_LEAGUE = {"loading": "Looking it up\u2026", "queueSolo": "Ranked Solo/Duo", "queueFlex": "Ranked Flex", "queueAram": "ARAM", "queueNormalDraft": "Normal (Draft)", "queueNormalBlind": "Normal (Blind)", "queueClash": "Clash", "queueCustom": "Custom game", "liveGameLabel": "LIVE GAME", "you": "(you)", "bot": "(bot)", "win": "Victory", "loss": "Defeat", "winAbbr": "W", "lossAbbr": "L", "viewMatchAria": "View match", "badgeDeathless": "Deathless", "badgeTripleKill": "Triple Kill", "badgeDoubleKill": "Double Kill", "badgeGoodSupport": "Great Support", "medalGold": "Gold", "medalSilver": "Silver", "medalBronze": "Bronze", "allies": "Allies", "enemies": "Enemies", "noRecentMatches": "No recent matches in this queue.", "noChampionsPlayed": "No champions played in this queue.", "thChampion": "Champion", "thGames": "Games", "thWinrate": "Winrate", "thAvgKda": "Avg KDA", "thRatio": "Ratio", "devBadge": "In development -- pending Riot's production API", "lpProgressTitle": "LP progress", "rankNote": "Compared with the measured average of {tier} players in our sampled games ({n} players), for the roles you actually played.", "rankNoteApprox": "Your rank ({tier}) isn't sampled yet: compared with {used}, the closest measured rank.", "noRankData": "No measured rank average for your level yet.", "cooldownLabel": "Retry in {s}s", "staleNote": "Cached result from {min} min ago (Riot API limit reached). Try again a bit later to refresh it.", "thDpm": "DPM", "dpmLabel": "DPM", "commsRealTitle": "In-game communication (pings)", "commsRealNote": "Pings you actually sent, average per game over your last {n} games. Riot doesn't expose chat messages, only pings.", "pingsPerGame": "pings / game", "pingLabels": {"allInPings": "All-in", "assistMePings": "Assist me", "basicPings": "Basic", "commandPings": "Command", "dangerPings": "Danger", "enemyMissingPings": "Enemy missing", "enemyVisionPings": "Enemy vision", "getBackPings": "Get back", "holdPings": "Hold", "needVisionPings": "Need vision", "onMyWayPings": "On my way", "pushPings": "Push", "retreatPings": "Retreat", "visionClearedPings": "Vision cleared"}, "combatTitle": "Combat profile", "perGameNote": "Averages over your games in this queue.", "kpiDpm": "Damage / min (DPM)", "kpiDmgTaken": "Damage taken / min", "kpiMitigated": "Damage mitigated / min", "kpiCc": "Crowd control dealt", "kpiDead": "Time spent dead", "kpiHeal": "Healing / min", "kpiVsRank": "vs rank average", "visionTitle": "Vision & objectives", "kpiVisionMin": "Vision / min", "kpiWardsPlaced": "Wards placed", "kpiWardsKilled": "Wards destroyed", "kpiControlWards": "Control wards", "kpiTurrets": "Turrets", "kpiPlates": "Plates", "kpiDragons": "Dragons", "kpiBarons": "Barons", "kpiHeralds": "Heralds", "kpiObjDmg": "Obj. damage / min", "perGameUnit": "/ game", "recordsTitle": "Records & trends", "kpiBestKda": "Best KDA", "kpiMostKills": "Most kills", "kpiBestDpm": "Best DPM", "kpiPentas": "Pentakills", "kpiSpree": "Longest spree", "kpiFirstBlood": "First blood", "kpiSoloKills": "Solo kills", "kpiStreakWin": "Win streak", "kpiStreakLoss": "Loss streak", "kpiAfterLoss": "Winrate after a loss", "kpiShort": "Games < 25 min", "kpiMid": "Games 25-35 min", "kpiLong": "Games 35 min +", "gamesUnitShort": "games", "quadrasLabel": "quadras", "masteryTitle": "Champion mastery", "masteryLevel": "Lvl", "masteryPts": "pts", "lpProgressNote": "Unranked in this queue, or no LP recorded yet -- check back once this profile has been looked up while ranked.", "lpTrackingBadge": "Tracking started -- only 1 point so far", "lpOnePointNote": "First real LP point recorded. Come back after another lookup (ideally after a few games) to watch the curve take shape.", "lpRealNote": "{n} real LP points in {queue}, recorded on every lookup of this profile -- nothing invented.", "commsTitle": "In-game communication", "commsNote": "Pings and chat messages aren't exposed by Riot's API at any endpoint -- this section will stay an example until that changes. Illustrative example:", "messagesPerGame": "Messages / game", "pingOnMyWay": "On my way", "pingMissing": "Missing enemy", "pingDanger": "Danger", "notEnoughSameChamp": "Not enough games on the same champion in this queue (min. 2).", "noMatchesInQueue": "No matches in this queue.", "youLabel": "You", "rankAvgLabel": "Rank", "csPerMin": "CS / min", "goldPerMin": "Gold / min", "dmgPerMin": "Damage / min", "killParticipation": "Kill participation", "vsAvg": "vs average", "notEnoughToCompare": "Not enough games to compare.", "gamesUnit": "games", "partiesUnit": "games", "notEnoughHourly": "Not enough games for an hourly breakdown.", "seasonBestTitle": "Best performances this season", "seasonBestSub": "ranked by KDA, min. 2 games", "roleDistTitle": "Role distribution", "youVsRankTitle": "You vs rank average", "activityTitle": "Activity patterns", "weekdaysLabel": "Weekdays", "hourlyLabel": "By hour", "noRecentGame": "No games.", "gamesTogether": "games together", "unranked": "Unranked", "seeAllChamps": "See all champions \u2192", "playedWith": "Played with", "recentMatches": "recent matches", "tabHistory": "History", "tabChampions": "Champions", "tabStats": "Stats", "level": "Level", "mostPlayed": "Most played", "weekdayLabels": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"], "bannedChampionsTitle": "Banned champions", "noBans": "No bans", "minAbbr": "min", "hourAbbr": "h", "dayAbbr": "d", "favAdd": "Add to favorites", "favRemove": "Remove from favorites", "favHint": "To track this profile, add it to your favorites"};
 window.BM_I18N_LEAGUE.lang = "en";
 </script>
-<script src="../../assets/js/league.js?v=97a3dab0d8" defer></script>
+<script src="../../assets/js/league.js?v=1d5b417fed" defer></script>
 
 <script>
 /* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
@@ -403,10 +416,12 @@ window.BM_I18N_LEAGUE.lang = "en";
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=97a3dab0d8" defer></script>
-<script src="../../assets/js/champ-icons.js?v=97a3dab0d8" defer></script>
-<script src="../../assets/js/site-search.js?v=97a3dab0d8" defer></script>
-<script src="../../assets/js/favorites.js?v=97a3dab0d8" defer></script>
+<script src="../../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/site-search.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/consent.js?v=fb0010a0d8" defer></script>
+
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
