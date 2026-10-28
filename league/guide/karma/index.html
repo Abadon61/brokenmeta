@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -20,6 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
 <!-- Warm the connection to Google Fonts as early as possible -- the
      stylesheet below is render-blocking and lives on a third-party origin,
      so the DNS+TLS handshake it needs is pure dead time if it only starts
@@ -49,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Karma Support Build &amp; Guide (Patch 26.21) : runes, contres">
 <meta name="twitter:description" content="Guide Karma Support (patch 26.21) : runes, build et objets selon l&#39;équipe adverse et contres, mesurés sur 1003 parties Support.">
 <meta name="twitter:image" content="https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Karma_0.jpg">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=97a3dab0d8">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=97a3dab0d8">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=1d5b417fed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=1d5b417fed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -60,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=97a3dab0d8">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=1d5b417fed">
 
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "League of Legends", "item": "https://brokenmeta.gg/league/"}, {"@type": "ListItem", "position": 3, "name": "Guides de champions", "item": "https://brokenmeta.gg/league/guide/"}, {"@type": "ListItem", "position": 4, "name": "Guide Karma", "item": "https://brokenmeta.gg/league/guide/karma/"}]}</script>
@@ -682,6 +694,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="../../../methodologie/">Méthodologie</a>
       <a href="../../../confidentialite/">Confidentialité</a>
       <a href="../../../cgu/">CGU</a>
+      <a href="../../../confidentialite/#cookies" data-bm-consent>Gérer les cookies</a>
       <a href="../../../sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">Généré le 2026-10-10 · Set TFTSet18</span>
@@ -714,10 +727,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=97a3dab0d8" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=97a3dab0d8" defer></script>
-<script src="../../../assets/js/site-search.js?v=97a3dab0d8" defer></script>
-<script src="../../../assets/js/favorites.js?v=97a3dab0d8" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
+<script src="../../../assets/js/site-search.js?v=1d5b417fed" defer></script>
+<script src="../../../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../../../assets/js/consent.js?v=fb0010a0d8" defer></script>
+
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -20,6 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
 <!-- Warm the connection to Google Fonts as early as possible -- the
      stylesheet below is render-blocking and lives on a third-party origin,
      so the DNS+TLS handshake it needs is pure dead time if it only starts
@@ -49,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW Forever launch: time, names, realms, editions">
 <meta name="twitter:description" content="Everything for WoW Forever&#39;s November 4, 2026 launch: time by time zone, name reservation, realms, editions and a launch-day FAQ.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/wow-class/forever.jpg">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=24e30d1939">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=24e30d1939">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=1d5b417fed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=1d5b417fed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -60,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=24e30d1939">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=1d5b417fed">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -392,6 +404,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
   </div>
   
+  
   <section class="gs-tile art2-faq" id="faq"><div class="gs-th"><h2 class="gs-h2">Frequently asked questions</h2></div>
   <details class="fq-item"><summary>What time does WoW Forever launch in Europe?</summary><p>By our conversion of the time Blizzard announced (3:00 p.m. Pacific on November 4, 2026), the game launches at midnight in Paris, on the night of November 4 to 5. Blizzard writes &#34;PDT&#34; and &#34;PST&#34; in different places of its announcement: if it were PDT, the launch would be at 11:00 p.m. on November 4. We will update as soon as it is confirmed.</p></details><details class="fq-item"><summary>Do I need to buy WoW Forever to play?</summary><p>No. According to Blizzard, the game is accessible with a World of Warcraft subscription or game time. The Skyborne editions are optional.</p></details><details class="fq-item"><summary>How do I reserve my character name?</summary><p>Through early name reservation, from October 27 to November 3, 2026, open to buyers of an eligible edition. Names are handed out first come, first served, with no guarantee. Each character has two names, and their combination must be unique in the region.</p></details><details class="fq-item"><summary>Are there realms to choose?</summary><p>No: Blizzard describes a realmless structure. You pick a ruleset (Normal, PvP, Roleplay, then Hardcore later) according to the BlizzCon presentation, to be confirmed at launch.</p></details><details class="fq-item"><summary>Will there be queues on launch night?</summary><p>We found no official announcement on this. We can neither confirm nor rule it out.</p></details><details class="fq-item"><summary>What does each edition include?</summary><p>Heroic Pack: Skyborne race, Zephras Isle, name reservation, a mount, cosmetics and one invite code. Epic Pack: all of it plus beta access, 30 days of game time and three codes in total. Warcraft Forever Collection: the Epic Pack plus Warcraft III: Reforged. The details are on the editions page.</p></details><details class="fq-item"><summary>When do the first raids open?</summary><p>Icy Veins&#39; calendar says three raids (Barrow Deeps, Hyjal Summit, Onyxia&#39;s Lair) unlock on December 9, 2026. Blizzard has not repeated it in the announcements we read: treat it as provisional.</p></details><details class="fq-item"><summary>Which class should I play at launch?</summary><p>Our level 60 tier list ranks specs by simulated DPS, with its method and limits. Race gaps are small: play the class and race you prefer.</p></details></section>
   
@@ -425,6 +438,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="../../../methodologie/">Methodology</a>
       <a href="../../../confidentialite/">Privacy</a>
       <a href="../../../cgu/">Terms</a>
+      <a href="../../../confidentialite/#cookies" data-bm-consent>Manage cookies</a>
       <a href="../../../../sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">Generated on 2026-10-10 · Set TFTSet18</span>
@@ -457,10 +471,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=24e30d1939" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=24e30d1939" defer></script>
-<script src="../../../../assets/js/site-search.js?v=24e30d1939" defer></script>
-<script src="../../../../assets/js/favorites.js?v=24e30d1939" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
+<script src="../../../../assets/js/site-search.js?v=1d5b417fed" defer></script>
+<script src="../../../../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../../../../assets/js/consent.js?v=fb0010a0d8" defer></script>
+
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

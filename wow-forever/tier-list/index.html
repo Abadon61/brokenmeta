@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -20,6 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
 <!-- Warm the connection to Google Fonts as early as possible -- the
      stylesheet below is render-blocking and lives on a third-party origin,
      so the DNS+TLS handshake it needs is pure dead time if it only starts
@@ -49,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Tier list WoW Forever : meilleures classes et spés">
 <meta name="twitter:description" content="Quelle est la meilleure classe de WoW Forever ? Tier list DPS et tanks simulée au niveau 60, mise à jour le 28 octobre 2026 (build 1.60.1.70450).">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=df5f29fef9">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=df5f29fef9">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=1d5b417fed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=1d5b417fed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -60,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=df5f29fef9">
+<link rel="stylesheet" href="../../assets/css/style.css?v=1d5b417fed">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -677,6 +689,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <p>Les soigneurs ne sont pas classés : le simulateur ne modélise pas encore les soins sur un combat complet, et nous refusons d&#39;afficher un chiffre inventé. Leurs guides restent disponibles dans la section des classes. <a href="../../wow-forever/classes/">Voir les guides de spécialisation</a>.</p>
 </section>
 
+
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">Questions fréquentes</h2></div>
 <details class="fq-item"><summary>Quelle est la meilleure classe de WoW Forever au niveau 60 ?</summary><p>Dans notre simulation, la spécialisation DPS la plus haute est Démoniste Affliction (754 DPS, build 1.60.1.70450). Le palier S compte : Démoniste Affliction et Chasseur Maîtrise des bêtes. Le classement complet des 20 spécialisations DPS est sur cette page, avec la méthode.</p></details><details class="fq-item"><summary>Quelle classe choisir pour débuter dans WoW Forever ?</summary><p>Nous ne classons pas la difficulté de jeu, faute de donnée fiable : notre tier list mesure la puissance. Choisissez une classe qui vous plaît parmi les paliers S et A (Démoniste Affliction et Chasseur Maîtrise des bêtes), lisez le guide de sa spécialisation, puis comparez les races sur la page « Quelle race choisir ».</p></details><details class="fq-item"><summary>Quelle est la classe la plus forte, en DPS et en tank ?</summary><p>En DPS, Démoniste Affliction (754 DPS) ; en tank, Guerrier Protection (1 213 TPS, menace par seconde). Ces valeurs viennent de combats simulés sur une cible avec le meilleur équipement connu de la bêta ; la survie des tanks n&#39;est pas encore simulée.</p></details><details class="fq-item"><summary>Quelle est la classe la plus polyvalente ?</summary><p>Druide, Guerrier et Paladin proposent à la fois une spécialisation DPS et une spécialisation tank dans nos mesures. Les soigneurs ne sont pas simulés, nous ne pouvons donc pas comparer la polyvalence complète (DPS, tank et soins).</p></details><details class="fq-item"><summary>La tier list de WoW Forever va-t-elle changer ?</summary><p>Oui : le classement ne tient compte que des objets déjà datamined, beaucoup d&#39;objets restent à découvrir, et les valeurs bougent avec les correctifs. La date de mise à jour et le build du jeu sont affichés en haut de page, et le simulateur est relancé à chaque changement important.</p></details><details class="fq-item"><summary>Pourquoi les soigneurs ne sont-ils pas classés ?</summary><p>Le simulateur ne modélise pas encore les soins sur un combat complet. Plutôt que d&#39;afficher un chiffre inventé, nous les laissons hors classement pour l&#39;instant.</p></details>
 </section>
@@ -710,6 +723,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="../../methodologie/">Méthodologie</a>
       <a href="../../confidentialite/">Confidentialité</a>
       <a href="../../cgu/">CGU</a>
+      <a href="../../confidentialite/#cookies" data-bm-consent>Gérer les cookies</a>
       <a href="../../sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">Généré le 2026-10-10 · Set TFTSet18</span>
@@ -742,10 +756,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=df5f29fef9" defer></script>
-<script src="../../assets/js/champ-icons.js?v=df5f29fef9" defer></script>
-<script src="../../assets/js/site-search.js?v=df5f29fef9" defer></script>
-<script src="../../assets/js/favorites.js?v=df5f29fef9" defer></script>
+<script src="../../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/site-search.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../../assets/js/consent.js?v=fb0010a0d8" defer></script>
+
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path

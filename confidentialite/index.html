@@ -7,6 +7,16 @@
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
   gtag('js', new Date());
 
   gtag('config', 'G-6W1LN5BM4N');
@@ -20,6 +30,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
 <!-- Warm the connection to Google Fonts as early as possible -- the
      stylesheet below is render-blocking and lives on a third-party origin,
      so the DNS+TLS handshake it needs is pure dead time if it only starts
@@ -49,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Politique de confidentialité | BrokenMeta.gg">
 <meta name="twitter:description" content="Quelles données BrokenMeta.gg collecte, pourquoi, et comment les exercer -- Google Analytics, l&#39;API Riot Games, MetaScope.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=97a3dab0d8">
-<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=97a3dab0d8">
+<link rel="icon" type="image/svg+xml" href="../favicon.svg?v=1d5b417fed">
+<link rel="icon" type="image/png" sizes="512x512" href="../favicon-google.png?v=1d5b417fed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -60,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../assets/css/style.css?v=97a3dab0d8">
+<link rel="stylesheet" href="../assets/css/style.css?v=1d5b417fed">
 
 
 </head>
@@ -235,10 +247,17 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <h2 class="fiche-section-title">Mesure d'audience (Google Analytics / Google Tag Manager)</h2>
 <p>Le site utilise Google Analytics (GA4) et Google Tag Manager pour comprendre comment il est utilisé (pages visitées, provenance, appareil, interactions comme la copie d'une comp ou l'usage du filtre par rang) et l'améliorer. Ces outils déposent des cookies et transmettent des données à Google, qui peut les traiter selon sa propre politique de confidentialité (<a href="https://policies.google.com/privacy" target="_blank" rel="noopener">policies.google.com/privacy</a>). Aucune de ces données n'est vendue.</p>
-<p>À l'heure actuelle, ces outils se chargent par défaut à ta visite, sans bandeau de consentement préalable -- une évolution vers un vrai bandeau de choix est prévue.</p>
+<p>Ces outils ne déposent leurs cookies d'audience qu'avec ton accord : à ta première visite, un bandeau te demande de choisir (voir la section « Cookies et consentement »).</p>
+
+<h2 class="fiche-section-title" id="cookies">Cookies et consentement</h2>
+<p>À ta première visite, un bandeau te propose de <strong>tout accepter</strong>, de <strong>tout refuser</strong> ou de <strong>personnaliser</strong> par finalité : mesure d'audience (Google Analytics, Google Tag Manager) et publicité (Google AdSense). Refuser est aussi simple qu'accepter, et le site fonctionne de la même façon dans les deux cas. Tant que tu n'as pas choisi, les cookies d'audience et de publicité restent désactivés (signaux « Consent Mode » de Google à l'état « refusé » : Google peut seulement recevoir des mesures agrégées, sans cookie ni identifiant).</p>
+<p>Ton choix est conservé <strong>6 mois</strong> dans le stockage local de ton navigateur, puis le bandeau te le redemande. Tu peux le modifier ou le retirer à tout moment avec le lien <a href="#" data-bm-consent>Gérer les cookies</a> en bas de chaque page.</p>
+
+<h2 class="fiche-section-title" id="publicite">Publicité (Google AdSense)</h2>
+<p>Le site peut afficher des publicités diffusées par Google AdSense, qui financent le projet. Elles ne s'affichent <strong>que si tu les as acceptées</strong> dans le bandeau. Google et ses partenaires peuvent alors utiliser des cookies et des identifiants pour limiter les répétitions, mesurer les résultats et, si tu l'acceptes aussi, personnaliser les annonces. Détails et réglages côté Google : <a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">policies.google.com/technologies/ads</a>. BrokenMeta.gg ne reçoit pas d'information personnelle sur les visiteurs à partir de ces publicités.</p>
 
 <h2 class="fiche-section-title">Stockage local (localStorage)</h2>
-<p>Ton choix de langue (FR/EN) est mémorisé dans le stockage local de ton navigateur pour ne pas te le redemander à chaque visite. Cette information reste uniquement sur ton appareil et n'est jamais transmise à nos serveurs.</p>
+<p>Ton choix de langue (FR/EN) et ton choix de cookies (6 mois) sont mémorisés dans le stockage local de ton navigateur pour ne pas te les redemander à chaque visite. Cette information reste uniquement sur ton appareil et n'est jamais transmise à nos serveurs.</p>
 
 <h2 class="fiche-section-title" id="addon-wow">Addon World of Warcraft BrokenMeta et partage de données</h2>
 <p>L'addon BrokenMeta pour WoW: Forever fonctionne dans ton jeu, sur ton ordinateur. Il enregistre localement, dans son fichier de sauvegarde, des mesures de ta feuille de personnage et les prix de l'hôtel des ventes que tu choisis de scanner. <strong>Rien ne quitte ton ordinateur</strong> tant que tu n'actives pas le partage (<code>/bmw share on</code>) <strong>et</strong> que tu n'envoies pas toi-même ce fichier depuis la page <a href="../wow-forever/partager-mes-donnees/">Partager mes données</a>.</p>
@@ -271,12 +290,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul>
   <li><strong>Hostinger</strong> -- hébergement du site.</li>
   <li><strong>Cloudflare</strong> -- exécution des services MetaScope et WoW (Workers), stockage des données partagées depuis l'addon (D1).</li>
-  <li><strong>Google</strong> -- Analytics, Tag Manager, polices Google Fonts.</li>
+  <li><strong>Google</strong> -- Analytics, Tag Manager (avec ton accord), AdSense (publicité, avec ton accord), polices Google Fonts.</li>
   <li><strong>Riot Games</strong> -- source des données de jeu (API officielle).</li>
 </ul>
 
 <h2 class="fiche-section-title">Durée de conservation</h2>
-<p>Les données d'audience (Google Analytics) sont conservées selon la configuration standard de Google Analytics. Les recherches MetaScope ne sont pas conservées (voir plus haut). Le site ne fait fonctionner aucune base de données de comptes ou de profils utilisateurs. Les données partagées depuis l'addon WoW sont conservées 24 mois (voir la section dédiée).</p>
+<p>Les données d'audience (Google Analytics) sont conservées selon la configuration standard de Google Analytics. Ton choix de cookies est conservé 6 mois sur ton appareil. Les recherches MetaScope ne sont pas conservées (voir plus haut). Le site ne fait fonctionner aucune base de données de comptes ou de profils utilisateurs. Les données partagées depuis l'addon WoW sont conservées 24 mois (voir la section dédiée).</p>
 
 <h2 class="fiche-section-title">Tes droits</h2>
 <p>Si tu es dans l'Union européenne, le Règlement général sur la protection des données (RGPD) te donne le droit d'accéder à tes données, de les rectifier, de les faire effacer, de t'opposer à leur traitement, et de les récupérer (portabilité). Pour l'exercer, contacte-nous (voir ci-dessous) ou adresse une réclamation à la CNIL (<a href="https://www.cnil.fr" target="_blank" rel="noopener">cnil.fr</a>).</p>
@@ -308,6 +327,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <a href="../methodologie/">Méthodologie</a>
       <a href="../confidentialite/">Confidentialité</a>
       <a href="../cgu/">CGU</a>
+      <a href="../confidentialite/#cookies" data-bm-consent>Gérer les cookies</a>
       <a href="../sitemap.xml">sitemap</a>
     </nav>
     <span class="footer-generated">Généré le 2026-10-10 · Set TFTSet18</span>
@@ -340,10 +360,12 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../";</script>
-<script src="../assets/js/copy-comp.js?v=97a3dab0d8" defer></script>
-<script src="../assets/js/champ-icons.js?v=97a3dab0d8" defer></script>
-<script src="../assets/js/site-search.js?v=97a3dab0d8" defer></script>
-<script src="../assets/js/favorites.js?v=97a3dab0d8" defer></script>
+<script src="../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
+<script src="../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
+<script src="../assets/js/site-search.js?v=1d5b417fed" defer></script>
+<script src="../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../assets/js/consent.js?v=fb0010a0d8" defer></script>
+
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
   // current page's own depth, so it's registered with an absolute path
