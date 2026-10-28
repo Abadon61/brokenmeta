@@ -52,7 +52,7 @@
     <div>
       <div class="fiche-kicker">{{ 'Simulation · niveau 60' if fr else 'Simulation · level 60' }}</div>
       <h1 class="hr-h1" id="hr-h">{{ 'Classement des spécialisations WoW: Forever' if fr else 'WoW: Forever specialization ranking' }}</h1>
-      <p class="hr-lede">{{ 'Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu de la bêta.' if fr else "Each specialization is simulated on a stationary boss for 180 seconds, with its family's raid buffs and the best gear known from the beta." }}</p>
+      <p class="hr-lede">{{ 'Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu de la bêta. Ce classement ne tient compte que des objets déjà datamined : beaucoup d\'objets restent à découvrir, et il peut donc changer.' if fr else "Each specialization is simulated on a stationary boss for 180 seconds, with its family's raid buffs and the best gear known from the beta. This ranking only counts items that have already been datamined: many items are still undiscovered, so it can change." }}</p>
     </div>
     <div class="hr-btns" style="display:flex;gap:10px;flex-wrap:wrap">
       <a class="wh-btn" href="{{ root }}wow-forever/tier-list/">{{ 'Voir la tier list' if fr else 'See the tier list' }} <span aria-hidden="true">→</span></a>
@@ -110,12 +110,19 @@
   </div>
 </section>
 {% endif %}
+<section class="hp" aria-labelledby="hl-h">
+  <div class="hn-head"><div><h2 class="lh-h2" id="hl-h" style="margin:0">{{ 'Leveling 1-60' if fr else 'Leveling 1-60' }}</h2><p class="hp-sub">{{ 'Zones, donjons, métiers et ordre des talents de chaque spécialisation, pour monter de 1 à 60.' if fr else 'Zones, dungeons, professions and the talent order of every specialization, to level from 1 to 60.' }}</p></div><a class="hn-all" href="{{ root }}wow-forever/leveling/">{{ 'Guide de leveling' if fr else 'Leveling guide' }} →</a></div>
+  <div class="ht-grid">
+    <a class="ht-card" href="{{ root }}wow-forever/leveling/"><b>{{ 'Guide de leveling 1-60' if fr else '1-60 leveling guide' }}</b><span>{{ 'Zones, donjons, métiers, nouveautés de Forever' if fr else "Zones, dungeons, professions, Forever's changes" }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/leveling/#lvg-classes"><b>{{ 'Leveling par classe' if fr else 'Leveling by class' }}</b><span>{{ 'Talents et donjons pour chacune des 27 spécialisations' if fr else 'Talents and dungeons for each of the 27 specializations' }}</span></a>
+    <a class="ht-card" href="{{ root }}wow-forever/leveling/meilleure-classe/"><b>{{ 'Quelle classe pour leveler ?' if fr else 'Which class to level?' }}</b><span>{{ 'Ce que nous mesurons et ce qui est un avis' if fr else 'What we measure and what is an opinion' }}</span></a>
+  </div>
+</section>
 <section class="hp" aria-labelledby="hd-h">
   <div class="hn-head"><div><h2 class="lh-h2" id="hd-h" style="margin:0">{{ 'Donjons par niveau' if fr else 'Dungeons by level' }}</h2><p class="hp-sub">{{ 'Quel donjon faire à ton niveau, avec le meilleur objet à y chercher pour ta spécialisation.' if fr else 'Which dungeon to run at your level, with the best item to look for there for your spec.' }}</p></div><a class="hn-all" href="{{ root }}wow-forever/dungeons/">{{ 'Tous les donjons' if fr else 'All dungeons' }} →</a></div>
   <div class="ht-grid">
     <a class="ht-card" href="{{ root }}wow-forever/dungeons/"><b>{{ 'Donjons par niveau' if fr else 'Dungeons by level' }}</b><span>{{ 'Indique ton niveau et ta spé' if fr else 'Enter your level and spec' }}</span></a>
     <a class="ht-card" href="{{ root }}wow-forever/dungeons/tous-les-objets/"><b>{{ 'Tous les objets de donjon' if fr else 'All dungeon items' }}</b><span>{{ 'Filtre par type, stats et niveau' if fr else 'Filter by type, stats and level' }}</span></a>
-    <a class="ht-card" href="{{ root }}wow-forever/leveling/"><b>{{ 'Guide de leveling 1-60' if fr else '1-60 leveling guide' }}</b><span>{{ 'Zones, donjons et métiers par tranche' if fr else 'Zones, dungeons and professions by band' }}</span></a>
   </div>
 </section>
 <section class="hp" aria-labelledby="ht-h">
