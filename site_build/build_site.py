@@ -7449,7 +7449,8 @@ def main() -> None:
             print(f"[game_news] {_g} refresh failed, using the stored archive: {_e}")
             _game_news[_g] = game_news.load(_g)
     env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
-    env.globals["wow_launched"] = wow_content.launched()      # after the launch the menu group is just "Forever" (BM_FORCE_LAUNCHED=1 previews it)
+    env.globals["wow_launched"] = wow_content.launched()
+    # (profession pages: the level-30 asterisks and their notes only describe the beta's cap, wow_launched drops them)      # after the launch the menu group is just "Forever" (BM_FORCE_LAUNCHED=1 previews it)
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
     env.globals["wow_theorycraft_group"] = ["talents", "optimisation", "logs", "simulateur-dps"]
     env.globals["trait_label"] = trait_label
@@ -7566,14 +7567,12 @@ def main() -> None:
         html = tpl.render(root=rel_prefix_for(url_path, lang), lang=lang,
                            generated_at=combined["generated_at"][:10], set_name=combined["set"], **page_ctx)
         if wow_content.launched() and (url_path.startswith("/wow-forever") or url_path == "/"):      # once the game is out: no more beta wording where it only says where the data comes from
-            if url_path.startswith(wow_content.LAUNCH_REWRITE_PREFIXES):
+            if not url_path.startswith(wow_content.LAUNCH_HISTORY_PREFIXES):      # the facts about the beta (level cap, auction house, access...) are rewritten as history by LAUNCH_FACTS; news and the beta page stay as written
                 html = wow_content.launch_wording(html, lang)
                 _left = wow_content.leftover_beta(html)
-                if _left:
+                if _left and url_path.startswith(wow_content.LAUNCH_REWRITE_PREFIXES):
                     print(f"[launch] {url_path} ({lang}) still mentions the beta: {_left[0]!r} (+{len(_left) - 1})")
-            elif not url_path.startswith(wow_content.LAUNCH_HISTORY_PREFIXES):      # facts about the beta (level cap, auction house...): a human pass with the post-launch data, listed at the end of the build
-                _left = wow_content.leftover_beta(html)
-                if _left:
+                elif _left:      # what is left on the other pages: source titles and beta dates given as history, listed at the end of the build
                     _fam = (url_path.split("/")[2] if url_path.startswith("/wow-forever/") and url_path.count("/") > 2 else "(hub)") or "(hub)"
                     _lm = _launch_manual.setdefault(_fam, [0, 0])
                     _lm[0] += 1
@@ -8259,6 +8258,8 @@ def main() -> None:
                 _bis_gear_data["specs"].get(_bspec_id, []), wow_guides.TXT[lang]["stat_names"])
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
+            if wow_content.launched() and _wslug != "beta":      # the FAQ markup is built from this model: rewrite it here too, not only the HTML
+                _wp = wow_content.launch_text(_wp, lang)
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
                 import copy
                 _wp = copy.deepcopy(_wp)

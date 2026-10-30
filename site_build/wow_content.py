@@ -41,6 +41,8 @@ LAUNCH_RULES = {
         # data-origin wording of the other data pages (ranking, tier list, races, glossary, talents, simulator)
         (r"client de la bêta", "client du jeu"), (r"données connues de la bêta", "données connues"), (r"équipement connu de la bêta", "équipement connu"),
         (r"le jeu est encore en bêta et les valeurs bougent", "les valeurs bougent"), (r"client b[êe]ta", "client du jeu"),
+        (r"Forever beta client tables", "Forever client tables"), (r"données de la bêta", "données du client"), (r"donnée de la bêta", "donnée du client"),
+        (r"tables de la bêta", "tables du client"),
     ],
     "en": [
         (r"the beta client", "the game client"),
@@ -51,23 +53,112 @@ LAUNCH_RULES = {
         (r"move with beta patches", "move with patches"), (r"among the beta" + _A + r"s dungeon and profession items", "among the known dungeon and profession items"),
         (r"is not available in the beta", "is not in the client data"), (r"Forever beta client data", "Forever client data"),
         (r"the beta" + _A + r"s own client data", "the client data"), (r"known from the beta", "known so far"), (r"the game is still in beta and values move", "values move"),
-        (r"beta client", "game client"),
+        (r"Forever beta client tables", "Forever client tables"), (r"beta client", "game client"), (r"Beta client", "Game client"),
+        (r"beta data", "client data"), (r"beta tables", "client tables"),
     ],
 }
-# Pages whose beta mentions only say where the data comes from: rewritten once launched. Everything else under /wow-forever/ (professions, leveling, raids, release,
-# editions, FAQ, progression...) states facts about the beta (level cap, no auction house, "to confirm in beta") that stop being true at launch: they cannot be
-# reworded, they need the post-launch data and a human pass, so the build only lists them ([launch][manual]). News articles and the beta page itself are history.
+# Sentences that state a fact about the beta (2026-10-30): level cap 30, "no auction house", "to confirm in beta", access to the beta, "the beta is open". Each one is
+# swapped for a sentence that only uses what the page already sourced: the beta becomes something that happened (17 September to 21 October, the dates the page gives),
+# and a thing we do not know at launch ("no auction house prices", "partial loot") says "we do not have it yet", never "the game has none". Literal text: a quote
+# mark in a pattern matches every escaped form of the apostrophe. Applied BEFORE LAUNCH_RULES, which then rename the data origin ("beta client" -> "game client").
+# Nothing is invented: the facts that are not known (profession caps, auction house, raid loot) are NOT stated here, they wait for the post-launch collection.
+def _lit(s):
+    return _re.escape(s).replace("\\'", _A).replace("'", _A)
+
+
+LAUNCH_FACTS = {
+    "fr": [
+        # hub: the intro and the card of the beta page
+        ("Le nouveau WoW de Blizzard sort le 4 novembre 2026 et sa bêta est ouverte. Cette section réunit ce qui est confirmé : dates, accès à la bêta, éditions,",
+         "Le nouveau WoW de Blizzard est sorti le 4 novembre 2026, après une bêta du 17 septembre au 21 octobre. Cette section réunit ce qui est confirmé : dates, éditions,"),
+        ("Comment y accéder, ce qu'on peut y faire et jusqu'à quel niveau.", "Les dates, l'accès et le niveau maximum de la bêta, terminée le 21 octobre."),
+        # release: the packs
+        ("et, pour certains, à la bêta.", "et, pour certains, ils ont donné accès à la bêta."),
+        # editions
+        ("et, pour deux d'entre eux, l'accès à la bêta.", "et, pour deux d'entre eux, l'accès à la bêta (du 17 septembre au 21 octobre)."),
+        ("Accès à la bêta dès le 17 septembre", "Accès à la bêta (du 17 septembre au 21 octobre)"),
+        ("plus l'accès à la bêta dès le 17 septembre,", "plus l'accès à la bêta (du 17 septembre au 21 octobre),"),
+        ("Ils ne donnent pas accès à la bêta.", "Ils ne donnaient pas accès à la bêta."),
+        # FAQ
+        ("Comment accéder à la bêta ?", "Comment accédait-on à la bêta ?"), ("La bêta dure du 17 septembre au 21 octobre 2026.", "La bêta a duré du 17 septembre au 21 octobre 2026."),
+        ("Jusqu'à quel niveau peut-on jouer en bêta ?", "Jusqu'à quel niveau pouvait-on jouer en bêta ?"),
+        ("Niveau 20 la première semaine, puis niveau 30 (plafond actuel).", "Niveau 20 la première semaine, puis niveau 30. Le niveau maximum du jeu est 60."),
+        ("Les personnages de la bêta sont-ils conservés ?", "Les personnages de la bêta ont-ils été conservés ?"),
+        ("Blizzard demande de créer un nouveau personnage de test : les personnages existants ne sont pas repris. Les annonces consultées ne précisent pas ce qui est conservé au lancement.",
+         "Blizzard demandait de créer un nouveau personnage de test : les personnages existants n'étaient pas repris. Les annonces consultées ne précisaient pas ce qui était conservé au lancement."),
+        # progression
+        ("La bêta plafonnait au niveau 20 la première semaine ; le plafond est désormais au niveau 30. Elle permet donc de tester Zephras Isle et les donjons de bas niveau, mais pas la montée jusqu'à 60.",
+         "La bêta plafonnait au niveau 20 la première semaine, puis au niveau 30. Elle permettait de tester Zephras Isle et les donjons de bas niveau, mais pas la montée jusqu'à 60."),
+        # classes
+        ("ils pourront changer d'ici la sortie.", "ils pourront changer avec les correctifs du jeu."),
+        # raids
+        ("n'a probablement pas encore été terminé en bêta", "n'a probablement pas encore été terminé en jeu"),
+        ("pas encore été terminé pendant cette bêta de bas niveau", "pas encore été terminé en jeu"),
+        # professions: the beta had no auction house prices and a level cap of 30 (the asterisks and their notes are dropped by the template)
+        ("qui n'existent pas encore en bêta.", "que nous n'avons pas encore relevés."),
+        ("la bêta n'a pas de prix à l'hôtel des ventes", "nous n'avons pas encore de prix de l'hôtel des ventes"),
+        ("Aucun prix de l'hôtel des ventes n'existe encore en bêta :", "Nous n'avons pas encore de prix de l'hôtel des ventes :"),
+        ("(à confirmer en bêta)", "(à confirmer en jeu)"), ("à confirmer en bêta.", "à confirmer en jeu."),
+        ("Les valeurs peuvent changer avec le jeu final, le 4 novembre 2026.", "Les valeurs peuvent changer avec les correctifs du jeu."),
+        (", et les prix de la bêta bougent beaucoup", ", et les prix bougent beaucoup"), (", et la bêta a peu de vendeurs.", "."),
+        ("Elle sera affinée à mesure que la bêta avance.", "Elle sera affinée avec les correctifs du jeu."),
+    ],
+    "en": [
+        ("Blizzard's new WoW launches on November 4, 2026 and its beta is open. This section gathers what is confirmed: dates, beta access, editions,",
+         "Blizzard's new WoW launched on November 4, 2026, after a beta from September 17 to October 21. This section gathers what is confirmed: dates, editions,"),
+        ("How to get in, what you can do and up to which level.", "Dates, access and level cap of the beta, which ended on October 21."),
+        ("cosmetics and, for some, the beta.", "cosmetics and, for some, gave access to the beta."),
+        ("and, for two of them, beta access.", "and, for two of them, beta access (September 17 to October 21)."),
+        ("Beta access from September 17", "Beta access (September 17 to October 21)"),
+        ("plus beta access from September 17,", "plus beta access (September 17 to October 21),"),
+        ("They do not include beta access.", "They did not include beta access."),
+        ("How do I get into the beta?", "How did you get into the beta?"), ("The beta runs from September 17 to October 21, 2026.", "The beta ran from September 17 to October 21, 2026."),
+        ("Up to what level can I play in the beta?", "Up to what level could you play in the beta?"),
+        ("Level 20 in the first week, then level 30 (current cap).", "Level 20 in the first week, then level 30. The game's level cap is 60."),
+        ("Do beta characters carry over?", "Did beta characters carry over?"),
+        ("Blizzard asks you to create a new test character: existing characters do not carry over. The announcements we consulted do not say what carries over at launch.",
+         "Blizzard asked you to create a new test character: existing characters did not carry over. The announcements we consulted did not say what carries over at launch."),
+        ("The beta capped at level 20 in the first week; the cap is now level 30. It lets you test Zephras Isle and the low-level dungeons, but not the climb to 60.",
+         "The beta capped at level 20 in the first week, then at level 30. It let you test Zephras Isle and the low-level dungeons, but not the climb to 60."),
+        ("they may change before launch.", "they may change with patches."),
+        ("has likely not really been cleared during the beta yet", "has likely not really been cleared in the live game yet"),
+        ("has likely not really been cleared during this low-level beta", "has likely not really been cleared in the live game"),
+        ("which do not exist in the beta yet.", "which we have not collected yet."),
+        ("since the beta has no auction house prices", "since we do not have auction house prices yet"),
+        ("No auction house prices exist in the beta yet:", "We do not have auction house prices yet:"),
+        ("(to confirm in beta)", "(to confirm in game)"), ("to confirm in beta.", "to confirm in game."),
+        ("Values may change with the final game on November 4, 2026.", "Values may change with game patches."),
+        (", and beta prices move a lot", ", and prices move a lot"), (", and the beta has few sellers.", "."),
+        ("It will be refined as the beta progresses.", "It will be refined with game patches."),
+    ],
+}
+# Pages whose beta mentions only say where the data comes from: rewritten once launched. The other pages under /wow-forever/ (professions, raids, release, editions,
+# FAQ, progression...) also get LAUNCH_FACTS. News articles and the beta page itself are history. What stays after both passes (leftover_beta) is meant to stay:
+# source titles ("Blizzard: the beta now live"), the dates of the beta given as history, the _classic_beta_ folder of the addon (to check on launch day).
 LAUNCH_REWRITE_PREFIXES = ("/wow-forever/guides/", "/wow-forever/tier-list/", "/wow-forever/simulateur-dps/", "/wow-forever/races/", "/wow-forever/glossaire/",
                            "/wow-forever/classement/", "/wow-forever/talents/")
 LAUNCH_HISTORY_PREFIXES = ("/wow-forever/actualites/", "/wow-forever/beta/")
-_LAUNCH_RE = {lang: [(_re.compile(p), r) for p, r in rules] for lang, rules in LAUNCH_RULES.items()}
+_LAUNCH_RE = {lang: [(_re.compile(_lit(p)), r) for p, r in rules] for lang, rules in LAUNCH_FACTS.items()}
+for _lang, _rules in LAUNCH_RULES.items():
+    _LAUNCH_RE[_lang] += [(_re.compile(p), r) for p, r in _rules]
 
 
 def launch_wording(html, lang):
-    """The page with the beta phrases of LAUNCH_RULES rewritten (call it only once launched())."""
+    """The page with the beta phrases of LAUNCH_FACTS then LAUNCH_RULES rewritten (call it only once launched())."""
     for rx, repl in _LAUNCH_RE[lang]:
         html = rx.sub(repl, html)
     return html
+
+
+def launch_text(obj, lang):
+    """Copy of a page model (dicts, lists, tuples, strings) with the same rewriting on every string: the FAQ markup is built from the model, not from the HTML."""
+    if isinstance(obj, str):
+        return launch_wording(obj, lang)
+    if isinstance(obj, dict):
+        return {k: launch_text(v, lang) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple)):
+        return type(obj)(launch_text(v, lang) for v in obj)
+    return obj
 
 
 def leftover_beta(html):
