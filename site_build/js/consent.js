@@ -5,12 +5,14 @@
   var KEY = 'bm_consent', TTL = 1000 * 60 * 60 * 24 * 180;
   var en = (document.documentElement.lang || 'fr').slice(0, 2) === 'en';
   var T = en ? {
+    support: 'Accepting helps keep BrokenMeta.gg free. Refusing changes nothing about your access.',
     title: 'Cookies: your call',
     text: 'BrokenMeta.gg is free. Measurement cookies tell us which pages to improve, and ads fund the site. You choose, and you can change your mind at the bottom of any page.',
     more: 'Details', accept: 'Accept all', refuse: 'Refuse all', custom: 'Customize', save: 'Save my choices', back: 'Back',
     an_t: 'Audience measurement', an_d: 'Google Analytics: which pages are read and from where. It helps us fix and improve the pages that matter.',
     ad_t: 'Advertising', ad_d: 'Google AdSense: the ads that pay for the site, and the cookies they use to limit repeats and measure results.',
   } : {
+    support: "Accepter aide à garder BrokenMeta.gg gratuit. Refuser ne change rien à ton accès au site.",
     title: 'Cookies : tu décides',
     text: "BrokenMeta.gg est gratuit. Les cookies de mesure nous disent quelles pages améliorer, et les pubs financent le site. Tu choisis, et tu peux changer d'avis en bas de n'importe quelle page.",
     more: 'Détails', accept: 'Tout accepter', refuse: 'Tout refuser', custom: 'Personnaliser', save: 'Enregistrer mes choix', back: 'Retour',
@@ -48,6 +50,7 @@
     st.textContent =
       '.bm-consent{position:fixed;left:16px;bottom:16px;z-index:2147483000;width:min(380px,calc(100vw - 32px));background:var(--bg-2,#0d1245);color:var(--cream,#e9eeff);' +
       'border:1px solid var(--border-bright,#34419f);border-radius:14px;box-shadow:0 12px 40px rgba(2,4,30,.7);padding:14px 16px;font:400 13px/1.45 "Afacad Flux",system-ui,sans-serif}' +
+      '.bm-consent-support{margin:-14px -16px 10px;padding:8px 16px;border-radius:14px 14px 0 0;background:var(--magenta-dim,rgba(42,99,255,.16));color:var(--cream,#e9eeff);font-weight:600;font-size:12.5px}' +
       '.bm-consent h2{margin:0 0 4px;font:600 15px/1.3 "Cal Sans","Afacad Flux",system-ui,sans-serif}' +
       '.bm-consent p{margin:0 0 10px;color:var(--text-dim,#a6b2e6)}' +
       '.bm-consent a{color:var(--cyan,#cfe0ff);text-decoration:underline}' +
@@ -59,7 +62,7 @@
       '.bm-consent-opt input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:#2a63ff}' +
       '.bm-consent-opt b{display:block;color:var(--cream,#e9eeff)}' +
       '.bm-consent-opt span{color:var(--text-dim,#a6b2e6)}' +
-      '@media (max-width:520px){.bm-consent{left:8px;bottom:8px;width:calc(100vw - 16px);padding:12px}}';
+      '@media (max-width:520px){.bm-consent{left:8px;bottom:8px;width:calc(100vw - 16px);padding:12px}.bm-consent-support{margin:-12px -12px 10px;padding:8px 12px}}';
     document.head.appendChild(st);
   }
   function close() { if (box) { box.remove(); box = null; } }
@@ -68,7 +71,7 @@
   function main(cur) {
     close(); css();
     box = mk('div', { 'class': 'bm-consent', role: 'dialog', 'aria-labelledby': 'bm-consent-t', 'aria-modal': 'false' });
-    box.innerHTML = '<h2 id="bm-consent-t">' + T.title + '</h2><p>' + T.text + ' <a href="' + root + 'confidentialite/#cookies">' + T.more + '</a>.</p>' +
+    box.innerHTML = '<div class="bm-consent-support">' + T.support + '</div><h2 id="bm-consent-t">' + T.title + '</h2><p>' + T.text + ' <a href="' + root + 'confidentialite/#cookies">' + T.more + '</a>.</p>' +
       '<div class="bm-consent-btns"><button type="button" data-a="refuse">' + T.refuse + '</button><button type="button" data-a="custom">' + T.custom + '</button><button type="button" data-a="accept">' + T.accept + '</button></div>';
     box.addEventListener('click', function (ev) {
       var a = ev.target && ev.target.getAttribute && ev.target.getAttribute('data-a');
