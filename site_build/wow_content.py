@@ -9,6 +9,9 @@ Block types: p (text) / list (items) / table (head, rows) / facts (items: [(labe
 """
 
 LAUNCH_UTC = "2026-11-04T23:00:00Z"   # 15:00 PST, as stated by Blizzard
+# The instant the pages switch to the after-launch wording (launched()). Set to 2026-10-30 on the owner's decision to publish the post-launch wording ahead of the
+# release; it is separate from LAUNCH_UTC so the launch date and time shown on the site stay the ones Blizzard states. Put it back to LAUNCH_UTC to undo.
+WORDING_SWITCH_UTC = "2026-10-30T00:00:00Z"
 
 
 def launched():
@@ -19,7 +22,7 @@ def launched():
     forced = os.environ.get("BM_FORCE_LAUNCHED")
     if forced in ("0", "1"):
         return forced == "1"
-    return datetime.now(timezone.utc) >= datetime.fromisoformat(LAUNCH_UTC.replace("Z", "+00:00"))
+    return datetime.now(timezone.utc) >= datetime.fromisoformat(WORDING_SWITCH_UTC.replace("Z", "+00:00"))
 
 
 # ---- spec guides after the launch (2026-10-25) ----
