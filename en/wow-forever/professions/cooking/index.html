@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Cooking WoW: Forever: 1 to 300 on the cheap">
 <meta name="twitter:description" content="WoW: Forever Cooking guide: the cheapest 1-300 route, shopping list, where the plans come from and every recipe.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=1d5b417fed">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=1d5b417fed">
+<link rel="icon" type="image/svg+xml" href="../../../../favicon.svg?v=16767816d6">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../favicon-google.png?v=16767816d6">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../assets/css/style.css?v=1d5b417fed">
+<link rel="stylesheet" href="../../../../assets/css/style.css?v=16767816d6">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -139,7 +139,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <a class="nav-link mobile-nav-sublink" href="../../../tft/" >Teamfight Tactics</a>
 <a class="nav-link mobile-nav-sublink" href="../../../league/" >League of Legends</a>
 
-<div class="mobile-nav-group-title">Beta: Forever</div>
+<div class="mobile-nav-group-title">Forever</div>
 <a class="nav-link mobile-nav-sublink" href="../../../" >Overview</a>
 <a class="nav-link mobile-nav-sublink" href="../../beta/" >Beta</a>
 <a class="nav-link mobile-nav-sublink" href="../../sortie/" >Release</a>
@@ -219,7 +219,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       
 
 <details class="nav-dropdown" >
-  <summary class="nav-link">Beta: Forever</summary>
+  <summary class="nav-link">Forever</summary>
   <div class="nav-dropdown-menu">
     <a href="../../../">Overview</a>
     <a href="../../beta/">Beta</a>
@@ -330,7 +330,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         
         
       </div>
-      <p class="gh-lede">The route below goes from 1 to 300 in at least 299 crafts. It is computed from the recipes, reagents and prices of the Wowhead Forever database and the beta client tables. The gold cost of the reagents is not shown: it will depend on auction house prices, which do not exist in the beta yet. Every point comes from an orange recipe, so all are guaranteed.</p>
+      <p class="gh-lede">The route below goes from 1 to 300 in at least 299 crafts. It is computed from the recipes, reagents and prices of the Wowhead Forever database and the game client tables. The gold cost of the reagents is not shown: it will depend on auction house prices, which we have not collected yet. Every point comes from an orange recipe, so all are guaranteed.</p>
     </div>
     <div class="gh-cta">
       <a class="gh-btn is-primary" href="#pf-route">See the route</a>
@@ -597,7 +597,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 <section class="gs-tile gs-w5" id="pf-ranks">
   <div class="gs-th"><h2 class="gs-h2">Profession ranks at the trainer</h2></div>
-  <p class="gs-lede">Each rank raises the skill cap. Descriptions come from the beta client.</p>
+  <p class="gs-lede">Each rank raises the skill cap. Descriptions come from the game client.</p>
   <div class="pf-ranks">
   
     <div class="pf-rank">
@@ -617,20 +617,20 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   
     <div class="pf-rank">
       <b>Artisan</b><span class="pf-rank-p nums">Quest or book (price not listed)</span>
-      <span class="pf-rank-d">Cap <span class="nums">300</span> · From skill <span class="nums">200</span> · Level required <span class="nums">35<span class="pf-risk" title="* Unreachable in the current beta (level 30 cap): sourced from wow-professions.com/forever, which live-tests every trainer on the beta client.">*</span></span></span>
+      <span class="pf-rank-d">Cap <span class="nums">300</span> · From skill <span class="nums">200</span> · Level required <span class="nums">35</span></span>
     </div>
   
   </div>
-  <p class="wow-note">* Unreachable in the current beta (level 30 cap): sourced from wow-professions.com/forever, which live-tests every trainer on the beta client.</p>
+  
 </section>
 
 <section class="gs-tile gs-w7" id="pf-method">
   <div class="gs-th"><h2 class="gs-h2">Method and limits</h2></div>
   <details class="gs-more" open><summary>How this route is computed</summary>
-    <ul class="gd-list"><li>Recipes shown in orange at your skill level are preferred: an orange recipe gives a skill point on every craft. Yellow or green recipes are only used to bridge a stretch that no orange recipe covers, and are marked with an asterisk.</li><li>A recipe is usable if a trainer teaches it or if its plan is sold by a vendor; the plan&#39;s price is added once. A plan that drops or comes from a quest is only kept as a last resort, marked &#39;plan to find&#39;.</li><li>To pick the cheapest sequence, a reagent sold by a vendor is counted at its purchase price, and one you gather, craft or disenchant at its vendor resale value: this is a provisional yardstick, since the beta has no auction house prices. These amounts are not shown.</li><li>Recipes with a reagent that has no reliable price (quest items, items missing from the trade goods list) are left out, and so are transmutes, whose possible cooldown in Forever is not shown in the data.</li><li>A shortest-path calculation from 1 to the cap then picks the cheapest sequence, paying for each recipe once.</li></ul>
+    <ul class="gd-list"><li>Recipes shown in orange at your skill level are preferred: an orange recipe gives a skill point on every craft. Yellow or green recipes are only used to bridge a stretch that no orange recipe covers, and are marked with an asterisk.</li><li>A recipe is usable if a trainer teaches it or if its plan is sold by a vendor; the plan&#39;s price is added once. A plan that drops or comes from a quest is only kept as a last resort, marked &#39;plan to find&#39;.</li><li>To pick the cheapest sequence, a reagent sold by a vendor is counted at its purchase price, and one you gather, craft or disenchant at its vendor resale value: this is a provisional yardstick, since we do not have auction house prices yet. These amounts are not shown.</li><li>Recipes with a reagent that has no reliable price (quest items, items missing from the trade goods list) are left out, and so are transmutes, whose possible cooldown in Forever is not shown in the data.</li><li>A shortest-path calculation from 1 to the cap then picks the cheapest sequence, paying for each recipe once.</li></ul>
   </details>
   <details class="gs-more"><summary>What the data does not say</summary>
-    <ul class="gd-list"><li>No auction house prices exist in the beta yet: the sequence of recipes is chosen with a provisional yardstick and no gold cost is shown. It will be recomputed with real prices.</li><li>The number of crafts is a minimum: points from yellow or green recipes are not guaranteed, and the data does not give the chance of a gain.</li><li>Tools required by some recipes (hammer, enchanter&#39;s rod, etc.) are not counted in the cost.</li><li>Starting recipes with no source listed are counted as known from the start, to confirm in beta.</li><li>Values may change with the final game on November 4, 2026.</li></ul>
+    <ul class="gd-list"><li>We do not have auction house prices yet: the sequence of recipes is chosen with a provisional yardstick and no gold cost is shown. It will be recomputed with real prices.</li><li>The number of crafts is a minimum: points from yellow or green recipes are not guaranteed, and the data does not give the chance of a gain.</li><li>Tools required by some recipes (hammer, enchanter&#39;s rod, etc.) are not counted in the cost.</li><li>Starting recipes with no source listed are counted as known from the start, to confirm in game.</li><li>Values may change with game patches.</li></ul>
   </details>
 </section>
 
@@ -646,13 +646,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <td data-first><a href="https://www.wowhead.com/forever/spell=2538" rel="noopener nofollow" target="_blank">Charred Wolf Meat</a></td>
       <td><span class="pf-colors nums"><span class="pf-c pf-o">–</span><span class="pf-c pf-y">45</span><span class="pf-c pf-g">65</span><span class="pf-c pf-x">85</span></span></td>
       <td><span class="pf-reagents"><span class="pf-reag"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="20" height="20" loading="lazy"><span class="nums">1×</span> Stringy Wolf Meat</span></span></td>
-      <td>Known from the start (to confirm in beta)</td>
+      <td>Known from the start (to confirm in game)</td>
     </tr>
     <tr>
       <td data-first><a href="https://www.wowhead.com/forever/spell=2540" rel="noopener nofollow" target="_blank">Roasted Boar Meat</a></td>
       <td><span class="pf-colors nums"><span class="pf-c pf-o">–</span><span class="pf-c pf-y">45</span><span class="pf-c pf-g">65</span><span class="pf-c pf-x">85</span></span></td>
       <td><span class="pf-reagents"><span class="pf-reag"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_14.jpg" alt="" width="20" height="20" loading="lazy"><span class="nums">1×</span> Chunk of Boar Meat</span></span></td>
-      <td>Known from the start (to confirm in beta)</td>
+      <td>Known from the start (to confirm in game)</td>
     </tr>
     <tr>
       <td data-first><a href="https://www.wowhead.com/forever/spell=7751" rel="noopener nofollow" target="_blank">Brilliant Smallfish</a></td>
@@ -676,7 +676,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <td data-first><a href="https://www.wowhead.com/forever/spell=8604" rel="noopener nofollow" target="_blank">Herb Baked Egg</a></td>
       <td><span class="pf-colors nums"><span class="pf-c pf-o">1</span><span class="pf-c pf-y">45</span><span class="pf-c pf-g">65</span><span class="pf-c pf-x">85</span></span></td>
       <td><span class="pf-reagents"><span class="pf-reag"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_egg_01.jpg" alt="" width="20" height="20" loading="lazy"><span class="nums">1×</span> Small Egg</span><span class="pf-reag"><img src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_wheat_02.jpg" alt="" width="20" height="20" loading="lazy"><span class="nums">1×</span> Mild Spices</span></span></td>
-      <td>Known from the start (to confirm in beta)</td>
+      <td>Known from the start (to confirm in game)</td>
     </tr>
     <tr>
       <td data-first><a href="https://www.wowhead.com/forever/spell=7752" rel="noopener nofollow" target="_blank">Slitherskin Mackerel</a></td>
@@ -1414,7 +1414,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <summary>Sources</summary>
   <ul class="gd-list wow-sources">
     <li><a href="https://www.wowhead.com/forever/spells/secondary-skills/cooking" rel="noopener nofollow" target="_blank">Wowhead — Forever database: Cooking</a></li>
-    <li><a href="https://wago.tools/" rel="noopener nofollow" target="_blank">Beta client tables (build 1.60.1.69913), published by wago.tools</a></li>
+    <li><a href="https://wago.tools/" rel="noopener nofollow" target="_blank">Game client tables (build 1.60.1.69913), published by wago.tools</a></li>
     <li><a href="https://www.wow-professions.com/forever" rel="noopener nofollow" target="_blank">wow-professions.com — trainer level requirements and beta-constrained materials</a></li>
   </ul>
 </details>
@@ -1499,10 +1499,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../";</script>
-<script src="../../../../assets/js/copy-comp.js?v=1d5b417fed" defer></script>
-<script src="../../../../assets/js/champ-icons.js?v=1d5b417fed" defer></script>
-<script src="../../../../assets/js/site-search.js?v=1d5b417fed" defer></script>
-<script src="../../../../assets/js/favorites.js?v=1d5b417fed" defer></script>
+<script src="../../../../assets/js/copy-comp.js?v=16767816d6" defer></script>
+<script src="../../../../assets/js/champ-icons.js?v=16767816d6" defer></script>
+<script src="../../../../assets/js/site-search.js?v=16767816d6" defer></script>
+<script src="../../../../assets/js/favorites.js?v=16767816d6" defer></script>
 <script src="../../../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>
