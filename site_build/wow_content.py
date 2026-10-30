@@ -105,6 +105,13 @@ LAUNCH_FACTS = {
         ("Les valeurs peuvent changer avec le jeu final, le 4 novembre 2026.", "Les valeurs peuvent changer avec les correctifs du jeu."),
         (", et les prix de la bêta bougent beaucoup", ", et les prix bougent beaucoup"), (", et la bêta a peu de vendeurs.", "."),
         ("Elle sera affinée à mesure que la bêta avance.", "Elle sera affinée avec les correctifs du jeu."),
+        # pre-launch phrasing without the word beta (2026-10-30): the game is out, so "sort le" / "avant la sortie" / "à confirmer au lancement" are put in the past or in the present of the game
+        ("sort le 4 novembre 2026", "est sorti le 4 novembre 2026"), ("tout savoir avant la sortie", "tout savoir sur la sortie"),
+        ("Quand sort WoW: Forever ?", "Quand est sorti WoW: Forever ?"), ("Pour régler ton personnage avant la sortie.", "Pour régler ton personnage."),
+        ("peu d'objets de raid sont connus avant la sortie.", "peu d'objets de raid sont connus à ce jour."),
+        ("seront vérifiées au lancement.", "restent à vérifier en jeu."), ("C'est la question la plus posée avant le lancement.", "C'est la question la plus posée depuis le lancement."),
+        ("à confirmer au lancement.", "à confirmer en jeu."), ("Version de travail avant le lancement du 4 novembre.", "Version de travail, écrite avant le lancement du 4 novembre."),
+        ("Les données changeront avec la sortie du jeu le 4 novembre 2026.", "Les données changeront avec les correctifs du jeu."),
     ],
     "en": [
         ("Blizzard's new WoW launches on November 4, 2026 and its beta is open. This section gathers what is confirmed: dates, beta access, editions,",
@@ -133,6 +140,13 @@ LAUNCH_FACTS = {
         ("Values may change with the final game on November 4, 2026.", "Values may change with game patches."),
         (", and beta prices move a lot", ", and prices move a lot"), (", and the beta has few sellers.", "."),
         ("It will be refined as the beta progresses.", "It will be refined with game patches."),
+        ("launches November 4, 2026", "launched November 4, 2026"), ("everything to know before launch", "everything to know about the launch"),
+        ("When does WoW: Forever launch?", "When did WoW: Forever launch?"), ("To set up your character before launch.", "To set up your character."),
+        ("few raid items are known before launch.", "few raid items are known so far."),
+        ("will be checked at launch.", "remain to be checked in game."), ("It is the most asked question before the launch.", "It is the most asked question since the launch."),
+        ("to be confirmed at launch.", "to be confirmed in game."),
+        ("Work in progress before the November 4 launch.", "Work in progress, written before the November 4 launch."),
+        ("The data will change when the game launches on November 4, 2026.", "The data will change with game patches."),
     ],
 }
 # Pages whose beta mentions only say where the data comes from: rewritten once launched. The other pages under /wow-forever/ (professions, raids, release, editions,
