@@ -3718,3 +3718,91 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   /* Actualités de l'accueil : 2 tuiles visibles (les plus récentes), les anciennes en défilant */
   .dash-cols .wf-grid { overflow-y: auto; overscroll-behavior: contain; scroll-snap-type: y proximity; padding-right: 8px; scrollbar-width: thin; scrollbar-color: #34419f transparent; }
   .dash-cols .wf-card { scroll-snap-align: start; }
+
+  /* ---- Simulateur de transmogrification (/wow-forever/transmogrification/) : tout sous #tmApp pour ne rien toucher ailleurs ---- */
+  #tmApp { display: grid; grid-template-columns: minmax(320px, 1fr) 420px; gap: 20px; margin: 14px 0 22px; align-items: start; }
+  @media (max-width: 960px) { #tmApp { grid-template-columns: 1fr; } }
+  #tmApp .tm-stage { position: sticky; top: 76px; }
+  @media (max-width: 960px) { #tmApp .tm-stage { position: static; } }
+  #tmApp .tm-view { width: 100%; aspect-ratio: 5 / 6; background: radial-gradient(ellipse at 50% 35%, #2a2060, #100b26 72%); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; }
+  @media (max-width: 960px) { #tmApp .tm-view { aspect-ratio: 1 / 1; max-height: 70vh; } }
+  #tmApp .tm-view canvas { display: block; width: 100% !important; height: 100% !important; touch-action: none; }
+  #tmApp .tm-log { margin-top: 6px; color: var(--text-faint); font-size: 12px; text-align: center; min-height: 16px; }
+  #tmApp .tm-panel { background: linear-gradient(180deg, #101650, #0b0f3d); border: 1px solid var(--border); border-radius: 14px; padding: 14px; min-width: 0; }
+  #tmApp h3 { margin: 18px 0 8px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; }
+  #tmApp .tm-panel > h3:first-child { margin-top: 0; }
+  #tmApp button { font: inherit; color: var(--cream); cursor: pointer; }
+  #tmApp #tmRaces { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
+  #tmApp #tmRaces button { padding: 0; border: 2px solid transparent; border-radius: 10px; background: none; line-height: 0; overflow: hidden; transition: border-color .12s; }
+  #tmApp #tmRaces img { width: 100%; display: block; opacity: .55; transition: opacity .12s; }
+  #tmApp #tmRaces button:hover img { opacity: .9; }
+  #tmApp #tmRaces button.on { border-color: var(--magenta); }
+  #tmApp #tmRaces button.on img { opacity: 1; }
+  #tmApp .tm-seg { display: grid; grid-template-columns: 1fr 1fr; background: var(--row); border: 1px solid var(--border); border-radius: 10px; padding: 3px; margin-top: 10px; }
+  #tmApp .tm-seg button { border: 0; background: none; color: var(--text-faint); padding: 7px; border-radius: 8px; font-weight: 600; }
+  #tmApp .tm-seg button.on { background: var(--magenta); color: var(--cream); }
+  #tmApp .tm-acts { display: flex; gap: 8px; margin-top: 12px; }
+  #tmApp .tm-acts button { flex: 1; border: 1px solid var(--border); background: var(--row); padding: 8px; border-radius: 10px; }
+  #tmApp .tm-acts button:hover { border-color: var(--border-bright); background: var(--row-hover); }
+  #tmApp #tmClasses { display: grid; grid-template-columns: repeat(10, 1fr); gap: 5px; }
+  #tmApp #tmClasses button { padding: 0; border: 2px solid transparent; border-radius: 9px; background: none; line-height: 0; overflow: hidden; font-size: 11px; font-weight: 600; }
+  #tmApp #tmClasses button.all { background: var(--row); border-color: var(--border); line-height: 1.1; padding: 2px; }
+  #tmApp #tmClasses img { width: 100%; display: block; opacity: .55; }
+  #tmApp #tmClasses button:hover img { opacity: .9; }
+  #tmApp #tmClasses button.on { border-color: var(--magenta); }
+  #tmApp #tmClasses button.on img { opacity: 1; }
+  #tmApp .tm-hint { color: var(--text-faint); font-size: 11px; margin: 6px 0 0; min-height: 14px; }
+  #tmApp #tmSlots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  #tmApp .slot { background: var(--row); border: 1px solid var(--border); border-radius: 12px; padding: 8px; text-align: left; display: flex; gap: 8px; align-items: center; min-width: 0; }
+  #tmApp .slot:hover, #tmApp .slot.open { border-color: var(--magenta); }
+  #tmApp .slot img, #tmApp .slot .ph { width: 34px; height: 34px; border-radius: 8px; flex: none; background: var(--bg); border: 1px solid var(--border); }
+  #tmApp .slot .t { min-width: 0; }
+  #tmApp .slot .t b { display: block; font-size: 10px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .05em; }
+  #tmApp .slot .t span { display: block; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #tmApp #tmPicker { margin-top: 10px; background: var(--row); border: 1px solid var(--border); border-radius: 12px; padding: 10px; display: none; }
+  #tmApp #tmPicker.show { display: block; }
+  #tmApp #tmPicker .top { display: flex; gap: 6px; margin-bottom: 8px; }
+  #tmApp #tmPicker input { flex: 1; background: var(--bg); border: 1px solid var(--border); color: var(--cream); border-radius: 8px; padding: 7px 9px; font: inherit; min-width: 0; }
+  #tmApp #tmPicker .top button, #tmApp #tmPicker .chips button { background: var(--row-hover); border: 0; border-radius: 8px; padding: 6px 10px; }
+  #tmApp #tmPicker .chips { display: flex; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+  #tmApp #tmPicker .chips button.on { background: var(--magenta); }
+  #tmApp .plist { max-height: 300px; overflow: auto; display: flex; flex-direction: column; gap: 2px; }
+  #tmApp .row { display: flex; gap: 8px; align-items: center; padding: 4px 6px; border-radius: 8px; cursor: pointer; }
+  #tmApp .row:hover { background: var(--row-hover); }
+  #tmApp .row.on { background: var(--magenta-dim); }
+  #tmApp .row img { width: 28px; height: 28px; border-radius: 6px; flex: none; }
+  #tmApp .row span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+  #tmApp .row small { color: var(--text-faint); font-size: 11px; }
+  #tmApp .q0 { color: #9d9d9d; } #tmApp .q1 { color: #fff; } #tmApp .q2 { color: #1eff00; } #tmApp .q3 { color: #4a9bff; } #tmApp .q4 { color: #b062ff; } #tmApp .q5 { color: #ff8000; }
+  #tmApp .pcount { color: var(--text-faint); font-size: 11px; margin-top: 6px; }
+  #tmApp #tmStance { margin-top: 12px; display: grid; gap: 6px; }
+  #tmApp #tmStance h3 { margin: 6px 0 2px; }
+  #tmApp #tmStance .srow { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; font-size: 12px; }
+  #tmApp #tmStance .srow > span { color: var(--text-faint); }
+  #tmApp #tmStance .opts { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--row); border: 1px solid var(--border); border-radius: 10px; padding: 2px; }
+  #tmApp #tmStance .opts button { border: 0; background: none; color: var(--text-faint); padding: 6px 4px; border-radius: 8px; font-size: 12px; }
+  #tmApp #tmStance .opts button.on { background: var(--magenta); color: var(--cream); }
+  #tmApp #tmStance .opts button:disabled { opacity: .35; cursor: not-allowed; }
+  #tmApp #tmStance .all { display: flex; gap: 8px; }
+  #tmApp #tmStance .all button { flex: 1; border: 1px solid var(--border); background: var(--row); padding: 7px; border-radius: 10px; font-size: 12px; }
+  #tmApp #tmStance .all button:hover { border-color: var(--border-bright); }
+  #tmApp .opt { margin-bottom: 12px; }
+  #tmApp .opt .nm { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-faint); margin-bottom: 6px; }
+  #tmApp .opt .nm b { color: var(--cream); font-weight: 600; }
+  #tmApp .sw { display: flex; flex-wrap: wrap; gap: 6px; }
+  #tmApp .sw button { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--border); padding: 0; background: #444; transition: transform .1s; }
+  #tmApp .sw button:hover { transform: scale(1.15); }
+  #tmApp .sw button.on { border-color: #fff; box-shadow: 0 0 0 2px var(--magenta); }
+  #tmApp .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  #tmApp .card { background: var(--row); border: 1px solid var(--border); border-radius: 12px; padding: 8px 8px 9px; }
+  #tmApp .card .nm { font-size: 11px; color: var(--text-faint); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 5px; }
+  #tmApp .card .crow { display: flex; align-items: center; gap: 6px; }
+  #tmApp .card .val { flex: 1; text-align: center; font-weight: 600; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  #tmApp .card .crow button { width: 28px; height: 28px; border: 0; border-radius: 8px; background: var(--row-hover); font-size: 12px; }
+  #tmApp .card .crow button:hover { background: var(--magenta); }
+  #tmApp .card .bar { height: 3px; border-radius: 2px; background: var(--row-hover); margin-top: 7px; overflow: hidden; }
+  #tmApp .card .bar i { display: block; height: 100%; background: var(--magenta); transition: width .15s; }
+  .tm-sections { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 0 0 18px; }
+  @media (max-width: 860px) { .tm-sections { grid-template-columns: 1fr; } }
+  .tm-sections ol, .tm-sections ul { margin: 8px 0 0; padding-left: 20px; color: var(--text-dim); font-size: 14px; line-height: 1.6; }
+  .tm-source { color: var(--text-faint); font-size: 12px; margin: 0 0 24px; }
