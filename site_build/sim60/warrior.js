@@ -70,6 +70,9 @@ export const FURY_DEFAULT_BUILD = {
   improvedExecute: 2, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
+  // Arms-tree talents of the hybrid Fury builds (2026-11-02): all off in the default build, so the Fury numbers published so far do not move
+  deepWounds: 0, impale: 0, angerManagement: 0, improvedRend: 0,   // useRend: unset = on when Improved Rend has points
+  rendStanceLock: 1.0,          // Rend needs Battle or Defensive Stance (client flag): each cast is counted as one GCD plus this many seconds of stance change (an estimate, the stance rules of Forever are not modelled)
 };
 export const ARMS_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, improvedHeroicStrike: 3, improvedOverpower: 2, angerManagement: 1, deepWounds: 3,
@@ -125,6 +128,7 @@ function executePhase(sim, W) {
 // =============================== FURY ===============================
 export function furyKit(build = {}, data = null) {
   const b = Object.assign({}, FURY_DEFAULT_BUILD, build), W = warriorFromData(data);
+  if (b.useRend === undefined) b.useRend = (b.improvedRend || 0) > 0;
   return {
     name: 'warrior_fury', build: b, W,
     setup(sim) {
@@ -148,6 +152,17 @@ export function furyKit(build = {}, data = null) {
       const wwCost = () => W.whirlwind.cost - (b.ragingBlows ? W.ragingBlows.whirlwindCost : 0);
       sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd });
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
+      // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
+      if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
+      if (b.deepWounds && sim.player.weapons[0]) {
+        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds);
+        sim.procs.push((s, outcome, source, isOH) => { if (outcome === 'crit' && !isOH) applyDeepWounds(); });      // main-hand crits only, as in the Arms kit
+      }
+      if (b.angerManagement) {
+        const tick = () => { sim.gainRage(W.angerManagement.amount); sim.schedule(W.angerManagement.interval, tick); };
+        sim.schedule(W.angerManagement.interval, tick);
+      }
+      if (b.useRend) { sim.sRD = sim.addSpell({ name: 'Rend', cost: () => W.rend.cost, cd: 0 }); sim.rendEndsAt = -1; }
 
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
@@ -168,6 +183,13 @@ export function furyKit(build = {}, data = null) {
         sim.spendRage(W.bloodthirst.cost);
         yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
       });
+      // Rend (hybrid builds only): after Bloodthirst, kept up outside the execute phase, same damage as the Arms kit (client row + 2 % AP per tick, Improved Rend on top)
+      if (b.useRend && !(b.executePhase && sim.inExecute()) && now >= sim.rendEndsAt - 1.5 && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
+        sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
+        const ticks = Math.round(W.rend.duration / W.rend.tick), my = sim.rendEndsAt;
+        const per = (W.rend.total / ticks + 0.02 * sim.ap()) * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0));
+        for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
+      }, 1.5 + (b.rendStanceLock || 0));
       if (b.useWhirlwind !== false && (!b.bloodthirst || sim.sBT.readyAt - now >= 1.5) && sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {   // their APL: Whirlwind when Bloodthirst is 1.5 s or more from ready
         sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];

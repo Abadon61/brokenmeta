@@ -234,9 +234,11 @@ export const PRESETS = {
     'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
   warrior_fury: {   // build 70425: Bloodthirst needs 30 points in Fury; Precision, Improved Cleave and Boundless Rage are gone (Furious Precision = off-hand hit)
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,
-    'Improved Execute': 2, 'Death Wish': 1, 'Improved Berserker Rage': 2, 'Flurry': 5, 'Bloodthirst': 1,
-    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 5, 'Improved Overpower': 2, 'Anger Management': 1,
+    // 2026-11-02: the bleed hybrid (33 Fury / 18 Arms) from the calculator link shared by the site owner: Deep Wounds, Impale, Improved Rend (Rend is kept up) and Anger Management.
+    // Measured +8.6 % over the 51-point Fury build it replaces (sample gear, 20 000 fights); the stance change that Rend needs is an estimate (1.0 s per cast).
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 3,
+    'Improved Execute': 2, 'Death Wish': 1, 'Flurry': 5, 'Bloodthirst': 1,
+    'Improved Heroic Strike': 2, 'Improved Rend': 3, 'Improved Tactical Mastery': 5, 'Improved Overpower': 2, 'Anger Management': 1, 'Deep Wounds': 3, 'Impale': 2,
   },
   warrior_arms: {
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,

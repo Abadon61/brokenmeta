@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-28",
+ "generated": "2026-11-02",
  "fightLen": 180,
  "iterations": 6000,
  "build": "1.60.1.69913",
@@ -9,19 +9,19 @@
    "spec": "warrior_fury",
    "class": "warrior",
    "role": "dps",
-   "dps": 550,
-   "sem": 0.41,
+   "dps": 596.6,
+   "sem": 0.45,
    "name": "Fury Warrior",
    "spells": [
     [
-     "Bloodthirst",
-     122.5,
-     23.8
+     "White (main hand)",
+     122.3,
+     0
     ],
     [
-     "White (main hand)",
-     117.3,
-     0
+     "Bloodthirst",
+     119.4,
+     22.4
     ],
     [
      "White (off-hand)",
@@ -29,23 +29,33 @@
      0
     ],
     [
-     "Heroic Strike",
-     76.8,
-     19.8
+     "Execute",
+     80.8,
+     18.2
     ],
     [
-     "Execute",
-     74.6,
-     17.9
+     "Heroic Strike",
+     72.1,
+     17.6
     ],
     [
      "Whirlwind",
-     31.3,
-     11.9
+     33.2,
+     12
+    ],
+    [
+     "Deep Wounds",
+     20.9,
+     0
+    ],
+    [
+     "Rend",
+     19.4,
+     7.6
     ],
     [
      "Whirlwind (off-hand)",
-     17.2,
+     18.2,
      0
     ],
     [
@@ -174,12 +184,12 @@
        "en": "Enrage",
        "fr": "Enrager"
       },
-      "rank": 5,
+      "rank": 3,
       "max": 5,
       "row": 4,
       "desc": {
-       "en": "Gives you a 30% chance to deal 10% increased Physical damage for 12 sec after being the victim of any damaging attack.",
-       "fr": "Vous confère 30 % de chances d’infliger 10 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts."
+       "en": "Gives you a 30% chance to deal 6% increased Physical damage for 12 sec after being the victim of any damaging attack.",
+       "fr": "Vous confère 30 % de chances d’infliger 6 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts."
       }
      },
      {
@@ -216,24 +226,6 @@
       "desc": {
        "en": "When activated, increases your Physical damage done by 20% and makes you immune to Fear effects, but increases all damage you take by 5%. Lasts 30 sec.",
        "fr": "À l’activation, augmente de 20 % les dégâts physiques que vous infligez et vous rend insensible aux effets de peur, mais augmente de 5 % les dégâts que vous subissez. Dure 30 s."
-      }
-     },
-     {
-      "tree": "fury",
-      "tree_name": {
-       "en": "Fury",
-       "fr": "Fureur"
-      },
-      "name": {
-       "en": "Improved Berserker Rage",
-       "fr": "Rage berserker améliorée"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 5,
-      "desc": {
-       "en": "Your Berserker Rage ability will instantly generate 10 Rage and has a 100% chance to remove all movement impairing effects when activated.",
-       "fr": "Votre technique Rage de berserker génère désormais instantanément 10 points de rage et a 100 % de chances d’annuler tous les effets affectant le déplacement quand elle est active."
       }
      },
      {
@@ -282,12 +274,12 @@
        "en": "Improved Heroic Strike",
        "fr": "Frappe héroïque améliorée"
       },
-      "rank": 3,
+      "rank": 2,
       "max": 3,
       "row": 1,
       "desc": {
-       "en": "Reduces the cost of your Heroic Strike ability by 3 Rage.",
-       "fr": "Réduit le coût de votre technique Frappe héroïque de 3 points de rage."
+       "en": "Reduces the cost of your Heroic Strike ability by 2 Rage.",
+       "fr": "Réduit le coût de votre technique Frappe héroïque de 2 points de rage."
       }
      },
      {
@@ -361,11 +353,47 @@
        "en": "Generates 1 Rage every 3 sec while in combat, and reduces Rage loss while out of combat by 30%.",
        "fr": "Génère 1 point de rage toutes les 3 s au combat et réduit la perte de rage en dehors des combats de 30 %."
       }
+     },
+     {
+      "tree": "arms",
+      "tree_name": {
+       "en": "Arms",
+       "fr": "Armes"
+      },
+      "name": {
+       "en": "Deep Wounds",
+       "fr": "Blessures profondes"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 3,
+      "desc": {
+       "en": "Your critical strikes cause your opponent to Bleed, dealing 60% of your melee weapon's average damage over 12 sec.",
+       "fr": "Vos coups critiques font saigner votre adversaire, lui infligeant 60 % des dégâts moyens de votre arme de mêlée pendant 12 s."
+      }
+     },
+     {
+      "tree": "arms",
+      "tree_name": {
+       "en": "Arms",
+       "fr": "Armes"
+      },
+      "name": {
+       "en": "Impale",
+       "fr": "Empaler"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 4,
+      "desc": {
+       "en": "Increases the critical strike damage bonus of your abilities by 20%.",
+       "fr": "Augmente de 20% le bonus aux dégâts des coups critiques réussis avec vos techniques."
+      }
      }
     ],
     "trees": {
-     "fury": 37,
-     "arms": 14
+     "fury": 33,
+     "arms": 18
     },
     "items": [
      {
@@ -422,12 +450,13 @@
      },
      {
       "slot": "wrist",
-      "id": 13400,
-      "name": "Vambraces of the Sadist",
-      "zone": "Stratholme",
-      "from": "dungeon",
-      "src": "Timmy the Cruel",
-      "ilvl": 59,
+      "id": 19687,
+      "name": "Primal Batskin Bracers",
+      "zone": "leatherworking",
+      "from": "craft",
+      "skill": 300,
+      "src": "Primal Batskin Bracers",
+      "ilvl": 60,
       "q": 3
      },
      {
@@ -593,15 +622,15 @@
       }
      },
      "hands": {
-      "id": 20013,
+      "id": 25080,
       "kind": "enchant",
       "name": {
-       "en": "Enchant Gloves - Greater Strength",
-       "fr": "Ench. de gants (Force supérieure)"
+       "en": "Enchant Gloves - Superior Agility",
+       "fr": "Enchantement de gants (Agilité excellente)"
       },
-      "effect": "Strength +$k1",
+      "effect": "Agility +15",
       "stats": {
-       "str": 10
+       "agi": 15
       }
      },
      "feet": {
@@ -646,37 +675,37 @@
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 8.071,
+      "per": 6.376,
       "unit": "pct",
-      "rel": 37.37
+      "rel": 28.09
      },
      {
       "stat": "critstrkrtng",
-      "per": 4.337,
+      "per": 5.155,
       "unit": "pct",
-      "rel": 20.08
+      "rel": 22.71
      },
      {
       "stat": "hastertng",
-      "per": 4.281,
+      "per": 4.908,
       "unit": "pct",
-      "rel": 19.82
+      "rel": 21.62
      },
      {
       "stat": "str",
-      "per": 0.475,
+      "per": 0.5,
       "unit": "pt",
       "rel": 2.2
      },
      {
       "stat": "agi",
-      "per": 0.245,
+      "per": 0.297,
       "unit": "pt",
-      "rel": 1.13
+      "rel": 1.31
      },
      {
       "stat": "atkpwr",
-      "per": 0.216,
+      "per": 0.227,
       "unit": "pt",
       "rel": 1
      },
@@ -701,16 +730,16 @@
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": true,
-        "gain": 8.2,
-        "pct": 1.51
+        "gain": 8.62,
+        "pct": 1.47
        },
        {
         "id": "scroll_agility",
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": false,
-        "gain": 3.84,
-        "pct": 0.71
+        "gain": 4.75,
+        "pct": 0.81
        },
        {
         "id": "scroll_intellect",
@@ -743,40 +772,40 @@
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": true,
-        "gain": 23.24,
-        "pct": 4.41
+        "gain": 25.51,
+        "pct": 4.47
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 17.96,
-        "pct": 3.41
+        "gain": 21.28,
+        "pct": 3.73
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 16.87,
-        "pct": 3.2
+        "gain": 19.58,
+        "pct": 3.43
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 11.16,
-        "pct": 2.12
+        "gain": 12.8,
+        "pct": 2.24
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 10.57,
-        "pct": 2.01
+        "gain": 11.13,
+        "pct": 1.95
        },
        {
         "id": "flask_ancient_knowledge",
@@ -809,16 +838,16 @@
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": true,
-        "gain": 12.09,
-        "pct": 2.25
+        "gain": 12.71,
+        "pct": 2.18
        },
        {
         "id": "food_agility",
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": false,
-        "gain": 5.71,
-        "pct": 1.06
+        "gain": 6.78,
+        "pct": 1.16
        },
        {
         "id": "food_spell_power",
@@ -843,16 +872,16 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 11.4,
-        "pct": 2.12
+        "gain": 13.04,
+        "pct": 2.24
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 6.76,
-        "pct": 1.26
+        "gain": 8.2,
+        "pct": 1.4
        },
        {
         "id": "brilliant_wizard_oil",
@@ -878,16 +907,16 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 14.24,
-       "pct": 2.59
+       "gain": 14.98,
+       "pct": 2.51
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 8.63,
-       "pct": 1.57
+       "gain": 9.08,
+       "pct": 1.52
       },
       {
        "id": "mageblood_potion",
@@ -919,51 +948,51 @@
      {
       "stat": "hitrtng",
       "unit": "pct",
-      "base": 7,
+      "base": 8,
       "points": [
        [
-        7,
-        550.42,
+        8,
+        596.69,
         0
        ],
        [
-        9.3,
-        563.98,
+        10.3,
+        608.42,
         23
        ],
        [
-        11.5,
-        573.14,
+        12.5,
+        616.28,
         45
        ],
        [
-        13.8,
-        583.12,
+        14.8,
+        630.26,
         68
        ],
        [
-        16,
-        594,
+        17,
+        639.4,
         90
        ],
        [
-        18.3,
-        601.64,
+        19.3,
+        643.08,
         113
        ],
        [
-        20.5,
-        606.98,
+        21.5,
+        649.22,
         135
        ],
        [
-        22.8,
-        611.28,
+        23.8,
+        655.21,
         158
        ],
        [
-        25,
-        614.43,
+        26,
+        658.99,
         180
        ]
       ],
@@ -973,51 +1002,51 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 31.1,
+      "base": 31.7,
       "points": [
        [
-        31.1,
-        550.42,
+        31.7,
+        596.69,
         0
        ],
        [
-        33.6,
-        560.62,
+        34.2,
+        608.78,
         35
        ],
        [
-        36.1,
-        571.96,
+        36.7,
+        620.83,
         70
        ],
        [
-        38.6,
-        581.73,
+        39.2,
+        635.03,
         105
        ],
        [
-        41.1,
-        591.7,
+        41.7,
+        646.9,
         140
        ],
        [
-        43.6,
-        597.38,
+        44.2,
+        653.9,
         175
        ],
        [
-        46.1,
-        603.46,
+        46.7,
+        660.54,
         210
        ],
        [
-        48.6,
-        609,
+        49.2,
+        668.45,
         245
        ],
        [
-        51.1,
-        614.36,
+        51.7,
+        676.85,
         280
        ]
       ],
@@ -1031,47 +1060,47 @@
       "points": [
        [
         0,
-        550.42,
+        596.69,
         0
        ],
        [
         2.5,
-        559.52,
+        606.63,
         25
        ],
        [
         5,
-        571.34,
+        618.11,
         50
        ],
        [
         7.5,
-        581.74,
+        629.39,
         75
        ],
        [
         10,
-        593.18,
+        640.51,
         100
        ],
        [
         12.5,
-        603.43,
+        652.09,
         125
        ],
        [
         15,
-        615.6,
+        664.01,
         150
        ],
        [
         17.5,
-        626.7,
+        676.73,
         175
        ],
        [
         20,
-        637.48,
+        689.16,
         200
        ]
       ],
@@ -1085,47 +1114,47 @@
       "points": [
        [
         0,
-        550.42,
+        596.69,
         0
        ],
        [
         15,
-        557.33,
+        603.96,
         15
        ],
        [
         30,
-        564.67,
+        611.67,
         30
        ],
        [
         45,
-        571.57,
+        618.94,
         45
        ],
        [
         60,
-        578.91,
+        626.66,
         60
        ],
        [
         75,
-        585.82,
+        633.92,
         75
        ],
        [
         90,
-        593.16,
+        641.64,
         90
        ],
        [
         105,
-        600.07,
+        648.9,
         105
        ],
        [
         120,
-        607.41,
+        656.62,
         120
        ]
       ],
@@ -1139,47 +1168,47 @@
       "points": [
        [
         0,
-        550.42,
+        596.69,
         0
        ],
        [
         15,
-        553.73,
+        600.15,
         15
        ],
        [
         30,
-        556.88,
+        604.27,
         30
        ],
        [
         45,
-        560.62,
+        608.78,
         45
        ],
        [
         60,
-        564.81,
+        612.43,
         60
        ],
        [
         75,
-        568.18,
+        616.91,
         75
        ],
        [
         90,
-        571.84,
+        620.33,
         90
        ],
        [
         105,
-        574.31,
+        624.69,
         105
        ],
        [
         120,
-        577.88,
+        629.18,
         120
        ]
       ],
@@ -1193,47 +1222,47 @@
       "points": [
        [
         0,
-        550.42,
+        596.69,
         0
        ],
        [
         50,
-        561.21,
+        608.04,
         50
        ],
        [
         100,
-        572.01,
+        619.39,
         100
        ],
        [
         150,
-        582.8,
+        630.74,
         150
        ],
        [
         200,
-        593.59,
+        642.09,
         200
        ],
        [
         250,
-        604.39,
+        653.44,
         250
        ],
        [
         300,
-        615.18,
+        664.79,
         300
        ],
        [
         350,
-        625.97,
+        676.14,
         350
        ],
        [
         400,
-        636.77,
+        687.49,
         400
        ]
       ],
@@ -1244,62 +1273,58 @@
     "procs": [
      {
       "name": "Flurry",
-      "perMin": 29.8
+      "perMin": 30.2
      }
     ],
     "talentValues": {
      "Cruelty": {
-      "gain": 30.09,
-      "pct": 5.47
+      "gain": 35.69,
+      "pct": 5.98
      },
      "Unbridled Wrath": {
-      "gain": 16.57,
-      "pct": 3.01
+      "gain": 10.79,
+      "pct": 1.81
      },
      "Furious Precision": {
-      "gain": 25.63,
-      "pct": 4.65
+      "gain": 25.48,
+      "pct": 4.27
      },
      "Lingering Rage": null,
      "Dual Wield Specialization": {
-      "gain": 56.04,
-      "pct": 10.18
+      "gain": 58.43,
+      "pct": 9.79
      },
      "Raging Blows": {
-      "gain": 4.95,
-      "pct": 0.9
+      "gain": 5.42,
+      "pct": 0.91
      },
      "Enrage": {
       "gain": 0,
       "pct": 0
      },
      "Improved Execute": {
-      "gain": 14.84,
-      "pct": 2.69
+      "gain": 16.49,
+      "pct": 2.76
      },
      "Death Wish": {
-      "gain": 17.96,
-      "pct": 3.26
-     },
-     "Improved Berserker Rage": {
-      "gain": 9.3,
-      "pct": 1.69
+      "gain": 17.73,
+      "pct": 2.97
      },
      "Flurry": {
-      "gain": 75.78,
-      "pct": 13.76
+      "gain": 79.46,
+      "pct": 13.31
      },
      "Bloodthirst": {
-      "gain": 54.24,
-      "pct": 9.85
+      "gain": 51.29,
+      "pct": 8.59
      },
      "Improved Heroic Strike": {
-      "gain": 6.46,
-      "pct": 1.17
+      "gain": 2.89,
+      "pct": 0.48
      },
      "Improved Rend": {
-      "gain": 0,
-      "pct": 0
+      "gain": 5.42,
+      "pct": 0.91
      },
      "Improved Tactical Mastery": null,
      "Improved Overpower": {
@@ -1307,8 +1332,16 @@
       "pct": 0
      },
      "Anger Management": {
-      "gain": 0,
-      "pct": 0
+      "gain": 11.2,
+      "pct": 1.88
+     },
+     "Deep Wounds": {
+      "gain": 20.93,
+      "pct": 3.51
+     },
+     "Impale": {
+      "gain": 17.41,
+      "pct": 2.92
      }
     },
     "alt": null,
@@ -1456,15 +1489,15 @@
     },
     "stats": {
      "prim": {
-      "str": 474,
-      "agi": 282,
-      "sta": 282,
+      "str": 455,
+      "agi": 314,
+      "sta": 281,
       "int": 89,
       "spi": 126
      },
-     "ap": 1652,
-     "crit": 0.311,
-     "hit": 0.07,
+     "ap": 1614,
+     "crit": 0.317,
+     "hit": 0.08,
      "haste": 1,
      "armor": 976
     },
@@ -1482,58 +1515,72 @@
      ],
      [
       "Flurry",
-      0.77
+      0.78
      ]
     ],
     "abilities": [
      {
-      "name": "Bloodthirst",
-      "dps": 122.5,
-      "casts": 23.8,
-      "hits": 22,
-      "crit": 0.419
+      "name": "White (main hand)",
+      "dps": 122.3,
+      "casts": 0,
+      "hits": 43.7,
+      "crit": 0.463
      },
      {
-      "name": "White (main hand)",
-      "dps": 117.3,
-      "casts": 0,
-      "hits": 41.5,
-      "crit": 0.456
+      "name": "Bloodthirst",
+      "dps": 119.4,
+      "casts": 22.4,
+      "hits": 20.9,
+      "crit": 0.411
      },
      {
       "name": "White (off-hand)",
       "dps": 108.5,
       "casts": 0,
-      "hits": 93.9,
-      "crit": 0.421
-     },
-     {
-      "name": "Heroic Strike",
-      "dps": 76.8,
-      "casts": 19.8,
-      "hits": 18.2,
-      "crit": 0.396
+      "hits": 95.1,
+      "crit": 0.423
      },
      {
       "name": "Execute",
-      "dps": 74.6,
-      "casts": 17.9,
+      "dps": 80.8,
+      "casts": 18.2,
+      "hits": 17,
+      "crit": 0.348
+     },
+     {
+      "name": "Heroic Strike",
+      "dps": 72.1,
+      "casts": 17.6,
       "hits": 16.5,
-      "crit": 0.342
+      "crit": 0.393
      },
      {
       "name": "Whirlwind",
-      "dps": 31.3,
-      "casts": 11.9,
-      "hits": 11,
-      "crit": 0.399
+      "dps": 33.2,
+      "casts": 12,
+      "hits": 11.2,
+      "crit": 0.404
+     },
+     {
+      "name": "Deep Wounds",
+      "dps": 20.9,
+      "casts": 0,
+      "hits": 55.4,
+      "crit": 0
+     },
+     {
+      "name": "Rend",
+      "dps": 19.4,
+      "casts": 7.6,
+      "hits": 46.6,
+      "crit": 0
      },
      {
       "name": "Whirlwind (off-hand)",
-      "dps": 17.2,
+      "dps": 18.2,
       "casts": 0,
-      "hits": 11,
-      "crit": 0.4
+      "hits": 11.2,
+      "crit": 0.403
      },
      {
       "name": "Smokey's Lighter",
@@ -1545,18 +1592,18 @@
     ],
     "opening": [
      {
-      "t": 4.5,
+      "t": 7,
       "n": "Whirlwind",
       "x": 1
      },
      {
-      "t": 4.5,
+      "t": 7,
       "n": "Whirlwind (off-hand)",
       "x": 1
      },
      {
-      "t": 7.1,
-      "n": "Heroic Strike",
+      "t": 7.5,
+      "n": "Rend",
       "x": 1
      },
      {
@@ -1570,8 +1617,13 @@
       "x": 1
      },
      {
-      "t": 13.8,
-      "n": "Heroic Strike",
+      "t": 10.5,
+      "n": "Rend",
+      "x": 1
+     },
+     {
+      "t": 13.5,
+      "n": "Rend",
       "x": 1
      }
     ]
