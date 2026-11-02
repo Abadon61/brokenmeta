@@ -1,0 +1,390 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Transmog viewer prototype</title>
+<style>
+:root{--bg:#0e1118;--panel:#161b26;--card:#1d2433;--line:#2b3548;--ink:#e6eaf2;--mut:#8b96ab;--acc:#5b8cff;--acc2:#3a5fd0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.4 system-ui,Segoe UI,sans-serif}
+.app{display:grid;grid-template-columns:minmax(320px,1fr) 400px;gap:20px;max-width:1120px;margin:0 auto;padding:16px}
+@media (max-width:900px){.app{grid-template-columns:1fr}}
+@media (min-width:901px){.stage{position:sticky;top:12px;align-self:start}}
+@media (max-width:900px){#m{aspect-ratio:1/1;max-height:70vh;margin:0 auto}}
+#m{width:100%;aspect-ratio:5/6;background:radial-gradient(ellipse at 50% 35%,#222a3b,#12161f 70%);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+#m canvas{display:block;width:100%!important;height:100%!important}
+#log{margin-top:6px;color:var(--mut);font-size:12px;text-align:center}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:14px}
+.panel h3{margin:14px 0 8px;font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--mut);font-weight:600}
+.panel h3:first-child{margin-top:0}#opts h3{margin-top:18px}
+#races{display:grid;grid-template-columns:repeat(9,1fr);gap:6px}
+#races button{padding:0;border:2px solid transparent;border-radius:10px;background:none;cursor:pointer;line-height:0;overflow:hidden;transition:transform .12s,border-color .12s}
+#races img{width:100%;display:block;opacity:.55;transition:opacity .12s}
+#races button:hover img{opacity:.9}
+#races button.on{border-color:var(--acc)}
+#races button.on img{opacity:1}
+.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:3px;margin-top:10px}
+.seg button{border:0;background:none;color:var(--mut);padding:7px;border-radius:8px;cursor:pointer;font:inherit;font-weight:600}
+.seg button.on{background:var(--acc2);color:#fff}
+.acts{display:flex;gap:8px;margin-top:12px}
+.acts button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:8px;border-radius:10px;cursor:pointer;font:inherit}
+.acts button:hover{border-color:var(--acc)}
+/* colour options: swatch grids */
+.opt{margin-bottom:12px}
+.opt .nm{display:flex;justify-content:space-between;font-size:12px;color:var(--mut);margin-bottom:6px}
+.opt .nm b{color:var(--ink);font-weight:600}
+.sw{display:flex;flex-wrap:wrap;gap:6px}
+.sw button{width:26px;height:26px;border-radius:50%;border:2px solid var(--line);cursor:pointer;padding:0;background:#444;transition:transform .1s}
+.sw button:hover{transform:scale(1.15)}
+.sw button.on{border-color:#fff;box-shadow:0 0 0 2px var(--acc)}
+/* other options: arrow cards */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px 8px 9px}
+.card .nm{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px}
+.card .row{display:flex;align-items:center;gap:6px}
+.card .val{flex:1;text-align:center;font-weight:600;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .row button{width:28px;height:28px;border:0;border-radius:8px;background:#2a3348;color:var(--ink);cursor:pointer;font-size:12px}
+.card .row button:hover{background:var(--acc2)}
+.bar{height:3px;border-radius:2px;background:#2a3348;margin-top:7px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--acc);transition:width .15s}
+/* class filter */
+#classes{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+#classes button{padding:0;border:2px solid transparent;border-radius:9px;background:none;cursor:pointer;line-height:0;overflow:hidden;color:var(--ink);font:600 11px system-ui}
+#classes button.all{background:var(--card);border-color:var(--line);line-height:1.1;padding:2px}
+#classes img{width:100%;display:block;opacity:.55}
+#classes button:hover img{opacity:.9}
+#classes button.on{border-color:var(--acc)}
+#classes button.on img{opacity:1}
+.hint{color:var(--mut);font-size:11px;margin:6px 0 0}
+/* equipment */
+.slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.slot{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:8px;cursor:pointer;text-align:left;color:var(--ink);font:inherit;display:flex;gap:8px;align-items:center;min-width:0}
+.slot:hover,.slot.open{border-color:var(--acc)}
+.slot img,.slot .ph{width:34px;height:34px;border-radius:8px;flex:none;background:#2a3348;border:1px solid var(--line)}
+.slot .t{min-width:0}.slot .t b{display:block;font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:.05em}
+.slot .t span{display:block;font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#picker{margin-top:10px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px;display:none}
+#picker.show{display:block}
+#picker .top{display:flex;gap:6px;margin-bottom:8px}
+#picker input{flex:1;background:#12161f;border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:7px 9px;font:inherit;min-width:0}
+#picker .top button,#picker .chips button{background:#2a3348;border:0;color:var(--ink);border-radius:8px;padding:6px 10px;cursor:pointer;font:inherit}
+#picker .chips{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
+#picker .chips button.on{background:var(--acc2)}
+#plist{max-height:300px;overflow:auto;display:flex;flex-direction:column;gap:2px}
+.row{display:flex;gap:8px;align-items:center;padding:4px 6px;border-radius:8px;cursor:pointer}
+.row:hover{background:#2a3348}.row.on{background:var(--acc2)}
+.row img{width:28px;height:28px;border-radius:6px;flex:none}
+.row span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:13px}
+.row small{color:var(--mut);font-size:11px}
+.q0{color:#9d9d9d}.q1{color:#fff}.q2{color:#1eff00}.q3{color:#0070dd}.q4{color:#a335ee}.q5{color:#ff8000}
+#pcount{color:var(--mut);font-size:11px;margin-top:6px}
+/* weapon stance: drawn / sheathed */
+#stance{margin-top:12px;display:grid;gap:6px}
+#stance .srow{display:grid;grid-template-columns:92px 1fr;gap:8px;align-items:center;font-size:12px}
+#stance .srow>span{color:var(--mut)}
+#stance .opts{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:2px}
+#stance .opts button{border:0;background:none;color:var(--mut);padding:6px 4px;border-radius:8px;cursor:pointer;font:inherit;font-size:12px}
+#stance .opts button.on{background:var(--acc2);color:#fff}
+#stance .opts button:disabled{opacity:.35;cursor:not-allowed}
+#stance .all{display:flex;gap:8px}
+#stance .all button{flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:7px;border-radius:10px;cursor:pointer;font:inherit;font-size:12px}
+#stance .all button:hover{border-color:var(--acc)}
+</style></head><body>
+<div class="app">
+  <div class="stage"><div id="m"></div><div id="log">chargement…</div></div>
+  <div class="panel">
+    <h3>Race</h3>
+    <div id="races"></div>
+    <div class="seg" id="sexes"><button data-sex="0">Modèle 1</button><button data-sex="1">Modèle 2</button></div>
+    <div class="acts"><button id="rnd">🎲 Aléatoire</button><button id="rst">↺ Réinitialiser</button></div>
+    <h3>Classe (filtre les objets)</h3>
+    <div id="classes"></div>
+    <p class="hint" id="classhint"></p>
+    <h3>Équipement</h3>
+    <div class="slots" id="slots"></div>
+    <div id="stance"></div>
+    <div id="picker"></div>
+    <div id="opts"></div>
+  </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>for (const f of ["tm-m2.js", "tm-viewer.js"]) document.write('<script src="' + f + '?' + Date.now() + '"><\/script>');</script>
+<script>
+const BASE = '/modelviewer/classicplus/';
+const v = new TM.Viewer(document.getElementById('m'), BASE);
+window.v = v;
+const log = document.getElementById('log');
+// [key, label, male chr model id, female chr model id] (Wowhead raceGenderMap; both Skyborne races share models 218/219)
+const RACES = [['human', 'Humain', 1, 2], ['dwarf', 'Nain', 5, 6], ['nightelf', 'Elfe de la nuit', 7, 8], ['gnome', 'Gnome', 13, 14],
+  ['orc', 'Orc', 3, 4], ['undead', 'Mort-vivant', 9, 10], ['tauren', 'Tauren', 11, 12], ['troll', 'Troll', 15, 16], ['skyborne', 'Éolide', 218, 219]];
+let race = 'human', sex = 0;
+const chrId = () => RACES.find(r => r[0] === race)[2 + sex];
+const rbox = document.getElementById('races');
+// race icons (Wowhead's icon CDN, as elsewhere on the site); the Scourge icon is the undead one
+const ICON = { undead: 'scourge' };
+const iconUrl = (key) => 'https://wow.zamimg.com/images/wow/icons/large/race_' + (ICON[key] || key) + '_' + (sex ? 'female' : 'male') + '.jpg';
+RACES.forEach(([key, name]) => {
+  const b = document.createElement('button'), im = document.createElement('img');
+  b.dataset.race = key; b.title = name; b.setAttribute('aria-label', name); im.alt = name; b.appendChild(im); rbox.appendChild(b);
+});
+function mark() {
+  document.querySelectorAll('[data-race]').forEach(b => { b.classList.toggle('on', b.dataset.race === race); b.firstChild.src = iconUrl(b.dataset.race); });
+  document.querySelectorAll('[data-sex]').forEach(b => b.classList.toggle('on', +b.dataset.sex === sex));
+}
+function pick(id) {
+  log.textContent = 'chargement…';
+  return v.setCharacter(id).then(async c => { if (c === v.char) { await c.setEquips(wornEntries()); await c.setWeapons(weaponEntries()); } return c; })
+    .then(c => { if (c !== v.char) return; log.textContent = ''; buildOptions(c); })
+    .catch(e => { log.textContent = 'ERREUR ' + e.message; console.error(e); });
+}
+
+// ---- equipment: slot cards + searchable item picker (catalogue built by wow_transmog_catalog_build.py) ----
+const SLOTS = [['head', 'Tête', [1], true], ['shoulder', 'Épaules', [3], true], ['back', 'Dos', [16], true], ['chest', 'Torse', [5, 20], true], ['shirt', 'Chemise', [4], true],
+  ['tabard', 'Tabard', [19], true], ['wrist', 'Poignets', [9], true], ['hands', 'Mains', [10], true], ['waist', 'Taille', [6], true], ['legs', 'Jambes', [7], true], ['feet', 'Pieds', [8], true],
+  ['mainhand', 'Main droite', [13, 21, 17], true, true], ['offhand', 'Main gauche', [13, 22, 14, 23], true, true], ['ranged', 'À distance', [15, 26, 25], true, true]];
+const WKEY = { mainhand: 'mh', offhand: 'oh', ranged: 'rng' };     // slots that hold a weapon (any item class)
+const WEAPON_FR = { 0: 'Haches', 1: 'Haches 2M', 2: 'Arcs', 3: 'Armes à feu', 4: 'Masses', 5: 'Masses 2M', 6: 'Armes d’hast', 7: 'Épées', 8: 'Épées 2M', 10: 'Bâtons', 13: 'Armes de pugilat', 14: 'Divers', 15: 'Dagues', 16: 'Armes de jet', 18: 'Arbalètes', 19: 'Baguettes', 20: 'Cannes à pêche' };
+const typeLabel = (r) => r[6] === 2 ? (WEAPON_FR[r[7]] || ('Arme ' + r[7])) : (r[5] === 23 ? 'Tenu en main gauche' : (ARMOR[r[7]] || ('#' + r[7])));
+const typeKey = (r) => typeLabel(r);
+const ARMOR = { 0: 'Divers', 1: 'Tissu', 2: 'Cuir', 3: 'Mailles', 4: 'Plaques', 5: 'Cosmétique', 6: 'Boucliers' };
+// ---- class filter: only the armor / weapon types the class can wear (Forever client data, data/wow_items/proficiency.json) ----
+const CLASSES = [['WARRIOR', 'Guerrier', 'warrior'], ['PALADIN', 'Paladin', 'paladin'], ['HUNTER', 'Chasseur', 'hunter'], ['ROGUE', 'Voleur', 'rogue'], ['PRIEST', 'Prêtre', 'priest'],
+  ['SHAMAN', 'Chaman', 'shaman'], ['MAGE', 'Mage', 'mage'], ['WARLOCK', 'Démoniste', 'warlock'], ['DRUID', 'Druide', 'druid']];
+const DUAL_WIELD = new Set(['WARRIOR', 'ROGUE', 'HUNTER', 'SHAMAN']);              // classes that may hold a weapon in the off hand
+const ARMOR_TYPE = { 1: 'Cloth', 2: 'Leather', 3: 'Mail', 4: 'Plate Mail', 6: 'Shield' };
+const WEAPON_TYPE = { 0: 'Axes', 1: 'Two-Handed Axes', 2: 'Bows', 3: 'Guns', 4: 'Maces', 5: 'Two-Handed Maces', 6: 'Polearms', 7: 'Swords', 8: 'Two-Handed Swords',
+  10: 'Staves', 13: 'Fist Weapons', 15: 'Daggers', 16: 'Thrown', 18: 'Crossbows', 19: 'Wands' };
+let PROF = null, myClass = null;                    // myClass = null means every class
+function allowedFor(r, slotKey) {                   // r = catalogue row [id, name, name_fr, quality, icon, inv, class, subclass, ...]
+  if (!myClass || !PROF) return true;
+  const can = PROF.classes[myClass] || {};
+  const inv = r[5], cls = r[6], sub = r[7];
+  if (cls === 4) {
+    if (inv === 16 || inv === 4 || inv === 19 || inv === 23 || sub === 0 || sub === 5) return true;       // cloaks, shirts, tabards, held items, cosmetic pieces: everyone
+    const t = ARMOR_TYPE[sub]; return !t || t in can;
+  }
+  if (cls === 2) {
+    if (slotKey === 'offhand' && [13, 22].includes(inv) && !DUAL_WIELD.has(myClass)) return false;       // no dual wield
+    const t = WEAPON_TYPE[sub]; return t ? t in can : false;       // miscellaneous weapons and fishing poles belong to no class's proficiency
+  }
+  return true;
+}
+function drawClasses() {
+  const box = document.getElementById('classes'); box.innerHTML = '';
+  const all = document.createElement('button'); all.className = 'all'; all.textContent = 'Toutes'; all.title = 'Aucun filtre'; all.classList.toggle('on', !myClass); all.onclick = () => setClass(null); box.appendChild(all);
+  for (const [key, name, icon] of CLASSES) {
+    const b = document.createElement('button'), im = document.createElement('img');
+    im.src = 'https://wow.zamimg.com/images/wow/icons/large/classicon_' + icon + '.jpg'; im.alt = name; b.title = name; b.setAttribute('aria-label', name);
+    b.classList.toggle('on', myClass === key); b.onclick = () => setClass(key); b.appendChild(im); box.appendChild(b);
+  }
+  const cls = CLASSES.find(c => c[0] === myClass);
+  document.getElementById('classhint').textContent = cls ? 'Seuls les objets que ' + cls[1].toLowerCase() + ' peut porter sont proposés.' : '';
+}
+function setClass(k) { myClass = k; drawClasses(); const open = document.querySelector('.slot.open'); if (open) openPicker(open.dataset.slot); }
+fetch('/proficiency.json').then(r => r.json()).then(j => { PROF = j; }).catch(() => { PROF = null; });
+drawClasses();
+
+const worn = {};                       // slot key -> catalogue row
+const stance = { mainhand: 'hand', offhand: 'hand', ranged: 'hand' };      // 'hand' = drawn, 'back' / 'hip' = sheathed
+const canHip = (k) => !!worn[k] && [13, 21, 22].includes(worn[k][5]);        // only one-handers sit at the hip; two-handers, shields and ranged weapons go on the back
+const modeOf = (k) => (stance[k] === 'hip' && !canHip(k)) ? 'back' : stance[k];
+let CAT = null;
+const wornEntries = () => SLOTS.filter(s => worn[s[0]] && !WKEY[s[0]]).map(s => [worn[s[0]][5], worn[s[0]][8]]);
+const weaponEntries = () => Object.keys(WKEY).filter(k => worn[k]).map(k => [WKEY[k], worn[k][5], worn[k][8], modeOf(k)]);
+const iconSrc = (n) => 'https://wow.zamimg.com/images/wow/icons/large/' + n + '.jpg';
+const itemName = (r) => r[2] || r[1];
+const slotsBox = document.getElementById('slots'), picker = document.getElementById('picker');
+function drawSlots() {
+  slotsBox.innerHTML = '';
+  for (const [key, label, , ready] of SLOTS) {
+    if (!ready) continue;
+    const r = worn[key], b = document.createElement('button'); b.className = 'slot'; b.dataset.slot = key;
+    b.innerHTML = (r ? '<img src="' + iconSrc(r[4]) + '" alt="">' : '<div class="ph"></div>') + '<div class="t"><b>' + label + '</b><span class="' + (r ? 'q' + r[3] : '') + '">' + (r ? itemName(r) : '—') + '</span></div>';
+    b.onclick = () => openPicker(key); slotsBox.appendChild(b);
+  }
+}
+const STANCES = [['hand', 'Dégainée'], ['back', 'Dos'], ['hip', 'Taille']];
+function drawStance() {
+  const box = document.getElementById('stance'); box.innerHTML = '';
+  const title = document.createElement('h3'); title.textContent = 'Armes : dégainées ou rangées'; box.appendChild(title);
+  for (const [k, label] of [['mainhand', 'Main droite'], ['offhand', 'Main gauche'], ['ranged', 'À distance']]) {
+    const row = document.createElement('div'), nm = document.createElement('span'), opts = document.createElement('div');
+    row.className = 'srow'; opts.className = 'opts'; nm.textContent = label;
+    for (const [m, txt] of STANCES) {
+      const b = document.createElement('button'); b.textContent = txt;
+      b.disabled = !worn[k] || (m === 'hip' && !canHip(k));
+      b.classList.toggle('on', modeOf(k) === m && !!worn[k]);
+      b.onclick = () => setStance(k, m); opts.appendChild(b);
+    }
+    row.append(nm, opts); box.appendChild(row);
+  }
+  const all = document.createElement('div'); all.className = 'all';
+  const draw = document.createElement('button'), stow = document.createElement('button');
+  draw.textContent = 'Tout dégainer'; stow.textContent = 'Tout ranger';
+  draw.onclick = () => { for (const k in stance) stance[k] = 'hand'; applyStance(); };
+  stow.onclick = () => { for (const k in stance) stance[k] = canHip(k) ? 'hip' : 'back'; applyStance(); };
+  all.append(draw, stow); box.appendChild(all);
+}
+async function applyStance() {
+  drawStance();
+  const c = v.char; if (!c) return;
+  try { await c.setWeapons(weaponEntries()); } catch (e) { log.textContent = 'ERREUR ' + e.message; console.error(e); }
+}
+function setStance(k, m) { stance[k] = m; applyStance(); }
+async function loadCatalog() {
+  if (CAT) return CAT;
+  const j = await (await fetch('/catalog.json')).json();
+  CAT = j.items; return CAT;
+}
+let pickTicket = 0;
+async function openPicker(key) {
+  const ticket = ++pickTicket;
+  const [, label, invs] = SLOTS.find(s => s[0] === key);
+  document.querySelectorAll('.slot').forEach(b => b.classList.toggle('open', b.dataset.slot === key));
+  picker.className = 'show'; picker.innerHTML = '<div class="top"><input placeholder="Rechercher dans ' + label.toLowerCase() + '…"><button id="pclear">Retirer</button><button id="pclose">✕</button></div><div class="chips"></div><div id="plist"></div><div id="pcount"></div>';
+  const all = await loadCatalog();
+  if (ticket !== pickTicket) return;                  // a newer picker was opened meanwhile
+  const cat = all.filter(r => invs.includes(r[5]) && (WKEY[key] || r[6] === 4) && allowedFor(r, key));
+  const input = picker.querySelector('input'), chips = picker.querySelector('.chips'), list = picker.querySelector('#plist');
+  let armor = null;
+  const types = [...new Set(cat.map(typeKey))].sort((a, b) => a.localeCompare(b));
+  chips.innerHTML = '';
+  const mk = (txt, val) => { const b = document.createElement('button'); b.textContent = txt; b.onclick = () => { armor = val; [...chips.children].forEach(c => c.classList.toggle('on', c === b)); render(); }; if (val === null) b.className = 'on'; chips.appendChild(b); };
+  if (types.length > 1) { mk('Tout', null); types.forEach(t => mk(t, t)); }
+  const render = () => {
+    const q = input.value.trim().toLowerCase();
+    const rows = cat.filter(r => (armor === null || typeKey(r) === armor) && (!q || r[1].toLowerCase().includes(q) || itemName(r).toLowerCase().includes(q)))
+      .sort((a, b) => b[3] - a[3] || a[1].localeCompare(b[1]));
+    list.innerHTML = '';
+    for (const r of rows.slice(0, 120)) {
+      const d = document.createElement('div'); d.className = 'row' + (worn[key] && worn[key][0] === r[0] ? ' on' : '');
+      d.innerHTML = '<img src="' + iconSrc(r[4]) + '" alt="" loading="lazy"><span class="q' + r[3] + '">' + itemName(r) + '</span><small>' + (r[10] ? 'niv. ' + r[10] : '') + '</small>';
+      d.onclick = () => wear(key, r); d.onmouseenter = () => tryOn(key, r); list.appendChild(d);
+    }
+    picker.querySelector('#pcount').textContent = rows.length > 120 ? '120 sur ' + rows.length + ' — affinez la recherche' : rows.length + ' objets';
+  };
+  list.onmouseleave = () => tryOn(key, worn[key] || null);     // leaving the list puts the worn item (or nothing) back
+  input.oninput = render; render(); input.focus();
+  picker.querySelector('#pclear').onclick = () => wear(key, null);
+  picker.querySelector('#pclose').onclick = () => { picker.className = ''; document.querySelectorAll('.slot').forEach(b => b.classList.remove('open')); };
+}
+// try-on on hover: shows the hovered item on the character without wearing it (debounced, only the last hover counts)
+let tryTimer = 0, tryTicket = 0;
+function tryOn(key, r) {
+  clearTimeout(tryTimer);
+  const ticket = ++tryTicket;
+  tryTimer = setTimeout(async () => {
+    const c = v.char; if (!c || ticket !== tryTicket) return;
+    const inv = r ? r[5] : SLOTS.find(s => s[0] === key)[2][0];
+    try { if (WKEY[key]) await c.setWeapon(WKEY[key], inv, r ? r[8] : 0, r ? (stance[key] === 'hip' && ![13, 21, 22].includes(r[5]) ? 'back' : stance[key]) : 'hand'); else await c.setEquip(inv, r ? r[8] : 0); } catch (e) { console.error(e); }
+  }, 140);
+}
+async function wear(key, r) {
+  tryTicket++; clearTimeout(tryTimer);
+  if (r && WKEY[key]) { if (stance[key] === 'hip' && ![13, 21, 22].includes(r[5])) stance[key] = 'back'; }
+  if (r) worn[key] = r; else delete worn[key];
+  drawSlots();
+  const c = v.char; if (!c) return;
+  const inv = r ? r[5] : SLOTS.find(s => s[0] === key)[2][0];
+  try {
+    if (WKEY[key]) {
+      if (r && r[5] === 17) { delete worn.offhand; drawSlots(); await c.setWeapon('oh', 0, 0); }       // a two-hander leaves no off-hand
+      await c.setWeapon(WKEY[key], inv, r ? r[8] : 0, r ? modeOf(key) : 'hand');
+    } else await c.setEquip(inv, r ? r[8] : 0);
+  } catch (e) { log.textContent = 'ERREUR ' + e.message; console.error(e); }
+  picker.querySelectorAll('.row').forEach(x => x.classList.remove('on'));
+  drawStance();
+}
+drawSlots(); drawStance();
+
+// ---- customization panel ----------------------------------------------------------------
+const FR = { 'Skin Color': 'Couleur de peau', 'Face': 'Visage', 'Hair Style': 'Coiffure', 'Hair Color': 'Couleur des cheveux', 'Facial Hair': 'Pilosité faciale',
+  'Face Shape': 'Forme du visage', 'Eyebrows': 'Sourcils', 'Eye Color': 'Couleur des yeux', 'Eye Style': 'Style des yeux', 'Beard': 'Barbe', 'Mustache': 'Moustache',
+  'Piercings': 'Piercings', 'Earrings': 'Boucles d’oreilles', 'Earring Color': 'Couleur des boucles', 'Makeup': 'Maquillage', 'Ears': 'Oreilles', 'Grime': 'Crasse',
+  'Tusks': 'Défenses', 'Horns': 'Cornes', 'Markings': 'Marques', 'Markings Color': 'Couleur des marques', 'Face Paint': 'Peinture de guerre', 'Face Paint Color': 'Couleur de la peinture',
+  'Jaw Features': 'Mâchoire', 'Face Features': 'Traits du visage', 'Eye Glow': 'Lueur des yeux', 'Hair': 'Cheveux', 'Foremane': 'Crinière avant', 'Blindfold': 'Bandeau',
+  'Body Tattoo': 'Tatouage du corps', 'Body Tattoo Color': 'Couleur du tatouage', 'Face Tattoo': 'Tatouage du visage', 'Face Tattoo Color': 'Couleur du tatouage de visage',
+  'Feather Color': 'Couleur des plumes', 'Feathers': 'Plumes', 'Eyebrow Style': 'Style des sourcils', 'Eyesight': 'Regard', 'Jewelry Color': 'Couleur des bijoux', 'Skin': 'Peau' };
+const fr = (n) => FR[n] || n;
+const isColor = (o) => /Color/.test(o.Name) && o.Choices.length > 1;
+
+// average colour of a texture, for the swatches (ignores transparent / near-black / near-white pixels)
+const colorCache = {};
+function avgColor(id, iris) {
+  const key = id + (iris ? 'i' : '');
+  return colorCache[key] || (colorCache[key] = new Promise((res) => {
+    const im = new Image(); im.crossOrigin = 'anonymous';
+    im.onload = () => {
+      // eye textures are an atlas of eyelid skin around the iris: sample only the iris (left eye, centre of its cross)
+      const cv = document.createElement('canvas'), W = iris ? 24 : 32, H = iris ? 24 : 16; cv.width = W; cv.height = H; const x = cv.getContext('2d');
+      if (iris) x.drawImage(im, im.width * 0.205, im.height * 0.40, im.width * 0.06, im.width * 0.06, 0, 0, W, H); else x.drawImage(im, 0, 0, W, H);
+      const d = x.getImageData(0, 0, W, H).data; let r = 0, g = 0, b = 0, n = 0;
+      for (let i = 0; i < d.length; i += 4) { const l = (d[i] + d[i + 1] + d[i + 2]) / 3; if (d[i + 3] > 200 && l > 28 && l < 245) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++; } }
+      res(n ? 'rgb(' + Math.round(r / n) + ',' + Math.round(g / n) + ',' + Math.round(b / n) + ')' : '#555');
+    };
+    im.onerror = () => res('#555'); im.src = BASE + 'textures/' + id + '.webp';
+  }));
+}
+function swatchFile(c, choice) {
+  const e = choice.Elements.find(e => e.Material && !e.VariationChoiceID) || choice.Elements.find(e => e.Material);
+  const f = e && c.cust.TextureFiles[e.Material.MaterialResourcesID];
+  return f && f[0] && f[0].FileDataId;
+}
+
+// Which choices exist in the game for a Forever player: the data marks unlockables (requirement type 2 / 4: achievements, store, heritage...)
+// and class-locked ones (class mask without any Forever class: death knight etc.)
+const FOREVER_CLASSES = 1 | 2 | 4 | 8 | 16 | 64 | 128 | 256 | 1024;   // warrior paladin hunter rogue priest shaman mage warlock druid
+const available = (ch) => ch.ReqType !== 2 && ch.ReqType !== 4 && (ch.ClassMask === undefined || ch.ClassMask === -1 || (ch.ClassMask & FOREVER_CLASSES) !== 0);
+
+function buildOptions(c) {
+  const box = document.getElementById('opts'); box.innerHTML = '';
+  const refreshers = [];
+  // allowed choice indexes per option; a current choice that is not allowed falls back to the first allowed one
+  const AL = {}, fix = {};
+  for (const o of c.cust.Options) {
+    AL[o.Id] = o.Choices.map((ch, i) => i).filter(i => available(o.Choices[i]));
+    if (!AL[o.Id].length) AL[o.Id] = [0];
+    if (!AL[o.Id].includes(c.choice[o.Id])) fix[o.Id] = AL[o.Id][0];
+  }
+  if (Object.keys(fix).length) c.setChoices(fix);
+  const apply = (o, i) => { if (c !== v.char) return; return c.setChoice(o.Id, i).then(() => refreshers.forEach(f => f())); };
+  const colors = c.cust.Options.filter(o => isColor(o) && AL[o.Id].length > 1), others = c.cust.Options.filter(o => !isColor(o) && AL[o.Id].length > 1);
+
+  if (others.length) {
+    const h = document.createElement('h3'); h.textContent = 'Apparence'; box.appendChild(h);
+    const grid = document.createElement('div'); grid.className = 'grid'; box.appendChild(grid);
+    for (const o of others) {
+      const n = AL[o.Id].length, card = document.createElement('div'), nm = document.createElement('div'), row = document.createElement('div');
+      const prev = document.createElement('button'), next = document.createElement('button'), val = document.createElement('div'), bar = document.createElement('div'), fill = document.createElement('i');
+      card.className = 'card'; nm.className = 'nm'; nm.textContent = fr(o.Name); row.className = 'row'; val.className = 'val'; bar.className = 'bar'; bar.appendChild(fill);
+      prev.textContent = '◀'; next.textContent = '▶';
+      const show = () => { const i = c.choice[o.Id], p = AL[o.Id].indexOf(i); val.textContent = o.Choices[i].Name || ('Style ' + (p + 1)); fill.style.width = ((p + 1) / n * 100) + '%'; };
+      let busy = false;
+      const go = (d) => { if (busy) return; busy = true; apply(o, AL[o.Id][(AL[o.Id].indexOf(c.choice[o.Id]) + d + n) % n]).finally(() => { busy = false; }); };
+      prev.onclick = () => go(-1); next.onclick = () => go(1);
+      refreshers.push(show); show(); row.append(prev, val, next); card.append(nm, row, bar); grid.appendChild(card);
+    }
+  }
+  if (colors.length) {
+    const h = document.createElement('h3'); h.textContent = 'Couleurs'; box.appendChild(h);
+    for (const o of colors) {
+      const wrap = document.createElement('div'), nm = document.createElement('div'), sw = document.createElement('div'), name = document.createElement('b');
+      wrap.className = 'opt'; nm.className = 'nm'; sw.className = 'sw';
+      const lab = document.createElement('span'); lab.textContent = fr(o.Name); nm.append(lab, name);
+      const btns = AL[o.Id].map((i, k) => {
+        const ch = o.Choices[i], b = document.createElement('button'); b.title = ch.Name || ('#' + (k + 1)); b.onclick = () => apply(o, i); sw.appendChild(b);
+        const f = swatchFile(c, ch); if (f) avgColor(f, /Eye Color/.test(o.Name)).then(col => { b.style.background = col; });
+        return b;
+      });
+      const show = () => { const p = AL[o.Id].indexOf(c.choice[o.Id]); btns.forEach((b, k) => b.classList.toggle('on', k === p)); name.textContent = o.Choices[c.choice[o.Id]].Name || ('#' + (p + 1)); };
+      refreshers.push(show); show(); wrap.append(nm, sw); box.appendChild(wrap);
+    }
+  }
+  // random / reset act on every option at once (one texture rebuild)
+  const all = c.cust.Options.filter(o => AL[o.Id].length > 1);
+  const setAll = (fn) => { const m = {}; all.forEach(o => { m[o.Id] = fn(o); }); c.setChoices(m).then(() => refreshers.forEach(f => f())); };
+  document.getElementById('rnd').onclick = () => setAll(o => AL[o.Id][Math.floor(Math.random() * AL[o.Id].length)]);
+  document.getElementById('rst').onclick = () => setAll(o => AL[o.Id][0]);
+}
+
+document.querySelectorAll('[data-race]').forEach(b => b.onclick = () => { race = b.dataset.race; mark(); pick(chrId()); });
+document.querySelectorAll('[data-sex]').forEach(b => b.onclick = () => { sex = +b.dataset.sex; mark(); pick(chrId()); });
+window.pickChr = (id) => { const r = RACES.find(r => r[2] === id || r[3] === id); race = r[0]; sex = r[3] === id ? 1 : 0; mark(); return pick(id); };
+mark(); pick(chrId());
+</script></body></html>

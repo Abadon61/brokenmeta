@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% import "wow_related.html" as rel %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{# Transmog simulator (2026-10-30): own WebGL engine (js/wow-transmog-*.js), baked models and textures under assets/transmog/. #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips"><span class="gh-chip is-role">{{ tx.chip1 }}</span><span class="gh-chip">{{ tx.chip2 }}</span><span class="gh-chip">{{ tx.chip3 }}</span></div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+<div id="tmApp" data-base="{{ root }}assets/transmog/" data-lang="{{ lang }}">
+  <div class="tm-stage">
+    <div id="tmView" class="tm-view"></div>
+    <div id="tmLog" class="tm-log" aria-live="polite"></div>
+  </div>
+  <div class="tm-panel">
+    <h3>{{ tx.labels.race }}</h3>
+    <div id="tmRaces"></div>
+    <div class="tm-seg" id="tmSexes"><button type="button" data-sex="0">{{ tx.labels.model1 }}</button><button type="button" data-sex="1">{{ tx.labels.model2 }}</button></div>
+    <div class="tm-acts"><button type="button" id="tmRnd">{{ tx.labels.random }}</button><button type="button" id="tmRst">{{ tx.labels.reset }}</button></div>
+    <h3>{{ tx.labels.cls }}</h3>
+    <div id="tmClasses"></div>
+    <p id="tmClassHint" class="tm-hint"></p>
+    <h3>{{ tx.labels.equip }}</h3>
+    <div id="tmSlots"></div>
+    <div id="tmPicker"></div>
+    <div id="tmStance"></div>
+    <div id="tmOpts"></div>
+  </div>
+</div>
+<noscript><p class="wow-note">{{ tx.noscript }}</p></noscript>
+<script type="application/json" id="tmI18n">{{ tx.js|tojson }}</script>
+<script src="{{ root }}assets/js/three.min.js" defer></script>
+<script src="{{ root }}assets/js/wow-transmog-m2.js?v={{ js_v('wow-transmog-m2.js') }}" defer></script>
+<script src="{{ root }}assets/js/wow-transmog-viewer.js?v={{ js_v('wow-transmog-viewer.js') }}" defer></script>
+<script src="{{ root }}assets/js/wow-transmog.js?v={{ js_v('wow-transmog.js') }}" defer></script>
+
+<div class="tm-sections">
+  <section><h2 class="gs-h2">{{ tx.h_how }}</h2><ol>{% for s in tx.how %}<li>{{ s }}</li>{% endfor %}</ol></section>
+  <section><h2 class="gs-h2">{{ tx.h_limits }}</h2><ul>{% for s in tx.limits %}<li>{{ s }}</li>{% endfor %}</ul></section>
+</div>
+<p class="tm-source">{{ tx.source }}</p>
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling']) }}
+{% endblock %}

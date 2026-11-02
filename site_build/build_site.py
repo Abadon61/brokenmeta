@@ -50,6 +50,7 @@ import wow_dps_sim  # noqa: E402
 import wow_ah  # noqa: E402
 import wow_bis_optimizer  # noqa: E402
 import wow_sim60_texts  # noqa: E402
+import wow_transmog_texts  # noqa: E402
 import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
@@ -7425,6 +7426,8 @@ def main() -> None:
         _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("optimisation", "Item builder", "Item builder"))
     # BrokenLogs (2026-10-11): combat log analysis in the browser.
     _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("logs", "BrokenLogs", "BrokenLogs"))
+    # Transmog simulator (2026-10-30): 3D try-on of every level 1-60 appearance.
+    _wnav.insert([s for s, _, _ in _wnav].index("faq"), ("transmogrification", "Transmogrification", "Transmog"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("tier-list", "Tier list", "Tier list"))   # 2026-10-13
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("leveling", "Leveling 1-60", "Leveling 1-60"))
     _wnav.insert([s for s, _, _ in _wnav].index("classes"), ("races", "Quelle race", "Which race"))
@@ -8870,6 +8873,15 @@ def main() -> None:
                    s60=SIM60_BUILD, g_title=_s60["title"], g_desc=_s60["desc"], g_h1=_s60["h1"], g_intro=_s60["intro"],
                    breadcrumb_schema=breadcrumb_schema(_s60crumb),
                    article_schema=build_article_schema(_s60["h1"], canonical_for(_s60path, lang), _s60["desc"]))
+            # Transmog simulator (2026-10-30): own WebGL engine, baked models/textures under assets/transmog/.
+            _tmpath = "/wow-forever/transmogrification/"
+            _tm = wow_transmog_texts.TXT[lang]
+            assert len(_tm["title"]) <= 60 and len(_tm["desc"]) <= 155, (lang, len(_tm["title"]), len(_tm["desc"]))
+            _tmcrumb = _gbase + [(_tm["h1"], canonical_for(_tmpath, lang))]
+            render("wow_transmog.html", _tmpath, lang, active_nav="wow", active_sub="wow-transmogrification", tx=_tm,
+                   g_title=_tm["title"], g_desc=_tm["desc"], g_h1=_tm["h1"], g_intro=_tm["intro"],
+                   breadcrumb_schema=breadcrumb_schema(_tmcrumb),
+                   article_schema=build_article_schema(_tm["h1"], canonical_for(_tmpath, lang), _tm["desc"]))
             # "Share my data" (2026-09-26): upload the addon's SavedVariables to wow-worker, with
             # consent + deletion code. Linked from the simulate page, the addon and /confidentialite/.
             _adroot = "/" if lang == "fr" else "/en/"
@@ -9938,9 +9950,14 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js"):
+    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js", "wow-transmog.js", "wow-transmog-m2.js", "wow-transmog-viewer.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
+    # Transmog simulator: three.js (r128 global build) and the baked models/textures/metadata (site_build/transmog_assets, see transmog_bake/).
+    if (ROOT / "vendor" / "three.min.js").exists():
+        shutil.copy(ROOT / "vendor" / "three.min.js", DIST / "assets" / "js" / "three.min.js")
+    if (ROOT / "transmog_assets").is_dir():
+        shutil.copytree(ROOT / "transmog_assets", DIST / "assets" / "transmog", dirs_exist_ok=True)
     # The addon is no longer zipped here: it is distributed on CurseForge (ADDON_CURSEFORGE_URL), and
     # the old /assets/downloads/BrokenMeta-<version>.zip links redirect there (.htaccess below).
     (DIST / "assets" / "js" / "copy-comp.js").write_text(COPY_COMP_JS, encoding="utf-8")
