@@ -14,7 +14,7 @@
    only drop from level 40+ mobs, so they stay rare and expensive while the beta's own character
    level cap sits at 20 -- flagged here rather than presented as freely farmable. #}
 {% set BETA_LOCKED_MATS = ["Mageweave Cloth", "Bolt of Mageweave", "Thick Leather"] %}
-{% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {% if g.name.en.startswith('Item #') %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name[lang] }}</a>{% else %}{{ g.name[lang] }}{% endif %}{% if g.name.en in BETA_LOCKED_MATS %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</span>{% endfor %}</span>{% endmacro %}
+{% macro reag_list(rs) %}<span class="pf-reagents">{% for g in rs %}<span class="pf-reag">{% if g.icon %}<img src="https://wow.zamimg.com/images/wow/icons/large/{{ g.icon }}.jpg" alt="" width="20" height="20" loading="lazy">{% endif %}<span class="nums">{{ g.count }}×</span> {% if g.name.en.startswith('Item #') %}<a href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name[lang] }}</a>{% else %}{{ g.name[lang] }}{% endif %}{% if g.name.en in BETA_LOCKED_MATS and not wow_launched %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</span>{% endfor %}</span>{% endmacro %}
 {% macro colors(cs) %}<span class="pf-colors nums"><span class="pf-c pf-o">{{ cs[0] or '–' }}</span><span class="pf-c pf-y">{{ cs[1] }}</span><span class="pf-c pf-g">{{ cs[2] }}</span><span class="pf-c pf-x">{{ cs[3] }}</span></span>{% endmacro %}
 {% macro step(s) %}
 <div class="pf-st">
@@ -95,7 +95,7 @@
     <thead><tr><th>{{ tx.m_item }}</th><th class="nums">{{ tx.m_qty }}</th><th>{{ tx.m_kind }}</th><th class="nums">{{ tx.m_vprice }}</th>{% if prof.ah %}<th class="nums">{{ tx.m_ahprice }}</th><th class="nums">{{ tx.m_line }}</th>{% endif %}</tr></thead>
     <tbody>{% for i in prof.materials %}{% set a = prof.ah.rows[i.id] if prof.ah else None %}
     <tr data-item="{{ i.id }}">
-      <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a>{% if i.name.en in BETA_LOCKED_MATS %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</td>
+      <td data-first><a href="https://www.wowhead.com/forever/item={{ i.id }}" rel="noopener nofollow" target="_blank">{% if i.icon %}<img class="pf-icon" src="https://wow.zamimg.com/images/wow/icons/large/{{ i.icon }}.jpg" alt="" width="24" height="24" loading="lazy">{% endif %}{{ i.name[lang] }}</a>{% if i.name.en in BETA_LOCKED_MATS and not wow_launched %}<span class="pf-risk" title="{{ tx.beta_locked_note }}">*</span>{% endif %}</td>
       <td class="nums">{{ i.count }}</td>
       <td><span class="pf-or pf-or-{{ i.price.kind }}">{{ tx.kinds_price[i.price.kind] }}</span></td>
       <td class="nums">{% if i.price.kind == 'vendor' %}{{ i.price.copper|wow_money(lang) }}{% else %}{{ tx.m_none }}{% endif %}</td>
@@ -112,7 +112,7 @@
   <script>window.BM_WOW_API = "https://wow-worker.brokenmeta.workers.dev";</script>
   <script type="application/json" id="pfLive">{{ pf_live|tojson }}</script>
   <script src="{{ root }}assets/js/wow-profession-live.js?v={{ js_v('wow-profession-live.js') }}" defer></script>{% endif %}
-  {% if prof.materials|selectattr('name.en', 'in', BETA_LOCKED_MATS)|list %}<p class="wow-note">{{ tx.beta_locked_note }}</p>{% endif %}
+  {% if not wow_launched and prof.materials|selectattr('name.en', 'in', BETA_LOCKED_MATS)|list %}<p class="wow-note">{{ tx.beta_locked_note }}</p>{% endif %}
 </section>
 
 {# ---------------------------------------------------------------- Ranks | method and limits #}
@@ -123,11 +123,11 @@
   {% for r in prof.ranks %}
     <div class="pf-rank">
       <b>{{ tx.rank_names[r.name] }}</b><span class="pf-rank-p nums">{% if r.trainer %}{{ r.cost|wow_money(lang) }}{% else %}{{ tx.rank_quest }}{% endif %}</span>
-      <span class="pf-rank-d">{{ tx.r_cap }} <span class="nums">{{ r.cap }}</span> · {{ tx.r_at }} <span class="nums">{{ r.learn_at }}</span> · {{ tx.r_level }} <span class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 30 %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</span></span>
+      <span class="pf-rank-d">{{ tx.r_cap }} <span class="nums">{{ r.cap }}</span> · {{ tx.r_at }} <span class="nums">{{ r.learn_at }}</span> · {{ tx.r_level }} <span class="nums">{% if r.min_char_level %}{{ r.min_char_level }}{% if r.min_char_level > 30 and not wow_launched %}<span class="pf-risk" title="{{ tx.r_level_locked_note }}">*</span>{% endif %}{% else %}{{ tx.r_level_none }}{% endif %}</span></span>
     </div>
   {% endfor %}
   </div>
-  {% if prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 30)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
+  {% if not wow_launched and prof.ranks|selectattr('min_char_level')|selectattr('min_char_level', '>', 30)|list %}<p class="wow-note">{{ tx.r_level_locked_note }}</p>{% endif %}
 </section>
 
 <section class="gs-tile gs-w7" id="pf-method">
