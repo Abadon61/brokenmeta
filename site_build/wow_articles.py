@@ -2301,6 +2301,8 @@ from wow_articles_racials1027 import RACIALS_TUNING  # noqa: E402  (racial tunin
 ARTICLES.insert(1, RACIALS_TUNING)
 from wow_articles_hunter1028 import HUNTER_HOTFIX  # noqa: E402  (Hunter hotfixes seen on live servers, 28 Oct 2026)
 ARTICLES.insert(1, HUNTER_HOTFIX)
+from wow_articles_tuning1030 import TUNING_1030  # noqa: E402  (Druid/Paladin talent tree hotfixes, 30 Oct 2026)
+ARTICLES.insert(1, TUNING_1030)
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
 FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}
