@@ -18,8 +18,8 @@ export const MAGE = {
   iceLance: { name: 'Ice Lance', schools: ['frost'], cast: 0, cost: 150, min: 173, max: 200, coeff: 0.143, incin: true },       // ASSUMED (Classic TBC-era value)
   arcaneWrath: { name: 'Arcane Wrath', schools: ['arcane'], cast: 3.5, cost: 395, min: 405.7, max: 496.3, coeff: 1, cd: 6, manaSp: 0.05, incin: false },   // build 70425 (spell 1326082): damage like Fireball plus spell power worth 5% of the maximum mana
   arcaneMissiles: { name: 'Arcane Missiles', schools: ['arcane'], cast: 5, cost: 655, total: 1085, coeff: 0.714, ticks: 5 },     // ASSUMED (Classic rank 8)
-  // build 1.60.1.70425: Arcane Blast is a 1.5 s cast (damage and coefficient -40%); each cast gives 15% of the mage's Intellect as spell damage, stacking 4 times for 15 s from the FIRST cast, and raises its own cost
-  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 1.5, cost: 195, min: 218.2, max: 253.8, coeff: 0.429, incin: true, spPerInt: 0.15, stackCost: 1.75, maxStacks: 4, dur: 15 },
+  // build 1.60.1.70753 (Blizzard notes of 3 Nov 2026): +12% of the Intellect per stack (15% before), +100% mana per stack (175% before), 18 s (15 s before). Build 70425: Arcane Blast is a 1.5 s cast (damage and coefficient -40%); each cast gives 15% of the mage's Intellect as spell damage, stacking 4 times for 15 s from the FIRST cast, and raises its own cost
+  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 1.5, cost: 195, min: 218.2, max: 253.8, coeff: 0.429, incin: true, spPerInt: 0.12, stackCost: 1.0, maxStacks: 4, dur: 18 },
   combustion: { cd: 180 },
   manaGem: { cd: 120, min: 1073, max: 1127 },                                                                                    // ASSUMED (Mana Ruby)
   innervate: { cd: 360, dur: 20, mult: 5 },                                                                                      // ASSUMED (Classic, cast by a druid)
@@ -35,13 +35,15 @@ export const MAGE = {
   masterOfElements: { refund: 0.10 }, criticalMass: { crit: 0.02 }, firePower: { perEffect: 0.01, maxEffects: 4 }, wakeOfFire: { cd: 1 },   // Fire Power (3 ranks): +1% per rank for each Fire effect on the target (Ignite, Fire Vulnerability, Fireball and Pyroblast DoTs), up to 4 effects
   improvedFrostbolt: { cast: 0.1 }, elementalPrecision: { hit: 0.02 }, iceShards: { critBonus: 0.2 }, piercingIce: { dmg: 0.02 },
   frostChanneling: { cost: 0.05 }, shatter: { crit: 0.5 / 3 }, fingersOfFrost: { chance: 0.15 }, wintersChill: { chance: 0.2, crit: 0, max: 5 },   // build 70425: Winter's Chill only boosts Cone of Cold now (no crit on Frostbolt / Ice Lance)
-  iceLanceFrozen: 3,                                                                    // build 70425: +200% against Frozen targets (was +300%)
+  iceLanceFrozen: 4,                                                                    // build 70753: +300% against Frozen targets (200% in build 70425), read from the client table below
+  iceLanceCd: 8,                                                                         // build 70753: 8 s cooldown shared with Fire Blast (Blizzard notes, 3 Nov 2026)
+  iceBarrier: { dmg: 0.15 },                                                             // build 70753: Ice Barrier gives +15% Frost damage for 1 minute (+5% more while the shield holds, not modelled)
 };
 
 export const MAGE_DEFAULT_BUILD = {
   arcaneFocus: 0, arcaneConcentration: 0, arcaneImpact: 0, arcaneMeditation: 0, arcaneMind: 0, arcaneInstability: 0, arcanePower: 0, presenceOfMind: 0, missileBarrage: 0,
   incineration: 0, improvedFireball: 0, ignite: 0, improvedScorch: 0, heatingUp: 0, masterOfElements: 0, criticalMass: 0, firePower: 0, combustion: 0, pyroblast: 0, wakeOfFire: 0, arcaneWrath: 0,
-  improvedFrostbolt: 0, elementalPrecision: 0, iceShards: 0, piercingIce: 0, frostChanneling: 0, iceLance: 0, shatter: 0, fingersOfFrost: 0, wintersChill: 0,
+  improvedFrostbolt: 0, elementalPrecision: 0, iceShards: 0, piercingIce: 0, iceBarrier: 0, frostChanneling: 0, iceLance: 0, shatter: 0, fingersOfFrost: 0, wintersChill: 0,
   rotation: 'fire', filler: 'auto', useCooldowns: true, usePotion: true, useEvocation: true, useGem: true, innervate: false, movement: 0, arcaneBlast: 0,
 };
 
@@ -136,10 +138,10 @@ function specMods(sim, s, noAuras, extra = 1) {
   const b = sim.kitBuild, M = sim.spec.M;
   let hit = 0, crit = 0, dmg = extra, critBonus = 0;
   const fire = schoolHas(s, 'fire'), frost = schoolHas(s, 'frost'), arcane = schoolHas(s, 'arcane');
-  if (fire || frost) hit += M.elementalPrecision.hit * b.elementalPrecision;
+  hit += M.elementalPrecision.hit * b.elementalPrecision;          // Precision (was Elemental Precision): +2% hit per rank with ALL spells since build 70753 (it absorbed Arcane Focus)
   if (arcane) { hit += M.arcaneFocus.hit * b.arcaneFocus; crit += M.arcaneImpact.crit * b.arcaneImpact; critBonus += M.arcaneMind.critBonus * b.arcaneMind; }
   if (fire) { crit += M.criticalMass.crit * b.criticalMass; if (!noAuras && b.firePower) dmg *= 1 + M.firePower.perEffect * b.firePower * Math.min(M.firePower.maxEffects, fireEffects(sim)); }
-  if (frost) { dmg *= 1 + M.piercingIce.dmg * b.piercingIce; critBonus += M.iceShards.critBonus * b.iceShards; }
+  if (frost) { dmg *= (1 + M.piercingIce.dmg * b.piercingIce) * (1 + M.iceBarrier.dmg * b.iceBarrier); critBonus += M.iceShards.critBonus * b.iceShards; }
   if (s.incin) crit += M.incineration.crit * b.incineration;
   crit += M.arcaneInstability.crit * b.arcaneInstability; dmg *= 1 + M.arcaneInstability.dmg * b.arcaneInstability;
   if (!noAuras) {
@@ -164,7 +166,7 @@ function abSpell(sim, s) {
 function mageCastTime(sim, s, noAuras) {
   const b = sim.kitBuild, M = sim.spec.M;
   let t = s.cast;
-  if (s === M.fireball || s === M.frostfireBolt) t -= M.improvedFireball.cast * b.improvedFireball;
+  if (s === M.fireball || s === M.frostfireBolt || s === M.arcaneWrath) t -= M.improvedFireball.cast * b.improvedFireball;   // Accelerant (was Improved Fireball): Arcane Wrath too since build 70753
   if (s === M.frostbolt) t -= M.improvedFrostbolt.cast * b.improvedFrostbolt;
   if (s === M.pyroblast && !noAuras && sim.aHeat.active) t *= 1 - 0.25 * sim.aHeat.stacks;
   return t;
@@ -267,7 +269,7 @@ function mageRotate(sim, b, M) {
   const rotation = b.rotation;
   const instantOnly = sim.moving;
   const pick = () => {
-    if (rotation === 'frost') return (b.iceLance && sim.aFoF.active) ? M.iceLance : M.frostbolt;
+    if (rotation === 'frost') return (b.iceLance && sim.aFoF.active && now >= sim.cd.fireBlast) ? M.iceLance : M.frostbolt;
     if (rotation === 'arcane') {
       // build 70425: stack Arcane Blast to the cap (15% of the Intellect as spell damage each, 15 s from the first cast), spend the stacks on Arcane Wrath (every 6 s) and Arcane Missiles
       if (b.arcaneBlast && sim.arcaneBurst && sim.aAB.stacks < M.arcaneBlast.maxStacks) return M.arcaneBlast;
@@ -285,7 +287,7 @@ function mageRotate(sim, b, M) {
   };
   let s = pick();
   if (instantOnly && s.cast > 0 && !sim.pom) {      // moving: only instant spells
-    const alt = (b.iceLance && sim.aFoF.active && rotation === 'frost') ? M.iceLance : (b.rotation === 'fire' && now >= sim.cd.fireBlast) ? M.fireBlast : null;
+    const alt = (b.iceLance && sim.aFoF.active && rotation === 'frost' && now >= sim.cd.fireBlast) ? M.iceLance : (b.rotation === 'fire' && now >= sim.cd.fireBlast) ? M.fireBlast : null;
     if (!alt) return 0.25;
     s = alt;
   }
@@ -303,6 +305,7 @@ function mageRotate(sim, b, M) {
     return 0.1;
   }
   if (s === M.fireBlast) sim.cd.fireBlast = now + M.fireBlast.cd - M.wakeOfFire.cd * b.wakeOfFire;
+  if (s === M.iceLance) sim.cd.fireBlast = now + M.iceLanceCd;        // shared cooldown with Fire Blast (build 70753)
   return mageCast(sim, s, s.cast === 0);
 }
 

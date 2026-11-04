@@ -52,6 +52,7 @@ DATA_DIR = HERE.parent / "data" / "wow_talents"
 FIXTURE_DIR = HERE / "wow_talents_fixture"
 STAGING_DIR = HERE.parent / "data" / "wow_talents_staging"
 FIXTURE_MARKER = "WOW-TALENTS-FIXTURE"
+ANNOUNCED_LOG: list[str] = []      # what wow_talents_announced changed on the last load()
 
 # Display order of the nine classes (ids must match the file ids).
 CLASS_ORDER = ["druid", "hunter", "mage", "paladin", "priest", "rogue", "shaman", "warlock", "warrior"]
@@ -128,6 +129,11 @@ def load() -> tuple[list[dict], bool]:
     classes = []
     for f in files:
         cls = json.loads(f.read_text(encoding="utf-8"))
+        if real:
+            import wow_talents_announced      # Blizzard's notes of 3 Nov 2026 that the client tables do not carry yet (see that module)
+            for _line in wow_talents_announced.apply(cls):
+                ANNOUNCED_LOG.append(_line)
+            cls["announced"] = [t["name"] for s in cls["specs"] for t in s["talents"] if t.get("announced")]      # shown on the page (names in both languages)
         validate(cls, f.name)
         cls["rev"] = revision(cls)
         classes.append(cls)
@@ -185,7 +191,7 @@ TXT = {
         "points_chip": "points à répartir", "presets_h2": "Partir d'un build du classement", "presets_meta": "CHARGE LES 51 POINTS DANS LES ARBRES",
         "presets_note": "Ces builds sont ceux de notre simulateur niveau 60 (les mêmes que dans les guides). Vous pouvez ensuite les modifier à votre guise.",
         "preset_rank": "Build du classement · {v}", "preset_guide": "Build du guide", "role_dps": "DPS", "role_tank": "Tank", "role_heal": "Soigneur", "classes_nav": "Classes",
-        "sources": "Sources et règles", "rules_src": "Règles (51 points, sept rangées, une rangée débloquée tous les 5 points) : ",
+        "announced_note": "Les arbres viennent du client du jeu (build 1.60.1.70753, 2 novembre 2026). Les notes de Blizzard du 3 novembre ne sont pas encore dans ces données : leurs nouvelles valeurs et nombres de rangs sont appliqués aux talents suivants, mais pas les talents déplacés ou nouveaux, dont la position n'est pas donnée. Les arbres seront relus dans le client dès qu'il les contiendra.", "announced_list": "Talents mis à jour d'après les notes : ", "sources": "Sources et règles", "rules_src": "Règles (51 points, sept rangées, une rangée débloquée tous les 5 points) : ",
         "data_pending": "Le calculateur sera disponible quand les données de talents du jeu seront publiées.",
         "fixture": "PRÉVISUALISATION : cette page utilise des données de test ou non validées et ne doit pas être publiée.",
     },
@@ -209,7 +215,7 @@ TXT = {
         "points_chip": "points to spend", "presets_h2": "Start from a ranking build", "presets_meta": "LOADS THE 51 POINTS INTO THE TREES",
         "presets_note": "These builds are the ones from our level-60 simulator (the same as in the guides). You can then change them as you like.",
         "preset_rank": "Ranking build · {v}", "preset_guide": "Guide build", "role_dps": "DPS", "role_tank": "Tank", "role_heal": "Healer", "classes_nav": "Classes",
-        "sources": "Sources and rules", "rules_src": "Rules (51 points, seven rows, a row unlocked every 5 points): ",
+        "announced_note": "The trees come from the game client (build 1.60.1.70753, 2 November 2026). Blizzard's notes of 3 November are not in that data yet: their new values and rank counts are applied to the talents below, but not the moved or new talents, whose position is not given. The trees will be re-read from the client as soon as it carries them.", "announced_list": "Talents updated from the notes: ", "sources": "Sources and rules", "rules_src": "Rules (51 points, seven rows, a row unlocked every 5 points): ",
         "data_pending": "The calculator will be available once the game's talent data is published.",
         "fixture": "PREVIEW: this page uses test or unapproved data and must not be published.",
     },

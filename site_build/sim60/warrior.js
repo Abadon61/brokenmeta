@@ -8,7 +8,7 @@ export const WARRIOR = {
   bloodthirst: { cost: 30, cd: 6, apCoeff: 0.45, flat: 48 },           // client table (build 1.60.1.70425, spell 23894 at L60): 45% AP (was 35%) + 48
   whirlwind: { cost: 25, cd: 10, flat: 0, normSpeed1H: 2.4, normSpeed2H: 3.3 }, // 100% normalized weapon damage (normalization speeds ASSUMED Classic)
   heroicStrike: { cost: 15, flat: 157 },
-  slam: { cost: 15, cd: 18, flat: 87, cast: 1.5 },                     // client: 18 s cooldown (the kit ignored it before 2026-10-16); Improved Slam shortens it
+  slam: { cost: 15, cd: 15, flat: 87, cast: 1.5 },                     // client: 18 s cooldown (the kit ignored it before 2026-10-16); Improved Slam shortens it
   overpower: { cost: 5, cd: 5, flat: 35 },
   rend: { cost: 10, total: 147, duration: 21, tick: 3 },
   mortalStrike: { cost: 30, cd: 6, flat: 160, normSpeed2H: 3.3 },      // client table (spell 21553 at L60): weapon damage + 160
@@ -16,7 +16,7 @@ export const WARRIOR = {
   deathWish: { cost: 10, cd: 180, duration: 30, dmgMult: 1.2 },
   recklessness: { cd: 1800, duration: 15, crit: 1.0 },                 // ASSUMED Classic effect; cooldown from the client table
   bloodrage: { cd: 60, immediate: 10, overTime: 10, overTimeSec: 10 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 },
+  flurry: { perRank: 0.10, charges: 3, expire: 15 },       // Blizzard notes 3 Nov 2026: 3 ranks of +10% attack speed (5 ranks of +5% before); Slam 15 s cooldown (18 s), Improved Slam -2.5 / -5 s (-3 / -3 s)
   unbridledWrath: { chancePerRank: 0.12 },
   dualWieldSpec: { ohDmgPerRank: 0.05, ohRagePerRank: 0.10 },          // build 70425: off-hand damage +5% and Rage from off-hand attacks +10% per rank (the +2% off-hand hit moved to Furious Precision)
   furiousPrecision: { ohHit: [0, 0.04, 0.07, 0.10] },                  // build 70425: replaces Boundless Rage; +4 / 7 / 10% off-hand hit chance
@@ -25,10 +25,10 @@ export const WARRIOR = {
   improvedHeroicStrike: { costPerRank: 1 },
   improvedExecute: { cost: [0, 3, 5] },                                // Forever: -3 Rage at rank 1, -5 at rank 2
   improvedOverpower: { critPerRank: 0.25 },                            // Forever: +25% Overpower crit chance per rank
-  improvedSlam: { castReductionPerRank: 0.25, cdReduction: [0, 3, 3] },  // Forever: -0.25 s cast time per rank; no swing delay at rank 2; build 70425 text: Slam cooldown -3.0 s at both ranks
+  improvedSlam: { castReductionPerRank: 0.25, cdReduction: [0, 2.5, 5] },  // Forever: -0.25 s cast time per rank; no swing delay at rank 2; build 70425 text: Slam cooldown -3.0 s at both ranks
   angerManagement: { interval: 3, amount: 1 },
   deepWounds: { pctPerRank: 0.20, duration: 12, tick: 3 },             // 3 ranks, 60% of average weapon damage over 12 s
-  twoHandSpec: { dmgPerRank: 0.01 },
+  twoHandSpec: { dmgPerRank: 0.02 },
   impale: { critDmgPerRank: 0.10 },
   enrage: { dmgPerRank: 0.02 },                                        // Forever: 30% chance on being hit, +2% Physical damage per rank for 12 s
   weaponmaster: { axeCritPerRank: 0.01, maceArmorPerRank: 0.03, swordExtraAttackPerRank: 0.01 },
@@ -239,7 +239,7 @@ export function armsKit(build = {}, data = null) {
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds();
-        if (b.bloodthrill && !isOH && (isWhite || source === 'Heroic Strike') && s.now < s.rendEndsAt && s.rng() < 0.04 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill: 20% at five ranks, Overpower usable for 6 s
+        if (b.bloodthrill && !isOH && (isWhite || source === 'Heroic Strike') && s.now < s.rendEndsAt && s.rng() < 0.10 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill (notes 3 Nov 2026): 10% / 20% at two ranks (4% per rank at five ranks before), Overpower usable for 6 s
         if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
         if (isWhite && s.swordExtraAttack && outcome !== 'glance' && s.rng() < s.swordExtraAttack) s.whiteAttack(s.swings[0]);
       });

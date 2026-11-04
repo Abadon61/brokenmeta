@@ -7,14 +7,17 @@ import { yellowAttack } from './shared.js';
 import { setupMana, gainMana, spendMana, spiritRegenPerSec, spellCritMult } from './spells.js';
 import { pickRank } from './caster.js';
 
+// Build 1.60.1.70753 + Blizzard's notes of 3 Nov 2026: Conviction 2% per rank on all spells and attacks (3 ranks), Two-Handed Weapon Specialization 2% per rank on Holy and Physical damage,
+// Vindication no longer raises attack power, Improved Seals 3% per rank (5 ranks), Champion of the Light 12% of the Intellect per rank (5 ranks) and -0.2 s on Hammer of Wrath per rank,
+// Vengeance stacks 5 times (notes; the client table still says 3), Instrument of Law and Twist of Light are gone. Not modelled: Unsealed Wrath, Pursuit of Justice, Eye for an Eye.
 export const PALADIN = {
   sealOfCommand: { cost: 210, ppm: 7, wpn: 0.7, duration: 30 },                                    // PPM ASSUMED (Classic)
   judgement: { cd: 10, costPct: 0.06, dmg: 72, spCoeff: 0.43, baseMana: 1250 },                    // damage and coefficient ASSUMED (Judgement of Command)
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429, norm: 3.3 },
   hammerOfWrath: { cost: 425, cd: 6, cast: 1, dmg: 498, spCoeff: 0.429 },
-  conviction: { crit: 0.01 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 3, dur: 30 },
-  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.10 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
-  benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.05 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
+  conviction: { crit: 0.02 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 5, dur: 30 },
+  vindication: { ap: 0, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.12, cast: 0.2 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
+  benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.03 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -45,7 +48,7 @@ export function paladinRetKit(build = {}, data = null) {
       sim.sealUntil = -1; sim.sealCommand = false; sim.sealRight = false;
       sim.aVeng = sim.addAura({ name: 'Vengeance', duration: P.vengeance.dur, maxStacks: P.vengeance.stacks, mods: { dmgMult: 1 + P.vengeance.dmg * b.vengeance } });
       sim.aVind = sim.addAura({ name: 'Vindication', duration: P.vindication.dur, mods: { apMult: 1 + P.vindication.ap * b.vindication } });
-      const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
+      const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult * (1 - sim.target.spellMitigation) * sim.target.spellTaken;      // Two-Handed Weapon Specialization boosts Holy damage too since build 70753
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
         const melee = /Seal|Judgement|Holy Strike/.test(name);      // Forever: the seal hits, judgements and Holy Strike are melee specials, they crit for double
@@ -109,7 +112,7 @@ export function paladinRetKit(build = {}, data = null) {
       if (b.executePhase && sim.inExecute() && now >= sim.cd.how && sim.mana >= cost(P.hammerOfWrath.cost)) {
         sim.cd.how = now + P.hammerOfWrath.cd; spendMana(sim, cost(P.hammerOfWrath.cost)); sim.lastCastAt = now; sim.entry('Hammer of Wrath').casts++;
         sim.gcdReadyAt = now + 1.5;
-        const t = Math.max(0.1, P.hammerOfWrath.cast - P.instrumentOfLaw.cast * b.instrumentOfLaw);
+        const t = Math.max(0.1, P.hammerOfWrath.cast - P.championOfLight.cast * b.championOfLight);      // Champion of the Light: -0.2 s per rank since build 70753 (Instrument of Law is gone)
         sim.schedule(t, () => { sim.holyHit('Hammer of Wrath', P.hammerOfWrath.dmg + (sim.stats.sp + sim.spBonus) * P.hammerOfWrath.spCoeff); });
         return 1.5;
       }

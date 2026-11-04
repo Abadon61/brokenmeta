@@ -43,7 +43,7 @@ test('talents and cooldowns move the DPS', () => {
 
 test('the preset builds convert to kit builds', () => {
   const b = ranksToBuild('rogue', tal, ranksFromNames(tal, PRESETS.rogue_assassination));
-  assert.equal(b.mutilate, 1); assert.equal(b.lethality, 5); assert.equal(b.bladeFlurry, 0);
+  assert.equal(b.mutilate, 1); assert.equal(b.lethality, 2); assert.equal(b.relentlessStrikes, 5); assert.equal(b.bladeFlurry, 0);
   assert.ok(runBatch(cfg(b), 300, 1).mean > 150);
 });
 

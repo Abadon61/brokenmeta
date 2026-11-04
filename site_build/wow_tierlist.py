@@ -27,8 +27,8 @@ def _tiers(rows, key):
     return [{"tier": t, "min": lo, "rows": out[t]} for t, lo in THRESHOLDS if out[t]]
 
 
-# latest beta client build whose spell, talent and racial tables were compared with the imported ones (identical to 1.60.1.70425)
-CLIENT_BUILD = "1.60.1.70450"
+# client build whose spell and talent tables were imported on 2026-11-03 (launch build; the notes of 3 Nov 2026 are applied on top where the tables lack them)
+CLIENT_BUILD = "1.60.1.70753"
 
 
 def build(dps_rows, tank_rows, wt_classes, lang):
@@ -88,7 +88,7 @@ TX = {
         "heal_h": "Et les soigneurs ?", "heal_p": "Les soigneurs ne sont pas classés : le simulateur ne modélise pas encore les soins sur un combat complet, et nous refusons d'afficher un chiffre inventé. Leurs guides restent disponibles dans la section des classes.",
         "heal_link": "Voir les guides de spécialisation",
         "meth_h": "Comment est calculée cette tier list", "meth": [
-            "Simulateur : le moteur niveau 60 de BrokenMeta.gg ({url}), le même que celui de la page « Simulateur DPS ». Les tables de sorts et de statistiques viennent du client de la bêta (build {build}). Les objets (butin des donjons, du raid et équipement fabriqué) viennent des pages Wowhead Forever lues le 17 octobre 2026.",
+            "Simulateur : le moteur niveau 60 de BrokenMeta.gg ({url}), le même que celui de la page « Simulateur DPS ». Les tables de sorts et de statistiques viennent du client du jeu (build {build}) ; les changements de classes des notes de développement officielles du 3 novembre qui n'y figurent pas encore (valeurs de sorts, rangs de talents) sont appliqués par-dessus, avec la liste dans notre article sur ces notes. Les objets (butin des donjons, du raid et équipement fabriqué) viennent des pages Wowhead Forever lues le 17 octobre 2026.",
             "Combat : {fight} secondes contre un boss immobile de niveau 63, {iters} répétitions par spécialisation ; le DPS affiché est la moyenne, l'incertitude (± erreur standard) est donnée sur la page de détail.",
             "Équipement : le meilleur ensemble que l'optimiseur trouve parmi les objets connus de la bêta (donjons, raid, équipement fabriqué). Aucun objet n'est ajouté à la main. Seuls les objets déjà datamined sont pris en compte : beaucoup restent à découvrir, et les nouveaux objets feront bouger le classement.",
             "Paliers : S = au moins {S} % du DPS de la meilleure spécialisation, A = {A} %, B = {B} %, C = {C} %, D = en dessous. Les tanks sont comparés entre eux, sur la menace par seconde.",
@@ -134,7 +134,7 @@ TX = {
         "heal_h": "What about healers?", "heal_p": "Healers are not ranked: the simulator does not model healing over a full fight yet, and we will not show an invented number. Their guides remain available in the classes section.",
         "heal_link": "See the spec guides",
         "meth_h": "How this tier list is computed", "meth": [
-            "Simulator: BrokenMeta.gg's level 60 engine ({url}), the same as the \"DPS simulator\" page. Spell and stat tables come from the beta client (build {build}). Items (dungeon, raid and crafted gear) come from the Wowhead Forever pages read on October 17, 2026.",
+            "Simulator: BrokenMeta.gg's level 60 engine ({url}), the same as the \"DPS simulator\" page. Spell and stat tables come from the game client (build {build}); the class changes of Blizzard's official development notes of November 3 that are not in it yet (spell values, talent ranks) are applied on top, and the list is in our article on those notes. Items (dungeon, raid and crafted gear) come from the Wowhead Forever pages read on October 17, 2026.",
             "Fight: {fight} seconds against a stationary level 63 boss, {iters} runs per spec; the DPS shown is the mean, with its standard error on the detail page.",
             "Gear: the best set the optimizer finds among the items known from the beta (dungeons, raid, crafted gear). No item is added by hand. Only items that have already been datamined are counted: many are still to be discovered, and new items will move the ranking.",
             "Tiers: S = at least {S}% of the best spec's DPS, A = {A}%, B = {B}%, C = {C}%, D = below. Tanks are compared with each other, on threat per second.",

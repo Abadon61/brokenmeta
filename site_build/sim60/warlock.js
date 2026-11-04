@@ -27,7 +27,7 @@ export const WARLOCK = {
   suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, improvedLifeTap: { restore: 0.10 },
   pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.02 }, improvedBaneOfAgony: { dmg: 0.05 },
   improvedShadowBolt: { dmg: 0.04, dur: 12 }, bane: { cast: 0.1, soulFire: 0.4 }, cataclysm: { cost: 0.10 / 3 }, aftermath: { dmg: 0.10 }, ruin: { critBonus: 0.2 },
-  agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.02, dur: 20 }, decimation: { cd: 0.45 },
+  agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.04, dur: 20 }, decimation: { cd: 0.45 },
   demonicKnowledge: { sp: 20 }, masterDemonologist: { dmg: 0.02 }, unholyPower: { pet: 0.02 }, improvedImp: { pet: 0.10 }, felVitality: { mana: 0.05 },
   soulSiphon: { dmg: 0.12 },
 };
@@ -63,6 +63,9 @@ export function warlockKit(build = {}, data = null) {
     const dotOf = (key, name, aura) => { const f = fut(name); if (!f) return; const e = f.rank.effects.find((x) => x.aura === aura); if (!e) return; const ticks = Math.max(1, Math.round(f.rank.duration_ms / e.period_ms)); Object.assign(W[key].dot, { total: e.base * ticks, ticks, interval: e.period_ms / 1000, coeff: e.sp_coeff }); W[key].cost = f.rank.cost.amount; if (f.rank.cooldown_ms) W[key].cd = f.rank.cooldown_ms / 1000; };
     dotOf('siphonLife', 'Siphon Life', 53); dotOf('wrack', 'Wrack', 3); dotOf('doom', 'Bane of Doom', 3);
   }
+  // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Wrack's spell damage coefficient doubled (0.286 for 6 s) and its base damage per second at level 60 is 86 (36 before);
+  // Shadow and Flame is 4% per rank (2% before). Applied only while the client still holds the old Wrack base (36 a second).
+  if (W.wrack.dot.total / W.wrack.dot.ticks < 60) { W.wrack.dot.total = 86 * W.wrack.dot.ticks; W.wrack.dot.coeff = 0.286; }
 
   return {
     name: 'warlock', build: b, W,

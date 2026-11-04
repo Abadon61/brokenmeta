@@ -32,12 +32,12 @@ test('Shadow Priest: Shadow Word: Pain and Devouring Plague tick, Mind Blast on 
   assert.ok(r.mean > 250 && r.mean < 3000, 'dps ' + r.mean);
 });
 
-test('Elemental Shaman: Flame Shock up, Lava Burst and Chain Lightning on cooldown, Lightning Bolt fills, Overload fires', () => {
+test('Elemental Shaman: Flame Shock up, Chain Lightning on cooldown, Lightning Bolt fills, Overload fires (Lava Burst is gone since the notes of 3 Nov 2026)', () => {
   const r = run('shaman_elemental', { chainLightning: true });
-  for (const n of ['Flame Shock', 'Lava Burst', 'Chain Lightning', 'Lightning Bolt']) assert.ok(r.breakdown[n] && r.breakdown[n].dps > 0, n + ' ' + Object.keys(r.breakdown));
+  for (const n of ['Flame Shock', 'Chain Lightning', 'Lightning Bolt']) assert.ok(r.breakdown[n] && r.breakdown[n].dps > 0, n + ' ' + Object.keys(r.breakdown));
   assert.ok(r.breakdown['Lightning Bolt (Overload)'], 'Lightning Overload');
   assert.ok(r.mean > 150 && r.mean < 3000, 'dps ' + r.mean);
-  assert.ok(!run('shaman_elemental', { lavaBurst: 0 }, null, 60, 100).breakdown['Lava Burst'], 'Lava Burst needs the talent');
+  assert.ok(!r.breakdown['Lava Burst'], 'Lava Burst no longer exists');
 });
 
 test('Balance Druid: Moonfire and Insect Swarm up, Eclipse speeds Starfire', () => {

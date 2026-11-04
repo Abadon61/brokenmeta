@@ -4,10 +4,12 @@
 import { makeCaster, fromRank, pickRank } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
 
+// Build 1.60.1.70753 (client tables read on 2026-11-03) + Blizzard's class tuning notes of 3 Nov 2026: Genesis and Naturalist 2% per rank (1% before), Rend and Tear 3% per rank (2% before),
+// Berserk and Improved Shifting Power are gone, Heart of the Wild moved to Restoration and Furor to Feral.
 export const DRUID = {
-  improvedWrath: { cast: 0.1, cost: 0.10 }, genesis: { dmg: 0.01 }, moonglow: { cost: 0.25 / 3 }, improvedMoonfire: { dmg: 0.05, crit: 0.05 }, naturesMajesty: { crit: 0.02 },
+  improvedWrath: { cast: 0.1, cost: 0.10 }, genesis: { dmg: 0.02 }, moonglow: { cost: 0.25 / 3 }, improvedMoonfire: { dmg: 0.05, crit: 0.05 }, naturesMajesty: { crit: 0.02 },
   naturesReach: { hit: 0.02 }, naturesSplendor: { moonfire: 1, swarm: 1 }, vengeance: { critBonus: 0.2 }, improvedStarfire: { cast: 0.1 }, naturesGrace: { haste: 1.1, dur: 3 },
-  naturalist: { dmg: 0.01 }, eclipse: { cast: 0.5, charges: 2, max: 4, dur: 15 }, moonfury: { dmg: 0.02 }, moonkinAura: { crit: 0.03 },
+  naturalist: { dmg: 0.02 }, eclipse: { cast: 0.5, charges: 2, max: 4, dur: 15 }, moonfury: { dmg: 0.02 }, moonkinAura: { crit: 0.03 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -91,7 +93,7 @@ export const DRUID_FERAL = {
   claw: { cost: 45, flat: 115, pct: 1.10 }, shred: { cost: 60, flat: 80, pct: 1.55 }, rake: { cost: 40, direct: 61, tick: 34, ticks: 3, interval: 3 },
   rip: { cost: 30, base: 15, perCp: 25.5, ticks: 6, interval: 2 }, bite: { cost: 35, base: 82, var: 0.73, perCp: 147 },
   ferocity: { cost: 1 }, shreddingAttacks: { cost: 6 }, savageFury: { dmg: 0.05 }, sharpenedClaws: { crit: 0.03 }, predatoryStrikes: { ap: 30 }, predatoryInstincts: { critDmg: 0.1 },
-  rendAndTear: { dmg: 0.02 }, heartOfTheWild: { str: 0.02 }, leaderOfThePack: { crit: 0.03 }, naturesMajesty: { crit: 0.02 },
+  rendAndTear: { dmg: 0.03 }, heartOfTheWild: { str: 0.02 }, leaderOfThePack: { crit: 0.03 }, naturesMajesty: { crit: 0.02 },
   savageRoar: { cost: 25, dmg: 1.30, base: 9, perCp: 6 }, tigersFury: { dmg: 1.15, dur: 6, cd: 30, energy: 60 }, shiftingPower: { energy: 40, cd: 16, costPct: 0.55, baseMana: 1300, cdPerRank: 4 },
   berserk: { dur: 15, cd: 180 }, bloodFrenzy: { cp: 0.5 }, manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
@@ -116,6 +118,13 @@ export function druidFeralKit(build = {}, data = null) {
   if (spw) { F.shiftingPower.cd = spw.cooldown_ms / 1000; F.shiftingPower.energy = spw.effects.find((e) => e.effect === 30).base; F.shiftingPower.costPct = spw.cost_pct / 100; }
   if (bk) { F.berserk.cd = bk.cooldown_ms / 1000; F.berserk.dur = bk.duration_ms / 1000; }
   if (fb) { F.bite.cost = fb.cost.amount; const d = eff(fb, 2); F.bite.base = d.base; F.bite.var = d.variance; F.bite.perCp = d.per_resource; }
+  // Blizzard's notes of 3 Nov 2026 (not in the client tables yet, read 2026-11-03): Shred 200% weapon damage (155%), Claw 140% (110%); Rip, Rake and Ferocious Bite
+  // "base points and attack power scaling increased by about 25%". The values are applied only while the client still carries the old Shred value, so the
+  // day the tables hold them the real numbers are used and nothing is counted twice.
+  if (F.shred.pct < 1.99) {
+    F.shred.pct = 2.0; F.claw.pct = 1.40;
+    F.rip.base *= 1.25; F.rip.perCp *= 1.25; F.rip.apScale = 1.25; F.rake.direct *= 1.25; F.rake.tick *= 1.25; F.bite.base *= 1.25; F.bite.perCp *= 1.25;
+  }
   return {
     name: 'druid_feral', build: b, F,
     setup(sim) {
@@ -174,7 +183,7 @@ export function druidFeralKit(build = {}, data = null) {
             sim.ripUntil = now + F.rip.ticks * F.rip.interval;
             const my = (sim.ripToken = (sim.ripToken || 0) + 1); let n = 0;
             const critP = sim.critChance(0), cm = sim.critMult(sim.mods.critDmgBonus);
-            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
+            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
             sim.schedule(F.rip.interval, step);
           }, gcd);
         }

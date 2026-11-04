@@ -13,30 +13,33 @@ export const ROGUE = {
   eviscerate: { cost: 35, table: { 1: [224, 332], 2: [394, 502], 3: [564, 672], 4: [734, 842], 5: [904, 1012] } },
   sliceAndDice: { cost: 25, base: 6, perPoint: 3, haste: 1.2 },
   hemorrhage: { cost: 35, pct: 1.0, pctDagger: 1.45 },          // cost ASSUMED (Classic); damage from the Forever talent tooltip
-  mutilate: { cost: 60, pct: 0.75, flat: 67, cp: 2 },         // client table + talent tooltip
+  mutilate: { cost: 60, pct: 0.90, flat: 67, cp: 2 },      // notes 3 Nov 2026: 90% weapon damage (75% before); the flat part was raised too, by an amount the notes do not give (kept)
+  shank: { cost: 5, cd: 10, pct: 0.5, energy: 25 },            // notes 3 Nov 2026: Shank (level 24, rank 2 at level 44): 5 energy, 10 s cooldown, off hand, 50% weapon damage, +25 energy at rank 2, cannot miss; ASSUMED: it uses the 1 s global cooldown
+  venom: { dmg: 1.3, chance: 0.2, dur: 6 },                    // Venom (notes 3 Nov 2026): after Shank, +30% poison damage and +20% chance to apply poisons for 6 s         // client table + talent tooltip
   bladeFlurry: { cost: 25, cd: 120, duration: 15, haste: 1.2 },  // cost/cooldown ASSUMED (Classic)
   adrenalineRush: { cd: 300, duration: 15, regenMult: 2 },      // cooldown ASSUMED (Classic)
   coldBlood: { cd: 180 },                                       // cooldown ASSUMED (Classic)
   energy: { cap: 100, tick: 0.1, perTick: 1 },      // Forever core/energy.go: one energy every 0.1 s (same average as 20 per 2 s, no waiting for a big tick)
   normSpeed: { other: 2.4, dagger: 1.7 },                       // Classic weapon-speed normalization (ASSUMED)
   // talents (per rank, from the Forever tooltips)
-  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 10 },
-  aggression: { perRank: 0.02 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.04 },
-  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.06 }, relentlessStrikes: { chancePerCp: 0.2, energy: 25 },
-  ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.2 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
+  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 15 },
+  aggression: { perRank: 0.05 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.10 },      // notes 3 Nov 2026: Aggression 5/10/15% (Sinister Strike and Eviscerate only), Lethality 10/20% (2 ranks), Flawless Execution -15 energy
+  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.25 }, relentlessStrikes: { chancePerCp: 0.04, energy: 25 },      // Dual Wield Specialization +25% / +50% off-hand damage (2 ranks); Relentless Strikes 4% per rank per combo point (5 ranks)
+  ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.33 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
   hackAndSlash: { perRank: 0.01, armorPerRank: 0.03 }, weaponExpertise: { dodgePerRank: 0.01 },
-  opportunity: { perRank: 0.05 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
+  opportunity: { perRank: 0.04 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
   puncturingWounds: { bsCritPerRank: 0.10, mutCritPerRank: 0.05 },
   // poisons: Classic 1.12 rank VII / V (ASSUMED). Nature damage: no armor, no AP scaling, 1.5x on crit, resisted like a spell.
   poison: { resist: 0.17, critMult: 1.5, mutilateBonus: 1.2 },
-  instantPoison: { min: 75.8, max: 100.2, chance: 0.20, apCoeff: 0.005 },      // Forever Instant Poison VI: 88 +-13.8 % + 0.5 % of attack power (was Classic 146-194)
-  deadlyPoison: { total: 92, duration: 12, tick: 3, maxStacks: 5, chance: 0.30, apTotal: 0.0045 },      // Forever Deadly Poison V: 23 a tick x 4 + 0.45 % of attack power in all, per stack (was Classic 136)
+  instantPoison: { min: 75.8, max: 100.2, chance: 0.20, apCoeff: 0.01 },      // notes 3 Nov 2026: attack power coefficient 0.01 (0.005 before);      // Forever Instant Poison VI: 88 +-13.8 % + 0.5 % of attack power (was Classic 146-194)
+  deadlyPoison: { total: 92, duration: 12, tick: 3, maxStacks: 5, chance: 0.30, apTotal: 0.009 },      // notes 3 Nov 2026: coefficient doubled (0.0045 before)
+   //      // Forever Deadly Poison V: 23 a tick x 4 + 0.45 % of attack power in all, per stack (was Classic 136)
   improvedPoisons: { chancePerRank: 0.02 }, vilePoisons: { dmgPerRank: 0.04 },
 };
 
 export const ROGUE_DEFAULT_BUILD = {
-  improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 5, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
-  weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 5, ruthlessness: 3, relentlessStrikes: 1, improvedSliceAndDice: 3,
+  improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 2, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
+  weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 2, ruthlessness: 3, relentlessStrikes: 5, venom: 0, useShank: true, improvedSliceAndDice: 3,
   sealFate: 0, vigor: 0, coldBlood: 0, mutilate: 0, hemorrhage: 0, opportunity: 0, quietus: 0, serratedBlades: 0, puncturingWounds: 0,
   improvedPoisons: 0, vilePoisons: 0, mhPoison: 'instant', ohPoison: 'deadly',   // 'instant' | 'deadly' | 'none'
   builder: 'auto', useCooldowns: true,
@@ -84,7 +87,7 @@ export function rogueKit(build = {}, data = null) {
       sim.sCB = sim.addSpell({ name: 'Cold Blood', cost: () => 0, cd: R.coldBlood.cd });
       sim.cost = {
         ss: () => Math.max(0, R.sinisterStrike.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike),
-        bs: () => R.backstab.cost, hemo: () => R.hemorrhage.cost, mut: () => R.mutilate.cost,
+        bs: () => R.backstab.cost, hemo: () => Math.max(0, R.hemorrhage.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike), mut: () => R.mutilate.cost,
         ev: () => Math.max(0, R.eviscerate.cost - (b.flawlessExecution ? R.flawlessExecution.cost : 0)), snd: () => R.sliceAndDice.cost,
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
@@ -93,7 +96,7 @@ export function rogueKit(build = {}, data = null) {
       });
       // poisons: each landed weapon hit may apply the poison on that weapon
       const dk = sim.deadly = { stacks: 0, endsAt: 0, ticking: false };
-      const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult;
+      const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult * (b.venom && sim.now < (sim.venomUntil || 0) ? R.venom.dmg : 1);
       const pcrit = () => Math.min(1, Math.max(0, sim.stats.racialCrit || 0));      // poisons are spells: the rogue's spell crit is the racial only
       const pdmg = (name, base) => {
         const crit = sim.rng() < pcrit();
@@ -107,7 +110,7 @@ export function rogueKit(build = {}, data = null) {
       };
       const applyPoison = (kind) => {
         const p = kind === 'deadly' ? R.deadlyPoison : R.instantPoison;
-        if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons) return;
+        if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons + (b.venom && sim.now < (sim.venomUntil || 0) ? R.venom.chance : 0)) return;
         const name = kind === 'deadly' ? 'Deadly Poison' : 'Instant Poison';
         sim.entry(name).casts++;
         if (sim.rng() < Math.max(0, R.poison.resist - sim.hitFrac())) { sim.entry(name).misses++; return; }      // the rogue's hit chance counts as spell hit (Forever: miss 17 % - hit)
@@ -170,7 +173,7 @@ export function rogueKit(build = {}, data = null) {
           const dur = (R.sliceAndDice.base + R.sliceAndDice.perPoint * sim.cp) * (1 + R.improvedSliceAndDice.perRank * b.improvedSliceAndDice);
           sim.sndAura.apply(1, dur);
           const spent = sim.cp; sim.cp = 0;      // a finisher: Relentless Strikes and Ruthlessness apply to Slice and Dice too (Forever ApplyFinisher)
-          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * spent) sim.gainRage(R.relentlessStrikes.energy);
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * spent) sim.gainRage(R.relentlessStrikes.energy);
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
         }, GCD);
       }
@@ -182,7 +185,17 @@ export function rogueKit(build = {}, data = null) {
           const bonus = cbBonus(); spendCb();
           yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.perRank * b.improvedEviscerate) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
-          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * cp) sim.gainRage(R.relentlessStrikes.energy);
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
+        }, GCD);
+      }
+      // Shank (notes of 3 Nov 2026): a cheap off-hand strike on a 10 s cooldown that returns energy; used whenever it does not push the energy past the cap
+      if (b.useShank !== false && oh && now >= (sim.shankReadyAt || 0) && energy >= R.shank.cost && energy - R.shank.cost + R.shank.energy <= sim.rageCap && !nearEnd) {
+        return castGcd(sim, { name: 'Shank', cd: R.shank.cd, readyAt: 0, casts: 0 }, () => {
+          sim.spendRage(R.shank.cost); sim.shankReadyAt = now + R.shank.cd; if (b.venom) sim.venomUntil = now + R.venom.dur;
+          const c = sim.rng() < sim.critChance(0);
+          let raw = (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * R.shank.pct; if (c) raw *= sim.critMult(lethal());
+          sim.record('Shank', sim.mitigate(raw * sim.mods.dmgMult, true), c ? 'crit' : 'hit'); sim.onMeleeHit(c ? 'crit' : 'hit', 'Shank', false, false);
+          sim.gainRage(R.shank.energy);
         }, GCD);
       }
       // never build past 5 combo points, and never starve Slice and Dice: wait for the energy instead
@@ -201,7 +214,7 @@ export function rogueKit(build = {}, data = null) {
       });
       else if (builder === 'backstab') w = doBuilder('Backstab', sim.cost.bs(), () => {
         const bonus = cbBonus() + R.puncturingWounds.bsCritPerRank * b.puncturingWounds; spendCb();
-        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.aggression.perRank * b.aggression) * (1 + R.opportunity.perRank * b.opportunity),
+        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity),
           { bonusCrit: bonus, critDmgBonus: lethal(), canDodge: false });      // Forever backstab.go: Rank 8, (140 + normalized weapon) x 150 %, cannot be dodged or parried
         if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); if (b.puncturingWounds && sim.rng() < 0.05 * b.puncturingWounds) sim.cp = Math.min(5, sim.cp + 1); }
       });

@@ -15,7 +15,7 @@ export const HUNTER = {
   serpent: { name: 'Serpent Sting', cost: 250, total: 555, ticks: 5, interval: 3 },
   sniper: { name: 'Sniper Shot', cost: 365, cast: 4, flat: 295, cd: 15 },
   rapidFire: { name: 'Rapid Fire', cost: 100, cd: 300, duration: 15, haste: 1.4 },
-  aspectHawk: { rap: 155 },                                                         // ASSUMED (Classic rank 7)
+  aspectHawk: { rap: 110 },                                                         // notes 3 Nov 2026: Aspect of the Hawk has 6 ranks (20, 35, 50, 70, 90, 110 ranged attack power); was ASSUMED Classic rank 7 (155)
   quiver: { haste: 1.15 },                                                          // ASSUMED (Classic quiver)
   ammoDps: 17.5,                                                                    // Forever ammo_auto_gen.go: Thorium Headed Arrow 17.5 DPS (was 20.5 ASSUMED)
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
@@ -24,8 +24,8 @@ export const HUNTER = {
   hawk: { name: 'Summon Hawk', cost: 150, cd: 120, duration: 18, every: 1.5, flat: 32, rapFrac: 0.05 },   // rate and cooldown ASSUMED
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
   lethalAttacks: { crit: 0.01 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, rapidKilling: { cd: 60 }, improvedArcane: { cd: 0.3 },
-  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.10 / 3 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
-  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.02 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
+  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.05 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
+  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.03 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
   focusedFire: { dmg: 0.01 }, deadlyAspects: { chance: 0.02, haste: 1.3, dur: 12 }, bestialDiscipline: { keep: 0.25 },
 };
 
@@ -46,9 +46,13 @@ export function hunterKit(build = {}, data = null) {
     if (aim) { const e = eff(aim, 'normalized_weapon_damage'); if (e) H.aimed.flat = e.flat; H.aimed.cost = aim.resource_cost.mana; H.aimed.cast = hunterParseCast(aim.cast_time); if (aim.cooldown_sec) H.aimed.cd = aim.cooldown_sec; }
     if (arc) { const e = eff(arc, 'direct_damage'); if (e) H.arcane.flat = e.flat; H.arcane.cost = arc.resource_cost.mana; if (arc.cooldown_sec) H.arcane.cd = arc.cooldown_sec; }
     if (ser) { const e = eff(ser, 'periodic_damage'); if (e) { H.serpent.total = e.total_damage; H.serpent.interval = e.tick_interval_sec; H.serpent.ticks = Math.round(e.duration_sec / e.tick_interval_sec); } H.serpent.cost = ser.resource_cost.mana; }
+    // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Aimed Shot bonus damage +110%, Arcane Shot base damage +30% (and 0.15 attack power coefficient, see the cast below),
+    // Serpent Sting base damage +20% (5% attack power a tick, see below), Sniper Shot bonus damage +100%. Applied only while the Aimed Shot value is still the old one (about 166 at level 60).
+    if (H.aimed.flat < 250) { H.aimed.flat *= 2.1; H.arcane.flat *= 1.3; H.serpent.total *= 1.2; H.sniperDone = false; H.announced = true; }
     const fut = (n) => (data.hunter.future || []).find((f) => f.name === n);
     const rf = fut('Rapid Fire'); if (rf) { H.rapidFire.cost = rf.rank.cost.amount; H.rapidFire.cd = rf.rank.cooldown_ms / 1000; H.rapidFire.duration = rf.rank.duration_ms / 1000; const e = rf.rank.effects.find((x) => x.aura === 140); if (e) H.rapidFire.haste = 1 + e.base / 100; }
     const ss = fut('Sniper Shot'); if (ss) { H.sniper.cost = ss.rank.cost.amount; H.sniper.cast = ss.rank.cast_ms / 1000; H.sniper.cd = ss.rank.cooldown_ms / 1000; const e = ss.rank.effects.find((x) => x.effect === 121); if (e) H.sniper.flat = e.base; }
+    if (H.announced) H.sniper.flat *= 2.0;
   }
 
   return {
@@ -233,7 +237,7 @@ function hunterRotate(sim, b, H) {
   const cast = (s, flat, extraMult = 1, onLand) => {
     sim.gcdReadyAt = now + 1.5; spendMana(sim, cost(s)); sim.entry(s.name).casts++;
     const run = () => {
-      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.1 : 0);
+      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.15 : 0);      // notes 3 Nov 2026: Arcane Shot attack power coefficient 0.15 (0.1)
       if (onLand) onLand(o);
     };
     if (s.cast) {
@@ -252,7 +256,7 @@ function hunterRotate(sim, b, H) {
     if (o === 'miss') sim.entry(H.serpent.name).misses++;
     else {
       sim.serpentEnds = now + H.serpent.ticks * H.serpent.interval;
-      const per = (H.serpent.total / H.serpent.ticks + 0.02 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
+      const per = (H.serpent.total / H.serpent.ticks + 0.05 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
       const critP = sim.critChance(0), cm = sim.critMult();
       const my = (sim.stingToken = (sim.stingToken || 0) + 1);
       let n = 0;

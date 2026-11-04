@@ -1,8 +1,8 @@
 """BrokenMeta article on Blizzard's official development notes and class tuning for the WoW: Forever launch (relayed by
 Wowhead on 3 Nov 2026): damage raised across classes, creature health raised, talent trees of the nine classes, racials.
 
-Facts rewritten from the cited Wowhead news (which relays Blizzard's post). Nothing here is simulated: the talent
-trees and spell values of the notes are not in the client tables we read yet, so the text says so. Format: see the
+Facts rewritten from the cited Wowhead news (which relays Blizzard's post). The simulator and the talent
+calculators apply these notes (wow_talents_announced.py, sim60/*.js). Format: see the
 module docstring of wow_articles.py.
 """
 
@@ -97,14 +97,14 @@ DEVNOTES_1103 = {
             ("list", [
                 "**Refais ton build** : tous les arbres bougent. Passe par le calculateur de talents de ta classe avant le lancement.",
                 "**Chaman Amélioration et Voleur** sont les grands gagnants sur le papier : Stormstrike, Maelstrom Weapon et Shank touchent directement la rotation.",
-                "**Les classements du site ne bougent pas encore** : les valeurs des sorts de ces notes ne sont pas dans les données du client que nous lisons. Nous recalculerons dès que le jeu lancé les contient, sans inventer de chiffre.",
+                "**Les classements du site tiennent compte de ces notes** : quand le client du jeu (build du 2 novembre) ne contient pas encore une valeur (Éclair, Frappe-tempête, Éventrer, Wrack, Visée...), nous l'appliquons depuis les notes. Les talents déplacés ou nouveaux dont la position n'est pas publiée ne sont pas simulés, et les calculateurs de talents le signalent.",
             ]),
-            ("note", "Cet article reprend et résume les notes de Blizzard relayées par Wowhead, il n'y ajoute aucune simulation. Les talents du calculateur viennent d'un build de la bêta : au lancement, ceux de ces notes (positions, rangs, textes) seront relus depuis le client avant d'être publiés."),
+            ("note", "Cet article reprend et résume les notes de Blizzard relayées par Wowhead ; les chiffres de DPS sont dans le classement, pas ici. Les arbres de talents viennent du client du 2 novembre (build 1.60.1.70753) : les changements des notes qui n'y figurent pas encore (positions, nouveaux talents) seront relus depuis le client dès qu'il les contient."),
         ],
         "faq": [
             ("Les dégâts des classes ont-ils été augmentés avant le lancement de WoW Forever ?", "Oui. Blizzard a relevé les dégâts de plusieurs classes (Éclair du Chaman, Visée du Chasseur, Éventrer du Druide Féral, Wrack du Démoniste) et augmenté la santé des créatures de haut niveau pour compenser. Aucun gros réglage n'est prévu avant l'ouverture des raids."),
             ("Quelle est la nouveauté du Voleur dans WoW Forever ?", "Le sort Shank, appris au niveau 24 : 5 énergie, 10 s de recharge, 50 % des dégâts d'arme avec la main gauche et 15 énergie rendus. Les poisons gagnent aussi un coefficient de puissance d'attaque doublé."),
-            ("Les classements du site tiennent-ils compte de ces changements ?", "Pas encore : les valeurs de ces notes ne sont pas dans les données du client que nous lisons, donc nous ne les simulons pas. Les classements seront recalculés quand ces données seront disponibles."),
+            ("Les classements du site tiennent-ils compte de ces changements ?", "Oui, en grande partie : les valeurs de ces notes absentes du client du 2 novembre sont appliquées par-dessus dans le simulateur, et le classement est recalculé. Les talents déplacés ou nouveaux dont la position n'est pas publiée ne sont pas simulés."),
         ],
         "links": [
             ("Calculateur de talents Chaman", "wow-forever/talents/shaman/"),
@@ -190,14 +190,14 @@ DEVNOTES_1103 = {
             ("list", [
                 "**Rebuild your talents**: every tree moves. Go through your class talent calculator before launch.",
                 "**Enhancement Shaman and Rogue** are the big winners on paper: Stormstrike, Maelstrom Weapon and Shank hit the rotation directly.",
-                "**The site's rankings do not move yet**: the spell values of these notes are not in the client data we read. We will recompute as soon as the launched game carries them, without inventing a number.",
+                "**The site's rankings account for these notes**: where the game client (build of November 2) does not hold a value yet (Lightning Bolt, Stormstrike, Shred, Wrack, Aimed Shot...), we apply it from the notes. Moved or new talents whose position is not published are not simulated, and the talent calculators say so.",
             ]),
-            ("note", "This article restates and summarises Blizzard's notes relayed by Wowhead and adds no simulation. The calculator's talents come from a beta build: at launch, those of these notes (positions, ranks, texts) will be re-read from the client before being published."),
+            ("note", "This article restates and summarises Blizzard's notes relayed by Wowhead; the DPS numbers are in the ranking, not here. The talent trees come from the November 2 client (build 1.60.1.70753): the changes of the notes that are not in it yet (positions, new talents) will be re-read from the client as soon as it carries them."),
         ],
         "faq": [
             ("Was class damage increased before the WoW Forever launch?", "Yes. Blizzard raised the damage of several classes (Shaman Lightning Bolt, Hunter Aimed Shot, Feral Druid Shred, Warlock Wrack) and increased the health of higher-level creatures to compensate. No big tuning is planned before raids open."),
             ("What is new for the Rogue in WoW Forever?", "The Shank spell, learned at level 24: 5 energy, 10 s cooldown, 50% off-hand weapon damage and 15 energy generated. Poisons also gain a doubled attack power coefficient."),
-            ("Do the site's rankings account for these changes?", "Not yet: the values of these notes are not in the client data we read, so we do not simulate them. The rankings will be recomputed when that data is available."),
+            ("Do the site's rankings account for these changes?", "Largely yes: the values of these notes that are missing from the November 2 client are applied on top in the simulator, and the ranking is recomputed. Moved or new talents whose position is not published are not simulated."),
         ],
         "links": [
             ("Shaman talent calculator", "wow-forever/talents/shaman/"),

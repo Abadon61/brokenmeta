@@ -38,7 +38,7 @@ test('a calculator share link round-trips into talent ranks', () => {
 
 test('ranksToBuild exposes only the simulated talents', () => {
   const b = ranksToBuild('warrior', data, ranksFromNames(data, PRESETS.warrior_fury));
-  assert.equal(b.cruelty, 5); assert.equal(b.flurry, 5); assert.equal(b.mortalStrike, 0);
+  assert.equal(b.cruelty, 5); assert.equal(b.flurry, 3); assert.equal(b.mortalStrike, 0);
   assert.ok(Object.keys(b).every((k) => Object.values(NAME_TO_KEY.warrior).includes(k)));
 });
 

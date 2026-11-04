@@ -33,17 +33,27 @@ export function dropTotem(sim, T, mods) {
   sim.schedule(T.interval, tick);
 }
 
+// see the call in shamanElementalKit; also used by the Enhancement kit for its Lightning Bolt
+function announceShaman(S) {
+  const lb = S.lb; if (!lb || !lb.direct || (lb.direct.min + lb.direct.max) / 2 > 300) return;
+  lb.direct.min *= 1.8; lb.direct.max *= 1.8;
+  if (S.cl && S.cl.direct) {
+    const mid = (lb.direct.min + lb.direct.max) / 2, sp = (S.cl.direct.max - S.cl.direct.min) / (S.cl.direct.max + S.cl.direct.min) || 0.05;
+    S.cl.direct.min = mid * 1.45 * (1 - sp); S.cl.direct.max = mid * 1.45 * (1 + sp); S.cl.direct.coeff = 2.5 / 3.5;      // coefficient from the 2.5 s cast like the kit's other bolts (ASSUMED)
+    S.cl.cast = 2.5; S.cl.cost = Math.round(lb.cost * 2.25);
+  }
+}
 export const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10, dmg: 0.5 }, callOfThunder: { crit: 0.05 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
   improvedFireNova: { dmg: 0.1, cd: 2 }, mentalQuickness: { sp: 0.15 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
-  // build 1.60.1.70425: Call of Thunder is gone; Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
+  // build 1.60.1.70425: Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
   // Call of Flame also lengthens Flame Shock by 3 s per rank
   elementalMastery: { cd: 180, dur: 15, cast: 0.5 }, callOfFlameShock: { sec: 3 },
 };
 
 export const SHAMAN_ELE_DEFAULT_BUILD = {
-  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
+  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, callOfThunder: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
   improvedFireNova: 0, mentalQuickness: 0, burnMana: 0, mindfulness: 0, totemicFocus: 0, tidalFocus: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
@@ -61,6 +71,10 @@ export function shamanElementalKit(build = {}, data = null) {
   if (lv) S.lvb = fromRank(lv, { name: 'Lava Burst', schools: fi, bolt: true });
   if (fs) S.fs = fromRank(fs, { name: 'Flame Shock', schools: fi, shock: true, instant: true });
   if (es) S.es = fromRank(es, { name: 'Earth Shock', schools: na, shock: true, instant: true });
+  // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Lightning Bolt's base damage of the top rank +80%; Chain Lightning 2.5 s cast, primary target base damage about 145% of
+  // a Lightning Bolt of the same rank and mana cost about 225%. Applied only while the client still holds the old Lightning Bolt value (about 200), so nothing is counted twice once the tables carry them.
+  // Not applied: the shocks "revert to Classic Era values" (no number in the notes).
+  announceShaman(S);
   const def = {
     name: 'shaman_elemental', build: b, S,
     items: { potion: H.manaPotion, gem: H.manaGem },
@@ -75,7 +89,7 @@ export function shamanElementalKit(build = {}, data = null) {
     },
     mods(sim, s, kind) {
       let hit = 0.01 * b.tidalFocus, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
-      if (s === S.lb || s === S.cl) dmg *= 1 + H.concussion.dmg * b.concussion;
+      if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
@@ -135,9 +149,10 @@ import { yellowAttack } from './shared.js';
 import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, resolveSpell, applyDot } from './spells.js';
 
 export const SHAMAN_ENH = {
-  stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 }, maelstrom: { chance: 0.10, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
+  // notes 3 Nov 2026: Stormstrike 150% normalized weapon damage (100%), 6 s cooldown (8 s)
+  stormstrike: { cost: 125, cd: 6, wpn: 1.5, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
+  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { chance: 0.20, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 0.5 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
   shamanisticFocus: { cost: 0.45 }, concussion: { dmg: 0.01 }, callOfFlame: { dmg: 0.05 }, improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -150,6 +165,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
   const b = Object.assign({}, SHAMAN_ENH_DEFAULT_BUILD, build), E = JSON.parse(JSON.stringify(SHAMAN_ENH));
   const lb = pickRank(data, 'shaman', 'shaman_lightning_bolt', 'Lightning Bolt'), ss = pickRank(data, 'shaman', null, 'Stormstrike'), rb = pickRank(data, 'shaman', 'shaman_rockbiter_weapon', 'Rockbiter Weapon');
   const L = lb ? fromRank(lb) : null;
+  if (L) announceShaman({ lb: L });
   const esr = pickRank(data, 'shaman', 'shaman_earth_shock', 'Earth Shock'), ES = esr ? fromRank(esr, { name: 'Earth Shock', cd: 6 }) : null;
   const frr = pickRank(data, 'shaman', null, 'Frost Shock'), FRS = frr ? fromRank(frr, { name: 'Frost Shock', cd: 6 }) : null;
   const fsr = pickRank(data, 'shaman', 'shaman_flame_shock', 'Flame Shock'), FS = fsr ? fromRank(fsr, { name: 'Flame Shock', cd: 6 }) : null;
@@ -158,7 +174,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
   const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
   const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
   if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
-  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
+  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; if (ss.cooldown_ms / 1000 < E.stormstrike.cd) E.stormstrike.cd = ss.cooldown_ms / 1000; }      // the notes' 6 s stand while the client still says 8 s   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
   return {
     name: 'shaman_enhancement', build: b, E,
     setup(sim) {
@@ -250,8 +266,8 @@ export function shamanEnhancementKit(build = {}, data = null) {
       if (b.stormstrike && now >= sim.cd.ss && sim.mana >= E.stormstrike.cost && sim.player.weapons.length) {
         sim.cd.ss = now + E.stormstrike.cd; spendMana(sim, E.stormstrike.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Stormstrike').casts++;
         const norm = sim.player.dualWield ? 2.4 : 3.3, mh = sim.player.weapons[0], oh = sim.player.weapons[1];
-        yellowAttack(sim, 'Stormstrike', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm);
-        if (oh) yellowAttack(sim, 'Stormstrike (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * 0.5);
+        yellowAttack(sim, 'Stormstrike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * E.stormstrike.wpn);
+        if (oh) yellowAttack(sim, 'Stormstrike (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * 0.5 * E.stormstrike.wpn);
         sim.aSS.apply();
         if (b.improvedStormstrike && sim.rng() < 0.5 * b.improvedStormstrike) sim.istUntil = now + E.improvedStormstrike.dur;
         return 1.5;

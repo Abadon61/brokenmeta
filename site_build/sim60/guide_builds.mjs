@@ -24,12 +24,12 @@ const FROM_PRESET = {
 const HEALERS = {
   priest: {
     holy: {
-      'Improved Renew': 3, 'Holy Specialization': 5, 'Divine Fury': 5, 'Inspiration': 3, 'Improved Healing': 3, 'Binding Heal': 1, 'Spiritual Guidance': 5, 'Spiritual Healing': 3, 'Litany of Light': 1, 'Spirit of Redemption': 1, 'Prayer of Mending': 1,
+      'Improved Renew': 3, 'Holy Specialization': 5, 'Divine Fury': 5, 'Inspiration': 3, 'Improved Healing': 3, 'Holy Binding': 1, 'Spiritual Guidance': 5, 'Spiritual Healing': 3, 'Litany of Light': 1, 'Spirit of Redemption': 1, 'Prayer of Mending': 1,
       'Twin Disciplines': 5, 'Improved Power Word: Shield': 3, 'Martyrdom': 2, 'Meditation': 3, 'Mental Agility': 3, 'Inner Focus': 1, 'Mental Strength': 3,
     },
     discipline: {
       'Twin Disciplines': 5, 'Improved Power Word: Shield': 3, 'Martyrdom': 2, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 5, 'Soul Warding': 1, 'Penance': 1, 'Renewed Hope': 3, 'Divine Aegis': 3, 'Power Infusion': 1,
-      'Improved Renew': 3, 'Holy Specialization': 5, 'Divine Fury': 5, 'Inspiration': 3, 'Improved Healing': 3, 'Binding Heal': 1,
+      'Improved Renew': 3, 'Holy Specialization': 5, 'Divine Fury': 5, 'Inspiration': 3, 'Improved Healing': 3, 'Holy Binding': 1,
     },
   },
   shaman: {
@@ -40,15 +40,15 @@ const HEALERS = {
   },
   druid: {
     restoration: {
-      "Nature's Focus": 5, 'Furor': 5, 'Naturalist': 5, 'Subtlety': 3, 'Natural Shapeshifter': 3, 'Reflection': 3, 'Gift of Nature': 5, 'Gift of the Earthmother': 1, 'Tranquil Spirit': 5, 'Improved Rejuvenation': 3, 'Swiftmend': 1,
+      "Nature's Focus": 5, 'Heart of the Wild': 5, 'Naturalist': 5, 'Subtlety': 3, 'Natural Shapeshifter': 3, 'Reflection': 3, 'Gift of Nature': 5, 'Bloom': 1, 'Tranquil Spirit': 5, 'Improved Rejuvenation': 3, 'Swiftmend': 1,
       "Nature's Swiftness": 1, 'Living Spirit': 3, 'Improved Tranquility': 2, 'Improved Regrowth': 5, 'Wild Growth': 1,
     },
   },
   paladin: {
     holy: {
-      'Divine Intellect': 5, 'Healing Light': 3, 'Spiritual Focus': 2, 'Voice of Truth': 1, 'Reverence': 3, 'Purifying Power': 2, 'Infusion of Light': 2, 'Illumination': 5, 'Divine Favor': 1, 'Divine Precision': 3, 'Holy Shock': 1,
-      'Consecrated Ground': 2, 'Holy Power': 5, "Light's Vigil": 1,
-      'Benediction': 5, 'Improved Judgement': 2, 'Holy Conduit': 2, 'Deflection': 1, 'Toughness': 5,
+      'Spiritual Focus': 5, 'Healing Light': 3, 'Reverence': 2, 'Purifying Power': 1, 'Illumination': 5, 'Divine Favor': 1, 'Divine Precision': 2, 'Infusion of Light': 2, 'Oath of Light': 1,
+      'Holy Shock': 1, 'Boundless Light': 2, 'Holy Power': 5, "Light's Vigil": 1,
+      'Divine Intellect': 5, 'Redoubt': 5, 'Toughness': 5, 'Benediction': 5,
     },
   },
 };

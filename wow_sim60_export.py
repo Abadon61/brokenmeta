@@ -72,7 +72,7 @@ for cls in classes:
     spells[cls] = {"abilities": abil, "future": fut, "top": top}
 # spells a talent grants or that the glossary leaves out (Mind Flay, Lava Burst, Starfire...): rank ladders rebuilt by name from the client tables
 import wow_sim60_extra_spells  # noqa: E402
-for _cls, _found in wow_sim60_extra_spells.extra_spells(refresh=False).items():
+for _cls, _found in wow_sim60_extra_spells.extra_spells(build="1.60.1.70753", refresh=False).items():
     spells[_cls]["extra"] = _found
 (OUT / "spells60.json").write_text(json.dumps(spells, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 w = spells["warrior"]["abilities"]
