@@ -880,7 +880,7 @@ const NAME_TO_KEY = {
     'Blade Flurry': 'bladeFlurry', 'Hack and Slash': 'hackAndSlash', 'Weapon Expertise': 'weaponExpertise', 'Aggression': 'aggression',
     'Adrenaline Rush': 'adrenalineRush', 'Ruthlessness': 'ruthlessness', 'Relentless Strikes': 'relentlessStrikes',
     'Improved Slice and Dice': 'improvedSliceAndDice', 'Seal Fate': 'sealFate', 'Vigor': 'vigor', 'Cold Blood': 'coldBlood', 'Mutilate': 'mutilate',
-    'Hemorrhage': 'hemorrhage', 'Opportunity': 'opportunity', 'Quietus': 'quietus', 'Serrated Blades': 'serratedBlades', 'Puncturing Wounds': 'puncturingWounds',
+    'Hemorrhage': 'hemorrhage', 'Opportunity': 'opportunity', 'Venom': 'venom', 'Quietus': 'quietus', 'Serrated Blades': 'serratedBlades', 'Puncturing Wounds': 'puncturingWounds',
     'Improved Poisons': 'improvedPoisons', 'Vile Poisons': 'vilePoisons',
   },
   paladin: {
@@ -898,7 +898,7 @@ const NAME_TO_KEY = {
   shaman: {
     'Mindfulness': 'mindfulness', 'Totemic Focus': 'totemicFocus', 'Tidal Focus': 'tidalFocus',
     'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
-    'Elemental Alacrity': 'elementalAlacrity', 'Elemental Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst',
+    'Elemental Alacrity': 'elementalAlacrity', 'Elemental Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst', 'Call of Thunder': 'callOfThunder',
     'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
     'Rage of the Farseer': 'rageOfTheFarseer', 'Trial by Fire': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
   },
@@ -925,11 +925,11 @@ const NAME_TO_KEY = {
     'Fel Vitality': 'felVitality', 'Demonic Sacrifice': 'demonicSacrifice',
   },
   mage: {
-    'Arcane Focus': 'arcaneFocus', 'Arcane Concentration': 'arcaneConcentration', 'Arcane Impact': 'arcaneImpact', 'Arcane Meditation': 'arcaneMeditation',
+    'Arcane Concentration': 'arcaneConcentration', 'Arcane Impact': 'arcaneImpact', 'Arcane Meditation': 'arcaneMeditation',
     'Arcane Mind': 'arcaneMind', 'Arcane Instability': 'arcaneInstability', 'Arcane Power': 'arcanePower', 'Presence of Mind': 'presenceOfMind', 'Missile Barrage': 'missileBarrage', 'Arcane Wrath': 'arcaneWrath', 'Arcane Blast': 'arcaneBlast',
-    'Incineration': 'incineration', 'Improved Fireball': 'improvedFireball', 'Ignite': 'ignite', 'Improved Scorch': 'improvedScorch', 'Heating Up': 'heatingUp',
+    'Incineration': 'incineration', 'Accelerant': 'improvedFireball', 'Ignite': 'ignite', 'Improved Scorch': 'improvedScorch', 'Heating Up': 'heatingUp',
     'Master of Elements': 'masterOfElements', 'Critical Mass': 'criticalMass', 'Fire Power': 'firePower', 'Combustion': 'combustion', 'Pyroblast': 'pyroblast', 'Improved Fire Blast': 'wakeOfFire',
-    'Improved Frostbolt': 'improvedFrostbolt', 'Elemental Precision': 'elementalPrecision', 'Ice Shards': 'iceShards', 'Piercing Ice': 'piercingIce', 'Frost Channeling': 'frostChanneling',
+    'Improved Frostbolt': 'improvedFrostbolt', 'Precision': 'elementalPrecision', 'Ice Shards': 'iceShards', 'Ice Barrier': 'iceBarrier', 'Frost Channeling': 'frostChanneling',
     'Ice Lance': 'iceLance', 'Shatter': 'shatter', 'Fingers of Frost': 'fingersOfFrost', "Winter's Chill": 'wintersChill',
   },
 };
@@ -995,34 +995,34 @@ function ranksFromNames(data, byName) {
 
 // Typical raiding builds (51 points), by talent name. Checked against the tree rules in the tests.
 const PRESETS = {
-  rogue_combat: {
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 4, 'Precision': 3, 'Puncturing Wounds': 3, 'Flawless Execution': 1,
-    'Dual Wield Specialization': 5, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Weapon Expertise': 2, 'Aggression': 3, 'Adrenaline Rush': 1,
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Murder': 2, 'Lethality': 5,
+  rogue_combat: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
+    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Flawless Execution': 1,
+    'Dual Wield Specialization': 2, 'Deflection': 1, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Weapon Expertise': 2, 'Aggression': 3, 'Adrenaline Rush': 1,
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Lethality': 2, 'Relentless Strikes': 5, 'Improved Poisons': 1,
   },
-  rogue_assassination: {
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Murder': 2, 'Relentless Strikes': 1, 'Lethality': 5, 'Vile Poisons': 5, 'Cold Blood': 1,
-    'Mutilate': 1, 'Vigor': 2, 'Seal Fate': 3,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 4, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 5,
+  rogue_assassination: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Relentless Strikes': 5, 'Lethality': 2, 'Vile Poisons': 5, 'Cold Blood': 1,
+    'Mutilate': 1, 'Vigor': 2, 'Seal Fate': 3, 'Venom': 1,
+    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
   },
-  rogue_subtlety: {
-    'Camouflage': 5, 'Opportunity': 2, 'Setup': 3, 'Improved Ambush': 3, 'Ghostly Strike': 1, 'Initiative': 3, 'Improved Distract': 2, 'Serrated Blades': 3,
-    'Premeditation': 1, 'Hemorrhage': 1, 'Dirty Deeds': 2, 'Quietus': 5,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 4, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 5,
+  rogue_subtlety: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
+    'Camouflage': 5, 'Opportunity': 5, 'Setup': 3, 'Improved Ambush': 3, 'Ghostly Strike': 1, 'Initiative': 3, 'Serrated Blades': 3,
+    'Premeditation': 1, 'Hemorrhage': 1, 'Dirty Deeds': 2, 'Heightened Senses': 2, 'Elusiveness': 2,
+    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
   },
-  mage_fire: {
-    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
-    'Critical Mass': 5, 'Fire Power': 3, 'Combustion': 1,
-    'Elemental Precision': 5, 'Ice Shards': 5, 'Frost Channeling': 3, 'Piercing Ice': 3, 'Improved Frostbolt': 3,
+  mage_fire: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Incineration': 5, 'Accelerant': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Fire Blast': 2, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
+    'Critical Mass': 3, 'Fire Power': 3, 'Combustion': 1,
+    'Precision': 3, 'Ice Shards': 5, 'Frost Channeling': 3, 'Improved Frostbolt': 5, 'Frostbite': 3,
   },
-  mage_frost: {
-    'Improved Frostbolt': 5, 'Elemental Precision': 5, 'Ice Shards': 5, 'Piercing Ice': 3, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2,   // Winter's Chill no longer adds crit (build 70425)
-    'Wand Specialization': 2, 'Arcane Focus': 5, 'Arcane Subtlety': 2, 'Arcane Concentration': 5, 'Arcane Impact': 3, 'Arcane Meditation': 3, 'Arcane Resilience': 1, 'Arcane Mind': 3,
+  mage_frost: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Improved Frostbolt': 5, 'Precision': 3, 'Ice Shards': 5, 'Frostbite': 3, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2, "Winter's Chill": 5, 'Cold Snap': 1, 'Ice Barrier': 1,
+    'Wand Specialization': 2, 'Improved Channeling': 5, 'Arcane Subtlety': 2, 'Arcane Concentration': 5, 'Arcane Meditation': 3, 'Arcane Resilience': 2,
   },
-  mage_arcane: {   // build 70425: Arcane Wrath (new gold talent), Missile Barrage has 2 ranks
-    'Arcane Focus': 5, 'Improved Channeling': 1, 'Arcane Concentration': 5, 'Arcane Subtlety': 2, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 2,
-    'Presence of Mind': 1, 'Arcane Mind': 5, 'Arcane Instability': 3, 'Arcane Power': 1,
-    'Improved Fire Blast': 2, 'Incineration': 3, 'Improved Fireball': 5, 'Ignite': 5, 'Master of Elements': 3, 'Arcane Wrath': 1,   // 2026-10-24: Arcane Missiles no longer gives itself Missile Barrage (Forever), and Arcane Wrath + Missiles beats Missiles alone by 11 % on the same character
+  mage_arcane: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Improved Channeling': 2, 'Arcane Resilience': 3, 'Arcane Subtlety': 1, 'Arcane Concentration': 5, 'Arcane Impact': 3, 'Arcane Blast': 1, 'Arcane Meditation': 3, 'Missile Barrage': 2,
+    'Arcane Wrath': 1, 'Presence of Mind': 1, 'Arcane Mind': 5, 'Arcane Instability': 3, 'Arcane Power': 1,
+    'Improved Fire Blast': 2, 'Incineration': 3, 'Accelerant': 5, 'Ignite': 5, 'Master of Elements': 2, 'Precision': 3,
   },
   warlock_affliction: {
     'Suppression': 5, 'Improved Corruption': 5, 'Grim Reach': 2, 'Improved Bane of Agony': 2, 'Pandemic': 3, 'Malevolence': 5, 'Nightfall': 2, 'Siphon Life': 1, 'Shadow Mastery': 5, 'Wrack': 1,
@@ -1055,26 +1055,27 @@ const PRESETS = {
   },
   shaman_elemental: {
     'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Elemental Mastery': 1, 'Lightning Overload': 3,
-    'Elemental Fury': 5, 'Lava Burst': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
+    'Elemental Fury': 5, 'Call of Thunder': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
     'Tidal Focus': 5, 'Mindfulness': 3, 'Totemic Focus': 2,       // Restoration: +5 % hit (Tidal Focus, row 1 since build 70425), 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totems
   },
   druid_balance: {
     'Improved Wrath': 5, 'Genesis': 5, 'Moonglow': 3, 'Improved Moonfire': 2, "Nature's Majesty": 2, "Nature's Reach": 2, "Nature's Splendor": 1, 'Insect Swarm': 1, 'Vengeance': 5,
-    'Improved Starfire': 5, "Nature's Grace": 1, 'Eclipse': 3, 'Moonfury': 5, 'Moonkin Form': 1, 'Furor': 5, 'Naturalist': 5,
+    'Improved Starfire': 5, "Nature's Grace": 1, 'Eclipse': 3, 'Moonfury': 5, 'Moonkin Form': 1, "Nature's Focus": 5, 'Naturalist': 5,
   },
-  paladin_retribution: {
-    'Benediction': 5, 'Improved Judgement': 2, 'Conviction': 5, 'Vindication': 3, 'Sanctified Judgement': 3, 'Seal of Command': 1, 'Sacred Arbiter': 1, 'Two-Handed Weapon Specialization': 3,
-    'Vengeance': 3, 'Champion of the Light': 3, 'Instrument of Law': 2, 'Twist of Light': 1,
-    'Divine Strength': 5, 'Divine Intellect': 5, 'Improved Seals': 3, 'Healing Light': 3, 'Reverence': 3,
+  paladin_retribution: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Benediction': 5, 'Improved Judgement': 2, 'Conviction': 3, 'Sanctified Judgement': 3, 'Seal of Command': 1, 'Pursuit of Justice': 2, 'Eye for an Eye': 1, 'Sacred Arbiter': 1,
+    'Two-Handed Weapon Specialization': 3, 'Vengeance': 3, 'Repentance': 1, 'Champion of the Light': 5, 'Unsealed Wrath': 1,
+    'Divine Strength': 5, 'Improved Seals': 5, 'Reverence': 2, 'Healing Light': 3, 'Divine Intellect': 5,
   },
   shaman_enhancement: {
     'Thundering Strikes': 5, 'Ancestral Knowledge': 5, 'Mental Dexterity': 3, 'Elemental Weapons': 3, 'Flurry': 5, 'Stormstrike': 1, 'Mental Quickness': 2, 'Improved Stormstrike': 2,
     'Maelstrom Weapon': 5, 'Rage of the Farseer': 1,
     'Convection': 5, 'Concussion': 5, 'Elemental Devastation': 3, 'Shamanistic Focus': 1, 'Reverberation': 1, 'Elemental Focus': 1, 'Elemental Alacrity': 3,
   },
-  druid_feral: {
-    'Ferocity': 5, 'Heart of the Wild': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Shifting Power': 1,
-    'Leader of the Pack': 1, 'Natural Instinct': 2, 'Improved Shifting Power': 2, 'Rend and Tear': 5, 'Berserk': 1,
+  druid_feral: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Ferocity': 5, 'Thick Hide': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2, 'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Predatory Discipline': 1, 'Shifting Power': 1,
+    'Leader of the Pack': 1, 'Natural Instinct': 2, 'Rend and Tear': 5, 'Furor': 2,
+    'Heart of the Wild': 5,
     'Improved Wrath': 5, 'Genesis': 5, "Nature's Majesty": 2, "Nature's Reach": 2,
   },
   warrior_protection: {
@@ -1082,25 +1083,25 @@ const PRESETS = {
     'Vanguard': 1, 'Bastion': 5, 'Focused Rage': 3, 'Shield Slam': 1,
     'Deflection': 5, 'Improved Heroic Strike': 3, 'Improved Charge': 2, 'Improved Tactical Mastery': 1, 'Concussion Blow': 1,
   },
-  paladin_protection: {
-    'Toughness': 5, 'Redoubt': 5, 'Precision': 3, 'Anticipation': 5, 'Improved Righteous Fury': 3, 'Shield Specialization': 3, 'Sacred Duty': 2, 'Improved Seal of Fury': 1, 'Swift Judgement': 1,
-    'One-Handed Weapon Specialization': 3, 'Reckoning': 5, "Templar's Bulwark": 1, 'Iron Creed': 5, 'Holy Shield': 1,
-    'Deflection': 5, 'Divine Intellect': 3,
+  paladin_protection: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
+    'Divine Intellect': 5, 'Redoubt': 5, 'Precision': 3, 'Sacred Duty': 2, "Templar's Bulwark": 1, 'Shield Specialization': 2, 'Toughness': 5, 'Swift Judgement': 1,
+    'Improved Righteous Fury': 3, 'Anticipation': 5, 'Holy Shield': 1, 'Reckoning': 5, 'Iron Creed': 3, 'Shieldsworn': 1,
+    'Deflection': 5, 'Stoicism': 2, "Guardian's Favor": 2,
   },
   druid_bear: {
     'Ferocity': 5, 'Heart of the Wild': 5, 'Feral Swiftness': 2, 'Thick Hide': 3, 'Feral Instinct': 3, 'Shredding Attacks': 3, 'Savage Fury': 2, 'Sharpened Claws': 2,
     'Predatory Strikes': 3, 'Blood Frenzy': 2, 'Leader of the Pack': 1, 'Natural Instinct': 2, 'Natural Reaction': 5, 'Berserk': 1,
     'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
-  warrior_fury: {   // build 70425: Bloodthirst needs 30 points in Fury; Precision, Improved Cleave and Boundless Rage are gone (Furious Precision = off-hand hit)
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 5,
-    'Improved Execute': 2, 'Death Wish': 1, 'Improved Berserker Rage': 2, 'Flurry': 5, 'Bloodthirst': 1,
-    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 5, 'Improved Overpower': 2, 'Anger Management': 1,
+  warrior_fury: {   // rebuilt for the class tuning notes of 3 Nov 2026 (Flurry 3 ranks, Improved Tactical Mastery 3 ranks, Bloodthrill 2 ranks); the user's bleed hybrid is kept, the freed points go to Improved Berserker Rage (+2 % DPS measured) and Blood Craze
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 3,
+    'Improved Execute': 2, 'Death Wish': 1, 'Flurry': 3, 'Bloodthirst': 1, 'Improved Berserker Rage': 2, 'Blood Craze': 1,
+    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 3, 'Improved Overpower': 2, 'Anger Management': 1, 'Deep Wounds': 3, 'Impale': 2,
   },
-  warrior_arms: {
-    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 5, 'Anger Management': 1, 'Deep Wounds': 3,
-    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1,   // Slam's 18 s cooldown makes Mortal Strike the better spender (+52 DPS measured, 2026-10-16)
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Bloodthrill': 5, 'Furious Precision': 3, 'Blood Craze': 2,
+  warrior_arms: {   // rebuilt for the class tuning notes of 3 Nov 2026 (Flurry 3 ranks, Improved Tactical Mastery 3 ranks, Bloodthrill 2 ranks); the user's bleed hybrid is kept, the freed points go to Improved Berserker Rage (+2 % DPS measured) and Blood Craze
+    'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Overpower': 2, 'Improved Tactical Mastery': 3, 'Anger Management': 1, 'Deep Wounds': 3,
+    'Two-Handed Weapon Specialization': 3, 'Impale': 2, 'Sweeping Strikes': 1, 'Weaponmaster': 5, 'Improved Slam': 2, 'Mortal Strike': 1, 'Bloodthrill': 2,
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Blood Craze': 2, 'Lingering Rage': 5,
   },
 };
 
@@ -1152,7 +1153,7 @@ const WARRIOR = {
   bloodthirst: { cost: 30, cd: 6, apCoeff: 0.45, flat: 48 },           // client table (build 1.60.1.70425, spell 23894 at L60): 45% AP (was 35%) + 48
   whirlwind: { cost: 25, cd: 10, flat: 0, normSpeed1H: 2.4, normSpeed2H: 3.3 }, // 100% normalized weapon damage (normalization speeds ASSUMED Classic)
   heroicStrike: { cost: 15, flat: 157 },
-  slam: { cost: 15, cd: 18, flat: 87, cast: 1.5 },                     // client: 18 s cooldown (the kit ignored it before 2026-10-16); Improved Slam shortens it
+  slam: { cost: 15, cd: 15, flat: 87, cast: 1.5 },                     // client: 18 s cooldown (the kit ignored it before 2026-10-16); Improved Slam shortens it
   overpower: { cost: 5, cd: 5, flat: 35 },
   rend: { cost: 10, total: 147, duration: 21, tick: 3 },
   mortalStrike: { cost: 30, cd: 6, flat: 160, normSpeed2H: 3.3 },      // client table (spell 21553 at L60): weapon damage + 160
@@ -1160,7 +1161,7 @@ const WARRIOR = {
   deathWish: { cost: 10, cd: 180, duration: 30, dmgMult: 1.2 },
   recklessness: { cd: 1800, duration: 15, crit: 1.0 },                 // ASSUMED Classic effect; cooldown from the client table
   bloodrage: { cd: 60, immediate: 10, overTime: 10, overTimeSec: 10 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 },
+  flurry: { perRank: 0.10, charges: 3, expire: 15 },       // Blizzard notes 3 Nov 2026: 3 ranks of +10% attack speed (5 ranks of +5% before); Slam 15 s cooldown (18 s), Improved Slam -2.5 / -5 s (-3 / -3 s)
   unbridledWrath: { chancePerRank: 0.12 },
   dualWieldSpec: { ohDmgPerRank: 0.05, ohRagePerRank: 0.10 },          // build 70425: off-hand damage +5% and Rage from off-hand attacks +10% per rank (the +2% off-hand hit moved to Furious Precision)
   furiousPrecision: { ohHit: [0, 0.04, 0.07, 0.10] },                  // build 70425: replaces Boundless Rage; +4 / 7 / 10% off-hand hit chance
@@ -1169,10 +1170,10 @@ const WARRIOR = {
   improvedHeroicStrike: { costPerRank: 1 },
   improvedExecute: { cost: [0, 3, 5] },                                // Forever: -3 Rage at rank 1, -5 at rank 2
   improvedOverpower: { critPerRank: 0.25 },                            // Forever: +25% Overpower crit chance per rank
-  improvedSlam: { castReductionPerRank: 0.25, cdReduction: [0, 3, 3] },  // Forever: -0.25 s cast time per rank; no swing delay at rank 2; build 70425 text: Slam cooldown -3.0 s at both ranks
+  improvedSlam: { castReductionPerRank: 0.25, cdReduction: [0, 2.5, 5] },  // Forever: -0.25 s cast time per rank; no swing delay at rank 2; build 70425 text: Slam cooldown -3.0 s at both ranks
   angerManagement: { interval: 3, amount: 1 },
   deepWounds: { pctPerRank: 0.20, duration: 12, tick: 3 },             // 3 ranks, 60% of average weapon damage over 12 s
-  twoHandSpec: { dmgPerRank: 0.01 },
+  twoHandSpec: { dmgPerRank: 0.02 },
   impale: { critDmgPerRank: 0.10 },
   enrage: { dmgPerRank: 0.02 },                                        // Forever: 30% chance on being hit, +2% Physical damage per rank for 12 s
   weaponmaster: { axeCritPerRank: 0.01, maceArmorPerRank: 0.03, swordExtraAttackPerRank: 0.01 },
@@ -1214,6 +1215,9 @@ const FURY_DEFAULT_BUILD = {
   improvedExecute: 2, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
+  // Arms-tree talents of the hybrid Fury builds (2026-11-02): all off in the default build, so the Fury numbers published so far do not move
+  deepWounds: 0, impale: 0, angerManagement: 0, improvedRend: 0,   // useRend: unset = on when Improved Rend has points
+  rendStanceLock: 1.0,          // Rend needs Battle or Defensive Stance (client flag): each cast is counted as one GCD plus this many seconds of stance change (an estimate, the stance rules of Forever are not modelled)
 };
 const ARMS_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, improvedHeroicStrike: 3, improvedOverpower: 2, angerManagement: 1, deepWounds: 3,
@@ -1269,6 +1273,7 @@ function executePhase(sim, W) {
 // =============================== FURY ===============================
 function furyKit(build = {}, data = null) {
   const b = Object.assign({}, FURY_DEFAULT_BUILD, build), W = warriorFromData(data);
+  if (b.useRend === undefined) b.useRend = (b.improvedRend || 0) > 0;
   return {
     name: 'warrior_fury', build: b, W,
     setup(sim) {
@@ -1292,6 +1297,17 @@ function furyKit(build = {}, data = null) {
       const wwCost = () => W.whirlwind.cost - (b.ragingBlows ? W.ragingBlows.whirlwindCost : 0);
       sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd });
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
+      // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
+      if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
+      if (b.deepWounds && sim.player.weapons[0]) {
+        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds);
+        sim.procs.push((s, outcome, source, isOH) => { if (outcome === 'crit' && !isOH) applyDeepWounds(); });      // main-hand crits only, as in the Arms kit
+      }
+      if (b.angerManagement) {
+        const tick = () => { sim.gainRage(W.angerManagement.amount); sim.schedule(W.angerManagement.interval, tick); };
+        sim.schedule(W.angerManagement.interval, tick);
+      }
+      if (b.useRend) { sim.sRD = sim.addSpell({ name: 'Rend', cost: () => W.rend.cost, cd: 0 }); sim.rendEndsAt = -1; }
 
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
@@ -1312,6 +1328,13 @@ function furyKit(build = {}, data = null) {
         sim.spendRage(W.bloodthirst.cost);
         yellowAttack(sim, 'Bloodthirst', () => sim.ap() * W.bloodthirst.apCoeff + W.bloodthirst.flat);
       });
+      // Rend (hybrid builds only): after Bloodthirst, kept up outside the execute phase, same damage as the Arms kit (client row + 2 % AP per tick, Improved Rend on top)
+      if (b.useRend && !(b.executePhase && sim.inExecute()) && now >= sim.rendEndsAt - 1.5 && sim.canCast(sim.sRD)) return castGcd(sim, sim.sRD, () => {
+        sim.spendRage(W.rend.cost); sim.rendEndsAt = now + W.rend.duration;
+        const ticks = Math.round(W.rend.duration / W.rend.tick), my = sim.rendEndsAt;
+        const per = (W.rend.total / ticks + 0.02 * sim.ap()) * (1 + W.improvedRend.bleedPerRank * (b.improvedRend || 0));
+        for (let i = 1; i <= ticks; i++) sim.schedule(i * W.rend.tick, () => { if (sim.rendEndsAt === my) sim.record('Rend', per * sim.mods.dmgMult, 'hit'); });
+      }, 1.5 + (b.rendStanceLock || 0));
       if (b.useWhirlwind !== false && (!b.bloodthirst || sim.sBT.readyAt - now >= 1.5) && sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {   // their APL: Whirlwind when Bloodthirst is 1.5 s or more from ready
         sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];
@@ -1361,7 +1384,7 @@ function armsKit(build = {}, data = null) {
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.deepWounds > 0) applyDeepWounds();
-        if (b.bloodthrill && !isOH && (isWhite || source === 'Heroic Strike') && s.now < s.rendEndsAt && s.rng() < 0.04 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill: 20% at five ranks, Overpower usable for 6 s
+        if (b.bloodthrill && !isOH && (isWhite || source === 'Heroic Strike') && s.now < s.rendEndsAt && s.rng() < 0.10 * b.bloodthrill) s.overpowerUntil = s.now + 6;   // Bloodthrill (notes 3 Nov 2026): 10% / 20% at two ranks (4% per rank at five ranks before), Overpower usable for 6 s
         if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
         if (isWhite && s.swordExtraAttack && outcome !== 'glance' && s.rng() < s.swordExtraAttack) s.whiteAttack(s.swings[0]);
       });
@@ -1435,30 +1458,33 @@ const ROGUE = {
   eviscerate: { cost: 35, table: { 1: [224, 332], 2: [394, 502], 3: [564, 672], 4: [734, 842], 5: [904, 1012] } },
   sliceAndDice: { cost: 25, base: 6, perPoint: 3, haste: 1.2 },
   hemorrhage: { cost: 35, pct: 1.0, pctDagger: 1.45 },          // cost ASSUMED (Classic); damage from the Forever talent tooltip
-  mutilate: { cost: 60, pct: 0.75, flat: 67, cp: 2 },         // client table + talent tooltip
+  mutilate: { cost: 60, pct: 0.90, flat: 67, cp: 2 },      // notes 3 Nov 2026: 90% weapon damage (75% before); the flat part was raised too, by an amount the notes do not give (kept)
+  shank: { cost: 5, cd: 10, pct: 0.5, energy: 25 },            // notes 3 Nov 2026: Shank (level 24, rank 2 at level 44): 5 energy, 10 s cooldown, off hand, 50% weapon damage, +25 energy at rank 2, cannot miss; ASSUMED: it uses the 1 s global cooldown
+  venom: { dmg: 1.3, chance: 0.2, dur: 6 },                    // Venom (notes 3 Nov 2026): after Shank, +30% poison damage and +20% chance to apply poisons for 6 s         // client table + talent tooltip
   bladeFlurry: { cost: 25, cd: 120, duration: 15, haste: 1.2 },  // cost/cooldown ASSUMED (Classic)
   adrenalineRush: { cd: 300, duration: 15, regenMult: 2 },      // cooldown ASSUMED (Classic)
   coldBlood: { cd: 180 },                                       // cooldown ASSUMED (Classic)
   energy: { cap: 100, tick: 0.1, perTick: 1 },      // Forever core/energy.go: one energy every 0.1 s (same average as 20 per 2 s, no waiting for a big tick)
   normSpeed: { other: 2.4, dagger: 1.7 },                       // Classic weapon-speed normalization (ASSUMED)
   // talents (per rank, from the Forever tooltips)
-  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 10 },
-  aggression: { perRank: 0.02 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.04 },
-  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.06 }, relentlessStrikes: { chancePerCp: 0.2, energy: 25 },
-  ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.2 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
+  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 15 },
+  aggression: { perRank: 0.05 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.10 },      // notes 3 Nov 2026: Aggression 5/10/15% (Sinister Strike and Eviscerate only), Lethality 10/20% (2 ranks), Flawless Execution -15 energy
+  precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.25 }, relentlessStrikes: { chancePerCp: 0.04, energy: 25 },      // Dual Wield Specialization +25% / +50% off-hand damage (2 ranks); Relentless Strikes 4% per rank per combo point (5 ranks)
+  ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.33 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
   hackAndSlash: { perRank: 0.01, armorPerRank: 0.03 }, weaponExpertise: { dodgePerRank: 0.01 },
-  opportunity: { perRank: 0.05 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
+  opportunity: { perRank: 0.04 }, quietus: { perRank: 0.02, below: 0.35 }, serratedBlades: { armorPerRank: 0.03 },
   puncturingWounds: { bsCritPerRank: 0.10, mutCritPerRank: 0.05 },
   // poisons: Classic 1.12 rank VII / V (ASSUMED). Nature damage: no armor, no AP scaling, 1.5x on crit, resisted like a spell.
   poison: { resist: 0.17, critMult: 1.5, mutilateBonus: 1.2 },
-  instantPoison: { min: 75.8, max: 100.2, chance: 0.20, apCoeff: 0.005 },      // Forever Instant Poison VI: 88 +-13.8 % + 0.5 % of attack power (was Classic 146-194)
-  deadlyPoison: { total: 92, duration: 12, tick: 3, maxStacks: 5, chance: 0.30, apTotal: 0.0045 },      // Forever Deadly Poison V: 23 a tick x 4 + 0.45 % of attack power in all, per stack (was Classic 136)
+  instantPoison: { min: 75.8, max: 100.2, chance: 0.20, apCoeff: 0.01 },      // notes 3 Nov 2026: attack power coefficient 0.01 (0.005 before);      // Forever Instant Poison VI: 88 +-13.8 % + 0.5 % of attack power (was Classic 146-194)
+  deadlyPoison: { total: 92, duration: 12, tick: 3, maxStacks: 5, chance: 0.30, apTotal: 0.009 },      // notes 3 Nov 2026: coefficient doubled (0.0045 before)
+   //      // Forever Deadly Poison V: 23 a tick x 4 + 0.45 % of attack power in all, per stack (was Classic 136)
   improvedPoisons: { chancePerRank: 0.02 }, vilePoisons: { dmgPerRank: 0.04 },
 };
 
 const ROGUE_DEFAULT_BUILD = {
-  improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 5, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
-  weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 5, ruthlessness: 3, relentlessStrikes: 1, improvedSliceAndDice: 3,
+  improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 2, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
+  weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 2, ruthlessness: 3, relentlessStrikes: 5, venom: 0, useShank: true, improvedSliceAndDice: 3,
   sealFate: 0, vigor: 0, coldBlood: 0, mutilate: 0, hemorrhage: 0, opportunity: 0, quietus: 0, serratedBlades: 0, puncturingWounds: 0,
   improvedPoisons: 0, vilePoisons: 0, mhPoison: 'instant', ohPoison: 'deadly',   // 'instant' | 'deadly' | 'none'
   builder: 'auto', useCooldowns: true,
@@ -1506,7 +1532,7 @@ function rogueKit(build = {}, data = null) {
       sim.sCB = sim.addSpell({ name: 'Cold Blood', cost: () => 0, cd: R.coldBlood.cd });
       sim.cost = {
         ss: () => Math.max(0, R.sinisterStrike.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike),
-        bs: () => R.backstab.cost, hemo: () => R.hemorrhage.cost, mut: () => R.mutilate.cost,
+        bs: () => R.backstab.cost, hemo: () => Math.max(0, R.hemorrhage.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike), mut: () => R.mutilate.cost,
         ev: () => Math.max(0, R.eviscerate.cost - (b.flawlessExecution ? R.flawlessExecution.cost : 0)), snd: () => R.sliceAndDice.cost,
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
@@ -1515,7 +1541,7 @@ function rogueKit(build = {}, data = null) {
       });
       // poisons: each landed weapon hit may apply the poison on that weapon
       const dk = sim.deadly = { stacks: 0, endsAt: 0, ticking: false };
-      const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult;
+      const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult * (b.venom && sim.now < (sim.venomUntil || 0) ? R.venom.dmg : 1);
       const pcrit = () => Math.min(1, Math.max(0, sim.stats.racialCrit || 0));      // poisons are spells: the rogue's spell crit is the racial only
       const pdmg = (name, base) => {
         const crit = sim.rng() < pcrit();
@@ -1529,7 +1555,7 @@ function rogueKit(build = {}, data = null) {
       };
       const applyPoison = (kind) => {
         const p = kind === 'deadly' ? R.deadlyPoison : R.instantPoison;
-        if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons) return;
+        if (sim.rng() >= p.chance + R.improvedPoisons.chancePerRank * b.improvedPoisons + (b.venom && sim.now < (sim.venomUntil || 0) ? R.venom.chance : 0)) return;
         const name = kind === 'deadly' ? 'Deadly Poison' : 'Instant Poison';
         sim.entry(name).casts++;
         if (sim.rng() < Math.max(0, R.poison.resist - sim.hitFrac())) { sim.entry(name).misses++; return; }      // the rogue's hit chance counts as spell hit (Forever: miss 17 % - hit)
@@ -1592,7 +1618,7 @@ function rogueKit(build = {}, data = null) {
           const dur = (R.sliceAndDice.base + R.sliceAndDice.perPoint * sim.cp) * (1 + R.improvedSliceAndDice.perRank * b.improvedSliceAndDice);
           sim.sndAura.apply(1, dur);
           const spent = sim.cp; sim.cp = 0;      // a finisher: Relentless Strikes and Ruthlessness apply to Slice and Dice too (Forever ApplyFinisher)
-          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * spent) sim.gainRage(R.relentlessStrikes.energy);
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * spent) sim.gainRage(R.relentlessStrikes.energy);
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
         }, GCD);
       }
@@ -1604,7 +1630,17 @@ function rogueKit(build = {}, data = null) {
           const bonus = cbBonus(); spendCb();
           yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.perRank * b.improvedEviscerate) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
-          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * cp) sim.gainRage(R.relentlessStrikes.energy);
+          if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
+        }, GCD);
+      }
+      // Shank (notes of 3 Nov 2026): a cheap off-hand strike on a 10 s cooldown that returns energy; used whenever it does not push the energy past the cap
+      if (b.useShank !== false && oh && now >= (sim.shankReadyAt || 0) && energy >= R.shank.cost && energy - R.shank.cost + R.shank.energy <= sim.rageCap && !nearEnd) {
+        return castGcd(sim, { name: 'Shank', cd: R.shank.cd, readyAt: 0, casts: 0 }, () => {
+          sim.spendRage(R.shank.cost); sim.shankReadyAt = now + R.shank.cd; if (b.venom) sim.venomUntil = now + R.venom.dur;
+          const c = sim.rng() < sim.critChance(0);
+          let raw = (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * R.shank.pct; if (c) raw *= sim.critMult(lethal());
+          sim.record('Shank', sim.mitigate(raw * sim.mods.dmgMult, true), c ? 'crit' : 'hit'); sim.onMeleeHit(c ? 'crit' : 'hit', 'Shank', false, false);
+          sim.gainRage(R.shank.energy);
         }, GCD);
       }
       // never build past 5 combo points, and never starve Slice and Dice: wait for the energy instead
@@ -1623,7 +1659,7 @@ function rogueKit(build = {}, data = null) {
       });
       else if (builder === 'backstab') w = doBuilder('Backstab', sim.cost.bs(), () => {
         const bonus = cbBonus() + R.puncturingWounds.bsCritPerRank * b.puncturingWounds; spendCb();
-        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.aggression.perRank * b.aggression) * (1 + R.opportunity.perRank * b.opportunity),
+        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity),
           { bonusCrit: bonus, critDmgBonus: lethal(), canDodge: false });      // Forever backstab.go: Rank 8, (140 + normalized weapon) x 150 %, cannot be dodged or parried
         if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); if (b.puncturingWounds && sim.rng() < 0.05 * b.puncturingWounds) sim.cp = Math.min(5, sim.cp + 1); }
       });
@@ -2087,8 +2123,8 @@ const MAGE = {
   iceLance: { name: 'Ice Lance', schools: ['frost'], cast: 0, cost: 150, min: 173, max: 200, coeff: 0.143, incin: true },       // ASSUMED (Classic TBC-era value)
   arcaneWrath: { name: 'Arcane Wrath', schools: ['arcane'], cast: 3.5, cost: 395, min: 405.7, max: 496.3, coeff: 1, cd: 6, manaSp: 0.05, incin: false },   // build 70425 (spell 1326082): damage like Fireball plus spell power worth 5% of the maximum mana
   arcaneMissiles: { name: 'Arcane Missiles', schools: ['arcane'], cast: 5, cost: 655, total: 1085, coeff: 0.714, ticks: 5 },     // ASSUMED (Classic rank 8)
-  // build 1.60.1.70425: Arcane Blast is a 1.5 s cast (damage and coefficient -40%); each cast gives 15% of the mage's Intellect as spell damage, stacking 4 times for 15 s from the FIRST cast, and raises its own cost
-  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 1.5, cost: 195, min: 218.2, max: 253.8, coeff: 0.429, incin: true, spPerInt: 0.15, stackCost: 1.75, maxStacks: 4, dur: 15 },
+  // build 1.60.1.70753 (Blizzard notes of 3 Nov 2026): +12% of the Intellect per stack (15% before), +100% mana per stack (175% before), 18 s (15 s before). Build 70425: Arcane Blast is a 1.5 s cast (damage and coefficient -40%); each cast gives 15% of the mage's Intellect as spell damage, stacking 4 times for 15 s from the FIRST cast, and raises its own cost
+  arcaneBlast: { name: 'Arcane Blast', schools: ['arcane'], cast: 1.5, cost: 195, min: 218.2, max: 253.8, coeff: 0.429, incin: true, spPerInt: 0.12, stackCost: 1.0, maxStacks: 4, dur: 18 },
   combustion: { cd: 180 },
   manaGem: { cd: 120, min: 1073, max: 1127 },                                                                                    // ASSUMED (Mana Ruby)
   innervate: { cd: 360, dur: 20, mult: 5 },                                                                                      // ASSUMED (Classic, cast by a druid)
@@ -2104,13 +2140,15 @@ const MAGE = {
   masterOfElements: { refund: 0.10 }, criticalMass: { crit: 0.02 }, firePower: { perEffect: 0.01, maxEffects: 4 }, wakeOfFire: { cd: 1 },   // Fire Power (3 ranks): +1% per rank for each Fire effect on the target (Ignite, Fire Vulnerability, Fireball and Pyroblast DoTs), up to 4 effects
   improvedFrostbolt: { cast: 0.1 }, elementalPrecision: { hit: 0.02 }, iceShards: { critBonus: 0.2 }, piercingIce: { dmg: 0.02 },
   frostChanneling: { cost: 0.05 }, shatter: { crit: 0.5 / 3 }, fingersOfFrost: { chance: 0.15 }, wintersChill: { chance: 0.2, crit: 0, max: 5 },   // build 70425: Winter's Chill only boosts Cone of Cold now (no crit on Frostbolt / Ice Lance)
-  iceLanceFrozen: 3,                                                                    // build 70425: +200% against Frozen targets (was +300%)
+  iceLanceFrozen: 4,                                                                    // build 70753: +300% against Frozen targets (200% in build 70425), read from the client table below
+  iceLanceCd: 8,                                                                         // build 70753: 8 s cooldown shared with Fire Blast (Blizzard notes, 3 Nov 2026)
+  iceBarrier: { dmg: 0.15 },                                                             // build 70753: Ice Barrier gives +15% Frost damage for 1 minute (+5% more while the shield holds, not modelled)
 };
 
 const MAGE_DEFAULT_BUILD = {
   arcaneFocus: 0, arcaneConcentration: 0, arcaneImpact: 0, arcaneMeditation: 0, arcaneMind: 0, arcaneInstability: 0, arcanePower: 0, presenceOfMind: 0, missileBarrage: 0,
   incineration: 0, improvedFireball: 0, ignite: 0, improvedScorch: 0, heatingUp: 0, masterOfElements: 0, criticalMass: 0, firePower: 0, combustion: 0, pyroblast: 0, wakeOfFire: 0, arcaneWrath: 0,
-  improvedFrostbolt: 0, elementalPrecision: 0, iceShards: 0, piercingIce: 0, frostChanneling: 0, iceLance: 0, shatter: 0, fingersOfFrost: 0, wintersChill: 0,
+  improvedFrostbolt: 0, elementalPrecision: 0, iceShards: 0, piercingIce: 0, iceBarrier: 0, frostChanneling: 0, iceLance: 0, shatter: 0, fingersOfFrost: 0, wintersChill: 0,
   rotation: 'fire', filler: 'auto', useCooldowns: true, usePotion: true, useEvocation: true, useGem: true, innervate: false, movement: 0, arcaneBlast: 0,
 };
 
@@ -2205,10 +2243,10 @@ function specMods(sim, s, noAuras, extra = 1) {
   const b = sim.kitBuild, M = sim.spec.M;
   let hit = 0, crit = 0, dmg = extra, critBonus = 0;
   const fire = schoolHas(s, 'fire'), frost = schoolHas(s, 'frost'), arcane = schoolHas(s, 'arcane');
-  if (fire || frost) hit += M.elementalPrecision.hit * b.elementalPrecision;
+  hit += M.elementalPrecision.hit * b.elementalPrecision;          // Precision (was Elemental Precision): +2% hit per rank with ALL spells since build 70753 (it absorbed Arcane Focus)
   if (arcane) { hit += M.arcaneFocus.hit * b.arcaneFocus; crit += M.arcaneImpact.crit * b.arcaneImpact; critBonus += M.arcaneMind.critBonus * b.arcaneMind; }
   if (fire) { crit += M.criticalMass.crit * b.criticalMass; if (!noAuras && b.firePower) dmg *= 1 + M.firePower.perEffect * b.firePower * Math.min(M.firePower.maxEffects, fireEffects(sim)); }
-  if (frost) { dmg *= 1 + M.piercingIce.dmg * b.piercingIce; critBonus += M.iceShards.critBonus * b.iceShards; }
+  if (frost) { dmg *= (1 + M.piercingIce.dmg * b.piercingIce) * (1 + M.iceBarrier.dmg * b.iceBarrier); critBonus += M.iceShards.critBonus * b.iceShards; }
   if (s.incin) crit += M.incineration.crit * b.incineration;
   crit += M.arcaneInstability.crit * b.arcaneInstability; dmg *= 1 + M.arcaneInstability.dmg * b.arcaneInstability;
   if (!noAuras) {
@@ -2233,7 +2271,7 @@ function abSpell(sim, s) {
 function mageCastTime(sim, s, noAuras) {
   const b = sim.kitBuild, M = sim.spec.M;
   let t = s.cast;
-  if (s === M.fireball || s === M.frostfireBolt) t -= M.improvedFireball.cast * b.improvedFireball;
+  if (s === M.fireball || s === M.frostfireBolt || s === M.arcaneWrath) t -= M.improvedFireball.cast * b.improvedFireball;   // Accelerant (was Improved Fireball): Arcane Wrath too since build 70753
   if (s === M.frostbolt) t -= M.improvedFrostbolt.cast * b.improvedFrostbolt;
   if (s === M.pyroblast && !noAuras && sim.aHeat.active) t *= 1 - 0.25 * sim.aHeat.stacks;
   return t;
@@ -2336,7 +2374,7 @@ function mageRotate(sim, b, M) {
   const rotation = b.rotation;
   const instantOnly = sim.moving;
   const pick = () => {
-    if (rotation === 'frost') return (b.iceLance && sim.aFoF.active) ? M.iceLance : M.frostbolt;
+    if (rotation === 'frost') return (b.iceLance && sim.aFoF.active && now >= sim.cd.fireBlast) ? M.iceLance : M.frostbolt;
     if (rotation === 'arcane') {
       // build 70425: stack Arcane Blast to the cap (15% of the Intellect as spell damage each, 15 s from the first cast), spend the stacks on Arcane Wrath (every 6 s) and Arcane Missiles
       if (b.arcaneBlast && sim.arcaneBurst && sim.aAB.stacks < M.arcaneBlast.maxStacks) return M.arcaneBlast;
@@ -2354,7 +2392,7 @@ function mageRotate(sim, b, M) {
   };
   let s = pick();
   if (instantOnly && s.cast > 0 && !sim.pom) {      // moving: only instant spells
-    const alt = (b.iceLance && sim.aFoF.active && rotation === 'frost') ? M.iceLance : (b.rotation === 'fire' && now >= sim.cd.fireBlast) ? M.fireBlast : null;
+    const alt = (b.iceLance && sim.aFoF.active && rotation === 'frost' && now >= sim.cd.fireBlast) ? M.iceLance : (b.rotation === 'fire' && now >= sim.cd.fireBlast) ? M.fireBlast : null;
     if (!alt) return 0.25;
     s = alt;
   }
@@ -2372,6 +2410,7 @@ function mageRotate(sim, b, M) {
     return 0.1;
   }
   if (s === M.fireBlast) sim.cd.fireBlast = now + M.fireBlast.cd - M.wakeOfFire.cd * b.wakeOfFire;
+  if (s === M.iceLance) sim.cd.fireBlast = now + M.iceLanceCd;        // shared cooldown with Fire Blast (build 70753)
   return mageCast(sim, s, s.cast === 0);
 }
 
@@ -2438,7 +2477,7 @@ const WARLOCK = {
   suppression: { hit: 0.01 }, improvedCorruption: { cast: 0.4, dmg: 0.02 }, improvedLifeTap: { restore: 0.10 },
   pandemic: { critBonus: 1 / 3 }, malevolence: { crit: 0.01 }, nightfall: { chance: 0.02 }, shadowMastery: { dmg: 0.02 }, improvedBaneOfAgony: { dmg: 0.05 },
   improvedShadowBolt: { dmg: 0.04, dur: 12 }, bane: { cast: 0.1, soulFire: 0.4 }, cataclysm: { cost: 0.10 / 3 }, aftermath: { dmg: 0.10 }, ruin: { critBonus: 0.2 },
-  agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.02, dur: 20 }, decimation: { cd: 0.45 },
+  agonizingFlames: { dmg: 0.10 / 3 }, fireAndBrimstone: { crit: 0.25 / 3 }, shadowAndFlame: { dmg: 0.04, dur: 20 }, decimation: { cd: 0.45 },
   demonicKnowledge: { sp: 20 }, masterDemonologist: { dmg: 0.02 }, unholyPower: { pet: 0.02 }, improvedImp: { pet: 0.10 }, felVitality: { mana: 0.05 },
   soulSiphon: { dmg: 0.12 },
 };
@@ -2474,6 +2513,9 @@ function warlockKit(build = {}, data = null) {
     const dotOf = (key, name, aura) => { const f = fut(name); if (!f) return; const e = f.rank.effects.find((x) => x.aura === aura); if (!e) return; const ticks = Math.max(1, Math.round(f.rank.duration_ms / e.period_ms)); Object.assign(W[key].dot, { total: e.base * ticks, ticks, interval: e.period_ms / 1000, coeff: e.sp_coeff }); W[key].cost = f.rank.cost.amount; if (f.rank.cooldown_ms) W[key].cd = f.rank.cooldown_ms / 1000; };
     dotOf('siphonLife', 'Siphon Life', 53); dotOf('wrack', 'Wrack', 3); dotOf('doom', 'Bane of Doom', 3);
   }
+  // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Wrack's spell damage coefficient doubled (0.286 for 6 s) and its base damage per second at level 60 is 86 (36 before);
+  // Shadow and Flame is 4% per rank (2% before). Applied only while the client still holds the old Wrack base (36 a second).
+  if (W.wrack.dot.total / W.wrack.dot.ticks < 60) { W.wrack.dot.total = 86 * W.wrack.dot.ticks; W.wrack.dot.coeff = 0.286; }
 
   return {
     name: 'warlock', build: b, W,
@@ -2675,7 +2717,7 @@ const HUNTER = {
   serpent: { name: 'Serpent Sting', cost: 250, total: 555, ticks: 5, interval: 3 },
   sniper: { name: 'Sniper Shot', cost: 365, cast: 4, flat: 295, cd: 15 },
   rapidFire: { name: 'Rapid Fire', cost: 100, cd: 300, duration: 15, haste: 1.4 },
-  aspectHawk: { rap: 155 },                                                         // ASSUMED (Classic rank 7)
+  aspectHawk: { rap: 110 },                                                         // notes 3 Nov 2026: Aspect of the Hawk has 6 ranks (20, 35, 50, 70, 90, 110 ranged attack power); was ASSUMED Classic rank 7 (155)
   quiver: { haste: 1.15 },                                                          // ASSUMED (Classic quiver)
   ammoDps: 17.5,                                                                    // Forever ammo_auto_gen.go: Thorium Headed Arrow 17.5 DPS (was 20.5 ASSUMED)
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
@@ -2684,8 +2726,8 @@ const HUNTER = {
   hawk: { name: 'Summon Hawk', cost: 150, cd: 120, duration: 18, every: 1.5, flat: 32, rapFrac: 0.05 },   // rate and cooldown ASSUMED
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
   lethalAttacks: { crit: 0.01 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, rapidKilling: { cd: 60 }, improvedArcane: { cd: 0.3 },
-  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.10 / 3 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
-  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.02 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
+  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.05 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
+  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.03 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
   focusedFire: { dmg: 0.01 }, deadlyAspects: { chance: 0.02, haste: 1.3, dur: 12 }, bestialDiscipline: { keep: 0.25 },
 };
 
@@ -2706,9 +2748,13 @@ function hunterKit(build = {}, data = null) {
     if (aim) { const e = eff(aim, 'normalized_weapon_damage'); if (e) H.aimed.flat = e.flat; H.aimed.cost = aim.resource_cost.mana; H.aimed.cast = hunterParseCast(aim.cast_time); if (aim.cooldown_sec) H.aimed.cd = aim.cooldown_sec; }
     if (arc) { const e = eff(arc, 'direct_damage'); if (e) H.arcane.flat = e.flat; H.arcane.cost = arc.resource_cost.mana; if (arc.cooldown_sec) H.arcane.cd = arc.cooldown_sec; }
     if (ser) { const e = eff(ser, 'periodic_damage'); if (e) { H.serpent.total = e.total_damage; H.serpent.interval = e.tick_interval_sec; H.serpent.ticks = Math.round(e.duration_sec / e.tick_interval_sec); } H.serpent.cost = ser.resource_cost.mana; }
+    // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Aimed Shot bonus damage +110%, Arcane Shot base damage +30% (and 0.15 attack power coefficient, see the cast below),
+    // Serpent Sting base damage +20% (5% attack power a tick, see below), Sniper Shot bonus damage +100%. Applied only while the Aimed Shot value is still the old one (about 166 at level 60).
+    if (H.aimed.flat < 250) { H.aimed.flat *= 2.1; H.arcane.flat *= 1.3; H.serpent.total *= 1.2; H.sniperDone = false; H.announced = true; }
     const fut = (n) => (data.hunter.future || []).find((f) => f.name === n);
     const rf = fut('Rapid Fire'); if (rf) { H.rapidFire.cost = rf.rank.cost.amount; H.rapidFire.cd = rf.rank.cooldown_ms / 1000; H.rapidFire.duration = rf.rank.duration_ms / 1000; const e = rf.rank.effects.find((x) => x.aura === 140); if (e) H.rapidFire.haste = 1 + e.base / 100; }
     const ss = fut('Sniper Shot'); if (ss) { H.sniper.cost = ss.rank.cost.amount; H.sniper.cast = ss.rank.cast_ms / 1000; H.sniper.cd = ss.rank.cooldown_ms / 1000; const e = ss.rank.effects.find((x) => x.effect === 121); if (e) H.sniper.flat = e.base; }
+    if (H.announced) H.sniper.flat *= 2.0;
   }
 
   return {
@@ -2893,7 +2939,7 @@ function hunterRotate(sim, b, H) {
   const cast = (s, flat, extraMult = 1, onLand) => {
     sim.gcdReadyAt = now + 1.5; spendMana(sim, cost(s)); sim.entry(s.name).casts++;
     const run = () => {
-      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.1 : 0);
+      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.15 : 0);      // notes 3 Nov 2026: Arcane Shot attack power coefficient 0.15 (0.1)
       if (onLand) onLand(o);
     };
     if (s.cast) {
@@ -2912,7 +2958,7 @@ function hunterRotate(sim, b, H) {
     if (o === 'miss') sim.entry(H.serpent.name).misses++;
     else {
       sim.serpentEnds = now + H.serpent.ticks * H.serpent.interval;
-      const per = (H.serpent.total / H.serpent.ticks + 0.02 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
+      const per = (H.serpent.total / H.serpent.ticks + 0.05 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
       const critP = sim.critChance(0), cm = sim.critMult();
       const my = (sim.stingToken = (sim.stingToken || 0) + 1);
       let n = 0;
@@ -3158,17 +3204,27 @@ function dropTotem(sim, T, mods) {
   sim.schedule(T.interval, tick);
 }
 
+// see the call in shamanElementalKit; also used by the Enhancement kit for its Lightning Bolt
+function announceShaman(S) {
+  const lb = S.lb; if (!lb || !lb.direct || (lb.direct.min + lb.direct.max) / 2 > 300) return;
+  lb.direct.min *= 1.8; lb.direct.max *= 1.8;
+  if (S.cl && S.cl.direct) {
+    const mid = (lb.direct.min + lb.direct.max) / 2, sp = (S.cl.direct.max - S.cl.direct.min) / (S.cl.direct.max + S.cl.direct.min) || 0.05;
+    S.cl.direct.min = mid * 1.45 * (1 - sp); S.cl.direct.max = mid * 1.45 * (1 + sp); S.cl.direct.coeff = 2.5 / 3.5;      // coefficient from the 2.5 s cast like the kit's other bolts (ASSUMED)
+    S.cl.cast = 2.5; S.cl.cost = Math.round(lb.cost * 2.25);
+  }
+}
 const SHAMAN = {
   convection: { cost: 0.02 }, concussion: { dmg: 0.01 }, reverberation: { cd: 0.2 }, callOfFlame: { dmg: 0.05 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10 / 3, dmg: 0.5 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, lightningOverload: { chance: 0.10, dmg: 0.5 }, callOfThunder: { crit: 0.05 }, elementalFury: { critBonus: 0.2 }, lavaBurstFs: 1.2,
   improvedFireNova: { dmg: 0.1, cd: 2 }, mentalQuickness: { sp: 0.15 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
-  // build 1.60.1.70425: Call of Thunder is gone; Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
+  // build 1.60.1.70425: Elemental Mastery (31 points, 3 min cooldown): Lightning Bolt and Lava Burst cast 0.5 s faster and Chain Lightning has no cooldown for 15 s;
   // Call of Flame also lengthens Flame Shock by 3 s per rank
   elementalMastery: { cd: 180, dur: 15, cast: 0.5 }, callOfFlameShock: { sec: 3 },
 };
 
 const SHAMAN_ELE_DEFAULT_BUILD = {
-  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
+  convection: 0, concussion: 0, reverberation: 0, callOfFlame: 0, elementalFocus: 0, elementalAlacrity: 0, elementalMastery: 0, lightningOverload: 0, callOfThunder: 0, elementalFury: 0, lavaBurst: 0, thunderingStrikes: 0, ancestralKnowledge: 0,
   improvedFireNova: 0, mentalQuickness: 0, burnMana: 0, mindfulness: 0, totemicFocus: 0, tidalFocus: 0, useCooldowns: true, usePotion: true, useGem: true, earthShock: false, chainLightning: false, fireTotem: 'searing', fireNova: false,   // Chain Lightning costs 485 mana for one target's worth of damage: off by default
 };
 
@@ -3186,6 +3242,10 @@ function shamanElementalKit(build = {}, data = null) {
   if (lv) S.lvb = fromRank(lv, { name: 'Lava Burst', schools: fi, bolt: true });
   if (fs) S.fs = fromRank(fs, { name: 'Flame Shock', schools: fi, shock: true, instant: true });
   if (es) S.es = fromRank(es, { name: 'Earth Shock', schools: na, shock: true, instant: true });
+  // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Lightning Bolt's base damage of the top rank +80%; Chain Lightning 2.5 s cast, primary target base damage about 145% of
+  // a Lightning Bolt of the same rank and mana cost about 225%. Applied only while the client still holds the old Lightning Bolt value (about 200), so nothing is counted twice once the tables carry them.
+  // Not applied: the shocks "revert to Classic Era values" (no number in the notes).
+  announceShaman(S);
   const def = {
     name: 'shaman_elemental', build: b, S,
     items: { potion: H.manaPotion, gem: H.manaGem },
@@ -3200,7 +3260,7 @@ function shamanElementalKit(build = {}, data = null) {
     },
     mods(sim, s, kind) {
       let hit = 0.01 * b.tidalFocus, crit = sim.critBase, dmg = 1, critBonus = H.elementalFury.critBonus * b.elementalFury;
-      if (s === S.lb || s === S.cl) dmg *= 1 + H.concussion.dmg * b.concussion;
+      if (s === S.lb || s === S.cl) { dmg *= 1 + H.concussion.dmg * b.concussion; crit += H.callOfThunder.crit * b.callOfThunder; }
       if (s === S.es) dmg *= 1 + H.concussion.dmg * b.concussion;
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
@@ -3258,9 +3318,10 @@ function shamanElementalKit(build = {}, data = null) {
 // Weapon's proc chance (3% per rank per melee hit), Rage of the Farseer's cooldown, melee crit used for the Lightning Bolt crit.
 
 const SHAMAN_ENH = {
-  stormstrike: { cost: 125, cd: 8, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
-  flurry: { perRank: 0.05, charges: 3, expire: 15 }, maelstrom: { chance: 0.10, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
+  // notes 3 Nov 2026: Stormstrike 150% normalized weapon damage (100%), 6 s cooldown (8 s)
+  stormstrike: { cost: 125, cd: 6, wpn: 1.5, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
+  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { chance: 0.20, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 0.5 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
   shamanisticFocus: { cost: 0.45 }, concussion: { dmg: 0.01 }, callOfFlame: { dmg: 0.05 }, improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -3273,6 +3334,7 @@ function shamanEnhancementKit(build = {}, data = null) {
   const b = Object.assign({}, SHAMAN_ENH_DEFAULT_BUILD, build), E = JSON.parse(JSON.stringify(SHAMAN_ENH));
   const lb = pickRank(data, 'shaman', 'shaman_lightning_bolt', 'Lightning Bolt'), ss = pickRank(data, 'shaman', null, 'Stormstrike'), rb = pickRank(data, 'shaman', 'shaman_rockbiter_weapon', 'Rockbiter Weapon');
   const L = lb ? fromRank(lb) : null;
+  if (L) announceShaman({ lb: L });
   const esr = pickRank(data, 'shaman', 'shaman_earth_shock', 'Earth Shock'), ES = esr ? fromRank(esr, { name: 'Earth Shock', cd: 6 }) : null;
   const frr = pickRank(data, 'shaman', null, 'Frost Shock'), FRS = frr ? fromRank(frr, { name: 'Frost Shock', cd: 6 }) : null;
   const fsr = pickRank(data, 'shaman', 'shaman_flame_shock', 'Flame Shock'), FS = fsr ? fromRank(fsr, { name: 'Flame Shock', cd: 6 }) : null;
@@ -3281,7 +3343,7 @@ function shamanEnhancementKit(build = {}, data = null) {
   const TT = fireTotems(data), T = b.fireTotem && TT[b.fireTotem] ? TT[b.fireTotem] : null;
   const wf = pickRank(data, 'shaman', null, 'Windfury Weapon Proc');
   if (wf) { const p = wf.effects.find((e) => e.aura === 99), x = wf.effects.find((e) => e.effect === 19); if (p) E.windfury.ap = p.base; if (x) E.windfury.extra = Math.round(x.base); }
-  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; E.stormstrike.cd = ss.cooldown_ms / 1000; }   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
+  if (ss) { E.stormstrike.cost = ss.cost_pct ? Math.round(ss.cost_pct / 100 * 1250) : ss.cost.amount; if (ss.cooldown_ms / 1000 < E.stormstrike.cd) E.stormstrike.cd = ss.cooldown_ms / 1000; }      // the notes' 6 s stand while the client still says 8 s   // 8% of the base mana (1250, ASSUMED Classic value like character.js)
   return {
     name: 'shaman_enhancement', build: b, E,
     setup(sim) {
@@ -3373,8 +3435,8 @@ function shamanEnhancementKit(build = {}, data = null) {
       if (b.stormstrike && now >= sim.cd.ss && sim.mana >= E.stormstrike.cost && sim.player.weapons.length) {
         sim.cd.ss = now + E.stormstrike.cd; spendMana(sim, E.stormstrike.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Stormstrike').casts++;
         const norm = sim.player.dualWield ? 2.4 : 3.3, mh = sim.player.weapons[0], oh = sim.player.weapons[1];
-        yellowAttack(sim, 'Stormstrike', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm);
-        if (oh) yellowAttack(sim, 'Stormstrike (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * 0.5);
+        yellowAttack(sim, 'Stormstrike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * E.stormstrike.wpn);
+        if (oh) yellowAttack(sim, 'Stormstrike (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * 0.5 * E.stormstrike.wpn);
         sim.aSS.apply();
         if (b.improvedStormstrike && sim.rng() < 0.5 * b.improvedStormstrike) sim.istUntil = now + E.improvedStormstrike.dur;
         return 1.5;
@@ -3418,10 +3480,12 @@ function shamanEnhancementKit(build = {}, data = null) {
 // Forever talent tooltips (Eclipse, Nature's Grace, Moonfury...). ASSUMED (Classic style): base mana, mana items, the Moonkin Aura crit
 // applied to the druid itself. Not simulated: Omen of Clarity, Hurricane, Starfall-style effects.
 
+// Build 1.60.1.70753 (client tables read on 2026-11-03) + Blizzard's class tuning notes of 3 Nov 2026: Genesis and Naturalist 2% per rank (1% before), Rend and Tear 3% per rank (2% before),
+// Berserk and Improved Shifting Power are gone, Heart of the Wild moved to Restoration and Furor to Feral.
 const DRUID = {
-  improvedWrath: { cast: 0.1, cost: 0.10 }, genesis: { dmg: 0.01 }, moonglow: { cost: 0.25 / 3 }, improvedMoonfire: { dmg: 0.05, crit: 0.05 }, naturesMajesty: { crit: 0.02 },
+  improvedWrath: { cast: 0.1, cost: 0.10 }, genesis: { dmg: 0.02 }, moonglow: { cost: 0.25 / 3 }, improvedMoonfire: { dmg: 0.05, crit: 0.05 }, naturesMajesty: { crit: 0.02 },
   naturesReach: { hit: 0.02 }, naturesSplendor: { moonfire: 1, swarm: 1 }, vengeance: { critBonus: 0.2 }, improvedStarfire: { cast: 0.1 }, naturesGrace: { haste: 1.1, dur: 3 },
-  naturalist: { dmg: 0.01 }, eclipse: { cast: 0.5, charges: 2, max: 4, dur: 15 }, moonfury: { dmg: 0.02 }, moonkinAura: { crit: 0.03 },
+  naturalist: { dmg: 0.02 }, eclipse: { cast: 0.5, charges: 2, max: 4, dur: 15 }, moonfury: { dmg: 0.02 }, moonkinAura: { crit: 0.03 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -3503,7 +3567,7 @@ const DRUID_FERAL = {
   claw: { cost: 45, flat: 115, pct: 1.10 }, shred: { cost: 60, flat: 80, pct: 1.55 }, rake: { cost: 40, direct: 61, tick: 34, ticks: 3, interval: 3 },
   rip: { cost: 30, base: 15, perCp: 25.5, ticks: 6, interval: 2 }, bite: { cost: 35, base: 82, var: 0.73, perCp: 147 },
   ferocity: { cost: 1 }, shreddingAttacks: { cost: 6 }, savageFury: { dmg: 0.05 }, sharpenedClaws: { crit: 0.03 }, predatoryStrikes: { ap: 30 }, predatoryInstincts: { critDmg: 0.1 },
-  rendAndTear: { dmg: 0.02 }, heartOfTheWild: { str: 0.02 }, leaderOfThePack: { crit: 0.03 }, naturesMajesty: { crit: 0.02 },
+  rendAndTear: { dmg: 0.03 }, heartOfTheWild: { str: 0.02 }, leaderOfThePack: { crit: 0.03 }, naturesMajesty: { crit: 0.02 },
   savageRoar: { cost: 25, dmg: 1.30, base: 9, perCp: 6 }, tigersFury: { dmg: 1.15, dur: 6, cd: 30, energy: 60 }, shiftingPower: { energy: 40, cd: 16, costPct: 0.55, baseMana: 1300, cdPerRank: 4 },
   berserk: { dur: 15, cd: 180 }, bloodFrenzy: { cp: 0.5 }, manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
@@ -3528,6 +3592,13 @@ function druidFeralKit(build = {}, data = null) {
   if (spw) { F.shiftingPower.cd = spw.cooldown_ms / 1000; F.shiftingPower.energy = spw.effects.find((e) => e.effect === 30).base; F.shiftingPower.costPct = spw.cost_pct / 100; }
   if (bk) { F.berserk.cd = bk.cooldown_ms / 1000; F.berserk.dur = bk.duration_ms / 1000; }
   if (fb) { F.bite.cost = fb.cost.amount; const d = eff(fb, 2); F.bite.base = d.base; F.bite.var = d.variance; F.bite.perCp = d.per_resource; }
+  // Blizzard's notes of 3 Nov 2026 (not in the client tables yet, read 2026-11-03): Shred 200% weapon damage (155%), Claw 140% (110%); Rip, Rake and Ferocious Bite
+  // "base points and attack power scaling increased by about 25%". The values are applied only while the client still carries the old Shred value, so the
+  // day the tables hold them the real numbers are used and nothing is counted twice.
+  if (F.shred.pct < 1.99) {
+    F.shred.pct = 2.0; F.claw.pct = 1.40;
+    F.rip.base *= 1.25; F.rip.perCp *= 1.25; F.rip.apScale = 1.25; F.rake.direct *= 1.25; F.rake.tick *= 1.25; F.bite.base *= 1.25; F.bite.perCp *= 1.25;
+  }
   return {
     name: 'druid_feral', build: b, F,
     setup(sim) {
@@ -3586,7 +3657,7 @@ function druidFeralKit(build = {}, data = null) {
             sim.ripUntil = now + F.rip.ticks * F.rip.interval;
             const my = (sim.ripToken = (sim.ripToken || 0) + 1); let n = 0;
             const critP = sim.critChance(0), cm = sim.critMult(sim.mods.critDmgBonus);
-            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
+            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
             sim.schedule(F.rip.interval, step);
           }, gcd);
         }
@@ -3631,14 +3702,17 @@ function druidFeralKit(build = {}, data = null) {
 // points at another spell), Vindication's proc chance, mana items, base mana, two-handed weapon speed normalisation (3.3).
 // Not simulated: Exorcism and Consecration (low value on one target), blessings, Divine Favor, Holy Shock.
 
+// Build 1.60.1.70753 + Blizzard's notes of 3 Nov 2026: Conviction 2% per rank on all spells and attacks (3 ranks), Two-Handed Weapon Specialization 2% per rank on Holy and Physical damage,
+// Vindication no longer raises attack power, Improved Seals 3% per rank (5 ranks), Champion of the Light 12% of the Intellect per rank (5 ranks) and -0.2 s on Hammer of Wrath per rank,
+// Vengeance stacks 5 times (notes; the client table still says 3), Instrument of Law and Twist of Light are gone. Not modelled: Unsealed Wrath, Pursuit of Justice, Eye for an Eye.
 const PALADIN = {
   sealOfCommand: { cost: 210, ppm: 7, wpn: 0.7, duration: 30 },                                    // PPM ASSUMED (Classic)
   judgement: { cd: 10, costPct: 0.06, dmg: 72, spCoeff: 0.43, baseMana: 1250 },                    // damage and coefficient ASSUMED (Judgement of Command)
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429, norm: 3.3 },
   hammerOfWrath: { cost: 425, cd: 6, cast: 1, dmg: 498, spCoeff: 0.429 },
-  conviction: { crit: 0.01 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 3, dur: 30 },
-  vindication: { ap: 0.01, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.10 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
-  benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.05 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
+  conviction: { crit: 0.02 }, improvedJudgement: { cd: 1 }, sanctifiedJudgement: { mana: 0.2 }, twoHandSpec: { dmg: 0.02 }, vengeance: { dmg: 0.01, stacks: 5, dur: 30 },
+  vindication: { ap: 0, chance: 0.10, dur: 30 }, sacredArbiter: { dmg: 0.2 }, championOfLight: { sp: 0.12, cast: 0.2 }, divineStrength: { str: 0.02 }, divineIntellect: { int: 0.02 },
+  benediction: { cost: 0.02 }, holyPower: { hs: 0.03 }, improvedSeals: { dmg: 0.03 }, instrumentOfLaw: { cast: 0.5 }, twistOfLight: { cost: 0.2 },
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -3669,7 +3743,7 @@ function paladinRetKit(build = {}, data = null) {
       sim.sealUntil = -1; sim.sealCommand = false; sim.sealRight = false;
       sim.aVeng = sim.addAura({ name: 'Vengeance', duration: P.vengeance.dur, maxStacks: P.vengeance.stacks, mods: { dmgMult: 1 + P.vengeance.dmg * b.vengeance } });
       sim.aVind = sim.addAura({ name: 'Vindication', duration: P.vindication.dur, mods: { apMult: 1 + P.vindication.ap * b.vindication } });
-      const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult / (1 + P.twoHandSpec.dmg * b.twoHandSpec) * (1 - sim.target.spellMitigation) * sim.target.spellTaken;
+      const holyMult = () => (1 + P.improvedSeals.dmg * b.improvedSeals) * sim.mods.dmgMult * (1 - sim.target.spellMitigation) * sim.target.spellTaken;      // Two-Handed Weapon Specialization boosts Holy damage too since build 70753
       sim.holyHit = (name, raw, bonusCrit = 0, critBonus = 0) => {
         const c = Math.max(0, Math.min(1, sim.stats.crit + sim.mods.critBonus + bonusCrit - (sim.target.spellCritSuppression || 0))), crit = sim.rng() < c;
         const melee = /Seal|Judgement|Holy Strike/.test(name);      // Forever: the seal hits, judgements and Holy Strike are melee specials, they crit for double
@@ -3733,7 +3807,7 @@ function paladinRetKit(build = {}, data = null) {
       if (b.executePhase && sim.inExecute() && now >= sim.cd.how && sim.mana >= cost(P.hammerOfWrath.cost)) {
         sim.cd.how = now + P.hammerOfWrath.cd; spendMana(sim, cost(P.hammerOfWrath.cost)); sim.lastCastAt = now; sim.entry('Hammer of Wrath').casts++;
         sim.gcdReadyAt = now + 1.5;
-        const t = Math.max(0.1, P.hammerOfWrath.cast - P.instrumentOfLaw.cast * b.instrumentOfLaw);
+        const t = Math.max(0.1, P.hammerOfWrath.cast - P.championOfLight.cast * b.championOfLight);      // Champion of the Light: -0.2 s per rank since build 70753 (Instrument of Law is gone)
         sim.schedule(t, () => { sim.holyHit('Hammer of Wrath', P.hammerOfWrath.dmg + (sim.stats.sp + sim.spBonus) * P.hammerOfWrath.spCoeff); });
         return 1.5;
       }
@@ -3773,11 +3847,11 @@ const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
 // ---------------------------------------------------------------------------------------------------------------------------
 // Protection Warrior
 const WARRIOR_PROT = {
-  stance: { threat: 1.3, taken: 0.9, dealt: 0.9 },
+  stance: { threat: 1.8, taken: 0.9, dealt: 0.9 },       // Defensive Stance threat 80% since the notes of 3 Nov 2026 (30% before)
   shieldSlam: { cost: 20, cd: 6, dmg: 655, var: 0.05, threat: 0 },          // no flat threat (Forever: 0 until measured in game)
   revenge: { cost: 5, cd: 5, dmg: 153, var: 0.2, window: 5, threatMult: 2.25, apCoeff: 0.28 },   // threat = 2.25 x damage (Forever, measured in game on rank 2)
   sunder: { cost: 15, threat: 206, apCoeff: 0.05, armor: 450, maxStacks: 5, dur: 30 }, shieldBlock: { cost: 10, cd: 5, dur: 7, charges: 2, block: 0.75 }, heroicStrike: { cost: 15, flat: 157, threat: 152.4 }, bloodrage: { immediate: 10, overTime: 10, cd: 60 },
-  shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.05 },
+  shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.2 / 3 },
   bastion: { dmg: 0.02 }, focusedRage: { cost: 1 }, masterOfDefense: { rage: 5, chance: 0.5 }, improvedSunder: { cost: 1 },
 };
 const WARRIOR_PROT_DEFAULT_BUILD = {
@@ -3891,8 +3965,8 @@ const PALADIN_PROT = {
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429 },
   judgement: { cd: 10, costPct: 0.06, baseMana: 1250, dmg: 178, spCoeff: 0.5 },
   sealCost: 200, sealPerSecond: 25, sealDur: 30,                                                // per-swing damage ASSUMED
-  rf: { threat: 1.6 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, precision: { hit: 0.01 }, oneHand: { dmg: 0.10 / 3 }, improvedRf: { taken: 0.02 },
-  reckoning: { chance: 0.08 }, redoubt: { chance: 0.02, block: 0.20, blocks: 5, dur: 10 }, ironCreed: { threat: 0.05 }, sacredDuty: { sta: 0.02 },
+  rf: { threat: 1.33, holy: 2.23 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, precision: { hit: 0.01 }, oneHand: { dmg: 0 }, improvedRf: { taken: 0.03 },
+  reckoning: { chance: 0.08 }, redoubt: { chance: 0.02, block: 0.20, blocks: 5, dur: 10 }, ironCreed: { threat: 0.10 }, sacredDuty: { sta: 0.02 },
   manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
 const PALADIN_PROT_DEFAULT_BUILD = {
@@ -3917,7 +3991,7 @@ function paladinProtKit(build = {}, data = null) {
       mods.dmgMult *= 1 + P.oneHand.dmg * b.oneHandWeaponSpecialization;
       sim.takenMult *= 1 - P.improvedRf.taken * b.improvedRighteousFury;
       const HOLY = /Holy|Seal|Judgement|Consecration/;
-      sim.threatMult = (name) => (HOLY.test(name) ? P.rf.threat * (name === 'Holy Strike' ? 1 + P.ironCreed.threat * b.ironCreed : 1) : 1);
+      sim.threatMult = (name) => (HOLY.test(name) ? P.rf.holy * (name === 'Holy Strike' ? 1 + P.ironCreed.threat * b.ironCreed : 1) : P.rf.threat);      // Righteous Fury (notes, 3 Nov 2026): +33% threat on everything and +90% more on Holy damage (additive)
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.baseBlock = t.block; sim.hsUntil = -1; sim.hsCharges = 0; sim.redoubtBlocks = 0; sim.redoubtUntil = -1; sim.sealUntil = -1;
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
@@ -3978,7 +4052,7 @@ function paladinProtKit(build = {}, data = null) {
 // ---------------------------------------------------------------------------------------------------------------------------
 // Bear Druid (Dire Bear Form)
 const DRUID_BEAR = {
-  armorMult: 4.6, threat: 1.5, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
+  armorMult: 4.6, threat: 2.15, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
   maul: { cost: 15, flat: 128 }, swipe: { cost: 20, dmg: 83 }, lacerate: { cost: 15, tick: 15, ticks: 5, interval: 3, hit: 10 }, enrage: { rage: 10, cd: 60 },
   naturalReaction: { dodge: 0.01, rage: 5 }, feralSwiftness: { dodge: 0.02 }, thickHide: { armor: 60 }, heartOfTheWild: { sta: 0.04 }, sharpenedClaws: { crit: 0.03 },
   predatoryStrikes: { ap: 30 }, savageFury: { dmg: 0.05 }, feralInstinct: { dmg: 0.10 }, ferocity: { cost: 1 }, shreddingAttacks: { cost: 1 }, bloodFrenzy: { rage: 5, chance: 0.5 },
