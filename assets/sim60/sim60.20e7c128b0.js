@@ -77,6 +77,10 @@ const DUAL_WIELD_MISS_PENALTY = 0.19;
 const OVERPOWER_WINDOW = 5.0;
 const GCD = 1.5;
 
+// Windfury Totem rank 3 (client spells 10610 / 10612, read through WoWSims Forever sim/core/buffs/drivers.go): 20 % per landed main-hand hit, 100 ms internal cooldown,
+// one extra main-hand swing, +246 attack power for 2 charges or 1 s
+const WINDFURY_TOTEM = { chance: 0.20, icd: 0.1, ap: 246, charges: 2, duration: 1 };
+
 // ---- engine.js ----
 // Event-driven combat engine (single target, one player). Spec-agnostic: a spec module supplies
 // `setup(sim)` (auras, spells, procs) and `rotate(sim)` (priority list). Everything the engine
@@ -192,6 +196,7 @@ class Sim {
     this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
     this.threatMult = null; this.takenMult = 1; this.bossHooks = []; this.blockBonus = null;
     this.spec = cfg.spec; this.spec.setup(this);
+    if (cfg.player.windfuryTotem && cfg.player.weapons.length && !cfg.player.ranged && !this.noWindfuryTotem) this._setupWindfuryTotem();
     attachEffects(this);
   }
 
@@ -244,6 +249,7 @@ class Sim {
   record(source, amount, kind, tick) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
+    if (this.recordHook) this.recordHook(source, amount);
     if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
     if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
@@ -304,6 +310,30 @@ class Sim {
   // A melee/ranged outcome hook: spec & procs react (Flurry, Unbridled Wrath, weapon enchants...).
   onMeleeHit(outcome, source, isOffHand, isWhite) {
     for (let i = 0; i < this.procs.length; i++) this.procs[i](this, outcome, source, isOffHand, isWhite);
+  }
+
+  // Windfury Totem (WoWSims Forever sim/core/buffs/drivers.go, client spells 10612 / 10610): every landed main-hand hit, white or yellow, rolls 20 % (100 ms internal cooldown)
+  // for ONE extra main-hand swing (a copy of the auto attack, it can glance) and for +246 attack power on the next 2 landed auto attacks (1 s). The hit that procs is dealt
+  // before the buff, then spends the first charge if it is an auto attack; the extra swing spends the next: a special leaves one charge for the following auto.
+  _setupWindfuryTotem() {
+    const W = WINDFURY_TOTEM, aura = this.addAura({ name: 'Windfury Totem attack power', duration: W.duration, mods: { apBonus: W.ap } });
+    aura.charges = 0; this.wfTotemAt = -1;
+    const spend = (s, isWhite) => { if (isWhite && aura.active && --aura.charges <= 0) aura.expire(); };
+    this.procs.push((s, outcome, source, isOH, isWhite) => {
+      if (outcome === 'miss' || outcome === 'dodge') return;
+      if (!isOH && !s.inWfTotem && !/off-hand/.test(source) && s.now >= s.wfTotemAt && s.rng() < W.chance) {
+        s.wfTotemAt = s.now + W.icd; aura.charges = W.charges; aura.apply(1);
+        spend(s, isWhite);
+        const mh = s.swings.find((x) => !x.w.offHand);
+        if (mh) {
+          const label = s.whiteLabel; s.whiteLabel = 'Windfury Totem'; s.inWfTotem = true; s.entry('Windfury Totem').casts++;
+          s.whiteAttack(mh);
+          s.inWfTotem = false; s.whiteLabel = label;
+        }
+        return;
+      }
+      spend(s, isWhite);
+    });
   }
 
   // -------- auto attacks --------
@@ -462,6 +492,7 @@ const BUFFS = {
   strength_of_earth: { name: 'Strength of Earth Totem (Shaman)', str: 53 },
   grace_of_air: { name: 'Grace of Air Totem (Shaman)', agi: 89 },
   mana_spring_totem: { name: 'Mana Spring Totem (Shaman)', mp5: 25 },       // 10 mana per 2 s
+  windfury_totem: { name: 'Windfury Totem (Shaman)', windfuryTotem: true },   // proc: 20 % per main-hand hit, one extra swing (engine.js)
   // Priest
   divine_spirit: { name: 'Prayer of Spirit (Priest)', spi: 40 },
   power_word_fortitude: { name: 'Prayer of Fortitude (Priest)', sta: 70 },
@@ -512,7 +543,7 @@ const DEBUFFS = {
 };
 
 // What a 20-player raid gives one player: every ally buff its classes can cast + the consumables of that role (scrolls, flask/elixirs, juju, food).
-// Not simulated: Windfury Totem, Power Infusion, Innervate, Judgements (they proc or are cooldowns, not flat stats) and the Demonic Rune's health cost.
+// Not simulated: Power Infusion, Innervate, Judgements (they proc or are cooldowns, not flat stats) and the Demonic Rune's health cost.
 const ALLY = ['arcane_intellect', 'blessing_of_kings', 'blessing_of_wisdom', 'blessing_of_might', 'mark_of_the_wild', 'divine_spirit', 'power_word_fortitude', 'mana_spring_totem'];
 const PRESET_CASTER = {
   buffs: [...ALLY, 'moonkin_aura'],
@@ -527,7 +558,7 @@ const PRESET_HUNTER = {
 };
 
 const PRESET_RAID = {
-  buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'leader_of_the_pack'],
+  buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'windfury_totem', 'leader_of_the_pack'],
   consumables: ['scroll_strength', 'elixir_mongoose', 'juju_power', 'juju_might', 'food_strength'],
   debuffs: ['sunder_armor_5', 'faerie_fire', 'curse_of_recklessness'],
 };
@@ -547,7 +578,7 @@ const RACIAL_SKILL = {
 // ---- Wowhead spell ids (tooltips and icons on the site) and the slots of the consumables ----
 const SID = {
   battle_shout: 25289, blessing_of_might: 25916, blessing_of_kings: 25898, blessing_of_wisdom: 25918, mark_of_the_wild: 21850, leader_of_the_pack: 24932, moonkin_aura: 24907,
-  strength_of_earth: 25361, grace_of_air: 25359, mana_spring_totem: 10497, divine_spirit: 27681, power_word_fortitude: 21564, arcane_intellect: 23028, hunters_mark: 14325, trueshot_aura: 20906,
+  strength_of_earth: 25361, grace_of_air: 25359, windfury_totem: 10614, mana_spring_totem: 10497, divine_spirit: 27681, power_word_fortitude: 21564, arcane_intellect: 23028, hunters_mark: 14325, trueshot_aura: 20906,
   scroll_strength: 12179, scroll_agility: 12174, scroll_intellect: 12176, scroll_spirit: 12177, scroll_stamina: 12178, flask_ancient_knowledge: 1213892, flask_madness: 1213897,
   elixir_mongoose: 17538, elixir_grizzly: 1250986, elixir_honey_badger: 1213904, elixir_mage_lord: 1213914, elixir_owl: 1250940, greater_arcane_elixir: 17539, mageblood_potion: 24363,
   juju_power: 16323, juju_might: 16329, juju_guile: 16327, spirit_of_zanza: 24382, food_spell_power: 1225780, food_strength: 1225778, food_agility: 1225779, nightfin_soup: 18194,
@@ -764,7 +795,7 @@ function buildCharacter(spec) {
     player: {
       level: PLAYER_LEVEL, resource: rules.resource, dualWield: rules.ranged || rules.stick ? false : weapons.length > 1,
       stats: { catMin: gear.catMin || 0, catMax: gear.catMax || 0, racialCrit: spec.flatCrit || 0, expertise: gear.exp || 0, ap, crit, critAura: Math.max(0, crit - prim.agi / rules.agiPerCrit / 100 - rules.baseCrit), hit, haste, weaponSkill, str: prim.str, agi: prim.agi, ...extra },
-      weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined,
+      weapons: rules.ranged || rules.stick ? [] : weapons, ranged: rules.ranged ? weapons[0] : undefined, windfuryTotem: allBuffs.some((b) => b.windfuryTotem),
       effects: effectsOf(fxr, spec), tank, racialCritDmg: spec.racialCritDmg || 0, racialPetDmg: spec.racialPetDmg || 0,
     },
     target: { majorArmorDebuff: typeof majorArmorDebuff === 'undefined' ? false : majorArmorDebuff, boss: tank ? Object.assign({ speed: 2.0, dmg: 9000, var: 0.15, level: 63 }, spec.boss || {}) : undefined, armor, defense: spec.targetDefense || BOSS_DEFENSE, executeFrac: spec.executeFrac ?? 0.2, spellMiss: TARGET_SPELL_MISS, spellMitigation: TARGET_SPELL_MITIGATION, spellCritSuppression: SPELL_CRIT_SUPPRESSION, spellTaken: 1 },
@@ -864,7 +895,7 @@ const NAME_TO_KEY = {
   warrior: {
     // Fury
     'Cruelty': 'cruelty', 'Unbridled Wrath': 'unbridledWrath', 'Furious Precision': 'furiousPrecision', 'Dual Wield Specialization': 'dualWieldSpec',
-    'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
+    'Reckless Swings': 'recklessSwings', 'Improved Whirlwind': 'improvedWhirlwind', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
     'Improved Berserker Rage': 'improvedBerserkerRage', 'Flurry': 'flurry', 'Bloodthirst': 'bloodthirst',
     // Arms
     'Improved Heroic Strike': 'improvedHeroicStrike', 'Spearing Strike': 'spearingStrike', 'Improved Rend': 'improvedRend', 'Bloodthrill': 'bloodthrill', 'Improved Overpower': 'improvedOverpower',
@@ -876,7 +907,7 @@ const NAME_TO_KEY = {
   },
   rogue: {
     'Malice': 'malice', 'Lethality': 'lethality', 'Precision': 'precision', 'Dual Wield Specialization': 'dualWieldSpec',
-    'Improved Sinister Strike': 'improvedSinisterStrike', 'Improved Eviscerate': 'improvedEviscerate', 'Flawless Execution': 'flawlessExecution',
+    'Efficient Strikes': 'improvedSinisterStrike', 'Coup de Grace': 'improvedEviscerate', 'Flash of Steel': 'flashOfSteel', 'Boot Knife': 'bootKnife', 'Composure': 'composure', 'Death Mark': 'deathMark', 'Blood Splatter': 'bloodSplatter', 'Flawless Execution': 'flawlessExecution',
     'Blade Flurry': 'bladeFlurry', 'Hack and Slash': 'hackAndSlash', 'Weapon Expertise': 'weaponExpertise', 'Aggression': 'aggression',
     'Adrenaline Rush': 'adrenalineRush', 'Ruthlessness': 'ruthlessness', 'Relentless Strikes': 'relentlessStrikes',
     'Improved Slice and Dice': 'improvedSliceAndDice', 'Seal Fate': 'sealFate', 'Vigor': 'vigor', 'Cold Blood': 'coldBlood', 'Mutilate': 'mutilate',
@@ -898,7 +929,7 @@ const NAME_TO_KEY = {
   shaman: {
     'Mindfulness': 'mindfulness', 'Totemic Focus': 'totemicFocus', 'Tidal Focus': 'tidalFocus',
     'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
-    'Elemental Alacrity': 'elementalAlacrity', 'Elemental Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst', 'Call of Thunder': 'callOfThunder',
+    'Elemental Alacrity': 'elementalAlacrity', 'Lightning Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst', 'Call of Thunder': 'callOfThunder',
     'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
     'Rage of the Farseer': 'rageOfTheFarseer', 'Trial by Fire': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
   },
@@ -995,20 +1026,14 @@ function ranksFromNames(data, byName) {
 
 // Typical raiding builds (51 points), by talent name. Checked against the tree rules in the tests.
 const PRESETS = {
-  rogue_combat: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Flawless Execution': 1,
-    'Dual Wield Specialization': 2, 'Deflection': 1, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Weapon Expertise': 2, 'Aggression': 3, 'Adrenaline Rush': 1,
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Lethality': 2, 'Relentless Strikes': 5, 'Improved Poisons': 1,
+  rogue_combat: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Vigor': 2, 'Lethality': 2, 'Cold Blood': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Deflection': 1, 'Precision': 3, 'Improved Sprint': 2, 'Endurance': 2, 'Composure': 2, 'Flawless Execution': 1, 'Weapon Expertise': 2, 'Aggression': 3, 'Dual Wield Specialization': 2, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Flash of Steel': 5, 'Adrenaline Rush': 1,
   },
-  rogue_assassination: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Relentless Strikes': 5, 'Lethality': 2, 'Vile Poisons': 5, 'Cold Blood': 1,
-    'Mutilate': 1, 'Vigor': 2, 'Seal Fate': 3, 'Venom': 1,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
+  rogue_assassination: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Vigor': 1, 'Blood Splatter': 1, 'Lethality': 2, 'Vile Poisons': 3, 'Cold Blood': 1, 'Improved Poisons': 2, 'Relentless Strikes': 5, 'Venom': 1, 'Seal Fate': 3, 'Mutilate': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Puncturing Wounds': 3, 'Precision': 3, 'Endurance': 2, 'Composure': 2, 'Flawless Execution': 1, 'Aggression': 3, 'Opportunity': 1,
   },
-  rogue_subtlety: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Camouflage': 5, 'Opportunity': 5, 'Setup': 3, 'Improved Ambush': 3, 'Ghostly Strike': 1, 'Initiative': 3, 'Serrated Blades': 3,
-    'Premeditation': 1, 'Hemorrhage': 1, 'Dirty Deeds': 2, 'Heightened Senses': 2, 'Elusiveness': 2,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
+  rogue_subtlety: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Blood Splatter': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Precision': 3, 'Setup': 3, 'Opportunity': 5, 'Dirty Deeds': 2, 'Camouflage': 3, 'Initiative': 3, 'Premeditation': 1, 'Serrated Blades': 3, 'Elusiveness': 2, 'Ghostly Strike': 1, 'Preparation': 1, 'Hemorrhage': 1, 'Boot Knife': 5, 'Death Mark': 1,
   },
   mage_fire: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
     'Incineration': 5, 'Accelerant': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Fire Blast': 2, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
@@ -1054,7 +1079,7 @@ const PRESETS = {
     'Twin Disciplines': 5, 'Power in Light': 5, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 2,
   },
   shaman_elemental: {
-    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Elemental Mastery': 1, 'Lightning Overload': 3,
+    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Lightning Mastery': 1, 'Lightning Overload': 3,
     'Elemental Fury': 5, 'Call of Thunder': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
     'Tidal Focus': 5, 'Mindfulness': 3, 'Totemic Focus': 2,       // Restoration: +5 % hit (Tidal Focus, row 1 since build 70425), 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totems
   },
@@ -1094,7 +1119,7 @@ const PRESETS = {
     'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
   warrior_fury: {   // rebuilt for the class tuning notes of 3 Nov 2026 (Flurry 3 ranks, Improved Tactical Mastery 3 ranks, Bloodthrill 2 ranks); the user's bleed hybrid is kept, the freed points go to Improved Berserker Rage (+2 % DPS measured) and Blood Craze
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 3,
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Dual Wield Specialization': 5, 'Reckless Swings': 1, 'Improved Whirlwind': 2, 'Enrage': 3,
     'Improved Execute': 2, 'Death Wish': 1, 'Flurry': 3, 'Bloodthirst': 1, 'Improved Berserker Rage': 2, 'Blood Craze': 1,
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 3, 'Improved Overpower': 2, 'Anger Management': 1, 'Deep Wounds': 3, 'Impale': 2,
   },
@@ -1165,6 +1190,8 @@ const WARRIOR = {
   unbridledWrath: { chancePerRank: 0.12 },
   dualWieldSpec: { ohDmgPerRank: 0.05, ohRagePerRank: 0.10 },          // build 70425: off-hand damage +5% and Rage from off-hand attacks +10% per rank (the +2% off-hand hit moved to Furious Precision)
   furiousPrecision: { ohHit: [0, 0.04, 0.07, 0.10] },                  // build 70425: replaces Boundless Rage; +4 / 7 / 10% off-hand hit chance
+  recklessSwings: { cd: 15, gcd: 1.0, dur: 8, charges: 4, rage: 5 },    // WoW: Forever launch trees (WoWSims Forever warrior/talents_fury.go, spell 1329555/1329554): active, 15 s cooldown, 25 % of base health, then 4 auto attacks give 5 Rage each within 8 s
+  improvedWhirlwind: { cdPerRank: 1 },                                  // Improved Whirlwind (spell 1310315): -1 / -2 s on the Whirlwind cooldown (its damage to a second target is not simulated)
   ragingBlows: { whirlwindCost: 3 },                                   // build 70425: -3 Rage on Whirlwind and Cleave (no more off-hand Whirlwind strike)
   cruelty: { critPerRank: 0.01 },
   improvedHeroicStrike: { costPerRank: 1 },
@@ -1212,7 +1239,7 @@ function warriorFromData(spells60) {
 
 const FURY_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, furiousPrecision: 3, improvedHeroicStrike: 0,
-  improvedExecute: 2, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
+  improvedExecute: 2, ragingBlows: 0, recklessSwings: 0, improvedWhirlwind: 0, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
   // Arms-tree talents of the hybrid Fury builds (2026-11-02): all off in the default build, so the Fury numbers published so far do not move
@@ -1295,7 +1322,11 @@ function furyKit(build = {}, data = null) {
       sim.flurryAura.charges = 0;
       sim.sBT = sim.addSpell({ name: 'Bloodthirst', cost: () => W.bloodthirst.cost, cd: W.bloodthirst.cd });
       const wwCost = () => W.whirlwind.cost - (b.ragingBlows ? W.ragingBlows.whirlwindCost : 0);
-      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd });
+      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd - W.improvedWhirlwind.cdPerRank * (b.improvedWhirlwind || 0) });
+      if (b.recklessSwings) {
+        sim.sRS = sim.addSpell({ name: 'Reckless Swings', cost: () => 0, cd: W.recklessSwings.cd });
+        sim.rsAura = sim.addAura({ name: 'Reckless Swings', duration: W.recklessSwings.dur }); sim.rsAura.charges = 0;
+      }
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
       // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
       if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
@@ -1313,6 +1344,7 @@ function furyKit(build = {}, data = null) {
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (isWhite && s.rsAura && s.rsAura.active) { s.gainRage(W.recklessSwings.rage); if (--s.rsAura.charges <= 0) s.rsAura.expire(); }      // each landed auto attack of the window
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = W.flurry.charges; s.flurryAura.apply(1); }
         if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
       });
@@ -1349,7 +1381,9 @@ function furyKit(build = {}, data = null) {
       const exec = b.executePhase && sim.inExecute();
       const hsAt = b.hsRageReserve >= 900 ? Infinity : (exec ? 60.001 : 40);
       if (!sim.mhQueued && sim.rage >= Math.max(sim.sHS.cost(), hsAt) && sim.player.weapons.length) sim.mhQueued = sim.sHS;
-      return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt) - now);
+      // their Fury APL: Reckless Swings sits below every damage ability (it costs 25 % of base health, which the simulator does not track)
+      if (sim.sRS && now >= sim.sRS.readyAt) return castGcd(sim, sim.sRS, () => { sim.rsAura.charges = W.recklessSwings.charges; sim.rsAura.apply(); }, W.recklessSwings.gcd);
+      return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt, sim.sRS ? sim.sRS.readyAt : Infinity) - now);
     },
   };
 }
@@ -1460,6 +1494,11 @@ const ROGUE = {
   hemorrhage: { cost: 35, pct: 1.0, pctDagger: 1.45 },          // cost ASSUMED (Classic); damage from the Forever talent tooltip
   mutilate: { cost: 60, pct: 0.90, flat: 67, cp: 2 },      // notes 3 Nov 2026: 90% weapon damage (75% before); the flat part was raised too, by an amount the notes do not give (kept)
   shank: { cost: 5, cd: 10, pct: 0.5, energy: 25 },            // notes 3 Nov 2026: Shank (level 24, rank 2 at level 44): 5 energy, 10 s cooldown, off hand, 50% weapon damage, +25 energy at rank 2, cannot miss; ASSUMED: it uses the 1 s global cooldown
+  // launch trees (WoWSims Forever sim/rogue: spells 1329284, 1329286, 1329265, 1328826, 1316709/1325758, 11275, 1329256, 16511)
+  flashOfSteel: { energyPerRank: 3, cdPerRank: 0.4 }, bootKnife: { chancePerRank: 0.2, points: 2 }, composure: { perRank: 5 }, poised: { cost: 10 },
+  deathMark: { cost: 25, cd: 10, dur: 6, rate: 0.12, capBase: 156, capPerPoint: 245, capAp: 0.04, coup: [1, 1.07, 1.13, 1.20] },      // stores 12 % per combo point of what the rogue deals (x2 for Rupture and Garrote), pays out after 6 s up to a cap
+  rupture: { cost: 25, base: 35, perPoint: 4.73, apByPoint: [0, 0.01, 0.02, 0.03, 0.03, 0.03], period: 2, baseDur: 6, splatter: 6 },      // rank 6: 3 ticks + 1 per combo point, bleed (no armor), +6 s with Blood Splatter
+  hemorrhageDebuff: { taken: 1.15, dur: 15 },      // Hemorrhage: +15 % damage taken from the rogue's Rupture and Hemorrhage for 15 s
   venom: { dmg: 1.3, chance: 0.2, dur: 6 },                    // Venom (notes 3 Nov 2026): after Shank, +30% poison damage and +20% chance to apply poisons for 6 s         // client table + talent tooltip
   bladeFlurry: { cost: 25, cd: 120, duration: 15, haste: 1.2 },  // cost/cooldown ASSUMED (Classic)
   adrenalineRush: { cd: 300, duration: 15, regenMult: 2 },      // cooldown ASSUMED (Classic)
@@ -1467,7 +1506,7 @@ const ROGUE = {
   energy: { cap: 100, tick: 0.1, perTick: 1 },      // Forever core/energy.go: one energy every 0.1 s (same average as 20 per 2 s, no waiting for a big tick)
   normSpeed: { other: 2.4, dagger: 1.7 },                       // Classic weapon-speed normalization (ASSUMED)
   // talents (per rank, from the Forever tooltips)
-  improvedSinisterStrike: { costPerRank: 2.5 }, improvedEviscerate: { perRank: 0.07 }, flawlessExecution: { cost: 15 },
+  improvedSinisterStrike: { costByRank: [0, 3, 5] }, improvedEviscerate: { byRank: [0, 0.07, 0.13, 0.20] }, flawlessExecution: { cost: 15 },      // launch trees: Efficient Strikes -3 / -5 energy on Sinister Strike, Coup de Grace +7 / 13 / 20 % Eviscerate (spells 13732, 14162)
   aggression: { perRank: 0.05 }, malice: { critPerRank: 0.01 }, lethality: { critDmgPerRank: 0.10 },      // notes 3 Nov 2026: Aggression 5/10/15% (Sinister Strike and Eviscerate only), Lethality 10/20% (2 ranks), Flawless Execution -15 energy
   precision: { hitPerRank: 0.01 }, dualWieldSpec: { ohPerRank: 0.25 }, relentlessStrikes: { chancePerCp: 0.04, energy: 25 },      // Dual Wield Specialization +25% / +50% off-hand damage (2 ranks); Relentless Strikes 4% per rank per combo point (5 ranks)
   ruthlessness: { perRank: 0.2 }, sealFate: { perRank: 0.33 }, vigor: { perRank: 5 }, improvedSliceAndDice: { perRank: 0.15 },
@@ -1484,6 +1523,7 @@ const ROGUE = {
 
 const ROGUE_DEFAULT_BUILD = {
   improvedSinisterStrike: 2, improvedEviscerate: 3, precision: 3, dualWieldSpec: 2, flawlessExecution: 1, bladeFlurry: 1, hackAndSlash: 5,
+  flashOfSteel: 0, bootKnife: 0, composure: 0, deathMark: 0, bloodSplatter: 0,
   weaponExpertise: 2, aggression: 3, adrenalineRush: 1, malice: 5, lethality: 2, ruthlessness: 3, relentlessStrikes: 5, venom: 0, useShank: true, improvedSliceAndDice: 3,
   sealFate: 0, vigor: 0, coldBlood: 0, mutilate: 0, hemorrhage: 0, opportunity: 0, quietus: 0, serratedBlades: 0, puncturingWounds: 0,
   improvedPoisons: 0, vilePoisons: 0, mhPoison: 'instant', ohPoison: 'deadly',   // 'instant' | 'deadly' | 'none'
@@ -1531,14 +1571,23 @@ function rogueKit(build = {}, data = null) {
       sim.sAR = sim.addSpell({ name: 'Adrenaline Rush', cost: () => 0, cd: R.adrenalineRush.cd });
       sim.sCB = sim.addSpell({ name: 'Cold Blood', cost: () => 0, cd: R.coldBlood.cd });
       sim.cost = {
-        ss: () => Math.max(0, R.sinisterStrike.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike),
-        bs: () => R.backstab.cost, hemo: () => Math.max(0, R.hemorrhage.cost - R.improvedSinisterStrike.costPerRank * b.improvedSinisterStrike), mut: () => R.mutilate.cost,
+        ss: () => Math.max(0, R.sinisterStrike.cost - R.improvedSinisterStrike.costByRank[b.improvedSinisterStrike || 0]),
+        bs: () => R.backstab.cost, hemo: () => Math.max(0, R.hemorrhage.cost - R.improvedSinisterStrike.costByRank[b.improvedSinisterStrike || 0]), mut: () => R.mutilate.cost,
         ev: () => Math.max(0, R.eviscerate.cost - (b.flawlessExecution ? R.flawlessExecution.cost : 0)), snd: () => R.sliceAndDice.cost,
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (sim.extraAttack && outcome !== 'glance' && (isOH ? sim.extraAttackOH : sim.extraAttackMH) && s.now >= sim.extraReady && s.rng() < sim.extraAttack) { sim.extraReady = s.now + sim.extraIcd; s.whiteAttack(s.swings[0]); }      // any landed hit of a sword/axe hand, 0.2 s ICD
       });
+      // Poised (passive 1328825): at full energy and out of combat the first ability costs 10 less, 5 / 10 more with Composure: the energy comes back on the first spend
+      sim.poisedCharge = R.poised.cost + R.composure.perRank * (b.composure || 0);
+      const spend0 = sim.spendRage.bind(sim);
+      sim.spendRage = (x) => { spend0(x); if (sim.poisedCharge && x > 0) { sim.gainRage(Math.min(x, sim.poisedCharge)); sim.poisedCharge = 0; } };
+      // Death Mark storage: every damage point the rogue deals to the target while the mark runs (twice the share for Rupture and Garrote)
+      sim.recordHook = (src, amt) => {
+        const d = sim.dm; if (!d || sim.now > d.ends + 1e-9 || src === 'Death Mark') return;
+        d.stored += amt * R.deathMark.rate * d.cp * R.deathMark.coup[b.improvedEviscerate || 0] * (src === 'Rupture' || src === 'Garrote' ? 2 : 1);
+      };
       // poisons: each landed weapon hit may apply the poison on that weapon
       const dk = sim.deadly = { stacks: 0, endsAt: 0, ticking: false };
       const pmult = () => (1 + R.vilePoisons.dmgPerRank * b.vilePoisons) * sim.mods.spellDmgMult * (b.venom && sim.now < (sim.venomUntil || 0) ? R.venom.dmg : 1);
@@ -1584,6 +1633,7 @@ function rogueKit(build = {}, data = null) {
       const builder = (() => {
         if (b.builder && b.builder !== 'auto') return b.builder;
         if (b.mutilate && sim.dagger && oh && /dagger/.test(oh.type || '')) return 'mutilate';
+        if (b.hemorrhage && b.deathMark) return 'hemorrhage';      // their Subtlety APL builds with Hemorrhage (its debuff feeds Rupture and Death Mark)
         if (sim.dagger) return 'backstab';
         if (b.hemorrhage) return 'hemorrhage';
         return 'ss';
@@ -1622,25 +1672,65 @@ function rogueKit(build = {}, data = null) {
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
         }, GCD);
       }
+      // finisher side effects shared by Death Mark and Rupture (Forever ApplyFinisher): Relentless Strikes, Ruthlessness
+      const finisherEffects = (cp) => {
+        if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
+        if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
+      };
+      const rem = sim.fightLen - now;
+      // Death Mark (their APL rule 19: at 4 or more combo points, before Rupture and Eviscerate): stores a share of the damage for 6 s, then pays it out up to a cap
+      if (b.deathMark && sim.cp >= 4 && now >= (sim.dmReadyAt || 0) && rem > R.deathMark.dur + 0.5 && energy >= R.deathMark.cost) {
+        return castGcd(sim, { name: 'Death Mark', cd: 0, readyAt: 0, casts: 0 }, () => {
+          const cp = sim.cp; sim.spendRage(R.deathMark.cost);
+          const out = sim.resolveYellow(0, true), e = sim.entry('Death Mark');
+          if (out === 'miss' || out === 'dodge') { if (out === 'miss') e.misses++; else e.dodges++; sim.refundRage(); return; }
+          sim.cp = 0; sim.dmReadyAt = now + R.deathMark.cd;
+          const dm = sim.dm = { cp, stored: 0, ends: now + R.deathMark.dur };
+          sim.schedule(R.deathMark.dur, () => {
+            const coup = R.deathMark.coup[b.improvedEviscerate || 0];
+            const cap = (R.deathMark.capBase + R.deathMark.capPerPoint * cp + R.deathMark.capAp * cp * sim.ap()) * (1 + sim.critChance(0)) * coup;
+            sim.record('Death Mark', Math.min(dm.stored, cap), 'hit', true); sim.dm = null;
+          });
+          finisherEffects(cp);
+        }, GCD);
+      }
+      // Rupture (their APL rule 20): Subtlety (Hemorrhage: +15 % bleed damage, and Death Mark stores bleeds twice), from 3 combo points, when it is not running; Assassination and Combat keep Eviscerate, which pays more per combo point
+      if (b.hemorrhage && b.useRupture !== false && sim.cp >= 3 && now >= (sim.ruptEnds || 0) && rem > 8 && energy >= R.rupture.cost) {
+        return castGcd(sim, { name: 'Rupture', cd: 0, readyAt: 0, casts: 0 }, () => {
+          const cp = sim.cp; sim.spendRage(R.rupture.cost);
+          const out = sim.resolveYellow(0, true), e = sim.entry('Rupture');
+          if (out === 'miss' || out === 'dodge') { if (out === 'miss') e.misses++; else e.dodges++; sim.refundRage(); return; }
+          sim.cp = 0;
+          const ticks = R.rupture.baseDur / R.rupture.period + cp + (b.bloodSplatter ? R.rupture.splatter / R.rupture.period : 0);
+          sim.ruptEnds = now + ticks * R.rupture.period;
+          for (let i = 1; i <= ticks; i++) sim.schedule(i * R.rupture.period, () => {
+            const hemo = sim.now < (sim.hemoUntil || 0) ? R.hemorrhageDebuff.taken : 1;
+            sim.record('Rupture', (R.rupture.base + R.rupture.perPoint * cp + R.rupture.apByPoint[cp] * sim.ap()) * sim.mods.dmgMult * hemo, 'hit', true);
+          });
+          finisherEffects(cp);
+        }, GCD);
+      }
       // Eviscerate at 5 combo points (or earlier at the very end of the fight)
       if (b.useEv !== false && (sim.cp >= 5 || (nearEnd && sim.cp >= 2)) && energy >= sim.cost.ev()) {
         return castGcd(sim, { name: 'Eviscerate', cd: 0, readyAt: 0, casts: 0 }, () => {
           const cp = sim.cp; sim.spendRage(sim.cost.ev()); sim.cp = 0;
           const tb = R.eviscerate.table[cp];
           const bonus = cbBonus(); spendCb();
-          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.perRank * b.improvedEviscerate) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
+          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.byRank[b.improvedEviscerate || 0]) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
           if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
         }, GCD);
       }
       // Shank (notes of 3 Nov 2026): a cheap off-hand strike on a 10 s cooldown that returns energy; used whenever it does not push the energy past the cap
-      if (b.useShank !== false && oh && now >= (sim.shankReadyAt || 0) && energy >= R.shank.cost && energy - R.shank.cost + R.shank.energy <= sim.rageCap && !nearEnd) {
+      const shankEnergy = R.shank.energy + R.flashOfSteel.energyPerRank * (b.flashOfSteel || 0), shankCd = R.shank.cd - R.flashOfSteel.cdPerRank * (b.flashOfSteel || 0);
+      if (b.useShank !== false && oh && now >= (sim.shankReadyAt || 0) && energy >= R.shank.cost && energy - R.shank.cost + shankEnergy <= sim.rageCap && !nearEnd && (!b.bootKnife || sim.cp <= 3)) {
         return castGcd(sim, { name: 'Shank', cd: R.shank.cd, readyAt: 0, casts: 0 }, () => {
-          sim.spendRage(R.shank.cost); sim.shankReadyAt = now + R.shank.cd; if (b.venom) sim.venomUntil = now + R.venom.dur;
+          sim.spendRage(R.shank.cost); sim.shankReadyAt = now + shankCd; if (b.venom) sim.venomUntil = now + R.venom.dur;
           const c = sim.rng() < sim.critChance(0);
           let raw = (sim.weaponRoll(oh) + sim.ap() / 14 * norm) * R.shank.pct; if (c) raw *= sim.critMult(lethal());
           sim.record('Shank', sim.mitigate(raw * sim.mods.dmgMult, true), c ? 'crit' : 'hit'); sim.onMeleeHit(c ? 'crit' : 'hit', 'Shank', false, false);
-          sim.gainRage(R.shank.energy);
+          sim.gainRage(shankEnergy);
+          if (b.bootKnife && sim.rng() < R.bootKnife.chancePerRank * b.bootKnife) sim.cp = Math.min(5, sim.cp + R.bootKnife.points);      // Shank cannot miss: the points come with it
         }, GCD);
       }
       // never build past 5 combo points, and never starve Slice and Dice: wait for the energy instead
@@ -1666,7 +1756,7 @@ function rogueKit(build = {}, data = null) {
       else if (builder === 'hemorrhage') w = doBuilder('Hemorrhage', sim.cost.hemo(), () => {
         const bonus = cbBonus(); spendCb();
         const o = yellowAttack(sim, 'Hemorrhage', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm) * (sim.dagger ? R.hemorrhage.pctDagger : R.hemorrhage.pct) * qm(), { bonusCrit: bonus, critDmgBonus: lethal() });
-        if (o !== 'miss' && o !== 'dodge') addCp(1, o === 'crit', true);
+        if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); sim.hemoUntil = now + R.hemorrhageDebuff.dur; }
       });
       else if (builder === 'mutilate') w = doBuilder('Mutilate', sim.cost.mut(), () => {
         const bonus = cbBonus() + R.puncturingWounds.mutCritPerRank * b.puncturingWounds; spendCb();
@@ -3368,6 +3458,7 @@ function shamanEnhancementKit(build = {}, data = null) {
       sim.aSS = sim.addAura({ name: 'Stormstrike', duration: E.stormstrike.dur });
       sim.aFar = sim.addAura({ name: 'Rage of the Farseer', duration: E.farseer.dur, mods: { hasteMult: E.farseer.haste } });
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
+      if (b.windfuryWeapon) sim.noWindfuryTotem = true;      // WoWSims Forever: the main-hand imbue keeps its own proc, the raid totem adds nothing
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;

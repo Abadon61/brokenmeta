@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenLogs : analyse tes logs de combat WoW">
 <meta name="twitter:description" content="Dépose ton WoWCombatLog.txt : DPS, soins, morts et courbes de chaque rencontre, calculés dans ton navigateur. Rien n&#39;est envoyé.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=f409977411">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=f409977411">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=960497d6ed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=960497d6ed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=f409977411">
+<link rel="stylesheet" href="../../assets/css/style.css?v=960497d6ed">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -329,7 +329,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ol class="ms-steps"><li>Dans le jeu, active <b>Options → Réseau → Journalisation avancée du combat</b>, puis tape <code>/combatlog</code> avant le combat.</li><li>Joue ton donjon ou ton raid, puis retape <code>/combatlog</code> pour arrêter. Le fichier <code>WoWCombatLog-….txt</code> est dans le dossier <code>Logs</code> du jeu.</li><li>Dépose-le ci-dessous. Même un fichier de plusieurs centaines de Mo se lit en quelques secondes.</li></ol>
 </section>
 
-<div id="lgApp" data-lang="fr" data-worker="../../assets/js/wow-logs-worker.js?v=a09ec2ff49" data-core="../../assets/js/wow-logs-core.js?v=dbf87842ed">
+<div id="lgApp" data-lang="fr" data-worker="../../assets/js/wow-logs-worker.js?v=18fe78316b" data-core="../../assets/js/wow-logs-core.js?v=bca0dd2bbe">
   <label id="lgDrop" class="lg-drop" for="lgFile">
     <b>Dépose ton fichier WoWCombatLog.txt ici</b>
     <span>ou clique pour le choisir. Il reste sur ton ordinateur.</span>
@@ -345,7 +345,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li><b>Dégâts</b> = montant - dégâts excédentaires + dégâts absorbés par un bouclier (ils comptent comme infligés). Les familiers et gardiens sont ajoutés à leur propriétaire.</li><li><b>Soins</b> = montant - soins excédentaires. Le détail des soins excédentaires est affiché à part.</li><li><b>DPS</b> = dégâts / durée de la rencontre. Le <b>DPS actif</b> divise par le temps pendant lequel le joueur agit vraiment (un écart de plus de 3 s entre deux actions n'est pas compté).</li><li>Une <b>rencontre</b> va de ENCOUNTER_START à ENCOUNTER_END. En dehors, un combat commence au premier coup entre un joueur et une créature et finit après 12 s sans dégâts.</li><li>Chaque coup est enregistré deux fois par le jeu (côté attaquant et côté cible) : on ne garde qu'un des deux. Les morts « feintes » ne sont pas comptées.</li><li>La classe et la spécialisation viennent de la ligne COMBATANT_INFO du log. Si le jeu ne les donne pas, le joueur s'affiche sans classe.</li></ul></details>
 
 <script type="application/json" id="lgI18n">{"reading": "Lecture du log\u2026", "lines": "{n} lignes lues", "done": "Log lu en {s} s : {f} rencontres trouv\u00e9es.", "bad": "Ce fichier ne ressemble pas \u00e0 un log de combat WoW (aucune ligne de combat trouv\u00e9e). Choisis un fichier WoWCombatLog-\u2026.txt.", "nofight": "Aucune rencontre trouv\u00e9e dans ce log. V\u00e9rifie que la journalisation avanc\u00e9e du combat \u00e9tait activ\u00e9e.", "noadv": "La journalisation avanc\u00e9e du combat n'\u00e9tait pas activ\u00e9e : certains d\u00e9tails peuvent manquer.", "another": "Analyser un autre fichier", "fights": "Rencontres de ce log", "hint_fight": "CLIQUE UNE RENCONTRE", "kill": "Victoire", "wipe": "\u00c9chec", "combat": "Combat", "players": "joueurs", "min": "min", "s": "s", "t_over": "Aper\u00e7u", "t_dmg": "D\u00e9g\u00e2ts", "t_heal": "Soins", "t_death": "Morts", "t_taken": "D\u00e9g\u00e2ts subis", "hide": "Masquer les pseudos", "k_dps": "DPS du groupe", "k_dur": "Dur\u00e9e du combat", "k_deaths": "Morts", "k_ilvl": "Niveau d'objet moyen", "k_dmg": "D\u00e9g\u00e2ts totaux", "ins_h": "Ce qui a fait la diff\u00e9rence", "ins_sub": "SYNTH\u00c8SE AUTOMATIQUE", "chart_h": "DPS du groupe dans le temps", "dmg_h": "D\u00e9g\u00e2ts inflig\u00e9s", "dmg_sub": "CLIQUE UN JOUEUR POUR LE D\u00c9TAIL", "heal_h": "Soins prodigu\u00e9s", "heal_note": "Soins efficaces. Les soins exc\u00e9dentaires sont indiqu\u00e9s \u00e0 c\u00f4t\u00e9 de chaque soigneur.", "taken_h": "D\u00e9g\u00e2ts subis", "no_deaths": "Personne n'est mort pendant cette rencontre.", "death_at": "mort \u00e0 {t}", "recap": "Derniers \u00e9v\u00e9nements", "best": "Meilleur du groupe", "your_dps": "Ton DPS", "active": "temps actif", "ab_h": "D\u00e9tail par sort", "heal_ab_h": "D\u00e9tail des soins", "col_spell": "Sort", "col_dps": "DPS", "col_hits": "Coups", "col_crit": "Crit.", "col_max": "Max", "col_casts": "Lancers", "col_heal": "Soins", "col_over": "Exc\u00e9dent", "imp_h": "\u00c0 retenir", "overall": "D\u00e9g\u00e2ts totaux", "ilvl": "niveau d'objet", "idle": "Inactif", "unknown": "Classe inconnue", "pet": "Familier", "i_active_ok": "Actif {p} % du combat : tr\u00e8s bien.", "i_active_low": "Actif seulement {p} % du combat : {s} s sans attaquer.", "i_top_spell": "Ton sort principal est {n} ({p} % de tes d\u00e9g\u00e2ts).", "i_vs_best": "Ton DPS est \u00e0 {p} % de celui du meilleur du groupe.", "i_death": "Tu es mort {n} fois ; le dernier coup venait de {w} ({sp}).", "i_nodeath": "Aucune mort : bien jou\u00e9.", "i_pets": "Les familiers ont fait {p} % de tes d\u00e9g\u00e2ts.", "i_overheal": "{p} % de tes soins \u00e9taient exc\u00e9dentaires.", "i_hps_best": "Tes soins sont \u00e0 {p} % de ceux du meilleur soigneur.", "g_dead": "{n} mort(s) pendant la rencontre.", "g_best": "{who} a fait le plus de d\u00e9g\u00e2ts ({v} DPS).", "g_idle": "Le groupe a \u00e9t\u00e9 actif en moyenne {p} % du temps."}</script>
-<script src="../../assets/js/wow-logs.js?v=9dff91d56d" defer></script>
+<script src="../../assets/js/wow-logs.js?v=6d202b51f3" defer></script>
 
 <section class="gs-tile wrel"><div class="gs-th"><h2 class="gs-h2">Pour aller plus loin</h2></div>
 <div class="gh-chips">
@@ -408,11 +408,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=f409977411" defer></script>
-<script src="../../assets/js/champ-icons.js?v=f409977411" defer></script>
-<script src="../../assets/js/site-search.js?v=f409977411" defer></script>
-<script src="../../assets/js/favorites.js?v=f409977411" defer></script>
-<script src="../../assets/js/consent.js?v=6ca786ce16" defer></script>
+<script src="../../assets/js/copy-comp.js?v=960497d6ed" defer></script>
+<script src="../../assets/js/champ-icons.js?v=960497d6ed" defer></script>
+<script src="../../assets/js/site-search.js?v=960497d6ed" defer></script>
+<script src="../../assets/js/favorites.js?v=960497d6ed" defer></script>
+<script src="../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the

@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenLogs: analyze your WoW combat logs">
 <meta name="twitter:description" content="Drop your WoWCombatLog.txt: DPS, healing, deaths and charts for every encounter, computed in your browser. Nothing is uploaded.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=f409977411">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=f409977411">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=960497d6ed">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=960497d6ed">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=f409977411">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=960497d6ed">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -329,7 +329,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ol class="ms-steps"><li>In game, turn on <b>Options → Network → Advanced Combat Logging</b>, then type <code>/combatlog</code> before the fight.</li><li>Play your dungeon or raid, then type <code>/combatlog</code> again to stop. The <code>WoWCombatLog-….txt</code> file is in the game's <code>Logs</code> folder.</li><li>Drop it below. Even a file of several hundred MB is read in a few seconds.</li></ol>
 </section>
 
-<div id="lgApp" data-lang="en" data-worker="../../../assets/js/wow-logs-worker.js?v=a09ec2ff49" data-core="../../../assets/js/wow-logs-core.js?v=dbf87842ed">
+<div id="lgApp" data-lang="en" data-worker="../../../assets/js/wow-logs-worker.js?v=18fe78316b" data-core="../../../assets/js/wow-logs-core.js?v=bca0dd2bbe">
   <label id="lgDrop" class="lg-drop" for="lgFile">
     <b>Drop your WoWCombatLog.txt file here</b>
     <span>or click to choose it. It stays on your computer.</span>
@@ -345,7 +345,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <ul class="gd-list"><li><b>Damage</b> = amount - overkill + damage absorbed by a shield (it counts as dealt). Pets and guardians are added to their owner.</li><li><b>Healing</b> = amount - overhealing. Overhealing is shown separately.</li><li><b>DPS</b> = damage / encounter duration. <b>Active DPS</b> divides by the time the player is really acting (a gap longer than 3 s between two actions is not counted).</li><li>An <b>encounter</b> runs from ENCOUNTER_START to ENCOUNTER_END. Outside of those, a combat starts at the first hit between a player and a creature and ends after 12 s without damage.</li><li>The game logs every hit twice (attacker side and target side): only one is kept. Feigned deaths are not counted.</li><li>Class and specialization come from the log's COMBATANT_INFO line. If the game does not provide them, the player is shown without a class.</li></ul></details>
 
 <script type="application/json" id="lgI18n">{"reading": "Reading the log\u2026", "lines": "{n} lines read", "done": "Log read in {s} s: {f} encounters found.", "bad": "This file does not look like a WoW combat log (no combat line found). Pick a WoWCombatLog-\u2026.txt file.", "nofight": "No encounter found in this log. Check that Advanced Combat Logging was on.", "noadv": "Advanced Combat Logging was not on: some details may be missing.", "another": "Analyze another file", "fights": "Encounters in this log", "hint_fight": "CLICK AN ENCOUNTER", "kill": "Kill", "wipe": "Wipe", "combat": "Combat", "players": "players", "min": "min", "s": "s", "t_over": "Overview", "t_dmg": "Damage", "t_heal": "Healing", "t_death": "Deaths", "t_taken": "Damage taken", "hide": "Hide player names", "k_dps": "Group DPS", "k_dur": "Fight duration", "k_deaths": "Deaths", "k_ilvl": "Average item level", "k_dmg": "Total damage", "ins_h": "What made the difference", "ins_sub": "AUTOMATIC SUMMARY", "chart_h": "Group DPS over time", "dmg_h": "Damage done", "dmg_sub": "CLICK A PLAYER FOR DETAILS", "heal_h": "Healing done", "heal_note": "Effective healing. Overhealing is shown next to each healer.", "taken_h": "Damage taken", "no_deaths": "Nobody died during this encounter.", "death_at": "died at {t}", "recap": "Last events", "best": "Best in the group", "your_dps": "Your DPS", "active": "active time", "ab_h": "Breakdown by spell", "heal_ab_h": "Healing breakdown", "col_spell": "Spell", "col_dps": "DPS", "col_hits": "Hits", "col_crit": "Crit", "col_max": "Max", "col_casts": "Casts", "col_heal": "Healing", "col_over": "Overheal", "imp_h": "Takeaways", "overall": "Total damage", "ilvl": "item level", "idle": "Idle", "unknown": "Unknown class", "pet": "Pet", "i_active_ok": "Active {p}% of the fight: very good.", "i_active_low": "Active only {p}% of the fight: {s} s without attacking.", "i_top_spell": "Your main spell is {n} ({p}% of your damage).", "i_vs_best": "Your DPS is {p}% of the group's best.", "i_death": "You died {n} time(s); the last hit came from {w} ({sp}).", "i_nodeath": "No death: well played.", "i_pets": "Pets did {p}% of your damage.", "i_overheal": "{p}% of your healing was overhealing.", "i_hps_best": "Your healing is at {p}% of the best healer's.", "g_dead": "{n} death(s) during the encounter.", "g_best": "{who} did the most damage ({v} DPS).", "g_idle": "The group was active {p}% of the time on average."}</script>
-<script src="../../../assets/js/wow-logs.js?v=9dff91d56d" defer></script>
+<script src="../../../assets/js/wow-logs.js?v=6d202b51f3" defer></script>
 
 <section class="gs-tile wrel"><div class="gs-th"><h2 class="gs-h2">Go further</h2></div>
 <div class="gh-chips">
@@ -408,11 +408,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=f409977411" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=f409977411" defer></script>
-<script src="../../../assets/js/site-search.js?v=f409977411" defer></script>
-<script src="../../../assets/js/favorites.js?v=f409977411" defer></script>
-<script src="../../../assets/js/consent.js?v=6ca786ce16" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=960497d6ed" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=960497d6ed" defer></script>
+<script src="../../../assets/js/site-search.js?v=960497d6ed" defer></script>
+<script src="../../../assets/js/favorites.js?v=960497d6ed" defer></script>
+<script src="../../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>
   // sw.js sits at the site root (see build_site.py) regardless of the
