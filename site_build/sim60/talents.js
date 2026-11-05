@@ -71,7 +71,7 @@ export const NAME_TO_KEY = {
     'Incineration': 'incineration', 'Accelerant': 'improvedFireball', 'Ignite': 'ignite', 'Improved Scorch': 'improvedScorch', 'Heating Up': 'heatingUp',
     'Master of Elements': 'masterOfElements', 'Critical Mass': 'criticalMass', 'Fire Power': 'firePower', 'Combustion': 'combustion', 'Pyroblast': 'pyroblast', 'Improved Fire Blast': 'wakeOfFire',
     'Improved Frostbolt': 'improvedFrostbolt', 'Precision': 'elementalPrecision', 'Ice Shards': 'iceShards', 'Ice Barrier': 'iceBarrier', 'Frost Channeling': 'frostChanneling',
-    'Ice Lance': 'iceLance', 'Shatter': 'shatter', 'Fingers of Frost': 'fingersOfFrost', "Winter's Chill": 'wintersChill',
+    'Improved Cone of Cold': 'improvedConeOfCold', 'Arcane Subtlety': 'arcaneSubtlety', 'Ice Lance': 'iceLance', 'Shatter': 'shatter', 'Fingers of Frost': 'fingersOfFrost', "Winter's Chill": 'wintersChill',
   },
 };
 // Keys that default to "on" in a hand-made build only through the presets below; a talent absent from the ranks means rank 0.
@@ -151,7 +151,7 @@ export const PRESETS = {
     'Precision': 3, 'Ice Shards': 5, 'Frost Channeling': 3, 'Improved Frostbolt': 5, 'Frostbite': 3,
   },
   mage_frost: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
-    'Improved Frostbolt': 5, 'Precision': 3, 'Ice Shards': 5, 'Frostbite': 3, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2, "Winter's Chill": 5, 'Cold Snap': 1, 'Ice Barrier': 1,
+    'Improved Frostbolt': 5, 'Precision': 3, 'Ice Shards': 5, 'Frost Channeling': 3, 'Ice Lance': 1, 'Shatter': 3, 'Fingers of Frost': 2, "Winter's Chill": 5, 'Cold Snap': 1, 'Ice Barrier': 1, 'Improved Cone of Cold': 3,
     'Wand Specialization': 2, 'Improved Channeling': 5, 'Arcane Subtlety': 2, 'Arcane Concentration': 5, 'Arcane Meditation': 3, 'Arcane Resilience': 2,
   },
   mage_arcane: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)

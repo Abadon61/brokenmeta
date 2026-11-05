@@ -9649,29 +9649,34 @@
    "spec": "mage_frost",
    "class": "mage",
    "role": "dps",
-   "dps": 537.2,
-   "sem": 0.44,
+   "dps": 681.6,
+   "sem": 0.55,
    "name": "Frost Mage",
    "spells": [
     [
      "Frostbolt",
-     441.1,
-     67.6
+     410.7,
+     60.4
+    ],
+    [
+     "Cone of Cold",
+     178.7,
+     12.5
     ],
     [
      "Ice Lance",
-     92.6,
-     8.3
+     88.4,
+     7.4
     ],
     [
      "Smokey's Lighter",
-     2.2,
+     2.3,
      2
     ],
     [
      "Ignition",
-     1.3,
-     3.6
+     1.5,
+     3.8
     ]
    ],
    "detail": {
@@ -9728,24 +9733,6 @@
       "desc": {
        "en": "Increases the critical strike damage bonus of your Frost spells by 100%.",
        "fr": "Augmente de 100% les points de dégâts supplémentaires infligés par les coups critiques de vos sorts de Givre."
-      }
-     },
-     {
-      "tree": "frost",
-      "tree_name": {
-       "en": "Frost",
-       "fr": "Givre"
-      },
-      "name": {
-       "en": "Frostbite",
-       "fr": "Morsure de givre"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Gives your Chill effects a 15% chance to Freeze the target for 5 sec.",
-       "fr": "Confère 15 % de chances à vos effets d’engourdissement de geler la cible pendant 5 s."
       }
      },
      {
@@ -9872,6 +9859,24 @@
       "desc": {
        "en": "Shield yourself, absorbing … damage and increasing your Frost damage by 15% for 1 min. While shielded, your Frost damage is increased by an additional 5% and you do not lose casting time when you take damage.",
        "fr": "Vous protège à l’aide d’un bouclier qui absorbe … points de dégâts et augmente vos dégâts de givre de 15 % pendant 1 min. Tant que le bouclier est actif, vos dégâts de givre augmentent de 5 % supplémentaires, et vos incantations ne sont plus interrompues lorsque vous subissez des dégâts."
+      }
+     },
+     {
+      "tree": "frost",
+      "tree_name": {
+       "en": "Frost",
+       "fr": "Givre"
+      },
+      "name": {
+       "en": "Improved Cone of Cold",
+       "fr": "Cône de froid amélioré"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 5,
+      "desc": {
+       "en": "Increases the damage dealt by your Cone of Cold spell by 35%.",
+       "fr": "Augmente de 35% les points de dégâts infligés par votre sort Cône de froid."
       }
      },
      {
@@ -10227,33 +10232,39 @@
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 6.876,
+      "per": 8.737,
       "unit": "pct",
-      "rel": 14.21
+      "rel": 14.66
      },
      {
       "stat": "critstrkrtng",
-      "per": 4.17,
+      "per": 5.153,
       "unit": "pct",
-      "rel": 8.62
+      "rel": 8.65
      },
      {
       "stat": "hastertng",
-      "per": 3.686,
+      "per": 2.042,
       "unit": "pct",
-      "rel": 7.62
+      "rel": 3.43
      },
      {
       "stat": "splpwr",
-      "per": 0.484,
+      "per": 0.596,
       "unit": "pt",
       "rel": 1
      },
      {
       "stat": "int",
-      "per": 0.076,
+      "per": 0.153,
       "unit": "pt",
-      "rel": 0.16
+      "rel": 0.26
+     },
+     {
+      "stat": "spi",
+      "per": 0.052,
+      "unit": "pt",
+      "rel": 0.09
      },
      {
       "stat": "str",
@@ -10266,12 +10277,6 @@
       "per": 0,
       "unit": "pt",
       "rel": 0
-     },
-     {
-      "stat": "spi",
-      "per": -0.005,
-      "unit": "pt",
-      "rel": -0.01
      }
     ],
     "consumables": {
@@ -10282,8 +10287,16 @@
         "sid": 12176,
         "name": "Scroll of Intellect",
         "chosen": true,
-        "gain": 1.25,
-        "pct": 0.23
+        "gain": 3.7,
+        "pct": 0.55
+       },
+       {
+        "id": "scroll_spirit",
+        "sid": 12177,
+        "name": "Scroll of Spirit",
+        "chosen": false,
+        "gain": 1.11,
+        "pct": 0.16
        },
        {
         "id": "scroll_strength",
@@ -10308,14 +10321,6 @@
         "chosen": false,
         "gain": 0,
         "pct": 0
-       },
-       {
-        "id": "scroll_spirit",
-        "sid": 12177,
-        "name": "Scroll of Spirit",
-        "chosen": false,
-        "gain": -0.29,
-        "pct": -0.05
        }
       ],
       "elixir": [
@@ -10324,56 +10329,56 @@
         "sid": 1213892,
         "name": "Flask of Ancient Knowledge",
         "chosen": true,
-        "gain": 87.23,
-        "pct": 19.4
+        "gain": 107.34,
+        "pct": 18.67
        },
        {
         "id": "elixir_mage_lord",
         "sid": 1213914,
         "name": "Elixir of the Mage-Lord",
         "chosen": false,
-        "gain": 19.38,
-        "pct": 4.31
+        "gain": 23.85,
+        "pct": 4.15
        },
        {
         "id": "greater_arcane_elixir",
         "sid": 17539,
         "name": "Greater Arcane Elixir",
         "chosen": false,
-        "gain": 16.96,
-        "pct": 3.77
+        "gain": 20.87,
+        "pct": 3.63
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 8.5,
-        "pct": 1.89
+        "gain": 11.85,
+        "pct": 2.06
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 7,
-        "pct": 1.56
+        "gain": 8.7,
+        "pct": 1.51
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 7,
-        "pct": 1.56
+        "gain": 8.7,
+        "pct": 1.51
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 7,
-        "pct": 1.56
+        "gain": 8.7,
+        "pct": 1.51
        },
        {
         "id": "flask_madness",
@@ -10390,8 +10395,16 @@
         "sid": 1225780,
         "name": "Well Fed (spell power food)",
         "chosen": true,
-        "gain": 12.12,
-        "pct": 2.31
+        "gain": 14.91,
+        "pct": 2.23
+       },
+       {
+        "id": "nightfin_soup",
+        "sid": 18194,
+        "name": "Nightfin Soup",
+        "chosen": false,
+        "gain": 0.86,
+        "pct": 0.13
        },
        {
         "id": "food_strength",
@@ -10408,14 +10421,6 @@
         "chosen": false,
         "gain": 0,
         "pct": 0
-       },
-       {
-        "id": "nightfin_soup",
-        "sid": 18194,
-        "name": "Nightfin Soup",
-        "chosen": false,
-        "gain": -0.51,
-        "pct": -0.1
        }
       ],
       "oil": [
@@ -10424,16 +10429,16 @@
         "sid": 25129,
         "name": "Brilliant Wizard Oil",
         "chosen": true,
-        "gain": 21.31,
-        "pct": 4.13
+        "gain": 26.67,
+        "pct": 4.07
        },
        {
         "id": "brilliant_mana_oil",
         "sid": 25130,
         "name": "Brilliant Mana Oil",
         "chosen": false,
-        "gain": 11.32,
-        "pct": 2.2
+        "gain": 15.94,
+        "pct": 2.43
        },
        {
         "id": "dense_stone",
@@ -10459,24 +10464,24 @@
        "sid": 16327,
        "name": "Juju Guile",
        "chosen": true,
-       "gain": 2.23,
-       "pct": 0.42
-      },
-      {
-       "id": "mageblood_potion",
-       "sid": 24363,
-       "name": "Mageblood Potion",
-       "chosen": true,
-       "gain": 0.6,
-       "pct": 0.11
+       "gain": 7.48,
+       "pct": 1.1
       },
       {
        "id": "spirit_of_zanza",
        "sid": 24382,
        "name": "Spirit of Zanza",
        "chosen": true,
-       "gain": 0.46,
-       "pct": 0.09
+       "gain": 5.09,
+       "pct": 0.75
+      },
+      {
+       "id": "mageblood_potion",
+       "sid": 24363,
+       "name": "Mageblood Potion",
+       "chosen": true,
+       "gain": 2.58,
+       "pct": 0.38
       },
       {
        "id": "juju_power",
@@ -10504,47 +10509,47 @@
       "points": [
        [
         7,
-        537.41,
+        683.82,
         0
        ],
        [
         9.3,
-        553.2,
+        702.88,
         23
        ],
        [
         11.5,
-        557.48,
+        707.62,
         45
        ],
        [
         13.8,
-        557.58,
+        707.72,
         68
        ],
        [
         16,
-        557.67,
+        707.81,
         90
        ],
        [
         18.3,
-        557.71,
+        707.86,
         113
        ],
        [
         20.5,
-        557.71,
+        707.86,
         135
        ],
        [
         22.8,
-        557.71,
+        707.86,
         158
        ],
        [
         25,
-        557.71,
+        707.86,
         180
        ]
       ],
@@ -10558,47 +10563,47 @@
       "points": [
        [
         18.3,
-        537.41,
+        683.82,
         0
        ],
        [
         20.8,
-        547.51,
+        696.43,
         35
        ],
        [
         23.3,
-        557.88,
+        709.89,
         70
        ],
        [
         25.8,
-        567.92,
+        723.14,
         105
        ],
        [
         28.3,
-        577.91,
+        736.05,
         140
        ],
        [
         30.8,
-        588.39,
+        749.6,
         175
        ],
        [
         33.3,
-        598.45,
+        762.39,
         210
        ],
        [
         35.8,
-        608.42,
+        775.44,
         245
        ],
        [
         38.3,
-        618.58,
+        787.97,
         280
        ]
       ],
@@ -10612,47 +10617,47 @@
       "points": [
        [
         0,
-        537.41,
+        683.82,
         0
        ],
        [
         2.5,
-        548.54,
+        692.57,
         25
        ],
        [
         5,
-        560.72,
+        702.93,
         50
        ],
        [
         7.5,
-        573.09,
+        711.57,
         75
        ],
        [
         10,
-        585.89,
+        720.28,
         100
        ],
        [
         12.5,
-        597.73,
+        727.35,
         125
        ],
        [
         15,
-        611.08,
+        736.81,
         150
        ],
        [
         17.5,
-        618.43,
+        745.77,
         175
        ],
        [
         20,
-        631.61,
+        756.2,
         200
        ]
       ],
@@ -10666,47 +10671,47 @@
       "points": [
        [
         0,
-        537.41,
+        683.82,
         0
        ],
        [
         38,
-        555.84,
+        706.5,
         38
        ],
        [
         75,
-        573.78,
+        728.59,
         75
        ],
        [
         113,
-        592.22,
+        751.28,
         113
        ],
        [
         150,
-        610.16,
+        773.37,
         150
        ],
        [
         188,
-        628.59,
+        796.06,
         188
        ],
        [
         225,
-        646.54,
+        818.15,
         225
        ],
        [
         263,
-        664.97,
+        840.84,
         263
        ],
        [
         300,
-        682.91,
+        862.93,
         300
        ]
       ],
@@ -10720,47 +10725,101 @@
       "points": [
        [
         0,
-        537.41,
+        683.82,
         0
        ],
        [
         19,
-        538.62,
+        686.54,
         19
        ],
        [
         38,
-        540.2,
+        688.75,
         38
        ],
        [
         56,
-        541.64,
+        690.63,
         56
        ],
        [
         75,
-        543.18,
+        692.32,
         75
        ],
        [
         94,
-        544.55,
+        694.07,
         94
        ],
        [
         113,
-        545.92,
+        695.94,
         113
        ],
        [
         131,
-        547.27,
+        697.68,
         131
        ],
        [
         150,
-        548.68,
+        699.54,
+        150
+       ]
+      ],
+      "cap": null,
+      "capAdd": null
+     },
+     {
+      "stat": "spi",
+      "unit": "pt",
+      "base": 0,
+      "points": [
+       [
+        0,
+        683.82,
+        0
+       ],
+       [
+        19,
+        684.84,
+        19
+       ],
+       [
+        38,
+        685.78,
+        38
+       ],
+       [
+        56,
+        685.22,
+        56
+       ],
+       [
+        75,
+        684.81,
+        75
+       ],
+       [
+        94,
+        684.48,
+        94
+       ],
+       [
+        113,
+        684.59,
+        113
+       ],
+       [
+        131,
+        684.46,
+        131
+       ],
+       [
+        150,
+        685.77,
         150
        ]
       ],
@@ -10771,62 +10830,68 @@
     "procs": [
      {
       "name": "Fingers of Frost",
-      "perMin": 3.2
+      "perMin": 2.9
      },
      {
       "name": "Clearcasting",
-      "perMin": 2.4
+      "perMin": 2.5
      }
     ],
     "talentValues": {
      "Improved Frostbolt": {
-      "gain": 83.78,
-      "pct": 15.59
+      "gain": 95.44,
+      "pct": 13.98
      },
      "Precision": {
-      "gain": 37.96,
-      "pct": 7.07
+      "gain": 52.43,
+      "pct": 7.68
      },
      "Ice Shards": {
-      "gain": 64.32,
-      "pct": 11.97
+      "gain": 78.56,
+      "pct": 11.51
      },
-     "Frostbite": null,
      "Frost Channeling": {
-      "gain": 1.37,
-      "pct": 0.26
+      "gain": 29.92,
+      "pct": 4.38
      },
      "Ice Lance": {
-      "gain": 38.39,
-      "pct": 7.15
+      "gain": 46.34,
+      "pct": 6.79
      },
      "Shatter": {
-      "gain": 54.3,
-      "pct": 10.11
+      "gain": 61.25,
+      "pct": 8.97
      },
      "Fingers of Frost": {
-      "gain": 86.41,
-      "pct": 16.08
+      "gain": 102.57,
+      "pct": 15.02
      },
      "Winter's Chill": {
-      "gain": -0.68,
-      "pct": -0.13
+      "gain": 110.44,
+      "pct": 16.18
      },
      "Cold Snap": null,
      "Ice Barrier": {
-      "gain": 69.62,
-      "pct": 12.96
+      "gain": 88.55,
+      "pct": 12.97
+     },
+     "Improved Cone of Cold": {
+      "gain": 46.46,
+      "pct": 6.81
      },
      "Wand Specialization": null,
      "Improved Channeling": null,
-     "Arcane Subtlety": null,
+     "Arcane Subtlety": {
+      "gain": 0,
+      "pct": 0
+     },
      "Arcane Concentration": {
-      "gain": -0.05,
-      "pct": -0.01
+      "gain": 26.84,
+      "pct": 3.93
      },
      "Arcane Meditation": {
-      "gain": 0.28,
-      "pct": 0.05
+      "gain": 30.68,
+      "pct": 4.49
      },
      "Arcane Resilience": null
     },
@@ -10969,40 +11034,47 @@
     "uptimes": [
      [
       "Winter's Chill",
-      0.99
+      0.72
      ],
      [
       "Fingers of Frost",
-      0.21
+      0.15
      ]
     ],
     "abilities": [
      {
       "name": "Frostbolt",
-      "dps": 441.1,
-      "casts": 67.6,
-      "hits": 64,
-      "crit": 0.26
+      "dps": 410.7,
+      "casts": 60.4,
+      "hits": 57.2,
+      "crit": 0.234
+     },
+     {
+      "name": "Cone of Cold",
+      "dps": 178.7,
+      "casts": 12.5,
+      "hits": 12,
+      "crit": 0.314
      },
      {
       "name": "Ice Lance",
-      "dps": 92.6,
-      "casts": 8.3,
-      "hits": 7.9,
-      "crit": 0.684
+      "dps": 88.4,
+      "casts": 7.4,
+      "hits": 7.1,
+      "crit": 0.68
      },
      {
       "name": "Smokey's Lighter",
-      "dps": 2.2,
+      "dps": 2.3,
       "casts": 2,
       "hits": 1.8,
       "crit": 0
      },
      {
       "name": "Ignition",
-      "dps": 1.3,
-      "casts": 3.6,
-      "hits": 3.2,
+      "dps": 1.5,
+      "casts": 3.8,
+      "hits": 3.4,
       "crit": 0
      }
     ],
@@ -11034,7 +11106,7 @@
      },
      {
       "t": 11.5,
-      "n": "Ice Lance",
+      "n": "Cone of Cold",
       "x": 1
      }
     ]
@@ -11044,28 +11116,28 @@
    "spec": "mage_arcane",
    "class": "mage",
    "role": "dps",
-   "dps": 530.7,
-   "sem": 0.36,
+   "dps": 564.6,
+   "sem": 0.38,
    "name": "Arcane Mage",
    "spells": [
     [
      "Arcane Missiles",
-     315.4,
+     335.5,
      24.3
     ],
     [
      "Arcane Wrath",
-     210.7,
+     224.1,
      21.3
     ],
     [
      "Ignition",
-     2.5,
+     2.6,
      6.8
     ],
     [
      "Smokey's Lighter",
-     2.2,
+     2.3,
      2
     ]
    ],
@@ -11671,49 +11743,49 @@
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 6.395,
+      "per": 6.784,
       "unit": "pct",
-      "rel": 15.56
+      "rel": 15.52
      },
      {
       "stat": "hastertng",
-      "per": 4.726,
+      "per": 5.009,
       "unit": "pct",
-      "rel": 11.5
+      "rel": 11.46
      },
      {
       "stat": "critstrkrtng",
-      "per": 4.125,
+      "per": 4.369,
       "unit": "pct",
-      "rel": 10.04
+      "rel": 10
      },
      {
       "stat": "splpwr",
-      "per": 0.411,
+      "per": 0.437,
       "unit": "pt",
       "rel": 1
      },
      {
       "stat": "int",
-      "per": 0.367,
+      "per": 0.39,
       "unit": "pt",
       "rel": 0.89
      },
      {
       "stat": "spi",
-      "per": 0.09,
+      "per": 0.095,
       "unit": "pt",
       "rel": 0.22
      },
      {
       "stat": "str",
-      "per": 0,
+      "per": -0.001,
       "unit": "pt",
       "rel": 0
      },
      {
       "stat": "agi",
-      "per": 0,
+      "per": -0.001,
       "unit": "pt",
       "rel": 0
      }
@@ -11726,7 +11798,7 @@
         "sid": 12176,
         "name": "Scroll of Intellect",
         "chosen": true,
-        "gain": 5.06,
+        "gain": 5.38,
         "pct": 0.96
        },
        {
@@ -11734,7 +11806,7 @@
         "sid": 12177,
         "name": "Scroll of Spirit",
         "chosen": false,
-        "gain": 0.75,
+        "gain": 0.8,
         "pct": 0.14
        },
        {
@@ -11768,7 +11840,7 @@
         "sid": 1213892,
         "name": "Flask of Ancient Knowledge",
         "chosen": true,
-        "gain": 74.01,
+        "gain": 78.74,
         "pct": 16.2
        },
        {
@@ -11776,7 +11848,7 @@
         "sid": 1213914,
         "name": "Elixir of the Mage-Lord",
         "chosen": false,
-        "gain": 16.45,
+        "gain": 17.5,
         "pct": 3.6
        },
        {
@@ -11784,7 +11856,7 @@
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 15.32,
+        "gain": 16.3,
         "pct": 3.35
        },
        {
@@ -11792,7 +11864,7 @@
         "sid": 17539,
         "name": "Greater Arcane Elixir",
         "chosen": false,
-        "gain": 14.39,
+        "gain": 15.31,
         "pct": 3.15
        },
        {
@@ -11800,7 +11872,7 @@
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 7.13,
+        "gain": 7.58,
         "pct": 1.56
        },
        {
@@ -11808,7 +11880,7 @@
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 7.13,
+        "gain": 7.58,
         "pct": 1.56
        },
        {
@@ -11816,7 +11888,7 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 7.13,
+        "gain": 7.58,
         "pct": 1.56
        },
        {
@@ -11834,7 +11906,7 @@
         "sid": 1225780,
         "name": "Well Fed (spell power food)",
         "chosen": true,
-        "gain": 10.28,
+        "gain": 10.94,
         "pct": 1.97
        },
        {
@@ -11842,7 +11914,7 @@
         "sid": 18194,
         "name": "Nightfin Soup",
         "chosen": false,
-        "gain": 1.71,
+        "gain": 1.82,
         "pct": 0.33
        },
        {
@@ -11868,7 +11940,7 @@
         "sid": 25129,
         "name": "Brilliant Wizard Oil",
         "chosen": true,
-        "gain": 18.66,
+        "gain": 19.85,
         "pct": 3.64
        },
        {
@@ -11876,7 +11948,7 @@
         "sid": 25130,
         "name": "Brilliant Mana Oil",
         "chosen": false,
-        "gain": 13.17,
+        "gain": 14.01,
         "pct": 2.57
        },
        {
@@ -11903,7 +11975,7 @@
        "sid": 16327,
        "name": "Juju Guile",
        "chosen": true,
-       "gain": 9.69,
+       "gain": 10.31,
        "pct": 1.82
       },
       {
@@ -11911,7 +11983,7 @@
        "sid": 24382,
        "name": "Spirit of Zanza",
        "chosen": true,
-       "gain": 3.27,
+       "gain": 3.48,
        "pct": 0.62
       },
       {
@@ -11919,7 +11991,7 @@
        "sid": 24363,
        "name": "Mageblood Potion",
        "chosen": true,
-       "gain": 2,
+       "gain": 2.13,
        "pct": 0.38
       },
       {
@@ -11948,47 +12020,47 @@
       "points": [
        [
         7,
-        530.41,
+        564.22,
         0
        ],
        [
         9.3,
-        543.69,
+        578.35,
         23
        ],
        [
         11.5,
-        548.19,
+        583.13,
         45
        ],
        [
         13.8,
-        548.32,
+        583.27,
         68
        ],
        [
         16,
-        548.43,
+        583.39,
         90
        ],
        [
         18.3,
-        548.49,
+        583.45,
         113
        ],
        [
         20.5,
-        548.49,
+        583.45,
         135
        ],
        [
         22.8,
-        548.49,
+        583.45,
         158
        ],
        [
         25,
-        548.49,
+        583.45,
         180
        ]
       ],
@@ -12002,47 +12074,47 @@
       "points": [
        [
         0,
-        530.41,
+        564.22,
         0
        ],
        [
         2.5,
-        541.52,
+        576.04,
         25
        ],
        [
         5,
-        551.88,
+        587.06,
         50
        ],
        [
         7.5,
-        564.68,
+        600.68,
         75
        ],
        [
         10,
-        578.34,
+        615.2,
         100
        ],
        [
         12.5,
-        590.27,
+        627.89,
         125
        ],
        [
         15,
-        605.12,
+        643.69,
         150
        ],
        [
         17.5,
-        616.61,
+        655.91,
         175
        ],
        [
         20,
-        629.05,
+        669.14,
         200
        ]
       ],
@@ -12056,47 +12128,47 @@
       "points": [
        [
         18.07,
-        530.41,
+        564.22,
         0
        ],
        [
         20.57,
-        540.6,
+        575.06,
         35
        ],
        [
         23.07,
-        550.67,
+        585.77,
         70
        ],
        [
         25.57,
-        560.72,
+        596.46,
         105
        ],
        [
         28.07,
-        570.87,
+        607.26,
         140
        ],
        [
         30.57,
-        581.49,
+        618.55,
         175
        ],
        [
         33.07,
-        592.09,
+        629.83,
         210
        ],
        [
         35.57,
-        602.58,
+        640.99,
         245
        ],
        [
         38.07,
-        612.69,
+        651.75,
         280
        ]
       ],
@@ -12110,47 +12182,47 @@
       "points": [
        [
         0,
-        530.41,
+        564.22,
         0
        ],
        [
         38,
-        546.02,
+        580.82,
         38
        ],
        [
         75,
-        561.21,
+        596.99,
         75
        ],
        [
         113,
-        576.82,
+        613.59,
         113
        ],
        [
         150,
-        592.02,
+        629.75,
         150
        ],
        [
         188,
-        607.63,
+        646.36,
         188
        ],
        [
         225,
-        622.82,
+        662.52,
         225
        ],
        [
         263,
-        638.43,
+        679.12,
         263
        ],
        [
         300,
-        653.63,
+        695.29,
         300
        ]
       ],
@@ -12164,47 +12236,47 @@
       "points": [
        [
         0,
-        530.41,
+        564.22,
         0
        ],
        [
         19,
-        537.82,
+        572.1,
         19
        ],
        [
         38,
-        544.74,
+        579.46,
         38
        ],
        [
         56,
-        551.78,
+        586.95,
         56
        ],
        [
         75,
-        559.74,
+        595.42,
         75
        ],
        [
         94,
-        566.31,
+        602.4,
         94
        ],
        [
         113,
-        572.38,
+        608.86,
         113
        ],
        [
         131,
-        577.56,
+        614.38,
         131
        ],
        [
         150,
-        582.44,
+        619.56,
         150
        ]
       ],
@@ -12218,47 +12290,47 @@
       "points": [
        [
         0,
-        530.41,
+        564.22,
         0
        ],
        [
         19,
-        532.23,
+        566.15,
         19
        ],
        [
         38,
-        534.09,
+        568.13,
         38
        ],
        [
         56,
-        535.78,
+        569.93,
         56
        ],
        [
         75,
-        537.74,
+        572.01,
         75
        ],
        [
         94,
-        540.37,
+        574.82,
         94
        ],
        [
         113,
-        543.03,
+        577.64,
         113
        ],
        [
         131,
-        544.46,
+        579.16,
         131
        ],
        [
         150,
-        545.76,
+        580.55,
         150
        ]
       ],
@@ -12275,13 +12347,16 @@
     "talentValues": {
      "Improved Channeling": null,
      "Arcane Resilience": null,
-     "Arcane Subtlety": null,
+     "Arcane Subtlety": {
+      "gain": 0,
+      "pct": 0
+     },
      "Arcane Concentration": {
-      "gain": 4.06,
+      "gain": 4.32,
       "pct": 0.77
      },
      "Arcane Impact": {
-      "gain": 24.33,
+      "gain": 25.89,
       "pct": 4.59
      },
      "Arcane Blast": {
@@ -12289,15 +12364,15 @@
       "pct": 0
      },
      "Arcane Meditation": {
-      "gain": 5.83,
+      "gain": 6.2,
       "pct": 1.1
      },
      "Missile Barrage": {
-      "gain": 27.32,
+      "gain": 29.06,
       "pct": 5.15
      },
      "Arcane Wrath": {
-      "gain": 72.02,
+      "gain": 76.62,
       "pct": 13.57
      },
      "Presence of Mind": {
@@ -12305,15 +12380,15 @@
       "pct": 0
      },
      "Arcane Mind": {
-      "gain": 65.14,
+      "gain": 69.3,
       "pct": 12.28
      },
      "Arcane Instability": {
-      "gain": 27.02,
+      "gain": 28.75,
       "pct": 5.09
      },
      "Arcane Power": {
-      "gain": 8.65,
+      "gain": 9.2,
       "pct": 1.63
      },
      "Improved Fire Blast": {
@@ -12325,7 +12400,7 @@
       "pct": 0
      },
      "Accelerant": {
-      "gain": 14.11,
+      "gain": 15.01,
       "pct": 2.66
      },
      "Ignite": {
@@ -12337,7 +12412,7 @@
       "pct": 0
      },
      "Precision": {
-      "gain": 35.07,
+      "gain": 37.3,
       "pct": 6.61
      }
     },
@@ -12486,28 +12561,28 @@
     "abilities": [
      {
       "name": "Arcane Missiles",
-      "dps": 315.4,
+      "dps": 335.5,
       "casts": 24.3,
       "hits": 115,
       "crit": 0.277
      },
      {
       "name": "Arcane Wrath",
-      "dps": 210.7,
+      "dps": 224.1,
       "casts": 21.3,
       "hits": 20.2,
       "crit": 0.276
      },
      {
       "name": "Ignition",
-      "dps": 2.5,
+      "dps": 2.6,
       "casts": 6.8,
       "hits": 6.1,
       "crit": 0
      },
      {
       "name": "Smokey's Lighter",
-      "dps": 2.2,
+      "dps": 2.3,
       "casts": 2,
       "hits": 1.8,
       "crit": 0
