@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03",
+ "generated": "2026-11-04",
  "fightLen": 180,
  "iterations": 6000,
  "build": "1.60.1.69913",
@@ -9,54 +9,59 @@
    "spec": "warrior_fury",
    "class": "warrior",
    "role": "dps",
-   "dps": 630.6,
-   "sem": 0.47,
+   "dps": 739,
+   "sem": 0.53,
    "name": "Fury Warrior",
    "spells": [
     [
-     "Bloodthirst",
-     127.7,
-     23
+     "Heroic Strike",
+     139.5,
+     33.6
     ],
     [
-     "White (main hand)",
-     121.9,
-     0
+     "Bloodthirst",
+     134.3,
+     24.9
     ],
     [
      "White (off-hand)",
-     113.1,
+     121.3,
      0
     ],
     [
-     "Heroic Strike",
-     89.6,
-     21.4
+     "White (main hand)",
+     95.3,
+     0
     ],
     [
      "Execute",
-     80.8,
-     18
+     75.6,
+     15.5
+    ],
+    [
+     "Windfury Totem",
+     54.2,
+     23.5
     ],
     [
      "Whirlwind",
-     35.3,
-     12.5
+     45,
+     16.2
     ],
     [
      "Deep Wounds",
-     21.4,
+     26.3,
+     0
+    ],
+    [
+     "Whirlwind (off-hand)",
+     26.2,
      0
     ],
     [
      "Rend",
-     19.8,
-     7.6
-    ],
-    [
-     "Whirlwind (off-hand)",
-     19.1,
-     0
+     19.6,
+     7.7
     ],
     [
      "Smokey's Lighter",
@@ -127,24 +132,6 @@
        "fr": "Fureur"
       },
       "name": {
-       "en": "Lingering Rage",
-       "fr": "Rage rémanente"
-      },
-      "rank": 2,
-      "max": 5,
-      "row": 2,
-      "desc": {
-       "en": "Increases the time before your Rage begins to decay after leaving combat by 4 sec.",
-       "fr": "Augmente de 4 s le délai précédant la déperdition des points de rage lorsque vous cessez le combat."
-      }
-     },
-     {
-      "tree": "fury",
-      "tree_name": {
-       "en": "Fury",
-       "fr": "Fureur"
-      },
-      "name": {
        "en": "Dual Wield Specialization",
        "fr": "Spécialisation Ambidextrie"
       },
@@ -163,15 +150,33 @@
        "fr": "Fureur"
       },
       "name": {
-       "en": "Raging Blows",
-       "fr": "Coups déchaînés"
+       "en": "Reckless Swings",
+       "fr": "Reckless Swings"
       },
       "rank": 1,
       "max": 1,
       "row": 4,
       "desc": {
-       "en": "Reduces the Rage cost of your Cleave and Whirlwind abilities by -3.",
-       "fr": "Réduit le coût en rage de vos techniques Enchaînement et Tourbillon de -3."
+       "en": "Active, 15 sec cooldown, costs 25% of your base health. For 8 sec, your next 4 melee attacks each give you 5 additional Rage.",
+       "fr": "Actif, 15 s de recharge, coûte 25 % de votre santé de base. Pendant 8 s, vos 4 prochaines attaques en mêlée vous donnent chacune 5 points de rage supplémentaires."
+      }
+     },
+     {
+      "tree": "fury",
+      "tree_name": {
+       "en": "Fury",
+       "fr": "Fureur"
+      },
+      "name": {
+       "en": "Improved Whirlwind",
+       "fr": "Improved Whirlwind"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 6,
+      "desc": {
+       "en": "Reduces the cooldown of your Whirlwind ability by 2 sec.",
+       "fr": "Réduit de 2 s le temps de recharge de votre technique Tourbillon."
       }
      },
      {
@@ -186,7 +191,7 @@
       },
       "rank": 3,
       "max": 5,
-      "row": 4,
+      "row": 3,
       "desc": {
        "en": "Gives you a 30% chance to deal 6% increased Physical damage for 12 sec after being the victim of any damaging attack.",
        "fr": "Vous confère 30 % de chances d’infliger 6 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts."
@@ -475,13 +480,12 @@
      },
      {
       "slot": "chest",
-      "id": 22191,
-      "name": "Obsidian Mail Tunic",
-      "zone": "blacksmithing",
-      "from": "craft",
-      "skill": 300,
-      "src": "Obsidian Mail Tunic",
-      "ilvl": 60,
+      "id": 11726,
+      "name": "Savage Gladiator Chain",
+      "zone": "Blackrock Depths",
+      "from": "dungeon",
+      "src": "Gorosh the Dervish",
+      "ilvl": 57,
       "q": 4
      },
      {
@@ -581,13 +585,14 @@
      },
      {
       "slot": "oh",
-      "id": 15806,
-      "name": "Mirah's Song",
-      "zone": "Scholomance",
-      "from": "dungeon",
-      "src": "Kirtonos the Herald",
-      "ilvl": 61,
-      "q": 3
+      "id": 19168,
+      "name": "Blackguard",
+      "zone": "blacksmithing",
+      "from": "craft",
+      "skill": 300,
+      "src": "Blackguard",
+      "ilvl": 60,
+      "q": 4
      }
     ],
     "enchants": {
@@ -709,37 +714,37 @@
     "weights": [
      {
       "stat": "critstrkrtng",
-      "per": 5.752,
+      "per": 6.218,
       "unit": "pct",
-      "rel": 24.48
-     },
-     {
-      "stat": "hastertng",
-      "per": 5.147,
-      "unit": "pct",
-      "rel": 21.9
+      "rel": 22.45
      },
      {
       "stat": "hitrtng",
-      "per": 3.829,
+      "per": 5.993,
       "unit": "pct",
-      "rel": 16.29
+      "rel": 21.64
+     },
+     {
+      "stat": "hastertng",
+      "per": 5.581,
+      "unit": "pct",
+      "rel": 20.15
      },
      {
       "stat": "str",
-      "per": 0.517,
+      "per": 0.609,
       "unit": "pt",
       "rel": 2.2
      },
      {
       "stat": "agi",
-      "per": 0.321,
+      "per": 0.341,
       "unit": "pt",
-      "rel": 1.37
+      "rel": 1.23
      },
      {
       "stat": "atkpwr",
-      "per": 0.235,
+      "per": 0.277,
       "unit": "pt",
       "rel": 1
      },
@@ -764,16 +769,16 @@
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": true,
-        "gain": 8.46,
-        "pct": 1.36
+        "gain": 10.52,
+        "pct": 1.44
        },
        {
         "id": "scroll_agility",
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": false,
-        "gain": 4.54,
-        "pct": 0.73
+        "gain": 6.01,
+        "pct": 0.82
        },
        {
         "id": "scroll_intellect",
@@ -806,40 +811,40 @@
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": true,
-        "gain": 27.82,
-        "pct": 4.62
+        "gain": 29.58,
+        "pct": 4.17
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 24.86,
-        "pct": 4.13
+        "gain": 24.35,
+        "pct": 3.43
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 22.8,
-        "pct": 3.78
+        "gain": 23.11,
+        "pct": 3.25
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 15.13,
-        "pct": 2.51
+        "gain": 14.64,
+        "pct": 2.06
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 11.47,
-        "pct": 1.9
+        "gain": 13.59,
+        "pct": 1.91
        },
        {
         "id": "flask_ancient_knowledge",
@@ -872,16 +877,16 @@
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": true,
-        "gain": 12.68,
-        "pct": 2.05
+        "gain": 14.94,
+        "pct": 2.06
        },
        {
         "id": "food_agility",
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": false,
-        "gain": 7.66,
-        "pct": 1.24
+        "gain": 8.48,
+        "pct": 1.17
        },
        {
         "id": "food_spell_power",
@@ -906,16 +911,16 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 15.43,
-        "pct": 2.51
+        "gain": 14.9,
+        "pct": 2.06
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 8.6,
-        "pct": 1.4
+        "gain": 10.42,
+        "pct": 1.44
        },
        {
         "id": "brilliant_wizard_oil",
@@ -941,16 +946,16 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 15.5,
-       "pct": 2.46
+       "gain": 18.26,
+       "pct": 2.47
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 9.39,
-       "pct": 1.49
+       "gain": 11.07,
+       "pct": 1.5
       },
       {
        "id": "mageblood_potion",
@@ -982,106 +987,52 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 31,
+      "base": 31.75,
       "points": [
        [
-        31,
-        630.14,
+        31.75,
+        739.18,
         0
        ],
        [
-        33.5,
-        643.66,
+        34.25,
+        754.12,
         35
        ],
        [
-        36,
-        658.47,
+        36.75,
+        765.44,
         70
        ],
        [
-        38.5,
-        671.44,
+        39.25,
+        782.1,
         105
        ],
        [
-        41,
-        685.59,
+        41.75,
+        796.62,
         140
        ],
        [
-        43.5,
-        694.36,
+        44.25,
+        806.03,
         175
        ],
        [
-        46,
-        702.15,
+        46.75,
+        815.26,
         210
        ],
        [
-        48.5,
-        710.15,
+        49.25,
+        824.79,
         245
        ],
        [
-        51,
-        717.36,
+        51.75,
+        833.74,
         280
-       ]
-      ],
-      "cap": null,
-      "capAdd": null
-     },
-     {
-      "stat": "hastertng",
-      "unit": "pct",
-      "base": 0,
-      "points": [
-       [
-        0,
-        630.14,
-        0
-       ],
-       [
-        2.5,
-        640.77,
-        25
-       ],
-       [
-        5,
-        653.92,
-        50
-       ],
-       [
-        7.5,
-        667.41,
-        75
-       ],
-       [
-        10,
-        678.07,
-        100
-       ],
-       [
-        12.5,
-        692.81,
-        125
-       ],
-       [
-        15,
-        702.6,
-        150
-       ],
-       [
-        17.5,
-        715.42,
-        175
-       ],
-       [
-        20,
-        725.6,
-        200
        ]
       ],
       "cap": null,
@@ -1094,48 +1045,102 @@
       "points": [
        [
         8,
-        630.14,
+        739.18,
         0
        ],
        [
         10.3,
-        643.31,
+        753.48,
         23
        ],
        [
         12.5,
-        651.59,
+        762.81,
         45
        ],
        [
         14.8,
-        662.74,
+        776.57,
         68
        ],
        [
         17,
-        673.84,
+        784.84,
         90
        ],
        [
         19.3,
-        677.21,
+        793.03,
         113
        ],
        [
         21.5,
-        682.48,
+        796.99,
         135
        ],
        [
         23.8,
-        687.44,
+        803.91,
         158
        ],
        [
         26,
-        692.15,
+        810.05,
         180
+       ]
+      ],
+      "cap": null,
+      "capAdd": null
+     },
+     {
+      "stat": "hastertng",
+      "unit": "pct",
+      "base": 0,
+      "points": [
+       [
+        0,
+        739.18,
+        0
+       ],
+       [
+        2.5,
+        749.29,
+        25
+       ],
+       [
+        5,
+        762.82,
+        50
+       ],
+       [
+        7.5,
+        775.49,
+        75
+       ],
+       [
+        10,
+        788.07,
+        100
+       ],
+       [
+        12.5,
+        802.1,
+        125
+       ],
+       [
+        15,
+        814.12,
+        150
+       ],
+       [
+        17.5,
+        827.63,
+        175
+       ],
+       [
+        20,
+        838.36,
+        200
        ]
       ],
       "cap": null,
@@ -1148,47 +1153,47 @@
       "points": [
        [
         0,
-        630.14,
+        739.18,
         0
        ],
        [
         15,
-        638.12,
+        748.58,
         15
        ],
        [
         30,
-        645.63,
+        757.43,
         30
        ],
        [
         45,
-        653.61,
+        766.84,
         45
        ],
        [
         60,
-        661.12,
+        775.69,
         60
        ],
        [
         75,
-        669.09,
+        785.09,
         75
        ],
        [
         90,
-        676.6,
+        793.94,
         90
        ],
        [
         105,
-        684.58,
+        803.34,
         105
        ],
        [
         120,
-        692.09,
+        812.19,
         120
        ]
       ],
@@ -1202,47 +1207,47 @@
       "points": [
        [
         0,
-        630.14,
+        739.18,
         0
        ],
        [
         15,
-        634.19,
+        743.96,
         15
        ],
        [
         30,
-        639.81,
+        748.87,
         30
        ],
        [
         45,
-        643.52,
+        754.12,
         45
        ],
        [
         60,
-        648.36,
+        757.83,
         60
        ],
        [
         75,
-        652.76,
+        763.33,
         75
        ],
        [
         90,
-        658.14,
+        765.29,
         90
        ],
        [
         105,
-        661.83,
+        770,
         105
        ],
        [
         120,
-        666.29,
+        775.31,
         120
        ]
       ],
@@ -1256,47 +1261,47 @@
       "points": [
        [
         0,
-        630.14,
+        739.18,
         0
        ],
        [
         50,
-        641.87,
+        753.01,
         50
        ],
        [
         100,
-        653.61,
+        766.84,
         100
        ],
        [
         150,
-        665.34,
+        780.67,
         150
        ],
        [
         200,
-        677.07,
+        794.49,
         200
        ],
        [
         250,
-        688.81,
+        808.32,
         250
        ],
        [
         300,
-        700.54,
+        822.15,
         300
        ],
        [
         350,
-        712.27,
+        835.98,
         350
        ],
        [
         400,
-        724.01,
+        849.81,
         400
        ]
       ],
@@ -1307,63 +1312,66 @@
     "procs": [
      {
       "name": "Flurry",
-      "perMin": 31.4
+      "perMin": 35.9
      }
     ],
     "talentValues": {
      "Cruelty": {
-      "gain": 37.82,
-      "pct": 6
+      "gain": 41.69,
+      "pct": 5.64
      },
      "Unbridled Wrath": {
-      "gain": 12.9,
-      "pct": 2.05
+      "gain": 12.34,
+      "pct": 1.67
      },
      "Furious Precision": {
-      "gain": 22.82,
-      "pct": 3.62
+      "gain": 23.32,
+      "pct": 3.15
      },
-     "Lingering Rage": null,
      "Dual Wield Specialization": {
-      "gain": 58.65,
-      "pct": 9.3
+      "gain": 57.45,
+      "pct": 7.77
      },
-     "Raging Blows": {
-      "gain": 4.53,
-      "pct": 0.72
+     "Reckless Swings": {
+      "gain": 23.65,
+      "pct": 3.2
+     },
+     "Improved Whirlwind": {
+      "gain": 6.46,
+      "pct": 0.87
      },
      "Enrage": {
       "gain": 0,
       "pct": 0
      },
      "Improved Execute": {
-      "gain": 15.29,
-      "pct": 2.43
+      "gain": 14.3,
+      "pct": 1.93
      },
      "Death Wish": {
-      "gain": 20.23,
-      "pct": 3.21
+      "gain": 18.15,
+      "pct": 2.45
      },
      "Flurry": {
-      "gain": 92.74,
-      "pct": 14.71
+      "gain": 101.7,
+      "pct": 13.75
      },
      "Bloodthirst": {
-      "gain": 54.41,
-      "pct": 8.63
+      "gain": 64.95,
+      "pct": 8.78
      },
      "Improved Berserker Rage": {
-      "gain": 9.06,
-      "pct": 1.44
+      "gain": 8.76,
+      "pct": 1.18
      },
      "Blood Craze": null,
      "Improved Heroic Strike": {
-      "gain": 5.85,
-      "pct": 0.93
+      "gain": 8.18,
+      "pct": 1.11
      },
      "Improved Rend": {
-      "gain": 5.4,
-      "pct": 0.86
+      "gain": -5.28,
+      "pct": -0.71
      },
      "Improved Tactical Mastery": null,
      "Improved Overpower": {
@@ -1371,16 +1379,16 @@
       "pct": 0
      },
      "Anger Management": {
-      "gain": 9.92,
-      "pct": 1.57
+      "gain": 9.05,
+      "pct": 1.22
      },
      "Deep Wounds": {
-      "gain": 21.34,
-      "pct": 3.39
+      "gain": 26.34,
+      "pct": 3.56
      },
      "Impale": {
-      "gain": 18.94,
-      "pct": 3
+      "gain": 22.99,
+      "pct": 3.11
      }
     },
     "alt": null,
@@ -1457,6 +1465,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -1528,14 +1541,14 @@
     },
     "stats": {
      "prim": {
-      "str": 470,
-      "agi": 320,
-      "sta": 279,
+      "str": 478,
+      "agi": 325,
+      "sta": 312,
       "int": 89,
       "spi": 126
      },
-     "ap": 1674,
-     "crit": 0.31000000000000005,
+     "ap": 1614,
+     "crit": 0.3175,
      "hit": 0.08,
      "haste": 1,
      "armor": 976
@@ -1554,72 +1567,87 @@
      ],
      [
       "Flurry",
-      0.77
+      0.79
+     ],
+     [
+      "Reckless Swings",
+      0.24
+     ],
+     [
+      "Windfury Totem attack power",
+      0.07
      ]
     ],
     "abilities": [
      {
-      "name": "Bloodthirst",
-      "dps": 127.7,
-      "casts": 23,
-      "hits": 21.5,
-      "crit": 0.416
+      "name": "Heroic Strike",
+      "dps": 139.5,
+      "casts": 33.6,
+      "hits": 31.4,
+      "crit": 0.405
      },
      {
-      "name": "White (main hand)",
-      "dps": 121.9,
-      "casts": 0,
-      "hits": 42.5,
-      "crit": 0.458
+      "name": "Bloodthirst",
+      "dps": 134.3,
+      "casts": 24.9,
+      "hits": 23.3,
+      "crit": 0.417
      },
      {
       "name": "White (off-hand)",
-      "dps": 113.1,
+      "dps": 121.3,
       "casts": 0,
-      "hits": 103.4,
-      "crit": 0.415
+      "hits": 104.2,
+      "crit": 0.424
      },
      {
-      "name": "Heroic Strike",
-      "dps": 89.6,
-      "casts": 21.4,
-      "hits": 20.1,
-      "crit": 0.394
+      "name": "White (main hand)",
+      "dps": 95.3,
+      "casts": 0,
+      "hits": 33.8,
+      "crit": 0.463
      },
      {
       "name": "Execute",
-      "dps": 80.8,
-      "casts": 18,
-      "hits": 16.8,
-      "crit": 0.344
+      "dps": 75.6,
+      "casts": 15.5,
+      "hits": 14.5,
+      "crit": 0.347
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 54.2,
+      "casts": 23.5,
+      "hits": 17.5,
+      "crit": 0.464
      },
      {
       "name": "Whirlwind",
-      "dps": 35.3,
-      "casts": 12.5,
-      "hits": 11.7,
-      "crit": 0.395
+      "dps": 45,
+      "casts": 16.2,
+      "hits": 15.2,
+      "crit": 0.405
      },
      {
       "name": "Deep Wounds",
-      "dps": 21.4,
+      "dps": 26.3,
       "casts": 0,
-      "hits": 55.7,
-      "crit": 0
-     },
-     {
-      "name": "Rend",
-      "dps": 19.8,
-      "casts": 7.6,
-      "hits": 46.7,
+      "hits": 56.8,
       "crit": 0
      },
      {
       "name": "Whirlwind (off-hand)",
-      "dps": 19.1,
+      "dps": 26.2,
       "casts": 0,
-      "hits": 11.7,
-      "crit": 0.397
+      "hits": 15.2,
+      "crit": 0.404
+     },
+     {
+      "name": "Rend",
+      "dps": 19.6,
+      "casts": 7.7,
+      "hits": 47.1,
+      "crit": 0
      },
      {
       "name": "Smokey's Lighter",
@@ -1631,13 +1659,8 @@
     ],
     "opening": [
      {
-      "t": 7,
-      "n": "Whirlwind",
-      "x": 1
-     },
-     {
-      "t": 7,
-      "n": "Whirlwind (off-hand)",
+      "t": 3,
+      "n": "Bloodthirst",
       "x": 1
      },
      {
@@ -1651,7 +1674,7 @@
       "x": 1
      },
      {
-      "t": 9.1,
+      "t": 9.4,
       "n": "Heroic Strike",
       "x": 1
      },
@@ -1661,8 +1684,13 @@
       "x": 1
      },
      {
-      "t": 13.4,
-      "n": "Heroic Strike",
+      "t": 10.5,
+      "n": "Whirlwind",
+      "x": 1
+     },
+     {
+      "t": 10.5,
+      "n": "Whirlwind (off-hand)",
       "x": 1
      },
      {
@@ -1677,54 +1705,54 @@
    "spec": "warrior_arms",
    "class": "warrior",
    "role": "dps",
-   "dps": 557.4,
-   "sem": 0.44,
+   "dps": 708.8,
+   "sem": 0.62,
    "name": "Arms Warrior",
    "spells": [
     [
      "White (main hand)",
-     196,
+     178,
      0
     ],
     [
      "Mortal Strike",
-     111,
-     20.9
+     125.5,
+     23.6
     ],
     [
      "Overpower",
-     87.5,
-     13.5
+     110.2,
+     16.8
+    ],
+    [
+     "Windfury Totem",
+     87.9,
+     20.6
     ],
     [
      "Slam",
-     58,
-     12
+     58.7,
+     12.1
     ],
     [
      "Execute",
-     43.7,
-     8.8
+     53.7,
+     10.1
     ],
     [
      "Deep Wounds",
-     37.3,
+     44.9,
      0
     ],
     [
-     "Rend",
-     20.4,
-     7.9
-    ],
-    [
-     "Smokey's Lighter",
-     1.8,
-     2
-    ],
-    [
      "Heroic Strike",
-     1.8,
-     0.3
+     29,
+     5.5
+    ],
+    [
+     "Rend",
+     20.9,
+     8
     ]
    ],
    "detail": {
@@ -2102,12 +2130,13 @@
      },
      {
       "slot": "chest",
-      "id": 11726,
-      "name": "Savage Gladiator Chain",
-      "zone": "Blackrock Depths",
-      "from": "dungeon",
-      "src": "Gorosh the Dervish",
-      "ilvl": 57,
+      "id": 22191,
+      "name": "Obsidian Mail Tunic",
+      "zone": "blacksmithing",
+      "from": "craft",
+      "skill": 300,
+      "src": "Obsidian Mail Tunic",
+      "ilvl": 60,
       "q": 4
      },
      {
@@ -2183,16 +2212,6 @@
       "src": "Houses of the Holy",
       "ilvl": 61,
       "q": 3
-     },
-     {
-      "slot": "trinket1",
-      "id": 13171,
-      "name": "Smokey's Lighter",
-      "zone": "Stratholme",
-      "from": "dungeon",
-      "src": "The Great Fras Siabi",
-      "ilvl": 61,
-      "q": 2
      },
      {
       "slot": "th",
@@ -2271,18 +2290,6 @@
        "agi": 15
       }
      },
-     "feet": {
-      "id": 20023,
-      "kind": "enchant",
-      "name": {
-       "en": "Enchant Boots - Greater Agility",
-       "fr": "Ench. de bottes (Agilité supérieure)"
-      },
-      "effect": "Agility +7",
-      "stats": {
-       "agi": 7
-      }
-     },
      "neck": {
       "id": 1249019,
       "kind": "enchant",
@@ -2307,31 +2314,38 @@
       "atkpwr": 10
      },
      "slots": [
-      "legs"
+      "legs",
+      "feet"
      ]
     },
     "weights": [
      {
       "stat": "critstrkrtng",
-      "per": 5.387,
+      "per": 6.013,
       "unit": "pct",
-      "rel": 30.78
+      "rel": 27.71
+     },
+     {
+      "stat": "hastertng",
+      "per": 0.782,
+      "unit": "pct",
+      "rel": 3.6
      },
      {
       "stat": "str",
-      "per": 0.384,
+      "per": 0.478,
       "unit": "pt",
-      "rel": 2.19
+      "rel": 2.2
      },
      {
       "stat": "agi",
-      "per": 0.295,
+      "per": 0.335,
       "unit": "pt",
-      "rel": 1.69
+      "rel": 1.54
      },
      {
       "stat": "atkpwr",
-      "per": 0.175,
+      "per": 0.217,
       "unit": "pt",
       "rel": 1
      },
@@ -2352,12 +2366,6 @@
       "per": 0,
       "unit": "pct",
       "rel": 0
-     },
-     {
-      "stat": "hastertng",
-      "per": -0.015,
-      "unit": "pct",
-      "rel": -0.09
      }
     ],
     "consumables": {
@@ -2368,16 +2376,16 @@
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": true,
-        "gain": 6.64,
-        "pct": 1.2
+        "gain": 8.27,
+        "pct": 1.18
        },
        {
         "id": "scroll_agility",
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": false,
-        "gain": 5.02,
-        "pct": 0.91
+        "gain": 5.87,
+        "pct": 0.84
        },
        {
         "id": "scroll_intellect",
@@ -2410,40 +2418,40 @@
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": true,
-        "gain": 19.93,
-        "pct": 3.7
+        "gain": 24.46,
+        "pct": 3.57
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 18.97,
-        "pct": 3.52
+        "gain": 22.81,
+        "pct": 3.33
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 17.65,
-        "pct": 3.28
+        "gain": 21.1,
+        "pct": 3.08
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 10.14,
-        "pct": 1.88
+        "gain": 12.27,
+        "pct": 1.79
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 8.61,
-        "pct": 1.6
+        "gain": 10.72,
+        "pct": 1.56
        },
        {
         "id": "flask_ancient_knowledge",
@@ -2476,16 +2484,16 @@
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": true,
-        "gain": 9.79,
-        "pct": 1.79
+        "gain": 12.19,
+        "pct": 1.75
        },
        {
         "id": "food_agility",
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": false,
-        "gain": 7.51,
-        "pct": 1.37
+        "gain": 8.82,
+        "pct": 1.27
        },
        {
         "id": "food_spell_power",
@@ -2510,16 +2518,16 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 10.29,
-        "pct": 1.88
+        "gain": 12.46,
+        "pct": 1.79
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 6.65,
-        "pct": 1.21
+        "gain": 8.27,
+        "pct": 1.19
        },
        {
         "id": "brilliant_wizard_oil",
@@ -2545,16 +2553,16 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 11.54,
-       "pct": 2.07
+       "gain": 14.36,
+       "pct": 2.02
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 6.99,
-       "pct": 1.25
+       "gain": 8.7,
+       "pct": 1.23
       },
       {
        "id": "mageblood_potion",
@@ -2586,52 +2594,106 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 31.3,
+      "base": 29.65,
       "points": [
        [
-        31.3,
-        557.17,
+        29.65,
+        709.37,
         0
        ],
        [
-        33.8,
-        571.02,
+        32.15,
+        725.4,
         35
        ],
        [
-        36.3,
-        586.15,
+        34.65,
+        742.87,
         70
        ],
        [
-        38.8,
-        599.26,
+        37.15,
+        758.37,
         105
        ],
        [
-        41.3,
-        611.21,
+        39.65,
+        774.71,
         140
        ],
        [
-        43.8,
-        624.44,
+        42.15,
+        790.51,
         175
        ],
        [
-        46.3,
-        637.46,
+        44.65,
+        807,
         210
        ],
        [
-        48.8,
-        646.56,
+        47.15,
+        821.22,
         245
        ],
        [
-        51.3,
-        651.74,
+        49.65,
+        831.5,
         280
+       ]
+      ],
+      "cap": null,
+      "capAdd": null
+     },
+     {
+      "stat": "hastertng",
+      "unit": "pct",
+      "base": 0,
+      "points": [
+       [
+        0,
+        709.37,
+        0
+       ],
+       [
+        2.5,
+        715.94,
+        25
+       ],
+       [
+        5,
+        727.43,
+        50
+       ],
+       [
+        7.5,
+        741.15,
+        75
+       ],
+       [
+        10,
+        748.65,
+        100
+       ],
+       [
+        12.5,
+        757.44,
+        125
+       ],
+       [
+        15,
+        766.18,
+        150
+       ],
+       [
+        17.5,
+        779.33,
+        175
+       ],
+       [
+        20,
+        790.16,
+        200
        ]
       ],
       "cap": null,
@@ -2644,47 +2706,47 @@
       "points": [
        [
         0,
-        557.17,
+        709.37,
         0
        ],
        [
         15,
-        562.76,
+        716.34,
         15
        ],
        [
         30,
-        568.7,
+        723.74,
         30
        ],
        [
         45,
-        574.29,
+        730.7,
         45
        ],
        [
         60,
-        580.22,
+        738.11,
         60
        ],
        [
         75,
-        585.81,
+        745.07,
         75
        ],
        [
         90,
-        591.75,
+        752.47,
         90
        ],
        [
         105,
-        597.33,
+        759.44,
         105
        ],
        [
         120,
-        603.27,
+        766.84,
         120
        ]
       ],
@@ -2698,47 +2760,47 @@
       "points": [
        [
         0,
-        557.17,
+        709.37,
         0
        ],
        [
         15,
-        561.98,
+        715.12,
         15
        ],
        [
         30,
-        566.38,
+        720.35,
         30
        ],
        [
         45,
-        571.02,
+        725.4,
         45
        ],
        [
         60,
-        575.72,
+        730.73,
         60
        ],
        [
         75,
-        580.75,
+        736.79,
         75
        ],
        [
         90,
-        585.73,
+        742.53,
         90
        ],
        [
         105,
-        590.05,
+        747.14,
         105
        ],
        [
         120,
-        594.18,
+        752.61,
         120
        ]
       ],
@@ -2752,47 +2814,47 @@
       "points": [
        [
         0,
-        557.17,
+        709.37,
         0
        ],
        [
         50,
-        565.9,
+        720.26,
         50
        ],
        [
         100,
-        574.63,
+        731.14,
         100
        ],
        [
         150,
-        583.37,
+        742.02,
         150
        ],
        [
         200,
-        592.1,
+        752.91,
         200
        ],
        [
         250,
-        600.83,
+        763.79,
         250
        ],
        [
         300,
-        609.56,
+        774.67,
         300
        ],
        [
         350,
-        618.29,
+        785.56,
         350
        ],
        [
         400,
-        627.02,
+        796.44,
         400
        ]
       ],
@@ -2803,58 +2865,58 @@
     "procs": [],
     "talentValues": {
      "Improved Heroic Strike": {
-      "gain": 0.03,
-      "pct": 0.01
+      "gain": 0,
+      "pct": 0
      },
      "Improved Rend": {
-      "gain": 5.41,
-      "pct": 0.97
+      "gain": 5.54,
+      "pct": 0.78
      },
      "Improved Overpower": {
-      "gain": 28.54,
-      "pct": 5.12
+      "gain": 36.21,
+      "pct": 5.11
      },
      "Improved Tactical Mastery": null,
      "Anger Management": {
-      "gain": 11.64,
-      "pct": 2.09
+      "gain": 7.72,
+      "pct": 1.09
      },
      "Deep Wounds": {
-      "gain": 37.3,
-      "pct": 6.69
+      "gain": 44.91,
+      "pct": 6.33
      },
      "Two-Handed Weapon Specialization": {
-      "gain": 31.46,
-      "pct": 5.64
+      "gain": 40.14,
+      "pct": 5.66
      },
      "Impale": {
-      "gain": 31.13,
-      "pct": 5.58
+      "gain": 39.1,
+      "pct": 5.51
      },
      "Sweeping Strikes": null,
      "Weaponmaster": {
-      "gain": 27.3,
-      "pct": 4.89
+      "gain": 32.72,
+      "pct": 4.61
      },
      "Improved Slam": {
-      "gain": 53.49,
-      "pct": 9.59
+      "gain": 59.66,
+      "pct": 8.41
      },
      "Mortal Strike": {
-      "gain": 83.95,
-      "pct": 15.05
+      "gain": 124.73,
+      "pct": 17.59
      },
      "Bloodthrill": {
-      "gain": 52.47,
-      "pct": 9.41
+      "gain": 80.18,
+      "pct": 11.31
      },
      "Cruelty": {
-      "gain": 27.3,
-      "pct": 4.89
+      "gain": 32.72,
+      "pct": 4.61
      },
      "Unbridled Wrath": {
-      "gain": 3.35,
-      "pct": 0.6
+      "gain": 5.08,
+      "pct": 0.72
      },
      "Furious Precision": {
       "gain": 0,
@@ -2937,6 +2999,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -3008,90 +3075,92 @@
     },
     "stats": {
      "prim": {
-      "str": 473,
-      "agi": 336,
-      "sta": 313,
+      "str": 455,
+      "agi": 313,
+      "sta": 293,
       "int": 89,
       "spi": 126
      },
-     "ap": 1540,
-     "crit": 0.31300000000000006,
+     "ap": 1590,
+     "crit": 0.2965,
      "hit": 0.08,
      "haste": 1,
      "armor": 976
     },
-    "effects": [
-     "Smokey's Lighter"
-    ],
+    "effects": [],
     "uptimes": [
      [
       "Recklessness",
       0.08
+     ],
+     [
+      "Windfury Totem attack power",
+      0.07
      ]
     ],
     "abilities": [
      {
       "name": "White (main hand)",
-      "dps": 196,
+      "dps": 178,
       "casts": 0,
-      "hits": 47.3,
-      "crit": 0.405
+      "hits": 42.6,
+      "crit": 0.39
      },
      {
       "name": "Mortal Strike",
-      "dps": 111,
-      "casts": 20.9,
-      "hits": 19.5,
-      "crit": 0.417
+      "dps": 125.5,
+      "casts": 23.6,
+      "hits": 22.1,
+      "crit": 0.397
      },
      {
       "name": "Overpower",
-      "dps": 87.5,
-      "casts": 13.5,
-      "hits": 13.5,
-      "crit": 0.876
+      "dps": 110.2,
+      "casts": 16.8,
+      "hits": 16.8,
+      "crit": 0.859
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 87.9,
+      "casts": 20.6,
+      "hits": 19.3,
+      "crit": 0.387
      },
      {
       "name": "Slam",
-      "dps": 58,
-      "casts": 12,
-      "hits": 11.2,
-      "crit": 0.427
+      "dps": 58.7,
+      "casts": 12.1,
+      "hits": 11.3,
+      "crit": 0.411
      },
      {
       "name": "Execute",
-      "dps": 43.7,
-      "casts": 8.8,
-      "hits": 8.2,
-      "crit": 0.362
+      "dps": 53.7,
+      "casts": 10.1,
+      "hits": 9.4,
+      "crit": 0.348
      },
      {
       "name": "Deep Wounds",
-      "dps": 37.3,
+      "dps": 44.9,
       "casts": 0,
-      "hits": 56.4,
-      "crit": 0
-     },
-     {
-      "name": "Rend",
-      "dps": 20.4,
-      "casts": 7.9,
-      "hits": 49.3,
-      "crit": 0
-     },
-     {
-      "name": "Smokey's Lighter",
-      "dps": 1.8,
-      "casts": 2,
-      "hits": 1.7,
+      "hits": 57.1,
       "crit": 0
      },
      {
       "name": "Heroic Strike",
-      "dps": 1.8,
-      "casts": 0.3,
-      "hits": 0.3,
-      "crit": 0.368
+      "dps": 29,
+      "casts": 5.5,
+      "hits": 5.1,
+      "crit": 0.357
+     },
+     {
+      "name": "Rend",
+      "dps": 20.9,
+      "casts": 8,
+      "hits": 49.4,
+      "crit": 0
      }
     ],
     "opening": [
@@ -3106,8 +3175,8 @@
       "x": 1
      },
      {
-      "t": 7,
-      "n": "Mortal Strike",
+      "t": 5,
+      "n": "Slam",
       "x": 1
      },
      {
@@ -3126,13 +3195,13 @@
       "x": 1
      },
      {
-      "t": 13.5,
-      "n": "Rend",
+      "t": 13,
+      "n": "Mortal Strike",
       "x": 1
      },
      {
       "t": 13.5,
-      "n": "Overpower",
+      "n": "Rend",
       "x": 1
      }
     ]
@@ -3142,287 +3211,53 @@
    "spec": "rogue_combat",
    "class": "rogue",
    "role": "dps",
-   "dps": 605.7,
-   "sem": 0.31,
+   "dps": 689.8,
+   "sem": 0.36,
    "name": "Combat Rogue",
    "spells": [
     [
      "Sinister Strike",
-     182.4,
-     58.2
+     191.5,
+     60.5
     ],
     [
      "White (main hand)",
-     149.1,
+     150.8,
      0
     ],
     [
      "White (off-hand)",
-     121.2,
+     123,
      0
     ],
     [
      "Eviscerate",
-     83.6,
-     8.6
+     87.9,
+     9
     ],
     [
-     "Deadly Poison",
-     33.1,
-     35.7
-    ],
-    [
-     "Shank",
-     18.3,
-     17.7
-    ],
-    [
-     "Instant Poison",
-     16.2,
+     "Windfury Totem",
+     64.1,
      30.1
     ],
     [
-     "Smokey's Lighter",
-     1.8,
-     2
+     "Deadly Poison",
+     31.9,
+     33.6
+    ],
+    [
+     "Shank",
+     22.5,
+     21.7
+    ],
+    [
+     "Instant Poison",
+     18.1,
+     33.5
     ]
    ],
    "detail": {
     "talents": [
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Improved Eviscerate",
-       "fr": "Éviscération améliorée"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 1,
-      "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Improved Sinister Strike",
-       "fr": "Attaque pernicieuse améliorée"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 1,
-      "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
-       "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Lightning Reflexes",
-       "fr": "Réflexes-éclairs"
-      },
-      "rank": 5,
-      "max": 5,
-      "row": 1,
-      "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Precision",
-       "fr": "Précision"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Improves your chance to hit by 3%.",
-       "fr": "Améliore vos chances de toucher de 3 %."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Puncturing Wounds",
-       "fr": "Blessures transperçantes"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point.",
-       "fr": "Augmente les chances de coup critique de vos techniques Attaque sournoise et Estropier respectivement de 30 % et 15 %, et confère à Attaque sournoise 45 % de chances de générer un point de combo supplémentaire."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Flawless Execution",
-       "fr": "Exécution parfaite"
-      },
-      "rank": 1,
-      "max": 1,
-      "row": 4,
-      "desc": {
-       "en": "Reduces the Energy cost of your Eviscerate ability by 15.",
-       "fr": "Réduit de 15 le coût en énergie de votre technique Éviscération."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Dual Wield Specialization",
-       "fr": "Spécialisation Ambidextrie"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 4,
-      "desc": {
-       "en": "Increases the damage done by your off-hand weapon by 50%.",
-       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Deflection",
-       "fr": "Déviation"
-      },
-      "rank": 1,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Increases your Parry chance by 2%.",
-       "fr": "Augmente vos chances de parer de 2%."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Blade Flurry",
-       "fr": "Déluge de lames"
-      },
-      "rank": 1,
-      "max": 1,
-      "row": 5,
-      "desc": {
-       "en": "Increases your melee attack speed by 20% and your melee attacks strike an additional nearby opponent. Lasts 15 sec.",
-       "fr": "Augmente votre vitesse d’attaque en mêlée de 20 % et permet à vos attaques en mêlée de toucher un personnage adverse proche supplémentaire. Dure 15 s."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Hack and Slash",
-       "fr": "Taillader et trancher"
-      },
-      "rank": 5,
-      "max": 5,
-      "row": 5,
-      "desc": {
-       "en": "Gives your melee weapon attacks a benefit depending on the weapon. Axe/Sword: Your successful melee attacks have a 5% chance to trigger an extra attack on the target. Dagger/Fist: Increases your critical strike chance by 5%. Mace: Your attacks ignore 15% of your target's armor.",
-       "fr": "Confère un avantage à vos attaques avec les armes de mêlée selon l’arme utilisée. Hache/épée : vos attaques en mêlée réussies ont 5 % de chances de déclencher une attaque supplémentaire contre la cible. Dague/poing : vos chances de coup critique augmentent de 5 %. Masse : vos attaques ignorent 15 % de l’armure de la cible."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Weapon Expertise",
-       "fr": "Expertise en armes"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 6,
-      "desc": {
-       "en": "Reduces the chance for your attacks to be Dodged or Parried by 2%.",
-       "fr": "Réduit de 2 % les chances que vos attaques soient esquivées ou parées."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Aggression",
-       "fr": "Agressivité"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 6,
-      "desc": {
-       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
-       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Adrenaline Rush",
-       "fr": "Poussée d'adrénaline"
-      },
-      "rank": 1,
-      "max": 1,
-      "row": 7,
-      "desc": {
-       "en": "Increases your Energy regeneration rate by 100% for 15 sec.",
-       "fr": "Augmente la vitesse de régénération de votre Energie de 100% pendant 15 s."
-      }
-     },
      {
       "tree": "assassination",
       "tree_name": {
@@ -3484,6 +3319,24 @@
        "fr": "Assassinat"
       },
       "name": {
+       "en": "Vigor",
+       "fr": "Vigueur"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 3,
+      "desc": {
+       "en": "Increases your maximum Energy by 10.",
+       "fr": "Augmente votre maximum de points d’énergie de 10."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
        "en": "Lethality",
        "fr": "Mortalité"
       },
@@ -3502,39 +3355,291 @@
        "fr": "Assassinat"
       },
       "name": {
-       "en": "Relentless Strikes",
-       "fr": "Frappes implacables"
+       "en": "Cold Blood",
+       "fr": "Sang froid"
       },
-      "rank": 5,
-      "max": 5,
-      "row": 3,
+      "rank": 1,
+      "max": 1,
+      "row": 4,
       "desc": {
-       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
-       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+       "en": "When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, Eviscerate, or Mutilate by 100%.",
+       "fr": "À l’activation, augmente de 100 % les chances de coup critique de votre prochaine attaque utilisant Attaque pernicieuse, Attaque sournoise, Embuscade, Éviscération ou Estropier."
       }
      },
      {
-      "tree": "assassination",
+      "tree": "combat",
       "tree_name": {
-       "en": "Assassination",
-       "fr": "Assassinat"
+       "en": "Combat",
+       "fr": "Combat"
       },
       "name": {
-       "en": "Improved Poisons",
-       "fr": "Poisons améliorés"
+       "en": "Coup de Grace",
+       "fr": "Coup de Grace"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 1,
+      "desc": {
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Efficient Strikes",
+       "fr": "Efficient Strikes"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 1,
+      "desc": {
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
+       "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Deflection",
+       "fr": "Déviation"
       },
       "rank": 1,
-      "max": 5,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Increases your Parry chance by 2%.",
+       "fr": "Augmente vos chances de parer de 2%."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Precision",
+       "fr": "Précision"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Improves your chance to hit by 3%.",
+       "fr": "Améliore vos chances de toucher de 3 %."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Improved Sprint",
+       "fr": "Sprint amélioré"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 2,
+      "desc": {
+       "en": "Gives a 100% chance to remove all movement impairing effects when you activate your Sprint ability.",
+       "fr": "Confère 100 % de chances de dissiper tous les effets qui affectent le déplacement lorsque vous activez votre technique Sprint."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Endurance",
+       "fr": "Endurcissement"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 3,
+      "desc": {
+       "en": "Reduces the cooldown of your Sprint and Evasion abilities by 60%.",
+       "fr": "Réduit de 60 % le temps de recharge de vos techniques Sprint et Évasion."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Composure",
+       "fr": "Composure"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 3,
+      "desc": {
+       "en": "Poised reduces the energy cost of your next ability by 10 more.",
+       "fr": "Posé réduit de 10 points d’énergie supplémentaires le coût de votre prochaine technique."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Flawless Execution",
+       "fr": "Exécution parfaite"
+      },
+      "rank": 1,
+      "max": 1,
       "row": 4,
       "desc": {
-       "en": "Increases the chance to apply Poisons to your target by 2%, and gives Poison applications a 10% chance to not consume a charge.",
-       "fr": "Augmente de 2 % vos chances d’appliquer des poisons à votre cible et confère aux applications de poison 10 % de chances de ne pas consommer de charge."
+       "en": "Reduces the Energy cost of your Eviscerate ability by 15.",
+       "fr": "Réduit de 15 le coût en énergie de votre technique Éviscération."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Weapon Expertise",
+       "fr": "Expertise en armes"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 4,
+      "desc": {
+       "en": "Reduces the chance for your attacks to be Dodged or Parried by 2%.",
+       "fr": "Réduit de 2 % les chances que vos attaques soient esquivées ou parées."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Aggression",
+       "fr": "Agressivité"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 4,
+      "desc": {
+       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
+       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Dual Wield Specialization",
+       "fr": "Spécialisation Ambidextrie"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 5,
+      "desc": {
+       "en": "Increases the damage done by your off-hand weapon by 50%.",
+       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Blade Flurry",
+       "fr": "Déluge de lames"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 5,
+      "desc": {
+       "en": "Increases your melee attack speed by 20% and your melee attacks strike an additional nearby opponent. Lasts 15 sec.",
+       "fr": "Augmente votre vitesse d’attaque en mêlée de 20 % et permet à vos attaques en mêlée de toucher un personnage adverse proche supplémentaire. Dure 15 s."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Hack and Slash",
+       "fr": "Taillader et trancher"
+      },
+      "rank": 5,
+      "max": 5,
+      "row": 5,
+      "desc": {
+       "en": "Gives your melee weapon attacks a benefit depending on the weapon. Axe/Sword: Your successful melee attacks have a 5% chance to trigger an extra attack on the target. Dagger/Fist: Increases your critical strike chance by 5%. Mace: Your attacks ignore 15% of your target's armor.",
+       "fr": "Confère un avantage à vos attaques avec les armes de mêlée selon l’arme utilisée. Hache/épée : vos attaques en mêlée réussies ont 5 % de chances de déclencher une attaque supplémentaire contre la cible. Dague/poing : vos chances de coup critique augmentent de 5 %. Masse : vos attaques ignorent 15 % de l’armure de la cible."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Flash of Steel",
+       "fr": "Flash of Steel"
+      },
+      "rank": 5,
+      "max": 5,
+      "row": 6,
+      "desc": {
+       "en": "Shank returns 15 more energy and its cooldown is reduced by 2 sec.",
+       "fr": "Shank rend 15 points d’énergie de plus et son temps de recharge est réduit de 2 s."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Adrenaline Rush",
+       "fr": "Poussée d'adrénaline"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 7,
+      "desc": {
+       "en": "Increases your Energy regeneration rate by 100% for 15 sec.",
+       "fr": "Augmente la vitesse de régénération de votre Energie de 100% pendant 15 s."
       }
      }
     ],
     "trees": {
-     "combat": 32,
-     "assassination": 19
+     "assassination": 16,
+     "combat": 35
     },
     "items": [
      {
@@ -3634,12 +3739,12 @@
      },
      {
       "slot": "feet",
-      "id": 12470,
-      "name": "Sandstalker Ankleguards",
-      "zone": "Zul'Farrak",
+      "id": 16711,
+      "name": "Shadowcraft Boots",
+      "zone": "Scholomance",
       "from": "dungeon",
-      "src": "Zerillis",
-      "ilvl": 47,
+      "src": "Rattlegore",
+      "ilvl": 59,
       "q": 3
      },
      {
@@ -3660,16 +3765,6 @@
       "src": "Princess Theradras",
       "ilvl": 54,
       "q": 3
-     },
-     {
-      "slot": "trinket1",
-      "id": 13171,
-      "name": "Smokey's Lighter",
-      "zone": "Stratholme",
-      "from": "dungeon",
-      "src": "The Great Fras Siabi",
-      "ilvl": 61,
-      "q": 2
      },
      {
       "slot": "mh",
@@ -3813,37 +3908,37 @@
     "weights": [
      {
       "stat": "critstrkrtng",
-      "per": 5.185,
+      "per": 5.93,
       "unit": "pct",
-      "rel": 22.45
+      "rel": 22.21
      },
      {
       "stat": "hitrtng",
-      "per": 3.764,
+      "per": 4.783,
       "unit": "pct",
-      "rel": 16.29
+      "rel": 17.91
      },
      {
       "stat": "hastertng",
-      "per": 3.171,
+      "per": 3.456,
       "unit": "pct",
-      "rel": 13.73
+      "rel": 12.94
      },
      {
       "stat": "agi",
-      "per": 0.451,
+      "per": 0.522,
       "unit": "pt",
-      "rel": 1.95
+      "rel": 1.96
      },
      {
       "stat": "str",
-      "per": 0.254,
+      "per": 0.294,
       "unit": "pt",
       "rel": 1.1
      },
      {
       "stat": "atkpwr",
-      "per": 0.231,
+      "per": 0.267,
       "unit": "pt",
       "rel": 1
      },
@@ -3868,16 +3963,16 @@
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": true,
-        "gain": 7.76,
-        "pct": 1.3
+        "gain": 8.9,
+        "pct": 1.31
        },
        {
         "id": "scroll_strength",
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 4.37,
-        "pct": 0.73
+        "gain": 5.04,
+        "pct": 0.74
        },
        {
         "id": "scroll_intellect",
@@ -3910,40 +4005,40 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": true,
-        "gain": 23.51,
-        "pct": 4.04
+        "gain": 27.02,
+        "pct": 4.08
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 21.06,
-        "pct": 3.62
+        "gain": 24.69,
+        "pct": 3.73
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 16.51,
-        "pct": 2.84
+        "gain": 19.04,
+        "pct": 2.87
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 11.22,
-        "pct": 1.93
+        "gain": 12.94,
+        "pct": 1.95
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 10.11,
-        "pct": 1.74
+        "gain": 11.65,
+        "pct": 1.76
        },
        {
         "id": "flask_ancient_knowledge",
@@ -3976,16 +4071,16 @@
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": true,
-        "gain": 11.38,
-        "pct": 1.92
+        "gain": 12.59,
+        "pct": 1.86
        },
        {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": false,
-        "gain": 6.42,
-        "pct": 1.08
+        "gain": 7.4,
+        "pct": 1.09
        },
        {
         "id": "food_spell_power",
@@ -4010,16 +4105,16 @@
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": true,
-        "gain": 10.81,
-        "pct": 1.82
+        "gain": 12.25,
+        "pct": 1.81
        },
        {
         "id": "elemental_sharpening_stone",
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": false,
-        "gain": 9.99,
-        "pct": 1.68
+        "gain": 11.71,
+        "pct": 1.73
        },
        {
         "id": "brilliant_wizard_oil",
@@ -4045,16 +4140,16 @@
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 9.25,
-       "pct": 1.53
+       "gain": 10.67,
+       "pct": 1.55
       },
       {
        "id": "juju_power",
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 7.63,
-       "pct": 1.26
+       "gain": 8.8,
+       "pct": 1.28
       },
       {
        "id": "mageblood_potion",
@@ -4086,51 +4181,51 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 29.38,
+      "base": 29.52,
       "points": [
        [
-        29.38,
-        605.27,
+        29.52,
+        690.51,
         0
        ],
        [
-        31.88,
-        618.1,
+        32.02,
+        705.61,
         35
        ],
        [
-        34.38,
-        631.09,
+        34.52,
+        720.54,
         70
        ],
        [
-        36.88,
-        642.02,
+        37.02,
+        733.88,
         105
        ],
        [
-        39.38,
-        652.04,
+        39.52,
+        745.69,
         140
        ],
        [
-        41.88,
-        659.53,
+        42.02,
+        754.39,
         175
        ],
        [
-        44.38,
-        665.47,
+        44.52,
+        760.68,
         210
        ],
        [
-        46.88,
-        671.55,
+        47.02,
+        766.93,
         245
        ],
        [
-        49.38,
-        677.6,
+        49.52,
+        773.45,
         280
        ]
       ],
@@ -4140,55 +4235,55 @@
      {
       "stat": "hitrtng",
       "unit": "pct",
-      "base": 9,
+      "base": 9.3,
       "points": [
        [
-        9,
-        605.27,
+        9.3,
+        690.51,
         0
        ],
        [
-        11.3,
-        614.39,
+        11.6,
+        702.55,
         23
        ],
        [
-        13.5,
-        622.18,
+        13.8,
+        710.01,
         45
        ],
        [
-        15.8,
-        628.88,
+        16.1,
+        719.97,
         68
        ],
        [
-        18,
-        635.38,
+        18.3,
+        729.81,
         90
        ],
        [
-        20.3,
-        642.37,
+        20.6,
+        738.5,
         113
        ],
        [
-        22.5,
-        650.52,
+        22.8,
+        748.51,
         135
        ],
        [
-        24.8,
-        654.02,
+        25.1,
+        752.49,
         158
        ],
        [
-        27,
-        654.02,
+        27.3,
+        752.49,
         180
        ]
       ],
-      "cap": 24.8,
+      "cap": 25.1,
       "capAdd": 158
      },
      {
@@ -4198,47 +4293,47 @@
       "points": [
        [
         0,
-        605.27,
+        690.51,
         0
        ],
        [
         2.5,
-        613.71,
+        696.96,
         25
        ],
        [
         5,
-        620.81,
+        707.25,
         50
        ],
        [
         7.5,
-        628.58,
+        713.67,
         75
        ],
        [
         10,
-        635.42,
+        722.55,
         100
        ],
        [
         12.5,
-        643.43,
+        730.09,
         125
        ],
        [
         15,
-        650.76,
+        738.32,
         150
        ],
        [
         17.5,
-        657.53,
+        746.83,
         175
        ],
        [
         20,
-        664.09,
+        754.62,
         200
        ]
       ],
@@ -4252,47 +4347,47 @@
       "points": [
        [
         0,
-        605.27,
+        690.51,
         0
        ],
        [
         15,
-        611.74,
+        698.59,
         15
        ],
        [
         30,
-        618.77,
+        706.25,
         30
        ],
        [
         45,
-        625.46,
+        714.6,
         45
        ],
        [
         60,
-        632.53,
+        722.32,
         60
        ],
        [
         75,
-        639.23,
+        730.54,
         75
        ],
        [
         90,
-        646.42,
+        738.35,
         90
        ],
        [
         105,
-        653.32,
+        746.8,
         105
        ],
        [
         120,
-        660.45,
+        754.76,
         120
        ]
       ],
@@ -4306,47 +4401,47 @@
       "points": [
        [
         0,
-        605.27,
+        690.51,
         0
        ],
        [
         15,
-        609.2,
+        695.05,
         15
        ],
        [
         30,
-        612.9,
+        699.33,
         30
        ],
        [
         45,
-        616.83,
+        703.87,
         45
        ],
        [
         60,
-        620.53,
+        708.14,
         60
        ],
        [
         75,
-        624.46,
+        712.68,
         75
        ],
        [
         90,
-        628.15,
+        716.95,
         90
        ],
        [
         105,
-        632.08,
+        721.49,
         105
        ],
        [
         120,
-        635.78,
+        725.77,
         120
        ]
       ],
@@ -4360,47 +4455,47 @@
       "points": [
        [
         0,
-        605.27,
+        690.51,
         0
        ],
        [
         50,
-        616.83,
+        703.87,
         50
        ],
        [
         100,
-        628.39,
+        717.22,
         100
        ],
        [
         150,
-        639.94,
+        730.58,
         150
        ],
        [
         200,
-        651.5,
+        743.93,
         200
        ],
        [
         250,
-        663.06,
+        757.28,
         250
        ],
        [
         300,
-        674.62,
+        770.64,
         300
        ],
        [
         350,
-        686.18,
+        783.99,
         350
        ],
        [
         400,
-        697.73,
+        797.34,
         400
        ]
       ],
@@ -4411,83 +4506,88 @@
     "procs": [
      {
       "name": "Instant Poison",
-      "perMin": 10
+      "perMin": 11.2
      },
      {
       "name": "Deadly Poison",
-      "perMin": 18.3
+      "perMin": 17.9
      }
     ],
     "talentValues": {
-     "Improved Eviscerate": {
-      "gain": 14.48,
-      "pct": 2.39
+     "Malice": {
+      "gain": 29.82,
+      "pct": 4.32
      },
-     "Improved Sinister Strike": {
-      "gain": 35.88,
-      "pct": 5.92
+     "Ruthlessness": {
+      "gain": 17.22,
+      "pct": 2.5
      },
-     "Lightning Reflexes": null,
+     "Improved Slice and Dice": {
+      "gain": 31.96,
+      "pct": 4.63
+     },
+     "Vigor": {
+      "gain": 0.75,
+      "pct": 0.11
+     },
+     "Lethality": {
+      "gain": 9.58,
+      "pct": 1.39
+     },
+     "Cold Blood": {
+      "gain": 1.98,
+      "pct": 0.29
+     },
+     "Coup de Grace": {
+      "gain": 14.64,
+      "pct": 2.12
+     },
+     "Efficient Strikes": {
+      "gain": 33.93,
+      "pct": 4.92
+     },
+     "Deflection": null,
      "Precision": {
-      "gain": 10.48,
-      "pct": 1.73
+      "gain": 12.49,
+      "pct": 1.81
      },
-     "Puncturing Wounds": {
+     "Improved Sprint": null,
+     "Endurance": null,
+     "Composure": {
       "gain": 0,
       "pct": 0
      },
      "Flawless Execution": {
-      "gain": 18.09,
-      "pct": 2.99
-     },
-     "Dual Wield Specialization": {
-      "gain": 40.33,
-      "pct": 6.66
-     },
-     "Deflection": null,
-     "Blade Flurry": {
-      "gain": 2.06,
-      "pct": 0.34
-     },
-     "Hack and Slash": {
-      "gain": 20.2,
-      "pct": 3.34
+      "gain": 15.75,
+      "pct": 2.28
      },
      "Weapon Expertise": {
-      "gain": 8.79,
-      "pct": 1.45
+      "gain": 11.3,
+      "pct": 1.64
      },
      "Aggression": {
-      "gain": 34.66,
-      "pct": 5.72
+      "gain": 36.44,
+      "pct": 5.28
+     },
+     "Dual Wield Specialization": {
+      "gain": 40.98,
+      "pct": 5.94
+     },
+     "Blade Flurry": {
+      "gain": 4.72,
+      "pct": 0.68
+     },
+     "Hack and Slash": {
+      "gain": 22.56,
+      "pct": 3.27
+     },
+     "Flash of Steel": {
+      "gain": 63.4,
+      "pct": 9.19
      },
      "Adrenaline Rush": {
-      "gain": 19.97,
-      "pct": 3.3
-     },
-     "Malice": {
-      "gain": 25.42,
-      "pct": 4.2
-     },
-     "Ruthlessness": {
-      "gain": 22.38,
-      "pct": 3.7
-     },
-     "Improved Slice and Dice": {
-      "gain": 28.59,
-      "pct": 4.72
-     },
-     "Lethality": {
-      "gain": 8.75,
-      "pct": 1.45
-     },
-     "Relentless Strikes": {
-      "gain": 39.64,
-      "pct": 6.55
-     },
-     "Improved Poisons": {
-      "gain": 2.65,
-      "pct": 0.44
+      "gain": 17,
+      "pct": 2.46
      }
     },
     "alt": null,
@@ -4564,6 +4664,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -4633,21 +4738,19 @@
     },
     "stats": {
      "prim": {
-      "str": 225,
-      "agi": 562,
-      "sta": 292,
+      "str": 218,
+      "agi": 566,
+      "sta": 302,
       "int": 94,
-      "spi": 136
+      "spi": 133
      },
-     "ap": 1349,
-     "crit": 0.2937931034482759,
-     "hit": 0.09,
+     "ap": 1346,
+     "crit": 0.2951724137931035,
+     "hit": 0.09300000000000001,
      "haste": 1,
      "armor": 976
     },
-    "effects": [
-     "Smokey's Lighter"
-    ],
+    "effects": [],
     "uptimes": [
      [
       "Slice and Dice",
@@ -4660,64 +4763,68 @@
      [
       "Adrenaline Rush",
       0.08
+     ],
+     [
+      "Windfury Totem attack power",
+      0.07
      ]
     ],
     "abilities": [
      {
       "name": "Sinister Strike",
-      "dps": 182.4,
-      "casts": 58.2,
-      "hits": 55.6,
-      "crit": 0.295
+      "dps": 191.5,
+      "casts": 60.5,
+      "hits": 57.7,
+      "crit": 0.307
      },
      {
       "name": "White (main hand)",
-      "dps": 149.1,
+      "dps": 150.8,
       "casts": 0,
-      "hits": 63.6,
-      "crit": 0.367
+      "hits": 63.8,
+      "crit": 0.368
      },
      {
       "name": "White (off-hand)",
-      "dps": 121.2,
+      "dps": 123,
       "casts": 0,
-      "hits": 111.3,
+      "hits": 111.8,
       "crit": 0.43
      },
      {
       "name": "Eviscerate",
-      "dps": 83.6,
-      "casts": 8.6,
-      "hits": 8.2,
-      "crit": 0.295
+      "dps": 87.9,
+      "casts": 9,
+      "hits": 8.6,
+      "crit": 0.293
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 64.1,
+      "casts": 30.1,
+      "hits": 24.4,
+      "crit": 0.369
      },
      {
       "name": "Deadly Poison",
-      "dps": 33.1,
-      "casts": 35.7,
-      "hits": 53,
+      "dps": 31.9,
+      "casts": 33.6,
+      "hits": 52.1,
       "crit": 0.01
      },
      {
       "name": "Shank",
-      "dps": 18.3,
-      "casts": 17.7,
-      "hits": 17.7,
+      "dps": 22.5,
+      "casts": 21.7,
+      "hits": 21.7,
       "crit": 0.297
      },
      {
       "name": "Instant Poison",
-      "dps": 16.2,
-      "casts": 30.1,
-      "hits": 28.6,
+      "dps": 18.1,
+      "casts": 33.5,
+      "hits": 31.9,
       "crit": 0.01
-     },
-     {
-      "name": "Smokey's Lighter",
-      "dps": 1.8,
-      "casts": 2,
-      "hits": 1.7,
-      "crit": 0
      }
     ],
     "opening": [
@@ -4728,12 +4835,12 @@
      },
      {
       "t": 3,
-      "n": "Shank",
+      "n": "Sinister Strike",
       "x": 1
      },
      {
       "t": 4,
-      "n": "Sinister Strike",
+      "n": "Shank",
       "x": 1
      },
      {
@@ -4752,28 +4859,28 @@
       "x": 1
      },
      {
-      "t": 8.9,
-      "n": "Sinister Strike",
-      "x": 1
-     },
-     {
-      "t": 9.9,
+      "t": 8,
       "n": "Eviscerate",
       "x": 1
      },
      {
-      "t": 10.9,
+      "t": 9,
       "n": "Sinister Strike",
       "x": 1
      },
      {
-      "t": 12.7,
+      "t": 10.5,
       "n": "Sinister Strike",
       "x": 1
      },
      {
-      "t": 13.7,
+      "t": 12,
       "n": "Shank",
+      "x": 1
+     },
+     {
+      "t": 13,
+      "n": "Sinister Strike",
       "x": 1
      }
     ]
@@ -4783,44 +4890,49 @@
    "spec": "rogue_assassination",
    "class": "rogue",
    "role": "dps",
-   "dps": 650.1,
-   "sem": 0.34,
+   "dps": 668.8,
+   "sem": 0.42,
    "name": "Assassination Rogue",
    "spells": [
     [
-     "Mutilate",
-     181.7,
-     39
+     "Sinister Strike",
+     176.6,
+     58
     ],
     [
      "White (main hand)",
-     140.3,
+     140.9,
      0
     ],
     [
      "Eviscerate",
-     115.8,
-     13.5
+     113.1,
+     11.6
     ],
     [
      "White (off-hand)",
-     100.1,
+     68.7,
      0
     ],
     [
+     "Windfury Totem",
+     58.1,
+     28.2
+    ],
+    [
      "Deadly Poison",
-     55.4,
-     51.6
+     47.9,
+     40.6
     ],
     [
      "Instant Poison",
-     40.4,
-     51.7
+     43.6,
+     58
     ],
     [
      "Shank",
-     14.6,
-     18
+     18.1,
+     17.8
     ],
     [
      "Smokey's Lighter",
@@ -4891,15 +5003,33 @@
        "fr": "Assassinat"
       },
       "name": {
-       "en": "Relentless Strikes",
-       "fr": "Frappes implacables"
+       "en": "Vigor",
+       "fr": "Vigueur"
       },
-      "rank": 5,
-      "max": 5,
+      "rank": 1,
+      "max": 2,
       "row": 3,
       "desc": {
-       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
-       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+       "en": "Increases your maximum Energy by 5.",
+       "fr": "Augmente votre maximum de points d’énergie de 5."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Blood Splatter",
+       "fr": "Blood Splatter"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 3,
+      "desc": {
+       "en": "Increases the duration of your Rupture by 6 sec and of your Garrote by 9 sec.",
+       "fr": "Augmente de 6 s la durée de votre Rupture et de 9 s celle de votre Garrot."
       }
      },
      {
@@ -4930,12 +5060,12 @@
        "en": "Vile Poisons",
        "fr": "Poisons abominables"
       },
-      "rank": 5,
+      "rank": 3,
       "max": 5,
       "row": 4,
       "desc": {
-       "en": "Increases the damage dealt by your poisons by 20% and gives your poisons an additional 40% chance to resist dispel effects.",
-       "fr": "Augmente de 20 % les dégâts infligés par vos poisons et confère à ces derniers 40 % de chances supplémentaires de résister aux effets de dissipation."
+       "en": "Increases the damage dealt by your poisons by 12% and gives your poisons an additional 24% chance to resist dispel effects.",
+       "fr": "Augmente de 12 % les dégâts infligés par vos poisons et confère à ces derniers 24 % de chances supplémentaires de résister aux effets de dissipation."
       }
      },
      {
@@ -4963,15 +5093,15 @@
        "fr": "Assassinat"
       },
       "name": {
-       "en": "Mutilate",
-       "fr": "Estropier"
+       "en": "Improved Poisons",
+       "fr": "Poisons améliorés"
       },
-      "rank": 1,
-      "max": 1,
-      "row": 5,
+      "rank": 2,
+      "max": 5,
+      "row": 4,
       "desc": {
-       "en": "Instantly attacks with both weapons for 75% weapon damage plus an additional 17.2 with each weapon. Damage increased by 20% against Poisoned targets. Awards 2 Combo Points.",
-       "fr": "Attaque instantanément avec les deux armes et inflige 75 % des dégâts des armes plus 17,2 points de dégâts avec chacune d’elles. Dégâts augmentés de 20 % contre les cibles empoisonnées. Confère 2 points de combo."
+       "en": "Increases the chance to apply Poisons to your target by 4%, and gives Poison applications a 20% chance to not consume a charge.",
+       "fr": "Augmente de 4 % vos chances d’appliquer des poisons à votre cible et confère aux applications de poison 20 % de chances de ne pas consommer de charge."
       }
      },
      {
@@ -4981,15 +5111,33 @@
        "fr": "Assassinat"
       },
       "name": {
-       "en": "Vigor",
-       "fr": "Vigueur"
+       "en": "Relentless Strikes",
+       "fr": "Frappes implacables"
       },
-      "rank": 2,
-      "max": 2,
+      "rank": 5,
+      "max": 5,
       "row": 5,
       "desc": {
-       "en": "Increases your maximum Energy by 10.",
-       "fr": "Augmente votre maximum de points d’énergie de 10."
+       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
+       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Venom",
+       "fr": "Toxine"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 5,
+      "desc": {
+       "en": "Passive. Your Shank ability increases your Poison damage by 30% and your chance to apply Poisons by 20% for 6 sec.",
+       "fr": "Passif. Votre technique Shank augmente de 30 % les dégâts de vos poisons et de 20 % vos chances d’appliquer des poisons pendant 6 s."
       }
      },
      {
@@ -5017,15 +5165,15 @@
        "fr": "Assassinat"
       },
       "name": {
-       "en": "Venom",
-       "fr": "Toxine"
+       "en": "Mutilate",
+       "fr": "Estropier"
       },
       "rank": 1,
       "max": 1,
       "row": 7,
       "desc": {
-       "en": "Finishing move that increases the damage of your Poisons by 30% and your chance to apply Poisons by 10%. Lasts longer per combo point: 1 point : 9 sec 2 points: 12 sec 3 points: 15 sec 4 points: 18 sec 5 points: 21 sec",
-       "fr": "Coup de grâce qui augmente les dégâts infligés par vos poisons de 30 % et vos chances d’appliquer des poisons de 10 %. La durée dépend du nombre de points de combo : 1 point : 9 s 2 points : 12 s 3 points : 15 s 4 points : 18 s 5 points : 21 s"
+       "en": "Instantly attacks with both weapons for 75% weapon damage plus an additional 17.2 with each weapon. Damage increased by 20% against Poisoned targets. Awards 2 Combo Points.",
+       "fr": "Attaque instantanément avec les deux armes et inflige 75 % des dégâts des armes plus 17,2 points de dégâts avec chacune d’elles. Dégâts augmentés de 20 % contre les cibles empoisonnées. Confère 2 points de combo."
       }
      },
      {
@@ -5035,15 +5183,15 @@
        "fr": "Combat"
       },
       "name": {
-       "en": "Improved Eviscerate",
-       "fr": "Éviscération améliorée"
+       "en": "Coup de Grace",
+       "fr": "Coup de Grace"
       },
       "rank": 3,
       "max": 3,
       "row": 1,
       "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
       }
      },
      {
@@ -5053,51 +5201,15 @@
        "fr": "Combat"
       },
       "name": {
-       "en": "Improved Sinister Strike",
-       "fr": "Attaque pernicieuse améliorée"
+       "en": "Efficient Strikes",
+       "fr": "Efficient Strikes"
       },
       "rank": 2,
       "max": 2,
       "row": 1,
       "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
        "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Lightning Reflexes",
-       "fr": "Réflexes-éclairs"
-      },
-      "rank": 5,
-      "max": 5,
-      "row": 1,
-      "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Precision",
-       "fr": "Précision"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Improves your chance to hit by 3%.",
-       "fr": "Améliore vos chances de toucher de 3 %."
       }
      },
      {
@@ -5125,15 +5237,51 @@
        "fr": "Combat"
       },
       "name": {
-       "en": "Dual Wield Specialization",
-       "fr": "Spécialisation Ambidextrie"
+       "en": "Precision",
+       "fr": "Précision"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Improves your chance to hit by 3%.",
+       "fr": "Améliore vos chances de toucher de 3 %."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Endurance",
+       "fr": "Endurcissement"
       },
       "rank": 2,
       "max": 2,
-      "row": 4,
+      "row": 3,
       "desc": {
-       "en": "Increases the damage done by your off-hand weapon by 50%.",
-       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
+       "en": "Reduces the cooldown of your Sprint and Evasion abilities by 60%.",
+       "fr": "Réduit de 60 % le temps de recharge de vos techniques Sprint et Évasion."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Composure",
+       "fr": "Composure"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 3,
+      "desc": {
+       "en": "Poised reduces the energy cost of your next ability by 10 more.",
+       "fr": "Posé réduit de 10 points d’énergie supplémentaires le coût de votre prochaine technique."
       }
      },
      {
@@ -5161,21 +5309,40 @@
        "fr": "Combat"
       },
       "name": {
-       "en": "Deflection",
-       "fr": "Déviation"
+       "en": "Aggression",
+       "fr": "Agressivité"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 4,
+      "desc": {
+       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
+       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
+      }
+     },
+     {
+      "tree": "subtlety",
+      "tree_name": {
+       "en": "Subtlety",
+       "fr": "Finesse"
+      },
+      "name": {
+       "en": "Opportunity",
+       "fr": "Opportunité"
       },
       "rank": 1,
-      "max": 3,
-      "row": 2,
+      "max": 5,
+      "row": 1,
       "desc": {
-       "en": "Increases your Parry chance by 2%.",
-       "fr": "Augmente vos chances de parer de 2%."
+       "en": "Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by 4%.",
+       "fr": "Augmente de 4 % les dégâts infligés avec vos techniques Attaque sournoise, Garrot, Embuscade et Estropier."
       }
      }
     ],
     "trees": {
      "assassination": 31,
-     "combat": 20
+     "combat": 19,
+     "subtlety": 1
     },
     "items": [
      {
@@ -5200,11 +5367,12 @@
      },
      {
       "slot": "shoulder",
-      "id": 16708,
-      "name": "Shadowcraft Spaulders",
-      "zone": "Stratholme",
+      "id": 22241,
+      "name": "Dark Warder's Pauldrons",
+      "zone": "Blackrock Depths",
       "from": "dungeon",
-      "ilvl": 60,
+      "src": "Warder Stilgiss",
+      "ilvl": 57,
       "q": 3
      },
      {
@@ -5241,13 +5409,13 @@
      },
      {
       "slot": "hands",
-      "id": 19049,
-      "name": "Timbermaw Brawlers",
+      "id": 19686,
+      "name": "Primal Batskin Gloves",
       "zone": "leatherworking",
       "from": "craft",
       "skill": 300,
-      "src": "Timbermaw Brawlers",
-      "ilvl": 56,
+      "src": "Primal Batskin Gloves",
+      "ilvl": 60,
       "q": 3
      },
      {
@@ -5313,13 +5481,13 @@
      },
      {
       "slot": "mh",
-      "id": 19166,
-      "name": "Black Amnesty",
+      "id": 22384,
+      "name": "Persuader",
       "zone": "blacksmithing",
       "from": "craft",
       "skill": 300,
-      "src": "Black Amnesty",
-      "ilvl": 60,
+      "src": "Persuader",
+      "ilvl": 58,
       "q": 4
      },
      {
@@ -5453,37 +5621,37 @@
     "weights": [
      {
       "stat": "critstrkrtng",
-      "per": 5.478,
+      "per": 6.666,
       "unit": "pct",
-      "rel": 24.9
+      "rel": 27.89
      },
      {
       "stat": "hitrtng",
-      "per": 3.949,
+      "per": 4.775,
       "unit": "pct",
-      "rel": 17.95
+      "rel": 19.98
      },
      {
       "stat": "hastertng",
-      "per": 2.611,
+      "per": 3.791,
       "unit": "pct",
-      "rel": 11.87
+      "rel": 15.86
      },
      {
       "stat": "agi",
-      "per": 0.456,
+      "per": 0.519,
       "unit": "pt",
-      "rel": 2.07
+      "rel": 2.17
      },
      {
       "stat": "str",
-      "per": 0.242,
+      "per": 0.263,
       "unit": "pt",
       "rel": 1.1
      },
      {
       "stat": "atkpwr",
-      "per": 0.22,
+      "per": 0.239,
       "unit": "pt",
       "rel": 1
      },
@@ -5508,16 +5676,16 @@
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": true,
-        "gain": 6.74,
-        "pct": 1.05
+        "gain": 8.74,
+        "pct": 1.33
        },
        {
         "id": "scroll_strength",
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 4.16,
-        "pct": 0.65
+        "gain": 4.51,
+        "pct": 0.68
        },
        {
         "id": "scroll_intellect",
@@ -5550,40 +5718,40 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": true,
-        "gain": 24.62,
-        "pct": 3.94
+        "gain": 27.54,
+        "pct": 4.3
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 22.65,
-        "pct": 3.62
+        "gain": 25.09,
+        "pct": 3.92
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 17.93,
-        "pct": 2.87
+        "gain": 18.76,
+        "pct": 2.93
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 11.83,
-        "pct": 1.89
+        "gain": 12.15,
+        "pct": 1.9
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 10.66,
-        "pct": 1.7
+        "gain": 11.57,
+        "pct": 1.81
        },
        {
         "id": "flask_ancient_knowledge",
@@ -5616,16 +5784,16 @@
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": true,
-        "gain": 10.33,
-        "pct": 1.62
+        "gain": 12.82,
+        "pct": 1.96
        },
        {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": false,
-        "gain": 6.11,
-        "pct": 0.96
+        "gain": 6.62,
+        "pct": 1.01
        },
        {
         "id": "food_spell_power",
@@ -5646,20 +5814,20 @@
       ],
       "oil": [
        {
-        "id": "dense_stone",
-        "sid": 16138,
-        "name": "Dense Sharpening / Weight Stone",
-        "chosen": true,
-        "gain": 12.61,
-        "pct": 1.98
-       },
-       {
         "id": "elemental_sharpening_stone",
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
+        "chosen": true,
+        "gain": 13.08,
+        "pct": 2
+       },
+       {
+        "id": "dense_stone",
+        "sid": 16138,
+        "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 10.74,
-        "pct": 1.69
+        "gain": 9.49,
+        "pct": 1.45
        },
        {
         "id": "brilliant_wizard_oil",
@@ -5685,16 +5853,16 @@
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 8.8,
-       "pct": 1.35
+       "gain": 9.55,
+       "pct": 1.43
       },
       {
        "id": "juju_power",
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 7.26,
-       "pct": 1.12
+       "gain": 7.88,
+       "pct": 1.18
       },
       {
        "id": "mageblood_potion",
@@ -5726,51 +5894,51 @@
      {
       "stat": "critstrkrtng",
       "unit": "pct",
-      "base": 30,
+      "base": 32.66,
       "points": [
        [
-        30,
-        650.67,
+        32.66,
+        667.41,
         0
        ],
        [
-        32.5,
-        664.45,
+        35.16,
+        682.67,
         35
        ],
        [
-        35,
-        678.38,
+        37.66,
+        699.88,
         70
        ],
        [
-        37.5,
-        687.1,
+        40.16,
+        712.91,
         105
        ],
        [
-        40,
-        693.23,
+        42.66,
+        721.81,
         140
        ],
        [
-        42.5,
-        699.56,
+        45.16,
+        732.88,
         175
        ],
        [
-        45,
-        705.9,
+        47.66,
+        740.56,
         210
        ],
        [
-        47.5,
-        713.52,
+        50.16,
+        750.55,
         245
        ],
        [
-        50,
-        720.07,
+        52.66,
+        761.35,
         280
        ]
       ],
@@ -5780,56 +5948,56 @@
      {
       "stat": "hitrtng",
       "unit": "pct",
-      "base": 6.5,
+      "base": 9.3,
       "points": [
        [
-        6.5,
-        650.67,
+        9.3,
+        667.41,
         0
        ],
        [
-        8.8,
-        659.51,
+        11.6,
+        679.28,
         23
        ],
        [
-        11,
-        665.3,
+        13.8,
+        686.3,
         45
        ],
        [
-        13.3,
-        674.97,
+        16.1,
+        695.68,
         68
        ],
        [
-        15.5,
-        681.94,
+        18.3,
+        704.77,
         90
        ],
        [
-        17.8,
-        689.28,
+        20.6,
+        712.69,
         113
        ],
        [
-        20,
-        695.64,
+        22.8,
+        720.58,
         135
        ],
        [
-        22.3,
-        703.39,
+        25.1,
+        724.85,
         158
        ],
        [
-        24.5,
-        708.49,
+        27.3,
+        724.85,
         180
        ]
       ],
-      "cap": null,
-      "capAdd": null
+      "cap": 25.1,
+      "capAdd": 158
      },
      {
       "stat": "hastertng",
@@ -5838,47 +6006,47 @@
       "points": [
        [
         0,
-        650.67,
+        667.41,
         0
        ],
        [
         2.5,
-        656.98,
+        675.88,
         25
        ],
        [
         5,
-        663.18,
+        683.65,
         50
        ],
        [
         7.5,
-        672.09,
+        692.13,
         75
        ],
        [
         10,
-        677.5,
+        698.28,
         100
        ],
        [
         12.5,
-        685.97,
+        705,
         125
        ],
        [
         15,
-        692.44,
+        709.66,
         150
        ],
        [
         17.5,
-        697.72,
+        715.52,
         175
        ],
        [
         20,
-        704.63,
+        722.38,
         200
        ]
       ],
@@ -5892,47 +6060,47 @@
       "points": [
        [
         0,
-        650.67,
+        667.41,
         0
        ],
        [
         15,
-        657.72,
+        675.39,
         15
        ],
        [
         30,
-        664.1,
+        682.52,
         30
        ],
        [
         45,
-        670.87,
+        690.17,
         45
        ],
        [
         60,
-        677.84,
+        697.1,
         60
        ],
        [
         75,
-        685.03,
+        705.8,
         75
        ],
        [
         90,
-        691.74,
+        713.78,
         90
        ],
        [
         105,
-        699.26,
+        722.25,
         105
        ],
        [
         120,
-        706.09,
+        729.97,
         120
        ]
       ],
@@ -5946,47 +6114,47 @@
       "points": [
        [
         0,
-        650.67,
+        667.41,
         0
        ],
        [
         15,
-        654.41,
+        671.47,
         15
        ],
        [
         30,
-        657.93,
+        675.28,
         30
        ],
        [
         45,
-        661.68,
+        679.34,
         45
        ],
        [
         60,
-        665.2,
+        683.16,
         60
        ],
        [
         75,
-        668.94,
+        687.21,
         75
        ],
        [
         90,
-        672.46,
+        691.03,
         90
        ],
        [
         105,
-        676.21,
+        695.09,
         105
        ],
        [
         120,
-        679.73,
+        698.9,
         120
        ]
       ],
@@ -6000,47 +6168,47 @@
       "points": [
        [
         0,
-        650.67,
+        667.41,
         0
        ],
        [
         50,
-        661.68,
+        679.34,
         50
        ],
        [
         100,
-        672.68,
+        691.27,
         100
        ],
        [
         150,
-        683.69,
+        703.2,
         150
        ],
        [
         200,
-        694.7,
+        715.13,
         200
        ],
        [
         250,
-        705.71,
+        727.06,
         250
        ],
        [
         300,
-        716.71,
+        738.99,
         300
        ],
        [
         350,
-        727.72,
+        750.91,
         350
        ],
        [
         400,
-        738.73,
+        762.84,
         400
        ]
       ],
@@ -6051,84 +6219,99 @@
     "procs": [
      {
       "name": "Instant Poison",
-      "perMin": 17.2
+      "perMin": 19.3
      },
      {
       "name": "Deadly Poison",
-      "perMin": 20.3
+      "perMin": 19
      }
     ],
     "talentValues": {
      "Malice": {
-      "gain": 27.42,
-      "pct": 4.22
+      "gain": 31.21,
+      "pct": 4.67
      },
      "Ruthlessness": {
-      "gain": 19.5,
-      "pct": 3
+      "gain": 26.32,
+      "pct": 3.94
      },
      "Improved Slice and Dice": {
-      "gain": 24.75,
-      "pct": 3.8
-     },
-     "Relentless Strikes": {
-      "gain": 62.07,
-      "pct": 9.54
-     },
-     "Lethality": {
-      "gain": 11.29,
-      "pct": 1.74
-     },
-     "Vile Poisons": {
-      "gain": 15.98,
-      "pct": 2.46
-     },
-     "Cold Blood": {
-      "gain": 3.36,
-      "pct": 0.52
-     },
-     "Mutilate": {
-      "gain": 49.43,
-      "pct": 7.6
+      "gain": 28.56,
+      "pct": 4.28
      },
      "Vigor": {
-      "gain": 2.09,
-      "pct": 0.32
+      "gain": 0.98,
+      "pct": 0.15
      },
-     "Seal Fate": {
-      "gain": 21.41,
-      "pct": 3.29
-     },
-     "Venom": {
-      "gain": 39.87,
-      "pct": 6.13
-     },
-     "Improved Eviscerate": {
-      "gain": 20.16,
-      "pct": 3.1
-     },
-     "Improved Sinister Strike": {
+     "Blood Splatter": {
       "gain": 0,
       "pct": 0
      },
-     "Lightning Reflexes": null,
-     "Precision": {
-      "gain": 15,
-      "pct": 2.31
+     "Lethality": {
+      "gain": 9.28,
+      "pct": 1.39
+     },
+     "Vile Poisons": {
+      "gain": 9.8,
+      "pct": 1.47
+     },
+     "Cold Blood": {
+      "gain": 2.31,
+      "pct": 0.35
+     },
+     "Improved Poisons": {
+      "gain": 5.92,
+      "pct": 0.89
+     },
+     "Relentless Strikes": {
+      "gain": 57.49,
+      "pct": 8.61
+     },
+     "Venom": {
+      "gain": 34.48,
+      "pct": 5.16
+     },
+     "Seal Fate": {
+      "gain": 38.13,
+      "pct": 5.71
+     },
+     "Mutilate": {
+      "gain": 0,
+      "pct": 0
+     },
+     "Coup de Grace": {
+      "gain": 18.73,
+      "pct": 2.8
+     },
+     "Efficient Strikes": {
+      "gain": 42.47,
+      "pct": 6.36
      },
      "Puncturing Wounds": {
-      "gain": 27.63,
-      "pct": 4.25
+      "gain": 0,
+      "pct": 0
      },
-     "Dual Wield Specialization": {
-      "gain": 78.79,
-      "pct": 12.11
+     "Precision": {
+      "gain": 11.11,
+      "pct": 1.66
+     },
+     "Endurance": null,
+     "Composure": {
+      "gain": 1.09,
+      "pct": 0.16
      },
      "Flawless Execution": {
-      "gain": 33.75,
-      "pct": 5.19
+      "gain": 28.71,
+      "pct": 4.3
      },
-     "Deflection": null
+     "Aggression": {
+      "gain": 37.67,
+      "pct": 5.64
+     },
+     "Opportunity": {
+      "gain": 0,
+      "pct": 0
+     }
     },
     "alt": null,
     "setup": {
@@ -6204,6 +6387,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -6245,9 +6433,11 @@
        "sta": 10
       },
       {
-       "id": "dense_stone",
-       "name": "Dense Sharpening / Weight Stone",
-       "sid": 16138
+       "id": "elemental_sharpening_stone",
+       "name": "Elemental Sharpening Stone",
+       "sid": 22756,
+       "crit": 0.02,
+       "meleeOnly": true
       }
      ],
      "debuffs": [
@@ -6273,15 +6463,15 @@
     },
     "stats": {
      "prim": {
-      "str": 229,
-      "agi": 580,
-      "sta": 304,
+      "str": 218,
+      "agi": 570,
+      "sta": 302,
       "int": 94,
       "spi": 133
      },
-     "ap": 1371,
-     "crit": 0.30000000000000004,
-     "hit": 0.065,
+     "ap": 1350,
+     "crit": 0.32655172413793104,
+     "hit": 0.09300000000000001,
      "haste": 1,
      "armor": 976
     },
@@ -6291,71 +6481,82 @@
     "uptimes": [
      [
       "Slice and Dice",
-      0.97
+      0.98
+     ],
+     [
+      "Windfury Totem attack power",
+      0.07
      ]
     ],
     "abilities": [
      {
-      "name": "Mutilate",
-      "dps": 181.7,
-      "casts": 39,
-      "hits": 36.4,
-      "crit": 0.458
+      "name": "Sinister Strike",
+      "dps": 176.6,
+      "casts": 58,
+      "hits": 54.2,
+      "crit": 0.336
      },
      {
       "name": "White (main hand)",
-      "dps": 140.3,
+      "dps": 140.9,
       "casts": 0,
-      "hits": 101.7,
-      "crit": 0.397
+      "hits": 60,
+      "crit": 0.417
      },
      {
       "name": "Eviscerate",
-      "dps": 115.8,
-      "casts": 13.5,
-      "hits": 12.6,
-      "crit": 0.332
+      "dps": 113.1,
+      "casts": 11.6,
+      "hits": 10.9,
+      "crit": 0.346
      },
      {
       "name": "White (off-hand)",
-      "dps": 100.1,
+      "dps": 68.7,
       "casts": 0,
-      "hits": 85.6,
-      "crit": 0.398
+      "hits": 89,
+      "crit": 0.415
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 58.1,
+      "casts": 28.2,
+      "hits": 22.3,
+      "crit": 0.414
      },
      {
       "name": "Deadly Poison",
-      "dps": 55.4,
-      "casts": 51.6,
-      "hits": 57.1,
+      "dps": 47.9,
+      "casts": 40.6,
+      "hits": 55.2,
       "crit": 0.01
      },
      {
       "name": "Instant Poison",
-      "dps": 40.4,
-      "casts": 51.7,
-      "hits": 47.9,
+      "dps": 43.6,
+      "casts": 58,
+      "hits": 55.3,
       "crit": 0.01
      },
      {
       "name": "Shank",
-      "dps": 14.6,
-      "casts": 18,
-      "hits": 18,
-      "crit": 0.302
+      "dps": 18.1,
+      "casts": 17.8,
+      "hits": 17.8,
+      "crit": 0.328
      },
      {
       "name": "Smokey's Lighter",
       "dps": 1.8,
       "casts": 2,
-      "hits": 1.6,
+      "hits": 1.7,
       "crit": 0
      }
     ],
     "opening": [
      {
       "t": 0,
-      "n": "Mutilate",
+      "n": "Sinister Strike",
       "x": 1
      },
      {
@@ -6365,26 +6566,36 @@
      },
      {
       "t": 3,
-      "n": "Mutilate",
+      "n": "Sinister Strike",
+      "x": 1
+     },
+     {
+      "t": 4,
+      "n": "Sinister Strike",
       "x": 1
      },
      {
       "t": 5,
-      "n": "Mutilate",
+      "n": "Sinister Strike",
       "x": 1
      },
      {
-      "t": 7,
+      "t": 6.4,
       "n": "Eviscerate",
       "x": 1
      },
      {
-      "t": 10.5,
-      "n": "Mutilate",
+      "t": 7.9,
+      "n": "Sinister Strike",
       "x": 1
      },
      {
-      "t": 12.1,
+      "t": 11.9,
+      "n": "Sinister Strike",
+      "x": 1
+     },
+     {
+      "t": 12.9,
       "n": "Shank",
       "x": 1
      }
@@ -6395,44 +6606,59 @@
    "spec": "rogue_subtlety",
    "class": "rogue",
    "role": "dps",
-   "dps": 467.9,
-   "sem": 0.24,
+   "dps": 592.6,
+   "sem": 0.34,
    "name": "Subtlety Rogue",
    "spells": [
     [
      "White (main hand)",
-     131.5,
+     140.2,
      0
     ],
     [
      "Hemorrhage",
-     129.9,
-     63.4
+     114.2,
+     53.5
+    ],
+    [
+     "Death Mark",
+     104.2,
+     11.2
     ],
     [
      "White (off-hand)",
-     101.8,
+     74.1,
      0
     ],
     [
-     "Eviscerate",
-     41.1,
-     5.2
+     "Windfury Totem",
+     51.9,
+     25.4
+    ],
+    [
+     "Rupture",
+     39,
+     7.8
     ],
     [
      "Deadly Poison",
-     30.2,
-     31.4
+     27.5,
+     28
     ],
     [
      "Shank",
-     16.8,
-     17.8
+     17.6,
+     17.1
     ],
     [
      "Instant Poison",
-     14.7,
-     27.2
+     15.9,
+     29.4
+    ],
+    [
+     "Eviscerate",
+     6.1,
+     0.7
     ],
     [
      "Smokey's Lighter",
@@ -6443,21 +6669,147 @@
    "detail": {
     "talents": [
      {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Malice",
+       "fr": "Malice"
+      },
+      "rank": 5,
+      "max": 5,
+      "row": 1,
+      "desc": {
+       "en": "Increases your critical strike chance with all attacks and Poisons by 5%.",
+       "fr": "Augmente de 5 % vos chances d’infliger un coup critique avec vos attaques et poisons."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Ruthlessness",
+       "fr": "Némésis"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Gives your finishing moves a 60% chance to add a Combo Point to your target.",
+       "fr": "Confère à vos coups de grâce 60 % de chances de générer un point de combo sur votre cible."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Improved Slice and Dice",
+       "fr": "Débiter amélioré"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Increases the duration of your Slice and Dice ability by 45%.",
+       "fr": "Augmente la durée de votre technique Débiter de 45%."
+      }
+     },
+     {
+      "tree": "assassination",
+      "tree_name": {
+       "en": "Assassination",
+       "fr": "Assassinat"
+      },
+      "name": {
+       "en": "Blood Splatter",
+       "fr": "Blood Splatter"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 3,
+      "desc": {
+       "en": "Increases the duration of your Rupture by 6 sec and of your Garrote by 9 sec.",
+       "fr": "Augmente de 6 s la durée de votre Rupture et de 9 s celle de votre Garrot."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Coup de Grace",
+       "fr": "Coup de Grace"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 1,
+      "desc": {
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Efficient Strikes",
+       "fr": "Efficient Strikes"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 1,
+      "desc": {
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
+       "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
+      }
+     },
+     {
+      "tree": "combat",
+      "tree_name": {
+       "en": "Combat",
+       "fr": "Combat"
+      },
+      "name": {
+       "en": "Precision",
+       "fr": "Précision"
+      },
+      "rank": 3,
+      "max": 3,
+      "row": 2,
+      "desc": {
+       "en": "Improves your chance to hit by 3%.",
+       "fr": "Améliore vos chances de toucher de 3 %."
+      }
+     },
+     {
       "tree": "subtlety",
       "tree_name": {
        "en": "Subtlety",
        "fr": "Finesse"
       },
       "name": {
-       "en": "Camouflage",
-       "fr": "Dissimulation"
+       "en": "Setup",
+       "fr": "Préparatifs"
       },
-      "rank": 5,
-      "max": 5,
+      "rank": 3,
+      "max": 3,
       "row": 1,
       "desc": {
-       "en": "Reduces your speed penalty from your Stealth ability by 15% and reduces its cooldown by 6 sec.",
-       "fr": "Réduit de 15 % la pénalité affectant la vitesse de votre technique Camouflage et réduit son temps de recharge de 6 s."
+       "en": "Gives you a 100% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
+       "fr": "Vous confère 100 % de chances d’ajouter un point de combo à votre cible après avoir esquivé son attaque ou entièrement résisté à l’un de ses sorts."
       }
      },
      {
@@ -6485,15 +6837,15 @@
        "fr": "Finesse"
       },
       "name": {
-       "en": "Setup",
-       "fr": "Préparatifs"
+       "en": "Dirty Deeds",
+       "fr": "Coups fourrés"
       },
-      "rank": 3,
-      "max": 3,
+      "rank": 2,
+      "max": 2,
       "row": 2,
       "desc": {
-       "en": "Gives you a 100% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
-       "fr": "Vous confère 100 % de chances d’ajouter un point de combo à votre cible après avoir esquivé son attaque ou entièrement résisté à l’un de ses sorts."
+       "en": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by 20, and your Garrote ability no longer requires you to be behind your target.",
+       "fr": "Réduit de 20 le coût en énergie de vos techniques Coup bas et Garrot. De plus, votre technique Garrot ne requiert plus que vous vous placiez derrière la cible."
       }
      },
      {
@@ -6503,33 +6855,15 @@
        "fr": "Finesse"
       },
       "name": {
-       "en": "Improved Ambush",
-       "fr": "Embuscade améliorée"
+       "en": "Camouflage",
+       "fr": "Dissimulation"
       },
       "rank": 3,
       "max": 3,
       "row": 2,
       "desc": {
-       "en": "Increases the critical strike chance of your Ambush ability by 45%.",
-       "fr": "Augmente de 45 % les chances de coup critique de votre technique Embuscade."
-      }
-     },
-     {
-      "tree": "subtlety",
-      "tree_name": {
-       "en": "Subtlety",
-       "fr": "Finesse"
-      },
-      "name": {
-       "en": "Ghostly Strike",
-       "fr": "Frappe fantomatique"
-      },
-      "rank": 1,
-      "max": 1,
-      "row": 3,
-      "desc": {
-       "en": "A strike that deals 125% (180% if a Dagger is equipped in your Main Hand) weapon damage and increases your chance to dodge by 15% for 7 sec. Awards 1 combo point.",
-       "fr": "Une attaque qui inflige 125 % des dégâts de l’arme (180 % si une dague est équipée en main droite) et qui augmente vos chances d’esquiver de 15 % pendant 7 s. Vous gagnez 1 point de combo."
+       "en": "Reduces your speed penalty from your Stealth ability by 9% and reduces its cooldown by 4 sec.",
+       "fr": "Réduit de 9 % la pénalité affectant la vitesse de votre technique Camouflage et réduit son temps de recharge de 4 s."
       }
      },
      {
@@ -6557,12 +6891,30 @@
        "fr": "Finesse"
       },
       "name": {
+       "en": "Premeditation",
+       "fr": "Préméditation"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 3,
+      "desc": {
+       "en": "Adds 2 Combo Points to your target. You must add to or use those combo points within 20 sec or the combo points are lost.",
+       "fr": "Confère 2 points de combo à la cible. Vous devez accumuler d’autres points de combo ou les utiliser en moins de 20 s sinon les points de combo sont perdus."
+      }
+     },
+     {
+      "tree": "subtlety",
+      "tree_name": {
+       "en": "Subtlety",
+       "fr": "Finesse"
+      },
+      "name": {
        "en": "Serrated Blades",
        "fr": "Lames dentelées"
       },
       "rank": 3,
       "max": 3,
-      "row": 4,
+      "row": 3,
       "desc": {
        "en": "Causes your attacks to ignore 9% of your target's Armor and increases the damage dealt by your Rupture ability by 30%.",
        "fr": "Vos attaques ignorent 9 % de l’armure de votre cible. Augmente de 30 % les dégâts infligés par votre technique Rupture."
@@ -6575,15 +6927,51 @@
        "fr": "Finesse"
       },
       "name": {
-       "en": "Premeditation",
-       "fr": "Préméditation"
+       "en": "Elusiveness",
+       "fr": "Insaisissable"
+      },
+      "rank": 2,
+      "max": 2,
+      "row": 4,
+      "desc": {
+       "en": "Reduces the cooldown of your Vanish and Blind abilities by 90 sec.",
+       "fr": "Réduit le temps de recharge de vos techniques Disparition et Cécité de 90 sec."
+      }
+     },
+     {
+      "tree": "subtlety",
+      "tree_name": {
+       "en": "Subtlety",
+       "fr": "Finesse"
+      },
+      "name": {
+       "en": "Ghostly Strike",
+       "fr": "Frappe fantomatique"
       },
       "rank": 1,
       "max": 1,
       "row": 4,
       "desc": {
-       "en": "Adds 2 Combo Points to your target. You must add to or use those combo points within 20 sec or the combo points are lost.",
-       "fr": "Confère 2 points de combo à la cible. Vous devez accumuler d’autres points de combo ou les utiliser en moins de 20 s sinon les points de combo sont perdus."
+       "en": "A strike that deals 125% (180% if a Dagger is equipped in your Main Hand) weapon damage and increases your chance to dodge by 15% for 7 sec. Awards 1 combo point.",
+       "fr": "Une attaque qui inflige 125 % des dégâts de l’arme (180 % si une dague est équipée en main droite) et qui augmente vos chances d’esquiver de 15 % pendant 7 s. Vous gagnez 1 point de combo."
+      }
+     },
+     {
+      "tree": "subtlety",
+      "tree_name": {
+       "en": "Subtlety",
+       "fr": "Finesse"
+      },
+      "name": {
+       "en": "Preparation",
+       "fr": "Préparation"
+      },
+      "rank": 1,
+      "max": 1,
+      "row": 5,
+      "desc": {
+       "en": "When activated, this ability immediately finishes the cooldown on your other Rogue abilities.",
+       "fr": "Lorsque vous la déclenchez, cette technique annule le temps de recharge de toutes vos autres techniques de voleur."
       }
      },
      {
@@ -6611,201 +6999,40 @@
        "fr": "Finesse"
       },
       "name": {
-       "en": "Dirty Deeds",
-       "fr": "Coups fourrés"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 5,
-      "desc": {
-       "en": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by 20, and your Garrote ability no longer requires you to be behind your target.",
-       "fr": "Réduit de 20 le coût en énergie de vos techniques Coup bas et Garrot. De plus, votre technique Garrot ne requiert plus que vous vous placiez derrière la cible."
-      }
-     },
-     {
-      "tree": "subtlety",
-      "tree_name": {
-       "en": "Subtlety",
-       "fr": "Finesse"
-      },
-      "name": {
-       "en": "Heightened Senses",
-       "fr": "Sens amplifiés"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 4,
-      "desc": {
-       "en": "Increases your Stealth detection as if you were 3 levels higher and reduces your chance to be hit by spells and ranged attacks by 4%.",
-       "fr": "Augmente votre détection du camouflage comme si vous aviez 3 niveaux de plus et réduit de 4 % la probabilité que les sorts et les attaques à distance vous touchent."
-      }
-     },
-     {
-      "tree": "subtlety",
-      "tree_name": {
-       "en": "Subtlety",
-       "fr": "Finesse"
-      },
-      "name": {
-       "en": "Elusiveness",
-       "fr": "Insaisissable"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 2,
-      "desc": {
-       "en": "Reduces the cooldown of your Vanish and Blind abilities by 90 sec.",
-       "fr": "Réduit le temps de recharge de vos techniques Disparition et Cécité de 90 sec."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Improved Eviscerate",
-       "fr": "Éviscération améliorée"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 1,
-      "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Improved Sinister Strike",
-       "fr": "Attaque pernicieuse améliorée"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 1,
-      "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
-       "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Lightning Reflexes",
-       "fr": "Réflexes-éclairs"
+       "en": "Boot Knife",
+       "fr": "Boot Knife"
       },
       "rank": 5,
       "max": 5,
-      "row": 1,
+      "row": 6,
       "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
+       "en": "Your Shank has a 100% chance to give you 2 combo points.",
+       "fr": "Votre Shank a 100 % de chances de vous donner 2 points de combo."
       }
      },
      {
-      "tree": "combat",
+      "tree": "subtlety",
       "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
+       "en": "Subtlety",
+       "fr": "Finesse"
       },
       "name": {
-       "en": "Precision",
-       "fr": "Précision"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Improves your chance to hit by 3%.",
-       "fr": "Améliore vos chances de toucher de 3 %."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Puncturing Wounds",
-       "fr": "Blessures transperçantes"
-      },
-      "rank": 3,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point.",
-       "fr": "Augmente les chances de coup critique de vos techniques Attaque sournoise et Estropier respectivement de 30 % et 15 %, et confère à Attaque sournoise 45 % de chances de générer un point de combo supplémentaire."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Dual Wield Specialization",
-       "fr": "Spécialisation Ambidextrie"
-      },
-      "rank": 2,
-      "max": 2,
-      "row": 4,
-      "desc": {
-       "en": "Increases the damage done by your off-hand weapon by 50%.",
-       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Flawless Execution",
-       "fr": "Exécution parfaite"
+       "en": "Death Mark",
+       "fr": "Death Mark"
       },
       "rank": 1,
       "max": 1,
-      "row": 4,
+      "row": 7,
       "desc": {
-       "en": "Reduces the Energy cost of your Eviscerate ability by 15.",
-       "fr": "Réduit de 15 le coût en énergie de votre technique Éviscération."
-      }
-     },
-     {
-      "tree": "combat",
-      "tree_name": {
-       "en": "Combat",
-       "fr": "Combat"
-      },
-      "name": {
-       "en": "Deflection",
-       "fr": "Déviation"
-      },
-      "rank": 1,
-      "max": 3,
-      "row": 2,
-      "desc": {
-       "en": "Increases your Parry chance by 2%.",
-       "fr": "Augmente vos chances de parer de 2%."
+       "en": "Finishing move that marks the target, storing a portion of the damage dealt by your attacks per Combo Point. Garrote and Rupture damage is stored at twice the rate. After 6 sec, the stored damage is dealt, up to a maximum increased by Attack Power and Critical Strike chance.",
+       "fr": "Coup de grâce qui marque la cible et stocke une partie des dégâts que vos attaques infligent, par point de combo. Les dégâts de Garrot et de Rupture sont stockés deux fois plus vite. Après 6 s, les dégâts stockés sont infligés, jusqu’à un maximum augmenté par la puissance d’attaque et le taux de critique."
       }
      }
     ],
     "trees": {
-     "subtlety": 31,
-     "combat": 20
+     "assassination": 12,
+     "combat": 8,
+     "subtlety": 31
     },
     "items": [
      {
@@ -6905,12 +7132,13 @@
      },
      {
       "slot": "feet",
-      "id": 12470,
-      "name": "Sandstalker Ankleguards",
-      "zone": "Zul'Farrak",
-      "from": "dungeon",
-      "src": "Zerillis",
-      "ilvl": 47,
+      "id": 19052,
+      "name": "Dawn Treaders",
+      "zone": "leatherworking",
+      "from": "craft",
+      "skill": 290,
+      "src": "Dawn Treaders",
+      "ilvl": 53,
       "q": 3
      },
      {
@@ -6955,12 +7183,12 @@
      },
      {
       "slot": "oh",
-      "id": 19166,
-      "name": "Black Amnesty",
+      "id": 19168,
+      "name": "Blackguard",
       "zone": "blacksmithing",
       "from": "craft",
       "skill": 300,
-      "src": "Black Amnesty",
+      "src": "Blackguard",
       "ilvl": 60,
       "q": 4
      }
@@ -7083,38 +7311,38 @@
     },
     "weights": [
      {
-      "stat": "critstrkrtng",
-      "per": 4.176,
+      "stat": "hitrtng",
+      "per": 4.705,
       "unit": "pct",
-      "rel": 21.53
+      "rel": 19.52
      },
      {
-      "stat": "hitrtng",
-      "per": 3.25,
+      "stat": "critstrkrtng",
+      "per": 4.686,
       "unit": "pct",
-      "rel": 16.75
+      "rel": 19.44
      },
      {
       "stat": "hastertng",
-      "per": 2.802,
+      "per": 3.081,
       "unit": "pct",
-      "rel": 14.44
+      "rel": 12.78
      },
      {
       "stat": "agi",
-      "per": 0.374,
+      "per": 0.442,
       "unit": "pt",
-      "rel": 1.93
+      "rel": 1.83
      },
      {
       "stat": "str",
-      "per": 0.214,
+      "per": 0.265,
       "unit": "pt",
       "rel": 1.1
      },
      {
       "stat": "atkpwr",
-      "per": 0.194,
+      "per": 0.241,
       "unit": "pt",
       "rel": 1
      },
@@ -7139,16 +7367,16 @@
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": true,
-        "gain": 6.33,
-        "pct": 1.37
+        "gain": 7.22,
+        "pct": 1.23
        },
        {
         "id": "scroll_strength",
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 3.67,
-        "pct": 0.79
+        "gain": 4.56,
+        "pct": 0.78
        },
        {
         "id": "scroll_intellect",
@@ -7181,40 +7409,40 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": true,
-        "gain": 19.14,
-        "pct": 4.26
+        "gain": 22.37,
+        "pct": 3.92
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 17.15,
-        "pct": 3.82
+        "gain": 20.38,
+        "pct": 3.58
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 13.58,
-        "pct": 3.02
+        "gain": 15.88,
+        "pct": 2.79
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 9.42,
-        "pct": 2.1
+        "gain": 11.73,
+        "pct": 2.06
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 8.2,
-        "pct": 1.83
+        "gain": 9.19,
+        "pct": 1.61
        },
        {
         "id": "flask_ancient_knowledge",
@@ -7247,16 +7475,16 @@
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": true,
-        "gain": 9.3,
-        "pct": 2.03
+        "gain": 10.79,
+        "pct": 1.86
        },
        {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": false,
-        "gain": 5.39,
-        "pct": 1.17
+        "gain": 6.7,
+        "pct": 1.15
        },
        {
         "id": "food_spell_power",
@@ -7281,16 +7509,16 @@
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": true,
-        "gain": 9.27,
-        "pct": 2.02
+        "gain": 10.02,
+        "pct": 1.72
        },
        {
         "id": "elemental_sharpening_stone",
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": false,
-        "gain": 8.19,
-        "pct": 1.78
+        "gain": 9.15,
+        "pct": 1.57
        },
        {
         "id": "brilliant_wizard_oil",
@@ -7316,16 +7544,16 @@
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 7.77,
-       "pct": 1.66
+       "gain": 9.65,
+       "pct": 1.63
       },
       {
        "id": "juju_power",
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 6.41,
-       "pct": 1.37
+       "gain": 7.96,
+       "pct": 1.34
       },
       {
        "id": "mageblood_potion",
@@ -7355,112 +7583,112 @@
     },
     "curves": [
      {
-      "stat": "critstrkrtng",
-      "unit": "pct",
-      "base": 29.38,
-      "points": [
-       [
-        29.38,
-        468.26,
-        0
-       ],
-       [
-        31.88,
-        478.55,
-        35
-       ],
-       [
-        34.38,
-        488.61,
-        70
-       ],
-       [
-        36.88,
-        499.15,
-        105
-       ],
-       [
-        39.38,
-        509.15,
-        140
-       ],
-       [
-        41.88,
-        519.56,
-        175
-       ],
-       [
-        44.38,
-        527.08,
-        210
-       ],
-       [
-        46.88,
-        530.84,
-        245
-       ],
-       [
-        49.38,
-        534.79,
-        280
-       ]
-      ],
-      "cap": null,
-      "capAdd": null
-     },
-     {
       "stat": "hitrtng",
       "unit": "pct",
       "base": 9,
       "points": [
        [
         9,
-        468.26,
+        593.07,
         0
        ],
        [
         11.3,
-        475.31,
+        602.92,
         23
        ],
        [
         13.5,
-        484.09,
+        614.2,
         45
        ],
        [
         15.8,
-        490.51,
+        624.38,
         68
        ],
        [
         18,
-        497,
+        631.96,
         90
        ],
        [
         20.3,
-        504.21,
+        642.19,
         113
        ],
        [
         22.5,
-        509.79,
+        652.27,
         135
        ],
        [
         24.8,
-        514.87,
+        658.08,
         158
        ],
        [
         27,
-        514.87,
+        658.08,
         180
        ]
       ],
       "cap": 24.8,
       "capAdd": 158
+     },
+     {
+      "stat": "critstrkrtng",
+      "unit": "pct",
+      "base": 29.24,
+      "points": [
+       [
+        29.24,
+        593.07,
+        0
+       ],
+       [
+        31.74,
+        604.87,
+        35
+       ],
+       [
+        34.24,
+        616.7,
+        70
+       ],
+       [
+        36.74,
+        628.25,
+        105
+       ],
+       [
+        39.24,
+        636.78,
+        140
+       ],
+       [
+        41.74,
+        640.39,
+        175
+       ],
+       [
+        44.24,
+        643.92,
+        210
+       ],
+       [
+        46.74,
+        647.56,
+        245
+       ],
+       [
+        49.24,
+        651.11,
+        280
+       ]
+      ],
+      "cap": null,
+      "capAdd": null
      },
      {
       "stat": "hastertng",
@@ -7469,47 +7697,47 @@
       "points": [
        [
         0,
-        468.26,
+        593.07,
         0
        ],
        [
         2.5,
-        475.19,
+        600.42,
         25
        ],
        [
         5,
-        481.57,
+        608,
         50
        ],
        [
         7.5,
-        486.95,
+        615.95,
         75
        ],
        [
         10,
-        494.87,
+        623.45,
         100
        ],
        [
         12.5,
-        500.65,
+        630.57,
         125
        ],
        [
         15,
-        507.1,
+        638.98,
         150
        ],
        [
         17.5,
-        513.48,
+        648.05,
         175
        ],
        [
         20,
-        520.05,
+        656.8,
         200
        ]
       ],
@@ -7523,47 +7751,47 @@
       "points": [
        [
         0,
-        468.26,
+        593.07,
         0
        ],
        [
         15,
-        473.66,
+        599.92,
         15
        ],
        [
         30,
-        479.39,
+        606.52,
         30
        ],
        [
         45,
-        484.88,
+        613.44,
         45
        ],
        [
         60,
-        490.73,
+        620.04,
         60
        ],
        [
         75,
-        496.22,
+        627.03,
         75
        ],
        [
         90,
-        502.16,
+        633.66,
         90
        ],
        [
         105,
-        507.7,
+        640.82,
         105
        ],
        [
         120,
-        513.58,
+        647.59,
         120
        ]
       ],
@@ -7577,47 +7805,47 @@
       "points": [
        [
         0,
-        468.26,
+        593.07,
         0
        ],
        [
         15,
-        471.56,
+        597.17,
         15
        ],
        [
         30,
-        474.67,
+        601.02,
         30
        ],
        [
         45,
-        477.97,
+        605.11,
         45
        ],
        [
         60,
-        481.07,
+        608.95,
         60
        ],
        [
         75,
-        484.37,
+        613.03,
         75
        ],
        [
         90,
-        487.48,
+        616.87,
         90
        ],
        [
         105,
-        490.77,
+        620.95,
         105
        ],
        [
         120,
-        493.88,
+        624.78,
         120
        ]
       ],
@@ -7631,47 +7859,47 @@
       "points": [
        [
         0,
-        468.26,
+        593.07,
         0
        ],
        [
         50,
-        477.97,
+        605.11,
         50
        ],
        [
         100,
-        487.67,
+        617.11,
         100
        ],
        [
         150,
-        497.37,
+        629.08,
         150
        ],
        [
         200,
-        507.08,
+        641.01,
         200
        ],
        [
         250,
-        516.78,
+        652.91,
         250
        ],
        [
         300,
-        526.49,
+        664.78,
         300
        ],
        [
         350,
-        536.19,
+        676.61,
         350
        ],
        [
         400,
-        545.89,
+        688.42,
         400
        ]
       ],
@@ -7682,61 +7910,70 @@
     "procs": [
      {
       "name": "Instant Poison",
-      "perMin": 9.1
+      "perMin": 9.8
      },
      {
       "name": "Deadly Poison",
-      "perMin": 17.5
+      "perMin": 17
      }
     ],
     "talentValues": {
-     "Camouflage": null,
+     "Malice": {
+      "gain": 23.4,
+      "pct": 3.94
+     },
+     "Ruthlessness": {
+      "gain": 22.01,
+      "pct": 3.71
+     },
+     "Improved Slice and Dice": {
+      "gain": 27.42,
+      "pct": 4.62
+     },
+     "Blood Splatter": {
+      "gain": 22.62,
+      "pct": 3.81
+     },
+     "Coup de Grace": {
+      "gain": 18.42,
+      "pct": 3.1
+     },
+     "Efficient Strikes": {
+      "gain": 34.46,
+      "pct": 5.81
+     },
+     "Precision": {
+      "gain": 15.86,
+      "pct": 2.67
+     },
+     "Setup": null,
      "Opportunity": {
       "gain": 0,
       "pct": 0
      },
-     "Setup": null,
-     "Improved Ambush": null,
-     "Ghostly Strike": null,
-     "Initiative": null,
-     "Serrated Blades": {
-      "gain": 6.63,
-      "pct": 1.42
-     },
-     "Premeditation": null,
-     "Hemorrhage": {
-      "gain": 36.89,
-      "pct": 7.88
-     },
      "Dirty Deeds": null,
-     "Heightened Senses": null,
+     "Camouflage": null,
+     "Initiative": null,
+     "Premeditation": null,
+     "Serrated Blades": {
+      "gain": 7.28,
+      "pct": 1.23
+     },
      "Elusiveness": null,
-     "Improved Eviscerate": {
-      "gain": 7.19,
-      "pct": 1.53
+     "Ghostly Strike": null,
+     "Preparation": null,
+     "Hemorrhage": {
+      "gain": 40.06,
+      "pct": 6.75
      },
-     "Improved Sinister Strike": {
-      "gain": 33.86,
-      "pct": 7.23
+     "Boot Knife": {
+      "gain": 50.75,
+      "pct": 8.55
      },
-     "Lightning Reflexes": null,
-     "Precision": {
-      "gain": 10.27,
-      "pct": 2.19
-     },
-     "Puncturing Wounds": {
-      "gain": 0,
-      "pct": 0
-     },
-     "Dual Wield Specialization": {
-      "gain": 33.93,
-      "pct": 7.25
-     },
-     "Flawless Execution": {
-      "gain": 7.8,
-      "pct": 1.67
-     },
-     "Deflection": null
+     "Death Mark": {
+      "gain": 33.47,
+      "pct": 5.64
+     }
     },
     "alt": null,
     "setup": {
@@ -7812,6 +8049,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -7881,14 +8123,14 @@
     },
     "stats": {
      "prim": {
-      "str": 225,
-      "agi": 562,
-      "sta": 292,
+      "str": 228,
+      "agi": 558,
+      "sta": 325,
       "int": 94,
-      "spi": 136
+      "spi": 133
      },
-     "ap": 1349,
-     "crit": 0.2937931034482759,
+     "ap": 1348,
+     "crit": 0.29241379310344834,
      "hit": 0.09,
      "haste": 1,
      "armor": 976
@@ -7899,58 +8141,83 @@
     "uptimes": [
      [
       "Slice and Dice",
-      0.95
+      0.98
+     ],
+     [
+      "Windfury Totem attack power",
+      0.06
      ]
     ],
     "abilities": [
      {
       "name": "White (main hand)",
-      "dps": 131.5,
+      "dps": 140.2,
       "casts": 0,
-      "hits": 59.7,
-      "crit": 0.312
+      "hits": 59.9,
+      "crit": 0.375
      },
      {
       "name": "Hemorrhage",
-      "dps": 129.9,
-      "casts": 63.4,
-      "hits": 59.2,
-      "crit": 0.246
+      "dps": 114.2,
+      "casts": 53.5,
+      "hits": 50.1,
+      "crit": 0.295
+     },
+     {
+      "name": "Death Mark",
+      "dps": 104.2,
+      "casts": 11.2,
+      "hits": 10.5,
+      "crit": 0
      },
      {
       "name": "White (off-hand)",
-      "dps": 101.8,
+      "dps": 74.1,
       "casts": 0,
-      "hits": 104.6,
-      "crit": 0.313
+      "hits": 93.4,
+      "crit": 0.375
      },
      {
-      "name": "Eviscerate",
-      "dps": 41.1,
-      "casts": 5.2,
-      "hits": 4.9,
-      "crit": 0.242
+      "name": "Windfury Totem",
+      "dps": 51.9,
+      "casts": 25.4,
+      "hits": 19.9,
+      "crit": 0.375
+     },
+     {
+      "name": "Rupture",
+      "dps": 39,
+      "casts": 7.8,
+      "hits": 66.6,
+      "crit": 0
      },
      {
       "name": "Deadly Poison",
-      "dps": 30.2,
-      "casts": 31.4,
-      "hits": 51,
+      "dps": 27.5,
+      "casts": 28,
+      "hits": 49.5,
       "crit": 0.01
      },
      {
       "name": "Shank",
-      "dps": 16.8,
-      "casts": 17.8,
-      "hits": 17.8,
-      "crit": 0.245
+      "dps": 17.6,
+      "casts": 17.1,
+      "hits": 17.1,
+      "crit": 0.294
      },
      {
       "name": "Instant Poison",
-      "dps": 14.7,
-      "casts": 27.2,
-      "hits": 25.9,
+      "dps": 15.9,
+      "casts": 29.4,
+      "hits": 27.9,
       "crit": 0.01
+     },
+     {
+      "name": "Eviscerate",
+      "dps": 6.1,
+      "casts": 0.7,
+      "hits": 0.7,
+      "crit": 0.294
      },
      {
       "name": "Smokey's Lighter",
@@ -7977,11 +8244,6 @@
       "x": 1
      },
      {
-      "t": 4,
-      "n": "Hemorrhage",
-      "x": 1
-     },
-     {
       "t": 5,
       "n": "Hemorrhage",
       "x": 1
@@ -7992,18 +8254,13 @@
       "x": 1
      },
      {
-      "t": 11,
+      "t": 7.4,
       "n": "Hemorrhage",
       "x": 1
      },
      {
       "t": 12.1,
       "n": "Shank",
-      "x": 1
-     },
-     {
-      "t": 13.1,
-      "n": "Hemorrhage",
       "x": 1
      }
     ]
@@ -20785,48 +21042,53 @@
    "spec": "hunter_melee",
    "class": "hunter",
    "role": "dps",
-   "dps": 464.8,
-   "sem": 0.26,
+   "dps": 503,
+   "sem": 0.31,
    "name": "Survival Hunter",
    "spells": [
     [
      "Pet (melee)",
-     119.7,
+     119.6,
      0
     ],
     [
      "White (main hand)",
-     90.7,
+     91.2,
      0
     ],
     [
      "Raptor Strike",
-     76.7,
-     30
+     76.9,
+     29.9
     ],
     [
      "White (off-hand)",
-     70.6,
+     71.1,
      0
     ],
     [
      "Strider Kick",
-     45.1,
+     45.4,
      22.9
     ],
     [
      "Mongoose Bite",
-     35.6,
-     15.6
+     38.1,
+     16.5
+    ],
+    [
+     "Windfury Totem",
+     33.5,
+     21
     ],
     [
      "Pet (Bite)",
-     9.7,
+     9.6,
      14
     ],
     [
      "Lacerating Strikes",
-     6.1,
+     6.9,
      0
     ],
     [
@@ -21395,43 +21657,43 @@
     "weights": [
      {
       "stat": "hitrtng",
-      "per": 5.58,
+      "per": 7.472,
       "unit": "pct",
-      "rel": 34.23
+      "rel": 41.51
      },
      {
       "stat": "critstrkrtng",
-      "per": 5.02,
+      "per": 5.514,
       "unit": "pct",
-      "rel": 30.8
+      "rel": 30.63
      },
      {
       "stat": "hastertng",
-      "per": 1.08,
+      "per": 1.973,
       "unit": "pct",
-      "rel": 6.63
+      "rel": 10.96
      },
      {
       "stat": "agi",
-      "per": 0.311,
+      "per": 0.342,
       "unit": "pt",
-      "rel": 1.91
+      "rel": 1.9
      },
      {
       "stat": "str",
-      "per": 0.18,
+      "per": 0.197,
       "unit": "pt",
-      "rel": 1.1
+      "rel": 1.09
      },
      {
       "stat": "int",
-      "per": 0.18,
+      "per": 0.197,
       "unit": "pt",
-      "rel": 1.1
+      "rel": 1.09
      },
      {
       "stat": "atkpwr",
-      "per": 0.163,
+      "per": 0.18,
       "unit": "pt",
       "rel": 1
      },
@@ -21450,24 +21712,24 @@
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": true,
-        "gain": 5.39,
-        "pct": 1.17
+        "gain": 6.02,
+        "pct": 1.21
        },
        {
         "id": "scroll_strength",
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 3.09,
-        "pct": 0.67
+        "gain": 3.4,
+        "pct": 0.68
        },
        {
         "id": "scroll_intellect",
         "sid": 12176,
         "name": "Scroll of Intellect",
         "chosen": false,
-        "gain": 2.76,
-        "pct": 0.6
+        "gain": 3.04,
+        "pct": 0.61
        },
        {
         "id": "scroll_spirit",
@@ -21492,40 +21754,40 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": true,
-        "gain": 19.54,
-        "pct": 4.39
+        "gain": 21.66,
+        "pct": 4.5
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 17.77,
-        "pct": 3.99
+        "gain": 19.67,
+        "pct": 4.09
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 14.51,
-        "pct": 3.26
+        "gain": 16.07,
+        "pct": 3.34
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 14.35,
-        "pct": 3.22
+        "gain": 15.89,
+        "pct": 3.3
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 7.91,
-        "pct": 1.78
+        "gain": 8.69,
+        "pct": 1.81
        },
        {
         "id": "flask_ancient_knowledge",
@@ -21558,16 +21820,16 @@
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": true,
-        "gain": 7.99,
-        "pct": 1.75
+        "gain": 8.88,
+        "pct": 1.8
        },
        {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": false,
-        "gain": 4.54,
-        "pct": 0.99
+        "gain": 4.99,
+        "pct": 1.01
        },
        {
         "id": "food_spell_power",
@@ -21592,16 +21854,16 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 10.19,
-        "pct": 2.24
+        "gain": 11.21,
+        "pct": 2.28
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 7,
-        "pct": 1.54
+        "gain": 7.64,
+        "pct": 1.55
        },
        {
         "id": "brilliant_wizard_oil",
@@ -21627,24 +21889,24 @@
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 6.53,
-       "pct": 1.4
+       "gain": 7.18,
+       "pct": 1.43
       },
       {
        "id": "juju_power",
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 5.39,
-       "pct": 1.16
+       "gain": 5.92,
+       "pct": 1.18
       },
       {
        "id": "juju_guile",
        "sid": 16327,
        "name": "Juju Guile",
        "chosen": false,
-       "gain": 5.39,
-       "pct": 1.16
+       "gain": 5.92,
+       "pct": 1.18
       },
       {
        "id": "mageblood_potion",
@@ -21672,47 +21934,47 @@
       "points": [
        [
         1,
-        464.41,
+        502.04,
         0
        ],
        [
         3.3,
-        476.72,
+        518.54,
         23
        ],
        [
         5.5,
-        489.14,
+        532.52,
         45
        ],
        [
         7.8,
-        494.53,
+        539.74,
         68
        ],
        [
         10,
-        498.53,
+        546.9,
         90
        ],
        [
         12.3,
-        505.14,
+        554.42,
         113
        ],
        [
         14.5,
-        510.3,
+        560.87,
         135
        ],
        [
         16.8,
-        515.53,
+        569.16,
         158
        ],
        [
         19,
-        521.01,
+        577.28,
         180
        ]
       ],
@@ -21726,47 +21988,47 @@
       "points": [
        [
         19.23,
-        464.41,
+        502.04,
         0
        ],
        [
         21.73,
-        477,
+        515.97,
         35
        ],
        [
         24.23,
-        489.81,
+        529.78,
         70
        ],
        [
         26.73,
-        502.79,
+        543.88,
         105
        ],
        [
         29.23,
-        515.36,
+        557.83,
         140
        ],
        [
         31.73,
-        523.02,
+        565.91,
         175
        ],
        [
         34.23,
-        530.38,
+        573.44,
         210
        ],
        [
         36.73,
-        537.71,
+        581.03,
         245
        ],
        [
         39.23,
-        545.09,
+        588.48,
         280
        ]
       ],
@@ -21780,47 +22042,47 @@
       "points": [
        [
         0,
-        464.41,
+        502.04,
         0
        ],
        [
         2.5,
-        469.29,
+        508.33,
         25
        ],
        [
         5,
-        473.36,
+        511.72,
         50
        ],
        [
         7.5,
-        479.1,
+        518.52,
         75
        ],
        [
         10,
-        483.02,
+        524.33,
         100
        ],
        [
         12.5,
-        487.26,
+        527.68,
         125
        ],
        [
         15,
-        491.64,
+        532.61,
         150
        ],
        [
         17.5,
-        496.36,
+        538.17,
         175
        ],
        [
         20,
-        504.68,
+        546.23,
         200
        ]
       ],
@@ -21834,47 +22096,47 @@
       "points": [
        [
         0,
-        464.41,
+        502.04,
         0
        ],
        [
         15,
-        468.77,
+        506.95,
         15
        ],
        [
         30,
-        473.69,
+        512.41,
         30
        ],
        [
         45,
-        478.36,
+        517.53,
         45
        ],
        [
         60,
-        483.04,
+        522.73,
         60
        ],
        [
         75,
-        487.76,
+        527.96,
         75
        ],
        [
         90,
-        492.89,
+        533.5,
         90
        ],
        [
         105,
-        497.43,
+        538.48,
         105
        ],
        [
         120,
-        502.57,
+        544.09,
         120
        ]
       ],
@@ -21888,47 +22150,47 @@
       "points": [
        [
         0,
-        464.41,
+        502.04,
         0
        ],
        [
         15,
-        467.18,
+        505.08,
         15
        ],
        [
         30,
-        469.79,
+        507.95,
         30
        ],
        [
         45,
-        472.56,
+        510.99,
         45
        ],
        [
         60,
-        475.16,
+        513.86,
         60
        ],
        [
         75,
-        477.93,
+        516.9,
         75
        ],
        [
         90,
-        480.54,
+        519.77,
         90
        ],
        [
         105,
-        483.31,
+        522.82,
         105
        ],
        [
         120,
-        485.92,
+        525.68,
         120
        ]
       ],
@@ -21942,47 +22204,47 @@
       "points": [
        [
         0,
-        464.41,
+        502.04,
         0
        ],
        [
         19,
-        467.83,
+        505.8,
         19
        ],
        [
         38,
-        471.09,
+        509.38,
         38
        ],
        [
         56,
-        474.35,
+        512.96,
         56
        ],
        [
         75,
-        477.77,
+        516.73,
         75
        ],
        [
         94,
-        481.19,
+        520.49,
         94
        ],
        [
         113,
-        484.61,
+        524.25,
         113
        ],
        [
         131,
-        487.87,
+        527.83,
         131
        ],
        [
         150,
-        491.29,
+        531.59,
         150
        ]
       ],
@@ -21997,49 +22259,49 @@
       "pct": 0
      },
      "Savage Strikes": {
-      "gain": 6.44,
-      "pct": 1.39
+      "gain": 6.7,
+      "pct": 1.33
      },
      "Survivalist": null,
      "Surefooted": {
-      "gain": 17.19,
-      "pct": 3.7
+      "gain": 19.24,
+      "pct": 3.83
      },
      "Predator's Edge": {
-      "gain": 32.52,
-      "pct": 6.99
+      "gain": 32.97,
+      "pct": 6.56
      },
      "Resourcefulness": {
-      "gain": 0.19,
-      "pct": 0.04
+      "gain": -0.16,
+      "pct": -0.03
      },
      "Expose Prey": {
-      "gain": 41.33,
-      "pct": 8.89
+      "gain": 49.59,
+      "pct": 9.86
      },
      "Strider Kick": {
-      "gain": 48.26,
-      "pct": 10.38
+      "gain": 56.08,
+      "pct": 11.16
      },
      "Lightning Reflexes": {
-      "gain": 11.87,
-      "pct": 2.55
+      "gain": 13.07,
+      "pct": 2.6
      },
      "Lacerating Strikes": {
-      "gain": 6.07,
-      "pct": 1.3
+      "gain": 6.89,
+      "pct": 1.37
      },
      "Lethal Attacks": {
-      "gain": 25.35,
-      "pct": 5.45
+      "gain": 27.73,
+      "pct": 5.52
      },
      "Efficiency": {
       "gain": 0,
       "pct": 0
      },
      "Careful Aim": {
-      "gain": 25.29,
-      "pct": 5.44
+      "gain": 27.81,
+      "pct": 5.53
      },
      "Hawk Eye": null,
      "Improved Concussive Shot": null
@@ -22116,6 +22378,11 @@
        "name": "Strength of Earth Totem (Shaman)",
        "sid": 25361,
        "str": 53
+      },
+      {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
       },
       {
        "id": "leader_of_the_pack",
@@ -22205,70 +22472,82 @@
     "effects": [
      "Smokey's Lighter"
     ],
-    "uptimes": [],
+    "uptimes": [
+     [
+      "Windfury Totem attack power",
+      0.06
+     ]
+    ],
     "abilities": [
      {
       "name": "Pet (melee)",
-      "dps": 119.7,
+      "dps": 119.6,
       "casts": 0,
-      "hits": 130.7,
-      "crit": 0.248
+      "hits": 130.6,
+      "crit": 0.247
      },
      {
       "name": "White (main hand)",
-      "dps": 90.7,
+      "dps": 91.2,
       "casts": 0,
-      "hits": 45,
-      "crit": 0.289
+      "hits": 45.1,
+      "crit": 0.286
      },
      {
       "name": "Raptor Strike",
-      "dps": 76.7,
-      "casts": 30,
+      "dps": 76.9,
+      "casts": 29.9,
       "hits": 26.8,
-      "crit": 0.242
+      "crit": 0.243
      },
      {
       "name": "White (off-hand)",
-      "dps": 70.6,
+      "dps": 71.1,
       "casts": 0,
-      "hits": 69.8,
+      "hits": 69.7,
       "crit": 0.288
      },
      {
       "name": "Strider Kick",
-      "dps": 45.1,
+      "dps": 45.4,
       "casts": 22.9,
       "hits": 20.5,
-      "crit": 0.243
+      "crit": 0.245
      },
      {
       "name": "Mongoose Bite",
-      "dps": 35.6,
-      "casts": 15.6,
-      "hits": 13.9,
-      "crit": 0.243
+      "dps": 38.1,
+      "casts": 16.5,
+      "hits": 14.8,
+      "crit": 0.244
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 33.5,
+      "casts": 21,
+      "hits": 14.8,
+      "crit": 0.288
      },
      {
       "name": "Pet (Bite)",
-      "dps": 9.7,
+      "dps": 9.6,
       "casts": 14,
       "hits": 12.5,
-      "crit": 0.223
+      "crit": 0.221
      },
      {
       "name": "Lacerating Strikes",
-      "dps": 6.1,
+      "dps": 6.9,
       "casts": 0,
-      "hits": 41.6,
+      "hits": 42.4,
       "crit": 0
      },
      {
       "name": "Pet (Claw)",
       "dps": 5.5,
       "casts": 14,
-      "hits": 12.5,
-      "crit": 0.222
+      "hits": 12.6,
+      "crit": 0.223
      },
      {
       "name": "Pet (Savage Rend)",
@@ -22319,11 +22598,6 @@
      {
       "t": 10.5,
       "n": "Lacerating Strikes",
-      "x": 1
-     },
-     {
-      "t": 12,
-      "n": "Raptor Strike",
       "x": 1
      },
      {
@@ -23931,15 +24205,15 @@
        "fr": "Elémentaire"
       },
       "name": {
-       "en": "Elemental Mastery",
-       "fr": "Maîtrise élémentaire"
+       "en": "Lightning Mastery",
+       "fr": "Lightning Mastery"
       },
       "rank": 1,
       "max": 1,
       "row": 7,
       "desc": {
-       "en": "Gain mastery over Fire and Lightning, reducing the cast time of Lightning Bolt and Lava Burst by -0.5 sec, and removing the cooldown from Chain Lightning. Lasts 15 sec.",
-       "fr": "Vous maîtrisez le feu et la foudre, ce qui réduit le temps d’incantation d’Éclair et d’Explosion de lave de -0,5 s et supprime le temps de recharge de Chaîne d’éclairs. Dure 15 s."
+       "en": "Active, 3 min cooldown. For 15 sec, the cast time of your Lightning Bolt is reduced by 0.5 sec and your Chain Lightning has no cooldown.",
+       "fr": "Actif, 3 min de recharge. Pendant 15 s, le temps d’incantation de votre Éclair est réduit de 0,5 s et votre Chaîne d’éclairs n’a plus de temps de recharge."
       }
      },
      {
@@ -24906,7 +25180,7 @@
       "gain": 119.63,
       "pct": 17.87
      },
-     "Elemental Mastery": {
+     "Lightning Mastery": {
       "gain": 16.9,
       "pct": 2.52
      },
@@ -26558,6 +26832,11 @@
        "name": "Strength of Earth Totem (Shaman)",
        "sid": 25361,
        "str": 53
+      },
+      {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
       },
       {
        "id": "leader_of_the_pack",
@@ -29520,6 +29799,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -29726,33 +30010,38 @@
    "spec": "paladin_retribution",
    "class": "paladin",
    "role": "dps",
-   "dps": 439,
-   "sem": 0.39,
+   "dps": 519.6,
+   "sem": 0.51,
    "name": "Retribution Paladin",
    "spells": [
     [
      "White (main hand)",
-     199.3,
+     200.5,
      0
     ],
     [
      "Seal of Command",
-     83.6,
-     19
+     107.4,
+     24.1
     ],
     [
      "Holy Strike",
-     80.1,
+     80.7,
      18
     ],
     [
+     "Windfury Totem",
+     54.7,
+     12.7
+    ],
+    [
      "Judgement of Command",
-     42.9,
+     43.1,
      23
     ],
     [
      "Hammer of Wrath",
-     31.1,
+     31.2,
      6
     ],
     [
@@ -30148,24 +30437,25 @@
      },
      {
       "slot": "wrist",
-      "id": 13400,
-      "name": "Vambraces of the Sadist",
-      "zone": "Stratholme",
-      "from": "dungeon",
-      "src": "Timmy the Cruel",
-      "ilvl": 59,
+      "id": 19687,
+      "name": "Primal Batskin Bracers",
+      "zone": "leatherworking",
+      "from": "craft",
+      "skill": 300,
+      "src": "Primal Batskin Bracers",
+      "ilvl": 60,
       "q": 3
      },
      {
       "slot": "hands",
-      "id": 19049,
-      "name": "Timbermaw Brawlers",
+      "id": 19157,
+      "name": "Chromatic Gauntlets",
       "zone": "leatherworking",
       "from": "craft",
       "skill": 300,
-      "src": "Timbermaw Brawlers",
-      "ilvl": 56,
-      "q": 3
+      "src": "Chromatic Gauntlets",
+      "ilvl": 60,
+      "q": 4
      },
      {
       "slot": "waist",
@@ -30221,15 +30511,6 @@
      },
      {
       "slot": "trinket1",
-      "id": 18820,
-      "name": "Talisman of Ephemeral Power",
-      "zone": "Molten Core",
-      "from": "raid",
-      "ilvl": 66,
-      "q": 4
-     },
-     {
-      "slot": "trinket2",
       "id": 13171,
       "name": "Smokey's Lighter",
       "zone": "Stratholme",
@@ -30237,6 +30518,15 @@
       "src": "The Great Fras Siabi",
       "ilvl": 61,
       "q": 2
+     },
+     {
+      "slot": "trinket2",
+      "id": 18820,
+      "name": "Talisman of Ephemeral Power",
+      "zone": "Molten Core",
+      "from": "raid",
+      "ilvl": 66,
+      "q": 4
      },
      {
       "slot": "th",
@@ -30356,32 +30646,32 @@
     },
     "weights": [
      {
-      "stat": "critstrkrtng",
-      "per": 4.08,
+      "stat": "hitrtng",
+      "per": 5.493,
       "unit": "pct",
-      "rel": 31.38
+      "rel": 34.55
      },
      {
-      "stat": "hitrtng",
-      "per": 3.678,
+      "stat": "critstrkrtng",
+      "per": 4.98,
       "unit": "pct",
-      "rel": 28.29
+      "rel": 31.32
      },
      {
       "stat": "str",
-      "per": 0.312,
+      "per": 0.382,
       "unit": "pt",
       "rel": 2.4
      },
      {
       "stat": "agi",
-      "per": 0.226,
+      "per": 0.277,
       "unit": "pt",
       "rel": 1.74
      },
      {
       "stat": "atkpwr",
-      "per": 0.13,
+      "per": 0.159,
       "unit": "pt",
       "rel": 1
      },
@@ -30389,7 +30679,7 @@
       "stat": "int",
       "per": 0.102,
       "unit": "pt",
-      "rel": 0.78
+      "rel": 0.64
      },
      {
       "stat": "spi",
@@ -30399,9 +30689,9 @@
      },
      {
       "stat": "hastertng",
-      "per": -2.179,
+      "per": -3.411,
       "unit": "pct",
-      "rel": -16.76
+      "rel": -21.45
      }
     ],
     "consumables": {
@@ -30412,24 +30702,24 @@
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": true,
-        "gain": 5.45,
-        "pct": 1.26
+        "gain": 6.7,
+        "pct": 1.3
        },
        {
         "id": "scroll_agility",
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": false,
-        "gain": 3.67,
-        "pct": 0.85
+        "gain": 4.42,
+        "pct": 0.86
        },
        {
         "id": "scroll_intellect",
         "sid": 12176,
         "name": "Scroll of Intellect",
         "chosen": false,
-        "gain": 1.72,
-        "pct": 0.4
+        "gain": 1.73,
+        "pct": 0.34
        },
        {
         "id": "scroll_spirit",
@@ -30454,64 +30744,64 @@
         "sid": 1213892,
         "name": "Flask of Ancient Knowledge",
         "chosen": true,
-        "gain": 28.17,
-        "pct": 6.86
+        "gain": 28.34,
+        "pct": 5.76
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 15.67,
-        "pct": 3.82
+        "gain": 18.73,
+        "pct": 3.81
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 14.42,
-        "pct": 3.51
+        "gain": 16.72,
+        "pct": 3.4
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 13.25,
-        "pct": 3.23
+        "gain": 15.28,
+        "pct": 3.11
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 10.43,
-        "pct": 2.54
+        "gain": 12.01,
+        "pct": 2.44
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 6.49,
-        "pct": 1.58
+        "gain": 7.98,
+        "pct": 1.62
        },
        {
         "id": "elixir_mage_lord",
         "sid": 1213914,
         "name": "Elixir of the Mage-Lord",
         "chosen": false,
-        "gain": 6.26,
-        "pct": 1.52
+        "gain": 6.3,
+        "pct": 1.28
        },
        {
         "id": "greater_arcane_elixir",
         "sid": 17539,
         "name": "Greater Arcane Elixir",
         "chosen": false,
-        "gain": 5.48,
-        "pct": 1.33
+        "gain": 5.51,
+        "pct": 1.12
        }
       ],
       "food": [
@@ -30520,24 +30810,24 @@
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": true,
-        "gain": 8.05,
-        "pct": 1.87
+        "gain": 9.89,
+        "pct": 1.94
        },
        {
         "id": "food_agility",
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": false,
-        "gain": 5.45,
-        "pct": 1.27
+        "gain": 6.61,
+        "pct": 1.3
        },
        {
         "id": "food_spell_power",
         "sid": 1225780,
         "name": "Well Fed (spell power food)",
         "chosen": false,
-        "gain": 3.91,
-        "pct": 0.91
+        "gain": 3.94,
+        "pct": 0.77
        },
        {
         "id": "nightfin_soup",
@@ -30554,32 +30844,32 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 8.62,
-        "pct": 2.01
+        "gain": 10.03,
+        "pct": 1.96
        },
        {
         "id": "brilliant_wizard_oil",
         "sid": 25129,
         "name": "Brilliant Wizard Oil",
         "chosen": false,
-        "gain": 5.53,
-        "pct": 1.29
+        "gain": 5.57,
+        "pct": 1.09
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 4.11,
-        "pct": 0.96
+        "gain": 5.04,
+        "pct": 0.99
        },
        {
         "id": "brilliant_mana_oil",
         "sid": 25130,
         "name": "Brilliant Mana Oil",
         "chosen": false,
-        "gain": 3.84,
-        "pct": 0.89
+        "gain": 3.87,
+        "pct": 0.76
        }
       ]
      },
@@ -30589,24 +30879,24 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 9.35,
-       "pct": 2.13
+       "gain": 11.8,
+       "pct": 2.27
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 5.2,
-       "pct": 1.18
+       "gain": 6.38,
+       "pct": 1.23
       },
       {
        "id": "juju_guile",
        "sid": 16327,
        "name": "Juju Guile",
        "chosen": false,
-       "gain": 3.13,
-       "pct": 0.71
+       "gain": 3.15,
+       "pct": 0.61
       },
       {
        "id": "mageblood_potion",
@@ -30628,112 +30918,112 @@
     },
     "curves": [
      {
+      "stat": "hitrtng",
+      "unit": "pct",
+      "base": 7,
+      "points": [
+       [
+        7,
+        521.41,
+        0
+       ],
+       [
+        9.3,
+        526.05,
+        23
+       ],
+       [
+        11.5,
+        526.1,
+        45
+       ],
+       [
+        13.8,
+        526.15,
+        68
+       ],
+       [
+        16,
+        526.21,
+        90
+       ],
+       [
+        18.3,
+        526.24,
+        113
+       ],
+       [
+        20.5,
+        526.24,
+        135
+       ],
+       [
+        22.8,
+        526.24,
+        158
+       ],
+       [
+        25,
+        526.24,
+        180
+       ]
+      ],
+      "cap": 9.3,
+      "capAdd": 23
+     },
+     {
       "stat": "critstrkrtng",
       "unit": "pct",
       "base": 26.69,
       "points": [
        [
         26.69,
-        438.95,
+        521.41,
         0
        ],
        [
         29.19,
-        449.2,
+        533.52,
         35
        ],
        [
         31.69,
-        459.59,
+        545.39,
         70
        ],
        [
         34.19,
-        469.52,
+        557.26,
         105
        ],
        [
         36.69,
-        479.36,
+        568.68,
         140
        ],
        [
         39.19,
-        488.68,
+        580.03,
         175
        ],
        [
         41.69,
-        498.05,
+        591.27,
         210
        ],
        [
         44.19,
-        507.48,
+        602.63,
         245
        ],
        [
         46.69,
-        516.99,
+        614.08,
         280
        ]
       ],
       "cap": null,
       "capAdd": null
-     },
-     {
-      "stat": "hitrtng",
-      "unit": "pct",
-      "base": 6,
-      "points": [
-       [
-        6,
-        438.95,
-        0
-       ],
-       [
-        8.3,
-        446.19,
-        23
-       ],
-       [
-        10.5,
-        446.24,
-        45
-       ],
-       [
-        12.8,
-        446.29,
-        68
-       ],
-       [
-        15,
-        446.35,
-        90
-       ],
-       [
-        17.3,
-        446.39,
-        113
-       ],
-       [
-        19.5,
-        446.39,
-        135
-       ],
-       [
-        21.8,
-        446.39,
-        158
-       ],
-       [
-        24,
-        446.39,
-        180
-       ]
-      ],
-      "cap": 8.3,
-      "capAdd": 23
      },
      {
       "stat": "str",
@@ -30742,47 +31032,47 @@
       "points": [
        [
         0,
-        438.95,
+        521.41,
         0
        ],
        [
         15,
-        443.37,
+        526.84,
         15
        ],
        [
         30,
-        448.31,
+        532.92,
         30
        ],
        [
         45,
-        452.99,
+        538.67,
         45
        ],
        [
         60,
-        457.67,
+        544.43,
         60
        ],
        [
         75,
-        462.35,
+        550.18,
         75
        ],
        [
         90,
-        467.29,
+        556.26,
         90
        ],
        [
         105,
-        471.71,
+        561.7,
         105
        ],
        [
         120,
-        476.65,
+        567.77,
         120
        ]
       ],
@@ -30796,47 +31086,47 @@
       "points": [
        [
         0,
-        438.95,
+        521.41,
         0
        ],
        [
         15,
-        442.19,
+        525.38,
         15
        ],
        [
         30,
-        445.75,
+        529.62,
         30
        ],
        [
         45,
-        449.1,
+        533.41,
         45
        ],
        [
         60,
-        452.86,
+        537.36,
         60
        ],
        [
         75,
-        456.03,
+        541.34,
         75
        ],
        [
         90,
-        459.59,
+        545.39,
         90
        ],
        [
         105,
-        462.77,
+        549.2,
         105
        ],
        [
         120,
-        466.2,
+        553.19,
         120
        ]
       ],
@@ -30850,47 +31140,47 @@
       "points": [
        [
         0,
-        438.95,
+        521.41,
         0
        ],
        [
         50,
-        445.45,
+        529.4,
         50
        ],
        [
         100,
-        451.95,
+        537.39,
         100
        ],
        [
         150,
-        458.45,
+        545.39,
         150
        ],
        [
         200,
-        464.95,
+        553.38,
         200
        ],
        [
         250,
-        471.45,
+        561.38,
         250
        ],
        [
         300,
-        477.95,
+        569.37,
         300
        ],
        [
         350,
-        484.45,
+        577.36,
         350
        ],
        [
         400,
-        490.95,
+        585.36,
         400
        ]
       ],
@@ -30904,47 +31194,47 @@
       "points": [
        [
         0,
-        438.95,
+        521.41,
         0
        ],
        [
         19,
-        440.98,
+        523.45,
         19
        ],
        [
         38,
-        442.86,
+        525.34,
         38
        ],
        [
         56,
-        444.74,
+        527.23,
         56
        ],
        [
         75,
-        446.77,
+        529.27,
         75
        ],
        [
         94,
-        448.64,
+        531.16,
         94
        ],
        [
         113,
-        450.68,
+        533.21,
         113
        ],
        [
         131,
-        452.55,
+        535.1,
         131
        ],
        [
         150,
-        454.43,
+        536.98,
         150
        ]
       ],
@@ -30955,61 +31245,61 @@
     "procs": [
      {
       "name": "Seal of Command",
-      "perMin": 6.3
+      "perMin": 8
      },
      {
       "name": "Vengeance",
-      "perMin": 6.6
+      "perMin": 7.8
      }
     ],
     "talentValues": {
      "Benediction": {
-      "gain": -0.24,
-      "pct": -0.05
+      "gain": 1.19,
+      "pct": 0.23
      },
      "Improved Judgement": {
-      "gain": 9.44,
-      "pct": 2.15
+      "gain": 10.03,
+      "pct": 1.93
      },
      "Conviction": {
-      "gain": 27.38,
-      "pct": 6.24
+      "gain": 31.23,
+      "pct": 5.99
      },
      "Sanctified Judgement": {
-      "gain": -0.24,
-      "pct": -0.05
+      "gain": 1.19,
+      "pct": 0.23
      },
      "Seal of Command": {
-      "gain": 127.5,
-      "pct": 29.07
+      "gain": 152.69,
+      "pct": 29.31
      },
      "Pursuit of Justice": null,
      "Eye for an Eye": null,
      "Sacred Arbiter": {
-      "gain": 13.4,
-      "pct": 3.05
+      "gain": 13.47,
+      "pct": 2.58
      },
      "Two-Handed Weapon Specialization": {
-      "gain": 24.72,
+      "gain": 29.38,
       "pct": 5.64
      },
      "Vengeance": {
-      "gain": 49.8,
-      "pct": 11.35
+      "gain": 61.81,
+      "pct": 11.86
      },
      "Repentance": null,
      "Champion of the Light": {
-      "gain": 12.23,
-      "pct": 2.79
+      "gain": 13.15,
+      "pct": 2.52
      },
      "Unsealed Wrath": null,
      "Divine Strength": {
-      "gain": 11.69,
-      "pct": 2.66
+      "gain": 13.42,
+      "pct": 2.58
      },
      "Improved Seals": {
-      "gain": 30.99,
-      "pct": 7.07
+      "gain": 34.38,
+      "pct": 6.6
      },
      "Reverence": null,
      "Healing Light": null,
@@ -31092,6 +31382,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -31162,15 +31457,15 @@
     },
     "stats": {
      "prim": {
-      "str": 453,
+      "str": 422,
       "agi": 277,
-      "sta": 279,
+      "sta": 268,
       "int": 133,
       "spi": 162
      },
-     "ap": 1596,
+     "ap": 1578,
      "crit": 0.2668989898989899,
-     "hit": 0.06,
+     "hit": 0.07,
      "haste": 1,
      "mana": 3207,
      "armor": 976
@@ -31182,44 +31477,51 @@
     "uptimes": [
      [
       "Vengeance",
-      0.94
+      0.95
      ]
     ],
     "abilities": [
      {
       "name": "White (main hand)",
-      "dps": 199.3,
+      "dps": 200.5,
       "casts": 0,
-      "hits": 46.7,
-      "crit": 0.306
+      "hits": 47.1,
+      "crit": 0.303
      },
      {
       "name": "Seal of Command",
-      "dps": 83.6,
-      "casts": 19,
-      "hits": 19,
-      "crit": 0.329
-     },
-     {
-      "name": "Holy Strike",
-      "dps": 80.1,
-      "casts": 18,
-      "hits": 16.5,
+      "dps": 107.4,
+      "casts": 24.1,
+      "hits": 24.1,
       "crit": 0.327
      },
      {
+      "name": "Holy Strike",
+      "dps": 80.7,
+      "casts": 18,
+      "hits": 16.6,
+      "crit": 0.328
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 54.7,
+      "casts": 12.7,
+      "hits": 11.8,
+      "crit": 0.301
+     },
+     {
       "name": "Judgement of Command",
-      "dps": 42.9,
+      "dps": 43.1,
       "casts": 23,
       "hits": 23,
-      "crit": 0.329
+      "crit": 0.326
      },
      {
       "name": "Hammer of Wrath",
-      "dps": 31.1,
+      "dps": 31.2,
       "casts": 6,
       "hits": 6,
-      "crit": 0.332
+      "crit": 0.326
      },
      {
       "name": "Smokey's Lighter",
@@ -31241,6 +31543,11 @@
       "x": 1
      },
      {
+      "t": 7,
+      "n": "Seal of Command",
+      "x": 1
+     },
+     {
       "t": 9.6,
       "n": "Judgement of Command",
       "x": 1
@@ -31254,6 +31561,11 @@
       "t": 11.6,
       "n": "Holy Strike",
       "x": 1
+     },
+     {
+      "t": 14,
+      "n": "Seal of Command",
+      "x": 1
      }
     ]
    }
@@ -31262,31 +31574,36 @@
    "spec": "warrior_protection",
    "class": "warrior",
    "role": "tank",
-   "dps": 494.1,
-   "sem": 0.23,
+   "dps": 532.6,
+   "sem": 0.25,
    "name": "Protection Warrior",
-   "tps": 1752.5,
-   "dtps": 1251.4,
+   "tps": 1848.3,
+   "dtps": 1259.5,
    "health": 5020,
    "spells": [
     [
      "Heroic Strike",
-     224.1,
-     131.8
+     228.9,
+     133.7
     ],
     [
      "Revenge",
-     146.1,
+     149.4,
      30.3
     ],
     [
      "Shield Slam",
-     116.6,
+     116.4,
      30
     ],
     [
+     "Windfury Totem",
+     32,
+     36.5
+    ],
+    [
      "White (main hand)",
-     4.7,
+     3.3,
      0
     ],
     [
@@ -31296,8 +31613,8 @@
     ],
     [
      "Poison",
-     0.6,
-     4
+     0.7,
+     4.8
     ]
    ],
    "detail": {
@@ -31898,19 +32215,19 @@
      "slots": {
       "scroll": [
        {
-        "id": "scroll_strength",
-        "sid": 12179,
-        "name": "Scroll of Strength",
-        "chosen": true,
-        "gain": 13.66,
-        "pct": 0.58
-       },
-       {
         "id": "scroll_agility",
         "sid": 12174,
         "name": "Scroll of Agility",
+        "chosen": true,
+        "gain": 14.38,
+        "pct": 0.59
+       },
+       {
+        "id": "scroll_strength",
+        "sid": 12179,
+        "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 12.99,
+        "gain": 13.28,
         "pct": 0.55
        },
        {
@@ -31944,31 +32261,31 @@
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": true,
-        "gain": 39.23,
-        "pct": 1.67
+        "gain": 43.45,
+        "pct": 1.81
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 35.36,
-        "pct": 1.51
+        "gain": 38.75,
+        "pct": 1.61
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 34.95,
-        "pct": 1.49
+        "gain": 36.82,
+        "pct": 1.53
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 17.03,
+        "gain": 17.64,
         "pct": 0.73
        },
        {
@@ -31976,8 +32293,8 @@
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 15.93,
-        "pct": 0.68
+        "gain": 17.16,
+        "pct": 0.71
        },
        {
         "id": "flask_ancient_knowledge",
@@ -32006,20 +32323,20 @@
       ],
       "food": [
        {
-        "id": "food_agility",
-        "sid": 1225779,
-        "name": "Well Fed (agility food)",
-        "chosen": true,
-        "gain": 20.17,
-        "pct": 0.85
-       },
-       {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
+        "chosen": true,
+        "gain": 20.81,
+        "pct": 0.86
+       },
+       {
+        "id": "food_agility",
+        "sid": 1225779,
+        "name": "Well Fed (agility food)",
         "chosen": false,
-        "gain": 19.07,
-        "pct": 0.81
+        "gain": 19.8,
+        "pct": 0.82
        },
        {
         "id": "food_spell_power",
@@ -32044,16 +32361,16 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 15.39,
-        "pct": 0.65
+        "gain": 16.98,
+        "pct": 0.7
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 8.66,
-        "pct": 0.37
+        "gain": 10.4,
+        "pct": 0.43
        },
        {
         "id": "brilliant_wizard_oil",
@@ -32079,15 +32396,15 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 23.73,
-       "pct": 0.99
+       "gain": 24.59,
+       "pct": 1
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 14.03,
+       "gain": 14.55,
        "pct": 0.59
       },
       {
@@ -32120,55 +32437,55 @@
     "procs": [],
     "talentValues": {
      "Shield Specialization": {
-      "gain": 14.62,
+      "gain": 14.84,
       "pct": 0.61
      },
      "Anticipation": {
-      "gain": 17.15,
-      "pct": 0.72
+      "gain": 18.71,
+      "pct": 0.76
      },
      "Iron Will": null,
      "Improved Bloodrage": {
-      "gain": 1.98,
-      "pct": 0.08
+      "gain": 2.71,
+      "pct": 0.11
      },
      "Master of Defense": {
-      "gain": 15.48,
-      "pct": 0.65
+      "gain": 12.4,
+      "pct": 0.51
      },
      "Improved Revenge": {
-      "gain": 188.73,
-      "pct": 7.91
+      "gain": 187.35,
+      "pct": 7.66
      },
      "Defiance": {
-      "gain": 207.9,
+      "gain": 213.17,
       "pct": 8.71
      },
      "Last Stand": null,
      "Improved Sunder Armor": {
-      "gain": 1.02,
-      "pct": 0.04
+      "gain": 1.97,
+      "pct": 0.08
      },
      "Vanguard": null,
      "Bastion": {
-      "gain": 91.91,
-      "pct": 3.85
+      "gain": 95,
+      "pct": 3.88
      },
      "Focused Rage": {
-      "gain": 28.48,
-      "pct": 1.19
+      "gain": 18.3,
+      "pct": 0.75
      },
      "Shield Slam": {
-      "gain": 60.25,
-      "pct": 2.53
+      "gain": 64.41,
+      "pct": 2.63
      },
      "Deflection": {
-      "gain": 30.93,
-      "pct": 1.3
+      "gain": 33.51,
+      "pct": 1.37
      },
      "Improved Heroic Strike": {
-      "gain": 18.09,
-      "pct": 0.76
+      "gain": 9.8,
+      "pct": 0.4
      },
      "Improved Charge": null,
      "Improved Tactical Mastery": null,
@@ -32248,6 +32565,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -32256,12 +32578,6 @@
       }
      ],
      "consumables": [
-      {
-       "id": "scroll_strength",
-       "name": "Scroll of Strength",
-       "sid": 12179,
-       "str": 17
-      },
       {
        "id": "juju_power",
        "name": "Juju Power",
@@ -32275,18 +32591,24 @@
        "ap": 40
       },
       {
+       "id": "food_strength",
+       "name": "Well Fed (strength food)",
+       "sid": 1225778,
+       "str": 25,
+       "sta": 10
+      },
+      {
+       "id": "scroll_agility",
+       "name": "Scroll of Agility",
+       "sid": 12174,
+       "agi": 17
+      },
+      {
        "id": "elixir_honey_badger",
        "name": "Elixir of the Honey Badger",
        "sid": 1213904,
        "agi": 30,
        "crit": 0.02
-      },
-      {
-       "id": "food_agility",
-       "name": "Well Fed (agility food)",
-       "sid": 1225779,
-       "agi": 25,
-       "sta": 10
       },
       {
        "id": "elemental_sharpening_stone",
@@ -32319,14 +32641,14 @@
     },
     "stats": {
      "prim": {
-      "str": 431,
-      "agi": 354,
+      "str": 440,
+      "agi": 345,
       "sta": 352,
       "int": 89,
       "spi": 126
      },
-     "ap": 1438,
-     "crit": 0.29700000000000004,
+     "ap": 1456,
+     "crit": 0.2925,
      "hit": 0.075,
      "haste": 1,
      "armor": 976,
@@ -32334,10 +32656,10 @@
       "armor": 6553,
       "health": 5020,
       "defense": 301,
-      "dodge": 0.1845,
+      "dodge": 0.18,
       "parry": 0.05,
       "block": 0.05,
-      "blockValue": 61.55,
+      "blockValue": 62,
       "shield": true,
       "stamina": 352
      }
@@ -32346,35 +32668,47 @@
      "Poison",
      "Smokey's Lighter"
     ],
-    "uptimes": [],
+    "uptimes": [
+     [
+      "Windfury Totem attack power",
+      0.19
+     ]
+    ],
     "abilities": [
      {
       "name": "Heroic Strike",
-      "dps": 224.1,
-      "casts": 131.8,
-      "hits": 122.5,
-      "crit": 0.25
+      "dps": 228.9,
+      "casts": 133.7,
+      "hits": 124.3,
+      "crit": 0.245
      },
      {
       "name": "Revenge",
-      "dps": 146.1,
+      "dps": 149.4,
       "casts": 30.3,
       "hits": 28.2,
-      "crit": 0.25
+      "crit": 0.245
      },
      {
       "name": "Shield Slam",
-      "dps": 116.6,
+      "dps": 116.4,
       "casts": 30,
       "hits": 27.9,
-      "crit": 0.25
+      "crit": 0.245
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 32,
+      "casts": 36.5,
+      "hits": 34,
+      "crit": 0.262
      },
      {
       "name": "White (main hand)",
-      "dps": 4.7,
+      "dps": 3.3,
       "casts": 0,
-      "hits": 5.8,
-      "crit": 0.271
+      "hits": 4,
+      "crit": 0.263
      },
      {
       "name": "Smokey's Lighter",
@@ -32385,9 +32719,9 @@
      },
      {
       "name": "Poison",
-      "dps": 0.6,
-      "casts": 4,
-      "hits": 8.8,
+      "dps": 0.7,
+      "casts": 4.8,
+      "hits": 10.2,
       "crit": 0
      }
     ],
@@ -32395,6 +32729,11 @@
      {
       "t": 1,
       "n": "Shield Slam",
+      "x": 1
+     },
+     {
+      "t": 1.3,
+      "n": "Heroic Strike",
       "x": 1
      },
      {
@@ -32433,11 +32772,6 @@
       "x": 1
      },
      {
-      "t": 9.1,
-      "n": "Heroic Strike",
-      "x": 1
-     },
-     {
       "t": 10.4,
       "n": "Heroic Strike",
       "x": 1
@@ -32445,6 +32779,11 @@
      {
       "t": 11.7,
       "n": "Heroic Strike",
+      "x": 1
+     },
+     {
+      "t": 13,
+      "n": "Shield Slam",
       "x": 1
      },
      {
@@ -32459,37 +32798,42 @@
    "spec": "paladin_protection",
    "class": "paladin",
    "role": "tank",
-   "dps": 284.7,
-   "sem": 0.19,
+   "dps": 321.9,
+   "sem": 0.25,
    "name": "Protection Paladin",
-   "tps": 609.1,
-   "dtps": 1379.8,
+   "tps": 680.2,
+   "dtps": 1363.9,
    "health": 4880,
    "spells": [
     [
      "White (main hand)",
-     152.8,
+     154.5,
      0
     ],
     [
      "Holy Strike",
-     38,
-     18
-    ],
-    [
-     "Holy Shield",
-     31.5,
-     18
-    ],
-    [
-     "Judgement of Righteousness",
-     30.6,
+     36.8,
      18
     ],
     [
      "Seal of Righteousness",
-     29.9,
-     80.3
+     35.6,
+     95.3
+    ],
+    [
+     "Windfury Totem",
+     32.2,
+     16
+    ],
+    [
+     "Holy Shield",
+     31.7,
+     18
+    ],
+    [
+     "Judgement of Righteousness",
+     29.2,
+     18
     ],
     [
      "Smokey's Lighter",
@@ -32979,15 +33323,15 @@
     ],
     "enchants": {
      "mh": {
-      "id": 22749,
+      "id": 23800,
       "kind": "enchant",
       "name": {
-       "en": "Enchant Weapon - Spell Power",
-       "fr": "Ench. d'arme (Puissance des sorts)"
+       "en": "Enchant Weapon - Agility",
+       "fr": "Ench. d'arme (Agilité)"
       },
-      "effect": "Spell Power +30",
+      "effect": "Agility +15",
       "stats": {
-       "splpwr": 30
+       "agi": 15
       }
      },
      "back": {
@@ -33019,15 +33363,15 @@
       }
      },
      "wrist": {
-      "id": 1248500,
+      "id": 20010,
       "kind": "enchant",
       "name": {
-       "en": "Enchant Bracer - Greater Agility",
-       "fr": "Enchantement de brassards (Agilité supérieure)"
+       "en": "Enchant Bracer - Superior Strength",
+       "fr": "Ench. de bracelets (Force excellente)"
       },
-      "effect": "Agility +7",
+      "effect": "Strength +9",
       "stats": {
-       "agi": 7
+       "str": 9
       }
      },
      "hands": {
@@ -33055,15 +33399,15 @@
       }
      },
      "neck": {
-      "id": 1249019,
+      "id": 1249059,
       "kind": "enchant",
       "name": {
-       "en": "Enchant Necklace - Strength",
-       "fr": "Enchantement de collier (Force)"
+       "en": "Enchant Necklace - Agility",
+       "fr": "Enchantement de collier (Agilité)"
       },
-      "effect": "Strength +5",
+      "effect": "Agility +5",
       "stats": {
-       "str": 5
+       "agi": 5
       }
      }
     },
@@ -33090,16 +33434,16 @@
         "sid": 12174,
         "name": "Scroll of Agility",
         "chosen": true,
-        "gain": 7.66,
-        "pct": 0.56
+        "gain": 9.1,
+        "pct": 0.63
        },
        {
         "id": "scroll_strength",
         "sid": 12179,
         "name": "Scroll of Strength",
         "chosen": false,
-        "gain": 7.1,
-        "pct": 0.52
+        "gain": 7.85,
+        "pct": 0.54
        },
        {
         "id": "scroll_intellect",
@@ -33132,64 +33476,64 @@
         "sid": 1213892,
         "name": "Flask of Ancient Knowledge",
         "chosen": true,
-        "gain": 47.11,
-        "pct": 3.54
+        "gain": 44.68,
+        "pct": 3.16
        },
        {
         "id": "elixir_honey_badger",
         "sid": 1213904,
         "name": "Elixir of the Honey Badger",
         "chosen": false,
-        "gain": 22.79,
-        "pct": 1.71
+        "gain": 26.17,
+        "pct": 1.85
        },
        {
         "id": "elixir_mongoose",
         "sid": 17538,
         "name": "Elixir of the Mongoose",
         "chosen": false,
-        "gain": 20.37,
-        "pct": 1.53
+        "gain": 23.96,
+        "pct": 1.69
        },
        {
         "id": "elixir_grizzly",
         "sid": 1250986,
         "name": "Elixir of the Grizzly",
         "chosen": false,
-        "gain": 20.35,
-        "pct": 1.53
-       },
-       {
-        "id": "elixir_mage_lord",
-        "sid": 1213914,
-        "name": "Elixir of the Mage-Lord",
-        "chosen": false,
-        "gain": 10.61,
-        "pct": 0.8
+        "gain": 22.41,
+        "pct": 1.58
        },
        {
         "id": "flask_madness",
         "sid": 1213897,
         "name": "Flask of Madness",
         "chosen": false,
-        "gain": 9.68,
-        "pct": 0.73
+        "gain": 10.67,
+        "pct": 0.75
        },
        {
         "id": "elixir_owl",
         "sid": 1250940,
         "name": "Elixir of the Owl",
         "chosen": false,
-        "gain": 9.34,
-        "pct": 0.7
+        "gain": 10.27,
+        "pct": 0.73
+       },
+       {
+        "id": "elixir_mage_lord",
+        "sid": 1213914,
+        "name": "Elixir of the Mage-Lord",
+        "chosen": false,
+        "gain": 10.05,
+        "pct": 0.71
        },
        {
         "id": "greater_arcane_elixir",
         "sid": 17539,
         "name": "Greater Arcane Elixir",
         "chosen": false,
-        "gain": 9.29,
-        "pct": 0.7
+        "gain": 8.8,
+        "pct": 0.62
        }
       ],
       "food": [
@@ -33198,32 +33542,32 @@
         "sid": 1225779,
         "name": "Well Fed (agility food)",
         "chosen": true,
-        "gain": 12.67,
-        "pct": 0.93
+        "gain": 13.81,
+        "pct": 0.96
        },
        {
         "id": "food_strength",
         "sid": 1225778,
         "name": "Well Fed (strength food)",
         "chosen": false,
-        "gain": 10.39,
-        "pct": 0.76
+        "gain": 11.5,
+        "pct": 0.8
        },
        {
         "id": "food_spell_power",
         "sid": 1225780,
         "name": "Well Fed (spell power food)",
         "chosen": false,
-        "gain": 6.37,
-        "pct": 0.47
+        "gain": 6.07,
+        "pct": 0.42
        },
        {
         "id": "nightfin_soup",
         "sid": 18194,
         "name": "Nightfin Soup",
         "chosen": false,
-        "gain": 1.13,
-        "pct": 0.08
+        "gain": -0.34,
+        "pct": -0.02
        }
       ],
       "oil": [
@@ -33232,32 +33576,32 @@
         "sid": 22756,
         "name": "Elemental Sharpening Stone",
         "chosen": true,
-        "gain": 9.37,
-        "pct": 0.69
-       },
-       {
-        "id": "brilliant_wizard_oil",
-        "sid": 25129,
-        "name": "Brilliant Wizard Oil",
-        "chosen": false,
-        "gain": 9.21,
-        "pct": 0.67
+        "gain": 10.52,
+        "pct": 0.73
        },
        {
         "id": "dense_stone",
         "sid": 16138,
         "name": "Dense Sharpening / Weight Stone",
         "chosen": false,
-        "gain": 8.34,
-        "pct": 0.61
+        "gain": 9.22,
+        "pct": 0.64
+       },
+       {
+        "id": "brilliant_wizard_oil",
+        "sid": 25129,
+        "name": "Brilliant Wizard Oil",
+        "chosen": false,
+        "gain": 8.76,
+        "pct": 0.6
        },
        {
         "id": "brilliant_mana_oil",
         "sid": 25130,
         "name": "Brilliant Mana Oil",
         "chosen": false,
-        "gain": 6.95,
-        "pct": 0.51
+        "gain": 5.78,
+        "pct": 0.4
        }
       ]
      },
@@ -33267,32 +33611,16 @@
        "sid": 16323,
        "name": "Juju Power",
        "chosen": true,
-       "gain": 12.51,
-       "pct": 0.91
+       "gain": 13.84,
+       "pct": 0.95
       },
       {
        "id": "juju_might",
        "sid": 16329,
        "name": "Juju Might",
        "chosen": true,
-       "gain": 7.52,
-       "pct": 0.55
-      },
-      {
-       "id": "mageblood_potion",
-       "sid": 24363,
-       "name": "Mageblood Potion",
-       "chosen": false,
-       "gain": 0.64,
-       "pct": 0.05
-      },
-      {
-       "id": "spirit_of_zanza",
-       "sid": 24382,
-       "name": "Spirit of Zanza",
-       "chosen": false,
-       "gain": 0.64,
-       "pct": 0.05
+       "gain": 8.33,
+       "pct": 0.57
       },
       {
        "id": "juju_guile",
@@ -33301,6 +33629,22 @@
        "chosen": false,
        "gain": 0,
        "pct": 0
+      },
+      {
+       "id": "mageblood_potion",
+       "sid": 24363,
+       "name": "Mageblood Potion",
+       "chosen": false,
+       "gain": -0.31,
+       "pct": -0.02
+      },
+      {
+       "id": "spirit_of_zanza",
+       "sid": 24382,
+       "name": "Spirit of Zanza",
+       "chosen": false,
+       "gain": -0.31,
+       "pct": -0.02
       }
      ]
     },
@@ -33312,12 +33656,12 @@
       "pct": 0
      },
      "Redoubt": {
-      "gain": 17.69,
-      "pct": 1.28
+      "gain": 19.74,
+      "pct": 1.35
      },
      "Precision": {
-      "gain": 11.22,
-      "pct": 0.82
+      "gain": 16.04,
+      "pct": 1.1
      },
      "Sacred Duty": {
       "gain": 0,
@@ -33326,37 +33670,37 @@
      "Templar's Bulwark": null,
      "Shield Specialization": null,
      "Toughness": {
-      "gain": 16.41,
-      "pct": 1.19
+      "gain": 17.05,
+      "pct": 1.17
      },
      "Swift Judgement": {
       "gain": 0,
       "pct": 0
      },
      "Improved Righteous Fury": {
-      "gain": 30.77,
-      "pct": 2.23
+      "gain": 31.97,
+      "pct": 2.19
      },
      "Anticipation": {
-      "gain": 18.36,
-      "pct": 1.33
+      "gain": 21.16,
+      "pct": 1.45
      },
      "Holy Shield": {
-      "gain": 138.48,
-      "pct": 10.06
+      "gain": 144.16,
+      "pct": 9.88
      },
      "Reckoning": {
-      "gain": 63.92,
-      "pct": 4.64
+      "gain": 74.75,
+      "pct": 5.12
      },
      "Iron Creed": {
-      "gain": 29.1,
-      "pct": 2.11
+      "gain": 26.68,
+      "pct": 1.83
      },
      "Shieldsworn": null,
      "Deflection": {
-      "gain": 20.19,
-      "pct": 1.47
+      "gain": 22.97,
+      "pct": 1.57
      },
      "Stoicism": null,
      "Guardian's Favor": null
@@ -33435,6 +33779,11 @@
        "str": 53
       },
       {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
+      },
+      {
        "id": "leader_of_the_pack",
        "name": "Leader of the Pack (Feral Druid)",
        "sid": 24932,
@@ -33505,14 +33854,14 @@
     },
     "stats": {
      "prim": {
-      "str": 390,
-      "agi": 341,
+      "str": 394,
+      "agi": 355,
       "sta": 338,
       "int": 133,
       "spi": 162
      },
-     "ap": 1336,
-     "crit": 0.27922222222222226,
+     "ap": 1344,
+     "crit": 0.2862929292929293,
      "hit": 0.055,
      "haste": 1,
      "mana": 3207,
@@ -33521,10 +33870,10 @@
       "armor": 6494,
       "health": 4880,
       "defense": 302,
-      "dodge": 0.17800000000000002,
+      "dodge": 0.185,
       "parry": 0.05,
       "block": 0.05,
-      "blockValue": 59.5,
+      "blockValue": 59.7,
       "shield": true,
       "stamina": 338
      }
@@ -33537,38 +33886,45 @@
     "abilities": [
      {
       "name": "White (main hand)",
-      "dps": 152.8,
+      "dps": 154.5,
       "casts": 0,
       "hits": 80.3,
-      "crit": 0.247
+      "crit": 0.254
      },
      {
       "name": "Holy Strike",
-      "dps": 38,
+      "dps": 36.8,
       "casts": 18,
       "hits": 16.8,
-      "crit": 0.281
-     },
-     {
-      "name": "Holy Shield",
-      "dps": 31.5,
-      "casts": 18,
-      "hits": 69.2,
-      "crit": 0.139
-     },
-     {
-      "name": "Judgement of Righteousness",
-      "dps": 30.6,
-      "casts": 18,
-      "hits": 18,
-      "crit": 0.281
+      "crit": 0.284
      },
      {
       "name": "Seal of Righteousness",
-      "dps": 29.9,
-      "casts": 80.3,
-      "hits": 80.3,
-      "crit": 0.28
+      "dps": 35.6,
+      "casts": 95.3,
+      "hits": 95.3,
+      "crit": 0.287
+     },
+     {
+      "name": "Windfury Totem",
+      "dps": 32.2,
+      "casts": 16,
+      "hits": 14.9,
+      "crit": 0.256
+     },
+     {
+      "name": "Holy Shield",
+      "dps": 31.7,
+      "casts": 18,
+      "hits": 69.4,
+      "crit": 0.144
+     },
+     {
+      "name": "Judgement of Righteousness",
+      "dps": 29.2,
+      "casts": 18,
+      "hits": 18,
+      "crit": 0.285
      },
      {
       "name": "Smokey's Lighter",
@@ -33587,7 +33943,7 @@
      {
       "t": 2.5,
       "n": "Seal of Righteousness",
-      "x": 1
+      "x": 2
      },
      {
       "t": 3,
@@ -33600,7 +33956,27 @@
       "x": 1
      },
      {
+      "t": 7,
+      "n": "Holy Shield",
+      "x": 1
+     },
+     {
+      "t": 7,
+      "n": "Seal of Righteousness",
+      "x": 1
+     },
+     {
       "t": 7.5,
+      "n": "Seal of Righteousness",
+      "x": 2
+     },
+     {
+      "t": 9,
+      "n": "Holy Shield",
+      "x": 1
+     },
+     {
+      "t": 9,
       "n": "Seal of Righteousness",
       "x": 1
      },
@@ -33612,11 +33988,6 @@
      {
       "t": 11,
       "n": "Holy Shield",
-      "x": 1
-     },
-     {
-      "t": 11,
-      "n": "Seal of Righteousness",
       "x": 1
      },
      {
@@ -34550,6 +34921,11 @@
        "name": "Strength of Earth Totem (Shaman)",
        "sid": 25361,
        "str": 53
+      },
+      {
+       "id": "windfury_totem",
+       "name": "Windfury Totem (Shaman)",
+       "sid": 10614
       },
       {
        "id": "leader_of_the_pack",

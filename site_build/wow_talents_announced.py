@@ -189,6 +189,8 @@ def apply(cls: dict) -> list[str]:
                 tgt = byid.get(q["id"])
                 if tgt and q["rank"] > tgt["max_rank"]:
                     q["rank"] = tgt["max_rank"]
+    import wow_talents_layout      # positions, new and renamed talents of the launch build (WoWSims Forever trees)
+    log.extend(wow_talents_layout.apply_layout(cls))
     return log
 
 

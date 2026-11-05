@@ -5,7 +5,7 @@ export const NAME_TO_KEY = {
   warrior: {
     // Fury
     'Cruelty': 'cruelty', 'Unbridled Wrath': 'unbridledWrath', 'Furious Precision': 'furiousPrecision', 'Dual Wield Specialization': 'dualWieldSpec',
-    'Raging Blows': 'ragingBlows', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
+    'Reckless Swings': 'recklessSwings', 'Improved Whirlwind': 'improvedWhirlwind', 'Enrage': 'enrage', 'Improved Execute': 'improvedExecute', 'Death Wish': 'deathWish',
     'Improved Berserker Rage': 'improvedBerserkerRage', 'Flurry': 'flurry', 'Bloodthirst': 'bloodthirst',
     // Arms
     'Improved Heroic Strike': 'improvedHeroicStrike', 'Spearing Strike': 'spearingStrike', 'Improved Rend': 'improvedRend', 'Bloodthrill': 'bloodthrill', 'Improved Overpower': 'improvedOverpower',
@@ -17,7 +17,7 @@ export const NAME_TO_KEY = {
   },
   rogue: {
     'Malice': 'malice', 'Lethality': 'lethality', 'Precision': 'precision', 'Dual Wield Specialization': 'dualWieldSpec',
-    'Improved Sinister Strike': 'improvedSinisterStrike', 'Improved Eviscerate': 'improvedEviscerate', 'Flawless Execution': 'flawlessExecution',
+    'Efficient Strikes': 'improvedSinisterStrike', 'Coup de Grace': 'improvedEviscerate', 'Flash of Steel': 'flashOfSteel', 'Boot Knife': 'bootKnife', 'Composure': 'composure', 'Death Mark': 'deathMark', 'Blood Splatter': 'bloodSplatter', 'Flawless Execution': 'flawlessExecution',
     'Blade Flurry': 'bladeFlurry', 'Hack and Slash': 'hackAndSlash', 'Weapon Expertise': 'weaponExpertise', 'Aggression': 'aggression',
     'Adrenaline Rush': 'adrenalineRush', 'Ruthlessness': 'ruthlessness', 'Relentless Strikes': 'relentlessStrikes',
     'Improved Slice and Dice': 'improvedSliceAndDice', 'Seal Fate': 'sealFate', 'Vigor': 'vigor', 'Cold Blood': 'coldBlood', 'Mutilate': 'mutilate',
@@ -39,7 +39,7 @@ export const NAME_TO_KEY = {
   shaman: {
     'Mindfulness': 'mindfulness', 'Totemic Focus': 'totemicFocus', 'Tidal Focus': 'tidalFocus',
     'Convection': 'convection', 'Concussion': 'concussion', 'Reverberation': 'reverberation', 'Call of Flame': 'callOfFlame', 'Elemental Focus': 'elementalFocus',
-    'Elemental Alacrity': 'elementalAlacrity', 'Elemental Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst', 'Call of Thunder': 'callOfThunder',
+    'Elemental Alacrity': 'elementalAlacrity', 'Lightning Mastery': 'elementalMastery', 'Lightning Overload': 'lightningOverload', 'Elemental Fury': 'elementalFury', 'Lava Burst': 'lavaBurst', 'Call of Thunder': 'callOfThunder',
     'Thundering Strikes': 'thunderingStrikes', 'Ancestral Knowledge': 'ancestralKnowledge', 'Flurry': 'flurry', 'Stormstrike': 'stormstrike', 'Maelstrom Weapon': 'maelstromWeapon',
     'Rage of the Farseer': 'rageOfTheFarseer', 'Trial by Fire': 'improvedFireNova', 'Elemental Devastation': 'elementalDevastation', 'Shamanistic Focus': 'shamanisticFocus', 'Improved Stormstrike': 'improvedStormstrike', 'Mental Dexterity': 'mentalDexterity', 'Mental Quickness': 'mentalQuickness', 'Elemental Weapons': 'elementalWeapons',
   },
@@ -136,20 +136,14 @@ export function ranksFromNames(data, byName) {
 
 // Typical raiding builds (51 points), by talent name. Checked against the tree rules in the tests.
 export const PRESETS = {
-  rogue_combat: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Flawless Execution': 1,
-    'Dual Wield Specialization': 2, 'Deflection': 1, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Weapon Expertise': 2, 'Aggression': 3, 'Adrenaline Rush': 1,
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Lethality': 2, 'Relentless Strikes': 5, 'Improved Poisons': 1,
+  rogue_combat: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Vigor': 2, 'Lethality': 2, 'Cold Blood': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Deflection': 1, 'Precision': 3, 'Improved Sprint': 2, 'Endurance': 2, 'Composure': 2, 'Flawless Execution': 1, 'Weapon Expertise': 2, 'Aggression': 3, 'Dual Wield Specialization': 2, 'Blade Flurry': 1, 'Hack and Slash': 5, 'Flash of Steel': 5, 'Adrenaline Rush': 1,
   },
-  rogue_assassination: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Relentless Strikes': 5, 'Lethality': 2, 'Vile Poisons': 5, 'Cold Blood': 1,
-    'Mutilate': 1, 'Vigor': 2, 'Seal Fate': 3, 'Venom': 1,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
+  rogue_assassination: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Vigor': 1, 'Blood Splatter': 1, 'Lethality': 2, 'Vile Poisons': 3, 'Cold Blood': 1, 'Improved Poisons': 2, 'Relentless Strikes': 5, 'Venom': 1, 'Seal Fate': 3, 'Mutilate': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Puncturing Wounds': 3, 'Precision': 3, 'Endurance': 2, 'Composure': 2, 'Flawless Execution': 1, 'Aggression': 3, 'Opportunity': 1,
   },
-  rogue_subtlety: {   // rebuilt for the class tuning notes of 3 Nov 2026 (talent ranks of the notes applied on top of build 1.60.1.70753)
-    'Camouflage': 5, 'Opportunity': 5, 'Setup': 3, 'Improved Ambush': 3, 'Ghostly Strike': 1, 'Initiative': 3, 'Serrated Blades': 3,
-    'Premeditation': 1, 'Hemorrhage': 1, 'Dirty Deeds': 2, 'Heightened Senses': 2, 'Elusiveness': 2,
-    'Improved Eviscerate': 3, 'Improved Sinister Strike': 2, 'Lightning Reflexes': 5, 'Precision': 3, 'Puncturing Wounds': 3, 'Dual Wield Specialization': 2, 'Flawless Execution': 1, 'Deflection': 1,
+  rogue_subtlety: {   // the WoWSims Forever preset of the launch trees (open-source simulator, MIT), checked against our tree rules
+    'Malice': 5, 'Ruthlessness': 3, 'Improved Slice and Dice': 3, 'Blood Splatter': 1, 'Coup de Grace': 3, 'Efficient Strikes': 2, 'Precision': 3, 'Setup': 3, 'Opportunity': 5, 'Dirty Deeds': 2, 'Camouflage': 3, 'Initiative': 3, 'Premeditation': 1, 'Serrated Blades': 3, 'Elusiveness': 2, 'Ghostly Strike': 1, 'Preparation': 1, 'Hemorrhage': 1, 'Boot Knife': 5, 'Death Mark': 1,
   },
   mage_fire: {   // rebuilt for build 1.60.1.70753 (Blizzard class tuning of 3 Nov 2026)
     'Incineration': 5, 'Accelerant': 5, 'Ignite': 5, 'Pyroblast': 1, 'Improved Fire Blast': 2, 'Improved Scorch': 3, 'Heating Up': 1, 'Master of Elements': 3,
@@ -195,7 +189,7 @@ export const PRESETS = {
     'Twin Disciplines': 5, 'Power in Light': 5, 'Mental Agility': 3, 'Inner Focus': 1, 'Meditation': 3, 'Mental Strength': 2,
   },
   shaman_elemental: {
-    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Elemental Mastery': 1, 'Lightning Overload': 3,
+    'Convection': 5, 'Concussion': 5, 'Reverberation': 4, 'Call of Flame': 3, 'Elemental Focus': 1, 'Elemental Alacrity': 3, 'Lightning Mastery': 1, 'Lightning Overload': 3,
     'Elemental Fury': 5, 'Call of Thunder': 1, 'Thundering Strikes': 5, 'Ancestral Knowledge': 5,
     'Tidal Focus': 5, 'Mindfulness': 3, 'Totemic Focus': 2,       // Restoration: +5 % hit (Tidal Focus, row 1 since build 70425), 50 % of the regeneration while casting (the Elemental is mana-bound), cheaper totems
   },
@@ -235,7 +229,7 @@ export const PRESETS = {
     'Furor': 5, 'Naturalist': 5, 'Subtlety': 2,
   },
   warrior_fury: {   // rebuilt for the class tuning notes of 3 Nov 2026 (Flurry 3 ranks, Improved Tactical Mastery 3 ranks, Bloodthrill 2 ranks); the user's bleed hybrid is kept, the freed points go to Improved Berserker Rage (+2 % DPS measured) and Blood Craze
-    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Lingering Rage': 2, 'Dual Wield Specialization': 5, 'Raging Blows': 1, 'Enrage': 3,
+    'Cruelty': 5, 'Unbridled Wrath': 5, 'Furious Precision': 3, 'Dual Wield Specialization': 5, 'Reckless Swings': 1, 'Improved Whirlwind': 2, 'Enrage': 3,
     'Improved Execute': 2, 'Death Wish': 1, 'Flurry': 3, 'Bloodthirst': 1, 'Improved Berserker Rage': 2, 'Blood Craze': 1,
     'Improved Heroic Strike': 3, 'Improved Rend': 3, 'Improved Tactical Mastery': 3, 'Improved Overpower': 2, 'Anger Management': 1, 'Deep Wounds': 3, 'Impale': 2,
   },

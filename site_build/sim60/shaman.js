@@ -199,6 +199,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
       sim.aSS = sim.addAura({ name: 'Stormstrike', duration: E.stormstrike.dur });
       sim.aFar = sim.addAura({ name: 'Rage of the Farseer', duration: E.farseer.dur, mods: { hasteMult: E.farseer.haste } });
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
+      if (b.windfuryWeapon) sim.noWindfuryTotem = true;      // WoWSims Forever: the main-hand imbue keeps its own proc, the raid totem adds nothing
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;

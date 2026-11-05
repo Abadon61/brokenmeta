@@ -54,3 +54,7 @@ export function meleeTable(weaponSkill, targetDefense = BOSS_DEFENSE) {
 export const DUAL_WIELD_MISS_PENALTY = 0.19;
 export const OVERPOWER_WINDOW = 5.0;
 export const GCD = 1.5;
+
+// Windfury Totem rank 3 (client spells 10610 / 10612, read through WoWSims Forever sim/core/buffs/drivers.go): 20 % per landed main-hand hit, 100 ms internal cooldown,
+// one extra main-hand swing, +246 attack power for 2 charges or 1 s
+export const WINDFURY_TOTEM = { chance: 0.20, icd: 0.1, ap: 246, charges: 2, duration: 1 };

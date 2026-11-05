@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03",
+ "generated": "2026-11-05",
  "level": 60,
  "builds": {
   "warrior": {
@@ -102,17 +102,6 @@
       }
      },
      {
-      "id": "n110857",
-      "points": 2,
-      "max": 5,
-      "tree": "fury",
-      "row": 2,
-      "desc": {
-       "en": "Increases the time before your Rage begins to decay after leaving combat by 4 sec.",
-       "fr": "Augmente de 4 s le délai précédant la déperdition des points de rage lorsque vous cessez le combat."
-      }
-     },
-     {
       "id": "n105937",
       "points": 5,
       "max": 5,
@@ -146,6 +135,17 @@
       }
      },
      {
+      "id": "n105931",
+      "points": 3,
+      "max": 5,
+      "tree": "fury",
+      "row": 3,
+      "desc": {
+       "en": "Gives you a 30% chance to deal 6% increased Physical damage for 12 sec after being the victim of any damaging attack.",
+       "fr": "Vous confère 30 % de chances d’infliger 6 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts."
+      }
+     },
+     {
       "id": "n105933",
       "points": 5,
       "max": 5,
@@ -163,19 +163,8 @@
       "tree": "fury",
       "row": 4,
       "desc": {
-       "en": "Reduces the Rage cost of your Cleave and Whirlwind abilities by -3.",
-       "fr": "Réduit le coût en rage de vos techniques Enchaînement et Tourbillon de -3."
-      }
-     },
-     {
-      "id": "n105931",
-      "points": 3,
-      "max": 5,
-      "tree": "fury",
-      "row": 4,
-      "desc": {
-       "en": "Gives you a 30% chance to deal 6% increased Physical damage for 12 sec after being the victim of any damaging attack.",
-       "fr": "Vous confère 30 % de chances d’infliger 6 % de dégâts physiques supplémentaires pendant 12 s après avoir été victime d’une attaque infligeant des dégâts."
+       "en": "Active, 15 sec cooldown, costs 25% of your base health. For 8 sec, your next 4 melee attacks each give you 5 additional Rage.",
+       "fr": "Actif, 15 s de recharge, coûte 25 % de votre santé de base. Pendant 8 s, vos 4 prochaines attaques en mêlée vous donnent chacune 5 points de rage supplémentaires."
       }
      },
      {
@@ -209,6 +198,17 @@
       "desc": {
        "en": "When activated, increases your Physical damage done by 20% and makes you immune to Fear effects, but increases all damage you take by 5%. Lasts 30 sec.",
        "fr": "À l’activation, augmente de 20 % les dégâts physiques que vous infligez et vous rend insensible aux effets de peur, mais augmente de 5 % les dégâts que vous subissez. Dure 30 s."
+      }
+     },
+     {
+      "id": "w1310315",
+      "points": 2,
+      "max": 2,
+      "tree": "fury",
+      "row": 6,
+      "desc": {
+       "en": "Reduces the cooldown of your Whirlwind ability by 2 sec.",
+       "fr": "Réduit de 2 s le temps de recharge de votre technique Tourbillon."
       }
      },
      {
@@ -662,8 +662,8 @@
     "preset": "rogue_combat",
     "total": 51,
     "trees": [
-     19,
-     32,
+     16,
+     35,
      0
     ],
     "talents": [
@@ -701,14 +701,14 @@
       }
      },
      {
-      "id": "n105759",
-      "points": 5,
-      "max": 5,
+      "id": "n105718",
+      "points": 2,
+      "max": 2,
       "tree": "assassination",
       "row": 3,
       "desc": {
-       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
-       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+       "en": "Increases your maximum Energy by 10.",
+       "fr": "Augmente votre maximum de points d’énergie de 10."
       }
      },
      {
@@ -723,14 +723,14 @@
       }
      },
      {
-      "id": "n105713",
+      "id": "n105715",
       "points": 1,
-      "max": 5,
+      "max": 1,
       "tree": "assassination",
       "row": 4,
       "desc": {
-       "en": "Increases the chance to apply Poisons to your target by 2%, and gives Poison applications a 10% chance to not consume a charge.",
-       "fr": "Augmente de 2 % vos chances d’appliquer des poisons à votre cible et confère aux applications de poison 10 % de chances de ne pas consommer de charge."
+       "en": "When activated, increases the critical strike chance of your next Sinister Strike, Backstab, Ambush, Eviscerate, or Mutilate by 100%.",
+       "fr": "À l’activation, augmente de 100 % les chances de coup critique de votre prochaine attaque utilisant Attaque pernicieuse, Attaque sournoise, Embuscade, Éviscération ou Estropier."
       }
      },
      {
@@ -740,8 +740,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
       }
      },
      {
@@ -751,30 +751,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
        "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "id": "n113398",
-      "points": 5,
-      "max": 5,
-      "tree": "combat",
-      "row": 1,
-      "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
-      }
-     },
-     {
-      "id": "n105719",
-      "points": 3,
-      "max": 3,
-      "tree": "combat",
-      "row": 2,
-      "desc": {
-       "en": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point.",
-       "fr": "Augmente les chances de coup critique de vos techniques Attaque sournoise et Estropier respectivement de 30 % et 15 %, et confère à Attaque sournoise 45 % de chances de générer un point de combo supplémentaire."
       }
      },
      {
@@ -800,6 +778,39 @@
       }
      },
      {
+      "id": "n105732",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 2,
+      "desc": {
+       "en": "Gives a 100% chance to remove all movement impairing effects when you activate your Sprint ability.",
+       "fr": "Confère 100 % de chances de dissiper tous les effets qui affectent le déplacement lorsque vous activez votre technique Sprint."
+      }
+     },
+     {
+      "id": "n105736",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 3,
+      "desc": {
+       "en": "Reduces the cooldown of your Sprint and Evasion abilities by 60%.",
+       "fr": "Réduit de 60 % le temps de recharge de vos techniques Sprint et Évasion."
+      }
+     },
+     {
+      "id": "w1329265",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 3,
+      "desc": {
+       "en": "Poised reduces the energy cost of your next ability by 10 more.",
+       "fr": "Posé réduit de 10 points d’énergie supplémentaires le coût de votre prochaine technique."
+      }
+     },
+     {
       "id": "n108100",
       "points": 1,
       "max": 1,
@@ -811,11 +822,33 @@
       }
      },
      {
-      "id": "n105740",
+      "id": "n105726",
       "points": 2,
       "max": 2,
       "tree": "combat",
       "row": 4,
+      "desc": {
+       "en": "Reduces the chance for your attacks to be Dodged or Parried by 2%.",
+       "fr": "Réduit de 2 % les chances que vos attaques soient esquivées ou parées."
+      }
+     },
+     {
+      "id": "n105730",
+      "points": 3,
+      "max": 3,
+      "tree": "combat",
+      "row": 4,
+      "desc": {
+       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
+       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
+      }
+     },
+     {
+      "id": "n105740",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 5,
       "desc": {
        "en": "Increases the damage done by your off-hand weapon by 50%.",
        "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
@@ -844,25 +877,14 @@
       }
      },
      {
-      "id": "n105726",
-      "points": 2,
-      "max": 2,
+      "id": "w1329284",
+      "points": 5,
+      "max": 5,
       "tree": "combat",
       "row": 6,
       "desc": {
-       "en": "Reduces the chance for your attacks to be Dodged or Parried by 2%.",
-       "fr": "Réduit de 2 % les chances que vos attaques soient esquivées ou parées."
-      }
-     },
-     {
-      "id": "n105730",
-      "points": 3,
-      "max": 3,
-      "tree": "combat",
-      "row": 6,
-      "desc": {
-       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
-       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
+       "en": "Shank returns 15 more energy and its cooldown is reduced by 2 sec.",
+       "fr": "Shank rend 15 points d’énergie de plus et son temps de recharge est réduit de 2 s."
       }
      },
      {
@@ -884,8 +906,8 @@
     "total": 51,
     "trees": [
      31,
-     20,
-     0
+     19,
+     1
     ],
     "talents": [
      {
@@ -922,14 +944,25 @@
       }
      },
      {
-      "id": "n105759",
-      "points": 5,
-      "max": 5,
+      "id": "n105718",
+      "points": 1,
+      "max": 2,
       "tree": "assassination",
       "row": 3,
       "desc": {
-       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
-       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+       "en": "Increases your maximum Energy by 5.",
+       "fr": "Augmente votre maximum de points d’énergie de 5."
+      }
+     },
+     {
+      "id": "w1329256",
+      "points": 1,
+      "max": 1,
+      "tree": "assassination",
+      "row": 3,
+      "desc": {
+       "en": "Increases the duration of your Rupture by 6 sec and of your Garrote by 9 sec.",
+       "fr": "Augmente de 6 s la durée de votre Rupture et de 9 s celle de votre Garrot."
       }
      },
      {
@@ -945,13 +978,13 @@
      },
      {
       "id": "n105714",
-      "points": 5,
+      "points": 3,
       "max": 5,
       "tree": "assassination",
       "row": 4,
       "desc": {
-       "en": "Increases the damage dealt by your poisons by 20% and gives your poisons an additional 40% chance to resist dispel effects.",
-       "fr": "Augmente de 20 % les dégâts infligés par vos poisons et confère à ces derniers 40 % de chances supplémentaires de résister aux effets de dissipation."
+       "en": "Increases the damage dealt by your poisons by 12% and gives your poisons an additional 24% chance to resist dispel effects.",
+       "fr": "Augmente de 12 % les dégâts infligés par vos poisons et confère à ces derniers 24 % de chances supplémentaires de résister aux effets de dissipation."
       }
      },
      {
@@ -966,25 +999,36 @@
       }
      },
      {
-      "id": "n105718",
+      "id": "n105713",
       "points": 2,
-      "max": 2,
+      "max": 5,
       "tree": "assassination",
-      "row": 5,
+      "row": 4,
       "desc": {
-       "en": "Increases your maximum Energy by 10.",
-       "fr": "Augmente votre maximum de points d’énergie de 10."
+       "en": "Increases the chance to apply Poisons to your target by 4%, and gives Poison applications a 20% chance to not consume a charge.",
+       "fr": "Augmente de 4 % vos chances d’appliquer des poisons à votre cible et confère aux applications de poison 20 % de chances de ne pas consommer de charge."
       }
      },
      {
-      "id": "n105709",
+      "id": "n105759",
+      "points": 5,
+      "max": 5,
+      "tree": "assassination",
+      "row": 5,
+      "desc": {
+       "en": "Your finishing moves have a 20% chance per Combo Point to restore 25 Energy.",
+       "fr": "Vos coups de grâce ont 20 % de chances par point de combo de restaurer 25 points d’énergie."
+      }
+     },
+     {
+      "id": "n105712",
       "points": 1,
       "max": 1,
       "tree": "assassination",
       "row": 5,
       "desc": {
-       "en": "Instantly attacks with both weapons for 75% weapon damage plus an additional 17.2 with each weapon. Damage increased by 20% against Poisoned targets. Awards 2 Combo Points.",
-       "fr": "Attaque instantanément avec les deux armes et inflige 75 % des dégâts des armes plus 17,2 points de dégâts avec chacune d’elles. Dégâts augmentés de 20 % contre les cibles empoisonnées. Confère 2 points de combo."
+       "en": "Passive. Your Shank ability increases your Poison damage by 30% and your chance to apply Poisons by 20% for 6 sec.",
+       "fr": "Passif. Votre technique Shank augmente de 30 % les dégâts de vos poisons et de 20 % vos chances d’appliquer des poisons pendant 6 s."
       }
      },
      {
@@ -999,14 +1043,14 @@
       }
      },
      {
-      "id": "n105712",
+      "id": "n105709",
       "points": 1,
       "max": 1,
       "tree": "assassination",
       "row": 7,
       "desc": {
-       "en": "Finishing move that increases the damage of your Poisons by 30% and your chance to apply Poisons by 10%. Lasts longer per combo point: 1 point : 9 sec 2 points: 12 sec 3 points: 15 sec 4 points: 18 sec 5 points: 21 sec",
-       "fr": "Coup de grâce qui augmente les dégâts infligés par vos poisons de 30 % et vos chances d’appliquer des poisons de 10 %. La durée dépend du nombre de points de combo : 1 point : 9 s 2 points : 12 s 3 points : 15 s 4 points : 18 s 5 points : 21 s"
+       "en": "Instantly attacks with both weapons for 75% weapon damage plus an additional 17.2 with each weapon. Damage increased by 20% against Poisoned targets. Awards 2 Combo Points.",
+       "fr": "Attaque instantanément avec les deux armes et inflige 75 % des dégâts des armes plus 17,2 points de dégâts avec chacune d’elles. Dégâts augmentés de 20 % contre les cibles empoisonnées. Confère 2 points de combo."
       }
      },
      {
@@ -1016,8 +1060,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
       }
      },
      {
@@ -1027,19 +1071,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
        "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "id": "n113398",
-      "points": 5,
-      "max": 5,
-      "tree": "combat",
-      "row": 1,
-      "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
       }
      },
      {
@@ -1054,17 +1087,6 @@
       }
      },
      {
-      "id": "n105738",
-      "points": 1,
-      "max": 3,
-      "tree": "combat",
-      "row": 2,
-      "desc": {
-       "en": "Increases your Parry chance by 2%.",
-       "fr": "Augmente vos chances de parer de 2%."
-      }
-     },
-     {
       "id": "n105737",
       "points": 3,
       "max": 3,
@@ -1073,6 +1095,28 @@
       "desc": {
        "en": "Improves your chance to hit by 3%.",
        "fr": "Améliore vos chances de toucher de 3 %."
+      }
+     },
+     {
+      "id": "n105736",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 3,
+      "desc": {
+       "en": "Reduces the cooldown of your Sprint and Evasion abilities by 60%.",
+       "fr": "Réduit de 60 % le temps de recharge de vos techniques Sprint et Évasion."
+      }
+     },
+     {
+      "id": "w1329265",
+      "points": 2,
+      "max": 2,
+      "tree": "combat",
+      "row": 3,
+      "desc": {
+       "en": "Poised reduces the energy cost of your next ability by 10 more.",
+       "fr": "Posé réduit de 10 points d’énergie supplémentaires le coût de votre prochaine technique."
       }
      },
      {
@@ -1087,14 +1131,25 @@
       }
      },
      {
-      "id": "n105740",
-      "points": 2,
-      "max": 2,
+      "id": "n105730",
+      "points": 3,
+      "max": 3,
       "tree": "combat",
       "row": 4,
       "desc": {
-       "en": "Increases the damage done by your off-hand weapon by 50%.",
-       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
+       "en": "Increases the damage of your Sinister Strike and Eviscerate abilities by 15%.",
+       "fr": "Augmente de 15% les points de dégâts infligés par vos techniques Attaque pernicieuse et Éviscération."
+      }
+     },
+     {
+      "id": "n105760",
+      "points": 1,
+      "max": 5,
+      "tree": "subtlety",
+      "row": 1,
+      "desc": {
+       "en": "Increases the damage dealt by your Backstab, Garrote, Ambush, and Mutilate abilities by 4%.",
+       "fr": "Augmente de 4 % les dégâts infligés avec vos techniques Attaque sournoise, Garrot, Embuscade et Estropier."
       }
      }
     ]
@@ -1104,11 +1159,55 @@
     "preset": "rogue_subtlety",
     "total": 51,
     "trees": [
-     0,
-     20,
+     12,
+     8,
      31
     ],
     "talents": [
+     {
+      "id": "n105722",
+      "points": 5,
+      "max": 5,
+      "tree": "assassination",
+      "row": 1,
+      "desc": {
+       "en": "Increases your critical strike chance with all attacks and Poisons by 5%.",
+       "fr": "Augmente de 5 % vos chances d’infliger un coup critique avec vos attaques et poisons."
+      }
+     },
+     {
+      "id": "n105721",
+      "points": 3,
+      "max": 3,
+      "tree": "assassination",
+      "row": 2,
+      "desc": {
+       "en": "Gives your finishing moves a 60% chance to add a Combo Point to your target.",
+       "fr": "Confère à vos coups de grâce 60 % de chances de générer un point de combo sur votre cible."
+      }
+     },
+     {
+      "id": "n105739",
+      "points": 3,
+      "max": 3,
+      "tree": "assassination",
+      "row": 2,
+      "desc": {
+       "en": "Increases the duration of your Slice and Dice ability by 45%.",
+       "fr": "Augmente la durée de votre technique Débiter de 45%."
+      }
+     },
+     {
+      "id": "w1329256",
+      "points": 1,
+      "max": 1,
+      "tree": "assassination",
+      "row": 3,
+      "desc": {
+       "en": "Increases the duration of your Rupture by 6 sec and of your Garrote by 9 sec.",
+       "fr": "Augmente de 6 s la durée de votre Rupture et de 9 s celle de votre Garrot."
+      }
+     },
      {
       "id": "n105708",
       "points": 3,
@@ -1116,8 +1215,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Increases the damage done by your Eviscerate ability by 20%.",
-       "fr": "Augmente de 20 % les dégâts infligés par votre technique Eviscération."
+       "en": "Increases the damage of your Eviscerate ability by 20%, and the damage Death Mark stores and its maximum by 20%.",
+       "fr": "Augmente de 20 % les dégâts de votre technique Éviscération, ainsi que les dégâts stockés par Death Mark et son maximum."
       }
      },
      {
@@ -1127,41 +1226,8 @@
       "tree": "combat",
       "row": 1,
       "desc": {
-       "en": "Reduces the Energy cost of your Sinister Strike ability by 5.",
+       "en": "Reduces the energy cost of your Sinister Strike ability by 5.",
        "fr": "Réduit de 5 le coût en énergie de votre technique Attaque pernicieuse."
-      }
-     },
-     {
-      "id": "n113398",
-      "points": 5,
-      "max": 5,
-      "tree": "combat",
-      "row": 1,
-      "desc": {
-       "en": "Increases your Dodge chance by 5%.",
-       "fr": "Augmente vos chances d’esquiver de 5 %."
-      }
-     },
-     {
-      "id": "n105719",
-      "points": 3,
-      "max": 3,
-      "tree": "combat",
-      "row": 2,
-      "desc": {
-       "en": "Increases the critical strike chance of your Backstab by 30% and your Mutilate by 15%, and gives Backstab a 45% chance to add an additional Combo Point.",
-       "fr": "Augmente les chances de coup critique de vos techniques Attaque sournoise et Estropier respectivement de 30 % et 15 %, et confère à Attaque sournoise 45 % de chances de générer un point de combo supplémentaire."
-      }
-     },
-     {
-      "id": "n105738",
-      "points": 1,
-      "max": 3,
-      "tree": "combat",
-      "row": 2,
-      "desc": {
-       "en": "Increases your Parry chance by 2%.",
-       "fr": "Augmente vos chances de parer de 2%."
       }
      },
      {
@@ -1176,36 +1242,14 @@
       }
      },
      {
-      "id": "n108100",
-      "points": 1,
-      "max": 1,
-      "tree": "combat",
-      "row": 4,
-      "desc": {
-       "en": "Reduces the Energy cost of your Eviscerate ability by 15.",
-       "fr": "Réduit de 15 le coût en énergie de votre technique Éviscération."
-      }
-     },
-     {
-      "id": "n105740",
-      "points": 2,
-      "max": 2,
-      "tree": "combat",
-      "row": 4,
-      "desc": {
-       "en": "Increases the damage done by your off-hand weapon by 50%.",
-       "fr": "Augmente de 50 % les dégâts infligés par votre arme tenue en main gauche."
-      }
-     },
-     {
-      "id": "n105756",
-      "points": 5,
-      "max": 5,
+      "id": "n105751",
+      "points": 3,
+      "max": 3,
       "tree": "subtlety",
       "row": 1,
       "desc": {
-       "en": "Reduces your speed penalty from your Stealth ability by 15% and reduces its cooldown by 6 sec.",
-       "fr": "Réduit de 15 % la pénalité affectant la vitesse de votre technique Camouflage et réduit son temps de recharge de 6 s."
+       "en": "Gives you a 100% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
+       "fr": "Vous confère 100 % de chances d’ajouter un point de combo à votre cible après avoir esquivé son attaque ou entièrement résisté à l’un de ses sorts."
       }
      },
      {
@@ -1220,36 +1264,25 @@
       }
      },
      {
-      "id": "n105751",
-      "points": 3,
-      "max": 3,
-      "tree": "subtlety",
-      "row": 2,
-      "desc": {
-       "en": "Gives you a 100% chance to add a Combo Point to your target after Dodging one of their attacks or fully resisting one of their spells.",
-       "fr": "Vous confère 100 % de chances d’ajouter un point de combo à votre cible après avoir esquivé son attaque ou entièrement résisté à l’un de ses sorts."
-      }
-     },
-     {
-      "id": "n105753",
+      "id": "n105745",
       "points": 2,
       "max": 2,
       "tree": "subtlety",
       "row": 2,
       "desc": {
-       "en": "Reduces the cooldown of your Vanish and Blind abilities by 90 sec.",
-       "fr": "Réduit le temps de recharge de vos techniques Disparition et Cécité de 90 sec."
+       "en": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by 20, and your Garrote ability no longer requires you to be behind your target.",
+       "fr": "Réduit de 20 le coût en énergie de vos techniques Coup bas et Garrot. De plus, votre technique Garrot ne requiert plus que vous vous placiez derrière la cible."
       }
      },
      {
-      "id": "n105749",
+      "id": "n105756",
       "points": 3,
       "max": 3,
       "tree": "subtlety",
       "row": 2,
       "desc": {
-       "en": "Increases the critical strike chance of your Ambush ability by 45%.",
-       "fr": "Augmente de 45 % les chances de coup critique de votre technique Embuscade."
+       "en": "Reduces your speed penalty from your Stealth ability by 9% and reduces its cooldown by 4 sec.",
+       "fr": "Réduit de 9 % la pénalité affectant la vitesse de votre technique Camouflage et réduit son temps de recharge de 4 s."
       }
      },
      {
@@ -1264,33 +1297,11 @@
       }
      },
      {
-      "id": "n105754",
-      "points": 1,
-      "max": 1,
-      "tree": "subtlety",
-      "row": 3,
-      "desc": {
-       "en": "A strike that deals 125% (180% if a Dagger is equipped in your Main Hand) weapon damage and increases your chance to dodge by 15% for 7 sec. Awards 1 combo point.",
-       "fr": "Une attaque qui inflige 125 % des dégâts de l’arme (180 % si une dague est équipée en main droite) et qui augmente vos chances d’esquiver de 15 % pendant 7 s. Vous gagnez 1 point de combo."
-      }
-     },
-     {
-      "id": "n105747",
-      "points": 2,
-      "max": 2,
-      "tree": "subtlety",
-      "row": 4,
-      "desc": {
-       "en": "Increases your Stealth detection as if you were 3 levels higher and reduces your chance to be hit by spells and ranged attacks by 4%.",
-       "fr": "Augmente votre détection du camouflage comme si vous aviez 3 niveaux de plus et réduit de 4 % la probabilité que les sorts et les attaques à distance vous touchent."
-      }
-     },
-     {
       "id": "n105743",
       "points": 1,
       "max": 1,
       "tree": "subtlety",
-      "row": 4,
+      "row": 3,
       "desc": {
        "en": "Adds 2 Combo Points to your target. You must add to or use those combo points within 20 sec or the combo points are lost.",
        "fr": "Confère 2 points de combo à la cible. Vous devez accumuler d’autres points de combo ou les utiliser en moins de 20 s sinon les points de combo sont perdus."
@@ -1301,21 +1312,43 @@
       "points": 3,
       "max": 3,
       "tree": "subtlety",
-      "row": 4,
+      "row": 3,
       "desc": {
        "en": "Causes your attacks to ignore 9% of your target's Armor and increases the damage dealt by your Rupture ability by 30%.",
        "fr": "Vos attaques ignorent 9 % de l’armure de votre cible. Augmente de 30 % les dégâts infligés par votre technique Rupture."
       }
      },
      {
-      "id": "n105745",
+      "id": "n105753",
       "points": 2,
       "max": 2,
       "tree": "subtlety",
+      "row": 4,
+      "desc": {
+       "en": "Reduces the cooldown of your Vanish and Blind abilities by 90 sec.",
+       "fr": "Réduit le temps de recharge de vos techniques Disparition et Cécité de 90 sec."
+      }
+     },
+     {
+      "id": "n105754",
+      "points": 1,
+      "max": 1,
+      "tree": "subtlety",
+      "row": 4,
+      "desc": {
+       "en": "A strike that deals 125% (180% if a Dagger is equipped in your Main Hand) weapon damage and increases your chance to dodge by 15% for 7 sec. Awards 1 combo point.",
+       "fr": "Une attaque qui inflige 125 % des dégâts de l’arme (180 % si une dague est équipée en main droite) et qui augmente vos chances d’esquiver de 15 % pendant 7 s. Vous gagnez 1 point de combo."
+      }
+     },
+     {
+      "id": "n105746",
+      "points": 1,
+      "max": 1,
+      "tree": "subtlety",
       "row": 5,
       "desc": {
-       "en": "Reduces the Energy cost of your Cheap Shot and Garrote abilities by 20, and your Garrote ability no longer requires you to be behind your target.",
-       "fr": "Réduit de 20 le coût en énergie de vos techniques Coup bas et Garrot. De plus, votre technique Garrot ne requiert plus que vous vous placiez derrière la cible."
+       "en": "When activated, this ability immediately finishes the cooldown on your other Rogue abilities.",
+       "fr": "Lorsque vous la déclenchez, cette technique annule le temps de recharge de toutes vos autres techniques de voleur."
       }
      },
      {
@@ -1327,6 +1360,28 @@
       "desc": {
        "en": "An instant strike that deals 100% weapon damage (145% if a Dagger is equipped) and causes the target to take 15% increased Rupture and Garrote damage from the Rogue. Lasts 15 sec. Awards 1 Combo Point.",
        "fr": "Une frappe instantanée qui inflige 100 % des dégâts de l’arme (145 % si une dague est équipée). Augmente de 15 % les dégâts de Rupture et de Garrot infligés à la cible par le personnage voleur. Dure 15 s. Confère 1 point de combo."
+      }
+     },
+     {
+      "id": "w1329286",
+      "points": 5,
+      "max": 5,
+      "tree": "subtlety",
+      "row": 6,
+      "desc": {
+       "en": "Your Shank has a 100% chance to give you 2 combo points.",
+       "fr": "Votre Shank a 100 % de chances de vous donner 2 points de combo."
+      }
+     },
+     {
+      "id": "n110866",
+      "points": 1,
+      "max": 1,
+      "tree": "subtlety",
+      "row": 7,
+      "desc": {
+       "en": "Finishing move that marks the target, storing a portion of the damage dealt by your attacks per Combo Point. Garrote and Rupture damage is stored at twice the rate. After 6 sec, the stored damage is dealt, up to a maximum increased by Attack Power and Critical Strike chance.",
+       "fr": "Coup de grâce qui marque la cible et stocke une partie des dégâts que vos attaques infligent, par point de combo. Les dégâts de Garrot et de Rupture sont stockés deux fois plus vite. Après 6 s, les dégâts stockés sont infligés, jusqu’à un maximum augmenté par la puissance d’attaque et le taux de critique."
       }
      }
     ]
@@ -3768,8 +3823,8 @@
       "tree": "elemental",
       "row": 7,
       "desc": {
-       "en": "Gain mastery over Fire and Lightning, reducing the cast time of Lightning Bolt and Lava Burst by -0.5 sec, and removing the cooldown from Chain Lightning. Lasts 15 sec.",
-       "fr": "Vous maîtrisez le feu et la foudre, ce qui réduit le temps d’incantation d’Éclair et d’Explosion de lave de -0,5 s et supprime le temps de recharge de Chaîne d’éclairs. Dure 15 s."
+       "en": "Active, 3 min cooldown. For 15 sec, the cast time of your Lightning Bolt is reduced by 0.5 sec and your Chain Lightning has no cooldown.",
+       "fr": "Actif, 3 min de recharge. Pendant 15 s, le temps d’incantation de votre Éclair est réduit de 0,5 s et votre Chaîne d’éclairs n’a plus de temps de recharge."
       }
      },
      {

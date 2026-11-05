@@ -20,6 +20,8 @@ export const WARRIOR = {
   unbridledWrath: { chancePerRank: 0.12 },
   dualWieldSpec: { ohDmgPerRank: 0.05, ohRagePerRank: 0.10 },          // build 70425: off-hand damage +5% and Rage from off-hand attacks +10% per rank (the +2% off-hand hit moved to Furious Precision)
   furiousPrecision: { ohHit: [0, 0.04, 0.07, 0.10] },                  // build 70425: replaces Boundless Rage; +4 / 7 / 10% off-hand hit chance
+  recklessSwings: { cd: 15, gcd: 1.0, dur: 8, charges: 4, rage: 5 },    // WoW: Forever launch trees (WoWSims Forever warrior/talents_fury.go, spell 1329555/1329554): active, 15 s cooldown, 25 % of base health, then 4 auto attacks give 5 Rage each within 8 s
+  improvedWhirlwind: { cdPerRank: 1 },                                  // Improved Whirlwind (spell 1310315): -1 / -2 s on the Whirlwind cooldown (its damage to a second target is not simulated)
   ragingBlows: { whirlwindCost: 3 },                                   // build 70425: -3 Rage on Whirlwind and Cleave (no more off-hand Whirlwind strike)
   cruelty: { critPerRank: 0.01 },
   improvedHeroicStrike: { costPerRank: 1 },
@@ -67,7 +69,7 @@ export function warriorFromData(spells60) {
 
 export const FURY_DEFAULT_BUILD = {
   cruelty: 5, unbridledWrath: 5, dualWieldSpec: 5, flurry: 5, furiousPrecision: 3, improvedHeroicStrike: 0,
-  improvedExecute: 2, ragingBlows: 1, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
+  improvedExecute: 2, ragingBlows: 0, recklessSwings: 0, improvedWhirlwind: 0, deathWish: 1, bloodthirst: 1, enrage: 5, improvedBerserkerRage: 2,
   enrageUptime: 0.0,            // Enrage needs incoming damage; 0 = off unless the user enters an expected uptime
   hsRageReserve: 0, useRecklessness: true, useDeathWish: true, executePhase: true,
   // Arms-tree talents of the hybrid Fury builds (2026-11-02): all off in the default build, so the Fury numbers published so far do not move
@@ -150,7 +152,11 @@ export function furyKit(build = {}, data = null) {
       sim.flurryAura.charges = 0;
       sim.sBT = sim.addSpell({ name: 'Bloodthirst', cost: () => W.bloodthirst.cost, cd: W.bloodthirst.cd });
       const wwCost = () => W.whirlwind.cost - (b.ragingBlows ? W.ragingBlows.whirlwindCost : 0);
-      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd });
+      sim.sWW = sim.addSpell({ name: 'Whirlwind', cost: wwCost, cd: W.whirlwind.cd - W.improvedWhirlwind.cdPerRank * (b.improvedWhirlwind || 0) });
+      if (b.recklessSwings) {
+        sim.sRS = sim.addSpell({ name: 'Reckless Swings', cost: () => 0, cd: W.recklessSwings.cd });
+        sim.rsAura = sim.addAura({ name: 'Reckless Swings', duration: W.recklessSwings.dur }); sim.rsAura.charges = 0;
+      }
       sim.sDW = sim.addSpell({ name: 'Death Wish', cost: () => W.deathWish.cost, cd: W.deathWish.cd });
       // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
       if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
@@ -168,6 +174,7 @@ export function furyKit(build = {}, data = null) {
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (isWhite && s.rsAura && s.rsAura.active) { s.gainRage(W.recklessSwings.rage); if (--s.rsAura.charges <= 0) s.rsAura.expire(); }      // each landed auto attack of the window
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = W.flurry.charges; s.flurryAura.apply(1); }
         if (isWhite && b.unbridledWrath > 0 && s.rng() < W.unbridledWrath.chancePerRank * b.unbridledWrath) s.gainRage(1);   // build 70425: no more 2 Rage with a two-hander
       });
@@ -204,7 +211,9 @@ export function furyKit(build = {}, data = null) {
       const exec = b.executePhase && sim.inExecute();
       const hsAt = b.hsRageReserve >= 900 ? Infinity : (exec ? 60.001 : 40);
       if (!sim.mhQueued && sim.rage >= Math.max(sim.sHS.cost(), hsAt) && sim.player.weapons.length) sim.mhQueued = sim.sHS;
-      return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt) - now);
+      // their Fury APL: Reckless Swings sits below every damage ability (it costs 25 % of base health, which the simulator does not track)
+      if (sim.sRS && now >= sim.sRS.readyAt) return castGcd(sim, sim.sRS, () => { sim.rsAura.charges = W.recklessSwings.charges; sim.rsAura.apply(); }, W.recklessSwings.gcd);
+      return Math.max(0.05, Math.min(sim.sBT.readyAt, sim.sWW.readyAt, sim.sDW.readyAt, sim.sBR.readyAt, sim.sRS ? sim.sRS.readyAt : Infinity) - now);
     },
   };
 }
