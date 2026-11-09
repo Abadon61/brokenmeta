@@ -375,5 +375,5 @@
   <ul class="gd-list">{% for n in class_news %}<li><a class="wg-link" href="{{ root }}{{ n.path }}">{{ n.title }}</a> <span class="nums">· {{ n.date }}</span></li>{% endfor %}</ul>
 </section>
 {% endif %}
-{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling'] + (['sim_spec'] if sim_id else ['sim']) + ['dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang]), sim_id) }}
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'sets', 'leveling'] + (['sim_spec'] if sim_id else ['sim']) + ['dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang]), sim_id) }}
 {% endblock %}

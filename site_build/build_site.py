@@ -62,6 +62,7 @@ import wow_leveling  # noqa: E402
 import wow_leveling_class  # noqa: E402
 import wow_racepick  # noqa: E402
 import wow_racepick_tx  # noqa: E402
+import wow_sets  # noqa: E402
 import wow_dungeon_extras as dgx  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
@@ -8963,6 +8964,27 @@ def main() -> None:
                 render("wow_racepick_hub.html", "/wow-forever/races/", lang, active_nav="wow", active_sub="wow-races", tx=_rx, classes=_rhub,
                        g_title=_rx["hub_title"], g_desc=_rx["hub_desc"], g_h1=_rx["hub_h1"], g_intro=_rx["hub_intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_rx["hub_h1"], canonical_for("/wow-forever/races/", lang))]))
+            if wow_sets.available():
+                # Sanctified class sets (ilvl 98): a hub and one page per class, see wow_sets.py
+                _sx = wow_sets.TX[lang]
+                _sd = wow_sets.build(lang, wt_classes, _wow_ranking + _wow_ranking_tanks)
+                _shub = []
+                for _cs in _sd["classes"]:
+                    _c = next(x for x in wt_classes if x["id"] == _cs["id"])
+                    _spath = f"/wow-forever/sets/{_cs['id']}/"
+                    _st, _sdsc = _sx["cls_title"].format(cls=_cs["name"]), _sx["cls_desc"].format(cls=_cs["name"])
+                    assert len(_st) <= 60 and len(_sdsc) <= 155, (_st, len(_st), len(_sdsc))
+                    _sh1 = _sx["cls_h1"].format(cls=_cs["name"])
+                    render("wow_sets_class.html", _spath, lang, active_nav="wow", active_sub="wow-sets", tx=_sx, cls=_c, cs=_cs, banner=class_banner(_cs["id"]),
+                           g_title=_st, g_desc=_sdsc, g_h1=_sh1, g_intro=_sx["cls_intro"].format(cls=_cs["name"]), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                           article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sdsc),
+                           breadcrumb_schema=breadcrumb_schema(_gbase + [(_sx["h1"], canonical_for("/wow-forever/sets/", lang)), (_cs["name"], canonical_for(_spath, lang))]))
+                    _shub.append({"id": _cs["id"], "name": _cs["name"], "color": _c.get("color"), "banner": class_banner(_cs["id"]), "sets": _cs["sets"], "path": f"wow-forever/sets/{_cs['id']}/"})
+                _shd = _sx["desc"].format(n=_sd["n_sets"])
+                assert len(_sx["title"]) <= 60 and len(_shd) <= 155, (len(_sx["title"]), len(_shd))
+                render("wow_sets_hub.html", "/wow-forever/sets/", lang, active_nav="wow", active_sub="wow-sets", tx=_sx, classes=_shub,
+                       g_title=_sx["title"], g_desc=_shd, g_h1=_sx["h1"], g_intro=_sx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_sx["h1"], canonical_for("/wow-forever/sets/", lang))]))
             _lvx = wow_leveling.texts(lang, wow_content.launched())
             assert len(_lvx["title"]) <= 60 and len(_lvx["desc"]) <= 155, (len(_lvx["title"]), len(_lvx["desc"]))
             _lvpath = "/wow-forever/leveling/"

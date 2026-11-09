@@ -32,6 +32,34 @@ if cp.exists():
         seen.add(c["id"])
         items.append({"id": c["id"], "name": c["name"]["en"], "q": c["q"], "slot": c["slot"], "type": c["type"]["en"], "req": c["req"], "ilvl": c["req"], "st": c["st"],
                       "src": [c["recipe_name"]["en"]], "from": "craft", "zone": c["prof"], "prof": c["prof"], "skill": c["skill"]})
+# Sanctified class sets (Argent Dawn / Scarlet vendors, item level 98): data/wow_items/sanctified_items.txt + sanctified_sets.json, both read from Wowhead's
+# Forever pages. Class-restricted (bitmask), flagged by role so DPS rankings do not equip healer/tank pieces, and the Hunter melee / ranged sets only count for their mode.
+sp_items, sp_sets = ROOT / "data" / "wow_items" / "sanctified_items.txt", ROOT / "data" / "wow_items" / "sanctified_sets.json"
+if sp_items.exists() and sp_sets.exists():
+    SETS = json.loads(sp_sets.read_text(encoding="utf-8"))["sets"]
+    ARMOR_OF = {1: "Plate Mail", 2: "Plate Mail", 4: "Mail", 8: "Leather", 16: "Cloth", 64: "Mail", 128: "Cloth", 256: "Cloth", 1024: "Leather"}
+    RENAME = {"rgdatkpwr": "atkpwr", "shasplpwr": "splpwr", "blockamount": "blockvalue"}
+    for line in sp_items.read_text(encoding="utf-8").splitlines():
+        iid, name, slot, cbit, setid, stats = line.split("|")
+        iid, slot, cbit = int(iid), int(slot), int(cbit)
+        if iid in seen:
+            continue
+        seen.add(iid)
+        st = {}
+        for kv in stats.split(","):
+            k, v = kv.split("=")
+            k = RENAME.get(k, k)
+            if k == "armorbonus":
+                k = "armor"
+            st[k] = st.get(k, 0) + int(v)
+        spec = SETS[setid]["spec"]
+        role = "tank" if "tank" in spec or spec in ("protection", "guardian") else "heal" if spec in ("healer", "holy", "restoration") else "dps"
+        it = {"id": iid, "name": name, "q": 4, "slot": slot, "type": ARMOR_OF[cbit], "req": 60, "ilvl": 98, "st": st,
+              "src": ["Argent Dawn / Scarlet Quartermaster"], "from": "sanctified", "zone": "Eastern Plaguelands", "classes": cbit, "set": int(setid), "role": role}
+        if cbit == 4:
+            it["only"] = "melee" if setid == "1936" else "ranged"
+        items.append(it)
+    print(sum(1 for i in items if i["from"] == "sanctified"), "sanctified items")
 payload = {"build": d.get("build"), "slots": d["slots"], "items": items}
 (OUT / "items.json").write_text(json.dumps(payload, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 prof = ROOT / "data" / "wow_items" / "proficiency.json"

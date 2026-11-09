@@ -18,7 +18,7 @@ const rd = (f) => JSON.parse(readFileSync(new URL('data/' + f, here)));
 // RANK_NORAID=1: pre-raid pool (no raid drops); write it elsewhere with RANK_OUT (data/wow_prebis60.json, read by the guides' "at launch" tile)
 const NORAID = !!process.env.RANK_NORAID;
 const itemsJson = rd('items.json');
-if (NORAID) itemsJson.items = itemsJson.items.filter((i) => i.from !== 'raid');
+if (NORAID) itemsJson.items = itemsJson.items.filter((i) => i.from !== 'raid' && i.from !== 'sanctified');
 const pool = new ItemPool(itemsJson, rd('proficiency.json'));
 const ALL_ENCH = rd('enchants60.json').enchants.filter((e) => Object.keys(e.stats).length);
 const ENCHANTS = ALL_ENCH.filter((e) => e.kind !== 'kit'), ARMOR_KITS = ALL_ENCH.filter((e) => e.kind === 'kit');

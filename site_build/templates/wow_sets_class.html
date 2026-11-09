@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+{# Sanctified sets of one class (2026-11-09), see wow_sets.py. #}
+<section class="gh-hero" style="--cc: {{ cls.color or '#8a6cff' }}">
+  {% if banner %}<div class="gh-art" style="background-image: url('{{ root }}{{ banner }}')"></div><span class="gh-credit">{{ 'Illustration : © Blizzard Entertainment' if fr else 'Artwork: © Blizzard Entertainment' }}</span>{% endif %}
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for s in cs.sets %}<a class="gh-chip{{ ' is-role' if loop.first }}" href="#set-{{ s.id }}">{{ s.spec }}</a>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+{% for s in cs.sets %}
+<section class="gs-tile" id="set-{{ s.id }}"><div class="gs-th"><h2 class="gs-h2">{{ s.title }} <span class="rs-hint">· {{ s.spec }}</span></h2></div>
+<h3 class="gs-sub">{{ tx.bonuses }}</h3>
+<ul class="gd-list">{% for b in s.bonuses %}<li><b>{{ tx.n_pieces.format(n=b.n) }}</b> : {{ b.text }}</li>{% endfor %}</ul>
+<h3 class="gs-sub">{{ tx.pieces }}</h3>
+<div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th>{{ tx.slot }}</th><th>{{ tx.item }}</th><th>{{ tx.stats }}</th></tr></thead>
+  <tbody>{% for p in s.pieces %}<tr><td>{{ p.slot }}</td><td><a href="https://www.wowhead.com/forever/item={{ p.id }}" rel="nofollow noopener" target="_blank">{{ p.name }}</a></td><td>{{ p.stats }}</td></tr>{% endfor %}
+  <tr class="is-best"><td colspan="2"><b>{{ tx.total }}</b></td><td>{{ s.totals }}</td></tr></tbody>
+</table></div>
+<p class="gs-lede"><b>{{ tx.where }}.</b> {{ tx.where_txt }}</p>
+{% if s.worn %}<p class="gs-lede">{{ tx.sim_worn }} {% for w in s.worn %}<a href="{{ root }}{{ w.path }}">{{ w.spec }}</a> ({{ tx.pieces_n.format(n=w.n) }}){{ ', ' if not loop.last }}{% endfor %}.</p>
+{% elif not s.tank and not s.heal %}<p class="gs-lede">{{ tx.sim_none }}</p>{% endif %}
+</section>
+{% endfor %}
+
+<p class="wow-note">{{ tx.sim_note }}</p>
+<p class="wow-note">{{ tx.src_note }}</p>
+<section class="gs-tile"><div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/sets/">{{ tx.hub_back }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/tier-list/">{{ 'Tier list' }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/talents/{{ cls.id }}/">{{ ('Talents du ' if fr else 'Talents: ') ~ cls.name[lang] }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ 'Simulateur de DPS' if fr else 'DPS simulator' }}</a>
+</div></section>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}
