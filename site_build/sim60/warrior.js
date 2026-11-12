@@ -2,7 +2,7 @@
 // tables/tooltips (data/spells60.json, exported by wow_sim60_export.py) when `data` is passed, and from
 // the constants below otherwise. Values marked ASSUMED are Classic 1.12 numbers kept until Forever's
 // level-60 table for that spell is sourced.
-import { yellowAttack, castGcd, makeDeepWounds } from './shared.js';
+import { yellowAttack, castGcd, makeDeepWounds, setPieces } from './shared.js';
 
 export const WARRIOR = {
   bloodthirst: { cost: 30, cd: 6, apCoeff: 0.45, flat: 48 },           // client table (build 1.60.1.70425, spell 23894 at L60): 45% AP (was 35%) + 48
@@ -93,11 +93,15 @@ function commonSetup(sim, b, W) {
   sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
   sim.sEX = sim.addSpell({ name: 'Execute', cost: () => Math.max(0, W.execute.cost - W.improvedExecute.cost[b.improvedExecute || 0]), cd: 0 });
   sim.hsCost = () => Math.max(0, W.heroicStrike.cost - W.improvedHeroicStrike.costPerRank * (b.improvedHeroicStrike || 0));
+  // Lightbreaker's Warplate (Sanctified set 1932, Wowhead Forever text): 2 pieces = Heroic Strike +20 % (Battle / Berserker Stance, the two stances the kits fight in; Cleave and Quick Strike are not simulated);
+  // 4 = every Heroic Strike that lands adds a stack (max 5) of +20 % to the next Slam (Whirlwind and Cleave would too: Arms casts neither); 6 = see the Fury kit (needs Deep Wounds)
+  const lb = setPieces(sim, 1932); sim.lbSet = { two: lb >= 2, four: lb >= 4, six: lb >= 6 }; sim.slamStacks = 0;
   sim.sHS = sim.addSpell({
     name: 'Heroic Strike', cost: sim.hsCost,
     onSwing(s, sw) {            // replaces the main-hand white swing
       s.spendRage(s.hsCost()); s.entry('Heroic Strike').casts++;
-      yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
+      const o = yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat, { dmgMult: s.lbSet.two ? 1.2 : 1 });
+      if (s.lbSet.four && o !== 'miss' && o !== 'dodge') s.slamStacks = Math.min(5, s.slamStacks + 1);
     },
   });
 }
@@ -161,7 +165,8 @@ export function furyKit(build = {}, data = null) {
       // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
       if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
       if (b.deepWounds && sim.player.weapons[0]) {
-        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds);
+        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds, sim.lbSet.six ? () => { sim.sWW.readyAt = Math.max(sim.now, sim.sWW.readyAt - 3); } : undefined);      // set bonus (6): each Deep Wounds tick shortens the Whirlwind cooldown by 3 s
+        sim.dwActive = applyDeepWounds.active;
         sim.procs.push((s, outcome, source, isOH) => { if (outcome === 'crit' && !isOH) applyDeepWounds(); });      // main-hand crits only, as in the Arms kit
       }
       if (b.angerManagement) {
@@ -200,10 +205,11 @@ export function furyKit(build = {}, data = null) {
       if (b.useWhirlwind !== false && (!b.bloodthirst || sim.sBT.readyAt - now >= 1.5) && sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {   // their APL: Whirlwind when Bloodthirst is 1.5 s or more from ready
         sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];
-        yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat);
+        const wwMult = sim.lbSet.six && sim.dwActive && sim.dwActive() ? 2 : 1;      // set bonus (6): +100 % against a target with Deep Wounds
+        yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat, { dmgMult: wwMult });
         // client tooltip of Whirlwind (spell 1680): "weapon damage from both melee weapons"; WoWSims Forever strikes with the off-hand too (off-hand halved, Dual Wield Specialization on top)
         const oh = sim.player.dualWield && sim.player.weapons[1];
-        if (oh) yellowAttack(sim, 'Whirlwind (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat) * 0.5 * (1 + (sim.mods.ohDmgBonus || 0)));
+        if (oh) yellowAttack(sim, 'Whirlwind (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat) * 0.5 * (1 + (sim.mods.ohDmgBonus || 0)), { dmgMult: wwMult });
       });
       // their Fury APL order: Death Wish, Recklessness, Bloodthirst, Whirlwind, then Execute in the execute phase, then Heroic Strike
       if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
@@ -294,7 +300,8 @@ export function armsKit(build = {}, data = null) {
         const cast = Math.max(0.1, W.slam.cast - W.improvedSlam.castReductionPerRank * (b.improvedSlam || 0));
         return castGcd(sim, sim.sSL, () => {
           sim.spendRage(W.slam.cost);
-          yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat);
+          const stacks = sim.slamStacks; sim.slamStacks = 0;
+          yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat, { dmgMult: 1 + 0.2 * stacks });
           // the swing timer restarts after the cast (Improved Slam removes this penalty)
           if (!(b.improvedSlam >= 2)) sim._scheduleSwing(sim.swings[0], cast + mh.speed / sim.hasteMult());
         });

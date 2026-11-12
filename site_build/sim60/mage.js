@@ -6,6 +6,7 @@
 // Simplifications: Arcane Blast is not rotated (the Forever tooltip is ambiguous about which spells its stacks
 // boost); Frostfire Bolt takes both the fire and the frost damage modifiers; Ignite stacks are summed;
 // no trinkets, set bonuses, Mana Gems, Innervate or movement.
+import { setPieces } from './shared.js';
 import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDot, SPELL_GCD } from './spells.js';
 
 export const MAGE = {
@@ -113,7 +114,9 @@ export function mageKit(build = {}, data = null) {
       sim.aScorch = sim.addAura({ name: 'Fire Vulnerability', duration: M.improvedScorch.dur, maxStacks: M.improvedScorch.max });
       sim.aHeat = sim.addAura({ name: 'Heating Up', duration: 20, maxStacks: 3 });
       sim.aComb = sim.addAura({ name: 'Combustion', duration: Infinity, maxStacks: 99 });
-      sim.aAP = sim.addAura({ name: 'Arcane Power', duration: M.arcanePower.duration });
+      // Fireleaf Regalia / Vestments (Sanctified sets 1943 and 1944, Wowhead Forever text). Only one bonus maps onto a spell this kit has: 6 pieces of the Vestments = Arcane Power lasts 10 s longer. The rest (Living Bomb, Glaciate, Frozen Orb, Deep Freeze, Arcane Tunneling, Rewind Time, and the Fire Blast cooldown -5 s, which the Fire rotation turns into mana starvation) is not simulated
+      sim.fireleaf = { blast: setPieces(sim, 1943) >= 6, power: setPieces(sim, 1944) >= 6 };
+      sim.aAP = sim.addAura({ name: 'Arcane Power', duration: M.arcanePower.duration + (sim.fireleaf.power ? 10 : 0) });
       sim.aWC = sim.addAura({ name: "Winter's Chill", duration: 15, maxStacks: M.wintersChill.max });
       sim.aFoF = sim.addAura({ name: 'Fingers of Frost', duration: 15 });
       sim.aCC = sim.addAura({ name: 'Clearcasting', duration: Infinity });

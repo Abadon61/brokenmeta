@@ -116,7 +116,7 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
       let bestItem = current, bestDps = best;
       for (const it of cands) {
         if (current && it.id === current.id) continue;
-        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st };
+        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st, set: it.set };
         const d = await evaluate(specOf());
         if (d > bestDps + 0.05) { bestDps = d; bestItem = bySlot[slot]; }
       }

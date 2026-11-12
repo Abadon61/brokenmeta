@@ -3,6 +3,7 @@
 // applied to the druid itself. Not simulated: Omen of Clarity, Hurricane, Starfall-style effects.
 import { makeCaster, fromRank, pickRank } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
+import { setPieces } from './shared.js';
 
 // Build 1.60.1.70753 (client tables read on 2026-11-03) + Blizzard's class tuning notes of 3 Nov 2026: Genesis and Naturalist 2% per rank (1% before), Rend and Tear 3% per rank (2% before),
 // Berserk and Improved Shifting Power are gone, Heart of the Wild moved to Restoration and Furor to Feral.
@@ -37,12 +38,17 @@ export function druidBalanceKit(build = {}, data = null) {
       sim.aEclipse = sim.addAura({ name: 'Eclipse', duration: D.eclipse.dur, maxStacks: D.eclipse.max });
       sim.critBase = D.naturesMajesty.crit * b.naturesMajesty + (b.moonkinForm ? D.moonkinAura.crit : 0);
       sim.spBonus = 0;
+      // Waywatcher Eclipse (Sanctified set 1946, Wowhead Forever text): 2 pieces = Starfire +20 % on a target with Moonfire (the Wrath / Sunfire half: Sunfire is not in the kit); 6 = each Moonfire tick gives the next Starfire +10 % (max 5 stacks).
+      // 4 (Starsurge) is not simulated
+      { const we = setPieces(sim, 1946); sim.weSet = { two: we >= 2, six: we >= 6 }; sim.mfStack = 0; }
     },
+    onTick(sim, s, r) { if (sim.weSet.six && s.moonfire) sim.mfStack = Math.min(5, sim.mfStack + 1); },
     mods(sim, s, kind) {
       let hit = D.naturesReach.hit * b.naturesReach, crit = sim.critBase, dmg = 1, critBonus = D.vengeance.critBonus * b.vengeance;
       dmg *= (1 + D.moonfury.dmg * b.moonfury) * (1 + D.naturalist.dmg * b.naturalist);
       if (kind === 'dot') dmg *= 1 + D.genesis.dmg * b.genesis;
       if (s.moonfire) { dmg *= 1 + D.improvedMoonfire.dmg * b.improvedMoonfire; crit += D.improvedMoonfire.crit * b.improvedMoonfire; }
+      if (s.starfire && kind === 'direct') { if (sim.weSet.two && S.moonfire && dotActive(sim, S.moonfire.name)) dmg *= 1.2; dmg *= 1 + 0.1 * sim.mfStack; }      // set bonus (2, 6)
       return { hit, crit, dmg, critBonus };
     },
     castTime(sim, s) {
@@ -60,6 +66,7 @@ export function druidBalanceKit(build = {}, data = null) {
     beforeCast(sim, s) { if (s.starfire && sim.aEclipse.active) sim.aEclipse.consumeStack(); },
     afterHit(sim, s, outcome) {
       if (outcome === 'miss') return;
+      if (s.starfire) sim.mfStack = 0;
       if (s.wrath && b.eclipse) sim.aEclipse.apply(D.eclipse.charges);
       if (outcome === 'crit' && !s.dot && b.naturesGrace) sim.aGrace.apply();
     },
@@ -138,7 +145,9 @@ export function druidFeralKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana || 0, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.cd = { tf: 0, sp: 0, bk: 0, potion: 0 };
       sim.aSR = sim.addAura({ name: 'Savage Roar', duration: 39, mods: { dmgMult: F.savageRoar.dmg } });
-      sim.aTF = sim.addAura({ name: "Tiger's Fury", duration: F.tigersFury.dur, mods: { dmgMult: F.tigersFury.dmg } });
+      // Waywatcher Ferocity (Sanctified set 1945): 2 pieces = +2 energy per Rake or Rip tick; 4 = the Tiger's Fury damage bonus is doubled; 6 (Clearcasting and a longer Tiger's Fury on finishers) is not simulated
+      { const wf = setPieces(sim, 1945); sim.wfSet = { two: wf >= 2, four: wf >= 4 }; }
+      sim.aTF = sim.addAura({ name: "Tiger's Fury", duration: F.tigersFury.dur, mods: { dmgMult: 1 + (F.tigersFury.dmg - 1) * (sim.wfSet.four ? 2 : 1) } });
       sim.aBK = sim.addAura({ name: 'Berserk', duration: F.berserk.dur });
       sim.rageCap = F.energy.cap; sim.cp = 0; sim.ripUntil = 0; sim.rakeUntil = 0;
       const tick = () => { sim.gainRage(F.energy.perTick); sim.nextTick = sim.now + F.energy.tick; sim.schedule(F.energy.tick, tick); };
@@ -183,7 +192,7 @@ export function druidFeralKit(build = {}, data = null) {
             sim.ripUntil = now + F.rip.ticks * F.rip.interval;
             const my = (sim.ripToken = (sim.ripToken || 0) + 1); let n = 0;
             const critP = sim.critChance(0), cm = sim.critMult(sim.mods.critDmgBonus);
-            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
+            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (sim.wfSet.two) sim.gainRage(2); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
             sim.schedule(F.rip.interval, step);
           }, gcd);
         }
@@ -209,7 +218,7 @@ export function druidFeralKit(build = {}, data = null) {
           if (o !== 'miss' && o !== 'dodge') {
             sim.rakeUntil = now + F.rake.ticks * F.rake.interval;
             const my = (sim.rakeToken = (sim.rakeToken || 0) + 1); let n = 0;
-            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
+            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (sim.wfSet.two) sim.gainRage(2); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
             sim.schedule(F.rake.interval, step);
           }
         }, gcd);

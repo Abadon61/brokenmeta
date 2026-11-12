@@ -4,6 +4,7 @@
 // 1.12 value kept until Forever's table is sourced: Bane of Agony, Shadowburn, Life Tap, the Imp's Firebolt, Demonic Rune
 // style mana items, spell hit/crit/mana formulas (character.js), Soul Shards (not limited: shards are assumed available).
 // Periodic effects use the client's per-tick spell coefficient (sp_coeff x number of ticks) and can crit (can_crit).
+import { setPieces } from './shared.js';
 import { setupMana, gainMana, spendMana, spiritRegenPerSec, beginCast, resolveSpell, applyDotCrit, dotActive, dotLeft, cancelDot, SPELL_GCD, SPELL_CRIT_MULT, spellCritMult } from './spells.js';
 
 export const WARLOCK = {
@@ -66,6 +67,10 @@ export function warlockKit(build = {}, data = null) {
   // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Wrack's spell damage coefficient doubled (0.286 for 6 s) and its base damage per second at level 60 is 86 (36 before);
   // Shadow and Flame is 4% per rank (2% before). Applied only while the client still holds the old Wrack base (36 a second).
   if (W.wrack.dot.total / W.wrack.dot.ticks < 60) { W.wrack.dot.total = 86 * W.wrack.dot.ticks; W.wrack.dot.coeff = 0.286; }
+  // Hotfix 10 Nov 2026: Wrack damage -30 %, no longer raises the periodic damage of the target, and it is now a 6 s channel that makes Siphon Life, Corruption and Bane of Agony
+  // tick twice as fast while it lasts. The channel (6 s of casting) and its own damage are simulated; the faster ticks are NOT (only a few ticks a fight would be gained back
+  // from the dots that get refreshed early), so Affliction is a slight underestimate. Soul Siphon: 4/8/12 % per Corruption, Siphon Life and Bane of Agony on the target, max 36 %.
+  W.wrack.dot.total *= 0.7; W.wrack.dot.coeff *= 0.7; W.wrack.cast = 6; W.wrack.vuln = 0; W.soulSiphon.dmg = 0.04;
 
   return {
     name: 'warlock', build: b, W,
@@ -86,6 +91,10 @@ export function warlockKit(build = {}, data = null) {
       sim.aWrack = sim.addAura({ name: 'Wrack', duration: W.wrack.dur });
       sim.aTrance = sim.addAura({ name: 'Shadow Trance', duration: Infinity });
       sim.aDecim = sim.addAura({ name: 'Decimation', duration: 10 });
+      // Heretic Raiment (Sanctified set 1954, Wowhead Forever text): 2 pieces = a non-periodic Shadow / Fire crit burns for 25 % of its damage over 4 s; 4 = Shadow Bolt and Soul Fire +30 % against a target with Corruption
+      // (Haunt, Chaos Bolt and Shadow Cleave are not in the kit); 6 = a periodic crit gives +20 % spell haste for 15 s (Backdraft's extra 12 % is not simulated)
+      { const hr = setPieces(sim, 1954); sim.hrSet = { two: hr >= 2, four: hr >= 4, six: hr >= 6 }; }
+      sim.aHeretic = sim.addAura({ name: 'Heretic Raiment (6)', duration: 15, mods: { hasteMult: 1.2 } });
       // the Imp's Firebolt: independent cast loop, uses the warlock's spell power
       if (petOn) {
         const bolt = () => {
@@ -130,6 +139,7 @@ function mods(sim, s, noAuras, periodic) {
       if (sim.aISB.active) dmg *= 1 + W.improvedShadowBolt.dmg * b.improvedShadowBolt;
       if (sim.aSF.active) dmg *= 1 + W.shadowAndFlame.dmg * b.shadowAndFlame;
       if (periodic && sim.aWrack.active && s !== W.wrack) dmg *= 1 + W.wrack.vuln;
+      if (sim.hrSet.four && (s === W.shadowBolt || s === W.soulFire) && dotActive(sim, 'Corruption')) dmg *= 1.3;      // set bonus (4)
     }
   }
   return { hit, crit, dmg, critBonus };
@@ -179,6 +189,9 @@ function warlockCast(sim, s) {
 function afterDirect(sim, s, r) {
   const b = sim.kitBuild, W = sim.spec.W;
   if (s === W.shadowBolt && r.outcome === 'crit' && b.improvedShadowBolt) sim.aISB.apply();
+  if (r.outcome === 'crit' && sim.hrSet.two && (has(s, 'shadow') || has(s, 'fire'))) {      // set bonus (2): Burn, 25 % of the crit over 4 s
+    const per = r.dmg * 0.25 / 4; for (let i = 1; i <= 4; i++) sim.schedule(i, () => sim.record('Heretic Raiment (2)', per, 'hit', true));
+  }
   if (s === W.conflagrate) { if (b.shadowAndFlame) sim.aSF.apply(); if (!(b.shadowAndFlame && sim.rng() < 0.2 * b.shadowAndFlame)) cancelDot(sim, 'Immolate'); }
   if (s === W.shadowburn && b.shadowAndFlame) { /* fire bonus not tracked separately: Shadowburn's fire window is folded into Conflagrate's shadow window */ }
   if ((s === W.shadowBolt || s === W.incinerate) && b.decimation && sim.targetHealthPct() < 0.35) sim.aDecim.apply();
@@ -193,10 +206,15 @@ function startDot(sim, s) {
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
   const critChance = Math.max(0, Math.min(1, st.crit + m.crit - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus);
-  const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
+  const nf = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
+  const onTick = nf || sim.hrSet.six ? (r) => { if (nf) nf(); if (sim.hrSet.six && r && r.crit) sim.aHeretic.apply(); } : null;      // set bonus (6): periodic crit
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);
 }
-function activeAfflictions(sim) { return ['Corruption', 'Bane of Agony', 'Bane of Doom', 'Siphon Life'].filter((n) => dotActive(sim, n)).length; }
+function wrackDps(sim, W, b) {
+  const d = W.wrack.dot, m = mods(sim, W.wrack, false, true), ss = b.soulSiphon ? 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon : 1;
+  return (d.total / d.ticks + (sim.stats.sp + sim.spBonus) * d.coeff) * d.ticks * m.dmg * ss / Math.max(warlockCastTime(sim, W.wrack), 1.5);
+}
+function activeAfflictions(sim) { return ['Corruption', 'Bane of Agony', 'Siphon Life'].filter((n) => dotActive(sim, n)).length; }
 
 // ---- rotation ----
 function warlockRotate(sim, b, W) {
@@ -231,7 +249,7 @@ function warlockRotate(sim, b, W) {
     else if (refresh(W.corruption, 1.0) && rem > 8) s = W.corruption;
     else if (!b.noAgony && (useDoom ? (now >= sim.cd.doom && refresh(W.doom, 0) && rem > 62) : (refresh(W.agony, 1.5) && rem > 8))) s = useDoom ? W.doom : W.agony;
     else if (b.siphonLife && refresh(W.siphonLife, 1.5) && rem > 8) s = W.siphonLife;
-    else if (b.wrack && refresh(W.wrack, 0.5)) s = W.wrack;
+    else if (b.wrack && refresh(W.wrack, 0.5) && wrackDps(sim, W, b) > sim.est(filler)) s = W.wrack;      // a 6 s channel: only when its own damage per second beats the filler (the faster ticks it gives the other dots are not simulated)
   }
   if (!s && b.conflagrate && now >= sim.cd.conflagrate && dotActive(sim, 'Immolate')) s = W.conflagrate;
   if (!s && b.shadowburn && now >= sim.cd.shadowburn && destro) s = W.shadowburn;

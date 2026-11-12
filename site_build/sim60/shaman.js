@@ -3,6 +3,7 @@
 // (a few damage per second) and the elemental melee crit from Elemental Devastation are not simulated.
 import { makeCaster, fromRank, pickRank, spellHit, tickDamage } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
+import { setPieces } from './shared.js';
 
 // ---- fire totems (shared by the Elemental and Enhancement kits) ----
 // Searing Totem: its "Attack" spell (47 fire damage + 0.017 spell power every 2.2 s, 55 s) and Magma Totem's pulse (73 + 0.033 spell
@@ -83,6 +84,9 @@ export function shamanElementalKit(build = {}, data = null) {
     setup(sim) {
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
       sim.aEM = sim.addAura({ name: 'Elemental Mastery', duration: H.elementalMastery.dur });
+      // The Soulcrusher's Storm (Sanctified set 1952, Wowhead Forever text): 2 pieces = Lava Burst / Chain Lightning / Lightning Bolt on a target with Flame Shock also deal one Flame Shock pulse;
+      // 4 = Overload chance +10 %, Lava Burst +(spell crit chance) %, and each Lightning Bolt / Chain Lightning adds +10 % (max 5 stacks) to the next Lava Burst. 6 (Chain Lightning on fewer than 3 targets) is not simulated: the ranking does not cast it
+      { const ss = setPieces(sim, 1952); sim.ssSet = { two: ss >= 2, four: ss >= 4 }; sim.lbStack = 0; }
       if (S.fs && S.fs.dot && b.callOfFlame) S.fs.dotTicks = () => S.fs.dot.ticks + Math.round(H.callOfFlameShock.sec * b.callOfFlame / S.fs.dot.interval);
       sim.spBonus = Math.floor(((sim.stats.int || 0) * (1 + H.ancestralKnowledge.int * b.ancestralKnowledge)) * H.mentalQuickness.sp * b.mentalQuickness);   // Mental Quickness: spell power from Intellect
       sim.critBase = H.thunderingStrikes.crit * b.thunderingStrikes + Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge) / 59.5 / 100;
@@ -94,6 +98,7 @@ export function shamanElementalKit(build = {}, data = null) {
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
       if (s === S.lvb && dotActive(sim, S.fs ? S.fs.name : '')) dmg *= H.lavaBurstFs;
+      if (s === S.lvb && sim.ssSet.four) dmg *= (1 + Math.max(0, Math.min(1, sim.stats.crit + sim.critBase))) * (1 + 0.1 * sim.lbStack);      // set bonus (4)
       return { hit, crit, dmg, critBonus };
     },
     castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity - ((s === S.lb || s === S.lvb) && sim.aEM.active ? H.elementalMastery.cast : 0)) : s.cast),
@@ -110,7 +115,12 @@ export function shamanElementalKit(build = {}, data = null) {
       if (s.totem) { dropTotem(sim, T, () => ({ hit: 0, crit: sim.critBase, dmg: 1 + H.callOfFlame.dmg * b.callOfFlame, critBonus: H.elementalFury.critBonus * b.elementalFury })); return; }
       if (outcome === 'miss') return;
       if (b.elementalFocus && !s.dot && sim.rng() < H.elementalFocus.chance) sim.aClear.apply();
-      if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload) {
+      if (sim.ssSet.two && (s === S.lb || s === S.cl || s === S.lvb) && S.fs && S.fs.dot && dotActive(sim, S.fs.name)) {      // set bonus (2): one Flame Shock pulse
+        const fm = def.mods(sim, S.fs, 'dot');
+        sim.record('Flame Shock (set bonus)', (S.fs.dot.perTick + (sim.stats.sp + (sim.spBonus || 0)) * S.fs.dot.coeff) * fm.dmg * (1 - sim.target.spellMitigation / 10) * sim.target.spellTaken, 'hit');
+      }
+      if (sim.ssSet.four) { if (s === S.lvb) sim.lbStack = 0; else if (s === S.lb || s === S.cl) sim.lbStack = Math.min(5, sim.lbStack + 1); }
+      if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload + (sim.ssSet.four ? 0.10 : 0)) {
         const e = sim.entry(s.name + ' (Overload)'), m = def.mods(sim, s, 'direct');
         const raw = (s.direct.min + (s.direct.max - s.direct.min) * sim.rng() + sim.stats.sp * s.direct.coeff) * H.lightningOverload.dmg;
         const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit - (sim.target.spellCritSuppression || 0)));
@@ -150,9 +160,10 @@ import { useRune, setupMana, gainMana, spendMana, spiritRegenPerSec, resolveSpel
 
 export const SHAMAN_ENH = {
   // notes 3 Nov 2026: Stormstrike 150% normalized weapon damage (100%), 6 s cooldown (8 s)
-  stormstrike: { cost: 125, cd: 6, wpn: 1.5, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
-  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { chance: 0.20, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 0.5 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
+  // hotfix 10 Nov 2026: Stormstrike 100% weapon damage (was 150%), cooldown 8 s (was 6 s)
+  stormstrike: { cost: 125, cd: 8, wpn: 1.0, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
+  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { perStack: 0.20, perMin: [6, 7, 8, 9, 10], max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
   shamanisticFocus: { cost: 0.45 }, concussion: { dmg: 0.01 }, callOfFlame: { dmg: 0.05 }, improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -199,12 +210,13 @@ export function shamanEnhancementKit(build = {}, data = null) {
       sim.aSS = sim.addAura({ name: 'Stormstrike', duration: E.stormstrike.dur });
       sim.aFar = sim.addAura({ name: 'Rage of the Farseer', duration: E.farseer.dur, mods: { hasteMult: E.farseer.haste } });
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
-      if (b.windfuryWeapon) sim.noWindfuryTotem = true;      // WoWSims Forever: the main-hand imbue keeps its own proc, the raid totem adds nothing
+      // hotfix 10 Nov 2026: weapon imbues and weapon totems can now be used together, so the raid's Windfury Totem adds its own proc to Windfury Weapon
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = E.flurry.charges; s.flurryAura.apply(1); }
-        if (b.maelstromWeapon && s.rng() < E.maelstrom.chance) s.aMW.apply(1);
+        // hotfix 10 Nov 2026: Maelstrom Weapon activates 6/7/8/9/10 times a minute by rank, rolled per main-hand swing (chance = rate x weapon speed / 60)
+        if (b.maelstromWeapon && isWhite && !isOH && s.rng() < E.maelstrom.perMin[Math.min(4, b.maelstromWeapon - 1)] * (s.player.weapons[0].speed || 2) / 60) s.aMW.apply(1);
         // WoWSims (sim/shaman/windfury_weapon.go): 20% per landed main-hand hit, 1.5 s internal cooldown, two extra YELLOW attacks (they cannot glance) with the weapon's attack power bonus
         if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.now >= (s.wfIcd || 0) && s.rng() < E.windfury.chance) {
           const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons), wmh = s.player.weapons[0];
@@ -290,7 +302,7 @@ export function shamanEnhancementKit(build = {}, data = null) {
       // (five ranks and five stacks: instant and free). `maelstromMin` is the fewest stacks worth spending. The swings go on while it is cast.
       const mwStacks = b.maelstromWeapon && sim.aMW.active ? sim.aMW.stacks : 0;
       if (L && (mwStacks >= b.maelstromMin || (b.ssBuffOn === 'bolt' && sim.aSS.active))) {
-        const red = Math.min(1, E.maelstrom.perRank * b.maelstromWeapon * mwStacks);
+        const red = Math.min(1, E.maelstrom.perStack * mwStacks);
         const lbCost = price(L.cost, (1 - red) * conv), castT = Math.max(1.5, (L.cast - E.elementalAlacrity.cast * (b.elementalAlacrity || 0)) * (1 - red));
         if (lbCost <= sim.mana) {
           if (mwStacks) sim.aMW.expire(); spendMana(sim, lbCost); sim.lastCastAt = now; sim.gcdReadyAt = now + castT; sim.entry('Lightning Bolt').casts++;

@@ -5,7 +5,7 @@
 // and the spell-hit roll are Classic 1.12 values (ASSUMED); only the talent effects come from Forever
 // (Improved Poisons, Vile Poisons, Malice on poisons, Mutilate vs poisoned). Not modeled: poison charges,
 // Venom, Improved Kidney Shot.
-import { yellowAttack, castGcd } from './shared.js';
+import { yellowAttack, castGcd, setPieces } from './shared.js';
 
 export const ROGUE = {
   sinisterStrike: { cost: 45, flat: 68, pct: 1.0 },
@@ -67,6 +67,9 @@ export function rogueKit(build = {}, data = null) {
     name: 'rogue', build: b, R,
     setup(sim) {
       sim.player.resource = 'energy'; sim.kitBuild = b;
+      // Duskwraith Armor (Sanctified set 1934, bonuses read from Wowhead Forever): 2 pieces = +20 % per poison / bleed on the target (max 60 %) on the builders (Deadly Poison and Rupture count; Instant Poison is a hit, not an effect;
+      // "Just a Flesh Wound" is taken as inactive); 4 = poison and auto-attack crits give a combo point 10 % of the time; 6 = Eviscerate +50 % (Ambush, Crimson Tempest and Envenom are not simulated)
+      const dw = setPieces(sim, 1934); sim.dwSet = { two: dw >= 2, four: dw >= 4, six: dw >= 6 };
       const mods = sim.mods, mh = sim.player.weapons[0] || {}, oh = sim.player.weapons[1];
       sim.rageCap = R.energy.cap + R.vigor.perRank * (b.vigor || 0);
       mods.critBonus += R.malice.critPerRank * b.malice;
@@ -117,6 +120,7 @@ export function rogueKit(build = {}, data = null) {
         const crit = sim.rng() < pcrit();
         const d = base * pmult() * (crit ? 1 + (R.poison.critMult - 1) * (1 + (sim.player.racialCritDmg || 0)) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
+        if (crit && sim.dwSet.four && sim.rng() < 0.10) sim.cp = Math.min(5, sim.cp + 1);      // set bonus (4)
       };
       const dkTick = () => {
         if (sim.now > dk.endsAt + 1e-9) { dk.stacks = 0; dk.ticking = false; return; }
@@ -135,6 +139,7 @@ export function rogueKit(build = {}, data = null) {
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (isWhite && outcome === 'crit' && sim.dwSet.four && s.rng() < 0.10) s.cp = Math.min(5, s.cp + 1);      // set bonus (4): auto-attack crit
         if (source === 'Eviscerate') return;
         const kind = isOH ? b.ohPoison : b.mhPoison;
         if (kind === 'instant' || kind === 'deadly') applyPoison(kind);
@@ -169,6 +174,7 @@ export function rogueKit(build = {}, data = null) {
         sim.cp = Math.min(5, sim.cp + n);
         if (crit && isBuilder && b.sealFate && sim.rng() < R.sealFate.perRank * b.sealFate) sim.cp = Math.min(5, sim.cp + 1);
       };
+      const flesh = () => (sim.dwSet.two ? 1 + 0.2 * Math.min(3, (sim.deadly.stacks > 0 ? 1 : 0) + (now < (sim.ruptEnds || 0) ? 1 : 0)) : 1);      // set bonus (2)
       const lethal = () => 1.0 * R.lethality.critDmgPerRank * b.lethality;
 
       // cooldowns that cost no GCD
@@ -237,7 +243,7 @@ export function rogueKit(build = {}, data = null) {
           const cp = sim.cp; sim.spendRage(sim.cost.ev()); sim.cp = 0;
           const tb = R.eviscerate.table[cp];
           const bonus = cbBonus(); spendCb();
-          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.byRank[b.improvedEviscerate || 0]) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
+          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.byRank[b.improvedEviscerate || 0]) * (1 + R.aggression.perRank * b.aggression) * (sim.dwSet.six ? 1.5 : 1), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
           if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
         }, GCD);
@@ -264,13 +270,13 @@ export function rogueKit(build = {}, data = null) {
       let w = null;
       if (builder === 'ss') w = doBuilder('Sinister Strike', sim.cost.ss(), () => {
         const bonus = cbBonus(); spendCb();
-        const o = yellowAttack(sim, 'Sinister Strike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.sinisterStrike.flat) * R.sinisterStrike.pct * (1 + R.aggression.perRank * b.aggression) * qm(),
+        const o = yellowAttack(sim, 'Sinister Strike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.sinisterStrike.flat) * R.sinisterStrike.pct * (1 + R.aggression.perRank * b.aggression) * qm() * flesh(),
           { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(1, o === 'crit', true);
       });
       else if (builder === 'backstab') w = doBuilder('Backstab', sim.cost.bs(), () => {
         const bonus = cbBonus() + R.puncturingWounds.bsCritPerRank * b.puncturingWounds; spendCb();
-        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity),
+        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity) * flesh(),
           { bonusCrit: bonus, critDmgBonus: lethal(), canDodge: false });      // Forever backstab.go: Rank 8, (140 + normalized weapon) x 150 %, cannot be dodged or parried
         if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); if (b.puncturingWounds && sim.rng() < 0.05 * b.puncturingWounds) sim.cp = Math.min(5, sim.cp + 1); }
       });
@@ -284,7 +290,7 @@ export function rogueKit(build = {}, data = null) {
         const o = yellowAttack(sim, 'Mutilate', () => {
           const mhPart = (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct;      // Forever: the 67 flat is inside the 75 % multiplier
           const ohPart = (sim.weaponRoll(oh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct * ohMult();
-          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1);
+          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1) * flesh();
         }, { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(R.mutilate.cp, o === 'crit', true);
       });

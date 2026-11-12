@@ -5,6 +5,7 @@
 // Silence, the Holy and Discipline spells other than the ones listed.
 import { makeCaster, fromRank, pickRank } from './caster.js';
 import { dotActive, dotLeft } from './spells.js';
+import { setPieces } from './shared.js';
 
 export const PRIEST = {
   shadowFocus: { hit: 0.01 }, improvedSwp: { ticks: 1 }, improvedMindBlast: { cd: 0.5 }, improvedMindFlay: { ramp: 0.10 },   // build 1.60.1.70425: each Mind Flay tick deals 10% / 20% more than the previous tick (was +10% / +20% on the whole channel)
@@ -55,6 +56,9 @@ export function priestKit(build = {}, data = null) {
         if (b.shadowform) critBonus += P.shadowform.critBonus;
       }
       if (s.instant) dmg *= 1 + P.twinDisciplines.dmg * b.twinDisciplines;
+      // Raiments of Revelation (Sanctified set 1938, Wowhead Forever text): 2 pieces = Mind Flay +10 % per other periodic Shadow effect on the target (max 30 %: Shadow Word: Pain and Devouring Plague here).
+      // 4 (Mind Blast and Mind Spike stacks) and 6 (the number in the text is a placeholder) are not simulated: Mind Spike is not in the kit
+      if (s === def.S.mf && setPieces(sim, 1938) >= 2) dmg *= 1 + 0.1 * Math.min(3, (S.swp && dotActive(sim, S.swp.name) ? 1 : 0) + (S.dp && dotActive(sim, S.dp.name) ? 1 : 0));
       if (sim.aPI.active) dmg *= P.powerInfusion.dmg;
       if (sim.innerFocus && s.direct) crit += P.innerFocus.crit;
       return { hit, crit, dmg, critBonus };

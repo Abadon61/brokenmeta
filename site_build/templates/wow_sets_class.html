@@ -23,7 +23,7 @@
 {% for s in cs.sets %}
 <section class="gs-tile" id="set-{{ s.id }}"><div class="gs-th"><h2 class="gs-h2">{{ s.title }} <span class="rs-hint">· {{ s.spec }}</span></h2></div>
 <h3 class="gs-sub">{{ tx.bonuses }}</h3>
-<ul class="gd-list">{% for b in s.bonuses %}<li><b>{{ tx.n_pieces.format(n=b.n) }}</b> : {{ b.text }}</li>{% endfor %}</ul>
+<ul class="gd-list">{% for b in s.bonuses %}<li><b>{{ tx.n_pieces.format(n=b.n) }}</b> : {{ b.text }} <em class="rs-hint">· {{ tx['sim_' ~ b.sim] }}</em></li>{% endfor %}</ul>
 <h3 class="gs-sub">{{ tx.pieces }}</h3>
 <div class="rs-table-wrap"><table class="rs-table">
   <thead><tr><th>{{ tx.slot }}</th><th>{{ tx.item }}</th><th>{{ tx.stats }}</th></tr></thead>

@@ -140,6 +140,20 @@ def _stat_line(st: dict, lang: str, limit: int = 6) -> str:
     return ", ".join(out[:limit])
 
 
+# What the level-60 simulator (site_build/sim60) does with each bonus, by (set id, pieces): "yes" = the effect is coded as the text says, "partial" = only part of it
+# (the abilities missing from the kit are left out), anything absent = not simulated. Kept next to the texts so the pages say exactly what the published DPS contains.
+SIMULATED = {
+    ("1932", 2): "partial", ("1932", 4): "partial", ("1932", 6): "partial",
+    ("1934", 2): "partial", ("1934", 4): "yes", ("1934", 6): "partial",
+    ("1936", 4): "yes", ("1937", 2): "partial", ("1937", 4): "yes",
+    ("1938", 2): "yes", ("1944", 6): "partial",
+    ("1945", 2): "yes", ("1945", 4): "yes",
+    ("1946", 2): "partial", ("1946", 6): "partial",
+    ("1952", 2): "yes", ("1952", 4): "yes",
+    ("1954", 2): "yes", ("1954", 4): "partial", ("1954", 6): "partial",
+}
+
+
 def build(lang: str, wt_classes: list, ranking_rows: list) -> dict:
     """{'classes': [{id, name, color, sets: [...]}], 'n_sets', 'n_items'}; ranking_rows are build_wow_ranking60 rows (their detail lists the best setup's items)."""
     raw = json.loads(SETS_JSON.read_text(encoding="utf-8"))
@@ -174,7 +188,7 @@ def build(lang: str, wt_classes: list, ranking_rows: list) -> dict:
             meta = sets_meta[sid]
             bonuses = []
             for i, (n, en_text) in enumerate(meta["bonuses"]):
-                bonuses.append({"n": n, "text": FR[sid][i] if lang == "fr" else EN_FIX.get((sid, i), en_text)})
+                bonuses.append({"n": n, "text": FR[sid][i] if lang == "fr" else EN_FIX.get((sid, i), en_text), "sim": SIMULATED.get((sid, n), "no")})
             sets.append({
                 "id": sid, "title": meta["title"], "spec": SPEC[sid][0 if lang == "fr" else 1], "tank": "tank" in meta["spec"] or meta["spec"] in ("protection", "guardian"),
                 "heal": meta["spec"] in ("healer", "holy", "restoration"),
@@ -203,7 +217,8 @@ TX = {
         "where_txt": "Vendu en Eastern Plaguelands par le quartermaster de l'Argent Dawn (réputation « Revered ») et par le quartermaster de Scarlet. Le prix et la réputation exacte ne sont pas encore relevés : vérifiez-les en jeu.",
         "sim_worn": "Dans notre simulateur, la meilleure configuration porte au moins 2 pièces de cet ensemble pour :",
         "sim_none": "Notre simulateur ne retient pas ces pièces pour un classement de dégâts.",
-        "sim_note": "Les statistiques des pièces sont simulées ; les bonus d'ensemble, pas encore (ils demandent des mécaniques propres à chaque classe). Les DPS publiés sont donc plutôt une borne basse pour les classes qui portent l'ensemble.",
+        "sim_note": "Les statistiques des pièces sont simulées. Les bonus d'ensemble le sont seulement quand ils portent sur des sorts que notre simulateur sait déjà jouer, comme indiqué sous chaque bonus ; ceux qui demandent des sorts absents du simulateur (Living Bomb, Holy Power, Mind Spike, Starsurge, les sets de soin et de tank...) ne sont pas comptés. Les DPS publiés sont donc plutôt une borne basse.",
+        "sim_yes": "simulé", "sim_partial": "simulé en partie", "sim_no": "non simulé",
         "src_note": "Données lues sur les pages Forever de Wowhead (objets et ensembles). Les phrases françaises sont notre reformulation ; les noms de sorts restent en anglais.",
         "role_tank": "Tank", "role_heal": "Soigneur", "role_dps": "Dégâts",
         "hub_h2": "Choisir une classe", "hub_back": "Tous les ensembles",
@@ -224,7 +239,8 @@ TX = {
         "where_txt": "Sold in Eastern Plaguelands by the Argent Dawn quartermaster (Revered) and the Scarlet quartermaster. The exact price and reputation are not recorded yet: check them in game.",
         "sim_worn": "In our simulator the best setup wears at least 2 pieces of this set for:",
         "sim_none": "Our simulator does not pick these pieces for a damage ranking.",
-        "sim_note": "The pieces' stats are simulated; the set bonuses are not yet (each needs class-specific mechanics). The published DPS is therefore more of a floor for the classes that wear a set.",
+        "sim_note": "The pieces' stats are simulated. The set bonuses are only simulated when they touch spells our simulator already plays, as marked under each bonus; those that need abilities the simulator does not have (Living Bomb, Holy Power, Mind Spike, Starsurge, healing and tank sets...) are not counted. The published DPS is therefore more of a floor.",
+        "sim_yes": "simulated", "sim_partial": "partly simulated", "sim_no": "not simulated",
         "src_note": "Data read from Wowhead's Forever item and item-set pages. Bonus texts are the game's own.",
         "role_tank": "Tank", "role_heal": "Healer", "role_dps": "Damage",
         "hub_h2": "Pick a class", "hub_back": "All sets",
