@@ -30,7 +30,7 @@
   <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">{{ tx.kicker }}</div>
     <h1 class="gh-title">{{ g_h1 }}</h1>
-    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt) }}</span>{% endfor %}</div>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt, hotfix=tl.hotfix_txt) }}</span>{% endfor %}</div>
     <p class="gh-lede">{{ g_intro }}</p>
     <p class="gh-lede"><b>{{ tx.best.format(name=tl.top.class_name ~ ' ' ~ tl.top.spec_name, dps=num(tl.top.value)) }}</b></p>
   </div></div>
@@ -39,6 +39,23 @@
 <section class="gs-tile tlw-quick"><div class="gs-th"><h2 class="gs-h2">{{ tx.quick_h }}</h2></div>
 <p class="tlw-quick-p">{{ tl.quick }}</p>
 </section>
+
+{% if tl.changes %}
+<section class="gs-tile tlw-changes" id="changes"><div class="gs-th"><h2 class="gs-h2">{{ tx.chg_h.format(since=tl.changes.since) }}</h2></div>
+<p>{{ tx.chg_p.format(reason=tl.changes.reason) }}</p>
+<div class="tlw-rows">
+  {% for c in tl.changes.moved %}
+  <a class="tlw-row" href="{{ root }}{{ c.row.page_path }}" style="--rc: {{ c.row.class_color or '#8a6cff' }}">
+    {% if c.row.spec_icon %}<img src="{{ root }}{{ c.row.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
+    <span class="tlw-name"><b>{{ c.row.spec_name }}</b><small>{{ c.row.class_name }} · {{ c.txt }}</small></span>
+    <span class="tlw-val nums">{{ num(c.old) }} → {{ num(c.new) }}<small>{{ '%+.1f'|format(c.delta)|replace('.', ',' if lang == 'fr' else '.') }} %</small></span>
+  </a>
+  {% endfor %}
+</div>
+{% if tl.changes.n_same %}<p class="tlw-note">{{ tx.chg_same.format(names=tl.changes.same) }}</p>{% endif %}
+<p class="tlw-note">{{ tx.chg_note.format(hotfix=tl.hotfix_txt) }}</p>
+</section>
+{% endif %}
 
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_dps }}</h2></div>
 {{ tier_block(tl.dps, tx.unit_dps) }}

@@ -8921,7 +8921,9 @@ def main() -> None:
             if _tl:
                 _tx = dict(wow_tierlist.TX[lang])
                 _tl["date_txt"] = _news_date(_tl["generated"], lang)
-                _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"])
+                wow_tierlist.freshness(_tl, lang)
+                _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"], hotfix=_tl["hotfix_txt"])
+                _tx["title"] = _tx["title"].format(short=_tl["short_txt"])
                 assert len(_tx["title"]) <= 60 and len(_tx["desc"]) <= 155, (len(_tx["title"]), len(_tx["desc"]))
                 _tlpath = "/wow-forever/tier-list/"
                 _th = dict(wow_tierlist.THRESHOLDS)

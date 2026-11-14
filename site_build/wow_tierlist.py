@@ -61,11 +61,11 @@ def build(dps_rows, tank_rows, wt_classes, lang):
 
 TX = {
     "fr": {
-        "title": "Tier list WoW Forever : meilleures classes et spés",
-        "desc": "Quelle est la meilleure classe de WoW Forever ? Tier list DPS et tanks simulée au niveau 60, mise à jour le {date} (build {build}).",
+        "title": "Tier list DPS WoW Forever niveau 60 – maj {short}",
+        "desc": "Tier list DPS WoW Forever niveau 60 simulée, recalculée le {date} après le correctif du {hotfix} : spécialisations, tanks, méthode.",
         "kicker": "TIER LIST WOW FOREVER", "h1": "Tier list WoW Forever niveau 60 : quelle est la meilleure classe ?",
         "intro": "Chaque spécialisation est simulée au niveau 60 avec le meilleur équipement connu de la bêta, ses talents optimisés et les buffs d'un raid. Les paliers S à D viennent de l'écart avec la meilleure spécialisation de son rôle : rien n'est placé à la main. Ce classement ne tient compte que des objets déjà datamined : beaucoup d'objets restent à découvrir, et il peut donc changer.",
-        "chips": ["Données du simulateur", "Build du jeu {build}", "Mise à jour le {date}"],
+        "chips": ["Données du simulateur", "Build du jeu {build}", "Mise à jour le {date}", "Après le correctif du {hotfix}"],
         "best": "Le meilleur DPS simulé aujourd'hui est {name} avec {dps} DPS ; les paliers se calculent à partir de cette valeur.",
         "quick_h": "En bref : quelle est la meilleure classe ?",
         "quick_top": "{top_name} est la spécialisation DPS la plus forte de notre simulation ({top_dps} DPS).",
@@ -105,13 +105,18 @@ TX = {
         ],
         "links_h": "Aller plus loin", "l_sim": "Simulateur DPS", "l_calc": "Calculateur de talents", "l_dung": "Donjons", "l_races": "Quelle race choisir", "l_level": "Guide de leveling 1-60",
         "art_credit": "Illustrations : © Blizzard Entertainment",
+        "chg_h": "Ce qui a changé depuis la version du {since}",
+        "chg_p": "Ce qui a été recalculé : {reason}. Seuls les chiffres du simulateur ont bougé ; rien n'est retouché à la main.",
+        "chg_up": "rang", "chg_same": "Sans changement de DPS : {names}.",
+        "chg_tier": "palier {a} → {b}", "chg_rank": "rang {a} → {b}", "chg_rank_same": "rang {a}",
+        "chg_note": "Ce calcul ne tient pas encore compte des correctifs publiés après le {hotfix} ; ils seront intégrés au prochain recalcul, et cette liste sera mise à jour.",
     },
     "en": {
-        "title": "WoW Forever tier list: best classes at level 60",
-        "desc": "Tier list of WoW: Forever classes and specs at level 60, ranked by simulated DPS. Method, data and game build shown on the page.",
+        "title": "WoW Forever DPS Tier List (Level 60), updated {short}",
+        "desc": "WoW Forever DPS tier list at level 60, simulated and rerun on {date} after the {hotfix} hotfix. Every spec ranked, tanks and method shown.",
         "kicker": "LEVEL 60 TIER LIST", "h1": "WoW: Forever level 60 tier list: which class is the best?",
         "intro": "Each spec is simulated at level 60 with the best gear known from the beta, optimized talents and raid buffs. Tiers S to D come from the gap to the best spec of the same role: nothing is placed by hand. This ranking only counts the items that have already been datamined: many items are still undiscovered, so it can change.",
-        "chips": ["Simulator data", "Game build {build}", "Updated {date}"],
+        "chips": ["Simulator data", "Game build {build}", "Updated {date}", "After the {hotfix} hotfix"],
         "best": "The highest simulated DPS today is {name} with {dps} DPS; the tiers are computed from that value.",
         "quick_h": "In short: which class is the best?",
         "quick_top": "{top_name} is the strongest DPS spec in our simulation ({top_dps} DPS).",
@@ -149,6 +154,11 @@ TX = {
         ],
         "links_h": "Go further", "l_sim": "DPS simulator", "l_calc": "Talent calculator", "l_dung": "Dungeons", "l_races": "Which race to pick", "l_level": "1-60 leveling guide",
         "art_credit": "Artwork: © Blizzard Entertainment",
+        "chg_h": "What changed since the {since} version",
+        "chg_p": "What was recomputed: {reason}. Only the simulator's numbers moved; nothing is edited by hand.",
+        "chg_up": "rank", "chg_same": "No DPS change: {names}.",
+        "chg_tier": "tier {a} → {b}", "chg_rank": "rank {a} → {b}", "chg_rank_same": "rank {a}",
+        "chg_note": "This run does not include patches published after {hotfix} yet; they will go into the next recompute, and this list will be updated.",
     },
 }
 
@@ -290,3 +300,60 @@ def hub_build(tl, lang):
         "s_list": _join([nm(r) for r in s_rows], lang), "build": tl["build"], "date": tl["date_txt"],
     }
     return {"top5": dps_rows[:5], "fmt": fmt, "has_tank": bool(tank)}
+
+
+# ---------------------------------------------------------------------------
+# Freshness (2026-11-14): date of the last real recompute, the hotfix it includes, and what moved since the previous snapshot.
+# data/wow_ranking_changelog.json says which hotfix the recompute integrates (written by hand AFTER the recompute, so the page never claims a patch the numbers lack);
+# data/wow_ranking60_prev.json is the ranking of the previous published version (copy the current compact ranking there before the next recompute).
+# ---------------------------------------------------------------------------
+_MONTHS = {"fr": ["janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre"],
+           "en": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]}
+_SHORT = {"fr": ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."],
+          "en": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]}
+
+
+def date_txt(iso, lang, short=False, year=True):
+    y, m, d = int(iso[:4]), int(iso[5:7]), int(iso[8:10])
+    if short:
+        return f"{d} {_SHORT['fr'][m - 1]}" if lang == "fr" else f"{_SHORT['en'][m - 1]} {d}"
+    return (f"{d} {_MONTHS['fr'][m - 1]}" + (f" {y}" if year else "")) if lang == "fr" else (f"{_MONTHS['en'][m - 1]} {d}" + (f", {y}" if year else ""))
+
+
+def _load(name):
+    f = PROJECT / "data" / name
+    return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
+
+
+def freshness(tl, lang):
+    """Adds hotfix_txt / short_txt (and the "what changed" rows) to tl; the hotfix is the one named in the changelog file."""
+    log = _load("wow_ranking_changelog.json") or {}
+    tl["short_txt"] = date_txt(tl["generated"], lang, short=True)
+    tl["hotfix_txt"] = date_txt(log["hotfix_date"], lang, year=False) if log.get("hotfix_date") else tl["date_txt"]
+    prev = _load("wow_ranking60_prev.json")
+    tl["changes"] = None
+    if not prev or not log:
+        return tl
+    tx = TX[lang]
+    old = {r["spec"]: r["dps"] for r in prev["specs"] if r["role"] == "dps"}
+    otop = max(old.values())
+    oorder = sorted(old, key=lambda k: -old[k])
+    rows = [r for g in tl["dps"] for r in g["rows"]]
+    moved, same = [], []
+    for i, r in enumerate(rows):
+        o = old.get(r["spec_id"])
+        if o is None:
+            continue
+        delta = 100.0 * (r["value"] / o - 1)
+        if abs(delta) < 0.5:
+            same.append(r["class_name"] + " " + r["spec_name"])
+            continue
+        a, b = oorder.index(r["spec_id"]) + 1, i + 1
+        ta, tb = tier_of(100.0 * o / otop), r["tier"]
+        bits = [tx["chg_rank"].format(a=a, b=b) if a != b else tx["chg_rank_same"].format(a=b)]
+        if ta != tb:
+            bits.append(tx["chg_tier"].format(a=ta, b=tb))
+        moved.append({"row": r, "old": o, "new": r["value"], "delta": delta, "txt": ", ".join(bits), "better": a > b or (a == b and ta != tb and ta > tb)})
+    tl["changes"] = {"since": date_txt(prev["generated"], lang), "reason": log.get(lang, ""), "moved": moved, "same": _join(same, lang),
+                     "n_same": len(same)}
+    return tl
