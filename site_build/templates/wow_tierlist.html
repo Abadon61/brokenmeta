@@ -45,7 +45,7 @@
 </section>
 
 {% if tl.tank %}
-<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_tank }}</h2></div>
+<section class="gs-tile" id="tanks"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_tank }}</h2></div>
 <div class="tlw-rows tlw-flat">
   {% for r in tl.tank %}
   <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
@@ -98,6 +98,7 @@
 
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
 <div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/tier-lists/">{{ 'Toutes les tier lists' if lang == 'fr' else 'All tier lists' }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.l_sim }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ tx.l_dung }}</a>

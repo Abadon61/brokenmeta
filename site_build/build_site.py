@@ -8938,6 +8938,25 @@ def main() -> None:
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
                        article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"], date_published="2026-10-13", date_modified=_tl["generated"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
+            if _tl:
+                # Hub "tier list WoW Forever" (2026-11-14): entry point to the DPS / tanks / healers / leveling lists, see wow_tierlist.HUB_TX
+                _hx = dict(wow_tierlist.HUB_TX[lang])
+                _hb = wow_tierlist.hub_build(_tl, lang)
+                _hx["desc"] = _hx["desc"].format(date=_tl["date_txt"])
+                assert len(_hx["title"]) <= 60 and len(_hx["desc"]) <= 155, (lang, len(_hx["title"]), len(_hx["desc"]))
+                _hb["faq"] = [(q, a.format(**_hb["fmt"])) for q, a in _hx["faq"]]
+                _hb["cards"] = [
+                    ("c_dps", "wow-forever/tier-list/"),
+                    *([("c_tank", "wow-forever/tier-list/#tanks")] if _hb["has_tank"] else []),
+                    ("c_heal", "wow-forever/classes/"), ("c_lvl", "wow-forever/leveling/"),
+                    ("c_race", "wow-forever/races/"), ("c_set", "wow-forever/sets/"),
+                ]
+                _hb["cards"] = [(k, p, _hx[k + "_p"].format(**_hb["fmt"])) for k, p in _hb["cards"]]
+                _hfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _hb["faq"]]}
+                render("wow_tierlist_hub.html", wow_tierlist.HUB_PATH, lang, active_nav="wow", active_sub="wow-tier-list", tx=_hx, hb=_hb, tl=_tl,
+                       g_title=_hx["title"], g_desc=_hx["desc"], g_h1=_hx["h1"], g_intro=_hx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_hfaq,
+                       article_schema=build_article_schema(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang), _hx["desc"], date_published="2026-11-14", date_modified=_tl["generated"]),
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang))]))
             if wow_racepick.available():
                 # "Which race?": a hub and one page per class (client racials + simulator), see wow_racepick.py
                 _rx = wow_racepick_tx.TX[lang]

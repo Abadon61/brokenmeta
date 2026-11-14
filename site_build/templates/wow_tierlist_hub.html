@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import "macros.html" as m %}
+{% block title %}{{ g_title }}{% endblock %}
+{% block description %}{{ g_desc }}{% endblock %}
+{% block extra_head %}
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+<script type="application/ld+json">{{ faq_schema|tojson }}</script>
+{% endblock %}
+{% macro num(v) %}{{ '{:,.0f}'.format(v).replace(',', ' ' if lang == 'fr' else ',') }}{% endmacro %}
+{% block content %}
+{# Hub tier lists (2026-11-14): numbers come from data/wow_ranking60.json through wow_tierlist.hub_build(). #}
+<section class="gh-hero is-flat">
+  <div class="gh-in"><div class="gh-main">
+    <div class="fiche-kicker">{{ tx.kicker }}</div>
+    <h1 class="gh-title">{{ g_h1 }}</h1>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt) }}</span>{% endfor %}</div>
+    <p class="gh-lede">{{ g_intro }}</p>
+  </div></div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.cards_h }}</h2></div>
+<div class="tlw-classes tlh-cards">
+  {% for key, path, p in hb.cards %}
+  <article class="tlw-class" style="--cc: var(--cyan)">
+    <div class="tlw-class-in">
+      <h3><a href="{{ root }}{{ path }}">{{ tx[key] }}</a></h3>
+      <p>{{ p }}</p>
+      <a class="gh-chip" href="{{ root }}{{ path }}">{{ tx[key ~ '_a'] }}</a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.top_h }}</h2></div>
+<div class="tlw-rows">
+  {% for r in hb.top5 %}
+  <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
+    {% if r.spec_icon %}<img src="{{ root }}{{ r.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
+    <span class="tlw-name"><b>{{ r.spec_name }}</b><small>{{ r.class_name }} · {{ tx.tier_s if r.tier == 'S' else r.tier }}</small></span>
+    <span class="tlw-val nums">{{ num(r.value) }} DPS<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} %</small></span>
+  </a>
+  {% endfor %}
+</div>
+<p class="tlw-note"><a href="{{ root }}wow-forever/tier-list/">{{ tx.top_all }}</a></p>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.why_h }}</h2></div>
+<ul class="tlw-choose">{% for t in tx.why %}<li>{{ t }}</li>{% endfor %}</ul>
+</section>
+
+{{ m.ad_slot('tierlist', lang) }}
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.faq_h }}</h2></div>
+{% for q, a in hb.faq %}<details class="fq-item"><summary>{{ q }}</summary><p>{{ a }}</p></details>{% endfor %}
+</section>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+{% endblock %}

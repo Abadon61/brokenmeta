@@ -210,3 +210,83 @@ def add_content(tl, lang):
     tl["choose"] = choose
     tl["fmt"] = fmt
     return tl
+
+
+# ---------------------------------------------------------------------------
+# Hub "tier list WoW Forever" (/wow-forever/tier-lists/): one entry point to the DPS and tank rankings (this module),
+# healers (not simulated), leveling, races and sets. Every number comes from build(); nothing is hand-placed.
+# ---------------------------------------------------------------------------
+HUB_PATH = "/wow-forever/tier-lists/"
+HUB_TX = {
+    "fr": {
+        "title": "Tier list WoW Forever : DPS, tanks, soins, leveling",
+        "desc": "Toutes les tier lists WoW Forever : DPS et tanks simulés au niveau 60, soins, leveling, races et ensembles. Mise à jour le {date}.",
+        "kicker": "TIER LISTS WOW FOREVER", "h1": "Tier list WoW Forever : DPS, tanks, soigneurs et leveling",
+        "intro": "Une seule page pour choisir la tier list dont vous avez besoin. Le classement DPS et tanks est simulé au niveau 60 avec la même méthode pour toutes les spécialisations ; pour le reste, nous disons clairement ce qui est mesuré et ce qui ne l'est pas encore.",
+        "chips": ["Données du simulateur", "Build du jeu {build}", "Recalculé le {date}"],
+        "cards_h": "Choisissez votre tier list",
+        "c_dps": "DPS niveau 60", "c_dps_p": "{n} spécialisations simulées, de {top_name} ({top_dps} DPS) à {low_name} ({low_dps} DPS), en paliers S à D.", "c_dps_a": "Tier list DPS",
+        "c_tank": "Tanks", "c_tank_p": "{n_tank} spécialisations classées à la menace par seconde : {tank_name} arrive en tête ({tank_val} TPS). La survie n'est pas simulée.", "c_tank_a": "Voir les tanks",
+        "c_heal": "Soigneurs", "c_heal_p": "Pas de classement : le simulateur ne modélise pas encore les soins sur un combat complet, et nous n'affichons pas de chiffre inventé. Leurs guides existent.", "c_heal_a": "Guides des classes",
+        "c_lvl": "Leveling 1-60", "c_lvl_p": "Le parcours de montée de niveau, zone par zone. Nous ne simulons pas le jeu en solo, il n'y a donc pas de classement de vitesse de leveling.", "c_lvl_a": "Guide de leveling",
+        "c_race": "Quelle race choisir", "c_race_p": "Pour chaque classe, les races classées d'après leurs racials lus dans le client et le DPS simulé.", "c_race_a": "Choisir sa race",
+        "c_set": "Ensembles Sanctified", "c_set_p": "Les ensembles de classe et leurs bonus, avec l'effet simulé sur le DPS de chaque spécialisation.", "c_set_a": "Voir les ensembles",
+        "top_h": "Le haut du classement DPS aujourd'hui", "top_all": "Classement DPS complet et méthode",
+        "tier_s": "Palier S",
+        "why_h": "Pourquoi une tier list simulée ?",
+        "why": [
+            "Chaque spécialisation passe par le même moteur, avec le meilleur équipement connu, ses talents optimisés et les buffs d'un raid : l'écart entre deux lignes vient du jeu, pas d'un avis.",
+            "Les paliers dépendent de l'écart avec la meilleure spécialisation de son rôle. Rien n'est placé à la main, et le classement est recalculé quand les correctifs ou les nouveaux objets le justifient.",
+            "Les limites sont affichées : combat sur une cible, sans déplacements ni mécaniques de boss, et seulement les objets déjà datamined. La méthode complète est en bas de la tier list DPS.",
+        ],
+        "faq_h": "Questions fréquentes", "faq": [
+            ("Où trouver la tier list de WoW Forever ?", "Sur cette page, qui renvoie vers chaque classement : DPS niveau 60 (simulé), tanks (menace par seconde), races, ensembles et guide de leveling. Les soigneurs ne sont pas encore classés."),
+            ("Quelle est la meilleure classe de WoW Forever ?", "Dans notre simulation, la spécialisation DPS la plus haute est {top_name} avec {top_dps} DPS (build {build}). Le palier S compte : {s_list}. Le classement complet est sur la tier list DPS."),
+            ("Votre tier list est-elle à jour ?", "Elle a été recalculée le {date} avec le build {build} du jeu. Cette date vient du dernier recalcul du simulateur, pas de la date de la page : elle change quand les chiffres changent."),
+            ("Y a-t-il une tier list pour les soigneurs ou le PvP ?", "Pas encore. Le simulateur ne modélise ni les soins ni le PvP, et nous préférons ne rien afficher plutôt qu'un chiffre inventé."),
+        ],
+    },
+    "en": {
+        "title": "WoW Forever tier list: DPS, tanks, healers, leveling",
+        "desc": "Every WoW Forever tier list in one place: simulated level 60 DPS and tanks, healers, leveling, races and sets. Recomputed {date}.",
+        "kicker": "WOW FOREVER TIER LISTS", "h1": "WoW Forever tier list: DPS, tanks, healers and leveling",
+        "intro": "One page to pick the tier list you need. The DPS and tank ranking is simulated at level 60 with the same method for every spec; for the rest, we say plainly what is measured and what is not yet.",
+        "chips": ["Simulator data", "Game build {build}", "Recomputed {date}"],
+        "cards_h": "Pick your tier list",
+        "c_dps": "Level 60 DPS", "c_dps_p": "{n} specs simulated, from {top_name} ({top_dps} DPS) to {low_name} ({low_dps} DPS), in S to D tiers.", "c_dps_a": "DPS tier list",
+        "c_tank": "Tanks", "c_tank_p": "{n_tank} specs ranked by threat per second: {tank_name} comes first ({tank_val} TPS). Survivability is not simulated.", "c_tank_a": "See the tanks",
+        "c_heal": "Healers", "c_heal_p": "Not ranked: the simulator does not model healing over a full fight yet, and we will not show an invented number. Their guides are available.", "c_heal_a": "Class guides",
+        "c_lvl": "Leveling 1-60", "c_lvl_p": "The leveling route, zone by zone. We do not simulate solo play, so there is no leveling speed ranking.", "c_lvl_a": "Leveling guide",
+        "c_race": "Which race to pick", "c_race_p": "For each class, races ranked from the racials read in the client and the simulated DPS.", "c_race_a": "Pick a race",
+        "c_set": "Sanctified sets", "c_set_p": "Class sets and their bonuses, with the simulated effect on each spec's DPS.", "c_set_a": "See the sets",
+        "top_h": "Top of the DPS ranking today", "top_all": "Full DPS ranking and method",
+        "tier_s": "S tier",
+        "why_h": "Why a simulated tier list?",
+        "why": [
+            "Every spec goes through the same engine, with the best known gear, optimized talents and raid buffs: the gap between two lines comes from the game, not from an opinion.",
+            "Tiers depend on the gap to the best spec of the same role. Nothing is placed by hand, and the ranking is recomputed when patches or new items justify it.",
+            "Limits are shown: a single-target fight with no movement or boss mechanics, and only items that have already been datamined. The full method is at the bottom of the DPS tier list.",
+        ],
+        "faq_h": "Frequently asked questions", "faq": [
+            ("Where is the WoW Forever tier list?", "On this page, which links to every ranking: level 60 DPS (simulated), tanks (threat per second), races, sets and the leveling guide. Healers are not ranked yet."),
+            ("What is the best class in WoW Forever?", "In our simulation the highest DPS spec is {top_name} with {top_dps} DPS (build {build}). S tier holds: {s_list}. The full ranking is on the DPS tier list."),
+            ("Is your tier list up to date?", "It was recomputed on {date} with game build {build}. That date comes from the last simulator run, not from the page date: it changes when the numbers change."),
+            ("Is there a healer or PvP tier list?", "Not yet. The simulator models neither healing nor PvP, and we would rather show nothing than an invented number."),
+        ],
+    },
+}
+
+
+def hub_build(tl, lang):
+    """Values of the hub, taken from the already-built tier list `tl` (build() + add_content())."""
+    nm = lambda r: r["class_name"] + " " + r["spec_name"]
+    dps_rows = [r for g in tl["dps"] for r in g["rows"]]
+    tank = tl["tank"][0] if tl["tank"] else None
+    s_rows = next((g["rows"] for g in tl["dps"] if g["tier"] == "S"), [])
+    fmt = {
+        "n": tl["n_dps"], "n_tank": tl["n_tank"], "top_name": nm(dps_rows[0]), "top_dps": _num(dps_rows[0]["value"], lang),
+        "low_name": nm(dps_rows[-1]), "low_dps": _num(dps_rows[-1]["value"], lang),
+        "tank_name": nm(tank) if tank else "", "tank_val": _num(tank["value"], lang) if tank else "",
+        "s_list": _join([nm(r) for r in s_rows], lang), "build": tl["build"], "date": tl["date_txt"],
+    }
+    return {"top5": dps_rows[:5], "fmt": fmt, "has_tank": bool(tank)}
