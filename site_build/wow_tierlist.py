@@ -54,7 +54,22 @@ def build(dps_rows, tank_rows, wt_classes, lang):
         classes.append({"id": c["id"], "name": c["name"][lang], "color": c.get("color"), "specs": specs, "best": best})
     classes.sort(key=lambda c: (("S", "A", "B", "C", "D", "T").index(c["best"]["tier"]), -c["best"]["pct"]))
     top = dps_t[0]["rows"][0]
-    return {"dps": dps_t, "tank": tank_t, "classes": classes, "top": top, "n_dps": len(dps_rows), "n_tank": len(tank_rows),
+    setup = (next((x for x in meta["specs"] if x["spec"] == top["spec_id"]), meta["specs"][0]).get("detail") or {}).get("setup") or {}
+    strip = lambda n: n.split(" (")[0]
+    allr = [r for g in dps_t for r in g["rows"]]
+    gaps = sorted(((allr[i]["value"] - allr[i + 1]["value"], allr[i], allr[i + 1]) for i in range(len(allr) - 1)), key=lambda x: x[0])
+    ties = [(a, b) for g, a, b in gaps if g < 2 * ((a.get("sem") or 0) ** 2 + (b.get("sem") or 0) ** 2) ** 0.5]
+    from collections import Counter
+    dps_ids = {r["spec_id"] for r in allr}
+    bc, dc = Counter(), Counter()
+    for x in meta["specs"]:
+        if x["spec"] in dps_ids:
+            su = (x.get("detail") or {}).get("setup") or {}
+            bc.update({strip(b["name"]) for b in su.get("buffs", [])})
+            dc.update({strip(b["name"]) for b in su.get("debuffs", [])})
+    cond = {"buffs": [n for n, _ in bc.most_common()], "debuffs": [n for n, _ in dc.most_common()],
+            "sem_max": max((r.get("sem") or 0) for r in allr), "gap": gaps[0] if gaps else None, "ties": ties}
+    return {"cond": cond, "dps": dps_t, "tank": tank_t, "classes": classes, "top": top, "n_dps": len(dps_rows), "n_tank": len(tank_rows),
             "generated": meta["generated"], "build": CLIENT_BUILD, "fight": meta["fightLen"], "iters": meta["iterations"],
             "thresholds": THRESHOLDS}
 
@@ -110,6 +125,19 @@ TX = {
         "chg_up": "rang", "chg_same": "Sans changement de DPS : {names}.",
         "chg_tier": "palier {a} → {b}", "chg_rank": "rang {a} → {b}", "chg_rank_same": "rang {a}",
         "chg_note": "Ce calcul ne tient pas encore compte des correctifs publiés après le {hotfix} ; ils seront intégrés au prochain recalcul, et cette liste sera mise à jour.",
+        "jump": [("#dps", "DPS"), ("#tanks", "Tanks"), ("#healers", "Soigneurs"), ("#changes", "Ce qui a changé"), ("#conditions", "Méthode")],
+        "cta_sim": "Simuler ma spécialisation", "open_sim": "Simuler", "err": "erreur ±",
+        "cond_h": "Conditions de simulation et marge d'erreur",
+        "cond_p": "Chaque chiffre de cette page est une moyenne de {iters} combats simulés de {fight} secondes contre un boss de niveau 63, avec la même méthode pour toutes les spécialisations.",
+        "cond": [
+            "Raid : jusqu'à {nb} buffs selon la spécialisation ({buffs}) et {nd} affaiblissements du boss ({debuffs}) ; les consommables sont choisis pour chaque spécialisation (noms anglais du jeu).",
+            "Équipement : le meilleur ensemble que l'optimiseur trouve parmi les objets déjà datamined (donjons, raid, fabrication, ensembles Sanctified), avec leurs bonus d'ensemble simulés. Talents : optimisés pour chaque spécialisation. Race : humain (orc pour le chaman).",
+            "Marge d'erreur : chaque ligne affiche l'erreur standard de la moyenne (±). La plus grande est de ± {sem_max} DPS ; l'écart le plus faible entre deux spécialisations voisines est de {gap_min} DPS ({gap_pair}). {tie}",
+        ],
+        "tie_none": "Aucune paire voisine n'est dans la marge d'erreur : l'ordre affiché est celui de la simulation, pas du hasard.",
+        "tie_some": "Dans la marge d'erreur (écart inférieur à deux fois l'erreur combinée) : {pairs}. Ces paires sont à égalité statistique.",
+        "cmp_h": "Pourquoi nos chiffres diffèrent d'autres simulateurs",
+        "cmp_p": "MythicSim ou WoWSims Forever publient d'autres valeurs de DPS. Les écarts viennent surtout de choix de simulation : l'équipement autorisé (ici, le meilleur ensemble connu, Sanctified compris), la durée et le niveau du boss, le nombre de combats, et la modélisation de certaines mécaniques. Nous avons comparé notre moteur à WoWSims Forever sur une configuration alignée ; il reste des écarts sur certaines mécaniques (le modèle de rage, par exemple), que nous réduisons version après version. Comparez donc les ordres de classement plutôt que les valeurs brutes, et utilisez le simulateur pour tester votre propre équipement.",
     },
     "en": {
         "title": "WoW Forever DPS Tier List (Level 60), updated {short}",
@@ -159,6 +187,19 @@ TX = {
         "chg_up": "rank", "chg_same": "No DPS change: {names}.",
         "chg_tier": "tier {a} → {b}", "chg_rank": "rank {a} → {b}", "chg_rank_same": "rank {a}",
         "chg_note": "This run does not include patches published after {hotfix} yet; they will go into the next recompute, and this list will be updated.",
+        "jump": [("#dps", "DPS"), ("#tanks", "Tanks"), ("#healers", "Healers"), ("#changes", "What changed"), ("#conditions", "Method")],
+        "cta_sim": "Simulate my spec", "open_sim": "Simulate", "err": "error ±",
+        "cond_h": "Simulation conditions and margin of error",
+        "cond_p": "Every number on this page is the mean of {iters} simulated {fight}-second fights against a level 63 boss, with the same method for every spec.",
+        "cond": [
+            "Raid: up to {nb} buffs depending on the spec ({buffs}) and {nd} boss debuffs ({debuffs}); consumables are chosen for each spec.",
+            "Gear: the best set the optimizer finds among the items already datamined (dungeons, raid, crafting, Sanctified sets), with their set bonuses simulated. Talents: optimized for each spec. Race: Human (Orc for Shaman).",
+            "Margin of error: every row shows the standard error of the mean (±). The largest is ± {sem_max} DPS; the smallest gap between two neighbouring specs is {gap_min} DPS ({gap_pair}). {tie}",
+        ],
+        "tie_none": "No neighbouring pair is within the margin of error: the order shown comes from the simulation, not from chance.",
+        "tie_some": "Within the margin of error (gap under twice the combined error): {pairs}. These pairs are statistically tied.",
+        "cmp_h": "Why our numbers differ from other simulators",
+        "cmp_p": "MythicSim and WoWSims Forever publish other DPS values. The gaps mostly come from simulation choices: the gear allowed (here, the best known set, Sanctified included), the boss level and fight length, the number of fights, and how some mechanics are modelled. We compared our engine with WoWSims Forever on an aligned setup; some gaps remain on certain mechanics (the rage model, for example), and we narrow them version after version. So compare the order of the rankings rather than the raw values, and use the simulator to test your own gear.",
     },
 }
 
@@ -219,6 +260,14 @@ def add_content(tl, lang):
     choose.append({"h": tx["choose_begin"], "row": None, "p": tx["choose_begin_p"], "link": None})
     tl["choose"] = choose
     tl["fmt"] = fmt
+    c = tl["cond"]
+    nmr = lambda r: r["class_name"] + " " + r["spec_name"]
+    dec = lambda v: ("%.1f" % v).replace(".", "," if lang == "fr" else ".")
+    gap = c["gap"]
+    tie = tx["tie_some"].format(pairs=_join([nmr(a) + " / " + nmr(b) for a, b in c["ties"]], lang)) if c["ties"] else tx["tie_none"]
+    tl["cond_p"] = tx["cond_p"].format(iters=_num(tl["iters"], lang), fight=tl["fight"])
+    tl["cond_items"] = [t.format(nb=len(c["buffs"]), buffs=", ".join(c["buffs"]), nd=len(c["debuffs"]), debuffs=", ".join(c["debuffs"]), sem_max=dec(c["sem_max"]),
+                                 gap_min=dec(gap[0]) if gap else "", gap_pair=(nmr(gap[1]) + " / " + nmr(gap[2])) if gap else "", tie=tie) for t in tx["cond"]]
     return tl
 
 
