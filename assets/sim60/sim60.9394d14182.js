@@ -709,7 +709,14 @@ function sumGear(gear) {
  * spec: { class:'warrior', race:'human', base?:{...}, gear:[item...], weapons:[{min,max,speed,offHand?,twoHand?,type?}],
  *         buffs:[ids], consumables:[ids], debuffs:[ids], flatCrit?, flatHit?, talentCrit?, talentHit?, totals? }
  */
+// Sanctified (and any future) class sets: the engine's kits read player.sets = { setId: piecesWorn } to turn the 2 / 4 / 6-piece bonuses on.
 function buildCharacter(spec) {
+  const r = buildCharacter0(spec), sets = {};
+  for (const g of spec.gear || []) if (g && g.set) sets[g.set] = (sets[g.set] || 0) + 1;
+  r.player.sets = sets;
+  return r;
+}
+function buildCharacter0(spec) {
   const cls = spec.class || 'warrior', race = spec.race || 'human';
   // The racials are the ones read from the beta client (racials.js), which replace the Classic weapon-skill bonus (Forever's weapon specializations give
   // critical strike chance instead); spec.racialModel === 'classic' brings the old Classic model back (tests, comparisons). spec.weaponTypes lists the equipped weapon types.
@@ -1162,19 +1169,24 @@ function castGcd(sim, spell, fn, gcd = 1.5) {
 
 // Deep Wounds (Forever, talents_arms.go): a crit adds (share x the main hand's average weapon damage, no attack power) to what is still unticked and spreads the sum
 // over a full set of four 3-second ticks; the tick timer of a running bleed is kept. Returns the function to call on every crit.
-function makeDeepWounds(sim, avgMh, share) {
+function makeDeepWounds(sim, avgMh, share, onTick) {
   const st = { remaining: 0, per: 0 };
   const tick = () => {
     if (st.remaining <= 0) return;
-    st.remaining--; sim.record('Deep Wounds', st.per * sim.mods.dmgMult, 'hit');
+    st.remaining--; sim.record('Deep Wounds', st.per * sim.mods.dmgMult, 'hit'); if (onTick) onTick();
     if (st.remaining > 0) sim.schedule(3, tick);
   };
-  return () => {
+  const apply = () => {
     const outstanding = st.remaining * st.per, wasActive = st.remaining > 0;
     st.remaining = 4; st.per = (outstanding + avgMh * share) / 4;
     if (!wasActive) sim.schedule(3, tick);
   };
+  apply.active = () => st.remaining > 0;
+  return apply;
 }
+
+// Pieces worn of one or more class sets (player.sets, filled by buildCharacter from the gear's `set` ids).
+function setPieces(sim, ...ids) { const m = sim.player.sets || {}; let n = 0; for (const id of ids) n += m[id] || 0; return n; }
 
 // ---- warrior.js ----
 // Warrior spec kits: Fury (dual wield) and Arms (two-hander). Numbers come from WoW: Forever's own
@@ -1271,11 +1283,15 @@ function commonSetup(sim, b, W) {
   sim.sBR = sim.addSpell({ name: 'Bloodrage', cost: () => 0, cd: W.bloodrage.cd });
   sim.sEX = sim.addSpell({ name: 'Execute', cost: () => Math.max(0, W.execute.cost - W.improvedExecute.cost[b.improvedExecute || 0]), cd: 0 });
   sim.hsCost = () => Math.max(0, W.heroicStrike.cost - W.improvedHeroicStrike.costPerRank * (b.improvedHeroicStrike || 0));
+  // Lightbreaker's Warplate (Sanctified set 1932, Wowhead Forever text): 2 pieces = Heroic Strike +20 % (Battle / Berserker Stance, the two stances the kits fight in; Cleave and Quick Strike are not simulated);
+  // 4 = every Heroic Strike that lands adds a stack (max 5) of +20 % to the next Slam (Whirlwind and Cleave would too: Arms casts neither); 6 = see the Fury kit (needs Deep Wounds)
+  const lb = setPieces(sim, 1932); sim.lbSet = { two: lb >= 2, four: lb >= 4, six: lb >= 6 }; sim.slamStacks = 0;
   sim.sHS = sim.addSpell({
     name: 'Heroic Strike', cost: sim.hsCost,
     onSwing(s, sw) {            // replaces the main-hand white swing
       s.spendRage(s.hsCost()); s.entry('Heroic Strike').casts++;
-      yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
+      const o = yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat, { dmgMult: s.lbSet.two ? 1.2 : 1 });
+      if (s.lbSet.four && o !== 'miss' && o !== 'dodge') s.slamStacks = Math.min(5, s.slamStacks + 1);
     },
   });
 }
@@ -1339,7 +1355,8 @@ function furyKit(build = {}, data = null) {
       // Arms-tree talents of hybrid Fury builds. Impale only raises the crit damage of abilities (talent text), not of white swings.
       if (b.impale) sim.abilityCritDmg = (sim.abilityCritDmg || 0) + W.impale.critDmgPerRank * b.impale;
       if (b.deepWounds && sim.player.weapons[0]) {
-        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds);
+        const mh0 = sim.player.weapons[0], applyDeepWounds = makeDeepWounds(sim, (mh0.min + mh0.max) / 2, W.deepWounds.pctPerRank * b.deepWounds, sim.lbSet.six ? () => { sim.sWW.readyAt = Math.max(sim.now, sim.sWW.readyAt - 3); } : undefined);      // set bonus (6): each Deep Wounds tick shortens the Whirlwind cooldown by 3 s
+        sim.dwActive = applyDeepWounds.active;
         sim.procs.push((s, outcome, source, isOH) => { if (outcome === 'crit' && !isOH) applyDeepWounds(); });      // main-hand crits only, as in the Arms kit
       }
       if (b.angerManagement) {
@@ -1378,10 +1395,11 @@ function furyKit(build = {}, data = null) {
       if (b.useWhirlwind !== false && (!b.bloodthirst || sim.sBT.readyAt - now >= 1.5) && sim.canCast(sim.sWW)) return castGcd(sim, sim.sWW, () => {   // their APL: Whirlwind when Bloodthirst is 1.5 s or more from ready
         sim.spendRage(sim.sWW.cost());
         const mh = sim.player.weapons[0];
-        yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat);
+        const wwMult = sim.lbSet.six && sim.dwActive && sim.dwActive() ? 2 : 1;      // set bonus (6): +100 % against a target with Deep Wounds
+        yellowAttack(sim, 'Whirlwind', () => sim.weaponRoll(mh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat, { dmgMult: wwMult });
         // client tooltip of Whirlwind (spell 1680): "weapon damage from both melee weapons"; WoWSims Forever strikes with the off-hand too (off-hand halved, Dual Wield Specialization on top)
         const oh = sim.player.dualWield && sim.player.weapons[1];
-        if (oh) yellowAttack(sim, 'Whirlwind (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat) * 0.5 * (1 + (sim.mods.ohDmgBonus || 0)));
+        if (oh) yellowAttack(sim, 'Whirlwind (off-hand)', () => (sim.weaponRoll(oh) + sim.ap() / 14 * sim._norm + W.whirlwind.flat) * 0.5 * (1 + (sim.mods.ohDmgBonus || 0)), { dmgMult: wwMult });
       });
       // their Fury APL order: Death Wish, Recklessness, Bloodthirst, Whirlwind, then Execute in the execute phase, then Heroic Strike
       if (b.executePhase && sim.inExecute()) { const w = executePhase(sim, W); if (w !== null) return w; }
@@ -1472,7 +1490,8 @@ function armsKit(build = {}, data = null) {
         const cast = Math.max(0.1, W.slam.cast - W.improvedSlam.castReductionPerRank * (b.improvedSlam || 0));
         return castGcd(sim, sim.sSL, () => {
           sim.spendRage(W.slam.cost);
-          yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat);
+          const stacks = sim.slamStacks; sim.slamStacks = 0;
+          yellowAttack(sim, 'Slam', () => sim.weaponRoll(mh) + sim.ap() / 14 * norm + W.slam.flat, { dmgMult: 1 + 0.2 * stacks });
           // the swing timer restarts after the cast (Improved Slam removes this penalty)
           if (!(b.improvedSlam >= 2)) sim._scheduleSwing(sim.swings[0], cast + mh.speed / sim.hasteMult());
         });
@@ -1554,6 +1573,9 @@ function rogueKit(build = {}, data = null) {
     name: 'rogue', build: b, R,
     setup(sim) {
       sim.player.resource = 'energy'; sim.kitBuild = b;
+      // Duskwraith Armor (Sanctified set 1934, bonuses read from Wowhead Forever): 2 pieces = +20 % per poison / bleed on the target (max 60 %) on the builders (Deadly Poison and Rupture count; Instant Poison is a hit, not an effect;
+      // "Just a Flesh Wound" is taken as inactive); 4 = poison and auto-attack crits give a combo point 10 % of the time; 6 = Eviscerate +50 % (Ambush, Crimson Tempest and Envenom are not simulated)
+      const dw = setPieces(sim, 1934); sim.dwSet = { two: dw >= 2, four: dw >= 4, six: dw >= 6 };
       const mods = sim.mods, mh = sim.player.weapons[0] || {}, oh = sim.player.weapons[1];
       sim.rageCap = R.energy.cap + R.vigor.perRank * (b.vigor || 0);
       mods.critBonus += R.malice.critPerRank * b.malice;
@@ -1604,6 +1626,7 @@ function rogueKit(build = {}, data = null) {
         const crit = sim.rng() < pcrit();
         const d = base * pmult() * (crit ? 1 + (R.poison.critMult - 1) * (1 + (sim.player.racialCritDmg || 0)) : 1);
         sim.record(name, d, crit ? 'crit' : 'hit');
+        if (crit && sim.dwSet.four && sim.rng() < 0.10) sim.cp = Math.min(5, sim.cp + 1);      // set bonus (4)
       };
       const dkTick = () => {
         if (sim.now > dk.endsAt + 1e-9) { dk.stacks = 0; dk.ticking = false; return; }
@@ -1622,6 +1645,7 @@ function rogueKit(build = {}, data = null) {
       };
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (isWhite && outcome === 'crit' && sim.dwSet.four && s.rng() < 0.10) s.cp = Math.min(5, s.cp + 1);      // set bonus (4): auto-attack crit
         if (source === 'Eviscerate') return;
         const kind = isOH ? b.ohPoison : b.mhPoison;
         if (kind === 'instant' || kind === 'deadly') applyPoison(kind);
@@ -1656,6 +1680,7 @@ function rogueKit(build = {}, data = null) {
         sim.cp = Math.min(5, sim.cp + n);
         if (crit && isBuilder && b.sealFate && sim.rng() < R.sealFate.perRank * b.sealFate) sim.cp = Math.min(5, sim.cp + 1);
       };
+      const flesh = () => (sim.dwSet.two ? 1 + 0.2 * Math.min(3, (sim.deadly.stacks > 0 ? 1 : 0) + (now < (sim.ruptEnds || 0) ? 1 : 0)) : 1);      // set bonus (2)
       const lethal = () => 1.0 * R.lethality.critDmgPerRank * b.lethality;
 
       // cooldowns that cost no GCD
@@ -1724,7 +1749,7 @@ function rogueKit(build = {}, data = null) {
           const cp = sim.cp; sim.spendRage(sim.cost.ev()); sim.cp = 0;
           const tb = R.eviscerate.table[cp];
           const bonus = cbBonus(); spendCb();
-          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.byRank[b.improvedEviscerate || 0]) * (1 + R.aggression.perRank * b.aggression), { bonusCrit: bonus });
+          yellowAttack(sim, 'Eviscerate', () => (tb[0] + (tb[1] - tb[0]) * sim.rng() + 0.04 * cp * sim.ap()) * (1 + R.improvedEviscerate.byRank[b.improvedEviscerate || 0]) * (1 + R.aggression.perRank * b.aggression) * (sim.dwSet.six ? 1.5 : 1), { bonusCrit: bonus });
           if (b.ruthlessness && sim.rng() < R.ruthlessness.perRank * b.ruthlessness) sim.cp = Math.min(5, sim.cp + 1);
           if (b.relentlessStrikes && sim.rng() < R.relentlessStrikes.chancePerCp * b.relentlessStrikes * cp) sim.gainRage(R.relentlessStrikes.energy);
         }, GCD);
@@ -1751,13 +1776,13 @@ function rogueKit(build = {}, data = null) {
       let w = null;
       if (builder === 'ss') w = doBuilder('Sinister Strike', sim.cost.ss(), () => {
         const bonus = cbBonus(); spendCb();
-        const o = yellowAttack(sim, 'Sinister Strike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.sinisterStrike.flat) * R.sinisterStrike.pct * (1 + R.aggression.perRank * b.aggression) * qm(),
+        const o = yellowAttack(sim, 'Sinister Strike', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.sinisterStrike.flat) * R.sinisterStrike.pct * (1 + R.aggression.perRank * b.aggression) * qm() * flesh(),
           { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(1, o === 'crit', true);
       });
       else if (builder === 'backstab') w = doBuilder('Backstab', sim.cost.bs(), () => {
         const bonus = cbBonus() + R.puncturingWounds.bsCritPerRank * b.puncturingWounds; spendCb();
-        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity),
+        const o = yellowAttack(sim, 'Backstab', () => (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.backstab.flat) * R.backstab.pct * (1 + R.opportunity.perRank * b.opportunity) * flesh(),
           { bonusCrit: bonus, critDmgBonus: lethal(), canDodge: false });      // Forever backstab.go: Rank 8, (140 + normalized weapon) x 150 %, cannot be dodged or parried
         if (o !== 'miss' && o !== 'dodge') { addCp(1, o === 'crit', true); if (b.puncturingWounds && sim.rng() < 0.05 * b.puncturingWounds) sim.cp = Math.min(5, sim.cp + 1); }
       });
@@ -1771,7 +1796,7 @@ function rogueKit(build = {}, data = null) {
         const o = yellowAttack(sim, 'Mutilate', () => {
           const mhPart = (sim.weaponRoll(mh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct;      // Forever: the 67 flat is inside the 75 % multiplier
           const ohPart = (sim.weaponRoll(oh) + sim.ap() / 14 * norm + R.mutilate.flat) * R.mutilate.pct * ohMult();
-          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1);
+          return (mhPart + ohPart) * (1 + R.opportunity.perRank * b.opportunity) * (sim.deadly.stacks > 0 ? R.poison.mutilateBonus : 1) * flesh();
         }, { bonusCrit: bonus, critDmgBonus: lethal() });
         if (o !== 'miss' && o !== 'dodge') addCp(R.mutilate.cp, o === 'crit', true);
       });
@@ -2316,7 +2341,9 @@ function mageKit(build = {}, data = null) {
       sim.aScorch = sim.addAura({ name: 'Fire Vulnerability', duration: M.improvedScorch.dur, maxStacks: M.improvedScorch.max });
       sim.aHeat = sim.addAura({ name: 'Heating Up', duration: 20, maxStacks: 3 });
       sim.aComb = sim.addAura({ name: 'Combustion', duration: Infinity, maxStacks: 99 });
-      sim.aAP = sim.addAura({ name: 'Arcane Power', duration: M.arcanePower.duration });
+      // Fireleaf Regalia / Vestments (Sanctified sets 1943 and 1944, Wowhead Forever text). Only one bonus maps onto a spell this kit has: 6 pieces of the Vestments = Arcane Power lasts 10 s longer. The rest (Living Bomb, Glaciate, Frozen Orb, Deep Freeze, Arcane Tunneling, Rewind Time, and the Fire Blast cooldown -5 s, which the Fire rotation turns into mana starvation) is not simulated
+      sim.fireleaf = { blast: setPieces(sim, 1943) >= 6, power: setPieces(sim, 1944) >= 6 };
+      sim.aAP = sim.addAura({ name: 'Arcane Power', duration: M.arcanePower.duration + (sim.fireleaf.power ? 10 : 0) });
       sim.aWC = sim.addAura({ name: "Winter's Chill", duration: 15, maxStacks: M.wintersChill.max });
       sim.aFoF = sim.addAura({ name: 'Fingers of Frost', duration: 15 });
       sim.aCC = sim.addAura({ name: 'Clearcasting', duration: Infinity });
@@ -2627,6 +2654,10 @@ function warlockKit(build = {}, data = null) {
   // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Wrack's spell damage coefficient doubled (0.286 for 6 s) and its base damage per second at level 60 is 86 (36 before);
   // Shadow and Flame is 4% per rank (2% before). Applied only while the client still holds the old Wrack base (36 a second).
   if (W.wrack.dot.total / W.wrack.dot.ticks < 60) { W.wrack.dot.total = 86 * W.wrack.dot.ticks; W.wrack.dot.coeff = 0.286; }
+  // Hotfix 10 Nov 2026: Wrack damage -30 %, no longer raises the periodic damage of the target, and it is now a 6 s channel that makes Siphon Life, Corruption and Bane of Agony
+  // tick twice as fast while it lasts. The channel (6 s of casting) and its own damage are simulated; the faster ticks are NOT (only a few ticks a fight would be gained back
+  // from the dots that get refreshed early), so Affliction is a slight underestimate. Soul Siphon: 4/8/12 % per Corruption, Siphon Life and Bane of Agony on the target, max 36 %.
+  W.wrack.dot.total *= 0.7; W.wrack.dot.coeff *= 0.7; W.wrack.cast = 6; W.wrack.vuln = 0; W.soulSiphon.dmg = 0.04;
 
   return {
     name: 'warlock', build: b, W,
@@ -2647,6 +2678,10 @@ function warlockKit(build = {}, data = null) {
       sim.aWrack = sim.addAura({ name: 'Wrack', duration: W.wrack.dur });
       sim.aTrance = sim.addAura({ name: 'Shadow Trance', duration: Infinity });
       sim.aDecim = sim.addAura({ name: 'Decimation', duration: 10 });
+      // Heretic Raiment (Sanctified set 1954, Wowhead Forever text): 2 pieces = a non-periodic Shadow / Fire crit burns for 25 % of its damage over 4 s; 4 = Shadow Bolt and Soul Fire +30 % against a target with Corruption
+      // (Haunt, Chaos Bolt and Shadow Cleave are not in the kit); 6 = a periodic crit gives +20 % spell haste for 15 s (Backdraft's extra 12 % is not simulated)
+      { const hr = setPieces(sim, 1954); sim.hrSet = { two: hr >= 2, four: hr >= 4, six: hr >= 6 }; }
+      sim.aHeretic = sim.addAura({ name: 'Heretic Raiment (6)', duration: 15, mods: { hasteMult: 1.2 } });
       // the Imp's Firebolt: independent cast loop, uses the warlock's spell power
       if (petOn) {
         const bolt = () => {
@@ -2691,6 +2726,7 @@ function mods(sim, s, noAuras, periodic) {
       if (sim.aISB.active) dmg *= 1 + W.improvedShadowBolt.dmg * b.improvedShadowBolt;
       if (sim.aSF.active) dmg *= 1 + W.shadowAndFlame.dmg * b.shadowAndFlame;
       if (periodic && sim.aWrack.active && s !== W.wrack) dmg *= 1 + W.wrack.vuln;
+      if (sim.hrSet.four && (s === W.shadowBolt || s === W.soulFire) && dotActive(sim, 'Corruption')) dmg *= 1.3;      // set bonus (4)
     }
   }
   return { hit, crit, dmg, critBonus };
@@ -2740,6 +2776,9 @@ function warlockCast(sim, s) {
 function afterDirect(sim, s, r) {
   const b = sim.kitBuild, W = sim.spec.W;
   if (s === W.shadowBolt && r.outcome === 'crit' && b.improvedShadowBolt) sim.aISB.apply();
+  if (r.outcome === 'crit' && sim.hrSet.two && (has(s, 'shadow') || has(s, 'fire'))) {      // set bonus (2): Burn, 25 % of the crit over 4 s
+    const per = r.dmg * 0.25 / 4; for (let i = 1; i <= 4; i++) sim.schedule(i, () => sim.record('Heretic Raiment (2)', per, 'hit', true));
+  }
   if (s === W.conflagrate) { if (b.shadowAndFlame) sim.aSF.apply(); if (!(b.shadowAndFlame && sim.rng() < 0.2 * b.shadowAndFlame)) cancelDot(sim, 'Immolate'); }
   if (s === W.shadowburn && b.shadowAndFlame) { /* fire bonus not tracked separately: Shadowburn's fire window is folded into Conflagrate's shadow window */ }
   if ((s === W.shadowBolt || s === W.incinerate) && b.decimation && sim.targetHealthPct() < 0.35) sim.aDecim.apply();
@@ -2754,10 +2793,15 @@ function startDot(sim, s) {
   if (s === W.wrack) { sim.aWrack.apply(); if (b.soulSiphon) per *= 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon; }
   const critChance = Math.max(0, Math.min(1, st.crit + m.crit - (sim.target.spellCritSuppression || 0)));
   const critMult = spellCritMult(sim, m.critBonus);
-  const onTick = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
+  const nf = (s === W.corruption || s === W.wrack) && b.nightfall ? () => { if (sim.rng() < W.nightfall.chance * b.nightfall) sim.aTrance.apply(); } : null;
+  const onTick = nf || sim.hrSet.six ? (r) => { if (nf) nf(); if (sim.hrSet.six && r && r.crit) sim.aHeretic.apply(); } : null;      // set bonus (6): periodic crit
   applyDotCrit(sim, s.name, per, d.ticks, d.interval, () => { const c = sim.rng() < critChance; return { crit: c, mult: c ? critMult : 1 }; }, onTick);
 }
-function activeAfflictions(sim) { return ['Corruption', 'Bane of Agony', 'Bane of Doom', 'Siphon Life'].filter((n) => dotActive(sim, n)).length; }
+function wrackDps(sim, W, b) {
+  const d = W.wrack.dot, m = mods(sim, W.wrack, false, true), ss = b.soulSiphon ? 1 + Math.min(3, activeAfflictions(sim)) * W.soulSiphon.dmg * b.soulSiphon : 1;
+  return (d.total / d.ticks + (sim.stats.sp + sim.spBonus) * d.coeff) * d.ticks * m.dmg * ss / Math.max(warlockCastTime(sim, W.wrack), 1.5);
+}
+function activeAfflictions(sim) { return ['Corruption', 'Bane of Agony', 'Siphon Life'].filter((n) => dotActive(sim, n)).length; }
 
 // ---- rotation ----
 function warlockRotate(sim, b, W) {
@@ -2792,7 +2836,7 @@ function warlockRotate(sim, b, W) {
     else if (refresh(W.corruption, 1.0) && rem > 8) s = W.corruption;
     else if (!b.noAgony && (useDoom ? (now >= sim.cd.doom && refresh(W.doom, 0) && rem > 62) : (refresh(W.agony, 1.5) && rem > 8))) s = useDoom ? W.doom : W.agony;
     else if (b.siphonLife && refresh(W.siphonLife, 1.5) && rem > 8) s = W.siphonLife;
-    else if (b.wrack && refresh(W.wrack, 0.5)) s = W.wrack;
+    else if (b.wrack && refresh(W.wrack, 0.5) && wrackDps(sim, W, b) > sim.est(filler)) s = W.wrack;      // a 6 s channel: only when its own damage per second beats the filler (the faster ticks it gives the other dots are not simulated)
   }
   if (!s && b.conflagrate && now >= sim.cd.conflagrate && dotActive(sim, 'Immolate')) s = W.conflagrate;
   if (!s && b.shadowburn && now >= sim.cd.shadowburn && destro) s = W.shadowburn;
@@ -2834,7 +2878,8 @@ const HUNTER = {
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
   pet: { speed: 1.0, min: 44, max: 56, apFrac: 0.22, miss: 0.09, dodge: 0.05, crit: 0.05, special: { name: 'Claw', flat: 54, every: 2.0 } },   // ASSUMED (Classic cat)
   bestialWrath: { cd: 120, duration: 18, dmg: 1.5 },                                // cooldown ASSUMED
-  hawk: { name: 'Summon Hawk', cost: 150, cd: 120, duration: 18, every: 1.5, flat: 32, rapFrac: 0.05 },   // rate and cooldown ASSUMED
+  hawk: { name: 'Summon Hawk', cost: 190, cd: 120, duration: 18, every: 1.5, flat: 58, rapFrac: 0.09 },   // hotfix 10 Nov 2026: Hawk melee damage +80 % (32 -> 58, 5 % -> 9 %), mana cost 11 % of base mana like Arcane Shot (about 190)
+  // Summon Hawk rate and cooldown are ASSUMED
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
   lethalAttacks: { crit: 0.01 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, rapidKilling: { cd: 60 }, improvedArcane: { cd: 0.3 },
   loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.05 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
@@ -2886,6 +2931,10 @@ function hunterKit(build = {}, data = null) {
       sim.dmgGlobal = (petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1) * (petOn ? 1 : 1 + H.loneWolf.dmg * b.loneWolf) * (1 + H.rangedSpec.dmg * b.rangedSpec) * (1 + 0.01 * b.improvedTracking);      // Improved Tracking: +1 %/rank on all damage (Forever talents_survival.go: the hunter is taken to track the target)
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: H.bestialDiscipline.keep * b.bestialDiscipline });
       sim.cd = { shared: 0, arcane: 0, sniper: 0, rapid: 0, potion: 0, gem: 0, wrath: 0, hawk: 0 };
+      // Dawnstalker Armor (Sanctified set 1937, Wowhead Forever text): 2 pieces = the shots (not Auto Shot) deal +20 % to a target with Serpent Sting; 4 = a ranged crit gives +20 % attack power for 10 s;
+      // 6 = Multi-Shot hits 2 more targets (one target here) and Kill Shot / Chimera Shot feed it (neither is simulated): no effect
+      const dsn = setPieces(sim, 1937); sim.dsSet = { two: dsn >= 2, four: dsn >= 4 };
+      sim.aDawn = sim.addAura({ name: 'Dawnstalker Armor (4)', duration: 10, mods: { apMult: 1.2 } });
       sim.aRapid = sim.addAura({ name: 'Rapid Fire', duration: H.rapidFire.duration, mods: { hasteMult: H.rapidFire.haste } });
       sim.aDeadly = sim.addAura({ name: 'Deadly Aspects', duration: H.deadlyAspects.dur, mods: { hasteMult: H.deadlyAspects.haste } });
       sim.aWrath = sim.addAura({ name: 'Bestial Wrath', duration: H.bestialWrath.duration });
@@ -2918,8 +2967,10 @@ function hunterKit(build = {}, data = null) {
 function shot(sim, name, flat, dmgMult, critBonus, isAuto, apShare) {
   const b = sim.kitBuild, H = sim.spec.H, rw = sim.rw;
   // Arcane Shot is not a weapon strike: its damage is the spell's own plus a share of ranged attack power (Forever arcane_shot.go: 10 %)
-  const rawFn = apShare ? () => (flat + apShare * sim.ap()) * dmgMult * sim.dmgGlobal : () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1);
+  const ds = !isAuto && sim.dsSet && sim.dsSet.two && sim.serpentEnds > sim.now ? 1.2 : 1;      // set bonus (2)
+  const rawFn = apShare ? () => (flat + apShare * sim.ap()) * dmgMult * sim.dmgGlobal * ds : () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1) * ds;
   const o = yellowAttack(sim, name, rawFn, { canDodge: false, bonusCrit: critBonus || 0, magic: !!apShare });      // Arcane Shot is an arcane school hit: no armor
+  if (o === 'crit' && sim.dsSet && sim.dsSet.four) sim.aDawn.apply();      // set bonus (4)
   if (isAuto && b.deadlyAspects && b.aspect && o !== 'miss' && sim.rng() < H.deadlyAspects.chance * b.deadlyAspects) sim.aDeadly.apply();
   return o;
 }
@@ -3135,8 +3186,11 @@ function hunterMeleeKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.cd = { raptor: 0, mongoose: 0, strider: 0, potion: 0, gem: 0 };
       sim.mbUntil = -1; sim.aFrenzy = sim.addAura({ name: 'Frenzy', duration: H.frenzy.dur }); sim.aWrath = sim.addAura({ name: 'Bestial Wrath', duration: 18 });
+      // Dawnstalker Prowess (Sanctified set 1936): 4 pieces = a melee crit gives +20 % attack speed for 10 s. 2 (Strikes +20 % against Serpent Sting / Wyvern Strike) and 6 (Raptor Fury) need abilities this kit does not have
+      sim.dpSet4 = setPieces(sim, 1936) >= 4; sim.aProwess = sim.addAura({ name: 'Dawnstalker Prowess (4)', duration: 10, mods: { hasteMult: 1.2 } });
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (outcome === 'crit' && s.dpSet4) s.aProwess.apply();
         if (b.exposePrey && s.rng() < M.exposePrey.chance * b.exposePrey) s.mbUntil = s.now + M.mongoose.window;
       });
       if (sim.petOn) (b.petModel === 'classic' ? startPet : startPetForever)(sim, b, H);
@@ -3242,6 +3296,9 @@ function priestKit(build = {}, data = null) {
         if (b.shadowform) critBonus += P.shadowform.critBonus;
       }
       if (s.instant) dmg *= 1 + P.twinDisciplines.dmg * b.twinDisciplines;
+      // Raiments of Revelation (Sanctified set 1938, Wowhead Forever text): 2 pieces = Mind Flay +10 % per other periodic Shadow effect on the target (max 30 %: Shadow Word: Pain and Devouring Plague here).
+      // 4 (Mind Blast and Mind Spike stacks) and 6 (the number in the text is a placeholder) are not simulated: Mind Spike is not in the kit
+      if (s === def.S.mf && setPieces(sim, 1938) >= 2) dmg *= 1 + 0.1 * Math.min(3, (S.swp && dotActive(sim, S.swp.name) ? 1 : 0) + (S.dp && dotActive(sim, S.dp.name) ? 1 : 0));
       if (sim.aPI.active) dmg *= P.powerInfusion.dmg;
       if (sim.innerFocus && s.direct) crit += P.innerFocus.crit;
       return { hit, crit, dmg, critBonus };
@@ -3365,6 +3422,9 @@ function shamanElementalKit(build = {}, data = null) {
     setup(sim) {
       sim.aClear = sim.addAura({ name: 'Clearcasting', duration: Infinity });
       sim.aEM = sim.addAura({ name: 'Elemental Mastery', duration: H.elementalMastery.dur });
+      // The Soulcrusher's Storm (Sanctified set 1952, Wowhead Forever text): 2 pieces = Lava Burst / Chain Lightning / Lightning Bolt on a target with Flame Shock also deal one Flame Shock pulse;
+      // 4 = Overload chance +10 %, Lava Burst +(spell crit chance) %, and each Lightning Bolt / Chain Lightning adds +10 % (max 5 stacks) to the next Lava Burst. 6 (Chain Lightning on fewer than 3 targets) is not simulated: the ranking does not cast it
+      { const ss = setPieces(sim, 1952); sim.ssSet = { two: ss >= 2, four: ss >= 4 }; sim.lbStack = 0; }
       if (S.fs && S.fs.dot && b.callOfFlame) S.fs.dotTicks = () => S.fs.dot.ticks + Math.round(H.callOfFlameShock.sec * b.callOfFlame / S.fs.dot.interval);
       sim.spBonus = Math.floor(((sim.stats.int || 0) * (1 + H.ancestralKnowledge.int * b.ancestralKnowledge)) * H.mentalQuickness.sp * b.mentalQuickness);   // Mental Quickness: spell power from Intellect
       sim.critBase = H.thunderingStrikes.crit * b.thunderingStrikes + Math.floor((sim.stats.int || 0) * H.ancestralKnowledge.int * b.ancestralKnowledge) / 59.5 / 100;
@@ -3376,6 +3436,7 @@ function shamanElementalKit(build = {}, data = null) {
       if (s.schools[0] === 'fire' && (s === S.fs || s === S.lvb || s === S.fn)) dmg *= 1 + H.callOfFlame.dmg * b.callOfFlame;
       if (s === S.fn) dmg *= 1 + H.improvedFireNova.dmg * b.improvedFireNova;
       if (s === S.lvb && dotActive(sim, S.fs ? S.fs.name : '')) dmg *= H.lavaBurstFs;
+      if (s === S.lvb && sim.ssSet.four) dmg *= (1 + Math.max(0, Math.min(1, sim.stats.crit + sim.critBase))) * (1 + 0.1 * sim.lbStack);      // set bonus (4)
       return { hit, crit, dmg, critBonus };
     },
     castTime: (sim, s) => (s.bolt ? Math.max(0.5, s.cast - H.elementalAlacrity.cast * b.elementalAlacrity - ((s === S.lb || s === S.lvb) && sim.aEM.active ? H.elementalMastery.cast : 0)) : s.cast),
@@ -3392,7 +3453,12 @@ function shamanElementalKit(build = {}, data = null) {
       if (s.totem) { dropTotem(sim, T, () => ({ hit: 0, crit: sim.critBase, dmg: 1 + H.callOfFlame.dmg * b.callOfFlame, critBonus: H.elementalFury.critBonus * b.elementalFury })); return; }
       if (outcome === 'miss') return;
       if (b.elementalFocus && !s.dot && sim.rng() < H.elementalFocus.chance) sim.aClear.apply();
-      if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload) {
+      if (sim.ssSet.two && (s === S.lb || s === S.cl || s === S.lvb) && S.fs && S.fs.dot && dotActive(sim, S.fs.name)) {      // set bonus (2): one Flame Shock pulse
+        const fm = def.mods(sim, S.fs, 'dot');
+        sim.record('Flame Shock (set bonus)', (S.fs.dot.perTick + (sim.stats.sp + (sim.spBonus || 0)) * S.fs.dot.coeff) * fm.dmg * (1 - sim.target.spellMitigation / 10) * sim.target.spellTaken, 'hit');
+      }
+      if (sim.ssSet.four) { if (s === S.lvb) sim.lbStack = 0; else if (s === S.lb || s === S.cl) sim.lbStack = Math.min(5, sim.lbStack + 1); }
+      if (b.lightningOverload && (s === S.lb || s === S.cl) && sim.rng() < H.lightningOverload.chance * b.lightningOverload + (sim.ssSet.four ? 0.10 : 0)) {
         const e = sim.entry(s.name + ' (Overload)'), m = def.mods(sim, s, 'direct');
         const raw = (s.direct.min + (s.direct.max - s.direct.min) * sim.rng() + sim.stats.sp * s.direct.coeff) * H.lightningOverload.dmg;
         const c = sim.rng() < Math.max(0, Math.min(1, sim.stats.crit + m.crit - (sim.target.spellCritSuppression || 0)));
@@ -3430,9 +3496,10 @@ function shamanElementalKit(build = {}, data = null) {
 
 const SHAMAN_ENH = {
   // notes 3 Nov 2026: Stormstrike 150% normalized weapon damage (100%), 6 s cooldown (8 s)
-  stormstrike: { cost: 125, cd: 6, wpn: 1.5, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
-  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { chance: 0.20, perRank: 0.04, max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
-  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 0.5 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
+  // hotfix 10 Nov 2026: Stormstrike 100% weapon damage (was 150%), cooldown 8 s (was 6 s)
+  stormstrike: { cost: 125, cd: 8, wpn: 1.0, nature: 1.2, dur: 12 }, rockbiter: { ap: 118 }, windfury: { chance: 0.20, ap: 333, extra: 2 },
+  flurry: { perRank: 0.06, charges: 3, expire: 15 }, maelstrom: { perStack: 0.20, perMin: [6, 7, 8, 9, 10], max: 5, dur: 30 }, improvedStormstrike: { keep: 0.5, dur: 15 }, convection: { cost: 0.02 }, elementalFocus: { chance: 0.10 }, elementalAlacrity: { cast: 1 / 6 }, farseer: { haste: 1.3, dur: 25, cd: 180 },
+  thunderingStrikes: { crit: 0.01 }, ancestralKnowledge: { int: 0.02 }, mentalDexterity: { ap: 1 / 3 }, mentalQuickness: { sp: 0.15 }, elementalWeapons: { rock: 0.2 / 3, wf: 0.4 / 3 },
   shamanisticFocus: { cost: 0.45 }, concussion: { dmg: 0.01 }, callOfFlame: { dmg: 0.05 }, improvedFireNova: { dmg: 0.1, cd: 2 }, manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
 };
 
@@ -3479,12 +3546,13 @@ function shamanEnhancementKit(build = {}, data = null) {
       sim.aSS = sim.addAura({ name: 'Stormstrike', duration: E.stormstrike.dur });
       sim.aFar = sim.addAura({ name: 'Rage of the Farseer', duration: E.farseer.dur, mods: { hasteMult: E.farseer.haste } });
       const consume = (s) => { const a = s.flurryAura; if (a.active && --a.charges <= 0) a.expire(); };
-      if (b.windfuryWeapon) sim.noWindfuryTotem = true;      // WoWSims Forever: the main-hand imbue keeps its own proc, the raid totem adds nothing
+      // hotfix 10 Nov 2026: weapon imbues and weapon totems can now be used together, so the raid's Windfury Totem adds its own proc to Windfury Weapon
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (isWhite) consume(s);
         if (outcome === 'miss' || outcome === 'dodge') return;
         if (outcome === 'crit' && b.flurry > 0) { s.flurryAura.charges = E.flurry.charges; s.flurryAura.apply(1); }
-        if (b.maelstromWeapon && s.rng() < E.maelstrom.chance) s.aMW.apply(1);
+        // hotfix 10 Nov 2026: Maelstrom Weapon activates 6/7/8/9/10 times a minute by rank, rolled per main-hand swing (chance = rate x weapon speed / 60)
+        if (b.maelstromWeapon && isWhite && !isOH && s.rng() < E.maelstrom.perMin[Math.min(4, b.maelstromWeapon - 1)] * (s.player.weapons[0].speed || 2) / 60) s.aMW.apply(1);
         // WoWSims (sim/shaman/windfury_weapon.go): 20% per landed main-hand hit, 1.5 s internal cooldown, two extra YELLOW attacks (they cannot glance) with the weapon's attack power bonus
         if (b.windfuryWeapon && !s.inWindfury && !isOH && (isWhite || source === 'Stormstrike') && s.now >= (s.wfIcd || 0) && s.rng() < E.windfury.chance) {
           const bonus = E.windfury.ap * (1 + E.elementalWeapons.wf * b.elementalWeapons), wmh = s.player.weapons[0];
@@ -3570,7 +3638,7 @@ function shamanEnhancementKit(build = {}, data = null) {
       // (five ranks and five stacks: instant and free). `maelstromMin` is the fewest stacks worth spending. The swings go on while it is cast.
       const mwStacks = b.maelstromWeapon && sim.aMW.active ? sim.aMW.stacks : 0;
       if (L && (mwStacks >= b.maelstromMin || (b.ssBuffOn === 'bolt' && sim.aSS.active))) {
-        const red = Math.min(1, E.maelstrom.perRank * b.maelstromWeapon * mwStacks);
+        const red = Math.min(1, E.maelstrom.perStack * mwStacks);
         const lbCost = price(L.cost, (1 - red) * conv), castT = Math.max(1.5, (L.cast - E.elementalAlacrity.cast * (b.elementalAlacrity || 0)) * (1 - red));
         if (lbCost <= sim.mana) {
           if (mwStacks) sim.aMW.expire(); spendMana(sim, lbCost); sim.lastCastAt = now; sim.gcdReadyAt = now + castT; sim.entry('Lightning Bolt').casts++;
@@ -3625,12 +3693,17 @@ function druidBalanceKit(build = {}, data = null) {
       sim.aEclipse = sim.addAura({ name: 'Eclipse', duration: D.eclipse.dur, maxStacks: D.eclipse.max });
       sim.critBase = D.naturesMajesty.crit * b.naturesMajesty + (b.moonkinForm ? D.moonkinAura.crit : 0);
       sim.spBonus = 0;
+      // Waywatcher Eclipse (Sanctified set 1946, Wowhead Forever text): 2 pieces = Starfire +20 % on a target with Moonfire (the Wrath / Sunfire half: Sunfire is not in the kit); 6 = each Moonfire tick gives the next Starfire +10 % (max 5 stacks).
+      // 4 (Starsurge) is not simulated
+      { const we = setPieces(sim, 1946); sim.weSet = { two: we >= 2, six: we >= 6 }; sim.mfStack = 0; }
     },
+    onTick(sim, s, r) { if (sim.weSet.six && s.moonfire) sim.mfStack = Math.min(5, sim.mfStack + 1); },
     mods(sim, s, kind) {
       let hit = D.naturesReach.hit * b.naturesReach, crit = sim.critBase, dmg = 1, critBonus = D.vengeance.critBonus * b.vengeance;
       dmg *= (1 + D.moonfury.dmg * b.moonfury) * (1 + D.naturalist.dmg * b.naturalist);
       if (kind === 'dot') dmg *= 1 + D.genesis.dmg * b.genesis;
       if (s.moonfire) { dmg *= 1 + D.improvedMoonfire.dmg * b.improvedMoonfire; crit += D.improvedMoonfire.crit * b.improvedMoonfire; }
+      if (s.starfire && kind === 'direct') { if (sim.weSet.two && S.moonfire && dotActive(sim, S.moonfire.name)) dmg *= 1.2; dmg *= 1 + 0.1 * sim.mfStack; }      // set bonus (2, 6)
       return { hit, crit, dmg, critBonus };
     },
     castTime(sim, s) {
@@ -3648,6 +3721,7 @@ function druidBalanceKit(build = {}, data = null) {
     beforeCast(sim, s) { if (s.starfire && sim.aEclipse.active) sim.aEclipse.consumeStack(); },
     afterHit(sim, s, outcome) {
       if (outcome === 'miss') return;
+      if (s.starfire) sim.mfStack = 0;
       if (s.wrath && b.eclipse) sim.aEclipse.apply(D.eclipse.charges);
       if (outcome === 'crit' && !s.dot && b.naturesGrace) sim.aGrace.apply();
     },
@@ -3724,7 +3798,9 @@ function druidFeralKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana || 0, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.cd = { tf: 0, sp: 0, bk: 0, potion: 0 };
       sim.aSR = sim.addAura({ name: 'Savage Roar', duration: 39, mods: { dmgMult: F.savageRoar.dmg } });
-      sim.aTF = sim.addAura({ name: "Tiger's Fury", duration: F.tigersFury.dur, mods: { dmgMult: F.tigersFury.dmg } });
+      // Waywatcher Ferocity (Sanctified set 1945): 2 pieces = +2 energy per Rake or Rip tick; 4 = the Tiger's Fury damage bonus is doubled; 6 (Clearcasting and a longer Tiger's Fury on finishers) is not simulated
+      { const wf = setPieces(sim, 1945); sim.wfSet = { two: wf >= 2, four: wf >= 4 }; }
+      sim.aTF = sim.addAura({ name: "Tiger's Fury", duration: F.tigersFury.dur, mods: { dmgMult: 1 + (F.tigersFury.dmg - 1) * (sim.wfSet.four ? 2 : 1) } });
       sim.aBK = sim.addAura({ name: 'Berserk', duration: F.berserk.dur });
       sim.rageCap = F.energy.cap; sim.cp = 0; sim.ripUntil = 0; sim.rakeUntil = 0;
       const tick = () => { sim.gainRage(F.energy.perTick); sim.nextTick = sim.now + F.energy.tick; sim.schedule(F.energy.tick, tick); };
@@ -3769,7 +3845,7 @@ function druidFeralKit(build = {}, data = null) {
             sim.ripUntil = now + F.rip.ticks * F.rip.interval;
             const my = (sim.ripToken = (sim.ripToken || 0) + 1); let n = 0;
             const critP = sim.critChance(0), cm = sim.critMult(sim.mods.critDmgBonus);
-            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
+            const step = () => { if (sim.ripToken !== my) return; const c = sim.rng() < critP; sim.record('Rip', (per + 0.01 * (F.rip.apScale || 1) * Math.min(cp, 4) * sim.ap()) * sim.mods.dmgMult * (c ? cm : 1), c ? 'crit' : 'hit'); if (sim.wfSet.two) sim.gainRage(2); if (++n < F.rip.ticks) sim.schedule(F.rip.interval, step); };
             sim.schedule(F.rip.interval, step);
           }, gcd);
         }
@@ -3795,7 +3871,7 @@ function druidFeralKit(build = {}, data = null) {
           if (o !== 'miss' && o !== 'dodge') {
             sim.rakeUntil = now + F.rake.ticks * F.rake.interval;
             const my = (sim.rakeToken = (sim.rakeToken || 0) + 1); let n = 0;
-            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
+            const step = () => { if (sim.rakeToken !== my) return; sim.record('Rake (bleed)', F.rake.tick * sim.mods.dmgMult * (1 + F.savageFury.dmg * b.savageFury), 'hit'); if (sim.wfSet.two) sim.gainRage(2); if (++n < F.rake.ticks) sim.schedule(F.rake.interval, step); };
             sim.schedule(F.rake.interval, step);
           }
         }, gcd);
@@ -4444,7 +4520,7 @@ async function optimizeGearAsync({ pool, character, evaluate, getWeights, prefil
       let bestItem = current, bestDps = best;
       for (const it of cands) {
         if (current && it.id === current.id) continue;
-        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st };
+        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st, set: it.set };
         const d = await evaluate(specOf());
         if (d > bestDps + 0.05) { bestDps = d; bestItem = bySlot[slot]; }
       }
