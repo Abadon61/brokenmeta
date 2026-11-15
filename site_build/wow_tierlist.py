@@ -36,6 +36,11 @@ def build(dps_rows, tank_rows, wt_classes, lang):
     if not dps_rows:
         return None
     meta = json.loads((PROJECT / "data" / "wow_ranking60.json").read_text(encoding="utf-8"))
+    # a partial recompute (RANK_ONLY) keeps the old "generated" date in the ranking file: the date of the last real recompute
+    # is the one written in data/wow_ranking_changelog.json (field "date") after each recompute, and it wins when it is later
+    log = _load("wow_ranking_changelog.json") or {}
+    if log.get("date") and log["date"] > meta["generated"]:
+        meta["generated"] = log["date"]
     dps_t = _tiers(dps_rows, "dps")
     tank_t = []
     if tank_rows:      # tanks: threat per second only, so no letter tier (a low TPS says nothing about survival)
