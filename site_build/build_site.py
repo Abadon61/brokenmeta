@@ -8936,7 +8936,7 @@ def main() -> None:
                 _tl["meth"] = [x.format(url='<a href="' + canonical_for("/wow-forever/simulateur-dps/", lang) + '">BrokenMeta.gg</a>', build=_tl["build"], fight=_tl["fight"], iters=_tl["iters"], **_tfmt) for x in _tx["meth"]]
                 _tl["faq"] = [(q, a.format(name=_top["class_name"] + " " + _top["spec_name"], dps=_topv, build=_tl["build"], n=_tl["n_dps"], **_tfmt, **_tl["fmt"])) for q, a in _tx["faq"]]
                 _tfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _tl["faq"]]}
-                render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
+                render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl, og_banner=class_banner(None),
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
                        article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"], date_published="2026-10-13", date_modified=_tl["generated"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
@@ -8955,7 +8955,7 @@ def main() -> None:
                 ]
                 _hb["cards"] = [(k, p, _hx[k + "_p"].format(**_hb["fmt"])) for k, p in _hb["cards"]]
                 _hfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _hb["faq"]]}
-                render("wow_tierlist_hub.html", wow_tierlist.HUB_PATH, lang, active_nav="wow", active_sub="wow-tier-list", tx=_hx, hb=_hb, tl=_tl,
+                render("wow_tierlist_hub.html", wow_tierlist.HUB_PATH, lang, active_nav="wow", active_sub="wow-tier-list", tx=_hx, hb=_hb, tl=_tl, og_banner=class_banner(None),
                        g_title=_hx["title"], g_desc=_hx["desc"], g_h1=_hx["h1"], g_intro=_hx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_hfaq,
                        article_schema=build_article_schema(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang), _hx["desc"], date_published="2026-11-14", date_modified=_tl["generated"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang))]))

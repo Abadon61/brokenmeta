@@ -2,6 +2,7 @@
 {% import "macros.html" as m %}
 {% block title %}{{ g_title }}{% endblock %}
 {% block description %}{{ g_desc }}{% endblock %}
+{% block og_image %}{{ BASE_URL }}{{ og_banner }}{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
