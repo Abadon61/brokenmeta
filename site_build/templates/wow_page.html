@@ -201,7 +201,7 @@
 {% if wow_slug and not page.faq %}</div>
 <aside class="ct-side">
   <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">World of Warcraft: Forever</h2></div>
-  <nav class="ct-nav">{% for sl, lf, le in (('sortie', 'Sortie', 'Release'), ('beta', 'Bêta', 'Beta'), ('editions', 'Éditions et prix', 'Editions & prices'), ('classes', 'Classes et races', 'Classes & races'), ('progression', 'Progression 1-60', 'Leveling 1-60'), ('faq', 'FAQ', 'FAQ')) %}<a href="{{ root }}wow-forever/{{ sl }}/"{% if sl == wow_slug %} class="is-on" aria-current="page"{% endif %}>{{ lf if fr else le }}</a>{% endfor %}</nav></section>
+  <nav class="ct-nav">{% for sl, lf, le in (('sortie', 'Sortie', 'Release'), ('editions', 'Éditions et prix', 'Editions & prices'), ('classes', 'Classes et races', 'Classes & races'), ('progression', 'Progression 1-60', 'Leveling 1-60'), ('faq', 'FAQ', 'FAQ')) %}<a href="{{ root }}wow-forever/{{ sl }}/"{% if sl == wow_slug %} class="is-on" aria-current="page"{% endif %}>{{ lf if fr else le }}</a>{% endfor %}</nav></section>
   <details class="gs-more gs-sources"><summary>{{ wow_ui.sources }}</summary>
   <p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
   <ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul></details>
@@ -210,7 +210,7 @@
 
 {% if page.faq %}
 {# the questions are in the same order in FR and EN (asserted in wow_content.py); groups are lists of positions #}
-{% set fq_groups = [(('Le jeu' if fr else 'The game'), 'game', [0, 1, 2, 6, 7, 8]), (('La bêta' if fr else 'The beta'), 'beta', [3, 4, 5]), (('Le site' if fr else 'The site'), 'site', [9])] %}
+{% set fq_groups = [(('Le jeu' if fr else 'The game'), 'game', [0, 1, 2, 3, 4, 5]), (('Le site' if fr else 'The site'), 'site', [6])] %}
 <div class="fq-bar">
   <div class="search-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="search" id="fqSearch" class="search-input" placeholder="{{ 'Rechercher une question…' if fr else 'Search a question…' }}" aria-label="{{ 'Rechercher une question' if fr else 'Search a question' }}" autocomplete="off"></div>
   <nav class="fq-toc" aria-label="{{ 'Catégories' if fr else 'Categories' }}">{% for gname, gid, gidx in fq_groups %}<a href="#{{ gid }}">{{ gname }} <b class="nums">{{ gidx|length }}</b></a>{% endfor %}</nav>

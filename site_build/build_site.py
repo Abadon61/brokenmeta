@@ -7452,7 +7452,7 @@ def main() -> None:
         except Exception as _e:
             print(f"[game_news] {_g} refresh failed, using the stored archive: {_e}")
             _game_news[_g] = game_news.load(_g)
-    env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
+    env.globals["wow_beta_group"] = ["", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["wow_launched"] = wow_content.launched()
     # (profession pages: the level-30 asterisks and their notes only describe the beta's cap, wow_launched drops them)      # after the launch the menu group is just "Forever" (BM_FORCE_LAUNCHED=1 previews it)
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
@@ -8262,7 +8262,7 @@ def main() -> None:
                 _bis_gear_data["specs"].get(_bspec_id, []), wow_guides.TXT[lang]["stat_names"])
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
-            if wow_content.launched() and _wslug != "beta":      # the FAQ markup is built from this model: rewrite it here too, not only the HTML
+            if wow_content.launched():      # the FAQ markup is built from this model: rewrite it here too, not only the HTML
                 _wp = wow_content.launch_text(_wp, lang)
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
                 import copy
@@ -8273,7 +8273,7 @@ def main() -> None:
                     for _b in _sec["blocks"]:
                         if _b["type"] == "cards":
                             _b["items"] = list(_b["items"])
-                            _b["items"].insert(4, _card)
+                            _b["items"].insert(3, _card)
             _wpath = "/wow-forever/" + (_wslug + "/" if _wslug else "")
             _wurl = canonical_for(_wpath, lang)
             _wcrumbs = [(_wow_ui["section"], canonical_for("/", lang))]
@@ -8310,6 +8310,14 @@ def main() -> None:
                                                          "alt_canonical": canonical_for("/", "en" if lang == "fr" else "fr")})
             else:
                 render("wow_page.html", _wpath, lang, **_wow_kw)
+        # The former beta page is gone (2026-11-21, user): its URL stays as a redirect stub to the release page so no old link breaks.
+        _rdir = DIST / ("en" if lang == "en" else "") / "wow-forever" / "beta"
+        _rdir.mkdir(parents=True, exist_ok=True)
+        _rto = canonical_for("/wow-forever/sortie/", lang)
+        (_rdir / "index.html").write_text(
+            '<!doctype html><html lang="%s"><head><meta charset="utf-8"><title>WoW: Forever</title><meta name="robots" content="noindex">'
+            '<link rel="canonical" href="%s"><meta http-equiv="refresh" content="0; url=%s"></head>'
+            '<body><a href="%s">WoW: Forever</a></body></html>' % (lang, _rto, _rto, _rto), encoding="utf-8")
         if wt_classes:
             _builds60 = json.loads((PROJECT / "data" / "wow_guides" / "builds60.json").read_text(encoding="utf-8"))["builds"]
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
@@ -10223,7 +10231,7 @@ def main() -> None:
         # excluded, the FR half silently wasn't.
         if "player" not in p.relative_to(DIST).parts
         # /wow-forever/ and /en/wow-forever/ are copies of the home page (canonical = / and /en/): not listed twice
-        and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html")
+        and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html", "wow-forever/beta/index.html", "en/wow-forever/beta/index.html")
         # article drafts (wow_articles.py) carry noindex: never in the sitemap
         and not ("actualites" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
         # glossary pages marked noindex (robots_noindex): never in the sitemap

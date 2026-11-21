@@ -154,7 +154,7 @@ LAUNCH_FACTS = {
 # source titles ("Blizzard: the beta now live"), the dates of the beta given as history, the _classic_beta_ folder of the addon (to check on launch day).
 LAUNCH_REWRITE_PREFIXES = ("/wow-forever/guides/", "/wow-forever/tier-list/", "/wow-forever/simulateur-dps/", "/wow-forever/races/", "/wow-forever/glossaire/",
                            "/wow-forever/classement/", "/wow-forever/talents/")
-LAUNCH_HISTORY_PREFIXES = ("/wow-forever/actualites/", "/wow-forever/beta/")
+LAUNCH_HISTORY_PREFIXES = ("/wow-forever/actualites/",)
 _LAUNCH_RE = {lang: [(_re.compile(_lit(p)), r) for p, r in rules] for lang, rules in LAUNCH_FACTS.items()}
 for _lang, _rules in LAUNCH_RULES.items():
     _LAUNCH_RE[_lang] += [(_re.compile(p), r) for p, r in _rules]
@@ -186,18 +186,19 @@ def leftover_beta(html):
 
 
 SOURCES = {
-    "blizz_beta": ("Blizzard — The World of Warcraft: Forever Beta Now Live",
-                   "https://news.blizzard.com/en-us/article/24304160/the-world-of-warcraft-forever-beta-now-live"),
     "blizz_pre": ("Blizzard — Pre-Purchase World of Warcraft: Forever Upgrades",
                   "https://news.blizzard.com/en-us/article/24301508/pre-purchase-world-of-warcraft-forever-upgrades-and-begin-your-next-journey-in-azeroth"),
     "wikipedia": ("Wikipedia — World of Warcraft: Forever", "https://en.wikipedia.org/wiki/World_of_Warcraft:_Forever"),
     "warcraftwiki": ("Warcraft Wiki — World of Warcraft: Forever (community wiki)", "https://warcraft.wiki.gg/wiki/World_of_Warcraft:_Forever"),
-    "icyveins": ("Icy Veins — Warcraft Forever releases November 4, beta starts September 17",
+    "icyveins": ("Icy Veins — Warcraft Forever release date and schedule (news)",
                  "https://www.icy-veins.com/wow-forever/news/warcraft-forever-releases-november-4-beta-starts-september-17/"),
-    "pcgamer": ("PC Gamer — World of Warcraft: Forever beta launch times",
+    "wowhead": ("Wowhead — World of Warcraft: Forever Overview (zones, raids)",
+                "https://www.wowhead.com/forever/guide/overview-features-zones-raids"),
+    "wowhead_raids": ("Wowhead — Conqueror of the Deeps / Conqueror of the Wilds (raid encounters)",
+                      "https://www.wowhead.com/forever/achievement=62035/conqueror-of-the-deeps"),
+    "pcgamer": ("PC Gamer — World of Warcraft: Forever editions and prices",
                 "https://www.pcgamer.com/games/world-of-warcraft/world-of-warcraft-forever-beta-launch-times-how-to-sign-up-and-play-blizzards-twist-on-wow-classic/"),
     "icy_talents": ("Icy Veins — WoW Forever Talent Calculator", "https://www.icy-veins.com/wow-forever/talent-calculator"),
-    "betaclient": ("WoW: Forever beta client tables (build 1.60.1.69913), published by wago.tools", "https://wago.tools/"),
     "official": ("Blizzard — World of Warcraft: Forever (official page)", "http://worldofwarcraft.blizzard.com/en-us/forever"),
 }
 
@@ -205,7 +206,6 @@ SOURCES = {
 NAV = [
     ("", "Aperçu", "Overview"),
     ("sortie", "Sortie", "Release"),
-    ("beta", "Bêta", "Beta"),
     ("editions", "Éditions et prix", "Editions & prices"),
     ("classes", "Classes et races", "Classes & races"),
     ("progression", "Progression 1-60", "Leveling 1-60"),
@@ -220,9 +220,7 @@ DISCLAIMER = {
 # ---------------------------------------------------------------------------------------------------- FRENCH
 FR_DATES = [
     ["12 septembre 2026", "Annonce du jeu lors de la BlizzCon 2026", "Wikipedia"],
-    ["17 septembre 2026", "Début de la bêta", "Wikipedia, Icy Veins"],
     ["20 octobre 2026", "Envoi par e-mail des codes Invite-A-Friend (heure du Pacifique)", "Blizzard"],
-    ["21 octobre 2026", "Fin de la bêta (dernier jour complet de test)", "Blizzard"],
     ["27 octobre - 3 novembre 2026", "Réservation anticipée des noms (3 personnages maximum) avec le Skyborne Heroic Pack", "Blizzard"],
     ["4 novembre 2026, 15 h (heure du Pacifique)", "Sortie mondiale", "Blizzard"],
     ["4 - 11 novembre 2026", "Période de validité des codes Invite-A-Friend", "Blizzard"],
@@ -244,16 +242,15 @@ FR_DUNGEONS = [
 
 PAGES_FR = {
     "": {
-        "title": "WoW: Forever : sortie, bêta, éditions | BrokenMeta.gg",
-        "description": "World of Warcraft: Forever sort le 4 novembre 2026. Bêta, éditions, classes, donjons et calendrier, avec les sources officielles citées.",
+        "title": "WoW: Forever : sortie, éditions, classes | BrokenMeta.gg",
+        "description": "World of Warcraft: Forever sort le 4 novembre 2026. Éditions, classes, donjons, raids et calendrier, avec les sources officielles citées.",
         "kicker": "World of Warcraft: Forever",
         "h1": "World of Warcraft: Forever : tout savoir avant la sortie",
-        "intro": "Le nouveau WoW de Blizzard sort le 4 novembre 2026 et sa bêta est ouverte. Cette section réunit ce qui est confirmé : dates, accès à la bêta, éditions, classes, donjons et calendrier. Chaque information renvoie à sa source, et ce qui vient d'un wiki communautaire ou d'une source unique est signalé comme tel.",
+        "intro": "Le nouveau WoW de Blizzard est sorti le 4 novembre 2026. Cette section réunit ce qui est confirmé : dates, éditions, classes, donjons et calendrier. Chaque information renvoie à sa source, et ce qui vient d'un wiki communautaire ou d'une source unique est signalé comme tel.",
         "sections": [
             {"h2": "L'essentiel en quelques lignes", "blocks": [
                 {"type": "facts", "items": [
                     ("Sortie", "4 novembre 2026, 15 h (heure du Pacifique)"),
-                    ("Bêta", "du 17 septembre au 21 octobre 2026"),
                     ("Niveau maximum", "60"),
                     ("Contenu annoncé", "plus de 1 000 quêtes, neuf donjons, deux raids"),
                     ("Nouvelle race", "les Skyborne"),
@@ -263,7 +260,7 @@ PAGES_FR = {
             ]},
             {"h2": "Les dates clés", "blocks": [
                 {"type": "table", "head": ["Date", "Événement", "Source"], "rows": FR_DATES},
-                {"type": "note", "text": "Les dates de la bêta et de la sortie viennent des annonces de Blizzard ; l'ouverture de la bêta au 17 septembre est reprise par Wikipedia et Icy Veins. Icy Veins indique une fin de bêta au 22 octobre : nous retenons le 21 octobre, la date donnée par Blizzard."},
+                {"type": "note", "text": "Les dates de sortie viennent des annonces de Blizzard ; le calendrier des raids vient d'Icy Veins."},
             ]},
             {"h2": "Ce qui est annoncé", "blocks": [
                 {"type": "list", "items": [
@@ -278,7 +275,6 @@ PAGES_FR = {
             {"h2": "Aller plus loin", "blocks": [
                 {"type": "cards", "items": [
                     ("sortie", "Date de sortie", "Le jour et l'heure du lancement, avec la conversion en heure de Paris."),
-                    ("beta", "La bêta", "Comment y accéder, ce qu'on peut y faire et jusqu'à quel niveau."),
                     ("editions", "Éditions et prix", "Le contenu de chaque pack, et ce qui est inclus dans l'abonnement."),
                     ("classes", "Classes et races", "Les classes, les races et les nouvelles combinaisons."),
                     ("progression", "Progression 1-60", "Les donjons par tranche de niveau, les zones et les raids."),
@@ -290,7 +286,7 @@ PAGES_FR = {
                 ]},
             ]},
         ],
-        "sources": ["blizz_beta", "blizz_pre", "wikipedia", "icyveins", "warcraftwiki"],
+        "sources": ["blizz_pre", "wikipedia", "icyveins", "warcraftwiki"],
     },
     "sortie": {
         "title": "Date de sortie de WoW: Forever : 4 novembre 2026",
@@ -308,11 +304,10 @@ PAGES_FR = {
                 {"type": "note", "text": "Seule l'heure du Pacifique vient de Blizzard. Les deux autres lignes sont notre conversion : le passage à l'heure d'hiver a lieu le 25 octobre en France et le 1er novembre aux États-Unis, donc l'écart entre Paris et la côte ouest est de 9 heures à cette date."},
             ]},
             {"h2": "Faut-il acheter le jeu ?", "blocks": [
-                {"type": "p", "text": "Non. Selon Blizzard, World of Warcraft: Forever est accessible avec un abonnement WoW ou du temps de jeu existant, sans achat séparé. Les packs Skyborne sont des achats optionnels : ils donnent accès à la nouvelle race, à des cosmétiques et, pour certains, à la bêta. Le détail est sur la page Éditions et prix."},
+                {"type": "p", "text": "Non. Selon Blizzard, World of Warcraft: Forever est accessible avec un abonnement WoW ou du temps de jeu existant, sans achat séparé. Les packs Skyborne sont des achats optionnels : ils donnent accès à la nouvelle race, à des cosmétiques et, pour certains, des avantages en jeu. Le détail est sur la page Éditions et prix."},
             ]},
             {"h2": "Avant la sortie", "blocks": [
                 {"type": "list", "items": [
-                    "Du 17 septembre au 21 octobre : la bêta, avec un niveau maximum de 20 la première semaine puis 30.",
                     "Du 27 octobre au 3 novembre : réservation anticipée des noms de personnages (3 maximum) pour les détenteurs du Skyborne Heroic Pack ou d'un pack supérieur.",
                     "À partir du 20 octobre : envoi par e-mail des codes Invite-A-Friend, valables du 4 au 11 novembre.",
                 ]},
@@ -327,50 +322,14 @@ PAGES_FR = {
                 {"type": "note", "text": "Ce calendrier ne provient que d'Icy Veins. Blizzard ne l'a pas repris dans les annonces que nous avons consultées : à considérer comme provisoire."},
             ]},
         ],
-        "sources": ["blizz_pre", "blizz_beta", "icyveins", "wikipedia"],
-    },
-    "beta": {
-        "title": "Bêta de WoW: Forever : accès, dates et niveau max",
-        "description": "Bêta de WoW: Forever du 17 septembre au 21 octobre 2026 : comment y accéder, niveau 20 puis 30, contenu jouable et vérification de la licence.",
-        "kicker": "World of Warcraft: Forever · Bêta",
-        "h1": "La bêta de WoW: Forever",
-        "intro": "La bêta de World of Warcraft: Forever a commencé le 17 septembre 2026 et se termine le 21 octobre. Voici comment y accéder et ce qu'on peut y faire.",
-        "sections": [
-            {"h2": "En bref", "blocks": [
-                {"type": "facts", "items": [
-                    ("Ouverture", "17 septembre 2026"),
-                    ("Fin", "21 octobre 2026"),
-                    ("Niveau maximum, semaine 1", "20"),
-                    ("Niveau maximum, ensuite", "30"),
-                    ("Personnage", "un nouveau personnage de test à créer"),
-                ]},
-            ]},
-            {"h2": "Comment accéder à la bêta", "blocks": [
-                {"type": "list", "items": [
-                    "S'inscrire sur la page officielle du jeu, avec son compte Battle.net. L'inscription donne une chance d'être sélectionné, pas la certitude : des invitations sont envoyées régulièrement pendant le test.",
-                    "Acheter le Skyborne Epic Pack ou le Warcraft Forever Collection, qui incluent l'accès à la bêta. Le Skyborne Heroic Pack ne l'inclut pas.",
-                    "Faire partie des invités de Blizzard : anciens de la communauté, presse, sites de fans, amis et famille.",
-                ]},
-                {"type": "p", "text": "Pour vérifier votre accès, regardez dans votre compte Battle.net si la licence « World of Warcraft: Forever beta license » est présente. Les acheteurs d'un pack peuvent attendre jusqu'à 30 minutes avant qu'elle apparaisse."},
-            ]},
-            {"h2": "Ce qu'on peut faire en bêta", "blocks": [
-                {"type": "list", "items": [
-                    "Créer un nouveau personnage de test : les personnages existants ne sont pas repris.",
-                    "Semaine 1 : niveau maximum 20, avec la nouvelle race Skyborne et la zone Zephras Isle, ainsi que les donjons Hall of Thanes (niveaux 13 à 18) et Ruins of Lordaeron (niveaux 15 à 20).",
-                    "Ensuite : niveau maximum 30, avec le contenu adapté à ces niveaux.",
-                    "Plus tard pendant la bêta : un « Server Slam » est annoncé, sans date précise à ce jour.",
-                ]},
-                {"type": "note", "text": "Dans les annonces Blizzard consultées, les régions de serveurs et ce qui est conservé au lancement ne sont pas précisés."},
-            ]},
-        ],
-        "sources": ["blizz_beta", "blizz_pre", "pcgamer", "wikipedia"],
+        "sources": ["blizz_pre", "icyveins", "wikipedia"],
     },
     "editions": {
         "title": "Éditions et prix de WoW: Forever : packs Skyborne",
-        "description": "Skyborne Heroic Pack, Epic Pack et Warcraft Forever Collection : contenu de chaque édition, accès bêta, prix relevés par la presse et offre limitée.",
+        "description": "Skyborne Heroic Pack, Epic Pack et Warcraft Forever Collection : contenu de chaque édition, prix relevés par la presse et offre limitée.",
         "kicker": "World of Warcraft: Forever · Éditions",
         "h1": "Éditions et prix de WoW: Forever",
-        "intro": "Le jeu est inclus dans l'abonnement WoW. Trois packs optionnels ajoutent la race Skyborne, des cosmétiques et, pour deux d'entre eux, l'accès à la bêta.",
+        "intro": "Le jeu est inclus dans l'abonnement WoW. Trois packs optionnels ajoutent la race Skyborne, des cosmétiques et, pour deux d'entre eux, 30 jours de temps de jeu.",
         "sections": [
             {"h2": "Le jeu de base", "blocks": [
                 {"type": "p", "text": "World of Warcraft: Forever est accessible avec un abonnement WoW ou du temps de jeu existant, sans achat séparé (Blizzard). Les packs ci-dessous sont optionnels."},
@@ -378,7 +337,6 @@ PAGES_FR = {
             {"h2": "Comparer les trois packs", "blocks": [
                 {"type": "table", "head": ["", "Skyborne Heroic Pack", "Skyborne Epic Pack", "Warcraft Forever Collection"], "rows": [
                     ["Race Skyborne et départ à Zephras Isle", "Oui", "Oui", "Oui"],
-                    ["Accès à la bêta dès le 17 septembre", "Non", "Oui", "Oui"],
                     ["30 jours de temps de jeu à partir du 4 novembre", "Non", "Oui", "Oui"],
                     ["Réservation anticipée des noms (27 oct. - 3 nov.)", "Oui, 3 personnages", "Oui", "Oui"],
                     ["Codes Invite-A-Friend", "1", "3", "3"],
@@ -399,13 +357,13 @@ PAGES_FR = {
             ]},
             {"h2": "Ce que les packs supérieurs ajoutent", "blocks": [
                 {"type": "list", "items": [
-                    "Skyborne Epic Pack : tout le Heroic Pack, plus l'accès à la bêta dès le 17 septembre, 30 jours de temps de jeu ajoutés à partir du 4 novembre, d'autres cosmétiques, des tabards et des mascottes, et deux codes Invite-A-Friend en plus (3 au total).",
+                    "Skyborne Epic Pack : tout le Heroic Pack, plus 30 jours de temps de jeu ajoutés à partir du 4 novembre, d'autres cosmétiques, des tabards et des mascottes, et deux codes Invite-A-Friend en plus (3 au total).",
                     "Warcraft Forever Collection : tout l'Epic Pack, plus Warcraft III: Reforged, la campagne Warcraft III Reforged: Forsaken Kingdom et une figurine de décor Réprouvés et Humains. Offre limitée dans le temps, disponible jusqu'au 11 janvier 2027.",
                 ]},
-                {"type": "p", "text": "Les codes Invite-A-Friend sont envoyés par e-mail à partir du 20 octobre 2026 et valables du 4 au 11 novembre. Ils ne donnent pas accès à la bêta."},
+                {"type": "p", "text": "Les codes Invite-A-Friend sont envoyés par e-mail à partir du 20 octobre 2026 et valables du 4 au 11 novembre."},
             ]},
         ],
-        "sources": ["blizz_pre", "blizz_beta", "pcgamer"],
+        "sources": ["blizz_pre", "pcgamer"],
     },
     "classes": {
         "title": "Classes et races de WoW: Forever : icônes et factions",
@@ -415,20 +373,20 @@ PAGES_FR = {
         "intro": "Les neuf classes et les races jouables de World of Warcraft: Forever, avec leurs icônes. Chaque classe renvoie vers son calculateur de talents.",
         "sections": [
             {"h2": "Les neuf classes", "blocks": [
-                {"type": "p", "text": "Le client de la bêta contient neuf classes : Druide, Chasseur, Mage, Paladin, Prêtre, Voleur, Chaman, Démoniste et Guerrier (données du client de la bêta, confirmées par la Warcraft Wiki). Les talents des classes sont rééquilibrés pour que davantage de choix soient viables (Warcraft Wiki)."},
+                {"type": "p", "text": "Le jeu compte neuf classes : Druide, Chasseur, Mage, Paladin, Prêtre, Voleur, Chaman, Démoniste et Guerrier (données du client du jeu, confirmées par la Warcraft Wiki). Les talents des classes sont rééquilibrés pour que davantage de choix soient viables (Warcraft Wiki)."},
                 {"type": "classcards"},
-                {"type": "note", "text": "Aucune source officielle ne détaille les classes une à une : nous n'écrivons donc pas de guide de spécialisation à ce stade. Le calculateur de talents, lui, affiche les arbres réels de chaque classe, lus dans les données de la bêta."},
+                {"type": "note", "text": "Aucune source officielle ne détaille les classes une à une : nous n'écrivons donc pas de guide de spécialisation à ce stade. Le calculateur de talents, lui, affiche les arbres réels de chaque classe, lus dans les données du client du jeu."},
             ]},
             {"h2": "Les races jouables", "blocks": [
-                {"type": "p", "text": "Le client de la bêta liste les huit races d'origine de WoW et les Skyborne, la nouvelle race annoncée par Blizzard, qui accompagne les packs Skyborne. Les Skyborne existent en deux versions, une par faction."},
+                {"type": "p", "text": "Le client du jeu liste les huit races d'origine de WoW et les Skyborne, la nouvelle race annoncée par Blizzard, qui accompagne les packs Skyborne. Les Skyborne existent en deux versions, une par faction."},
                 {"type": "racecards"},
-                {"type": "note", "text": "La faction et le nom complet des deux versions des Skyborne viennent des données du client de la bêta (version 1.60.1.69913), et non d'une annonce de Blizzard : ils pourront changer d'ici la sortie."},
+                {"type": "note", "text": "La faction et le nom complet des deux versions des Skyborne viennent des données du client du jeu, et non d'une annonce de Blizzard : ils pourront changer avec les correctifs."},
             ]},
             {"h2": "Les nouvelles combinaisons race-classe", "blocks": [
                 {"type": "p", "text": "Wikipedia cite des Paladins Réprouvés et des Chamans Nains, deux combinaisons absentes du jeu d'origine. La Warcraft Wiki en liste davantage, mais sa liste mélange des combinaisons déjà présentes dans WoW Classic : nous ne la reprenons pas tant qu'elle n'est pas confirmée."},
             ]},
         ],
-        "sources": ["betaclient", "wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
+        "sources": ["wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
     },
     "progression": {
         "title": "Progression 1-60 dans WoW: Forever : donjons et zones",
@@ -443,27 +401,30 @@ PAGES_FR = {
             ]},
             {"h2": "Les nouvelles zones", "blocks": [
                 {"type": "list", "items": [
-                    "Zephras Isle : la zone de départ des Skyborne, jouable dès la bêta (Blizzard).",
+                    "Zephras Isle : la zone de départ des Skyborne, jouable dès le lancement (Blizzard).",
                     "Mount Hyjal et Riverglades : deux autres nouvelles zones annoncées (Icy Veins, Wikipedia).",
                 ]},
             ]},
             {"h2": "Les raids", "blocks": [
                 {"type": "list", "items": [
-                    "The Barrow Deeps : raid à 10 joueurs (Warcraft Wiki, Icy Veins).",
-                    "Hyjal Summit : raid à 20 joueurs (Warcraft Wiki, Icy Veins).",
-                    "Onyxia's Lair : raid à 40 joueurs, cité dans le déblocage du 9 décembre 2026 (Icy Veins).",
+                    "The Barrow Deeps : raid à 10 joueurs, 8 rencontres (Wowhead, Warcraft Wiki, Icy Veins).",
+                    "Hyjal Summit : raid à 20 joueurs, 13 rencontres (Wowhead, Warcraft Wiki, Icy Veins).",
+                    "Onyxia's Lair : raid à 40 joueurs, de retour le 9 décembre 2026 (Wowhead, Icy Veins). Blizzard n'a pas confirmé si le raid est remanié.",
                 ]},
+                {"type": "p", "text": "Les trois raids s'ouvrent le 9 décembre 2026. Rencontres listées par les succès « Conqueror of the Deeps » et « Conqueror of the Wilds » de la base Wowhead Forever (ordre de la liste, pas un ordre de combat confirmé)."},
+                {"type": "table", "head": ["Raid", "Rencontres"], "rows": [
+                    ["The Barrow Deeps (10 joueurs)", "Chillhowl, Khalith the Dreadspinner, Amethrax, Ravus and Darlissa, Elder Tangleclaw, Well of Sorrow, Del'lynar Songwood, Sonya Darkhallow"],
+                    ["Hyjal Summit (20 joueurs)", "Bandalar, Time-Lost Battalion, Old Gloomlurker, Kathris the Haunted, Elder Minderel, Council of Thorns, The Wild King, Ancient of Decay, Sylvestris Dusksong, Gharalis the Abyssal, Anara Chillwind, Tracker Stillwind, Nythus the Dreambound"],
+                ]},
+                {"type": "note", "text": "Le butin des raids n'est pas encore listé sur Wowhead (page Hyjal vide au 21 novembre 2026) : nous ne publions aucune table de drops avant qu'elle soit sourcée."},
                 {"type": "p", "text": "Le calendrier des raids suivants, du printemps et de l'été 2027, est sur la page Sortie."},
             ]},
-            {"h2": "Pendant la bêta", "blocks": [
-                {"type": "p", "text": "La bêta plafonnait au niveau 20 la première semaine ; le plafond est désormais au niveau 30. Elle permet donc de tester Zephras Isle et les donjons de bas niveau, mais pas la montée jusqu'à 60."},
-            ]},
         ],
-        "sources": ["blizz_beta", "warcraftwiki", "icyveins", "wikipedia"],
+        "sources": ["warcraftwiki", "icyveins", "wikipedia", "wowhead", "wowhead_raids"],
     },
     "faq": {
-        "title": "FAQ WoW: Forever : sortie, bêta, prix, différences",
-        "description": "Réponses aux questions sur WoW: Forever : date de sortie, accès à la bêta, achat, niveau maximum, différences avec WoW Classic. Sources citées.",
+        "title": "FAQ WoW: Forever : sortie, prix, différences",
+        "description": "Réponses aux questions sur WoW: Forever : date de sortie, achat, niveau maximum, différences avec WoW Classic. Sources citées.",
         "kicker": "World of Warcraft: Forever · FAQ",
         "h1": "FAQ : World of Warcraft: Forever",
         "intro": "Les questions les plus fréquentes sur World of Warcraft: Forever, avec des réponses basées sur les annonces officielles et des sources citées.",
@@ -474,12 +435,6 @@ PAGES_FR = {
              "Le 4 novembre 2026 à 15 h, heure du Pacifique, selon Blizzard. Cela correspond à minuit à Paris, dans la nuit du 4 au 5 novembre."),
             ("Faut-il acheter le jeu ?",
              "Non. Il est accessible avec un abonnement WoW ou du temps de jeu existant. Les packs Skyborne sont optionnels."),
-            ("Comment accéder à la bêta ?",
-             "En s'inscrivant sur la page officielle avec son compte Battle.net, ce qui donne une chance d'être sélectionné, ou en achetant le Skyborne Epic Pack ou le Warcraft Forever Collection. La bêta dure du 17 septembre au 21 octobre 2026."),
-            ("Jusqu'à quel niveau peut-on jouer en bêta ?",
-             "Niveau 20 la première semaine, puis niveau 30 (plafond actuel)."),
-            ("Les personnages de la bêta sont-ils conservés ?",
-             "Blizzard demande de créer un nouveau personnage de test : les personnages existants ne sont pas repris. Les annonces consultées ne précisent pas ce qui est conservé au lancement."),
             ("Quel est le niveau maximum ?",
              "60, maintenu de façon durable : la progression passe par de nouvelles activités, histoires, capacités et systèmes plutôt que par des niveaux supplémentaires."),
             ("Quelle différence avec WoW Classic ?",
@@ -490,16 +445,14 @@ PAGES_FR = {
              "Non. C'est un site indépendant, qui cite ses sources et signale ce qui n'est pas confirmé."),
         ],
         "sections": [],
-        "sources": ["blizz_pre", "blizz_beta", "wikipedia", "icyveins", "pcgamer"],
+        "sources": ["blizz_pre", "wikipedia", "icyveins", "pcgamer"],
     },
 }
 
 # ---------------------------------------------------------------------------------------------------- ENGLISH
 EN_DATES = [
     ["September 12, 2026", "Game announced at BlizzCon 2026", "Wikipedia"],
-    ["September 17, 2026", "Beta begins", "Wikipedia, Icy Veins"],
     ["October 20, 2026", "Invite-A-Friend codes emailed (Pacific time)", "Blizzard"],
-    ["October 21, 2026", "Beta ends (last full day of testing)", "Blizzard"],
     ["October 27 - November 3, 2026", "Early name reservation (up to 3 characters) with the Skyborne Heroic Pack", "Blizzard"],
     ["November 4, 2026, 3:00 p.m. (Pacific time)", "Worldwide launch", "Blizzard"],
     ["November 4 - 11, 2026", "Invite-A-Friend codes valid", "Blizzard"],
@@ -521,16 +474,15 @@ EN_DUNGEONS = [
 
 PAGES_EN = {
     "": {
-        "title": "WoW: Forever: release, beta, editions | BrokenMeta.gg",
-        "description": "World of Warcraft: Forever launches November 4, 2026. Beta, editions, classes, dungeons and schedule, with official sources cited.",
+        "title": "WoW: Forever: release, editions, classes | BrokenMeta.gg",
+        "description": "World of Warcraft: Forever launches November 4, 2026. Editions, classes, dungeons, raids and schedule, with official sources cited.",
         "kicker": "World of Warcraft: Forever",
         "h1": "World of Warcraft: Forever: everything to know before launch",
-        "intro": "Blizzard's new WoW launches on November 4, 2026 and its beta is open. This section gathers what is confirmed: dates, beta access, editions, classes, dungeons and schedule. Every fact points to its source, and anything from a community wiki or a single source is flagged as such.",
+        "intro": "Blizzard's new WoW launched on November 4, 2026. This section gathers what is confirmed: dates, editions, classes, dungeons and schedule. Every fact points to its source, and anything from a community wiki or a single source is flagged as such.",
         "sections": [
             {"h2": "The essentials", "blocks": [
                 {"type": "facts", "items": [
                     ("Launch", "November 4, 2026, 3:00 p.m. (Pacific time)"),
-                    ("Beta", "September 17 to October 21, 2026"),
                     ("Level cap", "60"),
                     ("Announced content", "over 1,000 quests, nine dungeons, two raids"),
                     ("New race", "the Skyborne"),
@@ -540,7 +492,7 @@ PAGES_EN = {
             ]},
             {"h2": "Key dates", "blocks": [
                 {"type": "table", "head": ["Date", "Event", "Source"], "rows": EN_DATES},
-                {"type": "note", "text": "The beta and launch dates come from Blizzard's announcements; the September 17 beta opening is also given by Wikipedia and Icy Veins. Icy Veins lists the beta ending on October 22: we use October 21, the date Blizzard gives."},
+                {"type": "note", "text": "The launch dates come from Blizzard's announcements; the raid schedule comes from Icy Veins."},
             ]},
             {"h2": "What has been announced", "blocks": [
                 {"type": "list", "items": [
@@ -555,7 +507,6 @@ PAGES_EN = {
             {"h2": "Go further", "blocks": [
                 {"type": "cards", "items": [
                     ("sortie", "Release date", "Launch day and time, converted to your time zone."),
-                    ("beta", "The beta", "How to get in, what you can do and up to which level."),
                     ("editions", "Editions & prices", "What each pack contains, and what the subscription includes."),
                     ("classes", "Classes & races", "Classes, races and the new combinations."),
                     ("progression", "Leveling 1-60", "Dungeons by level range, zones and raids."),
@@ -567,7 +518,7 @@ PAGES_EN = {
                 ]},
             ]},
         ],
-        "sources": ["blizz_beta", "blizz_pre", "wikipedia", "icyveins", "warcraftwiki"],
+        "sources": ["blizz_pre", "wikipedia", "icyveins", "warcraftwiki"],
     },
     "sortie": {
         "title": "WoW: Forever release date: November 4, 2026",
@@ -585,11 +536,10 @@ PAGES_EN = {
                 {"type": "note", "text": "Only the Pacific time comes from Blizzard. The other two rows are our conversion: daylight saving ends on October 25 in France and November 1 in the US, so Paris is 9 hours ahead of the US west coast on that date."},
             ]},
             {"h2": "Do you need to buy the game?", "blocks": [
-                {"type": "p", "text": "No. According to Blizzard, World of Warcraft: Forever is available with an existing WoW subscription or game time, with no separate purchase. The Skyborne packs are optional: they unlock the new race, cosmetics and, for some, the beta. Details are on the Editions & prices page."},
+                {"type": "p", "text": "No. According to Blizzard, World of Warcraft: Forever is available with an existing WoW subscription or game time, with no separate purchase. The Skyborne packs are optional: they unlock the new race, cosmetics and, for some, in-game perks. Details are on the Editions & prices page."},
             ]},
             {"h2": "Before launch", "blocks": [
                 {"type": "list", "items": [
-                    "September 17 to October 21: the beta, with a level cap of 20 in week one and 30 afterwards.",
                     "October 27 to November 3: early character name reservation (up to 3) for holders of the Skyborne Heroic Pack or higher.",
                     "From October 20: Invite-A-Friend codes emailed, valid November 4 to 11.",
                 ]},
@@ -604,50 +554,14 @@ PAGES_EN = {
                 {"type": "note", "text": "This schedule comes only from Icy Veins. Blizzard did not repeat it in the announcements we consulted: treat it as provisional."},
             ]},
         ],
-        "sources": ["blizz_pre", "blizz_beta", "icyveins", "wikipedia"],
-    },
-    "beta": {
-        "title": "WoW: Forever beta: access, dates and level cap",
-        "description": "WoW: Forever beta from September 17 to October 21, 2026: how to get access, level 20 then 30, playable content and how to check your license.",
-        "kicker": "World of Warcraft: Forever · Beta",
-        "h1": "The WoW: Forever beta",
-        "intro": "The World of Warcraft: Forever beta began on September 17, 2026 and ends on October 21. Here is how to get in and what you can do.",
-        "sections": [
-            {"h2": "At a glance", "blocks": [
-                {"type": "facts", "items": [
-                    ("Opens", "September 17, 2026"),
-                    ("Ends", "October 21, 2026"),
-                    ("Level cap, week 1", "20"),
-                    ("Level cap, afterwards", "30"),
-                    ("Character", "a new test character is required"),
-                ]},
-            ]},
-            {"h2": "How to get beta access", "blocks": [
-                {"type": "list", "items": [
-                    "Sign up on the game's official page with your Battle.net account. Signing up gives you a chance to be picked, not a guarantee: invitations go out regularly throughout the test.",
-                    "Buy the Skyborne Epic Pack or the Warcraft Forever Collection, which include beta access. The Skyborne Heroic Pack does not.",
-                    "Be among Blizzard's invitees: community veterans, press, fansites, friends and family.",
-                ]},
-                {"type": "p", "text": "To check your access, look in your Battle.net account for the \"World of Warcraft: Forever beta license\". Pack buyers may wait up to 30 minutes for it to appear."},
-            ]},
-            {"h2": "What you can do in the beta", "blocks": [
-                {"type": "list", "items": [
-                    "Create a new test character: existing characters do not carry over.",
-                    "Week 1: level cap 20, with the new Skyborne race and the Zephras Isle zone, plus the Hall of Thanes (levels 13 to 18) and Ruins of Lordaeron (levels 15 to 20) dungeons.",
-                    "Afterwards: level cap 30, with content suited to those levels.",
-                    "Later in the beta: a \"Server Slam\" is announced, with no exact date yet.",
-                ]},
-                {"type": "note", "text": "In the Blizzard announcements we consulted, server regions and what carries over at launch are not specified."},
-            ]},
-        ],
-        "sources": ["blizz_beta", "blizz_pre", "pcgamer", "wikipedia"],
+        "sources": ["blizz_pre", "icyveins", "wikipedia"],
     },
     "editions": {
         "title": "WoW: Forever editions and prices: Skyborne packs",
-        "description": "Skyborne Heroic Pack, Epic Pack and Warcraft Forever Collection: what each edition contains, beta access, prices reported by the press, limited offer.",
+        "description": "Skyborne Heroic Pack, Epic Pack and Warcraft Forever Collection: what each edition contains, prices reported by the press, limited offer.",
         "kicker": "World of Warcraft: Forever · Editions",
         "h1": "WoW: Forever editions and prices",
-        "intro": "The game is included with a WoW subscription. Three optional packs add the Skyborne race, cosmetics and, for two of them, beta access.",
+        "intro": "The game is included with a WoW subscription. Three optional packs add the Skyborne race, cosmetics and, for two of them, 30 days of game time.",
         "sections": [
             {"h2": "The base game", "blocks": [
                 {"type": "p", "text": "World of Warcraft: Forever is available with an existing WoW subscription or game time, with no separate purchase (Blizzard). The packs below are optional."},
@@ -655,7 +569,6 @@ PAGES_EN = {
             {"h2": "Comparing the three packs", "blocks": [
                 {"type": "table", "head": ["", "Skyborne Heroic Pack", "Skyborne Epic Pack", "Warcraft Forever Collection"], "rows": [
                     ["Skyborne race and Zephras Isle start", "Yes", "Yes", "Yes"],
-                    ["Beta access from September 17", "No", "Yes", "Yes"],
                     ["30 days of game time from November 4", "No", "Yes", "Yes"],
                     ["Early name reservation (Oct 27 - Nov 3)", "Yes, 3 characters", "Yes", "Yes"],
                     ["Invite-A-Friend codes", "1", "3", "3"],
@@ -676,13 +589,13 @@ PAGES_EN = {
             ]},
             {"h2": "What the higher packs add", "blocks": [
                 {"type": "list", "items": [
-                    "Skyborne Epic Pack: everything in the Heroic Pack, plus beta access from September 17, 30 days of game time added from November 4, more cosmetics, tabards and pets, and two more Invite-A-Friend codes (3 in total).",
+                    "Skyborne Epic Pack: everything in the Heroic Pack, plus 30 days of game time added from November 4, more cosmetics, tabards and pets, and two more Invite-A-Friend codes (3 in total).",
                     "Warcraft Forever Collection: everything in the Epic Pack, plus Warcraft III: Reforged, the Warcraft III Reforged: Forsaken Kingdom campaign and a Forsaken and Human figurine decor item. A limited-time bundle, available through January 11, 2027.",
                 ]},
-                {"type": "p", "text": "Invite-A-Friend codes are emailed from October 20, 2026 and are valid from November 4 to 11. They do not include beta access."},
+                {"type": "p", "text": "Invite-A-Friend codes are emailed from October 20, 2026 and are valid from November 4 to 11."},
             ]},
         ],
-        "sources": ["blizz_pre", "blizz_beta", "pcgamer"],
+        "sources": ["blizz_pre", "pcgamer"],
     },
     "classes": {
         "title": "WoW: Forever classes and races: icons and factions",
@@ -692,20 +605,20 @@ PAGES_EN = {
         "intro": "The nine classes and the playable races of World of Warcraft: Forever, with their icons. Each class links to its talent calculator.",
         "sections": [
             {"h2": "The nine classes", "blocks": [
-                {"type": "p", "text": "The beta client contains nine classes: Druid, Hunter, Mage, Paladin, Priest, Rogue, Shaman, Warlock and Warrior (beta client data, matched by the Warcraft Wiki). Class talents are rebalanced so that more choices are viable (Warcraft Wiki)."},
+                {"type": "p", "text": "The game has nine classes: Druid, Hunter, Mage, Paladin, Priest, Rogue, Shaman, Warlock and Warrior (game client data, matched by the Warcraft Wiki). Class talents are rebalanced so that more choices are viable (Warcraft Wiki)."},
                 {"type": "classcards"},
-                {"type": "note", "text": "No official source details the classes one by one, so we are not writing specialization guides at this stage. The talent calculator, however, shows each class's real trees, read from the beta data."},
+                {"type": "note", "text": "No official source details the classes one by one, so we are not writing specialization guides at this stage. The talent calculator, however, shows each class's real trees, read from the game client data."},
             ]},
             {"h2": "The playable races", "blocks": [
-                {"type": "p", "text": "The beta client lists the eight original WoW races and the Skyborne, the new race announced by Blizzard that comes with the Skyborne packs. The Skyborne exist in two versions, one per faction."},
+                {"type": "p", "text": "The game client lists the eight original WoW races and the Skyborne, the new race announced by Blizzard that comes with the Skyborne packs. The Skyborne exist in two versions, one per faction."},
                 {"type": "racecards"},
-                {"type": "note", "text": "The faction and full name of the two Skyborne versions come from the beta client data (build 1.60.1.69913), not from a Blizzard announcement: they may change before launch."},
+                {"type": "note", "text": "The faction and full name of the two Skyborne versions come from the game client data, not from a Blizzard announcement: they may change with patches."},
             ]},
             {"h2": "New race-class combinations", "blocks": [
                 {"type": "p", "text": "Wikipedia cites Forsaken Paladins and Dwarf Shamans, two combinations absent from the original game. The Warcraft Wiki lists more, but its list mixes in combinations already present in WoW Classic, so we are not repeating it until it is confirmed."},
             ]},
         ],
-        "sources": ["betaclient", "wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
+        "sources": ["wikipedia", "warcraftwiki", "icyveins", "blizz_pre"],
     },
     "progression": {
         "title": "Leveling 1-60 in WoW: Forever: dungeons and zones",
@@ -720,27 +633,30 @@ PAGES_EN = {
             ]},
             {"h2": "The new zones", "blocks": [
                 {"type": "list", "items": [
-                    "Zephras Isle: the Skyborne starting zone, playable from the beta (Blizzard).",
+                    "Zephras Isle: the Skyborne starting zone, playable from launch (Blizzard).",
                     "Mount Hyjal and Riverglades: two more announced new zones (Icy Veins, Wikipedia).",
                 ]},
             ]},
             {"h2": "The raids", "blocks": [
                 {"type": "list", "items": [
-                    "The Barrow Deeps: a 10-player raid (Warcraft Wiki, Icy Veins).",
-                    "Hyjal Summit: a 20-player raid (Warcraft Wiki, Icy Veins).",
-                    "Onyxia's Lair: a 40-player raid, named in the December 9, 2026 unlock (Icy Veins).",
+                    "The Barrow Deeps: a 10-player raid, 8 encounters (Wowhead, Warcraft Wiki, Icy Veins).",
+                    "Hyjal Summit: a 20-player raid, 13 encounters (Wowhead, Warcraft Wiki, Icy Veins).",
+                    "Onyxia's Lair: a 40-player raid, returning on December 9, 2026 (Wowhead, Icy Veins). Blizzard has not confirmed whether it is reworked.",
                 ]},
+                {"type": "p", "text": "All three raids open on December 9, 2026. Encounters are listed by the \"Conqueror of the Deeps\" and \"Conqueror of the Wilds\" achievements in the Wowhead Forever database (list order, not a confirmed fight order)."},
+                {"type": "table", "head": ["Raid", "Encounters"], "rows": [
+                    ["The Barrow Deeps (10-player)", "Chillhowl, Khalith the Dreadspinner, Amethrax, Ravus and Darlissa, Elder Tangleclaw, Well of Sorrow, Del'lynar Songwood, Sonya Darkhallow"],
+                    ["Hyjal Summit (20-player)", "Bandalar, Time-Lost Battalion, Old Gloomlurker, Kathris the Haunted, Elder Minderel, Council of Thorns, The Wild King, Ancient of Decay, Sylvestris Dusksong, Gharalis the Abyssal, Anara Chillwind, Tracker Stillwind, Nythus the Dreambound"],
+                ]},
+                {"type": "note", "text": "Raid loot is not listed on Wowhead yet (the Hyjal page was empty on November 21, 2026): we publish no drop table until it is sourced."},
                 {"type": "p", "text": "The schedule for the later raids, in spring and summer 2027, is on the Release page."},
             ]},
-            {"h2": "During the beta", "blocks": [
-                {"type": "p", "text": "The beta capped at level 20 in the first week; the cap is now level 30. It lets you test Zephras Isle and the low-level dungeons, but not the climb to 60."},
-            ]},
         ],
-        "sources": ["blizz_beta", "warcraftwiki", "icyveins", "wikipedia"],
+        "sources": ["warcraftwiki", "icyveins", "wikipedia", "wowhead", "wowhead_raids"],
     },
     "faq": {
-        "title": "WoW: Forever FAQ: release, beta, price, differences",
-        "description": "Answers about WoW: Forever: release date, beta access, buying, level cap, differences from WoW Classic. Sources cited.",
+        "title": "WoW: Forever FAQ: release, price, differences",
+        "description": "Answers about WoW: Forever: release date, buying, level cap, differences from WoW Classic. Sources cited.",
         "kicker": "World of Warcraft: Forever · FAQ",
         "h1": "FAQ: World of Warcraft: Forever",
         "intro": "The most common questions about World of Warcraft: Forever, answered from official announcements and cited sources.",
@@ -751,12 +667,6 @@ PAGES_EN = {
              "On November 4, 2026 at 3:00 p.m. Pacific time, according to Blizzard. That is midnight in Paris, overnight from November 4 to 5."),
             ("Do I need to buy the game?",
              "No. It is available with an existing WoW subscription or game time. The Skyborne packs are optional."),
-            ("How do I get into the beta?",
-             "By signing up on the official page with your Battle.net account, which gives you a chance to be picked, or by buying the Skyborne Epic Pack or the Warcraft Forever Collection. The beta runs from September 17 to October 21, 2026."),
-            ("Up to what level can I play in the beta?",
-             "Level 20 in the first week, then level 30 (current cap)."),
-            ("Do beta characters carry over?",
-             "Blizzard asks you to create a new test character: existing characters do not carry over. The announcements we consulted do not say what carries over at launch."),
             ("What is the level cap?",
              "60, kept long-term: progression comes through new activities, stories, abilities and systems rather than extra levels."),
             ("How does it differ from WoW Classic?",
@@ -767,7 +677,7 @@ PAGES_EN = {
              "No. It is an independent site that cites its sources and flags what is not confirmed."),
         ],
         "sections": [],
-        "sources": ["blizz_pre", "blizz_beta", "wikipedia", "icyveins", "pcgamer"],
+        "sources": ["blizz_pre", "wikipedia", "icyveins", "pcgamer"],
     },
 }
 
@@ -777,7 +687,7 @@ UI = {
     "fr": {"sources": "Sources", "sources_note": "Informations vérifiées le 20 septembre 2026. Les points qui ne viennent que d'un wiki communautaire ou d'une seule source sont signalés dans le texte.",
            "countdown": "Sortie dans", "days": "jours", "hours": "heures", "minutes": "minutes", "seconds": "secondes", "live": "Le jeu est sorti !",
            "launch_line": "Lancement le 4 novembre 2026, 15 h (heure du Pacifique) — minuit à Paris",
-           "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever", "beta_cta": "Accéder à la bêta",
+           "breadcrumb_home": "Accueil", "section": "World of Warcraft: Forever",
            "cta_calc": "Calculateur de talents", "pick_spec": "Choisir sa spécialisation", "talents_n": "talents", "specs_word": "Spécialisations", "new_race": "Nouvelle race",
            "share_hook": "Aide-nous à améliorer la précision de nos données en partageant les tiennes !",
            "share_sub": "Notre addon gratuit BrokenMeta affiche la valeur en DPS de chaque objet, repère tes améliorations, trouve les artisans connectés et relève les vraies valeurs de WoW: Forever et les prix de l'hôtel des ventes. Envoi anonyme, en deux clics.",
@@ -790,7 +700,7 @@ UI = {
     "en": {"sources": "Sources", "sources_note": "Information checked on September 20, 2026. Points that only come from a community wiki or a single source are flagged in the text.",
            "countdown": "Launch in", "days": "days", "hours": "hours", "minutes": "minutes", "seconds": "seconds", "live": "The game is out!",
            "launch_line": "Launching November 4, 2026, 3:00 p.m. Pacific time — midnight in Paris",
-           "breadcrumb_home": "Home", "section": "World of Warcraft: Forever", "beta_cta": "Get beta access",
+           "breadcrumb_home": "Home", "section": "World of Warcraft: Forever",
            "cta_calc": "Talent calculator", "pick_spec": "Pick a specialization", "talents_n": "talents", "specs_word": "Specializations", "new_race": "New race",
            "share_hook": "Help us make our data more accurate by sharing yours!",
            "share_sub": "Our free BrokenMeta addon shows every item's DPS value, spots your upgrades, finds online crafters and records WoW: Forever's real values and auction house prices. Anonymous, sent in two clicks.",
