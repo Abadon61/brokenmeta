@@ -2291,6 +2291,116 @@ ARTICLES = [
             ],
         },
     },
+    {
+        "slug": "limite-donjons-par-heure-5-wow-forever",
+        "format": "brief",
+        "date": "2026-11-23",
+        "updated": "2026-11-23",
+        "draft": False,
+        "tag": "tuning",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_pocketwatch_01.jpg",
+        "sources": [
+            ("Wowhead : Maximum Dungeons Per Hour Reduced in WoW: Forever Hotfix (21 Nov. 2026)",
+             "https://www.wowhead.com/news=383950/maximum-dungeons-per-hour-reduced-in-wow-forever-hotfix-solo-gold-farming-nerf"),
+        ],
+        "fr": {
+            "title": "WoW Forever : limite de 5 donjons par heure (hotfix)",
+            "description": "WoW Forever : un hotfix ramène la limite de donjons de 10 à 5 par heure, comme en Classic Era. Ce que ça change pour le leveling et le farm d'or.",
+            "h1": "WoW Forever : la limite passe à 5 donjons par heure",
+            "lede": "Dans les hotfixes du 20 novembre, Blizzard a ramené la **limite de donjons par heure** de **WoW Forever** de **10 à 5**, comme dans Classic Era. On ignore si les 10 du lancement étaient voulus ou un effet du client moderne. Un donjon complet prend en général plus de 30 minutes : le leveling et la quête d'équipement ne sont pas touchés. Les farms rapides le sont, surtout ceux qui se bouclent en moins de 12 minutes.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Limite** : [nerf]5 donjons par heure[/nerf] au lieu de 10.",
+                    "**Leveling et équipement** : aucun impact si tu fais des **clears complets**.",
+                    "**Farm d'or** : au-delà de 5 runs par heure, il faut des runs d'**au moins 12 minutes** pour ne pas être bloqué.",
+                    "**Contexte** : Wowhead y voit un frein aux farms solo qui détournent les trajets des monstres.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Dungeon Limit Cut to 5 per Hour (Hotfix)",
+            "description": "WoW Forever: a hotfix cuts the dungeon lockout from 10 to 5 per hour, matching Classic Era. What it means for leveling and gold farming.",
+            "h1": "WoW Forever: the dungeon limit is now 5 per hour",
+            "lede": "In the November 20 hotfixes, Blizzard cut the **hourly dungeon limit** in **WoW Forever** from **10 to 5**, matching Classic Era. It is unclear whether the launch value of 10 was intended or a side effect of the modern client. A full dungeon clear usually takes over 30 minutes, so leveling and gearing runs are not affected. Fast farms are, especially those finished in under 12 minutes.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Limit**: [nerf]5 dungeons per hour[/nerf] instead of 10.",
+                    "**Leveling and gear**: no impact if you do **full clears**.",
+                    "**Gold farming**: past 5 runs an hour, runs need to last **at least 12 minutes** to avoid the lockout.",
+                    "**Context**: Wowhead sees it as a brake on solo farms that exploit mob pathing.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("All WoW Forever dungeons", "wow-forever/dungeons/"),
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+            ],
+        },
+    },
+    {
+        "slug": "uldaman-obsidian-sentinel-butin-supprime-wow-forever",
+        "format": "brief",
+        "date": "2026-11-23",
+        "updated": "2026-11-23",
+        "draft": False,
+        "tag": "tuning",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_axe_09.jpg",
+        "sources": [
+            ("Wowhead : Uldaman Boss No Longer Drops Loot (22 Nov. 2026)",
+             "https://www.wowhead.com/news=383955/uldaman-boss-no-longer-drops-loot-nerf-targets-gold-farming-strategy"),
+        ],
+        "fr": {
+            "title": "Uldaman WoW Forever : plus de butin sur Obsidian Sentinel",
+            "description": "WoW Forever : Obsidian Sentinel (Uldaman) ne lâche plus d'objets bleus, et la Pendulum of Doom devient impossible à obtenir. Ce qu'on sait.",
+            "h1": "Uldaman dans WoW Forever : Obsidian Sentinel ne lâche plus de butin bleu",
+            "lede": "Un hotfix non documenté a retiré le butin d'**Obsidian Sentinel**, le boss accessible dès l'entrée arrière d'**Uldaman** dans **WoW Forever**. Il servait de farm d'or solo, rapide, autour de 1,77 pièce d'or par run selon Wowhead. Blizzard n'a rien publié sur ce changement, donc la raison reste une hypothèse. Un effet de bord est certain : la **Pendulum of Doom** n'est plus obtenable.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Butin** : le boss ne laisse plus d'objets bleus, seulement de l'argent et de la Solid Stone lors du test de Wowhead.",
+                    "**Pendulum of Doom** : la hache, une arme de leveling niveau 39, exige l'**Axe of Lingering Dread**, qui ne tombe plus.",
+                    "**Farm d'or** : ce run rapide n'est plus rentable.",
+                    "**À surveiller** : un correctif ou une annonce de Blizzard peut encore changer la donne.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Donjon Uldaman", "wow-forever/dungeons/uldaman/"),
+                ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
+            ],
+        },
+        "en": {
+            "title": "Uldaman in WoW Forever: Obsidian Sentinel Loot Removed",
+            "description": "WoW Forever: Obsidian Sentinel in Uldaman no longer drops blue items, so the Pendulum of Doom cannot be obtained. What we know so far.",
+            "h1": "Uldaman in WoW Forever: Obsidian Sentinel no longer drops blue loot",
+            "lede": "An undocumented hotfix removed the loot from **Obsidian Sentinel**, the boss near the back entrance of **Uldaman** in **WoW Forever**. It was a quick solo gold farm, about 1.77 gold per run according to Wowhead. Blizzard has not posted anything about the change, so the reason remains a guess. One side effect is certain: the **Pendulum of Doom** can no longer be obtained.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Loot**: the boss no longer drops blue items, only money and Solid Stone in Wowhead's test.",
+                    "**Pendulum of Doom**: the level 39 leveling axe needs the **Axe of Lingering Dread**, which no longer drops.",
+                    "**Gold farming**: this quick run is no longer profitable.",
+                    "**Keep an eye on**: a fix or an announcement from Blizzard may still change this.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Uldaman dungeon", "wow-forever/dungeons/uldaman/"),
+                ("All WoW Forever dungeons", "wow-forever/dungeons/"),
+            ],
+        },
+    },
 ]
 
 from wow_article_launch import LAUNCH_ARTICLE  # noqa: E402  (launch-day guide, kept in its own file)
