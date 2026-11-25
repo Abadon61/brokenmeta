@@ -3721,12 +3721,12 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .dash-cols .wf-card { scroll-snap-align: start; }
 
   /* ---- Simulateur de transmogrification (/wow-forever/transmogrification/) : tout sous #tmApp pour ne rien toucher ailleurs ---- */
-  #tmApp { display: grid; grid-template-columns: minmax(320px, 1fr) 420px; gap: 20px; margin: 14px 0 22px; align-items: start; }
+  #tmApp { display: grid; grid-template-columns: minmax(320px, 560px) 420px; justify-content: center; gap: 20px; margin: 14px 0 22px; align-items: start; }
   @media (max-width: 960px) { #tmApp { grid-template-columns: 1fr; } }
   #tmApp .tm-stage { position: sticky; top: 76px; }
   @media (max-width: 960px) { #tmApp .tm-stage { position: static; } }
-  #tmApp .tm-view { width: 100%; aspect-ratio: 5 / 6; background: radial-gradient(ellipse at 50% 35%, #2a2060, #100b26 72%); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; }
-  @media (max-width: 960px) { #tmApp .tm-view { aspect-ratio: 1 / 1; max-height: 70vh; } }
+  #tmApp .tm-view { width: 100%; aspect-ratio: 5 / 6; max-height: calc(100vh - 120px); background: radial-gradient(ellipse at 50% 35%, #2a2060, #100b26 72%); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; }
+  @media (max-width: 960px) { #tmApp .tm-view { aspect-ratio: 1 / 1; max-height: 60vh; } }
   #tmApp .tm-view canvas { display: block; width: 100% !important; height: 100% !important; touch-action: none; }
   #tmApp .tm-log { margin-top: 6px; color: var(--text-faint); font-size: 12px; text-align: center; min-height: 16px; }
   #tmApp .tm-panel { background: linear-gradient(180deg, #101650, #0b0f3d); border: 1px solid var(--border); border-radius: 14px; padding: 14px; min-width: 0; }
