@@ -7486,6 +7486,7 @@ def main() -> None:
     env.globals["addon_url"] = ADDON_CURSEFORGE_URL
     env.globals["addon_urls"] = ADDON_CURSEFORGE_URLS
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
+    env.globals["page_css_v"] = lambda name: hashlib.sha256((ROOT / "css" / name).read_bytes()).hexdigest()[:10]   # per-page stylesheets (css/), own cache-buster
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Ads (2026-10-28): off by default. BM_ADS=1 turns the placements on, and a placement only renders when it has an AdSense ad-unit id here (create the units in AdSense, paste the ids).
     env.globals["ads_enabled"] = os.environ.get("BM_ADS") == "1"
@@ -9885,6 +9886,8 @@ def main() -> None:
   }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
+    for _pcss in (ROOT / "css").glob("*.css"):         # per-page stylesheets (the transmog simulator): not part of style.css, so editing one re-versions only its page
+        shutil.copy(_pcss, DIST / "assets" / "css" / _pcss.name)
 
     # Real brand assets (PROJECT/logo/) -- the "coupon icon" mark
     # (logo/couponicone clair|sombre carre.svg) replaced the old sword as
