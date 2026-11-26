@@ -19,23 +19,26 @@
 </section>
 
 <div id="tmApp" data-base="{{ root }}assets/transmog/" data-lang="{{ lang }}">
-  <div class="tm-stage">
-    <div id="tmView" class="tm-view"></div>
-    <div id="tmLog" class="tm-log" aria-live="polite"></div>
-  </div>
-  <div class="tm-panel">
+  {# left: race, model and the avatar's appearance; centre: the 3D view and the weapon stance under it; right: item slots (2026-11-26, user) #}
+  <div class="tm-panel tm-cust">
     <h3>{{ tx.labels.race }}</h3>
     <div id="tmRaces"></div>
     <div class="tm-seg" id="tmSexes"><button type="button" data-sex="0">{{ tx.labels.model1 }}</button><button type="button" data-sex="1">{{ tx.labels.model2 }}</button></div>
     <div class="tm-acts"><button type="button" id="tmRnd">{{ tx.labels.random }}</button><button type="button" id="tmRst">{{ tx.labels.reset }}</button></div>
+    <div id="tmOpts"></div>
+  </div>
+  <div class="tm-stage">
+    <div id="tmView" class="tm-view"></div>
+    <div id="tmLog" class="tm-log" aria-live="polite"></div>
+    <div id="tmStance"></div>
+  </div>
+  <div class="tm-panel tm-items">
     <h3>{{ tx.labels.cls }}</h3>
     <div id="tmClasses"></div>
     <p id="tmClassHint" class="tm-hint"></p>
     <h3>{{ tx.labels.equip }}</h3>
     <div id="tmSlots"></div>
     <div id="tmPicker"></div>
-    <div id="tmStance"></div>
-    <div id="tmOpts"></div>
   </div>
 </div>
 <noscript><p class="wow-note">{{ tx.noscript }}</p></noscript>
