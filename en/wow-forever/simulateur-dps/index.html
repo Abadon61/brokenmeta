@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="WoW: Forever DPS simulator: simulate your character">
 <meta name="twitter:description" content="WoW: Forever DPS simulator: paste your character export to calculate your DPS, or build gear, buffs and talents. Stat weights included.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=343f4512b0">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=343f4512b0">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=ee5c16ad7e">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=ee5c16ad7e">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../assets/css/style.css?v=343f4512b0">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=ee5c16ad7e">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -83,6 +83,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "DPS simulator", "item": "https://brokenmeta.gg/en/wow-forever/simulateur-dps/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "DPS simulator", "description": "WoW: Forever DPS simulator: paste your character export to calculate your DPS, or build gear, buffs and talents. Stat weights included.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/wow-forever/simulateur-dps/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
+<link rel="stylesheet" href="../../../assets/css/wow-wowsims.css?v=909d2defc0">
 
 </head>
 <body>
@@ -326,6 +327,22 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 <p class="sm-beta">Work in progress, written before the November 4 launch. The engine reuses Classic mechanics (attack table, rage formula, armor): anything not yet confirmed for Forever is marked &#34;assumed&#34; below.</p>
 
+
+<section class="gs-tile ws-tile" id="wsSim" data-base="../../../assets/wowsims/" data-lang="en" data-worker="../../../assets/js/wow-wowsims-worker.js?v=10b41e1d73">
+  <div class="gs-th"><h2 class="gs-h2">Simulate with the WoWSims engine</h2></div>
+  <p class="wow-note">The open-source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> engine (MIT license) runs in your browser, on the builds WoWSims offers for each spec: these are the numbers of our <a href="../tier-list/">tier list</a>. Your own gear and the addon import will move to this engine soon; until then they stay on our simulator below.</p>
+  <div class="ws-form">
+    <label>Spec and build <select id="wsPreset"></select></label>
+    <label>Fight length <select id="wsDur"><option value="60">60 s</option><option value="120">120 s</option><option value="180" selected>180 s</option><option value="300">300 s</option></select></label>
+    <label>Fights <select id="wsIters"><option value="1000">1 000</option><option value="3000" selected>3 000</option><option value="10000">10 000</option></select></label>
+    <button type="button" id="wsRun" class="ws-run" disabled>Run the simulation</button>
+  </div>
+  <p id="wsLog" class="wow-note" aria-live="polite"></p>
+  <div id="wsOut"></div>
+  <p class="ws-credit">★ = build used for the tier list.</p>
+</section>
+<script src="../../../assets/js/wow-wowsims.js?v=4d2cbe06ec" defer></script>
+
 <div id="s60App" data-base="../../../assets/sim60/" data-v="6103af8d35" data-lang="en"
      data-worker="../../../assets/sim60/worker.40a0a3db89.js">
   <p id="s60Loading" class="wow-note">…</p>
@@ -510,10 +527,10 @@ spec=warrior_fury
 })();
 </script>
 <script>window.BM_ROOT = "../../../";</script>
-<script src="../../../assets/js/copy-comp.js?v=343f4512b0" defer></script>
-<script src="../../../assets/js/champ-icons.js?v=343f4512b0" defer></script>
-<script src="../../../assets/js/site-search.js?v=343f4512b0" defer></script>
-<script src="../../../assets/js/favorites.js?v=343f4512b0" defer></script>
+<script src="../../../assets/js/copy-comp.js?v=ee5c16ad7e" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=ee5c16ad7e" defer></script>
+<script src="../../../assets/js/site-search.js?v=ee5c16ad7e" defer></script>
+<script src="../../../assets/js/favorites.js?v=ee5c16ad7e" defer></script>
 <script src="../../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>
