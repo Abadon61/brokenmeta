@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Transmogrification WoW Forever : simulateur 3D">
 <meta name="twitter:description" content="Essayez les apparences d&#39;armure et d&#39;arme de WoW: Forever sur votre personnage en 3D : race, coiffure, couleurs, classe, armes dégainées ou rangées.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=1f0e266bdc">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=1f0e266bdc">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=7ce662a6b0">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=7ce662a6b0">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=1f0e266bdc">
+<link rel="stylesheet" href="../../assets/css/style.css?v=7ce662a6b0">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -326,23 +326,26 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <div id="tmApp" data-base="../../assets/transmog/" data-lang="fr">
-  <div class="tm-stage">
-    <div id="tmView" class="tm-view"></div>
-    <div id="tmLog" class="tm-log" aria-live="polite"></div>
-  </div>
-  <div class="tm-panel">
+  
+  <div class="tm-panel tm-cust">
     <h3>Race</h3>
     <div id="tmRaces"></div>
     <div class="tm-seg" id="tmSexes"><button type="button" data-sex="0">Modèle 1</button><button type="button" data-sex="1">Modèle 2</button></div>
     <div class="tm-acts"><button type="button" id="tmRnd">Aléatoire</button><button type="button" id="tmRst">Réinitialiser</button></div>
+    <div id="tmOpts"></div>
+  </div>
+  <div class="tm-stage">
+    <div id="tmView" class="tm-view"></div>
+    <div id="tmLog" class="tm-log" aria-live="polite"></div>
+    <div id="tmStance"></div>
+  </div>
+  <div class="tm-panel tm-items">
     <h3>Classe (filtre les objets)</h3>
     <div id="tmClasses"></div>
     <p id="tmClassHint" class="tm-hint"></p>
     <h3>Équipement</h3>
     <div id="tmSlots"></div>
     <div id="tmPicker"></div>
-    <div id="tmStance"></div>
-    <div id="tmOpts"></div>
   </div>
 </div>
 <noscript><p class="wow-note">Le simulateur a besoin de JavaScript et du WebGL de votre navigateur.</p></noscript>
@@ -422,10 +425,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=1f0e266bdc" defer></script>
-<script src="../../assets/js/champ-icons.js?v=1f0e266bdc" defer></script>
-<script src="../../assets/js/site-search.js?v=1f0e266bdc" defer></script>
-<script src="../../assets/js/favorites.js?v=1f0e266bdc" defer></script>
+<script src="../../assets/js/copy-comp.js?v=7ce662a6b0" defer></script>
+<script src="../../assets/js/champ-icons.js?v=7ce662a6b0" defer></script>
+<script src="../../assets/js/site-search.js?v=7ce662a6b0" defer></script>
+<script src="../../assets/js/favorites.js?v=7ce662a6b0" defer></script>
 <script src="../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>

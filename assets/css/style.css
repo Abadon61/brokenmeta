@@ -3721,17 +3721,19 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   .dash-cols .wf-card { scroll-snap-align: start; }
 
   /* ---- Simulateur de transmogrification (/wow-forever/transmogrification/) : tout sous #tmApp pour ne rien toucher ailleurs ---- */
-  #tmApp { display: grid; grid-template-columns: minmax(320px, 560px) 420px; justify-content: center; gap: 20px; margin: 14px 0 22px; align-items: start; }
-  @media (max-width: 960px) { #tmApp { grid-template-columns: 1fr; } }
+  #tmApp { display: grid; grid-template-columns: minmax(260px, 330px) minmax(320px, 520px) minmax(300px, 400px); grid-template-areas: "cust stage items"; justify-content: center; gap: 18px; margin: 14px 0 22px; align-items: start; }
+  #tmApp .tm-cust { grid-area: cust; } #tmApp .tm-stage { grid-area: stage; } #tmApp .tm-items { grid-area: items; }
+  @media (max-width: 1279px) { #tmApp { grid-template-columns: minmax(300px, 1fr) minmax(300px, 380px); grid-template-areas: "stage items" "cust items"; } }
+  @media (max-width: 960px) { #tmApp { grid-template-columns: 1fr; grid-template-areas: "stage" "cust" "items"; } }
   #tmApp .tm-stage { position: sticky; top: 76px; }
-  @media (max-width: 960px) { #tmApp .tm-stage { position: static; } }
-  #tmApp .tm-view { width: 100%; aspect-ratio: 5 / 6; max-height: calc(100vh - 120px); background: radial-gradient(ellipse at 50% 35%, #2a2060, #100b26 72%); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; }
+  @media (max-width: 1279px) { #tmApp .tm-stage { position: static; } }
+  #tmApp .tm-view { width: 100%; aspect-ratio: 5 / 6; max-height: max(420px, calc(100vh - 300px)); background: radial-gradient(ellipse at 50% 35%, #2a2060, #100b26 72%); border: 1px solid var(--border-bright); border-radius: 14px; overflow: hidden; }
   @media (max-width: 960px) { #tmApp .tm-view { aspect-ratio: 1 / 1; max-height: 60vh; } }
   #tmApp .tm-view canvas { display: block; width: 100% !important; height: 100% !important; touch-action: none; }
   #tmApp .tm-log { margin-top: 6px; color: var(--text-faint); font-size: 12px; text-align: center; min-height: 16px; }
   #tmApp .tm-panel { background: linear-gradient(180deg, #101650, #0b0f3d); border: 1px solid var(--border); border-radius: 14px; padding: 14px; min-width: 0; }
   #tmApp h3 { margin: 18px 0 8px; font-size: 11px; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); font-weight: 600; }
-  #tmApp .tm-panel > h3:first-child { margin-top: 0; }
+  #tmApp .tm-panel > h3:first-child, #tmApp #tmStance > h3:first-child { margin-top: 0; }
   #tmApp button { font: inherit; color: var(--cream); cursor: pointer; }
   #tmApp #tmRaces { display: grid; grid-template-columns: repeat(9, 1fr); gap: 6px; }
   #tmApp #tmRaces button { padding: 0; border: 2px solid transparent; border-radius: 10px; background: none; line-height: 0; overflow: hidden; transition: border-color .12s; }
@@ -3776,7 +3778,8 @@ footer { border-top: 1px solid var(--border); background: transparent; }
   #tmApp .row small { color: var(--text-faint); font-size: 11px; }
   #tmApp .q0 { color: #9d9d9d; } #tmApp .q1 { color: #fff; } #tmApp .q2 { color: #1eff00; } #tmApp .q3 { color: #4a9bff; } #tmApp .q4 { color: #b062ff; } #tmApp .q5 { color: #ff8000; }
   #tmApp .pcount { color: var(--text-faint); font-size: 11px; margin-top: 6px; }
-  #tmApp #tmStance { margin-top: 12px; display: grid; gap: 6px; }
+  #tmApp #tmStance { margin-top: 8px; display: grid; gap: 6px; background: linear-gradient(180deg, #101650, #0b0f3d); border: 1px solid var(--border); border-radius: 14px; padding: 10px 12px; }
+  #tmApp #tmStance:empty { display: none; }
   #tmApp #tmStance h3 { margin: 6px 0 2px; }
   #tmApp #tmStance .srow { display: grid; grid-template-columns: 92px 1fr; gap: 8px; align-items: center; font-size: 12px; }
   #tmApp #tmStance .srow > span { color: var(--text-faint); }
