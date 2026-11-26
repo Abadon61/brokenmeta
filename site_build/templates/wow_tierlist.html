@@ -35,6 +35,7 @@
     <p class="gh-lede">{{ g_intro }}</p>
     <div class="gh-chips"><a class="gh-chip is-role" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.cta_sim }}</a>{% for h, l in tx.jump %}<a class="gh-chip" href="{{ h }}">{{ l }}</a>{% endfor %}</div>
     <p class="gh-lede"><b>{{ tx.best.format(name=tl.top.class_name ~ ' ' ~ tl.top.spec_name, dps=num(tl.top.value)) }}</b></p>
+    {% if tl.ws_credit %}<p class="gh-lede">{{ tl.ws_credit|safe }}</p>{% endif %}
   </div></div>
 </section>
 

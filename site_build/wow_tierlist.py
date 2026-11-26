@@ -230,9 +230,10 @@ def _num(v, lang):
     return "{:,.0f}".format(v).replace(",", " " if lang == "fr" else ",")
 
 
-def add_content(tl, lang):
-    """Summary, "which class for your playstyle" list and the values the FAQ texts need, all computed from the tiers (nothing hand-written)."""
-    tx = TX[lang]
+def add_content(tl, lang, tx=None):
+    """Summary, "which class for your playstyle" list and the values the FAQ texts need, all computed from the tiers (nothing hand-written).
+    tx: the page's texts when they differ from TX (the WoWSims engine's wording)."""
+    tx = tx or TX[lang]
     nm = lambda r: r["class_name"] + " " + r["spec_name"]
     tiers = {g["tier"]: g["rows"] for g in tl["dps"]}
     dps_rows = [r for g in tl["dps"] for r in g["rows"]]
@@ -379,12 +380,15 @@ def _load(name):
     return json.loads(f.read_text(encoding="utf-8")) if f.exists() else None
 
 
-def freshness(tl, lang):
-    """Adds hotfix_txt / short_txt (and the "what changed" rows) to tl; the hotfix is the one named in the changelog file."""
+def freshness(tl, lang, prev_rows=None, reason=None):
+    """Adds hotfix_txt / short_txt (and the "what changed" rows) to tl; the hotfix is the one named in the changelog file.
+    prev_rows / reason (WoWSims engine, 2026-11-26): compare with these rows (the former simulator's) instead of the previous snapshot."""
     log = _load("wow_ranking_changelog.json") or {}
     tl["short_txt"] = date_txt(tl["generated"], lang, short=True)
     tl["hotfix_txt"] = date_txt(log["hotfix_date"], lang, year=False) if log.get("hotfix_date") else tl["date_txt"]
-    prev = _load("wow_ranking60_prev.json")
+    prev = {"generated": tl["generated"], "specs": [{"spec": r["spec_id"], "dps": r["dps"], "role": "dps"} for r in prev_rows]} if prev_rows else _load("wow_ranking60_prev.json")
+    if reason:
+        log = dict(log, **{lang: reason})
     tl["changes"] = None
     if not prev or not log:
         return tl

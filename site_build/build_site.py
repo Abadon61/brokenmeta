@@ -55,6 +55,7 @@ import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
+import wow_tierlist_ws  # noqa: E402 -- the DPS ranking from the WoWSims Forever engine
 import wow_launch  # noqa: E402
 import wow_guide_seo  # noqa: E402
 import wow_guide_leveling  # noqa: E402
@@ -8235,6 +8236,11 @@ def main() -> None:
         # formulas): computed once per language since spec/class names are localized, sits at the
         # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
         _wow_ranking, _wow_ranking_tanks = build_wow_ranking60(wt_classes, lang) if wt_classes else ([], [])
+        # DPS ranking from the WoWSims Forever engine (2026-11-26): same rows, WoWSims' DPS and margin, the guide as the row's page;
+        # the former simulator's rows stay in _wow_ranking_sim60 for the tier list's "what changed" block
+        _wow_ranking_sim60, _ws_rank = _wow_ranking, wow_tierlist_ws.load()
+        if _ws_rank and _wow_ranking:
+            _wow_ranking = wow_tierlist_ws.apply(_wow_ranking, _ws_rank)
         _pre_meta = wow_launch.load_meta()          # pre-raid simulator run (data/wow_prebis60.json), for the guides' "at launch" tile
         _pre_all = (lambda a, b: a + b)(*build_wow_ranking60(wt_classes, lang, "wow_prebis60.json")) if (wt_classes and _pre_meta) else []
         if wt_classes and not _wow_ranking:          # no simulator ranking file yet: the older level-30 engine
@@ -8471,8 +8477,17 @@ def main() -> None:
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
         for _rlist in (_wow_ranking, _wow_ranking_tanks):
             for _ri, _rr in enumerate(_rlist):
-                if _rr.get("detail"):
+                if _rr.get("detail") and not _rr.get("ws"):
                     _render_rank_spec(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri, wt_classes)
+        if _ws_rank:      # the former simulator's DPS detail pages are gone with the WoWSims ranking: their URLs redirect to the tier list
+            _tl_url = canonical_for("/wow-forever/tier-list/", lang)
+            for _rr in _wow_ranking_sim60:
+                _rdir = DIST / ("en" if lang == "en" else "") / "wow-forever" / "classement" / _rr["slug"]
+                _rdir.mkdir(parents=True, exist_ok=True)
+                (_rdir / "index.html").write_text(
+                    '<!doctype html><html lang="%s"><head><meta charset="utf-8"><title>WoW: Forever</title><meta name="robots" content="noindex">'
+                    '<link rel="canonical" href="%s"><meta http-equiv="refresh" content="0; url=%s"></head><body><a href="%s">WoW: Forever</a></body></html>'
+                    % (lang, _tl_url, _tl_url, _tl_url), encoding="utf-8")
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]
@@ -8929,8 +8944,17 @@ def main() -> None:
             _tl = wow_tierlist.build(_wow_ranking, _wow_ranking_tanks, wt_classes, lang) if _wow_ranking else None
             if _tl:
                 _tx = dict(wow_tierlist.TX[lang])
+                if _ws_rank:      # WoWSims engine: its date, fight, iterations and texts; "what changed" compares with the former simulator
+                    _tl.update(wow_tierlist_ws.meta(_ws_rank))
+                    _wtx = wow_tierlist_ws.TX[lang]
+                    _tx.update({k: v for k, v in _wtx.items() if k in _tx})
+                    _tx["faq"] = [_wtx["faq0"]] + list(_tx["faq"][1:])
+                    _tl["ws_credit"] = wow_tierlist_ws.CREDIT[lang]
                 _tl["date_txt"] = _news_date(_tl["generated"], lang)
-                wow_tierlist.freshness(_tl, lang)
+                if _ws_rank:
+                    wow_tierlist.freshness(_tl, lang, prev_rows=_wow_ranking_sim60, reason=_wtx["chg_reason"])
+                else:
+                    wow_tierlist.freshness(_tl, lang)
                 _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"], hotfix=_tl["hotfix_txt"])
                 _tx["title"] = _tx["title"].format(short=_tl["short_txt"])
                 assert len(_tx["title"]) <= 60 and len(_tx["desc"]) <= 155, (len(_tx["title"]), len(_tx["desc"]))
@@ -8939,7 +8963,7 @@ def main() -> None:
                 _tfmt = dict(S=int(_th["S"]), A=int(_th["A"]), B=int(_th["B"]), C=int(_th["C"]))
                 _top = _tl["top"]
                 _topv = _fmt_int(_top["value"])
-                wow_tierlist.add_content(_tl, lang)
+                wow_tierlist.add_content(_tl, lang, _tx)
                 for _c in _tl["classes"]:
                     _c["banner"] = class_banner(_c["id"])
                 _tl["meth"] = [x.format(url='<a href="' + canonical_for("/wow-forever/simulateur-dps/", lang) + '">BrokenMeta.gg</a>', build=_tl["build"], fight=_tl["fight"], iters=_tl["iters"], **_tfmt) for x in _tx["meth"]]
@@ -8952,6 +8976,8 @@ def main() -> None:
             if _tl:
                 # Hub "tier list WoW Forever" (2026-11-14): entry point to the DPS / tanks / healers / leveling lists, see wow_tierlist.HUB_TX
                 _hx = dict(wow_tierlist.HUB_TX[lang])
+                if _ws_rank:      # WoWSims engine for the DPS numbers the hub quotes
+                    _hx.update(wow_tierlist_ws.hub_tx(_hx, lang))
                 _hb = wow_tierlist.hub_build(_tl, lang)
                 _hx["desc"] = _hx["desc"].format(date=_tl["date_txt"])
                 assert len(_hx["title"]) <= 60 and len(_hx["desc"]) <= 155, (lang, len(_hx["title"]), len(_hx["desc"]))
@@ -9886,6 +9912,8 @@ def main() -> None:
   }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
+    if (ROOT / "wowsims_web").exists():      # WoWSims Forever engine for the browser (site_build/wowsims_rank/package_web.py): lib.wasm.gz, wasm_exec.js, presets
+        shutil.copytree(ROOT / "wowsims_web", DIST / "assets" / "wowsims", dirs_exist_ok=True)
     for _pcss in (ROOT / "css").glob("*.css"):         # per-page stylesheets (the transmog simulator): not part of style.css, so editing one re-versions only its page
         shutil.copy(_pcss, DIST / "assets" / "css" / _pcss.name)
 
@@ -10005,7 +10033,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js", "wow-transmog.js", "wow-transmog-m2.js", "wow-transmog-viewer.js"):
+    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js", "wow-transmog.js", "wow-transmog-m2.js", "wow-transmog-viewer.js", "wow-wowsims.js", "wow-wowsims-worker.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     # Transmog simulator: three.js (r128 global build) and the baked models/textures/metadata (site_build/transmog_assets, see transmog_bake/).
@@ -10235,6 +10263,8 @@ def main() -> None:
         if "player" not in p.relative_to(DIST).parts
         # /wow-forever/ and /en/wow-forever/ are copies of the home page (canonical = / and /en/): not listed twice
         and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html", "wow-forever/beta/index.html", "en/wow-forever/beta/index.html")
+        # redirect stubs (the former ranking detail pages, 2026-11-26): never in the sitemap
+        and not ("classement" in p.relative_to(DIST).parts and p.stat().st_size < 800 and 'http-equiv="refresh"' in p.read_text(encoding="utf-8", errors="ignore"))
         # article drafts (wow_articles.py) carry noindex: never in the sitemap
         and not ("actualites" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
         # glossary pages marked noindex (robots_noindex): never in the sitemap
