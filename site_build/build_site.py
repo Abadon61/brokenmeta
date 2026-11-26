@@ -56,6 +56,7 @@ import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
 import wow_tierlist_ws  # noqa: E402 -- the DPS ranking from the WoWSims Forever engine
+import wow_rank_ws  # noqa: E402 -- its spec pages (/wow-forever/classement/<spec>/)
 import wow_launch  # noqa: E402
 import wow_guide_seo  # noqa: E402
 import wow_guide_leveling  # noqa: E402
@@ -431,6 +432,34 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
     render("wow_rank_spec.html", path, lang, active_nav="wow", active_sub="wow-index", rx=rx, pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
            breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
            article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
+
+
+_ZONE_FR = {}
+
+
+def zone_fr(zone, lang):
+    """French name of a dungeon or raid (the WoWSims database names zones in English); other zones keep their English name."""
+    if lang != "fr" or not zone:
+        return zone
+    if not _ZONE_FR:
+        for f, k in ((PROJECT / "data" / "wow_dungeons" / "dungeons.json", "dungeons"), (PROJECT / "data" / "wow_raids" / "raids.json", "raids")):
+            for d in json.loads(f.read_text(encoding="utf-8"))[k]:
+                _ZONE_FR[d["name"]["en"]] = d["name"]["fr"]
+    return _ZONE_FR.get(zone, zone)
+
+
+def _render_rank_ws(render, canonical_for, lang, wow_ui, r, rlist, i):
+    """Spec page of the WoWSims ranking: /wow-forever/classement/<spec>/ (the build WoWSims ranks, checked against Wowhead)."""
+    pg = wow_rank_ws.page(lang, r, i, rlist, zone_path, _prof_info, zone_fr)
+    if not pg:
+        return False
+    path = "/wow-forever/classement/" + r["slug"] + "/"
+    url = canonical_for(path, lang)
+    assert len(pg["title"]) <= 60 and len(pg["desc"]) <= 155, (pg["title"], len(pg["title"]), pg["desc"], len(pg["desc"]))
+    render("wow_rank_ws.html", path, lang, active_nav="wow", active_sub="wow-index", tx=wow_rank_ws.TX[lang], pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
+           breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
+           article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
+    return True
 
 
 def _healing_table(lang, cls_id, power=350):
@@ -8475,13 +8504,17 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
                    news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
+        _ws_pages = set()
         for _rlist in (_wow_ranking, _wow_ranking_tanks):
             for _ri, _rr in enumerate(_rlist):
-                if _rr.get("detail") and not _rr.get("ws"):
+                if _rr.get("ws"):
+                    if _render_rank_ws(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri):
+                        _ws_pages.add(_rr["slug"])
+                elif _rr.get("detail"):
                     _render_rank_spec(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri, wt_classes)
-        if _ws_rank:      # the former simulator's DPS detail pages are gone with the WoWSims ranking: their URLs redirect to the tier list
+        if _ws_rank:      # former simulator's DPS pages with no WoWSims page (feral cat): their URLs redirect to the tier list
             _tl_url = canonical_for("/wow-forever/tier-list/", lang)
-            for _rr in _wow_ranking_sim60:
+            for _rr in [x for x in _wow_ranking_sim60 if x["slug"] not in _ws_pages]:
                 _rdir = DIST / ("en" if lang == "en" else "") / "wow-forever" / "classement" / _rr["slug"]
                 _rdir.mkdir(parents=True, exist_ok=True)
                 (_rdir / "index.html").write_text(

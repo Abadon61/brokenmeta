@@ -5,6 +5,8 @@ simulator until their presets are exported. A spec WoWSims has no complete build
 import json
 from pathlib import Path
 
+import wow_rank_ws
+
 PROJECT = Path(__file__).resolve().parent.parent
 SRC = PROJECT / "data" / "wow_ranking_wowsims_by_spec.json"
 REPO = "https://github.com/wowsims/forever"
@@ -24,7 +26,9 @@ def apply(rows, ws):
         w = by.get(r["spec_id"])
         if not w or r["spec_id"] in NOT_RANKED:
             continue
-        out.append(dict(r, dps=w["dps"], sem=round(w["stdev"] / w["iterations"] ** 0.5, 1), ws=w, page_path=r["guide_path"]))
+        has_page = r["spec_id"] in wow_rank_ws.load()[0]          # the spec page shows the WoWSims build (wow_rank_ws), else the row opens the guide
+        out.append(dict(r, dps=w["dps"], sem=round(w["stdev"] / w["iterations"] ** 0.5, 1), ws=w,
+                        page_path=f"wow-forever/classement/{r['slug']}/" if has_page else r["guide_path"]))
     out.sort(key=lambda x: x["dps"], reverse=True)
     return out
 
@@ -46,7 +50,6 @@ TX = {
         "best": "Le meilleur DPS simulé aujourd'hui est {name} avec {dps} DPS ; les paliers se calculent à partir de cette valeur.",
         "quick_top": "{top_name} est la spécialisation DPS la plus forte avec le moteur WoWSims ({top_dps} DPS).",
         "choose_intro": "Ces simulations mesurent la puissance sur une cible, pas le plaisir de jeu. Voici la meilleure spécialisation de chaque style, et ce que nous ne pouvons pas encore dire.",
-        "open_rank": "Guide",
         "choose_dung_p": "ces simulations portent sur une cible unique, sans dégâts de zone ; le butin et les boss sont dans les",
         "tank_note": "Les tanks sont classés à la menace par seconde (TPS) par notre propre simulateur, sans palier : WoWSims ne fournit pas encore ces chiffres ici, et la survie n'est pas simulée.",
         "meth": [
@@ -77,7 +80,6 @@ TX = {
         "best": "The highest simulated DPS today is {name} with {dps} DPS; the tiers are computed from that value.",
         "quick_top": "{top_name} is the strongest DPS spec with the WoWSims engine ({top_dps} DPS).",
         "choose_intro": "These simulations measure single-target power, not how fun a class is. Here is the best spec of each style, and what we cannot say yet.",
-        "open_rank": "Guide",
         "choose_dung_p": "these simulations are single target, with no area damage; loot and bosses are in the",
         "tank_note": "Tanks are ranked by threat per second (TPS) by our own simulator, with no tier letter: WoWSims numbers are not available here yet, and survivability is not simulated.",
         "meth": [
