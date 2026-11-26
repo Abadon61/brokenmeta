@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="BrokenMeta.gg : guides WoW: Forever, TFT et LoL">
 <meta name="twitter:description" content="Guides WoW: Forever par classe, calculateur de talents, butin des donjons et simulateur DPS, plus tier list TFT et guides LoL. Données réelles.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="favicon.svg?v=ee5c16ad7e">
-<link rel="icon" type="image/png" sizes="512x512" href="favicon-google.png?v=ee5c16ad7e">
+<link rel="icon" type="image/svg+xml" href="favicon.svg?v=3938571571">
+<link rel="icon" type="image/png" sizes="512x512" href="favicon-google.png?v=3938571571">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=ee5c16ad7e">
+<link rel="stylesheet" href="assets/css/style.css?v=3938571571">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -373,7 +373,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <div>
       <div class="fiche-kicker">Simulation · niveau 60</div>
       <h1 class="hr-h1" id="hr-h">Classement des spécialisations WoW: Forever</h1>
-      <p class="hr-lede">Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu. Ce classement ne tient compte que des objets déjà datamined : beaucoup d&#39;objets restent à découvrir, et il peut donc changer.</p>
+      
+      <p class="hr-lede">Chaque spécialisation DPS est simulée avec le moteur open source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> (licence MIT), sur le build Pre-BiS que WoWSims propose pour elle : combat de 180 secondes contre un boss, sans objet de raid (les raids ouvrent le 9 décembre). Les tanks restent classés par notre propre simulateur.</p>
     </div>
     <div class="hr-btns" style="display:flex;gap:10px;flex-wrap:wrap">
       <a class="wh-btn" href="wow-forever/tier-list/">Voir la tier list <span aria-hidden="true">→</span></a>
@@ -384,7 +385,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <div class="wow-rank-list hr-list" data-panel="dps" style="--rows: 10">
     
     
-    <a class="wow-rank-row" href="wow-forever/guides/hunter/survival/" style="--rc: #aad372">
+    <a class="wow-rank-row" href="wow-forever/classement/hunter-melee/" style="--rc: #aad372">
       <img class="wow-rank-icon" src="assets/img/spec/hunter-survival.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Chasseur — Survie</b><span class="wow-rank-val nums">1 235 DPS</span></span>
@@ -392,7 +393,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/hunter/marksmanship/" style="--rc: #aad372">
+    <a class="wow-rank-row" href="wow-forever/classement/hunter-marksmanship/" style="--rc: #aad372">
       <img class="wow-rank-icon" src="assets/img/spec/hunter-marksmanship.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Chasseur — Précision</b><span class="wow-rank-val nums">1 102 DPS</span></span>
@@ -400,7 +401,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/hunter/beast-mastery/" style="--rc: #aad372">
+    <a class="wow-rank-row" href="wow-forever/classement/hunter-beastmastery/" style="--rc: #aad372">
       <img class="wow-rank-icon" src="assets/img/spec/hunter-beast-mastery.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Chasseur — Maîtrise des bêtes</b><span class="wow-rank-val nums">1 040 DPS</span></span>
@@ -408,7 +409,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/paladin/retribution/" style="--rc: #f48cba">
+    <a class="wow-rank-row" href="wow-forever/classement/paladin-retribution/" style="--rc: #f48cba">
       <img class="wow-rank-icon" src="assets/img/spec/paladin-retribution.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Paladin — Vindicte</b><span class="wow-rank-val nums">975 DPS</span></span>
@@ -416,7 +417,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/warrior/fury/" style="--rc: #c69b6d">
+    <a class="wow-rank-row" href="wow-forever/classement/warrior-fury/" style="--rc: #c69b6d">
       <img class="wow-rank-icon" src="assets/img/spec/warrior-fury.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Guerrier — Fureur</b><span class="wow-rank-val nums">968 DPS</span></span>
@@ -424,7 +425,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/mage/fire/" style="--rc: #3fc7eb">
+    <a class="wow-rank-row" href="wow-forever/classement/mage-fire/" style="--rc: #3fc7eb">
       <img class="wow-rank-icon" src="assets/img/spec/mage-fire.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Mage — Feu</b><span class="wow-rank-val nums">959 DPS</span></span>
@@ -432,7 +433,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/mage/arcane/" style="--rc: #3fc7eb">
+    <a class="wow-rank-row" href="wow-forever/classement/mage-arcane/" style="--rc: #3fc7eb">
       <img class="wow-rank-icon" src="assets/img/spec/mage-arcane.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Mage — Arcanes</b><span class="wow-rank-val nums">937 DPS</span></span>
@@ -440,7 +441,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/shaman/enhancement/" style="--rc: #0070dd">
+    <a class="wow-rank-row" href="wow-forever/classement/shaman-enhancement/" style="--rc: #0070dd">
       <img class="wow-rank-icon" src="assets/img/spec/shaman-enhancement.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Chaman — Amélioration</b><span class="wow-rank-val nums">930 DPS</span></span>
@@ -448,7 +449,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/warrior/arms/" style="--rc: #c69b6d">
+    <a class="wow-rank-row" href="wow-forever/classement/warrior-arms/" style="--rc: #c69b6d">
       <img class="wow-rank-icon" src="assets/img/spec/warrior-arms.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Guerrier — Armes</b><span class="wow-rank-val nums">899 DPS</span></span>
@@ -456,7 +457,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/warlock/affliction/" style="--rc: #8788ee">
+    <a class="wow-rank-row" href="wow-forever/classement/warlock-affliction/" style="--rc: #8788ee">
       <img class="wow-rank-icon" src="assets/img/spec/warlock-affliction.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Démoniste — Affliction</b><span class="wow-rank-val nums">890 DPS</span></span>
@@ -464,7 +465,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/warlock/demonology/" style="--rc: #8788ee">
+    <a class="wow-rank-row" href="wow-forever/classement/warlock-demonology/" style="--rc: #8788ee">
       <img class="wow-rank-icon" src="assets/img/spec/warlock-demonology.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Démoniste — Démonologie</b><span class="wow-rank-val nums">885 DPS</span></span>
@@ -472,7 +473,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/rogue/assassination/" style="--rc: #fff468">
+    <a class="wow-rank-row" href="wow-forever/classement/rogue-assassination/" style="--rc: #fff468">
       <img class="wow-rank-icon" src="assets/img/spec/rogue-assassination.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Voleur — Assassinat</b><span class="wow-rank-val nums">882 DPS</span></span>
@@ -480,7 +481,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/mage/frost/" style="--rc: #3fc7eb">
+    <a class="wow-rank-row" href="wow-forever/classement/mage-frost/" style="--rc: #3fc7eb">
       <img class="wow-rank-icon" src="assets/img/spec/mage-frost.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Mage — Givre</b><span class="wow-rank-val nums">873 DPS</span></span>
@@ -488,7 +489,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/rogue/subtlety/" style="--rc: #fff468">
+    <a class="wow-rank-row" href="wow-forever/classement/rogue-subtlety/" style="--rc: #fff468">
       <img class="wow-rank-icon" src="assets/img/spec/rogue-subtlety.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Voleur — Finesse</b><span class="wow-rank-val nums">870 DPS</span></span>
@@ -496,7 +497,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/shaman/elemental/" style="--rc: #0070dd">
+    <a class="wow-rank-row" href="wow-forever/classement/shaman-elemental/" style="--rc: #0070dd">
       <img class="wow-rank-icon" src="assets/img/spec/shaman-elemental.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Chaman — Elémentaire</b><span class="wow-rank-val nums">862 DPS</span></span>
@@ -504,7 +505,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/rogue/combat/" style="--rc: #fff468">
+    <a class="wow-rank-row" href="wow-forever/classement/rogue-combat/" style="--rc: #fff468">
       <img class="wow-rank-icon" src="assets/img/spec/rogue-combat.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Voleur — Combat</b><span class="wow-rank-val nums">858 DPS</span></span>
@@ -512,7 +513,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/warlock/destruction/" style="--rc: #8788ee">
+    <a class="wow-rank-row" href="wow-forever/classement/warlock-destruction/" style="--rc: #8788ee">
       <img class="wow-rank-icon" src="assets/img/spec/warlock-destruction.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Démoniste — Destruction</b><span class="wow-rank-val nums">848 DPS</span></span>
@@ -520,7 +521,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/druid/balance/" style="--rc: #ff7c0a">
+    <a class="wow-rank-row" href="wow-forever/classement/druid-balance/" style="--rc: #ff7c0a">
       <img class="wow-rank-icon" src="assets/img/spec/druid-balance.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Druide — Equilibre</b><span class="wow-rank-val nums">843 DPS</span></span>
@@ -528,7 +529,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </span>
     </a>
     
-    <a class="wow-rank-row" href="wow-forever/guides/priest/shadow/" style="--rc: #ffffff">
+    <a class="wow-rank-row" href="wow-forever/classement/priest-shadow/" style="--rc: #ffffff">
       <img class="wow-rank-icon" src="assets/img/spec/priest-shadow.png" alt="" width="28" height="28" loading="lazy">
       <span class="wow-rank-body">
         <span class="wow-rank-label"><b>Prêtre — Ombre</b><span class="wow-rank-val nums">829 DPS</span></span>
@@ -701,10 +702,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "";</script>
-<script src="assets/js/copy-comp.js?v=ee5c16ad7e" defer></script>
-<script src="assets/js/champ-icons.js?v=ee5c16ad7e" defer></script>
-<script src="assets/js/site-search.js?v=ee5c16ad7e" defer></script>
-<script src="assets/js/favorites.js?v=ee5c16ad7e" defer></script>
+<script src="assets/js/copy-comp.js?v=3938571571" defer></script>
+<script src="assets/js/champ-icons.js?v=3938571571" defer></script>
+<script src="assets/js/site-search.js?v=3938571571" defer></script>
+<script src="assets/js/favorites.js?v=3938571571" defer></script>
 <script src="assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>

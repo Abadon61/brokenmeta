@@ -1,1 +1,776 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><title>WoW: Forever</title><meta name="robots" content="noindex"><link rel="canonical" href="https://brokenmeta.gg/wow-forever/tier-list/"><meta http-equiv="refresh" content="0; url=https://brokenmeta.gg/wow-forever/tier-list/"></head><body><a href="https://brokenmeta.gg/wow-forever/tier-list/">WoW: Forever</a></body></html>
+
+<!doctype html>
+<html lang="fr">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6W1LN5BM4N"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  // Google Consent Mode v2: everything denied until the visitor chooses (js/consent.js), the stored choice (6 months) is applied right away
+  gtag('consent', 'default', {analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', wait_for_update: 500});
+  try {
+    var bmc = JSON.parse(localStorage.getItem('bm_consent'));
+    if (bmc && bmc.v === 1 && bmc.s && Date.now() - bmc.t < 15552000000) {
+      var bma = bmc.s.analytics ? 'granted' : 'denied', bmd = bmc.s.ads ? 'granted' : 'denied';
+      gtag('consent', 'update', {analytics_storage: bma, ad_storage: bmd, ad_user_data: bmd, ad_personalization: bmd});
+      window.bmConsent = {analytics: !!bmc.s.analytics, ads: !!bmc.s.ads};
+    }
+  } catch (e) {}
+  gtag('js', new Date());
+
+  gtag('config', 'G-6W1LN5BM4N');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-TKTX2HNH');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- AdSense site connection (ownership only, no cookie, no ad script; the ads load later, behind the consent banner) -->
+<meta name="google-adsense-account" content="ca-pub-4788078780190427">
+<!-- Warm the connection to Google Fonts as early as possible -- the
+     stylesheet below is render-blocking and lives on a third-party origin,
+     so the DNS+TLS handshake it needs is pure dead time if it only starts
+     once the browser reaches that <link> (SEO/perf audit, 2026-09-16).
+     fonts.gstatic.com (the actual font FILES, fetched with CORS once the
+     CSS resolves them) needs crossorigin on its preconnect or the browser
+     opens a second, separate connection for the real font request. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<title>Druide Equilibre WoW Forever : build WoWSims et DPS</title>
+<meta name="description" content="Druide Equilibre niveau 60 dans WoW Forever : talents, équipement Pre-BiS, enchantements et dégâts simulés avec le moteur WoWSims (842,7 DPS).">
+<link rel="canonical" href="https://brokenmeta.gg/wow-forever/classement/druid-balance/">
+<link rel="alternate" hreflang="fr" href="https://brokenmeta.gg/wow-forever/classement/druid-balance/">
+<link rel="alternate" hreflang="en" href="https://brokenmeta.gg/en/wow-forever/classement/druid-balance/">
+<link rel="alternate" hreflang="x-default" href="https://brokenmeta.gg/wow-forever/classement/druid-balance/">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="BrokenMeta.gg">
+<meta property="og:title" content="Druide Equilibre WoW Forever : build WoWSims et DPS">
+<meta property="og:description" content="Druide Equilibre niveau 60 dans WoW Forever : talents, équipement Pre-BiS, enchantements et dégâts simulés avec le moteur WoWSims (842,7 DPS).">
+<meta property="og:url" content="https://brokenmeta.gg/wow-forever/classement/druid-balance/">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Druide Equilibre WoW Forever : build WoWSims et DPS">
+<meta name="twitter:description" content="Druide Equilibre niveau 60 dans WoW Forever : talents, équipement Pre-BiS, enchantements et dégâts simulés avec le moteur WoWSims (842,7 DPS).">
+<meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
+<link rel="icon" type="image/svg+xml" href="../../../favicon.svg?v=3938571571">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../favicon-google.png?v=3938571571">
+<!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
+     live at the site root (see build_site.py) so one registration covers
+     both FR and /en/ pages. -->
+<link rel="manifest" href="../../../manifest.webmanifest">
+<meta name="theme-color" content="#100b26">
+<link rel="apple-touch-icon" href="../../../assets/img/icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
+<link rel="stylesheet" href="../../../assets/css/style.css?v=3938571571">
+
+<!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
+     on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
+     by the visitor's browser. Our own <img> icons stay as-is, so icons are not duplicated. -->
+<script>const whTooltips = {colorLinks: true, iconizeLinks: false};</script>
+<script src="https://wow.zamimg.com/js/tooltips.js"></script>
+
+
+<link rel="stylesheet" href="../../../assets/css/wow-rank-ws.css?v=3890b8ac31">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "Druide Equilibre", "item": "https://brokenmeta.gg/wow-forever/classement/druid-balance/"}]}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Druide Equilibre : le build simul\u00e9", "description": "Druide Equilibre niveau 60 dans WoW Forever : talents, \u00e9quipement Pre-BiS, enchantements et d\u00e9g\u00e2ts simul\u00e9s avec le moteur WoWSims (842,7 DPS).", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/wow-forever/classement/druid-balance/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
+
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TKTX2HNH"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="topbar">
+  <a class="wordmark" href="../../../" style="text-decoration:none"><img class="wordmark-logo" src="../../../assets/img/logo-mark.svg" alt="BrokenMeta.gg" width="30" height="30" loading="eager"><span class="broken">Broken</span><span class="meta">Meta</span><span class="gg">.gg</span></a>
+  <div class="game-toggle" role="group" aria-label="Jeux">
+    <a class="game-toggle-btn" href="../../../" data-active="true" title="WoW: Forever"><img class="game-toggle-icon game-toggle-icon--wow" src="../../../assets/img/game-wow-forever.png" alt="WoW: Forever" width="37" height="30" loading="eager"><span class="game-toggle-label">WoW: Forever</span></a>
+    <a class="game-toggle-btn" href="../../../tft/" title="Teamfight Tactics"><img class="game-toggle-icon" src="../../../assets/img/game-tft.png" alt="Teamfight Tactics" width="24" height="24" loading="eager"><span class="game-toggle-label">TFT</span></a>
+    <a class="game-toggle-btn" href="../../../league/" title="League of Legends"><img class="game-toggle-icon" src="../../../assets/img/game-lol.png" alt="League of Legends" width="24" height="24" loading="eager"><span class="game-toggle-label">LoL</span></a>
+  </div>
+  <div class="topbar-right">
+    <a class="favorites-topbar-link" href="../../../favoris/" aria-label="Mes favoris" title="Mes favoris">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" width="16" height="16" aria-hidden="true"><path d="M12 2.5l2.97 6.28 6.93.7-5.13 4.75 1.4 6.87L12 17.9l-6.17 3.2 1.4-6.87-5.13-4.75 6.93-.7z"/></svg>
+    </a>
+    <div class="site-search-wrap">
+      <button type="button" class="site-search-toggle" id="siteSearchToggle" aria-label="Rechercher un champion, un objet, une comp…" aria-expanded="false" title="Rechercher un champion, un objet, une comp…">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+      </button>
+      <div id="siteSearchPanel" class="site-search-panel" hidden>
+        <div class="search-row">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.5" y2="16.5"></line></svg>
+          <input type="search" id="siteSearchInput" class="search-input" placeholder="Rechercher un champion, un objet, une comp…" autocomplete="off">
+        </div>
+        <div id="siteSearchResults" class="site-search-results"></div>
+      </div>
+    </div>
+    <div class="social-links">
+      <a class="social-icon" href="https://x.com/BrokenMetagg" target="_blank" rel="noopener" aria-label="X (Twitter)" title="X (Twitter)">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </a>
+      <a class="social-icon" href="https://www.instagram.com/brokenmeta.gg/" target="_blank" rel="noopener" aria-label="Instagram" title="Instagram">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5.5"></rect><circle cx="12" cy="12" r="4.4"></circle><circle cx="17.3" cy="6.7" r="0.9" fill="currentColor" stroke="none"></circle></svg>
+      </a>
+    </div>
+    <div class="lang-toggle">
+      <a class="lang-btn" href="https://brokenmeta.gg/wow-forever/classement/druid-balance/" data-active="true">FR</a>
+      <a class="lang-btn" href="https://brokenmeta.gg/en/wow-forever/classement/druid-balance/" data-active="false">EN</a>
+    </div>
+    <!-- Lives here (not inside .navbar below) so the pink nav bar can
+         collapse away entirely on mobile instead of showing empty --
+         see .navbar's max-width:780px rule and the site-audit note there. -->
+    <details class="mobile-nav">
+      <summary class="mobile-nav-toggle" aria-label="Menu"><span></span><span></span><span></span></summary>
+      <div class="mobile-nav-panel">
+        <nav class="mobile-nav-links">
+
+
+<div class="mobile-nav-group-title">Jeux</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" data-active="true">World of Warcraft: Forever</a>
+<a class="nav-link mobile-nav-sublink" href="../../../tft/" >Teamfight Tactics</a>
+<a class="nav-link mobile-nav-sublink" href="../../../league/" >League of Legends</a>
+
+<div class="mobile-nav-group-title">Forever</div>
+<a class="nav-link mobile-nav-sublink" href="../../../" data-active="true">Aperçu</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/sortie/" >Sortie</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/editions/" >Éditions et prix</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/classes/" >Classes et races</a>
+
+
+<div class="mobile-nav-group-title">Professions</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/alchemy/" >Alchimie</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/blacksmithing/" >Forge</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/enchanting/" >Enchantement</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/engineering/" >Ingénierie</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/leatherworking/" >Travail du cuir</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/tailoring/" >Couture</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/cooking/" >Cuisine</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/professions/first-aid/" >Secourisme</a>
+
+<div class="mobile-nav-group-title">Donjons</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/" >Tous les donjons</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ragefire-chasm/">Gouffre de Ragefeu</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/deadmines/">Mortemines</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/wailing-caverns/">Cavernes des Lamentations</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/shadowfang-keep/">Donjon d&#39;Ombrecroc</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackfathom-deeps/">Profondeurs de Brassenoire</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stockade/">Prison de Stormwind</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/gnomeregan/">Gnomeregan</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scarlet-monastery/">Monastère écarlate</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-kraul/">Kraal de Tranchebauge</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/razorfen-downs/">Souilles de Tranchebauge</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/uldaman/">Uldaman</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/zulfarrak/">Zul&#39;Farrak</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/maraudon/">Maraudon</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/sunken-temple/">Temple englouti</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/blackrock-depths/">Profondeurs de Blackrock</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/dire-maul/">Hache-tripes</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/stratholme/">Stratholme</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/scholomance/">Scholomance</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/ruins-of-lordaeron/">Ruines de Lordaeron</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/dungeons/hall-of-thanes/">La salle des Thanes</a>
+
+<div class="mobile-nav-group-title">Raids</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/" >Tous les raids</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
+
+<div class="mobile-nav-group-title">Theorycraft</div>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/talents/" >Calculateur de talents</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/optimisation/" >Item builder</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/logs/" >BrokenLogs</a>
+<a class="nav-link mobile-nav-sublink" href="../../../wow-forever/simulateur-dps/" >Simulateur DPS</a>
+
+<a class="nav-link" href="../../../wow-forever/tier-list/" >Tier list</a>
+<a class="nav-link" href="../../../wow-forever/leveling/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/races/" >Quelle race</a>
+<a class="nav-link" href="../../../wow-forever/glossaire/" >Glossaire des sorts</a>
+<a class="nav-link" href="../../../wow-forever/transmogrification/" >Transmogrification</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+<a class="nav-link" href="../../../wow-forever/artisans/" >Artisans</a>
+
+
+
+</nav>
+        <div class="mobile-nav-actions">
+
+<a class="nav-cta-button" href="../../../wow-forever/addon/" >
+  <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+  Addon BrokenMeta
+</a>
+
+</div>
+      </div>
+    </details>
+  </div>
+</div>
+<div class="navbar navbar--center">
+  <a class="title" href="../../../wow-forever/">World of Warcraft: Forever</a>
+  <div class="navbar-right">
+    <nav class="nav-menu">
+      
+
+<details class="nav-dropdown" data-active="true">
+  <summary class="nav-link">Forever</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../">Aperçu</a>
+    <a href="../../../wow-forever/sortie/">Sortie</a>
+    <a href="../../../wow-forever/editions/">Éditions et prix</a>
+    <a href="../../../wow-forever/classes/">Classes et races</a>
+    
+  </div>
+</details>
+<a class="nav-link" href="../../../wow-forever/actualites/" >Actualités</a>
+
+<details class="nav-dropdown" >
+  <summary class="nav-link">Professions</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/professions/">Toutes les professions</a>
+    <a href="../../../wow-forever/professions/alchemy/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_alchemy.jpg" alt="Alchimie" width="20" height="20" loading="lazy"><span>Alchimie</span></a><a href="../../../wow-forever/professions/blacksmithing/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_blacksmithing.jpg" alt="Forge" width="20" height="20" loading="lazy"><span>Forge</span></a><a href="../../../wow-forever/professions/enchanting/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_engraving.jpg" alt="Enchantement" width="20" height="20" loading="lazy"><span>Enchantement</span></a><a href="../../../wow-forever/professions/engineering/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_engineering.jpg" alt="Ingénierie" width="20" height="20" loading="lazy"><span>Ingénierie</span></a><a href="../../../wow-forever/professions/leatherworking/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_leatherworking.jpg" alt="Travail du cuir" width="20" height="20" loading="lazy"><span>Travail du cuir</span></a><a href="../../../wow-forever/professions/tailoring/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/trade_tailoring.jpg" alt="Couture" width="20" height="20" loading="lazy"><span>Couture</span></a><a href="../../../wow-forever/professions/cooking/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/inv_misc_food_15.jpg" alt="Cuisine" width="20" height="20" loading="lazy"><span>Cuisine</span></a><a href="../../../wow-forever/professions/first-aid/"><img class="nav-sub-icon" src="https://wow.zamimg.com/images/wow/icons/large/spell_holy_sealofsacrifice.jpg" alt="Secourisme" width="20" height="20" loading="lazy"><span>Secourisme</span></a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Donjons</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/dungeons/">Tous les donjons</a>
+    <a href="../../../wow-forever/dungeons/ragefire-chasm/"><span>Gouffre de Ragefeu</span><span class="nav-sub-lvl nums">15-25</span></a><a href="../../../wow-forever/dungeons/deadmines/"><span>Mortemines</span><span class="nav-sub-lvl nums">15-25</span></a><a href="../../../wow-forever/dungeons/wailing-caverns/"><span>Cavernes des Lamentations</span><span class="nav-sub-lvl nums">17-27</span></a><a href="../../../wow-forever/dungeons/shadowfang-keep/"><span>Donjon d&#39;Ombrecroc</span><span class="nav-sub-lvl nums">22-30</span></a><a href="../../../wow-forever/dungeons/blackfathom-deeps/"><span>Profondeurs de Brassenoire</span><span class="nav-sub-lvl nums">22-32</span></a><a href="../../../wow-forever/dungeons/stockade/"><span>Prison de Stormwind</span><span class="nav-sub-lvl nums">22-32</span></a><a href="../../../wow-forever/dungeons/gnomeregan/"><span>Gnomeregan</span><span class="nav-sub-lvl nums">26-36</span></a><a href="../../../wow-forever/dungeons/scarlet-monastery/"><span>Monastère écarlate</span><span class="nav-sub-lvl nums">26-45</span></a><a href="../../../wow-forever/dungeons/razorfen-kraul/"><span>Kraal de Tranchebauge</span><span class="nav-sub-lvl nums">32-42</span></a><a href="../../../wow-forever/dungeons/razorfen-downs/"><span>Souilles de Tranchebauge</span><span class="nav-sub-lvl nums">37-47</span></a><a href="../../../wow-forever/dungeons/uldaman/"><span>Uldaman</span><span class="nav-sub-lvl nums">42-52</span></a><a href="../../../wow-forever/dungeons/zulfarrak/"><span>Zul&#39;Farrak</span><span class="nav-sub-lvl nums">46-56</span></a><a href="../../../wow-forever/dungeons/maraudon/"><span>Maraudon</span><span class="nav-sub-lvl nums">42-52</span></a><a href="../../../wow-forever/dungeons/sunken-temple/"><span>Temple englouti</span><span class="nav-sub-lvl nums">50-60</span></a><a href="../../../wow-forever/dungeons/blackrock-depths/"><span>Profondeurs de Blackrock</span><span class="nav-sub-lvl nums">52-60</span></a><a href="../../../wow-forever/dungeons/dire-maul/"><span>Hache-tripes</span><span class="nav-sub-lvl nums">44-54</span></a><a href="../../../wow-forever/dungeons/stratholme/"><span>Stratholme</span><span class="nav-sub-lvl nums">48-58</span></a><a href="../../../wow-forever/dungeons/scholomance/"><span>Scholomance</span><span class="nav-sub-lvl nums">55-60</span></a><a href="../../../wow-forever/dungeons/ruins-of-lordaeron/"><span>Ruines de Lordaeron</span></a><a href="../../../wow-forever/dungeons/hall-of-thanes/"><span>La salle des Thanes</span></a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Raids</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/raids/">Tous les raids</a>
+    <a href="../../../wow-forever/raids/molten-core/">Cœur du Magma</a>
+  </div>
+</details>
+<details class="nav-dropdown" >
+  <summary class="nav-link">Theorycraft</summary>
+  <div class="nav-dropdown-menu">
+    <a href="../../../wow-forever/talents/">Calculateur de talents</a>
+    <a href="../../../wow-forever/optimisation/">Item builder</a>
+    <a href="../../../wow-forever/logs/">BrokenLogs</a>
+    <a href="../../../wow-forever/simulateur-dps/">Simulateur DPS</a>
+    
+  </div>
+</details>
+<a class="nav-link" href="../../../wow-forever/tier-list/" >Tier list</a>
+<a class="nav-link" href="../../../wow-forever/leveling/" >Leveling 1-60</a>
+<a class="nav-link" href="../../../wow-forever/races/" >Quelle race</a>
+<a class="nav-link" href="../../../wow-forever/glossaire/" >Glossaire des sorts</a>
+<a class="nav-link" href="../../../wow-forever/transmogrification/" >Transmogrification</a>
+<a class="nav-link" href="../../../wow-forever/faq/" >FAQ</a>
+<a class="nav-link" href="../../../wow-forever/artisans/" >Artisans</a>
+
+
+
+    </nav>
+    
+
+<a class="nav-cta-button" href="../../../wow-forever/addon/" >
+  <svg viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>
+  Addon BrokenMeta
+</a>
+
+
+  </div>
+</div>
+
+
+<nav class="wow-specbar" aria-label="Guides de spécialisation">
+  <div class="wow-specbar-inner">
+  <div class="wow-specbar-group" style="--cc: #ff7c0a">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/druid/balance/" title="Druide — Equilibre"><img src="../../../assets/img/spec/druid-balance.png" alt="Druide — Equilibre" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/druid/feral-combat/" title="Druide — Combat farouche"><img src="../../../assets/img/spec/druid-feral-combat.png" alt="Druide — Combat farouche" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/druid/restoration/" title="Druide — Restauration"><img src="../../../assets/img/spec/druid-restoration.png" alt="Druide — Restauration" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #aad372">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/hunter/beast-mastery/" title="Chasseur — Maîtrise des bêtes"><img src="../../../assets/img/spec/hunter-beast-mastery.png" alt="Chasseur — Maîtrise des bêtes" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/hunter/marksmanship/" title="Chasseur — Précision"><img src="../../../assets/img/spec/hunter-marksmanship.png" alt="Chasseur — Précision" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/hunter/survival/" title="Chasseur — Survie"><img src="../../../assets/img/spec/hunter-survival.png" alt="Chasseur — Survie" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #3fc7eb">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/mage/arcane/" title="Mage — Arcanes"><img src="../../../assets/img/spec/mage-arcane.png" alt="Mage — Arcanes" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/mage/fire/" title="Mage — Feu"><img src="../../../assets/img/spec/mage-fire.png" alt="Mage — Feu" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/mage/frost/" title="Mage — Givre"><img src="../../../assets/img/spec/mage-frost.png" alt="Mage — Givre" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #f48cba">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/paladin/holy/" title="Paladin — Sacré"><img src="../../../assets/img/spec/paladin-holy.png" alt="Paladin — Sacré" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/paladin/protection/" title="Paladin — Protection"><img src="../../../assets/img/spec/paladin-protection.png" alt="Paladin — Protection" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/paladin/retribution/" title="Paladin — Vindicte"><img src="../../../assets/img/spec/paladin-retribution.png" alt="Paladin — Vindicte" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #ffffff">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/priest/discipline/" title="Prêtre — Discipline"><img src="../../../assets/img/spec/priest-discipline.png" alt="Prêtre — Discipline" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/priest/holy/" title="Prêtre — Sacré"><img src="../../../assets/img/spec/priest-holy.png" alt="Prêtre — Sacré" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/priest/shadow/" title="Prêtre — Ombre"><img src="../../../assets/img/spec/priest-shadow.png" alt="Prêtre — Ombre" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #fff468">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/rogue/assassination/" title="Voleur — Assassinat"><img src="../../../assets/img/spec/rogue-assassination.png" alt="Voleur — Assassinat" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/rogue/combat/" title="Voleur — Combat"><img src="../../../assets/img/spec/rogue-combat.png" alt="Voleur — Combat" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/rogue/subtlety/" title="Voleur — Finesse"><img src="../../../assets/img/spec/rogue-subtlety.png" alt="Voleur — Finesse" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #0070dd">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/shaman/elemental/" title="Chaman — Elémentaire"><img src="../../../assets/img/spec/shaman-elemental.png" alt="Chaman — Elémentaire" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/shaman/enhancement/" title="Chaman — Amélioration"><img src="../../../assets/img/spec/shaman-enhancement.png" alt="Chaman — Amélioration" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/shaman/restoration/" title="Chaman — Restauration"><img src="../../../assets/img/spec/shaman-restoration.png" alt="Chaman — Restauration" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #8788ee">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/warlock/affliction/" title="Démoniste — Affliction"><img src="../../../assets/img/spec/warlock-affliction.png" alt="Démoniste — Affliction" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/warlock/demonology/" title="Démoniste — Démonologie"><img src="../../../assets/img/spec/warlock-demonology.png" alt="Démoniste — Démonologie" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/warlock/destruction/" title="Démoniste — Destruction"><img src="../../../assets/img/spec/warlock-destruction.png" alt="Démoniste — Destruction" width="32" height="32" loading="lazy"></a>
+  </div><div class="wow-specbar-group" style="--cc: #c69b6d">
+    <a class="wow-spec-link" href="../../../wow-forever/guides/warrior/arms/" title="Guerrier — Armes"><img src="../../../assets/img/spec/warrior-arms.png" alt="Guerrier — Armes" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/warrior/fury/" title="Guerrier — Fureur"><img src="../../../assets/img/spec/warrior-fury.png" alt="Guerrier — Fureur" width="32" height="32" loading="lazy"></a><a class="wow-spec-link" href="../../../wow-forever/guides/warrior/protection/" title="Guerrier — Protection"><img src="../../../assets/img/spec/warrior-protection.png" alt="Guerrier — Protection" width="32" height="32" loading="lazy"></a>
+  </div>
+  </div>
+</nav>
+
+<div class="page">
+
+<nav class="crumbs" aria-label="Fil d&#39;Ariane"><ol>
+<li><a href="../../../">World of Warcraft: Forever</a></li><li><span aria-current="page">Druide Equilibre</span></li>
+</ol></nav>
+
+
+
+<div class="wsr" style="--cc: #ff7c0a">
+
+<section class="gh-hero is-flat" style="--cc: #ff7c0a">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="../../../assets/img/spec/druid-balance.png" alt="Druide Equilibre" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">WoW: Forever · Classement DPS · Fiche</div>
+      <h1 class="gh-title">Druide Equilibre : le build simulé</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">842,7</b> DPS <span class="ws-pm nums">± 0,4</span></span>
+        <span class="gh-chip"><b class="nums">#18</b> du classement sur 19</span>
+        <span class="gh-chip">Race <b>Skyborne (Windshaper)</b></span>
+        
+      </div>
+      <p class="gh-lede">Le build exact qui donne à Druide Equilibre sa place dans le classement : talents, équipement, enchantements, consommables et buffs du préréglage « Pre-BiS » de WoWSims, simulé avec leur moteur sur 12 500 combats de 180 secondes contre un boss de niveau 63.</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="../../../wow-forever/simulateur-dps/?ws=druid_balance#wsSim">Simuler ce build <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="../../../wow-forever/guides/druid/balance/">Guide de la spécialisation</a>
+    </div>
+  </div>
+</section>
+
+
+<section class="wsr-proof" aria-label="Vérifié avec les guides Wowhead">
+  <div class="wsr-proof-h"><span class="wsr-seal" aria-hidden="true">✓</span><div><b>Vérifié avec les guides Wowhead</b><span>comparé au build « Best Balance Druid PvE Raid and Dungeon Build » du guide Wowhead</span></div></div>
+  <div class="wsr-proof-c is-near"><span class="wsr-pl">Talents</span><b>7 pts d&#39;écart</b></div>
+  <div class="wsr-proof-c is-near"><span class="wsr-pl">Objets dans la liste BiS</span><b class="nums">13/16</b><i class="wsr-meter"><i style="width: 81%"></i></i></div>
+  <div class="wsr-proof-c is-ok"><span class="wsr-pl">Arbres de talents</span><b>Conformes</b></div>
+</section>
+
+
+<nav class="gs-toc" aria-label="Sommaire">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-dmg">Dégâts par source</a>
+  <a href="#rk-stats">Fiche du personnage</a>
+  <a href="#rk-gear">Équipement</a>
+  <a href="#rk-setup">Consommables</a>
+  <a href="#rk-hyp">Méthode</a>
+</nav>
+
+<div class="gs-grid">
+
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">Talents</h2><a class="wsr-ext" href="https://www.wowhead.com/forever/talent-calc/druid/v25532220115001351--505302" rel="noopener nofollow" target="_blank">Ouvrir ce build dans le calculateur Wowhead ↗</a></div>
+  
+<div class="wg-legend"><span class="wg-key is-reco"></span>Talent pris par le build</div>
+<div class="wg-trees">
+<div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Equilibre <span class="nums">36 points</span></h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link is-hot" x1="168" y1="90" x2="168" y2="106"/><line class="wg-link is-hot" x1="116" y1="90" x2="116" y2="158"/></svg>
+    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Colère améliorée — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_abolishmagic.jpg" alt="Colère améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 1; grid-column: 4" title="Genèse — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_arcane_arcane03.jpg" alt="Genèse" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Lueur de la lune — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_sentinal.jpg" alt="Lueur de la lune" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Eclat lunaire amélioré — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_starfall.jpg" alt="Eclat lunaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 4" title="Majesté de la nature — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_staff_01.jpg" alt="Majesté de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 5" title="Allonge de la Nature — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_naturetouchgrow.jpg" alt="Allonge de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Sarments améliorés — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_stranglevines.jpg" alt="Sarments améliorés" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 4" title="Splendeur de la nature — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_natureresistancetotem.jpg" alt="Splendeur de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 2" title="Essaim d&#39;insectes — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_insectswarm.jpg" alt="Essaim d&#39;insectes" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 4; grid-column: 3" title="Vengeance — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_purge.jpg" alt="Vengeance" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Feu stellaire amélioré — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_arcane_starfire.jpg" alt="Feu stellaire amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Lacis — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_herb_15.jpg" alt="Lacis" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 3" title="Grâce de la nature — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_naturesblessing.jpg" alt="Grâce de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div><div class="wg-cell is-reco" style="grid-row: 5; grid-column: 4" title="Éclipse — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_eclipse.jpg" alt="Éclipse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell is-reco" style="grid-row: 6; grid-column: 3" title="État de rêve — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_dreamstate.jpg" alt="État de rêve" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 7; grid-column: 3" title="Forme de sélénien — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_forceofnature.jpg" alt="Forme de sélénien" width="40" height="40" loading="lazy"><span class="wg-badge nums">1/1</span></span></div>
+  </div>
+</div><div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Restauration <span class="nums">15 points</span></h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="64" y1="90" x2="64" y2="210"/><line class="wg-link" x1="168" y1="194" x2="168" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/></svg>
+    <div class="wg-cell is-reco" style="grid-row: 1; grid-column: 3" title="Focalisation de la nature — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_healingwavegreater.jpg" alt="Focalisation de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Cœur de fauve — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_blessingofagility.jpg" alt="Cœur de fauve" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 2" title="Naturaliste — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_healingtouch.jpg" alt="Naturaliste" width="40" height="40" loading="lazy"><span class="wg-badge nums">5/5</span></span></div><div class="wg-cell is-reco" style="grid-row: 2; grid-column: 3" title="Renvoi — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_frost_windwalkon.jpg" alt="Renvoi" width="40" height="40" loading="lazy"><span class="wg-badge nums">3/3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Changeforme naturel — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_wispsplode.jpg" alt="Changeforme naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell is-reco" style="grid-row: 3; grid-column: 3" title="Discrétion — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_eyeoftheowl.jpg" alt="Discrétion" width="40" height="40" loading="lazy"><span class="wg-badge nums">2/3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Don de la Nature — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_protectionformnature.jpg" alt="Don de la Nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Floraison — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_herb_felblossom.jpg" alt="Floraison" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Tranquillité de l&#39;esprit — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_elunesgrace.jpg" alt="Tranquillité de l&#39;esprit" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Récupération améliorée — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_rejuvenation.jpg" alt="Récupération améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Prompte guérison — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_relics_idolofrejuvenation.jpg" alt="Prompte guérison" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 2" title="Rapidité de la nature — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_ravenform.jpg" alt="Rapidité de la nature" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Esprit vif — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_giftofthewaterspirit.jpg" alt="Esprit vif" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Tranquillité améliorée — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_tranquility.jpg" alt="Tranquillité améliorée" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 4" title="Rétablissement amélioré — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_resistnature.jpg" alt="Rétablissement amélioré" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Croissance sauvage — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_flourish.jpg" alt="Croissance sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  </div>
+</div><div class="wg-tree-wrap">
+  <h3 class="wg-tree-title">Combat farouche <span class="nums">0 points</span></h3>
+  <div class="wg-tree" style="--rows: 7">
+    <svg class="wg-svg" viewBox="0 0 242 356" aria-hidden="true" focusable="false"><text class="wg-rail-t" x="26" y="19" text-anchor="end">1</text><text class="wg-rail-p" x="26" y="29" text-anchor="end">0</text><text class="wg-rail-t" x="26" y="71" text-anchor="end">2</text><text class="wg-rail-p" x="26" y="81" text-anchor="end">5</text><text class="wg-rail-t" x="26" y="123" text-anchor="end">3</text><text class="wg-rail-p" x="26" y="133" text-anchor="end">10</text><text class="wg-rail-t" x="26" y="175" text-anchor="end">4</text><text class="wg-rail-p" x="26" y="185" text-anchor="end">15</text><text class="wg-rail-t" x="26" y="227" text-anchor="end">5</text><text class="wg-rail-p" x="26" y="237" text-anchor="end">20</text><text class="wg-rail-t" x="26" y="279" text-anchor="end">6</text><text class="wg-rail-p" x="26" y="289" text-anchor="end">25</text><text class="wg-rail-t" x="26" y="331" text-anchor="end">7</text><text class="wg-rail-p" x="26" y="341" text-anchor="end">30</text><line class="wg-link" x1="116" y1="142" x2="116" y2="158"/><line class="wg-link" x1="220" y1="142" x2="220" y2="158"/><line class="wg-link" x1="64" y1="194" x2="64" y2="262"/><line class="wg-link" x1="116" y1="246" x2="116" y2="314"/><line class="wg-link" x1="168" y1="194" x2="168" y2="314"/></svg>
+    <div class="wg-cell" style="grid-row: 1; grid-column: 3" title="Férocité — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_hyena.jpg" alt="Férocité" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 1; grid-column: 4" title="Fureur — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_holy_blessingofstamina.jpg" alt="Fureur" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 2" title="Célérité farouche — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_spiritwolf.jpg" alt="Célérité farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 3" title="Instinct farouche — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_ambush.jpg" alt="Instinct farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 4" title="Impact brutal — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_bash.jpg" alt="Impact brutal" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 2; grid-column: 5" title="Peau épaisse — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_pelt_bear_03.jpg" alt="Peau épaisse" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 2" title="Attaques lacérantes — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_shadow_vampiricaura.jpg" alt="Attaques lacérantes" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 3" title="Furie sauvage — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_ravage.jpg" alt="Furie sauvage" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 4" title="Charge farouche — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_bear.jpg" alt="Charge farouche" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 3; grid-column: 5" title="Griffes aiguisées — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_monsterclaw_04.jpg" alt="Griffes aiguisées" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 2" title="Frappes de prédateur — 3">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_hunter_pet_cat.jpg" alt="Frappes de prédateur" width="40" height="40" loading="lazy"><span class="wg-badge nums">3</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 3" title="Lacérer — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_lacerate.jpg" alt="Lacérer" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 4" title="Discipline prédatrice — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_druid_savagery.jpg" alt="Discipline prédatrice" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 4; grid-column: 5" title="Frénésie sanglante — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_ghoulfrenzy.jpg" alt="Frénésie sanglante" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 3" title="Chef de la meute — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_nature_unyeildingstamina.jpg" alt="Chef de la meute" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 5; grid-column: 5" title="Instinct naturel — 2">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_predatoryinstincts.jpg" alt="Instinct naturel" width="40" height="40" loading="lazy"><span class="wg-badge nums">2</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 2" title="Pourfendre et déchirer — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_druid_primalagression.jpg" alt="Pourfendre et déchirer" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 6; grid-column: 5" title="Réaction naturelle — 5">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_bullrush.jpg" alt="Réaction naturelle" width="40" height="40" loading="lazy"><span class="wg-badge nums">5</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 3" title="Morsure primordiale — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/ability_racial_cannibalize.jpg" alt="Morsure primordiale" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div><div class="wg-cell" style="grid-row: 7; grid-column: 4" title="Puissance fluctuante — 1">
+      <span class="wg-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/spell_druid_displacement.jpg" alt="Puissance fluctuante" width="40" height="40" loading="lazy"><span class="wg-badge nums">1</span></span></div>
+  </div>
+</div>
+</div>
+
+</section>
+
+<section class="gs-tile" id="rk-dmg">
+  <div class="gs-th"><h2 class="gs-h2">Dégâts par source</h2></div>
+  <p class="rs-hint">Part des dégâts de chaque technique, effet ou familier, moyenne de 5 000 combats.</p>
+  <div class="wsr-comp" role="img" aria-label="Répartition des dégâts"><span class="wsr-seg" style="flex: 51.8 1 0; --i: 0" title="Feu stellaire — 52 %"></span><span class="wsr-seg" style="flex: 17.5 1 0; --i: 1" title="Colère — 18 %"></span><span class="wsr-seg" style="flex: 15.8 1 0; --i: 2" title="Eclat lunaire — 16 %"></span><span class="wsr-seg" style="flex: 14.8 1 0; --i: 3" title="Essaim d&#39;insectes — 15 %"></span></div>
+  <ul class="wsr-comp-k"><li style="--i: 0" class=""><i></i>Feu stellaire <b class="nums">52 %</b></li><li style="--i: 1" class=""><i></i>Colère <b class="nums">18 %</b></li><li style="--i: 2" class=""><i></i>Eclat lunaire <b class="nums">16 %</b></li><li style="--i: 3" class=""><i></i>Essaim d&#39;insectes <b class="nums">15 %</b></li></ul>
+  <div class="rs-table-wrap">
+  <table class="rs-table wsr-dmg">
+    <thead><tr><th>Source</th><th class="rs-bar-col">Part</th><th class="nums">DPS</th><th class="nums">Par combat</th><th class="nums">Critique</th></tr></thead>
+    <tbody>
+    
+    <tr class="is-spell"><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9876" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Feu stellaire</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 100.0%"></span></span><span class="nums rs-share">51,8 %</span></td>
+        <td class="nums">436,8</td><td class="nums">44,5</td><td class="nums">23 %</td></tr>
+    
+    <tr class="is-spell"><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9912" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Colère</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 33.8%"></span></span><span class="nums rs-share">17,5 %</span></td>
+        <td class="nums">147,7</td><td class="nums">29,6</td><td class="nums">43 %</td></tr>
+    
+    <tr class="is-spell"><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=9835" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Eclat lunaire</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 30.5%"></span></span><span class="nums rs-share">15,8 %</span></td>
+        <td class="nums">133,1</td><td class="nums">14,0</td><td class="nums">33 %</td></tr>
+    
+    <tr class="is-spell"><td><a class="rs-spell" href="https://www.wowhead.com/forever/spell=24977" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Essaim d&#39;insectes</a></td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: 28.6%"></span></span><span class="nums rs-share">14,8 %</span></td>
+        <td class="nums">125,1</td><td class="nums">11,8</td><td class="nums">20 %</td></tr>
+    
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">Fiche du personnage</h2></div>
+  <p class="rs-hint">Caractéristiques finales calculées par le moteur, avec l&#39;équipement, les talents, les buffs et les consommables.</p>
+  <div class="wsr-stats">
+  <div>
+  <h3 class="wsr-k">Caractéristiques</h3>
+  <div class="wsr-prim"><div><b class="nums">84</b><span>Force</span></div><div><b class="nums">86</b><span>Agilité</span></div><div><b class="nums">302</b><span>Endurance</span></div><div><b class="nums">355</b><span>Intelligence</span></div><div><b class="nums">243</b><span>Esprit</span></div></div>
+  <h3 class="wsr-k">Combat</h3>
+  <div class="rk-cs wsr-cs"><div><b class="nums">678</b><span>Puissance des sorts</span></div><div><b class="nums">7,0 %</b><span>Toucher (sorts)</span></div><div><b class="nums">22,7 %</b><span>Critique (sorts)</span></div><div><b class="nums">6 289</b><span>Mana</span></div><div><b class="nums">89</b><span>Mana / 5 s</span></div><div><b class="nums">4 323</b><span>Points de vie</span></div><div><b class="nums">5 934</b><span>Armure</span></div></div>
+  </div>
+  <div>
+  <h3 class="wsr-k">Effets et temps actif</h3>
+  <ul class="wsr-ups"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=408255" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Éclipse</a><i class="wsr-meter"><i style="width: 89.7%"></i></i><b class="nums">90 %</b></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16886" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Grâce de la nature</a><i class="wsr-meter"><i style="width: 35.4%"></i></i><b class="nums">35 %</b></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=16870" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Idées claires</a><i class="wsr-meter"><i style="width: 13.2%"></i></i><b class="nums">13 %</b></li></ul>
+  <p class="rs-hint wsr-up-p">Part du combat pendant laquelle chaque effet temporaire est actif.</p>
+  </div>
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">Équipement</h2></div>
+  <p class="rs-hint">Les objets du préréglage, avec leur provenance et leur enchantement. Le lien ouvre l&#39;objet sur Wowhead.</p>
+  <div class="wsr-gear">
+    
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_helmet_27.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Tête</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226773" rel="noopener nofollow" target="_blank">Capuche Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_necklace_16.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Cou</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=19426" rel="noopener nofollow" target="_blank">Orbe de Sombrelune</a>
+        <span class="wsr-src">Quête — 1200 Tickets - Orb of the Darkmoon</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_shoulder_01.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Épaules</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226778" rel="noopener nofollow" target="_blank">Spallières Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_cape_05.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Dos</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=272411" rel="noopener nofollow" target="_blank">Cape en tisse-arcane</a>
+        <span class="wsr-src">Marchand — Pix Xizzix (Stranglethorn Vale)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_chest_plate06.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Torse</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226776" rel="noopener nofollow" target="_blank">Gilet Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_bracer_09.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Poignets</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226775" rel="noopener nofollow" target="_blank">Couvre-bras Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_gauntlets_17.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Mains</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226777" rel="noopener nofollow" target="_blank">Mains Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_belt_31.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Taille</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=18405" rel="noopener nofollow" target="_blank">Ceinture de l&#39;archimage</a>
+        <span class="wsr-src"><a href="../../../wow-forever/professions/tailoring/">Couture</a></span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Jambes</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=252486" rel="noopener nofollow" target="_blank">Jambières en plumacier</a>
+        <span class="wsr-src"><a href="../../../wow-forever/professions/leatherworking/">Travail du cuir</a></span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_boots_08.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Pieds</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=226774" rel="noopener nofollow" target="_blank">Galoches Cœur-Farouche</a>
+        <span class="wsr-src">Marchand — Mokvar (Orgrimmar)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_05.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Anneau 1</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=12543" rel="noopener nofollow" target="_blank">Songstone of Ironforge</a>
+        <span class="wsr-src">Quête — The Princess&#39;s Surprise</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_ring_35.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Anneau 2</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=22339" rel="noopener nofollow" target="_blank">Rune Band of Wizardry</a>
+        <span class="wsr-src">Blackrock Spire — Lord Valthalak</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_misc_blizzcon09_graphicscard.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Bijou 1</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=272438" rel="noopener nofollow" target="_blank">Analyseur de faiblesse</a>
+        <span class="wsr-src">Marchand — Pix Xizzix (Stranglethorn Vale)</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_jewelry_talisman_08.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Bijou 2</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=13968" rel="noopener nofollow" target="_blank">Eye of the Beast</a>
+        <span class="wsr-src">Quête — For The Horde!</span>
+        
+      </span>
+    </div>
+    <div class="wsr-it q4">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/inv_wand_04.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Main droite</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=20220" rel="noopener nofollow" target="_blank">Bâton d&#39;écorcefer</a>
+        <span class="wsr-src">Réputation</span>
+        <a class="wsr-ench" href="https://www.wowhead.com/forever/spell=1219580" rel="noopener nofollow" target="_blank">✦ Enchant 2H Weapon - Spellblasting</a>
+      </span>
+    </div>
+    <div class="wsr-it q3">
+      <span class="wsr-ico"><img src="https://wow.zamimg.com/images/wow/icons/medium/trade_archaeology_insect-in-amber.jpg" alt="" width="40" height="40" loading="lazy"></span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">Distance</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item=272430" rel="noopener nofollow" target="_blank">Idole grouillante</a>
+        <span class="wsr-src">Marchand — Pix Xizzix (Stranglethorn Vale)</span>
+        
+      </span>
+    </div>
+  </div>
+  <div class="wsr-sets"><span class="wsr-k">Bonus d&#39;ensemble actifs</span><span class="wsr-chip">Feralheart Raiment · 6 pièces</span></div>
+</section>
+
+<section class="gs-tile" id="rk-setup">
+  <div class="gs-th"><h2 class="gs-h2">Consommables, buffs et affaiblissements</h2></div>
+  <div class="wsr-cols">
+    <div><h3 class="gs-sub">Consommables</h3>
+      <ul class="wsr-chips"><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=13512" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Flacon de pouvoir suprême</a> <span class="rs-hint">Flacon</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=13454" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Elixir des arcanes supérieur</a> <span class="rs-hint">Élixir</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=250343" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir de puissance de la nature</a> <span class="rs-hint">Élixir</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=250337" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir de la chouette</a> <span class="rs-hint">Élixir</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=250341" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Élixir magesang supérieur</a> <span class="rs-hint">Élixir</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=13933" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Ragoût de homard</a> <span class="rs-hint">Nourriture</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=20750" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Huile de sorcier</a> <span class="rs-hint">Arme (main droite)</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=250937" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Potion d’explosion de sorts majeure</a> <span class="rs-hint">Potion</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=13444" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Potion de mana majeure</a> <span class="rs-hint">Potion</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=12662" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Rune démoniaque</a> <span class="rs-hint">Rune</span></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/item=8423" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Potion de cortex cérébral</a> <span class="rs-hint">Autre</span></li></ul>
+      <p class="rs-hint"><b>Métiers :</b> Enchantement, Travail du cuir</p>
+    </div>
+    <div><h3 class="gs-sub">Buffs de raid</h3>
+      <ul class="wsr-chips"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=23028" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Illumination des arcanes</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=27681" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prière d&#39;Esprit</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21850" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Don du fauve</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=21564" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Prière de robustesse</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=10497" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Totem Fontaine de mana</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25898" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bénédiction des rois supérieure</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=25918" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Bénédiction de sagesse supérieure</a></li></ul>
+    </div>
+    <div><h3 class="gs-sub">Affaiblissements du boss</h3>
+      <ul class="wsr-chips"><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=20355" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Jugement de sagesse</a></li><li><a class="rs-spell" href="https://www.wowhead.com/forever/spell=11722" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">Curse of the Elements</a></li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">Méthode</h2></div>
+  <ul class="gd-list"><li>Build : le préréglage de WoWSims pour cette spécialisation, exporté tel quel depuis wowsims.com (Export &gt; CLI). Quand la spécialisation a plusieurs préréglages, celui qui donne le DPS le plus haut est retenu. Nous n&#39;avons rien changé.</li><li>Moteur : WoWSims Forever (licence MIT), lancé chez nous. Le DPS du classement vient de 12 500 combats ; le détail des dégâts de cette page, de 5 000 combats (les parts sont les mêmes à quelques dixièmes près).</li><li>Limites : combat sur une cible, sans déplacements, pas d&#39;objet de raid (les raids ouvrent le 9 décembre).</li></ul>
+  <p class="wow-note">Moteur et builds : <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> (licence MIT), préréglages de <a href="https://www.wowsims.com/forever/" rel="noopener" target="_blank">wowsims.com</a>. Vérification : guides de classe de <a href="https://www.wowhead.com/forever/guides/classes" rel="noopener nofollow" target="_blank">Wowhead</a>.</p>
+  <div class="rk-links">
+    <a class="gh-btn is-primary" href="../../../wow-forever/simulateur-dps/?ws=druid_balance#wsSim">Simuler ce build <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../wow-forever/guides/druid/balance/">Guide de la spécialisation <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="../../../wow-forever/tier-list/">Tier list DPS <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="Tier list DPS">
+    <a href="../../../wow-forever/classement/warlock-destruction/">← Démoniste Destruction</a>
+    <a href="../../../wow-forever/classement/priest-shadow/">Prêtre Ombre →</a>
+  </nav>
+</section>
+
+</div>
+</div>
+<p class="wow-note">World of Warcraft, Warcraft et Blizzard Entertainment sont des marques de Blizzard Entertainment, Inc. BrokenMeta.gg est un site indépendant : il n&#39;est ni affilié à Blizzard, ni approuvé ou sponsorisé par elle.</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
+
+<section class="gs-tile wrel"><div class="gs-th"><h2 class="gs-h2">Pour aller plus loin</h2></div>
+<div class="gh-chips">
+
+<a class="gh-chip" href="../../../wow-forever/tier-list/">Tier list niveau 60</a>
+
+
+<a class="gh-chip" href="../../../wow-forever/races/druid/">Quelle race choisir : Druide</a>
+
+
+<a class="gh-chip" href="../../../wow-forever/sets/druid/">Ensembles Sanctified : Druide</a>
+
+
+<a class="gh-chip" href="../../../wow-forever/leveling/">Guide de leveling 1-60</a>
+
+
+<a class="gh-chip" href="../../../wow-forever/simulateur-dps/">Simulateur DPS</a>
+
+
+</div>
+</section>
+
+
+</div>
+<footer>
+  <div class="footer-top">
+    <nav class="footer-nav">
+      <a href="../../../tft/">Compo List</a>
+      <a href="../../../champions/">Champion List</a>
+      <a href="../../../glossaire/">Glossaire</a>
+      <a href="../../../patch-notes/">Patch Notes</a>
+      <a href="../../../leaderboard/">Leaderboard</a>
+      <a href="../../../metascope/">Analyse ton profil</a>
+      <a href="../../../team-builder/">Team Builder</a>
+      <a href="../../../discord/">Alertes Discord</a>
+      <a href="../../../methodologie/">Méthodologie</a>
+      <a href="../../../confidentialite/">Confidentialité</a>
+      <a href="../../../cgu/">CGU</a>
+      <a href="../../../confidentialite/#cookies" data-bm-consent>Gérer les cookies</a>
+      <a href="../../../sitemap.xml">sitemap</a>
+    </nav>
+    <span class="footer-generated">Généré le 2026-10-10 · Set TFTSet18</span>
+  </div>
+  <p class="footer-disclaimer">World of Warcraft, Warcraft et Blizzard Entertainment sont des marques de Blizzard Entertainment, Inc. BrokenMeta.gg est un site indépendant : il n&#39;est ni affilié à Blizzard, ni approuvé ou sponsorisé par elle.</p>
+</footer>
+<div id="tooltip" data-visible="false"></div>
+
+
+<script>
+/* Menus déroulants (<details class="nav-dropdown">) : un seul ouvert à la fois, fermeture au clic ailleurs et à Échap. */
+(function () {
+  var menus = document.querySelectorAll('.nav-dropdown');
+  if (!menus.length) return;
+  function closeAll(except) { menus.forEach(function (m) { if (m !== except) m.removeAttribute('open'); }); }
+  menus.forEach(function (m) {
+    m.addEventListener('toggle', function () { if (m.open) closeAll(m); });
+  });
+  document.addEventListener('click', function (e) {
+    var inside = e.target.closest && e.target.closest('.nav-dropdown');
+    closeAll(inside);
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      var open = document.querySelector('.nav-dropdown[open] summary');
+      closeAll(null);
+      if (open) open.focus();
+    }
+  });
+})();
+</script>
+<script>window.BM_ROOT = "../../../";</script>
+<script src="../../../assets/js/copy-comp.js?v=3938571571" defer></script>
+<script src="../../../assets/js/champ-icons.js?v=3938571571" defer></script>
+<script src="../../../assets/js/site-search.js?v=3938571571" defer></script>
+<script src="../../../assets/js/favorites.js?v=3938571571" defer></script>
+<script src="../../../assets/js/consent.js?v=bd19999519" defer></script>
+
+<script>
+  // sw.js sits at the site root (see build_site.py) regardless of the
+  // current page's own depth, so it's registered with an absolute path
+  // rather than the relative "root" prefix every other asset link uses.
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () { navigator.serviceWorker.register('/sw.js').catch(function () {}); });
+  }
+</script>
+</body>
+</html>
