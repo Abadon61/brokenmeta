@@ -8640,6 +8640,7 @@ def main() -> None:
                             {"talents": _tal_href, "gear": "#gs-gear" if _g["content"].get(_s["id"]) else None, "rot": "#gs-rotation" if _lvl60.get("rot") else None,
                              "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
                              "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")}, leveling=bool(_leveling))
+                        _quick = _quick + wow_guide_seo.extra(lang, _cls["id"], _s["id"])          # questions seen in Search Console (librams...)
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key, sim_id=_sim_page_id, class_news=_class_news,
                            quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling,
                            faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
@@ -8838,8 +8839,14 @@ def main() -> None:
                     _rh1 = _gx["rd_h1"].format(name=_rn)
                     _ri = _gx["rd_intro"].format(name=_rn)
                     _ritems = sorted(_r["items"], key=lambda i: (_rorder.get(i["slot"], 99), i["name"]))
+                    _rinfo = _r.get("info") or {}
+                    _rfmt = {"loc": (_rinfo.get("location") or {}).get(lang) or "",
+                             "quest": (_rinfo.get("attunement") or {}).get("quest", ""), "lvl": (_rinfo.get("attunement") or {}).get("reqlevel", "")}
+                    _rfaq = [(q, a.format(**_rfmt)) for q, a in (wow_content.RAID_FAQ.get(_r["id"]) or {}).get(lang, [])
+                             if "{quest}" not in a or _rfmt["quest"]]
                     render("wow_raid.html", _rpath, lang, active_nav="wow", active_sub="wow-raids", tx=_gx, dd=wow_raids, raid=_r, items=_ritems,
-                           g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri,
+                           g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri, raid_faq=_rfaq,
+                           faq_schema=({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _rfaq]} if _rfaq else None),
                            breadcrumb_schema=breadcrumb_schema(_rcrumb + [(_rn, canonical_for(_rpath, lang))]),
                            article_schema=build_article_schema(_rh1, canonical_for(_rpath, lang), _rd_))
             if wow_dungeons or wow_raids:
@@ -9082,6 +9089,7 @@ def main() -> None:
             _lvfmt = dict(j=_lv["lev"]["journeyman"], e=_lv["lev"]["expert"], a=_lv["lev"]["artisan"])
             # quick answers on top of the page (same wording in the FAQPage data); the links of the answers are paths of this site ("#..." = on this page)
             _lv["quick"] = [(q, a.format(**_lvfmt), link) for q, a, link in _lvx["quick"]]
+            _lv["quick"][2:2] = wow_leveling.extra_quick(lang, _lv)          # GSC question queries (2026-11-27): 54 -> 60, level of each dungeon
             _lv["quick_hrefs"] = {"dung": "wow-forever/dungeons/", "cls": "#lvg-classes", "best": "wow-forever/leveling/meilleure-classe/", "prof": "wow-forever/professions/"}
             _lv["classes"] = [{"name": _g["cls"]["name"][lang], "color": _g["cls"].get("color"),
                                "specs": [{"name": _s["name"][lang], "role": _g["roles"][_s["id"]]["role"][lang], "href": f"wow-forever/guides/{_g['cls']['id']}/{_s['id']}/#gs-leveling"} for _s in _g["cls"]["specs"]]}

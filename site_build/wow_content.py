@@ -726,3 +726,23 @@ def check() -> None:
                 for b in sec["blocks"]:
                     assert b["type"] in {"p", "list", "table", "facts", "note", "cards", "classcards", "racecards"}, b["type"]
     assert len(PAGES["fr"]["faq"]["faq"]) == len(PAGES["en"]["faq"]["faq"])
+
+
+# Raid page questions seen in Search Console (2026-11-27: "is molten core in wow forever"). Source: Wowhead's Forever overview, "New Raids" section
+# (read 2026-11-27): December 9, 2026 = The Barrow Deeps (10), Hyjal Summit (20), Onyxia's Lair (40); Molten Core is in the game data but not announced.
+# Update the answers when Blizzard announces a date. {loc}, {quest}, {lvl} come from data/wow_raids/raids.json.
+RAID_FAQ = {
+    "molten-core": {
+        "fr": [
+            ("Le Cœur du Magma est-il dans WoW Forever ?", "Le Cœur du Magma est dans les données du jeu : Wowhead Forever liste la zone, ses boss et son butin, et c'est de là que vient cette page. En revanche, Blizzard ne l'a pas annoncé parmi les raids de lancement : le 9 décembre 2026 ouvrent The Barrow Deeps (10 joueurs), Hyjal Summit (20 joueurs) et le Repaire d'Onyxia (40 joueurs)."),
+            ("Quand ouvre le Cœur du Magma dans WoW Forever ?", "Aucune date n'est annoncée à ce jour (vérifié le 27 novembre 2026). Cette page sera mise à jour dès que Blizzard en donnera une."),
+            ("Comment accéder au Cœur du Magma ?", "Entrée, d'après les données du jeu : {loc}. L'accès demande la quête « {quest} » (niveau {lvl} requis)."),
+        ],
+        "en": [
+            ("Is Molten Core in WoW Forever?", "Molten Core is in the game data: Wowhead Forever lists the zone, its bosses and its loot, which is where this page comes from. Blizzard has not announced it among the launch raids, though: on December 9, 2026 The Barrow Deeps (10 players), Hyjal Summit (20 players) and Onyxia's Lair (40 players) open."),
+            ("When does Molten Core open in WoW Forever?", "No date has been announced so far (checked on November 27, 2026). This page will be updated as soon as Blizzard gives one."),
+            ("How do you get into Molten Core?", "Entrance, according to the game data: {loc}. Access requires the quest \"{quest}\" (level {lvl} required)."),
+        ],
+    },
+}
+

@@ -8,6 +8,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
 {% endblock %}
 {% block content %}
 {% set fr = lang == 'fr' %}
@@ -136,6 +137,13 @@
   </table></div>
   <p class="wow-note" id="dgNone" hidden>{{ tx.dg_none }}</p>
 </section>
+
+{% if raid_faq %}
+<section class="gs-tile" id="rd-faq">
+  <div class="gs-th"><h2 class="gs-h2">{{ 'Questions fréquentes' if fr else 'FAQ' }}</h2></div>
+  {% for q, a in raid_faq %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ q }}</summary><p class="gs-lede">{{ a }}</p></details>{% endfor %}
+</section>
+{% endif %}
 
 <section class="gs-tile" id="rd-method">
   <div class="gs-th"><h2 class="gs-h2">{{ tx.dg_method_h2 }}</h2></div>
