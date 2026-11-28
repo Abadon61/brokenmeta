@@ -49,7 +49,7 @@ TXT = {
             "search": "Rechercher dans {slot}…", "remove": "Retirer", "close": "Fermer", "lvl": "niv.", "count": "{n} objets", "count_more": "{n} sur {total} : affinez la recherche",
             "appearance": "Apparence", "colors": "Couleurs", "style": "Style", "prev": "Précédent", "next": "Suivant", "options": _OPTIONS_FR,
         },
-        "labels": {"race": "Race", "model1": "Modèle 1", "model2": "Modèle 2", "random": "Aléatoire", "reset": "Réinitialiser", "cls": "Classe (filtre les objets)", "equip": "Équipement"},
+        "labels": {"race": "Race", "model1": "Modèle 1", "model2": "Modèle 2", "random": "Aléatoire", "reset": "Réinitialiser", "cls": "Classe (filtre les objets)", "equip": "Équipement", "expand": "Agrandir le visualiseur", "close": "Fermer"},
     },
     "en": {
         "kicker": "World of Warcraft: Forever · Transmog",
@@ -89,7 +89,7 @@ TXT = {
             "search": "Search {slot}…", "remove": "Remove", "close": "Close", "lvl": "lvl", "count": "{n} items", "count_more": "{n} of {total}: narrow the search",
             "appearance": "Appearance", "colors": "Colors", "style": "Style", "prev": "Previous", "next": "Next", "options": {},
         },
-        "labels": {"race": "Race", "model1": "Model 1", "model2": "Model 2", "random": "Random", "reset": "Reset", "cls": "Class (filters items)", "equip": "Equipment"},
+        "labels": {"race": "Race", "model1": "Model 1", "model2": "Model 2", "random": "Random", "reset": "Reset", "cls": "Class (filters items)", "equip": "Equipment", "expand": "Enlarge the viewer", "close": "Close"},
     },
 }
 

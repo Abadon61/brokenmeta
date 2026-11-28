@@ -20,23 +20,29 @@
 
 <div id="tmApp" data-base="{{ root }}assets/transmog/" data-lang="{{ lang }}">
   <div class="tm-stage">
-    <div id="tmView" class="tm-view"></div>
+    <div class="tm-viewwrap" id="tmWrap">
+      <div id="tmView" class="tm-view"></div>
+      <button type="button" id="tmExpand" class="tm-vbtn tm-expand" aria-label="{{ tx.labels.expand }}" title="{{ tx.labels.expand }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+      <button type="button" id="tmClose" class="tm-vbtn tm-fclose" aria-label="{{ tx.labels.close }}" title="{{ tx.labels.close }}"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
     <div id="tmLog" class="tm-log" aria-live="polite"></div>
+    <div class="tm-panel tm-stagebox"><div id="tmStance"></div></div>
   </div>
-  <div class="tm-panel">
+  <div class="tm-panel tm-look">
     <h3>{{ tx.labels.race }}</h3>
     <div id="tmRaces"></div>
     <div class="tm-seg" id="tmSexes"><button type="button" data-sex="0">{{ tx.labels.model1 }}</button><button type="button" data-sex="1">{{ tx.labels.model2 }}</button></div>
     <div class="tm-acts"><button type="button" id="tmRnd">{{ tx.labels.random }}</button><button type="button" id="tmRst">{{ tx.labels.reset }}</button></div>
+    <div id="tmOpts"></div>
+  </div>
+  <div class="tm-panel tm-gear">
     <h3>{{ tx.labels.cls }}</h3>
     <div id="tmClasses"></div>
     <p id="tmClassHint" class="tm-hint"></p>
     <h3>{{ tx.labels.equip }}</h3>
     <div id="tmSlots"></div>
-    <div id="tmPicker"></div>
-    <div id="tmStance"></div>
-    <div id="tmOpts"></div>
   </div>
+  <div class="tm-pick"><div id="tmPicker"></div></div>
 </div>
 <noscript><p class="wow-note">{{ tx.noscript }}</p></noscript>
 <script type="application/json" id="tmI18n">{{ tx.js|tojson }}</script>
