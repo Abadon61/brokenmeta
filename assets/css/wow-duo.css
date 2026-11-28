@@ -1,0 +1,36 @@
+/* "1 target against 5" section of the healer and tank guides and of the tank ranking pages (templates/wow_duo.html), loaded by those pages only.
+   Two accents: --da for one target, --db for five; the class colour (--cc) is not used so the pair reads the same on every page. */
+.duo { --da: #8fb4ff; --db: #46d7a8; }
+.duo-p { max-width: 72ch; text-wrap: pretty; }
+.duo-k { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 14px 0 6px; }
+.duo-kc { --c: var(--da); display: flex; flex-direction: column; gap: 3px; padding: 14px 16px; border-radius: var(--dash-radius, 12px); border: 1px solid var(--border);
+  background: linear-gradient(180deg, color-mix(in srgb, var(--c) 9%, #0f1550), #0b0f3d); box-shadow: inset 3px 0 0 var(--c); min-width: 0; }
+.duo-kc.is-b { --c: var(--db); }
+.duo-kl { font: 600 11px 'Space Mono', monospace; letter-spacing: .09em; text-transform: uppercase; color: var(--c); }
+.duo-kv b { font: 700 26px 'Space Mono', monospace; color: var(--cream); }
+.duo-u { font-size: 12.5px; color: var(--text-dim); }
+.duo-ks { font-size: 13px; color: var(--text-dim); line-height: 1.35; }
+.duo-h3 { margin: 18px 0 8px; font: 600 11px 'Space Mono', monospace; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); }
+.duo-meter { display: block; height: 7px; border-radius: 4px; background: rgba(255, 255, 255, .06); overflow: hidden; }
+.duo-meter > i { display: block; height: 100%; border-radius: inherit; background: var(--da); }
+.duo-bars { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.duo-bars li { display: grid; grid-template-columns: minmax(0, 11rem) minmax(60px, 1fr) 64px; align-items: center; gap: 10px; font-size: 13.5px; }
+.duo-bars .duo-meter > i { background: var(--db); }
+.duo-bars li.is-main .duo-bl { color: var(--cream); font-weight: 600; }
+.duo-bars b { text-align: right; font-size: 13px; color: var(--cream); }
+.duo-t .duo-col { width: 30%; }
+.duo-cell { display: grid; grid-template-columns: minmax(40px, 1fr) 54px; align-items: center; gap: 8px; }
+.duo-cell .nums { text-align: right; }
+.duo-col.is-b .duo-meter > i { background: var(--db); }
+.duo-t tbody tr { transition: background-color .15s; }
+.duo-t tbody tr:hover { background: rgba(120, 140, 255, .06); }
+.duo-t tr.is-up .duo-col.is-b .nums { color: var(--db); font-weight: 700; }
+@media (max-width: 600px) {
+  .duo-k { grid-template-columns: 1fr; }
+  .duo-kv b { font-size: 22px; }
+  .duo-bars li { grid-template-columns: minmax(0, 1fr) 70px 54px; }
+  .duo-t .duo-col { width: auto; }
+  .duo-cell { grid-template-columns: 1fr; gap: 3px; }
+  .duo-cell .duo-meter { order: 2; }
+}
+@media (prefers-reduced-motion: reduce) { .duo-t tbody tr { transition: none; } }

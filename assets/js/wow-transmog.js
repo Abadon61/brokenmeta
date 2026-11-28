@@ -266,4 +266,14 @@
   app.querySelectorAll('[data-sex]').forEach(b => b.onclick = () => { sex = +b.dataset.sex; mark(); pick(chrId()); });
   window.tmPick = (id) => { const r = RACES.find(r => r[1] === id || r[2] === id); race = r[0]; sex = r[2] === id ? 1 : 0; mark(); return pick(id); };
   drawClasses(); drawSlots(); drawStance(); mark(); pick(chrId());
+  // Plein ecran du visualiseur (bouton en bas a droite, fermer en haut a droite ou Echap)
+  const wrap = $('tmWrap');
+  function setFull(on) {
+    wrap.classList.toggle('tm-full', on);
+    document.body.classList.toggle('tm-nofull-scroll', on);
+    window.dispatchEvent(new Event('resize'));
+  }
+  $('tmExpand').onclick = () => setFull(true);
+  $('tmClose').onclick = () => setFull(false);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && wrap.classList.contains('tm-full')) setFull(false); });
 })();

@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Transmogrification WoW Forever : simulateur 3D">
 <meta name="twitter:description" content="Essayez les apparences d&#39;armure et d&#39;arme de WoW: Forever sur votre personnage en 3D : race, coiffure, couleurs, classe, armes dégainées ou rangées.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=c4fc8d1c05">
-<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=c4fc8d1c05">
+<link rel="icon" type="image/svg+xml" href="../../favicon.svg?v=1237de3971">
+<link rel="icon" type="image/png" sizes="512x512" href="../../favicon-google.png?v=1237de3971">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../assets/css/style.css?v=c4fc8d1c05">
+<link rel="stylesheet" href="../../assets/css/style.css?v=1237de3971">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -83,7 +83,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/"}, {"@type": "ListItem", "position": 2, "name": "Simulateur de transmogrification", "item": "https://brokenmeta.gg/wow-forever/transmogrification/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Simulateur de transmogrification", "description": "Essayez les apparences d'armure et d'arme de WoW: Forever sur votre personnage en 3D : race, coiffure, couleurs, classe, armes d\u00e9gain\u00e9es ou rang\u00e9es.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/wow-forever/transmogrification/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}}</script>
-<link rel="stylesheet" href="../../assets/css/wow-transmog.css?v=6dfa26975c">
+<link rel="stylesheet" href="../../assets/css/wow-transmog.css?v=d728126807">
 
 </head>
 <body>
@@ -327,34 +327,37 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 </section>
 
 <div id="tmApp" data-base="../../assets/transmog/" data-lang="fr">
-  
-  <div class="tm-panel tm-cust">
+  <div class="tm-stage">
+    <div class="tm-viewwrap" id="tmWrap">
+      <div id="tmView" class="tm-view"></div>
+      <button type="button" id="tmExpand" class="tm-vbtn tm-expand" aria-label="Agrandir le visualiseur" title="Agrandir le visualiseur"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></button>
+      <button type="button" id="tmClose" class="tm-vbtn tm-fclose" aria-label="Fermer" title="Fermer"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div id="tmLog" class="tm-log" aria-live="polite"></div>
+    <div class="tm-panel tm-stagebox"><div id="tmStance"></div></div>
+  </div>
+  <div class="tm-panel tm-look">
     <h3>Race</h3>
     <div id="tmRaces"></div>
     <div class="tm-seg" id="tmSexes"><button type="button" data-sex="0">Modèle 1</button><button type="button" data-sex="1">Modèle 2</button></div>
     <div class="tm-acts"><button type="button" id="tmRnd">Aléatoire</button><button type="button" id="tmRst">Réinitialiser</button></div>
     <div id="tmOpts"></div>
   </div>
-  <div class="tm-stage">
-    <div id="tmView" class="tm-view"></div>
-    <div id="tmLog" class="tm-log" aria-live="polite"></div>
-    <div id="tmStance"></div>
-  </div>
-  <div class="tm-panel tm-items">
+  <div class="tm-panel tm-gear">
     <h3>Classe (filtre les objets)</h3>
     <div id="tmClasses"></div>
     <p id="tmClassHint" class="tm-hint"></p>
     <h3>Équipement</h3>
     <div id="tmSlots"></div>
-    <div id="tmPicker"></div>
   </div>
+  <div class="tm-pick"><div id="tmPicker"></div></div>
 </div>
 <noscript><p class="wow-note">Le simulateur a besoin de JavaScript et du WebGL de votre navigateur.</p></noscript>
 <script type="application/json" id="tmI18n">{"loading": "Chargement\u2026", "error": "Erreur :", "races": {"human": "Humain", "dwarf": "Nain", "nightelf": "Elfe de la nuit", "gnome": "Gnome", "orc": "Orc", "undead": "Mort-vivant", "tauren": "Tauren", "troll": "Troll", "skyborne": "\u00c9olide"}, "classes": {"WARRIOR": "Guerrier", "PALADIN": "Paladin", "HUNTER": "Chasseur", "ROGUE": "Voleur", "PRIEST": "Pr\u00eatre", "SHAMAN": "Chaman", "MAGE": "Mage", "WARLOCK": "D\u00e9moniste", "DRUID": "Druide"}, "all": "Toutes", "no_filter": "Aucun filtre", "class_hint": "Seuls les objets que {cls} peut porter sont propos\u00e9s.", "slots": {"head": "T\u00eate", "shoulder": "\u00c9paules", "back": "Dos", "chest": "Torse", "shirt": "Chemise", "tabard": "Tabard", "wrist": "Poignets", "hands": "Mains", "waist": "Taille", "legs": "Jambes", "feet": "Pieds", "mainhand": "Main droite", "offhand": "Main gauche", "ranged": "\u00c0 distance"}, "armor": {"0": "Divers", "1": "Tissu", "2": "Cuir", "3": "Mailles", "4": "Plaques", "5": "Cosm\u00e9tique", "6": "Boucliers"}, "weapon": {"0": "Haches", "1": "Haches 2M", "2": "Arcs", "3": "Armes \u00e0 feu", "4": "Masses", "5": "Masses 2M", "6": "Armes d\u2019hast", "7": "\u00c9p\u00e9es", "8": "\u00c9p\u00e9es 2M", "10": "B\u00e2tons", "13": "Armes de pugilat", "14": "Divers", "15": "Dagues", "16": "Armes de jet", "18": "Arbal\u00e8tes", "19": "Baguettes", "20": "Cannes \u00e0 p\u00eache"}, "weapon_other": "Arme", "held": "Tenu en main gauche", "stance_title": "Armes : d\u00e9gain\u00e9es ou rang\u00e9es", "stance_hand": "D\u00e9gain\u00e9e", "stance_back": "Dos", "stance_hip": "Taille", "draw_all": "Tout d\u00e9gainer", "stow_all": "Tout ranger", "search": "Rechercher dans {slot}\u2026", "remove": "Retirer", "close": "Fermer", "lvl": "niv.", "count": "{n} objets", "count_more": "{n} sur {total} : affinez la recherche", "appearance": "Apparence", "colors": "Couleurs", "style": "Style", "prev": "Pr\u00e9c\u00e9dent", "next": "Suivant", "options": {"Skin Color": "Couleur de peau", "Face": "Visage", "Hair Style": "Coiffure", "Hair Color": "Couleur des cheveux", "Facial Hair": "Pilosit\u00e9 faciale", "Face Shape": "Forme du visage", "Eyebrows": "Sourcils", "Eye Color": "Couleur des yeux", "Eye Style": "Style des yeux", "Beard": "Barbe", "Mustache": "Moustache", "Piercings": "Piercings", "Earrings": "Boucles d\u2019oreilles", "Earring Color": "Couleur des boucles", "Makeup": "Maquillage", "Ears": "Oreilles", "Grime": "Crasse", "Tusks": "D\u00e9fenses", "Horns": "Cornes", "Markings": "Marques", "Markings Color": "Couleur des marques", "Face Paint": "Peinture de guerre", "Face Paint Color": "Couleur de la peinture", "Jaw Features": "M\u00e2choire", "Face Features": "Traits du visage", "Eye Glow": "Lueur des yeux", "Hair": "Cheveux", "Foremane": "Crini\u00e8re avant", "Blindfold": "Bandeau", "Body Tattoo": "Tatouage du corps", "Body Tattoo Color": "Couleur du tatouage", "Face Tattoo": "Tatouage du visage", "Face Tattoo Color": "Couleur du tatouage de visage", "Feather Color": "Couleur des plumes", "Feathers": "Plumes", "Eyebrow Style": "Style des sourcils", "Eyesight": "Regard", "Jewelry Color": "Couleur des bijoux", "Skin": "Peau"}}</script>
 <script src="../../assets/js/three.min.js" defer></script>
 <script src="../../assets/js/wow-transmog-m2.js?v=cd40dbd72d" defer></script>
 <script src="../../assets/js/wow-transmog-viewer.js?v=ad0d8d5826" defer></script>
-<script src="../../assets/js/wow-transmog.js?v=dd33a00b60" defer></script>
+<script src="../../assets/js/wow-transmog.js?v=34717ca4b2" defer></script>
 
 <div class="tm-sections">
   <section><h2 class="gs-h2">Comment l&#39;utiliser</h2><ol><li>Choisissez la race et le modèle (1 ou 2), puis réglez le visage, les cheveux et les couleurs.</li><li>Choisissez votre classe pour ne voir que les objets qu&#39;elle peut porter (ou laissez « Toutes »).</li><li>Cliquez sur un emplacement, cherchez un objet : en passant la souris dessus vous l&#39;essayez sur le personnage, en cliquant vous le gardez.</li><li>Pour les armes, choisissez dégainée, rangée sur le dos ou à la taille (les armes à deux mains vont toujours sur le dos). Faites tourner le personnage à la souris.</li></ol></section>
@@ -426,10 +429,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../";</script>
-<script src="../../assets/js/copy-comp.js?v=c4fc8d1c05" defer></script>
-<script src="../../assets/js/champ-icons.js?v=c4fc8d1c05" defer></script>
-<script src="../../assets/js/site-search.js?v=c4fc8d1c05" defer></script>
-<script src="../../assets/js/favorites.js?v=c4fc8d1c05" defer></script>
+<script src="../../assets/js/copy-comp.js?v=1237de3971" defer></script>
+<script src="../../assets/js/champ-icons.js?v=1237de3971" defer></script>
+<script src="../../assets/js/site-search.js?v=1237de3971" defer></script>
+<script src="../../assets/js/favorites.js?v=1237de3971" defer></script>
 <script src="../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>

@@ -61,8 +61,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="twitter:title" content="Discipline Priest Guide WoW Forever: Build, Talents, BiS">
 <meta name="twitter:description" content="Discipline Priest in WoW Forever: build, 51-point talents, gear, rotation and stat priorities. Updated Nov 10, 2026.">
 <meta name="twitter:image" content="https://brokenmeta.gg/assets/img/og-image.png">
-<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=c4fc8d1c05">
-<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=c4fc8d1c05">
+<link rel="icon" type="image/svg+xml" href="../../../../../favicon.svg?v=1237de3971">
+<link rel="icon" type="image/png" sizes="512x512" href="../../../../../favicon-google.png?v=1237de3971">
 <!-- PWA: installable "Add to Home Screen" -- manifest.webmanifest + sw.js
      live at the site root (see build_site.py) so one registration covers
      both FR and /en/ pages. -->
@@ -72,7 +72,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cal+Sans&family=Afacad+Flux:wght@400;500;600&family=Space+Mono:wght@400;700&display=swap">
-<link rel="stylesheet" href="../../../../../assets/css/style.css?v=c4fc8d1c05">
+<link rel="stylesheet" href="../../../../../assets/css/style.css?v=1237de3971">
 
 <!-- Wowhead's own tooltip widget (https://www.wowhead.com/tooltips): hovering any wowhead.com/forever/... link
      on this page shows Wowhead's live tooltip (icon, real stats, quality colour) fetched straight from Wowhead
@@ -84,6 +84,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "World of Warcraft: Forever", "item": "https://brokenmeta.gg/en/"}, {"@type": "ListItem", "position": 2, "name": "Priest \u00b7 Discipline", "item": "https://brokenmeta.gg/en/wow-forever/guides/priest/discipline/"}]}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Discipline Priest: specialization guide", "description": "Discipline Priest in WoW Forever: build, 51-point talents, gear, rotation and stat priorities. Updated Nov 10, 2026.", "mainEntityOfPage": {"@type": "WebPage", "@id": "https://brokenmeta.gg/en/wow-forever/guides/priest/discipline/"}, "author": {"@type": "Organization", "name": "BrokenMeta.gg"}, "publisher": {"@type": "Organization", "name": "BrokenMeta.gg"}, "dateModified": "2026-11-10"}</script>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Is Discipline Priest a good spec in WoW Forever?", "acceptedAnswer": {"@type": "Answer", "text": "The simulator does not rank healers yet, so we show no figure for Discipline Priest. The guide gives the talent build, the rotation read from the client's numbers and the stat priorities."}}, {"@type": "Question", "name": "Which talents should Discipline Priest take?", "acceptedAnswer": {"@type": "Answer", "text": "Our simulator's build uses 51 points, split Discipline 31 / Holy 20."}}, {"@type": "Question", "name": "What gear should Discipline Priest wear?", "acceptedAnswer": {"@type": "Answer", "text": "There is no simulated gear list for healers: the simulator does not model healing over a full fight yet. Stat priority: Healing Power > Mp5 > Spirit."}}, {"@type": "Question", "name": "What rotation does Discipline Priest play?", "acceptedAnswer": {"@type": "Answer", "text": "Opening: Power Word: Shield on the target about to be hit (942 absorbed for 500 mana: inefficient, use it for timing, not volume) ; Penance on cooldown (12 s cooldown, instant) ; Renew on the tank (3.35 healing per mana) and Greater Heal as the main heal (3.18 per mana); critical heals create a shield with Divine Aegis."}}, {"@type": "Question", "name": "How do I level Discipline Priest from 1 to 60?", "acceptedAnswer": {"@type": "Answer", "text": "The first talent point comes at level 10, then one per level up to 51 at level 60. The guide gives the talent order step by step (derived from the level-60 build, not tested while leveling), the dungeons of each level band and the spec's best item in each."}}, {"@type": "Question", "name": "Where can Discipline Priest find gear before level 60?", "acceptedAnswer": {"@type": "Answer", "text": "Our dungeon finder shows, for every dungeon, the best item for this spec according to the simulator's stat weights."}}]}</script>
+
+<link rel="stylesheet" href="../../../../../assets/css/wow-duo.css?v=8a582ae575">
 
 </head>
 <body>
@@ -349,9 +351,11 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="gs-toc" aria-label="Contents">
   <a href="#gs-talents">Talents</a>
   <a href="#gs-leveling">Leveling</a>
+  
   <a href="#gs-launch">At launch</a>
   <a href="#gs-stats">Stats</a>
   <a href="#gs-rotation">Rotation</a>
+  <a href="#gs-duo">1 or 5 allies</a>
   <a href="#gs-prof">Professions</a>
   <a href="#gs-gear">Gear</a>
   <a href="#gs-cons">Consumables</a>
@@ -359,6 +363,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
 
 <div class="gs-grid gs-first">
+
 
 <section class="gs-tile" id="gs-talents">
   <div class="gs-th"><h2 class="gs-h2">Talent template (level 60)</h2></div>
@@ -697,14 +702,80 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <section class="gs-tile">
   
   <div class="gs-th"><h2 class="gs-h2">Healing spell efficiency at level 60</h2></div>
-  <p class="rs-hint">Computed from the client numbers at 350 healing power, without talents. &#34;Healing per mana&#34; compares mana efficiency; &#34;healing per second&#34; counts at least 1.5 s per spell (the minimum time between two spells); area spells are shown for one target, then for all targets hit.</p>
+  <p class="rs-hint">Theoretical healing per second of each spell, computed from the client numbers at 596 healing power: that of the 17 items on the Best in Slot list of this spec&#39;s Wowhead guide. Unlimited mana, no crit, no talents or enchantments: this compares spells, it is not a combat HPS. &#34;Healing per second&#34; counts at least 1.5 s per spell; area spells are shown for one target, then for all targets hit. <a class="wg-link" href="https://www.wowhead.com/forever/guide/classes/priest/discipline/bis-gear" rel="noopener nofollow" target="_blank">Wowhead BiS list ↗</a></p>
   <div class="rs-table-wrap"><table class="rs-table">
     <thead><tr><th>Spell</th><th class="nums">Cast</th><th class="nums">Mana</th><th class="nums">Healing per cast</th><th class="nums">Healing per mana</th><th class="nums">Healing per second</th><th class="nums">All targets</th></tr></thead>
-    <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=425277" rel="noopener nofollow" target="_blank">Renew</a></td><td class="nums">instant</td><td class="nums">410</td><td class="nums">1,372</td><td class="nums">3.35</td><td class="nums">915</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=8812" rel="noopener nofollow" target="_blank">Heal</a></td><td class="nums">4 s</td><td class="nums">450</td><td class="nums">1,458</td><td class="nums">3.24</td><td class="nums">364</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25314" rel="noopener nofollow" target="_blank">Greater Heal</a></td><td class="nums">3 s</td><td class="nums">710</td><td class="nums">2,260</td><td class="nums">3.18</td><td class="nums">753</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27608" rel="noopener nofollow" target="_blank">Flash Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,052</td><td class="nums">2.77</td><td class="nums">701</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=1240774" rel="noopener nofollow" target="_blank">Binding Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">992</td><td class="nums">2.61</td><td class="nums">661</td><td class="nums">×2 : 5.22</td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27607" rel="noopener nofollow" target="_blank">Power Word: Shield</a> <span class="rs-hint">absorb</span></td><td class="nums">instant</td><td class="nums">500</td><td class="nums">942</td><td class="nums">1.88</td><td class="nums">628</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25316" rel="noopener nofollow" target="_blank">Prayer of Healing</a></td><td class="nums">3 s</td><td class="nums">1,070</td><td class="nums">749</td><td class="nums">0.70</td><td class="nums">250</td><td class="nums">×5 : 3.50</td></tr></tbody>
+    <tbody><tr><td><a href="https://www.wowhead.com/forever/spell=425277" rel="noopener nofollow" target="_blank">Renew</a></td><td class="nums">instant</td><td class="nums">410</td><td class="nums">1,655</td><td class="nums">4.04</td><td class="nums">1,104</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=8812" rel="noopener nofollow" target="_blank">Heal</a></td><td class="nums">4 s</td><td class="nums">450</td><td class="nums">1,704</td><td class="nums">3.79</td><td class="nums">426</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25314" rel="noopener nofollow" target="_blank">Greater Heal</a></td><td class="nums">3 s</td><td class="nums">710</td><td class="nums">2,471</td><td class="nums">3.48</td><td class="nums">824</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27608" rel="noopener nofollow" target="_blank">Flash Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,157</td><td class="nums">3.05</td><td class="nums">772</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=1240774" rel="noopener nofollow" target="_blank">Binding Heal</a></td><td class="nums">1.5 s</td><td class="nums">380</td><td class="nums">1,097</td><td class="nums">2.89</td><td class="nums">732</td><td class="nums">×2 : 5.78</td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=27607" rel="noopener nofollow" target="_blank">Power Word: Shield</a> <span class="rs-hint">absorb</span></td><td class="nums">instant</td><td class="nums">500</td><td class="nums">942</td><td class="nums">1.88</td><td class="nums">628</td><td class="nums"></td></tr><tr><td><a href="https://www.wowhead.com/forever/spell=25316" rel="noopener nofollow" target="_blank">Prayer of Healing</a></td><td class="nums">3 s</td><td class="nums">1,070</td><td class="nums">819</td><td class="nums">0.77</td><td class="nums">273</td><td class="nums">×5 : 3.83</td></tr></tbody>
   </table></div>
   <p class="rs-hint">Talent spells or spells without a usable number in the client: Prayer of Mending, Penance, Holy Nova, Power Infusion.</p>
   
 </section>
+
+<section class="gs-tile duo" id="gs-duo">
+  <div class="gs-th"><h2 class="gs-h2">On 1 ally or on 5 allies</h2></div>
+  <p class="rs-hint duo-p">The same computation, once when a single ally needs healing and once when the whole party (5 players) does. Area spells heal every hurt ally they can reach; Chain Heal jumps to 3 targets, each jump healing half the one before (client data). A heal over time cast again on the same ally replaces the running one: on a single ally, chaining Renew or Rejuvenation only gives the part that is not overwritten, while on 5 allies they can be rolled.</p>
+  <div class="duo-k">
+    
+    <div class="duo-kc">
+      <span class="duo-kl">1 hurt ally</span>
+      <span class="duo-kv"><b class="nums">824</b> <span class="duo-u">healing/s</span></span>
+      <span class="duo-ks">Greater Heal, the best spell to chain · the most mana-efficient: Heal (3.79 healing per mana)</span>
+    </div>
+    
+    <div class="duo-kc is-b">
+      <span class="duo-kl">5 hurt allies</span>
+      <span class="duo-kv"><b class="nums">1,463</b> <span class="duo-u">healing/s</span></span>
+      <span class="duo-ks">Binding Heal, the best spell to chain · the most mana-efficient: Binding Heal (5.78 healing per mana)</span>
+    </div>
+    
+  </div>
+  
+  
+  
+  <div class="rs-table-wrap"><table class="rs-table duo-t">
+    <thead><tr><th>Spell</th><th class="nums">Max targets</th><th class="duo-col">1 hurt ally</th><th class="duo-col is-b">5 hurt allies</th></tr></thead>
+    <tbody><tr class="is-up">
+      <td><a href="https://www.wowhead.com/forever/spell=1240774" rel="noopener nofollow" target="_blank">Binding Heal</a></td>
+      <td class="nums">2</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 50.0%"></i></span><span class="nums">732</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 100.0%"></i></span><span class="nums">1,463</span></span></td>
+    </tr><tr class="is-up">
+      <td><a href="https://www.wowhead.com/forever/spell=25316" rel="noopener nofollow" target="_blank">Prayer of Healing</a></td>
+      <td class="nums">5</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 18.7%"></i></span><span class="nums">273</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 93.3%"></i></span><span class="nums">1,366</span></span></td>
+    </tr><tr>
+      <td><a href="https://www.wowhead.com/forever/spell=25314" rel="noopener nofollow" target="_blank">Greater Heal</a></td>
+      <td class="nums">1</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 56.3%"></i></span><span class="nums">824</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 56.3%"></i></span><span class="nums">824</span></span></td>
+    </tr><tr>
+      <td><a href="https://www.wowhead.com/forever/spell=27608" rel="noopener nofollow" target="_blank">Flash Heal</a></td>
+      <td class="nums">1</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 52.7%"></i></span><span class="nums">772</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 52.7%"></i></span><span class="nums">772</span></span></td>
+    </tr><tr>
+      <td><a href="https://www.wowhead.com/forever/spell=27607" rel="noopener nofollow" target="_blank">Power Word: Shield</a> <span class="rs-hint">4 s cooldown</span></td>
+      <td class="nums">1</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 42.9%"></i></span><span class="nums">628</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 42.9%"></i></span><span class="nums">628</span></span></td>
+    </tr><tr class="is-up">
+      <td><a href="https://www.wowhead.com/forever/spell=425277" rel="noopener nofollow" target="_blank">Renew</a></td>
+      <td class="nums">1</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 7.5%"></i></span><span class="nums">110</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 37.7%"></i></span><span class="nums">552</span></span></td>
+    </tr><tr>
+      <td><a href="https://www.wowhead.com/forever/spell=8812" rel="noopener nofollow" target="_blank">Heal</a></td>
+      <td class="nums">1</td>
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: 29.1%"></i></span><span class="nums">426</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: 29.1%"></i></span><span class="nums">426</span></span></td>
+    </tr></tbody>
+  </table></div>
+  
+  <p class="rs-hint">Healing per second when the spell is cast over and over (at least 1.5 s per spell): a spell with a cooldown cannot be chained, its value is that of one cast. Unlimited mana, no crit or talents, no overhealing.</p>
+</section>
+
+
 
 
 
@@ -860,10 +931,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 })();
 </script>
 <script>window.BM_ROOT = "../../../../../";</script>
-<script src="../../../../../assets/js/copy-comp.js?v=c4fc8d1c05" defer></script>
-<script src="../../../../../assets/js/champ-icons.js?v=c4fc8d1c05" defer></script>
-<script src="../../../../../assets/js/site-search.js?v=c4fc8d1c05" defer></script>
-<script src="../../../../../assets/js/favorites.js?v=c4fc8d1c05" defer></script>
+<script src="../../../../../assets/js/copy-comp.js?v=1237de3971" defer></script>
+<script src="../../../../../assets/js/champ-icons.js?v=1237de3971" defer></script>
+<script src="../../../../../assets/js/site-search.js?v=1237de3971" defer></script>
+<script src="../../../../../assets/js/favorites.js?v=1237de3971" defer></script>
 <script src="../../../../../assets/js/consent.js?v=bd19999519" defer></script>
 
 <script>

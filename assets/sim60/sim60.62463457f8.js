@@ -195,6 +195,8 @@ class Sim {
     // tanking: a per-run copy of the defensive stats, the counters the batch runner averages, a threat hook
     this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
     this.threatMult = null; this.takenMult = 1; this.bossHooks = []; this.blockBonus = null;
+    // several enemies (tank pages, 1 vs 5 targets): nT mobs, the threat kept per mob; tgt = the mob the hit being recorded lands on, swinger = the mob whose swing the boss hooks hear
+    this.nT = Math.max(1, cfg.targets | 0 || 1); this.tgt = 0; this.swinger = 0; this.tThreat = new Array(this.nT).fill(0);
     this.spec = cfg.spec; this.spec.setup(this);
     if (cfg.player.windfuryTotem && cfg.player.weapons.length && !cfg.player.ranged && !this.noWindfuryTotem) this._setupWindfuryTotem();
     attachEffects(this);
@@ -251,11 +253,15 @@ class Sim {
     e.dmg += amount; this.total += amount;
     if (this.recordHook) this.recordHook(source, amount);
     if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
-    if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
+    if (this.threatMult) { const x = amount * this.threatMult(source); this.counters.threat = (this.counters.threat || 0) + x; this.tThreat[this.tgt] += x; }
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
   }
   addC(name, v = 1) { this.counters[name] = (this.counters[name] || 0) + v; }
-  threat(n) { this.counters.threat = (this.counters.threat || 0) + n; }
+  threat(n) { this.counters.threat = (this.counters.threat || 0) + n; this.tThreat[this.tgt] += n; }
+  // threat that is not aimed at a mob (rage gained without a hit): shared between every mob in combat (Classic rule, as healing threat)
+  threatSplit(n) { this.counters.threat = (this.counters.threat || 0) + n; for (let i = 0; i < this.nT; i++) this.tThreat[i] += n / this.nT; }
+  // the same hit on the first k mobs (area abilities): fn(i) runs with tgt = i
+  onTargets(k, fn) { const n = Math.min(k, this.nT); for (let i = 0; i < n; i++) { this.tgt = i; fn(i); } this.tgt = 0; return n; }
   // The raid boss swings at the tank (Classic attack table of a level-63 mob against a level-60 player; ASSUMED where noted).
   _bossSwing(boss) {
     const t = this.tank, adj = (t.defense - 5 * boss.level) * 0.0004;       // each defense point above the boss skill: 0.04% on every roll
@@ -274,8 +280,14 @@ class Sim {
     for (let i = 0; i < this.bossHooks.length; i++) this.bossHooks[i](this, out, dmg);
   }
   _startBoss() {
-    const boss = this.target.boss, swing = () => { this._bossSwing(boss); this.schedule(boss.speed, swing); };
-    this.schedule(boss.first === undefined ? 1.0 : boss.first, swing);
+    const boss = this.target.boss, first = boss.first === undefined ? 1.0 : boss.first;
+    if (this.nT === 1) { const swing = () => { this._bossSwing(boss); this.schedule(boss.speed, swing); }; this.schedule(first, swing); return; }
+    // several mobs: the same incoming damage as the boss, shared between nT mobs that swing at the same speed, their swings spread over the swing timer (ASSUMED)
+    const mob = Object.assign({}, boss, { dmg: boss.dmg / this.nT });
+    for (let i = 0; i < this.nT; i++) {
+      const swing = () => { this.swinger = i; this._bossSwing(mob); this.swinger = 0; this.schedule(mob.speed, swing); };
+      this.schedule(first + i * mob.speed / this.nT, swing);
+    }
   }
   mitigate(raw, physical) { return physical ? raw * (1 - this.dr) : raw; }
 
@@ -413,6 +425,7 @@ class Sim {
     }
     this.now = this.fightLen;
     for (const a of this.auras) a.finish();
+    if (this.nT > 1) for (let i = 0; i < this.nT; i++) this.counters['threat_t' + i] = this.tThreat[i];
     return this;
   }
 }
@@ -4028,7 +4041,12 @@ function paladinRetKit(build = {}, data = null) {
 // ladders (data/spells60.json: extra) and the Forever talent tooltips. ASSUMED (Classic style): Defensive Stance (+30% threat, -10% damage taken
 // and dealt), Righteous Fury (+60% holy threat: from the client), Dire Bear Form threat +30%, the flat threat of Shield Slam, the boss swing
 // (2.0 s, 9000 damage, +-15%), Seal of Righteousness' per-swing damage, Holy Shield's 8 charges, the bear's natural weapon, block value 40 + Strength / 20.
-// Not simulated: Taunt, Concussion Blow, Shield Wall / Last Stand / Templar's Bulwark (emergency cooldowns), threat of Thunder Clap and Consecration (area).
+// Not simulated: Taunt, Concussion Blow, Shield Wall / Last Stand / Templar's Bulwark (emergency cooldowns), the attack-speed slow of Thunder Clap and the attack power cut of
+// Demoralizing Shout / Roar on the mobs.
+// Several enemies (sim.nT > 1, the 1 vs 5 targets section of the tank pages): the area abilities hit the first mobs, the single-target ones the main mob; the numbers of the
+// area abilities are the game files' read by WoWSims Forever (sim/core/spelldata/spells_auto_gen.go, MIT): Thunder Clap rank 6 (4 mobs, 103 + 7 % AP, spell hit table, threat x1),
+// Cleave rank 5 (2 mobs, weapon + 50, 96 flat threat shared by the mobs hit), Consecration rank 5 (8 ticks, 12 Holy on every mob + 27 + 4.2 % SP on the first 4), Swipe rank 5
+// (3 mobs, 83 + 3 % AP, threat x1.75 as WoWSims), Demoralizing Shout rank 5 / Roar rank 5 (47.8 / 48.4 threat on every mob at level 60).
 
 const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
 
@@ -4041,6 +4059,7 @@ const WARRIOR_PROT = {
   sunder: { cost: 15, threat: 206, apCoeff: 0.05, armor: 450, maxStacks: 5, dur: 30 }, shieldBlock: { cost: 10, cd: 5, dur: 7, charges: 2, block: 0.75 }, heroicStrike: { cost: 15, flat: 157, threat: 152.4 }, bloodrage: { immediate: 10, overTime: 10, cd: 60 },
   shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.2 / 3 },
   bastion: { dmg: 0.02 }, focusedRage: { cost: 1 }, masterOfDefense: { rage: 5, chance: 0.5 }, improvedSunder: { cost: 1 },
+  thunderClap: { cost: 20, cd: 6, dmg: 103, apCoeff: 0.07, targets: 4 }, cleave: { cost: 20, flat: 50, targets: 2, threat: 96 }, demoShout: { cost: 10, dur: 45, threat: 47.8 },      // area (several mobs only)
 };
 const WARRIOR_PROT_DEFAULT_BUILD = {
   deflection: 0, improvedHeroicStrike: 0, shieldSpec: 0, anticipation: 0, toughness: 0, improvedRevenge: 0, defiance: 0, bastion: 0, focusedRage: 0, masterOfDefense: 0, improvedSunder: 0, shieldSlam: 0, improvedBloodrage: 0,
@@ -4055,6 +4074,8 @@ function warriorProtKit(build = {}, data = null) {
   if (rv) { W.revenge.cost = rg(rv); W.revenge.cd = rv.cooldown_ms / 1000; const e = rv.effects.find((x) => x.effect === 2); W.revenge.dmg = e.base; W.revenge.var = e.variance; }
   if (su) { W.sunder.cost = rg(su); const e = su.effects.find((x) => x.effect === 63); if (e) W.sunder.threat = e.base; }
   if (hs) { W.heroicStrike.cost = rg(hs); W.heroicStrike.flat = hs.effects.find((x) => x.effect === 17).base; }
+  const tc = pickRank(data, 'warrior', null, 'Thunder Clap');
+  if (tc) { W.thunderClap.cost = rg(tc); W.thunderClap.cd = tc.cooldown_ms / 1000; W.thunderClap.dmg = tc.effects.find((x) => x.effect === 2).base; }
   return {
     name: 'warrior_protection', build: b, W,
     setup(sim) {
@@ -4081,7 +4102,17 @@ function warriorProtKit(build = {}, data = null) {
         const o = yellowAttack(s, 'Heroic Strike', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.heroicStrike.flat);
         if (o !== 'miss' && o !== 'dodge') s.threat(W.heroicStrike.threat * s.threatMult());      // flat threat of the client row (Forever)
       } });
-      sim.rageThreat = (x) => { sim.gainRage(x); sim.threat(5 * x * sim.threatMult()); };      // rage not made by hitting or being hit makes 5 threat each (Forever ThreatPerRageGained)
+      // Cleave (several mobs): the next swing hits 2 mobs for weapon + 50; the 96 flat threat is shared by the mobs it lands on (WoWSims heroic_strike_cleave.go)
+      const clCost = () => Math.max(0, W.cleave.cost - W.focusedRage.cost * b.focusedRage);
+      sim.sCL = sim.addSpell({ name: 'Cleave', cost: clCost, onSwing(s, sw) {
+        s.spendRage(clCost()); s.entry('Cleave').casts++;
+        const landed = [];
+        s.onTargets(W.cleave.targets, (i) => { const o = yellowAttack(s, 'Cleave', () => s.weaponRoll(sw.w) + s.ap() / 14 * sw.w.speed + W.cleave.flat, { refund: i === 0 }); if (o !== 'miss' && o !== 'dodge') landed.push(i); });
+        for (const i of landed) { s.tgt = i; s.threat(W.cleave.threat / landed.length * s.threatMult()); }
+        s.tgt = 0;
+      } });
+      sim.rageThreat = (x) => { sim.gainRage(x); sim.threatSplit(5 * x * sim.threatMult()); };      // rage not made by hitting or being hit makes 5 threat each (Forever ThreatPerRageGained), shared by the mobs
+      sim.demoUntil = -1;
       sim.revengeUntil = -1;
       // Shield Block (client row 2565): off the global cooldown, +75 % block chance for 7 s or 2 blocks
       sim.sSB = sim.addSpell({ name: 'Shield Block', cd: W.shieldBlock.cd, cost: () => W.shieldBlock.cost });
@@ -4112,10 +4143,28 @@ function warriorProtKit(build = {}, data = null) {
         sim.spendRage(W.shieldBlock.cost); sim.sSB.readyAt = now + W.shieldBlock.cd; sim.entry('Shield Block').casts++;
         sim.sbUntil = now + W.shieldBlock.dur; sim.sbCharges = W.shieldBlock.charges;
       }
-      if (b.useHeroicStrike && !sim.mhQueued && sim.rage >= sim.sHS.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = sim.sHS;
+      const aoe = sim.nT > 1, swingSpell = aoe ? sim.sCL : sim.sHS;
+      if (b.useHeroicStrike && !sim.mhQueued && sim.rage >= swingSpell.cost() + b.hsRageReserve && sim.player.weapons.length) sim.mhQueued = swingSpell;
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       const rage = sim.rage, ssCost = sim.sSS.cost(), rvCost = sim.sRV.cost(), suCost = Math.max(0, W.sunder.cost - W.improvedSunder.cost * b.improvedSunder);
+      if (aoe) {
+        // Thunder Clap on every cooldown: 4 mobs, spell hit table (no melee hit, no crit for a warrior), physical damage through armor, threat 1 x damage
+        if (!sim.sTC) sim.sTC = sim.addSpell({ name: 'Thunder Clap', cd: W.thunderClap.cd, cost: () => W.thunderClap.cost });
+        if (now >= sim.sTC.readyAt && rage >= W.thunderClap.cost) {
+          return castGcd(sim, sim.sTC, () => {
+            sim.spendRage(W.thunderClap.cost);
+            sim.onTargets(W.thunderClap.targets, () => {
+              const e = sim.entry('Thunder Clap');
+              if (sim.rng() < sim.target.spellMiss) { e.misses++; return; }
+              sim.record('Thunder Clap', sim.mitigate((W.thunderClap.dmg + W.thunderClap.apCoeff * sim.ap()) * sim.mods.dmgMult, true), 'hit');
+            });
+          });
+        }
+        if (now >= sim.demoUntil && rage >= W.demoShout.cost) {
+          return castGcd(sim, spell('Demoralizing Shout'), () => { sim.spendRage(W.demoShout.cost); sim.demoUntil = now + W.demoShout.dur; sim.onTargets(sim.nT, () => sim.threat(W.demoShout.threat * sim.threatMult())); });
+        }
+      }
       if (b.shieldSlam && sim.tank.shield && now >= sim.sSS.readyAt && rage >= ssCost) {
         return castGcd(sim, sim.sSS, () => {
           sim.spendRage(ssCost);
@@ -4156,6 +4205,7 @@ const PALADIN_PROT = {
   rf: { threat: 1.33, holy: 2.23 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, precision: { hit: 0.01 }, oneHand: { dmg: 0 }, improvedRf: { taken: 0.03 },
   reckoning: { chance: 0.08 }, redoubt: { chance: 0.02, block: 0.20, blocks: 5, dur: 10 }, ironCreed: { threat: 0.10 }, sacredDuty: { sta: 0.02 },
   manaPotion: { cd: 120, min: 1350, max: 2250 },
+  consecration: { cost: 565, cd: 8, ticks: 8, tick: 12, bonus: 27, bonusCoeff: 0.042, bonusTargets: 4 },      // rank 5 (several mobs only)
 };
 const PALADIN_PROT_DEFAULT_BUILD = {
   anticipation: 0, toughness: 0, deflection: 0, precision: 0, oneHandWeaponSpecialization: 0, improvedRighteousFury: 0, reckoning: 0, redoubt: 0, ironCreed: 0, sacredDuty: 0, holyShield: 0, swiftJudgement: 0,
@@ -4192,7 +4242,7 @@ function paladinProtKit(build = {}, data = null) {
         // active block bonuses
         if (dmg > 0 && b.redoubt && s.now >= s.redoubtUntil && s.rng() < P.redoubt.chance * b.redoubt) { s.redoubtUntil = s.now + P.redoubt.dur; s.redoubtBlocks = P.redoubt.blocks; }
         if (out === 'block') {
-          if (s.now < s.hsUntil && s.hsCharges > 0) { s.hsCharges--; s.entry('Holy Shield').hits++; holy('Holy Shield', P.holyShield.dmg + (st.sp || 0) * 0.0); }
+          if (s.now < s.hsUntil && s.hsCharges > 0) { s.hsCharges--; s.entry('Holy Shield').hits++; s.tgt = s.swinger; holy('Holy Shield', P.holyShield.dmg + (st.sp || 0) * 0.0); s.tgt = 0; }      // the blocked mob takes the hit
           if (s.redoubtBlocks > 0) s.redoubtBlocks--;
           if (b.reckoning && s.rng() < P.reckoning.chance * b.reckoning) s.whiteAttack(s.swings[0]);
         }
@@ -4224,6 +4274,12 @@ function paladinProtKit(build = {}, data = null) {
         sim.schedule(P.holyShield.dur, () => { sim.tank.block = sim.baseBlock + (sim.now < sim.redoubtUntil && sim.redoubtBlocks > 0 ? P.redoubt.block : 0); });
         return 1.5;
       }
+      // Consecration (several mobs): 8 ticks of 1 s, every mob takes 12 Holy, the first 4 also 27 + 4.2 % of the spell power (WoWSims consecration.go)
+      if (sim.nT > 1 && now >= (sim.cd.cons || 0) && sim.mana >= P.consecration.cost) {
+        const C = P.consecration; sim.cd.cons = now + C.cd; spendMana(sim, C.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Consecration').casts++;
+        for (let k = 1; k <= C.ticks; k++) sim.schedule(k, () => sim.onTargets(sim.nT, (i) => sim.holy('Consecration', C.tick + (i < C.bonusTargets ? C.bonus + (st.sp || 0) * C.bonusCoeff : 0))));
+        return 1.5;
+      }
       if (now >= sim.cd.holyStrike && sim.mana >= P.holyStrike.cost && sim.player.weapons.length) {
         sim.cd.holyStrike = now + P.holyStrike.cd; spendMana(sim, P.holyStrike.cost); sim.lastCastAt = now; sim.gcdReadyAt = now + 1.5; sim.entry('Holy Strike').casts++;
         const w = sim.player.weapons[0], out = sim.resolveYellow(0, true);
@@ -4241,7 +4297,7 @@ function paladinProtKit(build = {}, data = null) {
 // Bear Druid (Dire Bear Form)
 const DRUID_BEAR = {
   armorMult: 4.6, threat: 2.15, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
-  maul: { cost: 15, flat: 128 }, swipe: { cost: 20, dmg: 83 }, lacerate: { cost: 15, tick: 15, ticks: 5, interval: 3, hit: 10 }, enrage: { rage: 10, cd: 60 },
+  maul: { cost: 15, flat: 128 }, swipe: { cost: 20, dmg: 83, apCoeff: 0.03, targets: 3, threat: 1.75 }, demoRoar: { cost: 10, dur: 30, threat: 48.4 }, lacerate: { cost: 15, tick: 15, ticks: 5, interval: 3, hit: 10 }, enrage: { rage: 10, cd: 60 },
   naturalReaction: { dodge: 0.01, rage: 5 }, feralSwiftness: { dodge: 0.02 }, thickHide: { armor: 60 }, heartOfTheWild: { sta: 0.04 }, sharpenedClaws: { crit: 0.03 },
   predatoryStrikes: { ap: 30 }, savageFury: { dmg: 0.05 }, feralInstinct: { dmg: 0.10 }, ferocity: { cost: 1 }, shreddingAttacks: { cost: 1 }, bloodFrenzy: { rage: 5, chance: 0.5 },
   leaderOfThePack: { crit: 0.03 },
@@ -4268,8 +4324,9 @@ function druidBearKit(build = {}, data = null) {
       t.armor = t.armor * B.armorMult + B.thickHide.armor * b.thickHide; t.dodge += B.naturalReaction.dodge * b.naturalReaction + B.feralSwiftness.dodge * b.feralSwiftness;
       t.health += 10 * Math.floor((t.stamina || 0) * B.heartOfTheWild.sta * b.heartOfTheWild);
       mods.apBonus += B.predatoryStrikes.ap * b.predatoryStrikes; mods.critBonus += B.sharpenedClaws.crit * b.sharpenedClaws + B.leaderOfThePack.crit * b.leaderOfThePack;
-      sim.threatMult = () => B.threat;
-      sim.rageThreat = (x) => { sim.gainRage(x); sim.threat(5 * x * sim.threatMult()); };      // rage not made by hitting or being hit: 5 threat each (Forever)
+      sim.threatMult = (name) => B.threat * (name === 'Swipe' ? B.swipe.threat : 1);      // Swipe x1.75 (WoWSims Forever swipe.go)
+      sim.rageThreat = (x) => { sim.gainRage(x); sim.threatSplit(5 * x * B.threat); };      // rage not made by hitting or being hit: 5 threat each (Forever), shared by the mobs
+      sim.demoUntil = -1;
       sim.rageCap = 100;
       sim.sEN = sim.addSpell({ name: 'Enrage', cd: B.enrage.cd, cost: () => 0 });
       const maulCost = () => Math.max(0, B.maul.cost - B.ferocity.cost * b.ferocity);
@@ -4292,6 +4349,15 @@ function druidBearKit(build = {}, data = null) {
       const gcdLeft = Math.max(0, sim.gcdReadyAt - now);
       if (gcdLeft > 0) return gcdLeft;
       const rage = sim.rage, lacCost = Math.max(0, B.lacerate.cost - B.shreddingAttacks.cost * b.shreddingAttacks), swCost = Math.max(0, B.swipe.cost - B.ferocity.cost * b.ferocity);
+      const swipeHit = () => sim.onTargets(B.swipe.targets, (i) => yellowAttack(sim, 'Swipe', () => (B.swipe.dmg + B.swipe.apCoeff * sim.ap()) * (1 + B.savageFury.dmg * b.savageFury + B.feralInstinct.dmg * b.feralInstinct), { refund: i === 0 }));
+      if (sim.nT > 1) {
+        // several mobs: Demoralizing Roar kept up, Swipe (3 mobs) before Lacerate; Primal Bite and Maul stay on the main mob
+        if (now >= sim.demoUntil && rage >= B.demoRoar.cost) return castGcd(sim, spell('Demoralizing Roar'), () => { sim.spendRage(B.demoRoar.cost); sim.demoUntil = now + B.demoRoar.dur; sim.onTargets(sim.nT, () => sim.threat(B.demoRoar.threat * B.threat)); }, 1.5);
+        if (!(b.usePrimalBite && B.primalBite && now >= (sim.pbAt || 0) && rage >= B.primalBite.cost + 2) && rage >= swCost) {
+          if (!sim.mhQueued && rage >= sim.sMaul.cost() + swCost + 5) sim.mhQueued = sim.sMaul;
+          return castGcd(sim, spell('Swipe'), () => { sim.spendRage(swCost); swipeHit(); }, 1.5);
+        }
+      }
       if (b.alwaysLacerate && rage >= lacCost && !(b.usePrimalBite && B.primalBite && now >= (sim.pbAt || 0) && rage >= B.primalBite.cost + 2)) {      // Forever APL: Lacerate whenever the rage allows (the stacks refresh the bleed)
         const w0 = sim.player.weapons[0];
         return castGcd(sim, spell('Lacerate'), () => {
@@ -4329,7 +4395,7 @@ function druidBearKit(build = {}, data = null) {
       if (b.useSwipe && rage >= swCost + 10) {
         return castGcd(sim, spell('Swipe'), () => {
           sim.spendRage(swCost);
-          yellowAttack(sim, 'Swipe', () => B.swipe.dmg * (1 + B.savageFury.dmg * b.savageFury + B.feralInstinct.dmg * b.feralInstinct));
+          swipeHit();
         }, 1.5);
       }
       return Math.max(0.1, Math.min(0.5, sim.sEN.readyAt - now));
