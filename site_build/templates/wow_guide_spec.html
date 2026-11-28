@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% import "wow_related.html" as rel %}
 {% import "macros.html" as m %}
+{% import "wow_duo.html" as dm %}
 {% block title %}{{ g_title }}{% endblock %}
 {% block description %}{{ g_desc }}{% endblock %}
 {% block og_type %}article{% endblock %}
@@ -8,6 +9,8 @@
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
 {% if faq_schema %}<script type="application/ld+json">{{ faq_schema|tojson }}</script>{% endif %}
+{% if wsb %}<link rel="stylesheet" href="{{ root }}assets/css/wow-rank-ws.css?v={{ page_css_v('wow-rank-ws.css') }}">{% endif %}
+{% if duo_tank or (lvl60 and lvl60.heal_table and lvl60.heal_table.duo) %}<link rel="stylesheet" href="{{ root }}assets/css/wow-duo.css?v={{ page_css_v('wow-duo.css') }}">{% endif %}
 {% endblock %}
 {% macro talent_card(t) %}
 <div class="wg-talent">
@@ -50,9 +53,11 @@
 <nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
   <a href="#gs-talents">Talents</a>
   {% if leveling %}<a href="#gs-leveling">Leveling</a>{% endif %}
-  {% if launch %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
+  {% if wsb %}<a href="#gs-wsbuild">{{ 'Build simulé' if fr else 'Simulated build' }}</a>{% endif %}
+  {% if launch and not wsb %}<a href="#gs-launch">{{ 'Au lancement' if fr else 'At launch' }}</a>{% endif %}
   <a href="#gs-stats">{{ 'Statistiques' if fr else 'Stats' }}</a>
   {% if lvl60.rot %}<a href="#gs-rotation">Rotation</a>{% endif %}
+  {% if duo_tank %}<a href="#gs-duo-tank">{{ '1 ou 5 ennemis' if fr else '1 or 5 enemies' }}</a>{% elif lvl60.heal_table and lvl60.heal_table.duo %}<a href="#gs-duo">{{ '1 ou 5 alliés' if fr else '1 or 5 allies' }}</a>{% endif %}
   {% if content.professions %}<a href="#gs-prof">{{ 'Métiers' if fr else 'Professions' }}</a>{% endif %}
   <a href="#gs-gear">{{ 'Équipement' if fr else 'Gear' }}</a>
   <a href="#gs-cons">{{ 'Consommables' if fr else 'Consumables' }}</a>
@@ -60,6 +65,34 @@
 
 {# Talent tree first (2026-10-18): the page was read by visitors looking for the build, and the tree sat 2.6 screens down (GA4 bounce 72 %). #}
 <div class="gs-grid gs-first">
+{% if wsb %}{% import "wow_talent_macros.html" as wtm %}
+{# The spec's simulated build (2026-11-28): the same build, numbers and trees as its ranking page (wow_rank_ws), which this block links to. #}
+<section class="gs-tile wsr" id="gs-wsbuild" style="--cc: {{ wsr.class_color or '#8a6cff' }}">
+  <div class="gs-th"><h2 class="gs-h2">{{ wstx.g_h2 }}</h2><a class="wsr-ext" href="{{ root }}{{ wsr.page_path }}">{{ wstx.g_fiche }} →</a></div>
+  <p class="gs-lede">{{ wsb.g_p }}</p>
+  <div class="gh-chips">
+    <span class="gh-chip is-gold"><b class="nums">{{ wsb.dps }}</b> DPS <span class="ws-pm nums">± {{ wsb.sem }}</span></span>
+    <span class="gh-chip"><b class="nums">#{{ wsb.rank }}</b> {{ wstx.rank }} {{ wsb.of }}</span>
+    <span class="gh-chip">{{ wstx.race }} <b>{{ wsb.race }}</b></span>
+    <span class="gh-chip nums">{{ wsb.split }}</span>
+    {% if wsb.preset != 'Default' %}<span class="gh-chip">{{ wstx.preset }} <b>{{ wsb.preset }}</b></span>{% endif %}
+  </div>
+  {% if wsb.proof %}
+  <div class="wsr-proof">
+    <div class="wsr-proof-h"><span class="wsr-seal" aria-hidden="true">✓</span><div><b>{{ wstx.check_h }}</b><span>{{ wstx.p_vs.format(b=wsb.proof.build) }}</span></div></div>
+    <div class="wsr-proof-c is-{{ wsb.proof.tal_ok }}"><span class="wsr-pl">{{ wstx.p_tal }}</span><b>{{ wsb.proof.tal }}</b></div>
+    <div class="wsr-proof-c is-{{ wsb.proof.gear_ok }}"><span class="wsr-pl">{{ wstx.p_gear }}</span><b class="nums">{{ wsb.proof.gear }}</b>{% if wsb.proof.gear_w %}<i class="wsr-meter"><i style="width: {{ wsb.proof.gear_w }}%"></i></i>{% endif %}</div>
+    <div class="wsr-proof-c is-ok"><span class="wsr-pl">{{ wstx.p_trees }}</span><b>{{ wstx.p_trees_v }}</b></div>
+  </div>
+  {% endif %}
+  {{ wtm.trees(wsb.tl, lang) }}
+  <div class="rk-links">
+    <a class="gh-btn is-primary" href="{{ root }}{{ wsr.page_path }}">{{ wstx.g_fiche }} <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="{{ root }}{{ wsb.sim_href }}">{{ wstx.sim_btn }}</a>
+    <a class="gh-btn" href="{{ wsb.calc_href }}" rel="noopener nofollow" target="_blank">{{ wstx.wh_calc }} ↗</a>
+  </div>
+</section>
+{% endif %}
 {# ---------------------------------------------------------------- Talents #}
 <section class="gs-tile" id="gs-talents">
   <div class="gs-th"><h2 class="gs-h2">{{ tx.tpl_h2.format(level=content.build.level) }}</h2></div>
@@ -116,7 +149,7 @@
 </section>
 {% endif %}
 
-{% if launch %}
+{% if launch and not wsb %}
 {# "Au lancement" (2026-10-13): the short answer, every figure from the simulator's pre-raid run (wow_launch.py). #}
 <section class="gs-tile lch-tile" id="gs-launch">
   <div class="gs-th"><h2 class="gs-h2">{{ lx.h2.format(patch=launch.patch) }}</h2></div>
@@ -251,7 +284,7 @@
 <section class="gs-tile">
   {% if lvl60.heal_table %}{% set ht = lvl60.heal_table %}
   <div class="gs-th"><h2 class="gs-h2">{{ ht.tx.h3 }}</h2></div>
-  <p class="rs-hint">{{ ht.tx.p }}</p>
+  <p class="rs-hint">{{ ht.tx.p }}{% if ht.tx.src %} <a class="wg-link" href="{{ ht.tx.src }}" rel="noopener nofollow" target="_blank">{{ ht.tx.src_l }} ↗</a>{% endif %}</p>
   <div class="rs-table-wrap"><table class="rs-table">
     <thead><tr><th>{{ ht.tx.c_spell }}</th><th class="nums">{{ ht.tx.c_cast }}</th><th class="nums">{{ ht.tx.c_cost }}</th><th class="nums">{{ ht.tx.c_heal }}</th><th class="nums">{{ ht.tx.c_hpm }}</th><th class="nums">{{ ht.tx.c_hps }}</th><th class="nums">{{ ht.tx.c_multi }}</th></tr></thead>
     <tbody>{% for r in ht.rows %}<tr><td><a href="https://www.wowhead.com/forever/spell={{ r.id }}" rel="noopener nofollow" target="_blank">{{ r.name }}</a>{% if r.extra %} <span class="rs-hint">{{ r.extra }}</span>{% endif %}</td><td class="nums">{{ r.cast }}</td><td class="nums">{{ r.cost }}</td><td class="nums">{{ r.heal }}</td><td class="nums">{{ r.hpm_txt }}</td><td class="nums">{{ r.hps }}</td><td class="nums">{{ r.multi }}</td></tr>{% endfor %}</tbody>
@@ -259,12 +292,31 @@
   <p class="rs-hint">{{ ht.tx.special }}{{ ht.special }}.</p>
   {% endif %}
 </section>
+{% if lvl60.heal_table.duo %}{{ dm.duo(lvl60.heal_table.duo) }}{% endif %}
 {% endif %}
+{% if duo_tank %}{{ dm.duo(duo_tank) }}{% endif %}
 
 {# ---------------------------------------------------------------- Gear #}
 <section class="gs-tile" id="gs-gear">
-  <div class="gs-th"><h2 class="gs-h2">{{ g60.gear_h2 }}</h2></div>
-  {% if lvl60.gear %}
+  <div class="gs-th"><h2 class="gs-h2">{{ g60.gear_h2 }}</h2>{% if wsb %}<a class="wsr-ext" href="{{ root }}{{ wsr.page_path }}#rk-gear">{{ wstx.g_fiche }} →</a>{% endif %}</div>
+  {% if wsb %}
+  <div class="wsr" style="--cc: {{ wsr.class_color or '#8a6cff' }}">
+  <p class="rs-hint">{{ wstx.g_gear_p }}</p>
+  <div class="wsr-gear">
+    {% for g in wsb.gear %}
+    <div class="wsr-it q{{ g.q }}">
+      <span class="wsr-ico">{% if g.icon %}<img src="{{ g.icon }}" alt="" width="40" height="40" loading="lazy">{% endif %}</span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">{{ g.slot }}</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name }}</a>
+        {% if g.src or g.extra %}<span class="wsr-src">{% if g.path %}<a href="{{ root }}{{ g.path }}">{{ g.src }}</a>{% else %}{{ g.src }}{% endif %}{% if g.extra %}{{ ' — ' if g.src }}{{ g.extra }}{% endif %}</span>{% endif %}
+        {% if g.ench %}<a class="wsr-ench" href="{{ g.ench.href }}" rel="noopener nofollow" target="_blank">✦ {{ g.ench.name }}</a>{% endif %}
+      </span>
+    </div>{% endfor %}
+  </div>
+  {% if wsb.sets %}<div class="wsr-sets"><span class="wsr-k">{{ wstx.sets }}</span>{% for x in wsb.sets %}<span class="wsr-chip">{{ x }}</span>{% endfor %}</div>{% endif %}
+  </div>
+  {% elif lvl60.gear %}
   {% for blk in lvl60.gear %}{% if blk.label %}<h3 class="gs-sub">{{ blk.label }}</h3>{% endif %}
   <div class="gs-gear">
     {% for g in blk['items'] %}
@@ -289,7 +341,13 @@
 
 {# ---------------------------------------------------------------- Consumables #}
 <section class="gs-tile" id="gs-cons">
-  {% if lvl60.cons %}
+  {% if wsb %}
+  <div class="gs-th"><h2 class="gs-h2">{{ g60.cons_h2 }}</h2></div>
+  <div class="wsr" style="--cc: {{ wsr.class_color or '#8a6cff' }}">
+  <p class="rs-hint">{{ wstx.g_cons_p }}</p>
+  <ul class="wsr-chips">{% for c in wsb.cons %}<li><a class="rs-spell" href="{{ c.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ c.name }}</a> <span class="rs-hint">{{ c.kind }}</span></li>{% endfor %}</ul>
+  </div>
+  {% elif lvl60.cons %}
   <div class="gs-th"><h2 class="gs-h2">{{ g60.cons_h2 }}</h2><span class="gs-meta">{{ g60.cons_chosen }} ●</span></div>
   {% for cb in lvl60.cons %}{% if cb.label %}<h3 class="gs-sub">{{ cb.label }}</h3>{% endif %}
   <div class="gs-cons">

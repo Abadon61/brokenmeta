@@ -1,0 +1,36 @@
+{# One target against five (healers: hurt allies, tanks: enemies). d = {id, h2, p, unit, kpis[{label, value, unit?, sub}], bars?{h, rows[{label, value, w, main}]},
+   ca, cb, c_name, c_n?, rows[{name, href?, n?, a, b, wa, wb, up, note}], foot}. Styles: css/wow-duo.css. #}
+{% macro duo(d) %}
+<section class="gs-tile duo" id="{{ d.id or 'gs-duo' }}">
+  <div class="gs-th"><h2 class="gs-h2">{{ d.h2 }}</h2></div>
+  <p class="rs-hint duo-p">{{ d.p }}</p>
+  <div class="duo-k">
+    {% for k in d.kpis %}
+    <div class="duo-kc{% if loop.index == 2 %} is-b{% endif %}">
+      <span class="duo-kl">{{ k.label }}</span>
+      <span class="duo-kv"><b class="nums">{{ k.value }}</b> <span class="duo-u">{{ k.unit or d.unit }}</span></span>
+      {% if k.sub %}<span class="duo-ks">{{ k.sub }}</span>{% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  {% if d.bars %}
+  <h3 class="duo-h3">{{ d.bars.h }}</h3>
+  <ul class="duo-bars">
+    {% for b in d.bars.rows %}<li{% if b.main %} class="is-main"{% endif %}><span class="duo-bl">{{ b.label }}</span><span class="duo-meter"><i style="width: {{ b.w }}%"></i></span><b class="nums">{{ b.value }}</b></li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% if d.rows %}
+  {% if d.rows_h %}<h3 class="duo-h3">{{ d.rows_h }}</h3>{% endif %}
+  <div class="rs-table-wrap"><table class="rs-table duo-t">
+    <thead><tr><th>{{ d.c_name }}</th>{% if d.c_n %}<th class="nums">{{ d.c_n }}</th>{% endif %}<th class="duo-col">{{ d.ca }}</th><th class="duo-col is-b">{{ d.cb }}</th></tr></thead>
+    <tbody>{% for r in d.rows %}<tr{% if r.up %} class="is-up"{% endif %}>
+      <td>{% if r.href %}<a href="{{ r.href }}" rel="noopener nofollow" target="_blank">{{ r.name }}</a>{% else %}{{ r.name }}{% endif %}{% if r.note %} <span class="rs-hint">{{ r.note }}</span>{% endif %}</td>
+      {% if d.c_n %}<td class="nums">{{ r.n }}</td>{% endif %}
+      <td class="duo-col"><span class="duo-cell"><span class="duo-meter"><i style="width: {{ r.wa }}%"></i></span><span class="nums">{{ r.a }}</span></span></td>
+      <td class="duo-col is-b"><span class="duo-cell"><span class="duo-meter"><i style="width: {{ r.wb }}%"></i></span><span class="nums">{{ r.b }}</span></span></td>
+    </tr>{% endfor %}</tbody>
+  </table></div>
+  {% endif %}
+  {% if d.foot %}<p class="rs-hint">{{ d.foot }}</p>{% endif %}
+</section>
+{% endmacro %}

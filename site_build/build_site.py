@@ -139,7 +139,7 @@ def build_wow_ranking60(wt_classes, lang, fname="wow_ranking60.json"):
         }
         row["page_path"] = f"wow-forever/classement/{row['slug']}/" if row["detail"] else row["guide_path"]      # the detail page needs the simulator's detail data
         if r["role"] == "tank":
-            row.update({"tps": r["tps"], "dtps": r["dtps"], "health": r["health"], "dps": r["tps"]})
+            row.update({"tps": r["tps"], "dtps": r["dtps"], "health": r["health"], "dps": r["tps"], "aoe": r.get("aoe"), "spells": r.get("spells") or []})
             tank_rows.append(row)
         else:
             dps_rows.append(row)
@@ -415,7 +415,16 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
         "rotation": wow_rank_texts.ROTATION[r["spec_id"]][lang],
         "opening": opening, "abilities": abilities, "uptimes": d.get("uptimes") or [], "trees": trees, "gear": items,
         "effects": d.get("effects") or [], "setup": [g for g in setup_groups if g["items"]], "prio": prio, "curves": curves, "procs": procs, "tl": tl, "alt": alt, "stats": stats, "prev": rlist[i - 1] if i > 0 else None, "next": rlist[i + 1] if i + 1 < len(rlist) else None,
+        "duo": _tank_duo(lang, r),
     }
+    # WoWSims' threat for the tank presets it publishes (wowsims_rank/run_tanks.py): shown next to our figure, the ranking stays on our simulator (2026-11-28)
+    _tf = PROJECT / "data" / "wow_tanks_wowsims.json"
+    _trows = [x for x in (json.loads(_tf.read_text(encoding="utf-8"))["rows"] if _tf.exists() else []) if x["spec"] == r["spec_id"]] if r["role"] == "tank" else []
+    if _trows:
+        _n = lambda v: f"{v:,.0f}".replace(",", " " if lang == "fr" else ",")
+        _parts = ", ".join(f"{_n(x['tps'])} TPS ({(x['preset'] or '').replace('Pre-BiS - ', '')})" for x in _trows)
+        pg["ws_tank"] = (f"Avec le moteur WoWSims et les préréglages Pre-BiS de wowsims.com (sans objet de raid) : {_parts}. Le classement des tanks reste calculé par notre simulateur, avec un autre équipement : les deux chiffres ne se comparent pas directement."
+                         if lang == "fr" else f"With the WoWSims engine and the Pre-BiS presets of wowsims.com (no raid item): {_parts}. The tank ranking is still computed by our simulator, with other gear: the two figures do not compare directly.")
     if r["role"] == "tank":                      # tanks are ranked by threat, not damage
         swap = (("DPS par technique", "menace et dégâts par technique"), ("et DPS", "et menace"), ("DPS", "menace")) if lang == "fr" else (("DPS by ability", "threat and damage by ability"), ("and DPS", "and threat"), ("DPS", "threat"))
         for k in ("title", "desc", "h1", "intro"):
@@ -462,7 +471,17 @@ def _render_rank_ws(render, canonical_for, lang, wow_ui, r, rlist, i):
     return True
 
 
-def _healing_table(lang, cls_id, power=350):
+_HEAL_BIS_CACHE = {}
+
+
+def _HEAL_BIS():
+    if "d" not in _HEAL_BIS_CACHE:
+        f = PROJECT / "data" / "wow_healer_bis_power.json"
+        _HEAL_BIS_CACHE["d"] = json.loads(f.read_text(encoding="utf-8"))["specs"] if f.exists() else {}
+    return _HEAL_BIS_CACHE["d"]
+
+
+def _healing_table(lang, cls_id, power=350, bis=None):
     """Efficiency of the class's healing spells at level 60 from the client numbers (data/wow_guides/healing60.json), at `power` healing power and no talents."""
     path = PROJECT / "data" / "wow_guides" / "healing60.json"
     if not path.exists():
@@ -473,7 +492,7 @@ def _healing_table(lang, cls_id, power=350):
     tx = wow_guide_rotation.HEAL_TX[lang]
     fmt = lambda n: f"{int(round(n)):,}".replace(",", " " if lang == "fr" else ",")
     dec = lambda x: (f"{x:.2f}".replace(".", ",") if lang == "fr" else f"{x:.2f}")
-    rows = []
+    rows, duo = [], []
     for sp in data["spells"]:
         direct = sp["direct"]["base"] + sp["direct"]["coeff"] * power if sp.get("direct") else 0
         hot = sp["hot"]["ticks"] * (sp["hot"]["tick"] + sp["hot"]["coeff"] * power) if sp.get("hot") else 0
@@ -481,11 +500,81 @@ def _healing_table(lang, cls_id, power=350):
         one = direct + hot + ab
         t = max(sp["cast"], 1.5)
         extra = tx["hot"] if hot and direct else (tx["absorb"] if ab else "")
+        jumps = HEAL_CHAIN.get(sp["spell_id"])
+        eff = (lambda k, j=jumps: sum(j[:k])) if jumps else (lambda k, n=sp["targets"]: min(k, n))      # heals landed when k allies are hurt
         rows.append({"name": sp["name"], "id": sp["spell_id"], "cast": tx["instant"] if sp["cast"] == 0 else (f"{sp['cast']:g} s".replace(".", ",") if lang == "fr" else f"{sp['cast']:g} s"),
                      "cost": fmt(sp["cost"]), "heal": fmt(one), "hpm": one / sp["cost"], "hpm_txt": dec(one / sp["cost"]), "hps": fmt(one / t),
-                     "multi": (f"×{sp['targets']} : {dec(one * sp['targets'] / sp['cost'])}" if sp["targets"] > 1 else ""), "extra": extra})
+                     "multi": (f"×{dec(eff(5)).rstrip('0').rstrip(',.')} : {dec(one * eff(5) / sp['cost'])}" if eff(5) > 1 else ""), "extra": extra})
+        # a heal over time cast again on the same ally replaces the running one: chained every t seconds over k allies, each ally keeps only k*t/D of it (D = its duration)
+        hot_d = sp["hot"]["ticks"] * sp["hot"]["interval"] if sp.get("hot") else 0
+        rate = lambda k: max(t, sp.get("cd") or 0)          # seconds between two casts of the spell
+        kept = lambda k: (direct + ab + hot * min(1.0, k * rate(k) / hot_d)) if hot_d and not jumps and sp["targets"] == 1 else one
+        duo.append({"name": sp["name"], "id": sp["spell_id"], "a": kept(1) * eff(1) / t, "b": kept(5) * eff(5) / t, "ma": kept(1) * eff(1) / sp["cost"], "mb": kept(5) * eff(5) / sp["cost"],
+                    "n": (len(jumps) if jumps else sp["targets"]), "cd": sp.get("cd") or 0})
     rows.sort(key=lambda r: -r["hpm"])
-    return {"rows": rows, "special": ", ".join(data["special"]), "tx": tx}
+    if bis:          # computed at the healing power of Wowhead's BiS set for the spec
+        tx = dict(tx, p=tx["p_bis"].format(power=power, n=bis["n_items"], short=(tx["p_short"] if bis["n_items"] < 17 else "")), src=bis["source"])
+    # 1 hurt ally against 5 hurt allies: the same spells, the area ones landing on every hurt ally they can reach (Chain Heal: 3 jumps, each half the one before)
+    duo.sort(key=lambda r: -r["b"])
+    top = max(max(r["a"], r["b"]) for r in duo) or 1
+    chain = [r for r in duo if not r["cd"]] or duo          # the headline: spells that can be cast over and over (a cooldown spell is one cast now and then)
+    ba, bb = max(chain, key=lambda r: r["a"]), max(chain, key=lambda r: r["b"])
+    ma, mb = max(duo, key=lambda r: r["ma"]), max(duo, key=lambda r: r["mb"])
+    d = {"h2": tx["duo_h2"], "p": tx["duo_p"] + ("" if any(r["b"] > r["a"] * 1.01 for r in duo) else " " + tx["duo_none"]), "unit": tx["duo_unit"], "ca": tx["duo_a"], "cb": tx["duo_b"], "c_name": tx["c_spell"], "c_n": tx["duo_n"],
+         "kpis": [{"label": tx["duo_a"], "value": fmt(ba["a"]), "sub": tx["duo_sub"].format(name=ba["name"], mname=ma["name"], m=dec(ma["ma"]))},
+                  {"label": tx["duo_b"], "value": fmt(bb["b"]), "sub": tx["duo_sub"].format(name=bb["name"], mname=mb["name"], m=dec(mb["mb"]))}],
+         "rows": [{"name": r["name"], "href": f"https://www.wowhead.com/forever/spell={r['id']}", "a": fmt(r["a"]), "b": fmt(r["b"]), "wa": round(100 * r["a"] / top, 1), "wb": round(100 * r["b"] / top, 1),
+                   "n": r["n"], "up": r["b"] > r["a"] * 1.01, "note": (tx["duo_cd"].format(cd=(f"{r['cd']:g}".replace(".", ",") if lang == "fr" else f"{r['cd']:g}")) if r["cd"] else "")} for r in duo],
+         "foot": tx["duo_foot"]}
+    return {"rows": rows, "special": ", ".join(data["special"]), "tx": tx, "power": power, "duo": d}
+
+
+TANK_DUO = {
+    "fr": {"h2": "Sur 1 ennemi ou sur 5 ennemis", "a": "1 ennemi", "b": "5 ennemis", "unit": "menace/s", "c_name": "Technique", "rows_h": "Dégâts par seconde de chaque technique",
+           "bars_h": "Menace sur chacun des 5 ennemis", "main": "Ennemi principal", "other": "Ennemi {n}",
+           "sub_a": "{dt} dégâts subis par seconde", "sub_b": "{main} sur l'ennemi principal, {low} sur le moins menacé",
+           "p": "Le même personnage que le classement (équipement, talents, consommables), une fois contre le boss seul, une fois contre 5 ennemis. Les 5 ennemis se partagent les dégâts du boss : 5 fois plus de coups, chacun 5 fois plus faible, la même pression au total. Ce partage est une hypothèse, pas une mesure ; il compte, car tout ce qui se déclenche sur une esquive ou un blocage revient 5 fois plus souvent. {aoe} Les techniques à une cible restent sur l'ennemi principal ; la menace due à la rage gagnée sans frapper est partagée entre les 5 ennemis.",
+           "foot": "Simulation de {fight} s, {it} combats. Ne sont pas simulés : le ralentissement des ennemis par Coup de tonnerre, la baisse de puissance d'attaque des cris et rugissements, la provocation et le changement de cible.",
+           "aoe": {"warrior_protection": "À 5 ennemis, la rotation ajoute Coup de tonnerre à chaque recharge (4 ennemis, 103 + 7 % de la puissance d'attaque), Enchaînement à la place de Frappe héroïque (2 ennemis) et Cri démoralisant (sur tous).",
+                   "paladin_protection": "À 5 ennemis, la rotation ajoute Consécration à chaque recharge : 8 impulsions sur tous les ennemis, plus fortes sur les 4 premiers.",
+                   "druid_bear": "À 5 ennemis, Balayage (3 ennemis, menace ×1,75) passe avant Lacération et Rugissement démoralisant (sur tous) est maintenu."}},
+    "en": {"h2": "On 1 enemy or on 5 enemies", "a": "1 enemy", "b": "5 enemies", "unit": "threat/s", "c_name": "Ability", "rows_h": "Damage per second of each ability",
+           "bars_h": "Threat on each of the 5 enemies", "main": "Main enemy", "other": "Enemy {n}",
+           "sub_a": "{dt} damage taken per second", "sub_b": "{main} on the main enemy, {low} on the least threatened one",
+           "p": "The same character as the ranking (gear, talents, consumables), once against the boss alone, once against 5 enemies. The 5 enemies share the boss's damage: 5 times as many swings, each 5 times weaker, the same pressure in total. That split is an assumption, not a measurement; it matters, since everything that triggers on a dodge or a block comes 5 times as often. {aoe} Single-target abilities stay on the main enemy; threat from rage gained without hitting is shared by the 5 enemies.",
+           "foot": "{fight} s simulation, {it} fights. Not simulated: Thunder Clap's slow on the enemies, the attack power cut of shouts and roars, taunting and switching targets.",
+           "aoe": {"warrior_protection": "On 5 enemies the rotation adds Thunder Clap on every cooldown (4 enemies, 103 + 7% of attack power), Cleave instead of Heroic Strike (2 enemies) and Demoralizing Shout (on all).",
+                   "paladin_protection": "On 5 enemies the rotation adds Consecration on every cooldown: 8 pulses on every enemy, stronger on the first 4.",
+                   "druid_bear": "On 5 enemies Swipe (3 enemies, threat x1.75) comes before Lacerate and Demoralizing Roar (on all) is kept up."}},
+}
+
+
+def _tank_duo(lang, r, fight=180, iters=6000):
+    """1 enemy against 5 for a tank (sim60 ranking.mjs: row.aoe, the same character with targets = 5)."""
+    a = r.get("aoe")
+    if not a or r.get("role") != "tank":
+        return None
+    t = TANK_DUO[lang]
+    n = lambda v: f"{v:,.0f}".replace(",", " " if lang == "fr" else ",")
+    per = a["tpsPerTarget"]
+    top_b = max(per) or 1
+    sp_a = {x[0]: x[1] for x in r.get("spells") or []}
+    sp_b = {x[0]: x[1] for x in a["spells"]}
+    names = sorted(set(sp_a) | set(sp_b), key=lambda k: -max(sp_a.get(k, 0), sp_b.get(k, 0)))
+    names = [k for k in names if max(sp_a.get(k, 0), sp_b.get(k, 0)) >= 1 and not k.startswith("Smokey")]
+    top = max([max(sp_a.get(k, 0), sp_b.get(k, 0)) for k in names] or [1]) or 1
+    return {"id": "gs-duo-tank", "h2": t["h2"], "unit": t["unit"], "ca": t["a"], "cb": t["b"], "c_name": t["c_name"], "rows_h": t["rows_h"],
+            "p": t["p"].format(aoe=t["aoe"].get(r["spec_id"], "")),
+            "kpis": [{"label": t["a"], "value": n(r["tps"]), "sub": t["sub_a"].format(dt=n(r["dtps"]))},
+                     {"label": t["b"], "value": n(a["tps"]), "sub": t["sub_b"].format(main=n(per[0]), low=n(a["tpsMin"]))}],
+            "bars": {"h": t["bars_h"], "rows": [{"label": t["main"] if i == 0 else t["other"].format(n=i + 1), "value": n(v), "w": round(100 * v / top_b, 1), "main": i == 0} for i, v in enumerate(per)]},
+            "rows": [{"name": k, "a": n(sp_a.get(k, 0)) if k in sp_a else "—", "b": n(sp_b.get(k, 0)) if k in sp_b else "—", "wa": round(100 * sp_a.get(k, 0) / top, 1), "wb": round(100 * sp_b.get(k, 0) / top, 1),
+                      "up": sp_b.get(k, 0) > sp_a.get(k, 0) * 1.01} for k in names],
+            "foot": t["foot"].format(fight=fight, it=n(iters))}
+
+
+# Chain Heal rank 3 (client spell 10623, read by WoWSims Forever spells_auto_gen.go): 3 targets, each jump heals half the one before
+HEAL_CHAIN = {10623: [1, 0.5, 0.25]}
 
 
 STAT_COLORS = {"hitrtng": "#2de6c4", "critstrkrtng": "#ffc23c", "hastertng": "#ff6b8b", "atkpwr": "#9b82ff", "splpwr": "#9b82ff", "int": "#4da3ff", "spi": "#b7e36a", "str": "#ff8a3d", "agi": "#6be3ff"}
@@ -604,7 +693,8 @@ def _guide_level60(lang, cls_id, spec_id, rows, cls=None):
                       "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": None, "heal_note": None}
     elif key in wow_guide_rotation.HEALER_MAIN:
         out["rot"] = {"sim": [{"label": None, "steps": wow_guide_rotation.HEALER_MAIN[key][lang]}], "iv": wow_guide_rotation.IV[key][lang], "verdict": wow_guide_rotation.VERDICT[key][lang], "heal": True, "heal_note": wow_guide_rotation.HEALER_NOTE[lang]}
-        out["heal_table"] = _healing_table(lang, cls_id)
+        _hb = _HEAL_BIS().get(key)          # the healing power of Wowhead's BiS set for the spec (wowsims_rank/healer_bis.py), else the old flat 350
+        out["heal_table"] = _healing_table(lang, cls_id, power=_hb["healing_power"] if _hb else 350, bis=_hb)
         out["cons_heal"] = wow_guide_rotation.HEALER_CONS[lang]
     order = {k: n for n, k in enumerate(wow_rank_texts.SLOT_ORDER)}
     labels = wow_rank_texts.SLOTS[lang]
@@ -8641,8 +8731,20 @@ def main() -> None:
                              "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
                              "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")}, leveling=bool(_leveling))
                         _quick = _quick + wow_guide_seo.extra(lang, _cls["id"], _s["id"])          # questions seen in Search Console (librams...)
-                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key, sim_id=_sim_page_id, class_news=_class_news,
-                           quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling,
+                    # the spec's simulated build (WoWSims, 2026-11-28): the guide shows the spec page's build and links to it; its old "at launch" block (sim60) is hidden
+                    _wsr = next((r for r in _own_rows if r.get("ws")), None)
+                    _wsb = wow_rank_ws.guide_block(lang, _wsr, _wow_ranking, zone_path, _prof_info, zone_fr) if _wsr else None
+                    if _wsb and _quick:
+                        _quick = wow_rank_ws.guide_quick(lang, _quick, _wsb, _wsr, _leader, len(_qlist), _rk_data.get("fightLen", 180), _cn, _sn)
+                    _tkf = PROJECT / "data" / "wow_tanks_wowsims.json"          # tanks: WoWSims' threat next to ours in the "is it a good spec" answer (run_tanks.py)
+                    _tkr = [x for x in (json.loads(_tkf.read_text(encoding="utf-8"))["rows"] if _tkf.exists() else []) if any(r["spec_id"] == x["spec"] and r["role"] == "tank" for r in _own_rows)]
+                    if _tkr and _quick:
+                        _tkn = ", ".join(f"{x['tps']:,.0f}".replace(",", " " if lang == "fr" else ",") + f" TPS ({(x['preset'] or '').replace('Pre-BiS - ', '')})" for x in _tkr)
+                        _quick[0]["a"] += (f" Avec le moteur WoWSims et ses préréglages Pre-BiS : {_tkn} (autre équipement, chiffres non comparables directement)." if lang == "fr"
+                                           else f" With the WoWSims engine and its Pre-BiS presets: {_tkn} (other gear, not directly comparable).")
+                    _duo_tank = next((_tank_duo(lang, r) for r in _own_rows if r["role"] == "tank" and r.get("aoe")), None)       # 1 enemy against 5 (sim60 ranking.mjs, 2026-11-28)
+                    render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key, sim_id=_sim_page_id, class_news=_class_news, duo_tank=_duo_tank,
+                           quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling, wsb=_wsb, wstx=wow_rank_ws.TX[lang], wsr=_wsr,
                            faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
                                         "mainEntity": [{"@type": "Question", "name": x["q"], "acceptedAnswer": {"@type": "Answer", "text": x["a"]}} for x in _quick]} if _quick else None),
                            rank_info=_rank_info, rotation_steps=_rotation_steps,

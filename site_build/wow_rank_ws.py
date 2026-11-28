@@ -64,7 +64,12 @@ TX = {
         "l_rank": "Tier list DPS", "l_sim": "Simulateur DPS", "l_calc": "Calculateur de talents",
         "auto": "attaque automatique", "pet": "familier", "proc": "effet", "others": "Autres",
         "p_tal": "Talents", "p_same": "Identiques", "p_pts": "{n} pts d'écart", "p_gear": "Objets dans la liste BiS", "p_trees": "Arbres de talents", "p_trees_v": "Conformes",
-        "p_vs": "comparé au build « {b} » du guide Wowhead", "p_prim": "Caractéristiques", "p_combat": "Combat", "comp_h": "Répartition des dégâts",
+        "p_vs": "comparé au build « {b} » du guide Wowhead",
+        "g_h2": "Le build simulé (WoWSims)", "g_p": "Le build qui donne à {cls} {spec} sa place dans le classement DPS : celui que WoWSims publie, simulé avec leur moteur. Les arbres ci-dessous sont ceux du jeu actuel (identiques au calculateur Wowhead).",
+        "g_fiche": "Fiche complète : dégâts, équipement, statistiques", "g_gear_p": "Équipement du build simulé (préréglage WoWSims), avec la provenance et l'enchantement de chaque objet.",
+        "g_cons_p": "Consommables du build simulé (préréglage WoWSims).",
+        "qa_good": "Avec le moteur WoWSims et le build Pre-BiS que WoWSims publie ({fight} secondes contre un boss de niveau 63, buffs de raid), {cls} {spec} est n°{pos} sur {n} spécialisations DPS avec {val} DPS. Le n°1 est {leader} ({lval} DPS). Un boss immobile ne dit pas tout : l'utilité en groupe et le jeu en déplacement comptent aussi.",
+        "qa_tal": "Le build simulé répartit ses points en {split} ({trees}). {check}", "qa_gear": "Le préréglage « {preset} » de WoWSims : objets de donjons, de quêtes et de fabrication, sans objet de raid. {check}", "p_prim": "Caractéristiques", "p_combat": "Combat", "comp_h": "Répartition des dégâts",
     },
     "en": {
         "title": "{spec} {cls} WoW Forever: WoWSims build and DPS",
@@ -100,7 +105,12 @@ TX = {
         "l_rank": "DPS tier list", "l_sim": "DPS simulator", "l_calc": "Talent calculator",
         "auto": "auto attack", "pet": "pet", "proc": "effect", "others": "Others",
         "p_tal": "Talents", "p_same": "Identical", "p_pts": "{n} pts apart", "p_gear": "Items on the BiS list", "p_trees": "Talent trees", "p_trees_v": "Match",
-        "p_vs": "compared with the \"{b}\" build of the Wowhead guide", "p_prim": "Attributes", "p_combat": "Combat", "comp_h": "Damage breakdown",
+        "p_vs": "compared with the \"{b}\" build of the Wowhead guide",
+        "g_h2": "The simulated build (WoWSims)", "g_p": "The build that gives {spec} {cls} its place in the DPS ranking: the one WoWSims publishes, simulated with their engine. The trees below are the current game's (identical to the Wowhead calculator).",
+        "g_fiche": "Full spec page: damage, gear, stats", "g_gear_p": "Gear of the simulated build (WoWSims preset), with where each item comes from and its enchantment.",
+        "g_cons_p": "Consumables of the simulated build (WoWSims preset).",
+        "qa_good": "With the WoWSims engine and the Pre-BiS build WoWSims publishes ({fight} seconds against a level 63 boss, raid buffs), {spec} {cls} is #{pos} of {n} DPS specs with {val} DPS. #1 is {leader} ({lval} DPS). A standing boss does not tell everything: group utility and movement matter too.",
+        "qa_tal": "The simulated build spends its points {split} ({trees}). {check}", "qa_gear": "WoWSims' \"{preset}\" preset: dungeon, quest and crafted items, no raid item. {check}", "p_prim": "Attributes", "p_combat": "Combat", "comp_h": "Damage breakdown",
     },
 }
 
@@ -272,3 +282,39 @@ def page(lang, r, i, rlist, zone_path, prof_info, zone_fr):
     if len(pg["desc"]) > 155:
         pg["desc"] = pg["desc"].replace(", enchantements", "").replace(", enchantments", "")
     return pg
+
+
+def guide_block(lang, r, rlist, zone_path, prof_info, zone_fr):
+    """The spec guide's "simulated build" block: the spec page's data (same build, same numbers), or None."""
+    if r not in rlist:
+        return None
+    pg = page(lang, r, rlist.index(r), rlist, zone_path, prof_info, zone_fr)
+    if not pg:
+        return None
+    t = TX[lang]
+    pts = pg["tl"]["points"]
+    pg["split"] = "/".join(str(v) for v in pts.values())
+    pg["trees_txt"] = ", ".join(pts.keys())
+    pg["g_p"] = t["g_p"].format(cls=r["class_name"], spec=r["spec_name"])
+    return pg
+
+
+def guide_quick(lang, quick, pg, r, leader, n, fight, cls_name, spec_name):
+    """The guide's FAQ answers about the spec's strength, talents and gear, told from the simulated (WoWSims) build."""
+    import wow_guide_seo
+    qa, t = wow_guide_seo.QA[lang], TX[lang]
+    f = dict(cls=cls_name, spec=spec_name)
+    check_tal = " ".join(c for c in pg["checks"][:1])
+    check_gear = pg["checks"][1] if len(pg["checks"]) > 1 else ""
+    fiche = {"href": r["page_path"], "label": t["g_fiche"]}
+    for x in quick:
+        if x["q"] == qa["q_good"].format(**f) and leader:
+            x["a"] = t["qa_good"].format(fight=fight, pos=pg["rank"], n=n, val=pg["dps"], leader=leader["name"], lval=num(leader["val"], lang), **f)
+        elif x["q"] == qa["q_talents"].format(**f):
+            x["a"] = t["qa_tal"].format(split=pg["split"], trees=pg["trees_txt"], check=check_tal).strip()
+            x["link"] = {"href": r["page_path"] + "#rk-talents", "label": t["g_fiche"]}
+        elif x["q"] == qa["q_gear"].format(**f):
+            x["a"] = t["qa_gear"].format(preset=pg["preset"], check=check_gear).strip()
+            x["link"] = {"href": r["page_path"] + "#rk-gear", "label": t["g_fiche"]}
+    return quick
+

@@ -117,6 +117,8 @@ export class Sim {
     // tanking: a per-run copy of the defensive stats, the counters the batch runner averages, a threat hook
     this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
     this.threatMult = null; this.takenMult = 1; this.bossHooks = []; this.blockBonus = null;
+    // several enemies (tank pages, 1 vs 5 targets): nT mobs, the threat kept per mob; tgt = the mob the hit being recorded lands on, swinger = the mob whose swing the boss hooks hear
+    this.nT = Math.max(1, cfg.targets | 0 || 1); this.tgt = 0; this.swinger = 0; this.tThreat = new Array(this.nT).fill(0);
     this.spec = cfg.spec; this.spec.setup(this);
     if (cfg.player.windfuryTotem && cfg.player.weapons.length && !cfg.player.ranged && !this.noWindfuryTotem) this._setupWindfuryTotem();
     attachEffects(this);
@@ -173,11 +175,15 @@ export class Sim {
     e.dmg += amount; this.total += amount;
     if (this.recordHook) this.recordHook(source, amount);
     if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
-    if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
+    if (this.threatMult) { const x = amount * this.threatMult(source); this.counters.threat = (this.counters.threat || 0) + x; this.tThreat[this.tgt] += x; }
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
   }
   addC(name, v = 1) { this.counters[name] = (this.counters[name] || 0) + v; }
-  threat(n) { this.counters.threat = (this.counters.threat || 0) + n; }
+  threat(n) { this.counters.threat = (this.counters.threat || 0) + n; this.tThreat[this.tgt] += n; }
+  // threat that is not aimed at a mob (rage gained without a hit): shared between every mob in combat (Classic rule, as healing threat)
+  threatSplit(n) { this.counters.threat = (this.counters.threat || 0) + n; for (let i = 0; i < this.nT; i++) this.tThreat[i] += n / this.nT; }
+  // the same hit on the first k mobs (area abilities): fn(i) runs with tgt = i
+  onTargets(k, fn) { const n = Math.min(k, this.nT); for (let i = 0; i < n; i++) { this.tgt = i; fn(i); } this.tgt = 0; return n; }
   // The raid boss swings at the tank (Classic attack table of a level-63 mob against a level-60 player; ASSUMED where noted).
   _bossSwing(boss) {
     const t = this.tank, adj = (t.defense - 5 * boss.level) * 0.0004;       // each defense point above the boss skill: 0.04% on every roll
@@ -196,8 +202,14 @@ export class Sim {
     for (let i = 0; i < this.bossHooks.length; i++) this.bossHooks[i](this, out, dmg);
   }
   _startBoss() {
-    const boss = this.target.boss, swing = () => { this._bossSwing(boss); this.schedule(boss.speed, swing); };
-    this.schedule(boss.first === undefined ? 1.0 : boss.first, swing);
+    const boss = this.target.boss, first = boss.first === undefined ? 1.0 : boss.first;
+    if (this.nT === 1) { const swing = () => { this._bossSwing(boss); this.schedule(boss.speed, swing); }; this.schedule(first, swing); return; }
+    // several mobs: the same incoming damage as the boss, shared between nT mobs that swing at the same speed, their swings spread over the swing timer (ASSUMED)
+    const mob = Object.assign({}, boss, { dmg: boss.dmg / this.nT });
+    for (let i = 0; i < this.nT; i++) {
+      const swing = () => { this.swinger = i; this._bossSwing(mob); this.swinger = 0; this.schedule(mob.speed, swing); };
+      this.schedule(first + i * mob.speed / this.nT, swing);
+    }
   }
   mitigate(raw, physical) { return physical ? raw * (1 - this.dr) : raw; }
 
@@ -335,6 +347,7 @@ export class Sim {
     }
     this.now = this.fightLen;
     for (const a of this.auras) a.finish();
+    if (this.nT > 1) for (let i = 0; i < this.nT; i++) this.counters['threat_t' + i] = this.tThreat[i];
     return this;
   }
 }

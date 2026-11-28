@@ -357,7 +357,14 @@ for (const [id, S] of Object.entries(SPECS)) {
     opening,
   };
   const row = { spec: id, class: S.cls, role: S.tank ? 'tank' : 'dps', dps: +r.mean.toFixed(1), sem: +r.sem.toFixed(2), name: KITS[id] };
-  if (S.tank) { row.tps = +(r.counters.threat / FIGHT).toFixed(1); row.dtps = +(r.counters.dmgTaken / FIGHT).toFixed(1); row.health = Math.round(ch.summary.tank.health); }
+  if (S.tank) {
+    row.tps = +(r.counters.threat / FIGHT).toFixed(1); row.dtps = +(r.counters.dmgTaken / FIGHT).toFixed(1); row.health = Math.round(ch.summary.tank.health);
+    // the same character against AOE_TARGETS mobs (the 1 vs 5 targets section of the tank pages): the boss's damage shared by the mobs, the area abilities in the rotation (tanks.js)
+    const NT = 5, ra = runBatch({ fightLen: FIGHT, player: ch.player, target: ch.target, kitFactory: kit, targets: NT }, FINAL, 7);
+    const per = Array.from({ length: NT }, (_, i) => +((ra.counters['threat_t' + i] || 0) / FIGHT).toFixed(1));
+    row.aoe = { targets: NT, tps: +(ra.counters.threat / FIGHT).toFixed(1), tpsPerTarget: per, tpsMin: Math.min(...per), dps: +ra.mean.toFixed(1), dtps: +(ra.counters.dmgTaken / FIGHT).toFixed(1),
+      spells: Object.entries(ra.breakdown).filter(([, v]) => (v.dps || 0) > 0 || (v.casts || 0) > 0.5).sort((x, y) => y[1].dps - x[1].dps).map(([n, v]) => [n, +v.dps.toFixed(1), +(v.casts || 0).toFixed(1)]) };
+  }
   row.spells = Object.entries(r.breakdown).filter(([, v]) => (v.dps || 0) > 0).sort((x, y) => y[1].dps - x[1].dps).map(([n, v]) => [n, +v.dps.toFixed(1), +(v.casts || 0).toFixed(1)]);
   row.detail = detail;
   out.specs.push(row);
