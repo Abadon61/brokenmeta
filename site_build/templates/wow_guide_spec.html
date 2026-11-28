@@ -42,7 +42,7 @@
 {# "En bref" (2026-10-25): the questions players type, answered with the guide's own figures; same wording in the FAQPage data. First answer open, the others fold so the talent tree stays close to the top. #}
 <section class="gs-tile dq-faq" id="en-bref">
   <div class="gs-th"><h2 class="gs-h2">{{ quick_h2 }}</h2></div>
-  {% for it in quick %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ it.q }}</summary><p class="gs-lede">{{ it.a }}{% if it.link %} <a class="wg-link" href="{{ it.link.href if it.link.href.startswith('#') else root ~ it.link.href }}">{{ it.link.label }} →</a>{% endif %}</p></details>{% endfor %}
+  {% for it in quick %}<details class="gs-more"{% if loop.first %} open{% endif %}><summary>{{ it.q }}</summary><p class="gs-lede">{{ it.a }}{% if it.link %} <a class="wg-link" href="{{ it.link.href if it.link.href.startswith(('#', 'http')) else root ~ it.link.href }}"{% if it.link.href.startswith('http') %} rel="noopener nofollow" target="_blank"{% endif %}>{{ it.link.label }} →</a>{% endif %}</p></details>{% endfor %}
 </section>
 {% endif %}
 
@@ -375,5 +375,5 @@
   <ul class="gd-list">{% for n in class_news %}<li><a class="wg-link" href="{{ root }}{{ n.path }}">{{ n.title }}</a> <span class="nums">· {{ n.date }}</span></li>{% endfor %}</ul>
 </section>
 {% endif %}
-{{ rel.related(root, lang == 'fr', ['tier', 'races', 'leveling'] + (['sim_spec'] if sim_id else ['sim']) + ['dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang]), sim_id) }}
+{{ rel.related(root, lang == 'fr', ['tier', 'races', 'sets', 'leveling'] + (['sim_spec'] if sim_id else ['sim']) + ['dungeons_spec', 'dungeons'], cls.id, cls.name[lang], dg_spec_key, (cls.name[lang] ~ ' ' ~ spec.name[lang]) if lang == 'fr' else (spec.name[lang] ~ ' ' ~ cls.name[lang]), sim_id) }}
 {% endblock %}

@@ -22,6 +22,7 @@ export const BUFFS = {
   strength_of_earth: { name: 'Strength of Earth Totem (Shaman)', str: 53 },
   grace_of_air: { name: 'Grace of Air Totem (Shaman)', agi: 89 },
   mana_spring_totem: { name: 'Mana Spring Totem (Shaman)', mp5: 25 },       // 10 mana per 2 s
+  windfury_totem: { name: 'Windfury Totem (Shaman)', windfuryTotem: true },   // proc: 20 % per main-hand hit, one extra swing (engine.js)
   // Priest
   divine_spirit: { name: 'Prayer of Spirit (Priest)', spi: 40 },
   power_word_fortitude: { name: 'Prayer of Fortitude (Priest)', sta: 70 },
@@ -72,7 +73,7 @@ export const DEBUFFS = {
 };
 
 // What a 20-player raid gives one player: every ally buff its classes can cast + the consumables of that role (scrolls, flask/elixirs, juju, food).
-// Not simulated: Windfury Totem, Power Infusion, Innervate, Judgements (they proc or are cooldowns, not flat stats) and the Demonic Rune's health cost.
+// Not simulated: Power Infusion, Innervate, Judgements (they proc or are cooldowns, not flat stats) and the Demonic Rune's health cost.
 const ALLY = ['arcane_intellect', 'blessing_of_kings', 'blessing_of_wisdom', 'blessing_of_might', 'mark_of_the_wild', 'divine_spirit', 'power_word_fortitude', 'mana_spring_totem'];
 export const PRESET_CASTER = {
   buffs: [...ALLY, 'moonkin_aura'],
@@ -87,7 +88,7 @@ export const PRESET_HUNTER = {
 };
 
 export const PRESET_RAID = {
-  buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'leader_of_the_pack'],
+  buffs: [...ALLY, 'battle_shout', 'grace_of_air', 'strength_of_earth', 'windfury_totem', 'leader_of_the_pack'],
   consumables: ['scroll_strength', 'elixir_mongoose', 'juju_power', 'juju_might', 'food_strength'],
   debuffs: ['sunder_armor_5', 'faerie_fire', 'curse_of_recklessness'],
 };
@@ -107,7 +108,7 @@ export const RACIAL_SKILL = {
 // ---- Wowhead spell ids (tooltips and icons on the site) and the slots of the consumables ----
 const SID = {
   battle_shout: 25289, blessing_of_might: 25916, blessing_of_kings: 25898, blessing_of_wisdom: 25918, mark_of_the_wild: 21850, leader_of_the_pack: 24932, moonkin_aura: 24907,
-  strength_of_earth: 25361, grace_of_air: 25359, mana_spring_totem: 10497, divine_spirit: 27681, power_word_fortitude: 21564, arcane_intellect: 23028, hunters_mark: 14325, trueshot_aura: 20906,
+  strength_of_earth: 25361, grace_of_air: 25359, windfury_totem: 10614, mana_spring_totem: 10497, divine_spirit: 27681, power_word_fortitude: 21564, arcane_intellect: 23028, hunters_mark: 14325, trueshot_aura: 20906,
   scroll_strength: 12179, scroll_agility: 12174, scroll_intellect: 12176, scroll_spirit: 12177, scroll_stamina: 12178, flask_ancient_knowledge: 1213892, flask_madness: 1213897,
   elixir_mongoose: 17538, elixir_grizzly: 1250986, elixir_honey_badger: 1213904, elixir_mage_lord: 1213914, elixir_owl: 1250940, greater_arcane_elixir: 17539, mageblood_potion: 24363,
   juju_power: 16323, juju_might: 16329, juju_guile: 16327, spirit_of_zanza: 24382, food_spell_power: 1225780, food_strength: 1225778, food_agility: 1225779, nightfin_soup: 18194,

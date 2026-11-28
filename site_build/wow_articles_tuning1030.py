@@ -23,7 +23,7 @@ TUNING_1030 = {
         "title": "Druide et Paladin WoW Forever : talents remaniés",
         "description": "Avant le lancement de WoW Forever, Druide et Paladin voient leurs arbres de talents remaniés : Genèse doublée, Shifting Power à 8 s, Holy Shield réduit.",
         "h1": "Druide et Paladin dans WoW Forever : les talents remaniés avant le lancement",
-        "lede": "À quelques jours du lancement de **WoW Forever**, Blizzard a appliqué des correctifs à chaud sur les serveurs : les arbres de talents du **Druide** et du **Paladin** changent beaucoup, et le Mage, le Prêtre, le Démoniste et le Guerrier reçoivent des retouches plus légères. Ces modifications ne sont pas confirmées dans des notes de développement et peuvent encore bouger. Nous ne les avons [eq]pas simulées[/eq] : le simulateur ne gère pas encore ces nouveaux arbres.",
+        "lede": "À quelques jours du lancement de **WoW Forever**, Blizzard a appliqué des correctifs à chaud sur les serveurs : les arbres de talents du **Druide** et du **Paladin** changent beaucoup, et le Mage, le Prêtre, le Démoniste et le Guerrier reçoivent des retouches plus légères. Ces modifications ont depuis été confirmées par les notes de développement officielles du 3 novembre, et elles sont [eq]dans notre simulateur niveau 60[/eq].",
         "body": [
             ("cards", [("spell_arcane_arcane03", "Genèse (Druide Équilibre)", "Bonus de 5 % → 10 % au rang max", "up"),
                        ("spell_druid_displacement", "Puissance fluctuante (Féral)", "Recharge de 16 s → 8 s", "up"),
@@ -64,11 +64,11 @@ TUNING_1030 = {
                 "**Paladin Sacré** : Puissance sacrée agit maintenant sur la puissance des critiques, pas sur leur fréquence, et Focalisation spirituelle devient un vrai talent à 5 rangs.",
                 "Les Druides et Paladins devront **refaire leur build** : repasse par le calculateur de talents avant le lancement du 4 novembre.",
             ]),
-            ("note", "Ces changements viennent de correctifs à chaud vus sur les serveurs Forever et non confirmés dans des notes de développement. Aucun chiffre de DPS ou de soins n'est donné : la réorganisation des arbres n'est pas encore dans notre simulateur niveau 60, donc rien n'est mesuré ici."),
+            ("note", "Ces changements, vus d'abord sur les serveurs Forever, ont été confirmés par les notes de développement officielles du 3 novembre (voir notre article sur ces notes) et sont depuis dans notre simulateur niveau 60 ; cet article ne donne pas de chiffre de DPS, ils sont dans le classement."),
         ],
         "faq": [
-            ("Le Druide a-t-il été buff dans WoW Forever avant le lancement ?", "Oui, plusieurs talents montent : Genèse (Équilibre) et Naturaliste (Restauration) doublent leur effet, la recharge de Puissance fluctuante (Féral) passe de 16 à 8 secondes. Ce sont des correctifs à chaud non confirmés et non simulés chez nous."),
-            ("Que devient Bouclier sacré pour le Paladin Protection ?", "Il inflige 32 % de dégâts en moins mais coûte 100 de mana au lieu de 150. Credo de fer donne par ailleurs 30 % de menace en plus, pour 6 % de dégâts subis en moins. Rien n'est simulé pour l'instant."),
+            ("Le Druide a-t-il été buff dans WoW Forever avant le lancement ?", "Oui, plusieurs talents montent : Genèse (Équilibre) et Naturaliste (Restauration) doublent leur effet, la recharge de Puissance fluctuante (Féral) passe de 16 à 8 secondes. Ces changements ont été confirmés par les notes officielles du 3 novembre."),
+            ("Que devient Bouclier sacré pour le Paladin Protection ?", "Il inflige 32 % de dégâts en moins mais coûte 100 de mana au lieu de 150. Credo de fer donne par ailleurs 30 % de menace en plus, pour 6 % de dégâts subis en moins. Ces valeurs sont dans notre simulateur depuis les notes du 3 novembre."),
         ],
         "links": [
             ("Calculateur de talents Druide", "wow-forever/talents/druid/"),
@@ -81,7 +81,7 @@ TUNING_1030 = {
         "title": "Druid and Paladin WoW Forever: Talent Trees Reworked",
         "description": "Ahead of WoW Forever launch, Druid and Paladin talent trees are reworked: Genesis doubled, Shifting Power at 8 s, Holy Shield weakened.",
         "h1": "Druid and Paladin in WoW Forever: talent trees reworked before launch",
-        "lede": "A few days before the **WoW Forever** launch, Blizzard applied hotfixes on live servers: the **Druid** and **Paladin** talent trees change a lot, and Mage, Priest, Warlock and Warrior get lighter touches. These changes are not confirmed in development notes and may still move. We have [eq]not simulated them[/eq]: the simulator does not model these new trees yet.",
+        "lede": "A few days before the **WoW Forever** launch, Blizzard applied hotfixes on live servers: the **Druid** and **Paladin** talent trees change a lot, and Mage, Priest, Warlock and Warrior get lighter touches. These changes have since been confirmed by the official development notes of November 3, and they are [eq]in our level-60 simulator[/eq].",
         "body": [
             ("cards", [("spell_arcane_arcane03", "Genesis (Balance Druid)", "Bonus from 5% to 10% at max rank", "up"),
                        ("spell_druid_displacement", "Shifting Power (Feral)", "Cooldown 16 s to 8 s", "up"),
@@ -122,11 +122,11 @@ TUNING_1030 = {
                 "**Holy Paladin**: Holy Power now acts on crit strength, not frequency, and Spiritual Focus becomes a real 5-rank talent.",
                 "Druids and Paladins will need to **rebuild their talents**: go through the calculator again before the November 4 launch.",
             ]),
-            ("note", "These changes come from hotfixes seen on Forever servers and not confirmed in development notes. No DPS or healing number is given: the tree reorganisation is not in our level-60 simulator yet, so nothing is measured here."),
+            ("note", "These changes, first seen on Forever servers, were confirmed by the official development notes of November 3 (see our article on those notes) and are now in our level-60 simulator; this article gives no DPS number, they are in the ranking."),
         ],
         "faq": [
-            ("Was the Druid buffed in WoW Forever before launch?", "Yes, several talents go up: Genesis (Balance) and Naturalist (Restoration) double their effect, and Shifting Power's (Feral) cooldown drops from 16 to 8 seconds. These are unconfirmed hotfixes and not simulated here."),
-            ("What happens to Holy Shield for Protection Paladin?", "It deals 32% less damage but costs 100 mana instead of 150. Iron Creed also gives 30% more threat, for 6% less damage taken. Nothing is simulated for now."),
+            ("Was the Druid buffed in WoW Forever before launch?", "Yes, several talents go up: Genesis (Balance) and Naturalist (Restoration) double their effect, and Shifting Power's (Feral) cooldown drops from 16 to 8 seconds. These changes were confirmed by the official notes of November 3."),
+            ("What happens to Holy Shield for Protection Paladin?", "It deals 32% less damage but costs 100 mana instead of 150. Iron Creed also gives 30% more threat, for 6% less damage taken. These values are in our simulator since the notes of November 3."),
         ],
         "links": [
             ("Druid talent calculator", "wow-forever/talents/druid/"),

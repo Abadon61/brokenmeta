@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+{% import "wow_related.html" as rel %}
+{% import "wow_talent_macros.html" as tm %}
+{% block title %}{{ pg.title }}{% endblock %}
+{% block description %}{{ pg.desc }}{% endblock %}
+{% block og_type %}article{% endblock %}
+{% block extra_head %}
+<link rel="stylesheet" href="{{ root }}assets/css/wow-rank-ws.css?v={{ page_css_v('wow-rank-ws.css') }}">
+<script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
+<script type="application/ld+json">{{ article_schema|tojson }}</script>
+{% endblock %}
+{% block content %}
+{% set fr = lang == 'fr' %}
+<div class="wsr" style="--cc: {{ r.class_color or '#8a6cff' }}">
+{# Spec page of the WoWSims ranking (2026-11-26): the build that gives the spec its rank, as WoWSims publishes it, checked against Wowhead. #}
+<section class="gh-hero is-flat" style="--cc: {{ r.class_color or '#8a6cff' }}">
+  <div class="gh-in">
+    <img class="pf-hero-ico gl-ico" src="{{ root }}{{ r.spec_icon }}" alt="{{ r.class_name }} {{ r.spec_name }}" width="84" height="84">
+    <div class="gh-main">
+      <div class="fiche-kicker">{{ tx.kicker }}</div>
+      <h1 class="gh-title">{{ pg.h1 }}</h1>
+      <div class="gh-chips">
+        <span class="gh-chip is-gold rk-big"><b class="nums">{{ pg.dps }}</b> {{ tx.dps }} <span class="ws-pm nums">± {{ pg.sem }}</span></span>
+        <span class="gh-chip"><b class="nums">#{{ pg.rank }}</b> {{ tx.rank }} {{ pg.of }}</span>
+        <span class="gh-chip">{{ tx.race }} <b>{{ pg.race }}</b></span>
+        {% if pg.preset != 'Default' %}<span class="gh-chip">{{ tx.preset }} <b>{{ pg.preset }}</b></span>{% endif %}
+      </div>
+      <p class="gh-lede">{{ pg.intro }}</p>
+    </div>
+    <div class="gh-cta">
+      <a class="gh-btn is-primary" href="{{ root }}{{ pg.sim_href }}">{{ tx.sim_btn }} <span aria-hidden="true">→</span></a>
+      <a class="gh-btn" href="{{ root }}{{ r.guide_path }}">{{ tx.guide_btn }}</a>
+    </div>
+  </div>
+</section>
+
+{% if pg.proof %}
+<section class="wsr-proof" aria-label="{{ tx.check_h }}">
+  <div class="wsr-proof-h"><span class="wsr-seal" aria-hidden="true">✓</span><div><b>{{ tx.check_h }}</b><span>{{ tx.p_vs.format(b=pg.proof.build) }}</span></div></div>
+  <div class="wsr-proof-c is-{{ pg.proof.tal_ok }}"><span class="wsr-pl">{{ tx.p_tal }}</span><b>{{ pg.proof.tal }}</b></div>
+  <div class="wsr-proof-c is-{{ pg.proof.gear_ok }}"><span class="wsr-pl">{{ tx.p_gear }}</span><b class="nums">{{ pg.proof.gear }}</b>{% if pg.proof.gear_w %}<i class="wsr-meter"><i style="width: {{ pg.proof.gear_w }}%"></i></i>{% endif %}</div>
+  <div class="wsr-proof-c is-ok"><span class="wsr-pl">{{ tx.p_trees }}</span><b>{{ tx.p_trees_v }}</b></div>
+</section>
+{% endif %}
+
+<nav class="gs-toc" aria-label="{{ 'Sommaire' if fr else 'Contents' }}">
+  <a href="#rk-talents">Talents</a>
+  <a href="#rk-dmg">{{ tx.sec_dmg }}</a>
+  <a href="#rk-stats">{{ tx.sec_stats }}</a>
+  <a href="#rk-gear">{{ tx.sec_gear }}</a>
+  <a href="#rk-setup">{{ tx.cons }}</a>
+  <a href="#rk-hyp">{{ tx.sec_method }}</a>
+</nav>
+
+<div class="gs-grid">
+
+<section class="gs-tile" id="rk-talents">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_talents }}</h2><a class="wsr-ext" href="{{ pg.calc_href }}" rel="noopener nofollow" target="_blank">{{ tx.wh_calc }} ↗</a></div>
+  {{ tm.trees(pg.tl, lang) }}
+</section>
+
+<section class="gs-tile" id="rk-dmg">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_dmg }}</h2></div>
+  <p class="rs-hint">{{ pg.dmg_p }}</p>
+  <div class="wsr-comp" role="img" aria-label="{{ tx.comp_h }}">{% for c in pg.comp %}<span class="wsr-seg{{ ' is-rest' if c.rest }}" style="flex: {{ c.share }} 1 0; --i: {{ loop.index0 }}" title="{{ c.name }} — {{ c.txt }}"></span>{% endfor %}</div>
+  <ul class="wsr-comp-k">{% for c in pg.comp %}<li style="--i: {{ loop.index0 }}" class="{{ 'is-rest' if c.rest }}"><i></i>{{ c.name }} <b class="nums">{{ c.txt }}</b></li>{% endfor %}</ul>
+  <div class="rs-table-wrap">
+  <table class="rs-table wsr-dmg">
+    <thead><tr><th>{{ tx.col_src }}</th><th class="rs-bar-col">{{ tx.col_share }}</th><th class="nums">{{ tx.col_dps }}</th><th class="nums">{{ tx.col_casts }}</th><th class="nums">{{ tx.col_crit }}</th></tr></thead>
+    <tbody>
+    {% for a in pg.dmg %}
+    <tr class="is-{{ a.kind }}"><td>{% if a.href %}<a class="rs-spell" href="{{ a.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ a.name }}</a>{% else %}{{ a.name }}{% endif %}{% if a.note %} <span class="rs-hint">{{ a.note }}</span>{% endif %}</td>
+        <td class="rs-bar-col"><span class="rs-bar-wrap"><span class="rs-bar" style="width: {{ a.bar }}%"></span></span><span class="nums rs-share">{{ a.share_txt }}</span></td>
+        <td class="nums">{{ a.dps }}</td><td class="nums">{{ a.casts }}</td><td class="nums">{{ a.crit }}</td></tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-stats">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_stats }}</h2></div>
+  <p class="rs-hint">{{ tx.stats_p }}</p>
+  <div class="wsr-stats">
+  <div>
+  <h3 class="wsr-k">{{ tx.p_prim }}</h3>
+  <div class="wsr-prim">{% for s in pg.prim %}<div><b class="nums">{{ s[1] }}</b><span>{{ s[0] }}</span></div>{% endfor %}</div>
+  <h3 class="wsr-k">{{ tx.p_combat }}</h3>
+  <div class="rk-cs wsr-cs">{% for s in pg.sheet %}<div><b class="nums">{{ s[1] }}</b><span>{{ s[0] }}</span></div>{% endfor %}</div>
+  </div>
+  {% if pg.ups %}<div>
+  <h3 class="wsr-k">{{ tx.sec_up }}</h3>
+  <ul class="wsr-ups">{% for u in pg.ups %}<li><a class="rs-spell" href="https://www.wowhead.com/forever/spell={{ u.sid }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ u.name }}</a><i class="wsr-meter"><i style="width: {{ u.w }}%"></i></i><b class="nums">{{ u.v }}</b></li>{% endfor %}</ul>
+  <p class="rs-hint wsr-up-p">{{ tx.up_p }}</p>
+  </div>{% endif %}
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-gear">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_gear }}</h2></div>
+  <p class="rs-hint">{{ tx.gear_p }}</p>
+  <div class="wsr-gear">
+    {% for g in pg.gear %}
+    <div class="wsr-it q{{ g.q }}">
+      <span class="wsr-ico">{% if g.icon %}<img src="{{ g.icon }}" alt="" width="40" height="40" loading="lazy">{% endif %}</span>
+      <span class="wsr-it-b">
+        <span class="wsr-slot">{{ g.slot }}</span>
+        <a class="wsr-name" href="https://www.wowhead.com/forever/item={{ g.id }}" rel="noopener nofollow" target="_blank">{{ g.name }}</a>
+        {% if g.src or g.extra %}<span class="wsr-src">{% if g.path %}<a href="{{ root }}{{ g.path }}">{{ g.src }}</a>{% else %}{{ g.src }}{% endif %}{% if g.extra %}{{ ' — ' if g.src }}{{ g.extra }}{% endif %}</span>{% endif %}
+        {% if g.ench %}<a class="wsr-ench" href="{{ g.ench.href }}" rel="noopener nofollow" target="_blank">✦ {{ g.ench.name }}</a>{% endif %}
+      </span>
+    </div>{% endfor %}
+  </div>
+  {% if pg.sets %}<div class="wsr-sets"><span class="wsr-k">{{ tx.sets }}</span>{% for x in pg.sets %}<span class="wsr-chip">{{ x }}</span>{% endfor %}</div>{% endif %}
+</section>
+
+<section class="gs-tile" id="rk-setup">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_setup }}</h2></div>
+  <div class="wsr-cols">
+    <div><h3 class="gs-sub">{{ tx.cons }}</h3>
+      <ul class="wsr-chips">{% for c in pg.cons %}<li><a class="rs-spell" href="{{ c.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ c.name }}</a> <span class="rs-hint">{{ c.kind }}</span></li>{% endfor %}</ul>
+      {% if pg.profs %}<p class="rs-hint"><b>{{ tx.profs }} :</b> {{ pg.profs|join(', ') }}</p>{% endif %}
+    </div>
+    <div><h3 class="gs-sub">{{ tx.buffs }}</h3>
+      <ul class="wsr-chips">{% for b in pg.buffs %}<li>{% if b.href %}<a class="rs-spell" href="{{ b.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ b.name }}</a>{% else %}{{ b.name }}{% endif %}</li>{% endfor %}</ul>
+    </div>
+    <div><h3 class="gs-sub">{{ tx.debuffs }}</h3>
+      <ul class="wsr-chips">{% for b in pg.debuffs %}<li>{% if b.href %}<a class="rs-spell" href="{{ b.href }}" data-wh-icon-size="small" rel="noopener nofollow" target="_blank">{{ b.name }}</a>{% else %}{{ b.name }}{% endif %}</li>{% endfor %}</ul>
+    </div>
+  </div>
+</section>
+
+<section class="gs-tile" id="rk-hyp">
+  <div class="gs-th"><h2 class="gs-h2">{{ tx.sec_method }}</h2></div>
+  <ul class="gd-list">{% for m in pg.method %}<li>{{ m }}</li>{% endfor %}</ul>
+  <p class="wow-note">{{ tx.credit|safe }}</p>
+  <div class="rk-links">
+    <a class="gh-btn is-primary" href="{{ root }}{{ pg.sim_href }}">{{ tx.sim_btn }} <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="{{ root }}{{ r.guide_path }}">{{ tx.guide_btn }} <span aria-hidden="true">→</span></a>
+    <a class="gh-btn" href="{{ root }}wow-forever/tier-list/">{{ tx.l_rank }} <span aria-hidden="true">→</span></a>
+  </div>
+  <nav class="rs-pn" aria-label="{{ tx.l_rank }}">
+    {% if pg.prev %}<a href="{{ root }}{{ pg.prev.page_path }}">← {{ pg.prev.class_name }} {{ pg.prev.spec_name }}</a>{% else %}<span></span>{% endif %}
+    {% if pg.next %}<a href="{{ root }}{{ pg.next.page_path }}">{{ pg.next.class_name }} {{ pg.next.spec_name }} →</a>{% endif %}
+  </nav>
+</section>
+
+</div>
+</div>
+<p class="wow-note">{{ wow_disclaimer }}</p>
+<script>
+(function () {
+  var links = document.querySelectorAll('.gs-toc a');
+  if (links.length && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) links.forEach(function (l) { l.classList.toggle('is-on', l.getAttribute('href') === '#' + e.target.id); }); });
+    }, { rootMargin: '-30% 0px -60% 0px' });
+    document.querySelectorAll('.gs-tile[id]').forEach(function (t) { io.observe(t); });
+  }
+})();
+</script>
+{{ rel.related(root, fr, ['tier', 'races', 'sets', 'leveling', 'sim'], r.class_id, r.class_name) }}
+{% endblock %}

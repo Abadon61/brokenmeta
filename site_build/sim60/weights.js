@@ -25,6 +25,10 @@ export function statWeights(cfg, iterations = 4000, seedBase = 1) {
     const lo = runBatch(withStats(cfg, down), iterations, seedBase).mean;
     out[k] = (hi - lo) / 2;
   }
+  if (caster && Math.abs(out.ap) < 1e-9) {        // a mana user that does not scale with spell power (Hunter, Retribution, Enhancement): probe attack power instead
+    const up = runBatch(withStats(cfg, { ap: 40 }), iterations, seedBase).mean, lo = runBatch(withStats(cfg, { ap: -40 }), iterations, seedBase).mean;
+    out.ap = (up - lo) / 2;
+  }
   const apPer = out.ap / 40;                      // DPS per AP (spell power for casters)
   return {
     perPoint: { ap: apPer, crit: out.crit, hit: out.hit, haste: out.haste },

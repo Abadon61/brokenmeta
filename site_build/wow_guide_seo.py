@@ -181,3 +181,22 @@ def quick_answers(lang, cls, spec, rank, leader, n_ranked, fight, launch, stats,
     if links.get("dung"):
         out.append({"q": t["q_dung"].format(**f), "a": t["a_dung"], "link": {"href": links["dung"], "label": t["l_dung"]}})
     return out
+
+
+# Spec-specific questions that Search Console shows people ask and the guide did not answer (2026-11-27), with the source the answer comes from.
+# Librams: Wowhead's Protection Paladin BiS guide for Forever (Libram section, read 2026-11-27); names from Wowhead's FR/EN tooltips.
+EXTRA = {
+    ("paladin", "protection"): {
+        "fr": [{"q": "Quel libram prendre en Paladin Protection dans WoW Forever ?",
+                "a": "Le guide BiS de Wowhead pour Forever place le Libram de ferveur en premier (objet lié quand équipé, trouvé dans le monde) : il augmente la puissance d'attaque de votre Sceau du Croisé et les dégâts sacrés de votre Jugement du Croisé. Un seul paladin du raid en a besoin : si un Paladin Vindicte l'a déjà, prenez le Libram de législation (+4 % aux dégâts de Jugement, 50 Réals de Terremine ternis). Viennent ensuite le Libram inébranlable (+30 % de valeur de blocage pendant Bouclier sacré, fabriqué en Enchantement) et, contre les morts-vivants, les Doctrines de la Main d'argent.",
+                "link": {"href": "https://www.wowhead.com/forever/guide/classes/paladin/protection/bis-gear", "label": "Guide BiS Wowhead"}}],
+        "en": [{"q": "What is the best libram for Protection Paladin in WoW Forever?",
+                "a": "Wowhead's Forever BiS guide puts Libram of Fervor first (bind on equip, world drop): it raises the attack power of your Seal of the Crusader and the Holy damage of your Judgement of the Crusader. Only one paladin in the raid needs it: if a Retribution Paladin already brings it, take Libram of Law (+4 % Judgement damage, 50 Tarnished Undermine Reals). Next come Steadfast Libram (+30 % block value while Holy Shield is active, crafted by Enchanting) and, against undead, Tenets of the Silver Hand.",
+                "link": {"href": "https://www.wowhead.com/forever/guide/classes/paladin/protection/bis-gear", "label": "Wowhead BiS guide"}}],
+    },
+}
+
+
+def extra(lang, cls_id, spec_id):
+    return [dict(x) for x in (EXTRA.get((cls_id, spec_id)) or {}).get(lang, [])]
+

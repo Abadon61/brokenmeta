@@ -4,7 +4,7 @@
 // sourced: Multi-Shot (the Forever cooldown is shared with Aimed Shot), Aspect of the Hawk, ammo damage, the pet's
 // attacks and Claw, Bestial Wrath's cooldown, Summon Hawk (a new Forever spell: rate and cooldown guessed), quiver haste.
 // Not simulated: melee weaving (Raptor Strike, Mongoose Bite), traps, Volley (area spell), Viper Sting, Aspect of the Viper.
-import { yellowAttack } from './shared.js';
+import { yellowAttack, setPieces } from './shared.js';
 import { setupMana, gainMana, spendMana, spiritRegenPerSec } from './spells.js';
 
 export const HUNTER = {
@@ -15,17 +15,18 @@ export const HUNTER = {
   serpent: { name: 'Serpent Sting', cost: 250, total: 555, ticks: 5, interval: 3 },
   sniper: { name: 'Sniper Shot', cost: 365, cast: 4, flat: 295, cd: 15 },
   rapidFire: { name: 'Rapid Fire', cost: 100, cd: 300, duration: 15, haste: 1.4 },
-  aspectHawk: { rap: 155 },                                                         // ASSUMED (Classic rank 7)
+  aspectHawk: { rap: 110 },                                                         // notes 3 Nov 2026: Aspect of the Hawk has 6 ranks (20, 35, 50, 70, 90, 110 ranged attack power); was ASSUMED Classic rank 7 (155)
   quiver: { haste: 1.15 },                                                          // ASSUMED (Classic quiver)
   ammoDps: 17.5,                                                                    // Forever ammo_auto_gen.go: Thorium Headed Arrow 17.5 DPS (was 20.5 ASSUMED)
   manaPotion: { cd: 120, min: 1350, max: 2250 }, manaGem: { cd: 120, min: 1073, max: 1127 },
   pet: { speed: 1.0, min: 44, max: 56, apFrac: 0.22, miss: 0.09, dodge: 0.05, crit: 0.05, special: { name: 'Claw', flat: 54, every: 2.0 } },   // ASSUMED (Classic cat)
   bestialWrath: { cd: 120, duration: 18, dmg: 1.5 },                                // cooldown ASSUMED
-  hawk: { name: 'Summon Hawk', cost: 150, cd: 120, duration: 18, every: 1.5, flat: 32, rapFrac: 0.05 },   // rate and cooldown ASSUMED
+  hawk: { name: 'Summon Hawk', cost: 190, cd: 120, duration: 18, every: 1.5, flat: 58, rapFrac: 0.09 },   // hotfix 10 Nov 2026: Hawk melee damage +80 % (32 -> 58, 5 % -> 9 %), mana cost 11 % of base mana like Arcane Shot (about 190)
+  // Summon Hawk rate and cooldown are ASSUMED
   // talents, per rank (Forever tooltips; per-rank = last rank / max rank)
   lethalAttacks: { crit: 0.01 }, efficiency: { cost: 0.03 }, carefulAim: { intToAp: 0.2 }, rapidKilling: { cd: 60 }, improvedArcane: { cd: 0.3 },
-  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.10 / 3 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
-  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.02 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
+  loneWolf: { dmg: 0.20 }, mortalShots: { critBonus: 0.06 }, barrage: { dmg: 0.05 }, rangedSpec: { dmg: 0.01 }, improvedStings: { dmg: 0.20 / 3 },
+  surefooted: { hit: 0.01 }, lightningReflexes: { agi: 0.03 }, unleashedFury: { pet: 0.03 }, ferocity: { petCrit: 0.02 }, frenzy: { haste: 1.3, dur: 8 },
   focusedFire: { dmg: 0.01 }, deadlyAspects: { chance: 0.02, haste: 1.3, dur: 12 }, bestialDiscipline: { keep: 0.25 },
 };
 
@@ -46,9 +47,13 @@ export function hunterKit(build = {}, data = null) {
     if (aim) { const e = eff(aim, 'normalized_weapon_damage'); if (e) H.aimed.flat = e.flat; H.aimed.cost = aim.resource_cost.mana; H.aimed.cast = hunterParseCast(aim.cast_time); if (aim.cooldown_sec) H.aimed.cd = aim.cooldown_sec; }
     if (arc) { const e = eff(arc, 'direct_damage'); if (e) H.arcane.flat = e.flat; H.arcane.cost = arc.resource_cost.mana; if (arc.cooldown_sec) H.arcane.cd = arc.cooldown_sec; }
     if (ser) { const e = eff(ser, 'periodic_damage'); if (e) { H.serpent.total = e.total_damage; H.serpent.interval = e.tick_interval_sec; H.serpent.ticks = Math.round(e.duration_sec / e.tick_interval_sec); } H.serpent.cost = ser.resource_cost.mana; }
+    // Blizzard's notes of 3 Nov 2026, not in the client tables yet (read 2026-11-03): Aimed Shot bonus damage +110%, Arcane Shot base damage +30% (and 0.15 attack power coefficient, see the cast below),
+    // Serpent Sting base damage +20% (5% attack power a tick, see below), Sniper Shot bonus damage +100%. Applied only while the Aimed Shot value is still the old one (about 166 at level 60).
+    if (H.aimed.flat < 250) { H.aimed.flat *= 2.1; H.arcane.flat *= 1.3; H.serpent.total *= 1.2; H.sniperDone = false; H.announced = true; }
     const fut = (n) => (data.hunter.future || []).find((f) => f.name === n);
     const rf = fut('Rapid Fire'); if (rf) { H.rapidFire.cost = rf.rank.cost.amount; H.rapidFire.cd = rf.rank.cooldown_ms / 1000; H.rapidFire.duration = rf.rank.duration_ms / 1000; const e = rf.rank.effects.find((x) => x.aura === 140); if (e) H.rapidFire.haste = 1 + e.base / 100; }
     const ss = fut('Sniper Shot'); if (ss) { H.sniper.cost = ss.rank.cost.amount; H.sniper.cast = ss.rank.cast_ms / 1000; H.sniper.cd = ss.rank.cooldown_ms / 1000; const e = ss.rank.effects.find((x) => x.effect === 121); if (e) H.sniper.flat = e.base; }
+    if (H.announced) H.sniper.flat *= 2.0;
   }
 
   return {
@@ -69,6 +74,10 @@ export function hunterKit(build = {}, data = null) {
       sim.dmgGlobal = (petOn ? 1 + H.focusedFire.dmg * b.focusedFire : 1) * (petOn ? 1 : 1 + H.loneWolf.dmg * b.loneWolf) * (1 + H.rangedSpec.dmg * b.rangedSpec) * (1 + 0.01 * b.improvedTracking);      // Improved Tracking: +1 %/rank on all damage (Forever talents_survival.go: the hunter is taken to track the target)
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: H.bestialDiscipline.keep * b.bestialDiscipline });
       sim.cd = { shared: 0, arcane: 0, sniper: 0, rapid: 0, potion: 0, gem: 0, wrath: 0, hawk: 0 };
+      // Dawnstalker Armor (Sanctified set 1937, Wowhead Forever text): 2 pieces = the shots (not Auto Shot) deal +20 % to a target with Serpent Sting; 4 = a ranged crit gives +20 % attack power for 10 s;
+      // 6 = Multi-Shot hits 2 more targets (one target here) and Kill Shot / Chimera Shot feed it (neither is simulated): no effect
+      const dsn = setPieces(sim, 1937); sim.dsSet = { two: dsn >= 2, four: dsn >= 4 };
+      sim.aDawn = sim.addAura({ name: 'Dawnstalker Armor (4)', duration: 10, mods: { apMult: 1.2 } });
       sim.aRapid = sim.addAura({ name: 'Rapid Fire', duration: H.rapidFire.duration, mods: { hasteMult: H.rapidFire.haste } });
       sim.aDeadly = sim.addAura({ name: 'Deadly Aspects', duration: H.deadlyAspects.dur, mods: { hasteMult: H.deadlyAspects.haste } });
       sim.aWrath = sim.addAura({ name: 'Bestial Wrath', duration: H.bestialWrath.duration });
@@ -101,8 +110,10 @@ export function hunterKit(build = {}, data = null) {
 function shot(sim, name, flat, dmgMult, critBonus, isAuto, apShare) {
   const b = sim.kitBuild, H = sim.spec.H, rw = sim.rw;
   // Arcane Shot is not a weapon strike: its damage is the spell's own plus a share of ranged attack power (Forever arcane_shot.go: 10 %)
-  const rawFn = apShare ? () => (flat + apShare * sim.ap()) * dmgMult * sim.dmgGlobal : () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1);
+  const ds = !isAuto && sim.dsSet && sim.dsSet.two && sim.serpentEnds > sim.now ? 1.2 : 1;      // set bonus (2)
+  const rawFn = apShare ? () => (flat + apShare * sim.ap()) * dmgMult * sim.dmgGlobal * ds : () => (sim.weaponRoll(rw) + H.ammoDps * rw.speed + sim.ap() / 14 * rw.speed + flat) * dmgMult * sim.dmgGlobal * (sim.aWrath.active ? 1 : 1) * ds;
   const o = yellowAttack(sim, name, rawFn, { canDodge: false, bonusCrit: critBonus || 0, magic: !!apShare });      // Arcane Shot is an arcane school hit: no armor
+  if (o === 'crit' && sim.dsSet && sim.dsSet.four) sim.aDawn.apply();      // set bonus (4)
   if (isAuto && b.deadlyAspects && b.aspect && o !== 'miss' && sim.rng() < H.deadlyAspects.chance * b.deadlyAspects) sim.aDeadly.apply();
   return o;
 }
@@ -233,7 +244,7 @@ function hunterRotate(sim, b, H) {
   const cast = (s, flat, extraMult = 1, onLand) => {
     sim.gcdReadyAt = now + 1.5; spendMana(sim, cost(s)); sim.entry(s.name).casts++;
     const run = () => {
-      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.1 : 0);
+      const o = shot(sim, s.name, flat, extraMult, 0, false, s === H.arcane ? 0.15 : 0);      // notes 3 Nov 2026: Arcane Shot attack power coefficient 0.15 (0.1)
       if (onLand) onLand(o);
     };
     if (s.cast) {
@@ -252,7 +263,7 @@ function hunterRotate(sim, b, H) {
     if (o === 'miss') sim.entry(H.serpent.name).misses++;
     else {
       sim.serpentEnds = now + H.serpent.ticks * H.serpent.interval;
-      const per = (H.serpent.total / H.serpent.ticks + 0.02 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
+      const per = (H.serpent.total / H.serpent.ticks + 0.05 * sim.ap()) * (1 + H.improvedStings.dmg * b.improvedStings) * sim.dmgGlobal;      // + 2 % of ranged attack power a tick (Forever serpent_sting.go)
       const critP = sim.critChance(0), cm = sim.critMult();
       const my = (sim.stingToken = (sim.stingToken || 0) + 1);
       let n = 0;
@@ -318,8 +329,11 @@ export function hunterMeleeKit(build = {}, data = null) {
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.cd = { raptor: 0, mongoose: 0, strider: 0, potion: 0, gem: 0 };
       sim.mbUntil = -1; sim.aFrenzy = sim.addAura({ name: 'Frenzy', duration: H.frenzy.dur }); sim.aWrath = sim.addAura({ name: 'Bestial Wrath', duration: 18 });
+      // Dawnstalker Prowess (Sanctified set 1936): 4 pieces = a melee crit gives +20 % attack speed for 10 s. 2 (Strikes +20 % against Serpent Sting / Wyvern Strike) and 6 (Raptor Fury) need abilities this kit does not have
+      sim.dpSet4 = setPieces(sim, 1936) >= 4; sim.aProwess = sim.addAura({ name: 'Dawnstalker Prowess (4)', duration: 10, mods: { hasteMult: 1.2 } });
       sim.procs.push((s, outcome, source, isOH, isWhite) => {
         if (outcome === 'miss' || outcome === 'dodge') return;
+        if (outcome === 'crit' && s.dpSet4) s.aProwess.apply();
         if (b.exposePrey && s.rng() < M.exposePrey.chance * b.exposePrey) s.mbUntil = s.now + M.mongoose.window;
       });
       if (sim.petOn) (b.petModel === 'classic' ? startPet : startPetForever)(sim, b, H);

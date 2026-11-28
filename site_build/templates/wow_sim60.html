@@ -7,6 +7,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
+<link rel="stylesheet" href="{{ root }}assets/css/wow-wowsims.css?v={{ page_css_v('wow-wowsims.css') }}">
 {% endblock %}
 {% block content %}
 {# Simulator page (maquette validée 2026-10-10): compact hero, inputs in tiles on the left, sticky run + results on the right. #}
@@ -19,6 +20,22 @@
   </div></div>
 </section>
 <p class="sm-beta">{{ tx.beta_note }}</p>
+
+{# WoWSims Forever engine (2026-11-26, step 1): the open-source engine compiled to WebAssembly, on WoWSims' builds; see js/wow-wowsims.js #}
+<section class="gs-tile ws-tile" id="wsSim" data-base="{{ root }}assets/wowsims/" data-lang="{{ lang }}" data-worker="{{ root }}assets/js/wow-wowsims-worker.js?v={{ js_v('wow-wowsims-worker.js') }}">
+  <div class="gs-th"><h2 class="gs-h2">{{ 'Simuler avec le moteur WoWSims' if lang == 'fr' else 'Simulate with the WoWSims engine' }}</h2></div>
+  <p class="wow-note">{% if lang == 'fr' %}Le moteur open source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> (licence MIT) tourne dans votre navigateur, sur les builds que WoWSims propose pour chaque spécialisation : ce sont les chiffres de notre <a href="{{ root }}wow-forever/tier-list/">tier list</a>. Votre propre équipement et l'import de l'addon passeront bientôt sur ce moteur ; en attendant, ils restent sur notre simulateur ci-dessous.{% else %}The open-source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> engine (MIT license) runs in your browser, on the builds WoWSims offers for each spec: these are the numbers of our <a href="{{ root }}wow-forever/tier-list/">tier list</a>. Your own gear and the addon import will move to this engine soon; until then they stay on our simulator below.{% endif %}</p>
+  <div class="ws-form">
+    <label>{{ 'Spécialisation et build' if lang == 'fr' else 'Spec and build' }} <select id="wsPreset"></select></label>
+    <label>{{ 'Durée du combat' if lang == 'fr' else 'Fight length' }} <select id="wsDur"><option value="60">60 s</option><option value="120">120 s</option><option value="180" selected>180 s</option><option value="300">300 s</option></select></label>
+    <label>{{ 'Combats' if lang == 'fr' else 'Fights' }} <select id="wsIters"><option value="1000">1 000</option><option value="3000" selected>3 000</option><option value="10000">10 000</option></select></label>
+    <button type="button" id="wsRun" class="ws-run" disabled>{{ 'Lancer la simulation' if lang == 'fr' else 'Run the simulation' }}</button>
+  </div>
+  <p id="wsLog" class="wow-note" aria-live="polite"></p>
+  <div id="wsOut"></div>
+  <p class="ws-credit">{{ '★ = build retenu pour la tier list.' if lang == 'fr' else '★ = build used for the tier list.' }}</p>
+</section>
+<script src="{{ root }}assets/js/wow-wowsims.js?v={{ js_v('wow-wowsims.js') }}" defer></script>
 
 <div id="s60App" data-base="{{ root }}assets/sim60/" data-v="{{ s60.data_v }}" data-lang="{{ lang }}"
      data-worker="{{ root }}assets/sim60/{{ s60.worker }}">

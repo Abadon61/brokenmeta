@@ -44,6 +44,7 @@
 {% endif %}
 <details class="gs-more gs-sources">
   <summary>{{ wt.sources }}</summary>
+  {% if wt_class.announced %}<p class="gs-lede">{{ wt.announced_note }}</p><p class="gs-lede"><strong>{{ wt.announced_list }}</strong>{% for n in wt_class.announced %}{{ n[lang] }}{% if not loop.last %}, {% endif %}{% endfor %}.</p>{% endif %}
   <p class="gs-lede">{{ wt.rules_src }}<a href="{{ rules_source[1] }}" rel="noopener nofollow" target="_blank">{{ rules_source[0] }}</a>{% if wt_class.source %} · <a href="{{ wt_class.source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.source.label }}</a>{% endif %}{% if wt_class.icons_source %} · <a href="{{ wt_class.icons_source.url }}" rel="noopener nofollow" target="_blank">{{ wt_class.icons_source.label }}</a>{% endif %}</p>
 </details>
 <script>

@@ -95,7 +95,12 @@
   const SLOT_OF_INV = { 4: 'shirt', 5: 'chest', 20: 'chest', 6: 'waist', 7: 'legs', 8: 'feet', 9: 'wrist', 10: 'hands', 16: 'back', 19: 'tabard' };
   const TUNE = {
     // fitted against Wowhead's own render of the same item (pad box measured as a fraction of the body height); tilt = pads fan outward
+    1: { s: 1.08, up: 0.012, out: 0.01, fwd: 0, tilt: 0.1 },         // human male (Wowhead item 4733 #modelviewer:1+0, front + side, 2026-11-25)
+    3: { s: 1.50, up: -0.035, out: -0.085, fwd: 0.05, tilt: 0 },     // orc male (Wowhead item 4733 #modelviewer:2+0, front + side, 2026-11-25)
+    4: { s: 0.92, up: 0.045, out: -0.027, fwd: 0.03, tilt: 0.25 },  // orc female (Wowhead item 4733 #modelviewer:2+1, front + side, 2026-11-25)
     5: { s: 0.80, up: 0.025, out: 0.061, fwd: 0.05, tilt: 0.25 },    // dwarf male
+    7: { s: 1.15, up: 0.08, out: -0.025, fwd: 0.01, tilt: 0.1 },     // night elf male (Wowhead item 4733 #modelviewer:4+0, front + side, 2026-11-25)
+    8: { s: 0.80, up: 0.09, out: -0.008, fwd: 0.01, tilt: 0.33 },    // night elf female (Wowhead item 4733 #modelviewer:4+1, front + side, 2026-11-25)
     10: { s: 0.56, up: -0.006, out: 0.008, fwd: 0.02, tilt: 0.25 }, // undead female
     11: { s: 1.78, up: -0.092, out: 0.087, fwd: 0.1, tilt: 0.25 },   // tauren male
     12: { s: 1.11, up: 0.114, out: 0.132, fwd: 0.05, tilt: 0.25 },   // tauren female

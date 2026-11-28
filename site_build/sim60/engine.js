@@ -5,7 +5,7 @@ import { makeRng } from './rng.js';
 import { attachEffects } from './effects.js';
 import {
   GCD, RAGE_CAP, HIT_FACTOR, CRIT_MULT_PHYSICAL, DUAL_WIELD_MISS_PENALTY, OVERPOWER_WINDOW,
-  meleeTable, armorDR, rageConversion, PLAYER_LEVEL,
+  meleeTable, armorDR, rageConversion, PLAYER_LEVEL, WINDFURY_TOTEM,
 } from './constants.js';
 
 // ---- binary min-heap of events ordered by (time, seq) ----
@@ -118,6 +118,7 @@ export class Sim {
     this.counters = Object.create(null); this.tank = cfg.player.tank ? Object.assign({}, cfg.player.tank) : null;
     this.threatMult = null; this.takenMult = 1; this.bossHooks = []; this.blockBonus = null;
     this.spec = cfg.spec; this.spec.setup(this);
+    if (cfg.player.windfuryTotem && cfg.player.weapons.length && !cfg.player.ranged && !this.noWindfuryTotem) this._setupWindfuryTotem();
     attachEffects(this);
   }
 
@@ -170,6 +171,7 @@ export class Sim {
   record(source, amount, kind, tick) {
     const e = this.entry(source);
     e.dmg += amount; this.total += amount;
+    if (this.recordHook) this.recordHook(source, amount);
     if (this.log) this.log.push([Math.round(this.now * 10) / 10, source, kind, !!tick]);
     if (this.threatMult) this.counters.threat = (this.counters.threat || 0) + amount * this.threatMult(source);
     if (kind === 'crit') { e.crits++; e.hits++; } else if (kind === 'glance') { e.glances++; e.hits++; } else e.hits++;
@@ -230,6 +232,30 @@ export class Sim {
   // A melee/ranged outcome hook: spec & procs react (Flurry, Unbridled Wrath, weapon enchants...).
   onMeleeHit(outcome, source, isOffHand, isWhite) {
     for (let i = 0; i < this.procs.length; i++) this.procs[i](this, outcome, source, isOffHand, isWhite);
+  }
+
+  // Windfury Totem (WoWSims Forever sim/core/buffs/drivers.go, client spells 10612 / 10610): every landed main-hand hit, white or yellow, rolls 20 % (100 ms internal cooldown)
+  // for ONE extra main-hand swing (a copy of the auto attack, it can glance) and for +246 attack power on the next 2 landed auto attacks (1 s). The hit that procs is dealt
+  // before the buff, then spends the first charge if it is an auto attack; the extra swing spends the next: a special leaves one charge for the following auto.
+  _setupWindfuryTotem() {
+    const W = WINDFURY_TOTEM, aura = this.addAura({ name: 'Windfury Totem attack power', duration: W.duration, mods: { apBonus: W.ap } });
+    aura.charges = 0; this.wfTotemAt = -1;
+    const spend = (s, isWhite) => { if (isWhite && aura.active && --aura.charges <= 0) aura.expire(); };
+    this.procs.push((s, outcome, source, isOH, isWhite) => {
+      if (outcome === 'miss' || outcome === 'dodge') return;
+      if (!isOH && !s.inWfTotem && !/off-hand/.test(source) && s.now >= s.wfTotemAt && s.rng() < W.chance) {
+        s.wfTotemAt = s.now + W.icd; aura.charges = W.charges; aura.apply(1);
+        spend(s, isWhite);
+        const mh = s.swings.find((x) => !x.w.offHand);
+        if (mh) {
+          const label = s.whiteLabel; s.whiteLabel = 'Windfury Totem'; s.inWfTotem = true; s.entry('Windfury Totem').casts++;
+          s.whiteAttack(mh);
+          s.inWfTotem = false; s.whiteLabel = label;
+        }
+        return;
+      }
+      spend(s, isWhite);
+    });
   }
 
   // -------- auto attacks --------

@@ -15,11 +15,11 @@ const spell = (name) => ({ name, cd: 0, readyAt: 0, casts: 0 });
 // ---------------------------------------------------------------------------------------------------------------------------
 // Protection Warrior
 export const WARRIOR_PROT = {
-  stance: { threat: 1.3, taken: 0.9, dealt: 0.9 },
+  stance: { threat: 1.8, taken: 0.9, dealt: 0.9 },       // Defensive Stance threat 80% since the notes of 3 Nov 2026 (30% before)
   shieldSlam: { cost: 20, cd: 6, dmg: 655, var: 0.05, threat: 0 },          // no flat threat (Forever: 0 until measured in game)
   revenge: { cost: 5, cd: 5, dmg: 153, var: 0.2, window: 5, threatMult: 2.25, apCoeff: 0.28 },   // threat = 2.25 x damage (Forever, measured in game on rank 2)
   sunder: { cost: 15, threat: 206, apCoeff: 0.05, armor: 450, maxStacks: 5, dur: 30 }, shieldBlock: { cost: 10, cd: 5, dur: 7, charges: 2, block: 0.75 }, heroicStrike: { cost: 15, flat: 157, threat: 152.4 }, bloodrage: { immediate: 10, overTime: 10, cd: 60 },
-  shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.05 },
+  shieldSpec: { block: 0.01, rage: 5, chance: 0.2 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, improvedRevenge: { dmg: 0.2 }, defiance: { threat: 0.2 / 3 },
   bastion: { dmg: 0.02 }, focusedRage: { cost: 1 }, masterOfDefense: { rage: 5, chance: 0.5 }, improvedSunder: { cost: 1 },
 };
 export const WARRIOR_PROT_DEFAULT_BUILD = {
@@ -133,8 +133,8 @@ export const PALADIN_PROT = {
   holyStrike: { cost: 20, cd: 10, wpnPct: 0.5, flat: 93, spCoeff: 0.429 },
   judgement: { cd: 10, costPct: 0.06, baseMana: 1250, dmg: 178, spCoeff: 0.5 },
   sealCost: 200, sealPerSecond: 25, sealDur: 30,                                                // per-swing damage ASSUMED
-  rf: { threat: 1.6 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, precision: { hit: 0.01 }, oneHand: { dmg: 0.10 / 3 }, improvedRf: { taken: 0.02 },
-  reckoning: { chance: 0.08 }, redoubt: { chance: 0.02, block: 0.20, blocks: 5, dur: 10 }, ironCreed: { threat: 0.05 }, sacredDuty: { sta: 0.02 },
+  rf: { threat: 1.33, holy: 2.23 }, anticipation: { def: 4 }, toughness: { armor: 0.02 }, precision: { hit: 0.01 }, oneHand: { dmg: 0 }, improvedRf: { taken: 0.03 },
+  reckoning: { chance: 0.08 }, redoubt: { chance: 0.02, block: 0.20, blocks: 5, dur: 10 }, ironCreed: { threat: 0.10 }, sacredDuty: { sta: 0.02 },
   manaPotion: { cd: 120, min: 1350, max: 2250 },
 };
 export const PALADIN_PROT_DEFAULT_BUILD = {
@@ -159,7 +159,7 @@ export function paladinProtKit(build = {}, data = null) {
       mods.dmgMult *= 1 + P.oneHand.dmg * b.oneHandWeaponSpecialization;
       sim.takenMult *= 1 - P.improvedRf.taken * b.improvedRighteousFury;
       const HOLY = /Holy|Seal|Judgement|Consecration/;
-      sim.threatMult = (name) => (HOLY.test(name) ? P.rf.threat * (name === 'Holy Strike' ? 1 + P.ironCreed.threat * b.ironCreed : 1) : 1);
+      sim.threatMult = (name) => (HOLY.test(name) ? P.rf.holy * (name === 'Holy Strike' ? 1 + P.ironCreed.threat * b.ironCreed : 1) : P.rf.threat);      // Righteous Fury (notes, 3 Nov 2026): +33% threat on everything and +90% more on Holy damage (additive)
       setupMana(sim, { manaMax: st.mana, mp5: st.mp5 || 0, spiritRegen: spiritRegenPerSec({ int: st.int, spi: st.spi }), castingFraction: 0 });
       sim.baseBlock = t.block; sim.hsUntil = -1; sim.hsCharges = 0; sim.redoubtBlocks = 0; sim.redoubtUntil = -1; sim.sealUntil = -1;
       sim.cd = { hs: 0, holyStrike: 0, judgement: 0, potion: 0 };
@@ -220,7 +220,7 @@ export function paladinProtKit(build = {}, data = null) {
 // ---------------------------------------------------------------------------------------------------------------------------
 // Bear Druid (Dire Bear Form)
 export const DRUID_BEAR = {
-  armorMult: 4.6, threat: 1.5, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
+  armorMult: 4.6, threat: 2.15, natural: { min: 45, max: 70, speed: 2.5 },      // threat 1.5: Forever druid.go bearFormThreatMultiplier (was 1.3 ASSUMED)                         // armor +360% from the client; the rest ASSUMED
   maul: { cost: 15, flat: 128 }, swipe: { cost: 20, dmg: 83 }, lacerate: { cost: 15, tick: 15, ticks: 5, interval: 3, hit: 10 }, enrage: { rage: 10, cd: 60 },
   naturalReaction: { dodge: 0.01, rage: 5 }, feralSwiftness: { dodge: 0.02 }, thickHide: { armor: 60 }, heartOfTheWild: { sta: 0.04 }, sharpenedClaws: { crit: 0.03 },
   predatoryStrikes: { ap: 30 }, savageFury: { dmg: 0.05 }, feralInstinct: { dmg: 0.10 }, ferocity: { cost: 1 }, shreddingAttacks: { cost: 1 }, bloodFrenzy: { rage: 5, chance: 0.5 },

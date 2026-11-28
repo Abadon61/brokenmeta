@@ -22,16 +22,21 @@ export function castGcd(sim, spell, fn, gcd = 1.5) {
 
 // Deep Wounds (Forever, talents_arms.go): a crit adds (share x the main hand's average weapon damage, no attack power) to what is still unticked and spreads the sum
 // over a full set of four 3-second ticks; the tick timer of a running bleed is kept. Returns the function to call on every crit.
-export function makeDeepWounds(sim, avgMh, share) {
+export function makeDeepWounds(sim, avgMh, share, onTick) {
   const st = { remaining: 0, per: 0 };
   const tick = () => {
     if (st.remaining <= 0) return;
-    st.remaining--; sim.record('Deep Wounds', st.per * sim.mods.dmgMult, 'hit');
+    st.remaining--; sim.record('Deep Wounds', st.per * sim.mods.dmgMult, 'hit'); if (onTick) onTick();
     if (st.remaining > 0) sim.schedule(3, tick);
   };
-  return () => {
+  const apply = () => {
     const outstanding = st.remaining * st.per, wasActive = st.remaining > 0;
     st.remaining = 4; st.per = (outstanding + avgMh * share) / 4;
     if (!wasActive) sim.schedule(3, tick);
   };
+  apply.active = () => st.remaining > 0;
+  return apply;
 }
+
+// Pieces worn of one or more class sets (player.sets, filled by buildCharacter from the gear's `set` ids).
+export function setPieces(sim, ...ids) { const m = sim.player.sets || {}; let n = 0; for (const id of ids) n += m[id] || 0; return n; }

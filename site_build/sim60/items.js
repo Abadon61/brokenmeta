@@ -10,6 +10,7 @@ const SLOT_IDS = { ring1: [11], ring2: [11], trinket1: [12], trinket2: [12], shi
 export function slotsFor(mode) { return mode === 'tank' ? EQUIP_SLOTS.concat(['shield']) : mode === 'caster' ? EQUIP_SLOTS.concat(['held']) : EQUIP_SLOTS; }
 
 const CLASS_KEY = { warrior: 'WARRIOR', paladin: 'PALADIN', hunter: 'HUNTER', rogue: 'ROGUE', priest: 'PRIEST', shaman: 'SHAMAN', mage: 'MAGE', warlock: 'WARLOCK', druid: 'DRUID' };
+const CLASS_BIT = { warrior: 1, paladin: 2, hunter: 4, rogue: 8, priest: 16, shaman: 64, mage: 128, warlock: 256, druid: 1024 };
 const ARMOR_TYPES = new Set(['Cloth', 'Leather', 'Mail', 'Plate Mail']);
 
 export class ItemPool {
@@ -18,8 +19,15 @@ export class ItemPool {
     this.byId = new Map(this.items.map((i) => [i.id, i]));
     this.prof = proficiencyJson.classes;
   }
-  canEquip(item, cls, level = 60) {
+  // mode (optional): 'tank' | 'ranged' | other weapon modes. Class-restricted items (the Sanctified sets) carry a class bitmask; their role keeps tank/healer pieces out of DPS
+  // setups, and the Hunter melee / ranged sets only count for the matching mode.
+  canEquip(item, cls, level = 60, mode) {
     if ((item.req || 0) > level) return false;
+    if (item.classes && !(item.classes & CLASS_BIT[cls])) return false;
+    if (mode) {
+      if (item.role === 'heal' || (item.role === 'tank' && mode !== 'tank')) return false;
+      if (item.only && (item.only === 'ranged') !== (mode === 'ranged')) return false;
+    }
     const p = this.prof[CLASS_KEY[cls]];
     if (!p) return false;
     if (ARMOR_TYPES.has(item.type) || (item.type && p[item.type] !== undefined)) {
@@ -28,9 +36,9 @@ export class ItemPool {
     }
     return true;                       // rings, trinkets, necks, cloaks: no restriction
   }
-  forSlot(slotKey, cls, level = 60) {
+  forSlot(slotKey, cls, level = 60, mode) {
     const ids = ARMOR_SLOTS[slotKey] || SLOT_IDS[slotKey];
-    return this.items.filter((i) => ids.includes(i.slot) && this.canEquip(i, cls, level));
+    return this.items.filter((i) => ids.includes(i.slot) && this.canEquip(i, cls, level, mode));
   }
   weapons(cls, level = 60) {
     const w = { oneHand: [], mainHand: [], offHand: [], twoHand: [], ranged: [] };

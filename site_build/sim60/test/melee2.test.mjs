@@ -50,12 +50,12 @@ test('talents and attack power move the DPS of the new melee specs', () => {
   }
 });
 
-test('Feral cat uses the Forever finishers and cooldowns: Savage Roar, Tiger Fury, Shifting Power, Berserk', () => {
+test('Feral cat uses the Forever finishers and cooldowns: Savage Roar, Tiger Fury, Shifting Power (Berserk is gone since the notes of 3 Nov 2026)', () => {
   const r = run('druid_feral', {}, null, 180, 500);
   assert.ok(r.uptimes['Savage Roar'] > 0.7, 'Savage Roar ' + r.uptimes['Savage Roar']);
-  assert.ok(r.breakdown["Tiger's Fury"].casts >= 5 && r.breakdown['Shifting Power'].casts > 5 && r.breakdown['Berserk'].casts >= 1);
+  assert.ok(r.breakdown["Tiger's Fury"].casts >= 5 && r.breakdown['Shifting Power'].casts > 5 && !r.breakdown['Berserk']);
   assert.ok(r.mean > 300, 'dps ' + r.mean);
-  assert.ok(r.mean > run('druid_feral', { shiftingPower: 0, improvedShiftingPower: 0, berserk: 0 }, null, 180, 500).mean, 'the talents add DPS');
+  assert.ok(r.mean > run('druid_feral', { shiftingPower: 0 }, null, 180, 500).mean, 'the talents add DPS');
 });
 
 test('Enhancement: Windfury Weapon gives the client\'s 2 extra attacks, Searing Totem is dropped, Maelstrom Weapon needs full stacks at 5 ranks', () => {
@@ -82,7 +82,7 @@ test('Enhancement: Earth Shock is cast on its cooldown and adds damage', () => {
 test('Enhancement: Stormstrike comes first, Lightning Bolt is cast from one Maelstrom stack, Improved Stormstrike and Convection pay for it, swings go on while casting', () => {
   const base = run('shaman_enhancement', {}, null, 180, 500);
   assert.ok(base.breakdown['Lightning Bolt'].casts > 5, 'LB casts ' + base.breakdown['Lightning Bolt'].casts);
-  assert.ok(base.mean > run('shaman_enhancement', { improvedStormstrike: 0 }, null, 180, 500).mean, 'Improved Stormstrike mana');
+  assert.ok(base.mean > run('shaman_enhancement', { improvedStormstrike: 0 }, null, 180, 500).mean * 0.99, 'Improved Stormstrike never hurts (after the 10 Nov 2026 hotfix mana is even less short)');
   assert.ok(base.mean > run('shaman_enhancement', { convection: 0, elementalFocus: 0 }, null, 180, 500).mean * 0.99, 'Convection and Elemental Focus never hurt (mana is rarely short with the WoWSims regeneration, so they are worth little)');
   const swings = (r) => { const w = r.breakdown['White (main hand)']; return w.hits + w.misses + w.dodges + w.glances; };
   const none = run('shaman_enhancement', { earthShock: false, flameShock: false, maelstromMin: 9, fireTotem: 'none' }, null, 180, 300), spam = run('shaman_enhancement', { maelstromMin: 0 }, null, 180, 300);

@@ -109,14 +109,14 @@ export async function optimizeGearAsync({ pool, character, evaluate, getWeights,
     }
     for (const slot of SLOTS) {
       const used = new Set(SLOTS.filter((s) => s !== slot && bySlot[s]).map((s) => bySlot[s].id));
-      let cands = pool.forSlot(slot, cls, 60).filter((i) => !used.has(i.id));
+      let cands = pool.forSlot(slot, cls, 60, mode).filter((i) => !used.has(i.id));
       cands.sort((a, b) => score(b, w) - score(a, w));
-      cands = withEffectItems(cands.slice(0, prefilter), pool.forSlot(slot, cls, 60).filter((i) => !used.has(i.id)));
+      cands = withEffectItems(cands.slice(0, prefilter), pool.forSlot(slot, cls, 60, mode).filter((i) => !used.has(i.id)));
       const current = bySlot[slot];
       let bestItem = current, bestDps = best;
       for (const it of cands) {
         if (current && it.id === current.id) continue;
-        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st };
+        bySlot[slot] = { slot, id: it.id, name: it.name, st: it.st, set: it.set };
         const d = await evaluate(specOf());
         if (d > bestDps + 0.05) { bestDps = d; bestItem = bySlot[slot]; }
       }

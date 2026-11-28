@@ -2,6 +2,7 @@
 {% import "macros.html" as m %}
 {% block title %}{{ g_title }}{% endblock %}
 {% block description %}{{ g_desc }}{% endblock %}
+{% block og_image %}{{ BASE_URL }}{{ og_banner }}{% endblock %}
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
@@ -17,7 +18,7 @@
     <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
       {% if r.spec_icon %}<img src="{{ root }}{{ r.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
       <span class="tlw-name"><b>{{ r.spec_name }}</b><small>{{ r.class_name }}</small></span>
-      <span class="tlw-val nums">{{ num(r.value) }} {{ unit }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }}</small></span>
+      <span class="tlw-val nums">{{ num(r.value) }} {{ unit }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }} · ± {{ '%.1f'|format(r.sem or 0)|replace('.', ',' if lang == 'fr' else '.') }}</small></span>
     </a>
     {% endfor %}
   </div>
@@ -30,9 +31,11 @@
   <div class="gh-in"><div class="gh-main">
     <div class="fiche-kicker">{{ tx.kicker }}</div>
     <h1 class="gh-title">{{ g_h1 }}</h1>
-    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt) }}</span>{% endfor %}</div>
+    <div class="gh-chips">{% for c in tx.chips %}<span class="gh-chip{{ ' is-role' if loop.first }}">{{ c.format(build=tl.build, date=tl.date_txt, hotfix=tl.hotfix_txt) }}</span>{% endfor %}</div>
     <p class="gh-lede">{{ g_intro }}</p>
+    <div class="gh-chips"><a class="gh-chip is-role" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.cta_sim }}</a>{% for h, l in tx.jump %}<a class="gh-chip" href="{{ h }}">{{ l }}</a>{% endfor %}</div>
     <p class="gh-lede"><b>{{ tx.best.format(name=tl.top.class_name ~ ' ' ~ tl.top.spec_name, dps=num(tl.top.value)) }}</b></p>
+    {% if tl.ws_credit %}<p class="gh-lede">{{ tl.ws_credit|safe }}</p>{% endif %}
   </div></div>
 </section>
 
@@ -40,18 +43,35 @@
 <p class="tlw-quick-p">{{ tl.quick }}</p>
 </section>
 
-<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_dps }}</h2></div>
+{% if tl.changes %}
+<section class="gs-tile tlw-changes" id="changes"><div class="gs-th"><h2 class="gs-h2">{{ tx.chg_h.format(since=tl.changes.since) }}</h2></div>
+<p>{{ tx.chg_p.format(reason=tl.changes.reason) }}</p>
+<div class="tlw-rows">
+  {% for c in tl.changes.moved %}
+  <a class="tlw-row" href="{{ root }}{{ c.row.page_path }}" style="--rc: {{ c.row.class_color or '#8a6cff' }}">
+    {% if c.row.spec_icon %}<img src="{{ root }}{{ c.row.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
+    <span class="tlw-name"><b>{{ c.row.spec_name }}</b><small>{{ c.row.class_name }} · {{ c.txt }}</small></span>
+    <span class="tlw-val nums">{{ num(c.old) }} → {{ num(c.new) }}<small>{{ '%+.1f'|format(c.delta)|replace('.', ',' if lang == 'fr' else '.') }} %</small></span>
+  </a>
+  {% endfor %}
+</div>
+{% if tl.changes.n_same %}<p class="tlw-note">{{ tx.chg_same.format(names=tl.changes.same) }}</p>{% endif %}
+<p class="tlw-note">{{ tx.chg_note.format(hotfix=tl.hotfix_txt) }}</p>
+</section>
+{% endif %}
+
+<section class="gs-tile" id="dps"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_dps }}</h2></div>
 {{ tier_block(tl.dps, tx.unit_dps) }}
 </section>
 
 {% if tl.tank %}
-<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_tank }}</h2></div>
+<section class="gs-tile" id="tanks"><div class="gs-th"><h2 class="gs-h2">{{ tx.h_tank }}</h2></div>
 <div class="tlw-rows tlw-flat">
   {% for r in tl.tank %}
   <a class="tlw-row" href="{{ root }}{{ r.page_path }}" style="--rc: {{ r.class_color or '#8a6cff' }}">
     {% if r.spec_icon %}<img src="{{ root }}{{ r.spec_icon }}" alt="" width="32" height="32" loading="lazy">{% endif %}
     <span class="tlw-name"><b>{{ r.spec_name }}</b><small>{{ r.class_name }}</small></span>
-    <span class="tlw-val nums">{{ num(r.value) }} {{ tx.unit_tps }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }}</small></span>
+    <span class="tlw-val nums">{{ num(r.value) }} {{ tx.unit_tps }}<small>{{ r.pct|string|replace('.', ',' if lang == 'fr' else '.') }} % {{ tx.of_top }} · ± {{ '%.1f'|format(r.sem or 0)|replace('.', ',' if lang == 'fr' else '.') }}</small></span>
   </a>
   {% endfor %}
 </div>
@@ -77,7 +97,7 @@
       <h3>{{ c.name }}</h3>
       <ul>
         {% for r in c.specs %}
-        <li><a href="{{ root }}{{ r.page_path }}"><span class="tlw-t" data-tier="{{ r.tier }}">{{ r.tier }}</span>{{ r.spec_name }}<em class="nums">{{ num(r.value) }} {{ tx.unit_tps if r.tier == 'T' else tx.unit_dps }}</em></a><a class="tlw-g" href="{{ root }}{{ r.guide_path }}">{{ tx.open_guide }}</a></li>
+        <li><a href="{{ root }}{{ r.page_path }}"><span class="tlw-t" data-tier="{{ r.tier }}">{{ r.tier }}</span>{{ r.spec_name }}<em class="nums">{{ num(r.value) }} {{ tx.unit_tps if r.tier == 'T' else tx.unit_dps }}</em></a><a class="tlw-g" href="{{ root }}{{ r.guide_path }}">{{ tx.open_guide }}</a><a class="tlw-g" href="{{ root }}wow-forever/simulateur-dps/?spec={{ r.spec_id }}">{{ tx.open_sim }}</a></li>
         {% endfor %}
       </ul>
     </div>
@@ -87,8 +107,18 @@
 <p class="tlw-note">{{ tx.art_credit }}</p>
 </section>
 
-<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.heal_h }}</h2></div>
+<section class="gs-tile" id="healers"><div class="gs-th"><h2 class="gs-h2">{{ tx.heal_h }}</h2></div>
 <p>{{ tx.heal_p }} <a href="{{ root }}wow-forever/classes/">{{ tx.heal_link }}</a>.</p>
+</section>
+
+<section class="gs-tile" id="conditions"><div class="gs-th"><h2 class="gs-h2">{{ tx.cond_h }}</h2></div>
+<p>{{ tl.cond_p }}</p>
+<ul class="tlw-choose">{% for i in tl.cond_items %}<li>{{ i }}</li>{% endfor %}</ul>
+</section>
+
+<section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.cmp_h }}</h2></div>
+<p>{{ tx.cmp_p }}</p>
+<p><a class="gh-chip is-role" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.cta_sim }}</a></p>
 </section>
 
 {{ m.ad_slot('tierlist', lang) }}
@@ -98,10 +128,12 @@
 
 <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">{{ tx.links_h }}</h2></div>
 <div class="gh-chips">
+  <a class="gh-chip" href="{{ root }}wow-forever/tier-lists/">{{ 'Toutes les tier lists' if lang == 'fr' else 'All tier lists' }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/simulateur-dps/">{{ tx.l_sim }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/talents/">{{ tx.l_calc }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/dungeons/">{{ tx.l_dung }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/races/">{{ tx.l_races }}</a>
+  <a class="gh-chip" href="{{ root }}wow-forever/sets/">{{ 'Ensembles Sanctified' if lang == 'fr' else 'Sanctified sets' }}</a>
   <a class="gh-chip" href="{{ root }}wow-forever/leveling/">{{ tx.l_level }}</a>
 </div>
 </section>

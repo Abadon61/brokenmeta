@@ -1,0 +1,117 @@
+/* Spec pages of the WoWSims DPS ranking (/wow-forever/classement/<spec>/), loaded by that page only.
+   One accent per page: the class colour (--cc, set on .wsr), mixed into the site's navy; quality colours only on items. */
+.wsr { --acc: color-mix(in srgb, var(--cc) 78%, #cfe0ff); --ok: #46d7a8; --near: #f2c14e; --far: #ff8a6b; }
+.ws-pm { font-weight: 500; opacity: .7; font-size: .85em; margin-left: 2px; }
+.wsr .gh-title { text-wrap: balance; }
+.wsr .gh-lede, .wsr .rs-hint { max-width: 68ch; text-wrap: pretty; }
+.wsr-k { margin: 14px 0 8px; font: 600 11px 'Space Mono', monospace; letter-spacing: .09em; text-transform: uppercase; color: var(--text-faint); }
+
+/* ---- proof strip: the Wowhead cross-check, readable at a glance */
+.wsr-proof { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); margin: 16px 0 6px; border: 1px solid var(--border);
+  border-radius: var(--dash-radius); overflow: hidden; background: linear-gradient(180deg, #0f1550, #0b0f3d); box-shadow: var(--dash-glow); }
+.wsr-proof > div { padding: 14px 18px; min-width: 0; }
+.wsr-proof > div + div { border-left: 1px solid var(--border); }
+.wsr-proof-h { display: flex; gap: 12px; align-items: center; }
+.wsr-proof-h b { display: block; color: var(--cream); font-size: 15px; }
+.wsr-proof-h span:not(.wsr-seal) { display: block; font-size: 12.5px; color: var(--text-dim); line-height: 1.35; margin-top: 2px; }
+.wsr-seal { flex: none; display: grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; font-weight: 800;
+  color: #062a20; background: var(--ok); box-shadow: 0 0 0 4px color-mix(in srgb, var(--ok) 18%, transparent); }
+.wsr-pl { display: block; font-size: 11.5px; color: var(--text-faint); margin-bottom: 4px; }
+.wsr-proof-c b { font-size: 17px; color: var(--cream); }
+.wsr-proof-c.is-ok b { color: var(--ok); } .wsr-proof-c.is-near b { color: var(--near); } .wsr-proof-c.is-far b { color: var(--far); }
+.wsr-meter { display: block; height: 5px; margin-top: 8px; border-radius: 3px; background: rgba(255, 255, 255, .07); overflow: hidden; }
+.wsr-meter > i { display: block; height: 100%; border-radius: inherit; background: var(--acc); }
+.wsr-proof-c.is-ok .wsr-meter > i { background: var(--ok); } .wsr-proof-c.is-near .wsr-meter > i { background: var(--near); }
+
+/* ---- talents header link */
+.gs-th:has(.wsr-ext) { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.gs-th .wsr-ext { margin-left: auto; font-size: .86rem; white-space: nowrap; color: var(--acc); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color .2s; }
+.gs-th .wsr-ext:hover { border-color: currentColor; }
+
+/* ---- damage: one stacked bar for the whole fight, then the table (bars relative to the biggest source) */
+.wsr { --s0: var(--acc); --s1: color-mix(in srgb, var(--acc) 80%, #0b0f3d); --s2: color-mix(in srgb, var(--acc) 64%, #0b0f3d); --s3: color-mix(in srgb, var(--acc) 50%, #0b0f3d);
+  --s4: color-mix(in srgb, var(--acc) 38%, #0b0f3d); --s5: color-mix(in srgb, var(--acc) 28%, #0b0f3d); --s6: #2a3070; }
+.wsr-comp { display: flex; gap: 2px; height: 14px; margin: 12px 0 10px; border-radius: 7px; overflow: hidden; }
+.wsr-seg { min-width: 3px; background: var(--s0); transition: filter .2s; }
+.wsr-seg:hover { filter: brightness(1.25); }
+.wsr-seg[style*="--i: 1"], .wsr-comp-k li[style*="--i: 1"] i { background: var(--s1); }
+.wsr-seg[style*="--i: 2"], .wsr-comp-k li[style*="--i: 2"] i { background: var(--s2); }
+.wsr-seg[style*="--i: 3"], .wsr-comp-k li[style*="--i: 3"] i { background: var(--s3); }
+.wsr-seg[style*="--i: 4"], .wsr-comp-k li[style*="--i: 4"] i { background: var(--s4); }
+.wsr-seg[style*="--i: 5"], .wsr-comp-k li[style*="--i: 5"] i { background: var(--s5); }
+.wsr-seg.is-rest, .wsr-comp-k li.is-rest i { background: var(--s6); }
+.wsr-comp-k { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 0 0 14px; padding: 0; list-style: none; font-size: 12.5px; color: var(--text-dim); }
+.wsr-comp-k li { display: inline-flex; align-items: center; gap: 6px; }
+.wsr-comp-k i { width: 9px; height: 9px; border-radius: 2px; background: var(--s0); }
+.wsr-comp-k b { color: var(--cream); font-weight: 600; font-size: 12px; }
+.wsr-dmg .rs-bar { background: var(--acc); border-radius: 2px; }
+.wsr-dmg tr.is-auto .rs-bar { background: color-mix(in srgb, var(--acc) 45%, #8b95c9); }
+.wsr-dmg tr.is-pet .rs-bar { background: #c9a2ff; }
+.wsr-dmg tr.is-item .rs-bar { background: #f2c14e; }
+.wsr-dmg tbody tr { transition: background-color .15s; }
+.wsr-dmg tbody tr:hover { background: rgba(120, 140, 255, .06); }
+.wsr-dmg tbody tr:first-child td:first-child { font-weight: 700; }
+.wsr-dmg .rs-bar-col { width: 34%; }
+.wsr-dmg .rs-bar-wrap { width: calc(100% - 64px); height: 9px; border: 0; border-radius: 5px; background: rgba(255, 255, 255, .06); }
+
+/* ---- character sheet | uptimes side by side */
+.wsr-stats { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 28px; }
+.wsr-up-p { margin-top: 10px; }
+@media (max-width: 1000px) { .wsr-stats { grid-template-columns: 1fr; gap: 4px; } }
+.wsr-prim { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border: 1px solid var(--border); border-radius: 11px; overflow: hidden; background: var(--bg-2); }
+.wsr-prim div { padding: 10px 8px; text-align: center; }
+.wsr-prim div + div { border-left: 1px solid var(--border); }
+.wsr-prim b { display: block; font: 700 18px 'Space Mono', monospace; color: var(--cream); }
+.wsr-prim span { font-size: 11.5px; color: var(--text-faint); }
+.wsr-cs div { border-radius: 9px; }
+.wsr-ups { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.wsr-ups li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(60px, 1fr) 44px; align-items: center; gap: 10px; font-size: 13.5px; }
+.wsr-ups .wsr-meter { margin: 0; height: 6px; }
+.wsr-ups b { text-align: right; font-size: 12.5px; color: var(--cream); }
+
+/* ---- gear: icon cards with the item quality as a ring */
+.wsr-gear { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 8px; margin-top: 12px; }
+.wsr-it { --q: #9aa3c7; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-items: start; padding: 10px 12px; border-radius: 11px;
+  background: rgba(13, 18, 69, .65); border: 1px solid var(--border); transition: border-color .2s, transform .2s, background-color .2s; }
+.wsr-it:hover { border-color: color-mix(in srgb, var(--q) 55%, var(--border)); background: rgba(19, 26, 90, .8); transform: translateY(-1px); }
+.wsr-it.q2 { --q: #1eff00; } .wsr-it.q3 { --q: #4aa3ff; } .wsr-it.q4 { --q: #c77bff; } .wsr-it.q5 { --q: #ff8000; }
+.wsr-ico { width: 44px; height: 44px; border-radius: 9px; overflow: hidden; background: #060930; box-shadow: 0 0 0 2px var(--q), 0 4px 14px color-mix(in srgb, var(--q) 25%, transparent); }
+.wsr-ico img { display: block; width: 100%; height: 100%; }
+.wsr-it-b { display: flex; flex-direction: column; min-width: 0; gap: 1px; }
+.wsr-slot { font: 600 10.5px 'Space Mono', monospace; letter-spacing: .08em; text-transform: uppercase; color: var(--text-faint); }
+.wsr-name { color: var(--q); font-weight: 700; font-size: 15px; line-height: 1.25; text-decoration: none; }
+.wsr-name:hover { text-decoration: underline; }
+.wsr-src { font-size: 12.5px; color: var(--text-dim); line-height: 1.35; }
+.wsr-src a { color: inherit; text-decoration-color: rgba(166, 178, 230, .4); }
+.wsr-ench { margin-top: 3px; align-self: flex-start; font-size: 12px; color: #7fe3c2; text-decoration: none; }
+.wsr-ench:hover { text-decoration: underline; }
+.wsr-sets { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; }
+.wsr-sets .wsr-k { margin: 0 6px 0 0; }
+.wsr-chip { padding: 4px 10px; border-radius: 7px; font-size: 12.5px; background: color-mix(in srgb, var(--acc) 12%, transparent); border: 1px solid color-mix(in srgb, var(--acc) 30%, transparent); color: var(--cream); }
+
+/* ---- consumables, buffs, debuffs */
+.wsr-cols { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 22px; }
+.wsr-chips { margin: 6px 0 10px; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.wsr-chips li { padding: 5px 10px; border-radius: 8px; background: var(--bg-2); border: 1px solid var(--border); font-size: 13px; transition: border-color .2s; }
+.wsr-chips li:hover { border-color: var(--border-bright); }
+.wsr-chips .rs-hint { font-size: 11px; margin-left: 4px; }
+
+.wsr a:focus-visible, .wsr-it:focus-within { outline: 2px solid var(--acc); outline-offset: 2px; }
+
+@media (max-width: 1000px) {
+  .wsr-proof { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .wsr-proof-h { grid-column: 1 / -1; border-bottom: 1px solid var(--border); }
+  .wsr-proof > div + div { border-left: 0; } .wsr-proof-c + .wsr-proof-c { border-left: 1px solid var(--border) !important; }
+  .wsr-cols { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (max-width: 600px) {
+  .wsr-proof > div { padding: 12px 12px; }
+  .wsr-proof-c b { font-size: 15px; }
+  .wsr-prim { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .wsr-prim div:nth-child(4) { border-left: 0; }
+  .wsr-prim div:nth-child(n+4) { border-top: 1px solid var(--border); }
+  .wsr-gear { grid-template-columns: 1fr; }
+  .gs-th .wsr-ext { margin-left: 0; white-space: normal; }
+  .wsr-ups li { grid-template-columns: minmax(0, 1fr) 70px 40px; }
+}
+@media (prefers-reduced-motion: reduce) { .wsr-it, .wsr-seg, .wsr-dmg tbody tr { transition: none; } .wsr-it:hover { transform: none; } }

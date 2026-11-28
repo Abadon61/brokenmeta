@@ -6,6 +6,7 @@
 {% block extra_head %}
 <script type="application/ld+json">{{ breadcrumb_schema|tojson }}</script>
 <script type="application/ld+json">{{ article_schema|tojson }}</script>
+<link rel="stylesheet" href="{{ root }}assets/css/wow-transmog.css?v={{ page_css_v('wow-transmog.css') }}">
 {% endblock %}
 {% block content %}
 {# Transmog simulator (2026-10-30): own WebGL engine (js/wow-transmog-*.js), baked models and textures under assets/transmog/. #}

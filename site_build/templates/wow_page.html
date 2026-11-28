@@ -52,7 +52,8 @@
     <div>
       <div class="fiche-kicker">{{ 'Simulation · niveau 60' if fr else 'Simulation · level 60' }}</div>
       <h1 class="hr-h1" id="hr-h">{{ 'Classement des spécialisations WoW: Forever' if fr else 'WoW: Forever specialization ranking' }}</h1>
-      <p class="hr-lede">{{ 'Chaque spécialisation est simulée sur un boss immobile pendant 180 secondes, avec les buffs de raid de sa famille et le meilleur équipement connu de la bêta. Ce classement ne tient compte que des objets déjà datamined : beaucoup d\'objets restent à découvrir, et il peut donc changer.' if fr else "Each specialization is simulated on a stationary boss for 180 seconds, with its family's raid buffs and the best gear known from the beta. This ranking only counts items that have already been datamined: many items are still undiscovered, so it can change." }}</p>
+      {# DPS numbers from the WoWSims Forever engine since 2026-11-26 (wow_tierlist_ws.py); tanks stay on our simulator #}
+      <p class="hr-lede">{% if fr %}Chaque spécialisation DPS est simulée avec le moteur open source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> (licence MIT), sur le build Pre-BiS que WoWSims propose pour elle : combat de 180 secondes contre un boss, sans objet de raid (les raids ouvrent le 9 décembre). Les tanks restent classés par notre propre simulateur.{% else %}Each DPS specialization is simulated with the open-source <a href="https://github.com/wowsims/forever" rel="noopener" target="_blank">WoWSims Forever</a> engine (MIT license), on the Pre-BiS build WoWSims offers for it: a 180-second fight against a boss, with no raid items (raids open on December 9). Tanks are still ranked by our own simulator.{% endif %}</p>
     </div>
     <div class="hr-btns" style="display:flex;gap:10px;flex-wrap:wrap">
       <a class="wh-btn" href="{{ root }}wow-forever/tier-list/">{{ 'Voir la tier list' if fr else 'See the tier list' }} <span aria-hidden="true">→</span></a>
@@ -201,7 +202,7 @@
 {% if wow_slug and not page.faq %}</div>
 <aside class="ct-side">
   <section class="gs-tile"><div class="gs-th"><h2 class="gs-h2">World of Warcraft: Forever</h2></div>
-  <nav class="ct-nav">{% for sl, lf, le in (('sortie', 'Sortie', 'Release'), ('beta', 'Bêta', 'Beta'), ('editions', 'Éditions et prix', 'Editions & prices'), ('classes', 'Classes et races', 'Classes & races'), ('progression', 'Progression 1-60', 'Leveling 1-60'), ('faq', 'FAQ', 'FAQ')) %}<a href="{{ root }}wow-forever/{{ sl }}/"{% if sl == wow_slug %} class="is-on" aria-current="page"{% endif %}>{{ lf if fr else le }}</a>{% endfor %}</nav></section>
+  <nav class="ct-nav">{% for sl, lf, le in (('sortie', 'Sortie', 'Release'), ('editions', 'Éditions et prix', 'Editions & prices'), ('classes', 'Classes et races', 'Classes & races'), ('progression', 'Progression 1-60', 'Leveling 1-60'), ('faq', 'FAQ', 'FAQ')) %}<a href="{{ root }}wow-forever/{{ sl }}/"{% if sl == wow_slug %} class="is-on" aria-current="page"{% endif %}>{{ lf if fr else le }}</a>{% endfor %}</nav></section>
   <details class="gs-more gs-sources"><summary>{{ wow_ui.sources }}</summary>
   <p class="profile-section-note" style="display:block">{{ wow_ui.sources_note }}</p>
   <ul class="gd-list wow-sources">{% for label, url in wow_sources %}<li><a href="{{ url }}" rel="noopener nofollow" target="_blank">{{ label }}</a></li>{% endfor %}</ul></details>
@@ -210,7 +211,7 @@
 
 {% if page.faq %}
 {# the questions are in the same order in FR and EN (asserted in wow_content.py); groups are lists of positions #}
-{% set fq_groups = [(('Le jeu' if fr else 'The game'), 'game', [0, 1, 2, 6, 7, 8]), (('La bêta' if fr else 'The beta'), 'beta', [3, 4, 5]), (('Le site' if fr else 'The site'), 'site', [9])] %}
+{% set fq_groups = [(('Le jeu' if fr else 'The game'), 'game', [0, 1, 2, 3, 4, 5]), (('Le site' if fr else 'The site'), 'site', [6])] %}
 <div class="fq-bar">
   <div class="search-row"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg><input type="search" id="fqSearch" class="search-input" placeholder="{{ 'Rechercher une question…' if fr else 'Search a question…' }}" aria-label="{{ 'Rechercher une question' if fr else 'Search a question' }}" autocomplete="off"></div>
   <nav class="fq-toc" aria-label="{{ 'Catégories' if fr else 'Categories' }}">{% for gname, gid, gidx in fq_groups %}<a href="#{{ gid }}">{{ gname }} <b class="nums">{{ gidx|length }}</b></a>{% endfor %}</nav>

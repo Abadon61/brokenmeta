@@ -55,6 +55,8 @@ import wow_news  # noqa: E402
 import game_news  # noqa: E402
 import wow_rank_texts  # noqa: E402
 import wow_tierlist  # noqa: E402
+import wow_tierlist_ws  # noqa: E402 -- the DPS ranking from the WoWSims Forever engine
+import wow_rank_ws  # noqa: E402 -- its spec pages (/wow-forever/classement/<spec>/)
 import wow_launch  # noqa: E402
 import wow_guide_seo  # noqa: E402
 import wow_guide_leveling  # noqa: E402
@@ -62,6 +64,7 @@ import wow_leveling  # noqa: E402
 import wow_leveling_class  # noqa: E402
 import wow_racepick  # noqa: E402
 import wow_racepick_tx  # noqa: E402
+import wow_sets  # noqa: E402
 import wow_dungeon_extras as dgx  # noqa: E402
 import wow_guide_rotation  # noqa: E402
 import wow_articles  # noqa: E402
@@ -429,6 +432,34 @@ def _render_rank_spec(render, canonical_for, lang, wow_ui, r, rlist, i, wt_class
     render("wow_rank_spec.html", path, lang, active_nav="wow", active_sub="wow-index", rx=rx, pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
            breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
            article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
+
+
+_ZONE_FR = {}
+
+
+def zone_fr(zone, lang):
+    """French name of a dungeon or raid (the WoWSims database names zones in English); other zones keep their English name."""
+    if lang != "fr" or not zone:
+        return zone
+    if not _ZONE_FR:
+        for f, k in ((PROJECT / "data" / "wow_dungeons" / "dungeons.json", "dungeons"), (PROJECT / "data" / "wow_raids" / "raids.json", "raids")):
+            for d in json.loads(f.read_text(encoding="utf-8"))[k]:
+                _ZONE_FR[d["name"]["en"]] = d["name"]["fr"]
+    return _ZONE_FR.get(zone, zone)
+
+
+def _render_rank_ws(render, canonical_for, lang, wow_ui, r, rlist, i):
+    """Spec page of the WoWSims ranking: /wow-forever/classement/<spec>/ (the build WoWSims ranks, checked against Wowhead)."""
+    pg = wow_rank_ws.page(lang, r, i, rlist, zone_path, _prof_info, zone_fr)
+    if not pg:
+        return False
+    path = "/wow-forever/classement/" + r["slug"] + "/"
+    url = canonical_for(path, lang)
+    assert len(pg["title"]) <= 60 and len(pg["desc"]) <= 155, (pg["title"], len(pg["title"]), pg["desc"], len(pg["desc"]))
+    render("wow_rank_ws.html", path, lang, active_nav="wow", active_sub="wow-index", tx=wow_rank_ws.TX[lang], pg=pg, r=r, wow_disclaimer=wow_content.DISCLAIMER[lang],
+           breadcrumb_schema=breadcrumb_schema([(wow_ui["section"], canonical_for("/", lang)), (r["class_name"] + " " + r["spec_name"], url)]),
+           article_schema=build_article_schema(pg["h1"], url, pg["desc"]))
+    return True
 
 
 def _healing_table(lang, cls_id, power=350):
@@ -7451,7 +7482,7 @@ def main() -> None:
         except Exception as _e:
             print(f"[game_news] {_g} refresh failed, using the stored archive: {_e}")
             _game_news[_g] = game_news.load(_g)
-    env.globals["wow_beta_group"] = ["", "beta", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
+    env.globals["wow_beta_group"] = ["", "sortie", "editions", "classes"]      # pages grouped under the "Bêta : Forever" menu, in this order
     env.globals["wow_launched"] = wow_content.launched()
     # (profession pages: the level-30 asterisks and their notes only describe the beta's cap, wow_launched drops them)      # after the launch the menu group is just "Forever" (BM_FORCE_LAUNCHED=1 previews it)
     # "Theorycraft" menu (2026-09-26, user request): talent calculator, Item builder, simulate my character.
@@ -7485,6 +7516,7 @@ def main() -> None:
     env.globals["addon_url"] = ADDON_CURSEFORGE_URL
     env.globals["addon_urls"] = ADDON_CURSEFORGE_URLS
     env.globals["js_v"] = lambda name: hashlib.sha256((ROOT / "js" / name).read_bytes()).hexdigest()[:10]
+    env.globals["page_css_v"] = lambda name: hashlib.sha256((ROOT / "css" / name).read_bytes()).hexdigest()[:10]   # per-page stylesheets (css/), own cache-buster
     env.globals["css_v"] = hashlib.sha256(Path(__file__).read_bytes() + (ROOT / "style_base.css").read_bytes() + (ROOT / "vendor" / "bm-charts.js").read_bytes()).hexdigest()[:10]
     # Ads (2026-10-28): off by default. BM_ADS=1 turns the placements on, and a placement only renders when it has an AdSense ad-unit id here (create the units in AdSense, paste the ids).
     env.globals["ads_enabled"] = os.environ.get("BM_ADS") == "1"
@@ -8233,6 +8265,11 @@ def main() -> None:
         # formulas): computed once per language since spec/class names are localized, sits at the
         # top of the wow-forever homepage per user request (2026-09-25), not a "/simulateur/" subpage.
         _wow_ranking, _wow_ranking_tanks = build_wow_ranking60(wt_classes, lang) if wt_classes else ([], [])
+        # DPS ranking from the WoWSims Forever engine (2026-11-26): same rows, WoWSims' DPS and margin, the guide as the row's page;
+        # the former simulator's rows stay in _wow_ranking_sim60 for the tier list's "what changed" block
+        _wow_ranking_sim60, _ws_rank = _wow_ranking, wow_tierlist_ws.load()
+        if _ws_rank and _wow_ranking:
+            _wow_ranking = wow_tierlist_ws.apply(_wow_ranking, _ws_rank)
         _pre_meta = wow_launch.load_meta()          # pre-raid simulator run (data/wow_prebis60.json), for the guides' "at launch" tile
         _pre_all = (lambda a, b: a + b)(*build_wow_ranking60(wt_classes, lang, "wow_prebis60.json")) if (wt_classes and _pre_meta) else []
         if wt_classes and not _wow_ranking:          # no simulator ranking file yet: the older level-30 engine
@@ -8261,7 +8298,7 @@ def main() -> None:
                 _bis_gear_data["specs"].get(_bspec_id, []), wow_guides.TXT[lang]["stat_names"])
         for _wslug, _wfr, _wen in wow_content.NAV:
             _wp = wow_content.PAGES[lang][_wslug]
-            if wow_content.launched() and _wslug != "beta":      # the FAQ markup is built from this model: rewrite it here too, not only the HTML
+            if wow_content.launched():      # the FAQ markup is built from this model: rewrite it here too, not only the HTML
                 _wp = wow_content.launch_text(_wp, lang)
             if wt_classes and _wslug == "":            # the calculator exists: link it from the section's home
                 import copy
@@ -8272,7 +8309,7 @@ def main() -> None:
                     for _b in _sec["blocks"]:
                         if _b["type"] == "cards":
                             _b["items"] = list(_b["items"])
-                            _b["items"].insert(4, _card)
+                            _b["items"].insert(3, _card)
             _wpath = "/wow-forever/" + (_wslug + "/" if _wslug else "")
             _wurl = canonical_for(_wpath, lang)
             _wcrumbs = [(_wow_ui["section"], canonical_for("/", lang))]
@@ -8309,6 +8346,14 @@ def main() -> None:
                                                          "alt_canonical": canonical_for("/", "en" if lang == "fr" else "fr")})
             else:
                 render("wow_page.html", _wpath, lang, **_wow_kw)
+        # The former beta page is gone (2026-11-21, user): its URL stays as a redirect stub to the release page so no old link breaks.
+        _rdir = DIST / ("en" if lang == "en" else "") / "wow-forever" / "beta"
+        _rdir.mkdir(parents=True, exist_ok=True)
+        _rto = canonical_for("/wow-forever/sortie/", lang)
+        (_rdir / "index.html").write_text(
+            '<!doctype html><html lang="%s"><head><meta charset="utf-8"><title>WoW: Forever</title><meta name="robots" content="noindex">'
+            '<link rel="canonical" href="%s"><meta http-equiv="refresh" content="0; url=%s"></head>'
+            '<body><a href="%s">WoW: Forever</a></body></html>' % (lang, _rto, _rto, _rto), encoding="utf-8")
         if wt_classes:
             _builds60 = json.loads((PROJECT / "data" / "wow_guides" / "builds60.json").read_text(encoding="utf-8"))["builds"]
             _wt = {**wow_talents.TXT[lang], "sources": wow_talents.TXT[lang]["sources"]}
@@ -8459,10 +8504,23 @@ def main() -> None:
                    breadcrumb_schema=breadcrumb_schema([(_wow_ui["section"], canonical_for("/", lang)), (_nw["h1"], _nurl)]),
                    news_schema={"@context": "https://schema.org", "@type": "CollectionPage", "name": _nw["h1"], "url": _nurl, "inLanguage": lang,
                                 "mainEntity": {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": n + 1, "url": r["url"], "name": r["title"]} for n, r in enumerate(_nrows[:20])]}})
+        _ws_pages = set()
         for _rlist in (_wow_ranking, _wow_ranking_tanks):
             for _ri, _rr in enumerate(_rlist):
-                if _rr.get("detail"):
+                if _rr.get("ws"):
+                    if _render_rank_ws(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri):
+                        _ws_pages.add(_rr["slug"])
+                elif _rr.get("detail"):
                     _render_rank_spec(render, canonical_for, lang, _wow_ui, _rr, _rlist, _ri, wt_classes)
+        if _ws_rank:      # former simulator's DPS pages with no WoWSims page (feral cat): their URLs redirect to the tier list
+            _tl_url = canonical_for("/wow-forever/tier-list/", lang)
+            for _rr in [x for x in _wow_ranking_sim60 if x["slug"] not in _ws_pages]:
+                _rdir = DIST / ("en" if lang == "en" else "") / "wow-forever" / "classement" / _rr["slug"]
+                _rdir.mkdir(parents=True, exist_ok=True)
+                (_rdir / "index.html").write_text(
+                    '<!doctype html><html lang="%s"><head><meta charset="utf-8"><title>WoW: Forever</title><meta name="robots" content="noindex">'
+                    '<link rel="canonical" href="%s"><meta http-equiv="refresh" content="0; url=%s"></head><body><a href="%s">WoW: Forever</a></body></html>'
+                    % (lang, _tl_url, _tl_url, _tl_url), encoding="utf-8")
         if wt_classes and (wow_guide_list or wow_profs):
             _gx = wow_guides.TXT[lang]
             _gbase = [(_wow_ui["section"], canonical_for("/", lang))]
@@ -8582,6 +8640,7 @@ def main() -> None:
                             {"talents": _tal_href, "gear": "#gs-gear" if _g["content"].get(_s["id"]) else None, "rot": "#gs-rotation" if _lvl60.get("rot") else None,
                              "race": f"wow-forever/races/{_cls['id']}/" if _race_best else None,
                              "dung": (f"wow-forever/dungeons/?spec={_dg_spec_key}#dfd" if _dg_spec_key else "wow-forever/dungeons/")}, leveling=bool(_leveling))
+                        _quick = _quick + wow_guide_seo.extra(lang, _cls["id"], _s["id"])          # questions seen in Search Console (librams...)
                     render("wow_guide_spec.html", _spath, lang, active_nav="wow", active_sub="wow-guides", tx=_gx, wow_ui=_wow_ui, cls=_cls, spec=_s, launch=_launch, lx=wow_launch.TX[lang], dg_spec_key=_dg_spec_key, sim_id=_sim_page_id, class_news=_class_news,
                            quick=_quick, quick_h2=(wow_guide_seo.QA[lang]["h2"].format(cls=_cn, spec=_sn) if _quick else None), leveling=_leveling,
                            faq_schema=({"@context": "https://schema.org", "@type": "FAQPage",
@@ -8780,8 +8839,14 @@ def main() -> None:
                     _rh1 = _gx["rd_h1"].format(name=_rn)
                     _ri = _gx["rd_intro"].format(name=_rn)
                     _ritems = sorted(_r["items"], key=lambda i: (_rorder.get(i["slot"], 99), i["name"]))
+                    _rinfo = _r.get("info") or {}
+                    _rfmt = {"loc": (_rinfo.get("location") or {}).get(lang) or "",
+                             "quest": (_rinfo.get("attunement") or {}).get("quest", ""), "lvl": (_rinfo.get("attunement") or {}).get("reqlevel", "")}
+                    _rfaq = [(q, a.format(**_rfmt)) for q, a in (wow_content.RAID_FAQ.get(_r["id"]) or {}).get(lang, [])
+                             if "{quest}" not in a or _rfmt["quest"]]
                     render("wow_raid.html", _rpath, lang, active_nav="wow", active_sub="wow-raids", tx=_gx, dd=wow_raids, raid=_r, items=_ritems,
-                           g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri,
+                           g_title=_rt, g_desc=_rd_, g_h1=_rh1, g_intro=_ri, raid_faq=_rfaq,
+                           faq_schema=({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _rfaq]} if _rfaq else None),
                            breadcrumb_schema=breadcrumb_schema(_rcrumb + [(_rn, canonical_for(_rpath, lang))]),
                            article_schema=build_article_schema(_rh1, canonical_for(_rpath, lang), _rd_))
             if wow_dungeons or wow_raids:
@@ -8919,24 +8984,56 @@ def main() -> None:
             _tl = wow_tierlist.build(_wow_ranking, _wow_ranking_tanks, wt_classes, lang) if _wow_ranking else None
             if _tl:
                 _tx = dict(wow_tierlist.TX[lang])
+                if _ws_rank:      # WoWSims engine: its date, fight, iterations and texts; "what changed" compares with the former simulator
+                    _tl.update(wow_tierlist_ws.meta(_ws_rank))
+                    _wtx = wow_tierlist_ws.TX[lang]
+                    _tx.update({k: v for k, v in _wtx.items() if k in _tx})
+                    _tx["faq"] = [_wtx["faq0"]] + list(_tx["faq"][1:])
+                    _tl["ws_credit"] = wow_tierlist_ws.CREDIT[lang]
                 _tl["date_txt"] = _news_date(_tl["generated"], lang)
-                _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"])
+                if _ws_rank:
+                    wow_tierlist.freshness(_tl, lang, prev_rows=_wow_ranking_sim60, reason=_wtx["chg_reason"])
+                else:
+                    wow_tierlist.freshness(_tl, lang)
+                _tx["desc"] = _tx["desc"].format(date=_tl["date_txt"], build=_tl["build"], hotfix=_tl["hotfix_txt"])
+                _tx["title"] = _tx["title"].format(short=_tl["short_txt"])
                 assert len(_tx["title"]) <= 60 and len(_tx["desc"]) <= 155, (len(_tx["title"]), len(_tx["desc"]))
                 _tlpath = "/wow-forever/tier-list/"
                 _th = dict(wow_tierlist.THRESHOLDS)
                 _tfmt = dict(S=int(_th["S"]), A=int(_th["A"]), B=int(_th["B"]), C=int(_th["C"]))
                 _top = _tl["top"]
                 _topv = _fmt_int(_top["value"])
-                wow_tierlist.add_content(_tl, lang)
+                wow_tierlist.add_content(_tl, lang, _tx)
                 for _c in _tl["classes"]:
                     _c["banner"] = class_banner(_c["id"])
                 _tl["meth"] = [x.format(url='<a href="' + canonical_for("/wow-forever/simulateur-dps/", lang) + '">BrokenMeta.gg</a>', build=_tl["build"], fight=_tl["fight"], iters=_tl["iters"], **_tfmt) for x in _tx["meth"]]
                 _tl["faq"] = [(q, a.format(name=_top["class_name"] + " " + _top["spec_name"], dps=_topv, build=_tl["build"], n=_tl["n_dps"], **_tfmt, **_tl["fmt"])) for q, a in _tx["faq"]]
                 _tfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _tl["faq"]]}
-                render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl,
+                render("wow_tierlist.html", _tlpath, lang, active_nav="wow", active_sub="wow-tier-list", tx=_tx, tl=_tl, og_banner=class_banner(None),
                        g_title=_tx["title"], g_desc=_tx["desc"], g_h1=_tx["h1"], g_intro=_tx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_tfaq,
                        article_schema=build_article_schema(_tx["h1"], canonical_for(_tlpath, lang), _tx["desc"], date_published="2026-10-13", date_modified=_tl["generated"]),
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_tx["h1"], canonical_for(_tlpath, lang))]))
+            if _tl:
+                # Hub "tier list WoW Forever" (2026-11-14): entry point to the DPS / tanks / healers / leveling lists, see wow_tierlist.HUB_TX
+                _hx = dict(wow_tierlist.HUB_TX[lang])
+                if _ws_rank:      # WoWSims engine for the DPS numbers the hub quotes
+                    _hx.update(wow_tierlist_ws.hub_tx(_hx, lang))
+                _hb = wow_tierlist.hub_build(_tl, lang)
+                _hx["desc"] = _hx["desc"].format(date=_tl["date_txt"])
+                assert len(_hx["title"]) <= 60 and len(_hx["desc"]) <= 155, (lang, len(_hx["title"]), len(_hx["desc"]))
+                _hb["faq"] = [(q, a.format(**_hb["fmt"])) for q, a in _hx["faq"]]
+                _hb["cards"] = [
+                    ("c_dps", "wow-forever/tier-list/"),
+                    *([("c_tank", "wow-forever/tier-list/#tanks")] if _hb["has_tank"] else []),
+                    ("c_heal", "wow-forever/classes/"), ("c_lvl", "wow-forever/leveling/"),
+                    ("c_race", "wow-forever/races/"), ("c_set", "wow-forever/sets/"),
+                ]
+                _hb["cards"] = [(k, p, _hx[k + "_p"].format(**_hb["fmt"])) for k, p in _hb["cards"]]
+                _hfaq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in _hb["faq"]]}
+                render("wow_tierlist_hub.html", wow_tierlist.HUB_PATH, lang, active_nav="wow", active_sub="wow-tier-list", tx=_hx, hb=_hb, tl=_tl, og_banner=class_banner(None),
+                       g_title=_hx["title"], g_desc=_hx["desc"], g_h1=_hx["h1"], g_intro=_hx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang], faq_schema=_hfaq,
+                       article_schema=build_article_schema(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang), _hx["desc"], date_published="2026-11-14", date_modified=_tl["generated"]),
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_hx["h1"], canonical_for(wow_tierlist.HUB_PATH, lang))]))
             if wow_racepick.available():
                 # "Which race?": a hub and one page per class (client racials + simulator), see wow_racepick.py
                 _rx = wow_racepick_tx.TX[lang]
@@ -8963,6 +9060,27 @@ def main() -> None:
                 render("wow_racepick_hub.html", "/wow-forever/races/", lang, active_nav="wow", active_sub="wow-races", tx=_rx, classes=_rhub,
                        g_title=_rx["hub_title"], g_desc=_rx["hub_desc"], g_h1=_rx["hub_h1"], g_intro=_rx["hub_intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
                        breadcrumb_schema=breadcrumb_schema(_gbase + [(_rx["hub_h1"], canonical_for("/wow-forever/races/", lang))]))
+            if wow_sets.available():
+                # Sanctified class sets (ilvl 98): a hub and one page per class, see wow_sets.py
+                _sx = wow_sets.TX[lang]
+                _sd = wow_sets.build(lang, wt_classes, _wow_ranking + _wow_ranking_tanks)
+                _shub = []
+                for _cs in _sd["classes"]:
+                    _c = next(x for x in wt_classes if x["id"] == _cs["id"])
+                    _spath = f"/wow-forever/sets/{_cs['id']}/"
+                    _st, _sdsc = _sx["cls_title"].format(cls=_cs["name"]), _sx["cls_desc"].format(cls=_cs["name"])
+                    assert len(_st) <= 60 and len(_sdsc) <= 155, (_st, len(_st), len(_sdsc))
+                    _sh1 = _sx["cls_h1"].format(cls=_cs["name"])
+                    render("wow_sets_class.html", _spath, lang, active_nav="wow", active_sub="wow-sets", tx=_sx, cls=_c, cs=_cs, banner=class_banner(_cs["id"]),
+                           g_title=_st, g_desc=_sdsc, g_h1=_sh1, g_intro=_sx["cls_intro"].format(cls=_cs["name"]), wow_disclaimer=wow_content.DISCLAIMER[lang],
+                           article_schema=build_article_schema(_sh1, canonical_for(_spath, lang), _sdsc),
+                           breadcrumb_schema=breadcrumb_schema(_gbase + [(_sx["h1"], canonical_for("/wow-forever/sets/", lang)), (_cs["name"], canonical_for(_spath, lang))]))
+                    _shub.append({"id": _cs["id"], "name": _cs["name"], "color": _c.get("color"), "banner": class_banner(_cs["id"]), "sets": _cs["sets"], "path": f"wow-forever/sets/{_cs['id']}/"})
+                _shd = _sx["desc"].format(n=_sd["n_sets"])
+                assert len(_sx["title"]) <= 60 and len(_shd) <= 155, (len(_sx["title"]), len(_shd))
+                render("wow_sets_hub.html", "/wow-forever/sets/", lang, active_nav="wow", active_sub="wow-sets", tx=_sx, classes=_shub,
+                       g_title=_sx["title"], g_desc=_shd, g_h1=_sx["h1"], g_intro=_sx["intro"], wow_disclaimer=wow_content.DISCLAIMER[lang],
+                       breadcrumb_schema=breadcrumb_schema(_gbase + [(_sx["h1"], canonical_for("/wow-forever/sets/", lang))]))
             _lvx = wow_leveling.texts(lang, wow_content.launched())
             assert len(_lvx["title"]) <= 60 and len(_lvx["desc"]) <= 155, (len(_lvx["title"]), len(_lvx["desc"]))
             _lvpath = "/wow-forever/leveling/"
@@ -8971,6 +9089,7 @@ def main() -> None:
             _lvfmt = dict(j=_lv["lev"]["journeyman"], e=_lv["lev"]["expert"], a=_lv["lev"]["artisan"])
             # quick answers on top of the page (same wording in the FAQPage data); the links of the answers are paths of this site ("#..." = on this page)
             _lv["quick"] = [(q, a.format(**_lvfmt), link) for q, a, link in _lvx["quick"]]
+            _lv["quick"][2:2] = wow_leveling.extra_quick(lang, _lv)          # GSC question queries (2026-11-27): 54 -> 60, level of each dungeon
             _lv["quick_hrefs"] = {"dung": "wow-forever/dungeons/", "cls": "#lvg-classes", "best": "wow-forever/leveling/meilleure-classe/", "prof": "wow-forever/professions/"}
             _lv["classes"] = [{"name": _g["cls"]["name"][lang], "color": _g["cls"].get("color"),
                                "specs": [{"name": _s["name"][lang], "role": _g["roles"][_s["id"]]["role"][lang], "href": f"wow-forever/guides/{_g['cls']['id']}/{_s['id']}/#gs-leveling"} for _s in _g["cls"]["specs"]]}
@@ -9834,6 +9953,10 @@ def main() -> None:
   }
 """
     (DIST / "assets" / "css" / "style.css").write_text(css, encoding="utf-8")
+    if (ROOT / "wowsims_web").exists():      # WoWSims Forever engine for the browser (site_build/wowsims_rank/package_web.py): lib.wasm.gz, wasm_exec.js, presets
+        shutil.copytree(ROOT / "wowsims_web", DIST / "assets" / "wowsims", dirs_exist_ok=True)
+    for _pcss in (ROOT / "css").glob("*.css"):         # per-page stylesheets (the transmog simulator): not part of style.css, so editing one re-versions only its page
+        shutil.copy(_pcss, DIST / "assets" / "css" / _pcss.name)
 
     # Real brand assets (PROJECT/logo/) -- the "coupon icon" mark
     # (logo/couponicone clair|sombre carre.svg) replaced the old sword as
@@ -9951,7 +10074,7 @@ def main() -> None:
     # mirrored under assets/wowsim/ in the repo's own layout (site_build/*.py next to data/...)
     # so the modules' ROOT path logic works unchanged inside Pyodide. manifest.json lists every
     # file with a content hash, used as the cache-buster.
-    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js", "wow-transmog.js", "wow-transmog-m2.js", "wow-transmog-viewer.js"):
+    for _js in ("wow-share.js", "wow-crafters.js", "wow-profession-live.js", "wow-sim60.js", "tft-table-filter.js", "tft-page-tools.js", "wow-logs.js", "wow-logs-core.js", "wow-logs-worker.js", "wow-dungeon-finder.js", "lol-combo-seq.js", "wow-transmog.js", "wow-transmog-m2.js", "wow-transmog-viewer.js", "wow-wowsims.js", "wow-wowsims-worker.js"):
         if (ROOT / "js" / _js).exists():
             shutil.copy(ROOT / "js" / _js, DIST / "assets" / "js" / _js)
     # Transmog simulator: three.js (r128 global build) and the baked models/textures/metadata (site_build/transmog_assets, see transmog_bake/).
@@ -10180,7 +10303,9 @@ def main() -> None:
         # excluded, the FR half silently wasn't.
         if "player" not in p.relative_to(DIST).parts
         # /wow-forever/ and /en/wow-forever/ are copies of the home page (canonical = / and /en/): not listed twice
-        and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html")
+        and p.relative_to(DIST).as_posix() not in ("wow-forever/index.html", "en/wow-forever/index.html", "wow-forever/beta/index.html", "en/wow-forever/beta/index.html")
+        # redirect stubs (the former ranking detail pages, 2026-11-26): never in the sitemap
+        and not ("classement" in p.relative_to(DIST).parts and p.stat().st_size < 800 and 'http-equiv="refresh"' in p.read_text(encoding="utf-8", errors="ignore"))
         # article drafts (wow_articles.py) carry noindex: never in the sitemap
         and not ("actualites" in p.relative_to(DIST).parts and 'name="robots" content="noindex' in p.read_text(encoding="utf-8", errors="ignore"))
         # glossary pages marked noindex (robots_noindex): never in the sitemap

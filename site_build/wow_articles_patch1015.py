@@ -388,7 +388,7 @@ STRESS_TEST = {
         ],
         "links": [
             ("Date de sortie et conversion horaire", "wow-forever/sortie/"),
-            ("La bêta de WoW Forever", "wow-forever/beta/"),
+            ("La bêta de WoW Forever", "wow-forever/sortie/"),
             ("Quelle race choisir", "wow-forever/races/"),
             ("Tier list niveau 60", "wow-forever/tier-list/"),
         ],
@@ -428,7 +428,7 @@ STRESS_TEST = {
         ],
         "links": [
             ("Release date and time conversion", "wow-forever/sortie/"),
-            ("The WoW Forever beta", "wow-forever/beta/"),
+            ("The WoW Forever beta", "wow-forever/sortie/"),
             ("Which race to pick", "wow-forever/races/"),
             ("Level 60 tier list", "wow-forever/tier-list/"),
         ],

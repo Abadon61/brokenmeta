@@ -28,8 +28,8 @@ SOURCES = {f[0]: f[1] for f in FEEDS}
 
 # tag id -> (FR label, EN label); the first matching rule wins, "news" is the default
 TAGS = {
-    "release": ("Sortie et bêta", "Release & beta"),
-    "tuning": ("Changements de la bêta", "Beta changes"),
+    "release": ("Sortie", "Release"),
+    "tuning": ("Changements de patch", "Patch changes"),
     "dev": ("Blizzard", "Blizzard posts"),
     "guide": ("Guides", "Guides"),
     "news": ("Actualités", "News"),

@@ -597,7 +597,7 @@ ARTICLES = [
             "links": [
                 ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
                 ("FAQ WoW Forever", "wow-forever/faq/"),
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
             ],
         },
         "en": {
@@ -618,7 +618,7 @@ ARTICLES = [
             "links": [
                 ("All WoW Forever dungeons", "wow-forever/dungeons/"),
                 ("WoW Forever FAQ", "wow-forever/faq/"),
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
             ],
         },
     },
@@ -793,7 +793,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("Progression de personnage", "wow-forever/progression/"),
                 ("FAQ WoW Forever", "wow-forever/faq/"),
             ],
@@ -814,7 +814,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("Character progression", "wow-forever/progression/"),
                 ("WoW Forever FAQ", "wow-forever/faq/"),
             ],
@@ -850,7 +850,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("Progression de personnage", "wow-forever/progression/"),
                 ("FAQ WoW Forever", "wow-forever/faq/"),
             ],
@@ -871,7 +871,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("Character progression", "wow-forever/progression/"),
                 ("WoW Forever FAQ", "wow-forever/faq/"),
             ],
@@ -908,7 +908,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("Calculateur de talents Druide", "wow-forever/talents/druid/"),
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("Classes de WoW Forever", "wow-forever/classes/"),
             ],
         },
@@ -929,7 +929,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("Druid talent calculator", "wow-forever/talents/druid/"),
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("WoW Forever classes", "wow-forever/classes/"),
             ],
         },
@@ -1022,7 +1022,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("Donjons de WoW Forever", "wow-forever/dungeons/"),
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("Date de sortie de WoW Forever", "wow-forever/sortie/"),
             ],
         },
@@ -1043,7 +1043,7 @@ ARTICLES = [
             "faq": [],
             "links": [
                 ("WoW Forever dungeons", "wow-forever/dungeons/"),
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("WoW Forever release date", "wow-forever/sortie/"),
             ],
         },
@@ -1135,7 +1135,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("Progression de personnage", "wow-forever/progression/"),
                 ("Date de sortie de WoW Forever", "wow-forever/sortie/"),
             ],
@@ -1156,7 +1156,7 @@ ARTICLES = [
             ],
             "faq": [],
             "links": [
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("Character progression", "wow-forever/progression/"),
                 ("WoW Forever release date", "wow-forever/sortie/"),
             ],
@@ -1491,7 +1491,7 @@ ARTICLES = [
                 ("list", ["**Réparations** : une mort chez le Spirit Healer coûte deux fois moins de durabilité, donc moins d'or chez le réparateur.", '**Maladie de résurrection** : inchangée, tu restes affaibli un court moment.', "**Courir à son corps** reste le choix sans aucune pénalité quand c'est possible, surtout en donjon."]),
             ],
             "faq": [],
-            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Bêta de WoW Forever', 'wow-forever/beta/'), ('FAQ WoW Forever', 'wow-forever/faq/')],
+            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Bêta de WoW Forever', 'wow-forever/sortie/'), ('FAQ WoW Forever', 'wow-forever/faq/')],
         },
         "en": {
             "title": 'WoW Forever: Cheaper Spirit Healer Resurrection',
@@ -1503,7 +1503,7 @@ ARTICLES = [
                 ("list", ['**Repairs**: a death at the Spirit Healer costs half the durability, so less gold at the repair vendor.', '**Resurrection Sickness**: unchanged, you stay weakened for a short time.', '**Running to your corpse** is still the penalty-free choice when you can, especially in dungeons.']),
             ],
             "faq": [],
-            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('WoW Forever beta', 'wow-forever/beta/'), ('WoW Forever FAQ', 'wow-forever/faq/')],
+            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('WoW Forever beta', 'wow-forever/sortie/'), ('WoW Forever FAQ', 'wow-forever/faq/')],
         },
     },
     {
@@ -1530,7 +1530,7 @@ ARTICLES = [
                 ("list", ["**Armes, bijoux et armures** de niveau d'objet 33 à 43 touchés : haches, masses, anneaux, bracelets, ceinture, amulettes.", "**Statistiques en baisse** sur la plupart des pièces, par exemple moins de dégâts d'arme ou moins de bonus aux sorts.", "**Quand même utile** : les quêtes du donjon restent une source d'équipement pour monter au niveau 30.", '**Dos** : deux capes gardent leur rareté mais leurs statistiques changent.']),
             ],
             "faq": [],
-            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Bêta de WoW Forever', 'wow-forever/beta/')],
+            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Bêta de WoW Forever', 'wow-forever/sortie/')],
         },
         "en": {
             "title": 'WoW Forever: Wetlands Dungeon Quest Rewards Nerfed',
@@ -1542,7 +1542,7 @@ ARTICLES = [
                 ("list", ['**Weapons, jewelry and armor** at item level 33 to 43 are affected: axes, maces, rings, bracers, a belt, necks.', '**Lower stats** on most pieces, for example less weapon damage or smaller spell bonuses.', '**Still useful**: the dungeon quests remain a source of gear on the way to level 30.', '**Cloaks**: two keep their rarity but get different stats.']),
             ],
             "faq": [],
-            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('WoW Forever beta', 'wow-forever/beta/')],
+            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('WoW Forever beta', 'wow-forever/sortie/')],
         },
     },
     {
@@ -1569,7 +1569,7 @@ ARTICLES = [
                 ("list", ["**Defias Enforcer's Garb** : +10 résistance au feu, +15 endurance, +1 épées, puis une chance d'augmenter les critiques de 2 % (doublé dans les marais).", "**Violet Sorcerer's Vestments** : +5 résistance aux arcanes, +10 esprit, régénération de mana en incantant, et une chance d'invoquer un élémentaire des arcanes.", "**Krol'dok Battlegear** : +100 armure, +5 défense, soin sur blocage et gain d'endurance cumulable quand tu subis des dégâts.", "**À vérifier** : l'origine exacte des pièces reste à confirmer en jouant les donjons."]),
             ],
             "faq": [],
-            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Donjon Deadmines', 'wow-forever/dungeons/deadmines/'), ('Bêta de WoW Forever', 'wow-forever/beta/')],
+            "links": [('Donjons de WoW Forever', 'wow-forever/dungeons/'), ('Donjon Deadmines', 'wow-forever/dungeons/deadmines/'), ('Bêta de WoW Forever', 'wow-forever/sortie/')],
         },
         "en": {
             "title": 'WoW Forever: 3 New Dungeon Gear Sets Found',
@@ -1581,7 +1581,7 @@ ARTICLES = [
                 ("list", ["**Defias Enforcer's Garb**: +10 fire resistance, +15 stamina, +1 swords, then a chance to raise crit by 2% (doubled in swamps).", "**Violet Sorcerer's Vestments**: +5 arcane resistance, +10 spirit, mana regeneration while casting, and a chance to summon an Arcane Elemental.", "**Krol'dok Battlegear**: +100 armor, +5 defense, healing on block and a stacking stamina gain when you take damage.", '**To confirm**: the exact source of each piece still has to be checked in the dungeons.']),
             ],
             "faq": [],
-            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('Deadmines dungeon', 'wow-forever/dungeons/deadmines/'), ('WoW Forever beta', 'wow-forever/beta/')],
+            "links": [('WoW Forever dungeons', 'wow-forever/dungeons/'), ('Deadmines dungeon', 'wow-forever/dungeons/deadmines/'), ('WoW Forever beta', 'wow-forever/sortie/')],
         },
     },
     {
@@ -1765,7 +1765,7 @@ ARTICLES = [
             "links": [
                 ("Calculateur de talents", "wow-forever/talents/"),
                 ("Donjons par niveau", "wow-forever/dungeons/"),
-                ("Bêta de WoW Forever", "wow-forever/beta/"),
+                ("Bêta de WoW Forever", "wow-forever/sortie/"),
                 ("FAQ WoW Forever", "wow-forever/faq/"),
             ],
         },
@@ -1787,7 +1787,7 @@ ARTICLES = [
             "links": [
                 ("Talent calculator", "wow-forever/talents/"),
                 ("Dungeons by level", "wow-forever/dungeons/"),
-                ("WoW Forever beta", "wow-forever/beta/"),
+                ("WoW Forever beta", "wow-forever/sortie/"),
                 ("WoW Forever FAQ", "wow-forever/faq/"),
             ],
         },
@@ -1879,7 +1879,7 @@ ARTICLES = [
             "links": [
                 ("Test de charge : mode d'emploi", "wow-forever/actualites/test-de-charge-19-octobre-wow-forever/"),
                 ("Date de sortie de WoW Forever", "wow-forever/sortie/"),
-                ("Tout sur la bêta", "wow-forever/beta/"),
+                ("Tout sur la bêta", "wow-forever/sortie/"),
             ],
         },
         "en": {
@@ -1900,7 +1900,7 @@ ARTICLES = [
             "links": [
                 ("Stress test: how to join", "wow-forever/actualites/test-de-charge-19-octobre-wow-forever/"),
                 ("WoW Forever release date", "wow-forever/sortie/"),
-                ("Everything about the beta", "wow-forever/beta/"),
+                ("Everything about the beta", "wow-forever/sortie/"),
             ],
         },
     },
@@ -2291,6 +2291,116 @@ ARTICLES = [
             ],
         },
     },
+    {
+        "slug": "limite-donjons-par-heure-5-wow-forever",
+        "format": "brief",
+        "date": "2026-11-23",
+        "updated": "2026-11-23",
+        "draft": False,
+        "tag": "tuning",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_misc_pocketwatch_01.jpg",
+        "sources": [
+            ("Wowhead : Maximum Dungeons Per Hour Reduced in WoW: Forever Hotfix (21 Nov. 2026)",
+             "https://www.wowhead.com/news=383950/maximum-dungeons-per-hour-reduced-in-wow-forever-hotfix-solo-gold-farming-nerf"),
+        ],
+        "fr": {
+            "title": "WoW Forever : limite de 5 donjons par heure (hotfix)",
+            "description": "WoW Forever : un hotfix ramène la limite de donjons de 10 à 5 par heure, comme en Classic Era. Ce que ça change pour le leveling et le farm d'or.",
+            "h1": "WoW Forever : la limite passe à 5 donjons par heure",
+            "lede": "Dans les hotfixes du 20 novembre, Blizzard a ramené la **limite de donjons par heure** de **WoW Forever** de **10 à 5**, comme dans Classic Era. On ignore si les 10 du lancement étaient voulus ou un effet du client moderne. Un donjon complet prend en général plus de 30 minutes : le leveling et la quête d'équipement ne sont pas touchés. Les farms rapides le sont, surtout ceux qui se bouclent en moins de 12 minutes.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Limite** : [nerf]5 donjons par heure[/nerf] au lieu de 10.",
+                    "**Leveling et équipement** : aucun impact si tu fais des **clears complets**.",
+                    "**Farm d'or** : au-delà de 5 runs par heure, il faut des runs d'**au moins 12 minutes** pour ne pas être bloqué.",
+                    "**Contexte** : Wowhead y voit un frein aux farms solo qui détournent les trajets des monstres.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
+                ("FAQ WoW Forever", "wow-forever/faq/"),
+            ],
+        },
+        "en": {
+            "title": "WoW Forever: Dungeon Limit Cut to 5 per Hour (Hotfix)",
+            "description": "WoW Forever: a hotfix cuts the dungeon lockout from 10 to 5 per hour, matching Classic Era. What it means for leveling and gold farming.",
+            "h1": "WoW Forever: the dungeon limit is now 5 per hour",
+            "lede": "In the November 20 hotfixes, Blizzard cut the **hourly dungeon limit** in **WoW Forever** from **10 to 5**, matching Classic Era. It is unclear whether the launch value of 10 was intended or a side effect of the modern client. A full dungeon clear usually takes over 30 minutes, so leveling and gearing runs are not affected. Fast farms are, especially those finished in under 12 minutes.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Limit**: [nerf]5 dungeons per hour[/nerf] instead of 10.",
+                    "**Leveling and gear**: no impact if you do **full clears**.",
+                    "**Gold farming**: past 5 runs an hour, runs need to last **at least 12 minutes** to avoid the lockout.",
+                    "**Context**: Wowhead sees it as a brake on solo farms that exploit mob pathing.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("All WoW Forever dungeons", "wow-forever/dungeons/"),
+                ("WoW Forever FAQ", "wow-forever/faq/"),
+            ],
+        },
+    },
+    {
+        "slug": "uldaman-obsidian-sentinel-butin-supprime-wow-forever",
+        "format": "brief",
+        "date": "2026-11-23",
+        "updated": "2026-11-23",
+        "draft": False,
+        "tag": "tuning",
+        "kind": None,
+        "class": None,
+        "image": "https://wow.zamimg.com/images/wow/icons/large/inv_axe_09.jpg",
+        "sources": [
+            ("Wowhead : Uldaman Boss No Longer Drops Loot (22 Nov. 2026)",
+             "https://www.wowhead.com/news=383955/uldaman-boss-no-longer-drops-loot-nerf-targets-gold-farming-strategy"),
+        ],
+        "fr": {
+            "title": "Uldaman WoW Forever : plus de butin sur Obsidian Sentinel",
+            "description": "WoW Forever : Obsidian Sentinel (Uldaman) ne lâche plus d'objets bleus, et la Pendulum of Doom devient impossible à obtenir. Ce qu'on sait.",
+            "h1": "Uldaman dans WoW Forever : Obsidian Sentinel ne lâche plus de butin bleu",
+            "lede": "Un hotfix non documenté a retiré le butin d'**Obsidian Sentinel**, le boss accessible dès l'entrée arrière d'**Uldaman** dans **WoW Forever**. Il servait de farm d'or solo, rapide, autour de 1,77 pièce d'or par run selon Wowhead. Blizzard n'a rien publié sur ce changement, donc la raison reste une hypothèse. Un effet de bord est certain : la **Pendulum of Doom** n'est plus obtenable.",
+            "body": [
+                ("h2", "Ce que ça change pour toi"),
+                ("list", [
+                    "**Butin** : le boss ne laisse plus d'objets bleus, seulement de l'argent et de la Solid Stone lors du test de Wowhead.",
+                    "**Pendulum of Doom** : la hache, une arme de leveling niveau 39, exige l'**Axe of Lingering Dread**, qui ne tombe plus.",
+                    "**Farm d'or** : ce run rapide n'est plus rentable.",
+                    "**À surveiller** : un correctif ou une annonce de Blizzard peut encore changer la donne.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Donjon Uldaman", "wow-forever/dungeons/uldaman/"),
+                ("Tous les donjons de WoW Forever", "wow-forever/dungeons/"),
+            ],
+        },
+        "en": {
+            "title": "Uldaman in WoW Forever: Obsidian Sentinel Loot Removed",
+            "description": "WoW Forever: Obsidian Sentinel in Uldaman no longer drops blue items, so the Pendulum of Doom cannot be obtained. What we know so far.",
+            "h1": "Uldaman in WoW Forever: Obsidian Sentinel no longer drops blue loot",
+            "lede": "An undocumented hotfix removed the loot from **Obsidian Sentinel**, the boss near the back entrance of **Uldaman** in **WoW Forever**. It was a quick solo gold farm, about 1.77 gold per run according to Wowhead. Blizzard has not posted anything about the change, so the reason remains a guess. One side effect is certain: the **Pendulum of Doom** can no longer be obtained.",
+            "body": [
+                ("h2", "What it means for you"),
+                ("list", [
+                    "**Loot**: the boss no longer drops blue items, only money and Solid Stone in Wowhead's test.",
+                    "**Pendulum of Doom**: the level 39 leveling axe needs the **Axe of Lingering Dread**, which no longer drops.",
+                    "**Gold farming**: this quick run is no longer profitable.",
+                    "**Keep an eye on**: a fix or an announcement from Blizzard may still change this.",
+                ]),
+            ],
+            "faq": [],
+            "links": [
+                ("Uldaman dungeon", "wow-forever/dungeons/uldaman/"),
+                ("All WoW Forever dungeons", "wow-forever/dungeons/"),
+            ],
+        },
+    },
 ]
 
 from wow_article_launch import LAUNCH_ARTICLE  # noqa: E402  (launch-day guide, kept in its own file)
@@ -2303,6 +2413,8 @@ from wow_articles_hunter1028 import HUNTER_HOTFIX  # noqa: E402  (Hunter hotfixe
 ARTICLES.insert(1, HUNTER_HOTFIX)
 from wow_articles_tuning1030 import TUNING_1030  # noqa: E402  (Druid/Paladin talent tree hotfixes, 30 Oct 2026)
 ARTICLES.insert(1, TUNING_1030)
+from wow_articles_devnotes1103 import DEVNOTES_1103  # noqa: E402  (official development notes and class tuning, 3 Nov 2026)
+ARTICLES.insert(1, DEVNOTES_1103)
 
 KIND_LABEL = {"up": ("UP", "UP"), "nerf": ("NERF", "NERF"), "eq": ("ÉQUILIBRAGE", "BALANCE")}
 FORMAT_LABEL = {"article": ("Analyse", "Analysis"), "brief": ("Brève", "Brief"), "guide": ("Guide", "Guide")}

@@ -257,3 +257,28 @@ def texts(lang, launched):
         quick.append((q, ans, link))
     tx["quick"] = quick
     return tx
+
+
+def extra_quick(lang, lv):
+    """Questions Search Console shows people ask (2026-11-27): leveling 54 -> 60 and the level of each dungeon. Answered from this page's own data:
+    zones = Classic ranges (flagged), dungeons = client ranges, the +20 % dungeon XP = Blizzard (our article). No speed claim: we do not measure it."""
+    fr = lang == "fr"
+    zones = [z for b in lv["bands"] for z in b["zones"] if z["hi"] >= 58 and z["lo"] <= 56]
+    dungs = [d for b in lv["bands"] for d in b["dungeons"] if d["hi"] >= 56 and d["lo"] <= 58]
+    zl = ", ".join(f"{z['name']} ({z['lo']}-{z['hi']})" for z in zones)
+    dl = ", ".join(f"{d['name']} ({d['lo']}-{d['hi']})" for d in dungs)
+    all_d = "; ".join(f"{d['name']} {d['lo']}-{d['hi']}" for b in lv["bands"] for d in b["dungeons"])
+    if fr:
+        return [
+            ("Comment monter vite du niveau 54 au niveau 60 dans WoW Forever ?",
+             f"Nous ne mesurons pas la vitesse de montée et ne donnons pas de route minute par minute. Entre 54 et 60, les zones de ce niveau sont {zl} (niveaux de WoW Classic, à confirmer dans Forever) et les donjons {dl} (niveaux du client). Dans Forever, l'expérience des monstres de donjon a été augmentée de 20 % (annonce de Blizzard) : alterner quêtes et donjons de son niveau est donc une option sérieuse.", "dung"),
+            ("À quel niveau faire chaque donjon de WoW Forever ?",
+             f"Niveaux d'entrée et de sortie lus dans le client du jeu : {all_d}.", "dung"),
+        ]
+    return [
+        ("What is the fastest way to level from 54 to 60 in WoW Forever?",
+         f"We do not measure leveling speed and give no minute-by-minute route. From 54 to 60 the zones of that level are {zl} (WoW Classic levels, to be confirmed in Forever) and the dungeons {dl} (client levels). In Forever, experience from dungeon monsters was raised by 20 % (Blizzard announcement), so mixing quests and dungeons of your level is a serious option.", "dung"),
+        ("What level is each dungeon in WoW Forever?",
+         f"Entry and end levels read from the game client: {all_d}.", "dung"),
+    ]
+
